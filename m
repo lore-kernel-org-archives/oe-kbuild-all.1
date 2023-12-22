@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08421ECA;
-	Fri, 22 Dec 2023 01:03:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C09A23
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Dec 2023 01:24:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="goT2hFWA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GrLLkrQo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703207022; x=1734743022;
+  t=1703208297; x=1734744297;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i0MKDbGOBPecaWBGblsRdEAasumTZRJamRUsYiJqFyY=;
-  b=goT2hFWAKpAfj72mf/My2t1gLHHV7s73+vtB4spjDKxJ69Vc1zq1pvp3
-   sTooWo7UvpAJb4I37NzYLdQqxMe2xDahh0SRFHBDVWwV6kRgYdD7eH+HZ
-   a3eNbBRV/K+SdaQt9Wod78P9DrfIiVUYPMIfb/ep133SGZtc0aw6hkoOV
-   Qw6VMuGP20deUuT/5zA4eLbZ6irQUE3yTzWurkLM+wLUcQ6AU7/cZH1Ql
-   L1vwgWO7Ozb9VbdwTGSSqmcAyT5CQdeszk04ANejVkw9r9KHdlUzk8vaJ
-   hJD8+KNqE8kjJmR1edytnwY8/GA87hmPurx1mR3R6NBr/jFvJJmSwL8lG
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="3146558"
+  bh=lB1TksxHjcbEUnYsUhC7XLEfrjEUgEBFIeGb4PweDMY=;
+  b=GrLLkrQo69UX/QCjXhoX5n/qyPMzL21ciqPoGhoEEN6WHDQDajbMM+XN
+   jW2PEo/qD5XiRqqwOcu/mpXmBTdx4fJX/b1CJWWr5UTLKPGP7nBdpa3T+
+   bHOxzJx1zSOAtXfaoj2Iaq2enY+7k3vIR21N3UTysAhknfza9xBtkdpU2
+   vhgLQuXaG3OH7JeUNjFA414/zHYXkX5TNjKl6n8L3i6NTyCC7cBj1uaiI
+   /1Tkx4loWuG+pK94HE7vIlAIKcXrtobYZvuvQijBEQPUFZ+cBxe6i0rCD
+   xnxQlEXf7BOY7+Yp3h+x/5hISscOKkKad5vjqxwokn/tIfaYiaZQqu51W
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="9444025"
 X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
-   d="scan'208";a="3146558"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 17:03:42 -0800
+   d="scan'208";a="9444025"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 17:24:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="900278815"
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="895307967"
 X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
-   d="scan'208";a="900278815"
+   d="scan'208";a="895307967"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 21 Dec 2023 17:03:39 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 21 Dec 2023 17:24:54 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGTwr-0008wO-12;
-	Fri, 22 Dec 2023 01:03:34 +0000
-Date: Fri, 22 Dec 2023 09:02:59 +0800
+	id 1rGUHM-0008x7-2r;
+	Fri, 22 Dec 2023 01:24:48 +0000
+Date: Fri, 22 Dec 2023 09:23:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jeff Layton <jlayton@kernel.org>
-Subject: [linux-next:master 9031/9925] ld.lld: error: undefined symbol:
- __fscache_unuse_cookie
-Message-ID: <202312220902.oRE08a2z-lkp@intel.com>
+To: Sabrina Dubroca <sd@queasysnail.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Steffen Klassert <steffen.klassert@secunet.com>
+Subject: net/xfrm/xfrm_state.c:2695:31: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202312220907.G4BidbSh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,61 +51,251 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   857647efa9be89a13cf8963c7e167fab062b28bb
-commit: 9896c4f367fcc44213d15fe7210e9305df8063f2 [9031/9925] netfs, fscache: Combine fscache with netfs
-config: i386-randconfig-006-20231221 (https://download.01.org/0day-ci/archive/20231222/202312220902.oRE08a2z-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231222/202312220902.oRE08a2z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9a6b294ab496650e9f270123730df37030911b55
+commit: fe9f1d8779cb47046e76ea209b6eece7ec56d1b4 xfrm: add state hashtable keyed by seq
+date:   2 years, 7 months ago
+config: openrisc-randconfig-r133-20231130 (https://download.01.org/0day-ci/archive/20231222/202312220907.G4BidbSh-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231222/202312220907.G4BidbSh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312220902.oRE08a2z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312220907.G4BidbSh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1168:77: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1168:77: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1168:77: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1170:77: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1170:77: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1170:77: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1173:85: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1173:85: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1173:85: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1177:85: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1177:85: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1177:85: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1195:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct xfrm_state [noderef] __rcu *x @@     got struct xfrm_state *[assigned] x @@
+   net/xfrm/xfrm_state.c:1195:42: sparse:     expected struct xfrm_state [noderef] __rcu *x
+   net/xfrm/xfrm_state.c:1195:42: sparse:     got struct xfrm_state *[assigned] x
+   net/xfrm/xfrm_state.c:1282:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1282:61: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1282:61: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1285:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1285:61: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1285:61: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1291:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1291:69: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1291:69: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1297:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1297:69: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1297:69: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1411:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1411:69: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1411:69: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1413:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:1413:69: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:1413:69: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
+   net/xfrm/xfrm_state.c:2076:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:2076:69: sparse:     expected struct hlist_head *h
+   net/xfrm/xfrm_state.c:2076:69: sparse:     got struct hlist_head [noderef] __rcu *
+   net/xfrm/xfrm_state.c:2686:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_bydst @@     got struct hlist_head * @@
+   net/xfrm/xfrm_state.c:2686:31: sparse:     expected struct hlist_head [noderef] __rcu *state_bydst
+   net/xfrm/xfrm_state.c:2686:31: sparse:     got struct hlist_head *
+   net/xfrm/xfrm_state.c:2689:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_bysrc @@     got struct hlist_head * @@
+   net/xfrm/xfrm_state.c:2689:31: sparse:     expected struct hlist_head [noderef] __rcu *state_bysrc
+   net/xfrm/xfrm_state.c:2689:31: sparse:     got struct hlist_head *
+   net/xfrm/xfrm_state.c:2692:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_byspi @@     got struct hlist_head * @@
+   net/xfrm/xfrm_state.c:2692:31: sparse:     expected struct hlist_head [noderef] __rcu *state_byspi
+   net/xfrm/xfrm_state.c:2692:31: sparse:     got struct hlist_head *
+>> net/xfrm/xfrm_state.c:2695:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_byseq @@     got struct hlist_head * @@
+   net/xfrm/xfrm_state.c:2695:31: sparse:     expected struct hlist_head [noderef] __rcu *state_byseq
+   net/xfrm/xfrm_state.c:2695:31: sparse:     got struct hlist_head *
+   net/xfrm/xfrm_state.c:2708:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byspi @@
+   net/xfrm/xfrm_state.c:2708:33: sparse:     expected struct hlist_head *n
+   net/xfrm/xfrm_state.c:2708:33: sparse:     got struct hlist_head [noderef] __rcu *state_byspi
+   net/xfrm/xfrm_state.c:2710:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bysrc @@
+   net/xfrm/xfrm_state.c:2710:33: sparse:     expected struct hlist_head *n
+   net/xfrm/xfrm_state.c:2710:33: sparse:     got struct hlist_head [noderef] __rcu *state_bysrc
+   net/xfrm/xfrm_state.c:2712:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bydst @@
+   net/xfrm/xfrm_state.c:2712:33: sparse:     expected struct hlist_head *n
+   net/xfrm/xfrm_state.c:2712:33: sparse:     got struct hlist_head [noderef] __rcu *state_bydst
+>> net/xfrm/xfrm_state.c:2728:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu *state_byseq @@
+   net/xfrm/xfrm_state.c:2728:9: sparse:     expected struct hlist_head const *h
+   net/xfrm/xfrm_state.c:2728:9: sparse:     got struct hlist_head [noderef] __rcu *state_byseq
+>> net/xfrm/xfrm_state.c:2729:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byseq @@
+   net/xfrm/xfrm_state.c:2729:33: sparse:     expected struct hlist_head *n
+   net/xfrm/xfrm_state.c:2729:33: sparse:     got struct hlist_head [noderef] __rcu *state_byseq
+   net/xfrm/xfrm_state.c:2730:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu *state_byspi @@
+   net/xfrm/xfrm_state.c:2730:9: sparse:     expected struct hlist_head const *h
+   net/xfrm/xfrm_state.c:2730:9: sparse:     got struct hlist_head [noderef] __rcu *state_byspi
+   net/xfrm/xfrm_state.c:2731:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byspi @@
+   net/xfrm/xfrm_state.c:2731:33: sparse:     expected struct hlist_head *n
+   net/xfrm/xfrm_state.c:2731:33: sparse:     got struct hlist_head [noderef] __rcu *state_byspi
+   net/xfrm/xfrm_state.c:2732:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu *state_bysrc @@
+   net/xfrm/xfrm_state.c:2732:9: sparse:     expected struct hlist_head const *h
+   net/xfrm/xfrm_state.c:2732:9: sparse:     got struct hlist_head [noderef] __rcu *state_bysrc
+   net/xfrm/xfrm_state.c:2733:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bysrc @@
+   net/xfrm/xfrm_state.c:2733:33: sparse:     expected struct hlist_head *n
+   net/xfrm/xfrm_state.c:2733:33: sparse:     got struct hlist_head [noderef] __rcu *state_bysrc
+   net/xfrm/xfrm_state.c:2734:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu *state_bydst @@
+   net/xfrm/xfrm_state.c:2734:9: sparse:     expected struct hlist_head const *h
+   net/xfrm/xfrm_state.c:2734:9: sparse:     got struct hlist_head [noderef] __rcu *state_bydst
+   net/xfrm/xfrm_state.c:2735:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bydst @@
+   net/xfrm/xfrm_state.c:2735:33: sparse:     expected struct hlist_head *n
+   net/xfrm/xfrm_state.c:2735:33: sparse:     got struct hlist_head [noderef] __rcu *state_bydst
+   net/xfrm/xfrm_state.c: note: in included file (through include/linux/workqueue.h):
+   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_register_type' - unexpected unlock
+   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_unregister_type' - unexpected unlock
+   net/xfrm/xfrm_state.c:328:13: sparse: sparse: context imbalance in 'xfrm_get_type' - unexpected unlock
+   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_register_type_offload' - unexpected unlock
+   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_unregister_type_offload' - unexpected unlock
+   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_get_type_offload' - unexpected unlock
+   net/xfrm/xfrm_state.c:734:17: sparse: sparse: dereference of noderef expression
+   net/xfrm/xfrm_state.c:795:17: sparse: sparse: dereference of noderef expression
+   net/xfrm/xfrm_state.c:755:17: sparse: sparse: dereference of noderef expression
+   net/xfrm/xfrm_state.c:839:17: sparse: sparse: dereference of noderef expression
+   net/xfrm/xfrm_state.c:54:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:54:39: sparse:     expected struct refcount_struct [usertype] *r
+   net/xfrm/xfrm_state.c:54:39: sparse:     got struct refcount_struct [noderef] __rcu *
+   net/xfrm/xfrm_state.c:54:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:54:39: sparse:     expected struct refcount_struct [usertype] *r
+   net/xfrm/xfrm_state.c:54:39: sparse:     got struct refcount_struct [noderef] __rcu *
+   net/xfrm/xfrm_state.c:54:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
+   net/xfrm/xfrm_state.c:54:39: sparse:     expected struct refcount_struct [usertype] *r
+   net/xfrm/xfrm_state.c:54:39: sparse:     got struct refcount_struct [noderef] __rcu *
+   net/xfrm/xfrm_state.c:1227:9: sparse: sparse: dereference of noderef expression
+   net/xfrm/xfrm_state.c:1321:9: sparse: sparse: dereference of noderef expression
+   net/xfrm/xfrm_state.c:1356:9: sparse: sparse: dereference of noderef expression
+   net/xfrm/xfrm_state.c: note: in included file:
+   include/net/xfrm.h:1731:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/net/xfrm.h:1731:16: sparse:    struct sock [noderef] __rcu *
+   include/net/xfrm.h:1731:16: sparse:    struct sock *
 
->> ld.lld: error: undefined symbol: __fscache_unuse_cookie
-   >>> referenced by fscache.h:289 (include/linux/fscache.h:289)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_register_cookie) in archive vmlinux.a
-   >>> referenced by fscache.h:289 (include/linux/fscache.h:289)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_acquire_cookie) in archive vmlinux.a
-   >>> referenced by fscache.h:289 (include/linux/fscache.h:289)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_unregister_cookie) in archive vmlinux.a
-   >>> referenced 1 more times
---
->> ld.lld: error: undefined symbol: __fscache_relinquish_cookie
-   >>> referenced by fscache.h:308 (include/linux/fscache.h:308)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_register_cookie) in archive vmlinux.a
-   >>> referenced by fscache.h:308 (include/linux/fscache.h:308)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_acquire_cookie) in archive vmlinux.a
-   >>> referenced by fscache.h:308 (include/linux/fscache.h:308)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_unregister_cookie) in archive vmlinux.a
-   >>> referenced 1 more times
---
->> ld.lld: error: undefined symbol: __fscache_acquire_cookie
-   >>> referenced by fscache.h:253 (include/linux/fscache.h:253)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_acquire_cookie) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: __fscache_use_cookie
-   >>> referenced by fscache.h:272 (include/linux/fscache.h:272)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_acquire_cookie) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: __fscache_relinquish_volume
-   >>> referenced by fscache.h:224 (include/linux/fscache.h:224)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_domain_put) in archive vmlinux.a
-   >>> referenced by fscache.h:224 (include/linux/fscache.h:224)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_unregister_fs) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: __fscache_acquire_volume
-   >>> referenced by fscache.h:204 (include/linux/fscache.h:204)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_register_fs) in archive vmlinux.a
-   >>> referenced by fscache.h:204 (include/linux/fscache.h:204)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_register_fs) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: __fscache_begin_read_operation
-   >>> referenced by fscache.h:457 (include/linux/fscache.h:457)
-   >>>               fs/erofs/fscache.o:(erofs_fscache_read_folios_async) in archive vmlinux.a
+vim +2695 net/xfrm/xfrm_state.c
+
+  2673	
+  2674	int __net_init xfrm_state_init(struct net *net)
+  2675	{
+  2676		unsigned int sz;
+  2677	
+  2678		if (net_eq(net, &init_net))
+  2679			xfrm_state_cache = KMEM_CACHE(xfrm_state,
+  2680						      SLAB_HWCACHE_ALIGN | SLAB_PANIC);
+  2681	
+  2682		INIT_LIST_HEAD(&net->xfrm.state_all);
+  2683	
+  2684		sz = sizeof(struct hlist_head) * 8;
+  2685	
+  2686		net->xfrm.state_bydst = xfrm_hash_alloc(sz);
+  2687		if (!net->xfrm.state_bydst)
+  2688			goto out_bydst;
+  2689		net->xfrm.state_bysrc = xfrm_hash_alloc(sz);
+  2690		if (!net->xfrm.state_bysrc)
+  2691			goto out_bysrc;
+  2692		net->xfrm.state_byspi = xfrm_hash_alloc(sz);
+  2693		if (!net->xfrm.state_byspi)
+  2694			goto out_byspi;
+> 2695		net->xfrm.state_byseq = xfrm_hash_alloc(sz);
+  2696		if (!net->xfrm.state_byseq)
+  2697			goto out_byseq;
+  2698		net->xfrm.state_hmask = ((sz / sizeof(struct hlist_head)) - 1);
+  2699	
+  2700		net->xfrm.state_num = 0;
+  2701		INIT_WORK(&net->xfrm.state_hash_work, xfrm_hash_resize);
+  2702		spin_lock_init(&net->xfrm.xfrm_state_lock);
+  2703		seqcount_spinlock_init(&net->xfrm.xfrm_state_hash_generation,
+  2704				       &net->xfrm.xfrm_state_lock);
+  2705		return 0;
+  2706	
+  2707	out_byseq:
+  2708		xfrm_hash_free(net->xfrm.state_byspi, sz);
+  2709	out_byspi:
+  2710		xfrm_hash_free(net->xfrm.state_bysrc, sz);
+  2711	out_bysrc:
+  2712		xfrm_hash_free(net->xfrm.state_bydst, sz);
+  2713	out_bydst:
+  2714		return -ENOMEM;
+  2715	}
+  2716	
+  2717	void xfrm_state_fini(struct net *net)
+  2718	{
+  2719		unsigned int sz;
+  2720	
+  2721		flush_work(&net->xfrm.state_hash_work);
+  2722		flush_work(&xfrm_state_gc_work);
+  2723		xfrm_state_flush(net, 0, false, true);
+  2724	
+  2725		WARN_ON(!list_empty(&net->xfrm.state_all));
+  2726	
+  2727		sz = (net->xfrm.state_hmask + 1) * sizeof(struct hlist_head);
+> 2728		WARN_ON(!hlist_empty(net->xfrm.state_byseq));
+> 2729		xfrm_hash_free(net->xfrm.state_byseq, sz);
+  2730		WARN_ON(!hlist_empty(net->xfrm.state_byspi));
+  2731		xfrm_hash_free(net->xfrm.state_byspi, sz);
+  2732		WARN_ON(!hlist_empty(net->xfrm.state_bysrc));
+  2733		xfrm_hash_free(net->xfrm.state_bysrc, sz);
+  2734		WARN_ON(!hlist_empty(net->xfrm.state_bydst));
+  2735		xfrm_hash_free(net->xfrm.state_bydst, sz);
+  2736	}
+  2737	
 
 -- 
 0-DAY CI Kernel Test Service
