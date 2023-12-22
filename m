@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4282018E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Dec 2023 00:02:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ACD38A;
+	Fri, 22 Dec 2023 00:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LaNAhMI4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQJuelPc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703203354; x=1734739354;
+  t=1703204738; x=1734740738;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=noxOkjDq3MKEIaQjJZnXGpCu7XDncAO9wRlVZw9xXh0=;
-  b=LaNAhMI4QiyuxxIZTlDy0vP9rSPZ8jbdUwnxdBdd1U35qW4V/A6dHhr0
-   hVBPxHOJLLefiKz8LAAyyhitNGZw+4l6hBMrxPtTYD58RharXMkinBcBz
-   KAxY/NYs3iB/hzXjWd2m4Kull7+9OT92J9H2BC3MyhXbCQZB/w8OlVI4q
-   FQc9Q58TYnEW6s1NJQw4lau0naDC7k18egQGqtqX/1UUwGAZehxEADitQ
-   cBlXnGzVPBXYdsCwqoU4U8o/XoMsFt1HoDLxjZDtLNstYBdR6jqOk1LA7
-   uF3X1yTPJVef9+AQ7GXHjxFwhCNquveXXZHY+pwp42hNa2545ye1syAbJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="3298543"
+  bh=7XnwDS6GGI6yQyMNydYl0KcuugYHQnje1n9NskVP/PU=;
+  b=bQJuelPcFk0LbvKkB/yzydd5h7heaYKCJR84pHPBq6zKaIRTCrlmoM/I
+   5tlQENS0d6f+4aGRA5cYKy5RmgK2BX/Nj38rbolAqVO67rcPUOp4u4NWf
+   RyLH5taBeBDlTvcedw194Ts/62n9Y/6YhnEfTCnkLiCJsJ5vfYJTMEO96
+   X7ZqMxUmUaEJAFPgGdaYiOVM59/3P668r1WKUBHUio8fazOsdBfNJuLJ6
+   nGKVLJqKbZUzdeOGf0oqCmo37hsPYhPDt81ryjaEM2DkhW3Po57tTul69
+   Ey8Zn9FAHA6uzibD7qYyojYttXqHvjp0chTGf5aNE+jiRBGygWUql4yXo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="381040834"
 X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
-   d="scan'208";a="3298543"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 16:02:34 -0800
+   d="scan'208";a="381040834"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 16:25:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="895280549"
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="950095568"
 X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
-   d="scan'208";a="895280549"
+   d="scan'208";a="950095568"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Dec 2023 16:02:32 -0800
+  by orsmga005.jf.intel.com with ESMTP; 21 Dec 2023 16:25:36 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGSzk-0008tT-1N;
-	Fri, 22 Dec 2023 00:02:28 +0000
-Date: Fri, 22 Dec 2023 08:02:05 +0800
+	id 1rGTM5-0008ul-11;
+	Fri, 22 Dec 2023 00:25:33 +0000
+Date: Fri, 22 Dec 2023 08:22:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:idpf-libie 28/43]
- drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:2266:17: error: 'struct
- xdp_frame' has no member named 'mem'
-Message-ID: <202312220841.jDa9upzX-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [sailus-media-tree:media-ref 36/40]
+ drivers/media/test-drivers/vim2m.c:1321:44: warning: format specifies type
+ 'unsigned int' but the argument has type 'unsigned long'
+Message-ID: <202312220829.0yltDocK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,116 +52,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux idpf-libie
-head:   e944237df3e149d8d67f1a27ca54fc98d5d745cf
-commit: 4e8e6162ad16b75af48bbaf17316accaf90954e6 [28/43] xdp: get rid of xdp_frame::mem.id
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231222/202312220841.jDa9upzX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231222/202312220841.jDa9upzX-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git media-ref
+head:   9587641ab37e563866fb73acc04735eccd59a2d3
+commit: b42c2dd3479e60f6dbaefdbdc6b232d925c716e5 [36/40] koe
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231222/202312220829.0yltDocK-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231222/202312220829.0yltDocK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312220841.jDa9upzX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312220829.0yltDocK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: In function 'dpaa_a050385_wa_xdpf':
->> drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:2266:17: error: 'struct xdp_frame' has no member named 'mem'
-    2266 |         new_xdpf->mem.type = MEM_TYPE_PAGE_ORDER0;
-         |                 ^~
+>> drivers/media/test-drivers/vim2m.c:1321:44: warning: format specifies type 'unsigned int' but the argument has type 'unsigned long' [-Wformat]
+           printk("OBJECT vim2m %p, size %x\n", dev, sizeof(*dev));
+                                         ~~          ^~~~~~~~~~~~
+                                         %lx
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +2266 drivers/net/ethernet/freescale/dpaa/dpaa_eth.c
+vim +1321 drivers/media/test-drivers/vim2m.c
 
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2194  
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2195  static int dpaa_a050385_wa_xdpf(struct dpaa_priv *priv,
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2196  				struct xdp_frame **init_xdpf)
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2197  {
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2198  	struct xdp_frame *new_xdpf, *xdpf = *init_xdpf;
-0a9946cca1a30b Camelia Groza 2021-02-04  2199  	void *new_buff, *aligned_data;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2200  	struct page *p;
-0a9946cca1a30b Camelia Groza 2021-02-04  2201  	u32 data_shift;
-275a9c72b420e5 Camelia Groza 2021-02-04  2202  	int headroom;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2203  
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2204  	/* Check the data alignment and make sure the headroom is large
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2205  	 * enough to store the xdpf backpointer. Use an aligned headroom
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2206  	 * value.
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2207  	 *
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2208  	 * Due to alignment constraints, we give XDP access to the full 256
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2209  	 * byte frame headroom. If the XDP program uses all of it, copy the
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2210  	 * data to a new buffer and make room for storing the backpointer.
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2211  	 */
-c2b0e8455eb761 Camelia Groza 2021-02-04  2212  	if (PTR_IS_ALIGNED(xdpf->data, DPAA_FD_DATA_ALIGNMENT) &&
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2213  	    xdpf->headroom >= priv->tx_headroom) {
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2214  		xdpf->headroom = priv->tx_headroom;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2215  		return 0;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2216  	}
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2217  
-0a9946cca1a30b Camelia Groza 2021-02-04  2218  	/* Try to move the data inside the buffer just enough to align it and
-0a9946cca1a30b Camelia Groza 2021-02-04  2219  	 * store the xdpf backpointer. If the available headroom isn't large
-0a9946cca1a30b Camelia Groza 2021-02-04  2220  	 * enough, resort to allocating a new buffer and copying the data.
-0a9946cca1a30b Camelia Groza 2021-02-04  2221  	 */
-0a9946cca1a30b Camelia Groza 2021-02-04  2222  	aligned_data = PTR_ALIGN_DOWN(xdpf->data, DPAA_FD_DATA_ALIGNMENT);
-0a9946cca1a30b Camelia Groza 2021-02-04  2223  	data_shift = xdpf->data - aligned_data;
-0a9946cca1a30b Camelia Groza 2021-02-04  2224  
-0a9946cca1a30b Camelia Groza 2021-02-04  2225  	/* The XDP frame's headroom needs to be large enough to accommodate
-0a9946cca1a30b Camelia Groza 2021-02-04  2226  	 * shifting the data as well as storing the xdpf backpointer.
-0a9946cca1a30b Camelia Groza 2021-02-04  2227  	 */
-0a9946cca1a30b Camelia Groza 2021-02-04  2228  	if (xdpf->headroom  >= data_shift + priv->tx_headroom) {
-0a9946cca1a30b Camelia Groza 2021-02-04  2229  		memmove(aligned_data, xdpf->data, xdpf->len);
-0a9946cca1a30b Camelia Groza 2021-02-04  2230  		xdpf->data = aligned_data;
-0a9946cca1a30b Camelia Groza 2021-02-04  2231  		xdpf->headroom = priv->tx_headroom;
-0a9946cca1a30b Camelia Groza 2021-02-04  2232  		return 0;
-0a9946cca1a30b Camelia Groza 2021-02-04  2233  	}
-0a9946cca1a30b Camelia Groza 2021-02-04  2234  
-275a9c72b420e5 Camelia Groza 2021-02-04  2235  	/* The new xdp_frame is stored in the new buffer. Reserve enough space
-275a9c72b420e5 Camelia Groza 2021-02-04  2236  	 * in the headroom for storing it along with the driver's private
-275a9c72b420e5 Camelia Groza 2021-02-04  2237  	 * info. The headroom needs to be aligned to DPAA_FD_DATA_ALIGNMENT to
-275a9c72b420e5 Camelia Groza 2021-02-04  2238  	 * guarantee the data's alignment in the buffer.
-275a9c72b420e5 Camelia Groza 2021-02-04  2239  	 */
-275a9c72b420e5 Camelia Groza 2021-02-04  2240  	headroom = ALIGN(sizeof(*new_xdpf) + priv->tx_headroom,
-275a9c72b420e5 Camelia Groza 2021-02-04  2241  			 DPAA_FD_DATA_ALIGNMENT);
-275a9c72b420e5 Camelia Groza 2021-02-04  2242  
-275a9c72b420e5 Camelia Groza 2021-02-04  2243  	/* Assure the extended headroom and data don't overflow the buffer,
-275a9c72b420e5 Camelia Groza 2021-02-04  2244  	 * while maintaining the mandatory tailroom.
-275a9c72b420e5 Camelia Groza 2021-02-04  2245  	 */
-275a9c72b420e5 Camelia Groza 2021-02-04  2246  	if (headroom + xdpf->len > DPAA_BP_RAW_SIZE -
-275a9c72b420e5 Camelia Groza 2021-02-04  2247  			SKB_DATA_ALIGN(sizeof(struct skb_shared_info)))
-275a9c72b420e5 Camelia Groza 2021-02-04  2248  		return -ENOMEM;
-275a9c72b420e5 Camelia Groza 2021-02-04  2249  
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2250  	p = dev_alloc_pages(0);
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2251  	if (unlikely(!p))
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2252  		return -ENOMEM;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2253  
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2254  	/* Copy the data to the new buffer at a properly aligned offset */
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2255  	new_buff = page_address(p);
-275a9c72b420e5 Camelia Groza 2021-02-04  2256  	memcpy(new_buff + headroom, xdpf->data, xdpf->len);
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2257  
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2258  	/* Create an XDP frame around the new buffer in a similar fashion
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2259  	 * to xdp_convert_buff_to_frame.
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2260  	 */
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2261  	new_xdpf = new_buff;
-275a9c72b420e5 Camelia Groza 2021-02-04  2262  	new_xdpf->data = new_buff + headroom;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2263  	new_xdpf->len = xdpf->len;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2264  	new_xdpf->headroom = priv->tx_headroom;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2265  	new_xdpf->frame_sz = DPAA_BP_RAW_SIZE;
-ae680bcbd06ae9 Camelia Groza 2020-11-25 @2266  	new_xdpf->mem.type = MEM_TYPE_PAGE_ORDER0;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2267  
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2268  	/* Release the initial buffer */
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2269  	xdp_return_frame_rx_napi(xdpf);
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2270  
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2271  	*init_xdpf = new_xdpf;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2272  	return 0;
-ae680bcbd06ae9 Camelia Groza 2020-11-25  2273  }
-3c68b8fffb48c0 Madalin Bucur 2020-03-04  2274  #endif
-3c68b8fffb48c0 Madalin Bucur 2020-03-04  2275  
-
-:::::: The code at line 2266 was first introduced by commit
-:::::: ae680bcbd06ae9189e0102f8cdb5fd938b00725f dpaa_eth: implement the A050385 erratum workaround for XDP
-
-:::::: TO: Camelia Groza <camelia.groza@nxp.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+  1310	
+  1311	static int vim2m_probe(struct platform_device *pdev)
+  1312	{
+  1313		struct vim2m_dev *dev;
+  1314		struct video_device *vfd;
+  1315		int ret;
+  1316	
+  1317		dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+  1318		if (!dev)
+  1319			return -ENOMEM;
+  1320	
+> 1321		printk("OBJECT vim2m %p, size %x\n", dev, sizeof(*dev));
+  1322	
+  1323		ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+  1324		if (ret)
+  1325			goto error_free;
+  1326	
+  1327		atomic_set(&dev->num_inst, 0);
+  1328		mutex_init(&dev->dev_mutex);
+  1329	
+  1330		dev->vfd = vim2m_videodev;
+  1331		vfd = &dev->vfd;
+  1332		vfd->lock = &dev->dev_mutex;
+  1333		vfd->v4l2_dev = &dev->v4l2_dev;
+  1334	
+  1335		video_set_drvdata(vfd, dev);
+  1336		v4l2_info(&dev->v4l2_dev,
+  1337			  "Device registered as /dev/video%d\n", vfd->num);
+  1338	
+  1339		platform_set_drvdata(pdev, dev);
+  1340	
+  1341		dev->m2m_dev = v4l2_m2m_init(&m2m_ops);
+  1342		if (IS_ERR(dev->m2m_dev)) {
+  1343			v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem device\n");
+  1344			ret = PTR_ERR(dev->m2m_dev);
+  1345			dev->m2m_dev = NULL;
+  1346			goto error_dev;
+  1347		}
+  1348	
 
 -- 
 0-DAY CI Kernel Test Service
