@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E96C2C18E;
-	Fri, 22 Dec 2023 18:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315AF6D6EF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Dec 2023 18:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UiXFzEDv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/SVs/gz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703269191; x=1734805191;
+  t=1703269651; x=1734805651;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fxrLzV0i5D69JYQdwuTnobUMyBmILdzrweabpjLV5/U=;
-  b=UiXFzEDv01L7kieDFfIlBNQzJj363PkMKTWgO6zzc2tm5y7TBO+Gkz7D
-   opWjnMzbgHnDNLzNmIlJ5WY0ZHULcpzqGG6TEHukF4Q+WKmqa//9YvnbG
-   xov8YAssNH87CKIYLJrv+Ehao6DUnTV4r/fmMh+ObD7j0PB3GfZgj0l+e
-   +j4DsOiAWZ1O6zWnlcSYVWlnzFRoL7m9Vy4oDEsCh8pKjXmbFO8IGpUJg
-   y5SZoYV42RyZ7X4Lhw1RfMp3Ywcyf+A2atvH6e2pDZ2OinpfR+DDnDvUI
-   tfg8UDM4rr+CZWeduxJTbYfVTrOy3OaEX6OUrV/8/KL7J6Y4GKmrtsvLa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="386568936"
+  bh=pt9b0Hgh0C7Pk9dPUYOu38GqDSdHInoSNZujqodFUsA=;
+  b=j/SVs/gzEopkUWfHk+xREgzV50NzTUAE8C22XiLZByT+D75TDpyxpLXO
+   bYQqqeOzEFzzaxCMP10TaJ1OyETKB3SZ/tLSwUax/iCcFseRlnxL64OrD
+   UN0vwp5y1ScoIKVAc8O/1DQeD+mgAyCH9/mCxaC6VUUvkrXRi8fsedwVi
+   48P95xL8CPltrASxST1dnyOpklQ4bTfFSU/+SNIiAzEo7+2ONuuvDlyH9
+   he4XNG1PCnnp5gKgpyp/uCM2iTxy20d41KaQN+kL+MRcp27t7JggTVs+u
+   ZIE7RGGVlViXh+xXWgSxZZsp5jz0f8UtPyv/E13EMzCuONfu02Vyl8f/l
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="398925281"
 X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="386568936"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 10:19:50 -0800
+   d="scan'208";a="398925281"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 10:27:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="950350124"
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="867697922"
 X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="950350124"
+   d="scan'208";a="867697922"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 22 Dec 2023 10:19:48 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Dec 2023 10:27:28 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGk7e-0009jj-0X;
-	Fri, 22 Dec 2023 18:19:46 +0000
-Date: Sat, 23 Dec 2023 02:15:35 +0800
+	id 1rGkF4-0009kR-2G;
+	Fri, 22 Dec 2023 18:27:26 +0000
+Date: Sat, 23 Dec 2023 02:25:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/snapshot/v6.7-rc2 106/110]
- drivers/perf/arm-cmn.c:2458:19: error: incompatible integer to pointer
- conversion passing 'int' to parameter of type 'const void *'
-Message-ID: <202312230222.3SvrJDsC-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [dhowells-fs:crypto-krb5 3/21] htmldocs:
+ Documentation/crypto/krb5.rst: WARNING: document isn't included in any
+ toctree
+Message-ID: <202312230235.JDvyYSLu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,119 +51,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.7-rc2
-head:   b530deed244d9b45f3bce3cccde91f6ed0ebf7ea
-commit: af8184da77bf79023a968bab12ad78de7f7311f1 [106/110] perf/arm-cmn: Stop claiming all the resources
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231223/202312230222.3SvrJDsC-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230222.3SvrJDsC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git crypto-krb5
+head:   ebd44e15422341724b06a3a13590ea80244ebbd6
+commit: 2d17e825b2f65fd09877bdc1e2fa6236726bf57a [3/21] crypto/krb5: Add API Documentation
+reproduce: (https://download.01.org/0day-ci/archive/20231223/202312230235.JDvyYSLu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312230222.3SvrJDsC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312230235.JDvyYSLu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/perf/arm-cmn.c:2458:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const void *' [-Wint-conversion]
-                           return PTR_ERR(-EINVAL);
-                                          ^~~~~~~
-   include/linux/err.h:49:61: note: passing argument to parameter 'ptr' here
-   static inline long __must_check PTR_ERR(__force const void *ptr)
-                                                               ^
-   1 error generated.
-
-
-vim +2458 drivers/perf/arm-cmn.c
-
-  2429	
-  2430	static int arm_cmn_probe(struct platform_device *pdev)
-  2431	{
-  2432		struct arm_cmn *cmn;
-  2433		const char *name;
-  2434		static atomic_t id;
-  2435		struct resource *cfg;
-  2436		int err, rootnode, this_id;
-  2437	
-  2438		cmn = devm_kzalloc(&pdev->dev, sizeof(*cmn), GFP_KERNEL);
-  2439		if (!cmn)
-  2440			return -ENOMEM;
-  2441	
-  2442		cmn->dev = &pdev->dev;
-  2443		cmn->part = (unsigned long)device_get_match_data(cmn->dev);
-  2444		platform_set_drvdata(pdev, cmn);
-  2445	
-  2446		if (cmn->part == PART_CMN600 && has_acpi_companion(cmn->dev)) {
-  2447			rootnode = arm_cmn600_acpi_probe(pdev, cmn);
-  2448		} else {
-  2449			rootnode = 0;
-  2450	
-  2451			/*
-  2452			 * Avoid registering resources as the PMUs registers are
-  2453			 * scattered through CMN, and may appear either side of
-  2454			 * registers for other 'devices'. (e.g. the MPAM MSC controls).
-  2455			 */
-  2456			cfg = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-  2457			if (!cfg)
-> 2458				return PTR_ERR(-EINVAL);
-  2459			cmn->base = devm_ioremap(&pdev->dev, cfg->start, resource_size(cfg));
-  2460			if (IS_ERR(cmn->base))
-  2461				return PTR_ERR(cmn->base);
-  2462			if (cmn->part == PART_CMN600)
-  2463				rootnode = arm_cmn600_of_probe(pdev->dev.of_node);
-  2464		}
-  2465		if (rootnode < 0)
-  2466			return rootnode;
-  2467	
-  2468		err = arm_cmn_discover(cmn, rootnode);
-  2469		if (err)
-  2470			return err;
-  2471	
-  2472		err = arm_cmn_init_dtcs(cmn);
-  2473		if (err)
-  2474			return err;
-  2475	
-  2476		err = arm_cmn_init_irqs(cmn);
-  2477		if (err)
-  2478			return err;
-  2479	
-  2480		cmn->cpu = cpumask_local_spread(0, dev_to_node(cmn->dev));
-  2481		cmn->pmu = (struct pmu) {
-  2482			.module = THIS_MODULE,
-  2483			.attr_groups = arm_cmn_attr_groups,
-  2484			.capabilities = PERF_PMU_CAP_NO_EXCLUDE,
-  2485			.task_ctx_nr = perf_invalid_context,
-  2486			.pmu_enable = arm_cmn_pmu_enable,
-  2487			.pmu_disable = arm_cmn_pmu_disable,
-  2488			.event_init = arm_cmn_event_init,
-  2489			.add = arm_cmn_event_add,
-  2490			.del = arm_cmn_event_del,
-  2491			.start = arm_cmn_event_start,
-  2492			.stop = arm_cmn_event_stop,
-  2493			.read = arm_cmn_event_read,
-  2494			.start_txn = arm_cmn_start_txn,
-  2495			.commit_txn = arm_cmn_commit_txn,
-  2496			.cancel_txn = arm_cmn_end_txn,
-  2497		};
-  2498	
-  2499		this_id = atomic_fetch_inc(&id);
-  2500		name = devm_kasprintf(cmn->dev, GFP_KERNEL, "arm_cmn_%d", this_id);
-  2501		if (!name)
-  2502			return -ENOMEM;
-  2503	
-  2504		err = cpuhp_state_add_instance(arm_cmn_hp_state, &cmn->cpuhp_node);
-  2505		if (err)
-  2506			return err;
-  2507	
-  2508		err = perf_pmu_register(&cmn->pmu, name, -1);
-  2509		if (err)
-  2510			cpuhp_state_remove_instance_nocalls(arm_cmn_hp_state, &cmn->cpuhp_node);
-  2511		else
-  2512			arm_cmn_debugfs_init(cmn, this_id);
-  2513	
-  2514		return err;
-  2515	}
-  2516	
+>> Documentation/crypto/krb5.rst: WARNING: document isn't included in any toctree
 
 -- 
 0-DAY CI Kernel Test Service
