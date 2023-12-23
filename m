@@ -1,131 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B715F9440
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Dec 2023 04:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F004A34;
+	Sat, 23 Dec 2023 05:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWF/lGjN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703305281; x=1734841281;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qRnh6hca/WvdxRw+YS1DTQphCmg5T3LVn1o4cP1SBko=;
-  b=fWF/lGjNklGob5ToHsY2DtOTcWdrvk4Nq5zLAeMPTgVdWAsihgH7aYZ7
-   Jouj3YOhFRcFF7WyWUtVc0LBpIhsmVmiDzjlIhf9eS0qmlWy+etHBDWm8
-   ya6IIAMGxEymZRAEmd8x2iyS7jA1O+YGIrrWJmh9WtqVn6Vvyipjwl680
-   4/69+oBP3Z+7LX9YADBrMtHA3HRmpDcAO1vY9EOp/nt//KyvaWhA/Rq5N
-   +27XDR3ciWKPtiShvQUYQ8vxZx/ecBTIGnBtK3QmB6EBLwcdsaUl97pN9
-   eYzCQjq2s8UddnPT+NUK382SNL5gLrwAjjQJhB0Kr7Bw319McEVU44OQe
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="398965809"
-X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="398965809"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 20:21:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="806186474"
-X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="806186474"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 22 Dec 2023 20:21:19 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rGtVW-000AG1-2L;
-	Sat, 23 Dec 2023 04:21:09 +0000
-Date: Sat, 23 Dec 2023 12:20:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jan Kuliga <jankul@alatek.krakow.pl>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 9985/10295] drivers/dma/xilinx/xdma.c:729:1:
- warning: no previous prototype for 'xdma_prep_interleaved_dma'
-Message-ID: <202312231258.L3C56jBw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Jks/bfwF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=UNrI5d+OwOlR9bsEA+kLfKKLgi1B2PVQGG+8MWXSfz8=; b=Jks/bfwFvpRCPEETX4cvjl3DBG
+	WM7g0tH+gittme5QDF7URqwshe9rjnSTGGpkQBFM+8xFCQHTwzWBLVo+XO/Pf5a1oodFVEE0BHqE5
+	bjdjfscqs1SL0+Cq9yW2jN2wnkv08bdBleGPxQrwI2dxDfNdK8hsk6uJCdW/hnJ52ymU3tN0pQ92z
+	DhbZlgoic+nhre1dbDqkErhVuvlV0YB6AHY/EiwM+erncW2cSxVrpSoGbgURvMHOeIWgW7HnT/hhG
+	XQETPqt1wZg1GCeEWa3LOuuPH/Xg9eXr3egNsheJrZDwIlGTqsB9Womnt1eC7ck+0Sv9inHDR+7gM
+	b0v0YxmA==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rGugP-007QLP-1E;
+	Sat, 23 Dec 2023 05:36:21 +0000
+Message-ID: <9be5f009-9fcb-4299-9d2f-13b1263d83e1@infradead.org>
+Date: Fri, 22 Dec 2023 21:36:20 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   39676dfe52331dba909c617f213fdb21015c8d10
-commit: 01e6d907656134949c4126e7fd64984d4daa4c1e [9985/10295] dmaengine: xilinx: xdma: Implement interleaved DMA transfers
-config: csky-buildonly-randconfig-r004-20230509 (https://download.01.org/0day-ci/archive/20231223/202312231258.L3C56jBw-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312231258.L3C56jBw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312231258.L3C56jBw-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/dma/xilinx/xdma.c:729:1: warning: no previous prototype for 'xdma_prep_interleaved_dma' [-Wmissing-prototypes]
-     729 | xdma_prep_interleaved_dma(struct dma_chan *chan,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+User-Agent: Mozilla Thunderbird
+Subject: Re: fs/bcachefs/io_write.c:1570: warning: Function parameter or
+ struct member 'bch2_write' not described in 'CLOSURE_CALLBACK'
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <202312182040.naGasU5s-lkp@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202312182040.naGasU5s-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +/xdma_prep_interleaved_dma +729 drivers/dma/xilinx/xdma.c
 
-   721	
-   722	/**
-   723	 * xdma_prep_interleaved_dma - Prepare virtual descriptor for interleaved DMA transfers
-   724	 * @chan: DMA channel
-   725	 * @xt: DMA transfer template
-   726	 * @flags: tx flags
-   727	 */
-   728	struct dma_async_tx_descriptor *
- > 729	xdma_prep_interleaved_dma(struct dma_chan *chan,
-   730				  struct dma_interleaved_template *xt,
-   731				  unsigned long flags)
-   732	{
-   733		int i;
-   734		u32 desc_num = 0, period_size = 0;
-   735		struct dma_async_tx_descriptor *tx_desc;
-   736		struct xdma_chan *xchan = to_xdma_chan(chan);
-   737		struct xdma_desc *sw_desc;
-   738		u64 src_addr, dst_addr;
-   739	
-   740		for (i = 0; i < xt->frame_size; ++i)
-   741			desc_num += DIV_ROUND_UP(xt->sgl[i].size, XDMA_DESC_BLEN_MAX);
-   742	
-   743		sw_desc = xdma_alloc_desc(xchan, desc_num, false);
-   744		if (!sw_desc)
-   745			return NULL;
-   746		sw_desc->dir = xt->dir;
-   747		sw_desc->interleaved_dma = true;
-   748		sw_desc->cyclic = flags & DMA_PREP_REPEAT;
-   749		sw_desc->frames_left = xt->numf;
-   750		sw_desc->periods = xt->numf;
-   751	
-   752		desc_num = 0;
-   753		src_addr = xt->src_start;
-   754		dst_addr = xt->dst_start;
-   755		for (i = 0; i < xt->frame_size; ++i) {
-   756			desc_num += xdma_fill_descs(sw_desc, src_addr, dst_addr, xt->sgl[i].size, desc_num);
-   757			src_addr += dmaengine_get_src_icg(xt, &xt->sgl[i]) + xt->src_inc ?
-   758								      xt->sgl[i].size : 0;
-   759			dst_addr += dmaengine_get_dst_icg(xt, &xt->sgl[i]) + xt->dst_inc ?
-   760								      xt->sgl[i].size : 0;
-   761			period_size += xt->sgl[i].size;
-   762		}
-   763		sw_desc->period_size = period_size;
-   764	
-   765		tx_desc = vchan_tx_prep(&xchan->vchan, &sw_desc->vdesc, flags);
-   766		if (tx_desc)
-   767			return tx_desc;
-   768	
-   769		xdma_free_desc(&sw_desc->vdesc);
-   770		return NULL;
-   771	}
-   772	
+On 12/18/23 04:58, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
+> commit: d4e3b928ab487a8aecd1f6a140b40ac365116cfb closures: CLOSURE_CALLBACK() to fix type punning
+> date:   3 weeks ago
+> config: x86_64-buildonly-randconfig-001-20231218 (https://download.01.org/0day-ci/archive/20231218/202312182040.naGasU5s-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312182040.naGasU5s-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312182040.naGasU5s-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> fs/bcachefs/io_write.c:1570: warning: Function parameter or struct member 'bch2_write' not described in 'CLOSURE_CALLBACK'
+>    fs/bcachefs/io_write.c:1570: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
+> 
+> 
+
+This needs to be fixed in scripts/kernel-doc AFAIK.
+
+Cc:ing linux-doc mailing list.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
