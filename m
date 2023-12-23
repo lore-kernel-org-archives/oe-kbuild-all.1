@@ -1,55 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565016FB0;
-	Sat, 23 Dec 2023 07:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3171C8BE5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Dec 2023 07:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAFxTYbo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVFetQvg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703316416; x=1734852416;
+  t=1703317034; x=1734853034;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SB8ag3Z+A1hDt1rNrHNvwrQaIfdOL8/+s44LChvjjTw=;
-  b=YAFxTYboeT6Bh3RlWclI4VX5t+BlcLXx6cflZYBZDYNoQ5PlNDI8+Jtn
-   LOqSJVK1xrGyJMqPaQMlhIU4Hgm/nhKoDbJ0ZQA/PPjd5TTYRU4Q0eOSM
-   Pz3e3XqW0V2tfl6YiScfqpECI9gogGHJbG2FOsQI0w9VAUwxugfmEFsff
-   ltGsPj19mQfqOGi/PvILvfSh+omJa/slmbt8VaCPq5E5JtD4vQeFoOHTl
-   ljkzSb/1GJv1nzJoQ7cHfXg75wgWLpLRlPDn4guvyfyLCjf/9A4ivIFxz
-   0HWg66+CuVfOQYobWcjFxsm6w35yXwSDienFafhIApTkll+2ze0PoOL0i
+  bh=LzTB/JdJl6BfK3uAzYp8bhqIfFjqeISAZ0Sfr+/TWH4=;
+  b=jVFetQvg/T4QK3jPC3ap50TgbgPZKyjLlsa4/irfWjqzYsrmR3E0n/YH
+   dckaOfrCNpfGabSuSj+X2VmBfpfnCirRqT+xWHRrpbF2atQcZlzBbcDvB
+   lkAYuJcHWT1AHRAbh/LRm5ShHSaDZc1Mcb+seYx95pTu/OIIBSif1jTAy
+   IGhpyWUvGY3TR9Mk+VjW4NuYjYNkCV3BNyfTWSKXDu/F0/LemLEji4MCj
+   MhvcRrv8pwCgkAl7oFDTE/+/dD67cYUbE/NHxVVZaHDLWOkkIqbkjwjwj
+   SQcHxTffieklxHUpoGWiWfv6m4v8OPQOhoMeCvJy3UjPlnPccQEP4ImY2
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="9678842"
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="3027962"
 X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="9678842"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 23:26:55 -0800
+   d="scan'208";a="3027962"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 23:37:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="1024468138"
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="1108711235"
 X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="1024468138"
+   d="scan'208";a="1108711235"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Dec 2023 23:26:51 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 22 Dec 2023 23:37:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGwPG-000APt-3D;
-	Sat, 23 Dec 2023 07:26:47 +0000
-Date: Sat, 23 Dec 2023 15:26:20 +0800
+	id 1rGwZJ-000AQT-2F;
+	Sat, 23 Dec 2023 07:37:09 +0000
+Date: Sat, 23 Dec 2023 15:36:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>, ast@kernel.org,
-	daniel@iogearbox.net, john.fastabend@gmail.com, andrii@kernel.org,
-	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
-	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-	jolsa@kernel.org, tj@kernel.org, lizefan.x@bytedance.com,
-	hannes@cmpxchg.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bpf@vger.kernel.org, cgroups@vger.kernel.org,
-	Yafang Shao <laoar.shao@gmail.com>
-Subject: Re: [PATCH bpf-next 1/4] cgroup, psi: Init PSI of root cgroup to
- psi_system
-Message-ID: <202312231522.VWy0LXXY-lkp@intel.com>
-References: <20231222113102.4148-2-laoar.shao@gmail.com>
+To: Kairui Song <ryncsn@gmail.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Yu Zhao <yuzhao@google.com>, linux-kernel@vger.kernel.org,
+	Kairui Song <kasong@tencent.com>
+Subject: Re: [PATCH 2/3] mm, lru_gen: move pages in bulk when aging
+Message-ID: <202312231555.KTX84YjF-lkp@intel.com>
+References: <20231222102255.56993-3-ryncsn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,45 +54,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231222113102.4148-2-laoar.shao@gmail.com>
+In-Reply-To: <20231222102255.56993-3-ryncsn@gmail.com>
 
-Hi Yafang,
+Hi Kairui,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/cgroup-psi-Init-PSI-of-root-cgroup-to-psi_system/20231222-193221
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231222113102.4148-2-laoar.shao%40gmail.com
-patch subject: [PATCH bpf-next 1/4] cgroup, psi: Init PSI of root cgroup to psi_system
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20231223/202312231522.VWy0LXXY-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312231522.VWy0LXXY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-lru_gen-batch-update-counters-on-againg/20231222-184601
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231222102255.56993-3-ryncsn%40gmail.com
+patch subject: [PATCH 2/3] mm, lru_gen: move pages in bulk when aging
+config: arc-randconfig-002-20231223 (https://download.01.org/0day-ci/archive/20231223/202312231555.KTX84YjF-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312231555.KTX84YjF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312231522.VWy0LXXY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312231555.KTX84YjF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/cgroup/cgroup.c:169:15: error: use of undeclared identifier 'psi_system'
-           .cgrp.psi = &psi_system,
-                        ^
-   1 error generated.
+>> mm/vmscan.c:3108:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+    3108 | static void inline lru_gen_inc_bulk_finish(struct lru_gen_folio *lrugen,
+         | ^~~~~~
+   mm/vmscan.c:3127:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+    3127 | static void inline lru_gen_try_inc_bulk(struct lru_gen_folio *lrugen, struct folio *folio,
+         | ^~~~~~
 
 
-vim +/psi_system +169 kernel/cgroup/cgroup.c
+vim +/inline +3108 mm/vmscan.c
 
-   165	
-   166	/* the default hierarchy */
-   167	struct cgroup_root cgrp_dfl_root = {
-   168		.cgrp.rstat_cpu = &cgrp_dfl_root_rstat_cpu,
- > 169		.cgrp.psi = &psi_system,
-   170	};
-   171	EXPORT_SYMBOL_GPL(cgrp_dfl_root);
-   172	
+  3107	
+> 3108	static void inline lru_gen_inc_bulk_finish(struct lru_gen_folio *lrugen,
+  3109						   int bulk_gen, bool type, int zone,
+  3110						   struct gen_update_batch *batch)
+  3111	{
+  3112		if (!batch->head)
+  3113			return;
+  3114	
+  3115		list_bulk_move_tail(&lrugen->folios[bulk_gen][type][zone],
+  3116				    &batch->head->lru,
+  3117				    &batch->tail->lru);
+  3118	
+  3119		batch->head = NULL;
+  3120	}
+  3121	
 
 -- 
 0-DAY CI Kernel Test Service
