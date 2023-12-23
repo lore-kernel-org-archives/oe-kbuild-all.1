@@ -1,54 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8790A6FD9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Dec 2023 07:37:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24A58C07
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Dec 2023 09:20:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dvwqb5J2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bk55XGSj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703317037; x=1734853037;
+  t=1703323214; x=1734859214;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=a2m4tM/yHyh0WQQ5DyOfXe4Sy7woCWkTH+cVcUpAHIY=;
-  b=dvwqb5J2L5zEuqwx6CwtfgjAy1QL+PRcxzM30c3/WVfzd0hdIsgokN/y
-   4U6eCR9tvjSSc8TYe/3dOGU+5MnPJbIlQAV8zs/RZMU+XYt2qoO4dGGNg
-   STByo+9fxvInO4bATPi+/sl9VdlsZgYmo+ggvtFvlc5N5Q4jtjyCv/n7R
-   F0yJyR3FzSlyL47MdSxQxVU/Pdsf3RId3ZMIJwW4mYdFaCFldcpChQecy
-   6jGps1OwscdXsB0slDqlpc8etsy2YCvWlm3sw7qVH16wW0oCpJYg37g/k
-   R6n2XJdJVlf6AApMcWggt+D3/m5KY2TAWPx6Aibp8VrqWmKotfg1tJaQx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="3027967"
+  bh=VF25ho2j2NVuPYzT72i4te3/XkLT3iNnKvt8SlOW+hs=;
+  b=bk55XGSj4wgeDAP8plDwa59tiwMZ+HJgPY0ReOXjmWREJ8kU/oamQ8NP
+   wTFpEl2gMJ9eHVGy1izUCl/aUehL8cfmQYp99hJtgUCFrqr258nigxsw3
+   brrfUbwFS35bhDkdkqkNspX+nnUpfeb8lqSIbPASRynwj9XDw7KasXNXU
+   gChptUXC1hvGomQpvaFfAXSogAZHihMQJIZaqR3OkDVZ/gAuvGJuAutXy
+   21csDgvmfbL7YErDNEOCgaGNufdtO4k1uUFGWYMHSS9hcKWV32sokXPHK
+   vpIA2TPeGHzO7guA9wO+klf07+CpNMguXbpv6coErlPAI7JLBLdotHRMU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="395082619"
 X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="3027967"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 23:37:17 -0800
+   d="scan'208";a="395082619"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 01:20:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="1108711237"
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="867943307"
 X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
-   d="scan'208";a="1108711237"
+   d="scan'208";a="867943307"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 22 Dec 2023 23:37:11 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Dec 2023 01:20:12 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGwZJ-000AQV-2N;
-	Sat, 23 Dec 2023 07:37:09 +0000
-Date: Sat, 23 Dec 2023 15:36:37 +0800
+	id 1rGyA9-000AVZ-32;
+	Sat, 23 Dec 2023 09:19:27 +0000
+Date: Sat, 23 Dec 2023 17:18:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chunkuang.hu@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, p.zabel@pengutronix.de,
-	airlied@gmail.com, daniel@ffwll.ch, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kernel@collabora.com
-Subject: Re: [PATCH v2 3/4] drm/mediatek: dsi: Use bitfield macros where
- useful
-Message-ID: <202312231512.ioiD48LA-lkp@intel.com>
-References: <20231220135722.192080-4-angelogioacchino.delregno@collabora.com>
+To: Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	intel-wired-lan@lists.osuosl.org, anthony.l.nguyen@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Subject: Re: [PATCH iwl-next v2] i40e: add trace events related to SFP module
+ IOCTLs
+Message-ID: <202312231758.zG1LthuL-lkp@intel.com>
+References: <20231220173837.3326983-1-aleksandr.loktionov@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,91 +53,220 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231220135722.192080-4-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231220173837.3326983-1-aleksandr.loktionov@intel.com>
 
-Hi AngeloGioacchino,
+Hi Aleksandr,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc6 next-20231222]
-[cannot apply to drm-intel/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on tnguy-next-queue/dev-queue]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/drm-mediatek-dsi-Use-GENMASK-for-register-mask-definitions/20231222-164513
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231220135722.192080-4-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v2 3/4] drm/mediatek: dsi: Use bitfield macros where useful
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231223/202312231512.ioiD48LA-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312231512.ioiD48LA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandr-Loktionov/i40e-add-trace-events-related-to-SFP-module-IOCTLs/20231222-165333
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20231220173837.3326983-1-aleksandr.loktionov%40intel.com
+patch subject: [PATCH iwl-next v2] i40e: add trace events related to SFP module IOCTLs
+config: x86_64-randconfig-161-20231222 (https://download.01.org/0day-ci/archive/20231223/202312231758.zG1LthuL-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312231758.zG1LthuL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312231512.ioiD48LA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312231758.zG1LthuL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/mediatek/mtk_dsi.c: In function 'mtk_dsi_phy_timconfig':
->> drivers/gpu/drm/mediatek/mtk_dsi.c:260:19: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     260 |         timcon0 = FIELD_PREP(LPX, timing->lpx) |
-         |                   ^~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/net/ethernet/intel/i40e/i40e_trace.h:276,
+                    from drivers/net/ethernet/intel/i40e/i40e_main.c:25:
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'ftrace_test_probe_i40e_ioctl_get_module_info':
+>> include/trace/trace_events.h:416:35: error: 'trace_event_raw_event_i40e_ioctl_template' undeclared (first use in this function); did you mean 'trace_event_raw_event_i40e_tx_template'?
+     416 |  check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   include/trace/trace_events.h:416:35: note: each undeclared identifier is reported only once for each function it appears in
+     416 |  check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'ftrace_test_probe_i40e_ioctl_get_module_eeprom':
+>> include/trace/trace_events.h:416:35: error: 'trace_event_raw_event_i40e_ioctl_template' undeclared (first use in this function); did you mean 'trace_event_raw_event_i40e_tx_template'?
+     416 |  check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:211:1: note: in expansion of macro 'DEFINE_EVENT'
+     211 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'ftrace_test_probe_i40e_ioctl_get_link_ksettings':
+>> include/trace/trace_events.h:416:35: error: 'trace_event_raw_event_i40e_ioctl_template' undeclared (first use in this function); did you mean 'trace_event_raw_event_i40e_tx_template'?
+     416 |  check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:217:1: note: in expansion of macro 'DEFINE_EVENT'
+     217 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/net/ethernet/intel/i40e/i40e_trace.h:276,
+                    from drivers/net/ethernet/intel/i40e/i40e_main.c:25:
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: At top level:
+>> include/trace/trace_events.h:441:14: error: 'event_class_i40e_ioctl_template' undeclared here (not in a function); did you mean 'event_class_i40e_xmit_template'?
+     441 |  .class   = &event_class_##template,  \
+         |              ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+>> include/trace/trace_events.h:445:19: error: 'trace_event_type_funcs_i40e_ioctl_template' undeclared here (not in a function); did you mean 'trace_event_type_funcs_i40e_xmit_template'?
+     445 |  .event.funcs  = &trace_event_type_funcs_##template, \
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+>> include/trace/trace_events.h:446:16: error: 'print_fmt_i40e_ioctl_template' undeclared here (not in a function); did you mean 'print_fmt_i40e_tx_template'?
+     446 |  .print_fmt  = print_fmt_##template,   \
+         |                ^~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:103,
+                    from drivers/net/ethernet/intel/i40e/i40e_trace.h:276,
+                    from drivers/net/ethernet/intel/i40e/i40e_main.c:25:
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'perf_test_probe_i40e_ioctl_get_module_info':
+>> include/trace/perf.h:67:35: error: 'perf_trace_i40e_ioctl_template' undeclared (first use in this function); did you mean 'perf_trace_i40e_xmit_template'?
+      67 |  check_trace_callback_type_##call(perf_trace_##template); \
+         |                                   ^~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'perf_test_probe_i40e_ioctl_get_module_eeprom':
+>> include/trace/perf.h:67:35: error: 'perf_trace_i40e_ioctl_template' undeclared (first use in this function); did you mean 'perf_trace_i40e_xmit_template'?
+      67 |  check_trace_callback_type_##call(perf_trace_##template); \
+         |                                   ^~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:211:1: note: in expansion of macro 'DEFINE_EVENT'
+     211 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'perf_test_probe_i40e_ioctl_get_link_ksettings':
+>> include/trace/perf.h:67:35: error: 'perf_trace_i40e_ioctl_template' undeclared (first use in this function); did you mean 'perf_trace_i40e_xmit_template'?
+      67 |  check_trace_callback_type_##call(perf_trace_##template); \
+         |                                   ^~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:217:1: note: in expansion of macro 'DEFINE_EVENT'
+     217 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+--
+   drivers/net/ethernet/intel/i40e/i40e_ethtool.c: In function 'i40e_get_link_ksettings':
+>> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:1077:2: error: implicit declaration of function 'i40e_trace' [-Werror=implicit-function-declaration]
+    1077 |  i40e_trace(ioctl_get_link_ksettings, pf, hw_link_info->link_info);
+         |  ^~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:1077:13: error: 'ioctl_get_link_ksettings' undeclared (first use in this function); did you mean 'i40e_get_link_ksettings'?
+    1077 |  i40e_trace(ioctl_get_link_ksettings, pf, hw_link_info->link_info);
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+         |             i40e_get_link_ksettings
+   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:1077:13: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/ethernet/intel/i40e/i40e_ethtool.c: In function 'i40e_get_module_info':
+>> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:5589:14: error: 'ioctl_get_module_info' undeclared (first use in this function); did you mean 'i40e_get_module_info'?
+    5589 |   i40e_trace(ioctl_get_module_info, pf, ~0UL);
+         |              ^~~~~~~~~~~~~~~~~~~~~
+         |              i40e_get_module_info
+   drivers/net/ethernet/intel/i40e/i40e_ethtool.c: In function 'i40e_get_module_eeprom':
+>> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:5617:13: error: 'ioctl_get_module_eeprom' undeclared (first use in this function); did you mean 'i40e_get_module_eeprom'?
+    5617 |  i40e_trace(ioctl_get_module_eeprom, pf, ee ? ee->len : 0U);
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+         |             i40e_get_module_eeprom
    cc1: some warnings being treated as errors
 
 
-vim +/FIELD_PREP +260 drivers/gpu/drm/mediatek/mtk_dsi.c
+vim +/i40e_trace +1077 drivers/net/ethernet/intel/i40e/i40e_ethtool.c
 
-   236	
-   237	static void mtk_dsi_phy_timconfig(struct mtk_dsi *dsi)
-   238	{
-   239		u32 timcon0, timcon1, timcon2, timcon3;
-   240		u32 data_rate_mhz = DIV_ROUND_UP(dsi->data_rate, 1000000);
-   241		struct mtk_phy_timing *timing = &dsi->phy_timing;
-   242	
-   243		timing->lpx = (60 * data_rate_mhz / (8 * 1000)) + 1;
-   244		timing->da_hs_prepare = (80 * data_rate_mhz + 4 * 1000) / 8000;
-   245		timing->da_hs_zero = (170 * data_rate_mhz + 10 * 1000) / 8000 + 1 -
-   246				     timing->da_hs_prepare;
-   247		timing->da_hs_trail = timing->da_hs_prepare + 1;
-   248	
-   249		timing->ta_go = 4 * timing->lpx - 2;
-   250		timing->ta_sure = timing->lpx + 2;
-   251		timing->ta_get = 4 * timing->lpx;
-   252		timing->da_hs_exit = 2 * timing->lpx + 1;
-   253	
-   254		timing->clk_hs_prepare = 70 * data_rate_mhz / (8 * 1000);
-   255		timing->clk_hs_post = timing->clk_hs_prepare + 8;
-   256		timing->clk_hs_trail = timing->clk_hs_prepare;
-   257		timing->clk_hs_zero = timing->clk_hs_trail * 4;
-   258		timing->clk_hs_exit = 2 * timing->clk_hs_trail;
-   259	
- > 260		timcon0 = FIELD_PREP(LPX, timing->lpx) |
-   261			  FIELD_PREP(HS_PREP, timing->da_hs_prepare) |
-   262			  FIELD_PREP(HS_ZERO, timing->da_hs_zero) |
-   263			  FIELD_PREP(HS_TRAIL, timing->da_hs_trail);
-   264	
-   265		timcon1 = FIELD_PREP(TA_GO, timing->ta_go) |
-   266			  FIELD_PREP(TA_SURE, timing->ta_sure) |
-   267			  FIELD_PREP(TA_GET, timing->ta_get) |
-   268			  FIELD_PREP(DA_HS_EXIT, timing->da_hs_exit);
-   269	
-   270		timcon2 = FIELD_PREP(DA_HS_SYNC, 1) |
-   271			  FIELD_PREP(CLK_ZERO, timing->clk_hs_zero) |
-   272			  FIELD_PREP(CLK_TRAIL, timing->clk_hs_trail);
-   273	
-   274		timcon3 = FIELD_PREP(CLK_HS_PREP, timing->clk_hs_prepare) |
-   275			  FIELD_PREP(CLK_HS_POST, timing->clk_hs_post) |
-   276			  FIELD_PREP(CLK_HS_EXIT, timing->clk_hs_exit);
-   277	
-   278		writel(timcon0, dsi->regs + DSI_PHY_TIMECON0);
-   279		writel(timcon1, dsi->regs + DSI_PHY_TIMECON1);
-   280		writel(timcon2, dsi->regs + DSI_PHY_TIMECON2);
-   281		writel(timcon3, dsi->regs + DSI_PHY_TIMECON3);
-   282	}
-   283	
+  1057	
+  1058	/**
+  1059	 * i40e_get_link_ksettings - Get Link Speed and Duplex settings
+  1060	 * @netdev: network interface device structure
+  1061	 * @ks: ethtool ksettings
+  1062	 *
+  1063	 * Reports speed/duplex settings based on media_type
+  1064	 **/
+  1065	static int i40e_get_link_ksettings(struct net_device *netdev,
+  1066					   struct ethtool_link_ksettings *ks)
+  1067	{
+  1068		struct i40e_netdev_priv *np = netdev_priv(netdev);
+  1069		struct i40e_pf *pf = np->vsi->back;
+  1070		struct i40e_hw *hw = &pf->hw;
+  1071		struct i40e_link_status *hw_link_info = &hw->phy.link_info;
+  1072		bool link_up = hw_link_info->link_info & I40E_AQ_LINK_UP;
+  1073	
+  1074		ethtool_link_ksettings_zero_link_mode(ks, supported);
+  1075		ethtool_link_ksettings_zero_link_mode(ks, advertising);
+  1076	
+> 1077		i40e_trace(ioctl_get_link_ksettings, pf, hw_link_info->link_info);
+  1078		if (link_up)
+  1079			i40e_get_settings_link_up(hw, ks, netdev, pf);
+  1080		else
+  1081			i40e_get_settings_link_down(hw, ks, pf);
+  1082	
+  1083		/* Now set the settings that don't rely on link being up/down */
+  1084		/* Set autoneg settings */
+  1085		ks->base.autoneg = ((hw_link_info->an_info & I40E_AQ_AN_COMPLETED) ?
+  1086				    AUTONEG_ENABLE : AUTONEG_DISABLE);
+  1087	
+  1088		/* Set media type settings */
+  1089		switch (hw->phy.media_type) {
+  1090		case I40E_MEDIA_TYPE_BACKPLANE:
+  1091			ethtool_link_ksettings_add_link_mode(ks, supported, Autoneg);
+  1092			ethtool_link_ksettings_add_link_mode(ks, supported, Backplane);
+  1093			ethtool_link_ksettings_add_link_mode(ks, advertising, Autoneg);
+  1094			ethtool_link_ksettings_add_link_mode(ks, advertising,
+  1095							     Backplane);
+  1096			ks->base.port = PORT_NONE;
+  1097			break;
+  1098		case I40E_MEDIA_TYPE_BASET:
+  1099			ethtool_link_ksettings_add_link_mode(ks, supported, TP);
+  1100			ethtool_link_ksettings_add_link_mode(ks, advertising, TP);
+  1101			ks->base.port = PORT_TP;
+  1102			break;
+  1103		case I40E_MEDIA_TYPE_DA:
+  1104		case I40E_MEDIA_TYPE_CX4:
+  1105			ethtool_link_ksettings_add_link_mode(ks, supported, FIBRE);
+  1106			ethtool_link_ksettings_add_link_mode(ks, advertising, FIBRE);
+  1107			ks->base.port = PORT_DA;
+  1108			break;
+  1109		case I40E_MEDIA_TYPE_FIBER:
+  1110			ethtool_link_ksettings_add_link_mode(ks, supported, FIBRE);
+  1111			ethtool_link_ksettings_add_link_mode(ks, advertising, FIBRE);
+  1112			ks->base.port = PORT_FIBRE;
+  1113			break;
+  1114		case I40E_MEDIA_TYPE_UNKNOWN:
+  1115		default:
+  1116			ks->base.port = PORT_OTHER;
+  1117			break;
+  1118		}
+  1119	
+  1120		/* Set flow control settings */
+  1121		ethtool_link_ksettings_add_link_mode(ks, supported, Pause);
+  1122		ethtool_link_ksettings_add_link_mode(ks, supported, Asym_Pause);
+  1123	
+  1124		switch (hw->fc.requested_mode) {
+  1125		case I40E_FC_FULL:
+  1126			ethtool_link_ksettings_add_link_mode(ks, advertising, Pause);
+  1127			break;
+  1128		case I40E_FC_TX_PAUSE:
+  1129			ethtool_link_ksettings_add_link_mode(ks, advertising,
+  1130							     Asym_Pause);
+  1131			break;
+  1132		case I40E_FC_RX_PAUSE:
+  1133			ethtool_link_ksettings_add_link_mode(ks, advertising, Pause);
+  1134			ethtool_link_ksettings_add_link_mode(ks, advertising,
+  1135							     Asym_Pause);
+  1136			break;
+  1137		default:
+  1138			ethtool_link_ksettings_del_link_mode(ks, advertising, Pause);
+  1139			ethtool_link_ksettings_del_link_mode(ks, advertising,
+  1140							     Asym_Pause);
+  1141			break;
+  1142		}
+  1143	
+  1144		return 0;
+  1145	}
+  1146	
 
 -- 
 0-DAY CI Kernel Test Service
