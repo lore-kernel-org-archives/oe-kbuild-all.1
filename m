@@ -1,58 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF364D26C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Dec 2023 12:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6116D2E9;
+	Sat, 23 Dec 2023 13:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3GBLg2b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsOfF3qK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703334132; x=1734870132;
+  t=1703336898; x=1734872898;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JdTJVddce5nTGKgEYfvCn0hUfu9G4o5BGyVJH1RDGFU=;
-  b=R3GBLg2bGGtvy2W/yVrpNFgWYiqMVoEr2IY8Gtgv3mFrxvJxhw9r/GDj
-   V/mWAqE7RfLQU6CT3IEZFs5TXLIPbXVyeg4/8EU8vfejnCEdNuHmpiQ/6
-   yZf2s9LcXX+zEBdbTcqwf1e+KhUXdHN9BCzFX6Qhtyemk2dFm5LAn8xXg
-   K5vo5Zi/WR7MwyT9iqwqNo0h6/2m+onLEPFqosk8lf6wxaLGTwDR187ns
-   aYcNTSzDK8+WKgpmLgn9FxHKJCRUX4/RTemD0GHfEy2/+N9JkP2JJTmJB
-   1VbwDed1bP9KaTlkIGfhpO2m7z+zJe0xsJ4d93hBZNRtwyGYe9ea9wBur
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="376335439"
+  bh=MpQqVfyCGYPIBmeczRWmjfwjXI8tjDbCoscWLJwemlo=;
+  b=nsOfF3qKkjUoo/ANKL+imw4TB8MqFKv+tqeMAK2cgh9QOGdqguUxICB5
+   VBGJvv7KvRQZBVBM6VyoG0WKf8jLa3golX7w7fJQPDcs95c6xuZmALkSG
+   Ehfz3Eo8yGc+X3Hy8O4XqYEi2hMEYCbibKKJrmP1eW8MHIWKEXtrmi9sW
+   qQpKa02NAAeWo2jPmxT9gmhEpCBxJTDqvsN7OsaEtr4yvOtOf3ADCUTms
+   5n8dRz6Ss3CcaZbzvfZHVQpV3PDdsHfZqxEkUDd+FsCLW+Ya+/ccYcT0g
+   52TYNHOYCv5WUrX9ZdIwNZ37EHohVgRTf1flDc3eVCJI4DQe5uIkoGLdz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="427360769"
 X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
-   d="scan'208";a="376335439"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 04:22:12 -0800
+   d="scan'208";a="427360769"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 05:08:17 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="867979835"
 X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
-   d="scan'208";a="19013064"
+   d="scan'208";a="867979835"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 23 Dec 2023 04:22:08 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Dec 2023 05:08:15 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rH113-000AxU-18;
-	Sat, 23 Dec 2023 12:22:05 +0000
-Date: Sat, 23 Dec 2023 19:54:50 +0800
+	id 1rH1it-000B3h-1s;
+	Sat, 23 Dec 2023 13:07:37 +0000
+Date: Sat, 23 Dec 2023 21:07:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xingyu Wu <xingyu.wu@starfivetech.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Claudiu Beznea <Claudiu.Beznea@microchip.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Walker Chen <walker.chen@starfivetech.com>,
-	Xingyu Wu <xingyu.wu@starfivetech.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] ASoC: starfive: Add drivers of Cadence
- Multi-Channel I2S Controller
-Message-ID: <202312231911.DFYqQ9Gl-lkp@intel.com>
-References: <20231221033223.73201-3-xingyu.wu@starfivetech.com>
+To: Michael Chan <michael.chan@broadcom.com>, davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, pavan.chebbi@broadcom.com,
+	andrew.gospodarek@broadcom.com
+Subject: Re: [PATCH net-next 08/13] bnxt_en: Refactor filter insertion logic
+ in bnxt_rx_flow_steer().
+Message-ID: <202312232032.AGxw3c0P-lkp@intel.com>
+References: <20231221220218.197386-9-michael.chan@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,61 +54,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231221033223.73201-3-xingyu.wu@starfivetech.com>
+In-Reply-To: <20231221220218.197386-9-michael.chan@broadcom.com>
 
-Hi Xingyu,
+Hi Michael,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on robh/for-next linus/master v6.7-rc6 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xingyu-Wu/dt-bindings-ASoC-Add-Cadence-I2S-controller-for-StarFive-JH8100-SoC/20231222-172628
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20231221033223.73201-3-xingyu.wu%40starfivetech.com
-patch subject: [PATCH v1 2/2] ASoC: starfive: Add drivers of Cadence Multi-Channel I2S Controller
-config: sparc64-randconfig-r071-20231223 (https://download.01.org/0day-ci/archive/20231223/202312231911.DFYqQ9Gl-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312231911.DFYqQ9Gl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Chan/bnxt_en-Refactor-bnxt_ntuple_filter-structure/20231222-174043
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231221220218.197386-9-michael.chan%40broadcom.com
+patch subject: [PATCH net-next 08/13] bnxt_en: Refactor filter insertion logic in bnxt_rx_flow_steer().
+config: powerpc-randconfig-001-20231223 (https://download.01.org/0day-ci/archive/20231223/202312232032.AGxw3c0P-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312232032.AGxw3c0P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312231911.DFYqQ9Gl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312232032.AGxw3c0P-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from sound/soc/starfive/cdns-jh8100-i2s.c:18:
->> sound/soc/starfive/cdns-jh8100-i2s.h:163:6: warning: no previous prototype for 'cdns_jh8100_i2s_pcm_push_tx' [-Wmissing-prototypes]
-     163 | void cdns_jh8100_i2s_pcm_push_tx(struct cdns_jh8100_i2s_dev *dev) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/starfive/cdns-jh8100-i2s.h:164:6: warning: no previous prototype for 'cdns_jh8100_i2s_pcm_pop_rx' [-Wmissing-prototypes]
-     164 | void cdns_jh8100_i2s_pcm_pop_rx(struct cdns_jh8100_i2s_dev *dev) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/starfive/cdns-jh8100-i2s.h:165:5: warning: no previous prototype for 'cdns_jh8100_i2s_pcm_register' [-Wmissing-prototypes]
-     165 | int cdns_jh8100_i2s_pcm_register(struct platform_device *pdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5524:35: error: subscript of pointer to incomplete type 'struct bnxt_vf_info'
+           struct bnxt_vf_info *vf = &pf->vf[vf_idx];
+                                      ~~~~~~^
+   drivers/net/ethernet/broadcom/bnxt/bnxt.h:1332:9: note: forward declaration of 'struct bnxt_vf_info'
+           struct bnxt_vf_info     *vf;
+                  ^
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5526:11: error: incomplete definition of type 'struct bnxt_vf_info'
+           return vf->fw_fid;
+                  ~~^
+   drivers/net/ethernet/broadcom/bnxt/bnxt.h:1332:9: note: forward declaration of 'struct bnxt_vf_info'
+           struct bnxt_vf_info     *vf;
+                  ^
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:13652:44: warning: shift count >= width of type [-Wshift-count-overflow]
+           if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0 &&
+                                                     ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+                                                        ^ ~~~
+>> drivers/net/ethernet/broadcom/bnxt/bnxt.c:14024:9: error: implicit declaration of function 'rps_may_expire_flow' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                                   if (rps_may_expire_flow(bp->dev, fltr->base.rxq,
+                                       ^
+   1 warning and 3 errors generated.
 
 
-vim +/cdns_jh8100_i2s_pcm_push_tx +163 sound/soc/starfive/cdns-jh8100-i2s.h
+vim +/rps_may_expire_flow +14024 drivers/net/ethernet/broadcom/bnxt/bnxt.c
 
-   157	
-   158	#if IS_ENABLED(CONFIG_SND_SOC_JH8100_CADENCE_I2S_PCM)
-   159	void cdns_jh8100_i2s_pcm_push_tx(struct cdns_jh8100_i2s_dev *dev);
-   160	void cdns_jh8100_i2s_pcm_pop_rx(struct cdns_jh8100_i2s_dev *dev);
-   161	int cdns_jh8100_i2s_pcm_register(struct platform_device *pdev);
-   162	#else
- > 163	void cdns_jh8100_i2s_pcm_push_tx(struct cdns_jh8100_i2s_dev *dev) { }
- > 164	void cdns_jh8100_i2s_pcm_pop_rx(struct cdns_jh8100_i2s_dev *dev) { }
- > 165	int cdns_jh8100_i2s_pcm_register(struct platform_device *pdev)
-   166	{
-   167		return -EINVAL;
-   168	}
-   169	#endif
-   170	
+c0c050c58d8409 Michael Chan   2015-10-22  14008  
+c0c050c58d8409 Michael Chan   2015-10-22  14009  static void bnxt_cfg_ntp_filters(struct bnxt *bp)
+c0c050c58d8409 Michael Chan   2015-10-22  14010  {
+c0c050c58d8409 Michael Chan   2015-10-22  14011  	int i;
+c0c050c58d8409 Michael Chan   2015-10-22  14012  
+c0c050c58d8409 Michael Chan   2015-10-22  14013  	for (i = 0; i < BNXT_NTP_FLTR_HASH_SIZE; i++) {
+c0c050c58d8409 Michael Chan   2015-10-22  14014  		struct hlist_head *head;
+c0c050c58d8409 Michael Chan   2015-10-22  14015  		struct hlist_node *tmp;
+c0c050c58d8409 Michael Chan   2015-10-22  14016  		struct bnxt_ntuple_filter *fltr;
+c0c050c58d8409 Michael Chan   2015-10-22  14017  		int rc;
+c0c050c58d8409 Michael Chan   2015-10-22  14018  
+c0c050c58d8409 Michael Chan   2015-10-22  14019  		head = &bp->ntp_fltr_hash_tbl[i];
+25f995fba56014 Michael Chan   2023-12-21  14020  		hlist_for_each_entry_safe(fltr, tmp, head, base.hash) {
+c0c050c58d8409 Michael Chan   2015-10-22  14021  			bool del = false;
+c0c050c58d8409 Michael Chan   2015-10-22  14022  
+25f995fba56014 Michael Chan   2023-12-21  14023  			if (test_bit(BNXT_FLTR_VALID, &fltr->base.state)) {
+25f995fba56014 Michael Chan   2023-12-21 @14024  				if (rps_may_expire_flow(bp->dev, fltr->base.rxq,
+c0c050c58d8409 Michael Chan   2015-10-22  14025  							fltr->flow_id,
+25f995fba56014 Michael Chan   2023-12-21  14026  							fltr->base.sw_id)) {
+c0c050c58d8409 Michael Chan   2015-10-22  14027  					bnxt_hwrm_cfa_ntuple_filter_free(bp,
+c0c050c58d8409 Michael Chan   2015-10-22  14028  									 fltr);
+c0c050c58d8409 Michael Chan   2015-10-22  14029  					del = true;
+c0c050c58d8409 Michael Chan   2015-10-22  14030  				}
+c0c050c58d8409 Michael Chan   2015-10-22  14031  			} else {
+c0c050c58d8409 Michael Chan   2015-10-22  14032  				rc = bnxt_hwrm_cfa_ntuple_filter_alloc(bp,
+c0c050c58d8409 Michael Chan   2015-10-22  14033  								       fltr);
+c0c050c58d8409 Michael Chan   2015-10-22  14034  				if (rc)
+c0c050c58d8409 Michael Chan   2015-10-22  14035  					del = true;
+c0c050c58d8409 Michael Chan   2015-10-22  14036  				else
+25f995fba56014 Michael Chan   2023-12-21  14037  					set_bit(BNXT_FLTR_VALID, &fltr->base.state);
+c0c050c58d8409 Michael Chan   2015-10-22  14038  			}
+c0c050c58d8409 Michael Chan   2015-10-22  14039  
+c0c050c58d8409 Michael Chan   2015-10-22  14040  			if (del) {
+c0c050c58d8409 Michael Chan   2015-10-22  14041  				spin_lock_bh(&bp->ntp_fltr_lock);
+86982cc60c9a86 Michael Chan   2023-12-21  14042  				if (!test_and_clear_bit(BNXT_FLTR_INSERTED, &fltr->base.state)) {
+86982cc60c9a86 Michael Chan   2023-12-21  14043  					spin_unlock_bh(&bp->ntp_fltr_lock);
+86982cc60c9a86 Michael Chan   2023-12-21  14044  					continue;
+86982cc60c9a86 Michael Chan   2023-12-21  14045  				}
+25f995fba56014 Michael Chan   2023-12-21  14046  				hlist_del_rcu(&fltr->base.hash);
+c0c050c58d8409 Michael Chan   2015-10-22  14047  				bp->ntp_fltr_count--;
+c0c050c58d8409 Michael Chan   2015-10-22  14048  				spin_unlock_bh(&bp->ntp_fltr_lock);
+9fa270ccc095df Michael Chan   2023-12-21  14049  				bnxt_del_l2_filter(bp, fltr->l2_fltr);
+c0c050c58d8409 Michael Chan   2015-10-22  14050  				synchronize_rcu();
+25f995fba56014 Michael Chan   2023-12-21  14051  				clear_bit(fltr->base.sw_id, bp->ntp_fltr_bmap);
+c0c050c58d8409 Michael Chan   2015-10-22  14052  				kfree(fltr);
+c0c050c58d8409 Michael Chan   2015-10-22  14053  			}
+c0c050c58d8409 Michael Chan   2015-10-22  14054  		}
+c0c050c58d8409 Michael Chan   2015-10-22  14055  	}
+19241368443ff9 Jeffrey Huang  2016-02-26  14056  	if (test_and_clear_bit(BNXT_HWRM_PF_UNLOAD_SP_EVENT, &bp->sp_event))
+9a005c3898aa07 Jonathan Lemon 2020-02-24  14057  		netdev_info(bp->dev, "Receive PF driver unload event!\n");
+c0c050c58d8409 Michael Chan   2015-10-22  14058  }
+c0c050c58d8409 Michael Chan   2015-10-22  14059  
 
 -- 
 0-DAY CI Kernel Test Service
