@@ -1,143 +1,131 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34334A11
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Dec 2023 03:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B715F9440
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Dec 2023 04:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZPySctb1"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-67f91d48863so9902706d6.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Dec 2023 19:11:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1703301083; x=1703905883; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zdB95tcPTNTK+3756tuniTgYUz4rjOim6SidLwlZH4M=;
-        b=ZPySctb1994ku2Xq0SgmwLZ8gnZarzKX3fcL161wQA111eD+8zl78ZOYgbN/sF5Bd6
-         pHN61G9+7f6TnBkvNxWgDkur9gOpMBkQu8BzCWMx4pIjg8GnAO8UtQOAhEA8+R+vIuF5
-         mNNoEOgycCJs3kIPqT4bfPBnPovAKaC5FcoSs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703301083; x=1703905883;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zdB95tcPTNTK+3756tuniTgYUz4rjOim6SidLwlZH4M=;
-        b=j4VVJzlxomQiR4GiqZ+VQAV4AeWOR4JHrKMyI8f6ueapJ327Z60pebmFbWAP0kAxwo
-         MUWq+dGJPND4/qtcXw4GLF+7IQDmkGg8BQaoDknEQevVy0eCJaUZlH0TsTC0uWbxhe/C
-         khrEUxO/ewq0LAZSSXLB1lB/onFKkGQBgI1PhWZz6zQ7qLOyO0CInt6Kb+uRURoWW5OA
-         yDtstiVcGJqEMwbn/rVREw/1cA/b0K3xmExamMsEvg4oyHrxE1uGfNY5Yt3qTQ6YA0xE
-         PsYLu6JPUd09GLnNspVEe90R7aNnkfBjm69KQyUWwwtZumUV2KmQJ81KRIOxFx4ZcXcw
-         J5Vw==
-X-Gm-Message-State: AOJu0Yy7NNA3aP+HknsDhnrcaWb74Z7TzM2PffJLZSF4GjspAH/4fO/L
-	TZmfuEDjiADKy2MwSAfsFaG1+SLq5HBzDFpObVUiuZ99lZT3
-X-Google-Smtp-Source: AGHT+IEFXIQyeySBlTmbcC7JEzlV/6XXt89+GaVfOEdtXDERfikf8LLPBcse2GmVVO3swktMcuaw1HSP6jN5pWYvF74=
-X-Received: by 2002:a05:6214:e63:b0:67f:27a3:4d0e with SMTP id
- jz3-20020a0562140e6300b0067f27a34d0emr3733532qvb.54.1703301082855; Fri, 22
- Dec 2023 19:11:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWF/lGjN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703305281; x=1734841281;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qRnh6hca/WvdxRw+YS1DTQphCmg5T3LVn1o4cP1SBko=;
+  b=fWF/lGjNklGob5ToHsY2DtOTcWdrvk4Nq5zLAeMPTgVdWAsihgH7aYZ7
+   Jouj3YOhFRcFF7WyWUtVc0LBpIhsmVmiDzjlIhf9eS0qmlWy+etHBDWm8
+   ya6IIAMGxEymZRAEmd8x2iyS7jA1O+YGIrrWJmh9WtqVn6Vvyipjwl680
+   4/69+oBP3Z+7LX9YADBrMtHA3HRmpDcAO1vY9EOp/nt//KyvaWhA/Rq5N
+   +27XDR3ciWKPtiShvQUYQ8vxZx/ecBTIGnBtK3QmB6EBLwcdsaUl97pN9
+   eYzCQjq2s8UddnPT+NUK382SNL5gLrwAjjQJhB0Kr7Bw319McEVU44OQe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="398965809"
+X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
+   d="scan'208";a="398965809"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 20:21:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="806186474"
+X-IronPort-AV: E=Sophos;i="6.04,298,1695711600"; 
+   d="scan'208";a="806186474"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 22 Dec 2023 20:21:19 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rGtVW-000AG1-2L;
+	Sat, 23 Dec 2023 04:21:09 +0000
+Date: Sat, 23 Dec 2023 12:20:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jan Kuliga <jankul@alatek.krakow.pl>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: [linux-next:master 9985/10295] drivers/dma/xilinx/xdma.c:729:1:
+ warning: no previous prototype for 'xdma_prep_interleaved_dma'
+Message-ID: <202312231258.L3C56jBw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231220165423.v2.22.Ieee574a0e94fbaae01fd6883ffe2ceeb98d7df28@changeid>
- <202312230846.9DkpFRNv-lkp@intel.com>
-In-Reply-To: <202312230846.9DkpFRNv-lkp@intel.com>
-From: Mark Hasemeyer <markhas@chromium.org>
-Date: Fri, 22 Dec 2023 20:11:12 -0700
-Message-ID: <CANg-bXCsB1cfRqsY4yx9X9_5GG1O+9jT0uDX6hJfj7fCRiVg+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 22/22] platform/chrome: cros_ec: Use PM subsystem to
- manage wakeirq
-To: kernel test robot <lkp@intel.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Raul Rangel <rrangel@chromium.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Benson Leung <bleung@chromium.org>, Bhanu Prakash Maiya <bhanumaiya@chromium.org>, 
-	Chen-Yu Tsai <wenst@chromium.org>, Guenter Roeck <groeck@chromium.org>, Lee Jones <lee@kernel.org>, 
-	Prashant Malani <pmalani@chromium.org>, Rob Barnes <robbarnes@google.com>, 
-	Stephen Boyd <swboyd@chromium.org>, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Dec 22, 2023 at 5:37=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Mark,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on robh/for-next]
-> [also build test ERROR on chrome-platform/for-next chrome-platform/for-fi=
-rmware-next wsa/i2c/for-next driver-core/driver-core-testing driver-core/dr=
-iver-core-next driver-core/driver-core-linus linus/master v6.7-rc6 next-202=
-31222]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Hasemeyer/gpi=
-olib-acpi-Modify-acpi_dev_irq_wake_get_by-to-use-resource/20231222-172104
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git fo=
-r-next
-> patch link:    https://lore.kernel.org/r/20231220165423.v2.22.Ieee574a0e9=
-4fbaae01fd6883ffe2ceeb98d7df28%40changeid
-> patch subject: [PATCH v2 22/22] platform/chrome: cros_ec: Use PM subsyste=
-m to manage wakeirq
-> config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20231=
-223/202312230846.9DkpFRNv-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20231223/202312230846.9DkpFRNv-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312230846.9DkpFRNv-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from include/linux/device/driver.h:21,
->                     from include/linux/device.h:32,
->                     from include/linux/acpi.h:14,
->                     from drivers/platform/chrome/cros_ec_lpc.c:14:
-> >> include/linux/module.h:244:1: error: expected ',' or ';' before 'exter=
-n'
->      244 | extern typeof(name) __mod_##type##__##name##_device_table     =
-          \
->          | ^~~~~~
->    drivers/platform/chrome/cros_ec_lpc.c:67:1: note: in expansion of macr=
-o 'MODULE_DEVICE_TABLE'
->       67 | MODULE_DEVICE_TABLE(dmi, untrusted_fw_irq_wake_capable);
->          | ^~~~~~~~~~~~~~~~~~~
->
->
-> vim +244 include/linux/module.h
->
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  240
-> cff26a51da5d20 Rusty Russell     2014-02-03  241  #ifdef MODULE
-> cff26a51da5d20 Rusty Russell     2014-02-03  242  /* Creates an alias so =
-file2alias.c can find device table. */
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  243  #define MODULE_DEVICE_T=
-ABLE(type, name)                                       \
-> 0bf8bf50eddc75 Matthias Kaehlcke 2017-07-24 @244  extern typeof(name) __m=
-od_##type##__##name##_device_table             \
-> cff26a51da5d20 Rusty Russell     2014-02-03  245    __attribute__ ((unuse=
-d, alias(__stringify(name))))
-> cff26a51da5d20 Rusty Russell     2014-02-03  246  #else  /* !MODULE */
-> cff26a51da5d20 Rusty Russell     2014-02-03  247  #define MODULE_DEVICE_T=
-ABLE(type, name)
-> cff26a51da5d20 Rusty Russell     2014-02-03  248  #endif
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  249
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   39676dfe52331dba909c617f213fdb21015c8d10
+commit: 01e6d907656134949c4126e7fd64984d4daa4c1e [9985/10295] dmaengine: xilinx: xdma: Implement interleaved DMA transfers
+config: csky-buildonly-randconfig-r004-20230509 (https://download.01.org/0day-ci/archive/20231223/202312231258.L3C56jBw-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312231258.L3C56jBw-lkp@intel.com/reproduce)
 
-Failed for riscv arch. Regardless, MODULE_DEVICE_TABLE macro call is
-being removed in the next version.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312231258.L3C56jBw-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/dma/xilinx/xdma.c:729:1: warning: no previous prototype for 'xdma_prep_interleaved_dma' [-Wmissing-prototypes]
+     729 | xdma_prep_interleaved_dma(struct dma_chan *chan,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/xdma_prep_interleaved_dma +729 drivers/dma/xilinx/xdma.c
+
+   721	
+   722	/**
+   723	 * xdma_prep_interleaved_dma - Prepare virtual descriptor for interleaved DMA transfers
+   724	 * @chan: DMA channel
+   725	 * @xt: DMA transfer template
+   726	 * @flags: tx flags
+   727	 */
+   728	struct dma_async_tx_descriptor *
+ > 729	xdma_prep_interleaved_dma(struct dma_chan *chan,
+   730				  struct dma_interleaved_template *xt,
+   731				  unsigned long flags)
+   732	{
+   733		int i;
+   734		u32 desc_num = 0, period_size = 0;
+   735		struct dma_async_tx_descriptor *tx_desc;
+   736		struct xdma_chan *xchan = to_xdma_chan(chan);
+   737		struct xdma_desc *sw_desc;
+   738		u64 src_addr, dst_addr;
+   739	
+   740		for (i = 0; i < xt->frame_size; ++i)
+   741			desc_num += DIV_ROUND_UP(xt->sgl[i].size, XDMA_DESC_BLEN_MAX);
+   742	
+   743		sw_desc = xdma_alloc_desc(xchan, desc_num, false);
+   744		if (!sw_desc)
+   745			return NULL;
+   746		sw_desc->dir = xt->dir;
+   747		sw_desc->interleaved_dma = true;
+   748		sw_desc->cyclic = flags & DMA_PREP_REPEAT;
+   749		sw_desc->frames_left = xt->numf;
+   750		sw_desc->periods = xt->numf;
+   751	
+   752		desc_num = 0;
+   753		src_addr = xt->src_start;
+   754		dst_addr = xt->dst_start;
+   755		for (i = 0; i < xt->frame_size; ++i) {
+   756			desc_num += xdma_fill_descs(sw_desc, src_addr, dst_addr, xt->sgl[i].size, desc_num);
+   757			src_addr += dmaengine_get_src_icg(xt, &xt->sgl[i]) + xt->src_inc ?
+   758								      xt->sgl[i].size : 0;
+   759			dst_addr += dmaengine_get_dst_icg(xt, &xt->sgl[i]) + xt->dst_inc ?
+   760								      xt->sgl[i].size : 0;
+   761			period_size += xt->sgl[i].size;
+   762		}
+   763		sw_desc->period_size = period_size;
+   764	
+   765		tx_desc = vchan_tx_prep(&xchan->vchan, &sw_desc->vdesc, flags);
+   766		if (tx_desc)
+   767			return tx_desc;
+   768	
+   769		xdma_free_desc(&sw_desc->vdesc);
+   770		return NULL;
+   771	}
+   772	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
