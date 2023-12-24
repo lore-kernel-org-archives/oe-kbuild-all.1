@@ -1,47 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF81F4F4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 18:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D693FBEB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 18:54:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f29BwAFl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDlNubcP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703443519; x=1734979519;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bPRi2oKk1fnZBuW9VRvLwA2c04vehjXvknRsJimqdJQ=;
-  b=f29BwAFlDHDjuH0qsQI9JEQw8TBGR6di4QrwRac+xjIYMQiw/NLIbysS
-   kIg3ChrzBQF0HwPCBcz8HJ1v+PoD/v63EOQVutKjICcudTkYtw4bA6zf5
-   BHtp5Gg88hckyzIJ6kdWjTmccm5mKYce0oihmV0c9gwDhngy8T3goDxmg
-   Y0rYyMqzjN7FDXcEO8Afc4Hd3mntNDwy1NhboPa6FiZG9SIdDlfXM+vS3
-   86sCkqnEGALV+hP5OCq4AY1tmKTbB+kgJkw9pDD0ZZkR8u8es/24NC9Lg
-   VKuBJuEWpZyoeuxMa2FFhv+f4WW/mUUsi2M5vLzjyeSewKKncwlq7/LOT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="460576420"
+  t=1703444099; x=1734980099;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QkRfWSWR/XMDhOsYtyqhQDrgzSxc71smIy67/8QzOS4=;
+  b=XDlNubcPBAKkvsgn68yIY33Hf9fEEggOYSqaRZb8uvq7s+iKUlSfMR7T
+   tNpQ/bUqwns131836znNJW5y++RzO+mDALQQHbSlm66KpTtEcbhur6AR7
+   E8gdu7SFesAtN8Q3ISZ0OaTsrf9PLXaG8b0oEAezx2Aw6QE33nxBeLujB
+   4rbLpFRYEl0eUEn7YjDyY6f5PmkUoDw4ad0YjEVjaSG7cqMpYH98Jpem4
+   X7F0A/O1/ue/xHXabJVEVukJ6AcJk8pUc1Eod8Gm0UFMfFxV7s60YzodN
+   3XtTfwmfLHnDseiJ9evw4vTcllTNeCuNhmi9TyjkRL+ERsegBIRdYk2J/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="427414106"
 X-IronPort-AV: E=Sophos;i="6.04,301,1695711600"; 
-   d="scan'208";a="460576420"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 10:45:18 -0800
+   d="scan'208";a="427414106"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 10:54:58 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="848056972"
 X-IronPort-AV: E=Sophos;i="6.04,301,1695711600"; 
-   d="scan'208";a="12037041"
+   d="scan'208";a="848056972"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Dec 2023 10:45:17 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 24 Dec 2023 10:54:56 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHTTM-000CX5-0D;
-	Sun, 24 Dec 2023 18:45:13 +0000
-Date: Mon, 25 Dec 2023 02:43:25 +0800
+	id 1rHTcg-000CXN-1n;
+	Sun, 24 Dec 2023 18:54:51 +0000
+Date: Mon, 25 Dec 2023 02:54:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Iago Toral Quiroga <itoral@igalia.com>
-Subject: [linux-next:master 3468/10295] drivers/gpu/drm/v3d/v3d_bo.c:178:14:
- error: implicit declaration of function 'vmap' is invalid in C99
-Message-ID: <202312250229.lq4qGyLS-lkp@intel.com>
+To: Edward Adam Davis <eadavis@qq.com>,
+	syzbot+8ffb0839a24e9c6bfa76@syzkaller.appspotmail.com
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net,
+	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH next] crypto: fix oob Read in arc4_crypt
+Message-ID: <202312250259.yyBgM27K-lkp@intel.com>
+References: <tencent_656D589558EA3EED8ACF3C79166F202E010A@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,65 +53,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <tencent_656D589558EA3EED8ACF3C79166F202E010A@qq.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   39676dfe52331dba909c617f213fdb21015c8d10
-commit: 7c13132c4073628b5fe23b5188ac583a2882a6b0 [3468/10295] drm/v3d: Enable BO mapping
-config: mips-randconfig-r123-20231224 (https://download.01.org/0day-ci/archive/20231225/202312250229.lq4qGyLS-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231225/202312250229.lq4qGyLS-lkp@intel.com/reproduce)
+Hi Edward,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20231222]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/crypto-fix-oob-Read-in-arc4_crypt/20231222-172845
+base:   next-20231222
+patch link:    https://lore.kernel.org/r/tencent_656D589558EA3EED8ACF3C79166F202E010A%40qq.com
+patch subject: [PATCH next] crypto: fix oob Read in arc4_crypt
+config: i386-buildonly-randconfig-003-20231224 (https://download.01.org/0day-ci/archive/20231225/202312250259.yyBgM27K-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231225/202312250259.yyBgM27K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312250229.lq4qGyLS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312250259.yyBgM27K-lkp@intel.com/
 
-Note: the linux-next/master HEAD 39676dfe52331dba909c617f213fdb21015c8d10 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/v3d/v3d_bo.c:25:
-   drivers/gpu/drm/v3d/v3d_drv.h:319:24: error: use of empty enum
-   enum v3d_cpu_job_type {};
-                          ^
->> drivers/gpu/drm/v3d/v3d_bo.c:178:14: error: implicit declaration of function 'vmap' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           bo->vaddr = vmap(obj->pages, obj->base.size >> PAGE_SHIFT, VM_MAP,
-                       ^
-   drivers/gpu/drm/v3d/v3d_bo.c:178:14: note: did you mean 'bmap'?
-   include/linux/fs.h:2667:12: note: 'bmap' declared here
-   extern int bmap(struct inode *inode, sector_t *block);
-              ^
-   drivers/gpu/drm/v3d/v3d_bo.c:178:61: error: use of undeclared identifier 'VM_MAP'
-           bo->vaddr = vmap(obj->pages, obj->base.size >> PAGE_SHIFT, VM_MAP,
-                                                                      ^
->> drivers/gpu/drm/v3d/v3d_bo.c:184:2: error: implicit declaration of function 'vunmap' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           vunmap(bo->vaddr);
-           ^
-   drivers/gpu/drm/v3d/v3d_bo.c:184:2: note: did you mean 'iounmap'?
-   arch/mips/include/asm/io.h:154:6: note: 'iounmap' declared here
-   void iounmap(const volatile void __iomem *addr);
-        ^
-   4 errors generated.
+   In file included from drivers/crypto/padlock-aes.c:13:
+>> include/crypto/internal/skcipher.h:27:33: warning: 'crypto_skcipher_type' defined but not used [-Wunused-const-variable=]
+      27 | static const struct crypto_type crypto_skcipher_type;
+         |                                 ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/vmap +178 drivers/gpu/drm/v3d/v3d_bo.c
+vim +/crypto_skcipher_type +27 include/crypto/internal/skcipher.h
 
-   173	
-   174	void v3d_get_bo_vaddr(struct v3d_bo *bo)
-   175	{
-   176		struct drm_gem_shmem_object *obj = &bo->base;
-   177	
- > 178		bo->vaddr = vmap(obj->pages, obj->base.size >> PAGE_SHIFT, VM_MAP,
-   179				 pgprot_writecombine(PAGE_KERNEL));
-   180	}
-   181	
-   182	void v3d_put_bo_vaddr(struct v3d_bo *bo)
-   183	{
- > 184		vunmap(bo->vaddr);
-   185		bo->vaddr = NULL;
-   186	}
-   187	
+    24	
+    25	struct aead_request;
+    26	struct rtattr;
+  > 27	static const struct crypto_type crypto_skcipher_type;
+    28	
 
 -- 
 0-DAY CI Kernel Test Service
