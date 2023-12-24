@@ -1,48 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC5AEBB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 02:41:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C799EBF
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 04:36:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lsXUpGJ0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/XdyUeW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703385705; x=1734921705;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zpnaxh2S5V4wy8Oh1j9CjCMp+UqW/8+0sHQVy5TrO+M=;
-  b=lsXUpGJ0p3bb5YbzFwD2QEN+N8Pu4VPmoI/RwM/V8311bf5w3OLqHKU7
-   vEg1mY2rDgKFEOpIB6coI3wJNFAQeAn+Ra/xhUsio3JDqI+blbeejugRO
-   r9nrBpW+Skat0QefjytQ14SWmpTLCrlYbL7wecp7Aeu/Oe3lvhai7xUPG
-   M4SbN29BDM7InhqD18BIT4Xi6pSZoZbc/gqY5Jn+hXLbMgCYfQkKEU5G7
-   26ABjNsJLhEwcka6cYt5iAk3ATHzVUIfUxdoy/caIQFKTqFWD0DVIMESS
-   oKxHu54eZ9TU5ei3Yv/k7d269yn8niSW9aOFn45FbPU6cVupvdV66cb2F
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="395110319"
+  t=1703392591; x=1734928591;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=A1WNGswRC8pSs8gACX4U78wmyY9ALn3nSkeNWNrPn+A=;
+  b=I/XdyUeWr0uA1hVBYZ2e/qypwFcmLXm0mpgZbV5KQLY+VA4hOS/xFbD7
+   UmWmlpNoSa3AuZdgmGGpXemfOR9AmMdrNgqCQznR7FnIN8DD/ec8KyvfX
+   y7vMWa16j+jSmbdZ/2IIfWlZJC68A+yXaZ3LlVQHxchrbdjxS3DAKNnqd
+   W3K3miH+VZtLYgGaWoRoc0ZZfzXn/7+bdvNnNX1mg2YQrN7oo66o2QZjA
+   2T3aKp+Gb2s2aVCSgNhqdKaEZju66Uc5M2fJQO6g3FQIMRQx4MAzsA12m
+   scPpYNSnDxMHJxmPjTYfkIkUrTTSkZkbAVSRt94Nqad+6nzHSLybJ0r34
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="395112767"
 X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
-   d="scan'208";a="395110319"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 18:41:44 -0800
+   d="scan'208";a="395112767"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 20:36:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="780960891"
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="950709647"
 X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
-   d="scan'208";a="780960891"
+   d="scan'208";a="950709647"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 23 Dec 2023 18:41:42 -0800
+  by orsmga005.jf.intel.com with ESMTP; 23 Dec 2023 20:36:27 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHEQr-000Blp-2F;
-	Sun, 24 Dec 2023 02:41:38 +0000
-Date: Sun, 24 Dec 2023 10:41:03 +0800
+	id 1rHGDN-000BqX-0U;
+	Sun, 24 Dec 2023 04:36:06 +0000
+Date: Sun, 24 Dec 2023 12:34:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karol Kolacinski <karol.kolacinski@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 iwl-next 2/6] ice: pass reset type to PTP reset
- functions
-Message-ID: <202312241030.d91jNt1Y-lkp@intel.com>
-References: <20231220104323.974456-3-karol.kolacinski@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: include/trace/../../drivers/gpu/drm/xe/xe_trace.h:35:42: warning:
+ cast from pointer to integer of different size
+Message-ID: <202312241228.8NJFlChe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,199 +50,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231220104323.974456-3-karol.kolacinski@intel.com>
 
-Hi Karol,
+Hi Matthew,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 087c173e92424354672c296f7164232aa3380bbd]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karol-Kolacinski/ice-introduce-PTP-state-machine/20231222-180412
-base:   087c173e92424354672c296f7164232aa3380bbd
-patch link:    https://lore.kernel.org/r/20231220104323.974456-3-karol.kolacinski%40intel.com
-patch subject: [PATCH v3 iwl-next 2/6] ice: pass reset type to PTP reset functions
-config: riscv-randconfig-002-20231224 (https://download.01.org/0day-ci/archive/20231224/202312241030.d91jNt1Y-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241030.d91jNt1Y-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git new
+head:   f30cae3de3b138849010f4e54d8800eb1cc080b9
+commit: ea1dfd1fe8933f85ee3a2b3d6ad6b378d5b1a468 drm/xe: Introduce a new DRM driver for Intel GPUs
+date:   10 weeks ago
+config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20231224/202312241228.8NJFlChe-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241228.8NJFlChe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312241030.d91jNt1Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312241228.8NJFlChe-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/intel/ice/ice.h:69,
-                    from drivers/net/ethernet/intel/ice/ice_common.h:9,
-                    from drivers/net/ethernet/intel/ice/ice_common.c:4:
->> drivers/net/ethernet/intel/ice/ice_ptp.h:350:1: error: version control conflict marker in file
-     350 | <<<<<<< HEAD
-         | ^~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:361:1: error: version control conflict marker in file
-     361 | =======
-         | ^~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:365:20: error: conflicting types for 'ice_ptp_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
-     365 | static inline void ice_ptp_reset(struct ice_pf *pf,
-         |                    ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:359:20: note: previous definition of 'ice_ptp_reset' with type 'void(struct ice_pf *)'
-     359 | static inline void ice_ptp_reset(struct ice_pf *pf) { }
-         |                    ^~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_ptp.h:370:20: error: conflicting types for 'ice_ptp_prepare_for_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
-     370 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:360:20: note: previous definition of 'ice_ptp_prepare_for_reset' with type 'void(struct ice_pf *)'
-     360 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:374:1: error: version control conflict marker in file
-     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
-         | ^~~~~~~
->> drivers/net/ethernet/intel/ice/ice_ptp.h:374:9: error: invalid suffix "aff2a40" on integer constant
-     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+   In file included from drivers/gpu/drm/xe/xe_mmio.c:6:
+   drivers/gpu/drm/xe/xe_mmio.h: In function 'xe_mmio_write64':
+   drivers/gpu/drm/xe/xe_mmio.h:69:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
+      69 |         writeq(val, gt->mmio.regs + reg);
+         |         ^~~~~~
+         |         writel
+   drivers/gpu/drm/xe/xe_mmio.h: In function 'xe_mmio_read64':
+   drivers/gpu/drm/xe/xe_mmio.h:77:16: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
+      77 |         return readq(gt->mmio.regs + reg);
+         |                ^~~~~
+         |                readl
+   In file included from include/linux/device.h:15,
+                    from include/drm/drm_print.h:32,
+                    from include/drm/drm_mm.h:51,
+                    from include/drm/drm_suballoc.h:9,
+                    from drivers/gpu/drm/xe/xe_sa_types.h:8,
+                    from drivers/gpu/drm/xe/xe_gt_types.h:13,
+                    from drivers/gpu/drm/xe/xe_mmio.h:11:
+   drivers/gpu/drm/xe/xe_mmio.c: In function 'xe_mmio_probe_vram':
+>> include/drm/drm_print.h:456:39: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     456 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+         |                                       ^~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
+     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   include/drm/drm_print.h:456:9: note: in expansion of macro 'dev_warn'
+     456 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+         |         ^~~~
+   include/drm/drm_print.h:466:9: note: in expansion of macro '__drm_printk'
+     466 |         __drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
          |         ^~~~~~~~~~~~
---
-   In file included from drivers/net/ethernet/intel/ice/ice.h:69,
-                    from drivers/net/ethernet/intel/ice/ice_base.h:7,
-                    from drivers/net/ethernet/intel/ice/ice_base.c:5:
->> drivers/net/ethernet/intel/ice/ice_ptp.h:350:1: error: version control conflict marker in file
-     350 | <<<<<<< HEAD
-         | ^~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:361:1: error: version control conflict marker in file
-     361 | =======
-         | ^~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:365:20: error: conflicting types for 'ice_ptp_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
-     365 | static inline void ice_ptp_reset(struct ice_pf *pf,
-         |                    ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:359:20: note: previous definition of 'ice_ptp_reset' with type 'void(struct ice_pf *)'
-     359 | static inline void ice_ptp_reset(struct ice_pf *pf) { }
-         |                    ^~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_ptp.h:370:20: error: conflicting types for 'ice_ptp_prepare_for_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
-     370 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:360:20: note: previous definition of 'ice_ptp_prepare_for_reset' with type 'void(struct ice_pf *)'
-     360 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:374:1: error: version control conflict marker in file
-     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
-         | ^~~~~~~
->> drivers/net/ethernet/intel/ice/ice_ptp.h:374:9: error: invalid suffix "aff2a40" on integer constant
-     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
-         |         ^~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_base.c: In function 'ice_xsk_pool_fill_cb':
-   drivers/net/ethernet/intel/ice/ice_base.c:525:16: error: variable 'desc' has initializer but incomplete type
-     525 |         struct xsk_cb_desc desc = {};
-         |                ^~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_base.c:525:28: error: storage size of 'desc' isn't known
-     525 |         struct xsk_cb_desc desc = {};
-         |                            ^~~~
-   drivers/net/ethernet/intel/ice/ice_base.c:525:28: warning: unused variable 'desc' [-Wunused-variable]
---
-   In file included from drivers/net/ethernet/intel/ice/ice.h:69,
-                    from drivers/net/ethernet/intel/ice/ice_txrx_lib.h:6,
-                    from drivers/net/ethernet/intel/ice/ice_txrx_lib.c:6:
->> drivers/net/ethernet/intel/ice/ice_ptp.h:350:1: error: version control conflict marker in file
-     350 | <<<<<<< HEAD
-         | ^~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:361:1: error: version control conflict marker in file
-     361 | =======
-         | ^~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:365:20: error: conflicting types for 'ice_ptp_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
-     365 | static inline void ice_ptp_reset(struct ice_pf *pf,
-         |                    ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:359:20: note: previous definition of 'ice_ptp_reset' with type 'void(struct ice_pf *)'
-     359 | static inline void ice_ptp_reset(struct ice_pf *pf) { }
-         |                    ^~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_ptp.h:370:20: error: conflicting types for 'ice_ptp_prepare_for_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
-     370 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:360:20: note: previous definition of 'ice_ptp_prepare_for_reset' with type 'void(struct ice_pf *)'
-     360 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:374:1: error: version control conflict marker in file
-     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
-         | ^~~~~~~
->> drivers/net/ethernet/intel/ice/ice_ptp.h:374:9: error: invalid suffix "aff2a40" on integer constant
-     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
-         |         ^~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_txrx_lib.c: In function 'ice_ptp_rx_hwts_to_skb':
->> drivers/net/ethernet/intel/ice/ice_txrx_lib.c:200:21: error: implicit declaration of function 'ice_ptp_get_rx_hwts'; did you mean 'ice_get_rx_hash'? [-Werror=implicit-function-declaration]
-     200 |         u64 ts_ns = ice_ptp_get_rx_hwts(rx_desc, &rx_ring->pkt_ctx);
-         |                     ^~~~~~~~~~~~~~~~~~~
-         |                     ice_get_rx_hash
+   drivers/gpu/drm/xe/xe_mmio.c:226:17: note: in expansion of macro 'drm_warn'
+     226 |                 drm_warn(&xe->drm, "Restricting VRAM size to PCI resource size (0x%llx->0x%llx)\n",
+         |                 ^~~~~~~~
    cc1: some warnings being treated as errors
 --
-   In file included from drivers/net/ethernet/intel/ice/ice.h:69,
-                    from drivers/net/ethernet/intel/ice/ice_main.c:10:
->> drivers/net/ethernet/intel/ice/ice_ptp.h:350:1: error: version control conflict marker in file
-     350 | <<<<<<< HEAD
-         | ^~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:361:1: error: version control conflict marker in file
-     361 | =======
-         | ^~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:365:20: error: conflicting types for 'ice_ptp_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
-     365 | static inline void ice_ptp_reset(struct ice_pf *pf,
-         |                    ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:359:20: note: previous definition of 'ice_ptp_reset' with type 'void(struct ice_pf *)'
-     359 | static inline void ice_ptp_reset(struct ice_pf *pf) { }
-         |                    ^~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_ptp.h:370:20: error: conflicting types for 'ice_ptp_prepare_for_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
-     370 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:360:20: note: previous definition of 'ice_ptp_prepare_for_reset' with type 'void(struct ice_pf *)'
-     360 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_ptp.h:374:1: error: version control conflict marker in file
-     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
-         | ^~~~~~~
->> drivers/net/ethernet/intel/ice/ice_ptp.h:374:9: error: invalid suffix "aff2a40" on integer constant
-     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
-         |         ^~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_main.c: In function 'ice_init_features':
->> drivers/net/ethernet/intel/ice/ice_main.c:4800:17: error: implicit declaration of function 'ice_ptp_init'; did you mean 'ice_dpll_init'? [-Werror=implicit-function-declaration]
-    4800 |                 ice_ptp_init(pf);
-         |                 ^~~~~~~~~~~~
-         |                 ice_dpll_init
-   cc1: some warnings being treated as errors
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/gpu/drm/xe/xe_trace.h:512,
+                    from drivers/gpu/drm/xe/xe_trace.c:8:
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_raw_output_xe_bo':
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:38:31: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      38 |                     TP_printk("size=%ld, flags=0x%02x, vm=0x%016llx",
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:38:21: note: in expansion of macro 'TP_printk'
+      38 |                     TP_printk("size=%ld, flags=0x%02x, vm=0x%016llx",
+         |                     ^~~~~~~~~
+   In file included from include/trace/trace_events.h:237:
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:38:39: note: format string is defined here
+      38 |                     TP_printk("size=%ld, flags=0x%02x, vm=0x%016llx",
+         |                                     ~~^
+         |                                       |
+         |                                       long int
+         |                                     %d
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_bo':
+>> include/trace/../../drivers/gpu/drm/xe/xe_trace.h:35:42: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      35 |                            __entry->vm = (u64)bo->vm;
+         |                                          ^
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:32:21: note: in expansion of macro 'TP_fast_assign'
+      32 |                     TP_fast_assign(
+         |                     ^~~~~~~~~~~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_sched_job':
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:188:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     188 |                            __entry->fence = (u64)job->fence;
+         |                                             ^
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:181:21: note: in expansion of macro 'TP_fast_assign'
+     181 |                     TP_fast_assign(
+         |                     ^~~~~~~~~~~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_hw_fence':
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:275:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     275 |                            __entry->fence = (u64)fence;
+         |                                             ^
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:272:21: note: in expansion of macro 'TP_fast_assign'
+     272 |                     TP_fast_assign(
+         |                     ^~~~~~~~~~~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_vma':
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:315:43: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     315 |                            __entry->vma = (u64)vma;
+         |                                           ^
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:314:21: note: in expansion of macro 'TP_fast_assign'
+     314 |                     TP_fast_assign(
+         |                     ^~~~~~~~~~~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_vm':
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:412:42: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     412 |                            __entry->vm = (u64)vm;
+         |                                          ^
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:411:21: note: in expansion of macro 'TP_fast_assign'
+     411 |                     TP_fast_assign(
+         |                     ^~~~~~~~~~~~~~
 
 
-vim +350 drivers/net/ethernet/intel/ice/ice_ptp.h
+vim +35 include/trace/../../drivers/gpu/drm/xe/xe_trace.h
 
-   345	
-   346	static inline bool ice_ptp_process_ts(struct ice_pf *pf)
-   347	{
-   348		return true;
-   349	}
- > 350	<<<<<<< HEAD
-   351	
-   352	static inline u64
-   353	ice_ptp_get_rx_hwts(const union ice_32b_rx_flex_desc *rx_desc,
-   354			    const struct ice_pkt_ctx *pkt_ctx)
-   355	{
-   356		return 0;
-   357	}
-   358	
-   359	static inline void ice_ptp_reset(struct ice_pf *pf) { }
-   360	static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
- > 361	=======
-   362	static inline void
-   363	ice_ptp_rx_hwtstamp(struct ice_rx_ring *rx_ring,
-   364			    union ice_32b_rx_flex_desc *rx_desc, struct sk_buff *skb) { }
-   365	static inline void ice_ptp_reset(struct ice_pf *pf,
-   366					 enum ice_reset_req reset_type)
-   367	{
-   368	}
-   369	
- > 370	static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
-   371						     enum ice_reset_req reset_type)
-   372	{
-   373	}
- > 374	>>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
-   375	static inline void ice_ptp_init(struct ice_pf *pf) { }
-   376	static inline void ice_ptp_release(struct ice_pf *pf) { }
-   377	static inline void ice_ptp_link_change(struct ice_pf *pf, u8 port, bool linkup)
-   378	{
-   379	}
-   380	
+    21	
+    22	DECLARE_EVENT_CLASS(xe_bo,
+    23			    TP_PROTO(struct xe_bo *bo),
+    24			    TP_ARGS(bo),
+    25	
+    26			    TP_STRUCT__entry(
+    27				     __field(size_t, size)
+    28				     __field(u32, flags)
+    29				     __field(u64, vm)
+    30				     ),
+    31	
+    32			    TP_fast_assign(
+    33				   __entry->size = bo->size;
+    34				   __entry->flags = bo->flags;
+  > 35				   __entry->vm = (u64)bo->vm;
+    36				   ),
+    37	
+    38			    TP_printk("size=%ld, flags=0x%02x, vm=0x%016llx",
+    39				      __entry->size, __entry->flags, __entry->vm)
+    40	);
+    41	
 
 -- 
 0-DAY CI Kernel Test Service
