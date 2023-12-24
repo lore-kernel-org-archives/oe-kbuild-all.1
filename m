@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A170E7E4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 02:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC5AEBB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 02:41:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIMB3k54"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lsXUpGJ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703383760; x=1734919760;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nc/1sLPZO1FsEg271bzSb8EQFPRI/cwYfBJp7lvfyMA=;
-  b=IIMB3k54pYrM65wl67VmVnujmzNftu4Lz+5kJSg6NcfvB2WCmgDP5DXo
-   zBGGC9nx/jAxhqnfp1qnmjieWK/218GPL285mFs9YOcR3N0TEg0T49qQR
-   tsgnvaJoCaxFgKi01OUYneoJm/cb9+ceaEVXFn9lEuiu8x770+rJGNuYc
-   whlidG+DSGR7NKZ9F/1WL62goQxf4w34ZaXDfxoOMQIsz3zn+GTVySJc5
-   6unRQuWGwrwD18W3bSCF+ypKA+IOlLld9JMesU7/GpaIUQbasgBChHTkT
-   NoyYRFYAUkLbc1rMaOIy3xxPN0ajdCSaTUFzBQ/EHcW3sdCZoA3g5G+8a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="3035541"
+  t=1703385705; x=1734921705;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zpnaxh2S5V4wy8Oh1j9CjCMp+UqW/8+0sHQVy5TrO+M=;
+  b=lsXUpGJ0p3bb5YbzFwD2QEN+N8Pu4VPmoI/RwM/V8311bf5w3OLqHKU7
+   vEg1mY2rDgKFEOpIB6coI3wJNFAQeAn+Ra/xhUsio3JDqI+blbeejugRO
+   r9nrBpW+Skat0QefjytQ14SWmpTLCrlYbL7wecp7Aeu/Oe3lvhai7xUPG
+   M4SbN29BDM7InhqD18BIT4Xi6pSZoZbc/gqY5Jn+hXLbMgCYfQkKEU5G7
+   26ABjNsJLhEwcka6cYt5iAk3ATHzVUIfUxdoy/caIQFKTqFWD0DVIMESS
+   oKxHu54eZ9TU5ei3Yv/k7d269yn8niSW9aOFn45FbPU6cVupvdV66cb2F
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="395110319"
 X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
-   d="scan'208";a="3035541"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 18:09:20 -0800
+   d="scan'208";a="395110319"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 18:41:44 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="780960891"
 X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
-   d="scan'208";a="19121988"
+   d="scan'208";a="780960891"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 23 Dec 2023 18:09:17 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 23 Dec 2023 18:41:42 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHDvX-000Bl1-0Q;
-	Sun, 24 Dec 2023 02:09:15 +0000
-Date: Sun, 24 Dec 2023 10:09:01 +0800
+	id 1rHEQr-000Blp-2F;
+	Sun, 24 Dec 2023 02:41:38 +0000
+Date: Sun, 24 Dec 2023 10:41:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Bezrukov <dmitry.bezrukov@aquantia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Igor Russkikh <igor.russkikh@aquantia.com>
-Subject: drivers/net/usb/aqc111.c:623:22: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202312241027.pRt8ik6L-lkp@intel.com>
+To: Karol Kolacinski <karol.kolacinski@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 iwl-next 2/6] ice: pass reset type to PTP reset
+ functions
+Message-ID: <202312241030.d91jNt1Y-lkp@intel.com>
+References: <20231220104323.974456-3-karol.kolacinski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,82 +51,199 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231220104323.974456-3-karol.kolacinski@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f82f1c3a03694800a4104ca6b6d3282bd4e213d
-commit: 4a3576d2bcc755475890e2db717cab0effb1f140 net: usb: aqc111: Implement TX data path
-date:   5 years ago
-config: x86_64-randconfig-x001-20230717 (https://download.01.org/0day-ci/archive/20231224/202312241027.pRt8ik6L-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241027.pRt8ik6L-lkp@intel.com/reproduce)
+Hi Karol,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 087c173e92424354672c296f7164232aa3380bbd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Karol-Kolacinski/ice-introduce-PTP-state-machine/20231222-180412
+base:   087c173e92424354672c296f7164232aa3380bbd
+patch link:    https://lore.kernel.org/r/20231220104323.974456-3-karol.kolacinski%40intel.com
+patch subject: [PATCH v3 iwl-next 2/6] ice: pass reset type to PTP reset functions
+config: riscv-randconfig-002-20231224 (https://download.01.org/0day-ci/archive/20231224/202312241030.d91jNt1Y-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241030.d91jNt1Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312241027.pRt8ik6L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312241030.d91jNt1Y-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/usb/aqc111.c:623:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __le64 [usertype] @@
-   drivers/net/usb/aqc111.c:623:22: sparse:     expected unsigned long long [usertype]
-   drivers/net/usb/aqc111.c:623:22: sparse:     got restricted __le64 [usertype]
-   drivers/net/usb/aqc111.c: note: in included file (through include/linux/textsearch.h, include/linux/skbuff.h, include/linux/if_ether.h, ...):
-   include/linux/slab.h:332:43: sparse: sparse: dubious: x & !y
-   drivers/net/usb/aqc111.c:20:12: warning: 'aqc111_read_cmd_nopm' defined but not used [-Wunused-function]
-      20 | static int aqc111_read_cmd_nopm(struct usbnet *dev, u8 cmd, u16 value,
-         |            ^~~~~~~~~~~~~~~~~~~~
+All errors (new ones prefixed by >>):
 
-vim +623 drivers/net/usb/aqc111.c
+   In file included from drivers/net/ethernet/intel/ice/ice.h:69,
+                    from drivers/net/ethernet/intel/ice/ice_common.h:9,
+                    from drivers/net/ethernet/intel/ice/ice_common.c:4:
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:350:1: error: version control conflict marker in file
+     350 | <<<<<<< HEAD
+         | ^~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:361:1: error: version control conflict marker in file
+     361 | =======
+         | ^~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:365:20: error: conflicting types for 'ice_ptp_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
+     365 | static inline void ice_ptp_reset(struct ice_pf *pf,
+         |                    ^~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:359:20: note: previous definition of 'ice_ptp_reset' with type 'void(struct ice_pf *)'
+     359 | static inline void ice_ptp_reset(struct ice_pf *pf) { }
+         |                    ^~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:370:20: error: conflicting types for 'ice_ptp_prepare_for_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
+     370 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:360:20: note: previous definition of 'ice_ptp_prepare_for_reset' with type 'void(struct ice_pf *)'
+     360 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:374:1: error: version control conflict marker in file
+     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+         | ^~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:374:9: error: invalid suffix "aff2a40" on integer constant
+     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+         |         ^~~~~~~~~~~~
+--
+   In file included from drivers/net/ethernet/intel/ice/ice.h:69,
+                    from drivers/net/ethernet/intel/ice/ice_base.h:7,
+                    from drivers/net/ethernet/intel/ice/ice_base.c:5:
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:350:1: error: version control conflict marker in file
+     350 | <<<<<<< HEAD
+         | ^~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:361:1: error: version control conflict marker in file
+     361 | =======
+         | ^~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:365:20: error: conflicting types for 'ice_ptp_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
+     365 | static inline void ice_ptp_reset(struct ice_pf *pf,
+         |                    ^~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:359:20: note: previous definition of 'ice_ptp_reset' with type 'void(struct ice_pf *)'
+     359 | static inline void ice_ptp_reset(struct ice_pf *pf) { }
+         |                    ^~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:370:20: error: conflicting types for 'ice_ptp_prepare_for_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
+     370 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:360:20: note: previous definition of 'ice_ptp_prepare_for_reset' with type 'void(struct ice_pf *)'
+     360 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:374:1: error: version control conflict marker in file
+     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+         | ^~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:374:9: error: invalid suffix "aff2a40" on integer constant
+     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+         |         ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_base.c: In function 'ice_xsk_pool_fill_cb':
+   drivers/net/ethernet/intel/ice/ice_base.c:525:16: error: variable 'desc' has initializer but incomplete type
+     525 |         struct xsk_cb_desc desc = {};
+         |                ^~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_base.c:525:28: error: storage size of 'desc' isn't known
+     525 |         struct xsk_cb_desc desc = {};
+         |                            ^~~~
+   drivers/net/ethernet/intel/ice/ice_base.c:525:28: warning: unused variable 'desc' [-Wunused-variable]
+--
+   In file included from drivers/net/ethernet/intel/ice/ice.h:69,
+                    from drivers/net/ethernet/intel/ice/ice_txrx_lib.h:6,
+                    from drivers/net/ethernet/intel/ice/ice_txrx_lib.c:6:
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:350:1: error: version control conflict marker in file
+     350 | <<<<<<< HEAD
+         | ^~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:361:1: error: version control conflict marker in file
+     361 | =======
+         | ^~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:365:20: error: conflicting types for 'ice_ptp_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
+     365 | static inline void ice_ptp_reset(struct ice_pf *pf,
+         |                    ^~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:359:20: note: previous definition of 'ice_ptp_reset' with type 'void(struct ice_pf *)'
+     359 | static inline void ice_ptp_reset(struct ice_pf *pf) { }
+         |                    ^~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:370:20: error: conflicting types for 'ice_ptp_prepare_for_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
+     370 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:360:20: note: previous definition of 'ice_ptp_prepare_for_reset' with type 'void(struct ice_pf *)'
+     360 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:374:1: error: version control conflict marker in file
+     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+         | ^~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:374:9: error: invalid suffix "aff2a40" on integer constant
+     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+         |         ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_txrx_lib.c: In function 'ice_ptp_rx_hwts_to_skb':
+>> drivers/net/ethernet/intel/ice/ice_txrx_lib.c:200:21: error: implicit declaration of function 'ice_ptp_get_rx_hwts'; did you mean 'ice_get_rx_hash'? [-Werror=implicit-function-declaration]
+     200 |         u64 ts_ns = ice_ptp_get_rx_hwts(rx_desc, &rx_ring->pkt_ctx);
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     ice_get_rx_hash
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/intel/ice/ice.h:69,
+                    from drivers/net/ethernet/intel/ice/ice_main.c:10:
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:350:1: error: version control conflict marker in file
+     350 | <<<<<<< HEAD
+         | ^~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:361:1: error: version control conflict marker in file
+     361 | =======
+         | ^~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:365:20: error: conflicting types for 'ice_ptp_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
+     365 | static inline void ice_ptp_reset(struct ice_pf *pf,
+         |                    ^~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:359:20: note: previous definition of 'ice_ptp_reset' with type 'void(struct ice_pf *)'
+     359 | static inline void ice_ptp_reset(struct ice_pf *pf) { }
+         |                    ^~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:370:20: error: conflicting types for 'ice_ptp_prepare_for_reset'; have 'void(struct ice_pf *, enum ice_reset_req)'
+     370 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:360:20: note: previous definition of 'ice_ptp_prepare_for_reset' with type 'void(struct ice_pf *)'
+     360 | static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.h:374:1: error: version control conflict marker in file
+     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+         | ^~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_ptp.h:374:9: error: invalid suffix "aff2a40" on integer constant
+     374 | >>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+         |         ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_main.c: In function 'ice_init_features':
+>> drivers/net/ethernet/intel/ice/ice_main.c:4800:17: error: implicit declaration of function 'ice_ptp_init'; did you mean 'ice_dpll_init'? [-Werror=implicit-function-declaration]
+    4800 |                 ice_ptp_init(pf);
+         |                 ^~~~~~~~~~~~
+         |                 ice_dpll_init
+   cc1: some warnings being treated as errors
 
-   580	
-   581	static struct sk_buff *aqc111_tx_fixup(struct usbnet *dev, struct sk_buff *skb,
-   582					       gfp_t flags)
-   583	{
-   584		int frame_size = dev->maxpacket;
-   585		struct sk_buff *new_skb = NULL;
-   586		u64 *tx_desc_ptr = NULL;
-   587		int padding_size = 0;
-   588		int headroom = 0;
-   589		int tailroom = 0;
-   590		u64 tx_desc = 0;
-   591	
-   592		/*Length of actual data*/
-   593		tx_desc |= skb->len & AQ_TX_DESC_LEN_MASK;
-   594	
-   595		headroom = (skb->len + sizeof(tx_desc)) % 8;
-   596		if (headroom != 0)
-   597			padding_size = 8 - headroom;
-   598	
-   599		if (((skb->len + sizeof(tx_desc) + padding_size) % frame_size) == 0) {
-   600			padding_size += 8;
-   601			tx_desc |= AQ_TX_DESC_DROP_PADD;
-   602		}
-   603	
-   604		if (!dev->can_dma_sg && (dev->net->features & NETIF_F_SG) &&
-   605		    skb_linearize(skb))
-   606			return NULL;
-   607	
-   608		headroom = skb_headroom(skb);
-   609		tailroom = skb_tailroom(skb);
-   610	
-   611		if (!(headroom >= sizeof(tx_desc) && tailroom >= padding_size)) {
-   612			new_skb = skb_copy_expand(skb, sizeof(tx_desc),
-   613						  padding_size, flags);
-   614			dev_kfree_skb_any(skb);
-   615			skb = new_skb;
-   616			if (!skb)
-   617				return NULL;
-   618		}
-   619		if (padding_size != 0)
-   620			skb_put_zero(skb, padding_size);
-   621		/* Copy TX header */
-   622		tx_desc_ptr = skb_push(skb, sizeof(tx_desc));
- > 623		*tx_desc_ptr = cpu_to_le64(tx_desc);
-   624	
-   625		usbnet_set_skb_tx_stats(skb, 1, 0);
-   626	
-   627		return skb;
-   628	}
-   629	
+
+vim +350 drivers/net/ethernet/intel/ice/ice_ptp.h
+
+   345	
+   346	static inline bool ice_ptp_process_ts(struct ice_pf *pf)
+   347	{
+   348		return true;
+   349	}
+ > 350	<<<<<<< HEAD
+   351	
+   352	static inline u64
+   353	ice_ptp_get_rx_hwts(const union ice_32b_rx_flex_desc *rx_desc,
+   354			    const struct ice_pkt_ctx *pkt_ctx)
+   355	{
+   356		return 0;
+   357	}
+   358	
+   359	static inline void ice_ptp_reset(struct ice_pf *pf) { }
+   360	static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf) { }
+ > 361	=======
+   362	static inline void
+   363	ice_ptp_rx_hwtstamp(struct ice_rx_ring *rx_ring,
+   364			    union ice_32b_rx_flex_desc *rx_desc, struct sk_buff *skb) { }
+   365	static inline void ice_ptp_reset(struct ice_pf *pf,
+   366					 enum ice_reset_req reset_type)
+   367	{
+   368	}
+   369	
+ > 370	static inline void ice_ptp_prepare_for_reset(struct ice_pf *pf,
+   371						     enum ice_reset_req reset_type)
+   372	{
+   373	}
+ > 374	>>>>>>> 86982aff2a40 (ice: pass reset type to PTP reset functions)
+   375	static inline void ice_ptp_init(struct ice_pf *pf) { }
+   376	static inline void ice_ptp_release(struct ice_pf *pf) { }
+   377	static inline void ice_ptp_link_change(struct ice_pf *pf, u8 port, bool linkup)
+   378	{
+   379	}
+   380	
 
 -- 
 0-DAY CI Kernel Test Service
