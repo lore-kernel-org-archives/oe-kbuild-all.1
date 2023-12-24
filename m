@@ -1,52 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D8D23AA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 11:45:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D8F63A9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 11:51:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPd4UUg8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwm8VRUZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703418302; x=1734954302;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SMd6CE+ZnQSEB4njXtyEKZAOcZ4cjDK8fUe+BpN1ozY=;
-  b=IPd4UUg8HC6MM95Tb24o0Ui4f/r+S8karsgdO9kWB9GVRvLjVWUd8rAt
-   xHtS6O8GtnpNvJKd5Ia5Nv4yuqgzivgpyVcsPXt0Ia0zJKJQ2wyoxGG0Y
-   G4oKq1lvAuJg8K9hAgO9aafB5Pt3t/VcmDdS+WOCradgK94Ahu1F0Zz+t
-   Wux9wP+BSkzc3WAjos9yYYPbzjTy019M4+gvfP+HZfqWmPveIahKIaAKz
-   mn6vpxarMlqHyH8rLSsJPPPBpAYsdQS6rmRS5kmR7vuvlN47QkGBXfuqk
-   D9AVwDPY4cCE//4b8sPB2FVyUh9ldLFPJZcFs2hEqJF+RDgT86ifXvf+K
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="3068587"
+  t=1703418671; x=1734954671;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AsP3p2DZP1R40O6Odjs4yDgqNcGVkoIrCRALAxkzXek=;
+  b=cwm8VRUZSjSYgq5lGKzmTaDe/FPjPryAlAS412RYKeRm8NFeKrHMzaH/
+   1YIBa4q98SaJeoNUy6sn4RLL11+3z/1RSu7JgSLdiT4gRcEV0uQO56GtH
+   CAAtjaHIANdmf/cAfgwzoGEq9G5LIu/6N2LXs2i4jSJ0mzo3SasmeUl/k
+   uO7KUcrmITKJ/63z3a1uNPyttd7cBJ5T+G0rfNm67Sft3iga1HK4TtaNb
+   SirT4ccYFOLPILiqt5ZytMN8Z1ByNluqOrlh6SpmZFBmJqoBfmcJOFpK6
+   Zr+esIMbDxEBVIpeOfwubSo2OE6HFQXWNDzPGUfu63xhpeNBuuF9VFknh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="17800169"
 X-IronPort-AV: E=Sophos;i="6.04,301,1695711600"; 
-   d="scan'208";a="3068587"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 03:45:02 -0800
+   d="scan'208";a="17800169"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 03:51:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="900967322"
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="753730471"
 X-IronPort-AV: E=Sophos;i="6.04,301,1695711600"; 
-   d="scan'208";a="900967322"
+   d="scan'208";a="753730471"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 24 Dec 2023 03:44:59 -0800
+  by orsmga006.jf.intel.com with ESMTP; 24 Dec 2023 03:51:08 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHMuU-000CCY-04;
-	Sun, 24 Dec 2023 11:44:46 +0000
-Date: Sun, 24 Dec 2023 19:36:30 +0800
+	id 1rHN07-000CD5-2o;
+	Sun, 24 Dec 2023 11:50:44 +0000
+Date: Sun, 24 Dec 2023 19:36:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sreenath Vijayan <sreenath.vijayan@sony.com>, linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org, corbet@lwn.net,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	anandakumar.balasubramaniam@sony.com,
-	Sreenath Vijayan <sreenath.vijayan@sony.com>,
-	Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>
-Subject: Re: [PATCH] tty/sysrq: Dump kernel ring buffer messages via sysrq
-Message-ID: <202312241947.B2xJpFET-lkp@intel.com>
-References: <20231221133953.1507021-1-sreenath.vijayan@sony.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: drivers/gpu/drm/xe/display/ext/i915_utils.c:18:5: warning: no
+ previous prototype for '__i915_inject_probe_error'
+Message-ID: <202312241924.vFkCL7El-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,68 +51,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231221133953.1507021-1-sreenath.vijayan@sony.com>
 
-Hi Sreenath,
+Hi Maarten,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sreenath-Vijayan/tty-sysrq-Dump-kernel-ring-buffer-messages-via-sysrq/20231222-172636
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20231221133953.1507021-1-sreenath.vijayan%40sony.com
-patch subject: [PATCH] tty/sysrq: Dump kernel ring buffer messages via sysrq
-config: csky-defconfig (https://download.01.org/0day-ci/archive/20231224/202312241947.B2xJpFET-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241947.B2xJpFET-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git new
+head:   f30cae3de3b138849010f4e54d8800eb1cc080b9
+commit: bc75b5825064c832457e4439b3a3ee03b5464fdb drm/xe/display: Implement display support
+date:   10 weeks ago
+config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20231224/202312241924.vFkCL7El-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241924.vFkCL7El-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312241947.B2xJpFET-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312241924.vFkCL7El-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/tty/sysrq.c: In function 'dmesg_dump_callback':
->> drivers/tty/sysrq.c:479:1: warning: the frame size of 1048 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     479 | }
-         | ^
+>> drivers/gpu/drm/xe/display/ext/i915_utils.c:18:5: warning: no previous prototype for '__i915_inject_probe_error' [-Wmissing-prototypes]
+      18 | int __i915_inject_probe_error(struct drm_i915_private *i915, int err,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [y]:
+   - INTEL_MEI_HDCP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
 
 
-vim +479 drivers/tty/sysrq.c
+vim +/__i915_inject_probe_error +18 drivers/gpu/drm/xe/display/ext/i915_utils.c
 
-   454	
-   455	static void dmesg_dump_callback(struct work_struct *work)
-   456	{
-   457		struct kmsg_dump_iter iter;
-   458		size_t len;
-   459		char buf[1024];
-   460		struct console *con;
-   461		int cookie;
-   462	
-   463		kmsg_dump_rewind(&iter);
-   464		while (kmsg_dump_get_line(&iter, 1, buf, sizeof(buf), &len)) {
-   465			/*
-   466			 * Since using printk() or pr_*() will append the message to the
-   467			 * kernel ring buffer, they cannot be used to display the retrieved
-   468			 * message. Hence console_write() of serial drivers is used.
-   469			 */
-   470			console_lock();
-   471			cookie = console_srcu_read_lock();
-   472			for_each_console_srcu(con) {
-   473				if ((console_srcu_read_flags(con) & CON_ENABLED) && con->write)
-   474					con->write(con, buf, len);
-   475			}
-   476			console_srcu_read_unlock(cookie);
-   477			console_unlock();
-   478		}
- > 479	}
-   480	
+    16	
+    17	/* i915 specific, just put here for shutting it up */
+  > 18	int __i915_inject_probe_error(struct drm_i915_private *i915, int err,
 
 -- 
 0-DAY CI Kernel Test Service
