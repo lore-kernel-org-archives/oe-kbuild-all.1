@@ -1,100 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com [91.218.175.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE60615A1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 08:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E0720E0;
+	Sun, 24 Dec 2023 08:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kTrBSoWC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703405095; x=1734941095;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e+V+QFk3XTQdUp5BZW6vOgx3msoGMsM7/1ncWdz7BUs=;
-  b=kTrBSoWC0IKjQPLuWhjxcXRNnsaK307KTCcjKaCw1yvw+Zd7uaXFCV5q
-   kf92NhXaFhiO/svTDz+UIJT/uTug9UgbrIyax6EDv+DCAUNwBaJvarfBQ
-   zJ1/3dpUiBeUEoRSWfmaYHszl6Igm05f94d2aMl4GK90P9ueNf/Xc4uEI
-   IPHVSvMDLzk+OA3QInMA2vZ2WaYwjKKIoB8m6Szb8G0v9KZTFGaHTveBk
-   u32EB4WJphtBsbtXFesxFsmLF5MqjXNOWr+OU18ivj1wNfvVjBLmTaqkV
-   0cntVb4tPbszRecUGKGt8I9wBtQYNigyqOx+hA1i+vntCGXdFMsxVHqlm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="3043877"
-X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
-   d="scan'208";a="3043877"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 00:04:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="727279127"
-X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
-   d="scan'208";a="727279127"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 24 Dec 2023 00:04:52 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rHJSR-000Bzf-0h;
-	Sun, 24 Dec 2023 08:04:17 +0000
-Date: Sun, 24 Dec 2023 15:59:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tejas Upadhyay <tejas.upadhyay@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-Subject: drivers/gpu/drm/xe/xe_tile_sysfs.c:29:36: warning: format '%llu'
- expects argument of type 'long long unsigned int', but argument 3 has type
- 'resource_size_t' {aka 'unsigned int'}
-Message-ID: <202312241523.F6YQjyeJ-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xienUmTN"
+Message-ID: <2f475009-709a-4e0b-8711-51fd4a938763@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1703407249;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xniFk5TJQq0x7QayvNm1iGquiN4ClihcHbvk3cB5Wr8=;
+	b=xienUmTNwVbZOK1fCRRuTF/pyRI3LSa8h3F28wXiqiRFdldSl45s8MZSI144ao72lAz5K5
+	WjicJjyDQgnZgGWdDEHUgCQusr6AsEai9V9QVCGddubOc5MiimFIZ6AALjCHrJGIHBWnmE
+	69LzA6n/LmcZjK56FETnRAxkiCUNlEc=
+Date: Sun, 24 Dec 2023 16:40:42 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH net-next 1/6] virtio_net: introduce device stats feature
+ and structures
+To: kernel test robot <lkp@intel.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, virtualization@lists.linux.dev
+References: <20231222033021.20649-2-xuanzhuo@linux.alibaba.com>
+ <202312240125.00z3nxGY-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <202312240125.00z3nxGY-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Tejas,
+在 2023/12/24 1:55, kernel test robot 写道:
+> Hi Xuan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on mst-vhost/linux-next]
+> [also build test ERROR on linus/master v6.7-rc6 next-20231222]
+> [cannot apply to net-next/main horms-ipvs/master]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_net-introduce-device-stats-feature-and-structures/20231222-175505
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+> patch link:    https://lore.kernel.org/r/20231222033021.20649-2-xuanzhuo%40linux.alibaba.com
+> patch subject: [PATCH net-next 1/6] virtio_net: introduce device stats feature and structures
+> config: x86_64-buildonly-randconfig-002-20231223 (https://download.01.org/0day-ci/archive/20231224/202312240125.00z3nxGY-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312240125.00z3nxGY-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312240125.00z3nxGY-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from <built-in>:1:
+>>> ./usr/include/linux/virtio_net.h:454:2: error: unknown type name 'u8'
+>             u8 type;
+>             ^
+>     ./usr/include/linux/virtio_net.h:455:2: error: unknown type name 'u8'
+>             u8 reserved;
+I can reproduce this problem.
+Replacing u8 as __u8 can fix this problem.
+Not sure whether __u8 is correct to the whole patches.
 
-FYI, the error/warning still remains.
+Zhu Yanjun
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git new
-head:   f30cae3de3b138849010f4e54d8800eb1cc080b9
-commit: a8eff4f048bf2238bd686112c64bd6b6c5d99646 drm/xe: Add sysfs entry to report per tile memory size
-date:   10 weeks ago
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20231224/202312241523.F6YQjyeJ-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241523.F6YQjyeJ-lkp@intel.com/reproduce)
+>             ^
+>     2 errors generated.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312241523.F6YQjyeJ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/xe/xe_tile_sysfs.c: In function 'physical_vram_size_bytes_show':
->> drivers/gpu/drm/xe/xe_tile_sysfs.c:29:36: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-      29 |         return sysfs_emit(buf, "%llu\n", tile->mem.vram.actual_physical_size);
-         |                                 ~~~^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                    |                   |
-         |                                    |                   resource_size_t {aka unsigned int}
-         |                                    long long unsigned int
-         |                                 %u
-
-
-vim +29 drivers/gpu/drm/xe/xe_tile_sysfs.c
-
-    22	
-    23	static ssize_t
-    24	physical_vram_size_bytes_show(struct device *kdev, struct device_attribute *attr,
-    25				      char *buf)
-    26	{
-    27		struct xe_tile *tile = kobj_to_tile(&kdev->kobj);
-    28	
-  > 29		return sysfs_emit(buf, "%llu\n", tile->mem.vram.actual_physical_size);
-    30	}
-    31	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
