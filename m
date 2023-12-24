@@ -1,97 +1,79 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529A646AB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 08:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDEA15C2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 09:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kMVuhCXa"
-Message-ID: <dc506381-1408-46b7-9be0-403f819cee38@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1703408119;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fVdcs3Ctk02ImHVSOg5WJdjGh4KoKAx3MLEgb2sROMI=;
-	b=kMVuhCXaaUDu80xzk+hBmL1uVtHsgUQRz3HWzVXFVcnMsCMnU7zLtGKzYxkpMyBg6LWb9N
-	lfNKLCJbuJ6LU5mO+qFmlRjkPOv+iq2lylAkiSXdoFmVbNQx7klaGL7GJSofYFBjP1qwYY
-	PTiRndgO9bo+MC+SbjH6i5M7FehVmR8=
-Date: Sun, 24 Dec 2023 16:55:08 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lL+aCWbq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703408620; x=1734944620;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WbN9ejuoHlLE1Xp6A8NDfoBX07/n/xqQ3KA6bW8zZho=;
+  b=lL+aCWbqDrD5jS6dmPsYBgl+ldaOnw3qU2LBfVFzS+q6Ktd+Pyh9KZEn
+   nJJKZQwHHGBP520sQv6mT1zlZtVDYAMacrQxkgxokekx4UW9UNyjflsJD
+   I8nL7iAjamwE2A/H/qjqQYtfUlU96/4Rb76p8v5Df4JG19FSQ+L/Sdx6f
+   oTfAXCKeL/oTPCaVkZR0G7m+nbaHcT6/sMGjCwR/U7Lz0/3WVk/QNdq7H
+   DGkUxdE3vMF/qmOLhJLscVAht7FXfj/ubJhIwSxmx+Kk9Siq5MxUpX62b
+   F9iqlmIfzZSOLUrJ6lEtJOxWBvS2Ot1sDO8gT7EoJUE11MqBcHsAgsG8S
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="3484690"
+X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
+   d="scan'208";a="3484690"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 01:03:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="727287868"
+X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
+   d="scan'208";a="727287868"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 24 Dec 2023 01:03:37 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rHKOR-000C1v-2f;
+	Sun, 24 Dec 2023 09:03:32 +0000
+Date: Sun, 24 Dec 2023 17:01:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Song Liu <song@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: [linux-next:master 3585/10295] WARN: resolve_btfids: unresolved
+ symbol bpf_get_file_xattr
+Message-ID: <202312241609.w1nPmrz3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next 3/6] virtio_net: support device stats
-To: kernel test robot <lkp@intel.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- virtualization@lists.linux.dev
-References: <20231222033021.20649-4-xuanzhuo@linux.alibaba.com>
- <202312240155.ow7kvQZO-lkp@intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <202312240155.ow7kvQZO-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-在 2023/12/24 1:23, kernel test robot 写道:
-> Hi Xuan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on mst-vhost/linux-next]
-> [also build test WARNING on linus/master v6.7-rc6]
-> [cannot apply to net-next/main horms-ipvs/master next-20231222]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_net-introduce-device-stats-feature-and-structures/20231222-175505
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-> patch link:    https://lore.kernel.org/r/20231222033021.20649-4-xuanzhuo%40linux.alibaba.com
-> patch subject: [PATCH net-next 3/6] virtio_net: support device stats
-> config: arc-haps_hs_defconfig (https://download.01.org/0day-ci/archive/20231224/202312240155.ow7kvQZO-lkp@intel.com/config)
-> compiler: arc-elf-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312240155.ow7kvQZO-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312240155.ow7kvQZO-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     In file included from include/linux/virtio_net.h:8,
->                      from drivers/net/virtio_net.c:12:
->>> include/uapi/linux/virtio_net.h:419:45: warning: left shift count >= width of type [-Wshift-count-overflow]
->       419 | #define VIRTIO_NET_STATS_TYPE_CVQ       (1L << 32)
->           |                                             ^~
->     drivers/net/virtio_net.c:215:17: note: in expansion of macro 'VIRTIO_NET_STATS_TYPE_CVQ'
->       215 |                 VIRTIO_NET_STATS_TYPE_##TYPE,                   \
->           |                 ^~~~~~~~~~~~~~~~~~~~~~
->     drivers/net/virtio_net.c:224:9: note: in expansion of macro 'VIRTNET_DEVICE_STATS_MAP_ITEM'
->       224 |         VIRTNET_DEVICE_STATS_MAP_ITEM(CVQ, cvq, CQ),
->           |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +419 include/uapi/linux/virtio_net.h
-> 
-> ba106d1c676c80 Xuan Zhuo 2023-12-22  418
-> ba106d1c676c80 Xuan Zhuo 2023-12-22 @419  #define VIRTIO_NET_STATS_TYPE_CVQ       (1L << 32)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   39676dfe52331dba909c617f213fdb21015c8d10
+commit: ac9c05e0e453cfcab2866f6d28f257590e4f66e5 [3585/10295] bpf: Add kfunc bpf_get_file_xattr
+config: powerpc64-randconfig-r024-20220211 (https://download.01.org/0day-ci/archive/20231224/202312241609.w1nPmrz3-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241609.w1nPmrz3-lkp@intel.com/reproduce)
 
-#define VIRTIO_NET_STATS_TYPE_CVQ       (1ULL << 32)
-The above can fix this problem.
-Not sure whether this is appropriate for the whole patches.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312241609.w1nPmrz3-lkp@intel.com/
 
-Zhu Yanjun
+All warnings (new ones prefixed by >>):
 
-> ba106d1c676c80 Xuan Zhuo 2023-12-22  420
-> 
+   WARN: resolve_btfids: unresolved symbol unix_sock
+   WARN: resolve_btfids: unresolved symbol bpf_cpumask
+   WARN: resolve_btfids: unresolved symbol bpf_verify_pkcs7_signature
+   WARN: resolve_btfids: unresolved symbol bpf_lookup_user_key
+   WARN: resolve_btfids: unresolved symbol bpf_lookup_system_key
+   WARN: resolve_btfids: unresolved symbol bpf_key_put
+>> WARN: resolve_btfids: unresolved symbol bpf_get_file_xattr
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
