@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B98510783
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 22:27:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DFA10783
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 23:18:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FxeyGDb/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7RMNy26"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703456860; x=1734992860;
+  t=1703459912; x=1734995912;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i5LtL5D/0qbaup3ppR3Dy09mfn99Uys+Jv8wqXg6Riw=;
-  b=FxeyGDb/jSj5J3kFp6YpmMEt91XrXu6faqUMsx2WrdZEp499fh/buLMX
-   8vNX1ZyStZ+EhdkoT7UMTRHahnYkdxvjk7NlyZJIpKlhBFjmaZvnC7RKo
-   jRxamGzuM1ZSUv4xGr13sWcJQU6DulAFFGBu5GCTOG39qzNa0xOV7V15H
-   w+kn2+C2OTF7tthde9TsU4lP2MY8RmjFA9rbXmB+RU1t3h9fbsKcMN9QT
-   rZ6eEL7O5PuxBD+HM5aRnlf2N77UBA11oLxmpBmxFvwAcW6GnUZdXt5gG
-   cDC1ZVrK8QUHMoN5sOmOPwUhgltqbfj9/xUGYEk6ZeTayIXAdaRO7L9Sw
+  bh=53dkdngotIuf6N0ofFKaXoXsDdziRciDgIdsVY2ONKY=;
+  b=E7RMNy26scVIK6ZDV7p/y/WASGkAtrkGBGo6gBhUlFxIIoN5gfN6VNmr
+   O43/89bzDeiYoaIZk5U9fK9ssd9cmX/CAIce1MNNIX15zMiQ1G9/FVy8r
+   moA+Iit+XZHAZ0tDWNLo7FsVPW0JyZ7d+GqneNYpekIL8a5sNM9d8WZH/
+   883dlBJuXVmHltTZTgUq1zBxwxFnr/auewY28gmPDeSKxaXV6vNVDWFqH
+   FaijAOh85xKEEFhW9Y6E0PxAPK5UWiC5DPjkqWsGdM0nZdgp3sEe68Oqh
+   goQSz6KisJEcArZJLbATxBsWuV2QrxnF5hBEwdCHh7TzkOHwAYqv9zxWx
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="9765460"
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="14931693"
 X-IronPort-AV: E=Sophos;i="6.04,302,1695711600"; 
-   d="scan'208";a="9765460"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 14:27:39 -0800
+   d="scan'208";a="14931693"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 15:18:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="811905921"
 X-IronPort-AV: E=Sophos;i="6.04,302,1695711600"; 
-   d="scan'208";a="811905921"
+   d="scan'208";a="12065502"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 24 Dec 2023 14:27:37 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 24 Dec 2023 15:18:30 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHWwX-000Cgr-1v;
-	Sun, 24 Dec 2023 22:27:34 +0000
-Date: Mon, 25 Dec 2023 06:26:52 +0800
+	id 1rHXjZ-000Civ-04;
+	Sun, 24 Dec 2023 23:18:17 +0000
+Date: Mon, 25 Dec 2023 07:17:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keerthy <j-keerthy@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Tony Lindgren <tony@atomide.com>
-Subject: drivers/rtc/rtc-omap.c:424: warning: Function parameter or member
- 'dev' not described in 'omap_rtc_power_off_program'
-Message-ID: <202312250610.si1QZoLJ-lkp@intel.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [daniel-lezcano:thermal/debugfs-v4 2/4]
+ drivers/thermal/thermal_debugfs.c:82: warning: expecting prototype for
+ struct cdev_value. Prototype was for struct cdev_record instead
+Message-ID: <202312250728.JoJLi25n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,99 +50,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   861deac3b092f37b2c5e6871732f3e11486f7082
-commit: 6256f7f7f217b2216fcb73929508325f4ee98237 rtc: OMAP: Add support for rtc-only mode
-date:   4 years, 9 months ago
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231225/202312250610.si1QZoLJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231225/202312250610.si1QZoLJ-lkp@intel.com/reproduce)
+tree:   http://git.linaro.org/people/daniel.lezcano/linux thermal/debugfs-v4
+head:   9f3c7e51a6ae452e988bd443b8b7f608e13a3e42
+commit: e545b113036794411d8b7165997af9ec2c80695c [2/4] comment from v3 - cdev
+config: nios2-randconfig-r081-20231225 (https://download.01.org/0day-ci/archive/20231225/202312250728.JoJLi25n-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231225/202312250728.JoJLi25n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312250610.si1QZoLJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312250728.JoJLi25n-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/rtc/rtc-omap.c:424: warning: Function parameter or member 'dev' not described in 'omap_rtc_power_off_program'
+>> drivers/thermal/thermal_debugfs.c:82: warning: expecting prototype for struct cdev_value. Prototype was for struct cdev_record instead
+>> drivers/thermal/thermal_debugfs.c:101: warning: Function parameter or member 'cdev_dbg' not described in 'thermal_debugfs'
 
 
-vim +424 drivers/rtc/rtc-omap.c
+vim +82 drivers/thermal/thermal_debugfs.c
 
-222a12fca60482 Johan Hovold 2014-12-10  417  
-6256f7f7f217b2 Keerthy      2019-04-03  418  /**
-6256f7f7f217b2 Keerthy      2019-04-03  419   * omap_rtc_power_off_program: Set the pmic power off sequence. The RTC
-6256f7f7f217b2 Keerthy      2019-04-03  420   * generates pmic_pwr_enable control, which can be used to control an external
-6256f7f7f217b2 Keerthy      2019-04-03  421   * PMIC.
-222a12fca60482 Johan Hovold 2014-12-10  422   */
-6256f7f7f217b2 Keerthy      2019-04-03  423  int omap_rtc_power_off_program(struct device *dev)
-222a12fca60482 Johan Hovold 2014-12-10 @424  {
-222a12fca60482 Johan Hovold 2014-12-10  425  	struct omap_rtc *rtc = omap_rtc_power_off_rtc;
-222a12fca60482 Johan Hovold 2014-12-10  426  	struct rtc_time tm;
-222a12fca60482 Johan Hovold 2014-12-10  427  	unsigned long now;
-09058eab4b4f77 Keerthy      2018-08-16  428  	int seconds;
-222a12fca60482 Johan Hovold 2014-12-10  429  	u32 val;
-222a12fca60482 Johan Hovold 2014-12-10  430  
-9c28bd07c20776 Lokesh Vutla 2015-04-16  431  	rtc->type->unlock(rtc);
-222a12fca60482 Johan Hovold 2014-12-10  432  	/* enable pmic_power_en control */
-222a12fca60482 Johan Hovold 2014-12-10  433  	val = rtc_readl(rtc, OMAP_RTC_PMIC_REG);
-222a12fca60482 Johan Hovold 2014-12-10  434  	rtc_writel(rtc, OMAP_RTC_PMIC_REG, val | OMAP_RTC_PMIC_POWER_EN_EN);
-222a12fca60482 Johan Hovold 2014-12-10  435  
-09058eab4b4f77 Keerthy      2018-08-16  436  again:
-6256f7f7f217b2 Keerthy      2019-04-03  437  	/* Clear any existing ALARM2 event */
-6256f7f7f217b2 Keerthy      2019-04-03  438  	rtc_writel(rtc, OMAP_RTC_STATUS_REG, OMAP_RTC_STATUS_ALARM2);
-6256f7f7f217b2 Keerthy      2019-04-03  439  
-09058eab4b4f77 Keerthy      2018-08-16  440  	/* set alarm one second from now */
-222a12fca60482 Johan Hovold 2014-12-10  441  	omap_rtc_read_time_raw(rtc, &tm);
-09058eab4b4f77 Keerthy      2018-08-16  442  	seconds = tm.tm_sec;
-222a12fca60482 Johan Hovold 2014-12-10  443  	bcd2tm(&tm);
-222a12fca60482 Johan Hovold 2014-12-10  444  	rtc_tm_to_time(&tm, &now);
-09058eab4b4f77 Keerthy      2018-08-16  445  	rtc_time_to_tm(now + 1, &tm);
-222a12fca60482 Johan Hovold 2014-12-10  446  
-222a12fca60482 Johan Hovold 2014-12-10  447  	if (tm2bcd(&tm) < 0) {
-222a12fca60482 Johan Hovold 2014-12-10  448  		dev_err(&rtc->rtc->dev, "power off failed\n");
-4425070a5cfe63 Johan Hovold 2018-07-04  449  		rtc->type->lock(rtc);
-6256f7f7f217b2 Keerthy      2019-04-03  450  		return -EINVAL;
-222a12fca60482 Johan Hovold 2014-12-10  451  	}
-222a12fca60482 Johan Hovold 2014-12-10  452  
-222a12fca60482 Johan Hovold 2014-12-10  453  	rtc_wait_not_busy(rtc);
-222a12fca60482 Johan Hovold 2014-12-10  454  
-222a12fca60482 Johan Hovold 2014-12-10  455  	rtc_write(rtc, OMAP_RTC_ALARM2_SECONDS_REG, tm.tm_sec);
-222a12fca60482 Johan Hovold 2014-12-10  456  	rtc_write(rtc, OMAP_RTC_ALARM2_MINUTES_REG, tm.tm_min);
-222a12fca60482 Johan Hovold 2014-12-10  457  	rtc_write(rtc, OMAP_RTC_ALARM2_HOURS_REG, tm.tm_hour);
-222a12fca60482 Johan Hovold 2014-12-10  458  	rtc_write(rtc, OMAP_RTC_ALARM2_DAYS_REG, tm.tm_mday);
-222a12fca60482 Johan Hovold 2014-12-10  459  	rtc_write(rtc, OMAP_RTC_ALARM2_MONTHS_REG, tm.tm_mon);
-222a12fca60482 Johan Hovold 2014-12-10  460  	rtc_write(rtc, OMAP_RTC_ALARM2_YEARS_REG, tm.tm_year);
-222a12fca60482 Johan Hovold 2014-12-10  461  
-222a12fca60482 Johan Hovold 2014-12-10  462  	/*
-222a12fca60482 Johan Hovold 2014-12-10  463  	 * enable ALARM2 interrupt
-222a12fca60482 Johan Hovold 2014-12-10  464  	 *
-222a12fca60482 Johan Hovold 2014-12-10  465  	 * NOTE: this fails on AM3352 if rtc_write (writeb) is used
-222a12fca60482 Johan Hovold 2014-12-10  466  	 */
-222a12fca60482 Johan Hovold 2014-12-10  467  	val = rtc_read(rtc, OMAP_RTC_INTERRUPTS_REG);
-222a12fca60482 Johan Hovold 2014-12-10  468  	rtc_writel(rtc, OMAP_RTC_INTERRUPTS_REG,
-222a12fca60482 Johan Hovold 2014-12-10  469  			val | OMAP_RTC_INTERRUPTS_IT_ALARM2);
-09058eab4b4f77 Keerthy      2018-08-16  470  
-09058eab4b4f77 Keerthy      2018-08-16  471  	/* Retry in case roll over happened before alarm was armed. */
-09058eab4b4f77 Keerthy      2018-08-16  472  	if (rtc_read(rtc, OMAP_RTC_SECONDS_REG) != seconds) {
-09058eab4b4f77 Keerthy      2018-08-16  473  		val = rtc_read(rtc, OMAP_RTC_STATUS_REG);
-09058eab4b4f77 Keerthy      2018-08-16  474  		if (!(val & OMAP_RTC_STATUS_ALARM2))
-09058eab4b4f77 Keerthy      2018-08-16  475  			goto again;
-09058eab4b4f77 Keerthy      2018-08-16  476  	}
-09058eab4b4f77 Keerthy      2018-08-16  477  
-9c28bd07c20776 Lokesh Vutla 2015-04-16  478  	rtc->type->lock(rtc);
-222a12fca60482 Johan Hovold 2014-12-10  479  
-6256f7f7f217b2 Keerthy      2019-04-03  480  	return 0;
-6256f7f7f217b2 Keerthy      2019-04-03  481  }
-6256f7f7f217b2 Keerthy      2019-04-03  482  EXPORT_SYMBOL(omap_rtc_power_off_program);
-6256f7f7f217b2 Keerthy      2019-04-03  483  
+853ad2eba4d85b Daniel Lezcano 2022-04-25   61  
+853ad2eba4d85b Daniel Lezcano 2022-04-25   62  /**
+853ad2eba4d85b Daniel Lezcano 2022-04-25   63   * struct cdev_value - Common structure for cooling device entry
+853ad2eba4d85b Daniel Lezcano 2022-04-25   64   *
+853ad2eba4d85b Daniel Lezcano 2022-04-25   65   * The following common structure allows to store the information
+853ad2eba4d85b Daniel Lezcano 2022-04-25   66   * related to the transitions and to the state residencies. They are
+853ad2eba4d85b Daniel Lezcano 2022-04-25   67   * identified with a id which is associated to a value. It is used as
+853ad2eba4d85b Daniel Lezcano 2022-04-25   68   * nodes for the "transitions" and "durations" above.
+853ad2eba4d85b Daniel Lezcano 2022-04-25   69   *
+853ad2eba4d85b Daniel Lezcano 2022-04-25   70   * @node: node to insert the structure in a list
+853ad2eba4d85b Daniel Lezcano 2022-04-25   71   * @id: identifier of the value which can be a state or a transition
+e545b113036794 Daniel Lezcano 2023-12-23   72   * @residency: a ktime_t representing a state residency duration
+e545b113036794 Daniel Lezcano 2023-12-23   73   * @count: a number of occurrences
+853ad2eba4d85b Daniel Lezcano 2022-04-25   74   */
+e545b113036794 Daniel Lezcano 2023-12-23   75  struct cdev_record {
+853ad2eba4d85b Daniel Lezcano 2022-04-25   76  	struct list_head node;
+853ad2eba4d85b Daniel Lezcano 2022-04-25   77  	int id;
+e545b113036794 Daniel Lezcano 2023-12-23   78  	union {
+e545b113036794 Daniel Lezcano 2023-12-23   79                  ktime_t residency;
+e545b113036794 Daniel Lezcano 2023-12-23   80                  u64 count;
+e545b113036794 Daniel Lezcano 2023-12-23   81          };
+853ad2eba4d85b Daniel Lezcano 2022-04-25  @82  };
+853ad2eba4d85b Daniel Lezcano 2022-04-25   83  
+853ad2eba4d85b Daniel Lezcano 2022-04-25   84  /**
+853ad2eba4d85b Daniel Lezcano 2022-04-25   85   * struct thermal_debugfs - High level structure for a thermal object in debugfs
+853ad2eba4d85b Daniel Lezcano 2022-04-25   86   *
+853ad2eba4d85b Daniel Lezcano 2022-04-25   87   * The thermal_debugfs structure is the common structure used by the
+853ad2eba4d85b Daniel Lezcano 2022-04-25   88   * cooling device to compute the statistics.
+853ad2eba4d85b Daniel Lezcano 2022-04-25   89   *
+853ad2eba4d85b Daniel Lezcano 2022-04-25   90   * @d_top: top directory of the thermal object directory
+853ad2eba4d85b Daniel Lezcano 2022-04-25   91   * @lock: per object lock to protect the internals
+853ad2eba4d85b Daniel Lezcano 2022-04-25   92   *
+853ad2eba4d85b Daniel Lezcano 2022-04-25   93   * @cdev: a cooling device debug structure
+853ad2eba4d85b Daniel Lezcano 2022-04-25   94   */
+853ad2eba4d85b Daniel Lezcano 2022-04-25   95  struct thermal_debugfs {
+853ad2eba4d85b Daniel Lezcano 2022-04-25   96  	struct dentry *d_top;
+853ad2eba4d85b Daniel Lezcano 2022-04-25   97  	struct mutex lock;
+853ad2eba4d85b Daniel Lezcano 2022-04-25   98  	union {
+e545b113036794 Daniel Lezcano 2023-12-23   99  		struct cdev_debugfs cdev_dbg;
+853ad2eba4d85b Daniel Lezcano 2022-04-25  100  	};
+853ad2eba4d85b Daniel Lezcano 2022-04-25 @101  };
+853ad2eba4d85b Daniel Lezcano 2022-04-25  102  
 
-:::::: The code at line 424 was first introduced by commit
-:::::: 222a12fca6048249d9007f2a4c5fbcea532e8522 rtc: omap: add support for pmic_power_en
+:::::: The code at line 82 was first introduced by commit
+:::::: 853ad2eba4d85b6f31434d76ec33194d85a4eddd thermal/debugfs: Add thermal cooling device debugfs information
 
-:::::: TO: Johan Hovold <johan@kernel.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
