@@ -1,48 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AD723AA;
-	Sun, 24 Dec 2023 09:46:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D8D23AA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 11:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mbu3eb9G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPd4UUg8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703411177; x=1734947177;
+  t=1703418302; x=1734954302;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DCQYUDmOsWEf8MjW97RAd60Vzrz+A4Ss90v1zABU24g=;
-  b=mbu3eb9GEZsUTcwuejQIuh6HMubGtlp1LRk3ULVjrvE25UTC6LzqdY/r
-   hGNCa4ML+0HCSIxkzC+xp5D/zQu20XtuMngElhw8x4QQ5UsaNApAGM/Dd
-   O/A9H3YoYfjPBD89FZvcIKiaSwsDk8lUxOmdrhzKQehyqd3G3ao0IDkZ3
-   rbhK2A76rUAslEeIwVjeFlBqFXHKbl/KIHABYlL+2vbeDQMH4DaEEjJEx
-   74REHWXN77ISx5VIeB5grrWViIu1fOplKKrvOqrg/Vo4RiaHtcM3v6gwN
-   rdQWsQSr8kkGFO17A5faLwGBIwZlrxq5c4UsY+HbWHUJEXZ6pL2Q0n/3X
+  bh=SMd6CE+ZnQSEB4njXtyEKZAOcZ4cjDK8fUe+BpN1ozY=;
+  b=IPd4UUg8HC6MM95Tb24o0Ui4f/r+S8karsgdO9kWB9GVRvLjVWUd8rAt
+   xHtS6O8GtnpNvJKd5Ia5Nv4yuqgzivgpyVcsPXt0Ia0zJKJQ2wyoxGG0Y
+   G4oKq1lvAuJg8K9hAgO9aafB5Pt3t/VcmDdS+WOCradgK94Ahu1F0Zz+t
+   Wux9wP+BSkzc3WAjos9yYYPbzjTy019M4+gvfP+HZfqWmPveIahKIaAKz
+   mn6vpxarMlqHyH8rLSsJPPPBpAYsdQS6rmRS5kmR7vuvlN47QkGBXfuqk
+   D9AVwDPY4cCE//4b8sPB2FVyUh9ldLFPJZcFs2hEqJF+RDgT86ifXvf+K
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="9623548"
-X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
-   d="scan'208";a="9623548"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 01:46:16 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="3068587"
+X-IronPort-AV: E=Sophos;i="6.04,301,1695711600"; 
+   d="scan'208";a="3068587"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 03:45:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="843428343"
-X-IronPort-AV: E=Sophos;i="6.04,300,1695711600"; 
-   d="scan'208";a="843428343"
+X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="900967322"
+X-IronPort-AV: E=Sophos;i="6.04,301,1695711600"; 
+   d="scan'208";a="900967322"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Dec 2023 01:46:14 -0800
+  by orsmga004.jf.intel.com with ESMTP; 24 Dec 2023 03:44:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHL3X-000C6N-0k;
-	Sun, 24 Dec 2023 09:46:05 +0000
-Date: Sun, 24 Dec 2023 17:33:32 +0800
+	id 1rHMuU-000CCY-04;
+	Sun, 24 Dec 2023 11:44:46 +0000
+Date: Sun, 24 Dec 2023 19:36:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Diogo Ivo <diogo.ivo@siemens.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH net-next 5/8] net: ti: icssg-config: Add SR1.0
- configuration functions
-Message-ID: <202312241720.x9O6KZST-lkp@intel.com>
-References: <20231219174548.3481-6-diogo.ivo@siemens.com>
+To: Sreenath Vijayan <sreenath.vijayan@sony.com>, linux-doc@vger.kernel.org,
+	linux-serial@vger.kernel.org, corbet@lwn.net,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	anandakumar.balasubramaniam@sony.com,
+	Sreenath Vijayan <sreenath.vijayan@sony.com>,
+	Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>
+Subject: Re: [PATCH] tty/sysrq: Dump kernel ring buffer messages via sysrq
+Message-ID: <202312241947.B2xJpFET-lkp@intel.com>
+References: <20231221133953.1507021-1-sreenath.vijayan@sony.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,93 +55,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231219174548.3481-6-diogo.ivo@siemens.com>
+In-Reply-To: <20231221133953.1507021-1-sreenath.vijayan@sony.com>
 
-Hi Diogo,
+Hi Sreenath,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Diogo-Ivo/dt-bindings-net-Add-support-for-AM65x-SR1-0-in-ICSSG/20231220-015112
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231219174548.3481-6-diogo.ivo%40siemens.com
-patch subject: [RFC PATCH net-next 5/8] net: ti: icssg-config: Add SR1.0 configuration functions
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231224/202312241720.x9O6KZST-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241720.x9O6KZST-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sreenath-Vijayan/tty-sysrq-Dump-kernel-ring-buffer-messages-via-sysrq/20231222-172636
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20231221133953.1507021-1-sreenath.vijayan%40sony.com
+patch subject: [PATCH] tty/sysrq: Dump kernel ring buffer messages via sysrq
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20231224/202312241947.B2xJpFET-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231224/202312241947.B2xJpFET-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312241720.x9O6KZST-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312241947.B2xJpFET-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/ti/icssg/icssg_config.c:255:6: warning: no previous prototype for function 'icssg_config_sr1' [-Wmissing-prototypes]
-     255 | void icssg_config_sr1(struct prueth *prueth, struct prueth_emac *emac,
-         |      ^
-   drivers/net/ethernet/ti/icssg/icssg_config.c:255:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     255 | void icssg_config_sr1(struct prueth *prueth, struct prueth_emac *emac,
+   drivers/tty/sysrq.c: In function 'dmesg_dump_callback':
+>> drivers/tty/sysrq.c:479:1: warning: the frame size of 1048 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     479 | }
          | ^
-         | static 
-   1 warning generated.
 
 
-vim +/icssg_config_sr1 +255 drivers/net/ethernet/ti/icssg/icssg_config.c
+vim +479 drivers/tty/sysrq.c
 
-   231	
-   232	/* SR1: Set buffer sizes for the pools. There are 8 internal queues
-   233	 * implemented in firmware, but only 4 tx channels/threads in the Egress
-   234	 * direction to firmware. Need a high priority queue for management
-   235	 * messages since they shouldn't be blocked even during high traffic
-   236	 * situation. So use Q0-Q2 as data queues and Q3 as management queue
-   237	 * in the max case. However for ease of configuration, use the max
-   238	 * data queue + 1 for management message if we are not using max
-   239	 * case.
-   240	 *
-   241	 * Allocate 4 MTU buffers per data queue.  Firmware requires
-   242	 * pool sizes to be set for internal queues. Set the upper 5 queue
-   243	 * pool size to min size of 128 bytes since there are only 3 tx
-   244	 * data channels and management queue requires only minimum buffer.
-   245	 * i.e lower queues are used by driver and highest priority queue
-   246	 * from that is used for management message.
-   247	 */
-   248	
-   249	static int emac_egress_buf_pool_size[] = {
-   250		PRUETH_EMAC_BUF_POOL_SIZE_SR1, PRUETH_EMAC_BUF_POOL_SIZE_SR1,
-   251		PRUETH_EMAC_BUF_POOL_SIZE_SR1, PRUETH_EMAC_BUF_POOL_MIN_SIZE_SR1,
-   252		PRUETH_EMAC_BUF_POOL_MIN_SIZE_SR1, PRUETH_EMAC_BUF_POOL_MIN_SIZE_SR1,
-   253		PRUETH_EMAC_BUF_POOL_MIN_SIZE_SR1, PRUETH_EMAC_BUF_POOL_MIN_SIZE_SR1};
-   254	
- > 255	void icssg_config_sr1(struct prueth *prueth, struct prueth_emac *emac,
-   256			      int slice)
-   257	{
-   258		struct icssg_config_sr1 *config;
-   259		void __iomem *va;
-   260		int i, index;
-   261	
-   262		va = prueth->shram.va + slice * ICSSG_CONFIG_OFFSET_SLICE1;
-   263		config = &prueth->config[slice];
-   264		memset(config, 0, sizeof(*config));
-   265		config->addr_lo = cpu_to_le32(lower_32_bits(prueth->msmcram.pa));
-   266		config->addr_hi = cpu_to_le32(upper_32_bits(prueth->msmcram.pa));
-   267		config->num_tx_threads = 0;
-   268		config->rx_flow_id = emac->rx_flow_id_base; /* flow id for host port */
-   269		config->rx_mgr_flow_id = emac->rx_mgm_flow_id_base; /* for mgm ch */
-   270		config->rand_seed = get_random_u32();
-   271	
-   272		for (i = PRUETH_EMAC_BUF_POOL_START_SR1; i < PRUETH_NUM_BUF_POOLS_SR1; i++) {
-   273			index =  i - PRUETH_EMAC_BUF_POOL_START_SR1;
-   274			config->tx_buf_sz[i] = cpu_to_le32(emac_egress_buf_pool_size[index]);
-   275		}
-   276	
-   277		memcpy_toio(va, &prueth->config[slice], sizeof(prueth->config[slice]));
-   278	
-   279		emac->speed = SPEED_1000;
-   280	}
-   281	
+   454	
+   455	static void dmesg_dump_callback(struct work_struct *work)
+   456	{
+   457		struct kmsg_dump_iter iter;
+   458		size_t len;
+   459		char buf[1024];
+   460		struct console *con;
+   461		int cookie;
+   462	
+   463		kmsg_dump_rewind(&iter);
+   464		while (kmsg_dump_get_line(&iter, 1, buf, sizeof(buf), &len)) {
+   465			/*
+   466			 * Since using printk() or pr_*() will append the message to the
+   467			 * kernel ring buffer, they cannot be used to display the retrieved
+   468			 * message. Hence console_write() of serial drivers is used.
+   469			 */
+   470			console_lock();
+   471			cookie = console_srcu_read_lock();
+   472			for_each_console_srcu(con) {
+   473				if ((console_srcu_read_flags(con) & CON_ENABLED) && con->write)
+   474					con->write(con, buf, len);
+   475			}
+   476			console_srcu_read_unlock(cookie);
+   477			console_unlock();
+   478		}
+ > 479	}
+   480	
 
 -- 
 0-DAY CI Kernel Test Service
