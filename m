@@ -1,46 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670FE52F93
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 20:16:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6481438DC0;
+	Mon, 25 Dec 2023 20:37:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Re2YBlGi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OXmuJEIf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703535364; x=1735071364;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S6BnSte6SZJoK6x38nB8py59WV53mLXW85/vnQ3BCFI=;
-  b=Re2YBlGiWbmdzrekS2Pel9cSHxxdTmPlhzpRVj17FiQepKgaz3jGF7+A
-   Qr6ZlHq85kKMRVwdYTmhCcoGX4EVyWeabBb3cWlerrRWFdQeN7pSQNFC4
-   ncq58UfPrCH49A6ei2svY+1E+vMIj1cE/iMKQV4sMQQnOA2BdkUHxFuKs
-   4tkAPXasK1GouumZwC9RjxHbdRdZZG/u+glgjxqURcHu7Yis0okTgFRv1
-   RE+fxzNwn+siNlCCyli4l/mujpGWfvYWOt4RmOLsGopxRBHox/JoDoXnz
-   n9eU7HqVYEUi0OTHaV38lUbo1+BW+j/aMuL2fs/3kaWybeHrRZPEKYiI1
+  t=1703536648; x=1735072648;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=q1mIITEft+t9JsoofwE77gF4Vd8IZinqlK4yVXS5Tro=;
+  b=OXmuJEIf2JoVN3WZr5oYyV4ZNPiQOv7/Ha3bdAPB2OC502Hs3oMd8WM/
+   c7RXa3zORSfRAlsGgPQ9pcVs/3nQNGvKJHvoB9CcouGY7naGF9AKswNcs
+   sGVjPUT1ERJm0IpohBGP7PtqmA8/NDyjhfWGdak/BAp2zL2Sh5XgI966W
+   +PCES3drF32045scJaWmD/xyTJSVMXSwt501pnZtuKJdihj7ilB4RBS2u
+   o4qCYjEXiwy/dqVIxYVNpyuXTnGLctZglgcNi8G1o2QfiARFbztUlQZNO
+   C1BtMVkgZR/ykrj4nMsGpOk7+gganUbMt+B6sUB/3F9T5pBr8jAOQL7gn
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="3134481"
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="14982714"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="3134481"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 12:16:03 -0800
+   d="scan'208";a="14982714"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 12:37:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="753993985"
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="951047368"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="753993985"
+   d="scan'208";a="951047368"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 25 Dec 2023 12:16:01 -0800
+  by orsmga005.jf.intel.com with ESMTP; 25 Dec 2023 12:37:25 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHrMi-000Ded-2C;
-	Mon, 25 Dec 2023 20:15:57 +0000
-Date: Tue, 26 Dec 2023 04:15:49 +0800
+	id 1rHrgL-000DfV-1F;
+	Mon, 25 Dec 2023 20:36:38 +0000
+Date: Tue, 26 Dec 2023 04:36:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [omap-audio:peter/linux-next-wip 11/42]
- sound/soc/soc-utils.c:251:34: warning: unused variable 'soc_dummy_ids'
-Message-ID: <202312260449.JkrDDoWw-lkp@intel.com>
+To: Matthew W Carlis <mattc@purestorage.com>, helgaas@kernel.org,
+	bhelgaas@google.com, sathyanarayanan.kuppuswamy@linux.intel.com,
+	linux-pci@vger.kernel.org, mika.westerberg@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Matthew W Carlis <mattc@purestorage.com>
+Subject: Re: [PATCH 1/1] PCI/portdrv: Allow DPC if the OS controls AER
+ natively.
+Message-ID: <202312260431.ZXppQZ1I-lkp@intel.com>
+References: <20231223212235.34293-2-mattc@purestorage.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,36 +54,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231223212235.34293-2-mattc@purestorage.com>
 
-tree:   https://github.com/omap-audio/linux-audio peter/linux-next-wip
-head:   b30de2d93893b64d7886860417b12948ec22be5a
-commit: 5c1fa02438f03e25bddb0c82ff0b1fe4296cbdbc [11/42] ASoC: soc-utils: HACK: DT binding for snd-soc-dummy
-config: i386-buildonly-randconfig-006-20231225 (https://download.01.org/0day-ci/archive/20231226/202312260449.JkrDDoWw-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260449.JkrDDoWw-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-W-Carlis/PCI-portdrv-Allow-DPC-if-the-OS-controls-AER-natively/20231225-154046
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231223212235.34293-2-mattc%40purestorage.com
+patch subject: [PATCH 1/1] PCI/portdrv: Allow DPC if the OS controls AER natively.
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231226/202312260431.ZXppQZ1I-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260431.ZXppQZ1I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312260449.JkrDDoWw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312260431.ZXppQZ1I-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/soc-utils.c:251:34: warning: unused variable 'soc_dummy_ids' [-Wunused-const-variable]
-   static const struct of_device_id soc_dummy_ids[] = {
-                                    ^
-   1 warning generated.
+>> drivers/pci/pcie/portdrv.c:272:12: error: no member named 'aer_cap' in 'struct pci_dev'; did you mean 'acs_cap'?
+               (dev->aer_cap && host->native_aer)))
+                     ^~~~~~~
+                     acs_cap
+   include/linux/pci.h:519:7: note: 'acs_cap' declared here
+           u16             acs_cap;        /* ACS Capability offset */
+                           ^
+   1 error generated.
 
 
-vim +/soc_dummy_ids +251 sound/soc/soc-utils.c
+vim +272 drivers/pci/pcie/portdrv.c
 
+   244	
+   245		/* Root Ports and Root Complex Event Collectors may generate PMEs */
+   246		if ((pci_pcie_type(dev) == PCI_EXP_TYPE_ROOT_PORT ||
+   247		     pci_pcie_type(dev) == PCI_EXP_TYPE_RC_EC) &&
+   248		    (pcie_ports_native || host->native_pme)) {
+   249			services |= PCIE_PORT_SERVICE_PME;
    250	
- > 251	static const struct of_device_id soc_dummy_ids[] = {
-   252		{ .compatible = "linux,snd-soc-dummy", },
-   253		{ }
-   254	};
-   255	MODULE_DEVICE_TABLE(of, soc_dummy_ids);
-   256	
+   251			/*
+   252			 * Disable PME interrupt on this port in case it's been enabled
+   253			 * by the BIOS (the PME service driver will enable it when
+   254			 * necessary).
+   255			 */
+   256			pcie_pme_interrupt_enable(dev, false);
+   257		}
+   258	
+   259		/*
+   260		 * _OSC AER Control is required by the OS & requires OS to control AER,
+   261		 * but _OSC DPC Control isn't required by the OS to control DPC; however
+   262		 * it does require the OS to control DPC. _OSC DPC Control also requres
+   263		 * _OSC EDR Control (Error Disconnect Recovery) (PCI Firmware - DPC ECN rev3.2)
+   264		 * PCI_Express_Base 6.1, 6.2.11 Determination of DPC Control recommends
+   265		 * platform fw or OS always link control of DPC to AER.
+   266		 *
+   267		 * With dpc-native, allow Linux to use DPC even if it doesn't have
+   268		 * permission to use AER.
+   269		 */
+   270		if (pci_find_ext_capability(dev, PCI_EXT_CAP_ID_DPC) &&
+   271		    pci_aer_available() && (pcie_ports_dpc_native ||
+ > 272		    (dev->aer_cap && host->native_aer)))
+   273			services |= PCIE_PORT_SERVICE_DPC;
+   274	
+   275		if (pci_pcie_type(dev) == PCI_EXP_TYPE_DOWNSTREAM ||
+   276		    pci_pcie_type(dev) == PCI_EXP_TYPE_ROOT_PORT) {
+   277			u32 linkcap;
+   278	
+   279			pcie_capability_read_dword(dev, PCI_EXP_LNKCAP, &linkcap);
+   280			if (linkcap & PCI_EXP_LNKCAP_LBNC)
+   281				services |= PCIE_PORT_SERVICE_BWNOTIF;
+   282		}
+   283	
+   284		return services;
+   285	}
+   286	
 
 -- 
 0-DAY CI Kernel Test Service
