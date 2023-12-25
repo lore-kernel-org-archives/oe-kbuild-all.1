@@ -1,47 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FC01EB29
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 23:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C32219ED;
+	Mon, 25 Dec 2023 23:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBU26dtl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7QWOIU8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703545880; x=1735081880;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uVjapUJ3b1wE5mvnnPu/tL3fQvMonHYY3UHbFmxc1lw=;
-  b=KBU26dtlKTPtML5QShkp6zY1pgP9Bd2Lp90zePsuXfOvVLKgM2BqWMjn
-   Es7XCXQb2Wj4ZtHXePGzQiXFQiwjFKeADs0SDAxkiutNc8fTSVd7iKUVS
-   8urd8bVKBUprcHvowpm4yqLQNx3zUcbxO9T/uOgTGhevO1RpEkib3aoaE
-   c4zaD44egZPoEjqheJZRHlVj+u+TQg0ImHF+hD1SsyJ9y76tc76dx26PN
-   f9oYehGXVg3SQuWqf9x4nrUqTs3cdrcY0FFQriqGMqvzjip0YNqXD+M6P
-   NB/p623bwgcC3SVEBCSUy48TesTRbdLLyZiimT+urKnnbBK1a0YfBsSOp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="482483180"
+  t=1703547076; x=1735083076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5SMN0AzloiLbP8beEL+tP2MzpuhkZtwKpAax1CA2Udg=;
+  b=K7QWOIU8s9nmwIKUadWNG9iuxqcFRhiLzuX9U9WmVwTG4rm27NZuyLYz
+   JLmv0LUARDgIFvp/dCQfYaX829PKpAwPhbgHjSsR0u1sB3uAKK2FibV1h
+   Cutey/3mFmzn7+hcY20oNylUSJzobIoiicivZ6MA7WFI5L5IeCt8LN785
+   P4Ldro1l4FFpNJfb+rs95RxoCUj00TygqMmiW8zW6xChW3A5mzJsPuUp6
+   hyDbZL/Q3RcUDGLn9MFdmalltVtmTPeKcyloYVYrwJaNwDY2jKml4u3qP
+   ul5qY3oBoMdzuZaz7u71nZC2vflQWiiwSb4P/1/qcmbUpTaz3EljQvbLk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="9838288"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="482483180"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 15:11:09 -0800
+   d="scan'208";a="9838288"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 15:31:14 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="771030390"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="19849478"
+   d="scan'208";a="771030390"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Dec 2023 15:11:07 -0800
+  by orsmga007.jf.intel.com with ESMTP; 25 Dec 2023 15:31:09 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHu6D-000DlH-2M;
-	Mon, 25 Dec 2023 23:11:05 +0000
-Date: Tue, 26 Dec 2023 07:10:35 +0800
+	id 1rHuPa-000DmL-2L;
+	Mon, 25 Dec 2023 23:31:06 +0000
+Date: Tue, 26 Dec 2023 07:30:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 10128/10295] WARNING: modpost: vmlinux: section
- mismatch in reference: __open_metadata+0x1c6 (section: .text) ->
- init_ext2_fs (section: .init.text)
-Message-ID: <202312260721.U6QN7qqC-lkp@intel.com>
+To: Lino Sanfilippo <l.sanfilippo@kunbus.com>, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, ilpo.jarvinen@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	u.kleine-koenig@pengutronix.de, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, cniedermaier@dh-electronics.com,
+	hugo@hugovil.com, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, LinoSanfilippo@gmx.de,
+	lukas@wunner.de, p.rosenberger@kunbus.com,
+	Lino Sanfilippo <l.sanfilippo@kunbus.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v6 6/7] serial: omap: do not override settings for RS485
+ support
+Message-ID: <202312260719.mI12i497-lkp@intel.com>
+References: <20231225113524.8800-7-l.sanfilippo@kunbus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,193 +59,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231225113524.8800-7-l.sanfilippo@kunbus.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   39676dfe52331dba909c617f213fdb21015c8d10
-commit: ae88786e2fadaa01813e15f1f14455fe2396c7d3 [10128/10295] Merge branch 'reset/next' of https://git.pengutronix.de/git/pza/linux
-config: riscv-randconfig-r016-20230807 (https://download.01.org/0day-ci/archive/20231226/202312260721.U6QN7qqC-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260721.U6QN7qqC-lkp@intel.com/reproduce)
+Hi Lino,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ceb6a6f023fd3e8b07761ed900352ef574010bcb]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lino-Sanfilippo/serial-Do-not-hold-the-port-lock-when-setting-rx-during-tx-GPIO/20231225-193833
+base:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
+patch link:    https://lore.kernel.org/r/20231225113524.8800-7-l.sanfilippo%40kunbus.com
+patch subject: [PATCH v6 6/7] serial: omap: do not override settings for RS485 support
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231226/202312260719.mI12i497-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260719.mI12i497-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312260721.U6QN7qqC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312260719.mI12i497-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: vmlinux: section mismatch in reference: cpu_pm_suspend+0x12 (section: .text) -> init_ramfs_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ntfs_fallocate+0x4d0 (section: .text) -> init_ramfs_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ntfs_extend+0x150 (section: .text) -> init_ramfs_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: xfs_sbblock_init+0x12 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: xfs_log_sb+0x68 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: xfs_update_secondary_sbs+0x100 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: xfs_add_incompat_log_feature+0x68 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: xfs_fs_fill_super+0x5e6 (section: .text) -> (unknown) (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: xfs_buf_item_pin+0x22 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: update_ref_for_cow+0x292 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: update_ref_for_cow+0x340 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: walk_down_proc+0x16c (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: walk_up_proc+0x176 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: create_pending_snapshot+0xdde (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: btrfs_delete_subvolume+0x510 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: btrfs_uuid_scan_kthread+0x1d6 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: btrfs_uuid_scan_kthread+0x1e4 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: btrfs_uuid_scan_kthread+0x200 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: btrfs_uuid_scan_kthread+0x308 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: btrfs_ioctl_dev_info+0x6e (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: _btrfs_ioctl_set_received_subvol+0xfa (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: _btrfs_ioctl_set_received_subvol+0x346 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: send_subvol_begin+0x1d8 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: send_subvol_begin+0x268 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: send_clone+0x122 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ZSTD_loadDictionaryContent+0x11c (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ZSTD_decodeLiteralsBlock+0x1ce (section: .text) -> exit_ext2_fs (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: should_fail_usercopy+0x12 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: stack_depot_save_flags+0x48 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: kcs_bmc_serio_event+0x46 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __mtk_clk_simple_probe+0x16c (section: .text) -> (unknown) (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: clk_mt6795_pericfg_probe+0x8e (section: .text) -> (unknown) (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: mtk_topckgen_init+0x7c (section: .text) -> (unknown) (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: mtk_pericfg_init+0x78 (section: .text) -> (unknown) (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: mtk_topckgen_init+0x94 (section: .text) -> (unknown) (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: clk_mt8188_topck_probe+0x15a (section: .text) -> (unknown) (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: vm_setup_vq+0x1bc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: tty_port_init+0x1c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_mode_atomic_ioctl+0x428 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_client_modeset_dpms_legacy+0x12e (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_client_modeset_commit_atomic+0xec (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_client_firmware_config.isra.0+0x202 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_mode_gamma_set_ioctl+0x1b0 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_mode_setcrtc+0x3ac (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atomic_remove_fb+0x11c (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drmm_mode_config_init+0x2e8 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: set_property_legacy+0xfa (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_mode_obj_get_properties_ioctl+0xd4 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_mode_obj_set_property_ioctl+0x100 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_modeset_lock_all+0x74 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_mode_cursor_common+0x106 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_mode_setplane+0x1a0 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_mode_page_flip_ioctl+0x34c (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_atomic_helper_shutdown+0x98 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_atomic_helper_suspend+0xae (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_atomic_helper_resume+0x90 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_atomic_helper_dirtyfb+0xd4 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_helper_probe_detect_ctx+0x7a (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_helper_probe_single_connector_modes+0xbc (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: drm_self_refresh_helper_entry_work+0xb6 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: komeda_layer_check_cfg+0x22 (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: vc4_hdmi_connector_detect_ctx+0xba (section: .text) -> fat_destroy_inodecache (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: release_ipu_resources+0xc8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: serport_ldisc_receive+0x9a (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: altera_ps2_rxint+0x32 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: arc_ps2_interrupt+0x54 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: apbps2_isr+0x6e (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sun4i_ps2_interrupt+0xdc (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rmi_f03_attention+0xfa (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rmi_f03_attention+0x15c (section: .text) -> init_ext2_fs (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: __open_metadata+0x1c6 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __format_metadata+0xb0 (section: .text) -> init_ext2_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: stm_assign_first_policy+0x3c (section: .text) -> init_ramfs_fs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_readable_reg+0x22 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_readable_reg+0x2c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_readable_reg+0x36 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_readable_reg+0x58 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_readable_reg+0x62 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_readable_reg+0x6a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_readable_reg+0x70 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_writeable_reg+0xa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_writeable_reg+0x12 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_writeable_reg+0x20 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_writeable_reg+0x2a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_writeable_reg+0x4e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_writeable_reg+0x56 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_writeable_reg+0x60 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_writeable_reg+0x6e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_volatile_reg+0xa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_volatile_reg+0x1a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_volatile_reg+0x3a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_volatile_reg+0x42 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_get_osr+0x1a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_get_osr+0x32 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_get_osr+0x66 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_dai_startup+0x1c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_dai_startup+0x22 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_dai_startup+0x46 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_int_status_clear_all+0x3c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: div_u64_rem+0x18 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x36 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x3e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x4c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x58 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x66 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x6e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x76 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x84 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0xa2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0xaa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0xb2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x118 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x120 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x12e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x154 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x15c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x16a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x172 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x17a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x188 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x190 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x198 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x1a6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x1ae (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x1b6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x1c4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x1ca (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x1ce (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x1dc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x1e4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x20c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x216 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x21a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x23a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x272 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x276 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_read_device_properties+0x288 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_sema_acquire+0x22 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_sema_acquire+0x26 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_resume+0x36 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: clk_prepare_enable+0x18 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: clk_prepare_enable+0x26 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x14 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x18 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x28 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x46 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x52 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x54 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x58 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x7a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x9a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0x9c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0xa0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0xa4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_mclk_prepare+0xaa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_suspend+0x2c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_suspend+0x30 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_suspend+0x3e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_suspend+0x42 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0x3e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0x48 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0x50 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0x66 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0x68 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0x6c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0x7a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0x7e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0xd0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0xd6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0xdc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nau8825_jack_insert+0x114 (section: .text) -> (unknown) (section: .init.text)
+>> drivers/tty/serial/omap-serial.c:1501:29: error: use of undeclared identifier 'serial_omap_rs485_supported'
+    1501 |         up->port.rs485_supported = serial_omap_rs485_supported;
+         |                                    ^
+   1 error generated.
+
+
+vim +/serial_omap_rs485_supported +1501 drivers/tty/serial/omap-serial.c
+
+  1485	
+  1486	static int serial_omap_probe_rs485(struct uart_omap_port *up,
+  1487					   struct device *dev)
+  1488	{
+  1489		struct serial_rs485 *rs485conf = &up->port.rs485;
+  1490		struct device_node *np = dev->of_node;
+  1491		enum gpiod_flags gflags;
+  1492		int ret;
+  1493	
+  1494		rs485conf->flags = 0;
+  1495		up->rts_gpiod = NULL;
+  1496	
+  1497		if (!np)
+  1498			return 0;
+  1499	
+  1500		up->port.rs485_config = serial_omap_config_rs485;
+> 1501		up->port.rs485_supported = serial_omap_rs485_supported;
+  1502	
+  1503		ret = uart_get_rs485_mode(&up->port);
+  1504		if (ret)
+  1505			return ret;
+  1506	
+  1507		if (of_property_read_bool(np, "rs485-rts-active-high")) {
+  1508			rs485conf->flags |= SER_RS485_RTS_ON_SEND;
+  1509			rs485conf->flags &= ~SER_RS485_RTS_AFTER_SEND;
+  1510		} else {
+  1511			rs485conf->flags &= ~SER_RS485_RTS_ON_SEND;
+  1512			rs485conf->flags |= SER_RS485_RTS_AFTER_SEND;
+  1513		}
+  1514	
+  1515		/* check for tx enable gpio */
+  1516		gflags = rs485conf->flags & SER_RS485_RTS_AFTER_SEND ?
+  1517			GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
+  1518		up->rts_gpiod = devm_gpiod_get_optional(dev, "rts", gflags);
+  1519		if (IS_ERR(up->rts_gpiod)) {
+  1520			ret = PTR_ERR(up->rts_gpiod);
+  1521		        if (ret == -EPROBE_DEFER)
+  1522				return ret;
+  1523	
+  1524			up->rts_gpiod = NULL;
+  1525			up->port.rs485_supported = (const struct serial_rs485) { };
+  1526			if (rs485conf->flags & SER_RS485_ENABLED) {
+  1527				dev_err(dev, "disabling RS-485 (rts-gpio missing in device tree)\n");
+  1528				memset(rs485conf, 0, sizeof(*rs485conf));
+  1529			}
+  1530		} else {
+  1531			gpiod_set_consumer_name(up->rts_gpiod, "omap-serial");
+  1532		}
+  1533	
+  1534		return 0;
+  1535	}
+  1536	
 
 -- 
 0-DAY CI Kernel Test Service
