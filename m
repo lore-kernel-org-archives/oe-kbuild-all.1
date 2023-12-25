@@ -1,125 +1,95 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF6851C2A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 16:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C2A51C2A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 17:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="u4gy7Mgm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HJTJzYgb"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5e75005bd0cso34265387b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 09:19:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DO3IVj/i1qvBZ1bJmTFOQff7XWWb25de+GHNZH7f/tI=;
-  b=u4gy7MgmBl3mZLYRguhzGJU+F9ReZt6IAemO1qcGe+6/7n2BYzszHV8c
-   uhXPcjI+AuwGCwveSq1lA8VZ9zVZgfwwrgujNiGJHon9TJ75ZJR//3R3Q
-   DjXrztRqFSslp6KFaWYUHAwB+3LTh/pHFMJTapEG0F/Eo+gzCs2TSE8il
-   A=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.04,303,1695679200"; 
-   d="scan'208";a="143987498"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 17:37:14 +0100
-Date: Mon, 25 Dec 2023 17:37:13 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Wenjing Liu <wenjing.liu@amd.com>, 
-    Alex Deucher <alexander.deucher@amd.com>, 
-    George Shen <George.Shen@amd.com>, Jun Lei <Jun.Lei@amd.com>
-cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c:220:21-22:
- WARNING opportunity for max() (fwd)
-Message-ID: <alpine.DEB.2.22.394.2312251736310.3331@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20230601; t=1703524761; x=1704129561; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KQXGoJGduCNQaaCxL5SGHVEkpQm1zRD1YbygRI8w1Io=;
+        b=HJTJzYgbhWu0eOdAFKP+0eD+2dE7tk1lmyYYRZR1giYu9JuSQjpdBCehvPha8lyLxZ
+         +4qbmpnqnTvDbs4+pWIxwaQlmFIjgC/qDWnGpiTpN1E92dnfB9bF3JzCHNQpBqn7iPTK
+         UT9lSeGr8uTB+FmyXmt7REqXfBzREunuT/VJVt/c3jRv7tB7RLoASmIRgmHhs/3kKkOt
+         DZVNwT7mEh3tkTWREzhnr636kEMHU0fxmdmibhx9aHz+9gclkLxikisZBUWU3R4GCvaP
+         BQNM0PcD4APbzG3IgEDRgmi6DLQFUqdEcz+JeYzojDPorfeY2dhA76BrvnXKiShynnJN
+         aOeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703524761; x=1704129561;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KQXGoJGduCNQaaCxL5SGHVEkpQm1zRD1YbygRI8w1Io=;
+        b=sxF80HWFG7+XB9lbQhsANVMBTBPFc2oANlwMQoW88fT9c9juYgrZxasZD5zBwJnXnR
+         pfVp13/YBOnffUfvYa2a6JcrdHaBGxOcfHqZwhVCgZuClSfITk4mL7K6nMsEIzd0rkOs
+         eQTxfp85NCxg5A3EExTBJq6Jn9B7mG5MQ1UNmJm5ChB2KG/4XjmOB3Xsh4DAB1jtv7qe
+         vlkFC47v81XoH/TAm33SkWsr4HFx/QBc8i6ssYZ/scW9O+IPy3tqbkK+VfU0/JE0ER5i
+         SRK4E+0Oy7OKrMyxD2RwOQAR+2s+knTKrRjvbE+9RXwYVWNMFreHqbQqcHUWT5l512Z9
+         HGJw==
+X-Gm-Message-State: AOJu0YyGqoWHiMFsD3JidBe3Ety27wqBWwknlykCIJRFwyTdOTAUKY47
+	CADVDee3TAzWAdKryJ5t/5I=
+X-Google-Smtp-Source: AGHT+IG7eGDlrjxo43y4KWEtZC6zDNFq1aordpgHAVvYq5ZTKDkDdhRZfIDsnUgHvHdAwVUzMvw1qw==
+X-Received: by 2002:a0d:d4c1:0:b0:5e7:c181:e66d with SMTP id w184-20020a0dd4c1000000b005e7c181e66dmr3139699ywd.20.1703524761454;
+        Mon, 25 Dec 2023 09:19:21 -0800 (PST)
+Received: from localhost ([2601:344:8301:57f0:3e97:6886:45bb:11c4])
+        by smtp.gmail.com with ESMTPSA id c67-20020a814e46000000b005e4d89b4520sm4744697ywb.47.2023.12.25.09.19.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Dec 2023 09:19:21 -0800 (PST)
+Date: Mon, 25 Dec 2023 09:19:19 -0800
+From: Yury Norov <yury.norov@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Changbin Du <changbin.du@huawei.com>
+Subject: Re: [linux-next:master 9918/9925] powerpc64-linux-ld: warning:
+ orphan section `.bss..Lubsan_data794' from `kernel/ptrace.o' being placed in
+ section `.bss..Lubsan_data794'
+Message-ID: <ZYm5l6AIMVMs69RC@yury-ThinkPad>
+References: <202312230642.EBF6kiYY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202312230642.EBF6kiYY-lkp@intel.com>
 
+On Sat, Dec 23, 2023 at 06:15:23AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   39676dfe52331dba909c617f213fdb21015c8d10
+> commit: c6aa10bc7b8bfcfaca4311ac5f39b4d6eb5b1ccf [9918/9925] Merge branch 'bitmap-for-next' of https://github.com/norov/linux.git
+> config: powerpc64-randconfig-r035-20211208 (https://download.01.org/0day-ci/archive/20231223/202312230642.EBF6kiYY-lkp@intel.com/config)
+> compiler: powerpc64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230642.EBF6kiYY-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312230642.EBF6kiYY-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data794' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data794'
+>    powerpc64-linux-ld: warning: discarding dynamic section .glink
+>    powerpc64-linux-ld: warning: discarding dynamic section .plt
+>    powerpc64-linux-ld: linkage table error against `flush_module_init_free_work'
+>    powerpc64-linux-ld: stubs don't match calculated size
+>    powerpc64-linux-ld: can not build stubs: bad value
+>    powerpc64-linux-ld: init/main.o: in function `kernel_init':
+>    main.c:(.ref.text+0x224): undefined reference to `flush_module_init_free_work'
 
++ Stephen Rothwell, Changbin Du
 
----------- Forwarded message ----------
-Date: Tue, 26 Dec 2023 00:30:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c:220:21-22:
-    WARNING opportunity for max()
+So, it looks misattributed, and already fixed in 9a63d5058dd3545?
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Wenjing Liu <wenjing.liu@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: George Shen <George.Shen@amd.com>
-CC: Jun Lei <Jun.Lei@amd.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   861deac3b092f37b2c5e6871732f3e11486f7082
-commit: bc33f5e5f05ba44e48909e2cfc5a97475ec69a4d drm/amd/display: create accessories, hwss and protocols sub folders in link
-date:   11 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 11 months ago
-config: loongarch-randconfig-r062-20231222 (https://download.01.org/0day-ci/archive/20231226/202312260025.3KcJ7K0e-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312260025.3KcJ7K0e-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c:220:21-22: WARNING opportunity for max()
-   drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c:227:21-22: WARNING opportunity for max()
-
-vim +220 drivers/gpu/drm/amd/display/dc/link/protocols/link_ddc.c
-
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  204
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  205  static uint32_t defer_delay_converter_wa(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  206  	struct ddc_service *ddc,
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  207  	uint32_t defer_delay)
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  208  {
-d0778ebfd58f56 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-07-22  209  	struct dc_link *link = ddc->link;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  210
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  211  	if (link->dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_VGA_CONVERTER &&
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  212  		link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_0080E1 &&
-10a9accd4842e6 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Ilya           2022-02-10  213  		(link->dpcd_caps.branch_fw_revision[0] < 0x01 ||
-10a9accd4842e6 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Ilya           2022-02-10  214  				(link->dpcd_caps.branch_fw_revision[0] == 0x01 &&
-10a9accd4842e6 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Ilya           2022-02-10  215  				link->dpcd_caps.branch_fw_revision[1] < 0x40)) &&
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  216  		!memcmp(link->dpcd_caps.branch_dev_name,
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  217  		    DP_VGA_DONGLE_BRANCH_DEV_NAME,
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  218  			sizeof(link->dpcd_caps.branch_dev_name)))
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  219
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15 @220  		return defer_delay > DPVGA_DONGLE_AUX_DEFER_WA_DELAY ?
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  221  			defer_delay : DPVGA_DONGLE_AUX_DEFER_WA_DELAY;
-fd952d436446cf drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Taimur Hassan  2021-01-15  222
-df3b7e32ed459a drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Qingqing Zhuo  2019-07-31  223  	if (link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_0080E1 &&
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  224  	    !memcmp(link->dpcd_caps.branch_dev_name,
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  225  		    DP_DVI_CONVERTER_ID_4,
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  226  		    sizeof(link->dpcd_caps.branch_dev_name)))
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  227  		return defer_delay > I2C_OVER_AUX_DEFER_WA_DELAY ?
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  228  			defer_delay : I2C_OVER_AUX_DEFER_WA_DELAY;
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  229  	if (link->dpcd_caps.branch_dev_id == DP_BRANCH_DEVICE_ID_006037 &&
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  230  	    !memcmp(link->dpcd_caps.branch_dev_name,
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  231  		    DP_DVI_CONVERTER_ID_5,
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  232  		    sizeof(link->dpcd_caps.branch_dev_name)))
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  233  		return defer_delay > I2C_OVER_AUX_DEFER_WA_DELAY_1MS ?
-7154a51b534707 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c jinlong zhang  2020-09-25  234  			I2C_OVER_AUX_DEFER_WA_DELAY_1MS : defer_delay;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  235
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  236  	return defer_delay;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  237  }
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c Harry Wentland 2017-09-12  238
-
-:::::: The code at line 220 was first introduced by commit
-:::::: fd952d436446cffdf97a61bf456a0987011e42e0 drm/amd/display: Workaround for some legacy DP-VGA dongles
-
-:::::: TO: Taimur Hassan <syed.hassan@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Yury
