@@ -1,58 +1,50 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C2A51C2A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 17:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5FB52F62
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 17:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HJTJzYgb"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5e75005bd0cso34265387b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 09:19:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703524761; x=1704129561; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KQXGoJGduCNQaaCxL5SGHVEkpQm1zRD1YbygRI8w1Io=;
-        b=HJTJzYgbhWu0eOdAFKP+0eD+2dE7tk1lmyYYRZR1giYu9JuSQjpdBCehvPha8lyLxZ
-         +4qbmpnqnTvDbs4+pWIxwaQlmFIjgC/qDWnGpiTpN1E92dnfB9bF3JzCHNQpBqn7iPTK
-         UT9lSeGr8uTB+FmyXmt7REqXfBzREunuT/VJVt/c3jRv7tB7RLoASmIRgmHhs/3kKkOt
-         DZVNwT7mEh3tkTWREzhnr636kEMHU0fxmdmibhx9aHz+9gclkLxikisZBUWU3R4GCvaP
-         BQNM0PcD4APbzG3IgEDRgmi6DLQFUqdEcz+JeYzojDPorfeY2dhA76BrvnXKiShynnJN
-         aOeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703524761; x=1704129561;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KQXGoJGduCNQaaCxL5SGHVEkpQm1zRD1YbygRI8w1Io=;
-        b=sxF80HWFG7+XB9lbQhsANVMBTBPFc2oANlwMQoW88fT9c9juYgrZxasZD5zBwJnXnR
-         pfVp13/YBOnffUfvYa2a6JcrdHaBGxOcfHqZwhVCgZuClSfITk4mL7K6nMsEIzd0rkOs
-         eQTxfp85NCxg5A3EExTBJq6Jn9B7mG5MQ1UNmJm5ChB2KG/4XjmOB3Xsh4DAB1jtv7qe
-         vlkFC47v81XoH/TAm33SkWsr4HFx/QBc8i6ssYZ/scW9O+IPy3tqbkK+VfU0/JE0ER5i
-         SRK4E+0Oy7OKrMyxD2RwOQAR+2s+knTKrRjvbE+9RXwYVWNMFreHqbQqcHUWT5l512Z9
-         HGJw==
-X-Gm-Message-State: AOJu0YyGqoWHiMFsD3JidBe3Ety27wqBWwknlykCIJRFwyTdOTAUKY47
-	CADVDee3TAzWAdKryJ5t/5I=
-X-Google-Smtp-Source: AGHT+IG7eGDlrjxo43y4KWEtZC6zDNFq1aordpgHAVvYq5ZTKDkDdhRZfIDsnUgHvHdAwVUzMvw1qw==
-X-Received: by 2002:a0d:d4c1:0:b0:5e7:c181:e66d with SMTP id w184-20020a0dd4c1000000b005e7c181e66dmr3139699ywd.20.1703524761454;
-        Mon, 25 Dec 2023 09:19:21 -0800 (PST)
-Received: from localhost ([2601:344:8301:57f0:3e97:6886:45bb:11c4])
-        by smtp.gmail.com with ESMTPSA id c67-20020a814e46000000b005e4d89b4520sm4744697ywb.47.2023.12.25.09.19.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Dec 2023 09:19:21 -0800 (PST)
-Date: Mon, 25 Dec 2023 09:19:19 -0800
-From: Yury Norov <yury.norov@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Changbin Du <changbin.du@huawei.com>
-Subject: Re: [linux-next:master 9918/9925] powerpc64-linux-ld: warning:
- orphan section `.bss..Lubsan_data794' from `kernel/ptrace.o' being placed in
- section `.bss..Lubsan_data794'
-Message-ID: <ZYm5l6AIMVMs69RC@yury-ThinkPad>
-References: <202312230642.EBF6kiYY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oE+0SKGM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703526948; x=1735062948;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t3ENIJ54Bb1sEvI+l3Cmwr+pU+/EnjvkusB7dQE68yw=;
+  b=oE+0SKGMlgAjFT3yJRs79pwQu1gIB6Ay6OuqxWM/+HcNOkBXG+cEXTsY
+   b/mRD2/lBAi2mbEawSXaX6M706i8g4IQ37qfXwYAC4BksRBtgN1UUgrnD
+   SZjkNnV2b1LKo+/m8KjMuRP8KScql0GyQ6O4Ja1h3cKx0Z+ujOjEApHRn
+   DqxGX0Krm5q4W3mkKAsxHQMSRRisAgGXbrUzkNqgmgDfNngaBPZel4KHN
+   2OM0iVr9fTJ6+rCbJgOVvA8m0yk7J2K3RobOFvjR36JquQSt6q3iPJdCv
+   enDNFebS2aXGqC+ZpEx9BM9FdN93msu8GMJBILUBbNQS8MzBwhFuLi9U9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="3382181"
+X-IronPort-AV: E=Sophos;i="6.04,303,1695711600"; 
+   d="scan'208";a="3382181"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 09:55:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="806690418"
+X-IronPort-AV: E=Sophos;i="6.04,303,1695711600"; 
+   d="scan'208";a="806690418"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 25 Dec 2023 09:55:44 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rHp9H-000DWn-2C;
+	Mon, 25 Dec 2023 17:54:40 +0000
+Date: Tue, 26 Dec 2023 01:53:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew W Carlis <mattc@purestorage.com>, helgaas@kernel.org,
+	bhelgaas@google.com, sathyanarayanan.kuppuswamy@linux.intel.com,
+	linux-pci@vger.kernel.org, mika.westerberg@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, Matthew W Carlis <mattc@purestorage.com>
+Subject: Re: [PATCH 1/1] PCI/portdrv: Allow DPC if the OS controls AER
+ natively.
+Message-ID: <202312260105.Gu2Z5jdw-lkp@intel.com>
+References: <20231223212235.34293-2-mattc@purestorage.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,35 +53,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202312230642.EBF6kiYY-lkp@intel.com>
+In-Reply-To: <20231223212235.34293-2-mattc@purestorage.com>
 
-On Sat, Dec 23, 2023 at 06:15:23AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   39676dfe52331dba909c617f213fdb21015c8d10
-> commit: c6aa10bc7b8bfcfaca4311ac5f39b4d6eb5b1ccf [9918/9925] Merge branch 'bitmap-for-next' of https://github.com/norov/linux.git
-> config: powerpc64-randconfig-r035-20211208 (https://download.01.org/0day-ci/archive/20231223/202312230642.EBF6kiYY-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230642.EBF6kiYY-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312230642.EBF6kiYY-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data794' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data794'
->    powerpc64-linux-ld: warning: discarding dynamic section .glink
->    powerpc64-linux-ld: warning: discarding dynamic section .plt
->    powerpc64-linux-ld: linkage table error against `flush_module_init_free_work'
->    powerpc64-linux-ld: stubs don't match calculated size
->    powerpc64-linux-ld: can not build stubs: bad value
->    powerpc64-linux-ld: init/main.o: in function `kernel_init':
->    main.c:(.ref.text+0x224): undefined reference to `flush_module_init_free_work'
+Hi Matthew,
 
-+ Stephen Rothwell, Changbin Du
+kernel test robot noticed the following build errors:
 
-So, it looks misattributed, and already fixed in 9a63d5058dd3545?
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
-Yury
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-W-Carlis/PCI-portdrv-Allow-DPC-if-the-OS-controls-AER-natively/20231225-154046
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231223212235.34293-2-mattc%40purestorage.com
+patch subject: [PATCH 1/1] PCI/portdrv: Allow DPC if the OS controls AER natively.
+config: arc-randconfig-002-20231225 (https://download.01.org/0day-ci/archive/20231226/202312260105.Gu2Z5jdw-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260105.Gu2Z5jdw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312260105.Gu2Z5jdw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/pci/pcie/portdrv.c: In function 'get_port_device_capability':
+>> drivers/pci/pcie/portdrv.c:272:19: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
+     272 |             (dev->aer_cap && host->native_aer)))
+         |                   ^~~~~~~
+         |                   ats_cap
+
+
+vim +272 drivers/pci/pcie/portdrv.c
+
+   244	
+   245		/* Root Ports and Root Complex Event Collectors may generate PMEs */
+   246		if ((pci_pcie_type(dev) == PCI_EXP_TYPE_ROOT_PORT ||
+   247		     pci_pcie_type(dev) == PCI_EXP_TYPE_RC_EC) &&
+   248		    (pcie_ports_native || host->native_pme)) {
+   249			services |= PCIE_PORT_SERVICE_PME;
+   250	
+   251			/*
+   252			 * Disable PME interrupt on this port in case it's been enabled
+   253			 * by the BIOS (the PME service driver will enable it when
+   254			 * necessary).
+   255			 */
+   256			pcie_pme_interrupt_enable(dev, false);
+   257		}
+   258	
+   259		/*
+   260		 * _OSC AER Control is required by the OS & requires OS to control AER,
+   261		 * but _OSC DPC Control isn't required by the OS to control DPC; however
+   262		 * it does require the OS to control DPC. _OSC DPC Control also requres
+   263		 * _OSC EDR Control (Error Disconnect Recovery) (PCI Firmware - DPC ECN rev3.2)
+   264		 * PCI_Express_Base 6.1, 6.2.11 Determination of DPC Control recommends
+   265		 * platform fw or OS always link control of DPC to AER.
+   266		 *
+   267		 * With dpc-native, allow Linux to use DPC even if it doesn't have
+   268		 * permission to use AER.
+   269		 */
+   270		if (pci_find_ext_capability(dev, PCI_EXT_CAP_ID_DPC) &&
+   271		    pci_aer_available() && (pcie_ports_dpc_native ||
+ > 272		    (dev->aer_cap && host->native_aer)))
+   273			services |= PCIE_PORT_SERVICE_DPC;
+   274	
+   275		if (pci_pcie_type(dev) == PCI_EXP_TYPE_DOWNSTREAM ||
+   276		    pci_pcie_type(dev) == PCI_EXP_TYPE_ROOT_PORT) {
+   277			u32 linkcap;
+   278	
+   279			pcie_capability_read_dword(dev, PCI_EXP_LNKCAP, &linkcap);
+   280			if (linkcap & PCI_EXP_LNKCAP_LBNC)
+   281				services |= PCIE_PORT_SERVICE_BWNOTIF;
+   282		}
+   283	
+   284		return services;
+   285	}
+   286	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
