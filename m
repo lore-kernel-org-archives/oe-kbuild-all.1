@@ -1,50 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5FB52F62
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 17:55:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8582E52F95
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 17:56:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oE+0SKGM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="imjIsMJH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703526948; x=1735062948;
+  t=1703527010; x=1735063010;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=t3ENIJ54Bb1sEvI+l3Cmwr+pU+/EnjvkusB7dQE68yw=;
-  b=oE+0SKGMlgAjFT3yJRs79pwQu1gIB6Ay6OuqxWM/+HcNOkBXG+cEXTsY
-   b/mRD2/lBAi2mbEawSXaX6M706i8g4IQ37qfXwYAC4BksRBtgN1UUgrnD
-   SZjkNnV2b1LKo+/m8KjMuRP8KScql0GyQ6O4Ja1h3cKx0Z+ujOjEApHRn
-   DqxGX0Krm5q4W3mkKAsxHQMSRRisAgGXbrUzkNqgmgDfNngaBPZel4KHN
-   2OM0iVr9fTJ6+rCbJgOVvA8m0yk7J2K3RobOFvjR36JquQSt6q3iPJdCv
-   enDNFebS2aXGqC+ZpEx9BM9FdN93msu8GMJBILUBbNQS8MzBwhFuLi9U9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="3382181"
+  bh=c5WnwSj/pGFg6EsfD20VqFkZJ5FQAgS830qZCY8nWrU=;
+  b=imjIsMJHj2LCpbqlwZZxZVKJLzTBuXNGsPs5w6pDuwVj5VET/5meLEw1
+   PSpIT0+xa4Exxh2jv8YlLkxo/uapHus7zAYIB24otDrAjF8keTg0RPZEk
+   adofO3WuLx4R4TrGgPW+h0Z5tadQgexuHqhQxvLP9foIE5gCHG3UZpff+
+   aow68B08abAaVKnoLHtXBZ7cAQeTRCn1DAA4/yuRMOzEQ1f+oC5toNiUN
+   J2v57s6rBjfU0pA1o1xDCZ5iLqpQ7an4CY3Ou3j8beo8hcOR0K7xAHS0i
+   Arg48wv5kH0i9Cj1q22ZCqtRaD04mA9RnU0h63ILZ4La+HhriYDimLqC1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="393458092"
 X-IronPort-AV: E=Sophos;i="6.04,303,1695711600"; 
-   d="scan'208";a="3382181"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 09:55:48 -0800
+   d="scan'208";a="393458092"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 09:56:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="806690418"
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="781283964"
 X-IronPort-AV: E=Sophos;i="6.04,303,1695711600"; 
-   d="scan'208";a="806690418"
+   d="scan'208";a="781283964"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 25 Dec 2023 09:55:44 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 25 Dec 2023 09:56:45 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHp9H-000DWn-2C;
-	Mon, 25 Dec 2023 17:54:40 +0000
-Date: Tue, 26 Dec 2023 01:53:06 +0800
+	id 1rHpB0-000DWp-2B;
+	Mon, 25 Dec 2023 17:56:17 +0000
+Date: Tue, 26 Dec 2023 01:53:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew W Carlis <mattc@purestorage.com>, helgaas@kernel.org,
-	bhelgaas@google.com, sathyanarayanan.kuppuswamy@linux.intel.com,
-	linux-pci@vger.kernel.org, mika.westerberg@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, Matthew W Carlis <mattc@purestorage.com>
-Subject: Re: [PATCH 1/1] PCI/portdrv: Allow DPC if the OS controls AER
- natively.
-Message-ID: <202312260105.Gu2Z5jdw-lkp@intel.com>
-References: <20231223212235.34293-2-mattc@purestorage.com>
+To: Zhipeng Lu <alexious@zju.edu.cn>
+Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>,
+	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"J. Bruce Fields" <bfields@fieldses.org>,
+	Simo Sorce <simo@redhat.com>, linux-nfs@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] SUNRPC: fix some memleaks in gssx_dec_option_array
+Message-ID: <202312260138.JJkoofSt-lkp@intel.com>
+References: <20231224082424.3539726-1-alexious@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,85 +60,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231223212235.34293-2-mattc@purestorage.com>
+In-Reply-To: <20231224082424.3539726-1-alexious@zju.edu.cn>
 
-Hi Matthew,
+Hi Zhipeng,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.7-rc7 next-20231222]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7-rc7 next-20231222]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-W-Carlis/PCI-portdrv-Allow-DPC-if-the-OS-controls-AER-natively/20231225-154046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20231223212235.34293-2-mattc%40purestorage.com
-patch subject: [PATCH 1/1] PCI/portdrv: Allow DPC if the OS controls AER natively.
-config: arc-randconfig-002-20231225 (https://download.01.org/0day-ci/archive/20231226/202312260105.Gu2Z5jdw-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260105.Gu2Z5jdw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhipeng-Lu/SUNRPC-fix-some-memleaks-in-gssx_dec_option_array/20231225-152918
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231224082424.3539726-1-alexious%40zju.edu.cn
+patch subject: [PATCH] SUNRPC: fix some memleaks in gssx_dec_option_array
+config: nios2-randconfig-r081-20231225 (https://download.01.org/0day-ci/archive/20231226/202312260138.JJkoofSt-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260138.JJkoofSt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312260105.Gu2Z5jdw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312260138.JJkoofSt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/pci/pcie/portdrv.c: In function 'get_port_device_capability':
->> drivers/pci/pcie/portdrv.c:272:19: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
-     272 |             (dev->aer_cap && host->native_aer)))
-         |                   ^~~~~~~
-         |                   ats_cap
+   net/sunrpc/auth_gss/gss_rpc_xdr.c: In function 'gssx_dec_option_array':
+>> net/sunrpc/auth_gss/gss_rpc_xdr.c:270:25: error: expected ';' before 'goto'
+     270 |                         goto free_creds;
+         |                         ^~~~
+   net/sunrpc/auth_gss/gss_rpc_xdr.c:277:25: error: expected ';' before 'goto'
+     277 |                         goto free_creds;
+         |                         ^~~~
+>> net/sunrpc/auth_gss/gss_rpc_xdr.c:301:1: warning: label 'err' defined but not used [-Wunused-label]
+     301 | err:
+         | ^~~
 
 
-vim +272 drivers/pci/pcie/portdrv.c
+vim +270 net/sunrpc/auth_gss/gss_rpc_xdr.c
 
-   244	
-   245		/* Root Ports and Root Complex Event Collectors may generate PMEs */
-   246		if ((pci_pcie_type(dev) == PCI_EXP_TYPE_ROOT_PORT ||
-   247		     pci_pcie_type(dev) == PCI_EXP_TYPE_RC_EC) &&
-   248		    (pcie_ports_native || host->native_pme)) {
-   249			services |= PCIE_PORT_SERVICE_PME;
+   228	
+   229	static int gssx_dec_option_array(struct xdr_stream *xdr,
+   230					 struct gssx_option_array *oa)
+   231	{
+   232		struct svc_cred *creds;
+   233		u32 count, i;
+   234		__be32 *p;
+   235		int err;
+   236	
+   237		p = xdr_inline_decode(xdr, 4);
+   238		if (unlikely(p == NULL))
+   239			return -ENOSPC;
+   240		count = be32_to_cpup(p++);
+   241		if (!count)
+   242			return 0;
+   243	
+   244		/* we recognize only 1 currently: CREDS_VALUE */
+   245		oa->count = 1;
+   246	
+   247		oa->data = kmalloc(sizeof(struct gssx_option), GFP_KERNEL);
+   248		if (!oa->data)
+   249			return -ENOMEM;
    250	
-   251			/*
-   252			 * Disable PME interrupt on this port in case it's been enabled
-   253			 * by the BIOS (the PME service driver will enable it when
-   254			 * necessary).
-   255			 */
-   256			pcie_pme_interrupt_enable(dev, false);
-   257		}
-   258	
-   259		/*
-   260		 * _OSC AER Control is required by the OS & requires OS to control AER,
-   261		 * but _OSC DPC Control isn't required by the OS to control DPC; however
-   262		 * it does require the OS to control DPC. _OSC DPC Control also requres
-   263		 * _OSC EDR Control (Error Disconnect Recovery) (PCI Firmware - DPC ECN rev3.2)
-   264		 * PCI_Express_Base 6.1, 6.2.11 Determination of DPC Control recommends
-   265		 * platform fw or OS always link control of DPC to AER.
-   266		 *
-   267		 * With dpc-native, allow Linux to use DPC even if it doesn't have
-   268		 * permission to use AER.
-   269		 */
-   270		if (pci_find_ext_capability(dev, PCI_EXT_CAP_ID_DPC) &&
-   271		    pci_aer_available() && (pcie_ports_dpc_native ||
- > 272		    (dev->aer_cap && host->native_aer)))
-   273			services |= PCIE_PORT_SERVICE_DPC;
-   274	
-   275		if (pci_pcie_type(dev) == PCI_EXP_TYPE_DOWNSTREAM ||
-   276		    pci_pcie_type(dev) == PCI_EXP_TYPE_ROOT_PORT) {
-   277			u32 linkcap;
-   278	
-   279			pcie_capability_read_dword(dev, PCI_EXP_LNKCAP, &linkcap);
-   280			if (linkcap & PCI_EXP_LNKCAP_LBNC)
-   281				services |= PCIE_PORT_SERVICE_BWNOTIF;
-   282		}
-   283	
-   284		return services;
-   285	}
-   286	
+   251		creds = kzalloc(sizeof(struct svc_cred), GFP_KERNEL);
+   252		if (!creds) {
+   253			err = -ENOMEM;
+   254			goto free_oa;
+   255		}
+   256	
+   257		oa->data[0].option.data = CREDS_VALUE;
+   258		oa->data[0].option.len = sizeof(CREDS_VALUE);
+   259		oa->data[0].value.data = (void *)creds;
+   260		oa->data[0].value.len = 0;
+   261	
+   262		for (i = 0; i < count; i++) {
+   263			gssx_buffer dummy = { 0, NULL };
+   264			u32 length;
+   265	
+   266			/* option buffer */
+   267			p = xdr_inline_decode(xdr, 4);
+   268			if (unlikely(p == NULL)) {
+   269				err = -ENOSPC
+ > 270				goto free_creds;
+   271			}
+   272	
+   273			length = be32_to_cpup(p);
+   274			p = xdr_inline_decode(xdr, length);
+   275			if (unlikely(p == NULL)) {
+   276				err = -ENOSPC
+   277				goto free_creds;
+   278			}
+   279	
+   280			if (length == sizeof(CREDS_VALUE) &&
+   281			    memcmp(p, CREDS_VALUE, sizeof(CREDS_VALUE)) == 0) {
+   282				/* We have creds here. parse them */
+   283				err = gssx_dec_linux_creds(xdr, creds);
+   284				if (err)
+   285					goto free_creds;
+   286				oa->data[0].value.len = 1; /* presence */
+   287			} else {
+   288				/* consume uninteresting buffer */
+   289				err = gssx_dec_buffer(xdr, &dummy);
+   290				if (err)
+   291					goto free_creds;
+   292			}
+   293		}
+   294		return 0;
+   295	
+   296	free_creds:
+   297		kfree(creds);
+   298	free_oa:
+   299		kfree(oa->data);
+   300		oa->data = NULL;
+ > 301	err:
+   302		return err;
+   303	}
+   304	
 
 -- 
 0-DAY CI Kernel Test Service
