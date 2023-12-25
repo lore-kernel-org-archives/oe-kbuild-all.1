@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A37C62D;
-	Mon, 25 Dec 2023 01:14:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F8F654
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 02:01:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbUf86QC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHHZOwCu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703466894; x=1735002894;
+  t=1703469689; x=1735005689;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lDNW0rLRN2xXxjiYiBG3VTaBZqLLrMYkClGya7nmbwE=;
-  b=AbUf86QCGmM6RZ/D7OBdSGJg7HupTd5XdPljLgJcjZQ8kQoIZ0sIOo43
-   Op2AKqnkUTN6bV8D83HAtHB1xZnvEmWxUU9MjoaLSf80Ox62PoharSm3D
-   xhS+U7H7Pcco1zcxK5uoKDpYDXvT+CbfS1Z/zr5IxDYFYas1Z0HLdGIKW
-   l8S/8Vu+ylazaO8qjz11bYvvjGJSwy4lRjzUl+tmac6+duD5pp3490HBD
-   6oDDCE1zNfB1btaQPYDoLWqw8dt0oK8hHEexXJHsf5Pmg/goY5MYrbnZK
-   1gdlcr2GOrZQXl5gVHWupjoF/eO5hllKye9Q/ORf/VmAlxbke+F7SLXma
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="3092494"
+  bh=Iao5A4gwglH5h3QB0d9t0zkWIiSUezYXY5SpqUjFIDM=;
+  b=BHHZOwCusVD6H0Jq7vqOtqkYEV9u0NKSthx+bAbkjCmRLvUj2UNscomZ
+   5fnqcKOhuCvAwPKdjIhUTedM88MYQ3GYTp+GVZpJvbLgCF+5MhRygB1ct
+   YMABJV2OdI4FVPK4enO/imXKyLUHCutQyTKhyZdqRRloxQR92A5cBHQTW
+   ffAY73suib0AlTwJ9QJUrv7rZUJUhE2StXj5kSKqTwTGMAMrJt1iw2iKG
+   1oSv4niV2JUMbB8UBSEzWDxLM/qDc9KKFOMEM1WAxt4hwnd6pN5TiOEoq
+   tjCagYwkpPO+ytBKljx6YQxRrXRUKvf8xZOQqxBHE/s/xe9xaN07iecwd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="395995025"
 X-IronPort-AV: E=Sophos;i="6.04,302,1695711600"; 
-   d="scan'208";a="3092494"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 17:14:53 -0800
+   d="scan'208";a="395995025"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 18:01:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="848097816"
 X-IronPort-AV: E=Sophos;i="6.04,302,1695711600"; 
-   d="scan'208";a="848097816"
+   d="scan'208";a="12088549"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 24 Dec 2023 17:14:51 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 24 Dec 2023 18:01:27 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHZXf-000Cnp-1R;
-	Mon, 25 Dec 2023 01:14:42 +0000
-Date: Mon, 25 Dec 2023 09:13:02 +0800
+	id 1rHaF5-000Cq5-0p;
+	Mon, 25 Dec 2023 01:59:37 +0000
+Date: Mon, 25 Dec 2023 09:54:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
+	Chao Yu <chao@kernel.org>
 Subject: [chao:dev-test 6/16] fs/f2fs/checkpoint.c:173:6: warning: no
- previous prototype for function '__f2fs_is_valid_blkaddr'
-Message-ID: <202312250938.sErzCfou-lkp@intel.com>
+ previous prototype for '__f2fs_is_valid_blkaddr'
+Message-ID: <202312250912.cvIbU0gX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,25 +53,20 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git dev-test
 head:   2a6668b0457fcbe4a1e8ebf9dac039dff7ff6c0d
 commit: 2e82ba5e00b8108be52fd5f213558e362a77f56d [6/16] f2fs: introduce FAULT_INCONSISTENCE
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20231225/202312250938.sErzCfou-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231225/202312250938.sErzCfou-lkp@intel.com/reproduce)
+config: arc-randconfig-001-20231225 (https://download.01.org/0day-ci/archive/20231225/202312250912.cvIbU0gX-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231225/202312250912.cvIbU0gX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312250938.sErzCfou-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312250912.cvIbU0gX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/f2fs/checkpoint.c:173:6: warning: no previous prototype for function '__f2fs_is_valid_blkaddr' [-Wmissing-prototypes]
-   bool __f2fs_is_valid_blkaddr(struct f2fs_sb_info *sbi,
-        ^
-   fs/f2fs/checkpoint.c:173:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   bool __f2fs_is_valid_blkaddr(struct f2fs_sb_info *sbi,
-   ^
-   static 
-   1 warning generated.
+>> fs/f2fs/checkpoint.c:173:6: warning: no previous prototype for '__f2fs_is_valid_blkaddr' [-Wmissing-prototypes]
+     173 | bool __f2fs_is_valid_blkaddr(struct f2fs_sb_info *sbi,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/__f2fs_is_valid_blkaddr +173 fs/f2fs/checkpoint.c
