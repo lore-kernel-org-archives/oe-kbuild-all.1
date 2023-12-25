@@ -1,46 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DFA10783
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Dec 2023 23:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421AF15AF;
+	Mon, 25 Dec 2023 00:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7RMNy26"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lp2kF2RC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703459912; x=1734995912;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=53dkdngotIuf6N0ofFKaXoXsDdziRciDgIdsVY2ONKY=;
-  b=E7RMNy26scVIK6ZDV7p/y/WASGkAtrkGBGo6gBhUlFxIIoN5gfN6VNmr
-   O43/89bzDeiYoaIZk5U9fK9ssd9cmX/CAIce1MNNIX15zMiQ1G9/FVy8r
-   moA+Iit+XZHAZ0tDWNLo7FsVPW0JyZ7d+GqneNYpekIL8a5sNM9d8WZH/
-   883dlBJuXVmHltTZTgUq1zBxwxFnr/auewY28gmPDeSKxaXV6vNVDWFqH
-   FaijAOh85xKEEFhW9Y6E0PxAPK5UWiC5DPjkqWsGdM0nZdgp3sEe68Oqh
-   goQSz6KisJEcArZJLbATxBsWuV2QrxnF5hBEwdCHh7TzkOHwAYqv9zxWx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="14931693"
+  t=1703463819; x=1734999819;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YJh+wDeictl+xtWW+8VJ+rNO8BXxEMpGjARlTTa1wMI=;
+  b=lp2kF2RCwQ75zlyo4WAvsW4qGLh1zB7aUaGu8DITmRqowST74uAbRpom
+   qAlfWEAGjCH6VNITpYszszUigv1lJTNn+Kazl6BSAlQuIVMkp6ruEU7Xu
+   EHE8/By7OHNaOBl37PIhwjYvByeKbgcITXzkkQmhaOodAhwzgI7i5/KR1
+   Fz8Z1cnRO5hf2DdIlHbyGezDSqdR8GXharpDQsCHj3TFBZExOMrdqS8ry
+   q/ZJeAZ58v3pHMoUuYSjb4uYhbuTXNr2VoxSKzd2/vPcvP0xHMZkFDyf7
+   lIe0iq47gpgnZ2jz9FSNCbD2jy9ONYxXKJ4WfdsTGea52VBqpuT35LzzF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="376398401"
 X-IronPort-AV: E=Sophos;i="6.04,302,1695711600"; 
-   d="scan'208";a="14931693"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 15:18:31 -0800
+   d="scan'208";a="376398401"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2023 16:23:38 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="950863770"
 X-IronPort-AV: E=Sophos;i="6.04,302,1695711600"; 
-   d="scan'208";a="12065502"
+   d="scan'208";a="950863770"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Dec 2023 15:18:30 -0800
+  by orsmga005.jf.intel.com with ESMTP; 24 Dec 2023 16:23:32 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHXjZ-000Civ-04;
-	Sun, 24 Dec 2023 23:18:17 +0000
-Date: Mon, 25 Dec 2023 07:17:58 +0800
+	id 1rHYjt-000ClZ-05;
+	Mon, 25 Dec 2023 00:23:06 +0000
+Date: Mon, 25 Dec 2023 08:19:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [daniel-lezcano:thermal/debugfs-v4 2/4]
- drivers/thermal/thermal_debugfs.c:82: warning: expecting prototype for
- struct cdev_value. Prototype was for struct cdev_record instead
-Message-ID: <202312250728.JoJLi25n-lkp@intel.com>
+To: Julia Zhang <julia.zhang@amd.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>, David Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+	virtualization@lists.linux-foundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	Daniel Stone <daniels@collabora.com>,
+	Erik Faye-Lund <kusmabite@gmail.com>,
+	Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
+	Chen Jiqian <Jiqian.Chen@amd.com>, Huang Rui <ray.huang@amd.com>,
+	Honglei Huang <honglei1.huang@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Julia Zhang <julia.zhang@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/1] drm/virtio: Implement RESOURCE_GET_LAYOUT ioctl
+Message-ID: <202312250806.sVSnK275-lkp@intel.com>
+References: <20231221100016.4022353-2-julia.zhang@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,75 +64,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231221100016.4022353-2-julia.zhang@amd.com>
 
-tree:   http://git.linaro.org/people/daniel.lezcano/linux thermal/debugfs-v4
-head:   9f3c7e51a6ae452e988bd443b8b7f608e13a3e42
-commit: e545b113036794411d8b7165997af9ec2c80695c [2/4] comment from v3 - cdev
-config: nios2-randconfig-r081-20231225 (https://download.01.org/0day-ci/archive/20231225/202312250728.JoJLi25n-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231225/202312250728.JoJLi25n-lkp@intel.com/reproduce)
+Hi Julia,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.7-rc6]
+[also build test WARNING on linus/master]
+[cannot apply to drm-misc/drm-misc-next drm/drm-next next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Julia-Zhang/drm-virtio-Implement-RESOURCE_GET_LAYOUT-ioctl/20231222-182142
+base:   v6.7-rc6
+patch link:    https://lore.kernel.org/r/20231221100016.4022353-2-julia.zhang%40amd.com
+patch subject: [PATCH 1/1] drm/virtio: Implement RESOURCE_GET_LAYOUT ioctl
+config: i386-randconfig-004-20231225 (https://download.01.org/0day-ci/archive/20231225/202312250806.sVSnK275-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231225/202312250806.sVSnK275-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312250728.JoJLi25n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312250806.sVSnK275-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/thermal/thermal_debugfs.c:82: warning: expecting prototype for struct cdev_value. Prototype was for struct cdev_record instead
->> drivers/thermal/thermal_debugfs.c:101: warning: Function parameter or member 'cdev_dbg' not described in 'thermal_debugfs'
+>> drivers/gpu/drm/virtio/virtgpu_ioctl.c:712:1: warning: unused label 'valid' [-Wunused-label]
+   valid:
+   ^~~~~~
+   1 warning generated.
 
 
-vim +82 drivers/thermal/thermal_debugfs.c
+vim +/valid +712 drivers/gpu/drm/virtio/virtgpu_ioctl.c
 
-853ad2eba4d85b Daniel Lezcano 2022-04-25   61  
-853ad2eba4d85b Daniel Lezcano 2022-04-25   62  /**
-853ad2eba4d85b Daniel Lezcano 2022-04-25   63   * struct cdev_value - Common structure for cooling device entry
-853ad2eba4d85b Daniel Lezcano 2022-04-25   64   *
-853ad2eba4d85b Daniel Lezcano 2022-04-25   65   * The following common structure allows to store the information
-853ad2eba4d85b Daniel Lezcano 2022-04-25   66   * related to the transitions and to the state residencies. They are
-853ad2eba4d85b Daniel Lezcano 2022-04-25   67   * identified with a id which is associated to a value. It is used as
-853ad2eba4d85b Daniel Lezcano 2022-04-25   68   * nodes for the "transitions" and "durations" above.
-853ad2eba4d85b Daniel Lezcano 2022-04-25   69   *
-853ad2eba4d85b Daniel Lezcano 2022-04-25   70   * @node: node to insert the structure in a list
-853ad2eba4d85b Daniel Lezcano 2022-04-25   71   * @id: identifier of the value which can be a state or a transition
-e545b113036794 Daniel Lezcano 2023-12-23   72   * @residency: a ktime_t representing a state residency duration
-e545b113036794 Daniel Lezcano 2023-12-23   73   * @count: a number of occurrences
-853ad2eba4d85b Daniel Lezcano 2022-04-25   74   */
-e545b113036794 Daniel Lezcano 2023-12-23   75  struct cdev_record {
-853ad2eba4d85b Daniel Lezcano 2022-04-25   76  	struct list_head node;
-853ad2eba4d85b Daniel Lezcano 2022-04-25   77  	int id;
-e545b113036794 Daniel Lezcano 2023-12-23   78  	union {
-e545b113036794 Daniel Lezcano 2023-12-23   79                  ktime_t residency;
-e545b113036794 Daniel Lezcano 2023-12-23   80                  u64 count;
-e545b113036794 Daniel Lezcano 2023-12-23   81          };
-853ad2eba4d85b Daniel Lezcano 2022-04-25  @82  };
-853ad2eba4d85b Daniel Lezcano 2022-04-25   83  
-853ad2eba4d85b Daniel Lezcano 2022-04-25   84  /**
-853ad2eba4d85b Daniel Lezcano 2022-04-25   85   * struct thermal_debugfs - High level structure for a thermal object in debugfs
-853ad2eba4d85b Daniel Lezcano 2022-04-25   86   *
-853ad2eba4d85b Daniel Lezcano 2022-04-25   87   * The thermal_debugfs structure is the common structure used by the
-853ad2eba4d85b Daniel Lezcano 2022-04-25   88   * cooling device to compute the statistics.
-853ad2eba4d85b Daniel Lezcano 2022-04-25   89   *
-853ad2eba4d85b Daniel Lezcano 2022-04-25   90   * @d_top: top directory of the thermal object directory
-853ad2eba4d85b Daniel Lezcano 2022-04-25   91   * @lock: per object lock to protect the internals
-853ad2eba4d85b Daniel Lezcano 2022-04-25   92   *
-853ad2eba4d85b Daniel Lezcano 2022-04-25   93   * @cdev: a cooling device debug structure
-853ad2eba4d85b Daniel Lezcano 2022-04-25   94   */
-853ad2eba4d85b Daniel Lezcano 2022-04-25   95  struct thermal_debugfs {
-853ad2eba4d85b Daniel Lezcano 2022-04-25   96  	struct dentry *d_top;
-853ad2eba4d85b Daniel Lezcano 2022-04-25   97  	struct mutex lock;
-853ad2eba4d85b Daniel Lezcano 2022-04-25   98  	union {
-e545b113036794 Daniel Lezcano 2023-12-23   99  		struct cdev_debugfs cdev_dbg;
-853ad2eba4d85b Daniel Lezcano 2022-04-25  100  	};
-853ad2eba4d85b Daniel Lezcano 2022-04-25 @101  };
-853ad2eba4d85b Daniel Lezcano 2022-04-25  102  
-
-:::::: The code at line 82 was first introduced by commit
-:::::: 853ad2eba4d85b6f31434d76ec33194d85a4eddd thermal/debugfs: Add thermal cooling device debugfs information
-
-:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+   673	
+   674	static int virtio_gpu_resource_query_layout_ioctl(struct drm_device *dev,
+   675							  void *data,
+   676							  struct drm_file *file)
+   677	{
+   678		struct drm_virtgpu_resource_query_layout *args = data;
+   679		struct virtio_gpu_device *vgdev = dev->dev_private;
+   680		struct drm_gem_object *obj = NULL;
+   681		struct virtio_gpu_object *bo = NULL;
+   682		struct virtio_gpu_query_info bo_info = {0};
+   683		int ret = 0;
+   684		int i;
+   685	
+   686		if (!vgdev->has_resource_query_layout) {
+   687			DRM_ERROR("failing: no RQL on host\n");
+   688			return -EINVAL;
+   689		}
+   690	
+   691		if (args->handle > 0) {
+   692			obj = drm_gem_object_lookup(file, args->handle);
+   693			if (obj == NULL) {
+   694				DRM_ERROR("invalid handle 0x%x\n", args->handle);
+   695				return -ENOENT;
+   696			}
+   697			bo = gem_to_virtio_gpu_obj(obj);
+   698		}
+   699	
+   700		ret = virtio_gpu_cmd_get_resource_layout(vgdev, &bo_info, args->width,
+   701							 args->height, args->format,
+   702							 args->bind, bo ? bo->hw_res_handle : 0);
+   703		if (ret)
+   704			goto out;
+   705	
+   706		ret = wait_event_timeout(vgdev->resp_wq,
+   707					 atomic_read(&bo_info.is_valid),
+   708					 5 * HZ);
+   709		if (!ret)
+   710			goto out;
+   711	
+ > 712	valid:
+   713		smp_rmb();
+   714		WARN_ON(atomic_read(&bo_info.is_valid));
+   715		args->num_planes = bo_info.num_planes;
+   716		args->modifier = bo_info.modifier;
+   717		for (i = 0; i < args->num_planes; i++) {
+   718			args->planes[i].offset = bo_info.planes[i].offset;
+   719			args->planes[i].stride = bo_info.planes[i].stride;
+   720		}
+   721		for (; i < VIRTIO_GPU_MAX_RESOURCE_PLANES; i++) {
+   722			args->planes[i].offset = 0;
+   723			args->planes[i].stride = 0;
+   724		}
+   725		ret = 0;
+   726	
+   727	out:
+   728		if (obj)
+   729			drm_gem_object_put(obj);
+   730		return ret;
+   731	}
+   732	
 
 -- 
 0-DAY CI Kernel Test Service
