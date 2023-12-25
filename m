@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BACB537E2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 18:04:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE7C52F9C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Dec 2023 18:15:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OalkQwja"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXEvLIsE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703527491; x=1735063491;
+  t=1703528141; x=1735064141;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lSlGKptBzJFjO63Hi1KCJD65iFcjdGWTmXSHPFW4AIw=;
-  b=OalkQwjaL/lll+R76iB63dtIIVf/2z1QuVE+ALwhw1HETeTMKhiwsN9X
-   SKvwjZvLoBVMjhZFmrh+bzqmmq8ZfWpi0/9vGujJvw6MomhiUFFjigSzn
-   Ei1hfOzcQlmK9OPn5mo6Pk4f8u6GwgRfSAh8ToF0ZdVeWviTNCpQN6SZe
-   opKTjPPM7lsq7Uwa21kx+YPhCDWfGgWvYr6ryI5mLw6u+R3YihSqwEyCF
-   VoL7xStFeUSzXkakq6Q6WSMx5BRymlc/5tBsNU5t+6ladx8BP7OHPBQRf
-   oAv1SJFK01jOj1o1OF9iYVoKxBUol3h9c21QsCKcYNDadWfPKUtymU7MM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="482474153"
+  bh=c5mFTqMyyG4hXOeTrpP7aERTO3f3wEwjToaoOl7ZNrk=;
+  b=gXEvLIsEamN0leC0+5cp/RLqe90wNJd24h4bHkH7PzIgIlhx5yDbM5Jr
+   jlsH7yUm6298f/7x0Sa750rxI1QU/COWP+15Vzjr3QrBvn4oFYcaMOR9w
+   IOxMFbPB8P9/VVcYekQwIiJNesSTBLhtr0DzizFhpCNC+sHDmz7JCZy4t
+   Pxm4zE4TxU2PEUMoIf1GlX79tzNGVH0QdOeCXkm1pIi4jDY6ZzG2zfh1Q
+   YXlai6xQkPwA4JV542JdwgU8iTyZLfL1WVrhUso6gfJueaUbwa8QJD6um
+   1nxy8yiYDmAZbapnntFhxN9ZvUgx16ZdUVGbpwPawwrBh7ULDaFESYT4a
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="400119383"
 X-IronPort-AV: E=Sophos;i="6.04,303,1695711600"; 
-   d="scan'208";a="482474153"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 10:04:45 -0800
+   d="scan'208";a="400119383"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 10:15:40 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="921384614"
 X-IronPort-AV: E=Sophos;i="6.04,303,1695711600"; 
-   d="scan'208";a="12249105"
+   d="scan'208";a="921384614"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Dec 2023 10:04:45 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 25 Dec 2023 10:15:39 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHpJh-000DXj-2T;
-	Mon, 25 Dec 2023 18:04:42 +0000
-Date: Tue, 26 Dec 2023 02:03:26 +0800
+	id 1rHpUH-000Dal-0u;
+	Mon, 25 Dec 2023 18:15:37 +0000
+Date: Tue, 26 Dec 2023 02:13:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Mark Brown <broonie@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 21/27492] ld.lld: error: undefined
- symbol: create_function_device
-Message-ID: <202312260207.XbLZKtTb-lkp@intel.com>
+Subject: [broonie-misc:kselftest-seccomp-benchmark-ktap 2/3]
+ seccomp_benchmark.c:149:24: warning: zero-length gnu_printf format string
+Message-ID: <202312260235.Uj5ug8K9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,25 +50,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   55f6a969754a9c9d51d385edf2a4d1e98d6dcd50
-commit: 1983276ceb62da2dda057c83fe676916b51fe939 [21/27492] ANDROID: usb: gadget: f_audio_source: New gadget driver for audio output
-config: x86_64-randconfig-073-20230830 (https://download.01.org/0day-ci/archive/20231226/202312260207.XbLZKtTb-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260207.XbLZKtTb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git kselftest-seccomp-benchmark-ktap
+head:   21f55624b94694bb349f6dc54e9b1375cc2b47ca
+commit: 8039719f23c4eb0b7f505e68196b4b4f420c2b22 [2/3] kselftest/seccomp: Use kselftest output functions for benchmark
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260235.Uj5ug8K9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312260207.XbLZKtTb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312260235.Uj5ug8K9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld.lld: error: ./arch/x86/kernel/vmlinux.lds:162: at least one side of the expression must be absolute
-   ld.lld: error: ./arch/x86/kernel/vmlinux.lds:163: at least one side of the expression must be absolute
->> ld.lld: error: undefined symbol: create_function_device
-   >>> referenced by f_audio_source.c:1028 (drivers/usb/gadget/function/f_audio_source.c:1028)
-   >>>               drivers/usb/gadget/function/f_audio_source.o:(audio_source_alloc_inst) in archive built-in.a
+   seccomp_benchmark.c: In function 'main':
+>> seccomp_benchmark.c:149:24: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+     149 |         ksft_print_msg("");
+         |                        ^~
+   seccomp_benchmark.c:154:24: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+     154 |         ksft_print_msg("");
+         |                        ^~
+   seccomp_benchmark.c:156:24: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+     156 |         ksft_print_msg("");
+         |                        ^~
 
 -- 
 0-DAY CI Kernel Test Service
