@@ -1,47 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A737BEA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 02:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB2F1847
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 02:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bClvk228"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKVVgbBN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703556354; x=1735092354;
+  t=1703557012; x=1735093012;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=akg2x1JF6e0Hxo1P6nrdMwAyUhKGNi9x14Dcp8AxMNg=;
-  b=bClvk228u+BvKWeW79RmRBQVrhR7vodgNrmocY4V4dSasc/H/Zrrdq33
-   CDFhj61STDCTKGZu2JVG9r+kxKFo2MIyPNIup0f8S7eK13NSKnHSLyRWM
-   NoP3ztJ1k3DRLc9TyUSlryvO+xJ+d064ibvSNzvOVMkaMXr+LN2YoCZti
-   rzkmdUPCFfOhUGrWk6KNMTLLu4UpsgcRPcN115euMt7YU8JUNs/7uKlj8
-   ln2S+odEXb2UCuL6eD0wN9/uUlnZbgyZcx7hdRbFLvye1gs2CFFKBV1ag
-   Ln8VUFVWB5wmfJ6hEJ6WnCaH95k/d0bBlUEyP9ehT0XP/XkCoWlzPr2Gz
+  bh=FIbjR4MeHR1cPJ+c1UzOobgRtxx5vLTwcCPN8hzu+bM=;
+  b=SKVVgbBNDspNbdYOl0nPmuQsiKHgVlCqU5L0JXRU8McYFMJlTTP72onv
+   T9zu7HOeo7fZBQ/Xjv5Sh59wBbKbO1FrOQN/GZqoeGMPO80a7RQeBzG7Y
+   1FAXHRddVSVW1GOJsdM2cMVCmg9eaDr6p9IYFGdgSwtvkBeaieiNR9YjN
+   8NlJuB5lIen+/RlIzIYhDvqMTYqYk1XntYymw5fHcqUGxZKJFDOjEiJav
+   eP4DO/m5/ZntooIwlhPyH4R6qtnCvhwKtlFRuO8dVuMk0uTfZ+B/BPQdY
+   z02O7BalMNG5qFqZF1hStlQAOcaJh8NxBS6r6bX+omw9o8YASZScZ/acT
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="482491111"
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="376454700"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="482491111"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 18:05:51 -0800
+   d="scan'208";a="376454700"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 18:16:51 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="754050175"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="26172467"
+   d="scan'208";a="754050175"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 25 Dec 2023 18:05:49 -0800
+  by orsmga006.jf.intel.com with ESMTP; 25 Dec 2023 18:16:49 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHwpG-000DsL-2m;
-	Tue, 26 Dec 2023 02:05:46 +0000
-Date: Tue, 26 Dec 2023 10:05:36 +0800
+	id 1rHwzv-000Dsj-0L;
+	Tue, 26 Dec 2023 02:16:47 +0000
+Date: Tue, 26 Dec 2023 10:16:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Masney <masneyb@onstation.org>
+To: Andrey Konovalov <andreyknvl@google.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Marc Zyngier <maz@kernel.org>
-Subject: kernel/irq/irqdomain.c:985: warning: Function parameter or member
- 'd' not described in 'irq_domain_translate_twocell'
-Message-ID: <202312261019.ZvgAHhpI-lkp@intel.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Marco Elver <elver@google.com>
+Subject: mm/kasan/kasan_test.c:36:6: sparse: sparse: symbol
+ 'kasan_ptr_result' was not declared. Should it be static?
+Message-ID: <202312261010.o0lRiI9b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,77 +53,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Brian,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fbafc3e621c3f4ded43720fdb1d6ce1728ec664e
-commit: b5c231d8c8037f63d34199ea1667bbe1cd9f940f genirq: introduce irq_domain_translate_twocell
-date:   4 years, 10 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231226/202312261019.ZvgAHhpI-lkp@intel.com/config)
+commit: f7e01ab828fd4bf6d25b1f143a3994241e8572bf kasan: move tests to mm/kasan/
+date:   1 year, 3 months ago
+config: x86_64-randconfig-122-20231101 (https://download.01.org/0day-ci/archive/20231226/202312261010.o0lRiI9b-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312261019.ZvgAHhpI-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312261010.o0lRiI9b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312261019.ZvgAHhpI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312261010.o0lRiI9b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/kasan/kasan_test.c:36:6: sparse: sparse: symbol 'kasan_ptr_result' was not declared. Should it be static?
+>> mm/kasan/kasan_test.c:37:5: sparse: sparse: symbol 'kasan_int_result' was not declared. Should it be static?
 
-   kernel/irq/irqdomain.c:66: warning: expecting prototype for irq_domain_alloc_fwnode(). Prototype was for __irq_domain_alloc_fwnode() instead
-   kernel/irq/irqdomain.c:104: warning: Function parameter or member 'fwnode' not described in 'irq_domain_free_fwnode'
-   kernel/irq/irqdomain.c:914: warning: Function parameter or member 'd' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:914: warning: Function parameter or member 'ctrlr' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:914: warning: Function parameter or member 'intspec' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:914: warning: Function parameter or member 'intsize' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:914: warning: Function parameter or member 'out_hwirq' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:914: warning: Function parameter or member 'out_type' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:933: warning: Function parameter or member 'd' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:933: warning: Function parameter or member 'ctrlr' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:933: warning: Function parameter or member 'intspec' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:933: warning: Function parameter or member 'intsize' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:933: warning: Function parameter or member 'out_hwirq' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:933: warning: Function parameter or member 'out_type' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:956: warning: Function parameter or member 'd' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:956: warning: Function parameter or member 'ctrlr' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:956: warning: Function parameter or member 'intspec' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:956: warning: Function parameter or member 'intsize' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:956: warning: Function parameter or member 'out_hwirq' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:956: warning: Function parameter or member 'out_type' not described in 'irq_domain_xlate_onetwocell'
->> kernel/irq/irqdomain.c:985: warning: Function parameter or member 'd' not described in 'irq_domain_translate_twocell'
->> kernel/irq/irqdomain.c:985: warning: Function parameter or member 'fwspec' not described in 'irq_domain_translate_twocell'
->> kernel/irq/irqdomain.c:985: warning: Function parameter or member 'out_hwirq' not described in 'irq_domain_translate_twocell'
->> kernel/irq/irqdomain.c:985: warning: Function parameter or member 'out_type' not described in 'irq_domain_translate_twocell'
-   kernel/irq/irqdomain.c:1564: warning: Function parameter or member 'domain' not described in 'irq_domain_alloc_irqs_parent'
-   kernel/irq/irqdomain.c:1583: warning: Function parameter or member 'domain' not described in 'irq_domain_free_irqs_parent'
+vim +/kasan_ptr_result +36 mm/kasan/kasan_test.c
 
+f33a01492a24a2 lib/test_kasan.c Walter Wu        2020-08-06  31  
+adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03  32  /*
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  33   * Some tests use these global variables to store return values from function
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  34   * calls that could otherwise be eliminated by the compiler as dead code.
+adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03  35   */
+adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03 @36  void *kasan_ptr_result;
+83c4e7a0363bdb lib/test_kasan.c Patricia Alfonso 2020-10-13 @37  int kasan_int_result;
+83c4e7a0363bdb lib/test_kasan.c Patricia Alfonso 2020-10-13  38  
 
-vim +985 kernel/irq/irqdomain.c
+:::::: The code at line 36 was first introduced by commit
+:::::: adb72ae1915db28f934e9e02c18bfcea2f3ed3b7 kasan: stop tests being eliminated as dead code with FORTIFY_SOURCE
 
-   972	
-   973	/**
-   974	 * irq_domain_translate_twocell() - Generic translate for direct two cell
-   975	 * bindings
-   976	 *
-   977	 * Device Tree IRQ specifier translation function which works with two cell
-   978	 * bindings where the cell values map directly to the hwirq number
-   979	 * and linux irq flags.
-   980	 */
-   981	int irq_domain_translate_twocell(struct irq_domain *d,
-   982					 struct irq_fwspec *fwspec,
-   983					 unsigned long *out_hwirq,
-   984					 unsigned int *out_type)
- > 985	{
-   986		if (WARN_ON(fwspec->param_count < 2))
-   987			return -EINVAL;
-   988		*out_hwirq = fwspec->param[0];
-   989		*out_type = fwspec->param[1] & IRQ_TYPE_SENSE_MASK;
-   990		return 0;
-   991	}
-   992	EXPORT_SYMBOL_GPL(irq_domain_translate_twocell);
-   993	
+:::::: TO: Daniel Axtens <dja@axtens.net>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
