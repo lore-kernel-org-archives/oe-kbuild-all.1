@@ -1,150 +1,137 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0429E4E1A0;
-	Tue, 26 Dec 2023 10:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E042C4E1BA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 11:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="qctTj9H1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1703585548; x=1704190348; i=markus.elfring@web.de;
-	bh=dPv4vm2V0dtNM9i6ea9tTX3+xLFfWPWmI5QeWJPTnZk=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=qctTj9H1YVuIc3m8+kAdWWGMz52a5nerjKipKUSb6X8ybQ8HqLI6Fm7K+JOA1q/j
-	 chiHL60LtJaQG8B58YOM4rEr9Xx+MEj4DQLXr80xtHmwVA+t2Lzh4Juxb/xXQLn/8
-	 JUBotIqKsiDzTLSsPto/n+/GwCINXYPM13DmwzXE3nBTKZ+uqlOqTu4ESJcHDKrKB
-	 o/oPJWLn42XMytEJk9QA5fSpUPH3u+Ga9weIjWDsGTDlmxjN/45/L3ayhy8ZxKW7l
-	 NbMKFMb2jaAQxa7Z6K9Os2ldxslTommCScCEiAI7p6J++Oe1zU6KUu5yMo0Y+dwts
-	 Ih+seoMJWTukJthKvw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MgzaR-1qmKZd2f09-00h0gW; Tue, 26
- Dec 2023 11:12:28 +0100
-Message-ID: <7bf9a4fa-1675-45a6-88dd-82549ae2c6e0@web.de>
-Date: Tue, 26 Dec 2023 11:12:23 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJh6/V3w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703589836; x=1735125836;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dX4lu0JJ2DWDWAPdrM7SqEgs8V3xGnhNaNozOtRExnE=;
+  b=VJh6/V3wBhvgvvG5Nx9BMOspXM5yib7LoIr9/oEAfj/+7roAb7D2YCT4
+   9+rhqVtM+nS8n/ThiV9NEgiMpJyQ80GxCAq+cfZGkxghW8rW7XJO1jjrW
+   eG7tVfARkjyoSlSyxiKQt6HyeczV4rlV9q0PifivJx4nFM8qKuyUZg9pJ
+   5Azo1bqj0pKgy2tcOIQ2efxr9OpaZDXzeQH9GAuqWL1VuALquf5bYW9yA
+   baplbcX38QK9/Doe9CMSOgvPSfPXEDJoBbRXRuG+O7E1Ip8+rl0z1Aivr
+   0/sF6cXwHAmxV71vZ7KQQSjP1wg4Ty+tEX+aT6wE2OPADvAXKVlLnBfOx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="3425740"
+X-IronPort-AV: E=Sophos;i="6.04,306,1695711600"; 
+   d="scan'208";a="3425740"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 03:23:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="951211446"
+X-IronPort-AV: E=Sophos;i="6.04,306,1695711600"; 
+   d="scan'208";a="951211446"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 26 Dec 2023 03:23:52 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rI5XH-000EQr-2Z;
+	Tue, 26 Dec 2023 11:23:49 +0000
+Date: Tue, 26 Dec 2023 19:23:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hardik T Shah <hardik.t.shah@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Sanyog Kale <sanyog.r.kale@intel.com>
+Subject: [intel-lts:4.19/android_s 2388/30000] drivers/sdw/sdw_cnl.c:215:13:
+ warning: 'sdw_switch_to_glue' defined but not used
+Message-ID: <202312261913.pjZXwmDu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v2] crypto: virtio - Less function calls in
- __virtio_crypto_akcipher_do_req() after error detection
-Content-Language: en-GB
-To: kernel test robot <lkp@intel.com>, virtualization@lists.linux.dev,
- linux-crypto@vger.kernel.org, kernel-janitors@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Gonglei <arei.gonglei@huawei.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
-References: <2413f22f-f0c3-45e0-9f6b-a551bdf0f54c@web.de>
- <202312260852.0ge5O8IL-lkp@intel.com>
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <202312260852.0ge5O8IL-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:YN0MO2vfA1atqF0nbfqn3SUIOjqrjmmzVaCGbVBzhr1uK75lo+t
- Z+XanIEq02qD07l7cGh0qCNmrpZhVE1z34Lyp8XzjJZz1NMCNGi0WvNA0YgL+CUCd3AkrUH
- u4m7w4Ne71OdUv3nbMx76OomPu4ThXd6ZHN3zMk7meKGBNwTcpJaMKYb1ZhMM9nhYIGQd72
- CDypDzv2I327qYKzDGLtg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:8nuqnBAmzpc=;fggNP23Hu6H5jAMVog3j6WuwsVy
- SNSPoYpjKMwrNPMQKvNUF2W2BCNiSMXM6+szPZlgk5czdie42gPPZHtJ7lVD+Ve9gzqracOJ/
- vJ5Nm0XtiPrhTYtne9KKJkgViiSJ9VRdwEOQg6qSSh0Mb6GF61My09Xu6t5blbdrTD8JCW+hi
- ZTyonCXTwrNSC5ybEZGjj1n1oSG7o6W0ZyXTEGYjlWq1Uw0g/0LYWTSyw0Ul4AyVOp9mf5bar
- LyyuaOfeY/6x8vmc4qN2V+wcRolHAdWvCkMblNmdfH5VNDTOO/6vgqOkQJ+4I+RmhODXe5aEk
- zcSDuO/zOLanNfFuqFZDqVUBziTSeoqXMdbMmvR+VbZse1YRLch5Kgaddv1kU57k/LvAdCeV/
- jITnam948vgtGL4CSq8sG+SNxwq7haNKwfXVlqMV0PvdcaZKULiS7OwcIu+JAjAExqHxn9VhC
- sQxEIQsHz0Vros/asQqPXaV9By64fZ4xZV9YTcYW9kYUMzFbACzWecX2MxryUt7VZdNL0hAKD
- h8b9hiub2b7uHr2lWE6sgLF0Lza1HRxLQE4P1gx/2/FK+TdMtwfi6fdlCUq0YAtkVAjhJ3Itc
- 7IQDzC6bKhG423ry4K5JJNPQrTieQVnchifFCJs9ji2RXXV7XAHJXJVTFsCMbvMSzqAYgrCjE
- ju2Lwc6iP4UF7ZT3PH1U5EkOjtkCUdjCEKcUxI9LG/RG9IQd4xrfJgOvxzxFRAa0hNFbco+mU
- 3K0PdeaQhY/3yQPOjtIfTCJAM0mn9o5LiJ/TwzfQnF6fBQgzwjZPllvg7PJdAgRahw1GDP0AU
- 4q0P9MY9OqRHgjCkBcqICAHF0Pb6L3gb166r70ry43nveXIZQuABdfP9ZVueBQ6dIV4gzclr9
- T3QMf/bkPp2VN9TN5sd/4dEflY8gfYX/vQqODRKtrK+Izhm70lJna8tRR0QH1TcGjBgoTUfi3
- VOtIf1J/PSAE+RJkUJCU2HoAB14=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 26 Dec 2023 11:00:20 +0100
+Hi Hardik,
 
-The kfree() function was called in up to two cases by the
-__virtio_crypto_akcipher_do_req() function during error handling
-even if the passed variable contained a null pointer.
-This issue was detected by using the Coccinelle software.
+FYI, the error/warning still remains.
 
-* Adjust jump targets.
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   2b69ccfcb3117ca97de0f8d4e752e4776133afb8
+commit: 2bb2777dedaa6adce2de5a407af68bce8dd6d727 [2388/30000] Soundwire squashed commits
+config: i386-randconfig-005-20231226 (https://download.01.org/0day-ci/archive/20231226/202312261913.pjZXwmDu-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312261913.pjZXwmDu-lkp@intel.com/reproduce)
 
-* Delete two initialisations which became unnecessary
-  with this refactoring.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312261913.pjZXwmDu-lkp@intel.com/
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
+All warnings (new ones prefixed by >>):
 
-v2:
-A typo was fixed for the delimiter of a label.
+   In file included from drivers/sdw/sdw_cnl.c:39:
+   include/linux/sdw_bus.h:549:10: warning: 'struct sdw_impl_def_intr_stat' declared inside parameter list will not be visible outside of this definition or declaration
+     549 |   struct sdw_impl_def_intr_stat *intr_status);
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/sdw/sdw_cnl.c: In function 'sdw_pdm_pdi_init':
+   drivers/sdw/sdw_cnl.c:362:29: warning: variable 'total_pdm_streams' set but not used [-Wunused-but-set-variable]
+     362 |  int pdm_cap, pdm_ch_count, total_pdm_streams;
+         |                             ^~~~~~~~~~~~~~~~~
+   drivers/sdw/sdw_cnl.c: At top level:
+   drivers/sdw/sdw_cnl.c:788:13: warning: no previous prototype for 'cnl_sdw_irq_handler' [-Wmissing-prototypes]
+     788 | irqreturn_t cnl_sdw_irq_handler(int irq, void *context)
+         |             ^~~~~~~~~~~~~~~~~~~
+   drivers/sdw/sdw_cnl.c: In function 'cnl_sdw_irq_handler':
+   drivers/sdw/sdw_cnl.c:791:27: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+     791 |  volatile int int_status, status, wake_sts;
+         |                           ^~~~~~
+   drivers/sdw/sdw_cnl.c: In function 'sdw_xfer_msg':
+   drivers/sdw/sdw_cnl.c:932:20: warning: variable 'response_data' set but not used [-Wunused-but-set-variable]
+     932 |  u32 cmd_data = 0, response_data;
+         |                    ^~~~~~~~~~~~~
+   drivers/sdw/sdw_cnl.c:931:6: warning: variable 'response_base' set but not used [-Wunused-but-set-variable]
+     931 |  u32 response_base = SDW_CNL_MCP_RESPONSE_BASE;
+         |      ^~~~~~~~~~~~~
+   drivers/sdw/sdw_cnl.c: In function 'cnl_sdw_set_ssp_interval':
+   drivers/sdw/sdw_cnl.c:1075:22: warning: variable 'check' set but not used [-Wunused-but-set-variable]
+    1075 |  int sspctrl_offset, check;
+         |                      ^~~~~
+   In file included from drivers/sdw/sdw_cnl.c:23:
+   drivers/sdw/sdw_cnl.c: At top level:
+   include/linux/module.h:133:6: warning: 'init_module' specifies less restrictive attribute than its target 'cnl_sdw_init': 'cold' [-Wmissing-attributes]
+     133 |  int init_module(void) __attribute__((alias(#initfn)));
+         |      ^~~~~~~~~~~
+   drivers/sdw/sdw_cnl.c:1573:1: note: in expansion of macro 'module_init'
+    1573 | module_init(cnl_sdw_init);
+         | ^~~~~~~~~~~
+   drivers/sdw/sdw_cnl.c:1569:19: note: 'init_module' target declared here
+    1569 | static int __init cnl_sdw_init(void)
+         |                   ^~~~~~~~~~~~
+>> drivers/sdw/sdw_cnl.c:215:13: warning: 'sdw_switch_to_glue' defined but not used [-Wunused-function]
+     215 | static void sdw_switch_to_glue(struct cnl_sdw *sdw)
+         |             ^~~~~~~~~~~~~~~~~~
 
- drivers/crypto/virtio/virtio_crypto_akcipher_algs.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/crypto/virtio/virtio_crypto_akcipher_algs.c b/drivers=
-/crypto/virtio/virtio_crypto_akcipher_algs.c
-index 2621ff8a9376..057da5bd8d30 100644
-=2D-- a/drivers/crypto/virtio/virtio_crypto_akcipher_algs.c
-+++ b/drivers/crypto/virtio/virtio_crypto_akcipher_algs.c
-@@ -224,11 +224,11 @@ static int __virtio_crypto_akcipher_do_req(struct vi=
-rtio_crypto_akcipher_request
- 	struct virtio_crypto *vcrypto =3D ctx->vcrypto;
- 	struct virtio_crypto_op_data_req *req_data =3D vc_req->req_data;
- 	struct scatterlist *sgs[4], outhdr_sg, inhdr_sg, srcdata_sg, dstdata_sg;
--	void *src_buf =3D NULL, *dst_buf =3D NULL;
-+	void *src_buf, *dst_buf =3D NULL;
- 	unsigned int num_out =3D 0, num_in =3D 0;
- 	int node =3D dev_to_node(&vcrypto->vdev->dev);
- 	unsigned long flags;
--	int ret =3D -ENOMEM;
-+	int ret;
- 	bool verify =3D vc_akcipher_req->opcode =3D=3D VIRTIO_CRYPTO_AKCIPHER_VE=
-RIFY;
- 	unsigned int src_len =3D verify ? req->src_len + req->dst_len : req->src=
-_len;
+vim +/sdw_switch_to_glue +215 drivers/sdw/sdw_cnl.c
 
-@@ -239,7 +239,7 @@ static int __virtio_crypto_akcipher_do_req(struct virt=
-io_crypto_akcipher_request
- 	/* src data */
- 	src_buf =3D kcalloc_node(src_len, 1, GFP_KERNEL, node);
- 	if (!src_buf)
--		goto err;
-+		return -ENOMEM;
+   214	
+ > 215	static void sdw_switch_to_glue(struct cnl_sdw *sdw)
+   216	{
+   217		u16 ioctl;
+   218		struct cnl_sdw_data *data = &sdw->data;
+   219		int ioctl_offset = SDW_CNL_IOCTL + (data->inst_id *
+   220						SDW_CNL_IOCTL_REG_OFFSET);
+   221	
+   222		ioctl = cnl_sdw_reg_readw(data->sdw_shim,  ioctl_offset);
+   223		ioctl |= CNL_IOCTL_BKE_MASK << CNL_IOCTL_BKE_SHIFT;
+   224		ioctl |= CNL_IOCTL_COE_MASK << CNL_IOCTL_COE_SHIFT;
+   225		cnl_sdw_reg_writew(data->sdw_shim,  ioctl_offset, ioctl);
+   226	
+   227		ioctl &= ~(CNL_IOCTL_MIF_MASK << CNL_IOCTL_MIF_SHIFT);
+   228		cnl_sdw_reg_writew(data->sdw_shim,  ioctl_offset, ioctl);
+   229	}
+   230	
 
- 	if (verify) {
- 		/* for verify operation, both src and dst data work as OUT direction */
-@@ -254,7 +254,7 @@ static int __virtio_crypto_akcipher_do_req(struct virt=
-io_crypto_akcipher_request
- 		/* dst data */
- 		dst_buf =3D kcalloc_node(req->dst_len, 1, GFP_KERNEL, node);
- 		if (!dst_buf)
--			goto err;
-+			goto free_src;
-
- 		sg_init_one(&dstdata_sg, dst_buf, req->dst_len);
- 		sgs[num_out + num_in++] =3D &dstdata_sg;
-@@ -277,9 +277,9 @@ static int __virtio_crypto_akcipher_do_req(struct virt=
-io_crypto_akcipher_request
- 	return 0;
-
- err:
--	kfree(src_buf);
- 	kfree(dst_buf);
--
-+free_src:
-+	kfree(src_buf);
- 	return -ENOMEM;
- }
-
-=2D-
-2.43.0
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
