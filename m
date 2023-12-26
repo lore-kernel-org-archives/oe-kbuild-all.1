@@ -1,171 +1,145 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6938F4F5;
-	Tue, 26 Dec 2023 02:57:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB961078E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 03:09:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cq4p8Xff"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gV6EY6lN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703559479; x=1735095479;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kPxH4mlVpKO8ProfOWoMD/kdu7a2S1nyI4WvfcycFWc=;
-  b=Cq4p8XffqJz3i8aterm2Q5vGykRKmXX68UtCWImLJMqxJDzLhG/82ibC
-   FfBFxtOb/KbR3Gt2uU5tW9TniABnf2FIQ1XXwSnVZZ5dRTnVjVPf6GVlP
-   8w8PbxeE1rlqzp0UUYRmirhJt3MtPqFg4wdTV3wlHxpX8e8Sr10FDo1EU
-   P5OWFAMww4ePi3AjJeHD0PJMALEkXiilF9PiUw9QfYw35mzKmDQIMpJ3C
-   QyKJesWpvMWk5AKdfoSAhhlDd+y0LmHrfjMwH4ty5ggHjci0xU0T0Ruml
-   7v62eYmH35niNcOpKLwPxxVf06rbEjZRo32/lVnw4OtFH9MP2FAtSf/UZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="3398842"
+  t=1703560155; x=1735096155;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4sOfdLjctTbsDq9TJboZiHNGXoyeVfXJBH3M0tpQ1L0=;
+  b=gV6EY6lN3V0WaJfoMNmxqX97rYnj6fGhb64ulx9mdbub+BtXUWXM+pzf
+   p/PUYiB/KBb7BcQb1nOW+mmXkDCIQjilfkmXE4CU5E+mlWeP6VlGK6sIw
+   y3seWnJ3u/vz+WWUv9bxL39jJvlgbbCvRdMDI8YcxjG2UI4aFVKzr8XnD
+   VqN9UPiIAlmnNOgR5AEzWu+oFeJeBQY8odB4V3XSd1Qh3axs23iuX9Gbe
+   0WAKSs3czc5Uw5GLHf9DJzhP/aZlbdJO1Df5wx0G/qOt09kWTOP3rZSBC
+   8SewH1eFNIh9VQ5OLSHc2YTcqrJGcif7ssNeTLpsArczvbWB3/jt7lO9k
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="3399533"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="3398842"
+   d="scan'208";a="3399533"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 18:57:58 -0800
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 19:07:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="848321521"
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="848323553"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="848321521"
+   d="scan'208";a="848323553"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 25 Dec 2023 18:57:54 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 25 Dec 2023 19:07:55 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHxdg-000Dw3-1L;
-	Tue, 26 Dec 2023 02:57:52 +0000
-Date: Tue, 26 Dec 2023 10:57:24 +0800
+	id 1rHxnM-000Dwb-2T;
+	Tue, 26 Dec 2023 03:07:52 +0000
+Date: Tue, 26 Dec 2023 11:07:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Elfring <Markus.Elfring@web.de>, virtualization@lists.linux.dev,
-	linux-crypto@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Gonglei <arei.gonglei@huawei.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
-Subject: Re: [PATCH] crypto: virtio - Less function calls in
- __virtio_crypto_akcipher_do_req() after error detection
-Message-ID: <202312261008.7ahERlAx-lkp@intel.com>
-References: <2413f22f-f0c3-45e0-9f6b-a551bdf0f54c@web.de>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jiri Kosina <jkosina@suse.cz>
+Subject: drivers/hid/hid-magicmouse.c:146: warning: Function parameter or
+ member 'battery_timer' not described in 'magicmouse_sc'
+Message-ID: <202312261056.AmFPDIL5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <2413f22f-f0c3-45e0-9f6b-a551bdf0f54c@web.de>
+Content-Transfer-Encoding: 8bit
 
-Hi Markus,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on herbert-crypto-2.6/master linus/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/crypto-virtio-Less-function-calls-in-__virtio_crypto_akcipher_do_req-after-error-detection/20231225-154431
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/2413f22f-f0c3-45e0-9f6b-a551bdf0f54c%40web.de
-patch subject: [PATCH] crypto: virtio - Less function calls in __virtio_crypto_akcipher_do_req() after error detection
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20231226/202312261008.7ahERlAx-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fbafc3e621c3f4ded43720fdb1d6ce1728ec664e
+commit: 0b91b4e4dae63cd43871fc2012370b86ee588f91 HID: magicmouse: Report battery level over USB
+date:   2 years, 1 month ago
+config: x86_64-randconfig-x066-20230529 (https://download.01.org/0day-ci/archive/20231226/202312261056.AmFPDIL5-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312261008.7ahERlAx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312261056.AmFPDIL5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312261008.7ahERlAx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312261056.AmFPDIL5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c: In function '__virtio_crypto_akcipher_do_req':
->> drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:281:1: error: 'free_src' undeclared (first use in this function)
-     281 | free_src;
-         | ^~~~~~~~
-   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:281:1: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:257:25: error: label 'free_src' used but not defined
-     257 |                         goto free_src;
-         |                         ^~~~
+   drivers/hid/hid-magicmouse.c:146: warning: Function parameter or member 'hdev' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:146: warning: Function parameter or member 'work' not described in 'magicmouse_sc'
+>> drivers/hid/hid-magicmouse.c:146: warning: Function parameter or member 'battery_timer' not described in 'magicmouse_sc'
 
 
-vim +/free_src +281 drivers/crypto/virtio/virtio_crypto_akcipher_algs.c
+vim +146 drivers/hid/hid-magicmouse.c
 
-   218	
-   219	static int __virtio_crypto_akcipher_do_req(struct virtio_crypto_akcipher_request *vc_akcipher_req,
-   220			struct akcipher_request *req, struct data_queue *data_vq)
-   221	{
-   222		struct virtio_crypto_akcipher_ctx *ctx = vc_akcipher_req->akcipher_ctx;
-   223		struct virtio_crypto_request *vc_req = &vc_akcipher_req->base;
-   224		struct virtio_crypto *vcrypto = ctx->vcrypto;
-   225		struct virtio_crypto_op_data_req *req_data = vc_req->req_data;
-   226		struct scatterlist *sgs[4], outhdr_sg, inhdr_sg, srcdata_sg, dstdata_sg;
-   227		void *src_buf, *dst_buf = NULL;
-   228		unsigned int num_out = 0, num_in = 0;
-   229		int node = dev_to_node(&vcrypto->vdev->dev);
-   230		unsigned long flags;
-   231		int ret;
-   232		bool verify = vc_akcipher_req->opcode == VIRTIO_CRYPTO_AKCIPHER_VERIFY;
-   233		unsigned int src_len = verify ? req->src_len + req->dst_len : req->src_len;
-   234	
-   235		/* out header */
-   236		sg_init_one(&outhdr_sg, req_data, sizeof(*req_data));
-   237		sgs[num_out++] = &outhdr_sg;
-   238	
-   239		/* src data */
-   240		src_buf = kcalloc_node(src_len, 1, GFP_KERNEL, node);
-   241		if (!src_buf)
-   242			return -ENOMEM;
-   243	
-   244		if (verify) {
-   245			/* for verify operation, both src and dst data work as OUT direction */
-   246			sg_copy_to_buffer(req->src, sg_nents(req->src), src_buf, src_len);
-   247			sg_init_one(&srcdata_sg, src_buf, src_len);
-   248			sgs[num_out++] = &srcdata_sg;
-   249		} else {
-   250			sg_copy_to_buffer(req->src, sg_nents(req->src), src_buf, src_len);
-   251			sg_init_one(&srcdata_sg, src_buf, src_len);
-   252			sgs[num_out++] = &srcdata_sg;
-   253	
-   254			/* dst data */
-   255			dst_buf = kcalloc_node(req->dst_len, 1, GFP_KERNEL, node);
-   256			if (!dst_buf)
- > 257				goto free_src;
-   258	
-   259			sg_init_one(&dstdata_sg, dst_buf, req->dst_len);
-   260			sgs[num_out + num_in++] = &dstdata_sg;
-   261		}
-   262	
-   263		vc_akcipher_req->src_buf = src_buf;
-   264		vc_akcipher_req->dst_buf = dst_buf;
-   265	
-   266		/* in header */
-   267		sg_init_one(&inhdr_sg, &vc_req->status, sizeof(vc_req->status));
-   268		sgs[num_out + num_in++] = &inhdr_sg;
-   269	
-   270		spin_lock_irqsave(&data_vq->lock, flags);
-   271		ret = virtqueue_add_sgs(data_vq->vq, sgs, num_out, num_in, vc_req, GFP_ATOMIC);
-   272		virtqueue_kick(data_vq->vq);
-   273		spin_unlock_irqrestore(&data_vq->lock, flags);
-   274		if (ret)
-   275			goto err;
-   276	
-   277		return 0;
-   278	
-   279	err:
-   280		kfree(dst_buf);
- > 281	free_src;
-   282		kfree(src_buf);
-   283		return -ENOMEM;
-   284	}
-   285	
+4f6fdf08681cecd Chase Douglas 2011-08-05   89  
+4f6fdf08681cecd Chase Douglas 2011-08-05   90  #define TRACKPAD_DIMENSION_X (float)13000
+4f6fdf08681cecd Chase Douglas 2011-08-05   91  #define TRACKPAD_MIN_X -2909
+4f6fdf08681cecd Chase Douglas 2011-08-05   92  #define TRACKPAD_MAX_X 3167
+4f6fdf08681cecd Chase Douglas 2011-08-05   93  #define TRACKPAD_RES_X \
+4f6fdf08681cecd Chase Douglas 2011-08-05   94  	((TRACKPAD_MAX_X - TRACKPAD_MIN_X) / (TRACKPAD_DIMENSION_X / 100))
+4f6fdf08681cecd Chase Douglas 2011-08-05   95  #define TRACKPAD_DIMENSION_Y (float)11000
+4f6fdf08681cecd Chase Douglas 2011-08-05   96  #define TRACKPAD_MIN_Y -2456
+4f6fdf08681cecd Chase Douglas 2011-08-05   97  #define TRACKPAD_MAX_Y 2565
+4f6fdf08681cecd Chase Douglas 2011-08-05   98  #define TRACKPAD_RES_Y \
+4f6fdf08681cecd Chase Douglas 2011-08-05   99  	((TRACKPAD_MAX_Y - TRACKPAD_MIN_Y) / (TRACKPAD_DIMENSION_Y / 100))
+4f6fdf08681cecd Chase Douglas 2011-08-05  100  
+9d7b18668956c41 Sean O'Brien  2018-10-02  101  #define TRACKPAD2_DIMENSION_X (float)16000
+9d7b18668956c41 Sean O'Brien  2018-10-02  102  #define TRACKPAD2_MIN_X -3678
+9d7b18668956c41 Sean O'Brien  2018-10-02  103  #define TRACKPAD2_MAX_X 3934
+9d7b18668956c41 Sean O'Brien  2018-10-02  104  #define TRACKPAD2_RES_X \
+9d7b18668956c41 Sean O'Brien  2018-10-02  105  	((TRACKPAD2_MAX_X - TRACKPAD2_MIN_X) / (TRACKPAD2_DIMENSION_X / 100))
+9d7b18668956c41 Sean O'Brien  2018-10-02  106  #define TRACKPAD2_DIMENSION_Y (float)11490
+9d7b18668956c41 Sean O'Brien  2018-10-02  107  #define TRACKPAD2_MIN_Y -2478
+9d7b18668956c41 Sean O'Brien  2018-10-02  108  #define TRACKPAD2_MAX_Y 2587
+9d7b18668956c41 Sean O'Brien  2018-10-02  109  #define TRACKPAD2_RES_Y \
+9d7b18668956c41 Sean O'Brien  2018-10-02  110  	((TRACKPAD2_MAX_Y - TRACKPAD2_MIN_Y) / (TRACKPAD2_DIMENSION_Y / 100))
+9d7b18668956c41 Sean O'Brien  2018-10-02  111  
+128537cea464d91 Michael Poole 2010-02-06  112  /**
+128537cea464d91 Michael Poole 2010-02-06  113   * struct magicmouse_sc - Tracks Magic Mouse-specific data.
+128537cea464d91 Michael Poole 2010-02-06  114   * @input: Input device through which we report events.
+128537cea464d91 Michael Poole 2010-02-06  115   * @quirks: Currently unused.
+128537cea464d91 Michael Poole 2010-02-06  116   * @ntouches: Number of touches in most recent touch report.
+128537cea464d91 Michael Poole 2010-02-06  117   * @scroll_accel: Number of consecutive scroll motions.
+128537cea464d91 Michael Poole 2010-02-06  118   * @scroll_jiffies: Time of last scroll motion.
+128537cea464d91 Michael Poole 2010-02-06  119   * @touches: Most recent data for a touch, indexed by tracking ID.
+128537cea464d91 Michael Poole 2010-02-06  120   * @tracking_ids: Mapping of current touch input data to @touches.
+128537cea464d91 Michael Poole 2010-02-06  121   */
+128537cea464d91 Michael Poole 2010-02-06  122  struct magicmouse_sc {
+128537cea464d91 Michael Poole 2010-02-06  123  	struct input_dev *input;
+128537cea464d91 Michael Poole 2010-02-06  124  	unsigned long quirks;
+128537cea464d91 Michael Poole 2010-02-06  125  
+128537cea464d91 Michael Poole 2010-02-06  126  	int ntouches;
+128537cea464d91 Michael Poole 2010-02-06  127  	int scroll_accel;
+128537cea464d91 Michael Poole 2010-02-06  128  	unsigned long scroll_jiffies;
+128537cea464d91 Michael Poole 2010-02-06  129  
+128537cea464d91 Michael Poole 2010-02-06  130  	struct {
+128537cea464d91 Michael Poole 2010-02-06  131  		short x;
+128537cea464d91 Michael Poole 2010-02-06  132  		short y;
+c04266889b59116 Chase Douglas 2010-06-20  133  		short scroll_x;
+128537cea464d91 Michael Poole 2010-02-06  134  		short scroll_y;
+d4b9f10a0eb64c6 José Expósito 2021-07-07  135  		short scroll_x_hr;
+d4b9f10a0eb64c6 José Expósito 2021-07-07  136  		short scroll_y_hr;
+128537cea464d91 Michael Poole 2010-02-06  137  		u8 size;
+9d60648c607a2bf José Expósito 2021-07-07  138  		bool scroll_x_active;
+9d60648c607a2bf José Expósito 2021-07-07  139  		bool scroll_y_active;
+128537cea464d91 Michael Poole 2010-02-06  140  	} touches[16];
+128537cea464d91 Michael Poole 2010-02-06  141  	int tracking_ids[16];
+c0dc5582812dfaf John Chen     2021-03-30  142  
+c0dc5582812dfaf John Chen     2021-03-30  143  	struct hid_device *hdev;
+c0dc5582812dfaf John Chen     2021-03-30  144  	struct delayed_work work;
+0b91b4e4dae63cd José Expósito 2021-11-18  145  	struct timer_list battery_timer;
+128537cea464d91 Michael Poole 2010-02-06 @146  };
+128537cea464d91 Michael Poole 2010-02-06  147  
+
+:::::: The code at line 146 was first introduced by commit
+:::::: 128537cea464d919febeaea2000e256749f317eb HID: add a device driver for the Apple Magic Mouse.
+
+:::::: TO: Michael Poole <mdpoole@troilus.org>
+:::::: CC: Jiri Kosina <jkosina@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
