@@ -1,145 +1,405 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB961078E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 03:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D9D12B79
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 03:41:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gV6EY6lN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MEqBh0oY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703560155; x=1735096155;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4sOfdLjctTbsDq9TJboZiHNGXoyeVfXJBH3M0tpQ1L0=;
-  b=gV6EY6lN3V0WaJfoMNmxqX97rYnj6fGhb64ulx9mdbub+BtXUWXM+pzf
-   p/PUYiB/KBb7BcQb1nOW+mmXkDCIQjilfkmXE4CU5E+mlWeP6VlGK6sIw
-   y3seWnJ3u/vz+WWUv9bxL39jJvlgbbCvRdMDI8YcxjG2UI4aFVKzr8XnD
-   VqN9UPiIAlmnNOgR5AEzWu+oFeJeBQY8odB4V3XSd1Qh3axs23iuX9Gbe
-   0WAKSs3czc5Uw5GLHf9DJzhP/aZlbdJO1Df5wx0G/qOt09kWTOP3rZSBC
-   8SewH1eFNIh9VQ5OLSHc2YTcqrJGcif7ssNeTLpsArczvbWB3/jt7lO9k
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="3399533"
+  t=1703562119; x=1735098119;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=akeeuEQPfYHoTiT62/g0q+myH4yBpCPK2HBjR5cajLw=;
+  b=MEqBh0oYDPvIxyObOWKL/OyPqIdIaW/Y1e34uI8jGwKcz6FwOmz6/X6W
+   WbvEoz5ZYgtzIz5N0KFmxaNlaGFs+9FvTlRGtWTaMpMTcWcdHq+IDBiHI
+   Pt2p2WETs9kMRxC2uVgqzwE7lNXAtAwjRVlxKliwylhSODZRXUsKYEVXb
+   os9qowEvH6VxNbhLoAB5kC5ur9VW/M499TkXi8/x+VcF0Q90kRwYmJXDb
+   9w6VSZWwJwCeBcYNeYQqEAscBwIVEwiKPwAEQGWnksBgHLvqQKdcAiZke
+   Pbqy12gAgclJ/nDDr3EiK4rqq4CtaM3h09s/a08jTD3v2856kZj0VFUfK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="375812211"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="3399533"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 19:07:57 -0800
+   d="scan'208";a="375812211"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 19:41:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="848323553"
+X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="868507174"
 X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="848323553"
+   d="scan'208";a="868507174"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 25 Dec 2023 19:07:55 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Dec 2023 19:41:55 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rHxnM-000Dwb-2T;
-	Tue, 26 Dec 2023 03:07:52 +0000
-Date: Tue, 26 Dec 2023 11:07:51 +0800
+	id 1rHyKH-000Dxb-1S;
+	Tue, 26 Dec 2023 03:41:53 +0000
+Date: Tue, 26 Dec 2023 11:41:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jiri Kosina <jkosina@suse.cz>
-Subject: drivers/hid/hid-magicmouse.c:146: warning: Function parameter or
- member 'battery_timer' not described in 'magicmouse_sc'
-Message-ID: <202312261056.AmFPDIL5-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 10130/10295] WARNING: modpost: vmlinux: section
+ mismatch in reference: fsl_sai_hw_params+0x48 (section: .text) -> (unknown)
+ (section: .init.text)
+Message-ID: <202312261139.NLns8Qqp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fbafc3e621c3f4ded43720fdb1d6ce1728ec664e
-commit: 0b91b4e4dae63cd43871fc2012370b86ee588f91 HID: magicmouse: Report battery level over USB
-date:   2 years, 1 month ago
-config: x86_64-randconfig-x066-20230529 (https://download.01.org/0day-ci/archive/20231226/202312261056.AmFPDIL5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312261056.AmFPDIL5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   39676dfe52331dba909c617f213fdb21015c8d10
+commit: 7a8fd05752df45b795f45fe7ca73edd7f1ed7c41 [10130/10295] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git
+config: riscv-randconfig-r016-20230807 (https://download.01.org/0day-ci/archive/20231226/202312261139.NLns8Qqp-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312261139.NLns8Qqp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312261056.AmFPDIL5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312261139.NLns8Qqp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/hid/hid-magicmouse.c:146: warning: Function parameter or member 'hdev' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:146: warning: Function parameter or member 'work' not described in 'magicmouse_sc'
->> drivers/hid/hid-magicmouse.c:146: warning: Function parameter or member 'battery_timer' not described in 'magicmouse_sc'
-
-
-vim +146 drivers/hid/hid-magicmouse.c
-
-4f6fdf08681cecd Chase Douglas 2011-08-05   89  
-4f6fdf08681cecd Chase Douglas 2011-08-05   90  #define TRACKPAD_DIMENSION_X (float)13000
-4f6fdf08681cecd Chase Douglas 2011-08-05   91  #define TRACKPAD_MIN_X -2909
-4f6fdf08681cecd Chase Douglas 2011-08-05   92  #define TRACKPAD_MAX_X 3167
-4f6fdf08681cecd Chase Douglas 2011-08-05   93  #define TRACKPAD_RES_X \
-4f6fdf08681cecd Chase Douglas 2011-08-05   94  	((TRACKPAD_MAX_X - TRACKPAD_MIN_X) / (TRACKPAD_DIMENSION_X / 100))
-4f6fdf08681cecd Chase Douglas 2011-08-05   95  #define TRACKPAD_DIMENSION_Y (float)11000
-4f6fdf08681cecd Chase Douglas 2011-08-05   96  #define TRACKPAD_MIN_Y -2456
-4f6fdf08681cecd Chase Douglas 2011-08-05   97  #define TRACKPAD_MAX_Y 2565
-4f6fdf08681cecd Chase Douglas 2011-08-05   98  #define TRACKPAD_RES_Y \
-4f6fdf08681cecd Chase Douglas 2011-08-05   99  	((TRACKPAD_MAX_Y - TRACKPAD_MIN_Y) / (TRACKPAD_DIMENSION_Y / 100))
-4f6fdf08681cecd Chase Douglas 2011-08-05  100  
-9d7b18668956c41 Sean O'Brien  2018-10-02  101  #define TRACKPAD2_DIMENSION_X (float)16000
-9d7b18668956c41 Sean O'Brien  2018-10-02  102  #define TRACKPAD2_MIN_X -3678
-9d7b18668956c41 Sean O'Brien  2018-10-02  103  #define TRACKPAD2_MAX_X 3934
-9d7b18668956c41 Sean O'Brien  2018-10-02  104  #define TRACKPAD2_RES_X \
-9d7b18668956c41 Sean O'Brien  2018-10-02  105  	((TRACKPAD2_MAX_X - TRACKPAD2_MIN_X) / (TRACKPAD2_DIMENSION_X / 100))
-9d7b18668956c41 Sean O'Brien  2018-10-02  106  #define TRACKPAD2_DIMENSION_Y (float)11490
-9d7b18668956c41 Sean O'Brien  2018-10-02  107  #define TRACKPAD2_MIN_Y -2478
-9d7b18668956c41 Sean O'Brien  2018-10-02  108  #define TRACKPAD2_MAX_Y 2587
-9d7b18668956c41 Sean O'Brien  2018-10-02  109  #define TRACKPAD2_RES_Y \
-9d7b18668956c41 Sean O'Brien  2018-10-02  110  	((TRACKPAD2_MAX_Y - TRACKPAD2_MIN_Y) / (TRACKPAD2_DIMENSION_Y / 100))
-9d7b18668956c41 Sean O'Brien  2018-10-02  111  
-128537cea464d91 Michael Poole 2010-02-06  112  /**
-128537cea464d91 Michael Poole 2010-02-06  113   * struct magicmouse_sc - Tracks Magic Mouse-specific data.
-128537cea464d91 Michael Poole 2010-02-06  114   * @input: Input device through which we report events.
-128537cea464d91 Michael Poole 2010-02-06  115   * @quirks: Currently unused.
-128537cea464d91 Michael Poole 2010-02-06  116   * @ntouches: Number of touches in most recent touch report.
-128537cea464d91 Michael Poole 2010-02-06  117   * @scroll_accel: Number of consecutive scroll motions.
-128537cea464d91 Michael Poole 2010-02-06  118   * @scroll_jiffies: Time of last scroll motion.
-128537cea464d91 Michael Poole 2010-02-06  119   * @touches: Most recent data for a touch, indexed by tracking ID.
-128537cea464d91 Michael Poole 2010-02-06  120   * @tracking_ids: Mapping of current touch input data to @touches.
-128537cea464d91 Michael Poole 2010-02-06  121   */
-128537cea464d91 Michael Poole 2010-02-06  122  struct magicmouse_sc {
-128537cea464d91 Michael Poole 2010-02-06  123  	struct input_dev *input;
-128537cea464d91 Michael Poole 2010-02-06  124  	unsigned long quirks;
-128537cea464d91 Michael Poole 2010-02-06  125  
-128537cea464d91 Michael Poole 2010-02-06  126  	int ntouches;
-128537cea464d91 Michael Poole 2010-02-06  127  	int scroll_accel;
-128537cea464d91 Michael Poole 2010-02-06  128  	unsigned long scroll_jiffies;
-128537cea464d91 Michael Poole 2010-02-06  129  
-128537cea464d91 Michael Poole 2010-02-06  130  	struct {
-128537cea464d91 Michael Poole 2010-02-06  131  		short x;
-128537cea464d91 Michael Poole 2010-02-06  132  		short y;
-c04266889b59116 Chase Douglas 2010-06-20  133  		short scroll_x;
-128537cea464d91 Michael Poole 2010-02-06  134  		short scroll_y;
-d4b9f10a0eb64c6 José Expósito 2021-07-07  135  		short scroll_x_hr;
-d4b9f10a0eb64c6 José Expósito 2021-07-07  136  		short scroll_y_hr;
-128537cea464d91 Michael Poole 2010-02-06  137  		u8 size;
-9d60648c607a2bf José Expósito 2021-07-07  138  		bool scroll_x_active;
-9d60648c607a2bf José Expósito 2021-07-07  139  		bool scroll_y_active;
-128537cea464d91 Michael Poole 2010-02-06  140  	} touches[16];
-128537cea464d91 Michael Poole 2010-02-06  141  	int tracking_ids[16];
-c0dc5582812dfaf John Chen     2021-03-30  142  
-c0dc5582812dfaf John Chen     2021-03-30  143  	struct hid_device *hdev;
-c0dc5582812dfaf John Chen     2021-03-30  144  	struct delayed_work work;
-0b91b4e4dae63cd José Expósito 2021-11-18  145  	struct timer_list battery_timer;
-128537cea464d91 Michael Poole 2010-02-06 @146  };
-128537cea464d91 Michael Poole 2010-02-06  147  
-
-:::::: The code at line 146 was first introduced by commit
-:::::: 128537cea464d919febeaea2000e256749f317eb HID: add a device driver for the Apple Magic Mouse.
-
-:::::: TO: Michael Poole <mdpoole@troilus.org>
-:::::: CC: Jiri Kosina <jkosina@suse.cz>
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_read_dlcfg+0x210 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_read_dlcfg+0x21e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk_tr.isra.0+0x8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk_tr.isra.0+0x1e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk_tr.isra.0+0x28 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x16 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x26 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x28 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x2c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x32 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x36 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x6a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x76 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x78 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x7e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x82 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x88 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xac (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xb6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xbc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xc8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xd2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xdc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xde (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xe4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xf4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0xfe (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x108 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x10a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x110 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_sysclk+0x114 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x2c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x30 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x36 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x58 (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x5c (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x60 (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x6a (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x8a (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x94 (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x9e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xaa (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xae (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xb4 (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xba (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xc4 (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xca (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xd0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xe0 (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xec (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0xfc (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x108 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x112 (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x120 (section: .text) -> absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt_tr.isra.0+0x128 (section: .text) -> set_pageblock_order (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt+0x16 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt+0x1e (section: .text) -> set_pageblock_order (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt+0x20 (section: .text) -> set_pageblock_order (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt+0x28 (section: .text) -> set_pageblock_order (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt+0x50 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt+0x5a (section: .text) -> set_pageblock_order (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt+0x5c (section: .text) -> set_pageblock_order (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt+0x62 (section: .text) -> set_pageblock_order (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_dai_fmt+0x66 (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x30 (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x76 (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x84 (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x88 (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x8c (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x92 (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x96 (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0xa2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0xaa (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0xae (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0xde (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0xf4 (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0xfc (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x100 (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x108 (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x110 (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x114 (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x11e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x126 (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x12c (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x134 (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x13e (section: .text) -> memmap_alloc (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x144 (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x15e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x16e (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x17e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x18a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x19a (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x19c (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x1ac (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x1b6 (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x1b8 (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x1c2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x1d2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x1d4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_set_bclk+0x1d8 (section: .text) -> get_pfn_range_for_nid (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x48 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x4e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x64 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x6e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x7a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x84 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x8e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0xa8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0xc6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0xce (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0xd2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x10a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x114 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x11e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x128 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x130 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x13a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x140 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x144 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x14e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x158 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x162 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x17a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x182 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x188 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x198 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1a0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1a4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1b4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1bc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1c2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1c6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1d6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1de (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1e4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1e8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x1fc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x204 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x216 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x21e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x222 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x22e (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x23a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x23e (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x246 (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x24a (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x250 (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x25c (section: .text) -> __absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x266 (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x27a (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x290 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x29a (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x2bc (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x2c2 (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x2e0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x2fa (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x306 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x30e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x316 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x320 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x332 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x342 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x354 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x374 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x37c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x380 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x38e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x39a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x3ac (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x3c0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x3ca (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x3dc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x3f8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x410 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x420 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x42c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x444 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x45c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x468 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x47e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x48e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x494 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x49a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x4a0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x4b0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x4c0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x4d4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x4e4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x4f6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x506 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x50c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x512 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x51e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x52e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x546 (section: .text) -> find_zone_movable_pfns_for_nodes (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x548 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x554 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_params+0x562 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_config_disable+0x2a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_config_disable+0x34 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_config_disable+0x3e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_config_disable+0x4a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_config_disable+0x72 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_config_disable+0x7a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_config_disable+0x8a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_config_disable+0x96 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x3e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x56 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x62 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x74 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x7c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x82 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x90 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0xa4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0xb0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0xb8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0xbc (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0xce (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0xe6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x106 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x116 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x12c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x136 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x150 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x158 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x160 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x166 (section: .text) -> __absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x178 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x184 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x18c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x190 (section: .text) -> __absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_trigger+0x198 (section: .text) -> (unknown) (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_free+0x2a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_free+0x42 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_free+0x4e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_free+0x5a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_free+0x6a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_hw_free+0x7e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x1c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x24 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x26 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x2e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x52 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x58 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x62 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x6c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x72 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x7c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x84 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x8e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x98 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x9c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0xa4 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0xac (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x130 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x136 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x140 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x148 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x150 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x158 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x168 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_runtime_resume+0x170 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x68 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x7a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x82 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x88 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0xaa (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0xb2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0xb6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0xbe (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0xd8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0xdc (section: .text) -> __absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0xe0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0xe4 (section: .text) -> __absent_pages_in_range (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0xfe (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x102 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x106 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x124 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x130 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x134 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x146 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x14e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x152 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x156 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x174 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x178 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x182 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x1a6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x1aa (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x1b0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x1c6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x1d2 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x1ee (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x1fa (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x210 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x212 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x21c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x228 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x232 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x236 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x23c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x24a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x24c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x250 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x262 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x268 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x278 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x280 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x28e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x29e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x2a0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x2a6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x2b6 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x2d8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x2ea (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x2f0 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x2f8 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x2fa (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x2fe (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x304 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x30c (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x30e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x312 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x322 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x324 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x32a (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x332 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x33e (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x342 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x348 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x354 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x356 (section: .text) -> (unknown) (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: fsl_sai_probe+0x35a (section: .text) -> (unknown) (section: .init.text)
+..
 
 -- 
 0-DAY CI Kernel Test Service
