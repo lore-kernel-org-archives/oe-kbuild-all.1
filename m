@@ -1,92 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB2F1847
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 02:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKVVgbBN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703557012; x=1735093012;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FIbjR4MeHR1cPJ+c1UzOobgRtxx5vLTwcCPN8hzu+bM=;
-  b=SKVVgbBNDspNbdYOl0nPmuQsiKHgVlCqU5L0JXRU8McYFMJlTTP72onv
-   T9zu7HOeo7fZBQ/Xjv5Sh59wBbKbO1FrOQN/GZqoeGMPO80a7RQeBzG7Y
-   1FAXHRddVSVW1GOJsdM2cMVCmg9eaDr6p9IYFGdgSwtvkBeaieiNR9YjN
-   8NlJuB5lIen+/RlIzIYhDvqMTYqYk1XntYymw5fHcqUGxZKJFDOjEiJav
-   eP4DO/m5/ZntooIwlhPyH4R6qtnCvhwKtlFRuO8dVuMk0uTfZ+B/BPQdY
-   z02O7BalMNG5qFqZF1hStlQAOcaJh8NxBS6r6bX+omw9o8YASZScZ/acT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="376454700"
-X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="376454700"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2023 18:16:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10934"; a="754050175"
-X-IronPort-AV: E=Sophos;i="6.04,304,1695711600"; 
-   d="scan'208";a="754050175"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 25 Dec 2023 18:16:49 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rHwzv-000Dsj-0L;
-	Tue, 26 Dec 2023 02:16:47 +0000
-Date: Tue, 26 Dec 2023 10:16:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Marco Elver <elver@google.com>
-Subject: mm/kasan/kasan_test.c:36:6: sparse: sparse: symbol
- 'kasan_ptr_result' was not declared. Should it be static?
-Message-ID: <202312261010.o0lRiI9b-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF5D23B9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 02:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4SzdbY1J6Fz1FFcJ;
+	Tue, 26 Dec 2023 10:13:13 +0800 (CST)
+Received: from kwepemd100002.china.huawei.com (unknown [7.221.188.184])
+	by mail.maildlp.com (Postfix) with ESMTPS id F26AC14011F;
+	Tue, 26 Dec 2023 10:17:02 +0800 (CST)
+Received: from M910t (10.110.54.157) by kwepemd100002.china.huawei.com
+ (7.221.188.184) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1258.28; Tue, 26 Dec
+ 2023 10:17:02 +0800
+Date: Tue, 26 Dec 2023 10:16:51 +0800
+From: Changbin Du <changbin.du@huawei.com>
+To: Yury Norov <yury.norov@gmail.com>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Linux
+ Memory Management List <linux-mm@kvack.org>, Stephen Rothwell
+	<sfr@canb.auug.org.au>, <akpm@linux-foundation.org>, Changbin Du
+	<changbin.du@huawei.com>
+Subject: Re: [linux-next:master 9918/9925] powerpc64-linux-ld: warning:
+ orphan section `.bss..Lubsan_data794' from `kernel/ptrace.o' being placed in
+ section `.bss..Lubsan_data794'
+Message-ID: <20231226021651.i6c7ar27xb7b2tb4@M910t>
+References: <202312230642.EBF6kiYY-lkp@intel.com>
+ <ZYm5l6AIMVMs69RC@yury-ThinkPad>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
+In-Reply-To: <ZYm5l6AIMVMs69RC@yury-ThinkPad>
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemd100002.china.huawei.com (7.221.188.184)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fbafc3e621c3f4ded43720fdb1d6ce1728ec664e
-commit: f7e01ab828fd4bf6d25b1f143a3994241e8572bf kasan: move tests to mm/kasan/
-date:   1 year, 3 months ago
-config: x86_64-randconfig-122-20231101 (https://download.01.org/0day-ci/archive/20231226/202312261010.o0lRiI9b-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312261010.o0lRiI9b-lkp@intel.com/reproduce)
+On Mon, Dec 25, 2023 at 09:19:19AM -0800, Yury Norov wrote:
+> On Sat, Dec 23, 2023 at 06:15:23AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   39676dfe52331dba909c617f213fdb21015c8d10
+> > commit: c6aa10bc7b8bfcfaca4311ac5f39b4d6eb5b1ccf [9918/9925] Merge branch 'bitmap-for-next' of https://github.com/norov/linux.git
+> > config: powerpc64-randconfig-r035-20211208 (https://download.01.org/0day-ci/archive/20231223/202312230642.EBF6kiYY-lkp@intel.com/config)
+> > compiler: powerpc64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230642.EBF6kiYY-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202312230642.EBF6kiYY-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data794' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data794'
+> >    powerpc64-linux-ld: warning: discarding dynamic section .glink
+> >    powerpc64-linux-ld: warning: discarding dynamic section .plt
+> >    powerpc64-linux-ld: linkage table error against `flush_module_init_free_work'
+> >    powerpc64-linux-ld: stubs don't match calculated size
+> >    powerpc64-linux-ld: can not build stubs: bad value
+> >    powerpc64-linux-ld: init/main.o: in function `kernel_init':
+> >    main.c:(.ref.text+0x224): undefined reference to `flush_module_init_free_work'
+> 
+> + Stephen Rothwell, Changbin Du
+> 
+> So, it looks misattributed, and already fixed in 9a63d5058dd3545?
+>
+This is introuced by my patch V1 and fixed in V2. The version 2 is here (which
+adds dummy definition for no CONFIG_MODULES):
+https://lore.kernel.org/all/20231225061513.2984575-1-changbin.du@huawei.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312261010.o0lRiI9b-lkp@intel.com/
+Sorry for the trouble.
 
-sparse warnings: (new ones prefixed by >>)
->> mm/kasan/kasan_test.c:36:6: sparse: sparse: symbol 'kasan_ptr_result' was not declared. Should it be static?
->> mm/kasan/kasan_test.c:37:5: sparse: sparse: symbol 'kasan_int_result' was not declared. Should it be static?
++ Morton
 
-vim +/kasan_ptr_result +36 mm/kasan/kasan_test.c
-
-f33a01492a24a2 lib/test_kasan.c Walter Wu        2020-08-06  31  
-adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03  32  /*
-0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  33   * Some tests use these global variables to store return values from function
-0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  34   * calls that could otherwise be eliminated by the compiler as dead code.
-adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03  35   */
-adb72ae1915db2 lib/test_kasan.c Daniel Axtens    2020-06-03 @36  void *kasan_ptr_result;
-83c4e7a0363bdb lib/test_kasan.c Patricia Alfonso 2020-10-13 @37  int kasan_int_result;
-83c4e7a0363bdb lib/test_kasan.c Patricia Alfonso 2020-10-13  38  
-
-:::::: The code at line 36 was first introduced by commit
-:::::: adb72ae1915db28f934e9e02c18bfcea2f3ed3b7 kasan: stop tests being eliminated as dead code with FORTIFY_SOURCE
-
-:::::: TO: Daniel Axtens <dja@axtens.net>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Cheers,
+Changbin Du
