@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4D74F88B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 17:14:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055464F885
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 17:24:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V1L8cCFv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZR0btl47"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703610842; x=1735146842;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ltBBpaQ6/D3R3CSyabnBf+3+RsQgWDr8d72X9RThQb0=;
-  b=V1L8cCFvgaBMW+9dv6CiMWvDcEXfvvDxzlVxv2ggo7zGR8nAzSRo9Lou
-   arPEfmck3GmldmgV3iPmavWAr8JdR4Q4RQ1HhfuJx7WVwa+DMdrES/8bO
-   LqDwd5GgeHaU92ad7xdByI8tPIEPg7ceLZFCGLIUrRsrH/qn+Gd01jLHA
-   fWsH0ysjo1ZzLi9tP4uQMQsTH92QqTydjkSJ5EMcstEuen09/ZgPwJLSj
-   TS8mdWJEM9y1yAd4x20Lm1GkfknmhEPAGr5ytOKNx8Gi3L7jKtcygmuOa
-   ZI17mP8Ic2FsZX+s2xqG5jF/4kk5tAE8nWmICKlxft46M2mAqOOCAAeKh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="393519807"
+  t=1703611443; x=1735147443;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Xf2L/LS/3qiJ9UEOdsZc5in0ncFj6fkzXcwKaerRFVE=;
+  b=ZR0btl47qV1bzA+X8iyQvbfY43nPh3HZsGxelkmFrOGwSBI3cfSQ6M6c
+   33pH1yRYwd2JVsM30my538Q8DBIG5pwutqLT3FKwnt+L7KD2NKtPqbjlo
+   LXW+pnbarc4beVKwmK7D/qx08atllZFT32scICijqK6jaMkAr4SGKs1d5
+   JIxs1dXLnEQMTHSGHbmhiqYwNvTbOeZH5YrsJb/FJt1CGzZ36JjpBEnfx
+   p0cTBOCo+/kX6+OpIRc7EwHYlJdfuX8DaKRYD0DmP/trTDgcVStrZnmBn
+   OXjJDSO+mwlIWp6t5gUmghv/Hz/hAV7+nyWYU0hxes5B8P/dVjZYXB7CC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="3652346"
 X-IronPort-AV: E=Sophos;i="6.04,306,1695711600"; 
-   d="scan'208";a="393519807"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 09:14:02 -0800
+   d="scan'208";a="3652346"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 09:24:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="951277016"
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="868636139"
 X-IronPort-AV: E=Sophos;i="6.04,306,1695711600"; 
-   d="scan'208";a="951277016"
+   d="scan'208";a="868636139"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 26 Dec 2023 09:14:00 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Dec 2023 09:24:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIB09-000EgH-2R;
-	Tue, 26 Dec 2023 17:13:57 +0000
-Date: Wed, 27 Dec 2023 01:13:41 +0800
+	id 1rIB9p-000EgP-34;
+	Tue, 26 Dec 2023 17:23:57 +0000
+Date: Wed, 27 Dec 2023 01:23:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youling Tang <youling.tang@outlook.com>, Baoquan He <bhe@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Huacai Chen <chenhuacai@loongson.cn>,
-	linux-kernel@vger.kernel.org, Youling Tang <tangyouling@kylinos.cn>
-Subject: Re: [PATCH] kdump: Remove redundant DEFAULT_CRASH_KERNEL_LOW_SIZE
-Message-ID: <202312270133.8w4Wrh4h-lkp@intel.com>
-References: <MW4PR84MB3145D3EB871BBD59AA71C0FC8198A@MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:group_cpus 8/9] lib/group_cpus.c:381:35: warning: variable
+ 'curgrp' is uninitialized when used here
+Message-ID: <202312270156.3XVLAEAN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,68 +49,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MW4PR84MB3145D3EB871BBD59AA71C0FC8198A@MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM>
 
-Hi Youling,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/kdump-Remove-redundant-DEFAULT_CRASH_KERNEL_LOW_SIZE/20231226-193215
-base:   linus/master
-patch link:    https://lore.kernel.org/r/MW4PR84MB3145D3EB871BBD59AA71C0FC8198A%40MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM
-patch subject: [PATCH] kdump: Remove redundant DEFAULT_CRASH_KERNEL_LOW_SIZE
-config: i386-buildonly-randconfig-002-20231226 (https://download.01.org/0day-ci/archive/20231227/202312270133.8w4Wrh4h-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231227/202312270133.8w4Wrh4h-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux group_cpus
+head:   bacb9a1af23372460cafc24678b4cd4fe081f2b6
+commit: 48a8d131e7a9825040099e7eaf3b09f1368b93f6 [8/9] lib/group_cpus: rework group_cpus_evenly()
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231227/202312270156.3XVLAEAN-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231227/202312270156.3XVLAEAN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312270133.8w4Wrh4h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312270156.3XVLAEAN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/setup.c: In function 'arch_reserve_crashkernel':
->> arch/x86/kernel/setup.c:479:8: error: implicit declaration of function 'parse_crashkernel' [-Werror=implicit-function-declaration]
-     479 |  ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
-         |        ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> lib/group_cpus.c:381:35: warning: variable 'curgrp' is uninitialized when used here [-Wuninitialized]
+           nr_present = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask, npresmsk, nmsk, masks);
+                                            ^~~~~~
+   lib/group_cpus.c:348:21: note: initialize the variable 'curgrp' to silence this warning
+           unsigned int curgrp, nr_present, nr_others;
+                              ^
+                               = 0
+   1 warning generated.
 
 
-vim +/parse_crashkernel +479 arch/x86/kernel/setup.c
+vim +/curgrp +381 lib/group_cpus.c
 
-a0a0becd2da0ba Yinghai Lu     2008-07-03  468  
-9c08a2a139fe83 Baoquan He     2023-09-14  469  static void __init arch_reserve_crashkernel(void)
-ccb4defa71744f Yinghai Lu     2008-06-25  470  {
-9c08a2a139fe83 Baoquan He     2023-09-14  471  	unsigned long long crash_base, crash_size, low_size = 0;
-9c08a2a139fe83 Baoquan He     2023-09-14  472  	char *cmdline = boot_command_line;
-55a20ee7804ab6 Yinghai Lu     2013-04-15  473  	bool high = false;
-ccb4defa71744f Yinghai Lu     2008-06-25  474  	int ret;
-ccb4defa71744f Yinghai Lu     2008-06-25  475  
-4ece09be9913a8 Jisheng Zhang  2022-03-23  476  	if (!IS_ENABLED(CONFIG_KEXEC_CORE))
-4ece09be9913a8 Jisheng Zhang  2022-03-23  477  		return;
-4ece09be9913a8 Jisheng Zhang  2022-03-23  478  
-9c08a2a139fe83 Baoquan He     2023-09-14 @479  	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
-9c08a2a139fe83 Baoquan He     2023-09-14  480  				&crash_size, &crash_base,
-9c08a2a139fe83 Baoquan He     2023-09-14  481  				&low_size, &high);
-9c08a2a139fe83 Baoquan He     2023-09-14  482  	if (ret)
-32105f7fd8faa7 Bernhard Walle 2008-06-26  483  		return;
-32105f7fd8faa7 Bernhard Walle 2008-06-26  484  
-3db3eb285259ac Petr Tesarik   2018-04-25  485  	if (xen_pv_domain()) {
-3db3eb285259ac Petr Tesarik   2018-04-25  486  		pr_info("Ignoring crashkernel for a Xen PV domain\n");
-3db3eb285259ac Petr Tesarik   2018-04-25  487  		return;
-3db3eb285259ac Petr Tesarik   2018-04-25  488  	}
-3db3eb285259ac Petr Tesarik   2018-04-25  489  
-9c08a2a139fe83 Baoquan He     2023-09-14  490  	reserve_crashkernel_generic(cmdline, crash_size, crash_base,
-9c08a2a139fe83 Baoquan He     2023-09-14  491  				    low_size, high);
-ccb4defa71744f Yinghai Lu     2008-06-25  492  }
-ccb4defa71744f Yinghai Lu     2008-06-25  493  
+   330	
+   331	/**
+   332	 * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
+   333	 * @numgrps: number of groups
+   334	 *
+   335	 * Return: cpumask array if successful, NULL otherwise. And each element
+   336	 * includes CPUs assigned to this group
+   337	 *
+   338	 * Try to put close CPUs from viewpoint of CPU and NUMA locality into
+   339	 * same group, and run two-stage grouping:
+   340	 *	1) allocate present CPUs on these groups evenly first
+   341	 *	2) allocate other possible CPUs on these groups evenly
+   342	 *
+   343	 * We guarantee in the resulted grouping that all CPUs are covered, and
+   344	 * no same CPU is assigned to multiple groups
+   345	 */
+   346	struct cpumask *group_cpus_evenly(unsigned int numgrps)
+   347	{
+   348		unsigned int curgrp, nr_present, nr_others;
+   349		cpumask_var_t *node_to_cpumask;
+   350		cpumask_var_t nmsk __free(free_cpumask_var);
+   351		cpumask_var_t npresmsk __free(free_cpumask_var);
+   352		struct cpumask *masks __free(kfree)= kcalloc(numgrps, sizeof(*masks), GFP_KERNEL);
+   353	
+   354		if (!masks)
+   355			return NULL;
+   356	
+   357		if (!alloc_cpumask_var(&nmsk, GFP_KERNEL) || !alloc_cpumask_var(&npresmsk, GFP_KERNEL))
+   358			return NULL;
+   359	
+   360		node_to_cpumask = alloc_node_to_cpumask();
+   361		if (!node_to_cpumask)
+   362			return NULL;
+   363	
+   364		build_node_to_cpumask(node_to_cpumask);
+   365	
+   366		/*
+   367		 * Make a local cache of 'cpu_present_mask', so the two stages
+   368		 * spread can observe consistent 'cpu_present_mask' without holding
+   369		 * cpu hotplug lock, then we can reduce deadlock risk with cpu
+   370		 * hotplug code.
+   371		 *
+   372		 * Here CPU hotplug may happen when reading `cpu_present_mask`, and
+   373		 * we can live with the case because it only affects that hotplug
+   374		 * CPU is handled in the 1st or 2nd stage, and either way is correct
+   375		 * from API user viewpoint since 2-stage spread is sort of
+   376		 * optimization.
+   377		 */
+   378		cpumask_copy(npresmsk, data_race(cpu_present_mask));
+   379	
+   380		/* grouping present CPUs first */
+ > 381		nr_present = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask, npresmsk, nmsk, masks);
 
 -- 
 0-DAY CI Kernel Test Service
