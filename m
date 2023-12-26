@@ -1,82 +1,135 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF5D23B9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 02:17:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4SzdbY1J6Fz1FFcJ;
-	Tue, 26 Dec 2023 10:13:13 +0800 (CST)
-Received: from kwepemd100002.china.huawei.com (unknown [7.221.188.184])
-	by mail.maildlp.com (Postfix) with ESMTPS id F26AC14011F;
-	Tue, 26 Dec 2023 10:17:02 +0800 (CST)
-Received: from M910t (10.110.54.157) by kwepemd100002.china.huawei.com
- (7.221.188.184) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1258.28; Tue, 26 Dec
- 2023 10:17:02 +0800
-Date: Tue, 26 Dec 2023 10:16:51 +0800
-From: Changbin Du <changbin.du@huawei.com>
-To: Yury Norov <yury.norov@gmail.com>
-CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Linux
- Memory Management List <linux-mm@kvack.org>, Stephen Rothwell
-	<sfr@canb.auug.org.au>, <akpm@linux-foundation.org>, Changbin Du
-	<changbin.du@huawei.com>
-Subject: Re: [linux-next:master 9918/9925] powerpc64-linux-ld: warning:
- orphan section `.bss..Lubsan_data794' from `kernel/ptrace.o' being placed in
- section `.bss..Lubsan_data794'
-Message-ID: <20231226021651.i6c7ar27xb7b2tb4@M910t>
-References: <202312230642.EBF6kiYY-lkp@intel.com>
- <ZYm5l6AIMVMs69RC@yury-ThinkPad>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D368F4417
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Dec 2023 02:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rM48GSGL"
+Message-ID: <06da7417-7706-409f-b3d7-a62caa81d57b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1703558134;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UqisLRf4GV+oh5SCv6QWn6SnAyx7Xx1gcM07OoVgR9o=;
+	b=rM48GSGLmD2q2vSHjpLyM8uxEUD0vEmUefIiUTKXqYOWfNJIfE8MbJZhDvgOWTnxVIdqE2
+	9Cicgibn+enr1sTDjkUI3QJMp6updxJzL++MDT3R2Y/sLq2pbxjdOLDaq2MmUlZCPvNb/3
+	8BtdmD/TEhzjJJeJDLMST4fl5VC1V8o=
+Date: Tue, 26 Dec 2023 10:35:28 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZYm5l6AIMVMs69RC@yury-ThinkPad>
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemd100002.china.huawei.com (7.221.188.184)
+Subject: Re: [PATCH for-next v2 2/2] RDMA/erdma: Add hardware statistics
+ support
+To: kernel test robot <lkp@intel.com>, Cheng Xu <chengyou@linux.alibaba.com>,
+ jgg@ziepe.ca, leon@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
+ KaiShen@linux.alibaba.com
+References: <20231225032117.7493-3-chengyou@linux.alibaba.com>
+ <202312260550.9DPkrw52-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <202312260550.9DPkrw52-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Dec 25, 2023 at 09:19:19AM -0800, Yury Norov wrote:
-> On Sat, Dec 23, 2023 at 06:15:23AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   39676dfe52331dba909c617f213fdb21015c8d10
-> > commit: c6aa10bc7b8bfcfaca4311ac5f39b4d6eb5b1ccf [9918/9925] Merge branch 'bitmap-for-next' of https://github.com/norov/linux.git
-> > config: powerpc64-randconfig-r035-20211208 (https://download.01.org/0day-ci/archive/20231223/202312230642.EBF6kiYY-lkp@intel.com/config)
-> > compiler: powerpc64-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230642.EBF6kiYY-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202312230642.EBF6kiYY-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data794' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data794'
-> >    powerpc64-linux-ld: warning: discarding dynamic section .glink
-> >    powerpc64-linux-ld: warning: discarding dynamic section .plt
-> >    powerpc64-linux-ld: linkage table error against `flush_module_init_free_work'
-> >    powerpc64-linux-ld: stubs don't match calculated size
-> >    powerpc64-linux-ld: can not build stubs: bad value
-> >    powerpc64-linux-ld: init/main.o: in function `kernel_init':
-> >    main.c:(.ref.text+0x224): undefined reference to `flush_module_init_free_work'
+在 2023/12/26 6:09, kernel test robot 写道:
+> Hi Cheng,
 > 
-> + Stephen Rothwell, Changbin Du
+> kernel test robot noticed the following build warnings:
 > 
-> So, it looks misattributed, and already fixed in 9a63d5058dd3545?
->
-This is introuced by my patch V1 and fixed in V2. The version 2 is here (which
-adds dummy definition for no CONFIG_MODULES):
-https://lore.kernel.org/all/20231225061513.2984575-1-changbin.du@huawei.com/
+> [auto build test WARNING on rdma/for-next]
+> [also build test WARNING on linus/master v6.7-rc7 next-20231222]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Cheng-Xu/RDMA-erdma-Introduce-dma-pool-for-hardware-responses-of-CMDQ-requests/20231225-154653
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+> patch link:    https://lore.kernel.org/r/20231225032117.7493-3-chengyou%40linux.alibaba.com
+> patch subject: [PATCH for-next v2 2/2] RDMA/erdma: Add hardware statistics support
+> config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231226/202312260550.9DPkrw52-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260550.9DPkrw52-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312260550.9DPkrw52-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> drivers/infiniband/hw/erdma/erdma_verbs.c:1750:5: warning: no previous prototype for 'erdma_query_hw_stats' [-Wmissing-prototypes]
+>      1750 | int erdma_query_hw_stats(struct erdma_dev *dev, struct rdma_hw_stats *stats)
+>           |     ^~~~~~~~~~~~~~~~~~~~
+> 
 
-Sorry for the trouble.
+Prepending "static" can fix this problem.
 
-+ Morton
+diff --git a/drivers/infiniband/hw/erdma/erdma_verbs.c 
+b/drivers/infiniband/hw/erdma/erdma_verbs.c
+index e47e158bedd5..de534651658d 100644
+--- a/drivers/infiniband/hw/erdma/erdma_verbs.c
++++ b/drivers/infiniband/hw/erdma/erdma_verbs.c
+@@ -1747,7 +1747,7 @@ struct rdma_hw_stats 
+*erdma_alloc_hw_port_stats(struct ib_device *device,
+                                           RDMA_HW_STATS_DEFAULT_LIFESPAN);
+  }
 
---
-Cheers,
-Changbin Du
+-int erdma_query_hw_stats(struct erdma_dev *dev, struct rdma_hw_stats 
+*stats)
++static int erdma_query_hw_stats(struct erdma_dev *dev, struct 
+rdma_hw_stats *stats)
+  {
+         struct erdma_cmdq_query_stats_resp *resp;
+         struct erdma_cmdq_query_req req;
+
+
+> 
+> vim +/erdma_query_hw_stats +1750 drivers/infiniband/hw/erdma/erdma_verbs.c
+> 
+>    1749	
+>> 1750	int erdma_query_hw_stats(struct erdma_dev *dev, struct rdma_hw_stats *stats)
+>    1751	{
+>    1752		struct erdma_cmdq_query_stats_resp *resp;
+>    1753		struct erdma_cmdq_query_req req;
+>    1754		dma_addr_t dma_addr;
+>    1755		int err;
+>    1756	
+>    1757		erdma_cmdq_build_reqhdr(&req.hdr, CMDQ_SUBMOD_COMMON,
+>    1758					CMDQ_OPCODE_GET_STATS);
+>    1759	
+>    1760		resp = dma_pool_zalloc(dev->resp_pool, GFP_KERNEL, &dma_addr);
+>    1761		if (!resp)
+>    1762			return -ENOMEM;
+>    1763	
+>    1764		req.target_addr = dma_addr;
+>    1765		req.target_length = ERDMA_HW_RESP_SIZE;
+>    1766	
+>    1767		err = erdma_post_cmd_wait(&dev->cmdq, &req, sizeof(req), NULL, NULL);
+>    1768		if (err)
+>    1769			goto out;
+>    1770	
+>    1771		if (resp->hdr.magic != ERDMA_HW_RESP_MAGIC) {
+>    1772			err = -EINVAL;
+>    1773			goto out;
+>    1774		}
+>    1775	
+>    1776		memcpy(&stats->value[0], &resp->tx_req_cnt,
+>    1777		       sizeof(u64) * stats->num_counters);
+>    1778	
+>    1779	out:
+>    1780		dma_pool_free(dev->resp_pool, resp, dma_addr);
+>    1781	
+>    1782		return err;
+>    1783	}
+>    1784	
+> 
+
