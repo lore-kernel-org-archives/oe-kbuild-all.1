@@ -1,54 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED684655B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 18:22:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352CB45946
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 18:51:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4C1toP+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNpBlr/m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703701331; x=1735237331;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z6KIPUid8LL6rdifBkQEA5dR2LPPINDVODWsTdZki7w=;
-  b=U4C1toP+pdYkrrRsGcWkZoP6jN1dpKGfrb6ifodqFbk8wIl2qJ/eALbJ
-   HkUt+0WaZeltePMipW8Tr8gJ/vBFz98fcQeuMbdYe5o95LKd90RKOLtuU
-   GOnhYSAn/r5A1GWi5sZ4Lp0iOZNHVJ6JGMZiKc2L7hn/KaoOFCEMDS7kY
-   K9k3kRRjPMI3vZzhq5TmpstZRd2kdvyRse7Cc11+gg9+v9E0A9BMrH1hl
-   8pLDfcoU6avU6ry+ndvE6pIf1Zj26o4DFqFy/SGN60lQtYvnCmacFmXDK
-   +Vt7y3WpDtZf+Pqnzs5HZeYYJtR14MmLf7yVzKjxB15L8I5fMeU1B+Ewp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="15140587"
+  t=1703703061; x=1735239061;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ORwA3JKfA8aUU3BDflieZOwFrvANlccWifcc8lw9/6g=;
+  b=QNpBlr/m5CmTiHxn5H5UOOJWUjl7vDOhMDTfKzCpYqjC2t6aBlMbucm3
+   XbHhuTVSp7yCvwE5/ZhTUKL12Ie//PWFXe55634E8rcLyKrRsYYjw45rB
+   b4/Io92NhIu3NLTfj/Eu9LzzgpxB1j2qC2E0ibWEXObgeHBx/fAEjrPbq
+   s7uWLjhEW2UZ7QmBRcpWPjNp0l7Ch9T8MjUyLlnyFO1RfmXMdUg+9E8MX
+   PvADlcRTPXXzJ/QUKcQNKSC8giHG3JBwQlUxbxXaOmrKiBNfHulyZPyUM
+   vXMTjwki2HBm/k05Racz7De43bJX25xgfh13398bBL5goReYoWQH5Y3yL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="396200795"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="15140587"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 10:20:24 -0800
+   d="scan'208";a="396200795"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 10:50:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="848740859"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="1025451126"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="848740859"
+   d="scan'208";a="1025451126"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Dec 2023 10:20:21 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 27 Dec 2023 10:50:54 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIYVv-000Fez-2M;
-	Wed, 27 Dec 2023 18:20:19 +0000
-Date: Thu, 28 Dec 2023 02:19:51 +0800
+	id 1rIYzU-000Fg1-2n;
+	Wed, 27 Dec 2023 18:50:52 +0000
+Date: Thu, 28 Dec 2023 02:50:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: andrey.konovalov@linux.dev, Marco Elver <elver@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH mm] kasan: stop leaking stack trace handles
-Message-ID: <202312280213.6j147JJb-lkp@intel.com>
-References: <20231226225121.235865-1-andrey.konovalov@linux.dev>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:lukas-v3.0 20/24] lib/dynamic_debug.c:621:6: sparse: sparse:
+ symbol 'skip_spaces_and_coma' was not declared. Should it be static?
+Message-ID: <202312280200.lVCy4vxu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,68 +49,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231226225121.235865-1-andrey.konovalov@linux.dev>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[cannot apply to linus/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/andrey-konovalov-linux-dev/kasan-stop-leaking-stack-trace-handles/20231227-065314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231226225121.235865-1-andrey.konovalov%40linux.dev
-patch subject: [PATCH mm] kasan: stop leaking stack trace handles
-config: x86_64-randconfig-123-20231227 (https://download.01.org/0day-ci/archive/20231228/202312280213.6j147JJb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280213.6j147JJb-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git lukas-v3.0
+head:   1f42080421213a7819e069d5b6d22cef0b6c9c61
+commit: 34cd8a2374f70a56e599ee3e5d786c989d3cb096 [20/24] dyndbg: add skip_spaces_and_coma()
+config: i386-randconfig-061-20231227 (https://download.01.org/0day-ci/archive/20231228/202312280200.lVCy4vxu-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280200.lVCy4vxu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312280213.6j147JJb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312280200.lVCy4vxu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/dynamic_debug.c:621:6: sparse: sparse: symbol 'skip_spaces_and_coma' was not declared. Should it be static?
+   lib/dynamic_debug.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
->> mm/kasan/generic.c:506:6: warning: no previous prototype for 'release_alloc_meta' [-Wmissing-prototypes]
-     506 | void release_alloc_meta(struct kasan_alloc_meta *meta)
-         |      ^~~~~~~~~~~~~~~~~~
->> mm/kasan/generic.c:517:6: warning: no previous prototype for 'release_free_meta' [-Wmissing-prototypes]
-     517 | void release_free_meta(const void *object, struct kasan_free_meta *meta)
-         |      ^~~~~~~~~~~~~~~~~
+vim +/skip_spaces_and_coma +621 lib/dynamic_debug.c
 
-
-vim +/release_alloc_meta +506 mm/kasan/generic.c
-
-   505	
- > 506	void release_alloc_meta(struct kasan_alloc_meta *meta)
-   507	{
-   508		/* Evict the stack traces from stack depot. */
-   509		stack_depot_put(meta->alloc_track.stack);
-   510		stack_depot_put(meta->aux_stack[0]);
-   511		stack_depot_put(meta->aux_stack[1]);
-   512	
-   513		/* Zero out alloc meta to mark it as invalid. */
-   514		__memset(meta, 0, sizeof(*meta));
-   515	}
-   516	
- > 517	void release_free_meta(const void *object, struct kasan_free_meta *meta)
-   518	{
-   519		/* Check if free meta is valid. */
-   520		if (*(u8 *)kasan_mem_to_shadow(object) != KASAN_SLAB_FREE_META)
-   521			return;
-   522	
-   523		/* Evict the stack trace from the stack depot. */
-   524		stack_depot_put(meta->free_track.stack);
-   525	
-   526		/* Mark free meta as invalid. */
-   527		*(u8 *)kasan_mem_to_shadow(object) = KASAN_SLAB_FREE;
-   528	}
-   529	
+   620	
+ > 621	char *skip_spaces_and_coma(const char *str)
+   622	{
+   623		str = skip_spaces(str);
+   624		if (*str == ',')
+   625			str = skip_spaces(++str);
+   626		return (char *)str;
+   627	}
+   628	
 
 -- 
 0-DAY CI Kernel Test Service
