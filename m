@@ -1,48 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A3720F4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 02:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6208E20E3;
+	Wed, 27 Dec 2023 02:36:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbO3sHd0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E0chSsRq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703643369; x=1735179369;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5RXuw92YAUGjAHlMcwY0yA6Rn/jyU8gFUDG/57Vnuf0=;
-  b=nbO3sHd091WalbpzAt+DgsP+ycen0xXSXk8MyPHtdxXIWh+3nz1yYaOt
-   N7lvzfGmz9vcMwB9phEePUVMUOJa5GLYhJWea7EhL9tOKhxe2PcQQc7xS
-   BHR46jQWgxbk6upqgEwMGzh95eyIwLlUAdFAPIdjfMjUv6K7ikifmzSuQ
-   zBnYM1IQrfIc4y5mAlxUtEJi7lBm0tWOLx7lQvUpnWHFpj11LpW8zwNPX
-   HGW94gAP+toPu4z9/Z3hLhlqzxChlNNaNvPUjnSVUoGPRBGtHE5dAeYhW
-   AyXREy5naBUrgSwBXlfRu1ENZfSV1Tup1rvR9fZiO6/pxQyOJKem5dv7n
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="3232786"
+  t=1703644571; x=1735180571;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eOJDRRxQCcECcUtLbWLmwY+VO9XB6AP8zj/voHh5AJw=;
+  b=E0chSsRqssc4H3gbMZhYDLm9puBweowsqNyYMnvIjvXybr98/oCc6wB/
+   zbmkF1dPEJ3CSAoKVBLJ3njlf3zG3Gv+THLV61nVOru62WF1p6Yu1MY9S
+   CCZAOCx+VWkREcsA66fKtMGgj1LdcFPbMMJgcv929hOiyk/b2pFFAHPZt
+   gjDTboBKhxkui+IYz8YwcXs/EP8BzKcKpcF+l/gN2LGsAezi7Y4oWZBlw
+   J9mEvObILhPo8tosWDc6VqVYTUEE4GHwzuUtzMhvPyyLwq4gt+WvXmAg3
+   VQeDzev8r2hs2z/Sv64uxbOh/jWIcBBgYNL8ssIUW5gNTDnpT3IwgDi81
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="393558226"
 X-IronPort-AV: E=Sophos;i="6.04,307,1695711600"; 
-   d="scan'208";a="3232786"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 18:16:08 -0800
+   d="scan'208";a="393558226"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 18:36:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="848562559"
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="1109512652"
 X-IronPort-AV: E=Sophos;i="6.04,307,1695711600"; 
-   d="scan'208";a="848562559"
+   d="scan'208";a="1109512652"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 26 Dec 2023 18:16:07 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 26 Dec 2023 18:36:07 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIJSn-000Ext-0L;
-	Wed, 27 Dec 2023 02:16:05 +0000
-Date: Wed, 27 Dec 2023 10:15:24 +0800
+	id 1rIJm9-000EyZ-1z;
+	Wed, 27 Dec 2023 02:36:05 +0000
+Date: Wed, 27 Dec 2023 10:35:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrey Konovalov <andreyknvl@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 9655/10295] mm/kasan/common.c:511:53: sparse:
- sparse: incorrect type in argument 3 (different base types)
-Message-ID: <202312271042.FsuPQlul-lkp@intel.com>
+To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>, marcel@holtmann.org,
+	johan.hedberg@gmail.com, luiz.dentz@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	amitkumar.karwar@nxp.com, neeraj.sanjaykale@nxp.com,
+	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sherry.sun@nxp.com, rohit.fule@nxp.com
+Subject: Re: [PATCH v2] Bluetooth: btnxpuart: Resolve TX timeout error in
+ power save stress test
+Message-ID: <202312271021.m0of6rmb-lkp@intel.com>
+References: <20231226113110.3923962-1-neeraj.sanjaykale@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,56 +55,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231226113110.3923962-1-neeraj.sanjaykale@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   39676dfe52331dba909c617f213fdb21015c8d10
-commit: 3f38c3c5bc402c3b13c3bc08fbbdecb70e4164a9 [9655/10295] kasan: save alloc stack traces for mempool
-config: powerpc-randconfig-r123-20231227 (https://download.01.org/0day-ci/archive/20231227/202312271042.FsuPQlul-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231227/202312271042.FsuPQlul-lkp@intel.com/reproduce)
+Hi Neeraj,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth/master]
+[also build test ERROR on bluetooth-next/master linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neeraj-Sanjay-Kale/Bluetooth-btnxpuart-Resolve-TX-timeout-error-in-power-save-stress-test/20231226-193718
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20231226113110.3923962-1-neeraj.sanjaykale%40nxp.com
+patch subject: [PATCH v2] Bluetooth: btnxpuart: Resolve TX timeout error in power save stress test
+config: arm-randconfig-003-20231227 (https://download.01.org/0day-ci/archive/20231227/202312271021.m0of6rmb-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231227/202312271021.m0of6rmb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312271042.FsuPQlul-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312271021.m0of6rmb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/kasan/common.c:280:6: sparse: sparse: symbol 'unpoison_slab_object' was not declared. Should it be static?
->> mm/kasan/common.c:511:53: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted gfp_t [usertype] flags @@     got unsigned int [usertype] size @@
-   mm/kasan/common.c:511:53: sparse:     expected restricted gfp_t [usertype] flags
-   mm/kasan/common.c:511:53: sparse:     got unsigned int [usertype] size
+All errors (new ones prefixed by >>):
 
-vim +511 mm/kasan/common.c
+>> drivers/bluetooth/btnxpuart.c:356:4: error: call to undeclared function 'usleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     356 |                         usleep(2000); /* Allow chip to detect UART-break and enter sleep */
+         |                         ^
+   1 error generated.
 
-   489	
-   490	void __kasan_mempool_unpoison_object(void *ptr, size_t size, unsigned long ip)
-   491	{
-   492		struct slab *slab;
-   493		gfp_t flags = 0; /* Might be executing under a lock. */
-   494	
-   495		if (is_kfence_address(kasan_reset_tag(ptr)))
-   496			return;
-   497	
-   498		slab = virt_to_slab(ptr);
-   499	
-   500		/*
-   501		 * This function can be called for large kmalloc allocation that get
-   502		 * their memory from page_alloc.
-   503		 */
-   504		if (unlikely(!slab)) {
-   505			kasan_unpoison(ptr, size, false);
-   506			poison_kmalloc_large_redzone(ptr, size, flags);
-   507			return;
-   508		}
-   509	
-   510		/* Unpoison the object and save alloc info for non-kmalloc() allocations. */
- > 511		unpoison_slab_object(slab->slab_cache, ptr, size, flags);
-   512	
-   513		/* Poison the redzone and save alloc info for kmalloc() allocations. */
-   514		if (is_kmalloc_cache(slab->slab_cache))
-   515			poison_kmalloc_redzone(slab->slab_cache, ptr, size, flags);
-   516	}
-   517	
+
+vim +/usleep +356 drivers/bluetooth/btnxpuart.c
+
+   333	
+   334	static void ps_control(struct hci_dev *hdev, u8 ps_state)
+   335	{
+   336		struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
+   337		struct ps_data *psdata = &nxpdev->psdata;
+   338		int status;
+   339	
+   340		if (psdata->ps_state == ps_state ||
+   341		    !test_bit(BTNXPUART_SERDEV_OPEN, &nxpdev->tx_state))
+   342			return;
+   343	
+   344		mutex_lock(&psdata->ps_lock);
+   345		switch (psdata->cur_h2c_wakeupmode) {
+   346		case WAKEUP_METHOD_DTR:
+   347			if (ps_state == PS_STATE_AWAKE)
+   348				status = serdev_device_set_tiocm(nxpdev->serdev, TIOCM_DTR, 0);
+   349			else
+   350				status = serdev_device_set_tiocm(nxpdev->serdev, 0, TIOCM_DTR);
+   351			break;
+   352		case WAKEUP_METHOD_BREAK:
+   353		default:
+   354			if (ps_state == PS_STATE_AWAKE) {
+   355				status = serdev_device_break_ctl(nxpdev->serdev, 0);
+ > 356				usleep(2000); /* Allow chip to detect UART-break and enter sleep */
+   357			} else {
+   358				status = serdev_device_break_ctl(nxpdev->serdev, -1);
+   359			}
+   360			bt_dev_dbg(hdev, "Set UART break: %s, status=%d",
+   361				   str_on_off(ps_state == PS_STATE_SLEEP), status);
+   362			break;
+   363		}
+   364		if (!status)
+   365			psdata->ps_state = ps_state;
+   366		mutex_unlock(&psdata->ps_lock);
+   367	
+   368		if (ps_state == PS_STATE_AWAKE)
+   369			btnxpuart_tx_wakeup(nxpdev);
+   370	}
+   371	
 
 -- 
 0-DAY CI Kernel Test Service
