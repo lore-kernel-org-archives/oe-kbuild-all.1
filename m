@@ -1,46 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EEE3C15
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 04:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384CB63AA;
+	Wed, 27 Dec 2023 06:54:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsLdt9zY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F9hDv3eB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703650748; x=1735186748;
+  t=1703660079; x=1735196079;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FfW31FsHTVYGpce4eQE3bPJMMctBwdKYYJa67eZF0Ow=;
-  b=dsLdt9zYu6YUAmZd0eUpkryTXB1TLKRfv5+XuItwjFKaS8rIKu/p2mjt
-   3Zfej5uyZc9lfM+SZv9DddfaTsqmoJtczdGz6E3W6Z9eEmBrCG0Cg9CWg
-   hHueVhTAy2sLqn66RAHp2AKZ95XICMs46UcGjOQO1C6bmA0avOWrqA6Pf
-   TE3bBlSQeXRHbYfasm+J7JWi4JlN/RcNMrYMu1k0uXilQ6pTLwFJxpTBi
-   lFWDin+5W2qx5rfPAbwRnr+4KL9N+TNJEECA3H7AmZpJkWDre5FexRenI
-   FrI5ccX8Yjt33OVRlZzIuECphYLnlIHU6CNZUdkI469USr/f9c1lcM1VW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="381383053"
+  bh=qnFR3LxawdswpjevdUT6pQJauyrKx5paQ2H5adPAklg=;
+  b=F9hDv3eBjBesCGlcPASBMbhrGTdqFsu6FOqbgOxTmGkZmcYZUv4Qm/gw
+   Oky+9xWUBnxZWsuaaTcPjNu99BnMLR/vE1Sj8B49R1jVy/r3zY9imjSWQ
+   xBRj7SzNWHXWzH37Gxkkk/KdgwzxoRr63xIuI2VqFdXFeDfRilp3obkus
+   UBMv+wcp2JwR1uyzSvnjyxdpuPXhacSkjemiVqirY31U0V1GnSVNdur7/
+   goWu8Fhtzroq8WmiayeTuk0pM+uRewkd9y77vajU+IGnXsA96va3oYmV+
+   TsDLD8JcvzAW7VvDj3eQKZEyYlbBgI0hjN9gWq76a1T68+wJR+ytV+EFQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="400235414"
 X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
-   d="scan'208";a="381383053"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 20:19:08 -0800
+   d="scan'208";a="400235414"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 22:54:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="896771864"
 X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
-   d="scan'208";a="896771864"
+   d="scan'208";a="26503020"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 26 Dec 2023 20:19:06 -0800
+  by orviesa001.jf.intel.com with ESMTP; 26 Dec 2023 22:54:36 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rILNo-000F3t-1K;
-	Wed, 27 Dec 2023 04:19:04 +0000
-Date: Wed, 27 Dec 2023 12:18:58 +0800
+	id 1rINoI-000F8X-0E;
+	Wed, 27 Dec 2023 06:54:34 +0000
+Date: Wed, 27 Dec 2023 14:53:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/seq_file.c:960:12: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202312271242.6AVwbkKf-lkp@intel.com>
+To: Keyur Parekh <keyur.parekh@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Michal Simek <monstr@monstr.eu>,
+	Gregory Williams <gregory.williams@amd.com>,
+	Hua Jiang <hua.jiang@amd.com>, .@3429e2599065
+Subject: [pinchartl-media:muxed/2023.1/base 919/929]
+ drivers/misc/xilinx-ai-engine/ai-engine-status-dump.c:181:13: warning:
+ variable 'row' is uninitialized when used here
+Message-ID: <202312271450.C9YmLJn2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,71 +53,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fbafc3e621c3f4ded43720fdb1d6ce1728ec664e
-commit: ad25f5cb39872ca14bcbe00816ae65c22fe04b89 rxrpc: Fix locking issue
-date:   1 year, 7 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231227/202312271242.6AVwbkKf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231227/202312271242.6AVwbkKf-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/pinchartl/media.git muxed/2023.1/base
+head:   f9c8e14ae03c937a79e1c904d004d80a0db3647e
+commit: d4dee8ba45dc097ed26da8b10600301b6aebb029 [919/929] misc: xilinx-ai-engine: Add status dump API for AIEML
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231227/202312271450.C9YmLJn2-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231227/202312271450.C9YmLJn2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312271242.6AVwbkKf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312271450.C9YmLJn2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/seq_file.c:938:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/seq_file.c:938:9: sparse:    struct list_head [noderef] __rcu *
-   fs/seq_file.c:938:9: sparse:    struct list_head *
-   fs/seq_file.c:938:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/seq_file.c:938:9: sparse:    struct list_head [noderef] __rcu *
-   fs/seq_file.c:938:9: sparse:    struct list_head *
->> fs/seq_file.c:960:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct list_head *lh @@     got struct list_head [noderef] __rcu * @@
-   fs/seq_file.c:960:12: sparse:     expected struct list_head *lh
-   fs/seq_file.c:960:12: sparse:     got struct list_head [noderef] __rcu *
-   fs/seq_file.c:1087:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/seq_file.c:1087:24: sparse:    struct hlist_node [noderef] __rcu *
-   fs/seq_file.c:1087:24: sparse:    struct hlist_node *
-   fs/seq_file.c:1089:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/seq_file.c:1089:24: sparse:    struct hlist_node [noderef] __rcu *
-   fs/seq_file.c:1089:24: sparse:    struct hlist_node *
+All warnings (new ones prefixed by >>):
 
-vim +960 fs/seq_file.c
+>> drivers/misc/xilinx-ai-engine/ai-engine-status-dump.c:181:13: warning: variable 'row' is uninitialized when used here [-Wuninitialized]
+     181 |         loc->row = row;
+         |                    ^~~
+   drivers/misc/xilinx-ai-engine/ai-engine-status-dump.c:162:37: note: initialize the variable 'row' to silence this warning
+     162 |         u32 ttype, num_locks, lock_val, row, col;
+         |                                            ^
+         |                                             = 0
+>> drivers/misc/xilinx-ai-engine/ai-engine-status-dump.c:182:13: warning: variable 'col' is uninitialized when used here [-Wuninitialized]
+     182 |         loc->col = col;
+         |                    ^~~
+   drivers/misc/xilinx-ai-engine/ai-engine-status-dump.c:162:42: note: initialize the variable 'col' to silence this warning
+     162 |         u32 ttype, num_locks, lock_val, row, col;
+         |                                                 ^
+         |                                                  = 0
+   2 warnings generated.
 
-   933	
-   934	struct list_head *seq_list_start_rcu(struct list_head *head, loff_t pos)
-   935	{
-   936		struct list_head *lh;
-   937	
- > 938		list_for_each_rcu(lh, head)
-   939			if (pos-- == 0)
-   940				return lh;
-   941	
-   942		return NULL;
-   943	}
-   944	EXPORT_SYMBOL(seq_list_start_rcu);
-   945	
-   946	struct list_head *seq_list_start_head_rcu(struct list_head *head, loff_t pos)
-   947	{
-   948		if (!pos)
-   949			return head;
-   950	
-   951		return seq_list_start_rcu(head, pos - 1);
-   952	}
-   953	EXPORT_SYMBOL(seq_list_start_head_rcu);
-   954	
-   955	struct list_head *seq_list_next_rcu(void *v, struct list_head *head,
-   956					    loff_t *ppos)
-   957	{
-   958		struct list_head *lh;
-   959	
- > 960		lh = list_next_rcu((struct list_head *)v);
-   961		++*ppos;
-   962		return lh == head ? NULL : lh;
-   963	}
-   964	EXPORT_SYMBOL(seq_list_next_rcu);
-   965	
+
+vim +/row +181 drivers/misc/xilinx-ai-engine/ai-engine-status-dump.c
+
+   148	
+   149	/**
+   150	 * aie_lock_status() - Stores AI engine Tile Lock status values to a tile
+   151	 *                        column structure.
+   152	 * @apart: AI engine Partition.
+   153	 * @status: Pointer to Structure which store status value of Tile Lock registers
+   154	 * @loc: Location of AI Engine Tile
+   155	 * @return: 0 for success, negative value for failure
+   156	 */
+   157	static int aie_lock_status(struct aie_partition *apart, struct aie_col_status *status,
+   158				   struct aie_location *loc)
+   159	{
+   160		struct aie_core_tile_status *sts_coretile;
+   161		struct aie_shim_tile_status *sts_shimtile;
+   162		u32 ttype, num_locks, lock_val, row, col;
+   163		struct aie_mem_tile_status *sts_memtile;
+   164		u8 i, tile_st, memtile_st, index;
+   165		int ret;
+   166	
+   167		if (apart->adev->dev_gen != AIE_DEVICE_GEN_AIEML) {
+   168			dev_warn(&apart->dev, "Skipping Lock Status For Non AIEML Devices\n");
+   169			return 0;
+   170		}
+   171	
+   172		ret = mutex_lock_interruptible(&apart->mlock);
+   173		if (ret) {
+   174			dev_err(&apart->dev, "Failed to acquire lock Process was interrupted by fatal signals\n");
+   175			return ret;
+   176		}
+   177	
+   178		tile_st = apart->adev->ttype_attr[AIE_TILE_TYPE_TILE].start_row;
+   179		memtile_st = apart->adev->ttype_attr[AIE_TILE_TYPE_MEMORY].start_row;
+   180	
+ > 181		loc->row = row;
+ > 182		loc->col = col;
+   183		ttype = apart->adev->ops->get_tile_type(apart->adev,
+   184							loc);
+   185	
+   186		if (aie_part_check_clk_enable_loc(apart, loc)) {
+   187			const struct aie_tile_operations *ops;
+   188	
+   189			ops = apart->adev->ops;
+   190			sts_coretile = status[loc->col].core_tile;
+   191			sts_memtile = status[loc->col].mem_tile;
+   192			sts_shimtile = status[loc->col].shim_tile;
+   193	
+   194			if (ttype == AIE_TILE_TYPE_TILE)
+   195				num_locks = apart->adev->mem_lock->num_locks;
+   196			else if (ttype == AIE_TILE_TYPE_MEMORY)
+   197				num_locks = apart->adev->memtile_lock->num_locks;
+   198			else
+   199				num_locks = apart->adev->pl_lock->num_locks;
+   200	
+   201			for (i = 0; i < num_locks; i++) {
+   202				lock_val = ops->get_lock_status(apart, loc, i);
+   203	
+   204				if (ttype == AIE_TILE_TYPE_TILE) {
+   205					index = loc->row - tile_st;
+   206					sts_coretile[index].lock_value[i] = lock_val;
+   207				} else if (ttype == AIE_TILE_TYPE_MEMORY) {
+   208					index = loc->row - memtile_st;
+   209					sts_memtile[index].lock_value[i] = lock_val;
+   210				} else {
+   211					sts_shimtile[loc->row].lock_value[i] = lock_val;
+   212				}
+   213			}
+   214		}
+   215		mutex_unlock(&apart->mlock);
+   216	
+   217		return 0;
+   218	}
+   219	
 
 -- 
 0-DAY CI Kernel Test Service
