@@ -1,48 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8A046547;
-	Wed, 27 Dec 2023 18:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED684655B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 18:22:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CttHErUH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4C1toP+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703701329; x=1735237329;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rDVYTWEIWSA67HUVQTkiz/UazIBd9aewW7y/PDa0uRw=;
-  b=CttHErUHrWGNEgtgkUNFNI3Z+md2eFPoaNnYWMsdxfS0w9yfsg8M7Nys
-   H/A/3tiyxq+qAxc+Q2URlCcEfNCOe6MF36jpTYtIaz+fSMUWjHvfM7ofn
-   2qA1UtK1s56MpszAOlNgeVx8OvFcOWCZ3yMHW1QsMGVHu7DQ+A87qsxnJ
-   JvX4ljS65P6UcSyf2WrVX2K7CktdAA0sAP6LG5MGN1QEznvZvdrteUFNc
-   Aj+xx7KUoYTQM5ITC0H/YVBCbz2pRiMaJdnF81AkamQLJh6NlcZqX1rxP
-   t0SmkLlawZaPk/XEX4pfWklCxH1Zwyl9OjfW82hhxmyK7okI02WFadkJy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="15140583"
+  t=1703701331; x=1735237331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z6KIPUid8LL6rdifBkQEA5dR2LPPINDVODWsTdZki7w=;
+  b=U4C1toP+pdYkrrRsGcWkZoP6jN1dpKGfrb6ifodqFbk8wIl2qJ/eALbJ
+   HkUt+0WaZeltePMipW8Tr8gJ/vBFz98fcQeuMbdYe5o95LKd90RKOLtuU
+   GOnhYSAn/r5A1GWi5sZ4Lp0iOZNHVJ6JGMZiKc2L7hn/KaoOFCEMDS7kY
+   K9k3kRRjPMI3vZzhq5TmpstZRd2kdvyRse7Cc11+gg9+v9E0A9BMrH1hl
+   8pLDfcoU6avU6ry+ndvE6pIf1Zj26o4DFqFy/SGN60lQtYvnCmacFmXDK
+   +Vt7y3WpDtZf+Pqnzs5HZeYYJtR14MmLf7yVzKjxB15L8I5fMeU1B+Ewp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="15140587"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="15140583"
+   d="scan'208";a="15140587"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 10:20:23 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 10:20:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="848740867"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="848740859"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="848740867"
+   d="scan'208";a="848740859"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by fmsmga004.fm.intel.com with ESMTP; 27 Dec 2023 10:20:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIYVv-000Ff5-2Z;
+	id 1rIYVv-000Fez-2M;
 	Wed, 27 Dec 2023 18:20:19 +0000
-Date: Thu, 28 Dec 2023 02:19:50 +0800
+Date: Thu, 28 Dec 2023 02:19:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ingo Molnar <mingo@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kaixuxiakx <60962168+kaixuxiakx@users.noreply.github.com>,
-	Ethan Zhao <Haifeng.Zhao@intel.com>
-Subject: include/linux/instrumentation.h:8:9: warning:
- 'instrumentation_begin' macro redefined
-Message-ID: <202312280215.fO0m0Mqh-lkp@intel.com>
+To: andrey.konovalov@linux.dev, Marco Elver <elver@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH mm] kasan: stop leaking stack trace handles
+Message-ID: <202312280213.6j147JJb-lkp@intel.com>
+References: <20231226225121.235865-1-andrey.konovalov@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,168 +57,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231226225121.235865-1-andrey.konovalov@linux.dev>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009
-head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: 6d928aeddfbb696e0e6ba46c43e48b3007bde5c6 compiler.h: Move instrumentation_begin()/end() to new <linux/instrumentation.h> header
-date:   2 years, 4 months ago
-config: x86_64-randconfig-004-20231228 (https://download.01.org/0day-ci/archive/20231228/202312280215.fO0m0Mqh-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280215.fO0m0Mqh-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[cannot apply to linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/andrey-konovalov-linux-dev/kasan-stop-leaking-stack-trace-handles/20231227-065314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231226225121.235865-1-andrey.konovalov%40linux.dev
+patch subject: [PATCH mm] kasan: stop leaking stack trace handles
+config: x86_64-randconfig-123-20231227 (https://download.01.org/0day-ci/archive/20231228/202312280213.6j147JJb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280213.6j147JJb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312280215.fO0m0Mqh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312280213.6j147JJb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:13:
-   In file included from include/linux/uuid.h:12:
-   In file included from include/linux/string.h:20:
-   In file included from arch/x86/include/asm/string.h:5:
-   In file included from arch/x86/include/asm/string_64.h:6:
-   In file included from include/linux/jump_label.h:250:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/x86/include/asm/bug.h:6:
->> include/linux/instrumentation.h:8:9: warning: 'instrumentation_begin' macro redefined [-Wmacro-redefined]
-       8 | #define instrumentation_begin() ({                                      \
-         |         ^
-   include/linux/compiler.h:139:9: note: previous definition is here
-     139 | #define instrumentation_begin() ({                                      \
-         |         ^
-   1 warning generated.
-   In file included from kernel/bounds.c:10:
-   In file included from include/linux/page-flags.h:10:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/x86/include/asm/bug.h:84:
-   In file included from include/asm-generic/bug.h:5:
->> include/linux/compiler.h:139:9: warning: 'instrumentation_begin' macro redefined [-Wmacro-redefined]
-     139 | #define instrumentation_begin() ({                                      \
-         |         ^
-   include/linux/instrumentation.h:8:9: note: previous definition is here
-       8 | #define instrumentation_begin() ({                                      \
-         |         ^
-   1 warning generated.
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/x86/include/asm/bug.h:6:
->> include/linux/instrumentation.h:8:9: warning: 'instrumentation_begin' macro redefined [-Wmacro-redefined]
-       8 | #define instrumentation_begin() ({                                      \
-         |         ^
-   include/linux/compiler.h:139:9: note: previous definition is here
-     139 | #define instrumentation_begin() ({                                      \
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:19:
-   In file included from include/linux/slab.h:15:
-   In file included from include/linux/gfp.h:6:
-   In file included from include/linux/mmzone.h:21:
-   In file included from include/linux/mm_types.h:10:
-   include/linux/rbtree.h:84:2: error: implicit declaration of function 'rcu_dereference_sparse' [-Werror,-Wimplicit-function-declaration]
-      84 |         rcu_assign_pointer(*rb_link, node);
-         |         ^
-   include/linux/rcupdate.h:379:2: note: expanded from macro 'rcu_assign_pointer'
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:19:
-   In file included from include/linux/slab.h:15:
-   In file included from include/linux/gfp.h:6:
-   In file included from include/linux/mmzone.h:21:
-   In file included from include/linux/mm_types.h:10:
-   include/linux/rbtree.h:84:2: error: expected expression
-   include/linux/rcupdate.h:379:33: note: expanded from macro 'rcu_assign_pointer'
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:19:
-   In file included from include/linux/slab.h:15:
-   In file included from include/linux/gfp.h:6:
-   In file included from include/linux/mmzone.h:21:
-   In file included from include/linux/mm_types.h:10:
-   include/linux/rbtree.h:84:2: error: expected expression
-   include/linux/rcupdate.h:380:33: note: expanded from macro 'rcu_assign_pointer'
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:19:
-   In file included from include/linux/slab.h:136:
-   In file included from include/linux/kasan.h:15:
-   In file included from arch/x86/include/asm/pgtable.h:26:
-   In file included from arch/x86/include/asm/fpu/xstate.h:5:
-   In file included from include/linux/uaccess.h:5:
-   In file included from include/linux/sched.h:14:
-   In file included from include/linux/pid.h:5:
-   include/linux/rculist.h:75:2: error: implicit declaration of function 'rcu_dereference_sparse' [-Werror,-Wimplicit-function-declaration]
-      75 |         rcu_assign_pointer(list_next_rcu(prev), new);
-         |         ^
-   include/linux/rcupdate.h:379:2: note: expanded from macro 'rcu_assign_pointer'
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:19:
-   In file included from include/linux/slab.h:136:
-   In file included from include/linux/kasan.h:15:
-   In file included from arch/x86/include/asm/pgtable.h:26:
-   In file included from arch/x86/include/asm/fpu/xstate.h:5:
-   In file included from include/linux/uaccess.h:5:
-   In file included from include/linux/sched.h:14:
-   In file included from include/linux/pid.h:5:
-   include/linux/rculist.h:75:2: error: expected expression
-   include/linux/rcupdate.h:379:33: note: expanded from macro 'rcu_assign_pointer'
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:19:
-   In file included from include/linux/slab.h:136:
-   In file included from include/linux/kasan.h:15:
-   In file included from arch/x86/include/asm/pgtable.h:26:
-   In file included from arch/x86/include/asm/fpu/xstate.h:5:
-   In file included from include/linux/uaccess.h:5:
-   In file included from include/linux/sched.h:14:
-   In file included from include/linux/pid.h:5:
-   include/linux/rculist.h:75:2: error: expected expression
-   include/linux/rcupdate.h:380:33: note: expanded from macro 'rcu_assign_pointer'
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:19:
-   In file included from include/linux/slab.h:136:
-   In file included from include/linux/kasan.h:15:
-   In file included from arch/x86/include/asm/pgtable.h:26:
-   In file included from arch/x86/include/asm/fpu/xstate.h:5:
-   In file included from include/linux/uaccess.h:5:
-   In file included from include/linux/sched.h:14:
-   In file included from include/linux/pid.h:5:
-   include/linux/rculist.h:193:2: error: implicit declaration of function 'rcu_dereference_sparse' [-Werror,-Wimplicit-function-declaration]
-     193 |         rcu_assign_pointer(list_next_rcu(new->prev), new);
-         |         ^
-   include/linux/rcupdate.h:379:2: note: expanded from macro 'rcu_assign_pointer'
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:19:
-   In file included from include/linux/slab.h:136:
-   In file included from include/linux/kasan.h:15:
-   In file included from arch/x86/include/asm/pgtable.h:26:
-   In file included from arch/x86/include/asm/fpu/xstate.h:5:
-   In file included from include/linux/uaccess.h:5:
+>> mm/kasan/generic.c:506:6: warning: no previous prototype for 'release_alloc_meta' [-Wmissing-prototypes]
+     506 | void release_alloc_meta(struct kasan_alloc_meta *meta)
+         |      ^~~~~~~~~~~~~~~~~~
+>> mm/kasan/generic.c:517:6: warning: no previous prototype for 'release_free_meta' [-Wmissing-prototypes]
+     517 | void release_free_meta(const void *object, struct kasan_free_meta *meta)
+         |      ^~~~~~~~~~~~~~~~~
 
 
-vim +/instrumentation_begin +8 include/linux/instrumentation.h
+vim +/release_alloc_meta +506 mm/kasan/generic.c
 
-     6	
-     7	/* Begin/end of an instrumentation safe region */
-   > 8	#define instrumentation_begin() ({					\
-     9		asm volatile("%c0: nop\n\t"						\
-    10			     ".pushsection .discard.instr_begin\n\t"		\
-    11			     ".long %c0b - .\n\t"				\
-    12			     ".popsection\n\t" : : "i" (__COUNTER__));		\
-    13	})
-    14	
+   505	
+ > 506	void release_alloc_meta(struct kasan_alloc_meta *meta)
+   507	{
+   508		/* Evict the stack traces from stack depot. */
+   509		stack_depot_put(meta->alloc_track.stack);
+   510		stack_depot_put(meta->aux_stack[0]);
+   511		stack_depot_put(meta->aux_stack[1]);
+   512	
+   513		/* Zero out alloc meta to mark it as invalid. */
+   514		__memset(meta, 0, sizeof(*meta));
+   515	}
+   516	
+ > 517	void release_free_meta(const void *object, struct kasan_free_meta *meta)
+   518	{
+   519		/* Check if free meta is valid. */
+   520		if (*(u8 *)kasan_mem_to_shadow(object) != KASAN_SLAB_FREE_META)
+   521			return;
+   522	
+   523		/* Evict the stack trace from the stack depot. */
+   524		stack_depot_put(meta->free_track.stack);
+   525	
+   526		/* Mark free meta as invalid. */
+   527		*(u8 *)kasan_mem_to_shadow(object) = KASAN_SLAB_FREE;
+   528	}
+   529	
 
 -- 
 0-DAY CI Kernel Test Service
