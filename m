@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6221C46538
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 18:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8A046547;
+	Wed, 27 Dec 2023 18:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhpN9h7i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CttHErUH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703700012; x=1735236012;
+  t=1703701329; x=1735237329;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CxksFN7pLipTcdPqkmpusJ+sNcZrj+lwY7PJghX2WtM=;
-  b=FhpN9h7i0m77WSspCgid5EUmHaJurJMz0krSt3SktAKRjCU8eoBNEmYn
-   hLQN+MBYJIvJ3BXM3v3yBn/9I0zVSN2OnUM/oOfqMw2FWU+ZZ7MSXSDAC
-   uhku0d5VfEKJvjf5/sI7JTqWl0U8K+03kNj2vdiuN/4dY4ZgWYTMkTbvY
-   CxmDYunxoO42cFplBNhqpwHYD0eZ9WuEZrTC4yZ7ONZpAuScNRVJVqLhk
-   PWrum+9vghEjE+UyqXyqXXj7kygysvu89VoebAv0NvvFaqJXrkbVjGQ66
-   6xqhWKo4T/tUTE1+o3qINzhaDSK+krbotT8qVePgWwuX2fvP0caLzYt6Z
+  bh=rDVYTWEIWSA67HUVQTkiz/UazIBd9aewW7y/PDa0uRw=;
+  b=CttHErUHrWGNEgtgkUNFNI3Z+md2eFPoaNnYWMsdxfS0w9yfsg8M7Nys
+   H/A/3tiyxq+qAxc+Q2URlCcEfNCOe6MF36jpTYtIaz+fSMUWjHvfM7ofn
+   2qA1UtK1s56MpszAOlNgeVx8OvFcOWCZ3yMHW1QsMGVHu7DQ+A87qsxnJ
+   JvX4ljS65P6UcSyf2WrVX2K7CktdAA0sAP6LG5MGN1QEznvZvdrteUFNc
+   Aj+xx7KUoYTQM5ITC0H/YVBCbz2pRiMaJdnF81AkamQLJh6NlcZqX1rxP
+   t0SmkLlawZaPk/XEX4pfWklCxH1Zwyl9OjfW82hhxmyK7okI02WFadkJy
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="400282975"
-X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="400282975"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 10:00:04 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="15140583"
+X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
+   d="scan'208";a="15140583"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 10:20:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="26626728"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="848740867"
+X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
+   d="scan'208";a="848740867"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 27 Dec 2023 10:00:01 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 27 Dec 2023 10:20:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIYCE-000FdR-2O;
-	Wed, 27 Dec 2023 17:59:58 +0000
-Date: Thu, 28 Dec 2023 01:59:29 +0800
+	id 1rIYVv-000Ff5-2Z;
+	Wed, 27 Dec 2023 18:20:19 +0000
+Date: Thu, 28 Dec 2023 02:19:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: mungerjiang <mungerjiang@tencent.com>
-Cc: oe-kbuild-all@lists.linux.dev,
+To: Ingo Molnar <mingo@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	kaixuxiakx <60962168+kaixuxiakx@users.noreply.github.com>,
-	Bin Lai <robinlai@tencent.com>, benbjiang <benbjiang@tencent.com>,
-	Bauerchen <bauerchen@tencent.com>
-Subject: include/linux/sli.h:57:13: warning: 'sli_check_longsys' defined but
- not used
-Message-ID: <202312280121.x7dLeD8X-lkp@intel.com>
+	Ethan Zhao <Haifeng.Zhao@intel.com>
+Subject: include/linux/instrumentation.h:8:9: warning:
+ 'instrumentation_begin' macro redefined
+Message-ID: <202312280215.fO0m0Mqh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,146 +54,165 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009
 head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: 95a8c85b7fc097afff14500b1392124385d67b50 sli/cpu: introduce longsys check
-date:   2 years, 2 months ago
-config: arm64-randconfig-001-20231228 (https://download.01.org/0day-ci/archive/20231228/202312280121.x7dLeD8X-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280121.x7dLeD8X-lkp@intel.com/reproduce)
+commit: 6d928aeddfbb696e0e6ba46c43e48b3007bde5c6 compiler.h: Move instrumentation_begin()/end() to new <linux/instrumentation.h> header
+date:   2 years, 4 months ago
+config: x86_64-randconfig-004-20231228 (https://download.01.org/0day-ci/archive/20231228/202312280215.fO0m0Mqh-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280215.fO0m0Mqh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312280121.x7dLeD8X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312280215.fO0m0Mqh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   include/linux/rculist.h:532:9: note: in expansion of macro 'rcu_assign_pointer'
-     532 |         rcu_assign_pointer(hlist_first_rcu(h), n);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h: In function 'hlist_add_tail_rcu':
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
+   In file included from scripts/mod/devicetable-offsets.c:3:
+   In file included from include/linux/mod_devicetable.h:13:
+   In file included from include/linux/uuid.h:12:
+   In file included from include/linux/string.h:20:
+   In file included from arch/x86/include/asm/string.h:5:
+   In file included from arch/x86/include/asm/string_64.h:6:
+   In file included from include/linux/jump_label.h:250:
+   In file included from include/linux/bug.h:5:
+   In file included from arch/x86/include/asm/bug.h:6:
+>> include/linux/instrumentation.h:8:9: warning: 'instrumentation_begin' macro redefined [-Wmacro-redefined]
+       8 | #define instrumentation_begin() ({                                      \
+         |         ^
+   include/linux/compiler.h:139:9: note: previous definition is here
+     139 | #define instrumentation_begin() ({                                      \
+         |         ^
+   1 warning generated.
+   In file included from kernel/bounds.c:10:
+   In file included from include/linux/page-flags.h:10:
+   In file included from include/linux/bug.h:5:
+   In file included from arch/x86/include/asm/bug.h:84:
+   In file included from include/asm-generic/bug.h:5:
+>> include/linux/compiler.h:139:9: warning: 'instrumentation_begin' macro redefined [-Wmacro-redefined]
+     139 | #define instrumentation_begin() ({                                      \
+         |         ^
+   include/linux/instrumentation.h:8:9: note: previous definition is here
+       8 | #define instrumentation_begin() ({                                      \
+         |         ^
+   1 warning generated.
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/bug.h:5:
+   In file included from arch/x86/include/asm/bug.h:6:
+>> include/linux/instrumentation.h:8:9: warning: 'instrumentation_begin' macro redefined [-Wmacro-redefined]
+       8 | #define instrumentation_begin() ({                                      \
+         |         ^
+   include/linux/compiler.h:139:9: note: previous definition is here
+     139 | #define instrumentation_begin() ({                                      \
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:19:
+   In file included from include/linux/slab.h:15:
+   In file included from include/linux/gfp.h:6:
+   In file included from include/linux/mmzone.h:21:
+   In file included from include/linux/mm_types.h:10:
+   include/linux/rbtree.h:84:2: error: implicit declaration of function 'rcu_dereference_sparse' [-Werror,-Wimplicit-function-declaration]
+      84 |         rcu_assign_pointer(*rb_link, node);
+         |         ^
+   include/linux/rcupdate.h:379:2: note: expanded from macro 'rcu_assign_pointer'
+     379 |         rcu_dereference_sparse(p, __rcu); \
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:19:
+   In file included from include/linux/slab.h:15:
+   In file included from include/linux/gfp.h:6:
+   In file included from include/linux/mmzone.h:21:
+   In file included from include/linux/mm_types.h:10:
+   include/linux/rbtree.h:84:2: error: expected expression
+   include/linux/rcupdate.h:379:33: note: expanded from macro 'rcu_assign_pointer'
      379 |         rcu_dereference_sparse(p, __rcu); \
          |                                        ^
-   include/linux/rculist.h:568:17: note: in expansion of macro 'rcu_assign_pointer'
-     568 |                 rcu_assign_pointer(hlist_next_rcu(last), n);
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:19:
+   In file included from include/linux/slab.h:15:
+   In file included from include/linux/gfp.h:6:
+   In file included from include/linux/mmzone.h:21:
+   In file included from include/linux/mm_types.h:10:
+   include/linux/rbtree.h:84:2: error: expected expression
+   include/linux/rcupdate.h:380:33: note: expanded from macro 'rcu_assign_pointer'
      380 |         rcu_dereference_sparse(p, __rcu); \
          |                                        ^
-   include/linux/rculist.h:568:17: note: in expansion of macro 'rcu_assign_pointer'
-     568 |                 rcu_assign_pointer(hlist_next_rcu(last), n);
-         |                 ^~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h: In function 'hlist_add_before_rcu':
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:19:
+   In file included from include/linux/slab.h:136:
+   In file included from include/linux/kasan.h:15:
+   In file included from arch/x86/include/asm/pgtable.h:26:
+   In file included from arch/x86/include/asm/fpu/xstate.h:5:
+   In file included from include/linux/uaccess.h:5:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   include/linux/rculist.h:75:2: error: implicit declaration of function 'rcu_dereference_sparse' [-Werror,-Wimplicit-function-declaration]
+      75 |         rcu_assign_pointer(list_next_rcu(prev), new);
+         |         ^
+   include/linux/rcupdate.h:379:2: note: expanded from macro 'rcu_assign_pointer'
+     379 |         rcu_dereference_sparse(p, __rcu); \
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:19:
+   In file included from include/linux/slab.h:136:
+   In file included from include/linux/kasan.h:15:
+   In file included from arch/x86/include/asm/pgtable.h:26:
+   In file included from arch/x86/include/asm/fpu/xstate.h:5:
+   In file included from include/linux/uaccess.h:5:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   include/linux/rculist.h:75:2: error: expected expression
+   include/linux/rcupdate.h:379:33: note: expanded from macro 'rcu_assign_pointer'
      379 |         rcu_dereference_sparse(p, __rcu); \
          |                                        ^
-   include/linux/rculist.h:597:9: note: in expansion of macro 'rcu_assign_pointer'
-     597 |         rcu_assign_pointer(hlist_pprev_rcu(n), n);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:19:
+   In file included from include/linux/slab.h:136:
+   In file included from include/linux/kasan.h:15:
+   In file included from arch/x86/include/asm/pgtable.h:26:
+   In file included from arch/x86/include/asm/fpu/xstate.h:5:
+   In file included from include/linux/uaccess.h:5:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   include/linux/rculist.h:75:2: error: expected expression
+   include/linux/rcupdate.h:380:33: note: expanded from macro 'rcu_assign_pointer'
      380 |         rcu_dereference_sparse(p, __rcu); \
          |                                        ^
-   include/linux/rculist.h:597:9: note: in expansion of macro 'rcu_assign_pointer'
-     597 |         rcu_assign_pointer(hlist_pprev_rcu(n), n);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h: In function 'hlist_add_behind_rcu':
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:19:
+   In file included from include/linux/slab.h:136:
+   In file included from include/linux/kasan.h:15:
+   In file included from arch/x86/include/asm/pgtable.h:26:
+   In file included from arch/x86/include/asm/fpu/xstate.h:5:
+   In file included from include/linux/uaccess.h:5:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   include/linux/rculist.h:193:2: error: implicit declaration of function 'rcu_dereference_sparse' [-Werror,-Wimplicit-function-declaration]
+     193 |         rcu_assign_pointer(list_next_rcu(new->prev), new);
+         |         ^
+   include/linux/rcupdate.h:379:2: note: expanded from macro 'rcu_assign_pointer'
      379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:624:9: note: in expansion of macro 'rcu_assign_pointer'
-     624 |         rcu_assign_pointer(hlist_next_rcu(prev), n);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:624:9: note: in expansion of macro 'rcu_assign_pointer'
-     624 |         rcu_assign_pointer(hlist_next_rcu(prev), n);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rculist_bl.h: In function 'hlist_bl_set_first_rcu':
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist_bl.h:17:9: note: in expansion of macro 'rcu_assign_pointer'
-      17 |         rcu_assign_pointer(h->first,
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist_bl.h:17:9: note: in expansion of macro 'rcu_assign_pointer'
-      17 |         rcu_assign_pointer(h->first,
-         |         ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/arm64/kernel/asm-offsets.c:16:
-   include/linux/memcontrol.h: In function 'lruvec_holds_page_lru_lock':
-   include/linux/memcontrol.h:978:34: error: 'pg_data_t' {aka 'struct pglist_data'} has no member named '__lruvec'; did you mean 'lruvec'?
-     978 |         return lruvec == &pgdat->__lruvec;
-         |                                  ^~~~~~~~
-         |                                  lruvec
-   include/linux/memcontrol.h: In function 'lock_page_lruvec':
-   include/linux/memcontrol.h:1005:27: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
-    1005 |         spin_lock(&pgdat->__lruvec.lru_lock);
-         |                           ^~~~~~~~
-         |                           lruvec
-   include/linux/memcontrol.h:1006:24: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
-    1006 |         return &pgdat->__lruvec;
-         |                        ^~~~~~~~
-         |                        lruvec
-   include/linux/memcontrol.h: In function 'lock_page_lruvec_irq':
-   include/linux/memcontrol.h:1013:31: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
-    1013 |         spin_lock_irq(&pgdat->__lruvec.lru_lock);
-         |                               ^~~~~~~~
-         |                               lruvec
-   include/linux/memcontrol.h:1014:24: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
-    1014 |         return &pgdat->__lruvec;
-         |                        ^~~~~~~~
-         |                        lruvec
-   In file included from include/linux/radix-tree.h:16:
-   include/linux/memcontrol.h: In function 'lock_page_lruvec_irqsave':
-   include/linux/memcontrol.h:1022:35: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
-    1022 |         spin_lock_irqsave(&pgdat->__lruvec.lru_lock, *flagsp);
-         |                                   ^~~~~~~~
-   include/linux/spinlock.h:250:48: note: in definition of macro 'raw_spin_lock_irqsave'
-     250 |                 flags = _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   include/linux/memcontrol.h:1022:9: note: in expansion of macro 'spin_lock_irqsave'
-    1022 |         spin_lock_irqsave(&pgdat->__lruvec.lru_lock, *flagsp);
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/memcontrol.h:1023:24: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
-    1023 |         return &pgdat->__lruvec;
-         |                        ^~~~~~~~
-         |                        lruvec
-   In file included from include/linux/context_tracking.h:11,
-                    from include/linux/kvm_host.h:24,
-                    from arch/arm64/kernel/asm-offsets.c:14:
-   include/linux/sli.h: At top level:
->> include/linux/sli.h:57:13: warning: 'sli_check_longsys' defined but not used [-Wunused-function]
-      57 | static void sli_check_longsys(struct task_struct *tsk){};
-         |             ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:99: arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=3008103305
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1136: prepare0] Error 2 shuffle=3008103305
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:179: sub-make] Error 2 shuffle=3008103305
-   make: Target 'prepare' not remade because of errors.
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:19:
+   In file included from include/linux/slab.h:136:
+   In file included from include/linux/kasan.h:15:
+   In file included from arch/x86/include/asm/pgtable.h:26:
+   In file included from arch/x86/include/asm/fpu/xstate.h:5:
+   In file included from include/linux/uaccess.h:5:
 
 
-vim +/sli_check_longsys +57 include/linux/sli.h
+vim +/instrumentation_begin +8 include/linux/instrumentation.h
 
-    45	
-    46	int  sli_cgroup_alloc(struct cgroup *cgroup);
-    47	void sli_cgroup_free(struct cgroup *cgroup);
-    48	void sli_memlat_stat_start(u64 *start);
-    49	void sli_memlat_stat_end(enum sli_memlat_stat_item sidx, u64 start);
-    50	int  sli_memlat_stat_show(struct seq_file *m, struct cgroup *cgrp);
-    51	void sli_schedlat_stat(struct task_struct *task,enum sli_schedlat_stat_item sidx, u64 delta);
-    52	void sli_schedlat_rundelay(struct task_struct *task, struct task_struct *prev, u64 delta);
-    53	int  sli_schedlat_stat_show(struct seq_file *m, struct cgroup *cgrp);
-    54	#ifdef CONFIG_SCHED_INFO
-    55	void sli_check_longsys(struct task_struct *tsk);
-    56	#else
-  > 57	static void sli_check_longsys(struct task_struct *tsk){};
+     6	
+     7	/* Begin/end of an instrumentation safe region */
+   > 8	#define instrumentation_begin() ({					\
+     9		asm volatile("%c0: nop\n\t"						\
+    10			     ".pushsection .discard.instr_begin\n\t"		\
+    11			     ".long %c0b - .\n\t"				\
+    12			     ".popsection\n\t" : : "i" (__COUNTER__));		\
+    13	})
+    14	
 
 -- 
 0-DAY CI Kernel Test Service
