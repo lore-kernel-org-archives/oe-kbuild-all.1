@@ -1,76 +1,73 @@
-Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463161FBF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 01:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=chengyou@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VzJMpPy_1703641456;
-Received: from 30.221.116.50(mailfrom:chengyou@linux.alibaba.com fp:SMTPD_---0VzJMpPy_1703641456)
-          by smtp.aliyun-inc.com;
-          Wed, 27 Dec 2023 09:44:17 +0800
-Message-ID: <90098a72-c11c-6e53-464c-40b86ac7b75f@linux.alibaba.com>
-Date: Wed, 27 Dec 2023 09:44:16 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F671FA3;
+	Wed, 27 Dec 2023 01:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mtbo93lT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703642109; x=1735178109;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7v/ujX87syrPOWCR/vt8j3eTIvgnEYcg6Sg664+Dpmc=;
+  b=Mtbo93lTtAXGoyhUxwNSd2y2gWgTqgO5v3MiY3QTJENQhrLmnDykysUO
+   Y25MfxyEoVhLW0bYtKp7nMR8wTgA+Y5K1YzM4UBDASLMS31kiTrcpDxhn
+   rJQllam/ESJiDpUG8kdxhjwbKig1mP4K5lG8sEGSkhCpJtCVGyLwBJnJA
+   3bF43+Uu1C3YeodD1Nt8ee2uM1nKqDv+9hxaDku8Ex6rBcvjVxxKiPCjC
+   KQRRQ+xHu96WFbo7rWrTXvj2PJ4G+x4YzJ2pvbiTwnHDll02exucBxvYN
+   SV9HZMTUkDp49t5HxgXpXrz6whu0FQsGqUaN+iQo88Gd2cx4OpGPN2sS5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="3489027"
+X-IronPort-AV: E=Sophos;i="6.04,307,1695711600"; 
+   d="scan'208";a="3489027"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 17:55:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="1109506143"
+X-IronPort-AV: E=Sophos;i="6.04,307,1695711600"; 
+   d="scan'208";a="1109506143"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 26 Dec 2023 17:55:06 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rIJ8S-000ExN-2O;
+	Wed, 27 Dec 2023 01:55:04 +0000
+Date: Wed, 27 Dec 2023 09:54:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:timers/core 6/11] ld.lld: error: undefined
+ symbol: tick_cpu_dying
+Message-ID: <202312270913.zbMZDVVQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.1
-Subject: Re: [PATCH for-next v2 2/2] RDMA/erdma: Add hardware statistics
- support
-To: Zhu Yanjun <yanjun.zhu@linux.dev>, kernel test robot <lkp@intel.com>,
- jgg@ziepe.ca, leon@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
- KaiShen@linux.alibaba.com
-References: <20231225032117.7493-3-chengyou@linux.alibaba.com>
- <202312260550.9DPkrw52-lkp@intel.com>
- <06da7417-7706-409f-b3d7-a62caa81d57b@linux.dev>
-Content-Language: en-US
-From: Cheng Xu <chengyou@linux.alibaba.com>
-In-Reply-To: <06da7417-7706-409f-b3d7-a62caa81d57b@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
+head:   018d96d27486694a8496e3937ac2f7270442c7c3
+commit: 0f851847642e32105fa0ace39063fa5018379f8c [6/11] timers: Start centralizing tick related CPU hotplug operations
+config: arm-randconfig-002-20231227 (https://download.01.org/0day-ci/archive/20231227/202312270913.zbMZDVVQ-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231227/202312270913.zbMZDVVQ-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312270913.zbMZDVVQ-lkp@intel.com/
 
-On 12/26/23 10:35 AM, Zhu Yanjun wrote:
-> 在 2023/12/26 6:09, kernel test robot 写道:
->> Hi Cheng,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on rdma/for-next]
->> [also build test WARNING on linus/master v6.7-rc7 next-20231222]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Cheng-Xu/RDMA-erdma-Introduce-dma-pool-for-hardware-responses-of-CMDQ-requests/20231225-154653
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
->> patch link:    https://lore.kernel.org/r/20231225032117.7493-3-chengyou%40linux.alibaba.com
->> patch subject: [PATCH for-next v2 2/2] RDMA/erdma: Add hardware statistics support
->> config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231226/202312260550.9DPkrw52-lkp@intel.com/config)
->> compiler: s390-linux-gcc (GCC) 13.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231226/202312260550.9DPkrw52-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202312260550.9DPkrw52-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> drivers/infiniband/hw/erdma/erdma_verbs.c:1750:5: warning: no previous prototype for 'erdma_query_hw_stats' [-Wmissing-prototypes]
->>      1750 | int erdma_query_hw_stats(struct erdma_dev *dev, struct rdma_hw_stats *stats)
->>           |     ^~~~~~~~~~~~~~~~~~~~
->>
-> 
-> Prepending "static" can fix this problem.
-> 
+All errors (new ones prefixed by >>):
 
-You are right, thanks for your suggestion.
+>> ld.lld: error: undefined symbol: tick_cpu_dying
+   >>> referenced by cpu.c
+   >>>               kernel/cpu.o:(cpuhp_hp_states) in archive vmlinux.a
 
-Cheng Xu
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
