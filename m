@@ -1,51 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925AB446A6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 11:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC6E46528
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 17:18:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n9XaX8Xj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8dQLyTj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703677309; x=1735213309;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3r/1e3HL0Ph6NuiSGOA5oAHEsDBmqySS8+0n+CnOMJQ=;
-  b=n9XaX8XjorzgzUGhKGR/+PbecPlcVRvSsG4PnVNnAVHIq9yUm8TtxuX0
-   rcFyOqT7tRt8qqZ4JaXzfZ2EmKXZGJ9g20De4B1gMGOFdeuYun12QmlMq
-   hNxX9hegly5uWn1+MsyJ7A6SQtx4Anyr6UT3oBGN84yITQZzADaLZKEUr
-   FWWEmVKcfaqVegCIAlUdQQf2SS439Jp9bSxksjjsWgxpxDmvyRaMoY6RZ
-   oN7M/ztx77O1j0G7/+U+b7EAYWRGGDREzf6OjEq81AtsT3dItlmDkSkzp
-   DXbjeggeFYr7o3OL8Oneh/eKlsX43APCRifcyPqBrwTlUt2eYEhaVFz3g
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="3242947"
+  t=1703697529; x=1735233529;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KNkeJXzrhPg5SrbX1SggyVGkeRW2gxTO0WMQfJzUh/Y=;
+  b=H8dQLyTjCCWHbaYIELmTjHBq+rR3yD7o5DijlSk+5jv7v/nfiVMYY5Wh
+   J2ousvjCW8q+shd33zBKLWirKTqiYGy9pb94hK1dWeUZLxBPf7JoOcGFB
+   MK/PdYTHZW5aRH/ucyUSYvuruLwV2An1Rl9cgWRSdy5e64MRyKpx5ivbF
+   YePHXKreju4BEvRXLi9qVMjxpkHYnr6LeFUMl0Lh9Ragtv/bNYwIcoR2y
+   +p5OBW6VQSmX2Z17WvS4qkV7z+tg5JMSzsw2e7ZKy4stEuIEhWy3u8UPG
+   412UUaYc5pMKuPvVKvbWU1IF8IvuEX+O1nMvzhl+YXIhSRsMNLb3zBi/q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="3769496"
 X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="3242947"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 03:41:40 -0800
+   d="scan'208";a="3769496"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 09:18:48 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="1025433809"
 X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="19939496"
+   d="scan'208";a="1025433809"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 Dec 2023 03:41:38 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 27 Dec 2023 09:18:46 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rISI2-000FL7-2L;
-	Wed, 27 Dec 2023 11:41:34 +0000
-Date: Wed, 27 Dec 2023 19:41:20 +0800
+	id 1rIXYK-000Fax-1M;
+	Wed, 27 Dec 2023 17:18:44 +0000
+Date: Thu, 28 Dec 2023 01:18:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>, marcel@holtmann.org,
-	johan.hedberg@gmail.com, luiz.dentz@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, amitkumar.karwar@nxp.com,
-	neeraj.sanjaykale@nxp.com, linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org, sherry.sun@nxp.com,
-	rohit.fule@nxp.com
-Subject: Re: [PATCH v2] Bluetooth: btnxpuart: Resolve TX timeout error in
- power save stress test
-Message-ID: <202312271920.D4X4fO6I-lkp@intel.com>
-References: <20231226113110.3923962-1-neeraj.sanjaykale@nxp.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: kernel/trace/bpf_trace.c:2254:21: sparse: sparse: dereference of
+ noderef expression
+Message-ID: <202312280124.W09SBhfq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,82 +50,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231226113110.3923962-1-neeraj.sanjaykale@nxp.com>
 
-Hi Neeraj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bluetooth/master]
-[also build test ERROR on bluetooth-next/master linus/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neeraj-Sanjay-Kale/Bluetooth-btnxpuart-Resolve-TX-timeout-error-in-power-save-stress-test/20231226-193718
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20231226113110.3923962-1-neeraj.sanjaykale%40nxp.com
-patch subject: [PATCH v2] Bluetooth: btnxpuart: Resolve TX timeout error in power save stress test
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231227/202312271920.D4X4fO6I-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231227/202312271920.D4X4fO6I-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fbafc3e621c3f4ded43720fdb1d6ce1728ec664e
+commit: 0236fec57a15dc2a068dfe4488e0c2ab4559b1ec bpf: Resolve symbols with ftrace_lookup_symbols for kprobe multi link
+date:   1 year, 8 months ago
+config: i386-randconfig-061-20231101 (https://download.01.org/0day-ci/archive/20231228/202312280124.W09SBhfq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280124.W09SBhfq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312271920.D4X4fO6I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312280124.W09SBhfq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/bpf_trace.c:2254:21: sparse: sparse: dereference of noderef expression
+   kernel/trace/bpf_trace.c:2258:66: sparse: sparse: dereference of noderef expression
 
-   drivers/bluetooth/btnxpuart.c: In function 'ps_control':
->> drivers/bluetooth/btnxpuart.c:356:25: error: implicit declaration of function 'usleep'; did you mean 'fsleep'? [-Werror=implicit-function-declaration]
-     356 |                         usleep(2000); /* Allow chip to detect UART-break and enter sleep */
-         |                         ^~~~~~
-         |                         fsleep
-   cc1: some warnings being treated as errors
+vim +2254 kernel/trace/bpf_trace.c
 
-
-vim +356 drivers/bluetooth/btnxpuart.c
-
-   333	
-   334	static void ps_control(struct hci_dev *hdev, u8 ps_state)
-   335	{
-   336		struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
-   337		struct ps_data *psdata = &nxpdev->psdata;
-   338		int status;
-   339	
-   340		if (psdata->ps_state == ps_state ||
-   341		    !test_bit(BTNXPUART_SERDEV_OPEN, &nxpdev->tx_state))
-   342			return;
-   343	
-   344		mutex_lock(&psdata->ps_lock);
-   345		switch (psdata->cur_h2c_wakeupmode) {
-   346		case WAKEUP_METHOD_DTR:
-   347			if (ps_state == PS_STATE_AWAKE)
-   348				status = serdev_device_set_tiocm(nxpdev->serdev, TIOCM_DTR, 0);
-   349			else
-   350				status = serdev_device_set_tiocm(nxpdev->serdev, 0, TIOCM_DTR);
-   351			break;
-   352		case WAKEUP_METHOD_BREAK:
-   353		default:
-   354			if (ps_state == PS_STATE_AWAKE) {
-   355				status = serdev_device_break_ctl(nxpdev->serdev, 0);
- > 356				usleep(2000); /* Allow chip to detect UART-break and enter sleep */
-   357			} else {
-   358				status = serdev_device_break_ctl(nxpdev->serdev, -1);
-   359			}
-   360			bt_dev_dbg(hdev, "Set UART break: %s, status=%d",
-   361				   str_on_off(ps_state == PS_STATE_SLEEP), status);
-   362			break;
-   363		}
-   364		if (!status)
-   365			psdata->ps_state = ps_state;
-   366		mutex_unlock(&psdata->ps_lock);
-   367	
-   368		if (ps_state == PS_STATE_AWAKE)
-   369			btnxpuart_tx_wakeup(nxpdev);
-   370	}
-   371	
+  2236	
+  2237	static int copy_user_syms(struct user_syms *us, unsigned long __user *usyms, u32 cnt)
+  2238	{
+  2239		unsigned long __user usymbol;
+  2240		const char **syms = NULL;
+  2241		char *buf = NULL, *p;
+  2242		int err = -ENOMEM;
+  2243		unsigned int i;
+  2244	
+  2245		syms = kvmalloc(cnt * sizeof(*syms), GFP_KERNEL);
+  2246		if (!syms)
+  2247			goto error;
+  2248	
+  2249		buf = kvmalloc(cnt * KSYM_NAME_LEN, GFP_KERNEL);
+  2250		if (!buf)
+  2251			goto error;
+  2252	
+  2253		for (p = buf, i = 0; i < cnt; i++) {
+> 2254			if (__get_user(usymbol, usyms + i)) {
+  2255				err = -EFAULT;
+  2256				goto error;
+  2257			}
+  2258			err = strncpy_from_user(p, (const char __user *) usymbol, KSYM_NAME_LEN);
+  2259			if (err == KSYM_NAME_LEN)
+  2260				err = -E2BIG;
+  2261			if (err < 0)
+  2262				goto error;
+  2263			syms[i] = p;
+  2264			p += err + 1;
+  2265		}
+  2266	
+  2267		us->syms = syms;
+  2268		us->buf = buf;
+  2269		return 0;
+  2270	
+  2271	error:
+  2272		if (err) {
+  2273			kvfree(syms);
+  2274			kvfree(buf);
+  2275		}
+  2276		return err;
+  2277	}
+  2278	
 
 -- 
 0-DAY CI Kernel Test Service
