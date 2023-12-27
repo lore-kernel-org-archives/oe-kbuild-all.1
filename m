@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E6B46522
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 17:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6221C46538
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 18:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ij8/uW99"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhpN9h7i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703698190; x=1735234190;
+  t=1703700012; x=1735236012;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ToKkSrsMuMKq2b6q5OGCvBDj9FgTV5VEfB82kPjvRfE=;
-  b=ij8/uW99DF2S2WnlvqSjrH4X+gmmTECwAZuYjGz0RokrmbrY+v1PsMly
-   DZcQZ5MIQWDrZT6HFWAV/n823zaS5BgbHH6T+xujXS4Q9yjuA0zf/AdVg
-   ffAA2KQcMwvIkTJkR6S+GAVmnq35BVxPeYHl78BQnxKWxdWIKAK/f4J5v
-   vm1SoW62UNSRXCd6aaganILlbpUJhf+KhqUqzh8GSaAtu7bqJlL217ssV
-   zZTz5R+avLdWd/Dwcn88sP+VjLkQQx/8Lk0TKLxIGN3Ec16PJe7xIZ87V
-   6wNyy4PERKnD0wtd+KhqZesDVBltI0M7vRP/h4Imxf4DEV3SEjfUNKbQV
+  bh=CxksFN7pLipTcdPqkmpusJ+sNcZrj+lwY7PJghX2WtM=;
+  b=FhpN9h7i0m77WSspCgid5EUmHaJurJMz0krSt3SktAKRjCU8eoBNEmYn
+   hLQN+MBYJIvJ3BXM3v3yBn/9I0zVSN2OnUM/oOfqMw2FWU+ZZ7MSXSDAC
+   uhku0d5VfEKJvjf5/sI7JTqWl0U8K+03kNj2vdiuN/4dY4ZgWYTMkTbvY
+   CxmDYunxoO42cFplBNhqpwHYD0eZ9WuEZrTC4yZ7ONZpAuScNRVJVqLhk
+   PWrum+9vghEjE+UyqXyqXXj7kygysvu89VoebAv0NvvFaqJXrkbVjGQ66
+   6xqhWKo4T/tUTE1+o3qINzhaDSK+krbotT8qVePgWwuX2fvP0caLzYt6Z
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="427639018"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="400282975"
 X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="427639018"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 09:29:49 -0800
+   d="scan'208";a="400282975"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 10:00:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="807203635"
 X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="807203635"
+   d="scan'208";a="26626728"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 27 Dec 2023 09:29:47 -0800
+  by orviesa001.jf.intel.com with ESMTP; 27 Dec 2023 10:00:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIXiz-000Fbn-15;
-	Wed, 27 Dec 2023 17:29:45 +0000
-Date: Thu, 28 Dec 2023 01:28:55 +0800
+	id 1rIYCE-000FdR-2O;
+	Wed, 27 Dec 2023 17:59:58 +0000
+Date: Thu, 28 Dec 2023 01:59:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ingo Molnar <mingo@kernel.org>
+To: mungerjiang <mungerjiang@tencent.com>
 Cc: oe-kbuild-all@lists.linux.dev,
 	kaixuxiakx <60962168+kaixuxiakx@users.noreply.github.com>,
-	Ethan Zhao <Haifeng.Zhao@intel.com>
-Subject: include/linux/instrumentation.h:8: warning: "instrumentation_begin"
- redefined
-Message-ID: <202312280126.aPZxuRsG-lkp@intel.com>
+	Bin Lai <robinlai@tencent.com>, benbjiang <benbjiang@tencent.com>,
+	Bauerchen <bauerchen@tencent.com>
+Subject: include/linux/sli.h:57:13: warning: 'sli_check_longsys' defined but
+ not used
+Message-ID: <202312280121.x7dLeD8X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,165 +54,146 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009
 head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: 6d928aeddfbb696e0e6ba46c43e48b3007bde5c6 compiler.h: Move instrumentation_begin()/end() to new <linux/instrumentation.h> header
-date:   2 years, 4 months ago
-config: x86_64-buildonly-randconfig-003-20231228 (https://download.01.org/0day-ci/archive/20231228/202312280126.aPZxuRsG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280126.aPZxuRsG-lkp@intel.com/reproduce)
+commit: 95a8c85b7fc097afff14500b1392124385d67b50 sli/cpu: introduce longsys check
+date:   2 years, 2 months ago
+config: arm64-randconfig-001-20231228 (https://download.01.org/0day-ci/archive/20231228/202312280121.x7dLeD8X-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280121.x7dLeD8X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312280126.aPZxuRsG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312280121.x7dLeD8X-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/jump_label.h:250,
-                    from arch/x86/include/asm/string_64.h:6,
-                    from arch/x86/include/asm/string.h:5,
-                    from include/linux/string.h:20,
-                    from include/linux/uuid.h:12,
-                    from include/linux/mod_devicetable.h:13,
-                    from scripts/mod/devicetable-offsets.c:3:
->> include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/string.h:6:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/asm-generic/bug.h:5,
-                    from arch/x86/include/asm/bug.h:84,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
->> include/linux/compiler.h:139: warning: "instrumentation_begin" redefined
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from arch/x86/include/asm/bug.h:6:
-   include/linux/instrumentation.h:8: note: this is the location of the previous definition
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/crypto.h:18,
-                    from arch/x86/kernel/asm-offsets.c:9:
->> include/linux/instrumentation.h:8: warning: "instrumentation_begin" redefined
-       8 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from arch/x86/include/asm/atomic.h:5,
-                    from include/linux/atomic.h:7,
-                    from include/linux/crypto.h:15:
-   include/linux/compiler.h:139: note: this is the location of the previous definition
-     139 | #define instrumentation_begin() ({                                      \
-         | 
-   In file included from include/linux/rbtree.h:22,
-                    from include/linux/mm_types.h:10,
-                    from include/linux/mmzone.h:21,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from include/linux/crypto.h:19:
-   include/linux/rbtree.h: In function 'rb_link_node_rcu':
-   include/linux/rcupdate.h:379:9: error: implicit declaration of function 'rcu_dereference_sparse'; did you mean 'rcu_dereference_raw'? [-Werror=implicit-function-declaration]
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rbtree.h:84:9: note: in expansion of macro 'rcu_assign_pointer'
-      84 |         rcu_assign_pointer(*rb_link, node);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rbtree.h:84:9: note: in expansion of macro 'rcu_assign_pointer'
-      84 |         rcu_assign_pointer(*rb_link, node);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rbtree.h:84:9: note: in expansion of macro 'rcu_assign_pointer'
-      84 |         rcu_assign_pointer(*rb_link, node);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h: In function '__list_add_rcu':
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:75:9: note: in expansion of macro 'rcu_assign_pointer'
-      75 |         rcu_assign_pointer(list_next_rcu(prev), new);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:75:9: note: in expansion of macro 'rcu_assign_pointer'
-      75 |         rcu_assign_pointer(list_next_rcu(prev), new);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h: In function 'list_replace_rcu':
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:193:9: note: in expansion of macro 'rcu_assign_pointer'
-     193 |         rcu_assign_pointer(list_next_rcu(new->prev), new);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:193:9: note: in expansion of macro 'rcu_assign_pointer'
-     193 |         rcu_assign_pointer(list_next_rcu(new->prev), new);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h: In function '__list_splice_init_rcu':
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:251:9: note: in expansion of macro 'rcu_assign_pointer'
-     251 |         rcu_assign_pointer(list_next_rcu(prev), first);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:251:9: note: in expansion of macro 'rcu_assign_pointer'
-     251 |         rcu_assign_pointer(list_next_rcu(prev), first);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h: In function 'hlist_replace_rcu':
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:493:9: note: in expansion of macro 'rcu_assign_pointer'
-     493 |         rcu_assign_pointer(*(struct hlist_node __rcu **)new->pprev, new);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:493:9: note: in expansion of macro 'rcu_assign_pointer'
-     493 |         rcu_assign_pointer(*(struct hlist_node __rcu **)new->pprev, new);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rculist.h: In function 'hlist_add_head_rcu':
-   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
-     379 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
-   include/linux/rculist.h:532:9: note: in expansion of macro 'rcu_assign_pointer'
-     532 |         rcu_assign_pointer(hlist_first_rcu(h), n);
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
-     380 |         rcu_dereference_sparse(p, __rcu); \
-         |                                        ^
    include/linux/rculist.h:532:9: note: in expansion of macro 'rcu_assign_pointer'
      532 |         rcu_assign_pointer(hlist_first_rcu(h), n);
          |         ^~~~~~~~~~~~~~~~~~
    include/linux/rculist.h: In function 'hlist_add_tail_rcu':
    include/linux/rcupdate.h:379:40: error: expected expression before ')' token
+     379 |         rcu_dereference_sparse(p, __rcu); \
+         |                                        ^
+   include/linux/rculist.h:568:17: note: in expansion of macro 'rcu_assign_pointer'
+     568 |                 rcu_assign_pointer(hlist_next_rcu(last), n);
+         |                 ^~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
+     380 |         rcu_dereference_sparse(p, __rcu); \
+         |                                        ^
+   include/linux/rculist.h:568:17: note: in expansion of macro 'rcu_assign_pointer'
+     568 |                 rcu_assign_pointer(hlist_next_rcu(last), n);
+         |                 ^~~~~~~~~~~~~~~~~~
+   include/linux/rculist.h: In function 'hlist_add_before_rcu':
+   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
+     379 |         rcu_dereference_sparse(p, __rcu); \
+         |                                        ^
+   include/linux/rculist.h:597:9: note: in expansion of macro 'rcu_assign_pointer'
+     597 |         rcu_assign_pointer(hlist_pprev_rcu(n), n);
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
+     380 |         rcu_dereference_sparse(p, __rcu); \
+         |                                        ^
+   include/linux/rculist.h:597:9: note: in expansion of macro 'rcu_assign_pointer'
+     597 |         rcu_assign_pointer(hlist_pprev_rcu(n), n);
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/rculist.h: In function 'hlist_add_behind_rcu':
+   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
+     379 |         rcu_dereference_sparse(p, __rcu); \
+         |                                        ^
+   include/linux/rculist.h:624:9: note: in expansion of macro 'rcu_assign_pointer'
+     624 |         rcu_assign_pointer(hlist_next_rcu(prev), n);
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
+     380 |         rcu_dereference_sparse(p, __rcu); \
+         |                                        ^
+   include/linux/rculist.h:624:9: note: in expansion of macro 'rcu_assign_pointer'
+     624 |         rcu_assign_pointer(hlist_next_rcu(prev), n);
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/rculist_bl.h: In function 'hlist_bl_set_first_rcu':
+   include/linux/rcupdate.h:379:40: error: expected expression before ')' token
+     379 |         rcu_dereference_sparse(p, __rcu); \
+         |                                        ^
+   include/linux/rculist_bl.h:17:9: note: in expansion of macro 'rcu_assign_pointer'
+      17 |         rcu_assign_pointer(h->first,
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:380:40: error: expected expression before ')' token
+     380 |         rcu_dereference_sparse(p, __rcu); \
+         |                                        ^
+   include/linux/rculist_bl.h:17:9: note: in expansion of macro 'rcu_assign_pointer'
+      17 |         rcu_assign_pointer(h->first,
+         |         ^~~~~~~~~~~~~~~~~~
+   In file included from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/arm64/kernel/asm-offsets.c:16:
+   include/linux/memcontrol.h: In function 'lruvec_holds_page_lru_lock':
+   include/linux/memcontrol.h:978:34: error: 'pg_data_t' {aka 'struct pglist_data'} has no member named '__lruvec'; did you mean 'lruvec'?
+     978 |         return lruvec == &pgdat->__lruvec;
+         |                                  ^~~~~~~~
+         |                                  lruvec
+   include/linux/memcontrol.h: In function 'lock_page_lruvec':
+   include/linux/memcontrol.h:1005:27: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
+    1005 |         spin_lock(&pgdat->__lruvec.lru_lock);
+         |                           ^~~~~~~~
+         |                           lruvec
+   include/linux/memcontrol.h:1006:24: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
+    1006 |         return &pgdat->__lruvec;
+         |                        ^~~~~~~~
+         |                        lruvec
+   include/linux/memcontrol.h: In function 'lock_page_lruvec_irq':
+   include/linux/memcontrol.h:1013:31: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
+    1013 |         spin_lock_irq(&pgdat->__lruvec.lru_lock);
+         |                               ^~~~~~~~
+         |                               lruvec
+   include/linux/memcontrol.h:1014:24: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
+    1014 |         return &pgdat->__lruvec;
+         |                        ^~~~~~~~
+         |                        lruvec
+   In file included from include/linux/radix-tree.h:16:
+   include/linux/memcontrol.h: In function 'lock_page_lruvec_irqsave':
+   include/linux/memcontrol.h:1022:35: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
+    1022 |         spin_lock_irqsave(&pgdat->__lruvec.lru_lock, *flagsp);
+         |                                   ^~~~~~~~
+   include/linux/spinlock.h:250:48: note: in definition of macro 'raw_spin_lock_irqsave'
+     250 |                 flags = _raw_spin_lock_irqsave(lock);   \
+         |                                                ^~~~
+   include/linux/memcontrol.h:1022:9: note: in expansion of macro 'spin_lock_irqsave'
+    1022 |         spin_lock_irqsave(&pgdat->__lruvec.lru_lock, *flagsp);
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/memcontrol.h:1023:24: error: 'struct pglist_data' has no member named '__lruvec'; did you mean 'lruvec'?
+    1023 |         return &pgdat->__lruvec;
+         |                        ^~~~~~~~
+         |                        lruvec
+   In file included from include/linux/context_tracking.h:11,
+                    from include/linux/kvm_host.h:24,
+                    from arch/arm64/kernel/asm-offsets.c:14:
+   include/linux/sli.h: At top level:
+>> include/linux/sli.h:57:13: warning: 'sli_check_longsys' defined but not used [-Wunused-function]
+      57 | static void sli_check_longsys(struct task_struct *tsk){};
+         |             ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[2]: *** [scripts/Makefile.build:99: arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=3008103305
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1136: prepare0] Error 2 shuffle=3008103305
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:179: sub-make] Error 2 shuffle=3008103305
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/instrumentation_begin +8 include/linux/instrumentation.h
+vim +/sli_check_longsys +57 include/linux/sli.h
 
-     6	
-     7	/* Begin/end of an instrumentation safe region */
-   > 8	#define instrumentation_begin() ({					\
-     9		asm volatile("%c0: nop\n\t"						\
-    10			     ".pushsection .discard.instr_begin\n\t"		\
-    11			     ".long %c0b - .\n\t"				\
-    12			     ".popsection\n\t" : : "i" (__COUNTER__));		\
-    13	})
-    14	
+    45	
+    46	int  sli_cgroup_alloc(struct cgroup *cgroup);
+    47	void sli_cgroup_free(struct cgroup *cgroup);
+    48	void sli_memlat_stat_start(u64 *start);
+    49	void sli_memlat_stat_end(enum sli_memlat_stat_item sidx, u64 start);
+    50	int  sli_memlat_stat_show(struct seq_file *m, struct cgroup *cgrp);
+    51	void sli_schedlat_stat(struct task_struct *task,enum sli_schedlat_stat_item sidx, u64 delta);
+    52	void sli_schedlat_rundelay(struct task_struct *task, struct task_struct *prev, u64 delta);
+    53	int  sli_schedlat_stat_show(struct seq_file *m, struct cgroup *cgrp);
+    54	#ifdef CONFIG_SCHED_INFO
+    55	void sli_check_longsys(struct task_struct *tsk);
+    56	#else
+  > 57	static void sli_check_longsys(struct task_struct *tsk){};
 
 -- 
 0-DAY CI Kernel Test Service
