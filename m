@@ -1,78 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55A2481A3;
-	Wed, 27 Dec 2023 22:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3131149888;
+	Wed, 27 Dec 2023 22:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="djtb3RQw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F36D5C433C7;
-	Wed, 27 Dec 2023 22:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1703715006;
-	bh=IsNop+8agQGKkYo5eY0cj9pIaFJSRadegBPPU7K7vBs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=djtb3RQwHbPOU168xGDiQ8WhknSl4qCpB3Dv5B2/0wTgBHtMmISEw4rF3MGjEPt0R
-	 QA0He0895rEtX5IBfbdy2LI/LlFvrnjJryGTDKw6dWQ5LkbRh/deDbJR+wQ3+ZArd0
-	 7Qb8LvIurV67ebK/j5NSgPR+5c+BqVHFk0pbNnEo=
-Date: Wed, 27 Dec 2023 14:10:05 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, andrey.konovalov@linux.dev, Marco
- Elver <elver@google.com>, oe-kbuild-all@lists.linux.dev, Linux Memory
- Management List <linux-mm@kvack.org>, Alexander Potapenko
- <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com,
- linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avgTaL6L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703716135; x=1735252135;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uLvKxjmPAQNCDQWSKf+PXALi8yQg+Zp/bXNKwKOpNE4=;
+  b=avgTaL6LgrfYq76ybT8bFtorhTN0/LgbOpU00OEtCjAIh3vOztsYlnwj
+   aF/xjRjtjbCjx+TSAimSxWVqHquMNVZ1Z96E0KBmsSf3jXIM/0bw11hi2
+   dyf7uRfUKIqyvIcTX0Ahz1t0Ww56UOlu6bI4rvFnqI0+D8jPoxmx1E3ID
+   fYfJuXUSDLyhjYik16O2yfSi+2Bq1fwC6e+BjRJuRiVB8fl/7JJZhcN7K
+   Q43E1RET95ONx02UFOJZ1z+UOMpdLhuVyGUgJHasGElOuOqC9d9Ei9PTH
+   jrcmxOQafdaElhjdHPmaEOrV0V+UoUKDB3u9cRm6Zt42tPrCd3goq62wr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="3335455"
+X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
+   d="scan'208";a="3335455"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 14:28:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="778340767"
+X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
+   d="scan'208";a="778340767"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 27 Dec 2023 14:28:50 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rIcOO-000FnF-1P;
+	Wed, 27 Dec 2023 22:28:48 +0000
+Date: Thu, 28 Dec 2023 06:28:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: andrey.konovalov@linux.dev, Marco Elver <elver@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH mm] kasan: stop leaking stack trace handles
-Message-Id: <20231227141005.14e278c3f08dd0d64004dbf7@linux-foundation.org>
-In-Reply-To: <CA+fCnZfZMhkqOvsvavJ-YTddY4kniP+sWFZRYy+nd3+8_C9hPA@mail.gmail.com>
+Message-ID: <202312280603.WqS3sWfa-lkp@intel.com>
 References: <20231226225121.235865-1-andrey.konovalov@linux.dev>
-	<202312280213.6j147JJb-lkp@intel.com>
-	<20231227132311.557c302e92bdc9ffb88b42d5@linux-foundation.org>
-	<CA+fCnZfZMhkqOvsvavJ-YTddY4kniP+sWFZRYy+nd3+8_C9hPA@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231226225121.235865-1-andrey.konovalov@linux.dev>
 
-On Wed, 27 Dec 2023 22:42:40 +0100 Andrey Konovalov <andreyknvl@gmail.com> wrote:
+Hi,
 
-> On Wed, Dec 27, 2023 at 10:23 PM Andrew Morton
-> <akpm@linux-foundation.org> wrote:
-> >
-> > Thanks, I added this fix:
-> >
-> > --- a/mm/kasan/generic.c~kasan-stop-leaking-stack-trace-handles-fix
-> > +++ a/mm/kasan/generic.c
-> > @@ -503,7 +503,7 @@ void kasan_init_object_meta(struct kmem_
-> >          */
-> >  }
-> >
-> > -void release_alloc_meta(struct kasan_alloc_meta *meta)
-> > +static void release_alloc_meta(struct kasan_alloc_meta *meta)
-> >  {
-> >         /* Evict the stack traces from stack depot. */
-> >         stack_depot_put(meta->alloc_track.stack);
-> > @@ -514,7 +514,7 @@ void release_alloc_meta(struct kasan_all
-> >         __memset(meta, 0, sizeof(*meta));
-> >  }
-> >
-> > -void release_free_meta(const void *object, struct kasan_free_meta *meta)
-> > +static void release_free_meta(const void *object, struct kasan_free_meta *meta)
-> >  {
-> >         /* Check if free meta is valid. */
-> >         if (*(u8 *)kasan_mem_to_shadow(object) != KASAN_SLAB_FREE_META)
-> > _
-> >
-> 
-> Could you mark them as "static inline" even?
+kernel test robot noticed the following build warnings:
 
-That's rather old-fashioned.  Nowadays gcc is supposed to work out
-whether or not to inline things, and we override that with noinline and
-__always_inline.
+[auto build test WARNING on akpm-mm/mm-everything]
+[cannot apply to linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/andrey-konovalov-linux-dev/kasan-stop-leaking-stack-trace-handles/20231227-065314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231226225121.235865-1-andrey.konovalov%40linux.dev
+patch subject: [PATCH mm] kasan: stop leaking stack trace handles
+config: arm-randconfig-002-20231227 (https://download.01.org/0day-ci/archive/20231228/202312280603.WqS3sWfa-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280603.WqS3sWfa-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312280603.WqS3sWfa-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/kasan/generic.c:506:6: warning: no previous prototype for function 'release_alloc_meta' [-Wmissing-prototypes]
+     506 | void release_alloc_meta(struct kasan_alloc_meta *meta)
+         |      ^
+   mm/kasan/generic.c:506:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     506 | void release_alloc_meta(struct kasan_alloc_meta *meta)
+         | ^
+         | static 
+>> mm/kasan/generic.c:517:6: warning: no previous prototype for function 'release_free_meta' [-Wmissing-prototypes]
+     517 | void release_free_meta(const void *object, struct kasan_free_meta *meta)
+         |      ^
+   mm/kasan/generic.c:517:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     517 | void release_free_meta(const void *object, struct kasan_free_meta *meta)
+         | ^
+         | static 
+   2 warnings generated.
+
+
+vim +/release_alloc_meta +506 mm/kasan/generic.c
+
+   505	
+ > 506	void release_alloc_meta(struct kasan_alloc_meta *meta)
+   507	{
+   508		/* Evict the stack traces from stack depot. */
+   509		stack_depot_put(meta->alloc_track.stack);
+   510		stack_depot_put(meta->aux_stack[0]);
+   511		stack_depot_put(meta->aux_stack[1]);
+   512	
+   513		/* Zero out alloc meta to mark it as invalid. */
+   514		__memset(meta, 0, sizeof(*meta));
+   515	}
+   516	
+ > 517	void release_free_meta(const void *object, struct kasan_free_meta *meta)
+   518	{
+   519		/* Check if free meta is valid. */
+   520		if (*(u8 *)kasan_mem_to_shadow(object) != KASAN_SLAB_FREE_META)
+   521			return;
+   522	
+   523		/* Evict the stack trace from the stack depot. */
+   524		stack_depot_put(meta->free_track.stack);
+   525	
+   526		/* Mark free meta as invalid. */
+   527		*(u8 *)kasan_mem_to_shadow(object) = KASAN_SLAB_FREE;
+   528	}
+   529	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
