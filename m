@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80EE10F2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 03:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBF0468A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 03:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KuD17mQi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UfF4Y86/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703732700; x=1735268700;
+  t=1703733300; x=1735269300;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A9KHiOVGPHXE0NJRVFp4hvaj0xXoivTCI5q2UOyG1qw=;
-  b=KuD17mQi8ZZkELdDXnnzrGZMfvF9GUoXizjvPOlY1pWdeibEvWg/Qb6U
-   xjz+KhdIJjuXzp7lA76axbAVRWFXOqTRY07c58Pcd/h1e3ehKp8TjQsj8
-   rGlkiARTULUXxP8KR3O1uLcdk+xT1jSn18IRL33U2ZMV9kkjr6bBD1w4F
-   Zd4ZRunYl+LpoafEBBsBT8uyUvCOxLbMINvJbIz9PDA+jDHcm/LXTdru0
-   iYZ+8IZzhpKhY4FGPWrHhG6ZKAHle/fYp8qfNeDRUGNcR6P/+0ftlEx3E
-   T3+4YGyCFu1OCWXLor9u+Xhvm49OA4GWydRwjiij6hm5bJaVn593zZVyG
+  bh=ofshb9drJ4xYSbx7XZAav0gXlT2jZFoJataiBLYNPeo=;
+  b=UfF4Y86/HeYsJ0l+WnjioG+l9IwGp/k+ShBlWo4yTD9hlTmqdhcyHIug
+   R32XjTIcMT6Kp6xAQRAq80Awe78nLdX/r9VpuPUSIwuQSYNU6VIsCr3wM
+   Z/9y+me5kuouDE579J4eRUyGAOZlmpENj1sx62TIzYp1Nps7IWBIIiW9b
+   jOearxPS/vVuBHt9D3h3dKJeivAjuaxyPmokqgDF/Uj4xVxwG3xzbJxU4
+   rO/Vw1YxadOx63cP6qWSfjTksAxDvACrt/Y8itF4JwPE4xnznkXSR+d6t
+   8p1fT3tNw9nwtsDZl3Leq06O9UdJK6LFnl1v5m4710U2wXhzN2vkcBsHH
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="427675707"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="399291604"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="427675707"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 19:04:59 -0800
+   d="scan'208";a="399291604"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 19:14:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="844325093"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="951680988"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="844325093"
+   d="scan'208";a="951680988"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 27 Dec 2023 19:04:58 -0800
+  by orsmga005.jf.intel.com with ESMTP; 27 Dec 2023 19:14:58 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIghb-000FyL-29;
-	Thu, 28 Dec 2023 03:04:55 +0000
-Date: Thu, 28 Dec 2023 11:04:01 +0800
+	id 1rIgrI-000FyX-0H;
+	Thu, 28 Dec 2023 03:14:56 +0000
+Date: Thu, 28 Dec 2023 11:14:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Airlie <airlied@redhat.com>
-Subject: WARNING: modpost: vmlinux: section mismatch in reference:
- ip_vs_dst_event+0x18 (section: .text) -> (unknown) (section: .init.text)
-Message-ID: <202312281043.miw1SuA8-lkp@intel.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 9336/10295]
+ drivers/net/ethernet/realtek/r8169_leds.c:undefined reference to
+ `devm_led_classdev_register_ext'
+Message-ID: <202312281159.9TPeXbNd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,301 +52,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f5837722ffecbbedf1b1dbab072a063565f0dad1
-commit: f4032134b4612b8f40e793e2cf5be2e0a317f4c9 drm/nouveau/sec2/tu102-: prepare for GSP-RM
-date:   8 weeks ago
-config: riscv-randconfig-r012-20230622 (https://download.01.org/0day-ci/archive/20231228/202312281043.miw1SuA8-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281043.miw1SuA8-lkp@intel.com/reproduce)
+Hi Heiner,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   39676dfe52331dba909c617f213fdb21015c8d10
+commit: 18764b883e157e28126b54e7d4ba9dd487d5bf54 [9336/10295] r8169: add support for LED's on RTL8168/RTL8101
+config: mips-randconfig-r003-20230302 (https://download.01.org/0day-ci/archive/20231228/202312281159.9TPeXbNd-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281159.9TPeXbNd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312281043.miw1SuA8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312281159.9TPeXbNd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0x68 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0x6c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0x9a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0x9e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0xa2 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0xbc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0xc8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0xdc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0xe2 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0xee (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0xfc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0x11a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0x120 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_daemon+0x124 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0x22 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0x30 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0x34 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0x48 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0x54 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0x56 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0x9c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0xa8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0xba (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0xbc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0xbe (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0xc0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0xd4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0xe0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0xea (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_dest+0x11e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_dest+0x28 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_dest+0x30 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_dest+0x5a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_dest+0x74 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_dest+0xa4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_dest+0xb2 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_dest+0xc4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x20 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x28 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x56 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x5a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x76 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x7a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x90 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0xac (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0xc0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0xce (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0xdc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0xe0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0xee (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x11c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x134 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x138 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x150 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x154 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x160 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x16c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_del_service+0x17e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_unlink_service+0x22 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_unlink_service+0x32 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_unlink_service+0x36 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_unlink_service+0x3e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_unlink_service+0x66 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_unlink_service+0x74 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_unlink_service+0x7e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_unlink_service+0xa0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x14 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x18 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x22 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x2a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x32 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x36 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x3c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x40 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x44 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x4e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x56 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x5a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x60 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x68 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x6a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x70 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x8a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x92 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x94 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0x98 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0xa0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0xa4 (section: .text) -> init_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0xa8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0xb4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0xb8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0xbc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_flush+0xc8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dest_trash_expire+0x1e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dest_trash_expire+0x3a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dest_trash_expire+0x64 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dest_trash_expire+0x6a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dest_trash_expire+0xbc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dest_trash_expire+0xe6 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dest_trash_expire+0x152 (section: .text) -> set_reset_devices (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x18 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x38 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x48 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0xc8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x18e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x192 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x1a0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x1b6 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x1bc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x1d0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x1d4 (section: .text) -> rdinit_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x1d8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_dst_event+0x1e8 (section: .text) -> rdinit_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_fill_dest+0x188 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_fill_dest+0x194 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_fill_dest+0x1a2 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_fill_service+0xba (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_fill_service+0x15c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_fill_service+0x168 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_fill_service+0x176 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_edit_dest+0x70 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_del_dest+0xa6 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_daemon.isra.0+0x34 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_daemons+0x64 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_daemons+0x8a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_service.isra.0+0x30 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x1a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x30 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x72 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x7e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0xb8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0xde (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0xe8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0xee (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0xf4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x102 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x10e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x112 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x116 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x122 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x126 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x12a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_services+0x136 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_zero_service+0x12 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_zero_service+0x86 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_zero_all+0x16 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_zero_all+0x14e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_zero_all+0x308 (section: .text) -> ignore_unknown_bootoption (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_zero_all+0x31c (section: .text) -> do_early_param (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_get_dest_entries+0x2c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_get_dest_entries+0xb4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_get_dest_entries+0xb8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_get_dest_entries+0xc0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_get_dest_entries+0xcc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_get_dest_entries+0x10e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_get_dest_entries+0x160 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_get_dest_entries+0x1ac (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __ip_vs_get_dest_entries+0x1b0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_new_dest+0x36 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_new_dest+0x46 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_new_dest+0x124 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_add_dest+0x150 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_add_dest+0x192 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_add_service+0x16 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_add_service+0x1cc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_add_service+0x316 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_add_service+0x324 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_get_ctl+0x4a (section: .text) -> set_reset_devices (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_get_ctl+0x80 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_get_ctl+0xfe (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_get_ctl+0x1ca (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_get_ctl+0x218 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_get_ctl+0x262 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_get_ctl+0x2ae (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_get_ctl+0x360 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_get_ctl+0x3b4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_service+0x44 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_service+0x158 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_parse_service+0x23a (section: .text) -> set_reset_devices (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_get_cmd+0x50 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_get_cmd+0xc4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_get_cmd+0x166 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_get_cmd+0x218 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x52 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x94 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0xc8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0xfe (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x10c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x136 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x150 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x182 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x1e8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x1fa (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x20e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x224 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x238 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x24c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_set_cmd+0x25c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_dests+0x1a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_dests+0x58 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_dests+0x74 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_dests+0xc4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_dests+0x122 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_genl_dump_dests+0x152 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x7e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x122 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x146 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x25a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x2e2 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x322 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x32e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x33c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x34a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x358 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x366 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x374 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x396 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x3a6 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x3b6 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ip_vs_set_ctl+0x3c8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_service_find+0x8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_service_find+0xa8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_service_nets_cleanup+0x6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_service_nets_cleanup+0x32 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_service_nets_cleanup+0x4c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_unregister_nl_ioctl+0x16 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_control_cleanup+0x0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_scheduler_get+0x76 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_scheduler_get+0x86 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_scheduler_get+0x8e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_scheduler_get+0x9c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_scheduler_get+0xa0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_scheduler_get+0xb0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_scheduler_get+0xb6 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_scheduler_get+0xc2 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0x0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0xc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0x16 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0x52 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0x62 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0x70 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0x98 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0xa6 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0xbc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0xce (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: register_ip_vs_scheduler+0xd2 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: unregister_ip_vs_scheduler+0x0 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: unregister_ip_vs_scheduler+0xc (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: unregister_ip_vs_scheduler+0x1c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: unregister_ip_vs_scheduler+0x2a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: unregister_ip_vs_scheduler+0x42 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: unregister_ip_vs_scheduler+0x66 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: unregister_ip_vs_scheduler+0x74 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0xe4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0xec (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x10e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x112 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x116 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x124 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x140 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x146 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x1a2 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x1a4 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x1a8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x1ac (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x1b2 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x28a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_vs_lblc_schedule+0x2aa (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_mc_finish_output+0xca (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_finish_output+0x7e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_mcast_join_leave+0x6e (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_ra_control+0x13a (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_ra_control+0x146 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_ra_control+0x14c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_ra_control+0x150 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_ra_control+0x15c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_ra_control+0x166 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_local_error+0x8 (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_local_error+0x3c (section: .text) -> set_reset_devices (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ip_local_error+0xa6 (section: .text) -> set_reset_devices (section: .init.text)
+   mips-linux-ld: kernel/kexec_core.o: in function `kimage_free':
+   kernel/kexec_core.c:(.text+0x1208): undefined reference to `machine_kexec_cleanup'
+   mips-linux-ld: kernel/kexec_core.o: in function `__crash_kexec':
+   kernel/kexec_core.c:(.text+0x16d4): undefined reference to `machine_crash_shutdown'
+   mips-linux-ld: kernel/kexec_core.c:(.text+0x16dc): undefined reference to `machine_kexec'
+   mips-linux-ld: kernel/kexec_core.o: in function `kernel_kexec':
+   kernel/kexec_core.c:(.text+0x1bf8): undefined reference to `machine_shutdown'
+   mips-linux-ld: kernel/kexec_core.c:(.text+0x1c08): undefined reference to `machine_kexec'
+   mips-linux-ld: drivers/net/ethernet/realtek/r8169_leds.o: in function `rtl8168_init_leds':
+>> drivers/net/ethernet/realtek/r8169_leds.c:(.text+0x2b8): undefined reference to `devm_led_classdev_register_ext'
+   pahole: .tmp_vmlinux.btf: Invalid argument
+   .btf.vmlinux.bin.o: file not recognized: file format not recognized
 
 -- 
 0-DAY CI Kernel Test Service
