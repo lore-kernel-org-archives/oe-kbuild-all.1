@@ -1,48 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8935A1106
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 03:47:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D916823A7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 03:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dl94ql23"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWnmCpbo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703735243; x=1735271243;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8+m+uqWzLht9Jkcg4p2SuWNA1HdjU9m0+M1AHAZCiJU=;
-  b=dl94ql23s9+L5QDrgmKt4s/wBqD4elBgrOk/zFQGm/64Ifca+SrLdA41
-   tkvxNSBQoINsXpN91y/Ddgc9L1RD5ZvlFFuXs4HJid0dhbA1+sqV7+0o4
-   9qKlzSxS9kesItjtJ6M6Fvginwzbti/GMFriGD8z8X8bApZWVQtB3sNkS
-   X+dAjliWtjJJkBktQatPRqf+R7vS3v4psFfKQbLV5P0bcGjxRlN0ndpLm
-   jES8ehHed8wRDQRKpB35EICRzO8FnjoIkETdSAZWVqbYwzctZIIEvdrDE
-   XXSDYP8PJn+L5t4dxOCA5dId81lSF5PnYCfza6L76C7cpnPeEF6BddjWT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="396231218"
+  t=1703735851; x=1735271851;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mk9vjLBE16E5cw9AsYljxjFQ19doLUYDkWMNfeQ1O3I=;
+  b=RWnmCpborLg0yKfFIQSTQ5oDDXQDUUVLgFjiuEbwWWRp8KUZmy59GMkL
+   j3jmx9lOpQ2gsrOJ5poNDwpBCQn19vI3DJzOrYeRXk9j6Y7WBYFII9w+K
+   X75IVQ5AzjpRWmLuiH4Lw9/yBalRzMeiGPKocGDXW68YxicJFhQzoOgm8
+   QRSJ8vivqEnl45QO8WuhTEVTprhWaHlMnQxCdXXZ2lDREioRCddEaryWT
+   fYs/kX68jEDws/5Kucft3kEjwmUIT/6zoibAgU0/PfnfDjp0k4H428P5t
+   n1UKmro0EionKb7ni1gxc8VQHRPvgdUHpeLNUP4/ZM7W5ge9m5xPLG0XK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="462925876"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="396231218"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 19:47:22 -0800
+   d="scan'208";a="462925876"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 19:57:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="754624593"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="728206850"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="754624593"
+   d="scan'208";a="728206850"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 27 Dec 2023 19:47:20 -0800
+  by orsmga003.jf.intel.com with ESMTP; 27 Dec 2023 19:57:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIhMb-000Fzx-39;
-	Thu, 28 Dec 2023 03:47:17 +0000
-Date: Thu, 28 Dec 2023 11:46:31 +0800
+	id 1rIhWI-000G1N-2h;
+	Thu, 28 Dec 2023 03:57:18 +0000
+Date: Thu, 28 Dec 2023 11:56:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Luca Weiss <luca.weiss@fairphone.com>
-Subject: panel-raydium-rm692e5.c:undefined reference to
- `drm_dsc_pps_payload_pack'
-Message-ID: <202312281138.PHn1Js8S-lkp@intel.com>
+To: Ranjan Kumar <ranjan.kumar@broadcom.com>, linux-scsi@vger.kernel.org,
+	martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, sathya.prakash@broadcom.com,
+	sreekanth.reddy@broadcom.com,
+	Ranjan Kumar <ranjan.kumar@broadcom.com>
+Subject: Re: [PATCH v2 1/2] mpt3sas: Reload SBR without rebooting HBA
+Message-ID: <202312281141.jDyPezRn-lkp@intel.com>
+References: <20231227110610.18276-2-ranjan.kumar@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,25 +53,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231227110610.18276-2-ranjan.kumar@broadcom.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f5837722ffecbbedf1b1dbab072a063565f0dad1
-commit: 988d0ff29ecf7ab750b9be29fddae588156c3d03 drm/panel: Add driver for BOE RM692E5 AMOLED panel
-date:   3 months ago
-config: csky-randconfig-001-20231228 (https://download.01.org/0day-ci/archive/20231228/202312281138.PHn1Js8S-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281138.PHn1Js8S-lkp@intel.com/reproduce)
+Hi Ranjan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ranjan-Kumar/mpt3sas-Reload-SBR-without-rebooting-HBA/20231227-191013
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20231227110610.18276-2-ranjan.kumar%40broadcom.com
+patch subject: [PATCH v2 1/2] mpt3sas: Reload SBR without rebooting HBA
+config: x86_64-randconfig-161-20231228 (https://download.01.org/0day-ci/archive/20231228/202312281141.jDyPezRn-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281141.jDyPezRn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312281138.PHn1Js8S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312281141.jDyPezRn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   csky-linux-ld: drivers/gpu/drm/panel/panel-raydium-rm692e5.o: in function `rm692e5_prepare':
->> panel-raydium-rm692e5.c:(.text+0xfc0): undefined reference to `drm_dsc_pps_payload_pack'
->> csky-linux-ld: panel-raydium-rm692e5.c:(.text+0x1090): undefined reference to `drm_dsc_pps_payload_pack'
+>> drivers/scsi/mpt3sas/mpt3sas_ctl.c:2555: warning: Function parameter or member 'arg' not described in '_ctl_enable_diag_sbr_reload'
+
+
+vim +2555 drivers/scsi/mpt3sas/mpt3sas_ctl.c
+
+  2545	
+  2546	/**
+  2547	 * _ctl_enable_diag_sbr_reload - enable sbr reload bit
+  2548	 * @ioc: per adapter object
+  2549	 * @arg - user space buffer containing ioctl content
+  2550	 *
+  2551	 * Enable the SBR reload bit
+  2552	 */
+  2553	static int
+  2554	_ctl_enable_diag_sbr_reload(struct MPT3SAS_ADAPTER *ioc, void __user *arg)
+> 2555	{
+  2556		u32 ioc_state, host_diagnostic;
+  2557	
+  2558		if (ioc->shost_recovery ||
+  2559		    ioc->pci_error_recovery || ioc->is_driver_loading ||
+  2560		    ioc->remove_host)
+  2561			return -EAGAIN;
+  2562	
+  2563		ioc_state = mpt3sas_base_get_iocstate(ioc, 1);
+  2564	
+  2565		if (ioc_state != MPI2_IOC_STATE_OPERATIONAL)
+  2566			return -EFAULT;
+  2567	
+  2568		host_diagnostic = ioc->base_readl(&ioc->chip->HostDiagnostic);
+  2569	
+  2570		if (host_diagnostic & MPI2_DIAG_SBR_RELOAD)
+  2571			return 0;
+  2572	
+  2573		if (mutex_trylock(&ioc->hostdiag_unlock_mutex)) {
+  2574			if (mpt3sas_base_unlock_and_get_host_diagnostic(ioc, &host_diagnostic)) {
+  2575				mutex_unlock(&ioc->hostdiag_unlock_mutex);
+  2576					return -EFAULT;
+  2577			}
+  2578		} else
+  2579			return -EAGAIN;
+  2580	
+  2581		host_diagnostic |= MPI2_DIAG_SBR_RELOAD;
+  2582		writel(host_diagnostic, &ioc->chip->HostDiagnostic);
+  2583		host_diagnostic = ioc->base_readl(&ioc->chip->HostDiagnostic);
+  2584		mpt3sas_base_lock_host_diagnostic(ioc);
+  2585		mutex_unlock(&ioc->hostdiag_unlock_mutex);
+  2586	
+  2587		if (!(host_diagnostic & MPI2_DIAG_SBR_RELOAD)) {
+  2588			ioc_err(ioc, "%s: Failed to set Diag SBR Reload Bit\n", __func__);
+  2589			return -EFAULT;
+  2590		}
+  2591	
+  2592		ioc_info(ioc, "%s: Successfully set the Diag SBR Reload Bit\n", __func__);
+  2593		return 0;
+  2594	}
+  2595	
 
 -- 
 0-DAY CI Kernel Test Service
