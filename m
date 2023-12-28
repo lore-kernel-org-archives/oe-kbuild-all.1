@@ -1,138 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C352A495CD;
-	Wed, 27 Dec 2023 22:43:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06A464D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 00:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LwxFJKvb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 852D9C433C8;
-	Wed, 27 Dec 2023 22:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703717021;
-	bh=uX1Meyulucy4zV+vHFUDHB1WYbmSXHxfUM3z3NO4+Ec=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LwxFJKvbdZ56g3kVVJidUQgFE25JjLfgq6esyOQ1xYqonuA7BOZEdZ1bF6OjJbzpd
-	 8UZ93HU/6gKDYvXgp70ZphRXYMuKCsxWgvONji0hX6mefw8Ehg8bTrhtYEPamkVxX6
-	 nptUOajHmhnKMlfzrIwZ2BippRG3FN3+8z0HuMgjw0vqdynYw0yqe8kMfyzdWdqtuF
-	 1nUYyHcLEeHwhm8tx3Sr27tHf2ae8wUDyhq/3OGVPFBAuCDEgCc4bbrK1g/sJe47O2
-	 R1HJiu6zMI18AbuJm5QlTOhfrLilk+yUHEiT9ps3xEx6nLXyR9cLMmqo2StkcTmd+A
-	 cHpQUfTj2+Pkg==
-Date: Wed, 27 Dec 2023 15:43:38 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Yujie Liu <yujie.liu@intel.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@quicinc.com>,
-	linux-hexagon@vger.kernel.org, dwarves@vger.kernel.org
-Subject: Re: [bcachefs:header_cleanup 21/51] /bin/bash: line 1: 19420
- Segmentation fault LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j
- --lang_exclude=rust --skip_encoding_btf_inconsistent_proto
- --btf_gen_optimized --btf_base vmlinux drivers/misc/eeprom/at24.ko
-Message-ID: <20231227224338.GA267659@dev-arch.thelio-3990X>
-References: <202312192107.wMIKiZWw-lkp@intel.com>
- <20231219205348.wvvxyicaatmljxm2@moria.home.lan>
- <CAKwvOdmrvwdbFrtzsOjoLJJZ1pDZOBWBiEb=Mx5bCHuKU2wPzQ@mail.gmail.com>
- <20231219210454.GA540439@dev-arch.thelio-3990X>
- <ZYKWxl9oQXODIoNe@yujie-X299>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="159X9B2x"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6d9a7233133so1047270b3a.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 16:59:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1703725168; x=1704329968; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=elVgyyaKQHa7CChhGztKeZdMb8vyhIwMcGn1pS44Q0s=;
+        b=159X9B2xRTJvCoNOs7qpA8rbCM9OxHX1Icg/6tgVTXmqbc/zHogRSoJWrd1/PlFBUf
+         Uy+XtvxnPKWlaqHQsSqcWA0fXKyPSYyHP+2ivi69xMeiLPewYq3vGXtx0plR9awIW9hv
+         zl1NYjDIY/JxeUE5qmyv0u7420zl+zf3vuLn1YVe/1Jm12hfqzm9n8tY3e7/b42wMM6c
+         PEPHNIv1v969yc1mb4iE/x0zzguyiZGmPYTPHcpUy3QjS76yfIlrcCg2rH+hH6IV7CGn
+         dQlOsc64ta/UJlzXI1oHMXMznAN+Ua/Kf6rXfc5L91njsjpZ4NAHUoKYlz/WOMqHI6px
+         aarw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703725168; x=1704329968;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=elVgyyaKQHa7CChhGztKeZdMb8vyhIwMcGn1pS44Q0s=;
+        b=B/X+h+RBvmESRUyR1us2g7L4Mai9mjpNnzYGUxG/aCFTi9S1tQoX7MW8JxIZuqrZ9F
+         zsGPOtyouaa2JK3KkY2p86hc0FN6gZVQZuwf7bPcsR1vcbruRYaZnJWI+DKDMYX5Uyvr
+         4K7JSchTldEPg1BL/w/7vXyGfbW75S2WngxrdOcE+8cD9wT2SheHvQH58s60lIPogXB0
+         e5u78EuawL/Dzi0pkSSwx+vibtRVe88SevjGn5TRuuzhdrd3mBwi5O6aealcZWdWlFbO
+         kJdW0fqMnAQTqFCSW6cI7EV2zDQfMLjKfLga95nWdLBjUZNTy9vvx8PMC5UVo+nnVEWS
+         1sIw==
+X-Gm-Message-State: AOJu0YzIOa4vNAPdYF5dBhtyJ4x18doWQ5iy/wmP1NK4eC4Bm9kwRI6m
+	9i3MmsHe704FyX8JP8J0GsiIkAXHkbNttg==
+X-Google-Smtp-Source: AGHT+IFyHLd+rhmzrLa2GEEDyTbBm+WUcrcXFuc0p3vpjTEYuZNglA+fazKRXFRfzHbdPhiCdIaCUg==
+X-Received: by 2002:a05:6a00:1241:b0:6d9:af0b:2af7 with SMTP id u1-20020a056a00124100b006d9af0b2af7mr2321541pfi.65.1703725167911;
+        Wed, 27 Dec 2023 16:59:27 -0800 (PST)
+Received: from ghost (070-095-050-247.res.spectrum.com. [70.95.50.247])
+        by smtp.gmail.com with ESMTPSA id r19-20020aa78b93000000b006d9b5b3ea1fsm6614432pfd.22.2023.12.27.16.59.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Dec 2023 16:59:27 -0800 (PST)
+Date: Wed, 27 Dec 2023 16:59:25 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
+ error: uninitialized symbol 'curr_type'.
+Message-ID: <ZYzIbVfge6I8Ptw0@ghost>
+References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
+ <ZXoFhu2TPXgrsInY@ghost>
+ <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZYKWxl9oQXODIoNe@yujie-X299>
+In-Reply-To: <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
 
-+ Arnaldo and dwarves list
-
-On Wed, Dec 20, 2023 at 03:24:54PM +0800, Yujie Liu wrote:
-> On Tue, Dec 19, 2023 at 02:04:54PM -0700, Nathan Chancellor wrote:
-> > On Tue, Dec 19, 2023 at 12:58:28PM -0800, Nick Desaulniers wrote:
-> > > On Tue, Dec 19, 2023 at 12:54 PM Kent Overstreet
-> > > <kent.overstreet@linux.dev> wrote:
-> > > >
-> > > > On Tue, Dec 19, 2023 at 09:40:09PM +0800, kernel test robot wrote:
-> > > > > tree:   https://evilpiepirate.org/git/bcachefs.git header_cleanup
-> > > > > head:   89188fceb7a49e3c4b0578d86f6f6e647f202821
-> > > > > commit: 1db61740aeb7d6b1c7bfb2a98708a65a6679d068 [21/51] locking/seqlock: Split out seqlock_types.h
-> > > > > config: hexagon-randconfig-r005-20220913 (https://download.01.org/0day-ci/archive/20231219/202312192107.wMIKiZWw-lkp@intel.com/config)
-> > > > > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312192107.wMIKiZWw-lkp@intel.com/reproduce)
-> > > > >
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202312192107.wMIKiZWw-lkp@intel.com/
-> > > > >
-> > > > > All errors (new ones prefixed by >>):
-> > > > >
-> > > > >    die__process_unit: DW_TAG_member (0xd) @ <0xc689> not handled!
-> > > > >    die__process_unit: tag not supported 0xd (member)!
-> > > > >    die__process_function: DW_TAG_compile_unit (0x11) @ <0xc697> not handled!
-> > > > >    die__process_function: tag not supported 0x11 (compile_unit)!
-> > > > >    die__process_function: DW_TAG_member (0xd) @ <0xc6db> not handled!
-> > > > >    die__process_function: DW_TAG_compile_unit (0x11) @ <0xc6e5> not handled!
-> > > > >    die__process_class: DW_TAG_compile_unit (0x11) @ <0xc778> not handled!
-> > > > >    namespace__recode_dwarf_types: couldn't find 0xc689 type for 0xc66b (member)!
-> > > > >    namespace__recode_dwarf_types: couldn't find 0xc638 type for 0xc674 (member)!
-> > > > >    namespace__recode_dwarf_types: couldn't find 0xc638 type for 0xc67e (member)!
-> > > > > >> /bin/bash: line 1: 19420 Segmentation fault      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j --lang_exclude=rust --skip_encoding_btf_inconsistent_proto --btf_gen_optimized --btf_base vmlinux drivers/misc/eeprom/at24.ko
-> > > >
-> > > > Not sure how likely a header cleanup is to cause a segfault in
-> > > > llvm-objcopy and I don't have the toolchain to repro this - could
-> > > > hexagon people take a look?
+On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
+> On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
+> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
+> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
+> > >                                                                                        ^^^^^^^^^
+> > > Can the list be empty?  Uninitialized in that case.
 > > 
-> > For what it's worth in case you were not aware, I provide copies of LLVM
-> > on kernel.org that can be installed in some prefix and invoked with
-> > LLVM=<prefix>/bin/, which can make reproducing reports such as these
-> > relatively easy.
-> > 
-> > https://mirrors.edge.kernel.org/pub/tools/llvm/
-> > 
-> > > Is it a segfault in llvm-objcopy, or pahole?
-> > 
-> > Should be pahole. I have not been able to reproduce these crashes in
-> > pahole v1.25 in the past when they come up every so often. 0day folks,
-> > what version of pahole are you testing with?
+> > That's a tricky one, the list cannot be empty. Each bucket in the
+> > bucket_iter is guarunteed to have at least one rel_entry. I can probably
+> > resolve this by extracting this for loop into a do-while loop.
 > 
-> We clone pahole source code from [1] and build it on the master branch.
-> The current head is commit c129fa757948 which is newer than v1.25.
+> You can just ignore false positives.  It's not really a fix to change it
+> to a do-while loop.  I reviewed the do while code before reading this
+> email and I still wondered about empty lists, but just to hear that it's
+> not going to be empty is enough.  Just the email was sufficient.
 > 
-> c129fa757948 ("pahole: Add --btf_features_strict to reject unknown BTF features")
+> regards,
+> dan carpenter
 > 
-> [1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git
 
-Thanks for that additional information but I can reproduce this at v1.25
-as well, I just tried:
+The fix isn't the do-while loop but rather the use after free, the
+incorrect sizeof, and incorrect error handling when
+initialize_relocation_hashtable fails. I decided to include the do-while
+code because I was already touching the surrounding code. Can you review
+[1]? If you would prefer that the do-while is reverted, I can do that,
+but it is important that the rest of the fixes are merged before 6.7 is
+released.
 
-  $ git fetch https://evilpiepirate.org/git/bcachefs.git 1db61740aeb7d6b1c7bfb2a98708a65a6679d068
-  $ git reset --hard FETCH_HEAD
-  $ curl -LSso .config https://download.01.org/0day-ci/archive/20231219/202312192107.wMIKiZWw-lkp@intel.com/config
-  $ curl -LSs https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-16.0.6-x86_64.tar.xz | tar -xJf -
-  $ make -skj"$(nproc)" ARCH=hexagon LLVM=$PWD/llvm-16.0.6-x86_64/bin/ olddefconfig all
-  ...
-  die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
-  die__create_new_enumeration: DW_TAG_array_type (0x1) @ <0x120b1> not handled!
-  die__create_new_enumeration: DW_TAG_pointer_type (0xf) @ <0x120b7> not handled!
-  die__process_unit: DW_TAG_member (0xd) @ <0x3669> not handled!
-  die__process_unit: tag not supported 0xd (member)!
-  die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
-  die__process_unit: DW_TAG_member (0xd) @ <0x3650> not handled!
-  die__process_unit: tag not supported 0xd (member)!
-  die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
-  die__create_new_enumeration: DW_TAG_array_type (0x1) @ <0x9cb5> not handled!
-  die__create_new_enumeration: DW_TAG_pointer_type (0xf) @ <0x9cbb> not handled!
-  die__process_unit: DW_TAG_enumerator (0x28) @ <0x705a> not handled!
-  die__process_unit: tag not supported 0x28 (enumerator)!
-  ...
+[1] https://lore.kernel.org/all/20231213-module_loading_fix-v1-1-da9b7c92ade5@rivosinc.com/
 
-I do not get a segfault personally but there are definitely a lot of
-errors from pahole at the end. Arnaldo, is pahole not handling something
-that it should with regards to clang's debug info?
-
-Cheers,
-Nathan
