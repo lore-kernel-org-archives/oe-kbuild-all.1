@@ -1,47 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1ACA101E3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 19:28:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D4B10960
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 23:03:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SkspH6Gh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fTjs6akp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703791693; x=1735327693;
+  t=1703804604; x=1735340604;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tsELVkiu7YtqsUSOZRInAOjmwGJBnFc4k0u5Xt3YVoo=;
-  b=SkspH6GheMKcAlPjK7mTtN82QdbOnGt9E+pgN+6ChxiycXaWhnwnx3SV
-   ydfQiVxlv2HPq+NJhg66T8tS8zwhH09YNwnqswSLxkUzrwBYvTj9kcWAo
-   /hhk7GqfUYR1pWCHcrfURbwFhiToUYmN7Rpy0ErQ5zS91hZfSJLvRC113
-   KcgWLmx8wohqScNFCzNKWaqcOP7NqjED56GQsrvWskgSgvrsqKVJK1Q3m
-   pnoA5Zf5XYAZGcD9ez/czwIgrGbgn7q9AcVD5sPe6w8tXncYGqyWTHjOO
-   OGT8I8r2HcJOE0DzDbInBratmQRtLx0t1tQQ18xJUbku4LX3tuyMtNTPx
+  bh=Pv3ZMSFrGiX536ncjZzUH7NPEX7DruJAVur9Lx0dOTw=;
+  b=fTjs6akpLkme+12E1zaDGR7qgx52jm/T94McSdYnPF8381bgWPhJ4i8P
+   3OJR3+mWUvE4Cdk/Ccix58kRY29OM0eTy++C9k+jp/7ybl8Z+8G40sKtO
+   OwMhf2dCIRxVdKe3FJ6pPLzJSiq0dj5XEhveuMRoSGrBd+42jxMW3GcfL
+   Daxt8orBxGI2rqkir8AHbLKTFtuVpGFtoZhHCcit3qByBHJaADJjjjTqi
+   TREh1OKvVeMw22PCQ56VqUaRLqNAnBGG2agSeXdO7h31d7C3yomDUXIhe
+   tdJIt/AmEcCbUrJ5XYPp/Qr++/Q5m67LsNBVJIeNUW1B/bEwblwdl2mIK
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="381553943"
-X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; 
-   d="scan'208";a="381553943"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 11:28:13 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="18150582"
+X-IronPort-AV: E=Sophos;i="6.04,313,1695711600"; 
+   d="scan'208";a="18150582"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 15:03:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="844509193"
-X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; 
-   d="scan'208";a="844509193"
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="778650970"
+X-IronPort-AV: E=Sophos;i="6.04,313,1695711600"; 
+   d="scan'208";a="778650970"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 28 Dec 2023 11:28:11 -0800
+  by orsmga002.jf.intel.com with ESMTP; 28 Dec 2023 15:03:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIw37-000Gld-0M;
-	Thu, 28 Dec 2023 19:28:09 +0000
-Date: Fri, 29 Dec 2023 03:27:16 +0800
+	id 1rIzPL-000GuP-0E;
+	Thu, 28 Dec 2023 23:03:19 +0000
+Date: Fri, 29 Dec 2023 07:02:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
+To: Evan Quan <evan.quan@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202312290301.jAqPvG1w-lkp@intel.com>
+	Alex Deucher <alexander.deucher@amd.com>,
+	Lijo Lazar <lijo.lazar@amd.com>,
+	Hawking Zhang <Hawking.Zhang@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0.c:104:52:
+ warning: '%s' directive output may be truncated writing up to 29 bytes into
+ a region of size 23
+Message-ID: <202312290653.xdMUAh0o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,218 +55,91 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f5837722ffecbbedf1b1dbab072a063565f0dad1
-commit: e362359ace6f87c201531872486ff295df306d13 posix-cpu-timers: Cleanup CPU timers before freeing them during exec
-date:   1 year, 5 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231229/202312290301.jAqPvG1w-lkp@intel.com/config)
+head:   505e701c0b2cfa9e34811020829759b7663a604c
+commit: 276c03a0547068026241decd2c1159df0be5941f drm/amd/smu: Update SMU13 support for SMU 13.0.0
+date:   1 year, 8 months ago
+config: x86_64-randconfig-x066-20230529 (https://download.01.org/0day-ci/archive/20231229/202312290653.xdMUAh0o-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231229/202312290301.jAqPvG1w-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231229/202312290653.xdMUAh0o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312290301.jAqPvG1w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312290653.xdMUAh0o-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/exec.c:422:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __user * @@     got void * @@
-   fs/exec.c:422:31: sparse:     expected char const [noderef] __user *
-   fs/exec.c:422:31: sparse:     got void *
-   fs/exec.c:1051:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
-   fs/exec.c:1051:48: sparse:     expected struct sighand_struct *oldsighand
-   fs/exec.c:1051:48: sparse:     got struct sighand_struct [noderef] __rcu *sighand
-   fs/exec.c:1158:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *parent @@
-   fs/exec.c:1158:56: sparse:     expected struct task_struct *parent
-   fs/exec.c:1158:56: sparse:     got struct task_struct [noderef] __rcu *parent
-   fs/exec.c:1193:47: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
-   fs/exec.c:1193:47: sparse:     expected struct sighand_struct *oldsighand
-   fs/exec.c:1193:47: sparse:     got struct sighand_struct [noderef] __rcu *sighand
->> fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   fs/exec.c:1307:26: sparse:     expected struct spinlock [usertype] *lock
-   fs/exec.c:1307:26: sparse:     got struct spinlock [noderef] __rcu *
-   fs/exec.c:1309:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   fs/exec.c:1309:28: sparse:     expected struct spinlock [usertype] *lock
-   fs/exec.c:1309:28: sparse:     got struct spinlock [noderef] __rcu *
-   fs/exec.c:1766:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
-   fs/exec.c:1766:70: sparse:     expected struct task_struct *tsk
-   fs/exec.c:1766:70: sparse:     got struct task_struct [noderef] __rcu *parent
+All warnings (new ones prefixed by >>):
 
-vim +1307 fs/exec.c
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0.c: In function 'smu_v13_0_init_microcode':
+>> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0.c:104:52: warning: '%s' directive output may be truncated writing up to 29 bytes into a region of size 23 [-Wformat-truncation=]
+     104 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", chip_name);
+         |                                                    ^~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0.c:104:9: note: 'snprintf' output between 12 and 41 bytes into a destination of size 30
+     104 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", chip_name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  1243	
-  1244	/*
-  1245	 * Calling this is the point of no return. None of the failures will be
-  1246	 * seen by userspace since either the process is already taking a fatal
-  1247	 * signal (via de_thread() or coredump), or will have SEGV raised
-  1248	 * (after exec_mmap()) by search_binary_handler (see below).
-  1249	 */
-  1250	int begin_new_exec(struct linux_binprm * bprm)
-  1251	{
-  1252		struct task_struct *me = current;
-  1253		int retval;
-  1254	
-  1255		/* Once we are committed compute the creds */
-  1256		retval = bprm_creds_from_file(bprm);
-  1257		if (retval)
-  1258			return retval;
-  1259	
-  1260		/*
-  1261		 * Ensure all future errors are fatal.
-  1262		 */
-  1263		bprm->point_of_no_return = true;
-  1264	
-  1265		/*
-  1266		 * Make this the only thread in the thread group.
-  1267		 */
-  1268		retval = de_thread(me);
-  1269		if (retval)
-  1270			goto out;
-  1271	
-  1272		/*
-  1273		 * Cancel any io_uring activity across execve
-  1274		 */
-  1275		io_uring_task_cancel();
-  1276	
-  1277		/* Ensure the files table is not shared. */
-  1278		retval = unshare_files();
-  1279		if (retval)
-  1280			goto out;
-  1281	
-  1282		/*
-  1283		 * Must be called _before_ exec_mmap() as bprm->mm is
-  1284		 * not visible until then. This also enables the update
-  1285		 * to be lockless.
-  1286		 */
-  1287		retval = set_mm_exe_file(bprm->mm, bprm->file);
-  1288		if (retval)
-  1289			goto out;
-  1290	
-  1291		/* If the binary is not readable then enforce mm->dumpable=0 */
-  1292		would_dump(bprm, bprm->file);
-  1293		if (bprm->have_execfd)
-  1294			would_dump(bprm, bprm->executable);
-  1295	
-  1296		/*
-  1297		 * Release all of the old mmap stuff
-  1298		 */
-  1299		acct_arg_size(bprm, 0);
-  1300		retval = exec_mmap(bprm->mm);
-  1301		if (retval)
-  1302			goto out;
-  1303	
-  1304		bprm->mm = NULL;
-  1305	
-  1306	#ifdef CONFIG_POSIX_TIMERS
-> 1307		spin_lock_irq(&me->sighand->siglock);
-  1308		posix_cpu_timers_exit(me);
-  1309		spin_unlock_irq(&me->sighand->siglock);
-  1310		exit_itimers(me);
-  1311		flush_itimer_signals();
-  1312	#endif
-  1313	
-  1314		/*
-  1315		 * Make the signal table private.
-  1316		 */
-  1317		retval = unshare_sighand(me);
-  1318		if (retval)
-  1319			goto out_unlock;
-  1320	
-  1321		me->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC |
-  1322						PF_NOFREEZE | PF_NO_SETAFFINITY);
-  1323		flush_thread();
-  1324		me->personality &= ~bprm->per_clear;
-  1325	
-  1326		clear_syscall_work_syscall_user_dispatch(me);
-  1327	
-  1328		/*
-  1329		 * We have to apply CLOEXEC before we change whether the process is
-  1330		 * dumpable (in setup_new_exec) to avoid a race with a process in userspace
-  1331		 * trying to access the should-be-closed file descriptors of a process
-  1332		 * undergoing exec(2).
-  1333		 */
-  1334		do_close_on_exec(me->files);
-  1335	
-  1336		if (bprm->secureexec) {
-  1337			/* Make sure parent cannot signal privileged process. */
-  1338			me->pdeath_signal = 0;
-  1339	
-  1340			/*
-  1341			 * For secureexec, reset the stack limit to sane default to
-  1342			 * avoid bad behavior from the prior rlimits. This has to
-  1343			 * happen before arch_pick_mmap_layout(), which examines
-  1344			 * RLIMIT_STACK, but after the point of no return to avoid
-  1345			 * needing to clean up the change on failure.
-  1346			 */
-  1347			if (bprm->rlim_stack.rlim_cur > _STK_LIM)
-  1348				bprm->rlim_stack.rlim_cur = _STK_LIM;
-  1349		}
-  1350	
-  1351		me->sas_ss_sp = me->sas_ss_size = 0;
-  1352	
-  1353		/*
-  1354		 * Figure out dumpability. Note that this checking only of current
-  1355		 * is wrong, but userspace depends on it. This should be testing
-  1356		 * bprm->secureexec instead.
-  1357		 */
-  1358		if (bprm->interp_flags & BINPRM_FLAGS_ENFORCE_NONDUMP ||
-  1359		    !(uid_eq(current_euid(), current_uid()) &&
-  1360		      gid_eq(current_egid(), current_gid())))
-  1361			set_dumpable(current->mm, suid_dumpable);
-  1362		else
-  1363			set_dumpable(current->mm, SUID_DUMP_USER);
-  1364	
-  1365		perf_event_exec();
-  1366		__set_task_comm(me, kbasename(bprm->filename), true);
-  1367	
-  1368		/* An exec changes our domain. We are no longer part of the thread
-  1369		   group */
-  1370		WRITE_ONCE(me->self_exec_id, me->self_exec_id + 1);
-  1371		flush_signal_handlers(me, 0);
-  1372	
-  1373		retval = set_cred_ucounts(bprm->cred);
-  1374		if (retval < 0)
-  1375			goto out_unlock;
-  1376	
-  1377		/*
-  1378		 * install the new credentials for this executable
-  1379		 */
-  1380		security_bprm_committing_creds(bprm);
-  1381	
-  1382		commit_creds(bprm->cred);
-  1383		bprm->cred = NULL;
-  1384	
-  1385		/*
-  1386		 * Disable monitoring for regular users
-  1387		 * when executing setuid binaries. Must
-  1388		 * wait until new credentials are committed
-  1389		 * by commit_creds() above
-  1390		 */
-  1391		if (get_dumpable(me->mm) != SUID_DUMP_USER)
-  1392			perf_event_exit_task(me);
-  1393		/*
-  1394		 * cred_guard_mutex must be held at least to this point to prevent
-  1395		 * ptrace_attach() from altering our determination of the task's
-  1396		 * credentials; any time after this it may be unlocked.
-  1397		 */
-  1398		security_bprm_committed_creds(bprm);
-  1399	
-  1400		/* Pass the opened binary to the interpreter. */
-  1401		if (bprm->have_execfd) {
-  1402			retval = get_unused_fd_flags(0);
-  1403			if (retval < 0)
-  1404				goto out_unlock;
-  1405			fd_install(retval, bprm->executable);
-  1406			bprm->executable = NULL;
-  1407			bprm->execfd = retval;
-  1408		}
-  1409		return 0;
-  1410	
-  1411	out_unlock:
-  1412		up_write(&me->signal->exec_update_lock);
-  1413	out:
-  1414		return retval;
-  1415	}
-  1416	EXPORT_SYMBOL(begin_new_exec);
-  1417	
+
+vim +104 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0.c
+
+    76	
+    77	static int smu_v13_0_get_pptable_from_firmware(struct smu_context *smu, void **table, uint32_t *size,
+    78						       uint32_t pptable_id);
+    79	
+    80	int smu_v13_0_init_microcode(struct smu_context *smu)
+    81	{
+    82		struct amdgpu_device *adev = smu->adev;
+    83		const char *chip_name;
+    84		char fw_name[30];
+    85		char ucode_prefix[30];
+    86		int err = 0;
+    87		const struct smc_firmware_header_v1_0 *hdr;
+    88		const struct common_firmware_header *header;
+    89		struct amdgpu_firmware_info *ucode = NULL;
+    90	
+    91		/* doesn't need to load smu firmware in IOV mode */
+    92		if (amdgpu_sriov_vf(adev))
+    93			return 0;
+    94	
+    95		switch (adev->ip_versions[MP1_HWIP][0]) {
+    96		case IP_VERSION(13, 0, 2):
+    97			chip_name = "aldebaran_smc";
+    98			break;
+    99		default:
+   100			amdgpu_ucode_ip_version_decode(adev, MP1_HWIP, ucode_prefix, sizeof(ucode_prefix));
+   101			chip_name = ucode_prefix;
+   102		}
+   103	
+ > 104		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s.bin", chip_name);
+   105	
+   106		err = request_firmware(&adev->pm.fw, fw_name, adev->dev);
+   107		if (err)
+   108			goto out;
+   109		err = amdgpu_ucode_validate(adev->pm.fw);
+   110		if (err)
+   111			goto out;
+   112	
+   113		hdr = (const struct smc_firmware_header_v1_0 *) adev->pm.fw->data;
+   114		amdgpu_ucode_print_smc_hdr(&hdr->header);
+   115		adev->pm.fw_version = le32_to_cpu(hdr->header.ucode_version);
+   116	
+   117		if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
+   118			ucode = &adev->firmware.ucode[AMDGPU_UCODE_ID_SMC];
+   119			ucode->ucode_id = AMDGPU_UCODE_ID_SMC;
+   120			ucode->fw = adev->pm.fw;
+   121			header = (const struct common_firmware_header *)ucode->fw->data;
+   122			adev->firmware.fw_size +=
+   123				ALIGN(le32_to_cpu(header->ucode_size_bytes), PAGE_SIZE);
+   124		}
+   125	
+   126	out:
+   127		if (err) {
+   128			DRM_ERROR("smu_v13_0: Failed to load firmware \"%s\"\n",
+   129				  fw_name);
+   130			release_firmware(adev->pm.fw);
+   131			adev->pm.fw = NULL;
+   132		}
+   133		return err;
+   134	}
+   135	
 
 -- 
 0-DAY CI Kernel Test Service
