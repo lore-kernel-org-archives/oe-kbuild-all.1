@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BDD63AE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 09:24:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1407461
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 11:43:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYLzkB+W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+WSe1oP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703755499; x=1735291499;
+  t=1703763815; x=1735299815;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=huPmFF+YjsrzY3nBKemsd59nEYgaIZ9vA0c/c7HFXw0=;
-  b=IYLzkB+WmOIzqpcJtNplVRhJwWTIJk1ld0j3qDCZ57GrdwS93CV2vNcu
-   +9EgKOCRP7EBd+PoPbyxYhuD7NWGZDuRvVxGQV9mxMZ60AIVW/rxYV8Gg
-   lhP1pv9Zl/A5CnHBM1p/5oHAOE9P9gg2tmIsmtHzaIapL3R9sebc3/re3
-   JMfXk1q362r+PBVuTj30qZT/zLWs+G9YhyhZy91HX6qZRU2zBIjOtkt/k
-   PP90+GKAGE5o2L3Aj6feRN9DXbA47mvj2qQwc1xPWxZ5uF57U3aQHay1v
-   n0DwwRpK9iVgx0hgX/ZQbTlCj5lbMVVXEmoTCQKBsTGgLaMQbEXyML35m
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="427702159"
+  bh=8dgTG4LCadmGB80dTnP4u3SBn3ABFxpTTtw4orP8s8M=;
+  b=B+WSe1oPwZgYZ2VZSeeLn5++makB7gIwWepEuFDoQUUZRNZSwJfg7UP2
+   lOnoA9DpsmuQxQgdnCfEzV/QPKtMkHzxzTV+20UxGtkCwwBDRznF63qav
+   hkrxVwl4U31Mq9HYewFFw66TUoPBtiqwsj2YI2gnVKw5xWD1gZ8z7F/L8
+   P50TOLM5pW6lyFLXs0fERfOlTI8WwNSMN5TGQ76IkO7JWP4ko+oTetROm
+   8VdP/xeE+5crtTD5NdiDO8JMgPaI7I09VZUDRvsYKfixSb49qcbGkAxSo
+   hz6vg0T9uA0DeyQufXry5nXnexp4cnHaEAdLCZB/ugrXgCSi9n6plVZjE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="3834823"
 X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
-   d="scan'208";a="427702159"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 01:24:58 -0800
+   d="scan'208";a="3834823"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 03:43:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="807377645"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="901954185"
 X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
-   d="scan'208";a="807377645"
+   d="scan'208";a="901954185"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 28 Dec 2023 01:24:55 -0800
+  by orsmga004.jf.intel.com with ESMTP; 28 Dec 2023 03:43:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rImcI-000GHh-2G;
-	Thu, 28 Dec 2023 09:24:34 +0000
-Date: Thu, 28 Dec 2023 17:22:55 +0800
+	id 1rIonM-000GQd-1z;
+	Thu, 28 Dec 2023 11:43:25 +0000
+Date: Thu, 28 Dec 2023 19:36:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
+To: Yury Norov <yury.norov@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:timers/core 6/11] kernel/cpu.c:2214:43: error:
- 'tick_cpu_dying' undeclared here (not in a function); did you mean
- 'tick_cpu_device'?
-Message-ID: <202312281720.59dX0C5q-lkp@intel.com>
+Subject: [norov:group_cpus 8/9] lib/group_cpus.c:79:83: error: passing
+ argument 1 of 'free_node_to_cpumask' from incompatible pointer type
+Message-ID: <202312281926.ME1e2b9d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,226 +50,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
-head:   853f95518ac9ba0370a1418edd728d2cc73c638e
-commit: 2a549e1aca77faca676414e03099b8faa4048b50 [6/11] timers: Start centralizing tick related CPU hotplug operations
-config: arc-randconfig-001-20231228 (https://download.01.org/0day-ci/archive/20231228/202312281720.59dX0C5q-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281720.59dX0C5q-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux group_cpus
+head:   9e87e3fe992bf34f79fa5841a97b667c39882323
+commit: 08643f5362abb830375d889fb52b490b505d3d1e [8/9] lib/group_cpus: rework group_cpus_evenly()
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20231228/202312281926.ME1e2b9d-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281926.ME1e2b9d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312281720.59dX0C5q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312281926.ME1e2b9d-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/cpu.c:2214:43: error: 'tick_cpu_dying' undeclared here (not in a function); did you mean 'tick_cpu_device'?
-    2214 |                 .teardown.single        = tick_cpu_dying,
-         |                                           ^~~~~~~~~~~~~~
-         |                                           tick_cpu_device
+   In file included from include/linux/preempt.h:11,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from lib/group_cpus.c:7:
+   lib/group_cpus.c: In function '__free_free_node_to_cpumask':
+>> lib/group_cpus.c:79:83: error: passing argument 1 of 'free_node_to_cpumask' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      79 | DEFINE_FREE(free_node_to_cpumask, struct cpumask **, if (_T) free_node_to_cpumask(_T));
+         |                                                                                   ^~
+         |                                                                                   |
+         |                                                                                   struct cpumask **
+   include/linux/cleanup.h:62:78: note: in definition of macro 'DEFINE_FREE'
+      62 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
+         |                                                                              ^~~~~
+   lib/group_cpus.c:70:49: note: expected 'struct cpumask (*)[1]' but argument is of type 'struct cpumask **'
+      70 | static void free_node_to_cpumask(cpumask_var_t *masks)
+         |                                  ~~~~~~~~~~~~~~~^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +2214 kernel/cpu.c
+vim +/free_node_to_cpumask +79 lib/group_cpus.c
 
-  2081	
-  2082	/* Boot processor state steps */
-  2083	static struct cpuhp_step cpuhp_hp_states[] = {
-  2084		[CPUHP_OFFLINE] = {
-  2085			.name			= "offline",
-  2086			.startup.single		= NULL,
-  2087			.teardown.single	= NULL,
-  2088		},
-  2089	#ifdef CONFIG_SMP
-  2090		[CPUHP_CREATE_THREADS]= {
-  2091			.name			= "threads:prepare",
-  2092			.startup.single		= smpboot_create_threads,
-  2093			.teardown.single	= NULL,
-  2094			.cant_stop		= true,
-  2095		},
-  2096		[CPUHP_PERF_PREPARE] = {
-  2097			.name			= "perf:prepare",
-  2098			.startup.single		= perf_event_init_cpu,
-  2099			.teardown.single	= perf_event_exit_cpu,
-  2100		},
-  2101		[CPUHP_RANDOM_PREPARE] = {
-  2102			.name			= "random:prepare",
-  2103			.startup.single		= random_prepare_cpu,
-  2104			.teardown.single	= NULL,
-  2105		},
-  2106		[CPUHP_WORKQUEUE_PREP] = {
-  2107			.name			= "workqueue:prepare",
-  2108			.startup.single		= workqueue_prepare_cpu,
-  2109			.teardown.single	= NULL,
-  2110		},
-  2111		[CPUHP_HRTIMERS_PREPARE] = {
-  2112			.name			= "hrtimers:prepare",
-  2113			.startup.single		= hrtimers_prepare_cpu,
-  2114			.teardown.single	= NULL,
-  2115		},
-  2116		[CPUHP_SMPCFD_PREPARE] = {
-  2117			.name			= "smpcfd:prepare",
-  2118			.startup.single		= smpcfd_prepare_cpu,
-  2119			.teardown.single	= smpcfd_dead_cpu,
-  2120		},
-  2121		[CPUHP_RELAY_PREPARE] = {
-  2122			.name			= "relay:prepare",
-  2123			.startup.single		= relay_prepare_cpu,
-  2124			.teardown.single	= NULL,
-  2125		},
-  2126		[CPUHP_SLAB_PREPARE] = {
-  2127			.name			= "slab:prepare",
-  2128			.startup.single		= slab_prepare_cpu,
-  2129			.teardown.single	= slab_dead_cpu,
-  2130		},
-  2131		[CPUHP_RCUTREE_PREP] = {
-  2132			.name			= "RCU/tree:prepare",
-  2133			.startup.single		= rcutree_prepare_cpu,
-  2134			.teardown.single	= rcutree_dead_cpu,
-  2135		},
-  2136		/*
-  2137		 * On the tear-down path, timers_dead_cpu() must be invoked
-  2138		 * before blk_mq_queue_reinit_notify() from notify_dead(),
-  2139		 * otherwise a RCU stall occurs.
-  2140		 */
-  2141		[CPUHP_TIMERS_PREPARE] = {
-  2142			.name			= "timers:prepare",
-  2143			.startup.single		= timers_prepare_cpu,
-  2144			.teardown.single	= timers_dead_cpu,
-  2145		},
-  2146	
-  2147	#ifdef CONFIG_HOTPLUG_SPLIT_STARTUP
-  2148		/*
-  2149		 * Kicks the AP alive. AP will wait in cpuhp_ap_sync_alive() until
-  2150		 * the next step will release it.
-  2151		 */
-  2152		[CPUHP_BP_KICK_AP] = {
-  2153			.name			= "cpu:kick_ap",
-  2154			.startup.single		= cpuhp_kick_ap_alive,
-  2155		},
-  2156	
-  2157		/*
-  2158		 * Waits for the AP to reach cpuhp_ap_sync_alive() and then
-  2159		 * releases it for the complete bringup.
-  2160		 */
-  2161		[CPUHP_BRINGUP_CPU] = {
-  2162			.name			= "cpu:bringup",
-  2163			.startup.single		= cpuhp_bringup_ap,
-  2164			.teardown.single	= finish_cpu,
-  2165			.cant_stop		= true,
-  2166		},
-  2167	#else
-  2168		/*
-  2169		 * All-in-one CPU bringup state which includes the kick alive.
-  2170		 */
-  2171		[CPUHP_BRINGUP_CPU] = {
-  2172			.name			= "cpu:bringup",
-  2173			.startup.single		= bringup_cpu,
-  2174			.teardown.single	= finish_cpu,
-  2175			.cant_stop		= true,
-  2176		},
-  2177	#endif
-  2178		/* Final state before CPU kills itself */
-  2179		[CPUHP_AP_IDLE_DEAD] = {
-  2180			.name			= "idle:dead",
-  2181		},
-  2182		/*
-  2183		 * Last state before CPU enters the idle loop to die. Transient state
-  2184		 * for synchronization.
-  2185		 */
-  2186		[CPUHP_AP_OFFLINE] = {
-  2187			.name			= "ap:offline",
-  2188			.cant_stop		= true,
-  2189		},
-  2190		/* First state is scheduler control. Interrupts are disabled */
-  2191		[CPUHP_AP_SCHED_STARTING] = {
-  2192			.name			= "sched:starting",
-  2193			.startup.single		= sched_cpu_starting,
-  2194			.teardown.single	= sched_cpu_dying,
-  2195		},
-  2196		[CPUHP_AP_RCUTREE_DYING] = {
-  2197			.name			= "RCU/tree:dying",
-  2198			.startup.single		= NULL,
-  2199			.teardown.single	= rcutree_dying_cpu,
-  2200		},
-  2201		[CPUHP_AP_SMPCFD_DYING] = {
-  2202			.name			= "smpcfd:dying",
-  2203			.startup.single		= NULL,
-  2204			.teardown.single	= smpcfd_dying_cpu,
-  2205		},
-  2206		[CPUHP_AP_HRTIMERS_DYING] = {
-  2207			.name			= "hrtimers:dying",
-  2208			.startup.single		= NULL,
-  2209			.teardown.single	= hrtimers_cpu_dying,
-  2210		},
-  2211		[CPUHP_AP_TICK_DYING] = {
-  2212			.name			= "tick:dying",
-  2213			.startup.single		= NULL,
-> 2214			.teardown.single	= tick_cpu_dying,
-  2215		},
-  2216		/* Entry state on starting. Interrupts enabled from here on. Transient
-  2217		 * state for synchronsization */
-  2218		[CPUHP_AP_ONLINE] = {
-  2219			.name			= "ap:online",
-  2220		},
-  2221		/*
-  2222		 * Handled on control processor until the plugged processor manages
-  2223		 * this itself.
-  2224		 */
-  2225		[CPUHP_TEARDOWN_CPU] = {
-  2226			.name			= "cpu:teardown",
-  2227			.startup.single		= NULL,
-  2228			.teardown.single	= takedown_cpu,
-  2229			.cant_stop		= true,
-  2230		},
-  2231	
-  2232		[CPUHP_AP_SCHED_WAIT_EMPTY] = {
-  2233			.name			= "sched:waitempty",
-  2234			.startup.single		= NULL,
-  2235			.teardown.single	= sched_cpu_wait_empty,
-  2236		},
-  2237	
-  2238		/* Handle smpboot threads park/unpark */
-  2239		[CPUHP_AP_SMPBOOT_THREADS] = {
-  2240			.name			= "smpboot/threads:online",
-  2241			.startup.single		= smpboot_unpark_threads,
-  2242			.teardown.single	= smpboot_park_threads,
-  2243		},
-  2244		[CPUHP_AP_IRQ_AFFINITY_ONLINE] = {
-  2245			.name			= "irq/affinity:online",
-  2246			.startup.single		= irq_affinity_online_cpu,
-  2247			.teardown.single	= NULL,
-  2248		},
-  2249		[CPUHP_AP_PERF_ONLINE] = {
-  2250			.name			= "perf:online",
-  2251			.startup.single		= perf_event_init_cpu,
-  2252			.teardown.single	= perf_event_exit_cpu,
-  2253		},
-  2254		[CPUHP_AP_WATCHDOG_ONLINE] = {
-  2255			.name			= "lockup_detector:online",
-  2256			.startup.single		= lockup_detector_online_cpu,
-  2257			.teardown.single	= lockup_detector_offline_cpu,
-  2258		},
-  2259		[CPUHP_AP_WORKQUEUE_ONLINE] = {
-  2260			.name			= "workqueue:online",
-  2261			.startup.single		= workqueue_online_cpu,
-  2262			.teardown.single	= workqueue_offline_cpu,
-  2263		},
-  2264		[CPUHP_AP_RANDOM_ONLINE] = {
-  2265			.name			= "random:online",
-  2266			.startup.single		= random_online_cpu,
-  2267			.teardown.single	= NULL,
-  2268		},
-  2269		[CPUHP_AP_RCUTREE_ONLINE] = {
-  2270			.name			= "RCU/tree:online",
-  2271			.startup.single		= rcutree_online_cpu,
-  2272			.teardown.single	= rcutree_offline_cpu,
-  2273		},
-  2274	#endif
-  2275		/*
-  2276		 * The dynamically registered state space is here
-  2277		 */
-  2278	
+    78	
+  > 79	DEFINE_FREE(free_node_to_cpumask, struct cpumask **, if (_T) free_node_to_cpumask(_T));
+    80	
 
 -- 
 0-DAY CI Kernel Test Service
