@@ -1,50 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D916823A7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 03:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622733C16
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 04:12:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWnmCpbo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GgPUTNeF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703735851; x=1735271851;
+  t=1703736765; x=1735272765;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mk9vjLBE16E5cw9AsYljxjFQ19doLUYDkWMNfeQ1O3I=;
-  b=RWnmCpborLg0yKfFIQSTQ5oDDXQDUUVLgFjiuEbwWWRp8KUZmy59GMkL
-   j3jmx9lOpQ2gsrOJ5poNDwpBCQn19vI3DJzOrYeRXk9j6Y7WBYFII9w+K
-   X75IVQ5AzjpRWmLuiH4Lw9/yBalRzMeiGPKocGDXW68YxicJFhQzoOgm8
-   QRSJ8vivqEnl45QO8WuhTEVTprhWaHlMnQxCdXXZ2lDREioRCddEaryWT
-   fYs/kX68jEDws/5Kucft3kEjwmUIT/6zoibAgU0/PfnfDjp0k4H428P5t
-   n1UKmro0EionKb7ni1gxc8VQHRPvgdUHpeLNUP4/ZM7W5ge9m5xPLG0XK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="462925876"
+  bh=OkLCJyJV4KFZFi+9iX4QeHDCYzZK9rcCw39vsKf1N4o=;
+  b=GgPUTNeFH4yM1QrWm/CME0lcH0yn3R/OVDlYRVzjFh+zf7dz1QiTL5qQ
+   Y85htXvcKmgfPjB4z1Tlxl2x/2+rHS84w1mvzjqQkWLz7XRvabd7aUm+Z
+   xE5hErJbRt8IGUvYguO/r5EjE8siA6+XozF1Ua75p1PPJBbPT9OvOXJeu
+   O70vNs5hKHTDVZCkorYdy5Q99kVuLcmSRV2Sa32lsF+9ZnK9Kyt82aaFB
+   w85891trHP58KOXIj+ILAovczbdO8CULLIpIcZiboro4LhGM4YGOqGStv
+   yNuh0Wpseps1q4k0etQC5GpaVBgnLQM1/NOqOy5HuDQrxFin5DikdjtXm
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="3806749"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="462925876"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 19:57:23 -0800
+   d="scan'208";a="3806749"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 20:08:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="728206850"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="921998159"
 X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="728206850"
+   d="scan'208";a="921998159"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 27 Dec 2023 19:57:21 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 27 Dec 2023 20:08:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIhWI-000G1N-2h;
-	Thu, 28 Dec 2023 03:57:18 +0000
-Date: Thu, 28 Dec 2023 11:56:46 +0800
+	id 1rIhgx-000G2F-0i;
+	Thu, 28 Dec 2023 04:08:19 +0000
+Date: Thu, 28 Dec 2023 12:07:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ranjan Kumar <ranjan.kumar@broadcom.com>, linux-scsi@vger.kernel.org,
-	martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, sathya.prakash@broadcom.com,
-	sreekanth.reddy@broadcom.com,
-	Ranjan Kumar <ranjan.kumar@broadcom.com>
-Subject: Re: [PATCH v2 1/2] mpt3sas: Reload SBR without rebooting HBA
-Message-ID: <202312281141.jDyPezRn-lkp@intel.com>
-References: <20231227110610.18276-2-ranjan.kumar@broadcom.com>
+To: Pingfan Liu <kernelfans@gmail.com>, linuxppc-dev@lists.ozlabs.org
+Cc: oe-kbuild-all@lists.linux.dev, Baoquan He <bhe@redhat.com>,
+	Pingfan Liu <piliu@redhat.com>, kexec@lists.infradead.org,
+	Mahesh Salgaonkar <mahesh@linux.ibm.com>,
+	Ming Lei <ming.lei@redhat.com>, Nicholas Piggin <npiggin@gmail.com>,
+	Sourabh Jain <sourabhjain@linux.ibm.com>,
+	Hari Bathini <hbathini@linux.ibm.com>,
+	Wen Xiong <wenxiong@us.ibm.com>
+Subject: Re: [PATCHv10 3/3] powerpc/smp: Allow hole in paca_ptrs to
+ accommodate boot_cpu
+Message-ID: <202312281100.39B8MAEU-lkp@intel.com>
+References: <20231227024147.12485-1-kernelfans@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,89 +57,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231227110610.18276-2-ranjan.kumar@broadcom.com>
+In-Reply-To: <20231227024147.12485-1-kernelfans@gmail.com>
 
-Hi Ranjan,
+Hi Pingfan,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on mkp-scsi/for-next linus/master v6.7-rc7 next-20231222]
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.7-rc7 next-20231222]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ranjan-Kumar/mpt3sas-Reload-SBR-without-rebooting-HBA/20231227-191013
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20231227110610.18276-2-ranjan.kumar%40broadcom.com
-patch subject: [PATCH v2 1/2] mpt3sas: Reload SBR without rebooting HBA
-config: x86_64-randconfig-161-20231228 (https://download.01.org/0day-ci/archive/20231228/202312281141.jDyPezRn-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281141.jDyPezRn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pingfan-Liu/powerpc-kernel-Remove-check-on-paca_ptrs_size/20231227-104412
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20231227024147.12485-1-kernelfans%40gmail.com
+patch subject: [PATCHv10 3/3] powerpc/smp: Allow hole in paca_ptrs to accommodate boot_cpu
+config: powerpc-microwatt_defconfig (https://download.01.org/0day-ci/archive/20231228/202312281100.39B8MAEU-lkp@intel.com/config)
+compiler: powerpc64le-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281100.39B8MAEU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312281141.jDyPezRn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312281100.39B8MAEU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/scsi/mpt3sas/mpt3sas_ctl.c:2555: warning: Function parameter or member 'arg' not described in '_ctl_enable_diag_sbr_reload'
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/smp.h:12,
+                    from arch/powerpc/kernel/paca.c:6:
+   arch/powerpc/kernel/paca.c: In function 'allocate_paca_ptrs':
+>> arch/powerpc/kernel/paca.c:248:55: error: 'threads_in_core' undeclared (first use in this function); did you mean 'threads_per_core'?
+     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
+         |                                                       ^~~~~~~~~~~~~~~
+   include/linux/compiler.h:236:55: note: in definition of macro '__is_constexpr'
+     236 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
+         |                                                       ^
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   arch/powerpc/kernel/paca.c:248:15: note: in expansion of macro 'max'
+     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
+         |               ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (__typeof__(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   arch/powerpc/kernel/paca.c:248:33: note: in expansion of macro 'ALIGN'
+     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
+         |                                 ^~~~~
+   arch/powerpc/kernel/paca.c:248:55: note: each undeclared identifier is reported only once for each function it appears in
+     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
+         |                                                       ^~~~~~~~~~~~~~~
+   include/linux/compiler.h:236:55: note: in definition of macro '__is_constexpr'
+     236 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
+         |                                                       ^
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   arch/powerpc/kernel/paca.c:248:15: note: in expansion of macro 'max'
+     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
+         |               ^~~
+   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
+      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (__typeof__(x))(a) - 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   arch/powerpc/kernel/paca.c:248:33: note: in expansion of macro 'ALIGN'
+     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
+         |                                 ^~~~~
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:39:10: note: in expansion of macro '__is_signed'
+      39 |         (__is_signed(x) == __is_signed(y) ||                    \
+         |          ^~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   arch/powerpc/kernel/paca.c:248:15: note: in expansion of macro 'max'
+     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
+         |               ^~~
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:40:17: note: in expansion of macro '__is_signed'
+      40 |                 __is_signed((x) + 0) == __is_signed((y) + 0) || \
+         |                 ^~~~~~~~~~~
+   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
+      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+         |                 ^~~~~~~~~~
+   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
+      92 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   arch/powerpc/kernel/paca.c:248:15: note: in expansion of macro 'max'
+     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
+         |               ^~~
+   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
+      51 |         static_assert(__types_ok(x, y),                 \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:36:53: note: in expansion of macro '__is_signed'
+      36 |         (__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
 
 
-vim +2555 drivers/scsi/mpt3sas/mpt3sas_ctl.c
+vim +248 arch/powerpc/kernel/paca.c
 
-  2545	
-  2546	/**
-  2547	 * _ctl_enable_diag_sbr_reload - enable sbr reload bit
-  2548	 * @ioc: per adapter object
-  2549	 * @arg - user space buffer containing ioctl content
-  2550	 *
-  2551	 * Enable the SBR reload bit
-  2552	 */
-  2553	static int
-  2554	_ctl_enable_diag_sbr_reload(struct MPT3SAS_ADAPTER *ioc, void __user *arg)
-> 2555	{
-  2556		u32 ioc_state, host_diagnostic;
-  2557	
-  2558		if (ioc->shost_recovery ||
-  2559		    ioc->pci_error_recovery || ioc->is_driver_loading ||
-  2560		    ioc->remove_host)
-  2561			return -EAGAIN;
-  2562	
-  2563		ioc_state = mpt3sas_base_get_iocstate(ioc, 1);
-  2564	
-  2565		if (ioc_state != MPI2_IOC_STATE_OPERATIONAL)
-  2566			return -EFAULT;
-  2567	
-  2568		host_diagnostic = ioc->base_readl(&ioc->chip->HostDiagnostic);
-  2569	
-  2570		if (host_diagnostic & MPI2_DIAG_SBR_RELOAD)
-  2571			return 0;
-  2572	
-  2573		if (mutex_trylock(&ioc->hostdiag_unlock_mutex)) {
-  2574			if (mpt3sas_base_unlock_and_get_host_diagnostic(ioc, &host_diagnostic)) {
-  2575				mutex_unlock(&ioc->hostdiag_unlock_mutex);
-  2576					return -EFAULT;
-  2577			}
-  2578		} else
-  2579			return -EAGAIN;
-  2580	
-  2581		host_diagnostic |= MPI2_DIAG_SBR_RELOAD;
-  2582		writel(host_diagnostic, &ioc->chip->HostDiagnostic);
-  2583		host_diagnostic = ioc->base_readl(&ioc->chip->HostDiagnostic);
-  2584		mpt3sas_base_lock_host_diagnostic(ioc);
-  2585		mutex_unlock(&ioc->hostdiag_unlock_mutex);
-  2586	
-  2587		if (!(host_diagnostic & MPI2_DIAG_SBR_RELOAD)) {
-  2588			ioc_err(ioc, "%s: Failed to set Diag SBR Reload Bit\n", __func__);
-  2589			return -EFAULT;
-  2590		}
-  2591	
-  2592		ioc_info(ioc, "%s: Successfully set the Diag SBR Reload Bit\n", __func__);
-  2593		return 0;
-  2594	}
-  2595	
+   242	
+   243	void __init allocate_paca_ptrs(void)
+   244	{
+   245		unsigned int cnt;
+   246	
+   247		/* paca_ptrs should be big enough to hold boot cpu */
+ > 248		cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
+   249		paca_last_cpu_num = cnt;
+   250		paca_ptrs_size = sizeof(struct paca_struct *) * cnt;
+   251		paca_ptrs = memblock_alloc_raw(paca_ptrs_size, SMP_CACHE_BYTES);
+   252		if (!paca_ptrs)
+   253			panic("Failed to allocate %d bytes for paca pointers\n",
+   254			      paca_ptrs_size);
+   255	
+   256		memset(paca_ptrs, 0x88, paca_ptrs_size);
+   257	}
+   258	
 
 -- 
 0-DAY CI Kernel Test Service
