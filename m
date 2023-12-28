@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0CA1872
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 05:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6659928E3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 05:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rp4sOmfE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oGkSOsSw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703740773; x=1735276773;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=e4BPcCIz99Sm20fKQwRCSWIV4nQkERnrynImYTNac9E=;
-  b=Rp4sOmfEYcO9orAi/FNml0avL5bgZ4Ot9Wo6YMnPkglEaOzTSIXU5i6x
-   h/ktg8M40nYAoXyxmhjuiksobx5Q10B4W5QFW+jTkUVUSU0TlCkpbmqRe
-   eRYPsrwrvZWlEHo35NGbOz/rcXjQx6b0LOzyruos90ygx7Ld6twX6kVbt
-   ffNsupx0oEWgbfRJv0AGz0qBWYoKDXwzBhgM+IHxZ4YJmGLPeuPOpLDDn
-   XZEnTwKP8ZMneH2Ks910Cqjsfmdfmt1tOGekjkKlf9yqucisSPZgd4JXH
-   uAQKFbJOtM5EPQz7Udn9fNCMQhotzAY9sko/raVBxyPHv4YkR/QFN/n0+
+  t=1703740775; x=1735276775;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TeBcNQfdNm8+LHkizWxvN/4xCdz34R/h8dvgz8x6eo8=;
+  b=oGkSOsSwV78FWhONkXeRLqtk/36b2VD/l1VKvxDy91hgQ+sRpH1PeRpt
+   Mumi0cwOmGsKi2F+1hdKMJ8vbfSigmSaN2P+BAT9AyqNyW8cfwGEHN/Mk
+   5rAge7kQfwWqFr8WuLWAmjcIQm4MTav8AUMHmINOj1lUbXEgoEnujmtAM
+   8ldWaZhF2GFTQq5AFdgoTJoRtJ55gYuaAQYuY5rhTy2MINJFUkXffNMqQ
+   iejDZ/m7ZTRcMbs3BAh6ogoyTBiO0dU3vPAjMTbo+7IMdZXxk8QyPu6lt
+   QTsEFwo3R4GG5J/o+G5OtA7V8uINsxOZYzG+OAsPvXARBLKOPECrIXT2b
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="482692890"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="482692891"
 X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
-   d="scan'208";a="482692890"
+   d="scan'208";a="482692891"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 21:19:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="754643981"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="754643979"
 X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
-   d="scan'208";a="754643981"
+   d="scan'208";a="754643979"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga006.jf.intel.com with ESMTP; 27 Dec 2023 21:19:26 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIinj-000G83-32
-	for oe-kbuild-all@lists.linux.dev;
-	Thu, 28 Dec 2023 05:19:23 +0000
-Date: Thu, 28 Dec 2023 13:18:30 +0800
+	id 1rIink-000G8B-05;
+	Thu, 28 Dec 2023 05:19:24 +0000
+Date: Thu, 28 Dec 2023 13:18:29 +0800
 From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 7961/30000] block/.tmp_keyslot-manager.o:
- warning: objtool: keyslot_manager_put_slot()+0xda: unreachable instruction
-Message-ID: <202312281326.Xczstd9L-lkp@intel.com>
+Subject: [jimc:lukas-v3.0 14/24] lib/dynamic_debug.c:158:43-48: WARNING:
+ conversion to bool not needed here
+Message-ID: <202312281329.isaE1arc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,31 +50,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   2b69ccfcb3117ca97de0f8d4e752e4776133afb8
-commit: b0a4fb22e5db016dd64e375d921345743e4b7ccd [7961/30000] BACKPORT: FROMLIST: block: Keyslot Manager for Inline Encryption
-config: x86_64-buildonly-randconfig-003-20231227 (https://download.01.org/0day-ci/archive/20231228/202312281326.Xczstd9L-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281326.Xczstd9L-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git lukas-v3.0
+head:   1f42080421213a7819e069d5b6d22cef0b6c9c61
+commit: 174f9fe4a01a4aaaa0ecd08c295412b44e1a47d2 [14/24] dyndbg: add support for default trace destination
+config: x86_64-randconfig-102-20231228 (https://download.01.org/0day-ci/archive/20231228/202312281329.isaE1arc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312281326.Xczstd9L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312281329.isaE1arc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> lib/dynamic_debug.c:158:43-48: WARNING: conversion to bool not needed here
 
-   block/keyslot-manager.c:233: warning: Function parameter or member 'ksm' not described in 'keyslot_manager_get_slot'
-   block/keyslot-manager.c:233: warning: Function parameter or member 'slot' not described in 'keyslot_manager_get_slot'
-   block/keyslot-manager.c:284: warning: Function parameter or member 'ksm' not described in 'keyslot_manager_crypto_mode_supported'
-   block/keyslot-manager.c:284: warning: Function parameter or member 'crypto_mode' not described in 'keyslot_manager_crypto_mode_supported'
-   block/keyslot-manager.c:284: warning: Function parameter or member 'data_unit_size' not described in 'keyslot_manager_crypto_mode_supported'
-   block/keyslot-manager.c:320: warning: Function parameter or member 'ksm' not described in 'keyslot_manager_evict_key'
-   block/keyslot-manager.c:320: warning: Function parameter or member 'key' not described in 'keyslot_manager_evict_key'
-   block/keyslot-manager.c:320: warning: Function parameter or member 'crypto_mode' not described in 'keyslot_manager_evict_key'
-   block/keyslot-manager.c:320: warning: Function parameter or member 'data_unit_size' not described in 'keyslot_manager_evict_key'
->> block/.tmp_keyslot-manager.o: warning: objtool: keyslot_manager_put_slot()+0xda: unreachable instruction
+vim +158 lib/dynamic_debug.c
+
+   154	
+   155	static const
+   156	char *read_T_args(const char *str, struct flag_settings *modifiers)
+   157	{
+ > 158		bool has_colon = *(str+1) == ':' ? true : false;
+   159		int len = 0, idx = DST_TR_EVENT;
+   160		char *end = NULL;
+   161	
+   162		if (!has_colon) {
+   163			if (!has_tr_default_dst())
+   164				return NULL;
+   165			idx = trc_tbl.default_dst;
+   166			goto end;
+   167		}
+   168	
+   169		str += 2;
+   170		end = strchr(str, '.');
+   171		if (end && *(end + 1) == '\0')
+   172			return NULL;
+   173	
+   174		if (end) {
+   175			len = end - str;
+   176			*end = '\0';
+   177		} else
+   178			len = strlen(str);
+   179		len -= 1;
+   180	
+   181		/* destination trace events */
+   182		if (!strcmp(str, DD_TR_EVENT))
+   183			goto end;
+   184	
+   185		idx = find_tr_instance(str);
+   186		if (idx < 0) {
+   187			if (!has_tr_default_dst() ||
+   188			    has_colon)
+   189				return NULL;
+   190			idx = trc_tbl.default_dst;
+   191		}
+   192	end:
+   193		modifiers->trace_dst = idx;
+   194		return end ? end : str + len;
+   195	}
+   196	
 
 -- 
 0-DAY CI Kernel Test Service
