@@ -1,54 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622733C16
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 04:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FDF15BB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 04:58:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GgPUTNeF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="By4PuHuw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703736765; x=1735272765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OkLCJyJV4KFZFi+9iX4QeHDCYzZK9rcCw39vsKf1N4o=;
-  b=GgPUTNeFH4yM1QrWm/CME0lcH0yn3R/OVDlYRVzjFh+zf7dz1QiTL5qQ
-   Y85htXvcKmgfPjB4z1Tlxl2x/2+rHS84w1mvzjqQkWLz7XRvabd7aUm+Z
-   xE5hErJbRt8IGUvYguO/r5EjE8siA6+XozF1Ua75p1PPJBbPT9OvOXJeu
-   O70vNs5hKHTDVZCkorYdy5Q99kVuLcmSRV2Sa32lsF+9ZnK9Kyt82aaFB
-   w85891trHP58KOXIj+ILAovczbdO8CULLIpIcZiboro4LhGM4YGOqGStv
-   yNuh0Wpseps1q4k0etQC5GpaVBgnLQM1/NOqOy5HuDQrxFin5DikdjtXm
+  t=1703739507; x=1735275507;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6hsmZetemzPbvg2Lz4S0HCjMQ16nHWdvthEQKX9XUMI=;
+  b=By4PuHuw8XdxsLpLJ8ZoV4Qy61rA0tjc7eihWvpCZhUiZ5TOcG3NPcEq
+   TNE3Dy6ybaRwMv7CKj3er3sPZpx9RkBs4PXZKN1HuGUuFrbuqnpa/vI/H
+   FmpEPJc/4InZnYDEs0r7XEOALFZPes9gfsFUd6YyE2F3lm7oi7zO7RSX/
+   u5L63OrU4Ei10lS0WAkMZoPLvsofqivJhmOmlB4tbqkQF+7Dpnom6s4Z8
+   LveshlswxYF6YzIrDxPBCs7YZ6tApB9cecL1HsyUIu7HaY/QS81fMCqFT
+   DM0rKdjEw7FT1OJbLDQmvaIUPoZFAR/gnjSq1BxBhVLKVB71RTzILLXE1
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="3806749"
-X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="3806749"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 20:08:24 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="462928254"
+X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
+   d="scan'208";a="462928254"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 20:58:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="921998159"
-X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="921998159"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="807332879"
+X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
+   d="scan'208";a="807332879"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Dec 2023 20:08:21 -0800
+  by orsmga008.jf.intel.com with ESMTP; 27 Dec 2023 20:58:25 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIhgx-000G2F-0i;
-	Thu, 28 Dec 2023 04:08:19 +0000
-Date: Thu, 28 Dec 2023 12:07:25 +0800
+	id 1rIiTO-000G5p-2Z;
+	Thu, 28 Dec 2023 04:58:22 +0000
+Date: Thu, 28 Dec 2023 12:57:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pingfan Liu <kernelfans@gmail.com>, linuxppc-dev@lists.ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev, Baoquan He <bhe@redhat.com>,
-	Pingfan Liu <piliu@redhat.com>, kexec@lists.infradead.org,
-	Mahesh Salgaonkar <mahesh@linux.ibm.com>,
-	Ming Lei <ming.lei@redhat.com>, Nicholas Piggin <npiggin@gmail.com>,
-	Sourabh Jain <sourabhjain@linux.ibm.com>,
-	Hari Bathini <hbathini@linux.ibm.com>,
-	Wen Xiong <wenxiong@us.ibm.com>
-Subject: Re: [PATCHv10 3/3] powerpc/smp: Allow hole in paca_ptrs to
- accommodate boot_cpu
-Message-ID: <202312281100.39B8MAEU-lkp@intel.com>
-References: <20231227024147.12485-1-kernelfans@gmail.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: io_uring/poll.c:819:40: sparse: sparse: incorrect type in argument 2
+ (different base types)
+Message-ID: <202312281221.Xmo2DIaO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,161 +50,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231227024147.12485-1-kernelfans@gmail.com>
 
-Hi Pingfan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on powerpc/next]
-[also build test ERROR on powerpc/fixes linus/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pingfan-Liu/powerpc-kernel-Remove-check-on-paca_ptrs_size/20231227-104412
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20231227024147.12485-1-kernelfans%40gmail.com
-patch subject: [PATCHv10 3/3] powerpc/smp: Allow hole in paca_ptrs to accommodate boot_cpu
-config: powerpc-microwatt_defconfig (https://download.01.org/0day-ci/archive/20231228/202312281100.39B8MAEU-lkp@intel.com/config)
-compiler: powerpc64le-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281100.39B8MAEU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f5837722ffecbbedf1b1dbab072a063565f0dad1
+commit: 063a007996bf725ba4c7d8741701670be9858300 io_uring: change arm poll return values
+date:   1 year, 5 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231228/202312281221.Xmo2DIaO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281221.Xmo2DIaO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312281100.39B8MAEU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312281221.Xmo2DIaO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   io_uring/poll.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/poll.c:222:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t @@
+   io_uring/poll.c:222:38: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:222:38: sparse:     got restricted __poll_t
+   io_uring/poll.c:233:56: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:232:66: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:232:66: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:232:66: sparse:     got unsigned int
+   io_uring/poll.c:232:52: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned short @@
+   io_uring/poll.c:232:52: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:232:52: sparse:     got unsigned short
+   io_uring/poll.c:236:46: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:236:46: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:236:46: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:264:63: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:264:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:264:57: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:264:57: sparse:     got unsigned int
+   io_uring/poll.c:372:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:372:40: sparse:     expected int mask
+   io_uring/poll.c:372:40: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:491:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:491:40: sparse:     expected int mask
+   io_uring/poll.c:491:40: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:543:45: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:543:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned int @@
+   io_uring/poll.c:543:43: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:543:43: sparse:     got unsigned int
+   io_uring/poll.c:588:38: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:588:38: sparse:     expected int mask
+   io_uring/poll.c:588:38: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:588:55: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int events @@     got restricted __poll_t [usertype] events @@
+   io_uring/poll.c:588:55: sparse:     expected int events
+   io_uring/poll.c:588:55: sparse:     got restricted __poll_t [usertype] events
+   io_uring/poll.c:745:24: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:745:24: sparse:    left side has type unsigned int
+   io_uring/poll.c:745:24: sparse:    right side has type restricted __poll_t
+   io_uring/poll.c:747:24: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:747:24: sparse:    left side has type unsigned int
+   io_uring/poll.c:747:24: sparse:    right side has type restricted __poll_t
+   io_uring/poll.c:749:55: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:748:29: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:748:38: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int @@
+   io_uring/poll.c:748:38: sparse:     expected restricted __poll_t
+   io_uring/poll.c:748:38: sparse:     got unsigned int
+>> io_uring/poll.c:819:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [addressable] [assigned] [usertype] result_mask @@
+   io_uring/poll.c:819:40: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:819:40: sparse:     got restricted __poll_t [addressable] [assigned] [usertype] result_mask
+   io_uring/poll.c:873:38: sparse: sparse: invalid assignment: &=
+   io_uring/poll.c:873:38: sparse:    left side has type restricted __poll_t
+   io_uring/poll.c:873:38: sparse:    right side has type int
+   io_uring/poll.c:874:52: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:874:38: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:874:38: sparse:    left side has type restricted __poll_t
+   io_uring/poll.c:874:38: sparse:    right side has type unsigned int
+   io_uring/poll.c:632:24: sparse: sparse: context imbalance in 'io_poll_find' - wrong count at exit
+   io_uring/poll.c:661:24: sparse: sparse: context imbalance in 'io_poll_file_find' - wrong count at exit
+   io_uring/poll.c:716:28: sparse: sparse: context imbalance in '__io_poll_cancel' - unexpected unlock
+   io_uring/poll.c:843:28: sparse: sparse: context imbalance in 'io_poll_remove' - unexpected unlock
 
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/smp.h:12,
-                    from arch/powerpc/kernel/paca.c:6:
-   arch/powerpc/kernel/paca.c: In function 'allocate_paca_ptrs':
->> arch/powerpc/kernel/paca.c:248:55: error: 'threads_in_core' undeclared (first use in this function); did you mean 'threads_per_core'?
-     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
-         |                                                       ^~~~~~~~~~~~~~~
-   include/linux/compiler.h:236:55: note: in definition of macro '__is_constexpr'
-     236 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
-         |                                                       ^
-   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
-      92 | #define max(x, y)       __careful_cmp(max, x, y)
-         |                         ^~~~~~~~~~~~~
-   arch/powerpc/kernel/paca.c:248:15: note: in expansion of macro 'max'
-     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
-         |               ^~~
-   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
-      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (__typeof__(x))(a) - 1)
-         |                                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
-       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
-         |                                 ^~~~~~~~~~~~~~
-   arch/powerpc/kernel/paca.c:248:33: note: in expansion of macro 'ALIGN'
-     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
-         |                                 ^~~~~
-   arch/powerpc/kernel/paca.c:248:55: note: each undeclared identifier is reported only once for each function it appears in
-     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
-         |                                                       ^~~~~~~~~~~~~~~
-   include/linux/compiler.h:236:55: note: in definition of macro '__is_constexpr'
-     236 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
-         |                                                       ^
-   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
-      92 | #define max(x, y)       __careful_cmp(max, x, y)
-         |                         ^~~~~~~~~~~~~
-   arch/powerpc/kernel/paca.c:248:15: note: in expansion of macro 'max'
-     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
-         |               ^~~
-   include/uapi/linux/const.h:31:41: note: in expansion of macro '__ALIGN_KERNEL_MASK'
-      31 | #define __ALIGN_KERNEL(x, a)            __ALIGN_KERNEL_MASK(x, (__typeof__(x))(a) - 1)
-         |                                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
-       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
-         |                                 ^~~~~~~~~~~~~~
-   arch/powerpc/kernel/paca.c:248:33: note: in expansion of macro 'ALIGN'
-     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
-         |                                 ^~~~~
-   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
-      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
-      51 |         static_assert(__types_ok(x, y),                 \
-         |         ^~~~~~~~~~~~~
-   include/linux/minmax.h:39:10: note: in expansion of macro '__is_signed'
-      39 |         (__is_signed(x) == __is_signed(y) ||                    \
-         |          ^~~~~~~~~~~
-   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
-      51 |         static_assert(__types_ok(x, y),                 \
-         |                       ^~~~~~~~~~
-   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
-      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
-         |                 ^~~~~~~~~~
-   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
-      92 | #define max(x, y)       __careful_cmp(max, x, y)
-         |                         ^~~~~~~~~~~~~
-   arch/powerpc/kernel/paca.c:248:15: note: in expansion of macro 'max'
-     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
-         |               ^~~
-   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
-      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
-      51 |         static_assert(__types_ok(x, y),                 \
-         |         ^~~~~~~~~~~~~
-   include/linux/minmax.h:40:17: note: in expansion of macro '__is_signed'
-      40 |                 __is_signed((x) + 0) == __is_signed((y) + 0) || \
-         |                 ^~~~~~~~~~~
-   include/linux/minmax.h:51:23: note: in expansion of macro '__types_ok'
-      51 |         static_assert(__types_ok(x, y),                 \
-         |                       ^~~~~~~~~~
-   include/linux/minmax.h:58:17: note: in expansion of macro '__cmp_once'
-      58 |                 __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
-         |                 ^~~~~~~~~~
-   include/linux/minmax.h:92:25: note: in expansion of macro '__careful_cmp'
-      92 | #define max(x, y)       __careful_cmp(max, x, y)
-         |                         ^~~~~~~~~~~~~
-   arch/powerpc/kernel/paca.c:248:15: note: in expansion of macro 'max'
-     248 |         cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
-         |               ^~~
-   include/linux/minmax.h:31:9: error: first argument to '__builtin_choose_expr' not a constant
-      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/minmax.h:51:9: note: in expansion of macro 'static_assert'
-      51 |         static_assert(__types_ok(x, y),                 \
-         |         ^~~~~~~~~~~~~
-   include/linux/minmax.h:36:53: note: in expansion of macro '__is_signed'
-      36 |         (__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+vim +819 io_uring/poll.c
 
-
-vim +248 arch/powerpc/kernel/paca.c
-
-   242	
-   243	void __init allocate_paca_ptrs(void)
-   244	{
-   245		unsigned int cnt;
-   246	
-   247		/* paca_ptrs should be big enough to hold boot cpu */
- > 248		cnt = max((unsigned int)ALIGN(boot_cpuid + 1, threads_in_core), nr_cpu_ids);
-   249		paca_last_cpu_num = cnt;
-   250		paca_ptrs_size = sizeof(struct paca_struct *) * cnt;
-   251		paca_ptrs = memblock_alloc_raw(paca_ptrs_size, SMP_CACHE_BYTES);
-   252		if (!paca_ptrs)
-   253			panic("Failed to allocate %d bytes for paca pointers\n",
-   254			      paca_ptrs_size);
-   255	
-   256		memset(paca_ptrs, 0x88, paca_ptrs_size);
-   257	}
-   258	
+   798	
+   799	int io_poll_add(struct io_kiocb *req, unsigned int issue_flags)
+   800	{
+   801		struct io_poll *poll = io_kiocb_to_cmd(req);
+   802		struct io_poll_table ipt;
+   803		int ret;
+   804	
+   805		ipt.pt._qproc = io_poll_queue_proc;
+   806	
+   807		/*
+   808		 * If sqpoll or single issuer, there is no contention for ->uring_lock
+   809		 * and we'll end up holding it in tw handlers anyway.
+   810		 */
+   811		if (!(issue_flags & IO_URING_F_UNLOCKED) &&
+   812		    (req->ctx->flags & (IORING_SETUP_SQPOLL | IORING_SETUP_SINGLE_ISSUER)))
+   813			req->flags |= REQ_F_HASH_LOCKED;
+   814		else
+   815			req->flags &= ~REQ_F_HASH_LOCKED;
+   816	
+   817		ret = __io_arm_poll_handler(req, poll, &ipt, poll->events);
+   818		if (ret) {
+ > 819			io_req_set_res(req, ipt.result_mask, 0);
+   820			return IOU_OK;
+   821		}
+   822		if (ipt.error) {
+   823			req_set_fail(req);
+   824			return ipt.error;
+   825		}
+   826	
+   827		return IOU_ISSUE_SKIP_COMPLETE;
+   828	}
+   829	
 
 -- 
 0-DAY CI Kernel Test Service
