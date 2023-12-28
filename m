@@ -1,49 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3598820
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 13:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22943C8D2;
+	Thu, 28 Dec 2023 14:21:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SwuJUrto"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703771423; x=1735307423;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=xjuAcoNfyZ+W7xmVNtH2mUDhKBG4zHTOjojea5nmJ/Q=;
-  b=SwuJUrtoJVWcOlC0qwwz8pxK8uHjhR0jVCCPmscyjdMQ3Ai5LH6Ja7HK
-   QJikIYzF0sY6MT6CrCx5sRu15h+NWEd9+tr/rNE8hvuBJpU3yTWXgqIk6
-   84eddLRRZ5fUKQtGgQtxNhUylod2yTGEo47CBvpSBCxnyfVXs4nQvmcXy
-   tXeVXV/PQWSIuJq49PQ68MaiV7E3lSlt2FpDHJCquDA9ILoeO0yecQST0
-   kmKvqaMxortKKit9dn7ZuB8POdMPMtz22sqRGGL6zjBJLrYJLKVV454k7
-   BIEfk7wfQi+CiWaHK1sozuoKqBnAwHLu0frdHmW9XpZys/bYwFJ1JWVzb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="9941663"
-X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; 
-   d="scan'208";a="9941663"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 05:50:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="901974264"
-X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; 
-   d="scan'208";a="901974264"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 28 Dec 2023 05:50:21 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rIqmB-000GW1-1C;
-	Thu, 28 Dec 2023 13:50:19 +0000
-Date: Thu, 28 Dec 2023 21:49:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhu Yanjun <yanjun.zhu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/1] virtio_net: =?utf-8?Q?F?=
- =?utf-8?B?aXggIuKAmCVk4oCZIGRpcmVjdGl2ZSB3cml0aW4=?= =?utf-8?Q?g?= between 1
- and 11 bytes into a region of size 10" warnings
-Message-ID: <202312282156.wb5beuAb-lkp@intel.com>
-References: <20231227142637.2479149-1-yanjun.zhu@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bVraqIW3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB96C433C8;
+	Thu, 28 Dec 2023 14:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703773269;
+	bh=/EQrMG7UvytkqAKY/Q/t1m5yglHvF4uxkUVhc5ytOaQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bVraqIW3IPpG7EFGjd/HwRVxDuy3NgxgLdosygFbb1Shnk6VyAjHFVuEayYRtRe80
+	 8jSLylMOKMHv3O8zpPLPn534XYIhYqzuhu9UA0/Oif/U4Nkil2n7MoRnV2gKmRMa41
+	 LgObFXi7639W6wMh3XwGCsy+mcGiU66O9J8iDNfENml29wU3xaf2lmzP/KXUFvl3qt
+	 E87K1Q7xODXBQyX2d5Au/Gk96A+rsfKPjz/tKEZuNgpFXYPTkWSrRQZtVF45zBagPy
+	 Y8LAk/d+CBJdfJLFBGAMEQ9eFO+smRKxcYphf+3TO2Qi60jZAAttQ7r/wNW5bp4aQm
+	 1e4TwCVrj4laA==
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+	id 901F6403EF; Thu, 28 Dec 2023 11:21:06 -0300 (-03)
+Date: Thu, 28 Dec 2023 11:21:06 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Yujie Liu <yujie.liu@intel.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Brian Cain <bcain@quicinc.com>,
+	linux-hexagon@vger.kernel.org, dwarves@vger.kernel.org
+Subject: Re: [bcachefs:header_cleanup 21/51] /bin/bash: line 1: 19420
+ Segmentation fault LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j
+ --lang_exclude=rust --skip_encoding_btf_inconsistent_proto
+ --btf_gen_optimized --btf_base vmlinux drivers/misc/eeprom/at24.ko
+Message-ID: <ZY2EUr+EYzyro3NH@kernel.org>
+References: <202312192107.wMIKiZWw-lkp@intel.com>
+ <20231219205348.wvvxyicaatmljxm2@moria.home.lan>
+ <CAKwvOdmrvwdbFrtzsOjoLJJZ1pDZOBWBiEb=Mx5bCHuKU2wPzQ@mail.gmail.com>
+ <20231219210454.GA540439@dev-arch.thelio-3990X>
+ <ZYKWxl9oQXODIoNe@yujie-X299>
+ <20231227224338.GA267659@dev-arch.thelio-3990X>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,146 +48,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231227142637.2479149-1-yanjun.zhu@intel.com>
+In-Reply-To: <20231227224338.GA267659@dev-arch.thelio-3990X>
+X-Url: http://acmel.wordpress.com
 
-Hi Zhu,
+Em Wed, Dec 27, 2023 at 03:43:38PM -0700, Nathan Chancellor escreveu:
+> + Arnaldo and dwarves list
+> 
+> On Wed, Dec 20, 2023 at 03:24:54PM +0800, Yujie Liu wrote:
+> > On Tue, Dec 19, 2023 at 02:04:54PM -0700, Nathan Chancellor wrote:
+> > > On Tue, Dec 19, 2023 at 12:58:28PM -0800, Nick Desaulniers wrote:
+> > > > On Tue, Dec 19, 2023 at 12:54 PM Kent Overstreet
+> > > > <kent.overstreet@linux.dev> wrote:
+> > > > >
+> > > > > On Tue, Dec 19, 2023 at 09:40:09PM +0800, kernel test robot wrote:
+> > > > > > tree:   https://evilpiepirate.org/git/bcachefs.git header_cleanup
+> > > > > > head:   89188fceb7a49e3c4b0578d86f6f6e647f202821
+> > > > > > commit: 1db61740aeb7d6b1c7bfb2a98708a65a6679d068 [21/51] locking/seqlock: Split out seqlock_types.h
+> > > > > > config: hexagon-randconfig-r005-20220913 (https://download.01.org/0day-ci/archive/20231219/202312192107.wMIKiZWw-lkp@intel.com/config)
+> > > > > > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> > > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312192107.wMIKiZWw-lkp@intel.com/reproduce)
+> > > > > >
+> > > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > > > the same patch/commit), kindly add following tags
+> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202312192107.wMIKiZWw-lkp@intel.com/
+> > > > > >
+> > > > > > All errors (new ones prefixed by >>):
+> > > > > >
+> > > > > >    die__process_unit: DW_TAG_member (0xd) @ <0xc689> not handled!
+> > > > > >    die__process_unit: tag not supported 0xd (member)!
+> > > > > >    die__process_function: DW_TAG_compile_unit (0x11) @ <0xc697> not handled!
+> > > > > >    die__process_function: tag not supported 0x11 (compile_unit)!
+> > > > > >    die__process_function: DW_TAG_member (0xd) @ <0xc6db> not handled!
+> > > > > >    die__process_function: DW_TAG_compile_unit (0x11) @ <0xc6e5> not handled!
+> > > > > >    die__process_class: DW_TAG_compile_unit (0x11) @ <0xc778> not handled!
+> > > > > >    namespace__recode_dwarf_types: couldn't find 0xc689 type for 0xc66b (member)!
+> > > > > >    namespace__recode_dwarf_types: couldn't find 0xc638 type for 0xc674 (member)!
+> > > > > >    namespace__recode_dwarf_types: couldn't find 0xc638 type for 0xc67e (member)!
+> > > > > > >> /bin/bash: line 1: 19420 Segmentation fault      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j --lang_exclude=rust --skip_encoding_btf_inconsistent_proto --btf_gen_optimized --btf_base vmlinux drivers/misc/eeprom/at24.ko
+> > > > >
+> > > > > Not sure how likely a header cleanup is to cause a segfault in
+> > > > > llvm-objcopy and I don't have the toolchain to repro this - could
+> > > > > hexagon people take a look?
+> > > 
+> > > For what it's worth in case you were not aware, I provide copies of LLVM
+> > > on kernel.org that can be installed in some prefix and invoked with
+> > > LLVM=<prefix>/bin/, which can make reproducing reports such as these
+> > > relatively easy.
+> > > 
+> > > https://mirrors.edge.kernel.org/pub/tools/llvm/
+> > > 
+> > > > Is it a segfault in llvm-objcopy, or pahole?
+> > > 
+> > > Should be pahole. I have not been able to reproduce these crashes in
+> > > pahole v1.25 in the past when they come up every so often. 0day folks,
+> > > what version of pahole are you testing with?
+> > 
+> > We clone pahole source code from [1] and build it on the master branch.
+> > The current head is commit c129fa757948 which is newer than v1.25.
+> > 
+> > c129fa757948 ("pahole: Add --btf_features_strict to reject unknown BTF features")
+> > 
+> > [1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git
+> 
+> Thanks for that additional information but I can reproduce this at v1.25
+> as well, I just tried:
+> 
+>   $ git fetch https://evilpiepirate.org/git/bcachefs.git 1db61740aeb7d6b1c7bfb2a98708a65a6679d068
+>   $ git reset --hard FETCH_HEAD
+>   $ curl -LSso .config https://download.01.org/0day-ci/archive/20231219/202312192107.wMIKiZWw-lkp@intel.com/config
+>   $ curl -LSs https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-16.0.6-x86_64.tar.xz | tar -xJf -
+>   $ make -skj"$(nproc)" ARCH=hexagon LLVM=$PWD/llvm-16.0.6-x86_64/bin/ olddefconfig all
+>   ...
+>   die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
+>   die__create_new_enumeration: DW_TAG_array_type (0x1) @ <0x120b1> not handled!
+>   die__create_new_enumeration: DW_TAG_pointer_type (0xf) @ <0x120b7> not handled!
+>   die__process_unit: DW_TAG_member (0xd) @ <0x3669> not handled!
+>   die__process_unit: tag not supported 0xd (member)!
+>   die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
+>   die__process_unit: DW_TAG_member (0xd) @ <0x3650> not handled!
+>   die__process_unit: tag not supported 0xd (member)!
+>   die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
+>   die__create_new_enumeration: DW_TAG_array_type (0x1) @ <0x9cb5> not handled!
+>   die__create_new_enumeration: DW_TAG_pointer_type (0xf) @ <0x9cbb> not handled!
+>   die__process_unit: DW_TAG_enumerator (0x28) @ <0x705a> not handled!
+>   die__process_unit: tag not supported 0x28 (enumerator)!
+>   ...
+> 
+> I do not get a segfault personally but there are definitely a lot of
+> errors from pahole at the end. Arnaldo, is pahole not handling something
+> that it should with regards to clang's debug info?
 
-kernel test robot noticed the following build warnings:
+Possibly, would it be possible to provide the vmlinux file where pahole
+is segfaulting when trying to encode BTF from DWARF?
 
-[auto build test WARNING on mst-vhost/linux-next]
-[also build test WARNING on linus/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+These two files:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhu-Yanjun/virtio_net-Fix-d-directive-writing-between-1-and-11-bytes-into-a-region-of-size-10-warnings/20231227-223431
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20231227142637.2479149-1-yanjun.zhu%40intel.com
-patch subject: [PATCH v2 1/1] virtio_net: Fix "‘%d’ directive writing between 1 and 11 bytes into a region of size 10" warnings
-config: x86_64-randconfig-015-20231228 (https://download.01.org/0day-ci/archive/20231228/202312282156.wb5beuAb-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312282156.wb5beuAb-lkp@intel.com/reproduce)
+vmlinux drivers/misc/eeprom/at24.ko
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312282156.wb5beuAb-lkp@intel.com/
+So that I can run:
 
-All warnings (new ones prefixed by >>):
+LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j --lang_exclude=rust --skip_encoding_btf_inconsistent_proto --btf_gen_optimized --btf_base vmlinux drivers/misc/eeprom/at24.ko
 
-   drivers/net/virtio_net.c: In function 'init_vqs':
-   drivers/net/virtio_net.c:4140:36: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
-      sprintf(vi->rq[i].name, "input.%u", i);
-                                       ^
-   drivers/net/virtio_net.c:4140:3: note: 'sprintf' output between 8 and 17 bytes into a destination of size 16
-      sprintf(vi->rq[i].name, "input.%u", i);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/virtio_net.c:4141:35: warning: '%u' directive writing between 1 and 10 bytes into a region of size 9 [-Wformat-overflow=]
-      sprintf(vi->sq[i].name, "output.%u", i);
-                                      ^~
-   drivers/net/virtio_net.c:4141:27: note: directive argument in the range [0, 2147483647]
-      sprintf(vi->sq[i].name, "output.%u", i);
-                              ^~~~~~~~~~~
-   drivers/net/virtio_net.c:4141:3: note: 'sprintf' output between 9 and 18 bytes into a destination of size 16
-      sprintf(vi->sq[i].name, "output.%u", i);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Here.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [m]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
-
-
-vim +4141 drivers/net/virtio_net.c
-
-  4094	
-  4095	static int virtnet_find_vqs(struct virtnet_info *vi)
-  4096	{
-  4097		vq_callback_t **callbacks;
-  4098		struct virtqueue **vqs;
-  4099		const char **names;
-  4100		int ret = -ENOMEM;
-  4101		int total_vqs;
-  4102		bool *ctx;
-  4103		u16 i;
-  4104	
-  4105		/* We expect 1 RX virtqueue followed by 1 TX virtqueue, followed by
-  4106		 * possible N-1 RX/TX queue pairs used in multiqueue mode, followed by
-  4107		 * possible control vq.
-  4108		 */
-  4109		total_vqs = vi->max_queue_pairs * 2 +
-  4110			    virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VQ);
-  4111	
-  4112		/* Allocate space for find_vqs parameters */
-  4113		vqs = kcalloc(total_vqs, sizeof(*vqs), GFP_KERNEL);
-  4114		if (!vqs)
-  4115			goto err_vq;
-  4116		callbacks = kmalloc_array(total_vqs, sizeof(*callbacks), GFP_KERNEL);
-  4117		if (!callbacks)
-  4118			goto err_callback;
-  4119		names = kmalloc_array(total_vqs, sizeof(*names), GFP_KERNEL);
-  4120		if (!names)
-  4121			goto err_names;
-  4122		if (!vi->big_packets || vi->mergeable_rx_bufs) {
-  4123			ctx = kcalloc(total_vqs, sizeof(*ctx), GFP_KERNEL);
-  4124			if (!ctx)
-  4125				goto err_ctx;
-  4126		} else {
-  4127			ctx = NULL;
-  4128		}
-  4129	
-  4130		/* Parameters for control virtqueue, if any */
-  4131		if (vi->has_cvq) {
-  4132			callbacks[total_vqs - 1] = NULL;
-  4133			names[total_vqs - 1] = "control";
-  4134		}
-  4135	
-  4136		/* Allocate/initialize parameters for send/receive virtqueues */
-  4137		for (i = 0; i < vi->max_queue_pairs; i++) {
-  4138			callbacks[rxq2vq(i)] = skb_recv_done;
-  4139			callbacks[txq2vq(i)] = skb_xmit_done;
-  4140			sprintf(vi->rq[i].name, "input.%u", i);
-> 4141			sprintf(vi->sq[i].name, "output.%u", i);
-  4142			names[rxq2vq(i)] = vi->rq[i].name;
-  4143			names[txq2vq(i)] = vi->sq[i].name;
-  4144			if (ctx)
-  4145				ctx[rxq2vq(i)] = true;
-  4146		}
-  4147	
-  4148		ret = virtio_find_vqs_ctx(vi->vdev, total_vqs, vqs, callbacks,
-  4149					  names, ctx, NULL);
-  4150		if (ret)
-  4151			goto err_find;
-  4152	
-  4153		if (vi->has_cvq) {
-  4154			vi->cvq = vqs[total_vqs - 1];
-  4155			if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VLAN))
-  4156				vi->dev->features |= NETIF_F_HW_VLAN_CTAG_FILTER;
-  4157		}
-  4158	
-  4159		for (i = 0; i < vi->max_queue_pairs; i++) {
-  4160			vi->rq[i].vq = vqs[rxq2vq(i)];
-  4161			vi->rq[i].min_buf_len = mergeable_min_buf_len(vi, vi->rq[i].vq);
-  4162			vi->sq[i].vq = vqs[txq2vq(i)];
-  4163		}
-  4164	
-  4165		/* run here: ret == 0. */
-  4166	
-  4167	
-  4168	err_find:
-  4169		kfree(ctx);
-  4170	err_ctx:
-  4171		kfree(names);
-  4172	err_names:
-  4173		kfree(callbacks);
-  4174	err_callback:
-  4175		kfree(vqs);
-  4176	err_vq:
-  4177		return ret;
-  4178	}
-  4179	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+- Arnaldo
