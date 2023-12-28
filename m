@@ -1,46 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE653D8E;
-	Thu, 28 Dec 2023 05:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C3715C3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 05:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="leMcDOfQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iha8DmYH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703740775; x=1735276775;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fjzv33XZnTp/hjoEz1NbDHsqkwJlpvQsmcq1xLwrCy4=;
-  b=leMcDOfQe9twVBPZdgz+PAMsAHbagZ9ovAFoPABFRRMihP6v8VqjZ4AK
-   Q0iiByGoJrm1JRa2CMbmV80SdswEG0xXjBpaIJWIh53WzYQHRggupsMne
-   haIPLK07YT7Sv3tMCceEF+yTnZ+gNBWdSqKbidln6r3lRGKx4W9grmr8g
-   WLYFnWegcprQzlvMMV6TxupSvZTckm5JjEf1q+uFrq04q1LWJeuKVmXVG
-   GAbn87CLswGL6KezBal6d59aOQSHq0M0ajJjPWlqLdezA16FJ8AwqlUzs
-   SHL6Duojzs+UubPSTLkZkY/FWod6t/EV0cau2w8lLzKOFkoi7O9uRDXjP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="482692893"
+  t=1703740776; x=1735276776;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HcGj3hy/rgIPr7kx2Q/XYCRW7TjUvWTpE5wspKmi1ck=;
+  b=iha8DmYH0Ci4Djb5wfpopo2u1kGAU76nmXD4fSWOKnRRiKSwC6qdmsaB
+   ZdfxdrH2QU/VxlGPkWR6cGL/9zxED+kE7IZGVxrCnbC0xO5+RVAQjibvK
+   X27k82rmNcNAOPJ3ZQVRBFcVJSSGta/nFJn3e7qg09vtnNPwTtFGchYg+
+   BwYoFV2apsTjVd9wX7A3hEdJ9Gc6gk3fP4LNDBwhJyFQ1pXYm4rtoGGJ3
+   tiXia14r5zDDa3Ay8oNdtOEjDSR+9qXyH0o3p/5pzXpunsejywHVxrsDn
+   kFgt5swwFQn5hnTY3y7L0gtjGxNL3U4plvkf290rfjg1OAZc42WOSBIqb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="482692896"
 X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
-   d="scan'208";a="482692893"
+   d="scan'208";a="482692896"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 21:19:28 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 21:19:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="754643982"
+X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="754643985"
 X-IronPort-AV: E=Sophos;i="6.04,311,1695711600"; 
-   d="scan'208";a="754643982"
+   d="scan'208";a="754643985"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga006.jf.intel.com with ESMTP; 27 Dec 2023 21:19:26 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIinj-000G85-36;
+	id 1rIinj-000G81-2x;
 	Thu, 28 Dec 2023 05:19:23 +0000
-Date: Thu, 28 Dec 2023 13:18:31 +0800
+Date: Thu, 28 Dec 2023 13:18:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:timers/core 6/11] kernel/cpu.c:2214:22: error:
- use of undeclared identifier 'tick_cpu_dying'
-Message-ID: <202312281344.woLNgsmp-lkp@intel.com>
+To: Markus Elfring <Markus.Elfring@web.de>, linux-omap@vger.kernel.org,
+	linux-clk@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Tero Kristo <kristo@kernel.org>, Tony Lindgren <tony@atomide.com>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	cocci@inria.fr
+Subject: Re: [PATCH 09/10] clk: ti: Less function calls in
+ _ti_clkctrl_clk_register() after error detection
+Message-ID: <202312281350.5H2Rhh67-lkp@intel.com>
+References: <b11039e4-69c6-4247-b4ba-c442b9427231@web.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,272 +58,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b11039e4-69c6-4247-b4ba-c442b9427231@web.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
-head:   853f95518ac9ba0370a1418edd728d2cc73c638e
-commit: 2a549e1aca77faca676414e03099b8faa4048b50 [6/11] timers: Start centralizing tick related CPU hotplug operations
-config: hexagon-randconfig-001-20231228 (https://download.01.org/0day-ci/archive/20231228/202312281344.woLNgsmp-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281344.woLNgsmp-lkp@intel.com/reproduce)
+Hi Markus,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/clk-ti-Less-function-calls-in-of_omap2_apll_setup-after-error-detection/20231225-152410
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/b11039e4-69c6-4247-b4ba-c442b9427231%40web.de
+patch subject: [PATCH 09/10] clk: ti: Less function calls in _ti_clkctrl_clk_register() after error detection
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231228/202312281350.5H2Rhh67-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312281350.5H2Rhh67-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312281344.woLNgsmp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312281350.5H2Rhh67-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/cpu.c:13:
-   In file included from include/linux/sched/isolation.h:6:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/cpu.c:13:
-   In file included from include/linux/sched/isolation.h:6:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/cpu.c:13:
-   In file included from include/linux/sched/isolation.h:6:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> kernel/cpu.c:2214:22: error: use of undeclared identifier 'tick_cpu_dying'
-    2214 |                 .teardown.single        = tick_cpu_dying,
-         |                                           ^
->> kernel/cpu.c:2083:26: warning: tentative array definition assumed to have one element
-    2083 | static struct cpuhp_step cpuhp_hp_states[] = {
-         |                          ^
-   7 warnings and 1 error generated.
+   drivers/clk/ti/clkctrl.c: In function '_ti_clkctrl_clk_register':
+>> drivers/clk/ti/clkctrl.c:330:1: error: 'free_init_name' undeclared (first use in this function)
+     330 | free_init_name;
+         | ^~~~~~~~~~~~~~
+   drivers/clk/ti/clkctrl.c:330:1: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/clk/ti/clkctrl.c:305:17: error: label 'free_init_name' used but not defined
+     305 |                 goto free_init_name;
+         |                 ^~~~
 
 
-vim +/tick_cpu_dying +2214 kernel/cpu.c
+vim +/free_init_name +330 drivers/clk/ti/clkctrl.c
 
-  2081	
-  2082	/* Boot processor state steps */
-> 2083	static struct cpuhp_step cpuhp_hp_states[] = {
-  2084		[CPUHP_OFFLINE] = {
-  2085			.name			= "offline",
-  2086			.startup.single		= NULL,
-  2087			.teardown.single	= NULL,
-  2088		},
-  2089	#ifdef CONFIG_SMP
-  2090		[CPUHP_CREATE_THREADS]= {
-  2091			.name			= "threads:prepare",
-  2092			.startup.single		= smpboot_create_threads,
-  2093			.teardown.single	= NULL,
-  2094			.cant_stop		= true,
-  2095		},
-  2096		[CPUHP_PERF_PREPARE] = {
-  2097			.name			= "perf:prepare",
-  2098			.startup.single		= perf_event_init_cpu,
-  2099			.teardown.single	= perf_event_exit_cpu,
-  2100		},
-  2101		[CPUHP_RANDOM_PREPARE] = {
-  2102			.name			= "random:prepare",
-  2103			.startup.single		= random_prepare_cpu,
-  2104			.teardown.single	= NULL,
-  2105		},
-  2106		[CPUHP_WORKQUEUE_PREP] = {
-  2107			.name			= "workqueue:prepare",
-  2108			.startup.single		= workqueue_prepare_cpu,
-  2109			.teardown.single	= NULL,
-  2110		},
-  2111		[CPUHP_HRTIMERS_PREPARE] = {
-  2112			.name			= "hrtimers:prepare",
-  2113			.startup.single		= hrtimers_prepare_cpu,
-  2114			.teardown.single	= NULL,
-  2115		},
-  2116		[CPUHP_SMPCFD_PREPARE] = {
-  2117			.name			= "smpcfd:prepare",
-  2118			.startup.single		= smpcfd_prepare_cpu,
-  2119			.teardown.single	= smpcfd_dead_cpu,
-  2120		},
-  2121		[CPUHP_RELAY_PREPARE] = {
-  2122			.name			= "relay:prepare",
-  2123			.startup.single		= relay_prepare_cpu,
-  2124			.teardown.single	= NULL,
-  2125		},
-  2126		[CPUHP_SLAB_PREPARE] = {
-  2127			.name			= "slab:prepare",
-  2128			.startup.single		= slab_prepare_cpu,
-  2129			.teardown.single	= slab_dead_cpu,
-  2130		},
-  2131		[CPUHP_RCUTREE_PREP] = {
-  2132			.name			= "RCU/tree:prepare",
-  2133			.startup.single		= rcutree_prepare_cpu,
-  2134			.teardown.single	= rcutree_dead_cpu,
-  2135		},
-  2136		/*
-  2137		 * On the tear-down path, timers_dead_cpu() must be invoked
-  2138		 * before blk_mq_queue_reinit_notify() from notify_dead(),
-  2139		 * otherwise a RCU stall occurs.
-  2140		 */
-  2141		[CPUHP_TIMERS_PREPARE] = {
-  2142			.name			= "timers:prepare",
-  2143			.startup.single		= timers_prepare_cpu,
-  2144			.teardown.single	= timers_dead_cpu,
-  2145		},
-  2146	
-  2147	#ifdef CONFIG_HOTPLUG_SPLIT_STARTUP
-  2148		/*
-  2149		 * Kicks the AP alive. AP will wait in cpuhp_ap_sync_alive() until
-  2150		 * the next step will release it.
-  2151		 */
-  2152		[CPUHP_BP_KICK_AP] = {
-  2153			.name			= "cpu:kick_ap",
-  2154			.startup.single		= cpuhp_kick_ap_alive,
-  2155		},
-  2156	
-  2157		/*
-  2158		 * Waits for the AP to reach cpuhp_ap_sync_alive() and then
-  2159		 * releases it for the complete bringup.
-  2160		 */
-  2161		[CPUHP_BRINGUP_CPU] = {
-  2162			.name			= "cpu:bringup",
-  2163			.startup.single		= cpuhp_bringup_ap,
-  2164			.teardown.single	= finish_cpu,
-  2165			.cant_stop		= true,
-  2166		},
-  2167	#else
-  2168		/*
-  2169		 * All-in-one CPU bringup state which includes the kick alive.
-  2170		 */
-  2171		[CPUHP_BRINGUP_CPU] = {
-  2172			.name			= "cpu:bringup",
-  2173			.startup.single		= bringup_cpu,
-  2174			.teardown.single	= finish_cpu,
-  2175			.cant_stop		= true,
-  2176		},
-  2177	#endif
-  2178		/* Final state before CPU kills itself */
-  2179		[CPUHP_AP_IDLE_DEAD] = {
-  2180			.name			= "idle:dead",
-  2181		},
-  2182		/*
-  2183		 * Last state before CPU enters the idle loop to die. Transient state
-  2184		 * for synchronization.
-  2185		 */
-  2186		[CPUHP_AP_OFFLINE] = {
-  2187			.name			= "ap:offline",
-  2188			.cant_stop		= true,
-  2189		},
-  2190		/* First state is scheduler control. Interrupts are disabled */
-  2191		[CPUHP_AP_SCHED_STARTING] = {
-  2192			.name			= "sched:starting",
-  2193			.startup.single		= sched_cpu_starting,
-  2194			.teardown.single	= sched_cpu_dying,
-  2195		},
-  2196		[CPUHP_AP_RCUTREE_DYING] = {
-  2197			.name			= "RCU/tree:dying",
-  2198			.startup.single		= NULL,
-  2199			.teardown.single	= rcutree_dying_cpu,
-  2200		},
-  2201		[CPUHP_AP_SMPCFD_DYING] = {
-  2202			.name			= "smpcfd:dying",
-  2203			.startup.single		= NULL,
-  2204			.teardown.single	= smpcfd_dying_cpu,
-  2205		},
-  2206		[CPUHP_AP_HRTIMERS_DYING] = {
-  2207			.name			= "hrtimers:dying",
-  2208			.startup.single		= NULL,
-  2209			.teardown.single	= hrtimers_cpu_dying,
-  2210		},
-  2211		[CPUHP_AP_TICK_DYING] = {
-  2212			.name			= "tick:dying",
-  2213			.startup.single		= NULL,
-> 2214			.teardown.single	= tick_cpu_dying,
-  2215		},
-  2216		/* Entry state on starting. Interrupts enabled from here on. Transient
-  2217		 * state for synchronsization */
-  2218		[CPUHP_AP_ONLINE] = {
-  2219			.name			= "ap:online",
-  2220		},
-  2221		/*
-  2222		 * Handled on control processor until the plugged processor manages
-  2223		 * this itself.
-  2224		 */
-  2225		[CPUHP_TEARDOWN_CPU] = {
-  2226			.name			= "cpu:teardown",
-  2227			.startup.single		= NULL,
-  2228			.teardown.single	= takedown_cpu,
-  2229			.cant_stop		= true,
-  2230		},
-  2231	
-  2232		[CPUHP_AP_SCHED_WAIT_EMPTY] = {
-  2233			.name			= "sched:waitempty",
-  2234			.startup.single		= NULL,
-  2235			.teardown.single	= sched_cpu_wait_empty,
-  2236		},
-  2237	
-  2238		/* Handle smpboot threads park/unpark */
-  2239		[CPUHP_AP_SMPBOOT_THREADS] = {
-  2240			.name			= "smpboot/threads:online",
-  2241			.startup.single		= smpboot_unpark_threads,
-  2242			.teardown.single	= smpboot_park_threads,
-  2243		},
-  2244		[CPUHP_AP_IRQ_AFFINITY_ONLINE] = {
-  2245			.name			= "irq/affinity:online",
-  2246			.startup.single		= irq_affinity_online_cpu,
-  2247			.teardown.single	= NULL,
-  2248		},
-  2249		[CPUHP_AP_PERF_ONLINE] = {
-  2250			.name			= "perf:online",
-  2251			.startup.single		= perf_event_init_cpu,
-  2252			.teardown.single	= perf_event_exit_cpu,
-  2253		},
-  2254		[CPUHP_AP_WATCHDOG_ONLINE] = {
-  2255			.name			= "lockup_detector:online",
-  2256			.startup.single		= lockup_detector_online_cpu,
-  2257			.teardown.single	= lockup_detector_offline_cpu,
-  2258		},
-  2259		[CPUHP_AP_WORKQUEUE_ONLINE] = {
-  2260			.name			= "workqueue:online",
-  2261			.startup.single		= workqueue_online_cpu,
-  2262			.teardown.single	= workqueue_offline_cpu,
-  2263		},
-  2264		[CPUHP_AP_RANDOM_ONLINE] = {
-  2265			.name			= "random:online",
-  2266			.startup.single		= random_online_cpu,
-  2267			.teardown.single	= NULL,
-  2268		},
-  2269		[CPUHP_AP_RCUTREE_ONLINE] = {
-  2270			.name			= "RCU/tree:online",
-  2271			.startup.single		= rcutree_online_cpu,
-  2272			.teardown.single	= rcutree_offline_cpu,
-  2273		},
-  2274	#endif
-  2275		/*
-  2276		 * The dynamically registered state space is here
-  2277		 */
-  2278	
+   283	
+   284	static int __init
+   285	_ti_clkctrl_clk_register(struct omap_clkctrl_provider *provider,
+   286				 struct device_node *node, struct clk_hw *clk_hw,
+   287				 u16 offset, u8 bit, const char * const *parents,
+   288				 int num_parents, const struct clk_ops *ops,
+   289				 const char *clkctrl_name)
+   290	{
+   291		struct clk_init_data init = { NULL };
+   292		struct clk *clk;
+   293		struct omap_clkctrl_clk *clkctrl_clk;
+   294		int ret = 0;
+   295	
+   296		init.name = clkctrl_get_clock_name(node, clkctrl_name, offset, bit,
+   297						   ti_clk_get_features()->flags &
+   298						   TI_CLK_CLKCTRL_COMPAT);
+   299		if (!init.name)
+   300			return -ENOMEM;
+   301	
+   302		clkctrl_clk = kzalloc(sizeof(*clkctrl_clk), GFP_KERNEL);
+   303		if (!clkctrl_clk) {
+   304			ret = -ENOMEM;
+ > 305			goto free_init_name;
+   306		}
+   307	
+   308		clk_hw->init = &init;
+   309		init.parent_names = parents;
+   310		init.num_parents = num_parents;
+   311		init.ops = ops;
+   312		init.flags = 0;
+   313	
+   314		clk = of_ti_clk_register(node, clk_hw, init.name);
+   315		if (IS_ERR_OR_NULL(clk)) {
+   316			ret = -EINVAL;
+   317			goto cleanup;
+   318		}
+   319	
+   320		clkctrl_clk->reg_offset = offset;
+   321		clkctrl_clk->bit_offset = bit;
+   322		clkctrl_clk->clk = clk_hw;
+   323	
+   324		list_add(&clkctrl_clk->node, &provider->clocks);
+   325	
+   326		return 0;
+   327	
+   328	cleanup:
+   329		kfree(clkctrl_clk);
+ > 330	free_init_name;
+   331		kfree(init.name);
+   332		return ret;
+   333	}
+   334	
 
 -- 
 0-DAY CI Kernel Test Service
