@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08306101C1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 19:17:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1ACA101E3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 19:28:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1KB6/Qv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SkspH6Gh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703791038; x=1735327038;
+  t=1703791693; x=1735327693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7GApJKJvgZsb78+iae7S69nm805ONVYLb+GkLI884nw=;
-  b=Y1KB6/QvoWLXFTfHKZ6DbACNOrLHGFU5K36y+0wcszOfsfccQ1e/3Zgv
-   mem5KJ0a3fS3ao2TdUsb1YvAamaPmz7RTHf7HdDLFE/FU7nwgRL30BGY1
-   7R4G82pB0wm80831TA9B/K8arMMeHWS+aRWgltpMHT/ZIE0J6S5KQ1C02
-   /OBN7UAWEgdkNgj5kdvpW1tpKL44jKsZU2x71/YCt1iLw8YA2N2bcw1IZ
-   ubrRHhG5xwqaXHYvMepqQv1JUAZEAjk1/hojPAfNLB8bMlGjOeMoqH5Tp
-   rfX8nX6DpbVgBWIYo+hSVh7Fq9oWpT40zRyX5lsW8JIHOEXe3zpRVZ6CV
+  bh=tsELVkiu7YtqsUSOZRInAOjmwGJBnFc4k0u5Xt3YVoo=;
+  b=SkspH6GheMKcAlPjK7mTtN82QdbOnGt9E+pgN+6ChxiycXaWhnwnx3SV
+   ydfQiVxlv2HPq+NJhg66T8tS8zwhH09YNwnqswSLxkUzrwBYvTj9kcWAo
+   /hhk7GqfUYR1pWCHcrfURbwFhiToUYmN7Rpy0ErQ5zS91hZfSJLvRC113
+   KcgWLmx8wohqScNFCzNKWaqcOP7NqjED56GQsrvWskgSgvrsqKVJK1Q3m
+   pnoA5Zf5XYAZGcD9ez/czwIgrGbgn7q9AcVD5sPe6w8tXncYGqyWTHjOO
+   OGT8I8r2HcJOE0DzDbInBratmQRtLx0t1tQQ18xJUbku4LX3tuyMtNTPx
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="376063919"
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="381553943"
 X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; 
-   d="scan'208";a="376063919"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 11:17:13 -0800
+   d="scan'208";a="381553943"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 11:28:13 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="844509193"
 X-IronPort-AV: E=Sophos;i="6.04,312,1695711600"; 
-   d="scan'208";a="26929061"
+   d="scan'208";a="844509193"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 28 Dec 2023 11:17:12 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 28 Dec 2023 11:28:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rIvsS-000GlB-2s;
-	Thu, 28 Dec 2023 19:17:08 +0000
-Date: Fri, 29 Dec 2023 03:17:02 +0800
+	id 1rIw37-000Gld-0M;
+	Thu, 28 Dec 2023 19:28:09 +0000
+Date: Fri, 29 Dec 2023 03:27:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Piyush Mehta <piyush.mehta@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Michal Simek <monstr@monstr.eu>
-Subject: [pinchartl-media:muxed/2022.2/base 670/740]
- drivers/usb/gadget/udc/udc-xilinx.c:502:37: sparse: sparse: incorrect type
- in argument 1 (different address spaces)
-Message-ID: <202312290344.OuvJ3Gcz-lkp@intel.com>
+To: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202312290301.jAqPvG1w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,154 +51,219 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Piyush,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   git://linuxtv.org/pinchartl/media.git muxed/2022.2/base
-head:   e26621179c3b1834a1bb17e9a38e47238ac63bf5
-commit: 59acbc300f7f442215a37478ac611aca8092eee3 [670/740] usb: gadget: udc-xilinx: fix compilation error
-config: openrisc-randconfig-r123-20231225 (https://download.01.org/0day-ci/archive/20231229/202312290344.OuvJ3Gcz-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231229/202312290344.OuvJ3Gcz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f5837722ffecbbedf1b1dbab072a063565f0dad1
+commit: e362359ace6f87c201531872486ff295df306d13 posix-cpu-timers: Cleanup CPU timers before freeing them during exec
+date:   1 year, 5 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231229/202312290301.jAqPvG1w-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231229/202312290301.jAqPvG1w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312290344.OuvJ3Gcz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312290301.jAqPvG1w-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/usb/gadget/udc/udc-xilinx.c:502:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *[assigned] eprambase @@
-   drivers/usb/gadget/udc/udc-xilinx.c:502:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/usb/gadget/udc/udc-xilinx.c:502:37: sparse:     got unsigned int [usertype] *[assigned] eprambase
->> drivers/usb/gadget/udc/udc-xilinx.c:506:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *bufferptr @@
-   drivers/usb/gadget/udc/udc-xilinx.c:506:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/usb/gadget/udc/udc-xilinx.c:506:37: sparse:     got unsigned char [usertype] *bufferptr
-   drivers/usb/gadget/udc/udc-xilinx.c:520:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *[assigned] eprambase @@
-   drivers/usb/gadget/udc/udc-xilinx.c:520:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/usb/gadget/udc/udc-xilinx.c:520:37: sparse:     got unsigned int [usertype] *[assigned] eprambase
-   drivers/usb/gadget/udc/udc-xilinx.c:524:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *bufferptr @@
-   drivers/usb/gadget/udc/udc-xilinx.c:524:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/usb/gadget/udc/udc-xilinx.c:524:37: sparse:     got unsigned char [usertype] *bufferptr
->> drivers/usb/gadget/udc/udc-xilinx.c:1026:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *[assigned] corebuf @@
-   drivers/usb/gadget/udc/udc-xilinx.c:1026:29: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/usb/gadget/udc/udc-xilinx.c:1026:29: sparse:     got unsigned char [usertype] *[assigned] corebuf
-   drivers/usb/gadget/udc/udc-xilinx.c:1617:35: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/udc-xilinx.c:1623:31: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/udc-xilinx.c:1638:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/usb/gadget/udc/udc-xilinx.c:1638:34: sparse:     expected unsigned short [usertype]
-   drivers/usb/gadget/udc/udc-xilinx.c:1638:34: sparse:     got restricted __le16 [usertype]
-   drivers/usb/gadget/udc/udc-xilinx.c:1666:35: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/udc-xilinx.c:1666:35: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/udc-xilinx.c:1686:46: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/udc-xilinx.c:1692:46: sparse: sparse: restricted __le16 degrades to integer
->> drivers/usb/gadget/udc/udc-xilinx.c:1752:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct usb_ctrlrequest * @@
-   drivers/usb/gadget/udc/udc-xilinx.c:1752:22: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/usb/gadget/udc/udc-xilinx.c:1752:22: sparse:     got struct usb_ctrlrequest *
-   drivers/usb/gadget/udc/udc-xilinx.c:1755:29: sparse: sparse: cast from restricted __le16
-   drivers/usb/gadget/udc/udc-xilinx.c:1755:29: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [addressable] [usertype] wValue @@
-   drivers/usb/gadget/udc/udc-xilinx.c:1755:29: sparse:     expected unsigned short [usertype] val
-   drivers/usb/gadget/udc/udc-xilinx.c:1755:29: sparse:     got restricted __le16 [addressable] [usertype] wValue
-   drivers/usb/gadget/udc/udc-xilinx.c:1755:29: sparse: sparse: cast from restricted __le16
-   drivers/usb/gadget/udc/udc-xilinx.c:1755:29: sparse: sparse: cast from restricted __le16
-   drivers/usb/gadget/udc/udc-xilinx.c:1756:29: sparse: sparse: cast from restricted __le16
-   drivers/usb/gadget/udc/udc-xilinx.c:1756:29: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [addressable] [usertype] wIndex @@
-   drivers/usb/gadget/udc/udc-xilinx.c:1756:29: sparse:     expected unsigned short [usertype] val
-   drivers/usb/gadget/udc/udc-xilinx.c:1756:29: sparse:     got restricted __le16 [addressable] [usertype] wIndex
-   drivers/usb/gadget/udc/udc-xilinx.c:1756:29: sparse: sparse: cast from restricted __le16
-   drivers/usb/gadget/udc/udc-xilinx.c:1756:29: sparse: sparse: cast from restricted __le16
-   drivers/usb/gadget/udc/udc-xilinx.c:1757:30: sparse: sparse: cast from restricted __le16
-   drivers/usb/gadget/udc/udc-xilinx.c:1757:30: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [addressable] [usertype] wLength @@
-   drivers/usb/gadget/udc/udc-xilinx.c:1757:30: sparse:     expected unsigned short [usertype] val
-   drivers/usb/gadget/udc/udc-xilinx.c:1757:30: sparse:     got restricted __le16 [addressable] [usertype] wLength
-   drivers/usb/gadget/udc/udc-xilinx.c:1757:30: sparse: sparse: cast from restricted __le16
-   drivers/usb/gadget/udc/udc-xilinx.c:1757:30: sparse: sparse: cast from restricted __le16
->> drivers/usb/gadget/udc/udc-xilinx.c:1839:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[assigned] buffer @@
-   drivers/usb/gadget/udc/udc-xilinx.c:1839:29: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/usb/gadget/udc/udc-xilinx.c:1839:29: sparse:     got void *[assigned] buffer
-   drivers/usb/gadget/udc/udc-xilinx.c:1869:34: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/udc-xilinx.c:1880:49: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] @@     got restricted __le16 [usertype] wValue @@
-   drivers/usb/gadget/udc/udc-xilinx.c:1880:49: sparse:     expected unsigned int [usertype]
-   drivers/usb/gadget/udc/udc-xilinx.c:1880:49: sparse:     got restricted __le16 [usertype] wValue
-   drivers/usb/gadget/udc/udc-xilinx.c:1885:47: sparse: sparse: restricted __le16 degrades to integer
->> drivers/usb/gadget/udc/udc-xilinx.c:1915:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *[assigned] ep0rambase @@
-   drivers/usb/gadget/udc/udc-xilinx.c:1915:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/usb/gadget/udc/udc-xilinx.c:1915:37: sparse:     got unsigned char [usertype] *[assigned] ep0rambase
+   fs/exec.c:422:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __user * @@     got void * @@
+   fs/exec.c:422:31: sparse:     expected char const [noderef] __user *
+   fs/exec.c:422:31: sparse:     got void *
+   fs/exec.c:1051:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   fs/exec.c:1051:48: sparse:     expected struct sighand_struct *oldsighand
+   fs/exec.c:1051:48: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   fs/exec.c:1158:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/exec.c:1158:56: sparse:     expected struct task_struct *parent
+   fs/exec.c:1158:56: sparse:     got struct task_struct [noderef] __rcu *parent
+   fs/exec.c:1193:47: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   fs/exec.c:1193:47: sparse:     expected struct sighand_struct *oldsighand
+   fs/exec.c:1193:47: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+>> fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   fs/exec.c:1307:26: sparse:     expected struct spinlock [usertype] *lock
+   fs/exec.c:1307:26: sparse:     got struct spinlock [noderef] __rcu *
+   fs/exec.c:1309:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   fs/exec.c:1309:28: sparse:     expected struct spinlock [usertype] *lock
+   fs/exec.c:1309:28: sparse:     got struct spinlock [noderef] __rcu *
+   fs/exec.c:1766:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/exec.c:1766:70: sparse:     expected struct task_struct *tsk
+   fs/exec.c:1766:70: sparse:     got struct task_struct [noderef] __rcu *parent
 
-vim +502 drivers/usb/gadget/udc/udc-xilinx.c
+vim +1307 fs/exec.c
 
-   468	
-   469	/**
-   470	 * xudc_eptxrx - Transmits or receives data to or from an endpoint.
-   471	 * @ep: pointer to the usb endpoint configuration structure.
-   472	 * @req: pointer to the usb request structure.
-   473	 * @bufferptr: pointer to buffer containing the data to be sent.
-   474	 * @bufferlen: The number of data bytes to be sent.
-   475	 *
-   476	 * Return: 0 on success, -EAGAIN if no buffer is free.
-   477	 *
-   478	 * This function copies the transmit/receive data to/from the end point buffer
-   479	 * and enables the buffer for transmission/reception.
-   480	 */
-   481	static int xudc_eptxrx(struct xusb_ep *ep, struct xusb_req *req,
-   482			       u8 *bufferptr, u32 bufferlen)
-   483	{
-   484		u32 *eprambase;
-   485		u32 bytestosend;
-   486		int rc = 0;
-   487		struct xusb_udc *udc = ep->udc;
-   488	
-   489		bytestosend = bufferlen;
-   490		if (udc->dma_enabled) {
-   491			if (ep->is_in)
-   492				rc = xudc_dma_send(ep, req, bufferptr, bufferlen);
-   493			else
-   494				rc = xudc_dma_receive(ep, req, bufferptr, bufferlen);
-   495			return rc;
-   496		}
-   497		/* Put the transmit buffer into the correct ping-pong buffer.*/
-   498		if (!ep->curbufnum && !ep->buffer0ready) {
-   499			/* Get the Buffer address and copy the transmit data.*/
-   500			eprambase = (u32 __force *)(udc->addr + ep->rambase);
-   501			if (ep->is_in) {
- > 502				memcpy_toio(eprambase, bufferptr, bytestosend);
-   503				udc->write_fn(udc->addr, ep->offset +
-   504					      XUSB_EP_BUF0COUNT_OFFSET, bufferlen);
-   505			} else {
- > 506				memcpy_toio(bufferptr, eprambase, bytestosend);
-   507			}
-   508			/*
-   509			 * Enable the buffer for transmission.
-   510			 */
-   511			udc->write_fn(udc->addr, XUSB_BUFFREADY_OFFSET,
-   512				      1 << ep->epnumber);
-   513			ep->buffer0ready = 1;
-   514			ep->curbufnum = 1;
-   515		} else if (ep->curbufnum && !ep->buffer1ready) {
-   516			/* Get the Buffer address and copy the transmit data.*/
-   517			eprambase = (u32 __force *)(udc->addr + ep->rambase +
-   518				     ep->ep_usb.maxpacket);
-   519			if (ep->is_in) {
-   520				memcpy_toio(eprambase, bufferptr, bytestosend);
-   521				udc->write_fn(udc->addr, ep->offset +
-   522					      XUSB_EP_BUF1COUNT_OFFSET, bufferlen);
-   523			} else {
-   524				memcpy_toio(bufferptr, eprambase, bytestosend);
-   525			}
-   526			/*
-   527			 * Enable the buffer for transmission.
-   528			 */
-   529			udc->write_fn(udc->addr, XUSB_BUFFREADY_OFFSET,
-   530				      1 << (ep->epnumber + XUSB_STATUS_EP_BUFF2_SHIFT));
-   531			ep->buffer1ready = 1;
-   532			ep->curbufnum = 0;
-   533		} else {
-   534			/* None of the ping-pong buffers are ready currently */
-   535			return -EAGAIN;
-   536		}
-   537		return rc;
-   538	}
-   539	
+  1243	
+  1244	/*
+  1245	 * Calling this is the point of no return. None of the failures will be
+  1246	 * seen by userspace since either the process is already taking a fatal
+  1247	 * signal (via de_thread() or coredump), or will have SEGV raised
+  1248	 * (after exec_mmap()) by search_binary_handler (see below).
+  1249	 */
+  1250	int begin_new_exec(struct linux_binprm * bprm)
+  1251	{
+  1252		struct task_struct *me = current;
+  1253		int retval;
+  1254	
+  1255		/* Once we are committed compute the creds */
+  1256		retval = bprm_creds_from_file(bprm);
+  1257		if (retval)
+  1258			return retval;
+  1259	
+  1260		/*
+  1261		 * Ensure all future errors are fatal.
+  1262		 */
+  1263		bprm->point_of_no_return = true;
+  1264	
+  1265		/*
+  1266		 * Make this the only thread in the thread group.
+  1267		 */
+  1268		retval = de_thread(me);
+  1269		if (retval)
+  1270			goto out;
+  1271	
+  1272		/*
+  1273		 * Cancel any io_uring activity across execve
+  1274		 */
+  1275		io_uring_task_cancel();
+  1276	
+  1277		/* Ensure the files table is not shared. */
+  1278		retval = unshare_files();
+  1279		if (retval)
+  1280			goto out;
+  1281	
+  1282		/*
+  1283		 * Must be called _before_ exec_mmap() as bprm->mm is
+  1284		 * not visible until then. This also enables the update
+  1285		 * to be lockless.
+  1286		 */
+  1287		retval = set_mm_exe_file(bprm->mm, bprm->file);
+  1288		if (retval)
+  1289			goto out;
+  1290	
+  1291		/* If the binary is not readable then enforce mm->dumpable=0 */
+  1292		would_dump(bprm, bprm->file);
+  1293		if (bprm->have_execfd)
+  1294			would_dump(bprm, bprm->executable);
+  1295	
+  1296		/*
+  1297		 * Release all of the old mmap stuff
+  1298		 */
+  1299		acct_arg_size(bprm, 0);
+  1300		retval = exec_mmap(bprm->mm);
+  1301		if (retval)
+  1302			goto out;
+  1303	
+  1304		bprm->mm = NULL;
+  1305	
+  1306	#ifdef CONFIG_POSIX_TIMERS
+> 1307		spin_lock_irq(&me->sighand->siglock);
+  1308		posix_cpu_timers_exit(me);
+  1309		spin_unlock_irq(&me->sighand->siglock);
+  1310		exit_itimers(me);
+  1311		flush_itimer_signals();
+  1312	#endif
+  1313	
+  1314		/*
+  1315		 * Make the signal table private.
+  1316		 */
+  1317		retval = unshare_sighand(me);
+  1318		if (retval)
+  1319			goto out_unlock;
+  1320	
+  1321		me->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC |
+  1322						PF_NOFREEZE | PF_NO_SETAFFINITY);
+  1323		flush_thread();
+  1324		me->personality &= ~bprm->per_clear;
+  1325	
+  1326		clear_syscall_work_syscall_user_dispatch(me);
+  1327	
+  1328		/*
+  1329		 * We have to apply CLOEXEC before we change whether the process is
+  1330		 * dumpable (in setup_new_exec) to avoid a race with a process in userspace
+  1331		 * trying to access the should-be-closed file descriptors of a process
+  1332		 * undergoing exec(2).
+  1333		 */
+  1334		do_close_on_exec(me->files);
+  1335	
+  1336		if (bprm->secureexec) {
+  1337			/* Make sure parent cannot signal privileged process. */
+  1338			me->pdeath_signal = 0;
+  1339	
+  1340			/*
+  1341			 * For secureexec, reset the stack limit to sane default to
+  1342			 * avoid bad behavior from the prior rlimits. This has to
+  1343			 * happen before arch_pick_mmap_layout(), which examines
+  1344			 * RLIMIT_STACK, but after the point of no return to avoid
+  1345			 * needing to clean up the change on failure.
+  1346			 */
+  1347			if (bprm->rlim_stack.rlim_cur > _STK_LIM)
+  1348				bprm->rlim_stack.rlim_cur = _STK_LIM;
+  1349		}
+  1350	
+  1351		me->sas_ss_sp = me->sas_ss_size = 0;
+  1352	
+  1353		/*
+  1354		 * Figure out dumpability. Note that this checking only of current
+  1355		 * is wrong, but userspace depends on it. This should be testing
+  1356		 * bprm->secureexec instead.
+  1357		 */
+  1358		if (bprm->interp_flags & BINPRM_FLAGS_ENFORCE_NONDUMP ||
+  1359		    !(uid_eq(current_euid(), current_uid()) &&
+  1360		      gid_eq(current_egid(), current_gid())))
+  1361			set_dumpable(current->mm, suid_dumpable);
+  1362		else
+  1363			set_dumpable(current->mm, SUID_DUMP_USER);
+  1364	
+  1365		perf_event_exec();
+  1366		__set_task_comm(me, kbasename(bprm->filename), true);
+  1367	
+  1368		/* An exec changes our domain. We are no longer part of the thread
+  1369		   group */
+  1370		WRITE_ONCE(me->self_exec_id, me->self_exec_id + 1);
+  1371		flush_signal_handlers(me, 0);
+  1372	
+  1373		retval = set_cred_ucounts(bprm->cred);
+  1374		if (retval < 0)
+  1375			goto out_unlock;
+  1376	
+  1377		/*
+  1378		 * install the new credentials for this executable
+  1379		 */
+  1380		security_bprm_committing_creds(bprm);
+  1381	
+  1382		commit_creds(bprm->cred);
+  1383		bprm->cred = NULL;
+  1384	
+  1385		/*
+  1386		 * Disable monitoring for regular users
+  1387		 * when executing setuid binaries. Must
+  1388		 * wait until new credentials are committed
+  1389		 * by commit_creds() above
+  1390		 */
+  1391		if (get_dumpable(me->mm) != SUID_DUMP_USER)
+  1392			perf_event_exit_task(me);
+  1393		/*
+  1394		 * cred_guard_mutex must be held at least to this point to prevent
+  1395		 * ptrace_attach() from altering our determination of the task's
+  1396		 * credentials; any time after this it may be unlocked.
+  1397		 */
+  1398		security_bprm_committed_creds(bprm);
+  1399	
+  1400		/* Pass the opened binary to the interpreter. */
+  1401		if (bprm->have_execfd) {
+  1402			retval = get_unused_fd_flags(0);
+  1403			if (retval < 0)
+  1404				goto out_unlock;
+  1405			fd_install(retval, bprm->executable);
+  1406			bprm->executable = NULL;
+  1407			bprm->execfd = retval;
+  1408		}
+  1409		return 0;
+  1410	
+  1411	out_unlock:
+  1412		up_write(&me->signal->exec_update_lock);
+  1413	out:
+  1414		return retval;
+  1415	}
+  1416	EXPORT_SYMBOL(begin_new_exec);
+  1417	
 
 -- 
 0-DAY CI Kernel Test Service
