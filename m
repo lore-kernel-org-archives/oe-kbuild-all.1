@@ -1,95 +1,101 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6B33C0B;
-	Thu, 28 Dec 2023 06:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1766FA4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Dec 2023 07:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="MhX+D4dQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1703745568; x=1704350368; i=markus.elfring@web.de;
-	bh=CQ9zUoeIIRPWlBOHSTjI21uVE111Q+XjbfT31zxGskg=;
-	h=X-UI-Sender-Class:Date:From:Subject:To:Cc:References:
-	 In-Reply-To;
-	b=MhX+D4dQaTRR+Wp4MmEKg0TlR/voAK1KawY4y0Kmtt1iRjc96BYEgrsIyORIW42h
-	 BGj8vESq1+qATcYA4GPesp5Ni6H8/vmpKUXqB9nBmeWedZRgER7MDdqeEaCEKkLjT
-	 r+QAM4n8nVGpsUinTQQ7r2HyUbhd9/k/m1AwVuY4p4IU4FnB8KUdi181SvNjYrjBI
-	 6lm00WQHe7CmxrvIbSJ9bUWnnk3SMpaXg7tB2Xcz4/fwqjNCxpWNl13AO+fl17/XD
-	 Kr5TwPX/ZKlYa8QwUA44tKb3yEDveRC4nmiPmANceRQ2jqc3XaUwjRLX1545Ihkwm
-	 Q++93rc6AyyrT/kZ+g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M3V6G-1rJIHV3Y6U-0015Fq; Thu, 28
- Dec 2023 07:39:27 +0100
-Message-ID: <a206cd2a-03ef-4c8b-8f8d-635e8a02e72a@web.de>
-Date: Thu, 28 Dec 2023 07:39:05 +0100
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="TlT/0pvX"
+Received: by mail-lf1-f68.google.com with SMTP id 2adb3069b0e04-50e7f58c5fbso2572330e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Dec 2023 23:48:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1703749691; x=1704354491; darn=lists.linux.dev;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kGr3Jb1kUUvaTFJpSrcPUwei0EV8o4OwF2pe01sQlm8=;
+        b=TlT/0pvXKNHlhiYcokyomOqvFjXpBfNr01JyaJtvjpxHgwX6pSOEWt1CtuDQ+EM132
+         xYTQJcQr0AQLMsHv6Eutmw3suamQ5aV6+8JCTeEaxGPVEqFg8jc71eEx9GcNKl02kMW1
+         OGTquyHueN3sv1ZRLIsulTFmjy+uqQq+6c4KcDWccWaE6g56nArI8WLNQuB0wWJ8xPGN
+         nQWqBdpix6ZtccmQ5ykARWH3dSGwYH8Vbshf2BDWULzG7YHaV/naXoBPNQj1/GSITRTL
+         chPzhTo7j665oCJoInE0EeBOuKIxKed+TlYCJHy7TqPu8QoP/PB6P0BODMXHlME3bdED
+         EKMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703749691; x=1704354491;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kGr3Jb1kUUvaTFJpSrcPUwei0EV8o4OwF2pe01sQlm8=;
+        b=M4+dNA4SHYAdgFcsUVV7OYf3vyc1ih2K7ZRM2vLf7oC1K+ZTfeVpn7XjBKA4IXYkp7
+         v7G+UnoLESeW1d9GDiYQCxRFP/h2YiEav1WkSC3bCUkewc776J/T7u/qp5rMjdu+PrAw
+         Rmf+bxbvIP7IW3vUIfoo4aALR6+FZ9Lav9/EO2ufyncF2gqaftKxFANHj+5MsMUFo8UA
+         zsYXYeImCr9cZe1zpdBnf0e6Bn5x0K8AI31ngOFbj9pJg3qj+ASEXo5IoFRIBsxURXZd
+         XU6FmdfuJ2Kfk4IfESId9ioxUnEdE/4Gzm6HI2qtHTKOmIHfi8cJEmKJO7OT2PZ2HGlk
+         Xnfg==
+X-Gm-Message-State: AOJu0YzkLUdzMoGLhDVy1X6dEQxX95Zxfikne/ezevii2tbsS/y0ie3p
+	R+neJ07CcftAm1qlwN1IyaytOATBI7ntZg==
+X-Google-Smtp-Source: AGHT+IE153MQG0BpE8shs8iU209KiVsjfqeWG6GW1EqkvorXIpjahXvBEEApFyBHKh96L/YKFsTtxQ==
+X-Received: by 2002:ac2:5feb:0:b0:50e:6459:529a with SMTP id s11-20020ac25feb000000b0050e6459529amr4203605lfg.21.1703749691363;
+        Wed, 27 Dec 2023 23:48:11 -0800 (PST)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id mf20-20020a1709071a5400b00a26ae94444csm6408948ejc.24.2023.12.27.23.48.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Dec 2023 23:48:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [09/10] clk: ti: Less function calls in
- _ti_clkctrl_clk_register() after error detection
-To: kernel test robot <lkp@intel.com>, linux-omap@vger.kernel.org,
- linux-clk@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Tero Kristo <kristo@kernel.org>,
- Tony Lindgren <tony@atomide.com>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
- cocci@inria.fr
-References: <b11039e4-69c6-4247-b4ba-c442b9427231@web.de>
- <202312281350.5H2Rhh67-lkp@intel.com>
-Content-Language: en-GB
-In-Reply-To: <202312281350.5H2Rhh67-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DvP9z21vMsNBbQJt43X0o5GZcDwyooJWWYTx1miGfTsjAJDm9kX
- RMebBTOHOA/Y3UiZsegNNb4nbDoTDKwVi0QdLSK6XEeeyN1oRCi9kvtfm6R64pnj8aIVPU5
- D2HKwNGODLa8Vy4H7ZZ19kK9AxkOtD1xF5e7cTM+zzDiBUND+dbS0qoh71szBUmd5kZB96I
- hw0NGGO6aEgwgeIMt86sw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:irS8BLfZwbs=;nqFf8TNcswZcxiA74aGtBUelV4W
- wPLFUNj9Y5LCKpgjRB5FcfIW56ElQ2n8No3Mz0qJmsKp7CJTLkGYPA+OKoCoDg99e67nykupF
- KpSV+r9k/fgCBat89n4CP8H+7w79DCBYKDURZWt5zBtFidlVEjK0KKUmx4F/fxnfcEw+wAuAg
- +J/KhYxaeUUlpbKvfA8pl1fDhWNUXnpD5x8x5PyQJVJwrWmFQJQWgB6gHF5e5tJpeVyEZDse0
- R2RMejLFBPLRr9XhrjsoRoEvWUsyLHcC+qRUe7EiFbQg42T+leSxKxNL0gHU+eJYOW5n2w+DJ
- gmDXRrqW99b7KkJh7WghhGBTJfbLiAo6shHSYtBhI6aWJtdvMXHTPoSistUCaP4Jjr8JwB+Hq
- A5qwohRaRlRXjCYWTxeh5A3+NeLkfYh0hJQIUEZ5YnkgxaZn9498LoIzj+ofmKEmbAkGVgN4W
- T37J+49AylfFtk3Bcui839UNbY3dJUAloHJ+yNQoRn7q5Ru4GNQGwX1Pw/NybnUTV6lNX2bf1
- G9koHh6MOi2mqgnJabHLBw7dlIJC0rV8cx2GNt++KewuO5BJLC6aniPGq3DLzyneGvNXJPtSR
- lzaS3OeGTLBbxt01C3K5ZQdtTrj5ZIvR1cCuzcbajtnrfrG87LozgIsgdcP6pRanPGt8GM1Zn
- k/L9rJ3zWGA5Uagli3s5EDjwL9NMBXaGiJzf6KqRtsQd5np3mppA4fdlnWS66/MdHNEJpMna7
- uNKF4L1v58q+hMMzPASNSRAXz0REqmImEIA7jUQe9uoVhgB7C3DuEp3AECTy2epta5GY38U2N
- yTyWJ0nqdzueADSiiqlxcbki9v+267z4ZSnfUyxWl1VpK3tQP/wovmKSXbfhmmcCGhKJxtGE0
- PJLzpWLAJiI+aZf5MNJf2THiWO78vioh01VmY/O2xpT3RC3sEo/ZErIXn4t1c1t5zmKqBVqjG
- F4f5jg==
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 28 Dec 2023 08:48:10 +0100
+Message-Id: <CXZSUYSSLE12.3104IH394QMNR@fairphone.com>
+To: "kernel test robot" <lkp@intel.com>, "Konrad Dybcio"
+ <konrad.dybcio@linaro.org>
+Cc: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>
+Subject: Re: panel-raydium-rm692e5.c:undefined reference to
+ `drm_dsc_pps_payload_pack'
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+X-Mailer: aerc 0.15.2
+References: <202312281138.PHn1Js8S-lkp@intel.com>
+In-Reply-To: <202312281138.PHn1Js8S-lkp@intel.com>
 
-=E2=80=A6
->    drivers/clk/ti/clkctrl.c: In function '_ti_clkctrl_clk_register':
->>> drivers/clk/ti/clkctrl.c:330:1: error: 'free_init_name' undeclared (fi=
-rst use in this function)
-=E2=80=A6
->    328	cleanup:
->    329		kfree(clkctrl_clk);
->  > 330	free_init_name;
->    331		kfree(init.name);
->    332		return ret;
-=E2=80=A6
+On Thu Dec 28, 2023 at 4:46 AM CET, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   f5837722ffecbbedf1b1dbab072a063565f0dad1
+> commit: 988d0ff29ecf7ab750b9be29fddae588156c3d03 drm/panel: Add driver fo=
+r BOE RM692E5 AMOLED panel
+> date:   3 months ago
+> config: csky-randconfig-001-20231228 (https://download.01.org/0day-ci/arc=
+hive/20231228/202312281138.PHn1Js8S-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20231228/202312281138.PHn1Js8S-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312281138.PHn1Js8S-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    csky-linux-ld: drivers/gpu/drm/panel/panel-raydium-rm692e5.o: in funct=
+ion `rm692e5_prepare':
+> >> panel-raydium-rm692e5.c:(.text+0xfc0): undefined reference to `drm_dsc=
+_pps_payload_pack'
+> >> csky-linux-ld: panel-raydium-rm692e5.c:(.text+0x1090): undefined refer=
+ence to `drm_dsc_pps_payload_pack'
 
-Will it become helpful to fix a typo for the delimiter of the shown label?
+Should be fixed by this patch (which doesn't have to have been picked up
+yet though):
 
-   Or:
+https://lore.kernel.org/lkml/20231023115619.3551348-1-arnd@kernel.org/
 
-Are you looking for further adjustments according to software design optio=
-ns
-which would be supported by the file =E2=80=9Ccleanup.h=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.7-rc7/source/include/linux/cleanup.h
-
-Regards,
-Markus
+Regards
+Luca
