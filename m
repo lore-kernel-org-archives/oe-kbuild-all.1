@@ -1,276 +1,287 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3176128
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Dec 2023 04:44:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956641FB8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Dec 2023 05:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwjjBx0N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RrTmbdpC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703825062; x=1735361062;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=cREza9EHiW1SvSB594vUh9Xggd+gLHk7k+f6HRzxSqg=;
-  b=AwjjBx0NVRc1qNEpC6xVliscg9S79tlhoEOO0QNxgV2s11jEWk8Fff3t
-   9HIScD98BABNLwImC4URsOfe/LwTIYGiGC/IM4h0rzA/NpDquOv26y8IA
-   wPl6yIHCfyWbylZJIIQ62CFVUXWmy3l/QCSFswCTeNiDOLyNGEAF9ZSid
-   oNpdZgl08HR7GDBhOrVzgAys4ZZtaitYoKRSkW4sU6DgOLnA5WoY5VUoi
-   Zqhw6qcyaAIF3015VuGKsfgafBg3Zw0fK7yRJHtN6bjHCR8uxnY5bNuLr
-   R4r46wH983awoC4DkINBYEpJYD0e3rs7URm9yURY/3NSFb0arXmJPWFq7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="399400841"
+  t=1703826462; x=1735362462;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RW9NR0qy+yngvdt3sOR4g5zaC03TNEsf7LMbSGcr3/c=;
+  b=RrTmbdpCfrOZ+IcNOHNf5RmafIOCBxiblRYR6acewM1TfsySZ6Bk+kAg
+   A+KnUrKsZdtgtqJvFXgclOX2FnavtibvT/BXsRx5OW+/LaeAKnpnkomVG
+   CSwL7pf1bmVwQxfksffxweBQwBFfNpTjW3QbATTEp6qLqJExlZDQQflo3
+   TTmM+3BWFybgnHXbEqGZW4LlNSPesI+43TDwBynM++QVMfKpHtVh4l5yL
+   b7Az9C2onQqXx3iQvc5XdBg46hG1wRQtPVE3fwHE97ciYzp0mXDZKBQIu
+   MbfLq2N/LRNptQOlAJ4oIGuhEtd4apNsYTOCJl29Qhtf9hPN+66Jen0gb
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="399401787"
 X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; 
-   d="scan'208";a="399400841"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 20:44:13 -0800
+   d="scan'208";a="399401787"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 21:07:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="902141558"
+X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="951994868"
 X-IronPort-AV: E=Sophos;i="6.04,314,1695711600"; 
-   d="scan'208";a="902141558"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Dec 2023 20:44:12 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 28 Dec 2023 20:44:11 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 28 Dec 2023 20:44:11 -0800
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 28 Dec 2023 20:44:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EAF+NNaprmK4Z72NwDDEsDys3mjdEjulWd6DtSYLVHNEtGvkpbpkHQiB3fdFoznm1CGi8k1V9vxXSJuMiJpVzqPIVvU6JWjB3uOQsfbsgHr/GP6OL3hiBG/Kfodk2CN6yKPbo929PkdbrFHpDOzmmEZmPwvMblFRx9LtZ77L5V9z0sAJgnM1AUexwNufcFFJd+Ticg+VOMnvNZ3a6Epww8/ZMcwqOBkCBAeT/IQ3cAHla9lWaUGajgUAyigmvwYL4EzPExuUfIjUgF/xNKMrIrevUq80MNrVvK35563SCNN+IvIPTMRYZySt+RMpjvQnXDm7AIdY2NylQKbniTHSLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cREza9EHiW1SvSB594vUh9Xggd+gLHk7k+f6HRzxSqg=;
- b=XPubeOgWqxMCpmFuIfWRSxVdNBrioBU30moODuDVQl9+tajBalJvkUPndljemrPpWG2c84ctj4agzGftsw30sotpgwqnvnM9rZaVSUke9fujdflWYKr8b2y/Wf7jD3WFuqYUkgITb00LlwlO2l7rmBx9Cm1aAmbZvEg1su8O/WL1P+ppEvkLd/yzS8SlP9Dn93Q69Oq6NrW1MWVg1HDCfSAA1PjgVXm543YsvLx0MWpWHz5EGrxtk1PwYrkkoQdS4VpKsHaACWBb9DvqRCL71JcIUTXxmoosu1+A7acxEv+gqZtF7LEON8DQrO7ZOVDl3SbkWNG7c4mlnUY5/JuKzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB3756.namprd11.prod.outlook.com (2603:10b6:5:136::10)
- by SJ0PR11MB4927.namprd11.prod.outlook.com (2603:10b6:a03:2d6::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.21; Fri, 29 Dec
- 2023 04:44:01 +0000
-Received: from DM6PR11MB3756.namprd11.prod.outlook.com
- ([fe80::ddac:5964:2404:1756]) by DM6PR11MB3756.namprd11.prod.outlook.com
- ([fe80::ddac:5964:2404:1756%7]) with mapi id 15.20.7135.019; Fri, 29 Dec 2023
- 04:44:01 +0000
-From: "Zhu, Yanjun" <yanjun.zhu@intel.com>
-To: lkp <lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: =?utf-8?B?UkU6IFtQQVRDSCB2MiAxLzFdIHZpcnRpb19uZXQ6IEZpeCAi4oCYJWTigJkg?=
- =?utf-8?B?ZGlyZWN0aXZlIHdyaXRpbmcgYmV0d2VlbiAxIGFuZCAxMSBieXRlcyBpbnRv?=
- =?utf-8?Q?_a_region_of_size_10"_warnings?=
-Thread-Topic: =?utf-8?B?W1BBVENIIHYyIDEvMV0gdmlydGlvX25ldDogRml4ICLigJglZOKAmSBkaXJl?=
- =?utf-8?B?Y3RpdmUgd3JpdGluZyBiZXR3ZWVuIDEgYW5kIDExIGJ5dGVzIGludG8gYSBy?=
- =?utf-8?Q?egion_of_size_10"_warnings?=
-Thread-Index: AQHaOZSoj+551FUmiU6kYBbL6AUKZbC/rB1w
-Date: Fri, 29 Dec 2023 04:44:01 +0000
-Message-ID: <DM6PR11MB3756706B8077FCA1644C5C45819DA@DM6PR11MB3756.namprd11.prod.outlook.com>
-References: <20231227142637.2479149-1-yanjun.zhu@intel.com>
- <202312282156.wb5beuAb-lkp@intel.com>
-In-Reply-To: <202312282156.wb5beuAb-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB3756:EE_|SJ0PR11MB4927:EE_
-x-ms-office365-filtering-correlation-id: bc08b8e0-b755-4f9f-4e1b-08dc0828c752
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4EDZqs39M02vAZO/BVkOHnkLIah0yMIyUsuUeM5UjjR5wALuaFJU/qz+4BgD13WoUBPe8GJzq/gbllTwwjm4msT1K63vzMaKP/0gXiHVWJ8kslYZHUMfZR4ervOzZ65tVpGsWUphTI+kPoVldxtg5IJmZB3H3Y6m+kkPOTaIDKThPvLkUQpoPwvif9WfhD3l7KlK6XM0eA1+KDSbCoyenfCsOVpLUBCAbO2jZeHohZ02IYuFhhNAtNbMHRJcbtobKOmttJXPdwF2LJrkaZYnBmbFZBjMvN9atetskYK1mN/yxWz0Esd91iUYV2bO7SvpoUNyQTxPchS+NpI7OlyUXvnFHqgbxH5T/j22412SNLoWr3Vxu0dz3HKjnYydK9flhFxfQJgSEojYLF40LOOwYK5usnioCIYJoZTmyTBTW6df2QmDOrHS1ozNk9Ot1hoY/iMc32Q4Z0Ue5tUoxsKDCn7tbI7WcHLw07p7SZ0kHZaH9XDWVJoRz3t6k8Oulv+Giwiajm0Mdecfo82L1IS7Ea+zn0FZpbDwOBb/aU6g5+UZydzy+AhJP61anWH61x9iCxQV6irvj7h7nUXZkRkO9jHkAfQ+8T74r22H9BOtOxqBGC82krTOtS5AetIhylQ2HcYVnFMlu87P8ya4acqiwWiVYG51y3E9LeUuM1rAFMoYNKV5bbaPNl2mD3Qd44GD
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3756.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(346002)(396003)(366004)(39860400002)(230273577357003)(230922051799003)(230173577357003)(451199024)(64100799003)(186009)(1800799012)(38100700002)(83380400001)(6636002)(316002)(64756008)(76116006)(66946007)(66556008)(66476007)(66446008)(41300700001)(122000001)(55016003)(33656002)(86362001)(38070700009)(8936002)(2906002)(5660300002)(6862004)(26005)(52536014)(71200400001)(53546011)(966005)(478600001)(9686003)(7696005)(6506007)(82960400001)(4326008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RWV1NGhQMHdjRzY3Mk5velRNbk96SlFPQ0tIZWNiYlF4WHhQekErSzVZWVBN?=
- =?utf-8?B?Z3E5WjF2bVRKZFdmbGFyR2p1cngrMHl0bExyMTIxZnNTZEIzY2U2dWVXVDVp?=
- =?utf-8?B?SUNkdWpGa2xod3dWSEFLc3l5SzJITC9rY1V3WnFicHphSS83KzJBY3FDSThL?=
- =?utf-8?B?Z3pUMVRNR2JQR0taTHQ2M1BBTkc5VzVaMlhrSUs5NXVjNlNGeUk0RkhCaDMr?=
- =?utf-8?B?a01hTmtKUTQ1VlRySGVZOEY0d0pVME5iSGJYS2lmYTJNM0pQcE5aclZrODFk?=
- =?utf-8?B?WmhjOXQwMEtaeEVVSmlCTWNLcFEwN1dicGQvQUVLU0JvNXZIcDg4akZRSWZN?=
- =?utf-8?B?SmpCQzJscHNVWnBITklRME1ka2Z4emc3Y1FwTU1qYVNvbWw0U08va1lvT0dt?=
- =?utf-8?B?c3JRUjBxMzZJRFNjSk9Pc3lkQ2lzc2wyZGVxcWc2cEQ1UHAwZmg1bkpnT1Rv?=
- =?utf-8?B?d3V5REtWMmpJalAvc091STFNTXFjQ1lmSndibmUrRnZycUFPU2xDaHhOMFU1?=
- =?utf-8?B?aDlvUE91SHBGa3Y5ei92Rmoyem1SejNhekwyM0x0WisrQzErNnk5U0t6Nk1h?=
- =?utf-8?B?VExRbTRFNnkwNHB2MFZjWXBnaWRWbXdGSnpuWVh2cFdkL1hpT2ptVGJTRjkz?=
- =?utf-8?B?RnRscnFFanBZKzRSRUZNb0V0S3BsR0hhRTN5TW9hejhEWENCa2h3eHUxNUZB?=
- =?utf-8?B?VzN2S1RsK1VkNzlqYzVUU3FOYVdkK1FUWVVGR25pUEMrcXdBQkhZOFpzU3I4?=
- =?utf-8?B?UmlER29qdnBLa0N0WmJjaDVwN3RCZHFMd2JSc1cvK2tFbU1LdDBZSFhndGxq?=
- =?utf-8?B?cmMraGp5VGowVll1bUQ4SnJXcm5zc2ZhUUFLN25zaGpLUWdhZStiQ25yR2x4?=
- =?utf-8?B?YzU1d1pFbHhrT2pSNHFYU3hLNjVIM1pzcUJQaXpQelh5R2VMRUxoNDM4c3RH?=
- =?utf-8?B?U1ZNbW1pVEFnSDNzWC9VaDlsWWI3ZzdnNFlEZWswUGM3NG1qY3ZLM2FyY0ow?=
- =?utf-8?B?dGpOWjZwL0g0WGQzeVJxSDN6THRvYnlMS2xCRUp4eGY2alJqblV2cE1qakxZ?=
- =?utf-8?B?RjVpcmdHWEN4VTgvOUxMSzJOYVluOVVUeFkzNXNHbmFndkRnenh6eG1BWnpq?=
- =?utf-8?B?UjN5eW5DYXlBNTJWZms0UkhMM0J2ZXRsOU94ZUdIK284ZXZwZnptN2RBQnJz?=
- =?utf-8?B?SU9sMDZodHVWRUk1eDlzWEVHYUF6Rkxid1lKUGRnQXNCZDJ2VlY0b1dILzZq?=
- =?utf-8?B?ZmJEc3pLNHkyTkVEWFpkeEN4NXJqZ0tvUHE5K1RXMFNOT2VXQnhPUTVjM24z?=
- =?utf-8?B?VWp3NldvZVA2V25DSFJrK3I3UUNtYVBDTmdHeVBOV0QvTS9xZ1oyRk53emg2?=
- =?utf-8?B?VHpmaVh1a3JHc0NTY2JicUV3aTByMnRyQU9XNDQyeGJyL0pRb1RRNC80OEhB?=
- =?utf-8?B?ZXQwZ0hnNGVHZkxaaGFKOXpZaHhmbG5Ia3RlRktBL1lCenpXeWFJdFlqek1z?=
- =?utf-8?B?SUI2enowUFA0RmFRRkRaZ0M2WE0zNmNmb21SK3ZPMmRKY1lmL1ZIN2ZpUmFs?=
- =?utf-8?B?a3lOSjU1UDNUdnpobkVsT0RlM3dLVmVlTmlMTFZJaGFwWVNpOGJxRk5Ya08x?=
- =?utf-8?B?K3hGRWpNVEgyQUVxbURxYk5tdTZhSUordGs5bElaRXNtYVZXNjlXQW5Sb2Rn?=
- =?utf-8?B?QkFqWDAxdWQ3ZnYvWk1keUN4UENISHhXWnhyN1Zic1cxenRQdGdHUlNuL09o?=
- =?utf-8?B?SFdLVzNqVUl3Q2Fvd3FpQ2Q5RkZqLzN3SkpsWjRMczRhSnZ3dEtMVDVoMWda?=
- =?utf-8?B?RlBlNjRYbjBIVzl5eWs3SmdJU2E0MWFnYzhHdXJLbC8rQkV0NS9KM0pybUVH?=
- =?utf-8?B?bk1keE1GVU5kN05hS2ZzNG96d3RvMlh5NXJrTnZmZlgrZHA4a3crWG5SRUkv?=
- =?utf-8?B?ZEsrMThwZ2lhQW1KbHFlbWdtZkkxeHZURU1IMzlwa2htSmZZbUZ2OGowVjd0?=
- =?utf-8?B?dnZZRmUremk1RGhUZzdWaWczdHhjSXpYZHhlU3UyZGQzcjhYSUpyUUpXQm4v?=
- =?utf-8?B?b082MG1xcnFnWmtJYWxFSHh1dFg0cHdzd24rbDE3UnB4QS8yNGlpN3J3T3dQ?=
- =?utf-8?Q?36P9/ECwelLkclRk9ubA7Z5rA?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+   d="scan'208";a="951994868"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 28 Dec 2023 21:07:38 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rJ55s-000H6b-18;
+	Fri, 29 Dec 2023 05:07:36 +0000
+Date: Fri, 29 Dec 2023 13:06:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Tsao <peter.tsao@mediatek.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Luiz Von Dentz <luiz.dentz@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Wang <sean.wang@mediatek.com>,
+	Deren Wu <deren.Wu@mediatek.com>, Chris Lu <chris.lu@mediatek.com>,
+	Aaron Hou <aaron.hou@mediatek.com>,
+	Steve Lee <steve.lee@mediatek.com>,
+	linux-bluetooth <linux-bluetooth@vger.kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-mediatek <linux-mediatek@lists.infradead.org>,
+	Peter Tsao <peter.tsao@mediatek.com>
+Subject: Re: [PATCH] Bluetooth: btusb: Fix MT7925 fail to send download patch
+ command
+Message-ID: <202312291253.5LoPimum-lkp@intel.com>
+References: <20231228092014.23184-1-peter.tsao@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3756.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc08b8e0-b755-4f9f-4e1b-08dc0828c752
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Dec 2023 04:44:01.5230
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: s38OqVFtN/eQE3jgoC8HcOPAAzhHq3yi/UFHlCaH1JXEDNg2Q3+ySQBEk2EG2Fe5DQbBbQ5JFzfgsG/mtUVjrg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4927
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231228092014.23184-1-peter.tsao@mediatek.com>
 
-SGksIGxrcA0KDQpJIGNhbiByZXByb2R1Y2UgdGhpcyBwcm9ibGVtIGluIG15IGxvY2FsIGhvc3Qu
-IA0KDQpJdCBzZWVtcyB0aGF0IHRoaXMgcHJvYmxlbSBpcyByZWxhdGVkIHdpdGggZ2NjLTcuIElu
-IHRoZSBzYW1lIHRlc3QgZW52aXJvbm1lbnQsIHdpdGggZ2NjLTcsIHRoaXMgcHJvYmxlbSB3aWxs
-IG9jY3VyLiBXaXRoIGdjYyBsYXRlciB0aGFuIHZlcnNpb24gOSwgdGhpcyBwcm9ibGVtIHdpbGwg
-bm90IG9jY3VyLg0KDQpBbmQgd2l0aCB1MTYsIHRoZSByYW5nZSBvZiAldSBzaG91bGQgYmUgWzAs
-IDY1NTM1XS4gTm90IHRoZSBmb2xsb3dpbmc6DQoiDQogICBkcml2ZXJzL25ldC92aXJ0aW9fbmV0
-LmM6NDE0MToyNzogbm90ZTogZGlyZWN0aXZlIGFyZ3VtZW50IGluIHRoZSByYW5nZSBbMCwgMjE0
-NzQ4MzY0N10NCiAgICAgIHNwcmludGYodmktPnNxW2ldLm5hbWUsICJvdXRwdXQuJXUiLCBpKTsN
-CiINCg0KQW5kIHRoZSBzaXplIG9mIG5hbWUgaXMgMTYuIFRoYXQgaXMsIHRoZSBuYW1lIHN0cmlu
-ZyBjYW4gY29udGFpbiAxNSBieXRlcyBjaGFyYWN0ZXJzLg0KV2hlbiB0aGUgdmFyaWFibGUgaSBp
-cyBzZXQgdG8gdGhlIG1heGltdW0gNjU1MzUsIHRoZSBzdHJpbmcgc2hvdWxkIGJlICJvdXRwdXQu
-NjU1MzUiLiBUaGUgc2l6ZSBvZiB0aGUgc3RyaW5nIGlzIDEyICsgMSA9IDEzIGJ5dGVzLg0KVGhl
-IHNpemUgb2YgdGhlIG5hbWUgaXMgZ3JlYXRlciB0aGFuIHRoZSBtYXhpbXVtIHN0cmluZyAib3V0
-cHV0LjY1NTM1Ii4NCg0KSW4gc2hvcnQsIGZyb20gdGhlIGFib3ZlLCB0aGlzIHByb2JsZW0gcmVz
-dWx0cyBmcm9tIGdjYy03LiBJdCBpcyBhIHByb2JsZW0gd2l0aCBnY2MtNy4gQmFzZWQgb24gbXkg
-dGVzdHMgd2l0aCBnY2MtOSwgZ2NjLTEzLCB0aGlzIHByb2JsZW0gaXMgZml4ZWQgaW4gbGF0ZXIg
-Z2NjIHZlcnNpb25zLg0KQW5kIHRoZSB3YXJuaW5nIGlzIGEgZmFsc2Ugd2FybmluZyB0byB0aGlz
-IGNvbW1pdC4NCg0KQmVzdCBSZWdhcmRzDQpaaHUgWWFuanVuDQoNCi0tLS0tT3JpZ2luYWwgTWVz
-c2FnZS0tLS0tDQpGcm9tOiBsa3AgPGxrcEBpbnRlbC5jb20+IA0KU2VudDogVGh1cnNkYXksIERl
-Y2VtYmVyIDI4LCAyMDIzIDk6NDkgUE0NClRvOiBaaHUsIFlhbmp1biA8eWFuanVuLnpodUBpbnRl
-bC5jb20+DQpDYzogb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXYNClN1YmplY3Q6IFJlOiBb
-UEFUQ0ggdjIgMS8xXSB2aXJ0aW9fbmV0OiBGaXggIuKAmCVk4oCZIGRpcmVjdGl2ZSB3cml0aW5n
-IGJldHdlZW4gMSBhbmQgMTEgYnl0ZXMgaW50byBhIHJlZ2lvbiBvZiBzaXplIDEwIiB3YXJuaW5n
-cw0KDQpIaSBaaHUsDQoNCmtlcm5lbCB0ZXN0IHJvYm90IG5vdGljZWQgdGhlIGZvbGxvd2luZyBi
-dWlsZCB3YXJuaW5nczoNCg0KW2F1dG8gYnVpbGQgdGVzdCBXQVJOSU5HIG9uIG1zdC12aG9zdC9s
-aW51eC1uZXh0XSBbYWxzbyBidWlsZCB0ZXN0IFdBUk5JTkcgb24gbGludXMvbWFzdGVyIHY2Ljct
-cmM3IG5leHQtMjAyMzEyMjJdIFtJZiB5b3VyIHBhdGNoIGlzIGFwcGxpZWQgdG8gdGhlIHdyb25n
-IGdpdCB0cmVlLCBraW5kbHkgZHJvcCB1cyBhIG5vdGUuDQpBbmQgd2hlbiBzdWJtaXR0aW5nIHBh
-dGNoLCB3ZSBzdWdnZXN0IHRvIHVzZSAnLS1iYXNlJyBhcyBkb2N1bWVudGVkIGluIGh0dHBzOi8v
-Z2l0LXNjbS5jb20vZG9jcy9naXQtZm9ybWF0LXBhdGNoI19iYXNlX3RyZWVfaW5mb3JtYXRpb25d
-DQoNCnVybDogICAgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3AvbGludXgvY29tbWl0
-cy9aaHUtWWFuanVuL3ZpcnRpb19uZXQtRml4LWQtZGlyZWN0aXZlLXdyaXRpbmctYmV0d2Vlbi0x
-LWFuZC0xMS1ieXRlcy1pbnRvLWEtcmVnaW9uLW9mLXNpemUtMTAtd2FybmluZ3MvMjAyMzEyMjct
-MjIzNDMxDQpiYXNlOiAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJu
-ZWwvZ2l0L21zdC92aG9zdC5naXQgbGludXgtbmV4dA0KcGF0Y2ggbGluazogICAgaHR0cHM6Ly9s
-b3JlLmtlcm5lbC5vcmcvci8yMDIzMTIyNzE0MjYzNy4yNDc5MTQ5LTEteWFuanVuLnpodSU0MGlu
-dGVsLmNvbQ0KcGF0Y2ggc3ViamVjdDogW1BBVENIIHYyIDEvMV0gdmlydGlvX25ldDogRml4ICLi
-gJglZOKAmSBkaXJlY3RpdmUgd3JpdGluZyBiZXR3ZWVuIDEgYW5kIDExIGJ5dGVzIGludG8gYSBy
-ZWdpb24gb2Ygc2l6ZSAxMCIgd2FybmluZ3MNCmNvbmZpZzogeDg2XzY0LXJhbmRjb25maWctMDE1
-LTIwMjMxMjI4IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyMzEy
-MjgvMjAyMzEyMjgyMTU2LndiNWJldUFiLWxrcEBpbnRlbC5jb20vY29uZmlnKQ0KY29tcGlsZXI6
-IGdjYy03IChVYnVudHUgNy41LjAtNnVidW50dTIpIDcuNS4wIHJlcHJvZHVjZSAodGhpcyBpcyBh
-IFc9MSBidWlsZCk6IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAy
-MzEyMjgvMjAyMzEyMjgyMTU2LndiNWJldUFiLWxrcEBpbnRlbC5jb20vcmVwcm9kdWNlKQ0KDQpJ
-ZiB5b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3Qg
-anVzdCBhIG5ldyB2ZXJzaW9uIG9mIHRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQg
-Zm9sbG93aW5nIHRhZ3MNCnwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50
-ZWwuY29tPg0KfCBDbG9zZXM6IA0KfCBodHRwczovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQt
-YWxsLzIwMjMxMjI4MjE1Ni53YjViZXVBYi1sa3BAaW50ZWwuDQp8IGNvbS8NCg0KQWxsIHdhcm5p
-bmdzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6DQoNCiAgIGRyaXZlcnMvbmV0L3ZpcnRpb19u
-ZXQuYzogSW4gZnVuY3Rpb24gJ2luaXRfdnFzJzoNCiAgIGRyaXZlcnMvbmV0L3ZpcnRpb19uZXQu
-Yzo0MTQwOjM2OiB3YXJuaW5nOiAnc3ByaW50ZicgbWF5IHdyaXRlIGEgdGVybWluYXRpbmcgbnVs
-IHBhc3QgdGhlIGVuZCBvZiB0aGUgZGVzdGluYXRpb24gWy1XZm9ybWF0LW92ZXJmbG93PV0NCiAg
-ICAgIHNwcmludGYodmktPnJxW2ldLm5hbWUsICJpbnB1dC4ldSIsIGkpOw0KICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXg0KICAgZHJpdmVycy9uZXQvdmlydGlvX25ldC5j
-OjQxNDA6Mzogbm90ZTogJ3NwcmludGYnIG91dHB1dCBiZXR3ZWVuIDggYW5kIDE3IGJ5dGVzIGlu
-dG8gYSBkZXN0aW5hdGlvbiBvZiBzaXplIDE2DQogICAgICBzcHJpbnRmKHZpLT5ycVtpXS5uYW1l
-LCAiaW5wdXQuJXUiLCBpKTsNCiAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+DQo+PiBkcml2ZXJzL25ldC92aXJ0aW9fbmV0LmM6NDE0MTozNTogd2FybmluZzogJyV1
-JyBkaXJlY3RpdmUgd3JpdGluZyANCj4+IGJldHdlZW4gMSBhbmQgMTAgYnl0ZXMgaW50byBhIHJl
-Z2lvbiBvZiBzaXplIDkgWy1XZm9ybWF0LW92ZXJmbG93PV0NCiAgICAgIHNwcmludGYodmktPnNx
-W2ldLm5hbWUsICJvdXRwdXQuJXUiLCBpKTsNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgXn4NCiAgIGRyaXZlcnMvbmV0L3ZpcnRpb19uZXQuYzo0MTQxOjI3OiBub3RlOiBk
-aXJlY3RpdmUgYXJndW1lbnQgaW4gdGhlIHJhbmdlIFswLCAyMTQ3NDgzNjQ3XQ0KICAgICAgc3By
-aW50Zih2aS0+c3FbaV0ubmFtZSwgIm91dHB1dC4ldSIsIGkpOw0KICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgXn5+fn5+fn5+fn4NCiAgIGRyaXZlcnMvbmV0L3ZpcnRpb19uZXQuYzo0MTQx
-OjM6IG5vdGU6ICdzcHJpbnRmJyBvdXRwdXQgYmV0d2VlbiA5IGFuZCAxOCBieXRlcyBpbnRvIGEg
-ZGVzdGluYXRpb24gb2Ygc2l6ZSAxNg0KICAgICAgc3ByaW50Zih2aS0+c3FbaV0ubmFtZSwgIm91
-dHB1dC4ldSIsIGkpOw0KICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+DQoNCktjb25maWcgd2FybmluZ3M6IChmb3IgcmVmZXJlbmNlIG9ubHkpDQogICBXQVJOSU5H
-OiB1bm1ldCBkaXJlY3QgZGVwZW5kZW5jaWVzIGRldGVjdGVkIGZvciBEUk1fSTkxNV9ERUJVR19H
-RU0NCiAgIERlcGVuZHMgb24gW25dOiBIQVNfSU9NRU0gWz15XSAmJiBEUk1fSTkxNSBbPW1dICYm
-IEVYUEVSVCBbPXldICYmIERSTV9JOTE1X1dFUlJPUiBbPW5dDQogICBTZWxlY3RlZCBieSBbbV06
-DQogICAtIERSTV9JOTE1X0RFQlVHIFs9eV0gJiYgSEFTX0lPTUVNIFs9eV0gJiYgRFJNX0k5MTUg
-Wz1tXSAmJiBFWFBFUlQgWz15XSAmJiAhQ09NUElMRV9URVNUIFs9bl0NCg0KDQp2aW0gKzQxNDEg
-ZHJpdmVycy9uZXQvdmlydGlvX25ldC5jDQoNCiAgNDA5NAkNCiAgNDA5NQlzdGF0aWMgaW50IHZp
-cnRuZXRfZmluZF92cXMoc3RydWN0IHZpcnRuZXRfaW5mbyAqdmkpDQogIDQwOTYJew0KICA0MDk3
-CQl2cV9jYWxsYmFja190ICoqY2FsbGJhY2tzOw0KICA0MDk4CQlzdHJ1Y3QgdmlydHF1ZXVlICoq
-dnFzOw0KICA0MDk5CQljb25zdCBjaGFyICoqbmFtZXM7DQogIDQxMDAJCWludCByZXQgPSAtRU5P
-TUVNOw0KICA0MTAxCQlpbnQgdG90YWxfdnFzOw0KICA0MTAyCQlib29sICpjdHg7DQogIDQxMDMJ
-CXUxNiBpOw0KICA0MTA0CQ0KICA0MTA1CQkvKiBXZSBleHBlY3QgMSBSWCB2aXJ0cXVldWUgZm9s
-bG93ZWQgYnkgMSBUWCB2aXJ0cXVldWUsIGZvbGxvd2VkIGJ5DQogIDQxMDYJCSAqIHBvc3NpYmxl
-IE4tMSBSWC9UWCBxdWV1ZSBwYWlycyB1c2VkIGluIG11bHRpcXVldWUgbW9kZSwgZm9sbG93ZWQg
-YnkNCiAgNDEwNwkJICogcG9zc2libGUgY29udHJvbCB2cS4NCiAgNDEwOAkJICovDQogIDQxMDkJ
-CXRvdGFsX3ZxcyA9IHZpLT5tYXhfcXVldWVfcGFpcnMgKiAyICsNCiAgNDExMAkJCSAgICB2aXJ0
-aW9faGFzX2ZlYXR1cmUodmktPnZkZXYsIFZJUlRJT19ORVRfRl9DVFJMX1ZRKTsNCiAgNDExMQkN
-CiAgNDExMgkJLyogQWxsb2NhdGUgc3BhY2UgZm9yIGZpbmRfdnFzIHBhcmFtZXRlcnMgKi8NCiAg
-NDExMwkJdnFzID0ga2NhbGxvYyh0b3RhbF92cXMsIHNpemVvZigqdnFzKSwgR0ZQX0tFUk5FTCk7
-DQogIDQxMTQJCWlmICghdnFzKQ0KICA0MTE1CQkJZ290byBlcnJfdnE7DQogIDQxMTYJCWNhbGxi
-YWNrcyA9IGttYWxsb2NfYXJyYXkodG90YWxfdnFzLCBzaXplb2YoKmNhbGxiYWNrcyksIEdGUF9L
-RVJORUwpOw0KICA0MTE3CQlpZiAoIWNhbGxiYWNrcykNCiAgNDExOAkJCWdvdG8gZXJyX2NhbGxi
-YWNrOw0KICA0MTE5CQluYW1lcyA9IGttYWxsb2NfYXJyYXkodG90YWxfdnFzLCBzaXplb2YoKm5h
-bWVzKSwgR0ZQX0tFUk5FTCk7DQogIDQxMjAJCWlmICghbmFtZXMpDQogIDQxMjEJCQlnb3RvIGVy
-cl9uYW1lczsNCiAgNDEyMgkJaWYgKCF2aS0+YmlnX3BhY2tldHMgfHwgdmktPm1lcmdlYWJsZV9y
-eF9idWZzKSB7DQogIDQxMjMJCQljdHggPSBrY2FsbG9jKHRvdGFsX3Zxcywgc2l6ZW9mKCpjdHgp
-LCBHRlBfS0VSTkVMKTsNCiAgNDEyNAkJCWlmICghY3R4KQ0KICA0MTI1CQkJCWdvdG8gZXJyX2N0
-eDsNCiAgNDEyNgkJfSBlbHNlIHsNCiAgNDEyNwkJCWN0eCA9IE5VTEw7DQogIDQxMjgJCX0NCiAg
-NDEyOQkNCiAgNDEzMAkJLyogUGFyYW1ldGVycyBmb3IgY29udHJvbCB2aXJ0cXVldWUsIGlmIGFu
-eSAqLw0KICA0MTMxCQlpZiAodmktPmhhc19jdnEpIHsNCiAgNDEzMgkJCWNhbGxiYWNrc1t0b3Rh
-bF92cXMgLSAxXSA9IE5VTEw7DQogIDQxMzMJCQluYW1lc1t0b3RhbF92cXMgLSAxXSA9ICJjb250
-cm9sIjsNCiAgNDEzNAkJfQ0KICA0MTM1CQ0KICA0MTM2CQkvKiBBbGxvY2F0ZS9pbml0aWFsaXpl
-IHBhcmFtZXRlcnMgZm9yIHNlbmQvcmVjZWl2ZSB2aXJ0cXVldWVzICovDQogIDQxMzcJCWZvciAo
-aSA9IDA7IGkgPCB2aS0+bWF4X3F1ZXVlX3BhaXJzOyBpKyspIHsNCiAgNDEzOAkJCWNhbGxiYWNr
-c1tyeHEydnEoaSldID0gc2tiX3JlY3ZfZG9uZTsNCiAgNDEzOQkJCWNhbGxiYWNrc1t0eHEydnEo
-aSldID0gc2tiX3htaXRfZG9uZTsNCiAgNDE0MAkJCXNwcmludGYodmktPnJxW2ldLm5hbWUsICJp
-bnB1dC4ldSIsIGkpOw0KPiA0MTQxCQkJc3ByaW50Zih2aS0+c3FbaV0ubmFtZSwgIm91dHB1dC4l
-dSIsIGkpOw0KICA0MTQyCQkJbmFtZXNbcnhxMnZxKGkpXSA9IHZpLT5ycVtpXS5uYW1lOw0KICA0
-MTQzCQkJbmFtZXNbdHhxMnZxKGkpXSA9IHZpLT5zcVtpXS5uYW1lOw0KICA0MTQ0CQkJaWYgKGN0
-eCkNCiAgNDE0NQkJCQljdHhbcnhxMnZxKGkpXSA9IHRydWU7DQogIDQxNDYJCX0NCiAgNDE0NwkN
-CiAgNDE0OAkJcmV0ID0gdmlydGlvX2ZpbmRfdnFzX2N0eCh2aS0+dmRldiwgdG90YWxfdnFzLCB2
-cXMsIGNhbGxiYWNrcywNCiAgNDE0OQkJCQkJICBuYW1lcywgY3R4LCBOVUxMKTsNCiAgNDE1MAkJ
-aWYgKHJldCkNCiAgNDE1MQkJCWdvdG8gZXJyX2ZpbmQ7DQogIDQxNTIJDQogIDQxNTMJCWlmICh2
-aS0+aGFzX2N2cSkgew0KICA0MTU0CQkJdmktPmN2cSA9IHZxc1t0b3RhbF92cXMgLSAxXTsNCiAg
-NDE1NQkJCWlmICh2aXJ0aW9faGFzX2ZlYXR1cmUodmktPnZkZXYsIFZJUlRJT19ORVRfRl9DVFJM
-X1ZMQU4pKQ0KICA0MTU2CQkJCXZpLT5kZXYtPmZlYXR1cmVzIHw9IE5FVElGX0ZfSFdfVkxBTl9D
-VEFHX0ZJTFRFUjsNCiAgNDE1NwkJfQ0KICA0MTU4CQ0KICA0MTU5CQlmb3IgKGkgPSAwOyBpIDwg
-dmktPm1heF9xdWV1ZV9wYWlyczsgaSsrKSB7DQogIDQxNjAJCQl2aS0+cnFbaV0udnEgPSB2cXNb
-cnhxMnZxKGkpXTsNCiAgNDE2MQkJCXZpLT5ycVtpXS5taW5fYnVmX2xlbiA9IG1lcmdlYWJsZV9t
-aW5fYnVmX2xlbih2aSwgdmktPnJxW2ldLnZxKTsNCiAgNDE2MgkJCXZpLT5zcVtpXS52cSA9IHZx
-c1t0eHEydnEoaSldOw0KICA0MTYzCQl9DQogIDQxNjQJDQogIDQxNjUJCS8qIHJ1biBoZXJlOiBy
-ZXQgPT0gMC4gKi8NCiAgNDE2NgkNCiAgNDE2NwkNCiAgNDE2OAllcnJfZmluZDoNCiAgNDE2OQkJ
-a2ZyZWUoY3R4KTsNCiAgNDE3MAllcnJfY3R4Og0KICA0MTcxCQlrZnJlZShuYW1lcyk7DQogIDQx
-NzIJZXJyX25hbWVzOg0KICA0MTczCQlrZnJlZShjYWxsYmFja3MpOw0KICA0MTc0CWVycl9jYWxs
-YmFjazoNCiAgNDE3NQkJa2ZyZWUodnFzKTsNCiAgNDE3NgllcnJfdnE6DQogIDQxNzcJCXJldHVy
-biByZXQ7DQogIDQxNzgJfQ0KICA0MTc5CQ0KDQotLQ0KMC1EQVkgQ0kgS2VybmVsIFRlc3QgU2Vy
-dmljZQ0KaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2xrcC10ZXN0cy93aWtpDQo=
+Hi Peter,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth/master]
+[also build test ERROR on bluetooth-next/master linus/master v6.7-rc7 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Tsao/Bluetooth-btusb-Fix-MT7925-fail-to-send-download-patch-command/20231228-172328
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20231228092014.23184-1-peter.tsao%40mediatek.com
+patch subject: [PATCH] Bluetooth: btusb: Fix MT7925 fail to send download patch command
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231229/202312291253.5LoPimum-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231229/202312291253.5LoPimum-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312291253.5LoPimum-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/bluetooth/btusb.c: In function 'btusb_mtk_setup':
+>> drivers/bluetooth/btusb.c:3122:63: error: 'val' undeclared (first use in this function)
+    3122 |                 btusb_mtk_uhw_reg_read(data, MT7925_SLPPROT, &val);
+         |                                                               ^~~
+   drivers/bluetooth/btusb.c:3122:63: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/val +3122 drivers/bluetooth/btusb.c
+
+  3068	
+  3069	static int btusb_mtk_setup(struct hci_dev *hdev)
+  3070	{
+  3071		struct btusb_data *data = hci_get_drvdata(hdev);
+  3072		struct btmtk_hci_wmt_params wmt_params;
+  3073		ktime_t calltime, delta, rettime;
+  3074		struct btmtk_tci_sleep tci_sleep;
+  3075		unsigned long long duration;
+  3076		struct sk_buff *skb;
+  3077		const char *fwname;
+  3078		int err, status;
+  3079		u32 dev_id = 0;
+  3080		char fw_bin_name[64];
+  3081		u32 fw_version = 0;
+  3082		u8 param;
+  3083		struct btmediatek_data *mediatek;
+  3084	
+  3085		calltime = ktime_get();
+  3086	
+  3087		err = btusb_mtk_id_get(data, 0x80000008, &dev_id);
+  3088		if (err < 0) {
+  3089			bt_dev_err(hdev, "Failed to get device id (%d)", err);
+  3090			return err;
+  3091		}
+  3092	
+  3093		if (!dev_id || dev_id != 0x7663) {
+  3094			err = btusb_mtk_id_get(data, 0x70010200, &dev_id);
+  3095			if (err < 0) {
+  3096				bt_dev_err(hdev, "Failed to get device id (%d)", err);
+  3097				return err;
+  3098			}
+  3099			err = btusb_mtk_id_get(data, 0x80021004, &fw_version);
+  3100			if (err < 0) {
+  3101				bt_dev_err(hdev, "Failed to get fw version (%d)", err);
+  3102				return err;
+  3103			}
+  3104		}
+  3105	
+  3106		mediatek = hci_get_priv(hdev);
+  3107		mediatek->dev_id = dev_id;
+  3108		mediatek->reset_sync = btusb_mtk_reset;
+  3109	
+  3110		err = btmtk_register_coredump(hdev, btusb_driver.name, fw_version);
+  3111		if (err < 0)
+  3112			bt_dev_err(hdev, "Failed to register coredump (%d)", err);
+  3113	
+  3114		switch (dev_id) {
+  3115		case 0x7663:
+  3116			fwname = FIRMWARE_MT7663;
+  3117			break;
+  3118		case 0x7668:
+  3119			fwname = FIRMWARE_MT7668;
+  3120			break;
+  3121		case 0x7925:
+> 3122			btusb_mtk_uhw_reg_read(data, MT7925_SLPPROT, &val);
+  3123			val |= SLPPROT_BYPASS;
+  3124			btusb_mtk_uhw_reg_write(data, MT7925_SLPPROT, val);
+  3125			fallthrough;
+  3126		case 0x7922:
+  3127		case 0x7961:
+  3128			if (dev_id == 0x7925)
+  3129				snprintf(fw_bin_name, sizeof(fw_bin_name),
+  3130					 "mediatek/mt%04x/BT_RAM_CODE_MT%04x_1_%x_hdr.bin",
+  3131					 dev_id & 0xffff, dev_id & 0xffff, (fw_version & 0xff) + 1);
+  3132			else
+  3133				snprintf(fw_bin_name, sizeof(fw_bin_name),
+  3134					 "mediatek/BT_RAM_CODE_MT%04x_1_%x_hdr.bin",
+  3135					 dev_id & 0xffff, (fw_version & 0xff) + 1);
+  3136	
+  3137			err = btmtk_setup_firmware_79xx(hdev, fw_bin_name,
+  3138							btusb_mtk_hci_wmt_sync);
+  3139			if (err < 0) {
+  3140				bt_dev_err(hdev, "Failed to set up firmware (%d)", err);
+  3141				return err;
+  3142			}
+  3143	
+  3144			/* It's Device EndPoint Reset Option Register */
+  3145			btusb_mtk_uhw_reg_write(data, MTK_EP_RST_OPT, MTK_EP_RST_IN_OUT_OPT);
+  3146	
+  3147			/* Enable Bluetooth protocol */
+  3148			param = 1;
+  3149			wmt_params.op = BTMTK_WMT_FUNC_CTRL;
+  3150			wmt_params.flag = 0;
+  3151			wmt_params.dlen = sizeof(param);
+  3152			wmt_params.data = &param;
+  3153			wmt_params.status = NULL;
+  3154	
+  3155			err = btusb_mtk_hci_wmt_sync(hdev, &wmt_params);
+  3156			if (err < 0) {
+  3157				bt_dev_err(hdev, "Failed to send wmt func ctrl (%d)", err);
+  3158				return err;
+  3159			}
+  3160	
+  3161			hci_set_msft_opcode(hdev, 0xFD30);
+  3162			hci_set_aosp_capable(hdev);
+  3163			goto done;
+  3164		default:
+  3165			bt_dev_err(hdev, "Unsupported hardware variant (%08x)",
+  3166				   dev_id);
+  3167			return -ENODEV;
+  3168		}
+  3169	
+  3170		/* Query whether the firmware is already download */
+  3171		wmt_params.op = BTMTK_WMT_SEMAPHORE;
+  3172		wmt_params.flag = 1;
+  3173		wmt_params.dlen = 0;
+  3174		wmt_params.data = NULL;
+  3175		wmt_params.status = &status;
+  3176	
+  3177		err = btusb_mtk_hci_wmt_sync(hdev, &wmt_params);
+  3178		if (err < 0) {
+  3179			bt_dev_err(hdev, "Failed to query firmware status (%d)", err);
+  3180			return err;
+  3181		}
+  3182	
+  3183		if (status == BTMTK_WMT_PATCH_DONE) {
+  3184			bt_dev_info(hdev, "firmware already downloaded");
+  3185			goto ignore_setup_fw;
+  3186		}
+  3187	
+  3188		/* Setup a firmware which the device definitely requires */
+  3189		err = btmtk_setup_firmware(hdev, fwname,
+  3190					   btusb_mtk_hci_wmt_sync);
+  3191		if (err < 0)
+  3192			return err;
+  3193	
+  3194	ignore_setup_fw:
+  3195		err = readx_poll_timeout(btusb_mtk_func_query, hdev, status,
+  3196					 status < 0 || status != BTMTK_WMT_ON_PROGRESS,
+  3197					 2000, 5000000);
+  3198		/* -ETIMEDOUT happens */
+  3199		if (err < 0)
+  3200			return err;
+  3201	
+  3202		/* The other errors happen in btusb_mtk_func_query */
+  3203		if (status < 0)
+  3204			return status;
+  3205	
+  3206		if (status == BTMTK_WMT_ON_DONE) {
+  3207			bt_dev_info(hdev, "function already on");
+  3208			goto ignore_func_on;
+  3209		}
+  3210	
+  3211		/* Enable Bluetooth protocol */
+  3212		param = 1;
+  3213		wmt_params.op = BTMTK_WMT_FUNC_CTRL;
+  3214		wmt_params.flag = 0;
+  3215		wmt_params.dlen = sizeof(param);
+  3216		wmt_params.data = &param;
+  3217		wmt_params.status = NULL;
+  3218	
+  3219		err = btusb_mtk_hci_wmt_sync(hdev, &wmt_params);
+  3220		if (err < 0) {
+  3221			bt_dev_err(hdev, "Failed to send wmt func ctrl (%d)", err);
+  3222			return err;
+  3223		}
+  3224	
+  3225	ignore_func_on:
+  3226		/* Apply the low power environment setup */
+  3227		tci_sleep.mode = 0x5;
+  3228		tci_sleep.duration = cpu_to_le16(0x640);
+  3229		tci_sleep.host_duration = cpu_to_le16(0x640);
+  3230		tci_sleep.host_wakeup_pin = 0;
+  3231		tci_sleep.time_compensation = 0;
+  3232	
+  3233		skb = __hci_cmd_sync(hdev, 0xfc7a, sizeof(tci_sleep), &tci_sleep,
+  3234				     HCI_INIT_TIMEOUT);
+  3235		if (IS_ERR(skb)) {
+  3236			err = PTR_ERR(skb);
+  3237			bt_dev_err(hdev, "Failed to apply low power setting (%d)", err);
+  3238			return err;
+  3239		}
+  3240		kfree_skb(skb);
+  3241	
+  3242	done:
+  3243		rettime = ktime_get();
+  3244		delta = ktime_sub(rettime, calltime);
+  3245		duration = (unsigned long long)ktime_to_ns(delta) >> 10;
+  3246	
+  3247		bt_dev_info(hdev, "Device setup in %llu usecs", duration);
+  3248	
+  3249		return 0;
+  3250	}
+  3251	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
