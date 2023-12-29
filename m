@@ -1,52 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E5C12B7F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Dec 2023 17:48:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F275912B66
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Dec 2023 17:58:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XO6OqFw+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfVopb/m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703872132; x=1735408132;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gD4Waq4JAKpu9j8/VS57ViNcFT1weUAfHOM6HezPVK4=;
-  b=XO6OqFw+LUqq+5hpn6XRt+gmkzIIpK4y/8KBXHjnqvW1qUzli8UftfRv
-   hw6L/mjzZJ6J0KbfoKOzd476GRPpXuGP6GsHWJ3p9QpvKZ5fwb8Sj6ba1
-   NVNPSB/LVVle9Gsh6YLTJtRk24iF1ArA2HYF388SO3yL+OFi6TgAFeNQJ
-   G1z4GlnzlR52w5XeqUFxYb76pomWZzYHYrLTiYiOBbNgemHikFtNZg1O1
-   jwVmQ5RXFpBaQJI7A4wycgx2hNFhtRkAz0undkYfu3moDO+1Be7XmeAHv
-   0IFL0jGNxm0rTBNJjR+Tpg3aN9kBMU8Gt1bh3zvOD2LHhCv0EbTsuzd0k
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="395552041"
+  t=1703872739; x=1735408739;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/4a05JRnrxluO84KeqgffcbEQM5dhEz1rdnt87ArK+I=;
+  b=kfVopb/m3YSHce6SMi72JRV+G8CSX5ytfnl4vNen5KZDNx+NC4y2UYgu
+   IfMFvuN0sHJaOthnuDVB4IhomBxLLH2rPpm6EbxUNsayR5+DPDs0VGPKw
+   nnZBtDACcj/kcxRFqtpm47+D4r/5Pc7z8EwpowrQyKHE6fYVnYmJqLgik
+   F9niXiF2E/p7P8V/IyqjMUPwFt3WcFPkHAblDlqrXvgDr5FKjXKOjlu+E
+   1oYavTkTd1ZsqlHyYCbEOUzfcxuq/xSMConoZFy7iRpZOwXDasaGmpT8E
+   6CqEC3lUl4Sv1bh5bolJ7U0CjaXM5Nq0IXUfIY0RMVbqV1dvH1RNYsR54
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="460981045"
 X-IronPort-AV: E=Sophos;i="6.04,315,1695711600"; 
-   d="scan'208";a="395552041"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2023 09:48:52 -0800
+   d="scan'208";a="460981045"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2023 09:58:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="1110222855"
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="897568097"
 X-IronPort-AV: E=Sophos;i="6.04,315,1695711600"; 
-   d="scan'208";a="1110222855"
+   d="scan'208";a="897568097"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 29 Dec 2023 09:48:50 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 29 Dec 2023 09:58:50 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJGyW-000He5-0V;
-	Fri, 29 Dec 2023 17:48:48 +0000
-Date: Sat, 30 Dec 2023 01:47:55 +0800
+	id 1rJH8C-000HeT-1D;
+	Fri, 29 Dec 2023 17:58:48 +0000
+Date: Sat, 30 Dec 2023 01:58:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH, REBASED 1/2] mm, treewide: Introduce NR_PAGE_ORDERS
-Message-ID: <202312300143.DOaFj2Yb-lkp@intel.com>
-References: <20231228144704.14033-1-kirill.shutemov@linux.intel.com>
+To: Kaixu Xia <kaixuxia@tencent.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: net/netfilter/nf_conntrack_standalone.c:374:9: warning: ISO C90
+ forbids mixed declarations and code
+Message-ID: <202312300149.lwjCSO6m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,40 +49,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231228144704.14033-1-kirill.shutemov@linux.intel.com>
 
-Hi Kirill,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc7 next-20231222]
-[cannot apply to akpm-mm/mm-everything drm-misc/drm-misc-next powerpc/next powerpc/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kirill-A-Shutemov/mm-treewide-Rename-MAX_ORDER-to-MAX_PAGE_ORDER/20231228-224916
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231228144704.14033-1-kirill.shutemov%40linux.intel.com
-patch subject: [PATCH, REBASED 1/2] mm, treewide: Introduce NR_PAGE_ORDERS
-reproduce: (https://download.01.org/0day-ci/archive/20231230/202312300143.DOaFj2Yb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: db890618cee071d820bb334a9a86ac76a1c27f2b nf_conntrack: add tencent cloud vpcid vmip extend
+date:   2 years, 9 months ago
+config: x86_64-oc_base_config (https://download.01.org/0day-ci/archive/20231230/202312300149.lwjCSO6m-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231230/202312300149.lwjCSO6m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312300143.DOaFj2Yb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312300149.lwjCSO6m-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/admin-guide/kdump/vmcoreinfo.rst:193: WARNING: Title underline too short.
+   net/netfilter/nf_conntrack_standalone.c: In function 'ct_seq_show':
+>> net/netfilter/nf_conntrack_standalone.c:374:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     374 |         void (*ct_get_vmip_vpcid_tmp)(const struct nf_conn *ct, __be32 *vmip, u32 *vpcid) = ct_get_vmip_vpcid;
+         |         ^~~~
 
-vim +193 Documentation/admin-guide/kdump/vmcoreinfo.rst
 
-f263245a0ce2c4 Documentation/kdump/vmcoreinfo.txt             Lianbo Jiang       2019-01-10  191  
-fff97f56344c04 Documentation/admin-guide/kdump/vmcoreinfo.rst Kirill A. Shutemov 2023-12-28  192  (zone.free_area, NR_PAGE_ORDERS)
-23baf831a32c04 Documentation/admin-guide/kdump/vmcoreinfo.rst Kirill A. Shutemov 2023-03-15 @193  -------------------------------
-f263245a0ce2c4 Documentation/kdump/vmcoreinfo.txt             Lianbo Jiang       2019-01-10  194  
+vim +374 net/netfilter/nf_conntrack_standalone.c
+
+   369	
+   370		ct_show_secctx(s, ct);
+   371		ct_show_zone(s, ct, NF_CT_DEFAULT_ZONE_DIR);
+   372		ct_show_delta_time(s, ct);
+   373	
+ > 374		void (*ct_get_vmip_vpcid_tmp)(const struct nf_conn *ct, __be32 *vmip, u32 *vpcid) = ct_get_vmip_vpcid;
+   375		if(ct_get_vmip_vpcid_tmp) {
+   376			__be32 vmip = 0;
+   377			u32 vpcid = 0;
+   378			ct_get_vmip_vpcid_tmp(ct, &vmip, &vpcid);
+   379			seq_printf(s, "vpcid=%u ", vpcid);
+   380			seq_printf(s, "vmip=%pI4 ", &vmip);
+   381		}
+   382	
+   383		seq_printf(s, "use=%u\n", atomic_read(&ct->ct_general.use));
+   384	
+   385		if (seq_has_overflowed(s))
+   386			goto release;
+   387	
+   388		ret = 0;
+   389	release:
+   390		nf_ct_put(ct);
+   391		return ret;
+   392	}
+   393	
 
 -- 
 0-DAY CI Kernel Test Service
