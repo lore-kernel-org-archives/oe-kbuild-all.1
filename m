@@ -1,46 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A968111B0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Dec 2023 13:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9677C11711
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Dec 2023 14:00:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EODaOuB+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9CdMi/s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703855945; x=1735391945;
+  t=1703858425; x=1735394425;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uocPUb7pCXFBGwRb0xjoYdHJVBZbxzn7UYZEwQaeDpE=;
-  b=EODaOuB+MRhqHltb9bRVAwbYFkYiAEehtlHiHf8u5++TD1x6XUwWwuQA
-   VGHdAeBV7ISQebPP1qJy3RunGsUFSAHYQJGJkP7cs2PTJWo//NWUy67VT
-   QrNkFxHKErXOVRlvdRp+2bZFyjpohGd+tgrAz78ftSaRyBksTF+RDpkb7
-   IRDG8wsCvbKnXyfGYV7PQoQKO3I8k4NCjbXohuyc+tfjKAn7PGabMFz7m
-   VrY+AG/Olc+lQsqoUIiXyboGpK9GIhW0Vb/7hrljkyZsUe/WJuc85adBB
-   l9FAjt0kOtpbH/9H5G9peLs+jFwBgQt3+VUvdJnonY3T97AN1uLMR+/84
+  bh=xhKPSsN0hvEtNCoc4GaknfFjk8ok7sEB7nJ0p+Jhlpc=;
+  b=B9CdMi/s7cqdBxWbNURDBCx/EbreAmpe/SDXN+yDeEjKrt0b5J6UqWmz
+   dafjk3c8P0WZRw0yRwZQGg4SvgXL+g7GzLU+b3oBgd/QGZBUcAftlU6rN
+   flsbXhQIGxp+aThFE1Uhl3KJDdWut1WcM5yR8DBWGx3RQN+ARbiWmDEuZ
+   vgu9PSriUpGLilaItgW/VHLYVZknKmz98nNaPbA4u4saH5URm3NaGfPBh
+   diz+zhaINOKc2FusMfy5vHZZKczriedUdYc/H1pmFK21DlBrGoL15Pcjn
+   BHe5tfMlL7Ih8RtJAY7fyLhOiM3YZIpyn8sDKuudMT7bg0NgJiG0FfZtQ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="3948814"
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="10035361"
 X-IronPort-AV: E=Sophos;i="6.04,315,1695711600"; 
-   d="scan'208";a="3948814"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2023 05:19:04 -0800
+   d="scan'208";a="10035361"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2023 05:59:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10937"; a="755031889"
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="849217422"
 X-IronPort-AV: E=Sophos;i="6.04,315,1695711600"; 
-   d="scan'208";a="755031889"
+   d="scan'208";a="849217422"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 29 Dec 2023 05:19:02 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 29 Dec 2023 05:59:04 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJClQ-000HTF-1N;
-	Fri, 29 Dec 2023 13:19:00 +0000
-Date: Fri, 29 Dec 2023 21:18:01 +0800
+	id 1rJDOB-000HUZ-04;
+	Fri, 29 Dec 2023 13:59:03 +0000
+Date: Fri, 29 Dec 2023 21:58:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kaixu Xia <kaixuxia@tencent.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: kernel/sysctl.c:2616:5: warning: no previous prototype for
- 'setup_pagecache_limit'
-Message-ID: <202312292115.yaZK8pAI-lkp@intel.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [drm-xe:drm-xe-next 802/1046] kismet: WARNING: unmet direct
+ dependencies detected for ACPI_WMI when selected by DRM_XE
+Message-ID: <202312292136.7nFLaL9f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,279 +54,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009
-head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
-date:   2 years, 9 months ago
-config: x86_64-oc_base_config (https://download.01.org/0day-ci/archive/20231229/202312292115.yaZK8pAI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231229/202312292115.yaZK8pAI-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+head:   7b3b98d034784b125bad7aca46f9e7a3cfcde45a
+commit: 44e694958b95395bd1c41508c88c8ca141bf9bd7 [802/1046] drm/xe/display: Implement display support
+config: x86_64-kismet-CONFIG_ACPI_WMI-CONFIG_DRM_XE-0-0 (https://download.01.org/0day-ci/archive/20231229/202312292136.7nFLaL9f-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231229/202312292136.7nFLaL9f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312292115.yaZK8pAI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312292136.7nFLaL9f-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> kernel/sysctl.c:2616:5: warning: no previous prototype for 'setup_pagecache_limit' [-Wmissing-prototypes]
-    2616 | int setup_pagecache_limit(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sysctl.c: In function 'proc_dointvec_max_map_count':
->> kernel/sysctl.c:2981:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    2981 |         struct do_proc_dointvec_minmax_conv_param param = {
-         |         ^~~~~~
---
-   mm/page_alloc.c:7553:9: note: in expansion of macro 'adj_init_size'
-    7553 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:27: warning: comparison between two arrays [-Warray-compare]
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7555:9: note: in expansion of macro 'adj_init_size'
-    7555 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:27: note: use '&_stext[0] <= &_sinittext[0]' to compare the addresses
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7555:9: note: in expansion of macro 'adj_init_size'
-    7555 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:41: warning: comparison between two arrays [-Warray-compare]
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7555:9: note: in expansion of macro 'adj_init_size'
-    7555 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:41: note: use '&_sinittext[0] < &_etext[0]' to compare the addresses
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7555:9: note: in expansion of macro 'adj_init_size'
-    7555 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:27: warning: comparison between two arrays [-Warray-compare]
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7556:9: note: in expansion of macro 'adj_init_size'
-    7556 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:27: note: use '&_sdata[0] <= &__init_begin[0]' to compare the addresses
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7556:9: note: in expansion of macro 'adj_init_size'
-    7556 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:41: warning: comparison between two arrays [-Warray-compare]
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7556:9: note: in expansion of macro 'adj_init_size'
-    7556 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:41: note: use '&__init_begin[0] < &_edata[0]' to compare the addresses
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7556:9: note: in expansion of macro 'adj_init_size'
-    7556 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:27: warning: comparison between two arrays [-Warray-compare]
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7557:9: note: in expansion of macro 'adj_init_size'
-    7557 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:27: note: use '&_stext[0] <= &__start_rodata[0]' to compare the addresses
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7557:9: note: in expansion of macro 'adj_init_size'
-    7557 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:41: warning: comparison between two arrays [-Warray-compare]
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7557:9: note: in expansion of macro 'adj_init_size'
-    7557 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:41: note: use '&__start_rodata[0] < &_etext[0]' to compare the addresses
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7557:9: note: in expansion of macro 'adj_init_size'
-    7557 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:27: warning: comparison between two arrays [-Warray-compare]
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7558:9: note: in expansion of macro 'adj_init_size'
-    7558 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:27: note: use '&_sdata[0] <= &__start_rodata[0]' to compare the addresses
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7558:9: note: in expansion of macro 'adj_init_size'
-    7558 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:41: warning: comparison between two arrays [-Warray-compare]
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7558:9: note: in expansion of macro 'adj_init_size'
-    7558 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7549:41: note: use '&__start_rodata[0] < &_edata[0]' to compare the addresses
-    7549 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7558:9: note: in expansion of macro 'adj_init_size'
-    7558 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c: In function 'pagecache_over_limit':
->> mm/page_alloc.c:8554:15: warning: old-style function definition [-Wold-style-definition]
-    8554 | unsigned long pagecache_over_limit()
-         |               ^~~~~~~~~~~~~~~~~~~~
---
->> fs/exec.c:86:6: warning: no previous prototype for 'nr_execve_count' [-Wmissing-prototypes]
-      86 | long nr_execve_count(void)
-         |      ^~~~~~~~~~~~~~~
->> fs/exec.c:516:5: warning: no previous prototype for 'set_get_execve_info_func' [-Wmissing-prototypes]
-     516 | int set_get_execve_info_func(GET_EXECVE_INFO func_addr)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
---
->> arch/x86/pci/common.c:207:19: warning: 'find_sort_method' defined but not used [-Wunused-function]
-     207 | static int __init find_sort_method(const struct dmi_system_id *d)
-         |                   ^~~~~~~~~~~~~~~~
---
->> net/socket.c:179:6: warning: no previous prototype for 'nr_hook_count' [-Wmissing-prototypes]
-     179 | long nr_hook_count(int flag)
-         |      ^~~~~~~~~~~~~
->> net/socket.c:200:5: warning: no previous prototype for 'set_get_info_func' [-Wmissing-prototypes]
-     200 | int set_get_info_func(GET_INFO_HOOK_FUNC func_addr[], int num)
-         |     ^~~~~~~~~~~~~~~~~
-   net/socket.c: In function '__sys_getsockopt':
-   net/socket.c:2195:13: warning: variable 'max_optlen' set but not used [-Wunused-but-set-variable]
-    2195 |         int max_optlen;
-         |             ^~~~~~~~~~
---
-   drivers/tty/sysrq.c: In function 'sysrq_handle_keypress':
->> drivers/tty/sysrq.c:823:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     823 |                 if (sysrq_use_leftctrl && !sysrq->active) {
-         |                    ^
-   drivers/tty/sysrq.c:839:9: note: here
-     839 |         default:
-         |         ^~~~~~~
---
-   kernel/cgroup/cpuset.c: In function 'cpuset_cgroup_cpuinfo_show':
-   kernel/cgroup/cpuset.c:2745:39: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
-    2745 |                 if (c->x86_cache_size >= 0)
-         |                                       ^~
-   kernel/cgroup/cpuset.c: At top level:
->> kernel/cgroup/cpuset.c:3967:6: warning: no previous prototype for 'cgroup_cpuset_calc_load' [-Wmissing-prototypes]
-    3967 | void cgroup_cpuset_calc_load(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
---
->> kernel/tkernel/shield_mounts.c:225:5: warning: no previous prototype for 'shield_mounts_release' [-Wmissing-prototypes]
-     225 | int shield_mounts_release(struct inode *inode, struct file *file)
-         |     ^~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/list.h:9,
-                    from include/linux/module.h:9,
-                    from kernel/tkernel/trackgpu.c:1:
-   kernel/tkernel/trackgpu.c: In function 'nl_recv_msg':
-   include/linux/kernel.h:842:43: warning: comparison of distinct pointer types lacks a cast
-     842 |                 (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-         |                                           ^~
-   include/linux/kernel.h:856:18: note: in expansion of macro '__typecheck'
-     856 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-         |                  ^~~~~~~~~~~
-   include/linux/kernel.h:866:31: note: in expansion of macro '__safe_cmp'
-     866 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |                               ^~~~~~~~~~
-   include/linux/kernel.h:875:25: note: in expansion of macro '__careful_cmp'
-     875 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   kernel/tkernel/trackgpu.c:120:15: note: in expansion of macro 'min'
-     120 |         len = min(sizeof(comp_msg), msg_size);
-         |               ^~~
-   kernel/tkernel/trackgpu.c: In function 'trackgpu_init':
->> kernel/tkernel/trackgpu.c:204:13: warning: unused variable 'err' [-Wunused-variable]
-     204 |         int err;
-         |             ^~~
-   In file included from include/linux/bitmap.h:9,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/cpumask.h:5,
-                    from arch/x86/include/asm/msr.h:11,
-                    from arch/x86/include/asm/processor.h:21,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_info.h:38,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/seqlock.h:36,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:10:
-   In function 'strncpy',
-       inlined from 'nl_send_msg' at kernel/tkernel/trackgpu.c:177:2:
-   include/linux/string.h:279:16: warning: '__builtin_strncpy' output may be truncated copying between 0 and 63 bytes from a string of length 63 [-Wstringop-truncation]
-     279 |         return __builtin_strncpy(p, q, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   kernel/tkernel/netatop/netatop.c: In function 'gctaskexit':
->> kernel/tkernel/netatop/netatop.c:1015:1: warning: old-style function definition [-Wold-style-definition]
-    1015 | gctaskexit()
-         | ^~~~~~~~~~
-   kernel/tkernel/netatop/netatop.c: In function 'gcsockinfo':
-   kernel/tkernel/netatop/netatop.c:1049:1: warning: old-style function definition [-Wold-style-definition]
-    1049 | gcsockinfo()
-         | ^~~~~~~~~~
-   kernel/tkernel/netatop/netatop.c: In function 'gctaskinfo':
-   kernel/tkernel/netatop/netatop.c:1259:1: warning: old-style function definition [-Wold-style-definition]
-    1259 | gctaskinfo()
-         | ^~~~~~~~~~
-   kernel/tkernel/netatop/netatop.c: In function 'wipesockinfo':
-   kernel/tkernel/netatop/netatop.c:1332:1: warning: old-style function definition [-Wold-style-definition]
-    1332 | wipesockinfo()
-         | ^~~~~~~~~~~~
-   kernel/tkernel/netatop/netatop.c: In function 'wipetaskinfo':
-   kernel/tkernel/netatop/netatop.c:1360:1: warning: old-style function definition [-Wold-style-definition]
-    1360 | wipetaskinfo()
-         | ^~~~~~~~~~~~
-   kernel/tkernel/netatop/netatop.c: In function 'wipetaskexit':
-   kernel/tkernel/netatop/netatop.c:1388:1: warning: old-style function definition [-Wold-style-definition]
-    1388 | wipetaskexit()
-         | ^~~~~~~~~~~~
-   kernel/tkernel/netatop/netatop.c: In function 'init_module':
-   kernel/tkernel/netatop/netatop.c:1673:1: warning: old-style function definition [-Wold-style-definition]
-    1673 | init_module()
-         | ^~~~~~~~~~~
-   kernel/tkernel/netatop/netatop.c: In function 'cleanup_module':
-   kernel/tkernel/netatop/netatop.c:1764:1: warning: old-style function definition [-Wold-style-definition]
-    1764 | cleanup_module()
-         | ^~~~~~~~~~~~~~
-   kernel/tkernel/netatop/netatop.c: In function 'getsockopt':
->> kernel/tkernel/netatop/netatop.c:1593:26: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    1593 |                 tasktype = 'g';
-         |                 ~~~~~~~~~^~~~~
-   kernel/tkernel/netatop/netatop.c:1595:17: note: here
-    1595 |                 case NETATOP_GETCNT_PID:
-         |                 ^~~~
-
-
-vim +/setup_pagecache_limit +2616 kernel/sysctl.c
-
-  2615	
-> 2616	int setup_pagecache_limit(void)
-  2617	{
-  2618		/* reclaim $ADDITIONAL_RECLAIM_PAGES more than limit. */
-  2619		vm_pagecache_limit_reclaim_ratio = vm_pagecache_limit_ratio + ADDITIONAL_RECLAIM_RATIO;
-  2620	
-  2621		if (vm_pagecache_limit_reclaim_ratio > 100)
-  2622			vm_pagecache_limit_reclaim_ratio = 100;
-  2623		if (vm_pagecache_limit_ratio == 0)
-  2624			vm_pagecache_limit_reclaim_ratio = 0;
-  2625	
-  2626		vm_pagecache_limit_pages = vm_pagecache_limit_ratio * totalram_pages() / 100;
-  2627		vm_pagecache_limit_reclaim_pages = vm_pagecache_limit_reclaim_ratio * totalram_pages() / 100;
-  2628		return 0;
-  2629	}
-  2630	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ACPI_WMI when selected by DRM_XE
+   
+   WARNING: unmet direct dependencies detected for ACPI_WMI
+     Depends on [n]: X86_PLATFORM_DEVICES [=n] && ACPI [=y]
+     Selected by [m]:
+     - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && MMU [=y] && (m && MODULES [=y] || y && KUNIT [=n]=y) && ACPI [=y]
 
 -- 
 0-DAY CI Kernel Test Service
