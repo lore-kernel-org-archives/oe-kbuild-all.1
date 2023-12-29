@@ -1,170 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195E411C82
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Dec 2023 14:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA7F125BD;
+	Fri, 29 Dec 2023 16:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7xWh755"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TqZS17E0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703860808; x=1735396808;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=CrSVu3+QCMPbuZuJnFqzfdD1YanIAKAAbDKgggzZma0=;
-  b=K7xWh755QipIqyCcC9S30HhkJRv603wBDLqhs81UTWIw3iubUvrWOWyE
-   OYbotDfC2ci9E8KyYlng/peCXoOMVddQXsiTV33uMCX/8A7W5Q7k6vg8U
-   KypyqSfRhQMyHvr37X3ipnNu83sruKvNvNJ0ps8rFneEnqpdWIOBPIOzq
-   TZJCslW4ofDpV0RiSSiu0hzgrqSFkfYgFsbQB33mOZdgLI7WIE8TfYSHB
-   Lubx6YeUE28mkjXiOSrQn1S6T8+4Yn6c6OQZ9vu2E+KPkRIvX7N5QMIuZ
-   0PmtLukGBRRf/T/9J21sY1KK3c6bdVlgjXYInd908CXNvcVJMCi4wZdYN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="3436192"
+  t=1703866589; x=1735402589;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=7zR7TWcbDXWPrHuf8ejYzuowuBIJM2eWJPQj5G3tGzc=;
+  b=TqZS17E0wOXehC2IL/qej3XwTru6pb4ZDi38a6aSOfC2kG22rU/sLfcZ
+   F1PoroMlQZmhGafDdnnO649CNnpi8gpddLFrk2lqja+khe0lxSAgXuXA6
+   NjvQM87Kp+ESP38aAtbksAqd/adAJsK1pQKPnkDfc7/ue+0J58niw1Ter
+   dmiGFpJC2qOhCnXimtmt6TToE6kCzHWGcPPBUJrumJ16F6Cz/Z9IIPKJm
+   TeRk1w3XQfjTWgVOblCahJwb24jMNtkXmb4X73/urEKgcJA2yWakZMTwk
+   Jhz7VdKTguOmEUoqF1YHbgCy8OZP7lQwwGsbwZuEM7+RXKJFVepHALdpN
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="482843293"
 X-IronPort-AV: E=Sophos;i="6.04,315,1695711600"; 
-   d="scan'208";a="3436192"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2023 06:40:07 -0800
+   d="scan'208";a="482843293"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2023 08:16:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="922363940"
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="1110208356"
 X-IronPort-AV: E=Sophos;i="6.04,315,1695711600"; 
-   d="scan'208";a="922363940"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 29 Dec 2023 06:40:07 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 29 Dec 2023 06:40:06 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 29 Dec 2023 06:40:06 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 29 Dec 2023 06:40:06 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 29 Dec 2023 06:40:06 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f3nB4OtUj24SY6tBhXqbMkeNEr8XgVHF/JYRW+KLX2kI1Z/L1Dyd+TsU9bJw5gJRkhooT4veEcQqKlGOIhM5qjf/NcaijEETNXDz6rCeeoOkp8ovOO5Wi4jCxZYFZuchKBeHhd7iEVtw6JiI49PeQfS3sv6HsZkxwAFV+2yVeGAYEJ0ttJkICfyra+IVKSIQOWv46xPfixysF7PhBbKkY5NSONtSf/fSlYKycYx3sQkibdbCYNjnbSARZ8VO2cI4JFQaoIozN5j4VbB0suopAznfN1yx490oYYD7EWYNeESrkWcHK4o3/7WtbIHu5WzD/icOol+73AioDxBnWG0reA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NyHAuMKTW3xPDz7f9PAUFnKl8+ZNL4zwTbfbeAEw/NI=;
- b=ZsxNsHVR9NAKAmRgU0rwXx/iOgbplGHX4GcK+ZVlVf49pF8T6Vf7qBdDI4yA/xPSt4A+OoPX+Z9VXtYNVhSfxy26VqBXLUyWuEbjY1OMUE9uJkea4YszbVK6dys0JKZKYmrbAZPzur58+R+2yAonebYMCLWjfKtLUOlm3Qrm5ELTuHo9lnDpAPBUruApKlsZhSq9ShwIeGB5n8VeuKQGOSsk4E1fD8dXLuWuxnq0pO/NX7LUQM5LBnWcyuFZObCNT6IuOKfnV//cy73LGkPpgHMBE4MgEjNS15SIptaDSdOUKJPyiTaPvRiklv3VWDdlHhNVZQlnu5C39VFeMBCX7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by BL1PR11MB5555.namprd11.prod.outlook.com (2603:10b6:208:317::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.21; Fri, 29 Dec
- 2023 14:40:03 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b99c:f603:f176:aca]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b99c:f603:f176:aca%4]) with mapi id 15.20.7135.019; Fri, 29 Dec 2023
- 14:40:03 +0000
-Date: Fri, 29 Dec 2023 22:35:40 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-CC: kernel test robot <lkp@intel.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
-	<oe-kbuild-all@lists.linux.dev>, Linux Memory Management List
-	<linux-mm@kvack.org>, Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [linux-next:master 5175/8213]
- arch/x86/kvm/vmx/hyperv_evmcs.h:133:30: sparse: sparse: cast truncates bits
- from constant value (1b009b becomes 9b)
-Message-ID: <ZY7ZPPqXIC8Cp2n/@yujie-X299>
-References: <202312171230.oCaBKFUr-lkp@intel.com>
- <ZYBgDTkt_tZVbfnx@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZYBgDTkt_tZVbfnx@google.com>
-X-ClientProxiedBy: SI2PR01CA0012.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::8) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="1110208356"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 29 Dec 2023 08:16:27 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rJFX7-000HaD-0V;
+	Fri, 29 Dec 2023 16:16:25 +0000
+Date: Sat, 30 Dec 2023 00:16:00 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [intel-tdx:guest-hardening-rebased 10/35] vmlinux.o: warning:
+ objtool: prepare_msrs+0x17e: stack state mismatch: cfa1=4+80 cfa2=-1+0
+Message-ID: <202312300045.wSPXJgAV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|BL1PR11MB5555:EE_
-X-MS-Office365-Filtering-Correlation-Id: 852e6e2f-3cfe-4be6-77d2-08dc087c0aff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zCoLpy/77ux066AN0UjM6oMDyfuLVUhlgGB4PyFcsLTvnlA3BtBfJgSH71KTZoQcKQSTwnbduzdtX4yCqjWT5BAHcuAqtQ+46RKeC/bdLDQSFnePgdnJN9cTALmO65C9LZDfgTC/ldg9kiNNCqREferkH73nQCKK3t5eA3QuyXIA4lOZk1Qtt2NMNrU2dfVT3I7zNoNAU48jh/xc5L6UP8syoqN9oC1pzHZudm2SIpGpRUXoxt29aY3nrStXk4s9XM+8D6J6sducI+iQVsjlvzVOJrYlkT750hrZGN8unhUvt3YFsOw7fK58wpLzQD7HuE2ZsWYobsLNTDK5GqCG+/9q8CY2k9sS5CHrarVhlY/scuY1H4cE20+pwHl0FjsmvSA1UiqM+8ozyxbD3dGO5lL0824/6/sEiONBBs0OJpArnV3cI7UxxFWqsHh20UCuzWHsGMsGOPx8xFJ9JWp6Ix80oYRPOvX1YRytRwxxG/0OiHHj8rkUdfz5KDEqNO3cBk6X9r1iNkY/obvTXOdhenoiumfoYZc+5R/WITn/Dw0fhT5AMJ3vVQCt6yVDUR8/7Wwuel6A2vkKbjQ1y9Su0+c9aVanttPVplz3QpwJV80AIMwUy+foOhJ3vBnh//w+rKAk0cuCjzbl5Ye/AF7Pcw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(396003)(136003)(346002)(366004)(39860400002)(230273577357003)(230922051799003)(230173577357003)(451199024)(186009)(1800799012)(64100799003)(26005)(83380400001)(82960400001)(33716001)(38100700002)(41300700001)(316002)(2906002)(54906003)(4326008)(966005)(44832011)(6916009)(66476007)(66556008)(66946007)(5660300002)(6486002)(86362001)(8936002)(6512007)(6666004)(6506007)(8676002)(478600001)(9686003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8AA0GwRvrqsTfyv8WCloKWoljup56Hvji1y1aN4ENYAD5KyOMsibAXsKmtvV?=
- =?us-ascii?Q?Wt0ZM9QVla73L1HXPFOI66nz+mH9DClbGknIQZz+N+6kzSt+4Lu4UII2wtrb?=
- =?us-ascii?Q?Sc3U2kpux9ZFR61Ko8rbLOocd/XCfZFinWxpw/ZFst2FO0Zo8o8+Oe6po7tO?=
- =?us-ascii?Q?NWWRPRSjKXTduoisuGSXHw6rIeZTiReibITFCQPHDlN17xOGBvtSLOVTptIr?=
- =?us-ascii?Q?498u5f5UFl+Svc3czpr3Iz1NB6TCi5dh5zeUMOuUHtXVX2buYY9w0au23hsH?=
- =?us-ascii?Q?+Yf3NL76xr3pjGEMpQUMdOKfuvcUJRnKd5hJx31Lkvw8aJ0EtEp5nd9CfEcN?=
- =?us-ascii?Q?FtOSsn9CA3orobZ5wDHreFWmNNuSJQv+sJIPQsSXKKGiQQyMcPZ0wbCRf5Vz?=
- =?us-ascii?Q?AArBfsNAKG6BlZotqlVkerlACMz9FIr3nArOXEU8KiapBt3aHDK5Ybi2nydD?=
- =?us-ascii?Q?rdNt2MUB/jiiaGUuf/AYhYonfhvfgrCf4MVbIZZ12t9eKzwNz4h43ll0ax1u?=
- =?us-ascii?Q?LIIObxDtfGeQcX1j/gTZ6dDXpkkY6cEmd1KXxpLT6RM+EDiL+cQJLkqNpbr2?=
- =?us-ascii?Q?KGXja8+d20hLCzZQoz2wZMlLX3yH3zs8tVssb1Z1SevSly030vDt80uewG9q?=
- =?us-ascii?Q?NlPE83sQHXSBwk44dEoH0uqPwIN+t79bKP4r7i39nGy+vdCIubunUu+WsRZz?=
- =?us-ascii?Q?7exGyHozAIdoq86N0G8xY8Z8RCG6YH44284XMEjHLfp4pCWxhi1i8owyXPFH?=
- =?us-ascii?Q?2WOBLPuBx3kN8f+X0WYXI092NrWwnliAbakkrbT/A8AgKqItaauqU8284L2x?=
- =?us-ascii?Q?oC5qXABaGubOCHZLH7bWPXkm1oLugQmp582lfn1su5QUkNS0sMsPi2PTOr/c?=
- =?us-ascii?Q?NNmMLSun3pU/C2LR9qqP0Z5hqroIAj7hL4nT7CifT6Xq7X0OYIV48mFsFMU7?=
- =?us-ascii?Q?w0MV0j0GSA+uw2YZulBiF+htnt8/YcVnanpGh9pTHZkzKK9Y5FLfdMF9s3SU?=
- =?us-ascii?Q?QpkpsTSRqW3VyieudoMsUrNrpRUC/h7P0bnpK199hG9n0sy4+hG2ehpNPnwZ?=
- =?us-ascii?Q?VubUw5EbsHP+YTFqllGLeM/nMAWaB5Ta4cXVIybKGt2B6KQfyZMewrH0Sdd0?=
- =?us-ascii?Q?r3Tj1AZbGNUUtDwlWb41n53h4wzYSFw3pDYPnkuaH7t2bh2oiD1fo/U1BPrt?=
- =?us-ascii?Q?B1nAv8f9YCm+0u1uZVYUeimcGfkJBaISdwbsemv+4ap1S73X28Mi81aspZyg?=
- =?us-ascii?Q?x51Wxlpwl1dxU+acNzJICdIoiWXIxA8qYsSk51XGuHj48ax5IedBKX2PJtTo?=
- =?us-ascii?Q?SqmZqCIcTErdR0nTT0RPnViuWhYYoaTBvz1E1hkaxd5p+VVVmRY1qqYNcCSb?=
- =?us-ascii?Q?QZC/xY527jdCQ+d2g0Id9OM103AeSqJD+E3e3GBLToGlXqOoJjq8ayiT7PEO?=
- =?us-ascii?Q?q0uKydo5hB7WlgB/IoSU3M9iP0Aw1/1klujOg+xbBJ5X6Prs8iWc/fwlOcTK?=
- =?us-ascii?Q?YGiZAw1xJVd05TMZo+rbTiqGi+dwRRDt/rescTLJe+1XuD/Zsj4qaLl79Vgj?=
- =?us-ascii?Q?H2BX11rI9Nz6kCtKGgMVP3oM1nePnPTM7yB7xHNG?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 852e6e2f-3cfe-4be6-77d2-08dc087c0aff
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2023 14:40:03.4576
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jkUj4NDSTnQ0J3xXO/ryHrGbAs06oziCbDIBn4IpNJCXh4bVnS4DTLP4EnsUnM4myMc+SOLum/WZbWdIOE6cyQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5555
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Sean,
+TO: Andi Kleen <ak@linux.intel.com>
+CC: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 
-On Mon, Dec 18, 2023 at 07:06:53AM -0800, Sean Christopherson wrote:
-> On Sun, Dec 17, 2023, kernel test robot wrote:
-> > Hi Vitaly,
-> > 
-> > FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   17cb8a20bde66a520a2ca7aad1063e1ce7382240
-> > commit: e7ad84db4d718e18c7a133e941ba4c7d4c6d4cbf [5175/8213] KVM: VMX: Split off hyperv_evmcs.{ch}
-> > config: i386-randconfig-061-20231217 (https://download.01.org/0day-ci/archive/20231217/202312171230.oCaBKFUr-lkp@intel.com/config)
-> > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171230.oCaBKFUr-lkp@intel.com/reproduce)
-> 
-> Known shortcoming, just ignore it.
-> 
-> https://lore.kernel.org/all/87v89jmc3q.fsf@redhat.com
+tree:   https://github.com/intel/tdx.git guest-hardening-rebased
+head:   8ed649d924451f564906171d7536679c69c6bfd4
+commit: 570abb767308fcf70d00a607b44618e34bc94629 [10/35] x86/tdx/paravirt: Move wrmsrl outside PARAVIRT_XXL
+config: x86_64-buildonly-randconfig-004-20231229 (https://download.01.org/0day-ci/archive/20231230/202312300045.wSPXJgAV-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231230/202312300045.wSPXJgAV-lkp@intel.com/reproduce)
 
-Sorry for the late reply. We noticed this is another case of sparse
-shortcoming. As you suggested in [1], we still keep this sparse warning
-enabled, and we are planning to implement "disabling just the ROL16()
-warning" for the bot in January. We will come back once this is done.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312300045.wSPXJgAV-lkp@intel.com/
 
-[1] https://lore.kernel.org/all/ZWoCEUvk3Nlmlb9v@google.com/
+All warnings (new ones prefixed by >>):
 
-Thanks,
-Yujie
+>> vmlinux.o: warning: objtool: prepare_msrs+0x17e: stack state mismatch: cfa1=4+80 cfa2=-1+0
+
+
+objdump-func vmlinux.o prepare_msrs:
+0000 000000000005bd80 <prepare_msrs>:
+0000    5bd80:	f3 0f 1e fa          	endbr64
+0004    5bd84:	e8 00 00 00 00       	call   5bd89 <prepare_msrs+0x9>	5bd85: R_X86_64_PLT32	__fentry__-0x4
+0009    5bd89:	55                   	push   %rbp
+000a    5bd8a:	41 57                	push   %r15
+000c    5bd8c:	41 56                	push   %r14
+000e    5bd8e:	41 55                	push   %r13
+0010    5bd90:	41 54                	push   %r12
+0012    5bd92:	53                   	push   %rbx
+0013    5bd93:	48 83 ec 18          	sub    $0x18,%rsp
+0017    5bd97:	49 89 fe             	mov    %rdi,%r14
+001a    5bd9a:	e8 00 00 00 00       	call   5bd9f <prepare_msrs+0x1f>	5bd9b: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+001f    5bd9f:	4d 8b 2e             	mov    (%r14),%r13
+0022    5bda2:	4d 8b 7e 08          	mov    0x8(%r14),%r15
+0026    5bda6:	4d 8b 66 10          	mov    0x10(%r14),%r12
+002a    5bdaa:	49 8b 56 18          	mov    0x18(%r14),%rdx
+002e    5bdae:	41 0f b6 6e 39       	movzbl 0x39(%r14),%ebp
+0033    5bdb3:	41 0f b6 5e 41       	movzbl 0x41(%r14),%ebx
+0038    5bdb8:	49 8b 46 58          	mov    0x58(%r14),%rax
+003c    5bdbc:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+0041    5bdc1:	89 d6                	mov    %edx,%esi
+0043    5bdc3:	48 c1 ea 20          	shr    $0x20,%rdx
+0047    5bdc7:	bf 7a 01 00 00       	mov    $0x17a,%edi
+004c    5bdcc:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5bdd2 <prepare_msrs+0x52>	5bdce: R_X86_64_PC32	pv_ops+0x4
+0052    5bdd2:	48 89 e0             	mov    %rsp,%rax
+0055    5bdd5:	4d 89 ee             	mov    %r13,%r14
+0058    5bdd8:	49 c1 ee 20          	shr    $0x20,%r14
+005c    5bddc:	48 0f ba 25 00 00 00 00 23 	btq    $0x23,0x0(%rip)        # 5bde5 <prepare_msrs+0x65>	5bde0: R_X86_64_PC32	boot_cpu_data+0x63
+0065    5bde5:	72 51                	jb     5be38 <prepare_msrs+0xb8>
+0067    5bde7:	48 89 c5             	mov    %rax,%rbp
+006a    5bdea:	e8 00 00 00 00       	call   5bdef <prepare_msrs+0x6f>	5bdeb: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+006f    5bdef:	8d 3c 9d 01 04 00 00 	lea    0x401(,%rbx,4),%edi
+0076    5bdf6:	44 89 ee             	mov    %r13d,%esi
+0079    5bdf9:	4c 89 f2             	mov    %r14,%rdx
+007c    5bdfc:	48 89 ec             	mov    %rbp,%rsp
+007f    5bdff:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5be05 <prepare_msrs+0x85>	5be01: R_X86_64_PC32	pv_ops+0x4
+0085    5be05:	8d 3c 9d 02 04 00 00 	lea    0x402(,%rbx,4),%edi
+008c    5be0c:	4c 89 e2             	mov    %r12,%rdx
+008f    5be0f:	48 c1 ea 20          	shr    $0x20,%rdx
+0093    5be13:	44 89 e6             	mov    %r12d,%esi
+0096    5be16:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5be1c <prepare_msrs+0x9c>	5be18: R_X86_64_PC32	pv_ops+0x4
+009c    5be1c:	8d 3c 9d 03 04 00 00 	lea    0x403(,%rbx,4),%edi
+00a3    5be23:	4c 89 fa             	mov    %r15,%rdx
+00a6    5be26:	48 c1 ea 20          	shr    $0x20,%rdx
+00aa    5be2a:	44 89 fe             	mov    %r15d,%esi
+00ad    5be2d:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5be33 <prepare_msrs+0xb3>	5be2f: R_X86_64_PC32	pv_ops+0x4
+00b3    5be33:	e9 c6 00 00 00       	jmp    5befe <prepare_msrs+0x17e>
+00b8    5be38:	48 89 04 24          	mov    %rax,(%rsp)
+00bc    5be3c:	4c 89 7c 24 08       	mov    %r15,0x8(%rsp)
+00c1    5be41:	48 c1 e3 04          	shl    $0x4,%rbx
+00c5    5be45:	4d 89 e7             	mov    %r12,%r15
+00c8    5be48:	49 c1 ef 20          	shr    $0x20,%r15
+00cc    5be4c:	45 89 ed             	mov    %r13d,%r13d
+00cf    5be4f:	45 89 e4             	mov    %r12d,%r12d
+00d2    5be52:	40 80 fd 02          	cmp    $0x2,%bpl
+00d6    5be56:	75 36                	jne    5be8e <prepare_msrs+0x10e>
+00d8    5be58:	e8 00 00 00 00       	call   5be5d <prepare_msrs+0xdd>	5be59: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+00dd    5be5d:	b8 08 20 00 c0       	mov    $0xc0002008,%eax
+00e2    5be62:	48 89 df             	mov    %rbx,%rdi
+00e5    5be65:	48 09 c7             	or     %rax,%rdi
+00e8    5be68:	4c 89 ee             	mov    %r13,%rsi
+00eb    5be6b:	4c 89 f2             	mov    %r14,%rdx
+00ee    5be6e:	48 8b 24 24          	mov    (%rsp),%rsp
+00f2    5be72:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5be78 <prepare_msrs+0xf8>	5be74: R_X86_64_PC32	pv_ops+0x4
+00f8    5be78:	89 df                	mov    %ebx,%edi
+00fa    5be7a:	81 cf 09 20 00 c0    	or     $0xc0002009,%edi
+0100    5be80:	4c 89 e6             	mov    %r12,%rsi
+0103    5be83:	4c 89 fa             	mov    %r15,%rdx
+0106    5be86:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5be8c <prepare_msrs+0x10c>	5be88: R_X86_64_PC32	pv_ops+0x4
+010c    5be8c:	eb 31                	jmp    5bebf <prepare_msrs+0x13f>
+010e    5be8e:	e8 00 00 00 00       	call   5be93 <prepare_msrs+0x113>	5be8f: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+0113    5be93:	89 df                	mov    %ebx,%edi
+0115    5be95:	81 cf 01 20 00 c0    	or     $0xc0002001,%edi
+011b    5be9b:	4c 89 ee             	mov    %r13,%rsi
+011e    5be9e:	4c 89 f2             	mov    %r14,%rdx
+0121    5bea1:	48 8b 24 24          	mov    (%rsp),%rsp
+0125    5bea5:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5beab <prepare_msrs+0x12b>	5bea7: R_X86_64_PC32	pv_ops+0x4
+012b    5beab:	89 df                	mov    %ebx,%edi
+012d    5bead:	81 cf 02 20 00 c0    	or     $0xc0002002,%edi
+0133    5beb3:	4c 89 e6             	mov    %r12,%rsi
+0136    5beb6:	4c 89 fa             	mov    %r15,%rdx
+0139    5beb9:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5bebf <prepare_msrs+0x13f>	5bebb: R_X86_64_PC32	pv_ops+0x4
+013f    5bebf:	48 89 e0             	mov    %rsp,%rax
+0142    5bec2:	48 89 c4             	mov    %rax,%rsp
+0145    5bec5:	89 df                	mov    %ebx,%edi
+0147    5bec7:	81 cf 03 20 00 c0    	or     $0xc0002003,%edi
+014d    5becd:	48 8b 44 24 08       	mov    0x8(%rsp),%rax
+0152    5bed2:	48 89 c2             	mov    %rax,%rdx
+0155    5bed5:	48 c1 ea 20          	shr    $0x20,%rdx
+0159    5bed9:	89 c6                	mov    %eax,%esi
+015b    5bedb:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5bee1 <prepare_msrs+0x161>	5bedd: R_X86_64_PC32	pv_ops+0x4
+0161    5bee1:	81 cb 06 20 00 c0    	or     $0xc0002006,%ebx
+0167    5bee7:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+016c    5beec:	48 89 c2             	mov    %rax,%rdx
+016f    5beef:	48 c1 ea 20          	shr    $0x20,%rdx
+0173    5bef3:	89 c6                	mov    %eax,%esi
+0175    5bef5:	48 89 df             	mov    %rbx,%rdi
+0178    5bef8:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 5befe <prepare_msrs+0x17e>	5befa: R_X86_64_PC32	pv_ops+0x4
+017e    5befe:	48 89 e0             	mov    %rsp,%rax
+0181    5bf01:	48 89 c4             	mov    %rax,%rsp
+0184    5bf04:	48 83 c4 18          	add    $0x18,%rsp
+0188    5bf08:	5b                   	pop    %rbx
+0189    5bf09:	41 5c                	pop    %r12
+018b    5bf0b:	41 5d                	pop    %r13
+018d    5bf0d:	41 5e                	pop    %r14
+018f    5bf0f:	41 5f                	pop    %r15
+0191    5bf11:	5d                   	pop    %rbp
+0192    5bf12:	c3                   	ret
+0193    5bf13:	66 66 66 66 2e 0f 1f 84 00 00 00 00 00 	data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
