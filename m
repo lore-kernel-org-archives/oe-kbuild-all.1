@@ -1,57 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE02733E2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Dec 2023 00:30:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAEB63B;
+	Sat, 30 Dec 2023 00:50:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CXT5UdZa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LoQAPJyh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703896219; x=1735432219;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+qStPU0nZNPUJ75qySDvHcPxamWqfgmF4KGOB/CSmI4=;
-  b=CXT5UdZa5UfSDqXNOE3seHSkeuY7zIzuuBFpI7xKRkLVmRYNTtFCKk5h
-   Cj4dVotphx4AEYCHWUZDEbiZhFmomRhR6ibqKwL6wEQ8a2Mb38BlVpet1
-   OtbI623jHPk20tpuIBPvF1p7Eu84pnrrGNT8dMFFKx/Mti9ekGWqmzeeV
-   yp38CclxSs4vOy+tlQOvfh1yy8r3+2zjgzov0Z8gg+iBWGxet6035RwKd
-   BZh/dNX14TnmGbdAniqVXOQja5bGRwRJQTLr+X0YK/5l1xCrGslpiv7up
-   v3p3RWw99oSDTTZgzh3oViCspm6dNLKIITjASCXkIfgOHHMKs6F/li0jf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="15326938"
+  t=1703897457; x=1735433457;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=K/1CdXtWiEKrXcnLpYO1ovfsrkYnhJ01etEtbo33Fco=;
+  b=LoQAPJyh9CRNaJfnkQFmK18C7ew5LilkL6R4gdPbT3P9mpQZL9Jow1Dn
+   bU9iPi1gqEB9OGHTzM5ngC6s4Jf06Dnotzo7WaVtWBKAuPJv3009PDb8f
+   OHd3h9y5L/6NjxL9DJiQEqlOh5/T9DW5ExUDmmptWo5xx2pbEaID1VZ3Y
+   4bn9Vbtwgfwl9XZFZizJcjkqjAy0Aey+emJfSMDM8fHIYDO5v9MPV37SM
+   cedYdz5n++ZdzU7URO1wAtBVIFQa+t/suUmy+1dRWbztHOvZUpHXSs+0L
+   s4yYgNBVN76D0XQgtOGap3xeSOn8jmvQ4ZU/lwMLZqYHyt0OZtkmheG4k
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="482869606"
 X-IronPort-AV: E=Sophos;i="6.04,316,1695711600"; 
-   d="scan'208";a="15326938"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2023 16:28:57 -0800
+   d="scan'208";a="482869606"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2023 16:50:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="897649074"
+X-IronPort-AV: E=McAfee;i="6600,9927,10938"; a="778917650"
 X-IronPort-AV: E=Sophos;i="6.04,316,1695711600"; 
-   d="scan'208";a="897649074"
+   d="scan'208";a="778917650"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Dec 2023 16:28:53 -0800
+  by orsmga002.jf.intel.com with ESMTP; 29 Dec 2023 16:50:54 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJNDf-000Hub-2P;
-	Sat, 30 Dec 2023 00:28:51 +0000
-Date: Sat, 30 Dec 2023 08:28:24 +0800
+	id 1rJNYy-000HwJ-23;
+	Sat, 30 Dec 2023 00:50:52 +0000
+Date: Sat, 30 Dec 2023 08:50:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
-Subject: Re: [PATCH net-next v3 16/27] virtio_net: xsk: tx: support xmit xsk
- buffer
-Message-ID: <202312300834.bOCLH0Mi-lkp@intel.com>
-References: <20231229073108.57778-17-xuanzhuo@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: drivers/video/fbdev/sis/init301.o: warning: objtool:
+ SiS_GetCRT2Ptr+0x1b0: stack state mismatch: cfa1=4+8 cfa2=4+16
+Message-ID: <202312300834.VM19gkmO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,110 +48,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231229073108.57778-17-xuanzhuo@linux.alibaba.com>
 
-Hi Xuan,
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mst-vhost/linux-next]
-[cannot apply to net-next/main linus/master horms-ipvs/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_net-rename-free_old_xmit_skbs-to-free_old_xmit/20231229-155253
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20231229073108.57778-17-xuanzhuo%40linux.alibaba.com
-patch subject: [PATCH net-next v3 16/27] virtio_net: xsk: tx: support xmit xsk buffer
-config: x86_64-randconfig-004-20231229 (https://download.01.org/0day-ci/archive/20231230/202312300834.bOCLH0Mi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231230/202312300834.bOCLH0Mi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f016f7547aeedefed9450499d002ba983b8fce15
+commit: be2f0b1e12644c956a347d7fde93c2ffe9cdb1af objtool: Get rid of reloc->jump_table_start
+date:   7 months ago
+config: x86_64-randconfig-015-20231230 (https://download.01.org/0day-ci/archive/20231230/202312300834.VM19gkmO-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231230/202312300834.VM19gkmO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312300834.bOCLH0Mi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312300834.VM19gkmO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In function 'virtnet_xsk_xmit_one',
-       inlined from 'virtnet_xsk_xmit_batch' at drivers/net/virtio/xsk.c:58:9,
-       inlined from 'virtnet_xsk_xmit' at drivers/net/virtio/xsk.c:80:9:
->> drivers/net/virtio/xsk.c:34:16: warning: 'virtqueue_add_outbuf' accessing 32 bytes in a region of size 8 [-Wstringop-overflow=]
-      34 |         return virtqueue_add_outbuf(sq->vq, sq->sg, 2,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      35 |                                     virtnet_xsk_to_ptr(desc->len), GFP_ATOMIC);
-         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/virtio/xsk.c:34:16: note: referencing argument 2 of type 'struct scatterlist[0]'
-   In file included from include/linux/virtio_config.h:7,
-                    from include/uapi/linux/virtio_net.h:30,
-                    from include/linux/virtio_net.h:8,
-                    from drivers/net/virtio/virtio_net.h:8,
-                    from drivers/net/virtio/xsk.c:6:
-   include/linux/virtio.h: In function 'virtnet_xsk_xmit':
-   include/linux/virtio.h:42:5: note: in a call to function 'virtqueue_add_outbuf'
-      42 | int virtqueue_add_outbuf(struct virtqueue *vq,
-         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/sis/init301.c:2688:24: warning: variable 'modeflag' set but not used [-Wunused-but-set-variable]
+    2688 |   unsigned short i, j, modeflag, tempah=0;
+         |                        ^
+   drivers/video/fbdev/sis/init301.c:6234:52: warning: variable 'resinfo' set but not used [-Wunused-but-set-variable]
+    6234 |   unsigned short  pushbx=0, CRT1Index=0, modeflag, resinfo=0;
+         |                                                    ^
+   drivers/video/fbdev/sis/init301.c:176:28: warning: unused variable 'SiS_Part2CLVX_1' [-Wunused-const-variable]
+     176 | static const unsigned char SiS_Part2CLVX_1[] = {
+         |                            ^~~~~~~~~~~~~~~
+   drivers/video/fbdev/sis/init301.c:184:28: warning: unused variable 'SiS_Part2CLVX_2' [-Wunused-const-variable]
+     184 | static const unsigned char SiS_Part2CLVX_2[] = {
+         |                            ^~~~~~~~~~~~~~~
+   drivers/video/fbdev/sis/init301.c:192:28: warning: unused variable 'SiS_Part2CLVX_3' [-Wunused-const-variable]
+     192 | static const unsigned char SiS_Part2CLVX_3[] = {  /* NTSC, 525i, 525p */
+         |                            ^~~~~~~~~~~~~~~
+   drivers/video/fbdev/sis/init301.c:211:28: warning: unused variable 'SiS_Part2CLVX_4' [-Wunused-const-variable]
+     211 | static const unsigned char SiS_Part2CLVX_4[] = {   /* PAL */
+         |                            ^~~~~~~~~~~~~~~
+   drivers/video/fbdev/sis/init301.c:230:28: warning: unused variable 'SiS_Part2CLVX_5' [-Wunused-const-variable]
+     230 | static const unsigned char SiS_Part2CLVX_5[] = {   /* 750p */
+         |                            ^~~~~~~~~~~~~~~
+   drivers/video/fbdev/sis/init301.c:239:28: warning: unused variable 'SiS_Part2CLVX_6' [-Wunused-const-variable]
+     239 | static const unsigned char SiS_Part2CLVX_6[] = {   /* 1080i */
+         |                            ^~~~~~~~~~~~~~~
+   8 warnings generated.
+>> drivers/video/fbdev/sis/init301.o: warning: objtool: SiS_GetCRT2Ptr+0x1b0: stack state mismatch: cfa1=4+8 cfa2=4+16
 
-
-vim +/virtqueue_add_outbuf +34 drivers/net/virtio/xsk.c
-
-    16	
-    17	static int virtnet_xsk_xmit_one(struct virtnet_sq *sq,
-    18					struct xsk_buff_pool *pool,
-    19					struct xdp_desc *desc)
-    20	{
-    21		struct virtnet_info *vi;
-    22		dma_addr_t addr;
-    23	
-    24		vi = sq->vq->vdev->priv;
-    25	
-    26		addr = xsk_buff_raw_get_dma(pool, desc->addr);
-    27		xsk_buff_raw_dma_sync_for_device(pool, addr, desc->len);
-    28	
-    29		sg_init_table(sq->sg, 2);
-    30	
-    31		sg_fill_dma(sq->sg, sq->xsk.hdr_dma_address, vi->hdr_len);
-    32		sg_fill_dma(sq->sg + 1, addr, desc->len);
-    33	
-  > 34		return virtqueue_add_outbuf(sq->vq, sq->sg, 2,
-    35					    virtnet_xsk_to_ptr(desc->len), GFP_ATOMIC);
-    36	}
-    37	
-    38	static int virtnet_xsk_xmit_batch(struct virtnet_sq *sq,
-    39					  struct xsk_buff_pool *pool,
-    40					  unsigned int budget,
-    41					  u64 *kicks)
-    42	{
-    43		struct xdp_desc *descs = pool->tx_descs;
-    44		u32 nb_pkts, max_pkts, i;
-    45		bool kick = false;
-    46		int err;
-    47	
-    48		/* Every xsk tx packet needs two desc(virtnet header and packet). So we
-    49		 * use sq->vq->num_free / 2 as the limitation.
-    50		 */
-    51		max_pkts = min_t(u32, budget, sq->vq->num_free / 2);
-    52	
-    53		nb_pkts = xsk_tx_peek_release_desc_batch(pool, max_pkts);
-    54		if (!nb_pkts)
-    55			return 0;
-    56	
-    57		for (i = 0; i < nb_pkts; i++) {
-  > 58			err = virtnet_xsk_xmit_one(sq, pool, &descs[i]);
-    59			if (unlikely(err))
-    60				break;
-    61	
-    62			kick = true;
-    63		}
-    64	
-    65		if (kick && virtqueue_kick_prepare(sq->vq) && virtqueue_notify(sq->vq))
-    66			(*kicks)++;
-    67	
-    68		return i;
-    69	}
-    70	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
+   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
+   Selected by [m]:
+   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
 
 -- 
 0-DAY CI Kernel Test Service
