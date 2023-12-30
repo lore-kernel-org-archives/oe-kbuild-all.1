@@ -1,52 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC08BE4C;
-	Sat, 30 Dec 2023 19:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B5BBE4D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Dec 2023 19:26:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmyJdi25"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="THJlpu9U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703962851; x=1735498851;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=whfhzrFP1XaKEEFEkjtUukTNpb1Ux0LYaBu1esD0LBE=;
-  b=SmyJdi25Ufi1zgYd9ic4IaVpLp6nEt1iHhksNZL0h1WVSD/plUhAe4Bw
-   U3lRJMQekPL2VFd0c9c3Ik7X76rehbborYPleCA3qe8+mFX9eVnX6MlWq
-   XfODt3DvO+ILDiQwVXp1FzVN+p/CDfEsLxP6IyE1OH65yGyQytnmB0lfQ
-   P2S/ToWBQ9q6jtNMmfPdtpFr0sctyHYkJX0UkQSTPslXFI/ifMm1HkKgz
-   V0idrmYhp6LSRVx+WkK/vD3BatsRdMKsTR+dFd1eZk8xBCswIcTfdM4e2
-   MwrEB5rpBrIbe4bjyWaaouFCL/LBi49Rx/3lF2fXZ7S/gNPFw5oj/mYk9
+  t=1703964381; x=1735500381;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6iVM/ObSLCM2iZzQwdcs7ki9Y2tfYQK+4FTGUljzDWI=;
+  b=THJlpu9UZaFoYu1rhmcZhIGQ4KrVcd9my9QgOCs4QkCqXJbALlqTpBIG
+   HmfIANCQEpB4jnapvSqrWFzC6kCsH0mITAFmmSb3vhVgd0zrKil5FGj6A
+   V1kLixt259g16quP0LGM/eCWxw3CV/7op9bdbXvU97FYgFNEGnJVBPg8t
+   hG/y8bX2iinn4wK9XITqIV3NHkY06GpDmjUJRbfMtGIq8wIQLYl8zKvPp
+   LeA/x+80wbx2n/ZgyTsD5W+qOdoQgc630wPrUsw4zGvuWAwJeHMERpsJF
+   3WAv8o21GIrMVe+5zIT4U8y8c9FmkoSp0pu/MCe7917XcHfPNB9HRxHZq
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="15365888"
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="463129209"
 X-IronPort-AV: E=Sophos;i="6.04,318,1695711600"; 
-   d="scan'208";a="15365888"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2023 10:56:23 -0800
+   d="scan'208";a="463129209"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2023 11:26:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="772212696"
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="869650882"
 X-IronPort-AV: E=Sophos;i="6.04,318,1695711600"; 
-   d="scan'208";a="772212696"
+   d="scan'208";a="869650882"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 30 Dec 2023 10:56:18 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 30 Dec 2023 11:26:19 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJeVM-000Ih9-0T;
-	Sat, 30 Dec 2023 18:56:16 +0000
-Date: Sun, 31 Dec 2023 02:55:31 +0800
+	id 1rJeyP-000Iij-19;
+	Sat, 30 Dec 2023 19:26:17 +0000
+Date: Sun, 31 Dec 2023 03:25:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiaolei Wang <xiaolei.wang@windriver.com>, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	linux-imx@nxp.com, peng.fan@nxp.com, treding@nvidia.com,
-	yibin.gong@nxp.com, robh@kernel.org, ranjani.vaidyanathan@nxp.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware: imx: scu: ensure wakeup procedure calls
- pm_system_wakeup()
-Message-ID: <202312310227.7eLUYzgH-lkp@intel.com>
-References: <20231230053831.67661-1-xiaolei.wang@windriver.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [drm-xe:drm-xe-next 1015/1016] kismet: WARNING: unmet direct
+ dependencies detected for INTEL_MEI_ME when selected by INTEL_MEI_HDCP
+Message-ID: <202312310301.kske2zoM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,47 +52,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231230053831.67661-1-xiaolei.wang@windriver.com>
 
-Hi Xiaolei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on linus/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiaolei-Wang/firmware-imx-scu-ensure-wakeup-procedure-calls-pm_system_wakeup/20231230-134202
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231230053831.67661-1-xiaolei.wang%40windriver.com
-patch subject: [PATCH] firmware: imx: scu: ensure wakeup procedure calls pm_system_wakeup()
-config: i386-buildonly-randconfig-003-20231230 (https://download.01.org/0day-ci/archive/20231231/202312310227.7eLUYzgH-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231231/202312310227.7eLUYzgH-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+head:   7b3b98d034784b125bad7aca46f9e7a3cfcde45a
+commit: 13c966ccd05e2a34f98e76a00ba56b698ae13693 [1015/1016] mei/hdcp: Also enable for XE
+config: alpha-kismet-CONFIG_INTEL_MEI_ME-CONFIG_INTEL_MEI_HDCP-0-0 (https://download.01.org/0day-ci/archive/20231231/202312310301.kske2zoM-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231231/202312310301.kske2zoM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312310227.7eLUYzgH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312310301.kske2zoM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/firmware/imx/imx-scu.c:365:32: warning: unused variable 'imx_scu_pm_ops' [-Wunused-const-variable]
-     365 | static const struct dev_pm_ops imx_scu_pm_ops = {
-         |                                ^~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +/imx_scu_pm_ops +365 drivers/firmware/imx/imx-scu.c
-
-   364	
- > 365	static const struct dev_pm_ops imx_scu_pm_ops = {
-   366		SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(imx_scu_suspend_noirq,
-   367					      imx_scu_resume_noirq)
-   368	};
-   369	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for INTEL_MEI_ME when selected by INTEL_MEI_HDCP
+   
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+     Depends on [n]: X86 && PCI [=y]
+     Selected by [y]:
+     - INTEL_MEI_HDCP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
 
 -- 
 0-DAY CI Kernel Test Service
