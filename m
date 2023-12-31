@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9266DC140
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Dec 2023 22:41:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75180C2C0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Dec 2023 23:12:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DvJWXKHS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVfxCF7M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704062483; x=1735598483;
+  t=1704064350; x=1735600350;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CNbHn5JZhY17vzo7hwS/CKhb0QyVaposJD+CErl8kwo=;
-  b=DvJWXKHSVSL0BeZjhHjB2lBdOpm2Grbi7kFrELoVm3UzF0lZf1fUHj+8
-   RI+X+JdbVf4DXKmdOYZKqQcsss964euTa+lwe9+upwxwoNK+UVtFxoSet
-   5vwgInPVNTJlchhb7mla0qKSfisH7ppgcvVAOi9siqZp6n3SHv4ewB0fu
-   sgSEOc+o0DMody7UULjvRYr4JUR0aEH+hn6uQ5V0iuacIhNQ4TQKdjMt7
-   pqpzj9n2J9NpKe9f2+Z+x4epNRBxIwQTEp1xwwcvvnf9moBilwq3xsEI5
-   S7wU/aX7p/h5br4AsiRjBokRPTspXRsXtYhQlxe295fLTgDX80Hoyvn4m
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="463172290"
+  bh=62bNteZDkhz2KSoLHklFYTxgVS2scwtyvlyZ0y55ohg=;
+  b=aVfxCF7MRKSUyHvY8XELb0DRX7xwG3YGxZ2rejirjVOhnrd1d4gJ9kP8
+   Ervh6qTXBJd4JxOuQ2zXA9NZbBeH0NN3XjxmFa6fmh3WuoVmqVzLxE5zi
+   pX8/BqXBL9LcQzM26e92wM14R8g2dv+RtOO6bMbTf06bcjUGux49II5At
+   yJPkXSetRygHEexPjXrduISElqmQPUCcF56MM859tzndsh6VNDAeYCem3
+   NAu5+VWVfOXxiHHS82y/yLrkZqUs6ChVOVFDjZlhTfQByl7ePAEcSPsmE
+   QEH1qMU6v/Vh0oWHvHriacmSMnFRnyadmOfLLNpvYSAPvXdOdOT9AWHQJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="3588649"
 X-IronPort-AV: E=Sophos;i="6.04,321,1695711600"; 
-   d="scan'208";a="463172290"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 14:41:22 -0800
+   d="scan'208";a="3588649"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 15:12:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="849735592"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="902746244"
 X-IronPort-AV: E=Sophos;i="6.04,321,1695711600"; 
-   d="scan'208";a="849735592"
+   d="scan'208";a="902746244"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 31 Dec 2023 14:41:19 -0800
+  by orsmga004.jf.intel.com with ESMTP; 31 Dec 2023 15:12:23 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rK4Ue-000JnI-26;
-	Sun, 31 Dec 2023 22:41:16 +0000
-Date: Mon, 1 Jan 2024 06:40:49 +0800
+	id 1rK4yi-000Jo0-34;
+	Sun, 31 Dec 2023 23:12:20 +0000
+Date: Mon, 1 Jan 2024 07:11:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Elfring <Markus.Elfring@web.de>, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	"D. Wythe" <alibuda@linux.alibaba.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jan Karcher <jaka@linux.ibm.com>,
-	Paolo Abeni <pabeni@redhat.com>, Tony Lu <tonylu@linux.alibaba.com>,
-	Wen Gu <guwen@linux.alibaba.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] net/smc: Improve exception handling in
- smc_llc_cli_add_link_invite()
-Message-ID: <202401010657.eexbMD1F-lkp@intel.com>
-References: <5253e660-6b66-4775-ae2f-06f5a1d40be5@web.de>
+To: Sagi Maimon <maimon.sagi@gmail.com>, richardcochran@gmail.com,
+	luto@kernel.org, datglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, arnd@arndb.de, geert@linux-m68k.org,
+	peterz@infradead.org, hannes@cmpxchg.org, sohil.mehta@intel.com,
+	rick.p.edgecombe@intel.com, nphamcs@gmail.com, palmer@sifive.com,
+	keescook@chromium.org, legion@kernel.org, mark.rutland@arm.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v4] posix-timers: add multi_clock_gettime system call
+Message-ID: <202401010719.QfVc3HOt-lkp@intel.com>
+References: <20231231170721.3381-1-maimon.sagi@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,77 +58,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5253e660-6b66-4775-ae2f-06f5a1d40be5@web.de>
+In-Reply-To: <20231231170721.3381-1-maimon.sagi@gmail.com>
 
-Hi Markus,
+Hi Sagi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master v6.7-rc7 next-20231222]
-[cannot apply to horms-ipvs/master]
+[auto build test ERROR on tip/x86/asm]
+[also build test ERROR on tip/timers/core linus/master v6.7-rc7]
+[cannot apply to arnd-asm-generic/master next-20231222]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/net-smc-Return-directly-after-a-failed-kzalloc-in-smc_fill_gid_list/20231231-231406
-base:   net/main
-patch link:    https://lore.kernel.org/r/5253e660-6b66-4775-ae2f-06f5a1d40be5%40web.de
-patch subject: [PATCH 2/2] net/smc: Improve exception handling in smc_llc_cli_add_link_invite()
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240101/202401010657.eexbMD1F-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240101/202401010657.eexbMD1F-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sagi-Maimon/posix-timers-add-multi_clock_gettime-system-call/20240101-011104
+base:   tip/x86/asm
+patch link:    https://lore.kernel.org/r/20231231170721.3381-1-maimon.sagi%40gmail.com
+patch subject: [PATCH v4] posix-timers: add multi_clock_gettime system call
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240101/202401010719.QfVc3HOt-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240101/202401010719.QfVc3HOt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401010657.eexbMD1F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401010719.QfVc3HOt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/smc/smc_llc.c: In function 'smc_llc_cli_add_link_invite':
->> net/smc/smc_llc.c:1175:41: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
-    1175 |             lgr->type == SMC_LGR_SINGLE && lgr->max_links <= 1)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/sparc/kernel/setup_64.c:21:
+>> include/linux/syscalls.h:1164:48: error: 'struct __ptp_multi_clock_get' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+    1164 | asmlinkage long sys_multi_clock_gettime(struct __ptp_multi_clock_get __user * ptp_multi_clk_get);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~
+   arch/sparc/kernel/setup_64.c:602:13: error: no previous prototype for 'alloc_irqstack_bootmem' [-Werror=missing-prototypes]
+     602 | void __init alloc_irqstack_bootmem(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   In file included from arch/sparc/kernel/sys_sparc_64.c:25:
+>> include/linux/syscalls.h:1164:48: error: 'struct __ptp_multi_clock_get' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+    1164 | asmlinkage long sys_multi_clock_gettime(struct __ptp_multi_clock_get __user * ptp_multi_clk_get);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +1175 net/smc/smc_llc.c
+vim +1164 include/linux/syscalls.h
 
-  1160	
-  1161	/* as an SMC client, invite server to start the add_link processing */
-  1162	static void smc_llc_cli_add_link_invite(struct smc_link *link,
-  1163						struct smc_llc_qentry *qentry)
-  1164	{
-  1165		struct smc_link_group *lgr = smc_get_lgr(link);
-  1166		struct smc_init_info *ini;
-  1167	
-  1168		if (lgr->smc_version == SMC_V2) {
-  1169			smc_llc_send_request_add_link(link);
-  1170			goto free_qentry;
-  1171		}
-  1172	
-  1173		if (lgr->type == SMC_LGR_SYMMETRIC ||
-  1174		    lgr->type == SMC_LGR_ASYMMETRIC_PEER ||
-> 1175		    lgr->type == SMC_LGR_SINGLE && lgr->max_links <= 1)
-  1176			goto free_qentry;
-  1177	
-  1178		ini = kzalloc(sizeof(*ini), GFP_KERNEL);
-  1179		if (!ini)
-  1180			goto free_qentry;
-  1181	
-  1182		ini->vlan_id = lgr->vlan_id;
-  1183		smc_pnet_find_alt_roce(lgr, ini, link->smcibdev);
-  1184		if (!ini->ib_dev)
-  1185			goto out;
-  1186	
-  1187		smc_llc_send_add_link(link, ini->ib_dev->mac[ini->ib_port - 1],
-  1188				      ini->ib_gid, NULL, SMC_LLC_REQ);
-  1189	out:
-  1190		kfree(ini);
-  1191	free_qentry:
-  1192		kfree(qentry);
-  1193	}
-  1194	
+  1154	
+  1155	/* obsolete */
+  1156	asmlinkage long sys_ipc(unsigned int call, int first, unsigned long second,
+  1157			unsigned long third, void __user *ptr, long fifth);
+  1158	
+  1159	/* obsolete */
+  1160	asmlinkage long sys_mmap_pgoff(unsigned long addr, unsigned long len,
+  1161				unsigned long prot, unsigned long flags,
+  1162				unsigned long fd, unsigned long pgoff);
+  1163	asmlinkage long sys_old_mmap(struct mmap_arg_struct __user *arg);
+> 1164	asmlinkage long sys_multi_clock_gettime(struct __ptp_multi_clock_get __user * ptp_multi_clk_get);
+  1165	
 
 -- 
 0-DAY CI Kernel Test Service
