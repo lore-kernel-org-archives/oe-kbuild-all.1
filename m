@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9084520E7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Dec 2023 02:57:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F82EB8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Dec 2023 03:15:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OwBgXj13"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WrA5hgiI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703991472; x=1735527472;
+  t=1703992536; x=1735528536;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2Nbj+t0aZA6am9SCwhzz/r3sl4tL3ZzVU0Po7zFIm2Q=;
-  b=OwBgXj13xBAGxicLbLow8+dM3nZ05p77vlrWhZ8vrFkIWd7aoT4mHhU3
-   JIROWhxzsbUuIfanGoiZYvSKZ9N71189RCLjzAcCd382tcyIc69j/raUi
-   8DC2JCDFsB2PE/JUGTr3BiIq4fUtP8Xtab1Lo/VsUkZXKY4g4OtC5iCb/
-   PM8U/t+iu+WAXYe8+q84h2+0IxCKCFmKMl8pe3bI8Vd2Ugmllm2c3B0DO
-   Z1uShA4HtZrmy/OuGEr2AyNuBaYhMr932qYGBE+jOjt3JV3pUFYg64aEZ
-   6yWKX76aU0zcTLDFt2JoUHIRGG8Le16yMydiH11+pzWQ163x+hARyKfjP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="18278753"
+  bh=MzZsasFjpczTEtjFO9CKWx6vPCKBuEbpkEI9x5/BTEE=;
+  b=WrA5hgiIjDWflHVJOzULTFir+VNLaUVAmUoV0romM5Cdlx87lvpbe+BI
+   i4eopMO7vMT4HwiXm3Je4xxP99Rr/N6tXBDpkmys2xhxXHKfXm2qcEkQ0
+   Rni6vdli83YHI/DXmdZNC7nT66uTxsX/g80yheREKv0J5/pUcYqfvx3wP
+   XaFFen3eouhc7KNjd6Yp7i/rN5JkGygLLC7q+mNHTmKmz+z2m9zf8nkSe
+   pm9oJYcLzPOrL5U6JaAugZluRMbRKZeD48Z66NUKhS3MRUIpyDcaMwmHf
+   DvSoeQ6BaKBXaRnGUuktsbMnrAg42OQ/kTXkLTNgpK+7N4ipbFzTZOXa7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="3508740"
 X-IronPort-AV: E=Sophos;i="6.04,319,1695711600"; 
-   d="scan'208";a="18278753"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2023 18:57:38 -0800
+   d="scan'208";a="3508740"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2023 17:34:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="772267459"
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="1026203430"
 X-IronPort-AV: E=Sophos;i="6.04,319,1695711600"; 
-   d="scan'208";a="772267459"
+   d="scan'208";a="1026203430"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 30 Dec 2023 18:57:36 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 30 Dec 2023 17:34:29 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJm18-000Ivl-0g;
-	Sun, 31 Dec 2023 02:57:34 +0000
-Date: Sun, 31 Dec 2023 10:56:57 +0800
+	id 1rJkih-000ItM-11;
+	Sun, 31 Dec 2023 01:34:27 +0000
+Date: Sun, 31 Dec 2023 09:34:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: Yury Norov <yury.norov@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-block:blk-limits 36/46] drivers/cdrom/gdrom.c:748:9: error:
- expected ',' or ';' before 'int'
-Message-ID: <202312311005.7G08z2pN-lkp@intel.com>
+Subject: [norov:group_cpus 8/9] lib/group_cpus.c:378 group_cpus_evenly()
+ warn: unsigned 'nr_present' is never less than zero.
+Message-ID: <202312310941.FXBRzn8C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,145 +50,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/block.git blk-limits
-head:   2ac689ccdb138ca7b07b7a731204f8a66bc4eed7
-commit: 7b5e4342c4f9a51c309346d1cdcee3cdca5fc9cb [36/46] gdrom: pass queue_limits to blk_mq_alloc_disk
-config: sh-dreamcast_defconfig (https://download.01.org/0day-ci/archive/20231231/202312311005.7G08z2pN-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231231/202312311005.7G08z2pN-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux group_cpus
+head:   1117349d164c1dec91f4ace657c7964c587cee24
+commit: 4c2e6aa6ff56057cd68a80f19e9d06ef4ce51d46 [8/9] lib/group_cpus: rework group_cpus_evenly()
+config: x86_64-randconfig-161-20231231 (https://download.01.org/0day-ci/archive/20231231/202312310941.FXBRzn8C-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312311005.7G08z2pN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312310941.FXBRzn8C-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+lib/group_cpus.c:378 group_cpus_evenly() warn: unsigned 'nr_present' is never less than zero.
+lib/group_cpus.c:395 group_cpus_evenly() warn: unsigned 'nr_others' is never less than zero.
 
-   drivers/cdrom/gdrom.c: In function 'gdrom_get_last_session':
-   drivers/cdrom/gdrom.c:315:21: warning: variable 'lentry' set but not used [-Wunused-but-set-variable]
-     315 |         int fentry, lentry, track, data, err;
-         |                     ^~~~~~
-   drivers/cdrom/gdrom.c: In function 'probe_gdrom':
->> drivers/cdrom/gdrom.c:748:9: error: expected ',' or ';' before 'int'
-     748 |         int err;
-         |         ^~~
->> drivers/cdrom/gdrom.c:773:17: error: 'err' undeclared (first use in this function)
-     773 |                 err = -ENOMEM;
-         |                 ^~~
-   drivers/cdrom/gdrom.c:773:17: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/cdrom/gdrom.c:832:1: warning: control reaches end of non-void function [-Wreturn-type]
-     832 | }
-         | ^
+vim +/nr_present +378 lib/group_cpus.c
 
-
-vim +748 drivers/cdrom/gdrom.c
-
-ad5fc6bb722146 Jens Axboe         2018-10-15  734  
-74ee1a7590b782 Adrian McMenamin   2008-01-21  735  /*
-74ee1a7590b782 Adrian McMenamin   2008-01-21  736   * register this as a block device and as compliant with the
-74ee1a7590b782 Adrian McMenamin   2008-01-21  737   * universal CD Rom driver interface
-74ee1a7590b782 Adrian McMenamin   2008-01-21  738   */
-0fe763c570ad27 Greg Kroah-Hartman 2012-12-21  739  static int probe_gdrom(struct platform_device *devptr)
-74ee1a7590b782 Adrian McMenamin   2008-01-21  740  {
-7b5e4342c4f9a5 Christoph Hellwig  2023-07-06  741  	struct queue_limits lim = {
-7b5e4342c4f9a5 Christoph Hellwig  2023-07-06  742  		.logical_block_size		= GDROM_HARD_SECTOR,
-7b5e4342c4f9a5 Christoph Hellwig  2023-07-06  743  		/* using DMA so memory will need to be contiguous */
-7b5e4342c4f9a5 Christoph Hellwig  2023-07-06  744  		.max_segments			= 1,
-7b5e4342c4f9a5 Christoph Hellwig  2023-07-06  745  		/* set a large max size to get most from DMA */
-7b5e4342c4f9a5 Christoph Hellwig  2023-07-06  746  		.max_segment_size		= 0x40000,
-7b5e4342c4f9a5 Christoph Hellwig  2023-07-06  747  	}
-74ee1a7590b782 Adrian McMenamin   2008-01-21 @748  	int err;
-9183f01b5e6e32 Greg Kroah-Hartman 2021-05-06  749  
-9183f01b5e6e32 Greg Kroah-Hartman 2021-05-06  750  	/*
-9183f01b5e6e32 Greg Kroah-Hartman 2021-05-06  751  	 * Ensure our "one" device is initialized properly in case of previous
-9183f01b5e6e32 Greg Kroah-Hartman 2021-05-06  752  	 * usages of it
-9183f01b5e6e32 Greg Kroah-Hartman 2021-05-06  753  	 */
-9183f01b5e6e32 Greg Kroah-Hartman 2021-05-06  754  	memset(&gd, 0, sizeof(gd));
-9183f01b5e6e32 Greg Kroah-Hartman 2021-05-06  755  
-74ee1a7590b782 Adrian McMenamin   2008-01-21  756  	/* Start the device */
-74ee1a7590b782 Adrian McMenamin   2008-01-21  757  	if (gdrom_execute_diagnostic() != 1) {
-f8b489980d9427 Kefeng Wang        2019-10-18  758  		pr_warn("ATA Probe for GDROM failed\n");
-74ee1a7590b782 Adrian McMenamin   2008-01-21  759  		return -ENODEV;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  760  	}
-74ee1a7590b782 Adrian McMenamin   2008-01-21  761  	/* Print out firmware ID */
-74ee1a7590b782 Adrian McMenamin   2008-01-21  762  	if (gdrom_outputversion())
-74ee1a7590b782 Adrian McMenamin   2008-01-21  763  		return -ENOMEM;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  764  	/* Register GDROM */
-74ee1a7590b782 Adrian McMenamin   2008-01-21  765  	gdrom_major = register_blkdev(0, GDROM_DEV_NAME);
-74ee1a7590b782 Adrian McMenamin   2008-01-21  766  	if (gdrom_major <= 0)
-74ee1a7590b782 Adrian McMenamin   2008-01-21  767  		return gdrom_major;
-e597cd09f711b2 Joe Perches        2010-07-01  768  	pr_info("Registered with major number %d\n",
-74ee1a7590b782 Adrian McMenamin   2008-01-21  769  		gdrom_major);
-74ee1a7590b782 Adrian McMenamin   2008-01-21  770  	/* Specify basic properties of drive */
-74ee1a7590b782 Adrian McMenamin   2008-01-21  771  	gd.cd_info = kzalloc(sizeof(struct cdrom_device_info), GFP_KERNEL);
-74ee1a7590b782 Adrian McMenamin   2008-01-21  772  	if (!gd.cd_info) {
-74ee1a7590b782 Adrian McMenamin   2008-01-21 @773  		err = -ENOMEM;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  774  		goto probe_fail_no_mem;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  775  	}
-74ee1a7590b782 Adrian McMenamin   2008-01-21  776  	probe_gdrom_setupcd();
-0592c3d166c967 Christoph Hellwig  2021-06-02  777  
-0592c3d166c967 Christoph Hellwig  2021-06-02  778  	err = blk_mq_alloc_sq_tag_set(&gd.tag_set, &gdrom_mq_ops, 1,
-0592c3d166c967 Christoph Hellwig  2021-06-02  779  				BLK_MQ_F_SHOULD_MERGE | BLK_MQ_F_BLOCKING);
-0592c3d166c967 Christoph Hellwig  2021-06-02  780  	if (err)
-0592c3d166c967 Christoph Hellwig  2021-06-02  781  		goto probe_fail_free_cd_info;
-0592c3d166c967 Christoph Hellwig  2021-06-02  782  
-7b5e4342c4f9a5 Christoph Hellwig  2023-07-06  783  	gd.disk = blk_mq_alloc_disk(&gd.tag_set, &lim, NULL);
-0592c3d166c967 Christoph Hellwig  2021-06-02  784  	if (IS_ERR(gd.disk)) {
-0592c3d166c967 Christoph Hellwig  2021-06-02  785  		err = PTR_ERR(gd.disk);
-0592c3d166c967 Christoph Hellwig  2021-06-02  786  		goto probe_fail_free_tag_set;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  787  	}
-0592c3d166c967 Christoph Hellwig  2021-06-02  788  	gd.gdrom_rq = gd.disk->queue;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  789  	probe_gdrom_setupdisk();
-a711d91cd97e6c Christoph Hellwig  2020-04-25  790  	if (register_cdrom(gd.disk, gd.cd_info)) {
-74ee1a7590b782 Adrian McMenamin   2008-01-21  791  		err = -ENODEV;
-0592c3d166c967 Christoph Hellwig  2021-06-02  792  		goto probe_fail_cleanup_disk;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  793  	}
-74ee1a7590b782 Adrian McMenamin   2008-01-21  794  	gd.disk->fops = &gdrom_bdops;
-773008f6fe0544 Martin Wilck       2019-03-27  795  	gd.disk->events = DISK_EVENT_MEDIA_CHANGE;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  796  	/* latch on to the interrupt */
-74ee1a7590b782 Adrian McMenamin   2008-01-21  797  	err = gdrom_set_interrupt_handlers();
-74ee1a7590b782 Adrian McMenamin   2008-01-21  798  	if (err)
-0592c3d166c967 Christoph Hellwig  2021-06-02  799  		goto probe_fail_cleanup_disk;
-ad5fc6bb722146 Jens Axboe         2018-10-15  800  
-74ee1a7590b782 Adrian McMenamin   2008-01-21  801  	err = probe_gdrom_setupqueue();
-74ee1a7590b782 Adrian McMenamin   2008-01-21  802  	if (err)
-0592c3d166c967 Christoph Hellwig  2021-06-02  803  		goto probe_fail_free_irqs;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  804  
-74ee1a7590b782 Adrian McMenamin   2008-01-21  805  	gd.toc = kzalloc(sizeof(struct gdromtoc), GFP_KERNEL);
-605cdf0875f803 Christophe JAILLET 2017-02-06  806  	if (!gd.toc) {
-605cdf0875f803 Christophe JAILLET 2017-02-06  807  		err = -ENOMEM;
-0592c3d166c967 Christoph Hellwig  2021-06-02  808  		goto probe_fail_free_irqs;
-605cdf0875f803 Christophe JAILLET 2017-02-06  809  	}
-d6ac27c60fec4d Luis Chamberlain   2021-09-27  810  	err = add_disk(gd.disk);
-d6ac27c60fec4d Luis Chamberlain   2021-09-27  811  	if (err)
-d6ac27c60fec4d Luis Chamberlain   2021-09-27  812  		goto probe_fail_add_disk;
-d6ac27c60fec4d Luis Chamberlain   2021-09-27  813  
-74ee1a7590b782 Adrian McMenamin   2008-01-21  814  	return 0;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  815  
-d6ac27c60fec4d Luis Chamberlain   2021-09-27  816  probe_fail_add_disk:
-d6ac27c60fec4d Luis Chamberlain   2021-09-27  817  	kfree(gd.toc);
-0592c3d166c967 Christoph Hellwig  2021-06-02  818  probe_fail_free_irqs:
-74ee1a7590b782 Adrian McMenamin   2008-01-21  819  	free_irq(HW_EVENT_GDROM_DMA, &gd);
-74ee1a7590b782 Adrian McMenamin   2008-01-21  820  	free_irq(HW_EVENT_GDROM_CMD, &gd);
-0592c3d166c967 Christoph Hellwig  2021-06-02  821  probe_fail_cleanup_disk:
-8b9ab62662048a Christoph Hellwig  2022-06-19  822  	put_disk(gd.disk);
-0592c3d166c967 Christoph Hellwig  2021-06-02  823  probe_fail_free_tag_set:
-0592c3d166c967 Christoph Hellwig  2021-06-02  824  	blk_mq_free_tag_set(&gd.tag_set);
-0592c3d166c967 Christoph Hellwig  2021-06-02  825  probe_fail_free_cd_info:
-74ee1a7590b782 Adrian McMenamin   2008-01-21  826  	kfree(gd.cd_info);
-31bd8fbb41b1fd Libo Chen          2013-07-03  827  probe_fail_no_mem:
-74ee1a7590b782 Adrian McMenamin   2008-01-21  828  	unregister_blkdev(gdrom_major, GDROM_DEV_NAME);
-74ee1a7590b782 Adrian McMenamin   2008-01-21  829  	gdrom_major = 0;
-f8b489980d9427 Kefeng Wang        2019-10-18  830  	pr_warn("Probe failed - error is 0x%X\n", err);
-74ee1a7590b782 Adrian McMenamin   2008-01-21  831  	return err;
-74ee1a7590b782 Adrian McMenamin   2008-01-21  832  }
-74ee1a7590b782 Adrian McMenamin   2008-01-21  833  
-
-:::::: The code at line 748 was first introduced by commit
-:::::: 74ee1a7590b782a6df01d00ae38093cbfbee5ca9 cdrom: Add support for Sega Dreamcast GD-ROM.
-
-:::::: TO: Adrian McMenamin <adrian@mcmen.demon.co.uk>
-:::::: CC: Paul Mundt <lethal@linux-sh.org>
+   332	
+   333	/**
+   334	 * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
+   335	 * @numgrps: number of groups
+   336	 *
+   337	 * Return: cpumask array if successful, NULL otherwise. And each element
+   338	 * includes CPUs assigned to this group
+   339	 *
+   340	 * Try to put close CPUs from viewpoint of CPU and NUMA locality into
+   341	 * same group, and run two-stage grouping:
+   342	 *	1) allocate present CPUs on these groups evenly first
+   343	 *	2) allocate other possible CPUs on these groups evenly
+   344	 *
+   345	 * We guarantee in the resulted grouping that all CPUs are covered, and
+   346	 * no same CPU is assigned to multiple groups
+   347	 */
+   348	struct cpumask *group_cpus_evenly(unsigned int numgrps)
+   349	{
+   350		cpumask_var_t *node_to_cpumask __free(free_node_to_cpumask) = alloc_node_to_cpumask();
+   351		struct cpumask *masks __free(kfree) = kcalloc(numgrps, sizeof(*masks), GFP_KERNEL);
+   352		cpumask_var_t npresmsk __free(free_cpumask_var);
+   353		cpumask_var_t nmsk __free(free_cpumask_var);
+   354		unsigned int curgrp, nr_present, nr_others;
+   355	
+   356		if (!masks || !node_to_cpumask || !alloc_cpumask_var(&nmsk, GFP_KERNEL)
+   357				|| !alloc_cpumask_var(&npresmsk, GFP_KERNEL))
+   358			return NULL;
+   359	
+   360		build_node_to_cpumask(node_to_cpumask);
+   361	
+   362		/*
+   363		 * Make a local cache of 'cpu_present_mask', so the two stages
+   364		 * spread can observe consistent 'cpu_present_mask' without holding
+   365		 * cpu hotplug lock, then we can reduce deadlock risk with cpu
+   366		 * hotplug code.
+   367		 *
+   368		 * Here CPU hotplug may happen when reading `cpu_present_mask`, and
+   369		 * we can live with the case because it only affects that hotplug
+   370		 * CPU is handled in the 1st or 2nd stage, and either way is correct
+   371		 * from API user viewpoint since 2-stage spread is sort of
+   372		 * optimization.
+   373		 */
+   374		cpumask_copy(npresmsk, data_race(cpu_present_mask));
+   375	
+   376		/* grouping present CPUs first */
+   377		nr_present = __group_cpus_evenly(0, numgrps, node_to_cpumask, npresmsk, nmsk, masks);
+ > 378		if (nr_present < 0)
+   379			return NULL;
+   380	
+   381		/* If npresmsk is empty */
+   382		if (!cpumask_andnot(npresmsk, cpu_possible_mask, npresmsk))
+   383			return_ptr(masks);
+   384	
+   385		curgrp = nr_present < numgrps ? nr_present : 0;
+   386	
+   387		/*
+   388		 * Allocate non present CPUs starting from the next group to be
+   389		 * handled. If the grouping of present CPUs already exhausted the
+   390		 * group space, assign the non present CPUs to the already
+   391		 * allocated out groups.
+   392		 */
+   393		nr_others = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+   394						npresmsk, nmsk, masks);
+ > 395		if (nr_others < 0)
+   396			return NULL;
+   397	
+   398		WARN_ON(nr_present + nr_others < numgrps);
+   399		return_ptr(masks);
+   400	
 
 -- 
 0-DAY CI Kernel Test Service
