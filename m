@@ -1,46 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BED17D3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Dec 2023 04:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0A133D3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Dec 2023 11:09:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lS6aN9hp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bp361U3C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703996381; x=1735532381;
+  t=1704020945; x=1735556945;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zloXj5UX2LuWzrooN0OpYA0j0P+jbK9JU33GI2cucaE=;
-  b=lS6aN9hpj2tPJvouo4vViLz6MWi9etKwxzfJrhe+eB6xNZK6YsUGO37s
-   ZAR7oHUFG64elIQtHI/Vxug7/1K5gfAgeRiJ3QFsqeI3EKI+WwimmUHre
-   /xF/KNdd/Z4hyH7QVV3twAP43H33iVih/9Hyi8ip4Q3rFb2OhA6x/nJh/
-   u6MQsZyGRp0oA8j9jp/PO9kga+SxFK627QDAcywwcKaZ9f3ScXWGnaFd4
-   a2tXjb/luazwnDWKBHS6YyLheCJk5IX7TCiA7fHdzUGDN1ANXEQWM880g
-   4NdVgrVv193lKET1J2odv9ljA7vleIC53I46uAyLUUliRQNT0vDIzlk8D
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="3574246"
+  bh=+AF2Vl6VhjAhUIw8Bh/COEw6+GLthFMjBYgvZbZkg+g=;
+  b=bp361U3Cwdx5Ms5tTeBwrgHNy2cRqJzgA95dBeg1QKKBXNPfFZK1UBLH
+   izw/K/NWnCWwnb0LAoDsttWBSivBRmlaY3JXslH/Z6mXOECig6sCXE1Vt
+   2uac35PDU6KoAia8FBJzdpJ8kr5X4IxaRHLgZbty1bKcHlHjZVWFkbMyh
+   vLK0WRFH69sLHQxgBToasgAOMugf5fC1Rce4sL8+ownrXbVRAH7ntX3hx
+   i44xT4Id9lCWPENDmNnsVRhOFrYCOIFXOAdmgpLti6nHc5Se0m212sp4f
+   7aotRVg4XESd9SQ0GBMRe3uh81KA6VIbY16ObRczvqT7jnfzVnaCE/mAh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="393879532"
 X-IronPort-AV: E=Sophos;i="6.04,319,1695711600"; 
-   d="scan'208";a="3574246"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2023 20:19:40 -0800
+   d="scan'208";a="393879532"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 03:09:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="772280800"
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="952448838"
 X-IronPort-AV: E=Sophos;i="6.04,319,1695711600"; 
-   d="scan'208";a="772280800"
+   d="scan'208";a="952448838"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 30 Dec 2023 20:19:38 -0800
+  by orsmga005.jf.intel.com with ESMTP; 31 Dec 2023 03:08:58 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJnIW-000Izp-0e;
-	Sun, 31 Dec 2023 04:19:36 +0000
-Date: Sun, 31 Dec 2023 12:18:48 +0800
+	id 1rJtge-000JP2-0f;
+	Sun, 31 Dec 2023 11:08:56 +0000
+Date: Sun, 31 Dec 2023 19:08:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Grygorii Strashko <grygorii.strashko@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/ethernet/ti/am65-cpsw-nuss.c:1640:55: sparse: sparse:
- incorrect type in initializer (different address spaces)
-Message-ID: <202312311235.NwNBzCd7-lkp@intel.com>
+To: Kai Huang <kai.huang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Zhu Lingshan <lingshan.zhu@intel.com>,
+	Isaku Yamahata <isaku.yamahata@intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Yuan Yao <yuan.yao@intel.com>
+Subject: [ls-zhu:test 49/294] arch/x86/virt/vmx/tdx/tdx.c:663:27: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202312311924.tGjsBIQD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,98 +53,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   453f5db0619e2ad64076aab16ff5a00e0f7c53a2
-commit: 93a76530316a3d8cc2d82c3deca48424fee92100 net: ethernet: ti: introduce am65x/j721e gigabit eth subsystem driver
-date:   3 years, 9 months ago
-config: arm64-randconfig-r123-20231231 (https://download.01.org/0day-ci/archive/20231231/202312311235.NwNBzCd7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231231/202312311235.NwNBzCd7-lkp@intel.com/reproduce)
+tree:   https://github.com/ls-zhu/linux test
+head:   62a15ffb17f55ec915aedff138ef7dd490f44532
+commit: d111994fe80fd5a91e4677d6e7e624b10de7b66e [49/294] x86/virt/tdx: Configure global KeyID on all packages
+config: x86_64-randconfig-123-20231229 (https://download.01.org/0day-ci/archive/20231231/202312311924.tGjsBIQD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231231/202312311924.tGjsBIQD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312311235.NwNBzCd7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312311924.tGjsBIQD-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/ti/am65-cpsw-nuss.c:1640:55: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct am65_cpsw_ndev_stats [noderef] __percpu *stats @@     got void *data @@
-   drivers/net/ethernet/ti/am65-cpsw-nuss.c:1640:55: sparse:     expected struct am65_cpsw_ndev_stats [noderef] __percpu *stats
-   drivers/net/ethernet/ti/am65-cpsw-nuss.c:1640:55: sparse:     got void *data
->> drivers/net/ethernet/ti/am65-cpsw-nuss.c:1692:49: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *data @@     got struct am65_cpsw_ndev_stats [noderef] __percpu *stats @@
-   drivers/net/ethernet/ti/am65-cpsw-nuss.c:1692:49: sparse:     expected void *data
-   drivers/net/ethernet/ti/am65-cpsw-nuss.c:1692:49: sparse:     got struct am65_cpsw_ndev_stats [noderef] __percpu *stats
+>> arch/x86/virt/vmx/tdx/tdx.c:663:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *dst @@     got void * @@
+   arch/x86/virt/vmx/tdx/tdx.c:663:27: sparse:     expected void [noderef] __iomem *dst
+   arch/x86/virt/vmx/tdx/tdx.c:663:27: sparse:     got void *
+   arch/x86/virt/vmx/tdx/tdx.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   arch/x86/virt/vmx/tdx/tdx.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-vim +1640 drivers/net/ethernet/ti/am65-cpsw-nuss.c
+vim +663 arch/x86/virt/vmx/tdx/tdx.c
 
-  1637	
-  1638	static void am65_cpsw_pcpu_stats_free(void *data)
-  1639	{
-> 1640		struct am65_cpsw_ndev_stats __percpu *stats = data;
-  1641	
-  1642		free_percpu(stats);
-  1643	}
-  1644	
-  1645	static int am65_cpsw_nuss_init_ndev_2g(struct am65_cpsw_common *common)
-  1646	{
-  1647		struct am65_cpsw_ndev_priv *ndev_priv;
-  1648		struct device *dev = common->dev;
-  1649		struct am65_cpsw_port *port;
-  1650		int ret;
-  1651	
-  1652		port = am65_common_get_port(common, 1);
-  1653	
-  1654		/* alloc netdev */
-  1655		port->ndev = devm_alloc_etherdev_mqs(common->dev,
-  1656						     sizeof(struct am65_cpsw_ndev_priv),
-  1657						     AM65_CPSW_MAX_TX_QUEUES,
-  1658						     AM65_CPSW_MAX_RX_QUEUES);
-  1659		if (!port->ndev) {
-  1660			dev_err(dev, "error allocating slave net_device %u\n",
-  1661				port->port_id);
-  1662			return -ENOMEM;
-  1663		}
-  1664	
-  1665		ndev_priv = netdev_priv(port->ndev);
-  1666		ndev_priv->port = port;
-  1667		ndev_priv->msg_enable = AM65_CPSW_DEBUG;
-  1668		SET_NETDEV_DEV(port->ndev, dev);
-  1669	
-  1670		ether_addr_copy(port->ndev->dev_addr, port->slave.mac_addr);
-  1671	
-  1672		port->ndev->min_mtu = AM65_CPSW_MIN_PACKET_SIZE;
-  1673		port->ndev->max_mtu = AM65_CPSW_MAX_PACKET_SIZE;
-  1674		port->ndev->hw_features = NETIF_F_SG |
-  1675					  NETIF_F_RXCSUM |
-  1676					  NETIF_F_HW_CSUM;
-  1677		port->ndev->features = port->ndev->hw_features |
-  1678				       NETIF_F_HW_VLAN_CTAG_FILTER;
-  1679		port->ndev->vlan_features |=  NETIF_F_SG;
-  1680		port->ndev->netdev_ops = &am65_cpsw_nuss_netdev_ops_2g;
-  1681		port->ndev->ethtool_ops = &am65_cpsw_ethtool_ops_slave;
-  1682	
-  1683		/* Disable TX checksum offload by default due to HW bug */
-  1684		if (common->pdata->quirks & AM65_CPSW_QUIRK_I2027_NO_TX_CSUM)
-  1685			port->ndev->features &= ~NETIF_F_HW_CSUM;
-  1686	
-  1687		ndev_priv->stats = netdev_alloc_pcpu_stats(struct am65_cpsw_ndev_stats);
-  1688		if (!ndev_priv->stats)
-  1689			return -ENOMEM;
-  1690	
-  1691		ret = devm_add_action_or_reset(dev, am65_cpsw_pcpu_stats_free,
-> 1692					       ndev_priv->stats);
-  1693		if (ret) {
-  1694			dev_err(dev, "failed to add percpu stat free action %d", ret);
-  1695			return ret;
-  1696		}
-  1697	
-  1698		netif_napi_add(port->ndev, &common->napi_rx,
-  1699			       am65_cpsw_nuss_rx_poll, NAPI_POLL_WEIGHT);
-  1700	
-  1701		common->pf_p0_rx_ptype_rrobin = false;
-  1702	
-  1703		return ret;
-  1704	}
-  1705	
+   650	
+   651	/*
+   652	 * Convert TDX private pages back to normal by using MOVDIR64B to
+   653	 * clear these pages.  Note this function doesn't flush cache of
+   654	 * these TDX private pages.  The caller should make sure of that.
+   655	 */
+   656	static void reset_tdx_pages(unsigned long base, unsigned long size)
+   657	{
+   658		const void *zero_page = (const void *)page_address(ZERO_PAGE(0));
+   659		unsigned long phys, end;
+   660	
+   661		end = base + size;
+   662		for (phys = base; phys < end; phys += 64)
+ > 663			movdir64b(__va(phys), zero_page);
+   664	
+   665		/*
+   666		 * MOVDIR64B uses WC protocol.  Use memory barrier to
+   667		 * make sure any later user of these pages sees the
+   668		 * updated data.
+   669		 */
+   670		mb();
+   671	}
+   672	
 
 -- 
 0-DAY CI Kernel Test Service
