@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0711810EA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Dec 2023 04:08:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BED17D3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Dec 2023 04:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mgVEcScM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lS6aN9hp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703995740; x=1735531740;
+  t=1703996381; x=1735532381;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DataobQi3W4V6btsb7UH/IsMe34Zh7Ts3oQlIcjc07o=;
-  b=mgVEcScMBeCAGd7Nfwuj13DCzlWXePGWYHjNhM7I46+ovrb57z7ZysZg
-   qPf+K6vXS62oh+sO5LTUaE50yqgdGBQAbdGg4MJsnvpJd51IB0vLiGtlX
-   I928GEofbK+xpXwbqCfDn9+CgNP+Lj6dJSfGp9CXLK5KNsCWbz+PD1YRi
-   DSKtjvXXKgP4XlRGTcFxRx0fH2A9grOOP3MZKk8wBv0XEcMjqLMwz+yRX
-   zuZRCtmHBp606Uo/qpO7TOwuiQoJf0FBSyeQ0k9lzTJrRdkjSJODDaqAC
-   osmujXR3lxJnPKjrAhCUNH0ryMj806dnEp2zsHUZSWJE7IZ/w9cNa7+Q7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="381699572"
+  bh=zloXj5UX2LuWzrooN0OpYA0j0P+jbK9JU33GI2cucaE=;
+  b=lS6aN9hpj2tPJvouo4vViLz6MWi9etKwxzfJrhe+eB6xNZK6YsUGO37s
+   ZAR7oHUFG64elIQtHI/Vxug7/1K5gfAgeRiJ3QFsqeI3EKI+WwimmUHre
+   /xF/KNdd/Z4hyH7QVV3twAP43H33iVih/9Hyi8ip4Q3rFb2OhA6x/nJh/
+   u6MQsZyGRp0oA8j9jp/PO9kga+SxFK627QDAcywwcKaZ9f3ScXWGnaFd4
+   a2tXjb/luazwnDWKBHS6YyLheCJk5IX7TCiA7fHdzUGDN1ANXEQWM880g
+   4NdVgrVv193lKET1J2odv9ljA7vleIC53I46uAyLUUliRQNT0vDIzlk8D
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="3574246"
 X-IronPort-AV: E=Sophos;i="6.04,319,1695711600"; 
-   d="scan'208";a="381699572"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2023 20:08:39 -0800
+   d="scan'208";a="3574246"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2023 20:19:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="897905573"
+X-IronPort-AV: E=McAfee;i="6600,9927,10939"; a="772280800"
 X-IronPort-AV: E=Sophos;i="6.04,319,1695711600"; 
-   d="scan'208";a="897905573"
+   d="scan'208";a="772280800"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 30 Dec 2023 20:08:38 -0800
+  by orsmga007.jf.intel.com with ESMTP; 30 Dec 2023 20:19:38 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rJn7r-000Iz7-2u;
-	Sun, 31 Dec 2023 04:08:35 +0000
-Date: Sun, 31 Dec 2023 12:08:34 +0800
+	id 1rJnIW-000Izp-0e;
+	Sun, 31 Dec 2023 04:19:36 +0000
+Date: Sun, 31 Dec 2023 12:18:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [tiwai-sound:topic/scarlett2 91/97]
- sound/usb/mixer_scarlett2.c:5320:53: warning: ' Playback Volume' directive
- output may be truncated writing 16 bytes into a region of size between 11
- and 22
-Message-ID: <202312311123.HZeLFR3F-lkp@intel.com>
+To: Grygorii Strashko <grygorii.strashko@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/ti/am65-cpsw-nuss.c:1640:55: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+Message-ID: <202312311235.NwNBzCd7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,126 +50,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git topic/scarlett2
-head:   4a2c8cc1644738191d9d6c0bca24516cfe390d41
-commit: c6c9f0cf9dba7e86f1f6cca658bb6b86c5d02530 [91/97] ALSA: scarlett2: Add support for custom Gen 4 Direct Monitor mixes
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231231/202312311123.HZeLFR3F-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231231/202312311123.HZeLFR3F-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   453f5db0619e2ad64076aab16ff5a00e0f7c53a2
+commit: 93a76530316a3d8cc2d82c3deca48424fee92100 net: ethernet: ti: introduce am65x/j721e gigabit eth subsystem driver
+date:   3 years, 9 months ago
+config: arm64-randconfig-r123-20231231 (https://download.01.org/0day-ci/archive/20231231/202312311235.NwNBzCd7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231231/202312311235.NwNBzCd7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312311123.HZeLFR3F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312311235.NwNBzCd7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/ti/am65-cpsw-nuss.c:1640:55: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct am65_cpsw_ndev_stats [noderef] __percpu *stats @@     got void *data @@
+   drivers/net/ethernet/ti/am65-cpsw-nuss.c:1640:55: sparse:     expected struct am65_cpsw_ndev_stats [noderef] __percpu *stats
+   drivers/net/ethernet/ti/am65-cpsw-nuss.c:1640:55: sparse:     got void *data
+>> drivers/net/ethernet/ti/am65-cpsw-nuss.c:1692:49: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *data @@     got struct am65_cpsw_ndev_stats [noderef] __percpu *stats @@
+   drivers/net/ethernet/ti/am65-cpsw-nuss.c:1692:49: sparse:     expected void *data
+   drivers/net/ethernet/ti/am65-cpsw-nuss.c:1692:49: sparse:     got struct am65_cpsw_ndev_stats [noderef] __percpu *stats
 
-   sound/usb/mixer_scarlett2.c: In function 'scarlett2_add_line_out_ctls':
-   sound/usb/mixer_scarlett2.c:4808:48: warning: ' Volume Control Playback Enum' directive output may be truncated writing 29 bytes into a region of size between 24 and 33 [-Wformat-truncation=]
-    4808 |                                  "Line Out %02d Volume Control Playback Enum",
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_scarlett2.c:4807:25: note: 'snprintf' output between 41 and 50 bytes into a destination of size 44
-    4807 |                         snprintf(s, sizeof(s),
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-    4808 |                                  "Line Out %02d Volume Control Playback Enum",
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4809 |                                  i + 1);
-         |                                  ~~~~~~
-   sound/usb/mixer_scarlett2.c: In function 'scarlett2_add_line_in_ctls':
-   sound/usb/mixer_scarlett2.c:4928:56: warning: ' Link Capture Switch' directive output may be truncated writing 20 bytes into a region of size between 13 and 33 [-Wformat-truncation=]
-    4928 |                                          "Line In %d-%d Link Capture Switch",
-         |                                                        ^~~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_scarlett2.c:4927:33: note: 'snprintf' output between 32 and 52 bytes into a destination of size 44
-    4927 |                                 snprintf(s, sizeof(s),
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-    4928 |                                          "Line In %d-%d Link Capture Switch",
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4929 |                                          i, i + 1);
-         |                                          ~~~~~~~~~
-   sound/usb/mixer_scarlett2.c:4847:50: warning: '%s' directive output may be truncated writing 4 bytes into a region of size between 0 and 10 [-Wformat-truncation=]
-    4847 |         const char *fmt = "Line In %d %s Capture %s";
-         |                                                  ^~
-   ......
-    4955 |                                  "Autogain Status", "Enum");
-         |                                                     ~~~~~~
-   sound/usb/mixer_scarlett2.c:4954:25: note: 'snprintf' output between 39 and 49 bytes into a destination of size 44
-    4954 |                         snprintf(s, sizeof(s), fmt, i + 1,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4955 |                                  "Autogain Status", "Enum");
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/usb/mixer_scarlett2.c: In function 'snd_scarlett2_controls_create':
->> sound/usb/mixer_scarlett2.c:5320:53: warning: ' Playback Volume' directive output may be truncated writing 16 bytes into a region of size between 11 and 22 [-Wformat-truncation=]
-    5320 |                         "Monitor %sMix %c Input %02d Playback Volume";
-         |                                                     ^~~~~~~~~~~~~~~~
-   In function 'scarlett2_add_direct_monitor_ctls',
-       inlined from 'snd_scarlett2_controls_create' at sound/usb/mixer_scarlett2.c:6615:8:
-   sound/usb/mixer_scarlett2.c:5337:33: note: 'snprintf' output between 39 and 50 bytes into a destination of size 44
-    5337 |                                 snprintf(name, sizeof(name), format,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    5338 |                                          mix_type, 'A' + j, k + 1);
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +1640 drivers/net/ethernet/ti/am65-cpsw-nuss.c
 
-
-vim +5320 sound/usb/mixer_scarlett2.c
-
-  5293	
-  5294	static int scarlett2_add_direct_monitor_ctls(struct usb_mixer_interface *mixer)
-  5295	{
-  5296		struct scarlett2_data *private = mixer->private_data;
-  5297		const struct scarlett2_device_info *info = private->info;
-  5298		const char *s;
-  5299		int err, i, j, k, index;
-  5300	
-  5301		if (!info->direct_monitor)
-  5302			return 0;
-  5303	
-  5304		s = info->direct_monitor == 1
-  5305		      ? "Direct Monitor Playback Switch"
-  5306		      : "Direct Monitor Playback Enum";
-  5307	
-  5308		err = scarlett2_add_new_ctl(
-  5309			mixer, &scarlett2_direct_monitor_ctl[info->direct_monitor - 1],
-  5310			0, 1, s, &private->direct_monitor_ctl);
-  5311		if (err < 0)
-  5312			return err;
-  5313	
-  5314		if (!private->num_monitor_mix_ctls)
-  5315			return 0;
-  5316	
-  5317		/* 1 or 2 direct monitor selections (Mono & Stereo) */
-  5318		for (i = 0, index = 0; i < info->direct_monitor; i++) {
-  5319			const char * const format =
-> 5320				"Monitor %sMix %c Input %02d Playback Volume";
-  5321			const char *mix_type;
-  5322	
-  5323			if (info->direct_monitor == 1)
-  5324				mix_type = "";
-  5325			else if (i == 0)
-  5326				mix_type = "1 ";
-  5327			else
-  5328				mix_type = "2 ";
-  5329	
-  5330			/* 2 Mix outputs, A/Left & B/Right */
-  5331			for (j = 0; j < 2; j++)
-  5332	
-  5333				/* Mix inputs */
-  5334				for (k = 0; k < private->num_mix_in; k++, index++) {
-  5335					char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
-  5336	
-  5337					snprintf(name, sizeof(name), format,
-  5338						 mix_type, 'A' + j, k + 1);
-  5339	
-  5340					err = scarlett2_add_new_ctl(
-  5341						mixer, &scarlett2_monitor_mix_ctl,
-  5342						index, 1, name, NULL);
-  5343					if (err < 0)
-  5344						return err;
-  5345				}
-  5346		}
-  5347	
-  5348		return 0;
-  5349	}
-  5350	
+  1637	
+  1638	static void am65_cpsw_pcpu_stats_free(void *data)
+  1639	{
+> 1640		struct am65_cpsw_ndev_stats __percpu *stats = data;
+  1641	
+  1642		free_percpu(stats);
+  1643	}
+  1644	
+  1645	static int am65_cpsw_nuss_init_ndev_2g(struct am65_cpsw_common *common)
+  1646	{
+  1647		struct am65_cpsw_ndev_priv *ndev_priv;
+  1648		struct device *dev = common->dev;
+  1649		struct am65_cpsw_port *port;
+  1650		int ret;
+  1651	
+  1652		port = am65_common_get_port(common, 1);
+  1653	
+  1654		/* alloc netdev */
+  1655		port->ndev = devm_alloc_etherdev_mqs(common->dev,
+  1656						     sizeof(struct am65_cpsw_ndev_priv),
+  1657						     AM65_CPSW_MAX_TX_QUEUES,
+  1658						     AM65_CPSW_MAX_RX_QUEUES);
+  1659		if (!port->ndev) {
+  1660			dev_err(dev, "error allocating slave net_device %u\n",
+  1661				port->port_id);
+  1662			return -ENOMEM;
+  1663		}
+  1664	
+  1665		ndev_priv = netdev_priv(port->ndev);
+  1666		ndev_priv->port = port;
+  1667		ndev_priv->msg_enable = AM65_CPSW_DEBUG;
+  1668		SET_NETDEV_DEV(port->ndev, dev);
+  1669	
+  1670		ether_addr_copy(port->ndev->dev_addr, port->slave.mac_addr);
+  1671	
+  1672		port->ndev->min_mtu = AM65_CPSW_MIN_PACKET_SIZE;
+  1673		port->ndev->max_mtu = AM65_CPSW_MAX_PACKET_SIZE;
+  1674		port->ndev->hw_features = NETIF_F_SG |
+  1675					  NETIF_F_RXCSUM |
+  1676					  NETIF_F_HW_CSUM;
+  1677		port->ndev->features = port->ndev->hw_features |
+  1678				       NETIF_F_HW_VLAN_CTAG_FILTER;
+  1679		port->ndev->vlan_features |=  NETIF_F_SG;
+  1680		port->ndev->netdev_ops = &am65_cpsw_nuss_netdev_ops_2g;
+  1681		port->ndev->ethtool_ops = &am65_cpsw_ethtool_ops_slave;
+  1682	
+  1683		/* Disable TX checksum offload by default due to HW bug */
+  1684		if (common->pdata->quirks & AM65_CPSW_QUIRK_I2027_NO_TX_CSUM)
+  1685			port->ndev->features &= ~NETIF_F_HW_CSUM;
+  1686	
+  1687		ndev_priv->stats = netdev_alloc_pcpu_stats(struct am65_cpsw_ndev_stats);
+  1688		if (!ndev_priv->stats)
+  1689			return -ENOMEM;
+  1690	
+  1691		ret = devm_add_action_or_reset(dev, am65_cpsw_pcpu_stats_free,
+> 1692					       ndev_priv->stats);
+  1693		if (ret) {
+  1694			dev_err(dev, "failed to add percpu stat free action %d", ret);
+  1695			return ret;
+  1696		}
+  1697	
+  1698		netif_napi_add(port->ndev, &common->napi_rx,
+  1699			       am65_cpsw_nuss_rx_poll, NAPI_POLL_WEIGHT);
+  1700	
+  1701		common->pf_p0_rx_ptype_rrobin = false;
+  1702	
+  1703		return ret;
+  1704	}
+  1705	
 
 -- 
 0-DAY CI Kernel Test Service
