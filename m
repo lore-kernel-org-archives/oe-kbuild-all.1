@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BC5BA22
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Dec 2023 19:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE95BE47;
+	Sun, 31 Dec 2023 22:09:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ncccYO7j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cAs6avvz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704052550; x=1735588550;
+  t=1704060560; x=1735596560;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+iE9TDbu+eOc7+4rEPE+O/B6xT0Y7sDNzvuMA2sE5Qk=;
-  b=ncccYO7jtfQuo+DsFqCrcZszd/y9gmLrWq+FBkMYOWJc65Lhpspdu8IM
-   Hq2DVrUrGG32N87atvv3uOV6YO2hL2VvCoymHPN4VsHq7Dn/0aUuA2bfe
-   NILF/L8M7EMsBpGo7bN2g3PTE75ZVlEgPUibQNso3iU64cGiuW61Qcdnk
-   Hwn575TMio2WBnzIdZUVjcoEtu3TDn/HSWOORNgfQLIcTVLzFI/Ot47oF
-   JMkbp0UKTX0Ya65eyZPPs6+ifRF8wVlTYPWfJt4AouuK2x6+eGT5oc0HK
-   YEgmkmQV5SUaLJ4Fyy1V6dLBhF2qG22T/qv2vLEhGY8fbSZMz0EnhRU51
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="482940929"
+  bh=8d1J15Mon+CMCpSQt5t6iUCErEXV8Fkc4EcOwdHGg+c=;
+  b=cAs6avvzwstDeVpo1UznLzHp1Bl5ttVRCDXQA8cMNm+QWHQD+Kqk7zHZ
+   RvgzlXnkB1HQl9DiIOVMmNEbr3Ps8iGy51WEVz3IlXG3Y1Fq07royI2pH
+   02TVlTWYr1ebMdu/pybjgV8368+HN5Y4zA8wpIgPhaxi3P5Q1G6qzOH5H
+   exa0eKZEeXjp1Y3EjlhoTbRB2l5GFeyZHhB5/iS5aO6BHYGkFTts/Tv3m
+   +UYbU1RVJFYRQR3a494V7ADfUYDeQW9h8TQLWPgBSAP+RUXMXxn9uZTmc
+   d1t13YCRc3xzszxZ4w+LafGd1qvQCjpWgY74FNKLGVGlZbdQXMz53PHsX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="395645657"
 X-IronPort-AV: E=Sophos;i="6.04,320,1695711600"; 
-   d="scan'208";a="482940929"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 11:55:49 -0800
+   d="scan'208";a="395645657"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 14:09:18 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="1026390035"
 X-IronPort-AV: E=Sophos;i="6.04,320,1695711600"; 
-   d="scan'208";a="21052724"
+   d="scan'208";a="1026390035"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 31 Dec 2023 11:55:42 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 31 Dec 2023 14:09:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rK1uO-000JiK-0i;
-	Sun, 31 Dec 2023 19:55:40 +0000
-Date: Mon, 1 Jan 2024 03:54:58 +0800
+	id 1rK3zc-000Jlw-1V;
+	Sun, 31 Dec 2023 22:09:12 +0000
+Date: Mon, 1 Jan 2024 06:09:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jishnu Prakash <quic_jprakash@quicinc.com>, jic23@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-	lee@kernel.org, andriy.shevchenko@linux.intel.com,
-	daniel.lezcano@linaro.org, dmitry.baryshkov@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_jprakash@quicinc.com,
-	lars@metafoo.de, luca@z3ntu.xyz, marijn.suijten@somainline.org,
-	agross@kernel.org, sboyd@kernel.org, rafael@kernel.org,
-	rui.zhang@intel.com, lukasz.luba@arm.com, linus.walleij@linaro.org,
-	quic_subbaram@quicinc.com, quic_collinsd@quicinc.com,
-	quic_amelende@quicinc.com, quic_kamalw@quicinc.com,
-	kernel@quicinc.com, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-arm-msm-owner@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] iio: adc: Add support for QCOM PMIC5 Gen3 ADC
-Message-ID: <202401010303.pkYUJjby-lkp@intel.com>
-References: <20231231171237.3322376-4-quic_jprakash@quicinc.com>
+To: Markus Elfring <Markus.Elfring@web.de>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	"D. Wythe" <alibuda@linux.alibaba.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jan Karcher <jaka@linux.ibm.com>,
+	Paolo Abeni <pabeni@redhat.com>, Tony Lu <tonylu@linux.alibaba.com>,
+	Wen Gu <guwen@linux.alibaba.com>,
+	Wenjia Zhang <wenjia@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] net/smc: Improve exception handling in
+ smc_llc_cli_add_link_invite()
+Message-ID: <202401010536.XhzcWDPH-lkp@intel.com>
+References: <5253e660-6b66-4775-ae2f-06f5a1d40be5@web.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,50 +60,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231231171237.3322376-4-quic_jprakash@quicinc.com>
+In-Reply-To: <5253e660-6b66-4775-ae2f-06f5a1d40be5@web.de>
 
-Hi Jishnu,
+Hi Markus,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20231222]
-[cannot apply to robh/for-next jic23-iio/togreg rafael-pm/thermal v6.7-rc7 v6.7-rc6 v6.7-rc5 linus/master v6.7-rc7]
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master v6.7-rc7 next-20231222]
+[cannot apply to horms-ipvs/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jishnu-Prakash/dt-bindings-iio-adc-Move-QCOM-ADC-bindings-to-iio-adc-folder/20240101-011705
-base:   next-20231222
-patch link:    https://lore.kernel.org/r/20231231171237.3322376-4-quic_jprakash%40quicinc.com
-patch subject: [PATCH v3 3/3] iio: adc: Add support for QCOM PMIC5 Gen3 ADC
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240101/202401010303.pkYUJjby-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240101/202401010303.pkYUJjby-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/net-smc-Return-directly-after-a-failed-kzalloc-in-smc_fill_gid_list/20231231-231406
+base:   net/main
+patch link:    https://lore.kernel.org/r/5253e660-6b66-4775-ae2f-06f5a1d40be5%40web.de
+patch subject: [PATCH 2/2] net/smc: Improve exception handling in smc_llc_cli_add_link_invite()
+config: x86_64-randconfig-002-20231231 (https://download.01.org/0day-ci/archive/20240101/202401010536.XhzcWDPH-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240101/202401010536.XhzcWDPH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401010303.pkYUJjby-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401010536.XhzcWDPH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/adc/qcom-spmi-adc5-gen3.c:290: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Worst case delay from PBS in readying handshake bit
-   drivers/iio/adc/qcom-spmi-adc5-gen3.c:332: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Worst case delay from PBS for conversion time can be
+>> net/smc/smc_llc.c:1175:34: warning: '&&' within '||' [-Wlogical-op-parentheses]
+    1174 |             lgr->type == SMC_LGR_ASYMMETRIC_PEER ||
+         |                                                  ~~
+    1175 |             lgr->type == SMC_LGR_SINGLE && lgr->max_links <= 1)
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+   net/smc/smc_llc.c:1175:34: note: place parentheses around the '&&' expression to silence this warning
+    1175 |             lgr->type == SMC_LGR_SINGLE && lgr->max_links <= 1)
+         |                                         ^                     
+         |             (                                                 )
+   1 warning generated.
 
 
-vim +290 drivers/iio/adc/qcom-spmi-adc5-gen3.c
+vim +1175 net/smc/smc_llc.c
 
-   288	
-   289	/**
- > 290	 * Worst case delay from PBS in readying handshake bit
-   291	 * can be up to 15ms, when PBS is busy running other
-   292	 * simultaneous transactions, while in the best case, it is
-   293	 * already ready at this point. Assigning polling delay and
-   294	 * retry count accordingly.
-   295	 */
-   296	
+  1160	
+  1161	/* as an SMC client, invite server to start the add_link processing */
+  1162	static void smc_llc_cli_add_link_invite(struct smc_link *link,
+  1163						struct smc_llc_qentry *qentry)
+  1164	{
+  1165		struct smc_link_group *lgr = smc_get_lgr(link);
+  1166		struct smc_init_info *ini;
+  1167	
+  1168		if (lgr->smc_version == SMC_V2) {
+  1169			smc_llc_send_request_add_link(link);
+  1170			goto free_qentry;
+  1171		}
+  1172	
+  1173		if (lgr->type == SMC_LGR_SYMMETRIC ||
+  1174		    lgr->type == SMC_LGR_ASYMMETRIC_PEER ||
+> 1175		    lgr->type == SMC_LGR_SINGLE && lgr->max_links <= 1)
+  1176			goto free_qentry;
+  1177	
+  1178		ini = kzalloc(sizeof(*ini), GFP_KERNEL);
+  1179		if (!ini)
+  1180			goto free_qentry;
+  1181	
+  1182		ini->vlan_id = lgr->vlan_id;
+  1183		smc_pnet_find_alt_roce(lgr, ini, link->smcibdev);
+  1184		if (!ini->ib_dev)
+  1185			goto out;
+  1186	
+  1187		smc_llc_send_add_link(link, ini->ib_dev->mac[ini->ib_port - 1],
+  1188				      ini->ib_gid, NULL, SMC_LLC_REQ);
+  1189	out:
+  1190		kfree(ini);
+  1191	free_qentry:
+  1192		kfree(qentry);
+  1193	}
+  1194	
 
 -- 
 0-DAY CI Kernel Test Service
