@@ -1,222 +1,292 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4D31376
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jan 2024 05:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A614B33D6
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jan 2024 05:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjrTnmH8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V3R+9tAE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704086814; x=1735622814;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=qLURjs9VsOgWTIQXsi9fLYUTBKBj3g5y3VbKWQiJOYM=;
-  b=jjrTnmH8TlPeXk5mf+6kAmll/FD1kYK8BaGeAZ+SP62Zd3hteOcNw2Zc
-   qjCTXLkbgiMo5zWjMlPyRQ2J8gRDMzW5U4xfYpwL6EBiksW+HBzt1CBGf
-   yxdAt0B3BZUt2FUth11etXZTTpH9L18CGWVwY8mcwV0xjq1vB6J+E8FsM
-   OPmEHiqyuGX8y4/Rp8axGnIbiiKOUdABuID+gSD6z3rKx61oPXHk7TH1U
-   dBCJtJ8YO1msbS8+x2Wey0NKCHo3/VbBl7+/gVqho+vRyaaMNE7wxYv0O
-   IPuFjzIO06K8/tga2WJ2pv6Yc3phf/y/RYsyNaJ2rV8feAxGxew9ZB8NL
+  t=1704086836; x=1735622836;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6hZyqXb0tICVy7EcHnmQ+XVWvQzuiPGDckcDjuGigSk=;
+  b=V3R+9tAE/lD6jgIa1HvbavCBSlsDZE3eYqERhwRXveUXIkhU8P8Qu0Gt
+   w19fqS6ujDYOz7+0e81aN/nXA3YwaSJwZHIXWim230iS6gKCiBTEdc66o
+   YocilRyjpfRx0xWD1uc8TAluW1dEk5Vq0nX3/xHxkoQIIHV718axZJ/CH
+   cvieFBrqSZJh1JgseTEoZcFkHKMs4vTlhvCZIyvwRGo3eNSeYSMNUyptr
+   3YtBFrpW6l3OXhbqL6PYhPujZ1b3LqMa/KgWVK4JcGsrJ70gZkt1DDd4+
+   W0eDr9LR+uzdcM1S8NZebQa8JPhI7uunojuH2/RfHjJllpOS0oRadX3OC
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="10164761"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="463182467"
 X-IronPort-AV: E=Sophos;i="6.04,321,1695711600"; 
-   d="scan'208";a="10164761"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 21:26:53 -0800
+   d="scan'208";a="463182467"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 21:27:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="782853483"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="1026449693"
 X-IronPort-AV: E=Sophos;i="6.04,321,1695711600"; 
-   d="scan'208";a="782853483"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Dec 2023 21:26:53 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 31 Dec 2023 21:26:52 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sun, 31 Dec 2023 21:26:52 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sun, 31 Dec 2023 21:26:51 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O+rk1scmPECuDBn7Co6Z2wWMrRAggNcBOVXVLQML7j1GIeLlAXy+QHodzpnO37dTj+hdo8cveU4Ehdsf0MKSEpI6iXNgAn9uHH8o3D6b2pnQ9D9NvzOISX6+OJfj1I3Bhu6EyMyBgSi0nfCTZ9K2/crni9mZ12JIgmzdTejSVLkefLHyW3Cm8ZdjoDFUYVntDxaNKFotyUN/vsibWppVJXlgkf+aynj5g/MD3/0Dtagb83bed9uDtvXbYgMpgr+YFZ65oSz0Y2uUzq1QveLjY65lSbO7kV5Md24HQzxKGi9Ko/8fJ/BVyXc9giT+JOZxB+ZCX/UlEDya+yqDGTA/6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ipcx829yYdrtbbvDruxhsfyK6tGqfzTq/dzFcmsG0F0=;
- b=PGhKXn3zVBs7Q5gR1EoetbFl0EW0hJbBjWrkLYiqU9bMngqEnVnHohpfhOWKDsrfBTIsDoM54ZHud8SV0Ju04si8HhRTJ5uBN32Jso2goAT0c3msuU3c/q3FGsEVh1RfItoki2Huq+77eEQXwwBxXiecHxjM1pCtpVvW70n7OBC/5G+i8bHMcTV89DRrNRJWOOae4rc4aYCMKo4Kb5elCbQWY/soaT6VEbR0UVd67bLL2fsQS3dTorrtFvMUYIOhe31Bkl0C46g+gb/m0OgPU9SlEBxzD2qk8igWGzsmdMauW0kJyqV0ZtLiIgFz5Lcy4vrlEnhc9OF3+DBi+9PLyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
- by DS0PR11MB7681.namprd11.prod.outlook.com (2603:10b6:8:f0::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.24; Mon, 1 Jan
- 2024 05:26:45 +0000
-Received: from CH3PR11MB8414.namprd11.prod.outlook.com
- ([fe80::a0ff:c576:dd44:3f12]) by CH3PR11MB8414.namprd11.prod.outlook.com
- ([fe80::a0ff:c576:dd44:3f12%5]) with mapi id 15.20.7135.023; Mon, 1 Jan 2024
- 05:26:45 +0000
-Date: Mon, 1 Jan 2024 13:26:34 +0800
+   d="scan'208";a="1026449693"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 31 Dec 2023 21:27:14 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rKApU-000K12-0Q;
+	Mon, 01 Jan 2024 05:27:12 +0000
+Date: Mon, 1 Jan 2024 13:26:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	<linux-kernel@vger.kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <dri-devel@lists.freedesktop.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
-	<devicetree@vger.kernel.org>, <linux-amarula@amarulasolutions.com>,
-	"Alexandre Torgue" <alexandre.torgue@foss.st.com>, Maxime Ripard
-	<mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann
-	<tzimmermann@suse.de>, Jessica Zhang <quic_jesszhan@quicinc.com>, Dario
- Binacchi <dario.binacchi@amarulasolutions.com>, David Airlie
-	<airlied@gmail.com>
-Subject: Re: [PATCH 5/8] dt-bindings: nt35510: add compatible for FRIDA
- FRD400B25025-A-CTK
-Message-ID: <ZZJNCgy8yD8/l6P8@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231229135154.675946-6-dario.binacchi@amarulasolutions.com>
-X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
- To CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
+To: caelli <caelli@tencent.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	kaixuxiakx <60962168+kaixuxiakx@users.noreply.github.com>,
+	Peng Hao <flyingpeng@tencent.com>, Bin Lai <robinlai@tencent.com>
+Subject: kernel/cgroup/cpuset.c:2697:5: warning: no previous prototype for
+ 'cpuset_cgroupfs_stat_show'
+Message-ID: <202401011301.Z79vJKWp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8414:EE_|DS0PR11MB7681:EE_
-X-MS-Office365-Filtering-Correlation-Id: ea603302-fab1-4fc0-cae1-08dc0a8a3e5d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cf26toquSGfty3mwixklK7DORq2WG+JJQJrSLxBJYlRMuJgfEieBp8SDHDRNABO/7aWBWsyysCmO35FFtq2tOMnx0K19dqCDxuPuTsYB1kUids4RaQLQaf9WUbpy0/HqRgU4ISDpfGHfwNOn94Zbeq5uCLfjFXvne9afK/YeQvyuMowkvp1agQozDE0J4RVQfxEZF1H/ZIN9HcSQpVfUaB193MF7crxr0D1g8Khx8gpV2sUfUQV6X2uXfcmya+Ata2qe85ms7fBTd4+EkVvzUdYiJfzDWMSF4twrN58fip2dPvrdD+KxCvdxSRh8V4AgEfHjL5B83RQpSH+uRBkkD2TSRRfg100RoUgWXRnH63nqyldoaGkq92YgSq0YMmX2Q7XtV8uk1wNc8RX5cBGkUNIpAupr1ORGZqkxB7Wg4j5Km2rm17mNxye/56mPtzPgKVNF7tawq7qNnacKtLgpS6enE+4EQ6pS9TudNTf2iVKjoJsmOQDLZQW15E1dGuX8bC5D6Eq/5rX9N5J5BsrkKiGZBNMm1cfXSIEdZ8h9Mumau6FllBTsRUidk6f2XDA12EY+oOj+LYPL9Ff13gAj5Vx4TuXrRR9Pk7e11RZMWJiHbX5xIsV5Gpe+XdZQx9xB8y+F6bBJ83mmPUNap9gO+BWhUyqFFIvaKeu6mFr86J0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8414.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(396003)(39860400002)(346002)(136003)(376002)(230922051799003)(230273577357003)(230173577357003)(64100799003)(186009)(451199024)(1800799012)(83380400001)(38100700002)(316002)(54906003)(66476007)(66556008)(66946007)(966005)(6486002)(478600001)(5660300002)(4001150100001)(2906002)(7416002)(4326008)(8936002)(8676002)(33716001)(26005)(41300700001)(9686003)(6506007)(6512007)(6666004)(82960400001)(86362001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vVcn/bGfdYHfNm5Gtq8QAPJyxUQLp530p4wN5OpYly/6e6HXEc2+2jgqYwtZ?=
- =?us-ascii?Q?xbI7gUiS8LTLryJMAGo2uBWz6KqnaRc3wKYMUzT6K4S4Y7QJubu1TJE0JQfr?=
- =?us-ascii?Q?fwzGRB0V88Ip+po8HTxCk9cqlffY765gCvA56sHEdChilXwqXLDX048Vno4J?=
- =?us-ascii?Q?NambmIIW35TFPm84FuLb70fRHGYel2oJ/BAMtG+eq8ZfZdAX3Q9CFp/jXqzA?=
- =?us-ascii?Q?fdHAhm8XILu7ZQSo3CCvzjLUSajAs8B9chY3aXHaVf7Jj/i8heV0OZb/lMO7?=
- =?us-ascii?Q?eSas3N08SoVEhSoSeOSwZfTnuHIziNAV00++5o/A+TH1ExHhAqRy+QSvVWUx?=
- =?us-ascii?Q?BjROgPgihqViDyxw0c3cQPtm7ziTyrI2mJhd8N0Qf3iKwqcRRe2q3Im/dGpg?=
- =?us-ascii?Q?/bPZKbIIqlYNijlRfFqsL7+tUxZGhxJ6MmNREcAYJZZRfTGLdNDNMMr+N+Dw?=
- =?us-ascii?Q?6E7YcFfhXwdj7UEavjNtvFrWA3WFzvWHl0MveEwiX1oFMWp74okLMH4mDtkE?=
- =?us-ascii?Q?N/j4baHsDNFBjz4IbupYhZDhgsNRsLIYY50dnrX0MADt7+3lUlcoZ3CSCv2s?=
- =?us-ascii?Q?psjDaUhgfvlOKtyI2DwCOIlYnrAd3dLx15fED8QkTFjm3p4uxsl9xfiiE3gp?=
- =?us-ascii?Q?R6tr3u7gvQtTYeX9cfWiyw+BX9SJ7y8E/RQDFX4UupJ3bAhOh6yf9jYH8poE?=
- =?us-ascii?Q?7ZNqszEjTeWao1YIu48pANqjP0cQGFrQ+U77gWZQlqQ+CBJMmktYfVlzfrEs?=
- =?us-ascii?Q?41oba0cWm7NBeXB9RBcRZhrAy7eusq16lWa8KLGOHr/ODlbFnDdBlyz6Lzer?=
- =?us-ascii?Q?oQYI6HcS8hGLmuzLkcXgXPxAO/XEi0OCqtWjfpT0XfRM0qIebjAs74CyqzgZ?=
- =?us-ascii?Q?VezDNT9Pqfs3yDAJ3xeDJU9TJr0WU7fJ+KhV34e9aevCL+g8O71NykjDjHUx?=
- =?us-ascii?Q?YxkAYTi8N3JjBvG8yKtNlrC7JciJ5zumZL4NWRvIg82YbKC+yZ4jes1Hdvoj?=
- =?us-ascii?Q?NUQDNzZxSOtZrGKUwQYd4kG51XeqwAQiUA6+RD0Zzn0KX7QleMtYDbJ30yBQ?=
- =?us-ascii?Q?nMqiQ6VTRnZz7LIAMHrpoaLAtBdjGmtM6hu7kmONtMrRQvHyDWjS2M8IBPZF?=
- =?us-ascii?Q?kerwPHMqTkXKxNiE9O7UGbZoYLZRBs75fBVNkvR2ujL+sn3s6bRaTC+LwEoO?=
- =?us-ascii?Q?dBnl96wC2JFSEPAtDzbswwmySnnlRMrz7Ndl9xNIjibJ02nxwjCz+lAneY0Y?=
- =?us-ascii?Q?4XVnR7Vj9bZ0YpdQ16tHChRQTOZiafwwK7b3InIo9NGkoxBydf8PPpoFREBv?=
- =?us-ascii?Q?BMxjSKKkHWCF4vlyA00B4AckiYcMRiCntR116dpZwBHKabXuQ3Dc+TqERJSn?=
- =?us-ascii?Q?B4wadwfHDVd7ha047s8uZxWGZ9Zxnn+kZZuu1VraToLIxWEImjPKREMzyaaH?=
- =?us-ascii?Q?a50xxByG6sh6HvzNcKLYkAc9t6LltVsfMtyBoNJCpbIkmsu83e0ZOctW1DkW?=
- =?us-ascii?Q?m5I6XpiQT4ESlJD63uikBDpN/nYqhC+8VnALitproFO6FRzIMLlSSyylbhuj?=
- =?us-ascii?Q?MINBYjP6OMhWeTififuy8Rgw62U1xHUhQ0Eg47FzIXnD9NPjMTHkSS12ZoI8?=
- =?us-ascii?Q?4Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea603302-fab1-4fc0-cae1-08dc0a8a3e5d
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8414.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jan 2024 05:26:45.1158
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8w6sRYgfXsbdfAOk33CSrBpR9uOHAKfAHxtJ9smsrwXoMC0ivqsRZTiYNGJixC0GSBEXeSC2L7UWiHBpFgkFTA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7681
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dario,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on atorgue-stm32/stm32-next]
-[also build test WARNING on drm-misc/drm-misc-next lee-mfd/for-mfd-next robh/for-next linus/master v6.7-rc7 next-20231222]
-[cannot apply to lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/dt-bindings-mfd-stm32f7-Add-binding-definition-for-DSI/20231229-215601
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20231229135154.675946-6-dario.binacchi%40amarulasolutions.com
-patch subject: [PATCH 5/8] dt-bindings: nt35510: add compatible for FRIDA FRD400B25025-A-CTK
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231230/202312301748.2BRGs7Xs-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: b80247552b030b427e8483f5f566b86d3b8d3ec1 cgroupfs: support for proc and sys
+date:   2 years, 2 months ago
+config: x86_64-oc_base_config (https://download.01.org/0day-ci/archive/20240101/202401011301.Z79vJKWp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240101/202401011301.Z79vJKWp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312301748.2BRGs7Xs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401011301.Z79vJKWp-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml:21:7: [error] duplication of key "items" in mapping (key-duplicates)
+All warnings (new ones prefixed by >>):
+
+>> kernel/cgroup/cpuset.c:2697:5: warning: no previous prototype for 'cpuset_cgroupfs_stat_show' [-Wmissing-prototypes]
+    2697 | int cpuset_cgroupfs_stat_show(struct seq_file *m, void *v)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/cgroup/cpuset.c: In function 'cpuset_cgroup_cpuinfo_show_comm':
+   kernel/cgroup/cpuset.c:2809:39: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+    2809 |                 if (c->x86_cache_size >= 0)
+         |                                       ^~
+   kernel/cgroup/cpuset.c: At top level:
+>> kernel/cgroup/cpuset.c:2860:5: warning: no previous prototype for 'cpuset_cgroups_cpu_allowed' [-Wmissing-prototypes]
+    2860 | int cpuset_cgroups_cpu_allowed(struct task_struct *task, int cpu, int once)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/cgroup/cpuset.c:2879:5: warning: no previous prototype for 'cpuset_cgroupfs_cpuinfo_show' [-Wmissing-prototypes]
+    2879 | int cpuset_cgroupfs_cpuinfo_show(struct seq_file *m, void *v)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/cgroup/cpuset.c:4082:6: warning: no previous prototype for 'cgroup_cpuset_calc_load' [-Wmissing-prototypes]
+    4082 | void cgroup_cpuset_calc_load(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/cgroup/cpuset.c:4184:5: warning: no previous prototype for 'cpuset_cgroupfs_loadavg_show' [-Wmissing-prototypes]
+    4184 | int cpuset_cgroupfs_loadavg_show(struct seq_file *m, void *v)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
->> Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml:21:7: found duplicate key "items" with value "[]" (original value: "[]")
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
---
->> Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml: ignoring, error parsing file
-   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
+>> kernel/sched/cpuacct.c:340:5: warning: no previous prototype for 'cpuacct_cgroupfs_uptime_show' [-Wmissing-prototypes]
+     340 | int cpuacct_cgroupfs_uptime_show(struct seq_file *m, void *v)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/items +21 Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
 
-5ce96fe032f43e Linus Walleij  2020-02-23   8  
-5ce96fe032f43e Linus Walleij  2020-02-23   9  maintainers:
-5ce96fe032f43e Linus Walleij  2020-02-23  10    - Linus Walleij <linus.walleij@linaro.org>
-5ce96fe032f43e Linus Walleij  2020-02-23  11  
-5ce96fe032f43e Linus Walleij  2020-02-23  12  allOf:
-5ce96fe032f43e Linus Walleij  2020-02-23  13    - $ref: panel-common.yaml#
-5ce96fe032f43e Linus Walleij  2020-02-23  14  
-5ce96fe032f43e Linus Walleij  2020-02-23  15  properties:
-5ce96fe032f43e Linus Walleij  2020-02-23  16    compatible:
-859f1d9e26606c Dario Binacchi 2023-12-29  17      oneOf:
-5ce96fe032f43e Linus Walleij  2020-02-23  18        items:
-5ce96fe032f43e Linus Walleij  2020-02-23  19          - const: hydis,hva40wv1
-5ce96fe032f43e Linus Walleij  2020-02-23  20          - const: novatek,nt35510
-859f1d9e26606c Dario Binacchi 2023-12-29 @21        items:
-859f1d9e26606c Dario Binacchi 2023-12-29  22          - const: frida,frd400b25025
-859f1d9e26606c Dario Binacchi 2023-12-29  23          - const: novatek,nt35510
-5ce96fe032f43e Linus Walleij  2020-02-23  24        description: This indicates the panel manufacturer of the panel
-5ce96fe032f43e Linus Walleij  2020-02-23  25          that is in turn using the NT35510 panel driver. The compatible
-5ce96fe032f43e Linus Walleij  2020-02-23  26          string determines how the NT35510 panel driver shall be configured
-5ce96fe032f43e Linus Walleij  2020-02-23  27          to work with the indicated panel. The novatek,nt35510 compatible shall
-5ce96fe032f43e Linus Walleij  2020-02-23  28          always be provided as a fallback.
-5ce96fe032f43e Linus Walleij  2020-02-23  29    reg: true
-5ce96fe032f43e Linus Walleij  2020-02-23  30    reset-gpios: true
-5ce96fe032f43e Linus Walleij  2020-02-23  31    vdd-supply:
-5ce96fe032f43e Linus Walleij  2020-02-23  32      description: regulator that supplies the vdd voltage
-5ce96fe032f43e Linus Walleij  2020-02-23  33    vddi-supply:
-5ce96fe032f43e Linus Walleij  2020-02-23  34      description: regulator that supplies the vddi voltage
-5ce96fe032f43e Linus Walleij  2020-02-23  35    backlight: true
-5ce96fe032f43e Linus Walleij  2020-02-23  36  
-5ce96fe032f43e Linus Walleij  2020-02-23  37  required:
-5ce96fe032f43e Linus Walleij  2020-02-23  38    - compatible
-5ce96fe032f43e Linus Walleij  2020-02-23  39    - reg
-5ce96fe032f43e Linus Walleij  2020-02-23  40  
+vim +/cpuset_cgroupfs_stat_show +2697 kernel/cgroup/cpuset.c
+
+  2696	
+> 2697	int cpuset_cgroupfs_stat_show(struct seq_file *m, void *v)
+  2698	{
+  2699		struct cgroup_subsys_state *css = task_css(current, cpuset_cgrp_id);
+  2700		struct cpuset *cs = css_cs(css);
+  2701		int max_cpu = cpu_get_max_cpus(current);
+  2702		return cpuset_cgroup_stat_show_comm(m, v, cs, max_cpu);
+  2703	}
+  2704	
+  2705	static int cpuset_cgroup_stat_show(struct seq_file *sf, void *v)
+  2706	{
+  2707		struct cpuset *cs = css_cs(seq_css(sf));
+  2708		return cpuset_cgroup_stat_show_comm(sf, v, cs, INT_MAX);
+  2709	}
+  2710	
+  2711	#ifdef CONFIG_X86
+  2712	/*
+  2713	 *	Get CPU information for use by the procfs.
+  2714	 */
+  2715	static void show_cpuinfo_core(struct seq_file *m, struct cpuinfo_x86 *c,
+  2716				      unsigned int cpu)
+  2717	{
+  2718	#ifdef CONFIG_SMP
+  2719		seq_printf(m, "physical id\t: %d\n", c->phys_proc_id);
+  2720		seq_printf(m, "siblings\t: %d\n",
+  2721			   cpumask_weight(topology_core_cpumask(cpu)));
+  2722		seq_printf(m, "core id\t\t: %d\n", c->cpu_core_id);
+  2723		seq_printf(m, "cpu cores\t: %d\n", c->booted_cores);
+  2724		seq_printf(m, "apicid\t\t: %d\n", c->apicid);
+  2725		seq_printf(m, "initial apicid\t: %d\n", c->initial_apicid);
+  2726	#endif
+  2727	}
+  2728	
+  2729	#ifdef CONFIG_X86_32
+  2730	static void show_cpuinfo_misc(struct seq_file *m, struct cpuinfo_x86 *c)
+  2731	{
+  2732		seq_printf(m,
+  2733			   "fdiv_bug\t: %s\n"
+  2734			   "f00f_bug\t: %s\n"
+  2735			   "coma_bug\t: %s\n"
+  2736			   "fpu\t\t: %s\n"
+  2737			   "fpu_exception\t: %s\n"
+  2738			   "cpuid level\t: %d\n"
+  2739			   "wp\t\t: yes\n",
+  2740			   static_cpu_has_bug(X86_BUG_FDIV) ? "yes" : "no",
+  2741			   static_cpu_has_bug(X86_BUG_F00F) ? "yes" : "no",
+  2742			   static_cpu_has_bug(X86_BUG_COMA) ? "yes" : "no",
+  2743			   static_cpu_has(X86_FEATURE_FPU) ? "yes" : "no",
+  2744			   static_cpu_has(X86_FEATURE_FPU) ? "yes" : "no",
+  2745			   c->cpuid_level);
+  2746	}
+  2747	#else
+  2748	static void show_cpuinfo_misc(struct seq_file *m, struct cpuinfo_x86 *c)
+  2749	{
+  2750		seq_printf(m,
+  2751			   "fpu\t\t: yes\n"
+  2752			   "fpu_exception\t: yes\n"
+  2753			   "cpuid level\t: %d\n"
+  2754			   "wp\t\t: yes\n",
+  2755			   c->cpuid_level);
+  2756	}
+  2757	#endif
+  2758	
+  2759	static int cpuset_cgroup_cpuinfo_show_comm(struct seq_file *sf, void *v, struct cpuset *cs, int max_cpu)
+  2760	{
+  2761		int i, j, k = 0;
+  2762		struct cpuinfo_x86 *c;
+  2763		unsigned int cpu;
+  2764		bool is_top_cgrp;
+  2765	
+  2766		if (!cs->css.parent)
+  2767			is_top_cgrp = true;
+  2768		else
+  2769			is_top_cgrp = false;
+  2770	
+  2771		for_each_cpu(j, cs->cpus_allowed)
+  2772		{
+  2773			c = &cpu_data(j);
+  2774			if (is_top_cgrp || cpuset_cpuinfo_show_realinfo)
+  2775				cpu = c->cpu_index;
+  2776			else
+  2777				cpu = k;
+  2778			k++;
+  2779			if (k > max_cpu)
+  2780				break;
+  2781			seq_printf(sf, "processor\t: %u\n"
+  2782					"vendor_id\t: %s\n"
+  2783					"cpu family\t: %d\n"
+  2784					"model\t\t: %u\n"
+  2785					"model name\t: %s\n",
+  2786					cpu,
+  2787					c->x86_vendor_id[0] ? c->x86_vendor_id : "unknown",
+  2788					c->x86,
+  2789					c->x86_model,
+  2790					c->x86_model_id[0] ? c->x86_model_id : "unknown");
+  2791	
+  2792			if (c->x86_stepping || c->cpuid_level >= 0)
+  2793				seq_printf(sf, "stepping\t: %d\n", c->x86_stepping);
+  2794			else
+  2795				seq_printf(sf, "stepping\t: unknown\n");
+  2796			if (c->microcode)
+  2797				seq_printf(sf, "microcode\t: 0x%x\n", c->microcode);
+  2798	
+  2799			if (cpu_has(c, X86_FEATURE_TSC)) {
+  2800				unsigned int freq = cpufreq_quick_get(cpu);
+  2801	
+  2802				if (!freq)
+  2803					freq = cpu_khz;
+  2804				seq_printf(sf, "cpu MHz\t\t: %u.%03u\n",
+  2805						freq / 1000, (freq % 1000));
+  2806			}
+  2807	
+  2808			/* Cache size */
+  2809			if (c->x86_cache_size >= 0)
+  2810				seq_printf(sf, "cache size\t: %d KB\n", c->x86_cache_size);
+  2811	
+  2812			show_cpuinfo_core(sf, c, cpu);
+  2813			show_cpuinfo_misc(sf, c);
+  2814	
+  2815			seq_printf(sf, "flags\t\t:");
+  2816			for (i = 0; i < 32*NCAPINTS; i++)
+  2817				if (cpu_has(c, i) && x86_cap_flags[i] != NULL)
+  2818					seq_printf(sf, " %s", x86_cap_flags[i]);
+  2819	
+  2820			seq_puts(sf, "\nbugs\t\t:");
+  2821			for (i = 0; i < 32*NBUGINTS; i++) {
+  2822				unsigned int bug_bit = 32*NCAPINTS + i;
+  2823	
+  2824				if (cpu_has_bug(c, bug_bit) && x86_bug_flags[i])
+  2825					seq_printf(sf, " %s", x86_bug_flags[i]);
+  2826			}
+  2827	
+  2828			seq_printf(sf, "\nbogomips\t: %lu.%02lu\n",
+  2829					c->loops_per_jiffy/(500000/HZ),
+  2830					(c->loops_per_jiffy/(5000/HZ)) % 100);
+  2831	
+  2832	#ifdef CONFIG_X86_64
+  2833			if (c->x86_tlbsize > 0)
+  2834				seq_printf(sf, "TLB size\t: %d 4K pages\n", c->x86_tlbsize);
+  2835	#endif
+  2836			seq_printf(sf, "clflush size\t: %u\n", c->x86_clflush_size);
+  2837			seq_printf(sf, "cache_alignment\t: %d\n", c->x86_cache_alignment);
+  2838			seq_printf(sf, "address sizes\t: %u bits physical, %u bits virtual\n",
+  2839					c->x86_phys_bits, c->x86_virt_bits);
+  2840	
+  2841			seq_printf(sf, "power management:");
+  2842			for (i = 0; i < 32; i++) {
+  2843				if (c->x86_power & (1 << i)) {
+  2844					if (i < ARRAY_SIZE(x86_power_flags) &&
+  2845							x86_power_flags[i])
+  2846						seq_printf(sf, "%s%s",
+  2847								x86_power_flags[i][0] ? " " : "",
+  2848								x86_power_flags[i]);
+  2849					else
+  2850						seq_printf(sf, " [%d]", i);
+  2851				}
+  2852			}
+  2853	
+  2854			seq_puts(sf, "\n\n");
+  2855		}
+  2856		return 0;
+  2857	}
+  2858	
+  2859	/* return 1 if allowed, otherwise 0 is returned */
+> 2860	int cpuset_cgroups_cpu_allowed(struct task_struct *task, int cpu, int once)
+  2861	{
+  2862		struct cgroup_subsys_state *css = task_css(task, cpuset_cgrp_id);
+  2863		struct cpuset *cs = css_cs(css);
+  2864		int max_cpu, i, k = 0;
+  2865		if (!once)
+  2866			return cpumask_test_cpu(cpu, cs->cpus_allowed);
+  2867		max_cpu = cpu_get_max_cpus(task);
+  2868		for_each_cpu(i, cs->cpus_allowed) {
+  2869			if (++k > max_cpu)
+  2870				return 0;
+  2871			if (i == cpu)
+  2872				return 1;
+  2873			if (i > cpu)
+  2874				return 0;
+  2875		}
+  2876		return 0;
+  2877	}
+  2878	
+> 2879	int cpuset_cgroupfs_cpuinfo_show(struct seq_file *m, void *v)
+  2880	{
+  2881		struct cgroup_subsys_state *css = task_css(current, cpuset_cgrp_id);
+  2882		struct cpuset *cs = css_cs(css);
+  2883		int max_cpu = cpu_get_max_cpus(current);
+  2884		return cpuset_cgroup_cpuinfo_show_comm(m, v, cs, max_cpu);
+  2885	}
+  2886	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
