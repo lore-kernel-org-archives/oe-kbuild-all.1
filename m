@@ -1,58 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B827F1109
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jan 2024 05:25:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4D31376
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jan 2024 05:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S8IYWNH6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjrTnmH8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704086746; x=1735622746;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sCYl4wz0kZ00+pds9iqGiKcH9kH9kMINhz+1HRxjJKY=;
-  b=S8IYWNH61YnNgDVgZmywstFPm+++zrVlITfKWNsm290CI9mUpkmCtBOF
-   +jHUpY91trVtO9KBwPwAElyvu69y4QncCeXZXlsLwXzMyfN5fVkDQlFRs
-   6yIqZwaLN5v7S1qIELts7sd03Bq+iPZPDHsoMBUasMhWMWRbee5fHXnup
-   6a7xeqObMbclR9JELHsx9Lq0b3FJa6kV0TjKBNj04iu/PH7H8XTfHkMKn
-   T1fjaGEGHNBerNYzBRUP679eI7R+slOs9bhpOH5pTmrOlIuQAVjojXCy+
-   8/b98Ei6rqtPhe/CAyZhTQWdks+7OD4dlxvqw+spveEd20brbJF7yyEs7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="10164710"
+  t=1704086814; x=1735622814;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=qLURjs9VsOgWTIQXsi9fLYUTBKBj3g5y3VbKWQiJOYM=;
+  b=jjrTnmH8TlPeXk5mf+6kAmll/FD1kYK8BaGeAZ+SP62Zd3hteOcNw2Zc
+   qjCTXLkbgiMo5zWjMlPyRQ2J8gRDMzW5U4xfYpwL6EBiksW+HBzt1CBGf
+   yxdAt0B3BZUt2FUth11etXZTTpH9L18CGWVwY8mcwV0xjq1vB6J+E8FsM
+   OPmEHiqyuGX8y4/Rp8axGnIbiiKOUdABuID+gSD6z3rKx61oPXHk7TH1U
+   dBCJtJ8YO1msbS8+x2Wey0NKCHo3/VbBl7+/gVqho+vRyaaMNE7wxYv0O
+   IPuFjzIO06K8/tga2WJ2pv6Yc3phf/y/RYsyNaJ2rV8feAxGxew9ZB8NL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="10164761"
 X-IronPort-AV: E=Sophos;i="6.04,321,1695711600"; 
-   d="scan'208";a="10164710"
+   d="scan'208";a="10164761"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 21:25:46 -0800
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2023 21:26:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="782853196"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="782853483"
 X-IronPort-AV: E=Sophos;i="6.04,321,1695711600"; 
-   d="scan'208";a="782853196"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Dec 2023 21:25:45 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+   d="scan'208";a="782853483"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmsmga007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Dec 2023 21:26:53 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 31 Dec 2023 21:25:45 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.35; Sun, 31 Dec 2023 21:26:52 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 31 Dec 2023 21:25:45 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sun, 31 Dec 2023 21:25:45 -0800
+ 15.1.2507.35 via Frontend Transport; Sun, 31 Dec 2023 21:26:52 -0800
 Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sun, 31 Dec 2023 21:25:44 -0800
+ 15.1.2507.35; Sun, 31 Dec 2023 21:26:51 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bm11iZdVEVzwdqt8mbo2z2YvCI2QVYuj+LRyCFaoY77bMrloq5ED6AQ3RVEjeeURC4PWJmNMa/JZ99sNJfxOCfzmxC8NqQQLNDKEx7VQsiusLdq6n3r42H4gf48U/xjn9zuFflmMTJzWHU7EsWq53xGOxUB2KnmVYfmxVzovvXR86Z7YXspVeL8WFcLuuj78UPyiyee+3un1IeUK+d+mv+MZje5LR2BudfU9c2DXvnTIt3AZdHbjwBSRv/gxNuZQclAkDkjPSfy10HpjGrZnhH7lBCpVCImtzc1/3uV4vp7JvuidK9UQd+TvmQSS+Svvb4o8R6nWH+Mul+GOudSAUg==
+ b=O+rk1scmPECuDBn7Co6Z2wWMrRAggNcBOVXVLQML7j1GIeLlAXy+QHodzpnO37dTj+hdo8cveU4Ehdsf0MKSEpI6iXNgAn9uHH8o3D6b2pnQ9D9NvzOISX6+OJfj1I3Bhu6EyMyBgSi0nfCTZ9K2/crni9mZ12JIgmzdTejSVLkefLHyW3Cm8ZdjoDFUYVntDxaNKFotyUN/vsibWppVJXlgkf+aynj5g/MD3/0Dtagb83bed9uDtvXbYgMpgr+YFZ65oSz0Y2uUzq1QveLjY65lSbO7kV5Md24HQzxKGi9Ko/8fJ/BVyXc9giT+JOZxB+ZCX/UlEDya+yqDGTA/6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WKbbV1k7/DYak8/lCWz6DRU7DJZ/y4Z7jlU628w++ck=;
- b=MYfhPVqpVHoYdK6XPzH6RcGtVL5XQ+EJXCgLWrrhKv4NF0AN1GYW4j6UrOYw/72GNA0neWi99zFdfJZ5JjJwLrXkbtJBo3pTTMVgszG8Vv8Akb8uuFK2p5K8V5bMZ/OfubSLsRvD4YdFl8MucOadGMIllQc8//tZkfLOuRDa3J7GnJ5nbWDjJEbwLkctAWteIliHjX4RchXVzRQSuo8Tau6DazMIVZmjT/Ptxqn9qs70I6+YlmhK4C5b+8l5lumrIHI53Ptjfo2j1MfZ/GcJ2s6x9bXaHu//9Kb9RmlbK3cVwsUjuUhDMnY6g2LIXfQi9o/A91odBHoZpO4+yfErfQ==
+ bh=Ipcx829yYdrtbbvDruxhsfyK6tGqfzTq/dzFcmsG0F0=;
+ b=PGhKXn3zVBs7Q5gR1EoetbFl0EW0hJbBjWrkLYiqU9bMngqEnVnHohpfhOWKDsrfBTIsDoM54ZHud8SV0Ju04si8HhRTJ5uBN32Jso2goAT0c3msuU3c/q3FGsEVh1RfItoki2Huq+77eEQXwwBxXiecHxjM1pCtpVvW70n7OBC/5G+i8bHMcTV89DRrNRJWOOae4rc4aYCMKo4Kb5elCbQWY/soaT6VEbR0UVd67bLL2fsQS3dTorrtFvMUYIOhe31Bkl0C46g+gb/m0OgPU9SlEBxzD2qk8igWGzsmdMauW0kJyqV0ZtLiIgFz5Lcy4vrlEnhc9OF3+DBi+9PLyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -62,21 +59,30 @@ Received: from CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
  by DS0PR11MB7681.namprd11.prod.outlook.com (2603:10b6:8:f0::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.24; Mon, 1 Jan
- 2024 05:25:43 +0000
+ 2024 05:26:45 +0000
 Received: from CH3PR11MB8414.namprd11.prod.outlook.com
  ([fe80::a0ff:c576:dd44:3f12]) by CH3PR11MB8414.namprd11.prod.outlook.com
  ([fe80::a0ff:c576:dd44:3f12%5]) with mapi id 15.20.7135.023; Mon, 1 Jan 2024
- 05:25:43 +0000
-Date: Mon, 1 Jan 2024 13:25:33 +0800
+ 05:26:45 +0000
+Date: Mon, 1 Jan 2024 13:26:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Helbech Kleist <andreaskleist@gmail.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [kleist:ipu4-dev 19/59]
- drivers/media/pci/intel/ipu6/ipu6-bus.c:101:14: error: no member named
- 'dma_ops' in 'struct device'
-Message-ID: <ZZJMzcpposIbvJ2l@rli9-mobl>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	<linux-kernel@vger.kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <dri-devel@lists.freedesktop.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+	<devicetree@vger.kernel.org>, <linux-amarula@amarulasolutions.com>,
+	"Alexandre Torgue" <alexandre.torgue@foss.st.com>, Maxime Ripard
+	<mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann
+	<tzimmermann@suse.de>, Jessica Zhang <quic_jesszhan@quicinc.com>, Dario
+ Binacchi <dario.binacchi@amarulasolutions.com>, David Airlie
+	<airlied@gmail.com>
+Subject: Re: [PATCH 5/8] dt-bindings: nt35510: add compatible for FRIDA
+ FRD400B25025-A-CTK
+Message-ID: <ZZJNCgy8yD8/l6P8@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
+In-Reply-To: <20231229135154.675946-6-dario.binacchi@amarulasolutions.com>
 X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
  To CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
 Precedence: bulk
@@ -88,131 +94,127 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH3PR11MB8414:EE_|DS0PR11MB7681:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a5d4aca-79b5-4642-c2ab-08dc0a8a17a0
+X-MS-Office365-Filtering-Correlation-Id: ea603302-fab1-4fc0-cae1-08dc0a8a3e5d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hF6rpyDq8LJ3HKi120++Owygs9n9OAsDquyk5Mlzj4EJIgt5KBt6GiRq6JKy9VOFPJB4nqgHQHk4AxXh4uAQAza2QNZ+yiBovFuui1+2k8Y0JNpns7mhQNncb6vjxt4s51NrWC2m9lXb9TGLBhiyN2TZeJAy89NAVB8PpcALaYguhvXfAhIozoeHbmmhrb74+BK9qnAJ2XumHiXJ2SHdt6Et9CR44T8BWqDuEy2jbnNAN8OiZbzqz63l68WfsSZsmCeRgyrSSXM+SNdwDIS0gjkfnJp6ie681Dro9q3XESr0GI6zkISBdJM+fax/dKotoe8k6AxUYt+mHUX5HEwonBsg5nBbcPS15ID1WV7xwn9rn7Kd/kOTWG4VWnyO7/16GEze6z3/vPxAGMz6Hs3N30cDn35qS2yYMGjSdPpC2VEKsBqITJHndg/v5gQVrhw/EyW8pwpI5fqQ0Y02tFHK5fPJ/7aQWBJCvFwkKA4WezhTXrywrK7ywxY02CYmq8beMCw8Yh23tPG2FGOofIq13DNgcS9egDmEChDoeguGsG3SF0iRDn2x14xHj+5IpsjYH0bQH/TFkmGrKkJbeCxQXQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8414.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(396003)(39860400002)(346002)(136003)(376002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(83380400001)(38100700002)(316002)(6916009)(66476007)(66556008)(66946007)(966005)(6486002)(478600001)(5660300002)(4001150100001)(2906002)(4326008)(8936002)(8676002)(33716001)(26005)(41300700001)(9686003)(6506007)(6512007)(6666004)(82960400001)(86362001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: cf26toquSGfty3mwixklK7DORq2WG+JJQJrSLxBJYlRMuJgfEieBp8SDHDRNABO/7aWBWsyysCmO35FFtq2tOMnx0K19dqCDxuPuTsYB1kUids4RaQLQaf9WUbpy0/HqRgU4ISDpfGHfwNOn94Zbeq5uCLfjFXvne9afK/YeQvyuMowkvp1agQozDE0J4RVQfxEZF1H/ZIN9HcSQpVfUaB193MF7crxr0D1g8Khx8gpV2sUfUQV6X2uXfcmya+Ata2qe85ms7fBTd4+EkVvzUdYiJfzDWMSF4twrN58fip2dPvrdD+KxCvdxSRh8V4AgEfHjL5B83RQpSH+uRBkkD2TSRRfg100RoUgWXRnH63nqyldoaGkq92YgSq0YMmX2Q7XtV8uk1wNc8RX5cBGkUNIpAupr1ORGZqkxB7Wg4j5Km2rm17mNxye/56mPtzPgKVNF7tawq7qNnacKtLgpS6enE+4EQ6pS9TudNTf2iVKjoJsmOQDLZQW15E1dGuX8bC5D6Eq/5rX9N5J5BsrkKiGZBNMm1cfXSIEdZ8h9Mumau6FllBTsRUidk6f2XDA12EY+oOj+LYPL9Ff13gAj5Vx4TuXrRR9Pk7e11RZMWJiHbX5xIsV5Gpe+XdZQx9xB8y+F6bBJ83mmPUNap9gO+BWhUyqFFIvaKeu6mFr86J0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8414.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(396003)(39860400002)(346002)(136003)(376002)(230922051799003)(230273577357003)(230173577357003)(64100799003)(186009)(451199024)(1800799012)(83380400001)(38100700002)(316002)(54906003)(66476007)(66556008)(66946007)(966005)(6486002)(478600001)(5660300002)(4001150100001)(2906002)(7416002)(4326008)(8936002)(8676002)(33716001)(26005)(41300700001)(9686003)(6506007)(6512007)(6666004)(82960400001)(86362001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/qS06a+Gc2WRqTVzkTYDyf1n4WyE1/qSCO59LDccJfXdVkyp+/xpy3DjzsRh?=
- =?us-ascii?Q?VJnZiKIrCef8gDr8Pnmo8eDsuXFOruOBwCGJc+YtMLPzPXVYxQzFY9M3wZkh?=
- =?us-ascii?Q?ZaEBR4Oj3HXGyx7w5P+n2u3ebQbuAQHZodSdrR8bKpZ1gRHmqeFQnOA9ZZX3?=
- =?us-ascii?Q?wdfzpxBMEYHBbdNLbkROGSb5Peu1xmhAZ322r50fkMUgLnYLa0gaeaOUcOyn?=
- =?us-ascii?Q?3FkfLOlUTDFTAF+90S4LCqP56h+SLYbrN33RZ/fcWLcKs+H8xVdBgn6jhaKv?=
- =?us-ascii?Q?2fxRgY/L7cSvUNWlzdNExulCEJcIk+LZvzZk/JVAKALDX6aCQPWrgT5GligL?=
- =?us-ascii?Q?yZt61+iupxdzKMe6JbvGuIvxBYiGOk69+D4nHQlcWfh1CFlcFLvw2Wzj9cin?=
- =?us-ascii?Q?zzK1ZRr+fKXJP/IgUYhBwA3dB8OT7JF7xeuBCUyFc89mRTVyqDnCJg0DSsqt?=
- =?us-ascii?Q?ld3b14+KQ0bxAUBeClCWysK8r9FPkmizK2Q2I+TruUvDjVBfS57eQdAjjk98?=
- =?us-ascii?Q?EteeyIkiI7EYrLu6UbuBEqysv2u7cv/flWl8i/ITRJUQd9063AYCvkVtSTlt?=
- =?us-ascii?Q?KnDKSTmwVbByrm2cYhKKSZXcmNrwG+SWXiFerMKfgH/+W1y0hVEauTy/hoWx?=
- =?us-ascii?Q?Um1T3sA6xTpX0/Kc3cjsyJjpruuWzE1N4gPdCAnxj2mK/lvbShpKEVTCXAPl?=
- =?us-ascii?Q?xBNV2PjSgqhpcjX/K9sbZkOlVggB/7n4+DI/6tN6jZqgRppgWyFzXzBb/SBC?=
- =?us-ascii?Q?rf1HQAHDfloDzse6rvxHmGfcqSwfHIfh7s487DQmYgU0T4drbLObDgjYuMQr?=
- =?us-ascii?Q?zobLgu5Azo12qev5CZPGZlXuMYdX410fYPzS3yBHIN8TJkgyOygZhD//Ltff?=
- =?us-ascii?Q?LV+tAPkPVuwp9liqDs+yRZHig1obXoNJ1OBmOs4/61zMjdrnDYG3Zr5lsAnN?=
- =?us-ascii?Q?pUN2AOnEDHeSw1fjGq38ztRc2IzyHzHlg4i5wt4A/3itnm9qcFME+uYGbL2J?=
- =?us-ascii?Q?pzti+rFI6olxzPYqwyi74O8CX1UMuBS9RwnznoeWSVvbq09m3E8LCIJfrqUO?=
- =?us-ascii?Q?qG2W/PotByjlJrk/WVR9oQzAeklfcZU6hUBhTJzfulDZLP4nVk1/jTORTOIZ?=
- =?us-ascii?Q?OmpqjwDdpxskG9SYZLjsh+TKyjOwU6EWh2/bqF4i989ABDWnl8PiMp6LUIXD?=
- =?us-ascii?Q?3A3sxgTrrtxjNz3+YT+gMt8zT9ud19AzfCIsmqYpHuxIInBqRVtPq5lcWTO6?=
- =?us-ascii?Q?J4qXU3mDyinCBsXstirBH/eyyzRgzepfMWmIam2XkIPQAZ8w4XIFYmksE0ey?=
- =?us-ascii?Q?7A/tIGZw0e6fnYXa+Qo7m8unJpJh9vzGp3oI8uuWFmnml2ceXfbw42nxYk/g?=
- =?us-ascii?Q?SnzmSWcpb2xwjYAoyH2YrUSejUTFFkUnEi2XcMQhQlDRHPEPpJkua6WgVWgd?=
- =?us-ascii?Q?X7DGCnQSTEwUoNM3TNkgr5taiCFYstGjhBuoWt8nqOdFHpTxDZabY7F37GJM?=
- =?us-ascii?Q?N3IKJdD/tcjRbFAy7odR0jY5PemY42J8hBC47QZwvaAwQNvTJcAEmbUteErn?=
- =?us-ascii?Q?DmTh5VpmWnppCc+njie/+ABl5ajcL6Rt9bHjNG35lHqcHHDN3LM5il+2lFbU?=
- =?us-ascii?Q?tw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a5d4aca-79b5-4642-c2ab-08dc0a8a17a0
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vVcn/bGfdYHfNm5Gtq8QAPJyxUQLp530p4wN5OpYly/6e6HXEc2+2jgqYwtZ?=
+ =?us-ascii?Q?xbI7gUiS8LTLryJMAGo2uBWz6KqnaRc3wKYMUzT6K4S4Y7QJubu1TJE0JQfr?=
+ =?us-ascii?Q?fwzGRB0V88Ip+po8HTxCk9cqlffY765gCvA56sHEdChilXwqXLDX048Vno4J?=
+ =?us-ascii?Q?NambmIIW35TFPm84FuLb70fRHGYel2oJ/BAMtG+eq8ZfZdAX3Q9CFp/jXqzA?=
+ =?us-ascii?Q?fdHAhm8XILu7ZQSo3CCvzjLUSajAs8B9chY3aXHaVf7Jj/i8heV0OZb/lMO7?=
+ =?us-ascii?Q?eSas3N08SoVEhSoSeOSwZfTnuHIziNAV00++5o/A+TH1ExHhAqRy+QSvVWUx?=
+ =?us-ascii?Q?BjROgPgihqViDyxw0c3cQPtm7ziTyrI2mJhd8N0Qf3iKwqcRRe2q3Im/dGpg?=
+ =?us-ascii?Q?/bPZKbIIqlYNijlRfFqsL7+tUxZGhxJ6MmNREcAYJZZRfTGLdNDNMMr+N+Dw?=
+ =?us-ascii?Q?6E7YcFfhXwdj7UEavjNtvFrWA3WFzvWHl0MveEwiX1oFMWp74okLMH4mDtkE?=
+ =?us-ascii?Q?N/j4baHsDNFBjz4IbupYhZDhgsNRsLIYY50dnrX0MADt7+3lUlcoZ3CSCv2s?=
+ =?us-ascii?Q?psjDaUhgfvlOKtyI2DwCOIlYnrAd3dLx15fED8QkTFjm3p4uxsl9xfiiE3gp?=
+ =?us-ascii?Q?R6tr3u7gvQtTYeX9cfWiyw+BX9SJ7y8E/RQDFX4UupJ3bAhOh6yf9jYH8poE?=
+ =?us-ascii?Q?7ZNqszEjTeWao1YIu48pANqjP0cQGFrQ+U77gWZQlqQ+CBJMmktYfVlzfrEs?=
+ =?us-ascii?Q?41oba0cWm7NBeXB9RBcRZhrAy7eusq16lWa8KLGOHr/ODlbFnDdBlyz6Lzer?=
+ =?us-ascii?Q?oQYI6HcS8hGLmuzLkcXgXPxAO/XEi0OCqtWjfpT0XfRM0qIebjAs74CyqzgZ?=
+ =?us-ascii?Q?VezDNT9Pqfs3yDAJ3xeDJU9TJr0WU7fJ+KhV34e9aevCL+g8O71NykjDjHUx?=
+ =?us-ascii?Q?YxkAYTi8N3JjBvG8yKtNlrC7JciJ5zumZL4NWRvIg82YbKC+yZ4jes1Hdvoj?=
+ =?us-ascii?Q?NUQDNzZxSOtZrGKUwQYd4kG51XeqwAQiUA6+RD0Zzn0KX7QleMtYDbJ30yBQ?=
+ =?us-ascii?Q?nMqiQ6VTRnZz7LIAMHrpoaLAtBdjGmtM6hu7kmONtMrRQvHyDWjS2M8IBPZF?=
+ =?us-ascii?Q?kerwPHMqTkXKxNiE9O7UGbZoYLZRBs75fBVNkvR2ujL+sn3s6bRaTC+LwEoO?=
+ =?us-ascii?Q?dBnl96wC2JFSEPAtDzbswwmySnnlRMrz7Ndl9xNIjibJ02nxwjCz+lAneY0Y?=
+ =?us-ascii?Q?4XVnR7Vj9bZ0YpdQ16tHChRQTOZiafwwK7b3InIo9NGkoxBydf8PPpoFREBv?=
+ =?us-ascii?Q?BMxjSKKkHWCF4vlyA00B4AckiYcMRiCntR116dpZwBHKabXuQ3Dc+TqERJSn?=
+ =?us-ascii?Q?B4wadwfHDVd7ha047s8uZxWGZ9Zxnn+kZZuu1VraToLIxWEImjPKREMzyaaH?=
+ =?us-ascii?Q?a50xxByG6sh6HvzNcKLYkAc9t6LltVsfMtyBoNJCpbIkmsu83e0ZOctW1DkW?=
+ =?us-ascii?Q?m5I6XpiQT4ESlJD63uikBDpN/nYqhC+8VnALitproFO6FRzIMLlSSyylbhuj?=
+ =?us-ascii?Q?MINBYjP6OMhWeTififuy8Rgw62U1xHUhQ0Eg47FzIXnD9NPjMTHkSS12ZoI8?=
+ =?us-ascii?Q?4Q=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea603302-fab1-4fc0-cae1-08dc0a8a3e5d
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8414.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jan 2024 05:25:41.6887
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jan 2024 05:26:45.1158
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y5FzxDRkxDHhgkyTzGwuS4M+ZjrMkWj4GuAafnxiLu3fbKlqnAzUFN2SQKV2PayY2Kl9vg6tElnST6QkJkfcPg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8w6sRYgfXsbdfAOk33CSrBpR9uOHAKfAHxtJ9smsrwXoMC0ivqsRZTiYNGJixC0GSBEXeSC2L7UWiHBpFgkFTA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7681
 X-OriginatorOrg: intel.com
 
-tree:   https://github.com/Kleist/linux ipu4-dev
-head:   15245fe26e07c9118f0f5c03af5469832928f3dc
-commit: d35c2043fb50817f1e5eb1ddb6ae4b95d367ae55 [19/59] media: intel/ipu4: HACK: Re-purpose ipu6 files for ipu4 driver
-:::::: branch date: 9 days ago
-:::::: commit date: 10 days ago
-config: x86_64-randconfig-r112-20231229 (https://download.01.org/0day-ci/archive/20231230/202312300202.D9KXE9bV-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231230/202312300202.D9KXE9bV-lkp@intel.com/reproduce)
+Hi Dario,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on atorgue-stm32/stm32-next]
+[also build test WARNING on drm-misc/drm-misc-next lee-mfd/for-mfd-next robh/for-next linus/master v6.7-rc7 next-20231222]
+[cannot apply to lee-mfd/for-mfd-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/dt-bindings-mfd-stm32f7-Add-binding-definition-for-DSI/20231229-215601
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
+patch link:    https://lore.kernel.org/r/20231229135154.675946-6-dario.binacchi%40amarulasolutions.com
+patch subject: [PATCH 5/8] dt-bindings: nt35510: add compatible for FRIDA FRD400B25025-A-CTK
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231230/202312301748.2BRGs7Xs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202312300202.D9KXE9bV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312301748.2BRGs7Xs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml:21:7: [error] duplication of key "items" in mapping (key-duplicates)
+--
+>> Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml:21:7: found duplicate key "items" with value "[]" (original value: "[]")
+   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
+   	hint: Standard unit suffix properties don't need a type $ref
+   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
+   	hint: Standard unit suffix properties don't need a type $ref
+   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+--
+>> Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
 
->> drivers/media/pci/intel/ipu6/ipu6-bus.c:101:14: error: no member named 'dma_ops' in 'struct device'
-     101 |         auxdev->dev.dma_ops = &ipu6_dma_ops;
-         |         ~~~~~~~~~~~ ^
-   1 error generated.
+vim +/items +21 Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
 
-
-vim +101 drivers/media/pci/intel/ipu6/ipu6-bus.c
-
-214681ec4e2bf1 Bingbu Cao             2023-10-24   74  
-214681ec4e2bf1 Bingbu Cao             2023-10-24   75  struct ipu6_bus_device *
-214681ec4e2bf1 Bingbu Cao             2023-10-24   76  ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
-89e2423725f00f Andreas Helbech Kleist 2023-11-10   77  			   void *pdata, const struct ipu6_buttress_ctrl *ctrl,
-214681ec4e2bf1 Bingbu Cao             2023-10-24   78  			   char *name)
-214681ec4e2bf1 Bingbu Cao             2023-10-24   79  {
-214681ec4e2bf1 Bingbu Cao             2023-10-24   80  	struct auxiliary_device *auxdev;
-214681ec4e2bf1 Bingbu Cao             2023-10-24   81  	struct ipu6_bus_device *adev;
-214681ec4e2bf1 Bingbu Cao             2023-10-24   82  	struct ipu6_device *isp = pci_get_drvdata(pdev);
-214681ec4e2bf1 Bingbu Cao             2023-10-24   83  	int ret;
-214681ec4e2bf1 Bingbu Cao             2023-10-24   84  
-214681ec4e2bf1 Bingbu Cao             2023-10-24   85  	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-214681ec4e2bf1 Bingbu Cao             2023-10-24   86  	if (!adev)
-214681ec4e2bf1 Bingbu Cao             2023-10-24   87  		return ERR_PTR(-ENOMEM);
-214681ec4e2bf1 Bingbu Cao             2023-10-24   88  
-214681ec4e2bf1 Bingbu Cao             2023-10-24   89  	adev->dma_mask = DMA_BIT_MASK(isp->secure_mode ? IPU6_MMU_ADDR_BITS :
-214681ec4e2bf1 Bingbu Cao             2023-10-24   90  				      IPU6_MMU_ADDR_BITS_NON_SECURE);
-214681ec4e2bf1 Bingbu Cao             2023-10-24   91  	adev->isp = isp;
-214681ec4e2bf1 Bingbu Cao             2023-10-24   92  	adev->ctrl = ctrl;
-214681ec4e2bf1 Bingbu Cao             2023-10-24   93  	adev->pdata = pdata;
-214681ec4e2bf1 Bingbu Cao             2023-10-24   94  	auxdev = &adev->auxdev;
-214681ec4e2bf1 Bingbu Cao             2023-10-24   95  	auxdev->name = name;
-214681ec4e2bf1 Bingbu Cao             2023-10-24   96  	auxdev->id = (pci_domain_nr(pdev->bus) << 16) |
-214681ec4e2bf1 Bingbu Cao             2023-10-24   97  		      PCI_DEVID(pdev->bus->number, pdev->devfn);
-214681ec4e2bf1 Bingbu Cao             2023-10-24   98  
-214681ec4e2bf1 Bingbu Cao             2023-10-24   99  	auxdev->dev.parent = parent;
-214681ec4e2bf1 Bingbu Cao             2023-10-24  100  	auxdev->dev.release = ipu6_bus_release;
-214681ec4e2bf1 Bingbu Cao             2023-10-24 @101  	auxdev->dev.dma_ops = &ipu6_dma_ops;
-214681ec4e2bf1 Bingbu Cao             2023-10-24  102  	auxdev->dev.dma_mask = &adev->dma_mask;
-214681ec4e2bf1 Bingbu Cao             2023-10-24  103  	auxdev->dev.dma_parms = pdev->dev.dma_parms;
-214681ec4e2bf1 Bingbu Cao             2023-10-24  104  	auxdev->dev.coherent_dma_mask = adev->dma_mask;
-214681ec4e2bf1 Bingbu Cao             2023-10-24  105  
-214681ec4e2bf1 Bingbu Cao             2023-10-24  106  	ret = auxiliary_device_init(auxdev);
-214681ec4e2bf1 Bingbu Cao             2023-10-24  107  	if (ret < 0) {
-214681ec4e2bf1 Bingbu Cao             2023-10-24  108  		dev_err(&isp->pdev->dev, "auxiliary device init failed (%d)\n",
-214681ec4e2bf1 Bingbu Cao             2023-10-24  109  			ret);
-214681ec4e2bf1 Bingbu Cao             2023-10-24  110  		kfree(adev);
-214681ec4e2bf1 Bingbu Cao             2023-10-24  111  		return ERR_PTR(ret);
-214681ec4e2bf1 Bingbu Cao             2023-10-24  112  	}
-214681ec4e2bf1 Bingbu Cao             2023-10-24  113  
-214681ec4e2bf1 Bingbu Cao             2023-10-24  114  	dev_pm_domain_set(&auxdev->dev, &ipu6_bus_pm_domain);
-214681ec4e2bf1 Bingbu Cao             2023-10-24  115  
-214681ec4e2bf1 Bingbu Cao             2023-10-24  116  	pm_runtime_forbid(&adev->auxdev.dev);
-214681ec4e2bf1 Bingbu Cao             2023-10-24  117  	pm_runtime_enable(&adev->auxdev.dev);
-214681ec4e2bf1 Bingbu Cao             2023-10-24  118  
-214681ec4e2bf1 Bingbu Cao             2023-10-24  119  	return adev;
-214681ec4e2bf1 Bingbu Cao             2023-10-24  120  }
-214681ec4e2bf1 Bingbu Cao             2023-10-24  121  
-
-:::::: The code at line 101 was first introduced by commit
-:::::: 214681ec4e2bf174045d6527cb97d44941d84eb5 media: intel/ipu6: add IPU auxiliary devices
-
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Andreas Helbech Kleist <andreaskleist@gmail.com>
+5ce96fe032f43e Linus Walleij  2020-02-23   8  
+5ce96fe032f43e Linus Walleij  2020-02-23   9  maintainers:
+5ce96fe032f43e Linus Walleij  2020-02-23  10    - Linus Walleij <linus.walleij@linaro.org>
+5ce96fe032f43e Linus Walleij  2020-02-23  11  
+5ce96fe032f43e Linus Walleij  2020-02-23  12  allOf:
+5ce96fe032f43e Linus Walleij  2020-02-23  13    - $ref: panel-common.yaml#
+5ce96fe032f43e Linus Walleij  2020-02-23  14  
+5ce96fe032f43e Linus Walleij  2020-02-23  15  properties:
+5ce96fe032f43e Linus Walleij  2020-02-23  16    compatible:
+859f1d9e26606c Dario Binacchi 2023-12-29  17      oneOf:
+5ce96fe032f43e Linus Walleij  2020-02-23  18        items:
+5ce96fe032f43e Linus Walleij  2020-02-23  19          - const: hydis,hva40wv1
+5ce96fe032f43e Linus Walleij  2020-02-23  20          - const: novatek,nt35510
+859f1d9e26606c Dario Binacchi 2023-12-29 @21        items:
+859f1d9e26606c Dario Binacchi 2023-12-29  22          - const: frida,frd400b25025
+859f1d9e26606c Dario Binacchi 2023-12-29  23          - const: novatek,nt35510
+5ce96fe032f43e Linus Walleij  2020-02-23  24        description: This indicates the panel manufacturer of the panel
+5ce96fe032f43e Linus Walleij  2020-02-23  25          that is in turn using the NT35510 panel driver. The compatible
+5ce96fe032f43e Linus Walleij  2020-02-23  26          string determines how the NT35510 panel driver shall be configured
+5ce96fe032f43e Linus Walleij  2020-02-23  27          to work with the indicated panel. The novatek,nt35510 compatible shall
+5ce96fe032f43e Linus Walleij  2020-02-23  28          always be provided as a fallback.
+5ce96fe032f43e Linus Walleij  2020-02-23  29    reg: true
+5ce96fe032f43e Linus Walleij  2020-02-23  30    reset-gpios: true
+5ce96fe032f43e Linus Walleij  2020-02-23  31    vdd-supply:
+5ce96fe032f43e Linus Walleij  2020-02-23  32      description: regulator that supplies the vdd voltage
+5ce96fe032f43e Linus Walleij  2020-02-23  33    vddi-supply:
+5ce96fe032f43e Linus Walleij  2020-02-23  34      description: regulator that supplies the vddi voltage
+5ce96fe032f43e Linus Walleij  2020-02-23  35    backlight: true
+5ce96fe032f43e Linus Walleij  2020-02-23  36  
+5ce96fe032f43e Linus Walleij  2020-02-23  37  required:
+5ce96fe032f43e Linus Walleij  2020-02-23  38    - compatible
+5ce96fe032f43e Linus Walleij  2020-02-23  39    - reg
+5ce96fe032f43e Linus Walleij  2020-02-23  40  
 
 -- 
 0-DAY CI Kernel Test Service
