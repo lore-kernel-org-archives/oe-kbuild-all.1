@@ -1,115 +1,176 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D279FBEA
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jan 2024 12:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C8011704
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jan 2024 14:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="FxQgKHCj"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RHEcj3qW"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33732ca677aso2022518f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 Jan 2024 06:02:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qQxJbCIkmDYYJnQt+0XBTATvSbhlYbOVPvjbeGHG/ok=;
-  b=FxQgKHCjEBD3m2QdjbsRhNqnWgBKUeY+/z+6yRsbt9qF4HEX/dX4bQ26
-   HdqlALWwlnucuuzUoqEQvlm3nqoS4kNRkDQPC2Ny+0UOGvaS/yY+/XNeP
-   IP8ai8d6KGSi+A47TSB3fcTMhYIekcRYKGmrcHbPpWPlTRLhz7HnLmKy6
-   I=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.04,325,1695679200"; 
-   d="scan'208";a="144567861"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 13:55:38 +0100
-Date: Tue, 2 Jan 2024 13:55:38 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Shenghao Ding <13916275206@139.com>, Mark Brown <broonie@kernel.org>
-cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: sound/soc/codecs/tas2781-i2c.c:255:26-27: WARNING opportunity for
- min() (fwd)
-Message-ID: <a378fc2-7cf4-a7bf-f8d5-8260223a4f@inria.fr>
+        d=linaro.org; s=google; t=1704204160; x=1704808960; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gr8xoz17s/BB7TieecZUfYiPuxeYJ5dbt5GBG9TEZsY=;
+        b=RHEcj3qW+qE3xVJ/K6YRUSrIrgawats6roX6omsm44ZCmI3TnoxZHFeqaZih7ic21U
+         +KQJ8HnPWSQXp73Ab3q154nGJBal18x4ewVMRsYdNNC8EoIexeu9SZLhl5Ig8Jdi1nuf
+         9hntGWylRaAa5jZFAqMK43SpqOOhNwuQnhvtCqIr0JjCR3Cz1QCAQMo9rmlVgORBKMD9
+         mR3rGi9CFENMoWjLYH0ZMELWMYLXNnwfbQ5b8NwKc4F7mKLKJXa6z3lswUua7jST3FL2
+         WaGegIRJuKa8h78bRbE2YCMgv4mrK7uJv+r3Wb9bTgGBNkNkioiRoPoblY+8exzz74pT
+         XaeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704204160; x=1704808960;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gr8xoz17s/BB7TieecZUfYiPuxeYJ5dbt5GBG9TEZsY=;
+        b=O935CJMn+GerEpucXrqBUYSpt9WnhSvR5dpQ4QgLAHLUtnXgEc+9OtCUhhzgaWFRQY
+         Obseui0ZhkFwtXJKRr6vsRND7s3xvWWNGUWuY86zmosVGDm5lIu79EE5bEueBYzaky0j
+         mxNOi1YkJVibArl8WQnka7AbqiFyclkR+4zDPUmLlCrdmlq0pRePgRbilfIaX8Jju9dI
+         jMA9SuZz6A/kH+f2xnKnzfVOiwSXvenUH8bL/q+jSQVdL/ny5o9NQX+ted+P9vng8eEO
+         4lFO8ZCNGVSukSb20+jwOmL13bGACTDPUhdv/HlvIxVONjwt4map3tc4bL15g7DpER6h
+         141w==
+X-Gm-Message-State: AOJu0Yxnol7Lr5Ly/ScvErg76bWlFZQ2NcM+McxGEx+U3qfiEdbgwXDF
+	iKE7H+zutexXemT6pATihbrJQ9XtTUwzDg==
+X-Google-Smtp-Source: AGHT+IFtpOEIbKNXlmkc2tSjGwdHUZnL6Caf7NVCepLhF55Ox65Xqs4fDODl+NB3TOWE3iTyA6rJ8g==
+X-Received: by 2002:a5d:5286:0:b0:336:c963:2741 with SMTP id c6-20020a5d5286000000b00336c9632741mr5386059wrv.11.1704204159887;
+        Tue, 02 Jan 2024 06:02:39 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id e14-20020a5d6d0e000000b00336cbbf2e0fsm19026505wrq.27.2024.01.02.06.02.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jan 2024 06:02:39 -0800 (PST)
+Date: Tue, 2 Jan 2024 17:02:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, RD Babiera <rdbabiera@google.com>,
+	heikki.krogerus@linux.intel.com, linux@roeck-us.net,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, badhri@google.com,
+	bryan.odonoghue@linaro.org, agross@kernel.org, andersson@kernel.org,
+	konrad.dybcio@linaro.org
+Subject: Re: [PATCH v2 12/12] usb: typec: altmodes/displayport: add SOP'
+ support
+Message-ID: <c1e59ca9-d2f5-4a9c-a653-f533ff5772c1@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231214230850.379863-26-rdbabiera@google.com>
 
+Hi RD,
 
+kernel test robot noticed the following build warnings:
 
----------- Forwarded message ----------
-Date: Tue, 2 Jan 2024 19:53:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: sound/soc/codecs/tas2781-i2c.c:255:26-27: WARNING opportunity for min()
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Shenghao Ding <13916275206@139.com>
-CC: Mark Brown <broonie@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   610a9b8f49fbcf1100716370d3b5f6f884a2835a
-commit: ef3bcde75d06d65f78ba38a30d5a87fb83a5cdae ASoC: tas2781: Add tas2781 driver
-date:   7 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 7 months ago
-config: sparc64-randconfig-r051-20240102 (https://download.01.org/0day-ci/archive/20240102/202401021929.eW58tuKw-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-altmodes-add-typec_cable_ops-to-typec_altmode/20231215-071339
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20231214230850.379863-26-rdbabiera%40google.com
+patch subject: [PATCH v2 12/12] usb: typec: altmodes/displayport: add SOP' support
+config: riscv-randconfig-r081-20231216 (https://download.01.org/0day-ci/archive/20231216/202312161205.sNH5M6Pz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401021929.eW58tuKw-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312161205.sNH5M6Pz-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> sound/soc/codecs/tas2781-i2c.c:255:26-27: WARNING opportunity for min()
-   sound/soc/codecs/tas2781-i2c.c:365:14-15: WARNING opportunity for min()
+smatch warnings:
+drivers/usb/typec/altmodes/displayport.c:317 dp_altmode_work() warn: inconsistent returns '&dp->lock'.
 
-vim +255 sound/soc/codecs/tas2781-i2c.c
+vim +317 drivers/usb/typec/altmodes/displayport.c
 
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  223
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  224  static int tasdevice_create_control(struct tasdevice_priv *tas_priv)
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  225  {
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  226  	struct snd_kcontrol_new *prof_ctrls;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  227  	int nr_controls = 1;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  228  	int mix_index = 0;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  229  	int ret;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  230  	char *name;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  231
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  232  	prof_ctrls = devm_kcalloc(tas_priv->dev, nr_controls,
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  233  		sizeof(prof_ctrls[0]), GFP_KERNEL);
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  234  	if (!prof_ctrls) {
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  235  		ret = -ENOMEM;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  236  		goto out;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  237  	}
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  238
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  239  	/* Create a mixer item for selecting the active profile */
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  240  	name = devm_kzalloc(tas_priv->dev, SNDRV_CTL_ELEM_ID_NAME_MAXLEN,
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  241  		GFP_KERNEL);
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  242  	if (!name) {
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  243  		ret = -ENOMEM;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  244  		goto out;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  245  	}
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  246  	scnprintf(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN, "Speaker Profile Id");
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  247  	prof_ctrls[mix_index].name = name;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  248  	prof_ctrls[mix_index].iface = SNDRV_CTL_ELEM_IFACE_MIXER;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  249  	prof_ctrls[mix_index].info = tasdevice_info_profile;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  250  	prof_ctrls[mix_index].get = tasdevice_get_profile_id;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  251  	prof_ctrls[mix_index].put = tasdevice_set_profile_id;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  252  	mix_index++;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  253
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  254  	ret = snd_soc_add_component_controls(tas_priv->codec,
-ef3bcde75d06d6 Shenghao Ding 2023-06-18 @255  		prof_ctrls, nr_controls < mix_index ? nr_controls : mix_index);
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  256
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  257  out:
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  258  	return ret;
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  259  }
-ef3bcde75d06d6 Shenghao Ding 2023-06-18  260
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  240  static void dp_altmode_work(struct work_struct *work)
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  241  {
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  242  	struct dp_altmode *dp = container_of(work, struct dp_altmode, work);
+4c93cad8cc78bd Kyle Tso        2021-02-05  243  	int svdm_version;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  244  	u32 header;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  245  	u32 vdo;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  246  	int ret;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  247  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  248  	mutex_lock(&dp->lock);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  249  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  250  	switch (dp->state) {
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  251  	case DP_STATE_ENTER:
+8face9aa57c833 Heikki Krogerus 2019-12-30  252  		ret = typec_altmode_enter(dp->alt, NULL);
+5789051fc57bb6 Heikki Krogerus 2020-09-28  253  		if (ret && ret != -EBUSY)
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  254  			dev_err(&dp->alt->dev, "failed to enter mode\n");
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  255  		break;
+92483f2f3092f0 RD Babiera      2023-12-14  256  	case DP_STATE_ENTER_PRIME:
+92483f2f3092f0 RD Babiera      2023-12-14  257  		ret = typec_cable_altmode_enter(dp->alt, TYPEC_PLUG_SOP_P, NULL);
+92483f2f3092f0 RD Babiera      2023-12-14  258  		/*
+92483f2f3092f0 RD Babiera      2023-12-14  259  		 * If we fail to enter Alt Mode on SOP', then we should drop the
+92483f2f3092f0 RD Babiera      2023-12-14  260  		 * plug from the driver and attempt to run the driver without
+92483f2f3092f0 RD Babiera      2023-12-14  261  		 * it.
+92483f2f3092f0 RD Babiera      2023-12-14  262  		 */
+92483f2f3092f0 RD Babiera      2023-12-14  263  		if (ret && ret != -EBUSY) {
+92483f2f3092f0 RD Babiera      2023-12-14  264  			dev_err(&dp->alt->dev, "plug failed to enter mode\n");
+92483f2f3092f0 RD Babiera      2023-12-14  265  			dp->state = DP_STATE_ENTER;
+92483f2f3092f0 RD Babiera      2023-12-14  266  			goto disable_prime;
+92483f2f3092f0 RD Babiera      2023-12-14  267  		}
+92483f2f3092f0 RD Babiera      2023-12-14  268  		break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  269  	case DP_STATE_UPDATE:
+4c93cad8cc78bd Kyle Tso        2021-02-05  270  		svdm_version = typec_altmode_get_svdm_version(dp->alt);
+4c93cad8cc78bd Kyle Tso        2021-02-05  271  		if (svdm_version < 0)
+4c93cad8cc78bd Kyle Tso        2021-02-05  272  			break;
+4c93cad8cc78bd Kyle Tso        2021-02-05  273  		header = DP_HEADER(dp, svdm_version, DP_CMD_STATUS_UPDATE);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  274  		vdo = 1;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  275  		ret = typec_altmode_vdm(dp->alt, header, &vdo, 2);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  276  		if (ret)
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  277  			dev_err(&dp->alt->dev,
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  278  				"unable to send Status Update command (%d)\n",
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  279  				ret);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  280  		break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  281  	case DP_STATE_CONFIGURE:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  282  		ret = dp_altmode_configure_vdm(dp, dp->data.conf);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  283  		if (ret)
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  284  			dev_err(&dp->alt->dev,
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  285  				"unable to send Configure command (%d)\n", ret);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  286  		break;
+92483f2f3092f0 RD Babiera      2023-12-14  287  	case DP_STATE_CONFIGURE_PRIME:
+92483f2f3092f0 RD Babiera      2023-12-14  288  		ret = dp_altmode_configure_vdm_cable(dp, dp->data_prime.conf);
+92483f2f3092f0 RD Babiera      2023-12-14  289  		if (ret) {
+92483f2f3092f0 RD Babiera      2023-12-14  290  			dev_err(&dp->plug_prime->dev,
+92483f2f3092f0 RD Babiera      2023-12-14  291  				"unable to send Configure command (%d)\n",
+92483f2f3092f0 RD Babiera      2023-12-14  292  				ret);
+92483f2f3092f0 RD Babiera      2023-12-14  293  			dp->state = DP_STATE_CONFIGURE;
+92483f2f3092f0 RD Babiera      2023-12-14  294  			goto disable_prime;
+92483f2f3092f0 RD Babiera      2023-12-14  295  		}
+92483f2f3092f0 RD Babiera      2023-12-14  296  		break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  297  	case DP_STATE_EXIT:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  298  		if (typec_altmode_exit(dp->alt))
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  299  			dev_err(&dp->alt->dev, "Exit Mode Failed!\n");
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  300  		break;
+92483f2f3092f0 RD Babiera      2023-12-14  301  	case DP_STATE_EXIT_PRIME:
+92483f2f3092f0 RD Babiera      2023-12-14  302  		if (typec_cable_altmode_exit(dp->plug_prime, TYPEC_PLUG_SOP_P))
+92483f2f3092f0 RD Babiera      2023-12-14  303  			dev_err(&dp->plug_prime->dev, "Exit Mode Failed!\n");
+92483f2f3092f0 RD Babiera      2023-12-14  304  		break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  305  	default:
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  306  		break;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  307  	}
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  308  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  309  	dp->state = DP_STATE_IDLE;
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  310  
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  311  	mutex_unlock(&dp->lock);
+92483f2f3092f0 RD Babiera      2023-12-14  312  	return;
+92483f2f3092f0 RD Babiera      2023-12-14  313  
+92483f2f3092f0 RD Babiera      2023-12-14  314  disable_prime:
+92483f2f3092f0 RD Babiera      2023-12-14  315  	typec_altmode_put_plug(dp->plug_prime);
+92483f2f3092f0 RD Babiera      2023-12-14  316  	dp->plug_prime = NULL;
+
+We need a mutex_unlock(&dp->lock); somewhere here.
+
+92483f2f3092f0 RD Babiera      2023-12-14 @317  	schedule_work(&dp->work);
+0e3bb7d6894d9b Heikki Krogerus 2018-06-27  318  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
