@@ -1,360 +1,159 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FA41427C;
-	Tue,  2 Jan 2024 14:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dbe344a6cf4so2921917276.0;
-        Tue, 02 Jan 2024 06:52:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704207133; x=1704811933;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L8pjdrgOfn17LwehQh5LTsjEMS1V1KEh0t8kBUAgLKU=;
-        b=ZlSjuRNmmu6qsbu/TJot5Wqgl6IizdKkPNAFn52/OAySXTMvcD1xNtqNDt1uxlA6Wf
-         oUSNyshOegBtrBsb+qF3+vXfu4DwedMe2Z7xUYwsdhh2oNUMevOGlD3kxBUMbvjdmLQB
-         rBRuztJ/leM1fIfZdRc1dWEyaKo/yIlCtYmcRzwg40gnh1IKVD0E0P+GdTTP1Cxt4nsX
-         YeyP+7Bqgxzorr/zkOoS0qVMYsyDgSbRKXRAQbSid0iOwCh4p78U6+k+rbhTUObYL9SE
-         mrYVr4llTFj6+vtnKN3rQHS41e7qdInA4yGLX5EQ5zT7ZlL/aWCd3IIC89A1P8a+SNnD
-         u1OA==
-X-Gm-Message-State: AOJu0Yxb81dK80gSA4GzxYYez/fySejBoQ/VOQrYmmfR8LwN8/UGsNzJ
-	egGOSa6yHET2/fCcjfnm3pD5C5gdpTdITg==
-X-Google-Smtp-Source: AGHT+IH/O4iD97IzJf4AOn5dWJrRvWC8zNZ1gVxUSB7P9nqtE9FfK3CRyr5H3B9uVGEv5EsnVUrTsw==
-X-Received: by 2002:a25:cece:0:b0:db7:dacf:6fd3 with SMTP id x197-20020a25cece000000b00db7dacf6fd3mr8283053ybe.91.1704207133539;
-        Tue, 02 Jan 2024 06:52:13 -0800 (PST)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id a19-20020a25ae13000000b00d974c72068fsm10228489ybj.4.2024.01.02.06.52.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jan 2024 06:52:13 -0800 (PST)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5f2d4aaa2fdso9495507b3.1;
-        Tue, 02 Jan 2024 06:52:13 -0800 (PST)
-X-Received: by 2002:a81:a006:0:b0:5e7:bbdf:2eb9 with SMTP id
- x6-20020a81a006000000b005e7bbdf2eb9mr11273308ywg.28.1704207132759; Tue, 02
- Jan 2024 06:52:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AD314A8A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jan 2024 14:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5cqKhJE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704207453; x=1735743453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5VzesKxWKOsckXkr93gItJ52xdmgJ5rbjX4n9Mjz9Fg=;
+  b=A5cqKhJEZS3gtWrTu6rlBkc1p2eijoY6maNJG65IeenrBZoSJ3BDIsMj
+   R8xGR6MZiOv/AqBtPFVdiPhjWjByu0etSqJIBIEk0e03go8Fs6nDUaK/Q
+   SjPEY5dj0mzzZ0pwxFTJwEqeqEEckVWmCtRvVOCQe2x8X0LO+Wh9g5NDk
+   ho2hlMql5McWW5JlHhQiSbbjLVwTJzxyn9lqAK/TSi0S+Oc4kkTjcfQjR
+   5cy48isnb3MAXkKYwqOqjVbpkJB0PWTXP5KwGZjSeh+gaScczvw2fKqQT
+   rOix1f17LhdLaUd5aFNYB9fY4Sl3ViD2pZSKZQlQ/7WYFCG8vJdFsuMx5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="395766448"
+X-IronPort-AV: E=Sophos;i="6.04,325,1695711600"; 
+   d="scan'208";a="395766448"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 06:57:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="808531786"
+X-IronPort-AV: E=Sophos;i="6.04,325,1695711600"; 
+   d="scan'208";a="808531786"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 02 Jan 2024 06:57:30 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rKgCt-000LGC-2b;
+	Tue, 02 Jan 2024 14:57:27 +0000
+Date: Tue, 2 Jan 2024 22:56:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Fan Ni <fan.ni@samsung.com>
+Subject: [linux-next:master 10859/12059] drivers/cxl/core/region.c:556:25:
+ warning: format '%llx' expects argument of type 'long long unsigned int',
+ but argument 5 has type 'resource_size_t' {aka 'unsigned int'}
+Message-ID: <202401022246.En9oIBzU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <8b1bc7f4-f83f-413d-9fa9-3ee68577750d@suswa.mountain>
-In-Reply-To: <8b1bc7f4-f83f-413d-9fa9-3ee68577750d@suswa.mountain>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 2 Jan 2024 15:52:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVFBFDj0B+1E1Bj3ZOyftg=mi8uwQt2Z2bs2vZbgn5YRw@mail.gmail.com>
-Message-ID: <CAMuHMdVFBFDj0B+1E1Bj3ZOyftg=mi8uwQt2Z2bs2vZbgn5YRw@mail.gmail.com>
-Subject: Re: drivers/phy/renesas/phy-rcar-gen3-usb2.c:747 rcar_gen3_phy_usb2_probe()
- warn: missing error code 'ret'
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Conor Dooley <conor.dooley@microchip.com>, Guo Ren <guoren@kernel.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-CC Shimoda-san,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ab0b3e6ef50d305278b1971891cf1d82ab050b35
+commit: 7984d22f1315bf30433e11e5010e4ce09ca22037 [10859/12059] cxl/region: Add dev_dbg() detail on failure to allocate HPA space
+config: riscv-randconfig-r022-20221204 (https://download.01.org/0day-ci/archive/20240102/202401022246.En9oIBzU-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240102/202401022246.En9oIBzU-lkp@intel.com/reproduce)
 
-On Tue, Jan 2, 2024 at 3:03=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   3bd7d748816927202268cb335921f7f68b3ca723
-> commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: Add=
- ARCH_RENESAS kconfig option
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401022246.En9oIBzU-lkp@intel.com/
 
-Wrong commit
+All warnings (new ones prefixed by >>):
 
-Fixes: 441a681b8843474c ("phy: rcar-gen3-usb2: fix implementation for
-runtime PM")
+   In file included from include/linux/printk.h:564,
+                    from include/asm-generic/bug.h:22,
+                    from arch/riscv/include/asm/bug.h:83,
+                    from include/linux/bug.h:5,
+                    from include/linux/memregion.h:7,
+                    from drivers/cxl/core/region.c:3:
+   drivers/cxl/core/region.c: In function 'alloc_hpa':
+>> drivers/cxl/core/region.c:556:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     556 |                         "HPA allocation error (%ld) for size:%#llx in %s %pr\n",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/cxl/core/region.c:555:17: note: in expansion of macro 'dev_dbg'
+     555 |                 dev_dbg(&cxlr->dev,
+         |                 ^~~~~~~
+   drivers/cxl/core/region.c:556:66: note: format string is defined here
+     556 |                         "HPA allocation error (%ld) for size:%#llx in %s %pr\n",
+         |                                                              ~~~~^
+         |                                                                  |
+         |                                                                  long long unsigned int
+         |                                                              %#x
 
-> config: riscv-randconfig-r081-20231216 (https://download.01.org/0day-ci/a=
-rchive/20231216/202312161021.gOLDl48K-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git =
-4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202312161021.gOLDl48K-lkp@intel.com/
->
-> smatch warnings:
-> drivers/phy/renesas/phy-rcar-gen3-usb2.c:747 rcar_gen3_phy_usb2_probe() w=
-arn: missing error code 'ret'
->
-> vim +/ret +747 drivers/phy/renesas/phy-rcar-gen3-usb2.c
->
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  652  static int rcar_gen3_phy_usb2_probe(struct platform_devic=
-e *pdev)
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  653  {
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  654       const struct rcar_gen3_phy_drv_data *phy_data;
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  655       struct device *dev =3D &pdev->dev;
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  656       struct rcar_gen3_chan *channel;
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  657       struct phy_provider *provider;
-> 08b0ad375ca661 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2020-07-17  658       int ret =3D 0, i;
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  659
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  660       if (!dev->of_node) {
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  661               dev_err(dev, "This driver needs device tree\=
-n");
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  662               return -EINVAL;
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  663       }
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  664
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  665       channel =3D devm_kzalloc(dev, sizeof(*channel), GFP_=
-KERNEL);
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  666       if (!channel)
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  667               return -ENOMEM;
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  668
-> 0b5604affbec02 drivers/phy/renesas/phy-rcar-gen3-usb2.c Chunfeng Yun     =
- 2020-11-06  669       channel->base =3D devm_platform_ioremap_resource(pde=
-v, 0);
-> 801a69c787812f drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-03-03  670       if (IS_ERR(channel->base))
-> 801a69c787812f drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-03-03  671               return PTR_ERR(channel->base);
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  672
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  673       channel->obint_enable_bits =3D USB2_OBINT_BITS;
-> 08b0ad375ca661 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2020-07-17  674       /* get irq number here and request_irq for OTG in ph=
-y_init */
-> 08b0ad375ca661 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2020-07-17  675       channel->irq =3D platform_get_irq_optional(pdev, 0);
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  676       channel->dr_mode =3D rcar_gen3_get_dr_mode(dev->of_n=
-ode);
-> 73801b90a38ff1 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2018-09-21  677       if (channel->dr_mode !=3D USB_DR_MODE_UNKNOWN) {
-> 7e0540f41332cb drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2017-10-12  678               int ret;
->
-> I would delete this "ret" declaration.
 
-Agreed.
+vim +556 drivers/cxl/core/region.c
 
->
-> 7e0540f41332cb drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2017-10-12  679
-> 979b519c7a1bff drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2018-09-21  680               channel->is_otg_channel =3D true;
-> 8dde0008ffc9e2 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2018-09-21  681               channel->uses_otg_pins =3D !of_property_read=
-_bool(dev->of_node,
-> 8dde0008ffc9e2 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2018-09-21  682                                                       "ren=
-esas,no-otg-pins");
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  683               channel->extcon =3D devm_extcon_dev_allocate=
-(dev,
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  684                                                       rcar=
-_gen3_phy_cable);
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  685               if (IS_ERR(channel->extcon))
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  686                       return PTR_ERR(channel->extcon);
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  687
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  688               ret =3D devm_extcon_dev_register(dev, channe=
-l->extcon);
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  689               if (ret < 0) {
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  690                       dev_err(dev, "Failed to register ext=
-con\n");
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  691                       return ret;
-> 2b38543c8db1c7 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-04-29  692               }
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  693       }
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  694
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  695       /*
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  696        * devm_phy_create() will call pm_runtime_enable(&ph=
-y->dev);
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  697        * And then, phy-core will manage runtime pm for thi=
-s device.
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  698        */
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  699       pm_runtime_enable(dev);
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  700
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  701       phy_data =3D of_device_get_match_data(dev);
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  702       if (!phy_data) {
-> 51e339deab1e51 drivers/phy/renesas/phy-rcar-gen3-usb2.c Wang Li          =
- 2020-11-26  703               ret =3D -EINVAL;
-> 51e339deab1e51 drivers/phy/renesas/phy-rcar-gen3-usb2.c Wang Li          =
- 2020-11-26  704               goto error;
-> 51e339deab1e51 drivers/phy/renesas/phy-rcar-gen3-usb2.c Wang Li          =
- 2020-11-26  705       }
-> 5d8042e95fd471 drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2019-04-10  706
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  707       channel->soc_no_adp_ctrl =3D phy_data->no_adp_ctrl;
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  708       if (phy_data->no_adp_ctrl)
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  709               channel->obint_enable_bits =3D USB2_OBINT_ID=
-CHG_EN;
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  710
-> 5c9dc6379f539c drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-06-10  711       mutex_init(&channel->lock);
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  712       for (i =3D 0; i < NUM_OF_PHYS; i++) {
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  713               channel->rphys[i].phy =3D devm_phy_create(de=
-v, NULL,
-> b0512a6ec0cd6d drivers/phy/renesas/phy-rcar-gen3-usb2.c Biju Das         =
- 2021-07-27  714                                                       phy_=
-data->phy_usb2_ops);
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  715               if (IS_ERR(channel->rphys[i].phy)) {
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  716                       dev_err(dev, "Failed to create USB2 =
-PHY\n");
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  717                       ret =3D PTR_ERR(channel->rphys[i].ph=
-y);
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  718                       goto error;
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  719               }
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  720               channel->rphys[i].ch =3D channel;
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  721               channel->rphys[i].int_enable_bits =3D rcar_g=
-en3_int_enable[i];
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  722               phy_set_drvdata(channel->rphys[i].phy, &chan=
-nel->rphys[i]);
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  723       }
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  724
-> 6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-03-03  725       channel->vbus =3D devm_regulator_get_optional(dev, "=
-vbus");
-> 6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-03-03  726       if (IS_ERR(channel->vbus)) {
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  727               if (PTR_ERR(channel->vbus) =3D=3D -EPROBE_DE=
-FER) {
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  728                       ret =3D PTR_ERR(channel->vbus);
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  729                       goto error;
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  730               }
-> 6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-03-03  731               channel->vbus =3D NULL;
-> 6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-03-03  732       }
-> 6dcfd7c300bf35 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-03-03  733
-> 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-11-09  734       platform_set_drvdata(pdev, channel);
-> 92fec1c27caa7b drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  735       channel->dev =3D dev;
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  736
-> 549b6b55b00558 drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2019-04-11  737       provider =3D devm_of_phy_provider_register(dev, rcar=
-_gen3_phy_usb2_xlate);
-> 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-11-09  738       if (IS_ERR(provider)) {
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  739               dev_err(dev, "Failed to register PHY provide=
-r\n");
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  740               ret =3D PTR_ERR(provider);
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  741               goto error;
-> 979b519c7a1bff drivers/phy/renesas/phy-rcar-gen3-usb2.c Yoshihiro Shimoda=
- 2018-09-21  742       } else if (channel->is_otg_channel) {
-> 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-11-09  743               int ret;
->
-> Shadow ret declaration.
->
-> 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-11-09  744
-> 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-11-09  745               ret =3D device_create_file(dev, &dev_attr_ro=
-le);
-> 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-11-09  746               if (ret < 0)
->
-> The "ret" here is the shadow ret so we end up returning success.
+   522	
+   523	static int alloc_hpa(struct cxl_region *cxlr, resource_size_t size)
+   524	{
+   525		struct cxl_root_decoder *cxlrd = to_cxl_root_decoder(cxlr->dev.parent);
+   526		struct cxl_region_params *p = &cxlr->params;
+   527		struct resource *res;
+   528		u32 remainder = 0;
+   529	
+   530		lockdep_assert_held_write(&cxl_region_rwsem);
+   531	
+   532		/* Nothing to do... */
+   533		if (p->res && resource_size(p->res) == size)
+   534			return 0;
+   535	
+   536		/* To change size the old size must be freed first */
+   537		if (p->res)
+   538			return -EBUSY;
+   539	
+   540		if (p->state >= CXL_CONFIG_INTERLEAVE_ACTIVE)
+   541			return -EBUSY;
+   542	
+   543		/* ways, granularity and uuid (if PMEM) need to be set before HPA */
+   544		if (!p->interleave_ways || !p->interleave_granularity ||
+   545		    (cxlr->mode == CXL_DECODER_PMEM && uuid_is_null(&p->uuid)))
+   546			return -ENXIO;
+   547	
+   548		div_u64_rem(size, SZ_256M * p->interleave_ways, &remainder);
+   549		if (remainder)
+   550			return -EINVAL;
+   551	
+   552		res = alloc_free_mem_region(cxlrd->res, size, SZ_256M,
+   553					    dev_name(&cxlr->dev));
+   554		if (IS_ERR(res)) {
+   555			dev_dbg(&cxlr->dev,
+ > 556				"HPA allocation error (%ld) for size:%#llx in %s %pr\n",
+   557				PTR_ERR(res), size, cxlrd->res->name, cxlrd->res);
+   558			return PTR_ERR(res);
+   559		}
+   560	
+   561		p->res = res;
+   562		p->state = CXL_CONFIG_INTERLEAVE_ACTIVE;
+   563	
+   564		return 0;
+   565	}
+   566	
 
-Oops...
-
->
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14 @747                       goto error;
-> 9bb86777fb71ee drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2016-11-09  748       }
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  749
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  750       return 0;
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  751
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  752  error:
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  753       pm_runtime_disable(dev);
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  754
-> 441a681b884347 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2017-03-14  755       return ret;
-> f3b5a8d9b50d71 drivers/phy/phy-rcar-gen3-usb2.c         Yoshihiro Shimoda=
- 2015-11-30  756  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
