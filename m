@@ -1,254 +1,327 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2051.outbound.protection.outlook.com [40.107.92.51])
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F8FCA66
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jan 2024 09:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F136AB6
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jan 2024 09:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1EUeYeUv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oEJ8gpD3MKf/b2YiiigaL59TsYm5gs0Ib8r+NSLfd0z0PFsf15MtxqGGUU7LFTjC7/C2b7kcfPWsVhIXfzkawd4y8A1vPhJFUVoxjHqYY/tGQsv83ePEvpBgN2I8CP2ZN9UF7k2G9DiqzSo0JYXoYIK2Ke4cQVs4YW0FvnENuz5VhEaRyFLsSnXhyWHE3kRo6Iz4OAElf0oqdxhrxWjmFK6wfztCHHsoLYtBYsdZmXGa4PgVoBDrjKVLJKHJXEMHdnHX4e6Hn6g0HQytL9eit9fVF+WYP5/fqGjXg/m/5DSvaagnddUq89hFlBijUyVFNo+IgKfrqb/v9ZNp+UwHFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8LCVYWBE1cGfN5GioUgmD9jSQLlDFC0YrQUw70KK8AA=;
- b=R1EwDyBHSS9jbne6Qoo6b3I/azRArGgo2iISjNV0mN3JLvU+IuXb3+5U3tqDBzpBWjqOZa0q+Qq4d+VnG+2XtsLTPC+lt0F+FPViQB/qRUW98555BUC3XdNWIH64PTCN0sQwvfizfNrW9HsxdCaBd/hKnvBSgscmKx3hcuaeXzZWJInbvog1OHmIw2e1iJPXWxEtH+vRF/ymvmA31ottsthV/18geXp1XJgos0/HiizYq1sP+9wVHFsZVehrb08Vl/1fVhmLK1tp7jpqH/+2Y4lrJJiRTQji/pWYgq8sNjueUv0q9UX2T2h6ZWGfH+LQm/veMuxKHIIEHu7ngnNG3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8LCVYWBE1cGfN5GioUgmD9jSQLlDFC0YrQUw70KK8AA=;
- b=1EUeYeUvOU7xsTVPQJ+WRIM7E45cH8lNgnsmagkJTSYsbXIZsRPTM9ufWIntgpyzU6i6/OOTuDzhDHDEHWxnOrn/OBUoADg+K8OG6Po+jujADNCvjQmSDNSxfPbjlBn79qOFLiya+cNOuz8rOHtb4PIeGMVjuEuZkdxNSfQICuc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CYXPR12MB9337.namprd12.prod.outlook.com (2603:10b6:930:d8::20)
- by DS0PR12MB7653.namprd12.prod.outlook.com (2603:10b6:8:13e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Tue, 2 Jan
- 2024 09:10:08 +0000
-Received: from CYXPR12MB9337.namprd12.prod.outlook.com
- ([fe80::2b19:2045:59c7:cde2]) by CYXPR12MB9337.namprd12.prod.outlook.com
- ([fe80::2b19:2045:59c7:cde2%7]) with mapi id 15.20.7135.023; Tue, 2 Jan 2024
- 09:10:08 +0000
-Message-ID: <23eb1bed-6342-482c-8193-7309d813a3f2@amd.com>
-Date: Tue, 2 Jan 2024 10:09:55 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [xilinx-xlnx:xlnx_rebase_v6.1 627/1369]
- drivers/irqchip/irq-imx-mu-msi.c:448:61: error: macro
- "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Anirudha Sarangi <anirudha.sarangi@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
- Michal Simek <monstr@monstr.eu>,
- Mubin Usman Sayyed <mubin.usman.sayyed@xilinx.com>,
- Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-References: <202312292240.z6w5WALy-lkp@intel.com>
-From: Michal Simek <michal.simek@amd.com>
-Autocrypt: addr=michal.simek@amd.com; keydata=
- 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
- 3i3l5DA=
-In-Reply-To: <202312292240.z6w5WALy-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR09CA0176.eurprd09.prod.outlook.com
- (2603:10a6:800:120::30) To CYXPR12MB9337.namprd12.prod.outlook.com
- (2603:10b6:930:d8::20)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tAZBdVDF"
+Message-ID: <2c7d53d8-7d54-40cc-8125-9ba5386d79f1@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1704188738;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yjMCcoTaY4VEGSTp02c4ClvQDmLyaLw1IwNwdYNG/Yc=;
+	b=tAZBdVDFzz8odBW2BdocAs+uff5mAvUsJWuIZHosiSjwTAgH1hWgkNCdnoFkB8DEhhoYMK
+	68k1aCWVFjwSmah/hlEM57Kx864lFM0bl1cbsCcLjGmj0kgGq+0BCYpY3Hq/HMU1djYEa9
+	iZofCM5BEDUuNMwgV+eOCT90LzNUwI4=
+Date: Tue, 2 Jan 2024 17:45:31 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYXPR12MB9337:EE_|DS0PR12MB7653:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19572750-c552-4549-9c01-08dc0b729d11
-X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	YinlUzcQaAVbTHRxZc1mwm9Xw7+VjEe8bcuTOn1KIAPBaioFuKsMEQ57eyVZnkYxClyjpydNivMnIH4wXlDnrcFJ4qUUCjqoNNNvdF5zY/b1DWHZnqPqAvDPWvXytNYRMI9+aZ9hXBsEUUzz3GFxkh3uaQGOUudZsfFlBYt0YbnSpId2tpUKxCfKEChRHNAKFnFMA0xDuq4riiBAlAD8YjpmOhSqqggiLzwEiKhkAM3hZ0II07PhppIcdq//Xf2UhlU/4rEJrJ+HWWF4k1i0sRcIwi43DhobtLDlcewm4g9FNCs5RED0Mz2NR8siysot+QVTk5K4pMOm0CqOQZn0L1kaI5Fg8MHaDh0JL/rL+L9wVf3DjDLymbfo4+smI5ZrZvqFJEEU694aEpl8Hd7e9XbiK4x1u+J6fZEVCpn4yUjpAt9V2/9h0FKS+mX8eP94FstkqgTzqaCSPSXAlDWkwJI9te6bfAZav6KQEREB3ydPxskO9TKsIz00mF5vffsIJn+uFTQyRjmFJ4Fk/QytvNVl0ql2wF6bIDIb1a2CocicVyYCzgPR1UiKWYHuWCmc7OCW8zeWRmZUTGsHc44/hsshcWKAeF7T4FyBn3WAqAdII3ioj4ZXONMg1BhCLDzkBYzwwb/K0tYCv5C2D7krESKy9SxkaNYzwTJTqcuPQ7dMxMen4pbokYBcq5Gidjxm3Buc2H3E3hWyMmRNLWMJtg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYXPR12MB9337.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(39860400002)(396003)(376002)(366004)(230922051799003)(230173577357003)(230273577357003)(451199024)(1800799012)(186009)(64100799003)(38100700002)(36756003)(31686004)(86362001)(31696002)(26005)(2616005)(53546011)(6512007)(6506007)(6666004)(478600001)(316002)(8676002)(54906003)(6486002)(966005)(8936002)(110136005)(66946007)(66556008)(66476007)(4326008)(83380400001)(41300700001)(5660300002)(44832011)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U2ZRRkhDcUJnNFc1VFdUb0tFN1lvTGFKY2lNSWdoZ21LY3pucTAyZE56OG55?=
- =?utf-8?B?MVc2TDc0WDQ5VWRVY0pKS09UWEdGaDdocE1JMVhNNFRjVHM3bEhNa2pJaFNJ?=
- =?utf-8?B?ZVpDQlZBK1hOUmNob09aYjZEN0tuWkxwRGd3djNjWmVybjQxVDlmQ1dVOVJY?=
- =?utf-8?B?SGtQVW1jcXNPUXpqc1hJK0poSHU2SVVoRGNkWlRFQ1IzbzM2NFRTN3k4aXNZ?=
- =?utf-8?B?aE9YNkdsT2JnZUlKSXBWZ1BHUmZQSjRFcmRBWDQzQ1lzSVVHODgxbEtmWnkz?=
- =?utf-8?B?Z2l4aUo2UW9TbnlJb3h1LzBTSHl2RzZWV0xLRlUzc0hBMDNXL2k5bXVIOEhr?=
- =?utf-8?B?anFycWhFdlRuV3Znb1Y5YXJKQnBYN3AyVmMxNkhVRkk5cTR1QXZSWUFVU25y?=
- =?utf-8?B?RWNaNURtcjlnRFJ6UFJ1Mi9HenJDNE5LR2tRRFRWbTYwbnhHZGhpR21aRVdl?=
- =?utf-8?B?djV5MGZ1S1U2SkgzRHgzb0ZxOGFlUHdRTW1SY21jckx3YmwwNFNlbGRFZG12?=
- =?utf-8?B?QnBKOHlPS1ZnaW51YVZWNFA0a3R3dkYyOGdXTm1FZnd1NnNUdk9aQUJDZ0w1?=
- =?utf-8?B?R0lDaGtpd2ViWlFmYWNaMFh3blBVZHdBMittNi9td2NTd3VRcEVvYXdDaXh0?=
- =?utf-8?B?TzBSdFM0dXUvVm9wZlIzVVNETlNLK2dFUTcxVXJrdG1RanRXNFl0L054VVdn?=
- =?utf-8?B?MklyeDc2VW1JcE5WMWI0QWFPR0hJSklBdGJxbzhvdUpST1ZhaWJ3WUFOcUM0?=
- =?utf-8?B?WmgyWlZ6OFFTN0J2Z2loMk54OHd2ak5JQWZ4QTVhS1R0T0ZKTW5pY3lmVkFo?=
- =?utf-8?B?YzhWU0R0QTJhMG95bXp0bjNLc0s5eFJ6bWNZbkN5cnU1SkxqdXkzYzFYbkNz?=
- =?utf-8?B?b3drUTlsRmp1eTBud2szS043TGo2QWlwM2NqQXhzVjZZRkQ5R3ZYRmtCdEMw?=
- =?utf-8?B?dEJPWURCTyt0azRtbkJwcGdLSUt2Y1p0VFNiMVduUU83a1NWK1FNclNzdFRi?=
- =?utf-8?B?ZTZCREl6ZENBTFVxZUhvVWdpOWE2Wk9uZ0JLR29tdXNOOXpta1NVNk5TRnpu?=
- =?utf-8?B?eGEyelpGYi9vTFhZYXphemZwQ1BMOHZvNC92NnFtbnZmbGZYbW1RQlpYek1p?=
- =?utf-8?B?UXBhUjNBWmVqbG1IclVaOUdhSTRhYUVHTEJuUnhVRnRyd1g4N3RSS3NvS2NB?=
- =?utf-8?B?S3RYOFVXaGhvOFpzQWJFMmRNa1Q1QTJmUDdrSmwwYjg2MGF4T21zNTk1Z21R?=
- =?utf-8?B?ZkNCOUJtYUYrTUlGR1Y0K28zekw0RUNBWUlCTncxM1hiY0xrS2xBRUFWL3FT?=
- =?utf-8?B?bEhXQWVHQUN3M0ZTVEYrVktLTXU5a0ZRbG44aUdRMXQ3ai9GRjRWV2xQeXp2?=
- =?utf-8?B?Ryt5ZFY2MlZYZmdYVHFHY056NjNjeG1paEp3OHV2SUJyQUx4bEtvdmFaNVpN?=
- =?utf-8?B?V3lWQVFUK2d2ZWI1WGJKRW9FNkFWTkg2ZU9FSzFvNzlSNm5pRlJSaUNSVWFq?=
- =?utf-8?B?WHlyN1RRYlM4VXVSNHZ1N2ZHM3Z2WWxtWFN3cUJUdWwrdEZzbXpEN3Z6TWZt?=
- =?utf-8?B?eTdwWHJlOCs3Q0F0RVZyVUdIb2tHQjVHUnBxS3VxK2c0V3BWZGVGRTVxeXFG?=
- =?utf-8?B?a2U1bVl0QkFsMSt5OFUzeUFOR08zQzBMUXhiK1YyUUkyQUdmdTlZdFQwVVEw?=
- =?utf-8?B?aWNaaWNpY3U5V0NaMWtLZlNDQ2R1S014bVV0eG9xNm9pdnF4TVRYZUhJUENq?=
- =?utf-8?B?L3orWjgzSFBhTTc3djd1OEhYbU5WTGlGbmU4S0JRbitWaHRJZFF3dUthY2V4?=
- =?utf-8?B?VmU4dHBUT3hvYkRBRElrK2VCc3NaZFZqWGRJWktEMmtHTzdmemI5eWk3TXh1?=
- =?utf-8?B?MGs1Z1JVV2hxSVVSTE9xMVUyK0tpcUZZODdZSXFUT3pnM2ZwcVVvYmJ2Nk5i?=
- =?utf-8?B?UjBWQUpHM1drcnY5ZWY5VG9SbUhyRm41QVQ3TDJ4dHZ5Q1pZd2dxaGZQVTlk?=
- =?utf-8?B?bURKTFVicFlkTE9BWHhIOFNReDdKVHNVdVNIZWpRamFOdFdTUlEzdXRQMzIx?=
- =?utf-8?B?MTFDdktLbEpkdFhIaXpGVTFuZ01LTzg5eG9QQUlnNjNOZk1RL2l5Q083SktK?=
- =?utf-8?Q?bC9noucCHwBJHXSUvUKqn9Pfi?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19572750-c552-4549-9c01-08dc0b729d11
-X-MS-Exchange-CrossTenant-AuthSource: CYXPR12MB9337.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2024 09:10:07.1491
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tae006SFpcYzIqmNJLwMLm1HqAZ5d18waD/dyN6ChegSSVU9Xhl+hSL1v5mD2Xnp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7653
-
-Hi,
+Subject: Re: [PATCH net-next v1 3/6] virtio_net: support device stats
+To: kernel test robot <lkp@intel.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ virtualization@lists.linux.dev
+References: <20231226073103.116153-4-xuanzhuo@linux.alibaba.com>
+ <202401020308.rvzTx1oI-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <202401020308.rvzTx1oI-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
-On 12/29/23 15:32, kernel test robot wrote:
-> Hi Anirudha,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1
-> head:   cc7310fda242b85900cc805b028f2f21d1d8f210
-> commit: d57a0ce28405d21558291942fc17979408936244 [627/1369] irqchip: xilinx: Add support to remove Xilinx INTC irqchip driver module
-> config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231229/202312292240.z6w5WALy-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231229/202312292240.z6w5WALy-lkp@intel.com/reproduce)
-> 
+在 2024/1/2 3:56, kernel test robot 写道:
+> Hi Xuan,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on mst-vhost/linux-next]
+> [also build test WARNING on linus/master v6.7-rc8]
+> [cannot apply to net-next/main horms-ipvs/master next-20231222]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_net-introduce-device-stats-feature-and-structures/20231226-153227
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+> patch link:    https://lore.kernel.org/r/20231226073103.116153-4-xuanzhuo%40linux.alibaba.com
+> patch subject: [PATCH net-next v1 3/6] virtio_net: support device stats
+> config: x86_64-randconfig-121-20240101 (https://download.01.org/0day-ci/archive/20240102/202401020308.rvzTx1oI-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240102/202401020308.rvzTx1oI-lkp@intel.com/reproduce)
+>
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312292240.z6w5WALy-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> drivers/irqchip/irq-imx-mu-msi.c:448:61: error: macro "IRQCHIP_PLATFORM_DRIVER_END" passed 2 arguments, but takes just 1
->       448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
->           |                                                             ^
->     In file included from drivers/irqchip/irq-imx-mu-msi.c:15:
->     include/linux/irqchip.h:68: note: macro "IRQCHIP_PLATFORM_DRIVER_END" defined here
->        68 | #define IRQCHIP_PLATFORM_DRIVER_END(drv_name)                           \
->           |
->>> drivers/irqchip/irq-imx-mu-msi.c:448:1: error: 'IRQCHIP_PLATFORM_DRIVER_END' undeclared here (not in a function)
->       448 | IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
->           | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->     In file included from include/linux/module.h:22,
->                      from include/linux/device/driver.h:21,
->                      from include/linux/device.h:32,
->                      from include/linux/acpi.h:15,
->                      from include/linux/irqchip.h:14:
->>> include/linux/moduleparam.h:24:9: error: expected '}' before 'static'
->        24 |         static const char __UNIQUE_ID(name)[]                             \
->           |         ^~~~~~
->     include/linux/module.h:165:32: note: in expansion of macro '__MODULE_INFO'
->       165 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
->           |                                ^~~~~~~~~~~~~
->     include/linux/module.h:235:32: note: in expansion of macro 'MODULE_INFO'
->       235 | #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
->           |                                ^~~~~~~~~~~
->     drivers/irqchip/irq-imx-mu-msi.c:451:1: note: in expansion of macro 'MODULE_AUTHOR'
->       451 | MODULE_AUTHOR("Frank Li <Frank.Li@nxp.com>");
->           | ^~~~~~~~~~~~~
->     include/linux/irqchip.h:45:69: note: to match this '{'
->        45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
->           |                                                                     ^
->     drivers/irqchip/irq-imx-mu-msi.c:444:1: note: in expansion of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
->       444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
->           | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     drivers/irqchip/irq-imx-mu-msi.c:444:31: warning: 'imx_mu_msi_irqchip_match_table' defined but not used [-Wunused-const-variable=]
->       444 | IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
->           |                               ^~~~~~~~~~
->     include/linux/irqchip.h:45:34: note: in definition of macro 'IRQCHIP_PLATFORM_DRIVER_BEGIN'
->        45 | static const struct of_device_id drv_name##_irqchip_match_table[] = {
->           |                                  ^~~~~~~~
->     drivers/irqchip/irq-imx-mu-msi.c:421:32: warning: 'imx_mu_pm_ops' defined but not used [-Wunused-const-variable=]
->       421 | static const struct dev_pm_ops imx_mu_pm_ops = {
->           |                                ^~~~~~~~~~~~~
-> 
-> 
-> vim +/IRQCHIP_PLATFORM_DRIVER_END +448 drivers/irqchip/irq-imx-mu-msi.c
-> 
-> 70afdab904d2d1 Frank Li 2022-09-22  443
-> 70afdab904d2d1 Frank Li 2022-09-22  444  IRQCHIP_PLATFORM_DRIVER_BEGIN(imx_mu_msi)
-> 70afdab904d2d1 Frank Li 2022-09-22  445  IRQCHIP_MATCH("fsl,imx7ulp-mu-msi", imx_mu_imx7ulp_of_init)
-> 70afdab904d2d1 Frank Li 2022-09-22  446  IRQCHIP_MATCH("fsl,imx6sx-mu-msi", imx_mu_imx6sx_of_init)
-> 70afdab904d2d1 Frank Li 2022-09-22  447  IRQCHIP_MATCH("fsl,imx8ulp-mu-msi", imx_mu_imx8ulp_of_init)
-> 70afdab904d2d1 Frank Li 2022-09-22 @448  IRQCHIP_PLATFORM_DRIVER_END(imx_mu_msi, .pm = &imx_mu_pm_ops)
-> 70afdab904d2d1 Frank Li 2022-09-22  449
-> 70afdab904d2d1 Frank Li 2022-09-22  450
-> 
-> :::::: The code at line 448 was first introduced by commit
-> :::::: 70afdab904d2d1e68bffe75fe08e7e48e0b0ff8e irqchip: Add IMX MU MSI controller driver
-> 
-> :::::: TO: Frank Li <Frank.Li@nxp.com>
-> :::::: CC: Marc Zyngier <maz@kernel.org>
-> 
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401020308.rvzTx1oI-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> drivers/net/virtio_net.c:3432:52: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __virtio16 [usertype] val @@     got restricted __le16 [usertype] vq_index @@
+>     drivers/net/virtio_net.c:3432:52: sparse:     expected restricted __virtio16 [usertype] val
+>     drivers/net/virtio_net.c:3432:52: sparse:     got restricted __le16 [usertype] vq_index
+>     drivers/net/virtio_net.c:3457:83: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __virtio64 [usertype] val @@     got unsigned long long [usertype] @@
+>     drivers/net/virtio_net.c:3457:83: sparse:     expected restricted __virtio64 [usertype] val
+>     drivers/net/virtio_net.c:3457:83: sparse:     got unsigned long long [usertype]
+>>> drivers/net/virtio_net.c:3429:81: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __virtio16 [usertype] val @@     got restricted __le16 [usertype] size @@
+>     drivers/net/virtio_net.c:3429:81: sparse:     expected restricted __virtio16 [usertype] val
+>     drivers/net/virtio_net.c:3429:81: sparse:     got restricted __le16 [usertype] size
+>>> drivers/net/virtio_net.c:3519:82: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __virtio64 [usertype] val @@     got restricted __le64 [assigned] [usertype] v @@
+>     drivers/net/virtio_net.c:3519:82: sparse:     expected restricted __virtio64 [usertype] val
+>     drivers/net/virtio_net.c:3519:82: sparse:     got restricted __le64 [assigned] [usertype] v
 
-I sent the patch to fix this.
+I can reproduce these warnings in the local host.
 
-Thanks,
-Michal
+It seems that the followings can fix these warnings.
+
+"
+
+diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
+index 1f4d9605552f..62e40234e29c 100644
+--- a/drivers/net/virtio_net.c
++++ b/drivers/net/virtio_net.c
+@@ -3426,10 +3426,10 @@ static int virtnet_get_hw_stats(struct 
+virtnet_info *vi,
+         num_tx = VIRTNET_SQ_STATS_LEN + ctx->num_tx;
+         num_cq = ctx->num_tx;
+
+-       for (p = reply; p - reply < res_size; p += 
+virtio16_to_cpu(vi->vdev, hdr->size)) {
++       for (p = reply; p - reply < res_size; p += 
+virtio16_to_cpu(vi->vdev, (__virtio16 __force)hdr->size)) {
+                 hdr = p;
+
+-               qid = virtio16_to_cpu(vi->vdev, hdr->vq_index);
++               qid = virtio16_to_cpu(vi->vdev, (__virtio16 
+__force)(hdr->vq_index));
+
+                 if (qid == vi->max_queue_pairs * 2) {
+                         offset = 0;
+@@ -3454,7 +3454,7 @@ static int virtnet_get_hw_stats(struct 
+virtnet_info *vi,
+
+                         for (j = 0; j < m->num; ++j) {
+                                 v = p + m->desc[j].offset;
+-                               ctx->data[offset + j] = 
+virtio64_to_cpu(vi->vdev, *v);
++                               ctx->data[offset + j] = 
+virtio64_to_cpu(vi->vdev, (__virtio64 __force)*v);
+                         }
+
+                         break;
+@@ -3516,7 +3516,7 @@ static int virtnet_get_sset_count(struct 
+net_device *dev, int sset)
+                                 __le64 v;
+
+                                 v = 
+vi->ctrl->stats_cap.supported_stats_types[0];
+-                               vi->device_stats_cap = 
+virtio64_to_cpu(vi->vdev, v);
++                               vi->device_stats_cap = 
+virtio64_to_cpu(vi->vdev, (__virtio64 __force)v);
+                         }
+                 }
+
+"
+
+Not sure whether the above diff are good to the whole commit or not.
+
+Zhu Yanjun
+
+>
+> vim +3432 drivers/net/virtio_net.c
+>
+>    3352	
+>    3353	static int virtnet_get_hw_stats(struct virtnet_info *vi,
+>    3354					struct virtnet_stats_ctx *ctx)
+>    3355	{
+>    3356		struct virtio_net_ctrl_queue_stats *req;
+>    3357		struct virtio_net_stats_reply_hdr *hdr;
+>    3358		struct scatterlist sgs_in, sgs_out;
+>    3359		u32 num_rx, num_tx, num_cq, offset;
+>    3360		int qnum, i, j,  qid, res_size;
+>    3361		struct virtnet_stats_map *m;
+>    3362		void *reply, *p;
+>    3363		u64 bitmap;
+>    3364		int ok;
+>    3365		u64 *v;
+>    3366	
+>    3367		if (!virtio_has_feature(vi->vdev, VIRTIO_NET_F_DEVICE_STATS))
+>    3368			return 0;
+>    3369	
+>    3370		qnum = 0;
+>    3371		if (ctx->bitmap_cq)
+>    3372			qnum += 1;
+>    3373	
+>    3374		if (ctx->bitmap_rx)
+>    3375			qnum += vi->curr_queue_pairs;
+>    3376	
+>    3377		if (ctx->bitmap_tx)
+>    3378			qnum += vi->curr_queue_pairs;
+>    3379	
+>    3380		req = kcalloc(qnum, sizeof(*req), GFP_KERNEL);
+>    3381		if (!req)
+>    3382			return -ENOMEM;
+>    3383	
+>    3384		res_size = (ctx->size_rx + ctx->size_tx) * vi->curr_queue_pairs + ctx->size_cq;
+>    3385		reply = kmalloc(res_size, GFP_KERNEL);
+>    3386		if (!reply) {
+>    3387			kfree(req);
+>    3388			return -ENOMEM;
+>    3389		}
+>    3390	
+>    3391		j = 0;
+>    3392		for (i = 0; i < vi->curr_queue_pairs; ++i) {
+>    3393			if (ctx->bitmap_rx) {
+>    3394				req->stats[j].vq_index = cpu_to_le16(i * 2);
+>    3395				req->stats[j].types_bitmap[0] = cpu_to_le64(ctx->bitmap_rx);
+>    3396				++j;
+>    3397			}
+>    3398	
+>    3399			if (ctx->bitmap_tx) {
+>    3400				req->stats[j].vq_index = cpu_to_le16(i * 2 + 1);
+>    3401				req->stats[j].types_bitmap[0] = cpu_to_le64(ctx->bitmap_tx);
+>    3402				++j;
+>    3403			}
+>    3404		}
+>    3405	
+>    3406		if (ctx->size_cq) {
+>    3407			req->stats[j].vq_index = cpu_to_le16(vi->max_queue_pairs * 2);
+>    3408			req->stats[j].types_bitmap[0] = cpu_to_le64(ctx->bitmap_cq);
+>    3409			++j;
+>    3410		}
+>    3411	
+>    3412		sg_init_one(&sgs_out, req, sizeof(*req) * j);
+>    3413		sg_init_one(&sgs_in, reply, res_size);
+>    3414	
+>    3415		ok = virtnet_send_command(vi, VIRTIO_NET_CTRL_STATS,
+>    3416					  VIRTIO_NET_CTRL_STATS_GET,
+>    3417					  &sgs_out, &sgs_in);
+>    3418		kfree(req);
+>    3419	
+>    3420		if (!ok) {
+>    3421			kfree(reply);
+>    3422			return ok;
+>    3423		}
+>    3424	
+>    3425		num_rx = VIRTNET_RQ_STATS_LEN + ctx->num_rx;
+>    3426		num_tx = VIRTNET_SQ_STATS_LEN + ctx->num_tx;
+>    3427		num_cq = ctx->num_tx;
+>    3428	
+>> 3429		for (p = reply; p - reply < res_size; p += virtio16_to_cpu(vi->vdev, hdr->size)) {
+>    3430			hdr = p;
+>    3431	
+>> 3432			qid = virtio16_to_cpu(vi->vdev, hdr->vq_index);
+>    3433	
+>    3434			if (qid == vi->max_queue_pairs * 2) {
+>    3435				offset = 0;
+>    3436				bitmap = ctx->bitmap_cq;
+>    3437			} else if (qid % 2) {
+>    3438				offset = num_cq + num_rx * vi->curr_queue_pairs + num_tx * (qid / 2);
+>    3439				offset += VIRTNET_SQ_STATS_LEN;
+>    3440				bitmap = ctx->bitmap_tx;
+>    3441			} else {
+>    3442				offset = num_cq + num_rx * (qid / 2) + VIRTNET_RQ_STATS_LEN;
+>    3443				bitmap = ctx->bitmap_rx;
+>    3444			}
+>    3445	
+>    3446			for (i = 0; i < ARRAY_SIZE(virtio_net_stats_map); ++i) {
+>    3447				m = &virtio_net_stats_map[i];
+>    3448	
+>    3449				if (m->flag & bitmap)
+>    3450					offset += m->num;
+>    3451	
+>    3452				if (hdr->type != m->type)
+>    3453					continue;
+>    3454	
+>    3455				for (j = 0; j < m->num; ++j) {
+>    3456					v = p + m->desc[j].offset;
+>    3457					ctx->data[offset + j] = virtio64_to_cpu(vi->vdev, *v);
+>    3458				}
+>    3459	
+>    3460				break;
+>    3461			}
+>    3462		}
+>    3463	
+>    3464		kfree(reply);
+>    3465		return 0;
+>    3466	}
+>    3467	
+>    3468	static void virtnet_get_strings(struct net_device *dev, u32 stringset, u8 *data)
+>    3469	{
+>    3470		struct virtnet_info *vi = netdev_priv(dev);
+>    3471		unsigned int i, j;
+>    3472		u8 *p = data;
+>    3473	
+>    3474		switch (stringset) {
+>    3475		case ETH_SS_STATS:
+>    3476			virtnet_get_hw_stats_string(vi, VIRTNET_STATS_Q_TYPE_CQ, 0, &p);
+>    3477	
+>    3478			for (i = 0; i < vi->curr_queue_pairs; i++) {
+>    3479				for (j = 0; j < VIRTNET_RQ_STATS_LEN; j++)
+>    3480					ethtool_sprintf(&p, "rx_queue_%u_%s", i,
+>    3481							virtnet_rq_stats_desc[j].desc);
+>    3482	
+>    3483				virtnet_get_hw_stats_string(vi, VIRTNET_STATS_Q_TYPE_RX, i, &p);
+>    3484			}
+>    3485	
+>    3486			for (i = 0; i < vi->curr_queue_pairs; i++) {
+>    3487				for (j = 0; j < VIRTNET_SQ_STATS_LEN; j++)
+>    3488					ethtool_sprintf(&p, "tx_queue_%u_%s", i,
+>    3489							virtnet_sq_stats_desc[j].desc);
+>    3490	
+>    3491				virtnet_get_hw_stats_string(vi, VIRTNET_STATS_Q_TYPE_TX, i, &p);
+>    3492			}
+>    3493			break;
+>    3494		}
+>    3495	}
+>    3496	
+>    3497	static int virtnet_get_sset_count(struct net_device *dev, int sset)
+>    3498	{
+>    3499		struct virtnet_info *vi = netdev_priv(dev);
+>    3500		struct virtnet_stats_ctx ctx = {0};
+>    3501		u32 pair_count;
+>    3502	
+>    3503		switch (sset) {
+>    3504		case ETH_SS_STATS:
+>    3505			if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_DEVICE_STATS) &&
+>    3506			    !vi->device_stats_cap) {
+>    3507				struct scatterlist sg;
+>    3508	
+>    3509				sg_init_one(&sg, &vi->ctrl->stats_cap, sizeof(vi->ctrl->stats_cap));
+>    3510	
+>    3511				if (!virtnet_send_command(vi, VIRTIO_NET_CTRL_STATS,
+>    3512							  VIRTIO_NET_CTRL_STATS_QUERY,
+>    3513							  NULL, &sg)) {
+>    3514					dev_warn(&dev->dev, "Fail to get stats capability\n");
+>    3515				} else {
+>    3516					__le64 v;
+>    3517	
+>    3518					v = vi->ctrl->stats_cap.supported_stats_types[0];
+>> 3519					vi->device_stats_cap = virtio64_to_cpu(vi->vdev, v);
+>    3520				}
+>    3521			}
+>    3522	
+>    3523			virtnet_stats_ctx_init(vi, &ctx, NULL);
+>    3524	
+>    3525			pair_count = VIRTNET_RQ_STATS_LEN + VIRTNET_SQ_STATS_LEN;
+>    3526			pair_count += ctx.num_rx + ctx.num_tx;
+>    3527	
+>    3528			return ctx.num_cq + vi->curr_queue_pairs * pair_count;
+>    3529		default:
+>    3530			return -EOPNOTSUPP;
+>    3531		}
+>    3532	}
+>    3533	
+>
