@@ -1,46 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC7DE55F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Jan 2024 22:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6108A3C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Jan 2024 01:38:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZ91vsil"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7CmNn+E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704148326; x=1735684326;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=21/6coiJgYXDuUdz1BrGc7zD4cor+rF46u4W5qMnUxc=;
-  b=WZ91vsilxugE84SVgQD4FQy2THg+D2KpBKmVtMndFUIfTbrG7TNaL2J4
-   mkJCnN/D+WWVqDUDQMZd7yYxobfQiUsAqGX+aOAODhh7Gt+b3tCJ1sOUO
-   cbScEyi6YsCPalqvklZ9JUhcQhmQBVEWqjCx2H8uxreNZA8CXof/Ig2P8
-   DVJFyARJWm9IxcdstjQZNjW7LF1EuZR2UynegHdboN70f+tBf6YEvymrT
-   Kyr0f6SNacVSNIfT5zjStvtxiqZoYmAyfiFVr3qrdWDVcTxcLIp29YKgN
-   HnXf3lZ6FNqDRreF7fB1oUuyYExS9PQTHkrSDz4I6/lujyx2eDjpGgEFg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="400624636"
+  t=1704159489; x=1735695489;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KlGvooNu8nsoWWXf5Afr0W4LS7sH862QcK/m9aUUPsE=;
+  b=a7CmNn+Ef6S4VjBJGkLfcn3jz8TGPS/fzbUmHvQihHSZqMa4yqpI5+fL
+   boK1R83W0diZzFJNQB2oWAv0+PIfn9kSriE6EtK5Q76T8l281FkihCtYi
+   lp1HnI+fsR4srIgQQvFWMksOB/dprgZA4nBMR4SQSFvu0L79SJKe/Ihg1
+   8pqRrTLQBcki8hO9OiOrwPQh1mvOcDGPDVihMeRDCaTULAK1xG9Wo1sTS
+   2XyVNuEoa658id1IT/E0Hc03g1F/4cnigXbBOeDgVHrbNDgzpdl1gbXnV
+   rMZPiZX5RwQ6toAiFthcATIlzaPvj9L5OE+7aehMbtsy7ERzWE4FTGZIe
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="10438977"
 X-IronPort-AV: E=Sophos;i="6.04,323,1695711600"; 
-   d="scan'208";a="400624636"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 14:32:05 -0800
+   d="scan'208";a="10438977"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 17:38:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="870072471"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="845425998"
 X-IronPort-AV: E=Sophos;i="6.04,323,1695711600"; 
-   d="scan'208";a="870072471"
+   d="scan'208";a="845425998"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 01 Jan 2024 14:32:04 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 01 Jan 2024 17:38:06 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rKQpG-000KaZ-0D;
-	Mon, 01 Jan 2024 22:32:02 +0000
-Date: Tue, 2 Jan 2024 06:31:45 +0800
+	id 1rKTjI-000Kfe-2u;
+	Tue, 02 Jan 2024 01:38:04 +0000
+Date: Tue, 2 Jan 2024 09:37:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:crypto-krb5 20/21] net/rxrpc/txbuf.c:90:41: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202401020602.niNMXwmD-lkp@intel.com>
+To: Arend van Spriel <arend.vanspriel@broadcom.com>,
+	Kalle Valo <kvalo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Arend van Spriel <arend.vanspriel@broadcom.com>
+Subject: Re: [PATCH 1/4] wifi: brcmfmac: export firmware interface functions
+Message-ID: <202401020903.F2PfPAdw-lkp@intel.com>
+References: <20240101084430.161821-2-arend.vanspriel@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,69 +52,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240101084430.161821-2-arend.vanspriel@broadcom.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git crypto-krb5
-head:   ebd44e15422341724b06a3a13590ea80244ebbd6
-commit: 02c20ee3703d16be4432d0632130d7b8c9ea6558 [20/21] rxrpc: rxgk: Implement the yfs-rxgk security class (GSSAPI)
-config: i386-randconfig-062-20240102 (https://download.01.org/0day-ci/archive/20240102/202401020602.niNMXwmD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240102/202401020602.niNMXwmD-lkp@intel.com/reproduce)
+Hi Arend,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.7-rc8 next-20231222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arend-van-Spriel/wifi-brcmfmac-export-firmware-interface-functions/20240101-164717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20240101084430.161821-2-arend.vanspriel%40broadcom.com
+patch subject: [PATCH 1/4] wifi: brcmfmac: export firmware interface functions
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240102/202401020903.F2PfPAdw-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240102/202401020903.F2PfPAdw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401020602.niNMXwmD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401020903.F2PfPAdw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/rxrpc/txbuf.c:90:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] serviceId @@     got unsigned short [usertype] serviceId @@
-   net/rxrpc/txbuf.c:90:41: sparse:     expected restricted __be16 [usertype] serviceId
-   net/rxrpc/txbuf.c:90:41: sparse:     got unsigned short [usertype] serviceId
+All warnings (new ones prefixed by >>):
 
-vim +90 net/rxrpc/txbuf.c
+   In file included from include/uapi/linux/swab.h:8,
+                    from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/big_endian.h:14,
+                    from include/linux/byteorder/big_endian.h:5,
+                    from arch/m68k/include/uapi/asm/byteorder.h:5,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/m68k/include/asm/bitops.h:566,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:8:
+   In function '__arch_swab32',
+       inlined from '__fswab32' at include/uapi/linux/swab.h:60:9,
+       inlined from 'brcmf_fil_cmd_int_get' at drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil.h:99:19,
+       inlined from 'brcmf_cfg80211_get_station_ibss' at drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:3088:8:
+>> arch/m68k/include/uapi/asm/swab.h:22:9: warning: 'rate' is used uninitialized [-Wuninitialized]
+      22 |         __asm__("rolw #8,%0; swap %0; rolw #8,%0" : "=d" (val) : "0" (val));
+         |         ^~~~~~~
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c: In function 'brcmf_cfg80211_get_station_ibss':
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:3084:13: note: 'rate' was declared here
+    3084 |         u32 rate;
+         |             ^~~~
 
-    58	
-    59	/*
-    60	 * Allocate and partially initialise a response transmission buffer.
-    61	 */
-    62	struct rxrpc_txbuf *rxrpc_alloc_response_txbuf(struct rxrpc_connection *conn,
-    63						       struct sk_buff *challenge)
-    64	{
-    65		struct rxrpc_skb_priv *csp = rxrpc_skb(challenge);
-    66		struct rxrpc_txbuf *txb;
-    67	
-    68		txb = kmalloc(sizeof(*txb), GFP_NOFS);
-    69		if (txb) {
-    70			INIT_LIST_HEAD(&txb->call_link);
-    71			INIT_LIST_HEAD(&txb->tx_link);
-    72			refcount_set(&txb->ref, 1);
-    73			txb->call_debug_id	= 0;
-    74			txb->debug_id		= atomic_inc_return(&rxrpc_txbuf_debug_ids);
-    75			txb->space		= sizeof(txb->data);
-    76			txb->len		= 0;
-    77			txb->offset		= 0;
-    78			txb->flags		= 0;
-    79			txb->ack_why		= 0;
-    80			txb->seq		= 0;
-    81			txb->wire.epoch		= htonl(csp->hdr.epoch);
-    82			txb->wire.cid		= htonl(csp->hdr.cid);
-    83			txb->wire.callNumber	= 0;
-    84			txb->wire.seq		= 0;
-    85			txb->wire.type		= RXRPC_PACKET_TYPE_RESPONSE;
-    86			txb->wire.flags		= conn->out_clientflag;
-    87			txb->wire.userStatus	= 0;
-    88			txb->wire.securityIndex	= csp->hdr.securityIndex;
-    89			txb->wire._rsvd		= 0;
-  > 90			txb->wire.serviceId	= csp->hdr.serviceId;
-    91	
-    92			trace_rxrpc_txbuf(txb->debug_id,
-    93					  txb->call_debug_id, txb->seq, 1,
-    94					  rxrpc_txbuf_alloc_response);
-    95			atomic_inc(&rxrpc_nr_txbuf);
-    96		}
-    97	
-    98		return txb;
-    99	}
-   100	
+
+vim +/rate +22 arch/m68k/include/uapi/asm/swab.h
+
+9863a0babc2f0d arch/m68k/include/asm/swab.h Greg Ungerer    2009-03-16  19  
+9863a0babc2f0d arch/m68k/include/asm/swab.h Greg Ungerer    2009-03-16  20  static inline __attribute_const__ __u32 __arch_swab32(__u32 val)
+9863a0babc2f0d arch/m68k/include/asm/swab.h Greg Ungerer    2009-03-16  21  {
+9863a0babc2f0d arch/m68k/include/asm/swab.h Greg Ungerer    2009-03-16 @22  	__asm__("rolw #8,%0; swap %0; rolw #8,%0" : "=d" (val) : "0" (val));
+9863a0babc2f0d arch/m68k/include/asm/swab.h Greg Ungerer    2009-03-16  23  	return val;
+9863a0babc2f0d arch/m68k/include/asm/swab.h Greg Ungerer    2009-03-16  24  }
+9863a0babc2f0d arch/m68k/include/asm/swab.h Greg Ungerer    2009-03-16  25  #define __arch_swab32 __arch_swab32
+6aeea60aee9454 arch/m68k/include/asm/swab.h Harvey Harrison 2009-01-20  26  #endif
+9863a0babc2f0d arch/m68k/include/asm/swab.h Greg Ungerer    2009-03-16  27  
 
 -- 
 0-DAY CI Kernel Test Service
