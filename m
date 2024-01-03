@@ -1,131 +1,141 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1D718EA3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 11:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96C218E14
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 11:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QO6wgreb"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a28b0207c1dso6590066b.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jan 2024 03:17:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dzHdS8mb"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50e7c6f0487so6935164e87.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jan 2024 03:23:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704280670; x=1704885470; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pdXPeVKaMQoJg3n6aF4pRNFY2N3PJISug/fLetqIk2E=;
-        b=QO6wgrebwQCyUM7vLXVMMrJ9evpkc2U7chaR+ETlnqHG0Nkw/+VKZ+zSwFFkmlkDeY
-         uE69kA+JZMhP7nyDg4A/YOf7L3ps08kjMWpKqB+nLiyZP59turpICcD3TjKBQzR38dHP
-         MMUsQ6QaGEr/Q4krKD2oitE4D2/bJL1RJDDy1apeNAgkoVZS2yBujQSBnMGW4dKE1lhr
-         C6j0X+nfPvRYrhc5V5s67kirkzD77Z6wasyD+ybE7mMOlcjzOqjdmGJ0kSZSpPIpgju/
-         3oOYtH+GxQ72VO3bQkE2pN6x5bOvvWSPjMGnoMqfajMjvgZ7c7dh/h8uxOnYIGNznPNp
-         bV5g==
+        d=linaro.org; s=google; t=1704281002; x=1704885802; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZJRFm+aJFXgkxWtqPNaVAM12RXPKxO0DGGq8KgLaeE0=;
+        b=dzHdS8mbeyEcUh+KKuzlNgGMIb5JcQZdC7dgN1z8ks7PiZgO38S4d9YieE1jQFW42v
+         DHFCSHzhKjqnBpeB38EOf/TQYEkhCXDCS9pHXwK0WTe2W8n2EUKJmmpxIYAHmCA+Bwgg
+         BMdDfRRH2NQ2RNMR1CfIgDG+i5RjsBwoQ91/9TRTIrSPUJvnaIFOSW8ODbrddplG54U6
+         WAVZymNJkJabWl7bjc36tGA0T84AMuquEDOlWO9pUFogkF4DZtirsKHrdEbVaLJ/LwuU
+         97qx4POIkg3j2NpCCUgYXpF85VNbSeRD34iOcfx6kLL0t63xUg15+hOottgJRMxmK/Zy
+         nXQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704280670; x=1704885470;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pdXPeVKaMQoJg3n6aF4pRNFY2N3PJISug/fLetqIk2E=;
-        b=d0+uRBooJpBUbxD1Fx8Hm8CBqQ5rsTchlQPoYFV7p17d1zW0FGCkLhqX/8qWhl4ma4
-         TE5y2zXQgrESp02tDlzniLYVul4oycjKMM5PAruJjpOpgWXzW51SvYhoHn1kXq4kpnWR
-         vnhvPyvkgLpjQV0rblCJ15zVPlhpnFDzMBidjkhZpw6WE/7UDPLIlng8SyD7TF/4SXBK
-         JJgMi/hQYPI6p/ecK/fCoscWk3lEfR0iDVuREG02jkeNOt6CRmsyBVFu3iPBExTyC4fT
-         ZkWSb53nUHcS2LKo/QQBK8vd0bJd7KerKwQTIityJyDS9fDxkox3ndz3FChkOOUG1Nit
-         7Www==
-X-Gm-Message-State: AOJu0YxGSMkapgy6Z14c1OLYhir6fekFpysPBcdfix66t3I1lm9c5l4i
-	ENAezllnEZycIs/92ZwJVVt24OmtoVsHpQ==
-X-Google-Smtp-Source: AGHT+IG7qErQ/ubr0/gy6V7SUV7nU8F0Gb/OW8KxZPdAgA/H4p0uGEnpjnbycHTjMrKnrptbERVhhA==
-X-Received: by 2002:a17:906:a1cc:b0:a24:20f:de83 with SMTP id bx12-20020a170906a1cc00b00a24020fde83mr8946968ejb.62.1704280669827;
-        Wed, 03 Jan 2024 03:17:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704281002; x=1704885802;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZJRFm+aJFXgkxWtqPNaVAM12RXPKxO0DGGq8KgLaeE0=;
+        b=ju+Oa7E1Ws21TsVg5eBPQr/tQEvDAwpWrABa+Ji8R0EU8KWJWQ4iKHUnTEovMZLN31
+         dcrlHqQzJ0QkbF9m+X5B48USAtK7tMAsLioECyae89kBxqfBzTe3MElplSJkmYGS2ri3
+         rUoU+dmZr7ePMHvmBFkz8U1IrT411pP/JSWvk5mPhwF7PHq86z7FsukEgKRsMyBZdbqG
+         29v/Vndjks4CNiikM2yXt9aScIMHThhW4HU4I+TKE0g6NYnu9hmkiuMxtadICXKikU44
+         xHnv+HFJvXdCqvoHxLM3WPTbhaGgF2v7s7GXCtpeLmpLWk4iGuiG1gUjMb9gxtrb3C1v
+         c3nw==
+X-Gm-Message-State: AOJu0YyaBb1m9A7MeEYCTUWM6wbYOP9Oz/FwQRNWO+u8glzQHxMHYYZ7
+	+YNhEYW9Q1cac8nMnWxGl6naxYq+XKuskW13ZbnYIYKTocA=
+X-Google-Smtp-Source: AGHT+IFJVTLwzRGF1DuQP3vjPisYKxiWF+5uAzI0kdZJOWOmMPRP4sLXPJuiATG9UCHDYViYbvZ6Qg==
+X-Received: by 2002:a05:6512:ad0:b0:50e:6b38:9e0b with SMTP id n16-20020a0565120ad000b0050e6b389e0bmr6715682lfu.73.1704281001941;
+        Wed, 03 Jan 2024 03:23:21 -0800 (PST)
 Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id ff15-20020a1709069c0f00b00a2801041a15sm2798138ejc.149.2024.01.03.03.17.48
+        by smtp.gmail.com with ESMTPSA id p2-20020a056402044200b005553a8bb61dsm10309013edw.87.2024.01.03.03.23.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 03:17:49 -0800 (PST)
-Date: Wed, 3 Jan 2024 14:17:46 +0300
+        Wed, 03 Jan 2024 03:23:21 -0800 (PST)
+Date: Wed, 3 Jan 2024 14:23:18 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	=?utf-8?B?TWljaGHFgiBLb3BlxIc=?= <michal.kopec@3mdeb.com>,
-	linux-usb@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	=?utf-8?B?TWljaGHFgiBLb3BlxIc=?= <michal@nozomi.space>
-Subject: Re: [PATCH] platform/x86: serial-multi-instantiate: allow single
- GpioInt IRQ for INT3515
-Message-ID: <00192cbf-d651-437d-8072-8c6593503e6f@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, deepakx.nagaraju@intel.com,
+	joyce.ooi@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	Nagaraju DeepakX <deepakx.nagaraju@intel.com>,
+	Andy Schevchenko <andriy.schevchenko@linux.intel.com>
+Subject: Re: [PATCH 5/5] net: ethernet: altera: rename functions and their
+ prototypes
+Message-ID: <ca5c5be7-9270-412b-a868-d5e28116f983@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231212103823.546118-2-michal.kopec@3mdeb.com>
+In-Reply-To: <20231213071112.18242-6-deepakx.nagaraju@intel.com>
 
-Hi Michał,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Kope/platform-x86-serial-multi-instantiate-allow-single-GpioInt-IRQ-for-INT3515/20231212-184116
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-patch link:    https://lore.kernel.org/r/20231212103823.546118-2-michal.kopec%403mdeb.com
-patch subject: [PATCH] platform/x86: serial-multi-instantiate: allow single GpioInt IRQ for INT3515
-config: x86_64-randconfig-161-20231219 (https://download.01.org/0day-ci/archive/20231220/202312200538.fJidUMf0-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+url:    https://github.com/intel-lab-lkp/linux/commits/deepakx-nagaraju-intel-com/net-ethernet-altera-remove-unneeded-assignments/20231213-151600
+base:   net/main
+patch link:    https://lore.kernel.org/r/20231213071112.18242-6-deepakx.nagaraju%40intel.com
+patch subject: [PATCH 5/5] net: ethernet: altera: rename functions and their prototypes
+config: m68k-randconfig-r081-20231218 (https://download.01.org/0day-ci/archive/20231220/202312200739.79WGCuyb-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312200538.fJidUMf0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312200739.79WGCuyb-lkp@intel.com/
 
-smatch warnings:
-drivers/platform/x86/serial-multi-instantiate.c:79 smi_get_irq() warn: add some parenthesis here?
-drivers/platform/x86/serial-multi-instantiate.c:79 smi_get_irq() warn: maybe use && instead of &
+New smatch warnings:
+drivers/net/ethernet/altera/altera_tse_main.c:266 alloc_init_skbufs() warn: double check that we're allocating correct size: 24 vs 164
 
-vim +79 drivers/platform/x86/serial-multi-instantiate.c
+Old smatch warnings:
+drivers/net/ethernet/altera/altera_tse_main.c:271 alloc_init_skbufs() warn: double check that we're allocating correct size: 24 vs 164
+drivers/net/ethernet/altera/altera_tse_main.c:988 tse_open() warn: 'priv->tx_irq' from request_irq() not released on lines: 988.
 
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  52  static int smi_get_irq(struct platform_device *pdev, struct acpi_device *adev,
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  53  		       const struct smi_instance *inst)
-e64e84987de5486 drivers/platform/x86/i2c-multi-instantiate.c    Hans de Goede   2018-08-09  54  {
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  55  	int ret;
-e64e84987de5486 drivers/platform/x86/i2c-multi-instantiate.c    Hans de Goede   2018-08-09  56  
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  57  	switch (inst->flags & IRQ_RESOURCE_TYPE) {
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  58  	case IRQ_RESOURCE_AUTO:
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  59  		ret = acpi_dev_gpio_irq_get(adev, inst->irq_idx);
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  60  		if (ret > 0) {
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  61  			dev_dbg(&pdev->dev, "Using gpio irq\n");
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  62  			break;
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  63  		}
-fef1688e82fe3ee drivers/platform/x86/serial-multi-instantiate.c Michał Kopeć    2023-12-12  64  		ret = platform_get_irq_optional(pdev, inst->irq_idx);
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  65  		if (ret > 0) {
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  66  			dev_dbg(&pdev->dev, "Using platform irq\n");
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  67  			break;
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  68  		}
-676b7c5ecab3627 drivers/platform/x86/serial-multi-instantiate.c David Xu        2023-07-13  69  		break;
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  70  	case IRQ_RESOURCE_GPIO:
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  71  		ret = acpi_dev_gpio_irq_get(adev, inst->irq_idx);
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  72  		break;
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  73  	case IRQ_RESOURCE_APIC:
-fef1688e82fe3ee drivers/platform/x86/serial-multi-instantiate.c Michał Kopeć    2023-12-12  74  		ret = platform_get_irq_optional(pdev, inst->irq_idx);
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  75  		break;
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  76  	default:
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  77  		return 0;
-e64e84987de5486 drivers/platform/x86/i2c-multi-instantiate.c    Hans de Goede   2018-08-09  78  	}
-fef1688e82fe3ee drivers/platform/x86/serial-multi-instantiate.c Michał Kopeć    2023-12-12 @79  	if (ret < 0 && !inst->flags & IRQ_OPTIONAL)
+vim +266 drivers/net/ethernet/altera/altera_tse_main.c
 
-Precedence bug.  This should be:
+bbd2190ce96d8f Vince Bridgers   2014-03-17  257  static int alloc_init_skbufs(struct altera_tse_private *priv)
+bbd2190ce96d8f Vince Bridgers   2014-03-17  258  {
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  259  	struct altera_dma_private *dma = &priv->dma_priv;
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  260  	unsigned int rx_descs = dma->rx_ring_size;
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  261  	unsigned int tx_descs = dma->tx_ring_size;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  262  	int ret = -ENOMEM;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  263  	int i;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  264  
+bbd2190ce96d8f Vince Bridgers   2014-03-17  265  	/* Create Rx ring buffer */
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13 @266  	dma->rx_ring = kcalloc(rx_descs, sizeof(struct altera_dma_private), GFP_KERNEL);
 
-	if (ret < 0 && !(inst->flags & IRQ_OPTIONAL))
+There is a mismatch here.  dma->rx_ring was changed to altera_dma_buffer
+but the sizeof was changed to altera_dma_private.
 
-14a9aa99aca6c28 drivers/platform/x86/serial-multi-instantiate.c Andy Shevchenko 2022-07-10  80  		return dev_err_probe(&pdev->dev, ret, "Error requesting irq at index %d\n",
-14a9aa99aca6c28 drivers/platform/x86/serial-multi-instantiate.c Andy Shevchenko 2022-07-10  81  				     inst->irq_idx);
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  82  
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  83  	return ret;
-35a36cbb7b1ce75 drivers/platform/x86/serial-multi-instantiate.c Lucas Tanure    2022-01-21  84  }
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  267  	if (!dma->rx_ring)
+bbd2190ce96d8f Vince Bridgers   2014-03-17  268  		goto err_rx_ring;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  269  
+bbd2190ce96d8f Vince Bridgers   2014-03-17  270  	/* Create Tx ring buffer */
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  271  	dma->tx_ring = kcalloc(tx_descs, sizeof(struct altera_dma_private), GFP_KERNEL);
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  272  	if (!dma->tx_ring)
+bbd2190ce96d8f Vince Bridgers   2014-03-17  273  		goto err_tx_ring;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  274  
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  275  	dma->tx_cons = 0;
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  276  	dma->tx_prod = 0;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  277  
+bbd2190ce96d8f Vince Bridgers   2014-03-17  278  	/* Init Rx ring */
+bbd2190ce96d8f Vince Bridgers   2014-03-17  279  	for (i = 0; i < rx_descs; i++) {
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  280  		ret = tse_init_rx_buffer(priv, &priv->dma_priv.rx_ring[i], dma->rx_dma_buf_sz);
+bbd2190ce96d8f Vince Bridgers   2014-03-17  281  		if (ret)
+bbd2190ce96d8f Vince Bridgers   2014-03-17  282  			goto err_init_rx_buffers;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  283  	}
+bbd2190ce96d8f Vince Bridgers   2014-03-17  284  
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  285  	dma->rx_cons = 0;
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  286  	dma->rx_prod = 0;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  287  
+bbd2190ce96d8f Vince Bridgers   2014-03-17  288  	return 0;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  289  err_init_rx_buffers:
+bbd2190ce96d8f Vince Bridgers   2014-03-17  290  	while (--i >= 0)
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  291  		tse_free_rx_buffer(priv, &priv->dma_priv.rx_ring[i]);
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  292  	kfree(dma->tx_ring);
+bbd2190ce96d8f Vince Bridgers   2014-03-17  293  err_tx_ring:
+ad6f888f174e6a Nagaraju DeepakX 2023-12-13  294  	kfree(dma->rx_ring);
+bbd2190ce96d8f Vince Bridgers   2014-03-17  295  err_rx_ring:
+bbd2190ce96d8f Vince Bridgers   2014-03-17  296  	return ret;
+bbd2190ce96d8f Vince Bridgers   2014-03-17  297  }
 
 -- 
 0-DAY CI Kernel Test Service
