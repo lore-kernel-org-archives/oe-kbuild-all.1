@@ -1,202 +1,235 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12136171C4;
-	Wed,  3 Jan 2024 03:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7BD14F72
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 06:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="Nz5xGUBN"
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 403316Ii003028;
-	Wed, 3 Jan 2024 03:43:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=subject:to:cc:references:from:message-id:date:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=
-	PPS06212021; bh=BYBJKTXu+BqaMKAdDzUNuTkuhM7SIlZurWmerJnll1s=; b=
-	Nz5xGUBNATtWaSAEwrf32fNKKYu8E6B0oe6kesLU1t8c6l7bzWG1ZXjMoj8bYXV4
-	qDsf4CBzk6yD/c0REQ93BvVY2VIQRLazS28avHMS9f04GeJQ37QwZ7Fqel21spFM
-	9vWKRBct40hUDx04Ec75XIL9DvhfYSRWQtMTLAfGZqgsRHMGy8Smpo1GkENNyw26
-	9V/u6/CeKWdYpsPUSEwoj9o6T5OTpwHORPNCos6WeJPRzzgKi25AWBsVDs1Vcmqh
-	YrGXunB1Db2lqpHAB8uV2TPZWkO5wnnN3Dm5BO65UkdQGHxew1RhRCE++TyqlCyE
-	ru7u0qVoLNQQDN77guKSmA==
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3va8dxbp96-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Jan 2024 03:43:56 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qo78t5aYory4uF0xAuc4/ZrrEBAnadjc+d2PSMLHv4yM3N+fFhKpWJvY0c62nK+Sz1ClT81xlok3G59r6wG4OAEL9gJAtUb/ESxDUGfNa1ihJ+E715wROIl+tRnQa3QkddtRSa1rE7quEchEE3mtT/sZu4DG4eomswx9eipMw3S7oDM9cgX/QTb6f8RsarKL4nlcJoQNqcEBeDZgWpQn7le76h0ZiTNig8dj/jOXjIGB9umF0ru67/cGBgoYKuIVgAFeOJFlE7ZpOCSLQWuVP0aDFzC3RPO8j2emld/eUuGXFKSk5/dmMYl3ZcaqoCfp7Fk/pR/GeOoXnwlkJYsMAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BYBJKTXu+BqaMKAdDzUNuTkuhM7SIlZurWmerJnll1s=;
- b=fU4TT7r/YOYPzCwH0DTp1bl90i9J3dOXmyoS1OMO6c8ZwVBoxi8MRRWNblrfGjNxLIXbm2kiQwNEYCPa7C3Muw35gYIoab81BpCiG3MMK/vc4jAT5Mvk1bXBINVTUfd886B7mO/TK5Gen/oHe7941U3avsZGaGRXA7EME9tQ47FAIK/qzzixVwmv7q6JtZyMeTabxBFivJBfzHD/dssaOiTy5glRrHQXMo5pKTaBNB47DZ5VaResK40IdEk2r5w0RR9HODV/0u8asLFl/yA2wzmgaHapi2LK6/JbDK1AJAEzO9oRCZnnHuiDTsVIttHRouCrxBMD74FBY4Q0dsZs+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from MW5PR11MB5764.namprd11.prod.outlook.com (2603:10b6:303:197::8)
- by MW3PR11MB4522.namprd11.prod.outlook.com (2603:10b6:303:2d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.13; Wed, 3 Jan
- 2024 03:43:54 +0000
-Received: from MW5PR11MB5764.namprd11.prod.outlook.com
- ([fe80::6147:120e:d511:3ece]) by MW5PR11MB5764.namprd11.prod.outlook.com
- ([fe80::6147:120e:d511:3ece%3]) with mapi id 15.20.7135.023; Wed, 3 Jan 2024
- 03:43:54 +0000
-Subject: Re: [PATCH] firmware: imx: scu: ensure wakeup procedure calls
- pm_system_wakeup()
-To: kernel test robot <lkp@intel.com>, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, peng.fan@nxp.com, treding@nvidia.com,
-        yibin.gong@nxp.com, robh@kernel.org, ranjani.vaidyanathan@nxp.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20231230053831.67661-1-xiaolei.wang@windriver.com>
- <202312310227.7eLUYzgH-lkp@intel.com>
-From: wangxiaolei <xiaolei.wang@windriver.com>
-Message-ID: <30273b0d-11db-356e-09cf-f8a97c0a0406@windriver.com>
-Date: Wed, 3 Jan 2024 11:43:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <202312310227.7eLUYzgH-lkp@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: TYCP301CA0034.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:380::14) To MW5PR11MB5764.namprd11.prod.outlook.com
- (2603:10b6:303:197::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BfhcyUrK"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d3ef33e68dso1139385ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 Jan 2024 22:36:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704263769; x=1704868569; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E+MBTamTfaPyaYjpkNQL2PokE1w8PaRTeTsUSGY4kEI=;
+        b=BfhcyUrKv89Abl0d2jetr5O+n213z4Jb8e9LEtUFdLEetCIRxNY4iFeb3ntgi4FGiT
+         GbMBYvQnRUUH49Fc7NJfOj30V1oJ8Ax85ZdeoerklEKFlAbwfQuzPxp5Js9/tReYhQfi
+         FYESgOhHUiiKax6XCWc/N4YPLgb/c+5X3MUef/6fykFk0U1yX2bduIImluJaEyqctS3j
+         cjEFEu7gFR+/Gnh/ECtk34XUm/kEbGhb5YkusZPXl2JiaapwlamNrzmKwBj8HGMXjbjQ
+         EUV8XDXlw93j/PYTCObpjuCD+aoLDkfmbwUVG5FZcr1C0MA6+7FgVL96Ijq7Nh54uLZi
+         iLgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704263769; x=1704868569;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E+MBTamTfaPyaYjpkNQL2PokE1w8PaRTeTsUSGY4kEI=;
+        b=dw0ojrmj8ShsRulPgO4FTbeW5XeGORVmxQdVG8sIKzVwvqSV106JJ1Ok1DYyz8FOqI
+         oTfmMOpMUQTWpYdAo+6/4RwQslP09zg9TaTo79bbu92zLbxot2+8lxbuJZW1HKTr4/s3
+         mN2raZmMASL5HJl4BmAy1XT++mH4HSk2QKeJIiSZiFs83o+Dmz/BtO7mlboWx9bCtwkx
+         7utp15sMXyMWlcWOE+UgtJhJ1PZGm+AwZjVJ/rGtUHT083ligPeXBhbYTqAFnpw32wt1
+         5mkE27P+4ASY6XgWdz+jXOJQmveBigfBSKrByYCDlDiBm7NKh5f1SBwn13Xdmq2Fgxav
+         P8Xw==
+X-Gm-Message-State: AOJu0Yz09YYmCfiDkFOduBm724+zprNkl4CrPvEsAg6kmqY0Y2SsufUF
+	iAnkuRcR/ejRPVZeRHxqbyU=
+X-Google-Smtp-Source: AGHT+IE16RtP6WmR3PaaMPQV00189k/7cj0kBIoj2tv9dqPIsrRgKQmTtUA9Hj9MeKkatHiU3/R2Yw==
+X-Received: by 2002:a17:902:d4cb:b0:1d4:7381:dc31 with SMTP id o11-20020a170902d4cb00b001d47381dc31mr591283plg.6.1704263769097;
+        Tue, 02 Jan 2024 22:36:09 -0800 (PST)
+Received: from localhost.localdomain ([2409:4042:4d3f:759f:e49e:2d4c:d3c7:71c])
+        by smtp.gmail.com with ESMTPSA id bh10-20020a170902a98a00b001d4160c4f97sm21168987plb.188.2024.01.02.22.36.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jan 2024 22:36:08 -0800 (PST)
+From: pratikmanvar09@gmail.com
+To: lkp@intel.com
+Cc: festevam@gmail.com,
+	jun.li@nxp.com,
+	kernel@pengutronix.de,
+	linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	pratik.manvar@ifm.com,
+	pratikmanvar09@gmail.com,
+	s.hauer@pengutronix.de,
+	shawnguo@kernel.org,
+	thierry.reding@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	xiaoning.wang@nxp.com
+Subject: [PATCH v2] pwm: imx27: workaround of the pwm output bug
+Date: Wed,  3 Jan 2024 12:04:54 +0530
+Message-Id: <20240103063454.1795-1-pratikmanvar09@gmail.com>
+X-Mailer: git-send-email 2.39.1.windows.1
+In-Reply-To: <202312300907.RGtYsKxb-lkp@intel.com>
+References: <202312300907.RGtYsKxb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW5PR11MB5764:EE_|MW3PR11MB4522:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3262787-5093-45be-f02f-08dc0c0e3507
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	nOo5jjJWBl+GypQYyNg9rRjJroW623Q+PPKEJKCuRmIthG1WUuzKs/LhtuzyVAomJw/imCnfrvRPD064VPTPZvea1NUeDzLDCnUGk4HxWty7gBA8RgMiJPaLLopnMvd5O3PBa1VuNU1IuxI7ESZ5+EKyiOW3KOLMJ6v/IIrV/Iwm+hwXXAUL+KHzeDCQPw/ZsK9MZAvtbcAuZNR5juAzo+DVzWJpSRJGtj80eTzhnb6O+S9VlNRux2gJtsim68LAN2Sn7T67BnZ+tt9LTCh4aQ4iXJDhOFcflBJxYLcvXsUYG5eYh2pNVs7rvc6J4+WLOQd/ov3r7xPrjKJHY7X0Z3dC25/672Xfbb3kaxk1mR6Czt/Wedp92TrLhXf9s8mSsf+obHi57lAbROJPQ2C+PT/346Wy9nfP2HnrV05yp0OMgRXAUoMF4j4ORj6UTPcdGYOk64wEWQtYFzDGuLHNi/RHoe9HBn/6OwnN7fFgtWJG+UltzBAvjOi00yNFS1tPX6aAmTZr2LxG2gAT96mOeGkD1lh3KEleIMaKl3rJtII1oX1eaz/N9CNt7bGSdLSDLQireQP/Wqv/8EQge7YnKec/iYDUQZpjJDz4EprAI4h0vsly/DqyjPx0rKVig17+vo82eXqzbM8xa6RNWNhxTb4eynQBPCRFBbDiscL4EoFeYg52crZv8jyCSbmR4nwe61UP43QZnTZr8ETD10/jO2728l7ACOfbyq/MkBj7eVEk/B6ypzJWe7ZvhVAJGEYEPRutj6aXdQe6pPON0KfUwQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW5PR11MB5764.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(39850400004)(346002)(376002)(366004)(230922051799003)(230173577357003)(230273577357003)(451199024)(1800799012)(186009)(64100799003)(6506007)(38100700002)(36756003)(921011)(31686004)(31696002)(86362001)(53546011)(966005)(83380400001)(478600001)(6666004)(4326008)(66556008)(66476007)(66946007)(6486002)(26005)(316002)(2616005)(8936002)(8676002)(6512007)(41300700001)(7416002)(5660300002)(2906002)(43062005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?VDVQM1hMQ0ZoRVJsUjJ1RXpyTmtibllVRmxlRTEwZXBWL0x3cGFsN0ZlMlYr?=
- =?utf-8?B?SzFaMFpuM1BPSS9xTDFLT0dTMjJxeDVpSEpXa3VQZ1hFd0FHeHlNYmFaTlc1?=
- =?utf-8?B?eFlXK2dFUkVvenlxNVFya1BQdXZVWXppVHdUVWs4emFpVE1LTE5vRUx6VnR4?=
- =?utf-8?B?b3VUN3E0NGFXdE5LeWJFeThva0JxVE42cGJnUVJJU2h6WEU2ZDF4TFhOd29C?=
- =?utf-8?B?dzhzN3d0b3ltODJRa3pZblNFbFhWVWZVMWZ3VGtmcEtzeExqY2xUbzFNNFlk?=
- =?utf-8?B?a3VyZmZjallXTW9wVDlURnFXZ2dCMXRvUi9HeVNlZDhBcjM3Mk40N2xsbjgx?=
- =?utf-8?B?YjZHdGlVVnc4WlZhMHRleG1MMHJjM0VycHRMMjdLZXB1NkFoNnpOQmJCYjM5?=
- =?utf-8?B?RFk2UjhQQ2R6U0JUcklGcUp0ZnlOOGRvdXM4bXJRR2hNN1ZiU2JOYkhXaXpz?=
- =?utf-8?B?M0Y2ajdYRmJlTWc3cGRFcjFPem9oOEtIQUhIQlBicU1KQTF3NUhjeGE2SzZT?=
- =?utf-8?B?aXVhaDlzS3JCQnZxYnJtZE16aFJWelA2RGNQV2tlSWEzL1RIaEoyZWhQU1JF?=
- =?utf-8?B?b1dVMG9WdUJkU3g5T0RkdlBaYnlvVmQvVGN5dGh5KzlMdHl4K3hhMDJJcDh0?=
- =?utf-8?B?a2pKWFhDY3J6dm1MU2VsOXE3NG5JM21aSVhvNld6by9RVGVXODdmd05tVzVi?=
- =?utf-8?B?azJsb1FMR01yL0F6cjFJNnhQUWRVQWR6V2Jta2J6V1JZekd4dGdobENXbWQx?=
- =?utf-8?B?b2xKSGNJUDlaRXExNTRrYy83SGhqRFRTME1HTFYzR0NLaFhDN2F5MUtHUzl6?=
- =?utf-8?B?RUNKVTVXdWhRUzlQdjYxNnNWcS9GRWRhMWl3dTliYW45aHZHYVlkRTlvU2Jz?=
- =?utf-8?B?WjdnQ0dyNVdSS25BbTJtVEljaEVrT01YL3NLaG5Xbms1bzh3U3NYMnJ1eEh4?=
- =?utf-8?B?djdmUlN3MHRWV1NNTnl6OXlvL0NSU0VabnNtTzg0bnE1MnFFYVFzT0ZGclNy?=
- =?utf-8?B?YkQ5SUNlNnpHVnVZNDRPNGtDd21UbG81T2puR0dNUElkK0Nkd0VkVWliZW91?=
- =?utf-8?B?dzAyV21WSmRCWWNuZjhVRVFYNG95NFZ6dk94QVdObWhScC9jSFRFaUY4WTBk?=
- =?utf-8?B?ZSthWkZTRzBFaUhoeTZndy9nSktLS2lucUw4UWdtWU9FVHpiNks2OEVlK05p?=
- =?utf-8?B?VEd2RWhDYjVHUmFsMHprVFlFdEVmZnZkeXh0TkEyaWlyWHNWajF0NnVIcU9r?=
- =?utf-8?B?eExqdXZXZVprZ0NuV00rUDhrc3I0THk0QlVYcmI2em9wbnZXVWhqNmg1aFVk?=
- =?utf-8?B?WndMcmErQmtBYXhZSkxlYTRQUkhTMXZPMHZFWU9CWmNNSEs4TVEvcFV1U2dO?=
- =?utf-8?B?WTl3Wm5jSkRDcmwwUllZSkNCTVEvTDZKVVRmb3k2bXpOL3cvNzAyRExwbCtT?=
- =?utf-8?B?ajdsNS9aVkxHZWU2WFhvREdwYUVjWXFaVUZYd1R2R1N3MExOdW56VGlTci9H?=
- =?utf-8?B?dUw3YlZiaSszVUtuenczNzZRRm9TMmM2Sko5Z2pwblJQYmF3M3VEUDZGbjU3?=
- =?utf-8?B?QytITFpDQzNveTVQSTlrTC85V2Q5eVF5cTNwZWpCOUJEbG5LcTFZZ2RwVk5E?=
- =?utf-8?B?eURnY3lEWG1WZWEvRVhnR3JWNWFtVHp2REwzWWw2RExBK1FxbzhTdWhyNUdL?=
- =?utf-8?B?U0RXR0JMS1JjVldGOEFmVS9IeGo3bm5oNmVBNElPM25rTEJ5Q2ZtVGI2U2g0?=
- =?utf-8?B?VHBQdlBvMFJvOXNYVko4TE44dU16RGdpVkp3azZvWkJ4MnZnNnYyWWJlMDBm?=
- =?utf-8?B?WlJod29CM0w3Yzl6dVR6ZWxTWU5IQnBSbXZ5YWJuOTNUZU4ySzZSOTZ6OUp3?=
- =?utf-8?B?dUpiSmtSRVlUeUpIams1U0tRbkJ4THgzVlU1MDRmZ1RaS2J5c0dWMVVoVlpl?=
- =?utf-8?B?LzBHYkJLcmZ2cHY5SW01Y2xXZVJrUXRiWXZiVGYrc3JCelZVNVh0SktocGJJ?=
- =?utf-8?B?U2VtajkvMHVNSkFRUitVNko0WDREVmxiOUdIU2o2VlJIQUNOSklwM1FQUzNR?=
- =?utf-8?B?MjNQMnpoejExYVpmNTBwcUdpNHdTaHhEQUlPQkhEbHRrUXh3T0dTZW5WaU1J?=
- =?utf-8?B?d2JqMWNJeEcwc2ZxZHRIOFk4ZW82MjBFUUJDTTdNc01pT1FtK2hYd3RHOWlI?=
- =?utf-8?B?MXc9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3262787-5093-45be-f02f-08dc0c0e3507
-X-MS-Exchange-CrossTenant-AuthSource: MW5PR11MB5764.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2024 03:43:53.9661
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R7VfKnKU8EL/pHuUf+RJ5HRFD4GCBGVo6h+4XsodZbJXci2nPNb94xAW/8CGqnX7qHI9PPI+cTKqWOE2+c+5dU4L5o3imQ08CccrthcI5ro=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4522
-X-Proofpoint-GUID: KNW6eEHWzqQbIoXw8oeJVvWjP8HcMGMI
-X-Proofpoint-ORIG-GUID: KNW6eEHWzqQbIoXw8oeJVvWjP8HcMGMI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- adultscore=0 spamscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
- clxscore=1011 mlxlogscore=999 priorityscore=1501 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
- definitions=main-2401030027
+Content-Transfer-Encoding: 8bit
 
+From: Clark Wang <xiaoning.wang@nxp.com>
 
-On 12/31/23 2:55 AM, kernel test robot wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
->
-> Hi Xiaolei,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on shawnguo/for-next]
-> [also build test WARNING on linus/master v6.7-rc7 next-20231222]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Xiaolei-Wang/firmware-imx-scu-ensure-wakeup-procedure-calls-pm_system_wakeup/20231230-134202
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20231230053831.67661-1-xiaolei.wang%40windriver.com
-> patch subject: [PATCH] firmware: imx: scu: ensure wakeup procedure calls pm_system_wakeup()
-> config: i386-buildonly-randconfig-003-20231230 (https://download.01.org/0day-ci/archive/20231231/202312310227.7eLUYzgH-lkp@intel.com/config)
-> compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231231/202312310227.7eLUYzgH-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312310227.7eLUYzgH-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> drivers/firmware/imx/imx-scu.c:365:32: warning: unused variable 'imx_scu_pm_ops' [-Wunused-const-variable]
->       365 | static const struct dev_pm_ops imx_scu_pm_ops = {
->           |                                ^~~~~~~~~~~~~~
->     1 warning generated.
->
->
-> vim +/imx_scu_pm_ops +365 drivers/firmware/imx/imx-scu.c
->
->     364
->   > 365  static const struct dev_pm_ops imx_scu_pm_ops = {
->     366          SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(imx_scu_suspend_noirq,
->     367                                        imx_scu_resume_noirq)
->     368  };
->     369
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+This fixes the pwm output bug when decrease the duty cycle.
+This is a limited workaround for the PWM IP issue TKT0577206.
 
+Root cause:
+When the SAR FIFO is empty, the new write value will be directly applied
+to SAR even the current period is not over.
+If the new SAR value is less than the old one, and the counter is
+greater than the new SAR value, the current period will not filp the
+level. This will result in a pulse with a duty cycle of 100%.
 
-drop this patch, There are still some issues that I will continue to 
-research
+Workaround:
+Add an old value SAR write before updating the new duty cycle to SAR.
+This will keep the new value is always in a not empty fifo, and can be
+wait to update after a period finished.
 
+Limitation:
+This workaround can only solve this issue when the PWM period is longer
+than 2us(or <500KHz).
 
-thanks
+Reviewed-by: Jun Li <jun.li@nxp.com>
+Signed-off-by: Clark Wang <xiaoning.wang@nxp.com>
+Link: https://github.com/nxp-imx/linux-imx/commit/16181cc4eee61d87cbaba0e5a479990507816317
+Tested-by: Pratik Manvar <pratik.manvar@ifm.com>
+---
+ V1 -> V2: fix sparse warnings reported-by: kernel test robot <lkp@intel.com>
+           Closes: https://lore.kernel.org/oe-kbuild-all/202312300907.RGtYsKxb-lkp@intel.com/
 
-xiaolei
+ drivers/pwm/pwm-imx27.c | 67 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 62 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/pwm/pwm-imx27.c b/drivers/pwm/pwm-imx27.c
+index 7d9bc43f12b0..1e500a5bf564 100644
+--- a/drivers/pwm/pwm-imx27.c
++++ b/drivers/pwm/pwm-imx27.c
+@@ -21,11 +21,13 @@
+ #include <linux/platform_device.h>
+ #include <linux/pwm.h>
+ #include <linux/slab.h>
++#include <linux/spinlock.h>
+ 
+ #define MX3_PWMCR			0x00    /* PWM Control Register */
+ #define MX3_PWMSR			0x04    /* PWM Status Register */
+ #define MX3_PWMSAR			0x0C    /* PWM Sample Register */
+ #define MX3_PWMPR			0x10    /* PWM Period Register */
++#define MX3_PWMCNR			0x14    /* PWM Counter Register */
+ 
+ #define MX3_PWMCR_FWM			GENMASK(27, 26)
+ #define MX3_PWMCR_STOPEN		BIT(25)
+@@ -91,6 +93,7 @@ struct pwm_imx27_chip {
+ 	 * value to return in that case.
+ 	 */
+ 	unsigned int duty_cycle;
++	spinlock_t lock;
+ };
+ 
+ #define to_pwm_imx27_chip(chip)	container_of(chip, struct pwm_imx27_chip, chip)
+@@ -203,10 +206,10 @@ static void pwm_imx27_wait_fifo_slot(struct pwm_chip *chip,
+ 
+ 	sr = readl(imx->mmio_base + MX3_PWMSR);
+ 	fifoav = FIELD_GET(MX3_PWMSR_FIFOAV, sr);
+-	if (fifoav == MX3_PWMSR_FIFOAV_4WORDS) {
++	if (fifoav >= MX3_PWMSR_FIFOAV_3WORDS) {
+ 		period_ms = DIV_ROUND_UP_ULL(pwm_get_period(pwm),
+ 					 NSEC_PER_MSEC);
+-		msleep(period_ms);
++		msleep(period_ms * (fifoav - 2));
+ 
+ 		sr = readl(imx->mmio_base + MX3_PWMSR);
+ 		if (fifoav == FIELD_GET(MX3_PWMSR_FIFOAV, sr))
+@@ -217,13 +220,15 @@ static void pwm_imx27_wait_fifo_slot(struct pwm_chip *chip,
+ static int pwm_imx27_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 			   const struct pwm_state *state)
+ {
+-	unsigned long period_cycles, duty_cycles, prescale;
++	unsigned long period_cycles, duty_cycles, prescale, counter_check, flags;
+ 	struct pwm_imx27_chip *imx = to_pwm_imx27_chip(chip);
++	void __iomem *reg_sar = imx->mmio_base + MX3_PWMSAR;
++	__force u32 sar_last, sar_current;
+ 	struct pwm_state cstate;
+ 	unsigned long long c;
+ 	unsigned long long clkrate;
+ 	int ret;
+-	u32 cr;
++	u32 cr, timeout = 1000;
+ 
+ 	pwm_get_state(pwm, &cstate);
+ 
+@@ -264,7 +269,57 @@ static int pwm_imx27_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 		pwm_imx27_sw_reset(chip);
+ 	}
+ 
+-	writel(duty_cycles, imx->mmio_base + MX3_PWMSAR);
++	/*
++	 * This is a limited workaround. When the SAR FIFO is empty, the new
++	 * write value will be directly applied to SAR even the current period
++	 * is not over.
++	 * If the new SAR value is less than the old one, and the counter is
++	 * greater than the new SAR value, the current period will not filp
++	 * the level. This will result in a pulse with a duty cycle of 100%.
++	 * So, writing the current value of the SAR to SAR here before updating
++	 * the new SAR value can avoid this issue.
++	 *
++	 * Add a spin lock and turn off the interrupt to ensure that the
++	 * real-time performance can be guaranteed as much as possible when
++	 * operating the following operations.
++	 *
++	 * 1. Add a threshold of 1.5us. If the time T between the read current
++	 * count value CNR and the end of the cycle is less than 1.5us, wait
++	 * for T to be longer than 1.5us before updating the SAR register.
++	 * This is to avoid the situation that when the first SAR is written,
++	 * the current cycle just ends and the SAR FIFO that just be written
++	 * is emptied again.
++	 *
++	 * 2. Use __raw_writel() to minimize the interval between two writes to
++	 * the SAR register to increase the fastest pwm frequency supported.
++	 *
++	 * When the PWM period is longer than 2us(or <500KHz), this workaround
++	 * can solve this problem.
++	 */
++	if (duty_cycles < imx->duty_cycle) {
++		c = clkrate * 1500;
++		do_div(c, NSEC_PER_SEC);
++		counter_check = c;
++		sar_last = (__force u32) cpu_to_le32(imx->duty_cycle);
++		sar_current = (__force u32) cpu_to_le32(duty_cycles);
++
++		spin_lock_irqsave(&imx->lock, flags);
++		if (state->period >= 2000) {
++			while ((period_cycles -
++				readl_relaxed(imx->mmio_base + MX3_PWMCNR))
++				< counter_check) {
++				if (!--timeout)
++					break;
++			};
++		}
++		if (!(MX3_PWMSR_FIFOAV &
++		      readl_relaxed(imx->mmio_base + MX3_PWMSR)))
++			__raw_writel(sar_last, reg_sar);
++		__raw_writel(sar_current, reg_sar);
++		spin_unlock_irqrestore(&imx->lock, flags);
++	} else
++		writel(duty_cycles, imx->mmio_base + MX3_PWMSAR);
++
+ 	writel(period_cycles, imx->mmio_base + MX3_PWMPR);
+ 
+ 	/*
+@@ -324,6 +379,8 @@ static int pwm_imx27_probe(struct platform_device *pdev)
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(imx->clk_per),
+ 				     "failed to get peripheral clock\n");
+ 
++	spin_lock_init(&imx->lock);
++	imx->duty_cycle = 0;
+ 	imx->chip.ops = &pwm_imx27_ops;
+ 	imx->chip.dev = &pdev->dev;
+ 	imx->chip.npwm = 1;
+-- 
+2.25.1
 
