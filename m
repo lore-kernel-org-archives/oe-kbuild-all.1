@@ -1,227 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from helios.alatek.com.pl (helios.alatek.com.pl [85.14.123.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A906419BB8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 13:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E755A19BC3;
+	Wed,  3 Jan 2024 13:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alatek.krakow.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alatek.krakow.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IAR3kDv4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704289567; x=1735825567;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wo4vXKNhQeRIYYDB4t1oeYbbO1FCym44pBdQ5gtEaKU=;
-  b=IAR3kDv4A8HUOgabeSbaCuidecnE/GbBjB2N2h17PCFuLEkxNeQWWFEj
-   qUUjsIR9+SkvGJsrPjV+iZ3nOwQSThiwkuvOvxmtwAOQ+61cDivnWapx0
-   cA+l/sdyaw7dTUNlxV3qNCgEYgol2v3wpV+28VmCGhIFB6mcd60avK5hT
-   JnnDCLqF4vyhcO5CmUyXrIAKI6kP/rvY/lglQvWsXjIL0UQrdf2ebOBMd
-   NtMo3kr4P/tvqDHRHICb3FeBYeQ29xu/FnW5Isv1vx2wafE0is52fq4eg
-   w4oxwYqYVVLwWqEpA9jlrkrl/nUjhsW1WlVIqY11sdcFl6aAupOzlYJSc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="395885023"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="395885023"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 05:46:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="923542104"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="923542104"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Jan 2024 05:46:03 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rL1ZJ-000M8m-0u;
-	Wed, 03 Jan 2024 13:46:01 +0000
-Date: Wed, 3 Jan 2024 21:45:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kairui Song <ryncsn@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Chris Li <chrisl@kernel.org>, "Huang, Ying" <ying.huang@intel.com>,
-	Hugh Dickins <hughd@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Michal Hocko <mhocko@suse.com>, Yosry Ahmed <yosryahmed@google.com>,
-	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	Kairui Song <kasong@tencent.com>
-Subject: Re: [PATCH v2 9/9] mm/swap, shmem: use new swapin helper to skip
- readahead conditionally
-Message-ID: <202401032120.uWKybc56-lkp@intel.com>
-References: <20240102175338.62012-10-ryncsn@gmail.com>
+	dkim=temperror (0-bit key) header.d=alatek.krakow.pl header.i=@alatek.krakow.pl header.b="SMqnTVmd"
+Received: from localhost (localhost [127.0.0.1])
+	by helios.alatek.com.pl (Postfix) with ESMTP id 0547E2CA18F2;
+	Wed,  3 Jan 2024 14:50:10 +0100 (CET)
+Received: from helios.alatek.com.pl ([127.0.0.1])
+ by localhost (helios.alatek.com.pl [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id roAUe43Vbw-p; Wed,  3 Jan 2024 14:50:05 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by helios.alatek.com.pl (Postfix) with ESMTP id 3947D2CA18FC;
+	Wed,  3 Jan 2024 14:50:05 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 helios.alatek.com.pl 3947D2CA18FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alatek.krakow.pl;
+	s=99EE5E86-D06A-11EC-BE24-DBCCD0A148D3; t=1704289805;
+	bh=jZyC/xRh1udeLwfEgIKwoXnc6gksKtoO6QmGrQfRqE8=;
+	h=Message-ID:Date:MIME-Version:To:From;
+	b=SMqnTVmdZQpMKibWU2Bvgb+2bfWFbj9tG3R+JBDzRw8a55ZaLjMZp8rkv0FRGj1yg
+	 Kb76SBh+Vou2XN+Xi2ot61NwOasuw4eYzL4eA8/J/B/3tK+M7oGOP7f0P5xkvNIu69
+	 cypDvUy/6HwiNz/0NKX5Kyv6haGVLlDYg5EXdafRtgd6x+4FBITlr+MuruGEFAzHo3
+	 GMO2d5c+4Q3RxXYfwKeW/+bxyHoIOxZBqWnCLfHvdrCpSJgMs/ih2whkcluKE4YqDo
+	 X3c7OhCGGSQb5lQMY8QNa7pJBI49lChSIWkk0t7qBAHe4i32GC+Q/Or6CdupVAbVKE
+	 Lwg0pXLMlxp5g==
+X-Virus-Scanned: amavis at alatek.com.pl
+Received: from helios.alatek.com.pl ([127.0.0.1])
+ by localhost (helios.alatek.com.pl [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id pj_ahR7P3cbF; Wed,  3 Jan 2024 14:50:05 +0100 (CET)
+Received: from [10.125.125.3] (unknown [10.125.125.3])
+	by helios.alatek.com.pl (Postfix) with ESMTPSA id 9E52E2CA18F2;
+	Wed,  3 Jan 2024 14:50:04 +0100 (CET)
+Message-ID: <a0329e3f-b9d9-4132-b738-26c48d898e5a@alatek.krakow.pl>
+Date: Wed, 3 Jan 2024 14:50:03 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240102175338.62012-10-ryncsn@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 9985/10295] drivers/dma/xilinx/xdma.c:894
+ xdma_channel_isr() error: potentially dereferencing uninitialized 'desc'.
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Vinod Koul <vkoul@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+References: <d824b3df-b542-4e82-b52b-974aa89e94d4@moroto.mountain>
+From: Jan Kuliga <jankul@alatek.krakow.pl>
+In-Reply-To: <d824b3df-b542-4e82-b52b-974aa89e94d4@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Kairui,
+Hi,
 
-kernel test robot noticed the following build errors:
+On 3.01.2024 14:21, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   39676dfe52331dba909c617f213fdb21015c8d10
+> commit: 01e6d907656134949c4126e7fd64984d4daa4c1e [9985/10295] dmaengine: xilinx: xdma: Implement interleaved DMA transfers
+> config: x86_64-randconfig-161-20231222 (https://download.01.org/0day-ci/archive/20231223/202312230438.ciSi2tY3-lkp@intel.com/config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202312230438.ciSi2tY3-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/dma/xilinx/xdma.c:894 xdma_channel_isr() error: potentially dereferencing uninitialized 'desc'.
+> 
+> vim +/desc +894 drivers/dma/xilinx/xdma.c
+> 
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  868  static irqreturn_t xdma_channel_isr(int irq, void *dev_id)
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  869  {
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  870  	struct xdma_chan *xchan = dev_id;
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  871  	u32 complete_desc_num = 0;
+> 01e6d907656134 Jan Kuliga    2023-12-18  872  	struct xdma_device *xdev = xchan->xdev_hdl;
+> 01e6d907656134 Jan Kuliga    2023-12-18  873  	struct virt_dma_desc *vd, *next_vd;
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  874  	struct xdma_desc *desc;
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  875  	int ret;
+> cd8c732ce1a561 Miquel Raynal 2023-10-05  876  	u32 st;
+> 01e6d907656134 Jan Kuliga    2023-12-18  877  	bool repeat_tx;
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  878  
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  879  	spin_lock(&xchan->vchan.lock);
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  880  
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  881  	/* get submitted request */
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  882  	vd = vchan_next_desc(&xchan->vchan);
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  883  	if (!vd)
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  884  		goto out;
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  885  
+> c38d055a7c0211 Jan Kuliga    2023-12-18  886  	/* Clear-on-read the status register */
+> c38d055a7c0211 Jan Kuliga    2023-12-18  887  	ret = regmap_read(xdev->rmap, xchan->base + XDMA_CHAN_STATUS_RC, &st);
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  888  	if (ret)
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  889  		goto out;
+> 17ce252266c7f0 Lizhi Hou     2023-01-19  890  
+> c38d055a7c0211 Jan Kuliga    2023-12-18  891  	st &= XDMA_CHAN_STATUS_MASK;
+> c38d055a7c0211 Jan Kuliga    2023-12-18  892  	if ((st & XDMA_CHAN_ERROR_MASK) ||
+> c38d055a7c0211 Jan Kuliga    2023-12-18  893  	    !(st & (CHAN_CTRL_IE_DESC_COMPLETED | CHAN_CTRL_IE_DESC_STOPPED))) {
+> c3fcb6f5575fcf Jan Kuliga    2023-12-18 @894  		desc->error = true;
+>                                                         ^^^^^^
+> "desc" isn't initialized at this point.
+> 
+This issue has already been noticed and fixed by Nathan Chancellor in a thread below: 
+https://lore.kernel.org/dmaengine/d3ada600-c0ed-486d-98d0-e161059099f3@alatek.krakow.pl/T/#m51990dd92dd78eaf34333ba96f9ada2ed61ae2f9
+> 
+> c38d055a7c0211 Jan Kuliga    2023-12-18  895  		xdma_err(xdev, "channel error, status register value: 0x%x", st);
+> c38d055a7c0211 Jan Kuliga    2023-12-18  896  		goto out;
+> c38d055a7c0211 Jan Kuliga    2023-12-18  897  	}
+> 26ee018ff6d1c3 Miquel Raynal 2023-11-30  898  
+> c38d055a7c0211 Jan Kuliga    2023-12-18  899  	ret = regmap_read(xdev->rmap, xchan->base + XDMA_CHAN_COMPLETED_DESC,
+> c38d055a7c0211 Jan Kuliga    2023-12-18  900  			  &complete_desc_num);
+> cd8c732ce1a561 Miquel Raynal 2023-10-05  901  	if (ret)
+> cd8c732ce1a561 Miquel Raynal 2023-10-05  902  		goto out;
+> cd8c732ce1a561 Miquel Raynal 2023-10-05  903  
+> 01e6d907656134 Jan Kuliga    2023-12-18  904  	desc = to_xdma_desc(vd);
+> 01e6d907656134 Jan Kuliga    2023-12-18  905  	if (desc->interleaved_dma) {
+> 
+> 
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on next-20240103]
-[cannot apply to linus/master v6.7-rc8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-swapfile-c-add-back-some-comment/20240103-015650
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240102175338.62012-10-ryncsn%40gmail.com
-patch subject: [PATCH v2 9/9] mm/swap, shmem: use new swapin helper to skip readahead conditionally
-config: i386-randconfig-014-20240103 (https://download.01.org/0day-ci/archive/20240103/202401032120.uWKybc56-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240103/202401032120.uWKybc56-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401032120.uWKybc56-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   mm/shmem.c: In function 'shmem_swapin_folio':
->> mm/shmem.c:1864:8: error: assignment from incompatible pointer type [-Werror=incompatible-pointer-types]
-     folio = swapin_entry_mpol(swap, gfp, mpol, ilx, &cache_result);
-           ^
-   cc1: some warnings being treated as errors
-
-
-vim +1864 mm/shmem.c
-
-  1826	
-  1827	/*
-  1828	 * Swap in the folio pointed to by *foliop.
-  1829	 * Caller has to make sure that *foliop contains a valid swapped folio.
-  1830	 * Returns 0 and the folio in foliop if success. On failure, returns the
-  1831	 * error code and NULL in *foliop.
-  1832	 */
-  1833	static int shmem_swapin_folio(struct inode *inode, pgoff_t index,
-  1834				     struct folio **foliop, enum sgp_type sgp,
-  1835				     gfp_t gfp, struct mm_struct *fault_mm,
-  1836				     vm_fault_t *fault_type)
-  1837	{
-  1838		struct address_space *mapping = inode->i_mapping;
-  1839		struct shmem_inode_info *info = SHMEM_I(inode);
-  1840		enum swap_cache_result cache_result;
-  1841		struct swap_info_struct *si;
-  1842		struct folio *folio = NULL;
-  1843		struct mempolicy *mpol;
-  1844		swp_entry_t swap;
-  1845		pgoff_t ilx;
-  1846		int error;
-  1847	
-  1848		VM_BUG_ON(!*foliop || !xa_is_value(*foliop));
-  1849		swap = radix_to_swp_entry(*foliop);
-  1850		*foliop = NULL;
-  1851	
-  1852		if (is_poisoned_swp_entry(swap))
-  1853			return -EIO;
-  1854	
-  1855		si = get_swap_device(swap);
-  1856		if (!si) {
-  1857			if (!shmem_confirm_swap(mapping, index, swap))
-  1858				return -EEXIST;
-  1859			else
-  1860				return -EINVAL;
-  1861		}
-  1862	
-  1863		mpol = shmem_get_pgoff_policy(info, index, 0, &ilx);
-> 1864		folio = swapin_entry_mpol(swap, gfp, mpol, ilx, &cache_result);
-  1865		mpol_cond_put(mpol);
-  1866	
-  1867		if (!folio) {
-  1868			error = -ENOMEM;
-  1869			goto failed;
-  1870		}
-  1871		if (cache_result != SWAP_CACHE_HIT) {
-  1872			if (fault_type) {
-  1873				*fault_type |= VM_FAULT_MAJOR;
-  1874				count_vm_event(PGMAJFAULT);
-  1875				count_memcg_event_mm(fault_mm, PGMAJFAULT);
-  1876			}
-  1877		}
-  1878	
-  1879		/* We have to do this with folio locked to prevent races */
-  1880		folio_lock(folio);
-  1881		if (cache_result != SWAP_CACHE_BYPASS) {
-  1882			/* With cache bypass, folio is new allocated, sync, and not in cache */
-  1883			if (!folio_test_swapcache(folio) || folio->swap.val != swap.val) {
-  1884				error = -EEXIST;
-  1885				goto unlock;
-  1886			}
-  1887			if (!folio_test_uptodate(folio)) {
-  1888				error = -EIO;
-  1889				goto failed;
-  1890			}
-  1891			folio_wait_writeback(folio);
-  1892		}
-  1893		if (!shmem_confirm_swap(mapping, index, swap)) {
-  1894			error = -EEXIST;
-  1895			goto unlock;
-  1896		}
-  1897	
-  1898		/*
-  1899		 * Some architectures may have to restore extra metadata to the
-  1900		 * folio after reading from swap.
-  1901		 */
-  1902		arch_swap_restore(swap, folio);
-  1903	
-  1904		/* With cache bypass, folio is new allocated and always respect gfp flags */
-  1905		if (cache_result != SWAP_CACHE_BYPASS && shmem_should_replace_folio(folio, gfp)) {
-  1906			error = shmem_replace_folio(&folio, gfp, info, index);
-  1907			if (error)
-  1908				goto failed;
-  1909		}
-  1910	
-  1911		/*
-  1912		 * The expected value checking below should be enough to ensure
-  1913		 * only one up-to-date swapin success. swap_free() is called after
-  1914		 * this, so the entry can't be reused. As long as the mapping still
-  1915		 * has the old entry value, it's never swapped in or modified.
-  1916		 */
-  1917		error = shmem_add_to_page_cache(folio, mapping, index,
-  1918						swp_to_radix_entry(swap), gfp);
-  1919		if (error)
-  1920			goto failed;
-  1921	
-  1922		shmem_recalc_inode(inode, 0, -1);
-  1923	
-  1924		if (sgp == SGP_WRITE)
-  1925			folio_mark_accessed(folio);
-  1926	
-  1927		if (cache_result != SWAP_CACHE_BYPASS)
-  1928			delete_from_swap_cache(folio);
-  1929		folio_mark_dirty(folio);
-  1930		swap_free(swap);
-  1931		put_swap_device(si);
-  1932	
-  1933		*foliop = folio;
-  1934		return 0;
-  1935	failed:
-  1936		if (!shmem_confirm_swap(mapping, index, swap))
-  1937			error = -EEXIST;
-  1938		if (error == -EIO)
-  1939			shmem_set_folio_swapin_error(inode, index, folio, swap);
-  1940	unlock:
-  1941		if (folio) {
-  1942			folio_unlock(folio);
-  1943			folio_put(folio);
-  1944		}
-  1945		put_swap_device(si);
-  1946	
-  1947		return error;
-  1948	}
-  1949	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Jan
