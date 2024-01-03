@@ -1,82 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3647319BDD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 18:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A5B1D53A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 19:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DOU+f6M4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704306953; x=1735842953;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8AsYcoZAN9boEgmRr/CP4cn1XlD+s8vmE1s69sgKtnY=;
-  b=DOU+f6M4TXOI51tWmQKpNX3SyB3MYh3dIJ0EdqFe7t1sJZcAS9aXzvS8
-   xne56z9N9U8JXKoeb5duQycqQLJ0DS0BbplvrUA45YKzSctdM2ugGptd7
-   ZHHOumPOiNn9u4sTmbx+0KMiFgmH7JpCR8h6AtwaRQdIkRCkPxbKaIQAZ
-   xXU9QAIA07afBelMixhRJ6YxxxlNEriAtoZHq/8SIpgy4SBxrWbwKG8rp
-   FdpctKnpCsXv6WajeJ2fxhTOe+TleVS4uBqae5A5WnHTK3VnGRDiX0d95
-   KAzB4OxuUYS4gvCxgBu/thuUh7fboAYqBhPlcy45I7pbWn0rNx+lO3GEZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4391826"
-X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="4391826"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 10:35:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="14574053"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Jan 2024 10:35:47 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rL65g-000MS8-2P;
-	Wed, 03 Jan 2024 18:35:44 +0000
-Date: Thu, 4 Jan 2024 02:35:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>
-Subject: [tip:ras/core 11/13] include/linux/ras.h:9:10: fatal error:
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="iUndUA2a"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 117CF40E00C7;
+	Wed,  3 Jan 2024 19:33:24 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id JJ364MEOexCW; Wed,  3 Jan 2024 19:33:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1704310400; bh=LI4BoQxt9juo8GAaDe/qJjCCtPWkH2PdXrbh9USLSXY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iUndUA2aUU0N6d0Cx2P+C4dAo88NRh7/qGVWfKUuKLk371ORXQuLXGWhfcjTMQ84Y
+	 Yn644KI5biroliewtLXnYxGPK3QEhImNcttJMwS9m3RQndvHrS+jK/g9ZWNDzlI0hz
+	 x/4QLNYtTEN6wQJ/Ebtb6sQSlG5zERzDK3Q5yXilFfiUgPj3dju3UkBGSDndmkxW24
+	 L2E5XB0r1QurfW/aAJE+VnF1FjEiUUEAOaajcCHSBbtg51as1jqQwJ/0eQupCvodJi
+	 VCibOuEJgDNpaNxOtpsEFoL8GTbeqVOzCwMzwcryg5Q698bGPhJ91xDeIAiQCe/PQJ
+	 4+WxxHIFygfnc9lSzl5Tr6Ym+KcsAwzzUEaRSbSjTXRQhdb4mG6AyCb01uaLbmriZy
+	 bvxB2pYDHfYh/CP6r/aNMdH0hNQhn356Z/40w9BKaIa8TTEaaZ7RciUqceHOgz+NFC
+	 f3T7fdDXYs4EM5BXuHHCHm+XmFCSNREk2K0GZ+15GtWBuqzcXZ/x7C5MF4MhiKtu/3
+	 Z3SNtZsdWZFKjWy+j5OS7LTCMCkxkMU/JHo5Vyb3SlbuSXHRYuRLfIYO8t9hrTjJP2
+	 Qhr4Ba6STe/c5xt9GdC8qAk3EXqjKwM1E02/sfVeCvf2fdtoogA2SLh3jakzfTFixQ
+	 wvd/n0ZT1NAI0EjluRM3Rp0o=
+Received: from zn.tnic (pd9530f8c.dip0.t-ipconnect.de [217.83.15.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C34F640E0198;
+	Wed,  3 Jan 2024 19:33:15 +0000 (UTC)
+Date: Wed, 3 Jan 2024 20:33:09 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Yazen Ghannam <yazen.ghannam@amd.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: Re: [tip:ras/core 11/13] include/linux/ras.h:9:10: fatal error:
  uapi/asm/mce.h: No such file or directory
-Message-ID: <202401040257.NPrXuVk7-lkp@intel.com>
+Message-ID: <20240103193309.GFZZW2dehRC+K/VreB@fat_crate.local>
+References: <202401040257.NPrXuVk7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <202401040257.NPrXuVk7-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git ras/core
-head:   d48d30d8c358004c7b1cb2e16969a569d45953b3
-commit: 8e1d0790e0a749a62428ff039c7a9050a06e9feb [11/13] RAS: Introduce AMD Address Translation Library
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240104/202401040257.NPrXuVk7-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040257.NPrXuVk7-lkp@intel.com/reproduce)
+On Thu, Jan 04, 2024 at 02:35:29AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git ras/core
+> head:   d48d30d8c358004c7b1cb2e16969a569d45953b3
+> commit: 8e1d0790e0a749a62428ff039c7a9050a06e9feb [11/13] RAS: Introduce AMD Address Translation Library
+> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240104/202401040257.NPrXuVk7-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040257.NPrXuVk7-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401040257.NPrXuVk7-lkp@intel.com/
+How are you even testing this successfully?
 
-All errors (new ones prefixed by >>):
+I get with this compiler here:
 
-   In file included from drivers/ras/ras.c:10:
->> include/linux/ras.h:9:10: fatal error: uapi/asm/mce.h: No such file or directory
-       9 | #include <uapi/asm/mce.h>
-         |          ^~~~~~~~~~~~~~~~
-   compilation terminated.
+<stdin>:1519:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+{standard input}: Assembler messages:
+{standard input}:1094: Warning: end of file not at end of a line; newline inserted
+{standard input}:1095: Error: expected symbol name
+sh4-linux-gcc: internal compiler error: Segmentation fault signal terminated program cc1
+Please submit a full bug report, with preprocessed source (by using -freport-bug).
+See <https://gcc.gnu.org/bugs/> for instructions.
+make[5]: *** [scripts/Makefile.build:243: drivers/net/pcs/pcs-xpcs.o] Error 4
+make[4]: *** [scripts/Makefile.build:480: drivers/net/pcs] Error 2
+make[4]: *** Waiting for unfinished jobs....
+make[3]: *** [scripts/Makefile.build:480: drivers/net] Error 2
+make[3]: *** Waiting for unfinished jobs....
+make[2]: *** [scripts/Makefile.build:480: drivers] Error 2
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/mnt/kernel/kernel/linux/Makefile:1911: .] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
 
+Anyway, this should fix it:
 
-vim +9 include/linux/ras.h
-
-     8	
-   > 9	#include <uapi/asm/mce.h>
-    10	
-
+diff --git a/include/linux/ras.h b/include/linux/ras.h
+index 829252a358b7..5d8f0e6fc03d 100644
+--- a/include/linux/ras.h
++++ b/include/linux/ras.h
+@@ -6,7 +6,9 @@
+ #include <linux/uuid.h>
+ #include <linux/cper.h>
+ 
++#ifdef CONFIG_X86_MCE
+ #include <uapi/asm/mce.h>
++#endif
+ 
+ #ifdef CONFIG_DEBUG_FS
+ int ras_userspace_consumers(void);
+@@ -38,11 +40,12 @@ static inline void
+ log_arm_hw_error(struct cper_sec_proc_arm *err) { return; }
+ #endif
+ 
+-#if IS_ENABLED(CONFIG_AMD_ATL)
++#ifdef CONFIG_AMD_ATL
+ void amd_atl_register_decoder(unsigned long (*f)(struct mce *));
+ void amd_atl_unregister_decoder(void);
+ unsigned long amd_convert_umc_mca_addr_to_sys_addr(struct mce *m);
+ #else
++struct mce;
+ static inline unsigned long amd_convert_umc_mca_addr_to_sys_addr(struct mce *m) { return -EINVAL; }
+ #endif /* CONFIG_AMD_ATL */
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
