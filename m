@@ -1,59 +1,48 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498671D530
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 20:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465701D522;
+	Wed,  3 Jan 2024 20:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="dIpVpd0s"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5ca1b4809b5so3289991a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jan 2024 12:27:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1704313638; x=1704918438; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xcsOQ9nD5GPnMMvdZNgPzZalWOKW9Ch4bNlsftdutyM=;
-        b=dIpVpd0snuwWWVghwS/GMBOMa7eGqHlLweLJ+m51hPGt5veMDDJSjtEd6cLawO5C0C
-         zmGcBTV5x7lhZpZfH04jt6G/ljRDOEuTyMLrClUK8lMYeQ6hWArvWYkNoic3Skf1BW/P
-         I3Gaa4oFclA8dGKv/JbMKtGf+tRn4f004wuQpydjX+Uj0+wNc32ici9IFvErrSWIulrp
-         p6qhqXHie1s22H3JnEbzH/LsAXzvYF7wyw3UlZDN6NUvLgD86xDhOCo0PPjr1vUVb6oR
-         oGxN0MA+EuDKg1upK4R0kDF5TmJ+1XwAyUx7t1amcx1WJaPsQlrYdUSTeu/zuocROdS1
-         tuGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704313638; x=1704918438;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xcsOQ9nD5GPnMMvdZNgPzZalWOKW9Ch4bNlsftdutyM=;
-        b=W6sdYFNSY7vB0Hi0TkNmzOf1WyKWdmmJTp1fbiT0ah157PwM3hXeBZnTLBDZaTKV3d
-         e8DbqjTdubHm/5vC5xOfL4wT1+N+tvkhC6kWGf21HEYoTWJKmBuGu6DBeGRPHmRpd0qH
-         +nOQr3boalr305wahsxHTc+VsTpJh/R6RDUkyYEvHe3AgWnVXwDd1YVoZFJJGz5RTOTh
-         HcsKSuLP3TxCi5BVTBMsJhcObpIMEgq+GV6S1pRCgoL7qwqUoSrV3cDXr5PUfEhx1xUA
-         AnAMlo4YDkKo9qS1/FMYmnzDaGGA/gDsnhKwtnI0LEqs23NiWLdIJdBh5Fovy6znPyL6
-         dcfw==
-X-Gm-Message-State: AOJu0Yzvqvsu9Vg8tRGi2r0d/na5cJ61LO6IHMhwgwP0IGpJOM7JAHhb
-	ZUu0Nwo5gOblwgctQ4sFG32qp/riTf3UgA==
-X-Google-Smtp-Source: AGHT+IGfGjwL1gOAZN1cJcV3cHT0ah1Btx46k+DeH+QlmZ3yh13pe7S1KrdoMLLsu6lIidEfExM5yg==
-X-Received: by 2002:a05:6a20:938b:b0:197:58b5:3251 with SMTP id x11-20020a056a20938b00b0019758b53251mr2377252pzh.113.1704313638634;
-        Wed, 03 Jan 2024 12:27:18 -0800 (PST)
-Received: from ghost (070-095-050-247.res.spectrum.com. [70.95.50.247])
-        by smtp.gmail.com with ESMTPSA id u16-20020a056a00099000b006d9c7f2840bsm16045592pfg.57.2024.01.03.12.27.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 12:27:18 -0800 (PST)
-Date: Wed, 3 Jan 2024 12:27:15 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
- error: uninitialized symbol 'curr_type'.
-Message-ID: <ZZXDI78QsaXzbfR+@ghost>
-References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
- <ZXoFhu2TPXgrsInY@ghost>
- <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
- <ZYzIbVfge6I8Ptw0@ghost>
- <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gwn/u0yH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704313914; x=1735849914;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YZ05VNNjcmH++LVoRCkEfx6RPzJBopest22eQyg/bbA=;
+  b=Gwn/u0yHt4H1Yl/J1kuGDX+bbrqnnKcT+eP6wFXxJ5EbAekYXtjf+f//
+   8SlWmfaHa7QVFakwee+Gns54WwZXYmXMSOhhziv2K1TE0epAFXuT4ttem
+   NcUcrKOIoHhERd1sD6MXao3wIro2dl2DhluE/b8pMMNlbGiNDJvy8T1Xl
+   oEVP+PtzDjuZJ4BVhMrshF3W53VMHyybljO65Q2WncVTWFW4GgkWLQcpx
+   E9RRH2RXL9f4ghNDFVJ4utni/+RXjk8bm+CDdCrMCkWsZssOE+8edjxU8
+   6d15hHSwwS2kELJraZsOESEf6wkDF8vsgip6IFoHIGnN/7P2vZU0B9dHO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="10458683"
+X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
+   d="scan'208";a="10458683"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 12:31:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="783611563"
+X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
+   d="scan'208";a="783611563"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Jan 2024 12:31:52 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rL7u2-000MXo-05;
+	Wed, 03 Jan 2024 20:31:50 +0000
+Date: Thu, 4 Jan 2024 04:31:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: [tip:ras/core 11/13] include/linux/ras.h:9:10: fatal error:
+ 'uapi/asm/mce.h' file not found
+Message-ID: <202401040401.z915YJoV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +51,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
 
-On Tue, Jan 02, 2024 at 03:37:34PM +0300, Dan Carpenter wrote:
-> On Wed, Dec 27, 2023 at 04:59:25PM -0800, Charlie Jenkins wrote:
-> > On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
-> > > On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
-> > > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
-> > > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
-> > > > >                                                                                        ^^^^^^^^^
-> > > > > Can the list be empty?  Uninitialized in that case.
-> > > > 
-> > > > That's a tricky one, the list cannot be empty. Each bucket in the
-> > > > bucket_iter is guarunteed to have at least one rel_entry. I can probably
-> > > > resolve this by extracting this for loop into a do-while loop.
-> > > 
-> > > You can just ignore false positives.  It's not really a fix to change it
-> > > to a do-while loop.  I reviewed the do while code before reading this
-> > > email and I still wondered about empty lists, but just to hear that it's
-> > > not going to be empty is enough.  Just the email was sufficient.
-> > > 
-> > > regards,
-> > > dan carpenter
-> > > 
-> > 
-> > The fix isn't the do-while loop but rather the use after free, the
-> > incorrect sizeof, and incorrect error handling when
-> > initialize_relocation_hashtable fails. I decided to include the do-while
-> > code because I was already touching the surrounding code. Can you review
-> > [1]? If you would prefer that the do-while is reverted, I can do that,
-> > but it is important that the rest of the fixes are merged before 6.7 is
-> > released.
-> > 
-> > [1] https://lore.kernel.org/all/20231213-module_loading_fix-v1-1-da9b7c92ade5@rivosinc.com/
-> 
-> 
-> Most subsystems wouldn't merge a patch like this which does so many
-> things at the same time...
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git ras/core
+head:   d48d30d8c358004c7b1cb2e16969a569d45953b3
+commit: 8e1d0790e0a749a62428ff039c7a9050a06e9feb [11/13] RAS: Introduce AMD Address Translation Library
+config: arm-randconfig-002-20240103 (https://download.01.org/0day-ci/archive/20240104/202401040401.z915YJoV-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040401.z915YJoV-lkp@intel.com/reproduce)
 
-That is a good point, I split it across 4 different patches.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401040401.z915YJoV-lkp@intel.com/
 
-https://lore.kernel.org/linux-riscv/20240103-module_loading_fix-v2-0-292b160552c9@rivosinc.com/
+All errors (new ones prefixed by >>):
 
-> 
-> regards,
-> dan carpenter
-> 
+   In file included from drivers/ras/ras.c:10:
+>> include/linux/ras.h:9:10: fatal error: 'uapi/asm/mce.h' file not found
+   #include <uapi/asm/mce.h>
+            ^~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +9 include/linux/ras.h
+
+     8	
+   > 9	#include <uapi/asm/mce.h>
+    10	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
