@@ -1,46 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B036E1C698
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 18:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F1D1C6BF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 18:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRkUyk2f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JWzlUceZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704306348; x=1735842348;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qVjfK7ocY0Vcg49ICDxWg5QxywlUpTgbFE8aTdhkFTY=;
-  b=BRkUyk2fSEwRn2Hut/JuJRYAAbICIIkNWexQACNVuHO9RcKHASYK/+bL
-   wLZfyHvThTYTvC1HmjwqgMq4pW7I82emZZslZGAfH/4vElzaLFhdHPVRw
-   sQ9ExHuXZiY9X022ZioTOhwtCl4rwoS6BjNeZk+guGPPNcaQYiXM9dYNI
-   /yxAftciWzEj0LaIHY3wybaBpDgA5Ib8hmAMptVRSID/m/A+KvzPm78xt
-   NGHFxM8K8lqg1QZrK8+/vO9rOC6y+5lO1+kxZTz5G7QjAAtom3MLSB8jb
-   nbkdIyxIiSseSyXTmL6RWm0fmO2b2oX6O5AVZ2YoVe+2hW+N+PCNI/U3H
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="10641286"
+  t=1704306351; x=1735842351;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xTyozBGsJ68X6VYIDd0NVpbOWs1o6mrsQLngawoY/Og=;
+  b=JWzlUceZQ0yd2tZECKvq8WPDBuneT/z4eaROSlkmfl/86+ohjg5jhVwf
+   rb7IQ8Ei/Rdv6oIxEMyxNA+sqNjf5a78u/y2xfNWT+sw5WJLOhU5UHmvN
+   ToIblYOaEgp7WfvoRTcoNTrWk/1BEJVQE13YkaAm7V8CL7joSHPMyoYFw
+   qYycO8lqjeGuwfdFknC0WoWmyEEjSzkLzBRenH8h3ZoA2J7DuDwprWoZR
+   rP9f2PFZOfmECG5t+0QF8+qLv/UfOvcnSzEHJLOH3pWYdvYVXQn1+w0tm
+   gkxmX/T/NBzfDs/zFeaqyQxacxZFJZJ3BGhM94+eYCIl+nF7RXt7N3G9/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="10641292"
 X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="10641286"
+   d="scan'208";a="10641292"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 10:25:48 -0800
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 10:25:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="773208654"
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="773208655"
 X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="773208654"
+   d="scan'208";a="773208655"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga007.jf.intel.com with ESMTP; 03 Jan 2024 10:25:46 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rL5vz-000MQt-2a;
+	id 1rL5vz-000MQw-2u;
 	Wed, 03 Jan 2024 18:25:43 +0000
-Date: Thu, 4 Jan 2024 02:24:51 +0800
+Date: Thu, 4 Jan 2024 02:25:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/debug.c:421:5-8: Unneeded variable: "ret". Return "  0"
- on line 424
-Message-ID: <202401040013.fnKkaKkA-lkp@intel.com>
+To: Yajun Deng <yajun.deng@linux.dev>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, andrew@lunn.ch, olteanv@gmail.com,
+	hkallweit1@gmail.com, linux@armlinux.org.uk,
+	rmk+kernel@armlinux.org.uk, kabel@kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, Yajun Deng <yajun.deng@linux.dev>
+Subject: Re: [PATCH net-next] net: phy: Cleanup struct mdio_driver_common
+Message-ID: <202401040103.bTPaACUE-lkp@intel.com>
+References: <20231228072350.1294425-1-yajun.deng@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,33 +55,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231228072350.1294425-1-yajun.deng@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   610a9b8f49fbcf1100716370d3b5f6f884a2835a
-commit: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
-date:   2 months ago
-config: x86_64-randconfig-r064-20231231 (https://download.01.org/0day-ci/archive/20240104/202401040013.fnKkaKkA-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+Hi Yajun,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yajun-Deng/net-phy-Cleanup-struct-mdio_driver_common/20231228-152806
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231228072350.1294425-1-yajun.deng%40linux.dev
+patch subject: [PATCH net-next] net: phy: Cleanup struct mdio_driver_common
+config: s390-randconfig-002-20240103 (https://download.01.org/0day-ci/archive/20240104/202401040103.bTPaACUE-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040103.bTPaACUE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401040013.fnKkaKkA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401040103.bTPaACUE-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/debug.c:421:5-8: Unneeded variable: "ret". Return "  0" on line 424
---
->> fs/bcachefs/super.c:712:35-36: Unneeded semicolon
+All errors (new ones prefixed by >>):
 
-vim +421 fs/bcachefs/debug.c
-
-   418	
-   419	int __init bch2_debug_init(void)
-   420	{
- > 421		int ret = 0;
-   422	
-   423		bch_debug = debugfs_create_dir("bcachefs", NULL);
- > 424		return ret;
+   s390-linux-ld: drivers/net/phy/mdio_bus.o: in function `mdio_bus_match':
+>> mdio_bus.c:(.text+0xecc): undefined reference to `is_phy_driver'
+   s390-linux-ld: drivers/net/phy/mdio_device.o: in function `mdio_device_bus_match':
+>> mdio_device.c:(.text+0x934): undefined reference to `is_phy_driver'
 
 -- 
 0-DAY CI Kernel Test Service
