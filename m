@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641C71100
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 01:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CE210F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 01:36:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h2rDoPcG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8Z8zEqm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704245071; x=1735781071;
+  t=1704245798; x=1735781798;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=90Mu628H6Q7CfM2ieymANMknu0zfNTaMBCy/+SAYwyI=;
-  b=h2rDoPcGj/GsPS/Fex44ERjHBfLaaMTN9bYeEfQIJJc01oomfMWVKiGD
-   SLK8rKhvkEPDefGcX7qRzhaD1e/iPP+9vxEi3HEnvVLiWxShcCMPyg8J7
-   6bjL8vYV/5vxXpyRhXO4y1D0bNqx98wWEE5fcEqj52zSXQsEZdtdLD/wK
-   hONWL14Fw7Xng7LCz38sP23As+QPXAx7S7XX8Lepn5t9ZllOPtOCcOeLq
-   b+9frWku2/P7BI4KI2PPru03lgyjZv7w28xiEda7JFMg62bIvooqvQAyo
-   BIrHlRohGyAH8pXtC0QX6fw+SQHNsRD4yOQVGVmN0GtmXkQEw3pthO54G
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3758401"
+  bh=KSW0tJg8iMNBTwp05zYDM/MukqKZ3B/bHhaIbS89UDE=;
+  b=X8Z8zEqmcRRX3yKEdPgdx7FBSCfXK8tdBgpo8IOBIQUC7x7Q8961+/QX
+   mx6o0xxWeCU4rTElauzXNGfei+gOWg3HN3Bd6tq4EnEk16M8REe9sIrUW
+   oA1OYbI1pu4XIzJxtgqP50svf0e8jLKT/vjACSL01J8RgRgs8F15T0hPO
+   RdWTmMuBfBXD7Vz7NNIA4U52JBvDVJo6hPUW5yGYzhE1eRbw8gfsG2r8w
+   qCadwOjTfUzEye7PCYB6FHuFz3E0eCcFNMjTED9DUioPno3yaY8mC1hyb
+   NPFlydts+w1TOUTBMxzGDU0RY0YYHSu0F8jsuTaXoATGBXOFmfYvyV7fK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="3782770"
 X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; 
-   d="scan'208";a="3758401"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 17:24:30 -0800
+   d="scan'208";a="3782770"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 17:36:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="903268848"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="953078454"
 X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; 
-   d="scan'208";a="903268848"
+   d="scan'208";a="953078454"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 02 Jan 2024 17:24:29 -0800
+  by orsmga005.jf.intel.com with ESMTP; 02 Jan 2024 17:36:36 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rKpzf-000LbI-0H;
-	Wed, 03 Jan 2024 01:24:27 +0000
-Date: Wed, 3 Jan 2024 09:24:09 +0800
+	id 1rKqBM-000Lc4-2B;
+	Wed, 03 Jan 2024 01:36:33 +0000
+Date: Wed, 3 Jan 2024 09:35:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:xfile-diet 6/15] mm/shmem.c:2135: warning: Function
- parameter or member 'sgp' not described in 'shmem_get_folio'
-Message-ID: <202401030939.Qav4ieQi-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 7/9]
+ drivers/gpu/drm/evdi/evdi_connector.c:54:6: warning: no previous prototype
+ for function 'is_lowest_frequency_mode_of_given_resolution'
+Message-ID: <202401030928.FI19QTVs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,55 +52,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/misc.git xfile-diet
-head:   df297669abac94d13df69f75e10209c26af361ec
-commit: 17a4e396244e9d0b691e88cad95a33e2bf9af14b [6/15] shmem: export shmem_get_folio
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240103/202401030939.Qav4ieQi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240103/202401030939.Qav4ieQi-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   350ced6ff13d0f43fb3ee0de43f7d3eae197bda2
+commit: 350ced6ff13d0f43fb3ee0de43f7d3eae197bda2 [7/9] CHROMIUM: drm/evdi: Fix 2k monitor is not supported regression
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240103/202401030928.FI19QTVs-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240103/202401030928.FI19QTVs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401030939.Qav4ieQi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401030928.FI19QTVs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/shmem.c:2135: warning: Function parameter or member 'sgp' not described in 'shmem_get_folio'
->> mm/shmem.c:2135: warning: Excess function parameter 'sgp_flags' description in 'shmem_get_folio'
+>> drivers/gpu/drm/evdi/evdi_connector.c:54:6: warning: no previous prototype for function 'is_lowest_frequency_mode_of_given_resolution' [-Wmissing-prototypes]
+      54 | bool is_lowest_frequency_mode_of_given_resolution(
+         |      ^
+   drivers/gpu/drm/evdi/evdi_connector.c:54:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      54 | bool is_lowest_frequency_mode_of_given_resolution(
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +2135 mm/shmem.c
+vim +/is_lowest_frequency_mode_of_given_resolution +54 drivers/gpu/drm/evdi/evdi_connector.c
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2118  
-17a4e396244e9d Christoph Hellwig       2024-01-02  2119  /**
-17a4e396244e9d Christoph Hellwig       2024-01-02  2120   * shmem_get_folio - find and get a reference to a shmem folio.
-17a4e396244e9d Christoph Hellwig       2024-01-02  2121   * @inode:	inode to search
-17a4e396244e9d Christoph Hellwig       2024-01-02  2122   * @index:	the page index.
-17a4e396244e9d Christoph Hellwig       2024-01-02  2123   * @foliop:	pointer to the found folio if one was found
-17a4e396244e9d Christoph Hellwig       2024-01-02  2124   * @sgp_flags:	SGP_* flags to control behavior
-17a4e396244e9d Christoph Hellwig       2024-01-02  2125   *
-17a4e396244e9d Christoph Hellwig       2024-01-02  2126   * Looks up the page cache entry at @inode & @index.
-17a4e396244e9d Christoph Hellwig       2024-01-02  2127   *
-17a4e396244e9d Christoph Hellwig       2024-01-02  2128   * If this function returns a folio, it is returned with an increased refcount.
-17a4e396244e9d Christoph Hellwig       2024-01-02  2129   *
-17a4e396244e9d Christoph Hellwig       2024-01-02  2130   * Return: The found folio, %NULL if SGP_READ or SGP_NOALLOC was passed in @sgp
-17a4e396244e9d Christoph Hellwig       2024-01-02  2131   * and no folio was found at @index, or an ERR_PTR() otherwise.
-17a4e396244e9d Christoph Hellwig       2024-01-02  2132   */
-4e1fc793ad9892 Matthew Wilcox (Oracle  2022-09-02  2133) int shmem_get_folio(struct inode *inode, pgoff_t index, struct folio **foliop,
-4e1fc793ad9892 Matthew Wilcox (Oracle  2022-09-02  2134) 		enum sgp_type sgp)
-4e1fc793ad9892 Matthew Wilcox (Oracle  2022-09-02 @2135) {
-4e1fc793ad9892 Matthew Wilcox (Oracle  2022-09-02  2136) 	return shmem_get_folio_gfp(inode, index, foliop, sgp,
-e3e1a5067fd2f1 Hugh Dickins            2023-09-29  2137  			mapping_gfp_mask(inode->i_mapping), NULL, NULL);
-4e1fc793ad9892 Matthew Wilcox (Oracle  2022-09-02  2138) }
-17a4e396244e9d Christoph Hellwig       2024-01-02  2139  EXPORT_SYMBOL_GPL(shmem_get_folio);
-4e1fc793ad9892 Matthew Wilcox (Oracle  2022-09-02  2140) 
-
-:::::: The code at line 2135 was first introduced by commit
-:::::: 4e1fc793ad9892cec67b40c9f67583160e08f695 shmem: add shmem_get_folio()
-
-:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    53	
+  > 54	bool is_lowest_frequency_mode_of_given_resolution(
+    55		struct drm_connector *connector, struct drm_display_mode *mode)
+    56	{
+    57		struct drm_display_mode *modeptr;
+    58	
+    59		list_for_each_entry(modeptr, &(connector->modes), head) {
+    60			if (modeptr->hdisplay == mode->hdisplay &&
+    61				modeptr->vdisplay == mode->vdisplay &&
+    62				drm_mode_vrefresh(modeptr) < drm_mode_vrefresh(mode)) {
+    63				return false;
+    64			}
+    65		}
+    66		return true;
+    67	}
+    68	
 
 -- 
 0-DAY CI Kernel Test Service
