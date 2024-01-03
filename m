@@ -1,45 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCFE200A0
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 23:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A89C1DDEA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 23:04:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZJzozlGs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jj6NOADN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704323043; x=1735859043;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dOM20PXqk2m+7P0Hp9cMskW39L7kigj4gArWoXOOpf4=;
-  b=ZJzozlGsEjChHogx9IUzFq9iR/xr+ks00pNel1VkQBG2Qyriq8SN6RgM
-   NVc3cTjH6bBBlMn02hcp3++kLkXhZ9+0KNFrAa1EmB8PipnzvhvHQcwGg
-   nyzeiVdoPqBisNXhdyi/fjjAqrAStHAFTlhikAR0hPsiP/cdOq1PxjhRs
-   ici60HLls7AwWrb49+xZiZeseHc0b/r2FWCNEP55fMufBZyG3yZ8fTYti
-   StCqtnrRqiL4ke0oCHrGAlLw9apSlQva3hevoieSfmtYXey2DLdmXJIzZ
-   kdVL7VKdk4eF3QIoxyh4JCiPP/Opfz46Sj3Y2YiDleCu3kOQKQjMu7He/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="387545554"
+  t=1704323046; x=1735859046;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vGcq2wZ/3MoECeI1AeLjvaoDIUNBuDGWAUDnBR7yXGQ=;
+  b=jj6NOADNMgHcbjhvkBTMdHAyrdo2ieCRmx78SoDj9Ahfi7Q9JgxlnTix
+   Bci4whZIyMKDha3fftjZEjJBr5jj6NJNJ1GEaQbXsaWBnTIHcTcHTtcw4
+   RKyWBY+wS04C3FwAFsJTh/A+/ZRBYQuTymUQ+AQuJM2e9PyyZy1K/xc3V
+   kTIUGbfaL3g884trWZi0C8zCkxPrPJYRYE5Iu3AlpXNjqMGtLiFNiedA4
+   WHLC2gctn1a+HFBYKNO6ObDdMOUohAXJJojbWRb6kwEwhjVYZAUpqR77L
+   onTyLyRhYaEg+Air6sEA2jLxDIcPSLsqmd7w/jyqcYheVUUrmOByrljrj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="10484837"
 X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="387545554"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 15:04:02 -0800
+   d="scan'208";a="10484837"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 15:04:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="729933020"
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="923716566"
 X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="729933020"
+   d="scan'208";a="923716566"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 03 Jan 2024 15:04:01 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 03 Jan 2024 15:04:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLAHH-000Meu-1P;
+	id 1rLAHH-000Meq-1H;
 	Wed, 03 Jan 2024 23:03:59 +0000
 Date: Thu, 4 Jan 2024 07:03:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/splice.c:53:19: sparse: sparse: cast from restricted fmode_t
-Message-ID: <202401040601.Ju49YpNa-lkp@intel.com>
+To: Tobias Waldekranz <tobias@waldekranz.com>, davem@davemloft.net,
+	kuba@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrew@lunn.ch, f.fainelli@gmail.com,
+	olteanv@gmail.com, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 1/2] net: dsa: mv88e6xxx: Add LED infrastructure
+Message-ID: <202401040647.fVDMN6wS-lkp@intel.com>
+References: <20240103103351.1188835-2-tobias@waldekranz.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,49 +52,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240103103351.1188835-2-tobias@waldekranz.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   610a9b8f49fbcf1100716370d3b5f6f884a2835a
-commit: 0f99fc513ddd28de155c58547824a9fd63daacea splice: clear FMODE_NOWAIT on file if splice/vmsplice is used
-date:   8 months ago
-config: arm64-buildonly-randconfig-r004-20230608 (https://download.01.org/0day-ci/archive/20240104/202401040601.Ju49YpNa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20240104/202401040601.Ju49YpNa-lkp@intel.com/reproduce)
+Hi Tobias,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tobias-Waldekranz/net-dsa-mv88e6xxx-Add-LED-infrastructure/20240103-183726
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240103103351.1188835-2-tobias%40waldekranz.com
+patch subject: [PATCH net-next 1/2] net: dsa: mv88e6xxx: Add LED infrastructure
+config: arm64-randconfig-001-20240104 (https://download.01.org/0day-ci/archive/20240104/202401040647.fVDMN6wS-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040647.fVDMN6wS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401040601.Ju49YpNa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401040647.fVDMN6wS-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/splice.c:53:19: sparse: sparse: cast from restricted fmode_t
->> fs/splice.c:53:19: sparse: sparse: cast from restricted fmode_t
->> fs/splice.c:53:19: sparse: sparse: cast to restricted fmode_t
-   fs/splice.c: note: in included file (through include/linux/irqflags.h, include/linux/spinlock.h, include/linux/wait.h, ...):
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
+All warnings (new ones prefixed by >>):
 
-vim +53 fs/splice.c
+>> drivers/net/dsa/mv88e6xxx/leds.c:171:5: warning: no previous prototype for 'mv88e6xxx_port_setup_leds' [-Wmissing-prototypes]
+     171 | int mv88e6xxx_port_setup_leds(struct dsa_switch *ds, int port)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-    39	
-    40	/*
-    41	 * Splice doesn't support FMODE_NOWAIT. Since pipes may set this flag to
-    42	 * indicate they support non-blocking reads or writes, we must clear it
-    43	 * here if set to avoid blocking other users of this pipe if splice is
-    44	 * being done on it.
-    45	 */
-    46	static noinline void noinline pipe_clear_nowait(struct file *file)
-    47	{
-    48		fmode_t fmode = READ_ONCE(file->f_mode);
-    49	
-    50		do {
-    51			if (!(fmode & FMODE_NOWAIT))
-    52				break;
-  > 53		} while (!try_cmpxchg(&file->f_mode, &fmode, fmode & ~FMODE_NOWAIT));
-    54	}
-    55	
+
+vim +/mv88e6xxx_port_setup_leds +171 drivers/net/dsa/mv88e6xxx/leds.c
+
+   170	
+ > 171	int mv88e6xxx_port_setup_leds(struct dsa_switch *ds, int port)
 
 -- 
 0-DAY CI Kernel Test Service
