@@ -1,55 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153DD1D52E;
-	Wed,  3 Jan 2024 20:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498671D530
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 20:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMg2N5hI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704313314; x=1735849314;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vgm8K58iZ83lULNb8SnKKP0qiNGCo1sVMEr08z4LBCs=;
-  b=AMg2N5hIoMObcZBAb217U/RTDmHflndNsVyF9lLjqXokaFxYpchyojnG
-   o0pkcANp5qSX1CvXBC+o3VhiS7IHQhEClQMalg5oir2QQ0JyTmLGTKopm
-   3vX3zLCM8Q435HFNriL6f4DL2oNyWQuXeJ/uZN7jLKb2q5fTIXmqipVhA
-   pdvPN8xjCDueJ1XIIJ+osALDQiJCdkdp2MFgD9Zev8GvnN0n0wYqdeGSb
-   qvlax7ZIAYJRUSw6ANPHPFGnP2eLEo6PnPDxmmtGiIydy5zq9+dVMBCoJ
-   bfVb/1AIAcLVgcAUrl5XT1sVizfVpgq0GTlE2Fj7bYrKuAxLWIvsqMDUt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="3829989"
-X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="3829989"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 12:21:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="780094216"
-X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="780094216"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 03 Jan 2024 12:21:51 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rL7kL-000MWW-0v;
-	Wed, 03 Jan 2024 20:21:49 +0000
-Date: Thu, 4 Jan 2024 04:20:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v2 23/39] drm/bridge: nxp-ptn3460: switch to ->edid_read
- callback
-Message-ID: <202401040455.PPhqJiVr-lkp@intel.com>
-References: <87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula@intel.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="dIpVpd0s"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5ca1b4809b5so3289991a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jan 2024 12:27:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1704313638; x=1704918438; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xcsOQ9nD5GPnMMvdZNgPzZalWOKW9Ch4bNlsftdutyM=;
+        b=dIpVpd0snuwWWVghwS/GMBOMa7eGqHlLweLJ+m51hPGt5veMDDJSjtEd6cLawO5C0C
+         zmGcBTV5x7lhZpZfH04jt6G/ljRDOEuTyMLrClUK8lMYeQ6hWArvWYkNoic3Skf1BW/P
+         I3Gaa4oFclA8dGKv/JbMKtGf+tRn4f004wuQpydjX+Uj0+wNc32ici9IFvErrSWIulrp
+         p6qhqXHie1s22H3JnEbzH/LsAXzvYF7wyw3UlZDN6NUvLgD86xDhOCo0PPjr1vUVb6oR
+         oGxN0MA+EuDKg1upK4R0kDF5TmJ+1XwAyUx7t1amcx1WJaPsQlrYdUSTeu/zuocROdS1
+         tuGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704313638; x=1704918438;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xcsOQ9nD5GPnMMvdZNgPzZalWOKW9Ch4bNlsftdutyM=;
+        b=W6sdYFNSY7vB0Hi0TkNmzOf1WyKWdmmJTp1fbiT0ah157PwM3hXeBZnTLBDZaTKV3d
+         e8DbqjTdubHm/5vC5xOfL4wT1+N+tvkhC6kWGf21HEYoTWJKmBuGu6DBeGRPHmRpd0qH
+         +nOQr3boalr305wahsxHTc+VsTpJh/R6RDUkyYEvHe3AgWnVXwDd1YVoZFJJGz5RTOTh
+         HcsKSuLP3TxCi5BVTBMsJhcObpIMEgq+GV6S1pRCgoL7qwqUoSrV3cDXr5PUfEhx1xUA
+         AnAMlo4YDkKo9qS1/FMYmnzDaGGA/gDsnhKwtnI0LEqs23NiWLdIJdBh5Fovy6znPyL6
+         dcfw==
+X-Gm-Message-State: AOJu0Yzvqvsu9Vg8tRGi2r0d/na5cJ61LO6IHMhwgwP0IGpJOM7JAHhb
+	ZUu0Nwo5gOblwgctQ4sFG32qp/riTf3UgA==
+X-Google-Smtp-Source: AGHT+IGfGjwL1gOAZN1cJcV3cHT0ah1Btx46k+DeH+QlmZ3yh13pe7S1KrdoMLLsu6lIidEfExM5yg==
+X-Received: by 2002:a05:6a20:938b:b0:197:58b5:3251 with SMTP id x11-20020a056a20938b00b0019758b53251mr2377252pzh.113.1704313638634;
+        Wed, 03 Jan 2024 12:27:18 -0800 (PST)
+Received: from ghost (070-095-050-247.res.spectrum.com. [70.95.50.247])
+        by smtp.gmail.com with ESMTPSA id u16-20020a056a00099000b006d9c7f2840bsm16045592pfg.57.2024.01.03.12.27.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jan 2024 12:27:18 -0800 (PST)
+Date: Wed, 3 Jan 2024 12:27:15 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
+ error: uninitialized symbol 'curr_type'.
+Message-ID: <ZZXDI78QsaXzbfR+@ghost>
+References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
+ <ZXoFhu2TPXgrsInY@ghost>
+ <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
+ <ZYzIbVfge6I8Ptw0@ghost>
+ <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,96 +62,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula@intel.com>
+In-Reply-To: <c11513b4-6e60-44b5-ba12-83fbb9b7e2c3@suswa.mountain>
 
-Hi Jani,
+On Tue, Jan 02, 2024 at 03:37:34PM +0300, Dan Carpenter wrote:
+> On Wed, Dec 27, 2023 at 04:59:25PM -0800, Charlie Jenkins wrote:
+> > On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
+> > > On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
+> > > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
+> > > > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
+> > > > >                                                                                        ^^^^^^^^^
+> > > > > Can the list be empty?  Uninitialized in that case.
+> > > > 
+> > > > That's a tricky one, the list cannot be empty. Each bucket in the
+> > > > bucket_iter is guarunteed to have at least one rel_entry. I can probably
+> > > > resolve this by extracting this for loop into a do-while loop.
+> > > 
+> > > You can just ignore false positives.  It's not really a fix to change it
+> > > to a do-while loop.  I reviewed the do while code before reading this
+> > > email and I still wondered about empty lists, but just to hear that it's
+> > > not going to be empty is enough.  Just the email was sufficient.
+> > > 
+> > > regards,
+> > > dan carpenter
+> > > 
+> > 
+> > The fix isn't the do-while loop but rather the use after free, the
+> > incorrect sizeof, and incorrect error handling when
+> > initialize_relocation_hashtable fails. I decided to include the do-while
+> > code because I was already touching the surrounding code. Can you review
+> > [1]? If you would prefer that the do-while is reverted, I can do that,
+> > but it is important that the rest of the fixes are merged before 6.7 is
+> > released.
+> > 
+> > [1] https://lore.kernel.org/all/20231213-module_loading_fix-v1-1-da9b7c92ade5@rivosinc.com/
+> 
+> 
+> Most subsystems wouldn't merge a patch like this which does so many
+> things at the same time...
 
-kernel test robot noticed the following build warnings:
+That is a good point, I split it across 4 different patches.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc8 next-20240103]
-[cannot apply to drm-intel/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+https://lore.kernel.org/linux-riscv/20240103-module_loading_fix-v2-0-292b160552c9@rivosinc.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-bridge-add-edid_read-hook-and-drm_bridge_edid_read/20240103-181513
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula%40intel.com
-patch subject: [PATCH v2 23/39] drm/bridge: nxp-ptn3460: switch to ->edid_read callback
-config: arm-randconfig-001-20240103 (https://download.01.org/0day-ci/archive/20240104/202401040455.PPhqJiVr-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040455.PPhqJiVr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401040455.PPhqJiVr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/bridge/nxp-ptn3460.c:170:6: warning: variable 'drm_edid' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     170 |         if (!edid) {
-         |             ^~~~~
-   drivers/gpu/drm/bridge/nxp-ptn3460.c:189:9: note: uninitialized use occurs here
-     189 |         return drm_edid;
-         |                ^~~~~~~~
-   drivers/gpu/drm/bridge/nxp-ptn3460.c:170:2: note: remove the 'if' if its condition is always false
-     170 |         if (!edid) {
-         |         ^~~~~~~~~~~~
-     171 |                 DRM_ERROR("Failed to allocate EDID\n");
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     172 |                 goto out;
-         |                 ~~~~~~~~~
-     173 |         }
-         |         ~
-   drivers/gpu/drm/bridge/nxp-ptn3460.c:161:33: note: initialize the variable 'drm_edid' to silence this warning
-     161 |         const struct drm_edid *drm_edid;
-         |                                        ^
-         |                                         = NULL
-   1 warning generated.
-
-
-vim +170 drivers/gpu/drm/bridge/nxp-ptn3460.c
-
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  155  
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  156  
-dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  157  static const struct drm_edid *ptn3460_edid_read(struct drm_bridge *bridge,
-4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  158  						struct drm_connector *connector)
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  159  {
-4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  160  	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
-dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  161  	const struct drm_edid *drm_edid;
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  162  	bool power_off;
-4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  163  	u8 *edid;
-4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  164  	int ret;
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  165  
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  166  	power_off = !ptn_bridge->enabled;
-94d50d57c4403a drivers/gpu/drm/bridge/ptn3460.c     Ajay Kumar   2015-01-20  167  	ptn3460_pre_enable(&ptn_bridge->bridge);
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  168  
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  169  	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24 @170  	if (!edid) {
-94d50d57c4403a drivers/gpu/drm/bridge/ptn3460.c     Ajay Kumar   2015-01-20  171  		DRM_ERROR("Failed to allocate EDID\n");
-4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  172  		goto out;
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  173  	}
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  174  
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  175  	ret = ptn3460_read_bytes(ptn_bridge, PTN3460_EDID_ADDR, edid,
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  176  				 EDID_LENGTH);
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  177  	if (ret) {
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  178  		kfree(edid);
-dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  179  		drm_edid = NULL;
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  180  		goto out;
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  181  	}
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  182  
-dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  183  	drm_edid = drm_edid_alloc(edid, EDID_LENGTH);
-dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  184  
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  185  out:
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  186  	if (power_off)
-94d50d57c4403a drivers/gpu/drm/bridge/ptn3460.c     Ajay Kumar   2015-01-20  187  		ptn3460_disable(&ptn_bridge->bridge);
-a9fe713d7d45c6 drivers/gpu/drm/bridge/ptn3460.c     Sean Paul    2014-02-24  188  
-dd6c2ed9dace84 drivers/gpu/drm/bridge/nxp-ptn3460.c Jani Nikula  2024-01-03  189  	return drm_edid;
-4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  190  }
-4151c14cdda689 drivers/gpu/drm/bridge/nxp-ptn3460.c Sam Ravnborg 2020-07-27  191  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> regards,
+> dan carpenter
+> 
