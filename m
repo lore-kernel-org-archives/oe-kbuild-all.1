@@ -1,56 +1,49 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7955D1862B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 09:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B58D18E1D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 10:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n0mMg+dm"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5537114380bso8000437a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jan 2024 01:51:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704275475; x=1704880275; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9xz96zpZamnuctw20aOBbPKcLc59nkqAsmoJMPTjuCo=;
-        b=n0mMg+dmGDmKNAZS1xQLyzGt72gTN/HrQjLhh6P6cx2NUGotJlDL+UTANQ1wohnQM5
-         erkTTpDdZPGtAQxFSbQeCTb7PLimZCUrAZCMFsyKRXLQi/EfOF1kASHww4rmN5FmjC/s
-         axk0lWS+yGxSdgA2iir2/FG0OSfna0QUlXIbllEff/yaHtYp/DE5gMuCEVjO3ufU7xWP
-         aUkzo//qPcJg3i+/Q5wZUA/dx3L6xW8+IFZrU1UyfKA09NBHgx4X1HKfhD3tuqlQLFI3
-         XUg2fKZatLp44kOCZ26AVpkaxsLYyO4+pFNlszgwOlePDlhqok/8NJ8FpMG52gwG0sv+
-         D8kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704275475; x=1704880275;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9xz96zpZamnuctw20aOBbPKcLc59nkqAsmoJMPTjuCo=;
-        b=Bqir1u0mzunooi10pBWxDdJqyPSVEMhHo9FxCWe0AtECtiSGa1WBWMzNGoS9lQA711
-         566Bs98I8YUYYJXSmwdtQjKF8xxFh/3obeKR46Birkdwc8l/ytevYVOhH02Ao94pIk6t
-         P6xFbWrtwZk6FtC9RoNVFuS0uksmTme2Unsq/Re3io9Z+0Atn7jPDBGCcuMVMN64PkDr
-         1Ev6Weqe2XFSCjbUAx3f6L9J1ouoxbNB1oQniJD8S2N1mJ89WgcfBKcxLSaQ5Sq0iGWT
-         /HRNgQi/k8/xBP9MhhaVkUpDjS/NJvwvkQvtjwRXAMIpqbtlU/rokNr9y62XpTDJhCt8
-         V0dw==
-X-Gm-Message-State: AOJu0YxTfxlq+eDHS1MWZaEl8IpJnKquMmzIzU2yx+nmaF8zXgejJW8j
-	3XJkWXPUyqf2BIS0MtPznjJFYP9/hOmusA==
-X-Google-Smtp-Source: AGHT+IGfKTc+Py7i8LdLGx/i1V4Wa4lS2rgURpQzd2pME/OVI7Sj7UBHlJevkQc1MVZxPtZi1HUxJg==
-X-Received: by 2002:a50:d59b:0:b0:553:2dc2:4b9b with SMTP id v27-20020a50d59b000000b005532dc24b9bmr12044606edi.14.1704275474715;
-        Wed, 03 Jan 2024 01:51:14 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id fj25-20020a0564022b9900b00556cd818dd2sm577119edb.70.2024.01.03.01.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 01:51:14 -0800 (PST)
-Date: Wed, 3 Jan 2024 12:51:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Umang Jain <umang.jain@ideasonboard.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [staging:staging-testing 87/153]
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:686
- vchiq_initialise() error: we previously assumed 'state' could be null (see
- line 681)
-Message-ID: <7a7fd5e8-7f06-4da5-9123-c7a154c05fc2@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eyez6Abc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704279141; x=1735815141;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nI/yuQ3nAIpBqe93aZ9Q+1ZdZBdizj0QMKbYe2XOpRw=;
+  b=Eyez6AbcE6b3tFDYu84K+1WhOIZdsY2ORtXMYg8NcAs+bOLtTMPEMA3o
+   OUdHRyadDQLk8o2j3FzjyOy6mlwFiR4Hbp9F6cuZeq1J1Z/fxBbqcLiC2
+   NcBPVcspe+/UPAbcoiutOJLuZsBdzK8sEe6IizywC0uOLilpVITN0h+1J
+   jDEsM+e4Qb0WXDEjWlWUSKL2JyU0V1gaoR2aA9qmIdS2mxUIyCinPnbKC
+   tUn6/1a+WqHwimsuxjzOX4u4D0r+MuRc6NqCBNWPr/MARealoufNza8ka
+   IDLxYKXZ4rK7O/gC47gT7kLOQIpIpSm1T6uNy1I51csuJ5bQum7OHjEV1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="4339725"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="4339725"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 02:52:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="21749946"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 03 Jan 2024 02:52:20 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rKyrA-000Lz7-1r;
+	Wed, 03 Jan 2024 10:52:16 +0000
+Date: Wed, 3 Jan 2024 18:51:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chris von Recklinghausen <crecklin@redhat.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, crecklin@redhat.com
+Subject: Re: [PATCH] don't record leak information on allocations done
+ between kmemleak_init and kmemleak_late_init
+Message-ID: <202401031842.TmCnuTu2-lkp@intel.com>
+References: <20240102153428.139984-1-crecklin@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,54 +52,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240102153428.139984-1-crecklin@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git staging-testing
-head:   5e8cdb6f6ebe28976876ab04995a5d3779b85082
-commit: e70f17ed997cb7ee6c34089f2cdc2a9edc886503 [87/153] staging: vc04_services: Drop vchiq_log_error() in favour of dev_err
-config: csky-randconfig-r081-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190038.zuEX32PB-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
+Hi Chris,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.7-rc8]
+[also build test ERROR on linus/master]
+[cannot apply to akpm-mm/mm-everything next-20240103]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-von-Recklinghausen/don-t-record-leak-information-on-allocations-done-between-kmemleak_init-and-kmemleak_late_init/20240102-233553
+base:   v6.7-rc8
+patch link:    https://lore.kernel.org/r/20240102153428.139984-1-crecklin%40redhat.com
+patch subject: [PATCH] don't record leak information on allocations done between kmemleak_init and kmemleak_late_init
+config: arc-randconfig-001-20240103 (https://download.01.org/0day-ci/archive/20240103/202401031842.TmCnuTu2-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240103/202401031842.TmCnuTu2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312190038.zuEX32PB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401031842.TmCnuTu2-lkp@intel.com/
 
-smatch warnings:
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:686 vchiq_initialise() error: we previously assumed 'state' could be null (see line 681)
+All errors (new ones prefixed by >>):
 
-vim +/state +686 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+   mm/kmemleak.c: In function 'kmemleak_not_leak':
+>> mm/kmemleak.c:1194:33: error: 'kmamleak_late_initialized' undeclared (first use in this function); did you mean 'kmemleak_late_initialized'?
+    1194 |         if (kmemleak_enabled && kmamleak_late_initialized && ptr &&
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 kmemleak_late_initialized
+   mm/kmemleak.c:1194:33: note: each undeclared identifier is reported only once for each function it appears in
+   mm/kmemleak.c: In function 'kmemleak_ignore':
+   mm/kmemleak.c:1213:33: error: 'kmamleak_late_initialized' undeclared (first use in this function); did you mean 'kmemleak_late_initialized'?
+    1213 |         if (kmemleak_enabled && kmamleak_late_initialized && ptr &&
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 kmemleak_late_initialized
 
-abf2836a381a307 Stefan Wahren        2021-04-25  668  int vchiq_initialise(struct vchiq_instance **instance_out)
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  669  {
-2d0a0291135fd2f Dominic Braun        2018-12-14  670  	struct vchiq_state *state;
-4ddf9a2555caf21 Jamal Shareef        2019-11-05  671  	struct vchiq_instance *instance = NULL;
-abf2836a381a307 Stefan Wahren        2021-04-25  672  	int i, ret;
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  673  
-3da8757576ef789 Amarjargal Gundjalam 2020-10-28  674  	/*
-3da8757576ef789 Amarjargal Gundjalam 2020-10-28  675  	 * VideoCore may not be ready due to boot up timing.
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  676  	 * It may never be ready if kernel and firmware are mismatched,so don't
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  677  	 * block forever.
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  678  	 */
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  679  	for (i = 0; i < VCHIQ_INIT_RETRIES; i++) {
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  680  		state = vchiq_get_state();
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02 @681  		if (state)
 
-We exit early if state is valid
+vim +1194 mm/kmemleak.c
 
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  682  			break;
-81244ba0f03691a Stefan Wahren        2018-03-31  683  		usleep_range(500, 600);
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  684  	}
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  685  	if (i == VCHIQ_INIT_RETRIES) {
-e70f17ed997cb7e Umang Jain           2023-12-05 @686  		dev_err(state->dev, "core: %s: Videocore not initialized\n", __func__);
-                                                                        ^^^^^^^^^^
-state is NULL at this point.
-
-abf2836a381a307 Stefan Wahren        2021-04-25  687  		ret = -ENOTCONN;
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  688  		goto failed;
-5c5e6ef6287cbf3 Arnd Bergmann        2018-02-02  689  	} else if (i > 0) {
+  1182	
+  1183	/**
+  1184	 * kmemleak_not_leak - mark an allocated object as false positive
+  1185	 * @ptr:	pointer to beginning of the object
+  1186	 *
+  1187	 * Calling this function on an object will cause the memory block to no longer
+  1188	 * be reported as leak and always be scanned.
+  1189	 */
+  1190	void __ref kmemleak_not_leak(const void *ptr)
+  1191	{
+  1192		pr_debug("%s(0x%px)\n", __func__, ptr);
+  1193	
+> 1194		if (kmemleak_enabled && kmamleak_late_initialized && ptr &&
+  1195			!IS_ERR(ptr))
+  1196			make_gray_object((unsigned long)ptr);
+  1197	}
+  1198	EXPORT_SYMBOL(kmemleak_not_leak);
+  1199	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
