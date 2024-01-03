@@ -1,58 +1,49 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96C218E14
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 11:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D27D18E14
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 11:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dzHdS8mb"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50e7c6f0487so6935164e87.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jan 2024 03:23:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704281002; x=1704885802; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZJRFm+aJFXgkxWtqPNaVAM12RXPKxO0DGGq8KgLaeE0=;
-        b=dzHdS8mbeyEcUh+KKuzlNgGMIb5JcQZdC7dgN1z8ks7PiZgO38S4d9YieE1jQFW42v
-         DHFCSHzhKjqnBpeB38EOf/TQYEkhCXDCS9pHXwK0WTe2W8n2EUKJmmpxIYAHmCA+Bwgg
-         BMdDfRRH2NQ2RNMR1CfIgDG+i5RjsBwoQ91/9TRTIrSPUJvnaIFOSW8ODbrddplG54U6
-         WAVZymNJkJabWl7bjc36tGA0T84AMuquEDOlWO9pUFogkF4DZtirsKHrdEbVaLJ/LwuU
-         97qx4POIkg3j2NpCCUgYXpF85VNbSeRD34iOcfx6kLL0t63xUg15+hOottgJRMxmK/Zy
-         nXQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704281002; x=1704885802;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZJRFm+aJFXgkxWtqPNaVAM12RXPKxO0DGGq8KgLaeE0=;
-        b=ju+Oa7E1Ws21TsVg5eBPQr/tQEvDAwpWrABa+Ji8R0EU8KWJWQ4iKHUnTEovMZLN31
-         dcrlHqQzJ0QkbF9m+X5B48USAtK7tMAsLioECyae89kBxqfBzTe3MElplSJkmYGS2ri3
-         rUoU+dmZr7ePMHvmBFkz8U1IrT411pP/JSWvk5mPhwF7PHq86z7FsukEgKRsMyBZdbqG
-         29v/Vndjks4CNiikM2yXt9aScIMHThhW4HU4I+TKE0g6NYnu9hmkiuMxtadICXKikU44
-         xHnv+HFJvXdCqvoHxLM3WPTbhaGgF2v7s7GXCtpeLmpLWk4iGuiG1gUjMb9gxtrb3C1v
-         c3nw==
-X-Gm-Message-State: AOJu0YyaBb1m9A7MeEYCTUWM6wbYOP9Oz/FwQRNWO+u8glzQHxMHYYZ7
-	+YNhEYW9Q1cac8nMnWxGl6naxYq+XKuskW13ZbnYIYKTocA=
-X-Google-Smtp-Source: AGHT+IFJVTLwzRGF1DuQP3vjPisYKxiWF+5uAzI0kdZJOWOmMPRP4sLXPJuiATG9UCHDYViYbvZ6Qg==
-X-Received: by 2002:a05:6512:ad0:b0:50e:6b38:9e0b with SMTP id n16-20020a0565120ad000b0050e6b389e0bmr6715682lfu.73.1704281001941;
-        Wed, 03 Jan 2024 03:23:21 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id p2-20020a056402044200b005553a8bb61dsm10309013edw.87.2024.01.03.03.23.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 03:23:21 -0800 (PST)
-Date: Wed, 3 Jan 2024 14:23:18 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, deepakx.nagaraju@intel.com,
-	joyce.ooi@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	Nagaraju DeepakX <deepakx.nagaraju@intel.com>,
-	Andy Schevchenko <andriy.schevchenko@linux.intel.com>
-Subject: Re: [PATCH 5/5] net: ethernet: altera: rename functions and their
- prototypes
-Message-ID: <ca5c5be7-9270-412b-a868-d5e28116f983@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="APuHWWsw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704281063; x=1735817063;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hRjpOoUZZkcnKGVmrvB0UgnjF4/yqv+HzeHwo9bglBA=;
+  b=APuHWWswvc/4PIKuCTGycx0liXHJ20cnR3c7NOhtjOOo9PURwgFZ/x5E
+   l+MuwhNRH454PLdqqK2jcSneOJ3gaS+89LG2st6ciO6/bz+bUD1uokmKy
+   kr8y1aFjy0YKQBxW3ICTbXUde9QY4RlhfTl6UrV3Z6oIxcHe86yV6Z/vU
+   rQB2k3mZwxBkYYW5m1n4irY31gfAwqQZIpWdVAFam+lMSapssi10vWbsv
+   r6qAE9wefbVlY0de53rVHflKlzBNiHNGXTHHR3GUf30kPPb5u902LSc4R
+   894TZgrIsnA0jVxwAuRBsGOUVaSH4Tw2isTMzCpGUIY+AjWCEliUsgp8I
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="463398421"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="463398421"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 03:24:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="729762883"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="729762883"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 03 Jan 2024 03:24:20 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rKzMA-000M1K-0I;
+	Wed, 03 Jan 2024 11:24:18 +0000
+Date: Wed, 3 Jan 2024 19:23:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Christoph Hellwig <hch@lst.de>,
+	Liu Song <liusong@linux.alibaba.com>
+Subject: [linux-nvme:nvme-6.8 4/16] drivers/nvme/host/sysfs.c:42: undefined
+ reference to `nvme_ns_head_ops'
+Message-ID: <202401031943.0N72Tkji-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,83 +52,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231213071112.18242-6-deepakx.nagaraju@intel.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/deepakx-nagaraju-intel-com/net-ethernet-altera-remove-unneeded-assignments/20231213-151600
-base:   net/main
-patch link:    https://lore.kernel.org/r/20231213071112.18242-6-deepakx.nagaraju%40intel.com
-patch subject: [PATCH 5/5] net: ethernet: altera: rename functions and their prototypes
-config: m68k-randconfig-r081-20231218 (https://download.01.org/0day-ci/archive/20231220/202312200739.79WGCuyb-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
+tree:   git://git.infradead.org/nvme.git nvme-6.8
+head:   3b99fc0cd3a7e44fb294d9f6c13173f3dadf4136
+commit: 44bc827e396809faa6a4e2dc9bd5f148373ce88b [4/16] nvme: introduce nvme_disk_is_ns_head helper
+config: i386-randconfig-015-20240103 (https://download.01.org/0day-ci/archive/20240103/202401031943.0N72Tkji-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240103/202401031943.0N72Tkji-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312200739.79WGCuyb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401031943.0N72Tkji-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/altera/altera_tse_main.c:266 alloc_init_skbufs() warn: double check that we're allocating correct size: 24 vs 164
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/net/ethernet/altera/altera_tse_main.c:271 alloc_init_skbufs() warn: double check that we're allocating correct size: 24 vs 164
-drivers/net/ethernet/altera/altera_tse_main.c:988 tse_open() warn: 'priv->tx_irq' from request_irq() not released on lines: 988.
+   ld: drivers/nvme/host/sysfs.o: in function `dev_to_ns_head':
+>> drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
+>> ld: drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
+>> ld: drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
+>> ld: drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
+>> ld: drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
+   ld: drivers/nvme/host/sysfs.o:drivers/nvme/host/sysfs.c:42: more undefined references to `nvme_ns_head_ops' follow
 
-vim +266 drivers/net/ethernet/altera/altera_tse_main.c
 
-bbd2190ce96d8f Vince Bridgers   2014-03-17  257  static int alloc_init_skbufs(struct altera_tse_private *priv)
-bbd2190ce96d8f Vince Bridgers   2014-03-17  258  {
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  259  	struct altera_dma_private *dma = &priv->dma_priv;
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  260  	unsigned int rx_descs = dma->rx_ring_size;
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  261  	unsigned int tx_descs = dma->tx_ring_size;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  262  	int ret = -ENOMEM;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  263  	int i;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  264  
-bbd2190ce96d8f Vince Bridgers   2014-03-17  265  	/* Create Rx ring buffer */
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13 @266  	dma->rx_ring = kcalloc(rx_descs, sizeof(struct altera_dma_private), GFP_KERNEL);
+vim +42 drivers/nvme/host/sysfs.c
 
-There is a mismatch here.  dma->rx_ring was changed to altera_dma_buffer
-but the sizeof was changed to altera_dma_private.
-
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  267  	if (!dma->rx_ring)
-bbd2190ce96d8f Vince Bridgers   2014-03-17  268  		goto err_rx_ring;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  269  
-bbd2190ce96d8f Vince Bridgers   2014-03-17  270  	/* Create Tx ring buffer */
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  271  	dma->tx_ring = kcalloc(tx_descs, sizeof(struct altera_dma_private), GFP_KERNEL);
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  272  	if (!dma->tx_ring)
-bbd2190ce96d8f Vince Bridgers   2014-03-17  273  		goto err_tx_ring;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  274  
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  275  	dma->tx_cons = 0;
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  276  	dma->tx_prod = 0;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  277  
-bbd2190ce96d8f Vince Bridgers   2014-03-17  278  	/* Init Rx ring */
-bbd2190ce96d8f Vince Bridgers   2014-03-17  279  	for (i = 0; i < rx_descs; i++) {
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  280  		ret = tse_init_rx_buffer(priv, &priv->dma_priv.rx_ring[i], dma->rx_dma_buf_sz);
-bbd2190ce96d8f Vince Bridgers   2014-03-17  281  		if (ret)
-bbd2190ce96d8f Vince Bridgers   2014-03-17  282  			goto err_init_rx_buffers;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  283  	}
-bbd2190ce96d8f Vince Bridgers   2014-03-17  284  
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  285  	dma->rx_cons = 0;
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  286  	dma->rx_prod = 0;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  287  
-bbd2190ce96d8f Vince Bridgers   2014-03-17  288  	return 0;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  289  err_init_rx_buffers:
-bbd2190ce96d8f Vince Bridgers   2014-03-17  290  	while (--i >= 0)
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  291  		tse_free_rx_buffer(priv, &priv->dma_priv.rx_ring[i]);
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  292  	kfree(dma->tx_ring);
-bbd2190ce96d8f Vince Bridgers   2014-03-17  293  err_tx_ring:
-ad6f888f174e6a Nagaraju DeepakX 2023-12-13  294  	kfree(dma->rx_ring);
-bbd2190ce96d8f Vince Bridgers   2014-03-17  295  err_rx_ring:
-bbd2190ce96d8f Vince Bridgers   2014-03-17  296  	return ret;
-bbd2190ce96d8f Vince Bridgers   2014-03-17  297  }
+    37	
+    38	static inline struct nvme_ns_head *dev_to_ns_head(struct device *dev)
+    39	{
+    40		struct gendisk *disk = dev_to_disk(dev);
+    41	
+  > 42		if (nvme_disk_is_ns_head(disk))
+    43			return disk->private_data;
+    44		return nvme_get_ns_from_dev(dev)->head;
+    45	}
+    46	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
