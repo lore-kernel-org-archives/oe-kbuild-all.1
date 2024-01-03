@@ -1,46 +1,49 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D1B1C693
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 18:25:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5081C68E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 18:25:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QcCPQ4JK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PR7J6Ry3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704306347; x=1735842347;
+  t=1704306349; x=1735842349;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Kx9yZViV49HTY5nRx4+dvlSNwhlL0q5Bs1LtIPAL2Ys=;
-  b=QcCPQ4JKSUstM0YJ6mCapCPNLrq0m/swlArwthWsvVXyET6UhqsZx0CL
-   Y/gAUkXmfND2N5/YFzO6/3gjlDxZfbBoP//Y3b/BmHKNLyZxhFwLPy/5x
-   YoMJbSCQvswUhaJuoTChF/mp2YQambUyDKYjaYhhcJPszAxxSzsZAiWF+
-   rfJs0lZmo7uy3N3waz55UA6HMzoCrskXmbUDTa86w/C4kixvaqzV60pf6
-   Y/7Hv0iveIIO6BovP2m30wdtP1c7UEGGEAEMJngDvyDDa9cNKjCXSxcH9
-   yyhMgzxWBfXMbnyRpWUyyWOXHsvZerwuH+vRLtPm+CFKHxSqIAJYup6Xr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="461353260"
+  bh=6OxcLT2vOYMDQZFXhNSUqaaMu8PmYexc9NRpWVCbX18=;
+  b=PR7J6Ry31iRH3sn5CVQHVDMEX+3tBGKTBcCY3U836u35IJK5sIs/xlXN
+   9To8XKKRfUFOkmV+QHoYSJFl0IA0h8f3NLBnreu+MYATsnVKYWU4F9n5h
+   roF5v5lo6r7BQXZzzFyXKto2Laa5vRgdM50PKl/Pl9YYOArMHx7maHrln
+   vkGUp7QpcFrTmqdXLzyJWhQWKpirCqmt1NNLGB8Sg7YnCdEZsHTHFlw6J
+   HF5eI7VlfctT+EuYiUrenhccdSW8B3sQpKFVSVqJ9XGnlxiBvC2xTYqYP
+   0B7AldYRgH5MNwc/46IDgJ0vln826e1tCuBvoeu1mrtvtnM6hAdQBnA5R
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="461353264"
 X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="461353260"
+   d="scan'208";a="461353264"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 10:25:47 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 10:25:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="780057565"
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="780057577"
 X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="780057565"
+   d="scan'208";a="780057577"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 03 Jan 2024 10:25:45 -0800
+  by orsmga002.jf.intel.com with ESMTP; 03 Jan 2024 10:25:46 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rL5vz-000MQq-2O;
-	Wed, 03 Jan 2024 18:25:43 +0000
-Date: Thu, 4 Jan 2024 02:24:52 +0800
+	id 1rL5w0-000MR2-0B;
+	Wed, 03 Jan 2024 18:25:44 +0000
+Date: Thu, 4 Jan 2024 02:25:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: kernel/power/autosleep.c:46:13: sparse: sparse: restricted
- suspend_state_t degrades to integer
-Message-ID: <202401040029.M1sKZhsV-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, "Song, Youquan" <youquan.song@intel.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Chen Zhuo <sagazchen@tencent.com>,
+	Xinghui Li <korantli@tencent.com>
+Subject: arch/x86/include/asm/uv/uv_hub.h:892:31: error: 'dest_Fixed'
+ undeclared
+Message-ID: <202401040053.Ivkk4vYw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,129 +53,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   610a9b8f49fbcf1100716370d3b5f6f884a2835a
-commit: 366bb35a8e48198cefcd3484ac6b2374d1347873 LoongArch: Add suspend (ACPI S3) support
-date:   1 year, 1 month ago
-config: loongarch-randconfig-r035-20230529 (https://download.01.org/0day-ci/archive/20240104/202401040029.M1sKZhsV-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20240104/202401040029.M1sKZhsV-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009.spr
+head:   2b05031ac9b7e23091affe1b717425ef76750bd9
+commit: 459094d290f2c65b5ac433822a5094f5197b98d4 x86/apic: Cleanup delivery mode defines
+date:   7 months ago
+config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20240104/202401040053.Ivkk4vYw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040053.Ivkk4vYw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401040029.M1sKZhsV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401040053.Ivkk4vYw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/power/autosleep.c:46:13: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/autosleep.c:46:32: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/autosleep.c:71:13: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/autosleep.c:71:31: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/autosleep.c:94:13: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/autosleep.c:94:22: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/autosleep.c:106:13: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/autosleep.c:106:21: sparse: sparse: restricted suspend_state_t degrades to integer
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/kernel/apic/x2apic_uv_x.c:20:
+   arch/x86/include/asm/uv/uv_hub.h: In function 'uv_hub_send_ipi':
+>> arch/x86/include/asm/uv/uv_hub.h:892:31: error: 'dest_Fixed' undeclared (first use in this function)
+     892 |         unsigned long dmode = dest_Fixed;
+         |                               ^~~~~~~~~~
+   arch/x86/include/asm/uv/uv_hub.h:892:31: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/x86/include/asm/uv/uv_hub.h:895:25: error: 'dest_NMI' undeclared (first use in this function)
+     895 |                 dmode = dest_NMI;
+         |                         ^~~~~~~~
+   arch/x86/kernel/apic/x2apic_uv_x.c: At top level:
+>> arch/x86/kernel/apic/x2apic_uv_x.c:650:10: error: 'struct apic' has no member named 'irq_delivery_mode'; did you mean 'delivery_mode'?
+     650 |         .irq_delivery_mode              = dest_Fixed,
+         |          ^~~~~~~~~~~~~~~~~
+         |          delivery_mode
+>> arch/x86/kernel/apic/x2apic_uv_x.c:650:43: error: 'dest_Fixed' undeclared here (not in a function)
+     650 |         .irq_delivery_mode              = dest_Fixed,
+         |                                           ^~~~~~~~~~
 --
->> kernel/power/suspend.c:92:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int val @@     got restricted suspend_state_t [usertype] @@
-   kernel/power/suspend.c:92:54: sparse:     expected int val
-   kernel/power/suspend.c:92:54: sparse:     got restricted suspend_state_t [usertype]
-   kernel/power/suspend.c:117:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int val @@     got restricted suspend_state_t [usertype] @@
-   kernel/power/suspend.c:117:54: sparse:     expected int val
-   kernel/power/suspend.c:117:54: sparse:     got restricted suspend_state_t [usertype]
->> kernel/power/suspend.c:178:19: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:178:47: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:179:19: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:179:51: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:184:26: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:184:65: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:191:42: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:191:51: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:192:38: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:193:51: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:191:72: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:215:34: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:215:73: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:216:27: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:216:59: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:221:34: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:221:69: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:222:21: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:222:42: sparse: sparse: restricted suspend_state_t degrades to integer
->> kernel/power/suspend.c:445:33: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int val @@     got restricted suspend_state_t [usertype] state @@
-   kernel/power/suspend.c:445:33: sparse:     expected int val
-   kernel/power/suspend.c:445:33: sparse:     got restricted suspend_state_t [usertype] state
-   kernel/power/suspend.c:448:33: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int val @@     got restricted suspend_state_t [usertype] state @@
-   kernel/power/suspend.c:448:33: sparse:     expected int val
-   kernel/power/suspend.c:448:33: sparse:     got restricted suspend_state_t [usertype] state
-   kernel/power/suspend.c:518:53: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int val @@     got restricted suspend_state_t [usertype] state @@
-   kernel/power/suspend.c:518:53: sparse:     expected int val
-   kernel/power/suspend.c:518:53: sparse:     got restricted suspend_state_t [usertype] state
-   kernel/power/suspend.c:520:53: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int val @@     got restricted suspend_state_t [usertype] state @@
-   kernel/power/suspend.c:520:53: sparse:     expected int val
-   kernel/power/suspend.c:520:53: sparse:     got restricted suspend_state_t [usertype] state
-   kernel/power/suspend.c:557:52: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int val @@     got restricted suspend_state_t [usertype] state @@
-   kernel/power/suspend.c:557:52: sparse:     expected int val
-   kernel/power/suspend.c:557:52: sparse:     got restricted suspend_state_t [usertype] state
-   kernel/power/suspend.c:580:9: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:589:52: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int val @@     got restricted suspend_state_t [usertype] state @@
-   kernel/power/suspend.c:589:52: sparse:     expected int val
-   kernel/power/suspend.c:589:52: sparse:     got restricted suspend_state_t [usertype] state
-   kernel/power/suspend.c:590:9: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:615:13: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:615:22: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:615:39: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:615:48: sparse: sparse: restricted suspend_state_t degrades to integer
-   kernel/power/suspend.c:618:9: sparse: sparse: restricted suspend_state_t degrades to integer
+   In file included from arch/x86/platform/uv/tlb_uv.c:17:
+   arch/x86/include/asm/uv/uv_hub.h: In function 'uv_hub_send_ipi':
+>> arch/x86/include/asm/uv/uv_hub.h:892:31: error: 'dest_Fixed' undeclared (first use in this function)
+     892 |         unsigned long dmode = dest_Fixed;
+         |                               ^~~~~~~~~~
+   arch/x86/include/asm/uv/uv_hub.h:892:31: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/x86/include/asm/uv/uv_hub.h:895:25: error: 'dest_NMI' undeclared (first use in this function)
+     895 |                 dmode = dest_NMI;
+         |                         ^~~~~~~~
+   arch/x86/platform/uv/tlb_uv.c: At top level:
+   arch/x86/platform/uv/tlb_uv.c:1275:6: warning: no previous prototype for 'uv_bau_message_interrupt' [-Wmissing-prototypes]
+    1275 | void uv_bau_message_interrupt(struct pt_regs *regs)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/x86/platform/uv/bios_uv.c:15:
+   arch/x86/include/asm/uv/uv_hub.h: In function 'uv_hub_send_ipi':
+>> arch/x86/include/asm/uv/uv_hub.h:892:31: error: 'dest_Fixed' undeclared (first use in this function)
+     892 |         unsigned long dmode = dest_Fixed;
+         |                               ^~~~~~~~~~
+   arch/x86/include/asm/uv/uv_hub.h:892:31: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/x86/include/asm/uv/uv_hub.h:895:25: error: 'dest_NMI' undeclared (first use in this function)
+     895 |                 dmode = dest_NMI;
+         |                         ^~~~~~~~
+--
+   In file included from arch/x86/platform/uv/uv_irq.c:19:
+   arch/x86/include/asm/uv/uv_hub.h: In function 'uv_hub_send_ipi':
+>> arch/x86/include/asm/uv/uv_hub.h:892:31: error: 'dest_Fixed' undeclared (first use in this function)
+     892 |         unsigned long dmode = dest_Fixed;
+         |                               ^~~~~~~~~~
+   arch/x86/include/asm/uv/uv_hub.h:892:31: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/x86/include/asm/uv/uv_hub.h:895:25: error: 'dest_NMI' undeclared (first use in this function)
+     895 |                 dmode = dest_NMI;
+         |                         ^~~~~~~~
+   arch/x86/platform/uv/uv_irq.c: In function 'uv_program_mmr':
+>> arch/x86/platform/uv/uv_irq.c:38:41: error: 'struct apic' has no member named 'irq_delivery_mode'; did you mean 'delivery_mode'?
+      38 |         entry->delivery_mode    = apic->irq_delivery_mode;
+         |                                         ^~~~~~~~~~~~~~~~~
+         |                                         delivery_mode
 
-vim +46 kernel/power/autosleep.c
 
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  26  
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  27  static void try_to_suspend(struct work_struct *work)
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  28  {
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  29  	unsigned int initial_count, final_count;
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  30  
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  31  	if (!pm_get_wakeup_count(&initial_count, true))
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  32  		goto out;
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  33  
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  34  	mutex_lock(&autosleep_lock);
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  35  
-e5248a111bf404 Liu ShuoX         2013-07-11  36  	if (!pm_save_wakeup_count(initial_count) ||
-e5248a111bf404 Liu ShuoX         2013-07-11  37  		system_state != SYSTEM_RUNNING) {
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  38  		mutex_unlock(&autosleep_lock);
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  39  		goto out;
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  40  	}
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  41  
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  42  	if (autosleep_state == PM_SUSPEND_ON) {
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  43  		mutex_unlock(&autosleep_lock);
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  44  		return;
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  45  	}
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29 @46  	if (autosleep_state >= PM_SUSPEND_MAX)
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  47  		hibernate();
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  48  	else
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  49  		pm_suspend(autosleep_state);
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  50  
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  51  	mutex_unlock(&autosleep_lock);
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  52  
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  53  	if (!pm_get_wakeup_count(&final_count, false))
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  54  		goto out;
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  55  
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  56  	/*
-e4b2897ae1a81c Lu Jialin         2021-04-08  57  	 * If the wakeup occurred for an unknown reason, wait to prevent the
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  58  	 * system from trying to suspend and waking up in a tight loop.
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  59  	 */
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  60  	if (final_count == initial_count)
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  61  		schedule_timeout_uninterruptible(HZ / 2);
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  62  
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  63   out:
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  64  	queue_up_suspend_work();
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  65  }
-7483b4a4d9abf9 Rafael J. Wysocki 2012-04-29  66  
+vim +/dest_Fixed +892 arch/x86/include/asm/uv/uv_hub.h
 
-:::::: The code at line 46 was first introduced by commit
-:::::: 7483b4a4d9abf9dcf1ffe6e805ead2847ec3264e PM / Sleep: Implement opportunistic sleep, v2
+^590eaf1fec755 Kaixu Xia 2021-03-16  888  
+^590eaf1fec755 Kaixu Xia 2021-03-16  889  static inline void uv_hub_send_ipi(int pnode, int apicid, int vector)
+^590eaf1fec755 Kaixu Xia 2021-03-16  890  {
+^590eaf1fec755 Kaixu Xia 2021-03-16  891  	unsigned long val;
+^590eaf1fec755 Kaixu Xia 2021-03-16 @892  	unsigned long dmode = dest_Fixed;
+^590eaf1fec755 Kaixu Xia 2021-03-16  893  
+^590eaf1fec755 Kaixu Xia 2021-03-16  894  	if (vector == NMI_VECTOR)
+^590eaf1fec755 Kaixu Xia 2021-03-16 @895  		dmode = dest_NMI;
+^590eaf1fec755 Kaixu Xia 2021-03-16  896  
+^590eaf1fec755 Kaixu Xia 2021-03-16  897  	val = uv_hub_ipi_value(apicid, vector, dmode);
+^590eaf1fec755 Kaixu Xia 2021-03-16  898  	uv_write_global_mmr64(pnode, UVH_IPI_INT, val);
+^590eaf1fec755 Kaixu Xia 2021-03-16  899  }
+^590eaf1fec755 Kaixu Xia 2021-03-16  900  
 
-:::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
-:::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
+:::::: The code at line 892 was first introduced by commit
+:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
+
+:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
+:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
