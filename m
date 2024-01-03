@@ -1,237 +1,102 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9569C18E07
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 11:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB52418E06
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 11:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TVE6doH9"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6d9a795cffbso237767b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jan 2024 03:02:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gDyXZdyn"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50e6ee8e911so8736256e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Jan 2024 03:14:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704279747; x=1704884547; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c1gaN9BKDsQUkFUJbKrfBfCdHosQE6/nsF3X2hMHg0A=;
-        b=TVE6doH9xtVQkZMF9zOiHqse7RvA5LQiRzySWxMD5H5exxDprioaV/DCRFbpE8nKrp
-         ohKsYa7uoDwBxfhwHYjOBioerhvbKh2DvU5fIdgheITT0f4gun9bpkFaFvTStftoFG1g
-         s22IrrGGRRlC0fexp/v7hieP5jEiY9mEq/fyAT++tYOlSpH2relo2C4r8kGm0MDyWEkX
-         2sa75UYzAXfB9WVDcS/yM7G/6Vxvu/EoCcBzIsqI7Wuxw2EuaXu2KQuL4cSixnq+Znlg
-         1oVEQwKHnyiKHGaWMU6xDzzOX6xVCOvpU3RL/SM9R6y04kpOtl4igKGg5ufDyFgp3f8f
-         z3Mg==
+        d=linaro.org; s=google; t=1704280458; x=1704885258; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0rBUePNsfxj9hHc+i24NkBNGZnA/maXpINtsn5yNH/w=;
+        b=gDyXZdynsY7E/7O5JVdEU7k3kYJqSK+1euk08hyx8DOU3Wr4nb2iA5xZMZQ8tiya3S
+         A9AbDhn9hRhPLWvYP7U9Ust+vXq3epeGeBmoC3iMo7UpzSh3NkEWBR5e4x7F0S20C5v9
+         5Owyp/H7fWsoKwp1P4ifH9du6Ssk6fr0op1zNOQcaViuQQh9fBw8dV5+u8bPl6sGlcvS
+         WGG887y5muNsVlqH2GMaLKN4RoSiNPMEDuHV1x8521JQmoTp2dR0hQ+qiELqOQNrmeFU
+         paFVTPhH22bkZUCYnT1TfA6xKLSGGAlSQx9rJdN/FvHvn6eyjY3DP+9em7uwOA0k95o7
+         8MAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704279747; x=1704884547;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c1gaN9BKDsQUkFUJbKrfBfCdHosQE6/nsF3X2hMHg0A=;
-        b=U3tmFoEc2I0Tu29lMjuXCYDzmjYsNMT9UJ3Ola1WRXdQyR/yjzGL+a/4z/ew9/wXl8
-         lWAzq4+K1zvAILVjr9CL5gbbIwTe426Mdb7rxRhShX9CNtenZk9WzsZqRIMCPwZ/Z28B
-         GlsF2OCWJVi5lG5JpSGtHXuJGqsG6lZmwFeM7hrwaN0R+941MVJ7kHM0Yf1Iwr+tDnnQ
-         BjAjmFGRVrBf62ZmBjrnJZqQ6PpiTMDCv2mUEu5YHdhTsrU0TXqsnv/Qy6cNicX/j++s
-         jUDswotsgU7aubU5gwlQbbEladoq1Hu27SiDojbpZP+UIo+clJe53FpGINi7ynsL+HJs
-         IRzQ==
-X-Gm-Message-State: AOJu0YxSJBoQcaDpAFbgToNGa5OGd2T8GVYYb2WyTUN5y3b7tKG1vMT5
-	qcs3RqCCPogvboWCp+ar4J5GSsMKLh8jXA==
-X-Google-Smtp-Source: AGHT+IEgRmIQSnuTH5P7fHzNNRsHgCmWlhpKrPFbzC6+mjVYdH4kZMMcb7e7+f5ACaBuhP5WFQJmBg==
-X-Received: by 2002:a05:6a20:3d8b:b0:196:2772:f810 with SMTP id s11-20020a056a203d8b00b001962772f810mr1275858pzi.2.1704279746771;
-        Wed, 03 Jan 2024 03:02:26 -0800 (PST)
-Received: from localhost.localdomain ([2409:4042:4d3f:759f:609c:feb6:c912:4906])
-        by smtp.gmail.com with ESMTPSA id y9-20020aa793c9000000b006d49ed3eff2sm20232790pff.75.2024.01.03.03.02.20
+        d=1e100.net; s=20230601; t=1704280458; x=1704885258;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0rBUePNsfxj9hHc+i24NkBNGZnA/maXpINtsn5yNH/w=;
+        b=N0SxUFW5G5JJIhU8bEbY/ZxE8GFXwAAZ6rIhU5WRLrXH+K3zQbl/mzsQ3IQ1eRs//2
+         DeqV17emRsBJIKOvlepUI0qVTSOaPOV6RFVVAJhVj7zmtOsJIFlNNMzbRO8AYEpNsOvU
+         3eBJJqQr7D/iBZUNjsDAO1z3xcLW3xLzsFzjK0k6O/SLmrv4Fd4IbWng4ox/GyCjbeDs
+         hgYZR3ULsZ7C1zXRTBohO1PmuSn+ufVNluMZ9Qt/hBqIvpqKW+10AVBaacdF4lfs3jnF
+         rv0VRhwyTcdydgrusVA+QSjlHYshO5mD2XgbJ9lUFRDge0Eiwh8yFkFzwWidOAic6oSn
+         j09A==
+X-Gm-Message-State: AOJu0YxhvNuKkl7FoJKSrV2ZV+fWeni/jExeD2Vf34TXH1RhwpliOVT4
+	8M5oqZ7ZSFv3Xk95+m8Qjd9xlOhnYbmgJA==
+X-Google-Smtp-Source: AGHT+IGXcdzKOo4APAnwLjP9eJMs+N/JZYFhJvm8ONtjm5/eqD4RVyGdW76PjvBXx1B2fSQw05FNUQ==
+X-Received: by 2002:a19:2d07:0:b0:50e:76cd:f3f with SMTP id k7-20020a192d07000000b0050e76cd0f3fmr6035129lfj.54.1704280458645;
+        Wed, 03 Jan 2024 03:14:18 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id dg24-20020a0564021d1800b00552cf686df3sm17367232edb.52.2024.01.03.03.14.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 03:02:26 -0800 (PST)
-From: pratikmanvar09@gmail.com
-To: francesco@dolcini.it
-Cc: festevam@gmail.com,
-	jun.li@nxp.com,
-	kernel@pengutronix.de,
-	linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	pratik.manvar@ifm.com,
-	pratikmanvar09@gmail.com,
-	s.hauer@pengutronix.de,
-	shawnguo@kernel.org,
-	thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	xiaoning.wang@nxp.com
-Subject: [PATCH v3] pwm: imx27: workaround of the pwm output bug
-Date: Wed,  3 Jan 2024 16:32:00 +0530
-Message-Id: <20240103110200.1018-1-pratikmanvar09@gmail.com>
-X-Mailer: git-send-email 2.39.1.windows.1
-In-Reply-To: <20240103103421.GA3758@francesco-nb>
-References: <20240103103421.GA3758@francesco-nb>
+        Wed, 03 Jan 2024 03:14:18 -0800 (PST)
+Date: Wed, 3 Jan 2024 14:14:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, davidgow <davidgow@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [linux-next:master 8829/9096] lib/kunit/device.c:138
+ kunit_device_register_with_driver() warn: passing zero to 'ERR_CAST'
+Message-ID: <309f601b-4af1-4127-a20b-88256203ca1d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Clark Wang <xiaoning.wang@nxp.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   aa4db8324c4d0e67aa4670356df4e9fae14b4d37
+commit: d03c720e03bd9bf0b784d80b5d3ede7e2daf3b6e [8829/9096] kunit: Add APIs for managing devices
+config: x86_64-randconfig-161-20231219 (https://download.01.org/0day-ci/archive/20231220/202312200124.CkSII1FB-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
 
-This fixes the pwm output bug when decrease the duty cycle.
-This is a limited workaround for the PWM IP issue TKT0577206.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312200124.CkSII1FB-lkp@intel.com/
 
-Root cause:
-When the SAR FIFO is empty, the new write value will be directly applied
-to SAR even the current period is not over.
-If the new SAR value is less than the old one, and the counter is
-greater than the new SAR value, the current period will not filp the
-level. This will result in a pulse with a duty cycle of 100%.
+smatch warnings:
+lib/kunit/device.c:138 kunit_device_register_with_driver() warn: passing zero to 'ERR_CAST'
 
-Workaround:
-Add an old value SAR write before updating the new duty cycle to SAR.
-This will keep the new value is always in a not empty fifo, and can be
-wait to update after a period finished.
+vim +/ERR_CAST +138 lib/kunit/device.c
 
-Limitation:
-This workaround can only solve this issue when the PWM period is longer
-than 2us(or <500KHz).
+d03c720e03bd9b davidgow@google.com 2023-12-15  131  struct device *kunit_device_register_with_driver(struct kunit *test,
+d03c720e03bd9b davidgow@google.com 2023-12-15  132  						 const char *name,
+d03c720e03bd9b davidgow@google.com 2023-12-15  133  						 const struct device_driver *drv)
+d03c720e03bd9b davidgow@google.com 2023-12-15  134  {
+d03c720e03bd9b davidgow@google.com 2023-12-15  135  	struct kunit_device *kunit_dev = kunit_device_register_internal(test, name, drv);
+d03c720e03bd9b davidgow@google.com 2023-12-15  136  
+d03c720e03bd9b davidgow@google.com 2023-12-15  137  	if (IS_ERR_OR_NULL(kunit_dev))
+d03c720e03bd9b davidgow@google.com 2023-12-15 @138  		return ERR_CAST(kunit_dev);
 
-Reviewed-by: Jun Li <jun.li@nxp.com>
-Signed-off-by: Clark Wang <xiaoning.wang@nxp.com>
-Link: https://github.com/nxp-imx/linux-imx/commit/16181cc4eee61d87cbaba0e5a479990507816317
-Tested-by: Pratik Manvar <pratik.manvar@ifm.com>
-Signed-off-by: Pratik Manvar <pratik.manvar@ifm.com>
----
- V1 -> V2: fix sparse warnings reported-by: kernel test robot <lkp@intel.com>
-           Closes: https://lore.kernel.org/oe-kbuild-all/202312300907.RGtYsKxb-lkp@intel.com/
- V2 -> V3: Add signed-off-by as suggested by `Francesco Dolcini`
+kunit_device_register_internal() doesn't return NULL.
 
- drivers/pwm/pwm-imx27.c | 67 ++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 62 insertions(+), 5 deletions(-)
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
 
-diff --git a/drivers/pwm/pwm-imx27.c b/drivers/pwm/pwm-imx27.c
-index 7d9bc43f12b0..1e500a5bf564 100644
---- a/drivers/pwm/pwm-imx27.c
-+++ b/drivers/pwm/pwm-imx27.c
-@@ -21,11 +21,13 @@
- #include <linux/platform_device.h>
- #include <linux/pwm.h>
- #include <linux/slab.h>
-+#include <linux/spinlock.h>
- 
- #define MX3_PWMCR			0x00    /* PWM Control Register */
- #define MX3_PWMSR			0x04    /* PWM Status Register */
- #define MX3_PWMSAR			0x0C    /* PWM Sample Register */
- #define MX3_PWMPR			0x10    /* PWM Period Register */
-+#define MX3_PWMCNR			0x14    /* PWM Counter Register */
- 
- #define MX3_PWMCR_FWM			GENMASK(27, 26)
- #define MX3_PWMCR_STOPEN		BIT(25)
-@@ -91,6 +93,7 @@ struct pwm_imx27_chip {
- 	 * value to return in that case.
- 	 */
- 	unsigned int duty_cycle;
-+	spinlock_t lock;
- };
- 
- #define to_pwm_imx27_chip(chip)	container_of(chip, struct pwm_imx27_chip, chip)
-@@ -203,10 +206,10 @@ static void pwm_imx27_wait_fifo_slot(struct pwm_chip *chip,
- 
- 	sr = readl(imx->mmio_base + MX3_PWMSR);
- 	fifoav = FIELD_GET(MX3_PWMSR_FIFOAV, sr);
--	if (fifoav == MX3_PWMSR_FIFOAV_4WORDS) {
-+	if (fifoav >= MX3_PWMSR_FIFOAV_3WORDS) {
- 		period_ms = DIV_ROUND_UP_ULL(pwm_get_period(pwm),
- 					 NSEC_PER_MSEC);
--		msleep(period_ms);
-+		msleep(period_ms * (fifoav - 2));
- 
- 		sr = readl(imx->mmio_base + MX3_PWMSR);
- 		if (fifoav == FIELD_GET(MX3_PWMSR_FIFOAV, sr))
-@@ -217,13 +220,15 @@ static void pwm_imx27_wait_fifo_slot(struct pwm_chip *chip,
- static int pwm_imx27_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 			   const struct pwm_state *state)
- {
--	unsigned long period_cycles, duty_cycles, prescale;
-+	unsigned long period_cycles, duty_cycles, prescale, counter_check, flags;
- 	struct pwm_imx27_chip *imx = to_pwm_imx27_chip(chip);
-+	void __iomem *reg_sar = imx->mmio_base + MX3_PWMSAR;
-+	__force u32 sar_last, sar_current;
- 	struct pwm_state cstate;
- 	unsigned long long c;
- 	unsigned long long clkrate;
- 	int ret;
--	u32 cr;
-+	u32 cr, timeout = 1000;
- 
- 	pwm_get_state(pwm, &cstate);
- 
-@@ -264,7 +269,57 @@ static int pwm_imx27_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 		pwm_imx27_sw_reset(chip);
- 	}
- 
--	writel(duty_cycles, imx->mmio_base + MX3_PWMSAR);
-+	/*
-+	 * This is a limited workaround. When the SAR FIFO is empty, the new
-+	 * write value will be directly applied to SAR even the current period
-+	 * is not over.
-+	 * If the new SAR value is less than the old one, and the counter is
-+	 * greater than the new SAR value, the current period will not filp
-+	 * the level. This will result in a pulse with a duty cycle of 100%.
-+	 * So, writing the current value of the SAR to SAR here before updating
-+	 * the new SAR value can avoid this issue.
-+	 *
-+	 * Add a spin lock and turn off the interrupt to ensure that the
-+	 * real-time performance can be guaranteed as much as possible when
-+	 * operating the following operations.
-+	 *
-+	 * 1. Add a threshold of 1.5us. If the time T between the read current
-+	 * count value CNR and the end of the cycle is less than 1.5us, wait
-+	 * for T to be longer than 1.5us before updating the SAR register.
-+	 * This is to avoid the situation that when the first SAR is written,
-+	 * the current cycle just ends and the SAR FIFO that just be written
-+	 * is emptied again.
-+	 *
-+	 * 2. Use __raw_writel() to minimize the interval between two writes to
-+	 * the SAR register to increase the fastest pwm frequency supported.
-+	 *
-+	 * When the PWM period is longer than 2us(or <500KHz), this workaround
-+	 * can solve this problem.
-+	 */
-+	if (duty_cycles < imx->duty_cycle) {
-+		c = clkrate * 1500;
-+		do_div(c, NSEC_PER_SEC);
-+		counter_check = c;
-+		sar_last = (__force u32) cpu_to_le32(imx->duty_cycle);
-+		sar_current = (__force u32) cpu_to_le32(duty_cycles);
-+
-+		spin_lock_irqsave(&imx->lock, flags);
-+		if (state->period >= 2000) {
-+			while ((period_cycles -
-+				readl_relaxed(imx->mmio_base + MX3_PWMCNR))
-+				< counter_check) {
-+				if (!--timeout)
-+					break;
-+			};
-+		}
-+		if (!(MX3_PWMSR_FIFOAV &
-+		      readl_relaxed(imx->mmio_base + MX3_PWMSR)))
-+			__raw_writel(sar_last, reg_sar);
-+		__raw_writel(sar_current, reg_sar);
-+		spin_unlock_irqrestore(&imx->lock, flags);
-+	} else
-+		writel(duty_cycles, imx->mmio_base + MX3_PWMSAR);
-+
- 	writel(period_cycles, imx->mmio_base + MX3_PWMPR);
- 
- 	/*
-@@ -324,6 +379,8 @@ static int pwm_imx27_probe(struct platform_device *pdev)
- 		return dev_err_probe(&pdev->dev, PTR_ERR(imx->clk_per),
- 				     "failed to get peripheral clock\n");
- 
-+	spin_lock_init(&imx->lock);
-+	imx->duty_cycle = 0;
- 	imx->chip.ops = &pwm_imx27_ops;
- 	imx->chip.dev = &pdev->dev;
- 	imx->chip.npwm = 1;
+d03c720e03bd9b davidgow@google.com 2023-12-15  139  
+d03c720e03bd9b davidgow@google.com 2023-12-15  140  	return &kunit_dev->dev;
+d03c720e03bd9b davidgow@google.com 2023-12-15  141  }
+
 -- 
-2.25.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
