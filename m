@@ -1,47 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433E01DA5E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 22:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCFE200A0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Jan 2024 23:04:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aalq8sDR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZJzozlGs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704322385; x=1735858385;
+  t=1704323043; x=1735859043;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j1JN1XSRMUxos/5sZUT5WOCFY+LRA3Trw7kSOvdioWg=;
-  b=aalq8sDRlmxINgSJCbI8J4D+NtQzBZWQ+6ek/B1p4tsvLM7vB7KXCdac
-   yavSG/F1oqK9Ep06dTOSi78icXrMYDUmEzFNfQNR3Z6RrK7RtgGUWiw7R
-   FOyxkhLbnuPp9enfc4Zfpjsnoj3o5I+1UrTLQY1Uckw8RQnV0OgHdnYGD
-   DtS27zuG9ClS06k86V8RG4Ez1u1c6hdRKmD/yah9WiOIRVq0lGdyjxzRM
-   BXwd8POzvojB93TaNQz7dYTWKlNSRdsXT6pnYpp4o0+QLLJ/4XYtXY4sF
-   8bDYDRHWd37BMrNUKg8bCU6Iqdjy4a9idgTUDWuy7hK2Y2hn3uA0xxzES
+  bh=dOM20PXqk2m+7P0Hp9cMskW39L7kigj4gArWoXOOpf4=;
+  b=ZJzozlGsEjChHogx9IUzFq9iR/xr+ks00pNel1VkQBG2Qyriq8SN6RgM
+   NVc3cTjH6bBBlMn02hcp3++kLkXhZ9+0KNFrAa1EmB8PipnzvhvHQcwGg
+   nyzeiVdoPqBisNXhdyi/fjjAqrAStHAFTlhikAR0hPsiP/cdOq1PxjhRs
+   ici60HLls7AwWrb49+xZiZeseHc0b/r2FWCNEP55fMufBZyG3yZ8fTYti
+   StCqtnrRqiL4ke0oCHrGAlLw9apSlQva3hevoieSfmtYXey2DLdmXJIzZ
+   kdVL7VKdk4eF3QIoxyh4JCiPP/Opfz46Sj3Y2YiDleCu3kOQKQjMu7He/
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="387544388"
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="387545554"
 X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="387544388"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 14:53:02 -0800
+   d="scan'208";a="387545554"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 15:04:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="923712776"
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="729933020"
 X-IronPort-AV: E=Sophos;i="6.04,328,1695711600"; 
-   d="scan'208";a="923712776"
+   d="scan'208";a="729933020"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Jan 2024 14:53:01 -0800
+  by orsmga003.jf.intel.com with ESMTP; 03 Jan 2024 15:04:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLA6d-000MeS-0a;
-	Wed, 03 Jan 2024 22:52:59 +0000
-Date: Thu, 4 Jan 2024 06:52:44 +0800
+	id 1rLAHH-000Meu-1P;
+	Wed, 03 Jan 2024 23:03:59 +0000
+Date: Thu, 4 Jan 2024 07:03:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Morgan <macromorgan@hotmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast
- truncates bits from constant value (aa01a0 becomes a0)
-Message-ID: <202401040606.HJvtQjsU-lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/splice.c:53:19: sparse: sparse: cast from restricted fmode_t
+Message-ID: <202401040601.Ju49YpNa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,40 +51,46 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   610a9b8f49fbcf1100716370d3b5f6f884a2835a
-commit: 66603243f5283f7f28c795f09e7c2167233df0bd Input: add driver for Hynitron cstxxx touchscreens
-date:   1 year, 2 months ago
-config: x86_64-randconfig-x051-20230705 (https://download.01.org/0day-ci/archive/20240104/202401040606.HJvtQjsU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040606.HJvtQjsU-lkp@intel.com/reproduce)
+commit: 0f99fc513ddd28de155c58547824a9fd63daacea splice: clear FMODE_NOWAIT on file if splice/vmsplice is used
+date:   8 months ago
+config: arm64-buildonly-randconfig-r004-20230608 (https://download.01.org/0day-ci/archive/20240104/202401040601.Ju49YpNa-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240104/202401040601.Ju49YpNa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401040606.HJvtQjsU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401040601.Ju49YpNa-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/input/touchscreen/hynitron_cstxxx.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h):
->> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (aa01a0 becomes a0)
-   include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (aa01 becomes 1)
->> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (ab00d0 becomes d0)
-   include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (ab00 becomes 0)
+>> fs/splice.c:53:19: sparse: sparse: cast from restricted fmode_t
+>> fs/splice.c:53:19: sparse: sparse: cast from restricted fmode_t
+>> fs/splice.c:53:19: sparse: sparse: cast to restricted fmode_t
+   fs/splice.c: note: in included file (through include/linux/irqflags.h, include/linux/spinlock.h, include/linux/wait.h, ...):
+   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
+   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
+   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
+   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
 
-vim +119 include/asm-generic/unaligned.h
+vim +53 fs/splice.c
 
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  116  
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  117  static inline void __put_unaligned_le24(const u32 val, u8 *p)
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  118  {
-803f4e1eab7a89 Arnd Bergmann 2021-05-08 @119  	*p++ = val;
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  120  	*p++ = val >> 8;
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  121  	*p++ = val >> 16;
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  122  }
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  123  
-
-:::::: The code at line 119 was first introduced by commit
-:::::: 803f4e1eab7a8938ba3a3c30dd4eb5e9eeef5e63 asm-generic: simplify asm/unaligned.h
-
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+    39	
+    40	/*
+    41	 * Splice doesn't support FMODE_NOWAIT. Since pipes may set this flag to
+    42	 * indicate they support non-blocking reads or writes, we must clear it
+    43	 * here if set to avoid blocking other users of this pipe if splice is
+    44	 * being done on it.
+    45	 */
+    46	static noinline void noinline pipe_clear_nowait(struct file *file)
+    47	{
+    48		fmode_t fmode = READ_ONCE(file->f_mode);
+    49	
+    50		do {
+    51			if (!(fmode & FMODE_NOWAIT))
+    52				break;
+  > 53		} while (!try_cmpxchg(&file->f_mode, &fmode, fmode & ~FMODE_NOWAIT));
+    54	}
+    55	
 
 -- 
 0-DAY CI Kernel Test Service
