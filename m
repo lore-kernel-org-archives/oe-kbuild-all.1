@@ -1,121 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67162D600
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 23:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF23E2D050
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 23:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nufmfek9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704411242; x=1735947242;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=eRD3WvL9IoR+OnjgQsNe+9A2bUim5ab6EW7emX7oXSs=;
-  b=Nufmfek9fBDmhynoOmLueBdBH39sDO5TAYXM4tAgvYh4X9MeAbx4QtlU
-   6UmfQM6cQDH2IxsduJrCD/FWD5npG9rU8Z304LnFeKICmGKEnt0gXLuGp
-   1qx8CeP2j6X1nGG2v4lnpCGqCBr+UBOKxrIv5LJYLVBn/vOVCH41btcwa
-   9wR/vPrn2ymXpQwItzqlxeGXrWAp/sLor+nIN4Y5D41JyTtzR7CsTg3xe
-   ufQzVKBubzXWT4ouCMDsWLelB2AUtmkbhtXzF6e+KV4XS9JIWEfire+8t
-   TVqb4TCeksl/KBfXHq0mZRvQDBeHUS2efDY55qlzzG0RQKWPRvxcjbvrV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4753181"
-X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
-   d="scan'208";a="4753181"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 15:34:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
-   d="scan'208";a="15076835"
-Received: from jlkarden-mobl1.amr.corp.intel.com (HELO [10.212.164.16]) ([10.212.164.16])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 15:34:00 -0800
-Message-ID: <b637d627-1f11-43ae-981e-d5d9c6637a93@intel.com>
-Date: Thu, 4 Jan 2024 15:34:00 -0800
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="EpnQIuH+"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a275b3a1167so122988866b.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 15:36:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1704411410; x=1705016210; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2tCIapFlQ8RuTR5nGU7S5pDnR7Si2VyfexSEg/0jado=;
+        b=EpnQIuH+7xqWexx0gHZ+QWJrVUCilvK9VGp/gC0PndQfwZIsm/zpGCg+KxRAz0OHHk
+         /e1+gx9nh4JBB0LAUUV1w98tcB9wNtxampzKPu7gOYBPMnenEwNoBBotrFIQfMcTWAjE
+         Zv+fF+N5YdfsWNTyEOBCLpSZtKXUFXDhgMxZw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704411410; x=1705016210;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2tCIapFlQ8RuTR5nGU7S5pDnR7Si2VyfexSEg/0jado=;
+        b=fSi616cddkripnxvi3b6Y8DpZtGaR7+eeuFKb0HhOmjUkPUgK6z6HLXXOmDPDFgUkG
+         VbzD6rN1v37HYofExMIaTphju7nBNb/5lgaK+6J2kz/UZiOnbqeLACl7rGGC8lR8Xx73
+         OaviEkhZsab+d4YiErPCx1fa6SnSHsoqxXQrIPbK1Nn8rcdupkHJwyljznfTR+maEbvP
+         wQxC4oIIhEo4yiB+hc2IreZez13wnVc6tVqieh1ed0Ee+mm2BjJ4bU0lI/+iUL5CFi6f
+         RVdiDBoE+wCgvKOZJEVQWmJNRBLZDduYEn7SRdasEpYQCbKsC5o3+Lc5WP7vVeqTx/4D
+         yIkg==
+X-Gm-Message-State: AOJu0Yy91gKblQXeHbwlAj5e5mPie0JIBl2yt5OQtUc0sPllaNiEzr7d
+	8Gma2s/0xZOAOArSvG4khGygf7yTBU2WV8Rs8ap4tfYDzh9eShAV
+X-Google-Smtp-Source: AGHT+IEXtr8v5NMxIKQw8H2hegiKe6FSegjBdNrlTjE2ceIusmLOGBt1fiXXXri93GaMgC11fmqIvw==
+X-Received: by 2002:a17:906:7389:b0:a28:abb3:dd74 with SMTP id f9-20020a170906738900b00a28abb3dd74mr630272ejl.81.1704411409955;
+        Thu, 04 Jan 2024 15:36:49 -0800 (PST)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
+        by smtp.gmail.com with ESMTPSA id mj18-20020a170906af9200b00a28acfac149sm184999ejb.53.2024.01.04.15.36.49
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jan 2024 15:36:49 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-556fc91aba9so1369762a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 15:36:49 -0800 (PST)
+X-Received: by 2002:a17:906:71d2:b0:a27:4219:75f with SMTP id
+ i18-20020a17090671d200b00a274219075fmr718565ejk.58.1704411409275; Thu, 04 Jan
+ 2024 15:36:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: x86/csum: Remove unnecessary odd handling
-Content-Language: en-US
-To: Noah Goldstein <goldstein.w.n@gmail.com>,
- David Laight <David.Laight@aculab.com>
-Cc: kernel test robot <lkp@intel.com>, "x86@kernel.org" <x86@kernel.org>,
- "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "edumazet@google.com" <edumazet@google.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>,
- "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "hpa@zytor.com" <hpa@zytor.com>
 References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
- <202309231130.ZI5MdlDc-lkp@intel.com>
- <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
- <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com>
- <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
- <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
- <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
+ <202309231130.ZI5MdlDc-lkp@intel.com> <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
+ <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com> <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
+ <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com> <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
 In-Reply-To: <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 4 Jan 2024 15:36:32 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
+Message-ID: <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
+Subject: Re: x86/csum: Remove unnecessary odd handling
+To: Noah Goldstein <goldstein.w.n@gmail.com>
+Cc: David Laight <David.Laight@aculab.com>, kernel test robot <lkp@intel.com>, 
+	"x86@kernel.org" <x86@kernel.org>, 
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com" <hpa@zytor.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/4/24 15:28, Noah Goldstein wrote:
->> ping.
+On Thu, 4 Jan 2024 at 15:28, Noah Goldstein <goldstein.w.n@gmail.com> wrote:
+>
 > ping
 
-Noah, it would be great to elaborate on what you are pinging about.
-This thread has a note that you "posted v4", but I don't see a
-clearly-tagged v4 in my inbox, just a bunch of identially-titled
-non-standard-subject[1] emails without any indication of what changed in
-the individual patches.
+Bah. I think this keeps falling through the cracks because the
+networking people consider this an architecture thing, and the x86
+people probably consider this a networking thing.
 
-1. https://docs.kernel.org/process/submitting-patches.html
+Anyway, since I looked at the thing originally, and feel like I know
+the x86 side and understand the strange IP csum too, I just applied it
+directly.
+
+              Linus
