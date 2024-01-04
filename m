@@ -1,48 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E157A1A70F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 05:21:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2B618EBF;
+	Thu,  4 Jan 2024 05:44:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="egx7uxVi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXOD+NOL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704345701; x=1735881701;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Moy+EyEs1vDwsiVSdc37FpZT/7jPidvqfZaoxXnx2Wk=;
-  b=egx7uxVidjyp2smou0PU/x2SVoUxRskeLkrFUadV9tmJ7otB+njbLmn1
-   PG+BRmX8JFK4BDwhiAM4sT2FX5MVG4LEJ+B2qP1wXz/lFI9G2BqK9x5GO
-   j/2M2U20Nwp8dwRdurorclGAONOpZ24vXJLoWVFVi59VtbeasXupcjuwJ
-   g5im0WVnnvXdCFzQp/sJExSv8zZA/jxPgb8R9pPEQOVOPpaediYjtqnXP
-   agcfIsWq9YH1gMxOEBP7SxXA/QRhBEkBq4D8ka1E+NG2cAJdyt852KS00
-   5yDLVOP4ubvN5nis1noqvv7zKjBfOLtRxvfY2tU1LWjsI7awlrHR/LodL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="394304749"
+  t=1704347084; x=1735883084;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WCQl4HHwjWumQMxOLxbnfx18djvT1HdWFGR04jg8I2I=;
+  b=VXOD+NOLchaL5bSifV/G/xUFmB3iXiCxpGCQhkrw/gdhz3Fp5t5Bx4fL
+   1tzeJ3UzKBhGei8CXhNRrRVFAaQmpDbTszZioum6611DIItn7BsnZseP8
+   qtfk71K0yBR4aeSd1XjTJx/xy2G4Lg6c5UVHx+bR1R6Tssb71jf3sr3l+
+   9m9OpcPMlQq7sRF+304lwOisOjvCGrT6pVjiJw3h8gODBYDcl5Jd0Opyl
+   /Re9yGS91wRHcfJdLmnl/3Yz9/9EQ9MFV0WPplai4XCmSOpn4aJUXPGt1
+   utInK7n8wlfxCsVl1ykXGE23RWSUdpsIWqP3H8y9uGpBw8rnWQf+uuLJr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="396854550"
 X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; 
-   d="scan'208";a="394304749"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 21:21:41 -0800
+   d="scan'208";a="396854550"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 21:44:43 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="850665483"
 X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; 
-   d="scan'208";a="28645820"
+   d="scan'208";a="850665483"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 03 Jan 2024 21:21:39 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 03 Jan 2024 21:44:41 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLGAi-000Mvc-2g;
-	Thu, 04 Jan 2024 05:21:36 +0000
-Date: Thu, 4 Jan 2024 13:20:44 +0800
+	id 1rLGX1-000MwK-05;
+	Thu, 04 Jan 2024 05:44:39 +0000
+Date: Thu, 4 Jan 2024 13:44:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kai Huang <kai.huang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Zhu Lingshan <lingshan.zhu@intel.com>,
-	Isaku Yamahata <isaku.yamahata@intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Yuan Yao <yuan.yao@intel.com>
-Subject: [ls-zhu:test 49/294] arch/x86/virt/vmx/tdx/tdx.c:663:27: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202401041358.t9lMogsI-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 34/39] drm: bridge: dw_hdmi: switch to ->edid_read
+ callback
+Message-ID: <202401041305.NcTmAmOJ-lkp@intel.com>
+References: <a8f71940221fb085b8767f8123f496c9b36b22cc.1704276309.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,53 +58,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a8f71940221fb085b8767f8123f496c9b36b22cc.1704276309.git.jani.nikula@intel.com>
 
-tree:   https://github.com/ls-zhu/linux test
-head:   62a15ffb17f55ec915aedff138ef7dd490f44532
-commit: d111994fe80fd5a91e4677d6e7e624b10de7b66e [49/294] x86/virt/tdx: Configure global KeyID on all packages
-config: x86_64-randconfig-123-20231229 (https://download.01.org/0day-ci/archive/20240104/202401041358.t9lMogsI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401041358.t9lMogsI-lkp@intel.com/reproduce)
+Hi Jani,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc8 next-20240103]
+[cannot apply to drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-bridge-add-edid_read-hook-and-drm_bridge_edid_read/20240103-181513
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/a8f71940221fb085b8767f8123f496c9b36b22cc.1704276309.git.jani.nikula%40intel.com
+patch subject: [PATCH v2 34/39] drm: bridge: dw_hdmi: switch to ->edid_read callback
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240104/202401041305.NcTmAmOJ-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401041305.NcTmAmOJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401041358.t9lMogsI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401041305.NcTmAmOJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/virt/vmx/tdx/tdx.c:663:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *dst @@     got void * @@
-   arch/x86/virt/vmx/tdx/tdx.c:663:27: sparse:     expected void [noderef] __iomem *dst
-   arch/x86/virt/vmx/tdx/tdx.c:663:27: sparse:     got void *
-   arch/x86/virt/vmx/tdx/tdx.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   arch/x86/virt/vmx/tdx/tdx.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +663 arch/x86/virt/vmx/tdx/tdx.c
+>> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:2473:3: warning: variable 'edid' is uninitialized when used here [-Wuninitialized]
+    2473 |                 edid->width_cm, edid->height_cm);
+         |                 ^~~~
+   include/linux/dev_printk.h:155:39: note: expanded from macro 'dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                              ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:2461:25: note: initialize the variable 'edid' to silence this warning
+    2461 |         const struct edid *edid;
+         |                                ^
+         |                                 = NULL
+   1 warning generated.
 
-   650	
-   651	/*
-   652	 * Convert TDX private pages back to normal by using MOVDIR64B to
-   653	 * clear these pages.  Note this function doesn't flush cache of
-   654	 * these TDX private pages.  The caller should make sure of that.
-   655	 */
-   656	static void reset_tdx_pages(unsigned long base, unsigned long size)
-   657	{
-   658		const void *zero_page = (const void *)page_address(ZERO_PAGE(0));
-   659		unsigned long phys, end;
-   660	
-   661		end = base + size;
-   662		for (phys = base; phys < end; phys += 64)
- > 663			movdir64b(__va(phys), zero_page);
-   664	
-   665		/*
-   666		 * MOVDIR64B uses WC protocol.  Use memory barrier to
-   667		 * make sure any later user of these pages sees the
-   668		 * updated data.
-   669		 */
-   670		mb();
-   671	}
-   672	
+
+vim +/edid +2473 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2456  
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2457  static const struct drm_edid *dw_hdmi_edid_read(struct dw_hdmi *hdmi,
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2458  						struct drm_connector *connector)
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2459  {
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2460  	const struct drm_edid *drm_edid;
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2461  	const struct edid *edid;
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2462  
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2463  	if (!hdmi->ddc)
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2464  		return NULL;
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2465  
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2466  	drm_edid = drm_edid_read_ddc(connector, hdmi->ddc);
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2467  	if (!drm_edid) {
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2468  		dev_dbg(hdmi->dev, "failed to get edid\n");
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2469  		return NULL;
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2470  	}
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2471  
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2472  	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29 @2473  		edid->width_cm, edid->height_cm);
+9aaf880ed4ee3c drivers/staging/imx-drm/imx-hdmi.c        Fabio Estevam    2013-11-29  2474  
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2475  	/*
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2476  	 * FIXME: This should use connector->display_info.is_hdmi and
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2477  	 * connector->display_info.has_audio from a path that has read the EDID
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2478  	 * and called drm_edid_connector_update().
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2479  	 */
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2480  	edid = drm_edid_raw(drm_edid);
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2481  
+05b1342f5014b7 drivers/gpu/drm/bridge/dw_hdmi.c          Russell King     2015-07-21  2482  	hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
+f709ec07e38a71 drivers/gpu/drm/bridge/dw_hdmi.c          Russell King     2015-07-21  2483  	hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2484  
+fcb55de55cf341 drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Jani Nikula      2024-01-03  2485  	return drm_edid;
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2486  }
+ec971aaa6775cf drivers/gpu/drm/bridge/synopsys/dw-hdmi.c Laurent Pinchart 2020-05-26  2487  
 
 -- 
 0-DAY CI Kernel Test Service
