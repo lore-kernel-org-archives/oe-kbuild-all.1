@@ -1,53 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0D62C851;
-	Thu,  4 Jan 2024 22:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC422CCB2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 22:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8oLuABc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hA9pEBl5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704405688; x=1735941688;
+  t=1704405693; x=1735941693;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=otgbQ7H1iBSZqJ3vnujFkHluxQ0XxaU4/8325jzHr+8=;
-  b=f8oLuABcGnWQNiIUZ1iv8qGbfDQyKucdHznj9Pfy7YnBT6UpgObxSKCu
-   NhMG+UrEkI04onGt1tsdKRq5Moc++HERqogZkUK/rN2Y2ozlNaqvNpR4j
-   Uq8v1gV8nT0mpmQSiCdrDAxC8O5pLlFLaJsq8yFP+x8+tTnNhBnb2jpJ0
-   4SmNGvLzAQE3Xv+SarvNXu2Ei4jAHsylTB1QV8/sTjLANkf6JkfmnFUqC
-   8q/LDIZ7CFF+WZjoTjEZFlquMR81vBAkytfQ85gayVVXTI9XQNNqHf4kH
-   ivchovDw72QSR14w+ojKp/+khMukDcsva2otXeSVWB4xYyM5hBugFozNM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="394553015"
+  bh=93H6Vpc0MBiRTEHJHtgDGfDXmbGHCPaPX/Nlcjcqjws=;
+  b=hA9pEBl5T0C+hQdfueZ1gFPhLxJxi2rlU02fjkUO5kKMOFE8M4aiRg3Z
+   ocenNYIwLjLqF6+LGe3nObbXBtevD/U7M8+M4HvjXEScVWj26Cz/NqMEd
+   mHuD0Gdhm1rTkozqvc2mpB51lcalbU/ZLE/AUbdK3qTOuggAf8eA1Vo4F
+   XBy/83LikdcMujwy45vJQpP1IbV/IGRh3VW4SnnKYsL0ZvgozjF4FWaQh
+   tdcG7XnzRinpkXQAHNo2zmAmOp4L7dT8/3GVv16p2tfeuqEix/mZTDhPZ
+   dfr+dJEXuX1Fg4z9qcgR3HoOr62SlSLB+hNLkzlqnSwmd4qZtB7NYSwby
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="382351048"
 X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="394553015"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 14:01:24 -0800
+   d="scan'208";a="382351048"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 14:01:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="846378376"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="773660446"
 X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="846378376"
+   d="scan'208";a="773660446"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Jan 2024 14:01:21 -0800
+  by orsmga007.jf.intel.com with ESMTP; 04 Jan 2024 14:01:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLVmB-0000Sy-08;
+	id 1rLVmB-0000T0-0F;
 	Thu, 04 Jan 2024 22:01:19 +0000
-Date: Fri, 5 Jan 2024 06:01:10 +0800
+Date: Fri, 5 Jan 2024 06:01:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zack Rusin <zack.rusin@broadcom.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Raul Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] input/vmmouse: Fix device name copies
-Message-ID: <202401050506.N1aMF9sD-lkp@intel.com>
-References: <20240104050605.1773158-1-zack.rusin@broadcom.com>
+To: Tobias Waldekranz <tobias@waldekranz.com>, davem@davemloft.net,
+	kuba@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrew@lunn.ch, f.fainelli@gmail.com,
+	olteanv@gmail.com, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 2/2] net: dsa: mv88e6xxx: Add LED support for
+ 6393X
+Message-ID: <202401050539.Y9LYQsgz-lkp@intel.com>
+References: <20240103103351.1188835-3-tobias@waldekranz.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,61 +53,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240104050605.1773158-1-zack.rusin@broadcom.com>
+In-Reply-To: <20240103103351.1188835-3-tobias@waldekranz.com>
 
-Hi Zack,
+Hi Tobias,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus linus/master v6.7-rc8 next-20240104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zack-Rusin/input-vmmouse-Fix-device-name-copies/20240104-130724
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20240104050605.1773158-1-zack.rusin%40broadcom.com
-patch subject: [PATCH v2] input/vmmouse: Fix device name copies
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240105/202401050506.N1aMF9sD-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401050506.N1aMF9sD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tobias-Waldekranz/net-dsa-mv88e6xxx-Add-LED-infrastructure/20240103-183726
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240103103351.1188835-3-tobias%40waldekranz.com
+patch subject: [PATCH net-next 2/2] net: dsa: mv88e6xxx: Add LED support for 6393X
+config: loongarch-randconfig-r113-20240104 (https://download.01.org/0day-ci/archive/20240105/202401050539.Y9LYQsgz-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240105/202401050539.Y9LYQsgz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401050506.N1aMF9sD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401050539.Y9LYQsgz-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/dsa/mv88e6xxx/leds.c:77:21: sparse: sparse: symbol 'mv88e6393x_led_map' was not declared. Should it be static?
 
->> drivers/input/mouse/vmmouse.c:78:5: warning: variable length array used [-Wvla]
-      77 |         char phys[sizeof_field(struct serio, phys) +
-         |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      78 |                   strlen(VMMOUSE_PHYS_NAME_POSTFIX_STR)];
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/input/mouse/vmmouse.c:77:7: error: fields must have a constant size: 'variable length array in structure' extension will never be supported
-      77 |         char phys[sizeof_field(struct serio, phys) +
-         |              ^
-   1 warning and 1 error generated.
+vim +/mv88e6393x_led_map +77 drivers/net/dsa/mv88e6xxx/leds.c
 
-
-vim +77 drivers/input/mouse/vmmouse.c
-
-    67	
-    68	/**
-    69	 * struct vmmouse_data - private data structure for the vmmouse driver
-    70	 *
-    71	 * @abs_dev: "Absolute" device used to report absolute mouse movement.
-    72	 * @phys: Physical path for the absolute device.
-    73	 * @dev_name: Name attribute name for the absolute device.
-    74	 */
-    75	struct vmmouse_data {
-    76		struct input_dev *abs_dev;
-  > 77		char phys[sizeof_field(struct serio, phys) +
-  > 78			  strlen(VMMOUSE_PHYS_NAME_POSTFIX_STR)];
-    79		char dev_name[128];
-    80	};
-    81	
+    76	
+  > 77	const unsigned long *mv88e6393x_led_map(struct mv88e6xxx_led *led)
+    78	{
+    79		switch (led->port) {
+    80		case 1:
+    81		case 2:
+    82		case 3:
+    83		case 4:
+    84		case 5:
+    85		case 6:
+    86		case 7:
+    87		case 8:
+    88			return mv88e6393x_led_map_p1_p8[led->index];
+    89		case 9:
+    90		case 10:
+    91			return mv88e6393x_led_map_p9_p10[led->index];
+    92		}
+    93	
+    94		return NULL;
+    95	}
+    96	
 
 -- 
 0-DAY CI Kernel Test Service
