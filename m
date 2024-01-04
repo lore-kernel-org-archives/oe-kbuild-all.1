@@ -1,53 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869CD25554
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 16:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD8A288D5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 17:48:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjB/VWkm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjuujbM7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704387372; x=1735923372;
+  t=1704390492; x=1735926492;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VXa6zI4zPkFszIbqPoRIuKGZFICqK3dkP+gOQ0cGi4c=;
-  b=VjB/VWkmujDc/PfIXllIGhheq7yrhNUbn/DF3OSZG4NVALvbDgdz484m
-   IlB35tT0sgzjkh9bibpmGLBf9+ga1SJAqUt4jGruPRdz8byHz01ppJKJM
-   FlJMemCtoPO7vvMzK9OoN+L6eKWqiWL0hRb3JV+0gigQcJ8hZgVIVJIDX
-   y8IEjKLg4IMspUwV/sC30Lf/0+gGE79cFthsJn1S2YgLjqfHeM67QUeAZ
-   JNugc6FCnL95VHFakTRTz9mGJp97kcOpiSftn5aFI4/SqAh2FUCS3rbA3
-   RrgfLgDfuUvs9VA0rznzt0RCjgnTeupw+PU6BKDzHeBiCYdbZyx0xDR/c
+  bh=Amfzu4mgPjNkQwiwrhDfEPGa8vjJGCFpAorbiJi9Pv0=;
+  b=WjuujbM79/Ss7rNuLTH3kClz5N+tJKY0SybIkF0EIgzy16YYDlAR5PBP
+   Ej+KP0Pg0FmNuEER8i0w+ZecyjjPm81srneHcvEZAB2bu8Xj185LDmRNr
+   eMVU0o7fK1Sm0GlSKE62A7s/nsOu2vN8BYo+4n5fuXmWsFT5EOcrWOh0A
+   zjEd9Hb3EGQnUQvbCMkHgX9T2N8cXeBYTygRKNQ5f2sxCzNvJkOgqNaoO
+   1R4UZfAC0UwiVmzLDXNDCnEKS1bifLkAycNlDty8lGEt5sA5TQ45/6ak5
+   vEm+QvHmJhnZEhsydJtzP9mjYDi7NdwGwXBf0q8gA1rhmD63wwaBhx7iq
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4076643"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="461617271"
 X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="4076643"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 08:56:11 -0800
+   d="scan'208";a="461617271"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 09:48:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="773581880"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="953689313"
 X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="773581880"
+   d="scan'208";a="953689313"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 04 Jan 2024 08:56:07 -0800
+  by orsmga005.jf.intel.com with ESMTP; 04 Jan 2024 09:48:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLR0n-0000D8-23;
-	Thu, 04 Jan 2024 16:56:05 +0000
-Date: Fri, 5 Jan 2024 00:56:03 +0800
+	id 1rLRpA-0000I8-1E;
+	Thu, 04 Jan 2024 17:48:08 +0000
+Date: Fri, 5 Jan 2024 01:48:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Song, Youquan" <youquan.song@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Cornelia Huck <cohuck@redhat.com>, Christoph Hellwig <hch@lst.de>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Chen Zhuo <sagazchen@tencent.com>,
-	Xinghui Li <korantli@tencent.com>
-Subject: drivers/gpu/drm/i915/gvt/gvt.c:108:26: error: initialization of
- 'ssize_t (*)(struct mdev_type *, struct mdev_type_attribute *, char *)' {aka
- 'long int (*)(struct mdev_type *, struct mdev_type_attribute *, char *)'}
- from incompatible pointer type 'ssize_t ...
-Message-ID: <202401050051.SzO58Xty-lkp@intel.com>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Abel Vesa <abel.vesa@linaro.org>
+Subject: [krzk-github:n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
+ 16454/16521] drivers/mailbox/qcom-cpucp-mbox.c:46: warning: Function
+ parameter or struct member 'num_chan' not described in 'qcom_cpucp_mbox'
+Message-ID: <202401050127.VJWSI3Dy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,98 +51,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009.spr
-head:   2b05031ac9b7e23091affe1b717425ef76750bd9
-commit: 4804eaccc2985db994a5a507ad7edb4b6c162c7f vfio/mdev: Correct the function signatures for the mdev_type_attributes
-date:   7 months ago
-config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20240105/202401050051.SzO58Xty-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401050051.SzO58Xty-lkp@intel.com/reproduce)
+tree:   https://github.com/krzk/linux n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
+head:   a793d03eceb5f77a083fbe3513016239b281fb0c
+commit: 391f455feb268821a2dadc021a1438208cbd382d [16454/16521] mailbox: Add support for QTI CPUCP mailbox controller
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240105/202401050127.VJWSI3Dy-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401050127.VJWSI3Dy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401050051.SzO58Xty-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401050127.VJWSI3Dy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/irqdomain.h:35,
-                    from include/linux/acpi.h:13,
-                    from include/linux/i2c.h:13,
-                    from drivers/gpu/drm/i915/i915_drv.h:39,
-                    from drivers/gpu/drm/i915/gvt/gvt.c:37:
->> drivers/gpu/drm/i915/gvt/gvt.c:108:26: error: initialization of 'ssize_t (*)(struct mdev_type *, struct mdev_type_attribute *, char *)' {aka 'long int (*)(struct mdev_type *, struct mdev_type_attribute *, char *)'} from incompatible pointer type 'ssize_t (*)(struct kobject *, struct device *, char *)' {aka 'long int (*)(struct kobject *, struct device *, char *)'} [-Werror=incompatible-pointer-types]
-     108 | static MDEV_TYPE_ATTR_RO(available_instances);
-         |                          ^~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:117:19: note: in definition of macro '__ATTR_RO'
-     117 |         .show   = _name##_show,                                         \
-         |                   ^~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:108:8: note: in expansion of macro 'MDEV_TYPE_ATTR_RO'
-     108 | static MDEV_TYPE_ATTR_RO(available_instances);
-         |        ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:108:26: note: (near initialization for 'mdev_type_attr_available_instances.show')
-     108 | static MDEV_TYPE_ATTR_RO(available_instances);
-         |                          ^~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:117:19: note: in definition of macro '__ATTR_RO'
-     117 |         .show   = _name##_show,                                         \
-         |                   ^~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:108:8: note: in expansion of macro 'MDEV_TYPE_ATTR_RO'
-     108 | static MDEV_TYPE_ATTR_RO(available_instances);
-         |        ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:109:26: error: initialization of 'ssize_t (*)(struct mdev_type *, struct mdev_type_attribute *, char *)' {aka 'long int (*)(struct mdev_type *, struct mdev_type_attribute *, char *)'} from incompatible pointer type 'ssize_t (*)(struct kobject *, struct device *, char *)' {aka 'long int (*)(struct kobject *, struct device *, char *)'} [-Werror=incompatible-pointer-types]
-     109 | static MDEV_TYPE_ATTR_RO(device_api);
-         |                          ^~~~~~~~~~
-   include/linux/sysfs.h:117:19: note: in definition of macro '__ATTR_RO'
-     117 |         .show   = _name##_show,                                         \
-         |                   ^~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:109:8: note: in expansion of macro 'MDEV_TYPE_ATTR_RO'
-     109 | static MDEV_TYPE_ATTR_RO(device_api);
-         |        ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:109:26: note: (near initialization for 'mdev_type_attr_device_api.show')
-     109 | static MDEV_TYPE_ATTR_RO(device_api);
-         |                          ^~~~~~~~~~
-   include/linux/sysfs.h:117:19: note: in definition of macro '__ATTR_RO'
-     117 |         .show   = _name##_show,                                         \
-         |                   ^~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:109:8: note: in expansion of macro 'MDEV_TYPE_ATTR_RO'
-     109 | static MDEV_TYPE_ATTR_RO(device_api);
-         |        ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:110:26: error: initialization of 'ssize_t (*)(struct mdev_type *, struct mdev_type_attribute *, char *)' {aka 'long int (*)(struct mdev_type *, struct mdev_type_attribute *, char *)'} from incompatible pointer type 'ssize_t (*)(struct kobject *, struct device *, char *)' {aka 'long int (*)(struct kobject *, struct device *, char *)'} [-Werror=incompatible-pointer-types]
-     110 | static MDEV_TYPE_ATTR_RO(description);
-         |                          ^~~~~~~~~~~
-   include/linux/sysfs.h:117:19: note: in definition of macro '__ATTR_RO'
-     117 |         .show   = _name##_show,                                         \
-         |                   ^~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:110:8: note: in expansion of macro 'MDEV_TYPE_ATTR_RO'
-     110 | static MDEV_TYPE_ATTR_RO(description);
-         |        ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:110:26: note: (near initialization for 'mdev_type_attr_description.show')
-     110 | static MDEV_TYPE_ATTR_RO(description);
-         |                          ^~~~~~~~~~~
-   include/linux/sysfs.h:117:19: note: in definition of macro '__ATTR_RO'
-     117 |         .show   = _name##_show,                                         \
-         |                   ^~~~~
-   drivers/gpu/drm/i915/gvt/gvt.c:110:8: note: in expansion of macro 'MDEV_TYPE_ATTR_RO'
-     110 | static MDEV_TYPE_ATTR_RO(description);
-         |        ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/mailbox/qcom-cpucp-mbox.c:46: warning: Function parameter or struct member 'num_chan' not described in 'qcom_cpucp_mbox'
 
 
-vim +108 drivers/gpu/drm/i915/gvt/gvt.c
+vim +46 drivers/mailbox/qcom-cpucp-mbox.c
 
-^590eaf1fec755 Kaixu Xia 2021-03-16  107  
-^590eaf1fec755 Kaixu Xia 2021-03-16 @108  static MDEV_TYPE_ATTR_RO(available_instances);
-^590eaf1fec755 Kaixu Xia 2021-03-16  109  static MDEV_TYPE_ATTR_RO(device_api);
-^590eaf1fec755 Kaixu Xia 2021-03-16  110  static MDEV_TYPE_ATTR_RO(description);
-^590eaf1fec755 Kaixu Xia 2021-03-16  111  
-
-:::::: The code at line 108 was first introduced by commit
-:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
-
-:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
-:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
+    28	
+    29	/**
+    30	 * struct qcom_cpucp_mbox - Holder for the mailbox driver
+    31	 * @chans:			The mailbox channel
+    32	 * @mbox:			The mailbox controller
+    33	 * @tx_base:			Base address of the CPUCP tx registers
+    34	 * @rx_base:			Base address of the CPUCP xx registers
+    35	 * @dev:			Device associated with this instance
+    36	 * @irq:			CPUCP to AP irq
+    37	 */
+    38	struct qcom_cpucp_mbox {
+    39		struct mbox_chan chans[APSS_CPUCP_IPC_CHAN_SUPPORTED];
+    40		struct mbox_controller mbox;
+    41		void __iomem *tx_base;
+    42		void __iomem *rx_base;
+    43		struct device *dev;
+    44		int irq;
+    45		int num_chan;
+  > 46	};
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
