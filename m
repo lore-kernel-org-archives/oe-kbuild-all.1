@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F221EB25
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 06:26:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA9D1CFA4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 06:47:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rj3GQe4g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DavdUmJ3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704349592; x=1735885592;
+  t=1704350853; x=1735886853;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VlfhND6bMRH8YF9Z1HHP288mJWL5yibU/yhdHulwA8w=;
-  b=Rj3GQe4gOLJL6wYQU2WeM40NkGsWRrr7sZ5Grec1n2SYZjoeSbq9DOCG
-   5KSRdLPQgf42cj9BEONWZYxl8/qE97p/l7R2EX+QI6hxHtyxqLnvmDfH7
-   X16Url/Lft6dsxiIuVCN5DdDPC0Tai5C3tT05ySTewqcoYlcCbhY/7jzj
-   H1lun9nnFNtmeFyoO7aS/GJH9o+VRBy7qkN9gniGzc3Q2J49PVk8ZegHu
-   fctUfuBed94Esgk9BksX6/SvHVq5KcWuF6Zy+Y5IrN2MPsZVI9UvU1AdR
-   bhUt827nGYUuZFCkCpey9T7DccmHJoxxDoPkHW+NHVRvzEexctHepq4ei
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4487046"
+  bh=DKMdHLD6Uwl0tRZzStJqMlCK9PMoUdkO3e6lztO6or8=;
+  b=DavdUmJ3dGusmerLv+w+7dR3/m0Onqy3IMtwfN7hBBdn+a/PUiOFEV6r
+   X7TyMCZuSBpQvJbiyGatdCOLKkEYl+ygudv2lMzI+wEDqwq0R95F9Cnnv
+   6hBO1KnWFtY8n9bc4rn6/8R4Ig9JdIYC/UArjqtbyJmioC6g0vcDKMHHM
+   9QXPoAqjzVUgzoFOZzfaGGcYTWyp1RL43j6hZZ5PV4q5JZnZMPg7QFn9W
+   U+LhsBa6ovbkl6BS7bVnaWrN9pGgr6zSx1mxsy/bB++lhAu2Rs/AwxRBk
+   YWRVXMUNYe975UyOU3j+x4E8m5ZzSv+5A0d7m6xi4FLYgiWwEhCWd0YvS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="376638665"
 X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="4487046"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 22:26:31 -0800
+   d="scan'208";a="376638665"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 22:47:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="1111607093"
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="783762044"
 X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="1111607093"
+   d="scan'208";a="783762044"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Jan 2024 22:26:28 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 03 Jan 2024 22:47:28 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLHBS-000MyJ-0T;
-	Thu, 04 Jan 2024 06:26:26 +0000
-Date: Thu, 4 Jan 2024 14:26:19 +0800
+	id 1rLHVm-000Mza-2i;
+	Thu, 04 Jan 2024 06:47:26 +0000
+Date: Thu, 4 Jan 2024 14:46:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, "Song, Youquan" <youquan.song@intel.com>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Chen Zhuo <sagazchen@tencent.com>,
-	Xinghui Li <korantli@tencent.com>
-Subject: drivers/xen/swiotlb-xen.c:406:17: error: too many arguments to
- function 'swiotlb_tbl_unmap_single'
-Message-ID: <202401041403.tF2XTGKw-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 2/5] htmldocs:
+ ./include/drm/drm_panel.h:270: warning: Function parameter or member
+ 'follower_lock' not described in 'drm_panel'
+Message-ID: <202401041402.rNvaEQ9F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,105 +52,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009.spr
-head:   2b05031ac9b7e23091affe1b717425ef76750bd9
-commit: ae108dba4c541c0ff557cd6a0e2b93f0aff0b136 swiotlb: remove the alloc_size parameter to swiotlb_tbl_unmap_single
-date:   7 months ago
-config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20240104/202401041403.tF2XTGKw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401041403.tF2XTGKw-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   f823cc2073fc361f2ef5a1341648e0b98bf48c92
+commit: 24e0ced4253f09c89883a0a16a3f37b74b683570 [2/5] UPSTREAM: drm/panel: Add a way for other devices to follow panel state
+reproduce: (https://download.01.org/0day-ci/archive/20240104/202401041402.rNvaEQ9F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401041403.tF2XTGKw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401041402.rNvaEQ9F-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_map_page':
->> drivers/xen/swiotlb-xen.c:406:17: error: too many arguments to function 'swiotlb_tbl_unmap_single'
-     406 |                 swiotlb_tbl_unmap_single(dev, map, size, size, dir,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/swiotlb.h:5,
-                    from arch/x86/include/asm/dma-mapping.h:13,
-                    from include/linux/dma-mapping.h:202,
-                    from include/linux/dma-direct.h:9,
-                    from drivers/xen/swiotlb-xen.c:30:
-   include/linux/swiotlb.h:56:13: note: declared here
-      56 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_unmap_page':
-   drivers/xen/swiotlb-xen.c:437:17: error: too many arguments to function 'swiotlb_tbl_unmap_single'
-     437 |                 swiotlb_tbl_unmap_single(hwdev, paddr, size, size, dir, attrs);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/swiotlb.h:56:13: note: declared here
-      56 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/drm/drm_panel.h:270: warning: Function parameter or member 'follower_lock' not described in 'drm_panel'
 
+vim +270 ./include/drm/drm_panel.h
 
-vim +/swiotlb_tbl_unmap_single +406 drivers/xen/swiotlb-xen.c
+24e0ced4253f09 Douglas Anderson 2023-07-27  187  
+83127f67e450a9 Thierry Reding   2016-05-06  188  /**
+83127f67e450a9 Thierry Reding   2016-05-06  189   * struct drm_panel - DRM panel object
+83127f67e450a9 Thierry Reding   2016-05-06  190   */
+aead40ea0b53a0 Thierry Reding   2013-08-30  191  struct drm_panel {
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  192  	/**
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  193  	 * @dev:
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  194  	 *
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  195  	 * Parent device of the panel.
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  196  	 */
+aead40ea0b53a0 Thierry Reding   2013-08-30  197  	struct device *dev;
+aead40ea0b53a0 Thierry Reding   2013-08-30  198  
+152dbdeab1b257 Sam Ravnborg     2019-12-07  199  	/**
+152dbdeab1b257 Sam Ravnborg     2019-12-07  200  	 * @backlight:
+152dbdeab1b257 Sam Ravnborg     2019-12-07  201  	 *
+152dbdeab1b257 Sam Ravnborg     2019-12-07  202  	 * Backlight device, used to turn on backlight after the call
+152dbdeab1b257 Sam Ravnborg     2019-12-07  203  	 * to enable(), and to turn off backlight before the call to
+152dbdeab1b257 Sam Ravnborg     2019-12-07  204  	 * disable().
+10f7b40e4f3050 Rajeev Nandan    2021-06-26  205  	 * backlight is set by drm_panel_of_backlight() or
+10f7b40e4f3050 Rajeev Nandan    2021-06-26  206  	 * drm_panel_dp_aux_backlight() and drivers shall not assign it.
+152dbdeab1b257 Sam Ravnborg     2019-12-07  207  	 */
+152dbdeab1b257 Sam Ravnborg     2019-12-07  208  	struct backlight_device *backlight;
+152dbdeab1b257 Sam Ravnborg     2019-12-07  209  
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  210  	/**
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  211  	 * @funcs:
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  212  	 *
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  213  	 * Operations that can be performed on the panel.
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  214  	 */
+aead40ea0b53a0 Thierry Reding   2013-08-30  215  	const struct drm_panel_funcs *funcs;
+aead40ea0b53a0 Thierry Reding   2013-08-30  216  
+9a2654c0f62a17 Laurent Pinchart 2019-09-04  217  	/**
+9a2654c0f62a17 Laurent Pinchart 2019-09-04  218  	 * @connector_type:
+9a2654c0f62a17 Laurent Pinchart 2019-09-04  219  	 *
+9a2654c0f62a17 Laurent Pinchart 2019-09-04  220  	 * Type of the panel as a DRM_MODE_CONNECTOR_* value. This is used to
+9a2654c0f62a17 Laurent Pinchart 2019-09-04  221  	 * initialise the drm_connector corresponding to the panel with the
+9a2654c0f62a17 Laurent Pinchart 2019-09-04  222  	 * correct connector type.
+9a2654c0f62a17 Laurent Pinchart 2019-09-04  223  	 */
+9a2654c0f62a17 Laurent Pinchart 2019-09-04  224  	int connector_type;
+9a2654c0f62a17 Laurent Pinchart 2019-09-04  225  
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  226  	/**
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  227  	 * @list:
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  228  	 *
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  229  	 * Panel entry in registry.
+8b0c6e2faa9749 Sam Ravnborg     2019-08-04  230  	 */
+aead40ea0b53a0 Thierry Reding   2013-08-30  231  	struct list_head list;
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  232  
+24e0ced4253f09 Douglas Anderson 2023-07-27  233  	/**
+24e0ced4253f09 Douglas Anderson 2023-07-27  234  	 * @followers:
+24e0ced4253f09 Douglas Anderson 2023-07-27  235  	 *
+24e0ced4253f09 Douglas Anderson 2023-07-27  236  	 * A list of struct drm_panel_follower dependent on this panel.
+24e0ced4253f09 Douglas Anderson 2023-07-27  237  	 */
+24e0ced4253f09 Douglas Anderson 2023-07-27  238  	struct list_head followers;
+24e0ced4253f09 Douglas Anderson 2023-07-27  239  
+24e0ced4253f09 Douglas Anderson 2023-07-27  240  	/**
+24e0ced4253f09 Douglas Anderson 2023-07-27  241  	 * @followers_lock:
+24e0ced4253f09 Douglas Anderson 2023-07-27  242  	 *
+24e0ced4253f09 Douglas Anderson 2023-07-27  243  	 * Lock for followers list.
+24e0ced4253f09 Douglas Anderson 2023-07-27  244  	 */
+24e0ced4253f09 Douglas Anderson 2023-07-27  245  	struct mutex follower_lock;
+24e0ced4253f09 Douglas Anderson 2023-07-27  246  
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  247  	/**
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  248  	 * @prepare_prev_first:
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  249  	 *
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  250  	 * The previous controller should be prepared first, before the prepare
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  251  	 * for the panel is called. This is largely required for DSI panels
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  252  	 * where the DSI host controller should be initialised to LP-11 before
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  253  	 * the panel is powered up.
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  254  	 */
+7e9d4e1cef88cf Dave Stevenson   2022-12-05  255  	bool prepare_prev_first;
+67bab683a3e40e Douglas Anderson 2023-07-27  256  
+67bab683a3e40e Douglas Anderson 2023-07-27  257  	/**
+67bab683a3e40e Douglas Anderson 2023-07-27  258  	 * @prepared:
+67bab683a3e40e Douglas Anderson 2023-07-27  259  	 *
+67bab683a3e40e Douglas Anderson 2023-07-27  260  	 * If true then the panel has been prepared.
+67bab683a3e40e Douglas Anderson 2023-07-27  261  	 */
+67bab683a3e40e Douglas Anderson 2023-07-27  262  	bool prepared;
+67bab683a3e40e Douglas Anderson 2023-07-27  263  
+67bab683a3e40e Douglas Anderson 2023-07-27  264  	/**
+67bab683a3e40e Douglas Anderson 2023-07-27  265  	 * @enabled:
+67bab683a3e40e Douglas Anderson 2023-07-27  266  	 *
+67bab683a3e40e Douglas Anderson 2023-07-27  267  	 * If true then the panel has been enabled.
+67bab683a3e40e Douglas Anderson 2023-07-27  268  	 */
+67bab683a3e40e Douglas Anderson 2023-07-27  269  	bool enabled;
+aead40ea0b53a0 Thierry Reding   2013-08-30 @270  };
+aead40ea0b53a0 Thierry Reding   2013-08-30  271  
 
-^590eaf1fec755 Kaixu Xia         2021-03-16  362  
-^590eaf1fec755 Kaixu Xia         2021-03-16  363  /*
-^590eaf1fec755 Kaixu Xia         2021-03-16  364   * Map a single buffer of the indicated size for DMA in streaming mode.  The
-^590eaf1fec755 Kaixu Xia         2021-03-16  365   * physical address to use is returned.
-^590eaf1fec755 Kaixu Xia         2021-03-16  366   *
-^590eaf1fec755 Kaixu Xia         2021-03-16  367   * Once the device is given the dma address, the device owns this memory until
-^590eaf1fec755 Kaixu Xia         2021-03-16  368   * either xen_swiotlb_unmap_page or xen_swiotlb_dma_sync_single is performed.
-^590eaf1fec755 Kaixu Xia         2021-03-16  369   */
-^590eaf1fec755 Kaixu Xia         2021-03-16  370  static dma_addr_t xen_swiotlb_map_page(struct device *dev, struct page *page,
-^590eaf1fec755 Kaixu Xia         2021-03-16  371  				unsigned long offset, size_t size,
-^590eaf1fec755 Kaixu Xia         2021-03-16  372  				enum dma_data_direction dir,
-^590eaf1fec755 Kaixu Xia         2021-03-16  373  				unsigned long attrs)
-^590eaf1fec755 Kaixu Xia         2021-03-16  374  {
-^590eaf1fec755 Kaixu Xia         2021-03-16  375  	phys_addr_t map, phys = page_to_phys(page) + offset;
-^590eaf1fec755 Kaixu Xia         2021-03-16  376  	dma_addr_t dev_addr = xen_phys_to_bus(phys);
-^590eaf1fec755 Kaixu Xia         2021-03-16  377  
-^590eaf1fec755 Kaixu Xia         2021-03-16  378  	BUG_ON(dir == DMA_NONE);
-^590eaf1fec755 Kaixu Xia         2021-03-16  379  	/*
-^590eaf1fec755 Kaixu Xia         2021-03-16  380  	 * If the address happens to be in the device's DMA window,
-^590eaf1fec755 Kaixu Xia         2021-03-16  381  	 * we can safely return the device addr and not worry about bounce
-^590eaf1fec755 Kaixu Xia         2021-03-16  382  	 * buffering it.
-^590eaf1fec755 Kaixu Xia         2021-03-16  383  	 */
-e52d4b5480cb99 Christoph Hellwig 2019-11-19  384  	if (dma_capable(dev, dev_addr, size, true) &&
-^590eaf1fec755 Kaixu Xia         2021-03-16  385  	    !range_straddles_page_boundary(phys, size) &&
-^590eaf1fec755 Kaixu Xia         2021-03-16  386  		!xen_arch_need_swiotlb(dev, phys, dev_addr) &&
-^590eaf1fec755 Kaixu Xia         2021-03-16  387  		swiotlb_force != SWIOTLB_FORCE)
-^590eaf1fec755 Kaixu Xia         2021-03-16  388  		goto done;
-^590eaf1fec755 Kaixu Xia         2021-03-16  389  
-^590eaf1fec755 Kaixu Xia         2021-03-16  390  	/*
-^590eaf1fec755 Kaixu Xia         2021-03-16  391  	 * Oh well, have to allocate and map a bounce buffer.
-^590eaf1fec755 Kaixu Xia         2021-03-16  392  	 */
-^590eaf1fec755 Kaixu Xia         2021-03-16  393  	trace_swiotlb_bounced(dev, dev_addr, size, swiotlb_force);
-^590eaf1fec755 Kaixu Xia         2021-03-16  394  
-f7ed14d49d8c7b Christoph Hellwig 2020-02-03  395  	map = swiotlb_tbl_map_single(dev, phys, size, size, dir, attrs);
-^590eaf1fec755 Kaixu Xia         2021-03-16  396  	if (map == (phys_addr_t)DMA_MAPPING_ERROR)
-^590eaf1fec755 Kaixu Xia         2021-03-16  397  		return DMA_MAPPING_ERROR;
-^590eaf1fec755 Kaixu Xia         2021-03-16  398  
-^590eaf1fec755 Kaixu Xia         2021-03-16  399  	phys = map;
-^590eaf1fec755 Kaixu Xia         2021-03-16  400  	dev_addr = xen_phys_to_bus(map);
-^590eaf1fec755 Kaixu Xia         2021-03-16  401  
-^590eaf1fec755 Kaixu Xia         2021-03-16  402  	/*
-^590eaf1fec755 Kaixu Xia         2021-03-16  403  	 * Ensure that the address returned is DMA'ble
-^590eaf1fec755 Kaixu Xia         2021-03-16  404  	 */
-e52d4b5480cb99 Christoph Hellwig 2019-11-19  405  	if (unlikely(!dma_capable(dev, dev_addr, size, true))) {
-^590eaf1fec755 Kaixu Xia         2021-03-16 @406  		swiotlb_tbl_unmap_single(dev, map, size, size, dir,
-^590eaf1fec755 Kaixu Xia         2021-03-16  407  				attrs | DMA_ATTR_SKIP_CPU_SYNC);
-^590eaf1fec755 Kaixu Xia         2021-03-16  408  		return DMA_MAPPING_ERROR;
-^590eaf1fec755 Kaixu Xia         2021-03-16  409  	}
-^590eaf1fec755 Kaixu Xia         2021-03-16  410  
-^590eaf1fec755 Kaixu Xia         2021-03-16  411  done:
-^590eaf1fec755 Kaixu Xia         2021-03-16  412  	if (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-c3fd7ea8b7a5d9 Christoph Hellwig 2019-11-07  413  		xen_dma_sync_for_device(dev_addr, phys, size, dir);
-^590eaf1fec755 Kaixu Xia         2021-03-16  414  	return dev_addr;
-^590eaf1fec755 Kaixu Xia         2021-03-16  415  }
-^590eaf1fec755 Kaixu Xia         2021-03-16  416  
+:::::: The code at line 270 was first introduced by commit
+:::::: aead40ea0b53a0e28d34adf7bb923ecb2968c04a drm: Add panel support
 
-:::::: The code at line 406 was first introduced by commit
-:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
-
-:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
-:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
