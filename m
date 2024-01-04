@@ -1,121 +1,113 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE232136C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 12:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5738E2136C;
+	Thu,  4 Jan 2024 12:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UpbRFi0V"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a28d25253d2so48407666b.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 04:05:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704369908; x=1704974708; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z071ZOVrV7cQhPIZSpfbxn2i/ugENcMb4cwQcQkzR+I=;
-        b=UpbRFi0VgwEHVFkDneumZhRijKnZylN5ezbYPfe4ROKedGwBSgzWTZ9YyMRMUS0CIX
-         LX8Vt2n5tw2RTmktR+Lvv+sjMtG924L7iGGL1acL3FSEhxYn/uf6BkQNo6k0wzd/XfSD
-         +FNC8APbQLpb+VOk7Fc3nVOcFSCoxi0MZPGi4duBqpVa75xtuO6pnGeMLZ5741jH0v/l
-         U6PvqhGD5E51Kk7QgQDIZ2ApXfJwydgmc0aGM3hc9ArADVOxbYE8epgYFr9e3FfZP19t
-         YC5muMuqNVZCs5cACYD7Qs44++AH6iB0wSy+ALoGMQdHSUI1TM7tutuHu6hHTNS/7gSz
-         lJcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704369908; x=1704974708;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z071ZOVrV7cQhPIZSpfbxn2i/ugENcMb4cwQcQkzR+I=;
-        b=lXOg8PSVd20OjX0jHnX5aMuDAHI5KOkFYgCqcA+ZrUk0RQlgjsJrPjJRy1FqElbG9Q
-         y8Lfyr6Tr2BklDa4BIwPdOD2snvvdGB+Vd3VkNLwlcSzcCQiLymk4q+6dMQPiI0qHZlZ
-         qpv76b8FtVZT85zeVGyU/EgtVp+0Kev5esMuXf+t143FEEfsHGm3ljPY1wVls63xlT6O
-         WHHSwKkHrETeOW30f6T09df8M9djRQLIbMeInna410O+P+As+E5U//TWA1ztWVd9vPOU
-         kBtutqrJtRMojoEvKq1UBNRcRlg1WZlHkj5EDpn65pFWdxezubOBLsabu8n8YvHdyBLb
-         t2Tw==
-X-Gm-Message-State: AOJu0YytjRU2MSLApPNW1X1lfxkZgo+jL/ShvJjg/CHuvG6TXwkXZI1G
-	NUM++ki5ZLw2puPHXPECKHYRUeJmbQFdsw==
-X-Google-Smtp-Source: AGHT+IFR64NY/NROAmz9WSpobH9bCqoNuzeYJ5wmYxSEhL49XMX06krXPHW0OI/sdYjgJj00Se8mlw==
-X-Received: by 2002:a17:906:5a51:b0:a28:e2d7:b41d with SMTP id my17-20020a1709065a5100b00a28e2d7b41dmr260021ejc.0.1704369907666;
-        Thu, 04 Jan 2024 04:05:07 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id ew18-20020a170907951200b00a1dd58874b8sm13592133ejc.119.2024.01.04.04.05.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jan 2024 04:05:07 -0800 (PST)
-Date: Thu, 4 Jan 2024 15:05:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alex Hung <alex.hung@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [linux-next:master 4679/10295]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9280
- amdgpu_dm_atomic_commit_tail() error: we previously assumed 'acrtc' could be
- null (see line 9277)
-Message-ID: <7e5c7ab1-4ee9-4221-b585-6a9aa2c6dcc3@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IiU+ONv/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704370669; x=1735906669;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=38ZdTWKxn3CScgJvy/fi3YUFYW5BHXEAc9RRKzwiruM=;
+  b=IiU+ONv/0+z3d9i88m25uToIztvkPO3HHNZ7SLKvYXpfZrZIhhNm9mVb
+   5PY0zO+uxylNRJHE/9JVx/kUcng4QwqbS1tcKA/FO8+ABbLTzKzrWXg4W
+   D4KEIzpckFQ5TB5LnR5/FuMSG6qtnF1Airc0HovQCtw4F7r8JeoGSYE+w
+   HQ2rcD9Yx/YwmSzKjMhHuhTKeUytKebctaA0OoTCxkWquGza23SaRzwXb
+   1WcsHsSBvEm4AcvmLV/BpefQDsDT7pgoTqScPwpr/QKqMeMLid0pUqTv1
+   /MbfaPo14kuWsT0urnc93oVUFsEJWQ/90DxQ9uEasTonMs4E48DaV+YVe
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="377375542"
+X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
+   d="scan'208";a="377375542"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 04:17:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="870893950"
+X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
+   d="scan'208";a="870893950"
+Received: from pdelarag-mobl.ger.corp.intel.com (HELO localhost) ([10.252.36.32])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 04:17:45 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 23/39] drm/bridge: nxp-ptn3460: switch to ->edid_read
+ callback
+In-Reply-To: <202401040455.PPhqJiVr-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula@intel.com>
+ <202401040455.PPhqJiVr-lkp@intel.com>
+Date: Thu, 04 Jan 2024 14:17:42 +0200
+Message-ID: <87plyhz40p.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   39676dfe52331dba909c617f213fdb21015c8d10
-commit: f872e2f5f0beabd34c03799a5c597f6ba47b51cc [4679/10295] drm/amd/display: Add writeback enable field (wb_enabled)
-config: x86_64-randconfig-161-20231228 (https://download.01.org/0day-ci/archive/20240101/202401010520.1VZfOvg0-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+On Thu, 04 Jan 2024, kernel test robot <lkp@intel.com> wrote:
+> Hi Jani,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on drm-misc/drm-misc-next]
+> [also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc8 next-20240103]
+> [cannot apply to drm-intel/for-linux-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-bridge-add-edid_read-hook-and-drm_bridge_edid_read/20240103-181513
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/87fb7fd52d087dd9a15b7194f3915b6b1c4146d6.1704276309.git.jani.nikula%40intel.com
+> patch subject: [PATCH v2 23/39] drm/bridge: nxp-ptn3460: switch to ->edid_read callback
+> config: arm-randconfig-001-20240103 (https://download.01.org/0day-ci/archive/20240104/202401040455.PPhqJiVr-lkp@intel.com/config)
+> compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401040455.PPhqJiVr-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401040455.PPhqJiVr-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>>> drivers/gpu/drm/bridge/nxp-ptn3460.c:170:6: warning: variable 'drm_edid' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+>      170 |         if (!edid) {
+>          |             ^~~~~
+>    drivers/gpu/drm/bridge/nxp-ptn3460.c:189:9: note: uninitialized use occurs here
+>      189 |         return drm_edid;
+>          |                ^~~~~~~~
+>    drivers/gpu/drm/bridge/nxp-ptn3460.c:170:2: note: remove the 'if' if its condition is always false
+>      170 |         if (!edid) {
+>          |         ^~~~~~~~~~~~
+>      171 |                 DRM_ERROR("Failed to allocate EDID\n");
+>          |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      172 |                 goto out;
+>          |                 ~~~~~~~~~
+>      173 |         }
+>          |         ~
+>    drivers/gpu/drm/bridge/nxp-ptn3460.c:161:33: note: initialize the variable 'drm_edid' to silence this warning
+>      161 |         const struct drm_edid *drm_edid;
+>          |                                        ^
+>          |                                         = NULL
+>    1 warning generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401010520.1VZfOvg0-lkp@intel.com/
+This is a valid report, fixed locally.
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9280 amdgpu_dm_atomic_commit_tail() error: we previously assumed 'acrtc' could be null (see line 9277)
+BR,
+Jani.
 
-vim +/acrtc +9280 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
-
-e7b07ceef2a650 Harry Wentland      2017-08-10  9263  
-c81e13b929df2f Alex Hung           2023-12-01  9264  	/* Enable writeback */
-c81e13b929df2f Alex Hung           2023-12-01  9265  	for_each_new_connector_in_state(state, connector, new_con_state, i) {
-c81e13b929df2f Alex Hung           2023-12-01  9266  		struct dm_connector_state *dm_new_con_state = to_dm_connector_state(new_con_state);
-c81e13b929df2f Alex Hung           2023-12-01  9267  		struct amdgpu_crtc *acrtc = to_amdgpu_crtc(dm_new_con_state->base.crtc);
-c81e13b929df2f Alex Hung           2023-12-01  9268  
-c81e13b929df2f Alex Hung           2023-12-01  9269  		if (connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
-c81e13b929df2f Alex Hung           2023-12-01  9270  			continue;
-c81e13b929df2f Alex Hung           2023-12-01  9271  
-c81e13b929df2f Alex Hung           2023-12-01  9272  		if (!new_con_state->writeback_job)
-c81e13b929df2f Alex Hung           2023-12-01  9273  			continue;
-c81e13b929df2f Alex Hung           2023-12-01  9274  
-c81e13b929df2f Alex Hung           2023-12-01  9275  		new_crtc_state = NULL;
-c81e13b929df2f Alex Hung           2023-12-01  9276  
-c81e13b929df2f Alex Hung           2023-12-01 @9277  		if (acrtc)
-                                                                    ^^^^^
-Check for NULL
-
-c81e13b929df2f Alex Hung           2023-12-01  9278  			new_crtc_state = drm_atomic_get_new_crtc_state(state, &acrtc->base);
-c81e13b929df2f Alex Hung           2023-12-01  9279  
-f872e2f5f0beab Alex Hung           2023-12-01 @9280  		if (acrtc->wb_enabled)
-                                                                    ^^^^^^^^^^^^^^^^^
-Unchecked dereference
-
-f872e2f5f0beab Alex Hung           2023-12-01  9281  			continue;
-f872e2f5f0beab Alex Hung           2023-12-01  9282  
-c81e13b929df2f Alex Hung           2023-12-01  9283  		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
-c81e13b929df2f Alex Hung           2023-12-01  9284  
-c81e13b929df2f Alex Hung           2023-12-01  9285  		dm_set_writeback(dm, dm_new_crtc_state, connector, new_con_state);
-f872e2f5f0beab Alex Hung           2023-12-01  9286  		acrtc->wb_enabled = true;
-c81e13b929df2f Alex Hung           2023-12-01  9287  	}
-c81e13b929df2f Alex Hung           2023-12-01  9288  
-6ce8f316673f61 Nicholas Kazlauskas 2019-07-11  9289  	/* Update audio instances for each connector. */
-6ce8f316673f61 Nicholas Kazlauskas 2019-07-11  9290  	amdgpu_dm_commit_audio(dev, state);
-6ce8f316673f61 Nicholas Kazlauskas 2019-07-11  9291  
-7230362c78d441 Alex Deucher        2020-12-10  9292  	/* restore the backlight level */
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Jani Nikula, Intel
