@@ -1,49 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B8B210F2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 10:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A05E20B05
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 11:22:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayhswlyf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZLqsh4P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704365518; x=1735901518;
+  t=1704367334; x=1735903334;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cepOlT5SfluGHlMlhapA0rfILiQASgnY/2g2Y8eSR9I=;
-  b=ayhswlyfRyo1yMVgI3IZLQbX2X+I++Wsij973ULMLSkUgqzn4fbSpquu
-   qFxxQP2ErdYHrOQpPd0k0eB63OCK2GBZX2FFTEjhtGU/fd1jF6e3dulvA
-   z8l2nTGnGWt7C/6UDgnDhH5V9TVk2ao24rpZ6wdxXeYiky77FVSC+1at8
-   y+JSb4jOkCOVdt9xDLAQGlGI39k/Bluu6DT6WaSDFjijgI8j6BqYmNh3n
-   m0rJUi3n+By266u64V7oChnJiXNlU6yMfI1ZGJ2MP5o8Br6clV3uh+CWR
-   aBQLJsAHcfd2PVPXDYUhHDNYuXeSYtbr67x1YSgqDfW2G0dIOm6tsI7H8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="428366337"
+  bh=uodsPQwb3ryAcRNLzuFCkBDO1p4zmPwqvDky+IYW1ps=;
+  b=cZLqsh4PO9j4nLAmUrFP934Am6hNGFvWsx2b6UN4prBdEgX65AG7Q85Y
+   Yo14fRkxoSyEG49C/N9HOVo3rYLLMi5MevONu79/dmK9pVDDe0O+pxjk+
+   xToZzZyt1PGWoOQ7+ckKqJmXoNTdwuZow619Pu9Y/L4k6n3vjDU7puUjc
+   mUmqpUy0lhRy1pWbsBvqH8cLgFld0shCCAxJrOVJwf2Kgqo6E0cAl4eQc
+   GGXcB95VxDa+6pqsdkbiI4S/XV782RTPyLww+P7FaDDu/3oHr/tPkl5Dr
+   R7v1gxWJdjX2Dc7iHZdMs+s9CRMJsduWFWKlJFdeBpdn8DkObxN3qGjxs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="463605615"
 X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="428366337"
+   d="scan'208";a="463605615"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 02:51:58 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 03:22:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="899245950"
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="899261957"
 X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="899245950"
+   d="scan'208";a="899261957"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Jan 2024 02:51:56 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 04 Jan 2024 03:22:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLLKL-000NBY-2s;
-	Thu, 04 Jan 2024 10:51:53 +0000
-Date: Thu, 4 Jan 2024 18:50:18 +0800
+	id 1rLLnd-000NDM-1v;
+	Thu, 04 Jan 2024 11:22:09 +0000
+Date: Thu, 4 Jan 2024 19:21:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, "Song, Youquan" <youquan.song@intel.com>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Chen Zhuo <sagazchen@tencent.com>,
-	Xinghui Li <korantli@tencent.com>
-Subject: drivers/xen/swiotlb-xen.c:450:17: error: implicit declaration of
- function 'swiotlb_tbl_sync_single'; did you mean 'swiotlb_tbl_map_single'?
-Message-ID: <202401041825.x8JqxMf6-lkp@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gregory Price <gourry.memverge@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>, Hyeongtak Ji <hyeongtak.ji@sk.com>,
+	Honggyu Kim <honggyu.kim@sk.com>,
+	Vinicius Tavares Petrucci <vtavarespetr@micron.com>
+Subject: [gmprice:mempolicy2_mbind2 12/12] mm/mempolicy.c:3236:58: warning:
+ argument to 'sizeof' in 'memcpy' call is the same expression as the
+ destination; did you mean to provide an explicit length?
+Message-ID: <202401041959.K6W0Fs1J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,91 +55,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009.spr
-head:   2b05031ac9b7e23091affe1b717425ef76750bd9
-commit: ee07aa625dbf249381b702591b4722e8308daf59 swiotlb: split swiotlb_tbl_sync_single
-date:   7 months ago
-config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20240104/202401041825.x8JqxMf6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401041825.x8JqxMf6-lkp@intel.com/reproduce)
+tree:   https://github.com/gmprice/linux mempolicy2_mbind2
+head:   6778fe256977719295e155d049454870c0f0c743
+commit: 6778fe256977719295e155d049454870c0f0c743 [12/12] mm/mempolicy: extend mempolicy2 and mbind2 to support weighted interleave
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240104/202401041959.K6W0Fs1J-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401041959.K6W0Fs1J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401041825.x8JqxMf6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401041959.K6W0Fs1J-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_map_page':
-   drivers/xen/swiotlb-xen.c:406:17: error: too many arguments to function 'swiotlb_tbl_unmap_single'
-     406 |                 swiotlb_tbl_unmap_single(dev, map, size, size, dir,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/swiotlb.h:5,
-                    from arch/x86/include/asm/dma-mapping.h:13,
-                    from include/linux/dma-mapping.h:202,
-                    from include/linux/dma-direct.h:9,
-                    from drivers/xen/swiotlb-xen.c:30:
-   include/linux/swiotlb.h:48:13: note: declared here
-      48 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_unmap_page':
-   drivers/xen/swiotlb-xen.c:437:17: error: too many arguments to function 'swiotlb_tbl_unmap_single'
-     437 |                 swiotlb_tbl_unmap_single(hwdev, paddr, size, size, dir, attrs);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/swiotlb.h:48:13: note: declared here
-      48 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_sync_single_for_cpu':
->> drivers/xen/swiotlb-xen.c:450:17: error: implicit declaration of function 'swiotlb_tbl_sync_single'; did you mean 'swiotlb_tbl_map_single'? [-Werror=implicit-function-declaration]
-     450 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_CPU);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                 swiotlb_tbl_map_single
->> drivers/xen/swiotlb-xen.c:450:64: error: 'SYNC_FOR_CPU' undeclared (first use in this function)
-     450 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_CPU);
-         |                                                                ^~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:450:64: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_sync_single_for_device':
->> drivers/xen/swiotlb-xen.c:460:64: error: 'SYNC_FOR_DEVICE' undeclared (first use in this function)
-     460 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_DEVICE);
-         |                                                                ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   mm/mempolicy.c: In function 'mpol_shared_policy_init':
+>> mm/mempolicy.c:3236:58: warning: argument to 'sizeof' in 'memcpy' call is the same expression as the destination; did you mean to provide an explicit length? [-Wsizeof-pointer-memaccess]
+    3236 |                 memcpy(weights, mpol->wil.weights, sizeof(weights));
+         |                                                          ^
+   mm/mempolicy.c: In function 'mpol_parse_str':
+   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3575 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3575 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3575 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3575 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3575 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3575 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
 
 
-vim +450 drivers/xen/swiotlb-xen.c
+vim +3236 mm/mempolicy.c
 
-^590eaf1fec755 Kaixu Xia         2021-03-16  439  
-^590eaf1fec755 Kaixu Xia         2021-03-16  440  static void
-^590eaf1fec755 Kaixu Xia         2021-03-16  441  xen_swiotlb_sync_single_for_cpu(struct device *dev, dma_addr_t dma_addr,
-^590eaf1fec755 Kaixu Xia         2021-03-16  442  		size_t size, enum dma_data_direction dir)
-^590eaf1fec755 Kaixu Xia         2021-03-16  443  {
-^590eaf1fec755 Kaixu Xia         2021-03-16  444  	phys_addr_t paddr = xen_bus_to_phys(dma_addr);
-^590eaf1fec755 Kaixu Xia         2021-03-16  445  
-^590eaf1fec755 Kaixu Xia         2021-03-16  446  	if (!dev_is_dma_coherent(dev))
-c3fd7ea8b7a5d9 Christoph Hellwig 2019-11-07  447  		xen_dma_sync_for_cpu(dma_addr, paddr, size, dir);
-^590eaf1fec755 Kaixu Xia         2021-03-16  448  
-^590eaf1fec755 Kaixu Xia         2021-03-16  449  	if (is_xen_swiotlb_buffer(dma_addr))
-^590eaf1fec755 Kaixu Xia         2021-03-16 @450  		swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_CPU);
-^590eaf1fec755 Kaixu Xia         2021-03-16  451  }
-^590eaf1fec755 Kaixu Xia         2021-03-16  452  
-^590eaf1fec755 Kaixu Xia         2021-03-16  453  static void
-^590eaf1fec755 Kaixu Xia         2021-03-16  454  xen_swiotlb_sync_single_for_device(struct device *dev, dma_addr_t dma_addr,
-^590eaf1fec755 Kaixu Xia         2021-03-16  455  		size_t size, enum dma_data_direction dir)
-^590eaf1fec755 Kaixu Xia         2021-03-16  456  {
-^590eaf1fec755 Kaixu Xia         2021-03-16  457  	phys_addr_t paddr = xen_bus_to_phys(dma_addr);
-^590eaf1fec755 Kaixu Xia         2021-03-16  458  
-^590eaf1fec755 Kaixu Xia         2021-03-16  459  	if (is_xen_swiotlb_buffer(dma_addr))
-^590eaf1fec755 Kaixu Xia         2021-03-16 @460  		swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_DEVICE);
-^590eaf1fec755 Kaixu Xia         2021-03-16  461  
-^590eaf1fec755 Kaixu Xia         2021-03-16  462  	if (!dev_is_dma_coherent(dev))
-c3fd7ea8b7a5d9 Christoph Hellwig 2019-11-07  463  		xen_dma_sync_for_device(dma_addr, paddr, size, dir);
-^590eaf1fec755 Kaixu Xia         2021-03-16  464  }
-^590eaf1fec755 Kaixu Xia         2021-03-16  465  
-
-:::::: The code at line 450 was first introduced by commit
-:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
-
-:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
-:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
+  3205	
+  3206	/**
+  3207	 * mpol_shared_policy_init - initialize shared policy for inode
+  3208	 * @sp: pointer to inode shared policy
+  3209	 * @mpol:  struct mempolicy to install
+  3210	 *
+  3211	 * Install non-NULL @mpol in inode's shared policy rb-tree.
+  3212	 * On entry, the current task has a reference on a non-NULL @mpol.
+  3213	 * This must be released on exit.
+  3214	 * This is called at get_inode() calls and we can use GFP_KERNEL.
+  3215	 */
+  3216	void mpol_shared_policy_init(struct shared_policy *sp, struct mempolicy *mpol)
+  3217	{
+  3218		int ret;
+  3219		struct mempolicy_param mparam;
+  3220	
+  3221		sp->root = RB_ROOT;		/* empty tree == default mempolicy */
+  3222		rwlock_init(&sp->lock);
+  3223	
+  3224		if (mpol) {
+  3225			struct sp_node *sn;
+  3226			struct mempolicy *npol;
+  3227			u8 *weights = NULL;
+  3228			NODEMASK_SCRATCH(scratch);
+  3229	
+  3230			if (!scratch)
+  3231				goto put_mpol;
+  3232	
+  3233			weights = kzalloc(MAX_NUMNODES, GFP_KERNEL | __GFP_NORETRY);
+  3234			if (!weights)
+  3235				goto free_scratch;
+> 3236			memcpy(weights, mpol->wil.weights, sizeof(weights));
+  3237	
+  3238			memset(&mparam, 0, sizeof(mparam));
+  3239			mparam.mode = mpol->mode;
+  3240			mparam.mode_flags = mpol->flags;
+  3241			mparam.policy_nodes = &mpol->w.user_nodemask;
+  3242			mparam.home_node = NUMA_NO_NODE;
+  3243			mparam.il_weights = weights;
+  3244	
+  3245			/* contextualize the tmpfs mount point mempolicy to this file */
+  3246			npol = mpol_new(&mparam);
+  3247			if (IS_ERR(npol))
+  3248				goto free_weights; /* no valid nodemask intersection */
+  3249	
+  3250			task_lock(current);
+  3251			ret = mpol_set_nodemask(npol, &mpol->w.user_nodemask, scratch);
+  3252			task_unlock(current);
+  3253			if (ret)
+  3254				goto put_npol;
+  3255	
+  3256			/* alloc node covering entire file; adds ref to file's npol */
+  3257			sn = sp_alloc(0, MAX_LFS_FILESIZE >> PAGE_SHIFT, npol);
+  3258			if (sn)
+  3259				sp_insert(sp, sn);
+  3260	put_npol:
+  3261			mpol_put(npol);	/* drop initial ref on file's npol */
+  3262	free_weights:
+  3263			kfree(weights);
+  3264	free_scratch:
+  3265			NODEMASK_SCRATCH_FREE(scratch);
+  3266	put_mpol:
+  3267			mpol_put(mpol);	/* drop our incoming ref on sb mpol */
+  3268		}
+  3269	}
+  3270	
 
 -- 
 0-DAY CI Kernel Test Service
