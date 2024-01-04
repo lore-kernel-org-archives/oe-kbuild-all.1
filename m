@@ -1,48 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133D4219EE;
-	Thu,  4 Jan 2024 12:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673D023741
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 14:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lWEtWwZZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704372570; x=1735908570;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZqQu8HfEkvamar/UMiLY9wskaFS0cJL6PKdzPHicFSk=;
-  b=lWEtWwZZgiJdL/+bI7e0bjjfhbFOo1IlrdMC/EfFPwMij42ObbpY8Sbv
-   YL7hqHRylq7xF2sT+vDqrpELHQ94RiNIHNfzxgnqAHlhdOja0NlRxLqKm
-   LmQzdKYzrsCoAl/Ij2S15zJwB2EFB9v5RgTFrV8G7CXea28VzkURwmLOE
-   LG4hDmB68pDVYO1+iO7J7tkm8rC2iH741lgnwccnMXWe+2qTGSW9R7gfY
-   AyqO1Mr2J5qKvDEVj7pXYvfe5t+vPNEKXXT2vR9P8pPgZrjydi57Wlbpf
-   0ZVONbWgMMSdERcHPRa/67epS9chBeeTZsEaL0r/mFVHKQVuOMIAXB4VI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="401010009"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="401010009"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 04:49:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="780371180"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="780371180"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 04 Jan 2024 04:49:19 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rLN99-000NIa-27;
-	Thu, 04 Jan 2024 12:49:16 +0000
-Date: Thu, 4 Jan 2024 20:47:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oded Gabbay <ogabbay@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5/6] accel/habanalabs/gaudi2: move HMMU page tables to
- device memory
-Message-ID: <202401042015.r2eyzYmv-lkp@intel.com>
-References: <20240102150654.522555-5-ogabbay@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UrZwggUj"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e7af5f618so604508e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 06:47:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704379663; x=1704984463; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gfVBwkOH/qOR6M4rih0KUy+5jfSd6PJn/IuBN+59/14=;
+        b=UrZwggUjbwJMJHGkcLMSV/b719uixHwyhQ14joQu/gp3xZtOAYVKncGscNzQPgjF+/
+         i2NLryvuzhLGQsjLmq0IT/AW62PYiA+SoFEOBq7xafqeyb7lpYIIbC5o850i3mFhRo3V
+         /f5XxWkgGYQXUirDWjYdUnhwn38nSMW9Zwn0zlcbmpAwUsUra3nDT10jvxcsnhZMSML9
+         HikC0W62OcAF3lkdjq2hKb5lW+bXLZLn+i5oneI42T+awpQmrhdZSvdncwiK8hqQDNqQ
+         Cwqj7w1+ORzyG7L/Bg85sIBX1Y02HYqtQNoKFQhz424Trn28Hff22ZWUdczxOKi7Ww+z
+         eh9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704379663; x=1704984463;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gfVBwkOH/qOR6M4rih0KUy+5jfSd6PJn/IuBN+59/14=;
+        b=ptmrtNB7ahsjWS9UfXbKYjZFzkHR4G2RidWXIr0tGHa0qQJxPycAwQbISKZ/1+XhLN
+         a2EWRh+9WKlWNSgvhpYuDsRBHwljAiv7YNmUZfYx+DFDfZppMUjS8VuE/HfC8XRdrpE0
+         JezHSR/Gznra3K8RkjdWX1MG21BPsI5gFDbGQzDGSnqiSQwpG4sxtF+Wx3r+j+DGHJfj
+         WK6K6m8rttn+iTCcivfJyU06Zjqsep6EEU4rWWNEVrVFKPYDmWbLZySs+LYu1p3Eeg8l
+         8qyloHwJF4vDKi2d6ZoQ2Q2cvNOqFaTbwBzSi/QcjeCsxfbVsAOTOmK0xhkzfScnopKq
+         xfoA==
+X-Gm-Message-State: AOJu0YyDXF4ow99VagrVC1fHsJ4CEzUsJm+6fzdJ0A3NFCfjJsybQvP5
+	F8parj+ZTLwjUANJ4jMZKptrbIktmt5Eiw==
+X-Google-Smtp-Source: AGHT+IF117QXnpuvzxN4k7ZWFQU+WS2Vnv3gcLBVFPn+SbU8WR2VxRUpgBrqVdYwYz6vf0xwXjJxXQ==
+X-Received: by 2002:a05:6512:ba8:b0:50e:7be3:d325 with SMTP id b40-20020a0565120ba800b0050e7be3d325mr458204lfv.86.1704379663433;
+        Thu, 04 Jan 2024 06:47:43 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id x7-20020a50ba87000000b005527cfaa2dfsm19534526ede.49.2024.01.04.06.47.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jan 2024 06:47:42 -0800 (PST)
+Date: Thu, 4 Jan 2024 17:47:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Jedrzej Jagielski <jedrzej.jagielski@intel.com>,
+	intel-wired-lan@lists.osuosl.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	Jedrzej Jagielski <jedrzej.jagielski@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>
+Subject: Re: [PATCH iwl-next v1] ixgbe: Convert ret val type from s32 to int
+Message-ID: <08d8b75e-af80-438b-8006-9121b8444f49@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,61 +60,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240102150654.522555-5-ogabbay@kernel.org>
+In-Reply-To: <20240103101135.386891-1-jedrzej.jagielski@intel.com>
 
-Hi Oded,
+Hi Jedrzej,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-tip/drm-tip]
-[cannot apply to drm-misc/drm-misc-next linus/master v6.7-rc8 next-20240104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oded-Gabbay/accel-habanalabs-gaudi2-add-interrupt-affinity-for-user-interrupts/20240102-231007
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20240102150654.522555-5-ogabbay%40kernel.org
-patch subject: [PATCH 5/6] accel/habanalabs/gaudi2: move HMMU page tables to device memory
-config: x86_64-buildonly-randconfig-003-20240103 (https://download.01.org/0day-ci/archive/20240104/202401042015.r2eyzYmv-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401042015.r2eyzYmv-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jedrzej-Jagielski/ixgbe-Convert-ret-val-type-from-s32-to-int/20240103-182213
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git master
+patch link:    https://lore.kernel.org/r/20240103101135.386891-1-jedrzej.jagielski%40intel.com
+patch subject: [PATCH iwl-next v1] ixgbe: Convert ret val type from s32 to int
+config: i386-randconfig-141-20240104 (https://download.01.org/0day-ci/archive/20240104/202401041701.6QKTsZmx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401042015.r2eyzYmv-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202401041701.6QKTsZmx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:2884 ixgbe_get_lcd_t_x550em() warn: missing error code? 'status'
+drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:3130 ixgbe_enter_lplu_t_x550em() warn: missing error code? 'status'
 
->> drivers/accel/habanalabs/gaudi2/gaudi2.c:2311:6: warning: no previous prototype for function 'gaudi2_is_edma_queue_id' [-Wmissing-prototypes]
-    2311 | bool gaudi2_is_edma_queue_id(u32 queue_id)
-         |      ^
-   drivers/accel/habanalabs/gaudi2/gaudi2.c:2311:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2311 | bool gaudi2_is_edma_queue_id(u32 queue_id)
-         | ^
-         | static 
-   1 warning generated.
+Old smatch warnings:
+drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c:2890 ixgbe_get_lcd_t_x550em() warn: missing error code? 'status'
 
+vim +/status +2884 drivers/net/ethernet/intel/ixgbe/ixgbe_x550.c
 
-vim +/gaudi2_is_edma_queue_id +2311 drivers/accel/habanalabs/gaudi2/gaudi2.c
+9ea222bfe41f87 Jedrzej Jagielski 2024-01-03  2866  static int ixgbe_get_lcd_t_x550em(struct ixgbe_hw *hw,
+6ac7439459606a Don Skidmore      2015-06-17  2867  				  ixgbe_link_speed *lcd_speed)
+6ac7439459606a Don Skidmore      2015-06-17  2868  {
+6ac7439459606a Don Skidmore      2015-06-17  2869  	u16 an_lp_status;
+9ea222bfe41f87 Jedrzej Jagielski 2024-01-03  2870  	int status;
+6ac7439459606a Don Skidmore      2015-06-17  2871  	u16 word = hw->eeprom.ctrl_word_3;
+6ac7439459606a Don Skidmore      2015-06-17  2872  
+6ac7439459606a Don Skidmore      2015-06-17  2873  	*lcd_speed = IXGBE_LINK_SPEED_UNKNOWN;
+6ac7439459606a Don Skidmore      2015-06-17  2874  
+6ac7439459606a Don Skidmore      2015-06-17  2875  	status = hw->phy.ops.read_reg(hw, IXGBE_AUTO_NEG_LP_STATUS,
+4dc4000b35119f Emil Tantilov     2016-09-26  2876  				      MDIO_MMD_AN,
+6ac7439459606a Don Skidmore      2015-06-17  2877  				      &an_lp_status);
+6ac7439459606a Don Skidmore      2015-06-17  2878  	if (status)
+6ac7439459606a Don Skidmore      2015-06-17  2879  		return status;
+6ac7439459606a Don Skidmore      2015-06-17  2880  
+6ac7439459606a Don Skidmore      2015-06-17  2881  	/* If link partner advertised 1G, return 1G */
+6ac7439459606a Don Skidmore      2015-06-17  2882  	if (an_lp_status & IXGBE_AUTO_NEG_LP_1000BASE_CAP) {
+6ac7439459606a Don Skidmore      2015-06-17  2883  		*lcd_speed = IXGBE_LINK_SPEED_1GB_FULL;
+6ac7439459606a Don Skidmore      2015-06-17 @2884  		return status;
 
-  2310	
-> 2311	bool gaudi2_is_edma_queue_id(u32 queue_id)
-  2312	{
-  2313	
-  2314		switch (queue_id) {
-  2315		case GAUDI2_QUEUE_ID_DCORE0_EDMA_0_0...GAUDI2_QUEUE_ID_DCORE0_EDMA_1_3:
-  2316		case GAUDI2_QUEUE_ID_DCORE1_EDMA_0_0...GAUDI2_QUEUE_ID_DCORE1_EDMA_1_3:
-  2317		case GAUDI2_QUEUE_ID_DCORE2_EDMA_0_0...GAUDI2_QUEUE_ID_DCORE2_EDMA_1_3:
-  2318		case GAUDI2_QUEUE_ID_DCORE3_EDMA_0_0...GAUDI2_QUEUE_ID_DCORE3_EDMA_1_3:
-  2319			return true;
-  2320		default:
-  2321			return false;
-  2322		}
-  2323	}
-  2324	
+Smatch only warns about missing error codes when the function returns an
+int.  :P  The bug predates your patch obvoiusly.
+
+6ac7439459606a Don Skidmore      2015-06-17  2885  	}
+6ac7439459606a Don Skidmore      2015-06-17  2886  
+6ac7439459606a Don Skidmore      2015-06-17  2887  	/* If 10G disabled for LPLU via NVM D10GMP, then return no valid LCD */
+6ac7439459606a Don Skidmore      2015-06-17  2888  	if ((hw->bus.lan_id && (word & NVM_INIT_CTRL_3_D10GMP_PORT1)) ||
+6ac7439459606a Don Skidmore      2015-06-17  2889  	    (word & NVM_INIT_CTRL_3_D10GMP_PORT0))
+6ac7439459606a Don Skidmore      2015-06-17  2890  		return status;
+6ac7439459606a Don Skidmore      2015-06-17  2891  
+6ac7439459606a Don Skidmore      2015-06-17  2892  	/* Link partner not capable of lower speeds, return 10G */
+6ac7439459606a Don Skidmore      2015-06-17  2893  	*lcd_speed = IXGBE_LINK_SPEED_10GB_FULL;
+6ac7439459606a Don Skidmore      2015-06-17  2894  	return status;
+6ac7439459606a Don Skidmore      2015-06-17  2895  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
