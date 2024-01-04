@@ -1,52 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9137F2C850
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 19:24:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184F82C1B8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 20:15:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8c+SgAk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n/Vr871v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704396257; x=1735932257;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qkwcWTRnPuLK3bQ1zp6BZNHfneeNLWWLi4JM7xkbcJE=;
-  b=H8c+SgAkbMwqG4dKL8t2NY1okX1mw4vNjpuarJIGNs2WDcvvlpF7KS4G
-   VsppEgCOsMfQ7G7xrNdFVtv67kOkVSwWgFrMXLXeNW41QTEpyxrvwC5dL
-   rwwtLHWa/MORsLgLp0vMyPvTbtgYckrx403gojtM5HjmW72Pd3XBb6Lgu
-   IQ7PmQgCSexLOorfZaZPOjermLMCpSpmiRxsy9UTXHPhONvgwVSzjCLvm
-   llAnlA2u5jzdv+jJ/LW0qNfeYQYzsXU1OCHRNqg5zY1k6pAA/3/ZldvLC
-   /+nJEIksPw4ys8y+jT8Cc1kCvSJkNqzOP9jYRO1G+rqhqO/YNjHv0F2QZ
+  t=1704399319; x=1735935319;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YrYn1UbcovhLgRgdhdsZCKfJw+zqxFluD3f2RDwRofU=;
+  b=n/Vr871vodNt3a1f8PdEVCEtRqvG4em332nM+St4WgqUsHU/kT8HM6aX
+   vIsaKr9oP5ell5FDsQfHfP5sFzX28QPtrR24XTbZ+nrMEiMGfN+ivSxRA
+   elX7f0z8IoxTm7is8eCoOG5/MXCNGEXf3eqaZXcfSJgYgzW6pprBQgKgH
+   oUHNEShuHUk1PU5qyfEgfx3gYldLe5T1BcnnIEC90xkYVic670tC4Oj8e
+   Ug3fltiGUiIJqysssA9DOxAguJMHlGGINgSXFoqnZ4ULQQJnYmWrARPrh
+   /ZASTzvuuQ11X6DhaEk0LAlXf7MII1XoTkDWiSPmp4epvOUWyLrwDM+/C
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="396225340"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="387800607"
 X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="396225340"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 11:24:16 -0800
+   d="scan'208";a="387800607"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 12:15:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="814742448"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="903936595"
 X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="814742448"
+   d="scan'208";a="903936595"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 04 Jan 2024 11:24:14 -0800
+  by orsmga004.jf.intel.com with ESMTP; 04 Jan 2024 12:15:16 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLTK7-0000Ml-1E;
-	Thu, 04 Jan 2024 19:24:11 +0000
-Date: Fri, 5 Jan 2024 03:23:17 +0800
+	id 1rLU7W-0000OW-1s;
+	Thu, 04 Jan 2024 20:15:14 +0000
+Date: Fri, 5 Jan 2024 04:15:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zack Rusin <zack.rusin@broadcom.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Zack Rusin <zack.rusin@broadcom.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Raul Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] input/vmmouse: Fix device name copies
-Message-ID: <202401050307.tWbIHuS1-lkp@intel.com>
-References: <20240104050605.1773158-1-zack.rusin@broadcom.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Frederic Weisbecker <frederic@kernel.org>
+Subject: kernel/locking/locktorture.c:127:23: sparse: sparse: symbol
+ 'call_rcu_chain' was not declared. Should it be static?
+Message-ID: <202401050408.EhjifVYd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,52 +50,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240104050605.1773158-1-zack.rusin@broadcom.com>
 
-Hi Zack,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus linus/master v6.7-rc8 next-20240104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zack-Rusin/input-vmmouse-Fix-device-name-copies/20240104-130724
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20240104050605.1773158-1-zack.rusin%40broadcom.com
-patch subject: [PATCH v2] input/vmmouse: Fix device name copies
-config: i386-randconfig-061-20240104 (https://download.01.org/0day-ci/archive/20240105/202401050307.tWbIHuS1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401050307.tWbIHuS1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ac865f00af293d081356bec56eea90815094a60e
+commit: 7f993623e9ebcd633c0f760991e5078b95a37db3 locktorture: Add call_rcu_chains module parameter
+date:   3 months ago
+config: csky-randconfig-r013-20230825 (https://download.01.org/0day-ci/archive/20240105/202401050408.EhjifVYd-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240105/202401050408.EhjifVYd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401050307.tWbIHuS1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401050408.EhjifVYd-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/input/mouse/vmmouse.c:77:52: sparse: sparse: Variable length array is used.
->> drivers/input/mouse/vmmouse.c:77:14: sparse: sparse: flexible array member 'phys' is not last
+>> kernel/locking/locktorture.c:127:23: sparse: sparse: symbol 'call_rcu_chain' was not declared. Should it be static?
+   kernel/locking/locktorture.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   kernel/locking/locktorture.c:496:12: sparse: sparse: context imbalance in 'torture_mutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c:512:13: sparse: sparse: context imbalance in 'torture_mutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:570:12: sparse: sparse: context imbalance in 'torture_ww_mutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c: note: in included file:
+   include/linux/ww_mutex.h:191:9: sparse: sparse: context imbalance in 'torture_ww_mutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:665:12: sparse: sparse: context imbalance in 'torture_rtmutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c:689:13: sparse: sparse: context imbalance in 'torture_rtmutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:729:12: sparse: sparse: context imbalance in 'torture_rwsem_down_write' - wrong count at exit
+   kernel/locking/locktorture.c:745:13: sparse: sparse: context imbalance in 'torture_rwsem_up_write' - wrong count at exit
+   kernel/locking/locktorture.c:751:12: sparse: sparse: context imbalance in 'torture_rwsem_down_read' - wrong count at exit
+   kernel/locking/locktorture.c:769:13: sparse: sparse: context imbalance in 'torture_rwsem_up_read' - wrong count at exit
+   kernel/locking/locktorture.c:799:12: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_write' - wrong count at exit
+   kernel/locking/locktorture.c:806:13: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_write' - wrong count at exit
+   kernel/locking/locktorture.c: note: in included file:
+   include/linux/percpu-rwsem.h:70:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_read' - wrong count at exit
+   include/linux/percpu-rwsem.h:121:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_read' - wrong count at exit
 
-vim +77 drivers/input/mouse/vmmouse.c
+vim +/call_rcu_chain +127 kernel/locking/locktorture.c
 
-    67	
-    68	/**
-    69	 * struct vmmouse_data - private data structure for the vmmouse driver
-    70	 *
-    71	 * @abs_dev: "Absolute" device used to report absolute mouse movement.
-    72	 * @phys: Physical path for the absolute device.
-    73	 * @dev_name: Name attribute name for the absolute device.
-    74	 */
-    75	struct vmmouse_data {
-    76		struct input_dev *abs_dev;
-  > 77		char phys[sizeof_field(struct serio, phys) +
-    78			  strlen(VMMOUSE_PHYS_NAME_POSTFIX_STR)];
-    79		char dev_name[128];
-    80	};
-    81	
+   122	
+   123	struct call_rcu_chain {
+   124		struct rcu_head crc_rh;
+   125		bool crc_stop;
+   126	};
+ > 127	struct call_rcu_chain *call_rcu_chain;
+   128	
 
 -- 
 0-DAY CI Kernel Test Service
