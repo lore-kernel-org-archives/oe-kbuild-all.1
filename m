@@ -1,158 +1,121 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335952D623
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 23:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67162D600
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 23:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BE378cXj"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6dbcc5d78eeso576472a34.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 15:28:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704410893; x=1705015693; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/U981NIFXNUGmsC8yAC8KtsHhlf5F7h+l8fIfCAsURA=;
-        b=BE378cXjfDeOj2psp/sCigBWmNz2WyvPKq5xd9D0ysZSHvsMGho9DIVYMIts6PJ0Rj
-         yZgn25mVBiCAZxK/0IX5FkMTmxvkjcMtHK24SRe6KRpB63b30n363UOEUMxoSFYC/DzP
-         6Do6rR81a732Ade/WSqlWI8NXjVW1Wx1O2ZAVgJm5CpwwSom3K+vqocFkJ4Qe76BBeeN
-         2zeoc/kJZwMq0MzaW1RAO259ynY0y0IXpkOG7ioCDJTti/yD9dBaMcwHydWxNojhTMk5
-         QOPaiHBPgAO9fqbRCCRo2z3SzJdQBA5SLzbbzGc3W4U+ooQx37zcb9asfBFFMm1GVZ2i
-         97Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704410893; x=1705015693;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/U981NIFXNUGmsC8yAC8KtsHhlf5F7h+l8fIfCAsURA=;
-        b=qZ6HJ/pVZcUxg+t41TRnV8fSBXZzaS+5ZXFOKQkkfCtnxnPml+dYxAJgDVsCA2pLNw
-         gjZq3CVZa0/Po30jD5BSo9dUybBa0CQ/b6VTrkhcH1+esLNW9ZVkF6c27RbmMmITt1a6
-         ZgwlcCi1krBcjmUs7v2dUZjIYr0cfeu3MQeGu6lB9OncfQEIVddFvyreln8isyS1qrBt
-         E4UUrcToh3r1ZNylkzkqz6WaaUKC422rGsxzYY9NBMDw4PejzqWIpyRP6aI/FsR70Fp1
-         ByyUTRRUEYgTU1mizve77lQWe15Zi8DRJkSqlCVtWf1cbYmPfDW62RuPY2cS7basyDyF
-         joxQ==
-X-Gm-Message-State: AOJu0YyWPLy9ONYlNffjO1VGd/dxwycFwTc3DP+b2m94SVqFCRsfGBKC
-	q1kLU41GZYs3HYoWxajwqnoLc87QnrDHI/lwY5U=
-X-Google-Smtp-Source: AGHT+IHDVSB4IkG6A17h8hErnIROWqrwwbl8z8mMt88JkyUZLUsRYcptTPGNSruFsrsdu5wWRIHjYE1lU4tVrb5g6So=
-X-Received: by 2002:a05:6870:cd0f:b0:205:d4b1:ee83 with SMTP id
- qk15-20020a056870cd0f00b00205d4b1ee83mr403685oab.21.1704410893349; Thu, 04
- Jan 2024 15:28:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nufmfek9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704411242; x=1735947242;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=eRD3WvL9IoR+OnjgQsNe+9A2bUim5ab6EW7emX7oXSs=;
+  b=Nufmfek9fBDmhynoOmLueBdBH39sDO5TAYXM4tAgvYh4X9MeAbx4QtlU
+   6UmfQM6cQDH2IxsduJrCD/FWD5npG9rU8Z304LnFeKICmGKEnt0gXLuGp
+   1qx8CeP2j6X1nGG2v4lnpCGqCBr+UBOKxrIv5LJYLVBn/vOVCH41btcwa
+   9wR/vPrn2ymXpQwItzqlxeGXrWAp/sLor+nIN4Y5D41JyTtzR7CsTg3xe
+   ufQzVKBubzXWT4ouCMDsWLelB2AUtmkbhtXzF6e+KV4XS9JIWEfire+8t
+   TVqb4TCeksl/KBfXHq0mZRvQDBeHUS2efDY55qlzzG0RQKWPRvxcjbvrV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4753181"
+X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
+   d="scan'208";a="4753181"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 15:34:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
+   d="scan'208";a="15076835"
+Received: from jlkarden-mobl1.amr.corp.intel.com (HELO [10.212.164.16]) ([10.212.164.16])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 15:34:00 -0800
+Message-ID: <b637d627-1f11-43ae-981e-d5d9c6637a93@intel.com>
+Date: Thu, 4 Jan 2024 15:34:00 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
- <202309231130.ZI5MdlDc-lkp@intel.com> <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
- <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com> <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
- <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
-In-Reply-To: <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
-From: Noah Goldstein <goldstein.w.n@gmail.com>
-Date: Thu, 4 Jan 2024 15:28:01 -0800
-Message-ID: <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: x86/csum: Remove unnecessary odd handling
-To: David Laight <David.Laight@aculab.com>
-Cc: kernel test robot <lkp@intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>, 
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, 
-	"torvalds@linux-foundation.org" <torvalds@linux-foundation.org>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com" <hpa@zytor.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+To: Noah Goldstein <goldstein.w.n@gmail.com>,
+ David Laight <David.Laight@aculab.com>
+Cc: kernel test robot <lkp@intel.com>, "x86@kernel.org" <x86@kernel.org>,
+ "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "edumazet@google.com" <edumazet@google.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>,
+ "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+ "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "hpa@zytor.com" <hpa@zytor.com>
+References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
+ <202309231130.ZI5MdlDc-lkp@intel.com>
+ <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
+ <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com>
+ <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
+ <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
+ <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Dec 23, 2023 at 2:18=E2=80=AFPM Noah Goldstein <goldstein.w.n@gmail=
-.com> wrote:
->
-> On Sun, Sep 24, 2023 at 7:35=E2=80=AFAM Noah Goldstein <goldstein.w.n@gma=
-il.com> wrote:
-> >
-> > On Sat, Sep 23, 2023 at 4:13=E2=80=AFPM David Laight <David.Laight@acul=
-ab.com> wrote:
-> > >
-> > > From: Noah Goldstein
-> > > > Sent: 23 September 2023 15:05
-> > > >
-> > > > On Fri, Sep 22, 2023 at 10:25=E2=80=AFPM kernel test robot <lkp@int=
-el.com> wrote:
-> > > > >
-> > > > > Hi Noah,
-> > > > >
-> > > > > kernel test robot noticed the following build warnings:
-> > > > >
-> > > > > [auto build test WARNING on tip/x86/core]
-> > > > > [also build test WARNING on tip/master tip/auto-latest linus/mast=
-er v6.6-rc2 next-20230921]
-> > > > > [If your patch is applied to the wrong git tree, kindly drop us a=
- note.
-> > > > > And when submitting patch, we suggest to use '--base' as document=
-ed in
-> > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > > > >
-> > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Noah-Golds=
-tein/x86-csum-Remove-unnecessary-
-> > > > odd-handling/20230921-032450
-> > > > > base:   tip/x86/core
-> > > > > patch link:    https://lore.kernel.org/r/20230920192300.3772199-1=
--goldstein.w.n%40gmail.com
-> > > > > patch subject: x86/csum: Remove unnecessary odd handling
-> > > > > config: x86_64-randconfig-121-20230921 (https://download.01.org/0=
-day-
-> > > > ci/archive/20230923/202309231130.ZI5MdlDc-lkp@intel.com/config)
-> > > > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-
-> > > > ci/archive/20230923/202309231130.ZI5MdlDc-lkp@intel.com/reproduce)
-> > > > >
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a =
-new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202309231130.ZI5M=
-dlDc-lkp@intel.com/
-> > > > >
-> > > > > sparse warnings: (new ones prefixed by >>)
-> > > > > >> arch/x86/lib/csum-partial_64.c:16:45: sparse: sparse: incorrec=
-t type in return expression
-> > > > (different base types) @@     expected restricted __wsum @@     got=
- unsigned long long @@
-> > > > >    arch/x86/lib/csum-partial_64.c:16:45: sparse:     expected res=
-tricted __wsum
-> > > > >    arch/x86/lib/csum-partial_64.c:16:45: sparse:     got unsigned=
- long long
-> > > > > >> arch/x86/lib/csum-partial_64.c:16:45: sparse: sparse: incorrec=
-t type in return expression
-> > > > (different base types) @@     expected restricted __wsum @@     got=
- unsigned long long @@
-> > > > >    arch/x86/lib/csum-partial_64.c:16:45: sparse:     expected res=
-tricted __wsum
-> > > > >    arch/x86/lib/csum-partial_64.c:16:45: sparse:     got unsigned=
- long long
-> > > > >
-> > > > > vim +16 arch/x86/lib/csum-partial_64.c
-> > > > >
-> > > > >     13
-> > > > >     14  static inline __wsum csum_finalize_sum(u64 temp64)
-> > > > >     15  {
-> > > > >   > 16          return (temp64 + ror64(temp64, 32)) >> 32;
-> > > > >     17  }
-> > > > >     18
-> > > >
-> > > > Just needs a `(__wsum)` cast. Should I post a new patch?
-> > >
-> > > It'll need to be a (__force __wsum) cast.
-> > >
-> > > I think new patches are expected...
-> > >
-> > Thank you, posted V4 that should fix the warning.
-> > >         David
-> > >
-> > > -
-> > > Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes,=
- MK1 1PT, UK
-> > > Registration No: 1397386 (Wales)
->
-> ping.
-ping
+On 1/4/24 15:28, Noah Goldstein wrote:
+>> ping.
+> ping
+
+Noah, it would be great to elaborate on what you are pinging about.
+This thread has a note that you "posted v4", but I don't see a
+clearly-tagged v4 in my inbox, just a bunch of identially-titled
+non-standard-subject[1] emails without any indication of what changed in
+the individual patches.
+
+1. https://docs.kernel.org/process/submitting-patches.html
