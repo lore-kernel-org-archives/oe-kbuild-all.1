@@ -1,51 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A05E20B05
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 11:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B8221101
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 11:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZLqsh4P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704367334; x=1735903334;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uodsPQwb3ryAcRNLzuFCkBDO1p4zmPwqvDky+IYW1ps=;
-  b=cZLqsh4PO9j4nLAmUrFP934Am6hNGFvWsx2b6UN4prBdEgX65AG7Q85Y
-   Yo14fRkxoSyEG49C/N9HOVo3rYLLMi5MevONu79/dmK9pVDDe0O+pxjk+
-   xToZzZyt1PGWoOQ7+ckKqJmXoNTdwuZow619Pu9Y/L4k6n3vjDU7puUjc
-   mUmqpUy0lhRy1pWbsBvqH8cLgFld0shCCAxJrOVJwf2Kgqo6E0cAl4eQc
-   GGXcB95VxDa+6pqsdkbiI4S/XV782RTPyLww+P7FaDDu/3oHr/tPkl5Dr
-   R7v1gxWJdjX2Dc7iHZdMs+s9CRMJsduWFWKlJFdeBpdn8DkObxN3qGjxs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="463605615"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="463605615"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 03:22:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="899261957"
-X-IronPort-AV: E=Sophos;i="6.04,330,1695711600"; 
-   d="scan'208";a="899261957"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Jan 2024 03:22:11 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rLLnd-000NDM-1v;
-	Thu, 04 Jan 2024 11:22:09 +0000
-Date: Thu, 4 Jan 2024 19:21:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Gregory Price <gourry.memverge@gmail.com>,
-	Rakie Kim <rakie.kim@sk.com>, Hyeongtak Ji <hyeongtak.ji@sk.com>,
-	Honggyu Kim <honggyu.kim@sk.com>,
-	Vinicius Tavares Petrucci <vtavarespetr@micron.com>
-Subject: [gmprice:mempolicy2_mbind2 12/12] mm/mempolicy.c:3236:58: warning:
- argument to 'sizeof' in 'memcpy' call is the same expression as the
- destination; did you mean to provide an explicit length?
-Message-ID: <202401041959.K6W0Fs1J-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zGr7DHAQ"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a279ce3aab9so48259566b.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 03:27:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704367648; x=1704972448; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pVTzrfr9GZA3UY//E7UWyLjKPOakT/U+oW4hijSpjQE=;
+        b=zGr7DHAQ1tHsvMm7BBU5lqUxxnznSPfdOGe6AstyAGaz5waWitTA/QKGagadLpk/2L
+         +8nsAPLQ2/khL7x3fkNO0OOpYQAumJO6C96jdXy/ln8KRYLwtg4MEfBTUOBzkwTIvK5Z
+         AuynsIuC878VDDTJYS6vm2gRNt2jAXBKCZfaHl9zmx4jrwFm/CtZs+UOOFLOoJRNhyIC
+         YXw+LFgwpJm+oCs42WFleSwM9zVb/TwGJii1BrOt8jOlqkjy+yA9DQbPMItpysgCIs9S
+         p9wcL3cTscP847ZXcR++VMQ2xONQsT411x8Kte8D+8oHu8xCyD/CizRGQPs6bq1G6kYA
+         ADXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704367648; x=1704972448;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pVTzrfr9GZA3UY//E7UWyLjKPOakT/U+oW4hijSpjQE=;
+        b=PFS4Nueq/by9kM24Lh0uW2depHBlNkkj9Cve9i5l+SDw9vACcv7JtiRy573PonsIrW
+         eXNlvFW3l3Z3GH4xJx+SbzvsO+TsF77RE1t2Ule0zUivSeGjRMQZN1q414kBrM+8oXvF
+         Vhu2NgZ2n/u52lPRc6Ka4OJ/klp/eTsOIrm8XZm1ONfCbVzsoEmjvPhBAL1cTast/Cgd
+         fKW8nVU2JKk95bqUEn9f1MTZ8q1bc1nZHJUBfotfYA0npo2mhMRnq2qzM1R+z2BeOoDi
+         4bG8tZJaHhmXGGXcYLjfW/+rBMOrFTmsqCM/FV+iOt7WEe0ao/1eEJDNX4LSQnDG/1nR
+         McDA==
+X-Gm-Message-State: AOJu0Yz1dU25hKC7XPgxOsRpsUPkNQ+uAedCIiErUHr1nVGus5HZOVuw
+	jZbbS8XnaG7Ckjl3Fwn/Ilam1+hHfLgmKQ==
+X-Google-Smtp-Source: AGHT+IFT8p6ISNDQ7jmYQiJ1bTrzoH7XIlhuJHaj2R3o92vzBUuH89axbBnfHGGum6t63s7MHZT7hA==
+X-Received: by 2002:a17:906:2518:b0:a28:a7f4:65dc with SMTP id i24-20020a170906251800b00a28a7f465dcmr110057ejb.299.1704367648507;
+        Thu, 04 Jan 2024 03:27:28 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id ka24-20020a170907921800b00a26abf393d0sm13105560ejb.138.2024.01.04.03.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jan 2024 03:27:28 -0800 (PST)
+Date: Thu, 4 Jan 2024 14:27:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:n/gpio-reset-controller-shared 18/18]
+ drivers/reset/core.c:837 __reset_gpios_args_match() warn: variable
+ dereferenced before check 'a2' (see line 834)
+Message-ID: <a220a7a3-1eef-4e87-836e-44e4eadcbea4@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,132 +57,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gmprice/linux mempolicy2_mbind2
-head:   6778fe256977719295e155d049454870c0f0c743
-commit: 6778fe256977719295e155d049454870c0f0c743 [12/12] mm/mempolicy: extend mempolicy2 and mbind2 to support weighted interleave
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240104/202401041959.K6W0Fs1J-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240104/202401041959.K6W0Fs1J-lkp@intel.com/reproduce)
+tree:   https://github.com/krzk/linux n/gpio-reset-controller-shared
+head:   432bf1b2293de8d4f827f6ee3e32da747ddc44a3
+commit: 432bf1b2293de8d4f827f6ee3e32da747ddc44a3 [18/18] reset core WIP
+config: i386-randconfig-141-20231231 (https://download.01.org/0day-ci/archive/20231231/202312311338.jKP1GdFw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401041959.K6W0Fs1J-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312311338.jKP1GdFw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/reset/core.c:837 __reset_gpios_args_match() warn: variable dereferenced before check 'a2' (see line 834)
 
-   mm/mempolicy.c: In function 'mpol_shared_policy_init':
->> mm/mempolicy.c:3236:58: warning: argument to 'sizeof' in 'memcpy' call is the same expression as the destination; did you mean to provide an explicit length? [-Wsizeof-pointer-memaccess]
-    3236 |                 memcpy(weights, mpol->wil.weights, sizeof(weights));
-         |                                                          ^
-   mm/mempolicy.c: In function 'mpol_parse_str':
-   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
-    3575 |                 *--flags = '=';
-         |                 ~~~~~~~~~^~~~~
-   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
-    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
-         |                    ~~~~~~^~~
-   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
-    3575 |                 *--flags = '=';
-         |                 ~~~~~~~~~^~~~~
-   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
-    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
-         |                    ~~~~~~^~~
-   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
-    3575 |                 *--flags = '=';
-         |                 ~~~~~~~~~^~~~~
-   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
-    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
-         |                    ~~~~~~^~~
-   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
-    3575 |                 *--flags = '=';
-         |                 ~~~~~~~~~^~~~~
-   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
-    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
-         |                    ~~~~~~^~~
-   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
-    3575 |                 *--flags = '=';
-         |                 ~~~~~~~~~^~~~~
-   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
-    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
-         |                    ~~~~~~^~~
-   mm/mempolicy.c:3575:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
-    3575 |                 *--flags = '=';
-         |                 ~~~~~~~~~^~~~~
-   mm/mempolicy.c:3450:26: note: destination object 'str' of size [0, 9223372036854775807]
-    3450 | int mpol_parse_str(char *str, struct mempolicy **mpol)
-         |                    ~~~~~~^~~
+vim +/a2 +837 drivers/reset/core.c
+
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30  829  static bool __reset_gpios_args_match(const struct of_phandle_args *a1,
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30  830  				     const struct of_phandle_args *a2)
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  831  {
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  832  	unsigned int i;
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  833  
+2a9529168d430a Krzysztof Kozlowski 2023-12-28 @834  	pr_err("%s:%d AAA comparing %pOF == %pOF, r->of_args=%px\n",
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  835  	       __func__, __LINE__,
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30  836  	       a1->np, a2->np, a2);
+                                                                       ^^^^^^
+Dereference
+
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30 @837  	if (!a2)
+                                                            ^^^
+Checked too late
 
 
-vim +3236 mm/mempolicy.c
-
-  3205	
-  3206	/**
-  3207	 * mpol_shared_policy_init - initialize shared policy for inode
-  3208	 * @sp: pointer to inode shared policy
-  3209	 * @mpol:  struct mempolicy to install
-  3210	 *
-  3211	 * Install non-NULL @mpol in inode's shared policy rb-tree.
-  3212	 * On entry, the current task has a reference on a non-NULL @mpol.
-  3213	 * This must be released on exit.
-  3214	 * This is called at get_inode() calls and we can use GFP_KERNEL.
-  3215	 */
-  3216	void mpol_shared_policy_init(struct shared_policy *sp, struct mempolicy *mpol)
-  3217	{
-  3218		int ret;
-  3219		struct mempolicy_param mparam;
-  3220	
-  3221		sp->root = RB_ROOT;		/* empty tree == default mempolicy */
-  3222		rwlock_init(&sp->lock);
-  3223	
-  3224		if (mpol) {
-  3225			struct sp_node *sn;
-  3226			struct mempolicy *npol;
-  3227			u8 *weights = NULL;
-  3228			NODEMASK_SCRATCH(scratch);
-  3229	
-  3230			if (!scratch)
-  3231				goto put_mpol;
-  3232	
-  3233			weights = kzalloc(MAX_NUMNODES, GFP_KERNEL | __GFP_NORETRY);
-  3234			if (!weights)
-  3235				goto free_scratch;
-> 3236			memcpy(weights, mpol->wil.weights, sizeof(weights));
-  3237	
-  3238			memset(&mparam, 0, sizeof(mparam));
-  3239			mparam.mode = mpol->mode;
-  3240			mparam.mode_flags = mpol->flags;
-  3241			mparam.policy_nodes = &mpol->w.user_nodemask;
-  3242			mparam.home_node = NUMA_NO_NODE;
-  3243			mparam.il_weights = weights;
-  3244	
-  3245			/* contextualize the tmpfs mount point mempolicy to this file */
-  3246			npol = mpol_new(&mparam);
-  3247			if (IS_ERR(npol))
-  3248				goto free_weights; /* no valid nodemask intersection */
-  3249	
-  3250			task_lock(current);
-  3251			ret = mpol_set_nodemask(npol, &mpol->w.user_nodemask, scratch);
-  3252			task_unlock(current);
-  3253			if (ret)
-  3254				goto put_npol;
-  3255	
-  3256			/* alloc node covering entire file; adds ref to file's npol */
-  3257			sn = sp_alloc(0, MAX_LFS_FILESIZE >> PAGE_SHIFT, npol);
-  3258			if (sn)
-  3259				sp_insert(sp, sn);
-  3260	put_npol:
-  3261			mpol_put(npol);	/* drop initial ref on file's npol */
-  3262	free_weights:
-  3263			kfree(weights);
-  3264	free_scratch:
-  3265			NODEMASK_SCRATCH_FREE(scratch);
-  3266	put_mpol:
-  3267			mpol_put(mpol);	/* drop our incoming ref on sb mpol */
-  3268		}
-  3269	}
-  3270	
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  838  		return false;
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  839  
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  840  	pr_err("%s:%d AAA comparing %pOF == %pOF | %u == %u\n",
+2a9529168d430a Krzysztof Kozlowski 2023-12-28  841  	       __func__, __LINE__,
+432bf1b2293de8 Krzysztof Kozlowski 2023-12-30  842  	       a1->np, a2->np,
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
