@@ -1,45 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C292F2D608
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 22:47:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CD12CCBA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Jan 2024 22:47:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GxvHCbGp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JC8akjnE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704408460; x=1735944460;
+  t=1704408462; x=1735944462;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2wiGXS4gLBlBKIsYadDTQmIF1Eo0QdpdyZkviM0INUo=;
-  b=GxvHCbGpbkyI48HkfvN7jI22H+5lZ2+0G+LbbS6qaLftGamvKbZ1FoQ+
-   fUJk3NEBGPEQWH9tHCob3Z95+eUXZmh6scVWTmhbsNx08fh92/141ka+N
-   G+sXRPURnmHeJJMmSQzCbHz2cy41mUR0gN5tFN6kqxSHm2X9EAOkU4Y2L
-   wmOFvVYdUCXwXN1p2oqKc32sfoiRCPTQHtDeZTZQV2AchUF+rnUJDMDuR
-   05r8SqdnGkShAcObW+fbr1vawhqU6uQLQU3HJQfVkiiSgAZ7UN886Qwbo
-   pCIvpkmn9bRApi3H4iDETib3f1/B17x2bcUQPTqJKQOpWz2s9S5ZjPFJu
+  bh=EiH9QOxcteCUq8FKBSEwAmJX9QLm0sg0e3+nkV7qkvM=;
+  b=JC8akjnEmivUdRrGgiasG74teG7SJD/mc1VYwWMJC3j/6zC58xnV1H8B
+   aEMhj+gRh8YvvPQsz4sayyiKpCVcYX6U/v/6osnihHLjuJ7bWkVsDB5Nz
+   rIl2CUCOswipyt4eEDYE3ROcv7EejRnt7p/MYh1kQL5P9kigQZWSSgJXV
+   wcqo19F1x1/5qjXE4IyBfbeaIG96BNLX2oNBq8RSoVnXwg34p6DVmvgvf
+   ItWtPjhe01u6Nqf7XYAFImDtsm8sMhpWn98sSKnYcvvm3zr56pdMTh/+c
+   z3k2E6i0NQoX8ovUJydFn9V6sHhPvnO0Rj7zAK1jHBaMGLCFQo7CXV7Wc
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="10760962"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="10760964"
 X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
-   d="scan'208";a="10760962"
+   d="scan'208";a="10760964"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 14:43:23 -0800
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 14:43:24 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
-   d="scan'208";a="22653000"
+   d="scan'208";a="22653002"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Jan 2024 14:43:22 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 04 Jan 2024 14:43:23 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLWQq-0000UK-0d;
+	id 1rLWQq-0000UQ-0s;
 	Thu, 04 Jan 2024 22:43:20 +0000
-Date: Fri, 5 Jan 2024 06:43:08 +0800
+Date: Fri, 5 Jan 2024 06:43:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Borislav Petkov (AMD)" <bp@alien8.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bp:tip-ras-core-WIP 14/14] drivers/ras/ras.c:22:6: warning: no
- previous prototype for 'amd_atl_register_decoder'
-Message-ID: <202401050603.Hf3K7baU-lkp@intel.com>
+Subject: [android-common:android13-5.15 1/1]
+ include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return
+ expression (different address spaces)
+Message-ID: <202401050654.ljNFxKcU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,84 +50,145 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git tip-ras-core-WIP
-head:   cf9dcdd287f3d175a9fafdadb944586333cb785c
-commit: cf9dcdd287f3d175a9fafdadb944586333cb785c [14/14] WIP build fix
-config: x86_64-randconfig-004-20240105 (https://download.01.org/0day-ci/archive/20240105/202401050603.Hf3K7baU-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401050603.Hf3K7baU-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   c046e1739fb043703dbf6e388ed896375841532b
+commit: 0145780bfc78d0a429997fd132f7cf8af61cc632 [1/1] ANDROID: fix KASAN-related kernel crash by KMI W/A for NETFILTER_FAMILY_BRIDGE
+config: x86_64-randconfig-121-20240104 (https://download.01.org/0day-ci/archive/20240105/202401050654.ljNFxKcU-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401050654.ljNFxKcU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401050603.Hf3K7baU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401050654.ljNFxKcU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/ipv4/ip_forward.c: note: in included file (through include/linux/netdevice.h):
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+--
+   net/ipv4/ip_input.c: note: in included file (through include/linux/inet.h):
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+   net/ipv4/ip_input.c: note: in included file (through include/net/net_namespace.h, include/linux/inet.h):
+   include/linux/skbuff.h:2501:28: sparse: sparse: self-comparison always evaluates to false
+   net/ipv4/ip_input.c: note: in included file (through include/linux/inet.h):
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+--
+   net/ipv4/arp.c: note: in included file (through include/linux/inet.h):
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+--
+   net/ipv4/raw.c: note: in included file (through include/linux/netdevice.h, include/net/fib_rules.h, include/linux/mroute.h):
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+--
+   net/ipv4/ip_output.c: note: in included file (through include/linux/inet.h):
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
+>> include/net/net_namespace.h:205:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct nf_hook_entries [noderef] __rcu ** @@     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep @@
+   include/net/net_namespace.h:205:24: sparse:     expected struct nf_hook_entries [noderef] __rcu **
+   include/net/net_namespace.h:205:24: sparse:     got struct nf_hook_entries **extern [addressable] [toplevel] init_nf_hooks_bridgep
 
-   drivers/ras/ras.c:20:54: warning: 'struct mce' declared inside parameter list will not be visible outside of this definition or declaration
-      20 | static unsigned long (*amd_atl_umc_na_to_spa)(struct mce *m);
-         |                                                      ^~~
-   drivers/ras/ras.c:22:57: warning: 'struct mce' declared inside parameter list will not be visible outside of this definition or declaration
-      22 | void amd_atl_register_decoder(unsigned long (*f)(struct mce *))
-         |                                                         ^~~
->> drivers/ras/ras.c:22:6: warning: no previous prototype for 'amd_atl_register_decoder' [-Wmissing-prototypes]
-      22 | void amd_atl_register_decoder(unsigned long (*f)(struct mce *))
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ras/ras.c: In function 'amd_atl_register_decoder':
-   drivers/ras/ras.c:24:24: error: assignment to 'long unsigned int (*)(struct mce *)' from incompatible pointer type 'long unsigned int (*)(struct mce *)' [-Werror=incompatible-pointer-types]
-      24 |  amd_atl_umc_na_to_spa = f;
-         |                        ^
-   drivers/ras/ras.c: At top level:
->> drivers/ras/ras.c:28:6: warning: no previous prototype for 'amd_atl_unregister_decoder' [-Wmissing-prototypes]
-      28 | void amd_atl_unregister_decoder(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ras/ras.c:34:59: warning: 'struct mce' declared inside parameter list will not be visible outside of this definition or declaration
-      34 | unsigned long amd_convert_umc_mca_addr_to_sys_addr(struct mce *m)
-         |                                                           ^~~
->> drivers/ras/ras.c:34:15: warning: no previous prototype for 'amd_convert_umc_mca_addr_to_sys_addr' [-Wmissing-prototypes]
-      34 | unsigned long amd_convert_umc_mca_addr_to_sys_addr(struct mce *m)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ras/ras.c: In function 'amd_convert_umc_mca_addr_to_sys_addr':
-   drivers/ras/ras.c:39:31: error: passing argument 1 of 'amd_atl_umc_na_to_spa' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      39 |  return amd_atl_umc_na_to_spa(m);
-         |                               ^
-         |                               |
-         |                               struct mce *
-   drivers/ras/ras.c:39:31: note: expected 'struct mce *' but argument is of type 'struct mce *'
-   cc1: some warnings being treated as errors
+vim +205 include/net/net_namespace.h
 
-
-vim +/amd_atl_register_decoder +22 drivers/ras/ras.c
-
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  21  
-8e1d0790e0a749 Yazen Ghannam 2023-12-18 @22  void amd_atl_register_decoder(unsigned long (*f)(struct mce *))
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  23  {
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  24  	amd_atl_umc_na_to_spa = f;
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  25  }
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  26  EXPORT_SYMBOL_GPL(amd_atl_register_decoder);
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  27  
-8e1d0790e0a749 Yazen Ghannam 2023-12-18 @28  void amd_atl_unregister_decoder(void)
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  29  {
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  30  	amd_atl_umc_na_to_spa = NULL;
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  31  }
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  32  EXPORT_SYMBOL_GPL(amd_atl_unregister_decoder);
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  33  
-8e1d0790e0a749 Yazen Ghannam 2023-12-18 @34  unsigned long amd_convert_umc_mca_addr_to_sys_addr(struct mce *m)
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  35  {
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  36  	if (!amd_atl_umc_na_to_spa)
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  37  		return -EINVAL;
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  38  
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  39  	return amd_atl_umc_na_to_spa(m);
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  40  }
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  41  EXPORT_SYMBOL_GPL(amd_convert_umc_mca_addr_to_sys_addr);
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  42  #endif /* CONFIG_AMD_ATL */
-8e1d0790e0a749 Yazen Ghannam 2023-12-18  43  
-
-:::::: The code at line 22 was first introduced by commit
-:::::: 8e1d0790e0a749a62428ff039c7a9050a06e9feb RAS: Introduce AMD Address Translation Library
-
-:::::: TO: Yazen Ghannam <yazen.ghannam@amd.com>
-:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
+   199	
+   200	static inline struct nf_hook_entries __rcu **get_nf_hooks_bridge(const struct net *net)
+   201	{
+   202		struct ext_net *ext_net;
+   203	
+   204		if (net == &init_net)
+ > 205			return init_nf_hooks_bridgep;
+   206		ext_net = container_of(net, struct ext_net, net);
+   207		return ext_net->hooks_bridge;
+   208	}
+   209	#endif
+   210	
 
 -- 
 0-DAY CI Kernel Test Service
