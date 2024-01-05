@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD351DDD9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 05:57:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255AF200CC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 06:56:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="faRKGPGB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RhARIB3Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704434249; x=1735970249;
+  t=1704437778; x=1735973778;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GBVSaa8S7VS7VcF464mo6vuAJr25bs3JE40u1rINOSg=;
-  b=faRKGPGBfbRiPBkdGWPyLRvocjTMN1TO1IP6pTHQe1izAGl1aRpEB2zn
-   h4mi+oJvW0JZpDKT79FIQMt4FcliL5woG/VJxhe4/kRFN3eGJrnKemtdC
-   svtNJ7ECF6uNjFSEjJmc6VC+8qBIeENAzHaZ1NiAyL7isv4o89RG2ihrq
-   2aX9s1YAG0j8fNz0RUQkps/H+EKRHts3fwxt15DKDKyfofKc2n4O5IMRX
-   /d9ecJff2NFeFdd3IFuP+IR7sBx9CAcdLz5eCoGoNwIo8Hq5MuvNFZc/v
-   ZGO/zxXk4fz3V2QHf3ZMiHAfgilK5LxwuOfEO/7j7k9QT3K6Kuad+YeNO
+  bh=C/N0FKh5OKbPbltDCk1Qqa9te6zo3abVHsX6TgIK5WI=;
+  b=RhARIB3QloroNFGS0N/+wEkR7z9mwnJFNo7RkfclpLcpsvgDtF4K11sm
+   vnZwZiw01dSbQQDtw6UaYpw3I2+eiSyOMZ419o8wBqq3DEpw5bm/F7iEj
+   VFxg37GxpPHYgAhELUOsCjpJqLbFXmINT47ZlJ6oU7gsY//lnD9TdpVNQ
+   M3sQ8BnE2zARxdypRIlx/WO236B70QHp6Ieb/L2VuT7OnzLc28FSJjiPz
+   SNks7nCINSxY0gIeJldYNyIotcCOoz4To+hvSSA+DViwAu+Pt81tC5eDZ
+   yvXUQ7Z59KQhoNXzCaLEN2XG/+QQQfa8OQRJQ5cQTsdsF5j/EJjoS08D0
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4545272"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="483619167"
 X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
-   d="scan'208";a="4545272"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 21:57:29 -0800
+   d="scan'208";a="483619167"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 22:56:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="809458669"
 X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
-   d="scan'208";a="809458669"
+   d="scan'208";a="15164526"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 04 Jan 2024 21:57:27 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 04 Jan 2024 22:56:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLdCv-0000q4-07;
-	Fri, 05 Jan 2024 05:57:25 +0000
-Date: Fri, 5 Jan 2024 13:56:28 +0800
+	id 1rLe7f-0000uh-1K;
+	Fri, 05 Jan 2024 06:56:05 +0000
+Date: Fri, 5 Jan 2024 14:55:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:find_and_clear_tmp1 42/46] net/smc/smc_wr.c:176:60: error:
- extraneous ')' before ';'
-Message-ID: <202401051351.WPFIO341-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: lib/iov_iter.c:27:40: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202401051457.EDSUSsof-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,38 +50,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/norov/linux find_and_clear_tmp1
-head:   62bfd93b1d4bc92cd171973923c45a2b011f1c5c
-commit: 5aabc44128937b7dd8079cada0381ea5af59aa20 [42/46] net: smc: fix opencoded find_and_set_bit() in smc_wr_tx_get_free_slot_index()
-config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20240105/202401051351.WPFIO341-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401051351.WPFIO341-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1f874787ed9a2d78ed59cb21d0d90ac0178eceb0
+commit: f1982740f5e77090bde41a9b84e257d69ec46598 iov_iter: Convert iterate*() to inline funcs
+date:   3 months ago
+config: csky-randconfig-r111-20231115 (https://download.01.org/0day-ci/archive/20240105/202401051457.EDSUSsof-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240105/202401051457.EDSUSsof-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401051351.WPFIO341-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401051457.EDSUSsof-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/iov_iter.c:27:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *to @@     got void [noderef] __user *iter_to @@
+   lib/iov_iter.c:27:40: sparse:     expected void *to
+   lib/iov_iter.c:27:40: sparse:     got void [noderef] __user *iter_to
+   lib/iov_iter.c:57:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *from @@     got void [noderef] __user *iter_from @@
+   lib/iov_iter.c:57:46: sparse:     expected void const *from
+   lib/iov_iter.c:57:46: sparse:     got void [noderef] __user *iter_from
+   lib/iov_iter.c: note: in included file (through include/linux/sched/task.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/uaccess.h:87:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *from @@     got void const [noderef] __user *from @@
+   include/linux/uaccess.h:87:38: sparse:     expected void const *from
+   include/linux/uaccess.h:87:38: sparse:     got void const [noderef] __user *from
+   lib/iov_iter.c: note: in included file:
+   include/net/checksum.h:33:39: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] sum @@     got unsigned int @@
+   include/net/checksum.h:33:39: sparse:     expected restricted __wsum [usertype] sum
+   include/net/checksum.h:33:39: sparse:     got unsigned int
+   include/net/checksum.h:41:45: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] sum @@     got unsigned int @@
+   include/net/checksum.h:41:45: sparse:     expected restricted __wsum [usertype] sum
+   include/net/checksum.h:41:45: sparse:     got unsigned int
 
->> net/smc/smc_wr.c:176:60: error: extraneous ')' before ';'
-     176 |         *idx = find_and_set_bit(link->wr_tx_mask, link->wr_tx_cnt));
-         |                                                                   ^
-   1 error generated.
+vim +27 lib/iov_iter.c
 
-
-vim +176 net/smc/smc_wr.c
-
-   170	
-   171	static inline int smc_wr_tx_get_free_slot_index(struct smc_link *link, u32 *idx)
-   172	{
-   173		if (!smc_link_sendable(link))
-   174			return -ENOLINK;
-   175	
- > 176		*idx = find_and_set_bit(link->wr_tx_mask, link->wr_tx_cnt));
-   177		return *idx < link->wr_tx_cnt ? 0 : -EBUSY;
-   178	}
-   179	
+    17	
+    18	static __always_inline
+    19	size_t copy_to_user_iter(void __user *iter_to, size_t progress,
+    20				 size_t len, void *from, void *priv2)
+    21	{
+    22		if (should_fail_usercopy())
+    23			return len;
+    24		if (access_ok(iter_to, len)) {
+    25			from += progress;
+    26			instrument_copy_to_user(iter_to, from, len);
+  > 27			len = raw_copy_to_user(iter_to, from, len);
+    28		}
+    29		return len;
+    30	}
+    31	
 
 -- 
 0-DAY CI Kernel Test Service
