@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAE7224FC;
-	Fri,  5 Jan 2024 08:59:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB66241E9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 09:10:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aeE0vxTo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nds/cX3E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704445161; x=1735981161;
+  t=1704445813; x=1735981813;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ks2+xYNE5v8HJ+DUBBYAIXUvR427vNYvkVJ6If+iDbo=;
-  b=aeE0vxToxWQU9UFEMrCZGLKvN/NHqEo1en9l67kOuW+EkaxBK9zM7znX
-   jg0DwFL8ZOi0IhnBZ3F4yWcn5Khh7V+l9JJaARRmilCe54W5yLzq6EQt3
-   dPsmFchITS55Qo6H4YEKDlc9B1NEFRuifLJ+7Qx4kIaxJ5qB5euCaG9Cw
-   BbIImvvLOVOJlfJJcgZu6X2IX7h1z5L9TPiNuRRMMpelf+m8aITvRmhbJ
-   XcMrqd/0KUB0tfKZWn8jU6NtZRHEih7z6S4Vb8JWHTRTe3QAHIPdDuPue
-   9KYkn+GTTckwJUOAuG0MpaBgjwEWeR2lnzBOcsAbBrv0tUTbA8eBwz5Ll
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4572102"
+  bh=dZPVqfWRlpt41RlG0uqz1mITwbjH23pG5K3j08buB/Y=;
+  b=Nds/cX3EflC6mjbloV1086wnxTWdE3vT/YVHor+SSBv5EHi9Zi0QapRl
+   uezDZmm8vCsiqWgy6OSQMW8PGK45VXJ5m1Hoqd1BA1ZeL1zTOkH3W3QEA
+   ovONdmqGwvnMW6kD7PqpurLpMNKNnardt1O9lLjcGuxKZMhyGvyePJKRC
+   2a/FszS7fFCPO8KU+6Yy/czR3+FXua47RUXCU6uLfzS36ASQIjYE3Wwnk
+   CUk58AIiQWKUsnCUZfFzbmy6mhALfh7CZfy3/nqt2Oea1Jfc0ITruCL8a
+   Ttj3+fz1eZOiDs52II38b52fzRodk+GRf6iQHEjGaakN5Qu4RYIYoxqsK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="461768753"
 X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="4572102"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 00:59:14 -0800
+   d="scan'208";a="461768753"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 01:10:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="924184475"
 X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="924184475"
+   d="scan'208";a="15192501"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2024 00:59:11 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2024 01:10:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLg2n-00011o-0w;
-	Fri, 05 Jan 2024 08:59:09 +0000
-Date: Fri, 5 Jan 2024 16:58:48 +0800
+	id 1rLgDR-00012O-1s;
+	Fri, 05 Jan 2024 09:10:09 +0000
+Date: Fri, 5 Jan 2024 17:10:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [linux-next:master 11453/12662] sound/ac97/bus.c:112:20: error: use
- of undeclared identifier 'ac97_bus_type'
-Message-ID: <202401051634.qQSC02IQ-lkp@intel.com>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Subject: arch/riscv/kernel/irq.c:49:1: sparse: sparse: symbol
+ '__pcpu_scope_irq_stack' was not declared. Should it be static?
+Message-ID: <202401051709.Lg5tIeRM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,72 +50,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
-commit: 66e82d219924f6112509f7e8f8e687fcc81a16e3 [11453/12662] ALSA: mark all struct bus_type as const
-config: x86_64-buildonly-randconfig-003-20240105 (https://download.01.org/0day-ci/archive/20240105/202401051634.qQSC02IQ-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401051634.qQSC02IQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1f874787ed9a2d78ed59cb21d0d90ac0178eceb0
+commit: 163e76cc6ef43b7a5e9b6e245a6d6667c9d9b4a7 riscv: stack: Support HAVE_IRQ_EXIT_ON_IRQ_STACK
+date:   7 months ago
+config: riscv-randconfig-r122-20231115 (https://download.01.org/0day-ci/archive/20240105/202401051709.Lg5tIeRM-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240105/202401051709.Lg5tIeRM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401051634.qQSC02IQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401051709.Lg5tIeRM-lkp@intel.com/
 
-Note: the linux-next/master HEAD e2425464bc87159274879ab30f9d4fe624b9fcd2 builds fine.
-      It may have been fixed somewhere.
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/irq.c:49:1: sparse: sparse: symbol '__pcpu_scope_irq_stack' was not declared. Should it be static?
 
-All errors (new ones prefixed by >>):
+vim +/__pcpu_scope_irq_stack +49 arch/riscv/kernel/irq.c
 
->> sound/ac97/bus.c:112:20: error: use of undeclared identifier 'ac97_bus_type'
-     112 |         codec->dev.bus = &ac97_bus_type;
-         |                           ^
-   sound/ac97/bus.c:191:21: error: use of undeclared identifier 'ac97_bus_type'
-     191 |         drv->driver.bus = &ac97_bus_type;
-         |                            ^
-   2 errors generated.
-
-
-vim +/ac97_bus_type +112 sound/ac97/bus.c
-
-74426fbff66eea Robert Jarzmik 2017-09-02   99  
-74426fbff66eea Robert Jarzmik 2017-09-02  100  static int ac97_codec_add(struct ac97_controller *ac97_ctrl, int idx,
-74426fbff66eea Robert Jarzmik 2017-09-02  101  		   unsigned int vendor_id)
-74426fbff66eea Robert Jarzmik 2017-09-02  102  {
-74426fbff66eea Robert Jarzmik 2017-09-02  103  	struct ac97_codec_device *codec;
-74426fbff66eea Robert Jarzmik 2017-09-02  104  	int ret;
-74426fbff66eea Robert Jarzmik 2017-09-02  105  
-74426fbff66eea Robert Jarzmik 2017-09-02  106  	codec = kzalloc(sizeof(*codec), GFP_KERNEL);
-74426fbff66eea Robert Jarzmik 2017-09-02  107  	if (!codec)
-74426fbff66eea Robert Jarzmik 2017-09-02  108  		return -ENOMEM;
-74426fbff66eea Robert Jarzmik 2017-09-02  109  	ac97_ctrl->codecs[idx] = codec;
-74426fbff66eea Robert Jarzmik 2017-09-02  110  	codec->vendor_id = vendor_id;
-74426fbff66eea Robert Jarzmik 2017-09-02  111  	codec->dev.release = ac97_codec_release;
-74426fbff66eea Robert Jarzmik 2017-09-02 @112  	codec->dev.bus = &ac97_bus_type;
-74426fbff66eea Robert Jarzmik 2017-09-02  113  	codec->dev.parent = &ac97_ctrl->adap;
-74426fbff66eea Robert Jarzmik 2017-09-02  114  	codec->num = idx;
-74426fbff66eea Robert Jarzmik 2017-09-02  115  	codec->ac97_ctrl = ac97_ctrl;
-74426fbff66eea Robert Jarzmik 2017-09-02  116  
-74426fbff66eea Robert Jarzmik 2017-09-02  117  	device_initialize(&codec->dev);
-74426fbff66eea Robert Jarzmik 2017-09-02  118  	dev_set_name(&codec->dev, "%s:%u", dev_name(ac97_ctrl->parent), idx);
-2225a3e6af78e6 Robert Jarzmik 2018-06-22  119  	codec->dev.of_node = ac97_of_get_child_device(ac97_ctrl, idx,
-2225a3e6af78e6 Robert Jarzmik 2018-06-22  120  						      vendor_id);
-74426fbff66eea Robert Jarzmik 2017-09-02  121  
-74426fbff66eea Robert Jarzmik 2017-09-02  122  	ret = device_add(&codec->dev);
-607975b30db41a Ding Xiang     2019-07-23  123  	if (ret) {
-74426fbff66eea Robert Jarzmik 2017-09-02  124  		put_device(&codec->dev);
-74426fbff66eea Robert Jarzmik 2017-09-02  125  		return ret;
-74426fbff66eea Robert Jarzmik 2017-09-02  126  	}
-74426fbff66eea Robert Jarzmik 2017-09-02  127  
-607975b30db41a Ding Xiang     2019-07-23  128  	return 0;
-607975b30db41a Ding Xiang     2019-07-23  129  }
-607975b30db41a Ding Xiang     2019-07-23  130  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: 74426fbff66eea8e8d1f42c8238c268d1e63a832 ALSA: ac97: add an ac97 bus
-
-:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
-:::::: CC: Mark Brown <broonie@kernel.org>
+    35	
+    36	#ifdef CONFIG_VMAP_STACK
+    37	static void init_irq_stacks(void)
+    38	{
+    39		int cpu;
+    40		ulong *p;
+    41	
+    42		for_each_possible_cpu(cpu) {
+    43			p = arch_alloc_vmap_stack(IRQ_STACK_SIZE, cpu_to_node(cpu));
+    44			per_cpu(irq_stack_ptr, cpu) = p;
+    45		}
+    46	}
+    47	#else
+    48	/* irq stack only needs to be 16 byte aligned - not IRQ_STACK_SIZE aligned. */
+  > 49	DEFINE_PER_CPU_ALIGNED(ulong [IRQ_STACK_SIZE/sizeof(ulong)], irq_stack);
+    50	
 
 -- 
 0-DAY CI Kernel Test Service
