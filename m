@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B231F7E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 08:50:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAE7224FC;
+	Fri,  5 Jan 2024 08:59:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFM9duwQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aeE0vxTo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704444658; x=1735980658;
+  t=1704445161; x=1735981161;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q//NvGDH0D/VlI5nhNRhh5wnh6YverjQOcpqlyIGDuw=;
-  b=YFM9duwQDf4fW2deLt+iWJso+rpDca1HVl2X70EdiT10Lac1KaOw9KmL
-   Auzns+w6/2aMENwblVdvJu1/SSiEX+hu3OaoxYWWsf311JbO8pC4CjVdP
-   Dyql98BFj+8vzV99kPZwI6NA+8I0ema4bDgxvNXl7IrBd7VhTF4Q5Cyxl
-   BBfyh00XpAlL4IAtondGyK4udF9DSyWH5C9gBMDWcP1iuqM+6jrQGHxWl
-   1ANHjgwq9M8Cn6qQzQnkhYSZJhw/8x62qnqLC9VhrXIk0Jp7Fe+k8FSRk
-   wPE7o1Wrd70Ifrr1rhvCFnkt7pMH3LFmCW7gTqiiPpSnQVIWIgD2sn3y2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="428637035"
+  bh=Ks2+xYNE5v8HJ+DUBBYAIXUvR427vNYvkVJ6If+iDbo=;
+  b=aeE0vxToxWQU9UFEMrCZGLKvN/NHqEo1en9l67kOuW+EkaxBK9zM7znX
+   jg0DwFL8ZOi0IhnBZ3F4yWcn5Khh7V+l9JJaARRmilCe54W5yLzq6EQt3
+   dPsmFchITS55Qo6H4YEKDlc9B1NEFRuifLJ+7Qx4kIaxJ5qB5euCaG9Cw
+   BbIImvvLOVOJlfJJcgZu6X2IX7h1z5L9TPiNuRRMMpelf+m8aITvRmhbJ
+   XcMrqd/0KUB0tfKZWn8jU6NtZRHEih7z6S4Vb8JWHTRTe3QAHIPdDuPue
+   9KYkn+GTTckwJUOAuG0MpaBgjwEWeR2lnzBOcsAbBrv0tUTbA8eBwz5Ll
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4572102"
 X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="428637035"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 00:50:57 -0800
+   d="scan'208";a="4572102"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 00:59:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="730413260"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="924184475"
 X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="730413260"
+   d="scan'208";a="924184475"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 05 Jan 2024 00:50:56 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2024 00:59:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLfum-00011A-0q;
-	Fri, 05 Jan 2024 08:50:53 +0000
-Date: Fri, 5 Jan 2024 16:48:34 +0800
+	id 1rLg2n-00011o-0w;
+	Fri, 05 Jan 2024 08:59:09 +0000
+Date: Fri, 5 Jan 2024 16:58:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Zhuo <sagazchen@tencent.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Song, Youquan" <youquan.song@intel.com>,
-	Joerg Roedel <jroedel@suse.de>, Xinghui Li <korantli@tencent.com>
-Subject: drivers/iommu/amd_iommu.c:442:27: warning: variable 'iommu' set but
- not used
-Message-ID: <202401051627.v9bPLZ2U-lkp@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [linux-next:master 11453/12662] sound/ac97/bus.c:112:20: error: use
+ of undeclared identifier 'ac97_bus_type'
+Message-ID: <202401051634.qQSC02IQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,67 +52,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git lts/5.4.119-20.0009.spr
-head:   2b05031ac9b7e23091affe1b717425ef76750bd9
-commit: a3da370445bfe08989650b6ae0e06cb0d9a67e02 iommu/amd: Convert to probe/release_device() call-backs
-date:   7 months ago
-config: x86_64-oc_base_config (https://download.01.org/0day-ci/archive/20240105/202401051627.v9bPLZ2U-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401051627.v9bPLZ2U-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
+commit: 66e82d219924f6112509f7e8f8e687fcc81a16e3 [11453/12662] ALSA: mark all struct bus_type as const
+config: x86_64-buildonly-randconfig-003-20240105 (https://download.01.org/0day-ci/archive/20240105/202401051634.qQSC02IQ-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401051634.qQSC02IQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401051627.v9bPLZ2U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401051634.qQSC02IQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the linux-next/master HEAD e2425464bc87159274879ab30f9d4fe624b9fcd2 builds fine.
+      It may have been fixed somewhere.
 
-   drivers/iommu/amd_iommu.c: In function 'amd_iommu_uninit_device':
->> drivers/iommu/amd_iommu.c:442:27: warning: variable 'iommu' set but not used [-Wunused-but-set-variable]
-     442 |         struct amd_iommu *iommu;
-         |                           ^~~~~
-   drivers/iommu/amd_iommu.c: In function 'amd_iommu_probe_finalize':
-   drivers/iommu/amd_iommu.c:2281:17: error: 'dev_data' undeclared (first use in this function); did you mean '_edata'?
-    2281 |                 dev_data->passthrough = true;
-         |                 ^~~~~~~~
-         |                 _edata
-   drivers/iommu/amd_iommu.c:2281:17: note: each undeclared identifier is reported only once for each function it appears in
+All errors (new ones prefixed by >>):
+
+>> sound/ac97/bus.c:112:20: error: use of undeclared identifier 'ac97_bus_type'
+     112 |         codec->dev.bus = &ac97_bus_type;
+         |                           ^
+   sound/ac97/bus.c:191:21: error: use of undeclared identifier 'ac97_bus_type'
+     191 |         drv->driver.bus = &ac97_bus_type;
+         |                            ^
+   2 errors generated.
 
 
-vim +/iommu +442 drivers/iommu/amd_iommu.c
+vim +/ac97_bus_type +112 sound/ac97/bus.c
 
-^590eaf1fec755 Kaixu Xia 2021-03-16  438  
-a3da370445bfe0 Chen Zhuo 2021-11-18  439  static void amd_iommu_uninit_device(struct device *dev)
-^590eaf1fec755 Kaixu Xia 2021-03-16  440  {
-^590eaf1fec755 Kaixu Xia 2021-03-16  441  	struct iommu_dev_data *dev_data;
-^590eaf1fec755 Kaixu Xia 2021-03-16 @442  	struct amd_iommu *iommu;
-^590eaf1fec755 Kaixu Xia 2021-03-16  443  	int devid;
-^590eaf1fec755 Kaixu Xia 2021-03-16  444  
-^590eaf1fec755 Kaixu Xia 2021-03-16  445  	devid = get_device_id(dev);
-^590eaf1fec755 Kaixu Xia 2021-03-16  446  	if (devid < 0)
-^590eaf1fec755 Kaixu Xia 2021-03-16  447  		return;
-^590eaf1fec755 Kaixu Xia 2021-03-16  448  
-^590eaf1fec755 Kaixu Xia 2021-03-16  449  	iommu = amd_iommu_rlookup_table[devid];
-^590eaf1fec755 Kaixu Xia 2021-03-16  450  
-^590eaf1fec755 Kaixu Xia 2021-03-16  451  	dev_data = search_dev_data(devid);
-^590eaf1fec755 Kaixu Xia 2021-03-16  452  	if (!dev_data)
-^590eaf1fec755 Kaixu Xia 2021-03-16  453  		return;
-^590eaf1fec755 Kaixu Xia 2021-03-16  454  
-^590eaf1fec755 Kaixu Xia 2021-03-16  455  	if (dev_data->domain)
-^590eaf1fec755 Kaixu Xia 2021-03-16  456  		detach_device(dev);
-^590eaf1fec755 Kaixu Xia 2021-03-16  457  
-^590eaf1fec755 Kaixu Xia 2021-03-16  458  	/*
-^590eaf1fec755 Kaixu Xia 2021-03-16  459  	 * We keep dev_data around for unplugged devices and reuse it when the
-^590eaf1fec755 Kaixu Xia 2021-03-16  460  	 * device is re-plugged - not doing so would introduce a ton of races.
-^590eaf1fec755 Kaixu Xia 2021-03-16  461  	 */
-^590eaf1fec755 Kaixu Xia 2021-03-16  462  }
-^590eaf1fec755 Kaixu Xia 2021-03-16  463  
+74426fbff66eea Robert Jarzmik 2017-09-02   99  
+74426fbff66eea Robert Jarzmik 2017-09-02  100  static int ac97_codec_add(struct ac97_controller *ac97_ctrl, int idx,
+74426fbff66eea Robert Jarzmik 2017-09-02  101  		   unsigned int vendor_id)
+74426fbff66eea Robert Jarzmik 2017-09-02  102  {
+74426fbff66eea Robert Jarzmik 2017-09-02  103  	struct ac97_codec_device *codec;
+74426fbff66eea Robert Jarzmik 2017-09-02  104  	int ret;
+74426fbff66eea Robert Jarzmik 2017-09-02  105  
+74426fbff66eea Robert Jarzmik 2017-09-02  106  	codec = kzalloc(sizeof(*codec), GFP_KERNEL);
+74426fbff66eea Robert Jarzmik 2017-09-02  107  	if (!codec)
+74426fbff66eea Robert Jarzmik 2017-09-02  108  		return -ENOMEM;
+74426fbff66eea Robert Jarzmik 2017-09-02  109  	ac97_ctrl->codecs[idx] = codec;
+74426fbff66eea Robert Jarzmik 2017-09-02  110  	codec->vendor_id = vendor_id;
+74426fbff66eea Robert Jarzmik 2017-09-02  111  	codec->dev.release = ac97_codec_release;
+74426fbff66eea Robert Jarzmik 2017-09-02 @112  	codec->dev.bus = &ac97_bus_type;
+74426fbff66eea Robert Jarzmik 2017-09-02  113  	codec->dev.parent = &ac97_ctrl->adap;
+74426fbff66eea Robert Jarzmik 2017-09-02  114  	codec->num = idx;
+74426fbff66eea Robert Jarzmik 2017-09-02  115  	codec->ac97_ctrl = ac97_ctrl;
+74426fbff66eea Robert Jarzmik 2017-09-02  116  
+74426fbff66eea Robert Jarzmik 2017-09-02  117  	device_initialize(&codec->dev);
+74426fbff66eea Robert Jarzmik 2017-09-02  118  	dev_set_name(&codec->dev, "%s:%u", dev_name(ac97_ctrl->parent), idx);
+2225a3e6af78e6 Robert Jarzmik 2018-06-22  119  	codec->dev.of_node = ac97_of_get_child_device(ac97_ctrl, idx,
+2225a3e6af78e6 Robert Jarzmik 2018-06-22  120  						      vendor_id);
+74426fbff66eea Robert Jarzmik 2017-09-02  121  
+74426fbff66eea Robert Jarzmik 2017-09-02  122  	ret = device_add(&codec->dev);
+607975b30db41a Ding Xiang     2019-07-23  123  	if (ret) {
+74426fbff66eea Robert Jarzmik 2017-09-02  124  		put_device(&codec->dev);
+74426fbff66eea Robert Jarzmik 2017-09-02  125  		return ret;
+74426fbff66eea Robert Jarzmik 2017-09-02  126  	}
+74426fbff66eea Robert Jarzmik 2017-09-02  127  
+607975b30db41a Ding Xiang     2019-07-23  128  	return 0;
+607975b30db41a Ding Xiang     2019-07-23  129  }
+607975b30db41a Ding Xiang     2019-07-23  130  
 
-:::::: The code at line 442 was first introduced by commit
-:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
+:::::: The code at line 112 was first introduced by commit
+:::::: 74426fbff66eea8e8d1f42c8238c268d1e63a832 ALSA: ac97: add an ac97 bus
 
-:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
-:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
+:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
