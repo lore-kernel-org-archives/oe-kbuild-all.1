@@ -1,185 +1,140 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1169A347AD
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 18:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DE43608A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 22:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="J6vbTxLh"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50e7c6f0487so1936190e87.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 05 Jan 2024 10:06:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1704477963; x=1705082763; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lv2gFcMM0g7/cQv/mEBtAWY9twqnLjT2W2Q4bRR+UAE=;
-        b=J6vbTxLhyrp1OCSDvde8L53L3kuzIJsBPfVSx4Kpvp9MTrAH2/XhYbPIxUgQ8EdIo2
-         16KCunz6EGG2uIB0nSoPGIgwRxsnbsXGJzifrYXOcxfx5efVSSDlIhKEDNxxlf+gP7YK
-         /qfT//M10E7XUB1l6xj3fBWp7pfB+XOxK8Ss4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704477963; x=1705082763;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lv2gFcMM0g7/cQv/mEBtAWY9twqnLjT2W2Q4bRR+UAE=;
-        b=qwsh4rS6pXUcsQL/XvyZnDjYHRsMPID0qiovSc6IMK1udfb4C9h89cPX/Me0qzWzF+
-         lJ8ih9jMa1FZdjV7L9z0dKV1kViqKSCES2BiGwj+h45fO5RfEUlHftmjPE7WhOm43gKG
-         SMfeCj+uCNBlP++FWKKOqrnxLqm8oUjrbqkPVsvELr4yn/PvunaPgB4uY7ZzOEVKkk6x
-         EzId7dY8MH4hj0oMTJLydSCSC1ppyO78+FhxjTPkbWCHWWGG2dIXZ+H3R7LSekTyFvYq
-         rGEm4V4083NRo+Ki0g545qRECLLz2zO4EgatMVQZwRXxbPuZ3xmiQ1gMsciIVvUC20b2
-         BCvQ==
-X-Gm-Message-State: AOJu0YwFwfd5cPoOjfo9h8w5sJmGHYIbcic7EzTcCeU7pLs6W8ZRkIWo
-	Ee1jHasZm6vxzU6AOKGT2tr9zwmsQatnXdWrQObeKGotFR3qmYtW
-X-Google-Smtp-Source: AGHT+IEn+nnCZPa86rRAkY0r7N060wzl2dF6v4bAbCTf4FVezFurUIz3vHuuvSjc3twygxdlgw0iGQ==
-X-Received: by 2002:a05:6512:12c4:b0:50e:82e7:912b with SMTP id p4-20020a05651212c400b0050e82e7912bmr988759lfg.138.1704477962637;
-        Fri, 05 Jan 2024 10:06:02 -0800 (PST)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
-        by smtp.gmail.com with ESMTPSA id f11-20020a17090624cb00b00a28a66028bcsm1118820ejb.91.2024.01.05.10.06.02
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jan 2024 10:06:02 -0800 (PST)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40d6b4e2945so19455125e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 05 Jan 2024 10:06:02 -0800 (PST)
-X-Received: by 2002:a05:600c:19c7:b0:40c:2671:1553 with SMTP id
- u7-20020a05600c19c700b0040c26711553mr893500wmq.36.1704477961705; Fri, 05 Jan
- 2024 10:06:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YVh4atfQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704492834; x=1736028834;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rP4RoRGa4g31yIcWF1ct4OKjzUjtEDl+h1fvwOYsew0=;
+  b=YVh4atfQ4Au+smse6nOUVyxKLfX2qZCxc0SMh1R6NV4PFiD8kzTDrd4M
+   waemjq5iq2A3vzQpcxel/AbUgL1JUS7+Oe/zih6G+4/hthnbjMtoRud+U
+   Q4Lg8O6n1d9fai0s5OqtZqJMnAtMpLNpOHaIDd/ECybwEt1MRlLOkfhW6
+   jcrGG9+uw6A8BaRziLqwbGTnO+cqazTvuoSYfl62S6XPWbU5Jg5G8Q2a9
+   hYztpDMPKpE4eJOODZddoxoOOATclzAKNpY5KR271+FVgb1pyl2f7UJss
+   9YFH7Vin1eGKaYfR23RfLFDE4Wfv+83qkEIozBlgYxvq3DH7ZljmUu+y6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="428776428"
+X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
+   d="scan'208";a="428776428"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 14:13:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="730582981"
+X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
+   d="scan'208";a="730582981"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 05 Jan 2024 14:13:52 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rLsRo-0001je-3B;
+	Fri, 05 Jan 2024 22:13:49 +0000
+Date: Sat, 6 Jan 2024 06:12:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yonghong Song <yhs@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: versioncheck:
+ ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4
+ linux/version.h not needed.
+Message-ID: <202401060617.BV2ih173-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
- <202309231130.ZI5MdlDc-lkp@intel.com> <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
- <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com> <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
- <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
- <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
- <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
- <CAHk-=wiNUucmvTKGmveWzXXe99SpOwU65nFtH-A2_aUpPsAPJQ@mail.gmail.com> <5354eeec562345f6a1de84f0b2081b75@AcuMS.aculab.com>
-In-Reply-To: <5354eeec562345f6a1de84f0b2081b75@AcuMS.aculab.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 5 Jan 2024 10:05:44 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com>
-Message-ID: <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com>
-Subject: Re: x86/csum: Remove unnecessary odd handling
-To: David Laight <David.Laight@aculab.com>
-Cc: Noah Goldstein <goldstein.w.n@gmail.com>, kernel test robot <lkp@intel.com>, 
-	"x86@kernel.org" <x86@kernel.org>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>, 
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com" <hpa@zytor.com>
-Content-Type: multipart/mixed; boundary="0000000000006fb109060e36b317"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---0000000000006fb109060e36b317
-Content-Type: text/plain; charset="UTF-8"
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6d0dc8559c847e2dcd66c5dd93dbab3d3d887ff5
+commit: 16f0efc3b46352018c297bbdb2c405e7d8a63095 tools/bpf: add selftest in test_progs for bpf_send_signal() helper
+date:   4 years, 7 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20240106/202401060617.BV2ih173-lkp@intel.com/reproduce)
 
-On Fri, 5 Jan 2024 at 02:41, David Laight <David.Laight@aculab.com> wrote:
->
-> Interesting, I'm pretty sure trying to get two blocks of
->  'adc' scheduled in parallel like that doesn't work.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401060617.BV2ih173-lkp@intel.com/
 
-You should check out the benchmark at
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
+   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
+   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 53 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./kernel/bpf/syscall.c: 27 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 68: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+>> ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
 
-       https://github.com/fenrus75/csum_partial
-
-and see if you can improve on it. I'm including the patch (on top of
-that code by Arjan) to implement the actual current kernel version as
-"New version".
-
-         Linus
-
---0000000000006fb109060e36b317
-Content-Type: application/octet-stream; name=p
-Content-Disposition: attachment; filename=p
-Content-Transfer-Encoding: base64
-Content-ID: <f_lr0y5drz0>
-X-Attachment-Id: f_lr0y5drz0
-
-RnJvbSA2ZmY3ZjdhNzJhNDg1NTk3MGIxNjIxYWM5NzI0YzQ0YzM5M2E2ZDQ0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBMaW51cyBUb3J2YWxkcyA8dG9ydmFsZHNAbGludXgtZm91bmRh
-dGlvbi5vcmc+CkRhdGU6IEZyaSwgNSBKYW4gMjAyNCAwOTo0NjozMiAtMDgwMApTdWJqZWN0OiBb
-UEFUQ0hdIEFkZCB0aGUgY3VycmVudCBrZXJuZWwgdmVyc2lvbiBhcyAiTmV3IHZlcnNpb24iCgot
-LS0KIE1ha2VmaWxlICAgICAgIHwgICAzIC0tCiBjc3VtX3BhcnRpYWwuYyB8IDExNyArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0KIDIgZmls
-ZXMgY2hhbmdlZCwgMTE1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
-IGEvTWFrZWZpbGUgYi9NYWtlZmlsZQppbmRleCBlNGIxYmIzLi40ZTI5ZjhhIDEwMDY0NAotLS0g
-YS9NYWtlZmlsZQorKysgYi9NYWtlZmlsZQpAQCAtMTcsNiArMTcsMyBAQCBjaGFpbjIuc3ZnOiBn
-cmFwaHMvY2hhaW4yLmRvdAogY2hhaW4yYS5zdmc6IGdyYXBocy9jaGFpbjJhLmRvdAogCWRvdCAt
-VHN2ZyAtTyBncmFwaHMvY2hhaW4yYS5kb3QgIAogCW12IGdyYXBocy9jaGFpbjJhLmRvdC5zdmcg
-Y2hhaW4yYS5zdmcKLQkKLQkKLQkKXCBObyBuZXdsaW5lIGF0IGVuZCBvZiBmaWxlCmRpZmYgLS1n
-aXQgYS9jc3VtX3BhcnRpYWwuYyBiL2NzdW1fcGFydGlhbC5jCmluZGV4IDRkYjBkOTcuLmRkZjZh
-Y2QgMTAwNjQ0Ci0tLSBhL2NzdW1fcGFydGlhbC5jCisrKyBiL2NzdW1fcGFydGlhbC5jCkBAIC0x
-NCwxMyArMTQsMjggQEAKICNpbmNsdWRlIDx0aW1lLmg+CiAKIHR5cGVkZWYgdWludDMyX3QgX193
-c3VtOwordHlwZWRlZiB1aW50MzJfdCBfX3UzMjsKK3R5cGVkZWYgdWludDY0X3QgX191NjQ7CiB0
-eXBlZGVmIHVpbnQ2NF90IHU2NDsKIHR5cGVkZWYgdWludDMyX3QgdTMyOworIyBkZWZpbmUgbGlr
-ZWx5KHgpIF9fYnVpbHRpbl9leHBlY3QoISEoeCksIDEpCiAjIGRlZmluZSB1bmxpa2VseSh4KSBf
-X2J1aWx0aW5fZXhwZWN0KCEhKHgpLCAwKQogCisjZGVmaW5lIF9fZm9yY2UKKwogI2RlZmluZSBM
-T09QQ09VTlQgMTAyNDAwCiAjZGVmaW5lIFBBQ0tFVFNJWkUgNDAKIAorLyoqCisgKiByb3I2NCAt
-IHJvdGF0ZSBhIDY0LWJpdCB2YWx1ZSByaWdodAorICogQHdvcmQ6IHZhbHVlIHRvIHJvdGF0ZQor
-ICogQHNoaWZ0OiBiaXRzIHRvIHJvbGwKKyAqLworc3RhdGljIGlubGluZSBfX3U2NCByb3I2NChf
-X3U2NCB3b3JkLCB1bnNpZ25lZCBpbnQgc2hpZnQpCit7CisJcmV0dXJuICh3b3JkID4+IChzaGlm
-dCAmIDYzKSkgfCAod29yZCA8PCAoKC1zaGlmdCkgJiA2MykpOworfQorCiBzdGF0aWMgaW5saW5l
-IHVuc2lnbmVkIGxvbmcgbG9hZF91bmFsaWduZWRfemVyb3BhZChjb25zdCB2b2lkICphZGRyKQog
-ewogCXVuc2lnbmVkIGxvbmcgcmV0LCBkdW1teTsKQEAgLTQ4NCw3ICs0OTksMTA1IEBAIHN0YXRp
-YyBpbmxpbmUgX193c3VtIG51bGx0ZXN0KGNvbnN0IHZvaWQgKmJ1ZmYsIGludCBsZW4sIF9fd3N1
-bSBzdW0pCiB7CiAJcmV0dXJuIDI7CiB9CitzdGF0aWMgaW5saW5lIF9fd3N1bSBjc3VtX2ZpbmFs
-aXplX3N1bSh1NjQgdGVtcDY0KQoreworCXJldHVybiAoX19mb3JjZSBfX3dzdW0pKCh0ZW1wNjQg
-KyByb3I2NCh0ZW1wNjQsIDMyKSkgPj4gMzIpOworfQogCitzdGF0aWMgaW5saW5lIHVuc2lnbmVk
-IGxvbmcgdXBkYXRlX2NzdW1fNDBiKHVuc2lnbmVkIGxvbmcgc3VtLCBjb25zdCB1bnNpZ25lZCBs
-b25nIG1bNV0pCit7CisJYXNtKCJhZGRxICUxLCUwXG5cdCIKKwkgICAgICJhZGNxICUyLCUwXG5c
-dCIKKwkgICAgICJhZGNxICUzLCUwXG5cdCIKKwkgICAgICJhZGNxICU0LCUwXG5cdCIKKwkgICAg
-ICJhZGNxICU1LCUwXG5cdCIKKwkgICAgICJhZGNxICQwLCUwIgorCQk6IityIiAoc3VtKQorCQk6
-Im0iIChtWzBdKSwgIm0iIChtWzFdKSwgIm0iIChtWzJdKSwKKwkJICJtIiAobVszXSksICJtIiAo
-bVs0XSkpOworCXJldHVybiBzdW07Cit9CisKKy8qCisgKiBEbyBhIGNoZWNrc3VtIG9uIGFuIGFy
-Yml0cmFyeSBtZW1vcnkgYXJlYS4KKyAqIFJldHVybnMgYSAzMmJpdCBjaGVja3N1bS4KKyAqCisg
-KiBUaGlzIGlzbid0IGFzIHRpbWUgY3JpdGljYWwgYXMgaXQgdXNlZCB0byBiZSBiZWNhdXNlIG1h
-bnkgTklDcworICogZG8gaGFyZHdhcmUgY2hlY2tzdW1taW5nIHRoZXNlIGRheXMuCisgKgorICog
-U3RpbGwsIHdpdGggQ0hFQ0tTVU1fQ09NUExFVEUgdGhpcyBpcyBjYWxsZWQgdG8gY29tcHV0ZQor
-ICogY2hlY2tzdW1zIG9uIElQdjYgaGVhZGVycyAoNDAgYnl0ZXMpIGFuZCBvdGhlciBzbWFsbCBw
-YXJ0cy4KKyAqIGl0J3MgYmVzdCB0byBoYXZlIGJ1ZmYgYWxpZ25lZCBvbiBhIDY0LWJpdCBib3Vu
-ZGFyeQorICovCitfX3dzdW0gY3N1bV9wYXJ0aWFsX25ldyhjb25zdCB2b2lkICpidWZmLCBpbnQg
-bGVuLCBfX3dzdW0gc3VtKQoreworCXU2NCB0ZW1wNjQgPSAoX19mb3JjZSB1NjQpc3VtOworCisJ
-LyogRG8gdHdvIDQwLWJ5dGUgY2h1bmtzIGluIHBhcmFsbGVsIHRvIGdldCBiZXR0ZXIgSUxQICov
-CisJaWYgKGxpa2VseShsZW4gPj0gODApKSB7CisJCXU2NCB0ZW1wNjRfMiA9IDA7CisJCWRvIHsK
-KwkJCXRlbXA2NCA9IHVwZGF0ZV9jc3VtXzQwYih0ZW1wNjQsIGJ1ZmYpOworCQkJdGVtcDY0XzIg
-PSB1cGRhdGVfY3N1bV80MGIodGVtcDY0XzIsIGJ1ZmYgKyA0MCk7CisJCQlidWZmICs9IDgwOwor
-CQkJbGVuIC09IDgwOworCQl9IHdoaWxlIChsZW4gPj0gODApOworCisJCWFzbSgiYWRkcSAlMSwl
-MFxuXHQiCisJCSAgICAiYWRjcSAkMCwlMCIKKwkJICAgIDoiK3IiICh0ZW1wNjQpOiAiciIgKHRl
-bXA2NF8yKSk7CisJfQorCisJLyoKKwkgKiBsZW4gPT0gNDAgaXMgdGhlIGhvdCBjYXNlIGR1ZSB0
-byBJUHY2IGhlYWRlcnMsIHNvIHJldHVybgorCSAqIGVhcmx5IGZvciB0aGF0IGV4YWN0IGNhc2Ug
-d2l0aG91dCBjaGVja2luZyB0aGUgdGFpbCBieXRlcy4KKwkgKi8KKwlpZiAobGVuID49IDQwKSB7
-CisJCXRlbXA2NCA9IHVwZGF0ZV9jc3VtXzQwYih0ZW1wNjQsIGJ1ZmYpOworCQlsZW4gLT0gNDA7
-CisJCWlmICghbGVuKQorCQkJcmV0dXJuIGNzdW1fZmluYWxpemVfc3VtKHRlbXA2NCk7CisJCWJ1
-ZmYgKz0gNDA7CisJfQorCisJaWYgKGxlbiAmIDMyKSB7CisJCWFzbSgiYWRkcSAwKjgoJVtzcmNd
-KSwlW3Jlc11cblx0IgorCQkgICAgImFkY3EgMSo4KCVbc3JjXSksJVtyZXNdXG5cdCIKKwkJICAg
-ICJhZGNxIDIqOCglW3NyY10pLCVbcmVzXVxuXHQiCisJCSAgICAiYWRjcSAzKjgoJVtzcmNdKSwl
-W3Jlc11cblx0IgorCQkgICAgImFkY3EgJDAsJVtyZXNdIgorCQkgICAgOiBbcmVzXSAiK3IiKHRl
-bXA2NCkKKwkJICAgIDogW3NyY10gInIiKGJ1ZmYpLCAibSIoKihjb25zdCBjaGFyKCopWzMyXSli
-dWZmKSk7CisJCWJ1ZmYgKz0gMzI7CisJfQorCWlmIChsZW4gJiAxNikgeworCQlhc20oImFkZHEg
-MCo4KCVbc3JjXSksJVtyZXNdXG5cdCIKKwkJICAgICJhZGNxIDEqOCglW3NyY10pLCVbcmVzXVxu
-XHQiCisJCSAgICAiYWRjcSAkMCwlW3Jlc10iCisJCSAgICA6IFtyZXNdICIrciIodGVtcDY0KQor
-CQkgICAgOiBbc3JjXSAiciIoYnVmZiksICJtIigqKGNvbnN0IGNoYXIoKilbMTZdKWJ1ZmYpKTsK
-KwkJYnVmZiArPSAxNjsKKwl9CisJaWYgKGxlbiAmIDgpIHsKKwkJYXNtKCJhZGRxIDAqOCglW3Ny
-Y10pLCVbcmVzXVxuXHQiCisJCSAgICAiYWRjcSAkMCwlW3Jlc10iCisJCSAgICA6IFtyZXNdICIr
-ciIodGVtcDY0KQorCQkgICAgOiBbc3JjXSAiciIoYnVmZiksICJtIigqKGNvbnN0IGNoYXIoKilb
-OF0pYnVmZikpOworCQlidWZmICs9IDg7CisJfQorCWlmIChsZW4gJiA3KSB7CisJCXVuc2lnbmVk
-IGludCBzaGlmdCA9ICgtbGVuIDw8IDMpICYgNjM7CisJCXVuc2lnbmVkIGxvbmcgdHJhaWw7CisK
-KwkJdHJhaWwgPSAobG9hZF91bmFsaWduZWRfemVyb3BhZChidWZmKSA8PCBzaGlmdCkgPj4gc2hp
-ZnQ7CisKKwkJYXNtKCJhZGRxICVbdHJhaWxdLCVbcmVzXVxuXHQiCisJCSAgICAiYWRjcSAkMCwl
-W3Jlc10iCisJCSAgICA6IFtyZXNdICIrciIodGVtcDY0KQorCQkgICAgOiBbdHJhaWxdICJyIih0
-cmFpbCkpOworCX0KKwlyZXR1cm4gY3N1bV9maW5hbGl6ZV9zdW0odGVtcDY0KTsKK30KIAogZG91
-YmxlIGN5Y2xlc1s2NF07CiBpbnQgY3ljbGVjb3VudFs2NF07CkBAIC02MTIsNiArNzI1LDcgQEAg
-aW50IG1haW4oaW50IGFyZ2MsIGNoYXIgKiphcmd2KQogCiAJTUVBU1VSRSgyLCAgY3N1bV9wYXJ0
-aWFsLCAiVXBjb21pbmcgbGludXgga2VybmVsIHZlcnNpb24iKTsKIAlNRUFTVVJFKDQsICBjc3Vt
-X3NwZWNpYWxpemVkLCAiU3BlY2lhbGl6ZWQgdG8gc2l6ZSA0MCIpOworCU1FQVNVUkUoNiwgIGNz
-dW1fcGFydGlhbF9uZXcsICJOZXcgdmVyc2lvbiIpOwogCU1FQVNVUkUoMjIsIGNzdW1fcGFydGlh
-bF9ub19vZGQsICJPZGQtYWxpZ25tZW50IGhhbmRsaW5nIHJlbW92ZWQiKTsKIAlNRUFTVVJFKDI0
-LCBjc3VtX3BhcnRpYWxfZGVhZF9jb2RlLCAiRGVhZCBjb2RlIGVsaW1pbmF0aW9uICAgICAgICAg
-ICAiKTsKIAlNRUFTVVJFKDI4LCBjc3VtX3BhcnRpYWxfQUNYLCAiQURYIGludGVybGVhdmVkICIp
-OwpAQCAtNjE5LDcgKzczMyw2IEBAIGludCBtYWluKGludCBhcmdjLCBjaGFyICoqYXJndikKIAlN
-RUFTVVJFKDM0LCBjc3VtX3BhcnRpYWxfMzJiaXQsICIzMiBiaXQgdHJhaW4gIik7CiAJTUVBU1VS
-RSgzNiwgY3N1bV9wYXJ0aWFsX3plcm9fc3VtLCAiQXNzdW1lIHplcm8gaW5wdXQgc3VtIik7CiAK
-LQogCXJlcG9ydCgpOwogCX0KLX0KXCBObyBuZXdsaW5lIGF0IGVuZCBvZiBmaWxlCit9Cg==
---0000000000006fb109060e36b317--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
