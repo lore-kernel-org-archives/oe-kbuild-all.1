@@ -1,55 +1,47 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814E41EB35
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 07:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8057200AA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 07:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GhkExorD"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-55739500b39so91842a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 23:36:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704440217; x=1705045017; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LWf9gZj82e+HJtfBdWUmE6T7orNWatXwoddmaVCfxOw=;
-        b=GhkExorDjWJJjQwrhPIWk7977gARRvlg2Lk/Zk3BfmEMaDz1rN8YFbZ3AwVyt3LA8f
-         J/F6LpD8OtC4F391Gx4VirjWaB7Ert9WR/78txKFnqpGkhOhRVA1oGeRsMY/o5LuudcH
-         Vh7rq8JUHx0caFU+pSv5YoAHgW9xxEZvQQ24vJ390JbIRCEJ+S3oMrx0L/0QMjvEKUKC
-         a1QvGuvFgP4C8vehikA3qV28u4zD1EbJwD9qU0i7d+rIi6Dik7CRxA4nGOlDLFO3w9KZ
-         5C91LnCHlSJmExgUIcIzBUOl0TkZ4E2kKbm52xYdxPkimLhhekYx5dNFdYubGfQXlL+0
-         Ui/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704440217; x=1705045017;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LWf9gZj82e+HJtfBdWUmE6T7orNWatXwoddmaVCfxOw=;
-        b=WCQZLKMIuxAFLX+cQjhHmLElIPJV0MioDYGOiX4c960qWJdChC0ITIepTiU3aib7Tv
-         kz6w8j0xrkZEkxqbMdYt5VjVm81VIDV3h3lh7gt8Hlq98eD7xv4HjGfbtJRtmAlgaria
-         yPi71xEP74+55hqRzguLH/uZYwK6dE/mmwgl//aPby/UVvpaqNM7CvIFNceP8Mm9Nykl
-         TGXKs6cJdpdbDAwxIvMnyOUCHGvbQhjl/mpV5pzKN8f0QI5Wv1OGgxiH7jcrDpJkMZDK
-         O4JJiz8nu1ea1Z71ZjBgv4O7TJB/XRp38I7Qiconu4wU0nYKMT7FsIbjGiI/fRCN68uE
-         dbIA==
-X-Gm-Message-State: AOJu0YzjRHC9pb/onArVVkxTkQGIqqjkuzbZyjXRQhHd/ElmHCi7Xtnn
-	5Ou8x415mA8jc10MAe3s7NmBknlXtxpVkA==
-X-Google-Smtp-Source: AGHT+IE08mASYDVZ8EMDjUOq+GOBJdiUSJUSPv3cdGxHPIA3izh7vy9xoIDpWSLxaTJeAOBKASFXLA==
-X-Received: by 2002:a50:9e06:0:b0:553:620c:89b6 with SMTP id z6-20020a509e06000000b00553620c89b6mr1080028ede.10.1704440216760;
-        Thu, 04 Jan 2024 23:36:56 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id u7-20020a50eac7000000b005553a8bb61dsm629665edp.87.2024.01.04.23.36.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jan 2024 23:36:56 -0800 (PST)
-Date: Fri, 5 Jan 2024 10:36:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Zhipeng Lu <alexious@zju.edu.cn>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] ALSA: hdsp: fix some memleaks in
- snd_hdsp_hwdep_ioctl
-Message-ID: <9e51487b-28de-4109-8f94-70a523df09e3@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyv6Dk3Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704441041; x=1735977041;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t8MKxl0UlVrrvohdRZeIZvu2TQYxXODY9FqfArPk0wY=;
+  b=cyv6Dk3ZABNvzutIRgiMpY48z/2SMfOxpTeq77U1wFAK6O9NWtT5+ZUc
+   aIvbnS8w/TkmNgpohCgoDEWlPziCJz6vhr2Bo5Vzx+GQuOe/5j/AEB2+f
+   mPlvR8ussRx4zCNJvi8vwqz5W2YL/s70nKB0WrfIqkQhJpXAWADzt1xaq
+   aqipnIqk+Lr0zN1i0JTFy8tQ3qxHtlktJ/NHAbcRyRrRCbb+YDOU56m35
+   RKm0KI7TtnW/UZ5mzlvdnPaEF+xFPFJx9tns6uM484WT6g04HJOI+i7xf
+   GCTOBPQsdl2MVOSgdFRwlCqSbZfxXOhI2tNjcPXuU9wh/nNVFOq+RkH6s
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="18968525"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="18968525"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 23:50:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="851067869"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="851067869"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 04 Jan 2024 23:50:38 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rLeyS-0000xb-2I;
+	Fri, 05 Jan 2024 07:50:36 +0000
+Date: Fri, 5 Jan 2024 15:50:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sandipan Das <sandipan.das@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: arch/x86/events/amd/uncore.c:941:52: error: '%d' directive output
+ may be truncated writing between 1 and 10 bytes into a region of size 8
+Message-ID: <202401051554.teOdw8yt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,239 +50,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231227060322.3556052-1-alexious@zju.edu.cn>
 
-Hi Zhipeng,
+Hi Sandipan,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhipeng-Lu/ALSA-hdsp-fix-some-memleaks-in-snd_hdsp_hwdep_ioctl/20231227-140703
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20231227060322.3556052-1-alexious%40zju.edu.cn
-patch subject: [PATCH] [v2] ALSA: hdsp: fix some memleaks in snd_hdsp_hwdep_ioctl
-config: i386-randconfig-141-20240104 (https://download.01.org/0day-ci/archive/20240105/202401051031.8odmcqKi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1f874787ed9a2d78ed59cb21d0d90ac0178eceb0
+commit: 25e56847821f7375bdee7dae1027c7917d07ce4b perf/x86/amd/uncore: Add memory controller support
+date:   3 months ago
+config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20240105/202401051554.teOdw8yt-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401051554.teOdw8yt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401051031.8odmcqKi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401051554.teOdw8yt-lkp@intel.com/
 
-New smatch warnings:
-sound/pci/rme9652/hdsp.c:4918 snd_hdsp_hwdep_ioctl() error: uninitialized symbol 'err'.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-sound/pci/rme9652/hdsp.c:3405 snd_hdsp_proc_read() warn: argument 5 to %lx specifier is cast from pointer
-sound/pci/rme9652/hdsp.c:5219 hdsp_request_fw_loader() warn: 'fw' from request_firmware() not released on lines: 5197,5202,5208,5216.
+   arch/x86/events/amd/uncore.c: In function 'amd_uncore_umc_ctx_init':
+>> arch/x86/events/amd/uncore.c:941:52: error: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Werror=format-truncation=]
+       snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
+                                                       ^~
+   arch/x86/events/amd/uncore.c:941:43: note: directive argument in the range [0, 2147483647]
+       snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
+                                              ^~~~~~~~~~~~
+   arch/x86/events/amd/uncore.c:941:4: note: 'snprintf' output between 10 and 19 bytes into a destination of size 16
+       snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
-vim +/err +4918 sound/pci/rme9652/hdsp.c
 
-55e957d8328ef1 Takashi Iwai   2005-11-17  4728  static int snd_hdsp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file, unsigned int cmd, unsigned long arg)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4729  {
-9fe856e47e1751 Joe Perches    2010-09-04  4730  	struct hdsp *hdsp = hw->private_data;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4731  	void __user *argp = (void __user *)arg;
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4732  	int err;
+vim +941 arch/x86/events/amd/uncore.c
 
-err is first declared here
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4733  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4734  	switch (cmd) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4735  	case SNDRV_HDSP_IOCTL_GET_PEAK_RMS: {
-55e957d8328ef1 Takashi Iwai   2005-11-17  4736  		struct hdsp_peak_rms __user *peak_rms = (struct hdsp_peak_rms __user *)arg;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4737  
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4738  		err = hdsp_check_for_iobox(hdsp);
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4739  		if (err < 0)
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4740  			return err;
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4741  
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4742  		err = hdsp_check_for_firmware(hdsp, 1);
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4743  		if (err < 0)
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4744  			return err;
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4745  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4746  		if (!(hdsp->state & HDSP_FirmwareLoaded)) {
-a54ba0fe9fae3c Takashi Iwai   2014-02-26  4747  			dev_err(hdsp->card->dev,
-a54ba0fe9fae3c Takashi Iwai   2014-02-26  4748  				"firmware needs to be uploaded to the card.\n");
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4749  			return -EINVAL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4750  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4751  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4752  		switch (hdsp->io_type) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4753  		case H9652:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4754  			return hdsp_9652_get_peak(hdsp, peak_rms);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4755  		case H9632:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4756  			return hdsp_9632_get_peak(hdsp, peak_rms);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4757  		default:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4758  			return hdsp_get_peak(hdsp, peak_rms);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4759  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4760  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4761  	case SNDRV_HDSP_IOCTL_GET_CONFIG_INFO: {
-55e957d8328ef1 Takashi Iwai   2005-11-17  4762  		struct hdsp_config_info info;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4763  		unsigned long flags;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4764  		int i;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4765  
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4766  		err = hdsp_check_for_iobox(hdsp);
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4767  		if (err < 0)
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4768  			return err;
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4769  
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4770  		err = hdsp_check_for_firmware(hdsp, 1);
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4771  		if (err < 0)
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4772  			return err;
-3ae7e2e22900b9 Tim Blechmann  2008-11-08  4773  
-e68d3b316ab7b0 Dan Rosenberg  2010-09-25  4774  		memset(&info, 0, sizeof(info));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4775  		spin_lock_irqsave(&hdsp->lock, flags);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4776  		info.pref_sync_ref = (unsigned char)hdsp_pref_sync_ref(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4777  		info.wordclock_sync_check = (unsigned char)hdsp_wc_sync_check(hdsp);
-b0b9811956db48 Takashi Iwai   2005-10-20  4778  		if (hdsp->io_type != H9632)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4779  		    info.adatsync_sync_check = (unsigned char)hdsp_adatsync_sync_check(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4780  		info.spdif_sync_check = (unsigned char)hdsp_spdif_sync_check(hdsp);
-28b26e15533e60 Florian Faber  2010-12-01  4781  		for (i = 0; i < ((hdsp->io_type != Multiface && hdsp->io_type != RPM && hdsp->io_type != H9632) ? 3 : 1); ++i)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4782  			info.adat_sync_check[i] = (unsigned char)hdsp_adat_sync_check(hdsp, i);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4783  		info.spdif_in = (unsigned char)hdsp_spdif_in(hdsp);
-4833c673dee69a Adrian Knoth   2013-01-15  4784  		info.spdif_out = (unsigned char)hdsp_toggle_setting(hdsp,
-4833c673dee69a Adrian Knoth   2013-01-15  4785  				HDSP_SPDIFOpticalOut);
-4833c673dee69a Adrian Knoth   2013-01-15  4786  		info.spdif_professional = (unsigned char)
-4833c673dee69a Adrian Knoth   2013-01-15  4787  			hdsp_toggle_setting(hdsp, HDSP_SPDIFProfessional);
-4833c673dee69a Adrian Knoth   2013-01-15  4788  		info.spdif_emphasis = (unsigned char)
-4833c673dee69a Adrian Knoth   2013-01-15  4789  			hdsp_toggle_setting(hdsp, HDSP_SPDIFEmphasis);
-4833c673dee69a Adrian Knoth   2013-01-15  4790  		info.spdif_nonaudio = (unsigned char)
-4833c673dee69a Adrian Knoth   2013-01-15  4791  			hdsp_toggle_setting(hdsp, HDSP_SPDIFNonAudio);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4792  		info.spdif_sample_rate = hdsp_spdif_sample_rate(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4793  		info.system_sample_rate = hdsp->system_sample_rate;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4794  		info.autosync_sample_rate = hdsp_external_sample_rate(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4795  		info.system_clock_mode = (unsigned char)hdsp_system_clock_mode(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4796  		info.clock_source = (unsigned char)hdsp_clock_source(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4797  		info.autosync_ref = (unsigned char)hdsp_autosync_ref(hdsp);
-4833c673dee69a Adrian Knoth   2013-01-15  4798  		info.line_out = (unsigned char)
-4833c673dee69a Adrian Knoth   2013-01-15  4799  			hdsp_toggle_setting(hdsp, HDSP_LineOut);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4800  		if (hdsp->io_type == H9632) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4801  			info.da_gain = (unsigned char)hdsp_da_gain(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4802  			info.ad_gain = (unsigned char)hdsp_ad_gain(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4803  			info.phone_gain = (unsigned char)hdsp_phone_gain(hdsp);
-4833c673dee69a Adrian Knoth   2013-01-15  4804  			info.xlr_breakout_cable =
-4833c673dee69a Adrian Knoth   2013-01-15  4805  				(unsigned char)hdsp_toggle_setting(hdsp,
-4833c673dee69a Adrian Knoth   2013-01-15  4806  					HDSP_XLRBreakoutCable);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4807  
-28b26e15533e60 Florian Faber  2010-12-01  4808  		} else if (hdsp->io_type == RPM) {
-28b26e15533e60 Florian Faber  2010-12-01  4809  			info.da_gain = (unsigned char) hdsp_rpm_input12(hdsp);
-28b26e15533e60 Florian Faber  2010-12-01  4810  			info.ad_gain = (unsigned char) hdsp_rpm_input34(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4811  		}
-b0b9811956db48 Takashi Iwai   2005-10-20  4812  		if (hdsp->io_type == H9632 || hdsp->io_type == H9652)
-4833c673dee69a Adrian Knoth   2013-01-15  4813  			info.analog_extension_board =
-4833c673dee69a Adrian Knoth   2013-01-15  4814  				(unsigned char)hdsp_toggle_setting(hdsp,
-4833c673dee69a Adrian Knoth   2013-01-15  4815  					    HDSP_AnalogExtensionBoard);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4816  		spin_unlock_irqrestore(&hdsp->lock, flags);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4817  		if (copy_to_user(argp, &info, sizeof(info)))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4818  			return -EFAULT;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4819  		break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4820  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4821  	case SNDRV_HDSP_IOCTL_GET_9632_AEB: {
-55e957d8328ef1 Takashi Iwai   2005-11-17  4822  		struct hdsp_9632_aeb h9632_aeb;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4823  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4824  		if (hdsp->io_type != H9632) return -EINVAL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4825  		h9632_aeb.aebi = hdsp->ss_in_channels - H9632_SS_CHANNELS;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4826  		h9632_aeb.aebo = hdsp->ss_out_channels - H9632_SS_CHANNELS;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4827  		if (copy_to_user(argp, &h9632_aeb, sizeof(h9632_aeb)))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4828  			return -EFAULT;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4829  		break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4830  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4831  	case SNDRV_HDSP_IOCTL_GET_VERSION: {
-55e957d8328ef1 Takashi Iwai   2005-11-17  4832  		struct hdsp_version hdsp_version;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4833  		int err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4834  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4835  		if (hdsp->io_type == H9652 || hdsp->io_type == H9632) return -EINVAL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4836  		if (hdsp->io_type == Undefined) {
-66c8f75919dd85 Takashi Iwai   2021-06-08  4837  			err = hdsp_get_iobox_version(hdsp);
-66c8f75919dd85 Takashi Iwai   2021-06-08  4838  			if (err < 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4839  				return err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4840  		}
-d14df339c72b6e Dan Carpenter  2013-10-16  4841  		memset(&hdsp_version, 0, sizeof(hdsp_version));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4842  		hdsp_version.io_type = hdsp->io_type;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4843  		hdsp_version.firmware_rev = hdsp->firmware_rev;
-0f7c956533680d Dan Carpenter  2021-06-22  4844  		if (copy_to_user(argp, &hdsp_version, sizeof(hdsp_version)))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4845  			return -EFAULT;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4846  		break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4847  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4848  	case SNDRV_HDSP_IOCTL_UPLOAD_FIRMWARE: {
-112e3f5ac505ea Takashi Iwai   2020-02-02  4849  		struct hdsp_firmware firmware;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4850  		u32 __user *firmware_data;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4851  		int err;
-
-This err shadows the earlier declaration
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4852  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4853  		if (hdsp->io_type == H9652 || hdsp->io_type == H9632) return -EINVAL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4854  		/* SNDRV_HDSP_IOCTL_GET_VERSION must have been called */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4855  		if (hdsp->io_type == Undefined) return -EINVAL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4856  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4857  		if (hdsp->state & (HDSP_FirmwareCached | HDSP_FirmwareLoaded))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4858  			return -EBUSY;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4859  
-a54ba0fe9fae3c Takashi Iwai   2014-02-26  4860  		dev_info(hdsp->card->dev,
-a54ba0fe9fae3c Takashi Iwai   2014-02-26  4861  			 "initializing firmware upload\n");
-112e3f5ac505ea Takashi Iwai   2020-02-02  4862  		if (copy_from_user(&firmware, argp, sizeof(firmware)))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4863  			return -EFAULT;
-112e3f5ac505ea Takashi Iwai   2020-02-02  4864  		firmware_data = (u32 __user *)firmware.firmware_data;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4865  
-b0b9811956db48 Takashi Iwai   2005-10-20  4866  		if (hdsp_check_for_iobox (hdsp))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4867  			return -EIO;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4868  
-90caaef6a1ce2e Takashi Iwai   2012-11-22  4869  		if (!hdsp->fw_uploaded) {
-90caaef6a1ce2e Takashi Iwai   2012-11-22  4870  			hdsp->fw_uploaded = vmalloc(HDSP_FIRMWARE_SIZE);
-90caaef6a1ce2e Takashi Iwai   2012-11-22  4871  			if (!hdsp->fw_uploaded)
-90caaef6a1ce2e Takashi Iwai   2012-11-22  4872  				return -ENOMEM;
-90caaef6a1ce2e Takashi Iwai   2012-11-22  4873  		}
-90caaef6a1ce2e Takashi Iwai   2012-11-22  4874  
-90caaef6a1ce2e Takashi Iwai   2012-11-22  4875  		if (copy_from_user(hdsp->fw_uploaded, firmware_data,
-90caaef6a1ce2e Takashi Iwai   2012-11-22  4876  				   HDSP_FIRMWARE_SIZE)) {
-b0d4acf304f079 Zhipeng Lu     2023-12-27  4877  			err = -EFAULT;
-b0d4acf304f079 Zhipeng Lu     2023-12-27  4878  			goto free_fw_uploaded;
-90caaef6a1ce2e Takashi Iwai   2012-11-22  4879  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4880  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4881  		hdsp->state |= HDSP_FirmwareCached;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4882  
-66c8f75919dd85 Takashi Iwai   2021-06-08  4883  		err = snd_hdsp_load_firmware_from_cache(hdsp);
-66c8f75919dd85 Takashi Iwai   2021-06-08  4884  		if (err < 0)
-b0d4acf304f079 Zhipeng Lu     2023-12-27  4885  			goto free_fw_uploaded;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4886  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4887  		if (!(hdsp->state & HDSP_InitializationComplete)) {
-66c8f75919dd85 Takashi Iwai   2021-06-08  4888  			err = snd_hdsp_enable_io(hdsp);
-66c8f75919dd85 Takashi Iwai   2021-06-08  4889  			if (err < 0)
-b0d4acf304f079 Zhipeng Lu     2023-12-27  4890  				goto free_fw_uploaded;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4891  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4892  			snd_hdsp_initialize_channels(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4893  			snd_hdsp_initialize_midi_flush(hdsp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4894  
-66c8f75919dd85 Takashi Iwai   2021-06-08  4895  			err = snd_hdsp_create_alsa_devices(hdsp->card, hdsp);
-66c8f75919dd85 Takashi Iwai   2021-06-08  4896  			if (err < 0) {
-a54ba0fe9fae3c Takashi Iwai   2014-02-26  4897  				dev_err(hdsp->card->dev,
-a54ba0fe9fae3c Takashi Iwai   2014-02-26  4898  					"error creating alsa devices\n");
-b0d4acf304f079 Zhipeng Lu     2023-12-27  4899  				goto free_fw_uploaded;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4900  			}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4901  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4902  		break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4903  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4904  	case SNDRV_HDSP_IOCTL_GET_MIXER: {
-55e957d8328ef1 Takashi Iwai   2005-11-17  4905  		struct hdsp_mixer __user *mixer = (struct hdsp_mixer __user *)argp;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4906  		if (copy_to_user(mixer->matrix, hdsp->mixer_matrix, sizeof(unsigned short)*HDSP_MATRIX_MIXER_SIZE))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4907  			return -EFAULT;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4908  		break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4909  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4910  	default:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4911  		return -EINVAL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4912  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4913  	return 0;
-b0d4acf304f079 Zhipeng Lu     2023-12-27  4914  
-b0d4acf304f079 Zhipeng Lu     2023-12-27  4915  free_fw_uploaded:
-b0d4acf304f079 Zhipeng Lu     2023-12-27  4916  	vfree(hdsp->fw_uploaded);
-b0d4acf304f079 Zhipeng Lu     2023-12-27  4917  	hdsp->fw_uploaded = NULL;
-b0d4acf304f079 Zhipeng Lu     2023-12-27 @4918  	return err;
-
-The first err is uninitialized.
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  4919  }
+   900	
+   901	static
+   902	int amd_uncore_umc_ctx_init(struct amd_uncore *uncore, unsigned int cpu)
+   903	{
+   904		DECLARE_BITMAP(gmask, UNCORE_GROUP_MAX) = { 0 };
+   905		u8 group_num_pmus[UNCORE_GROUP_MAX] = { 0 };
+   906		u8 group_num_pmcs[UNCORE_GROUP_MAX] = { 0 };
+   907		union amd_uncore_info info;
+   908		struct amd_uncore_pmu *pmu;
+   909		int index = 0, gid, i;
+   910	
+   911		if (pmu_version < 2)
+   912			return 0;
+   913	
+   914		/* Run just once */
+   915		if (uncore->init_done)
+   916			return amd_uncore_ctx_init(uncore, cpu);
+   917	
+   918		/* Find unique groups */
+   919		for_each_online_cpu(i) {
+   920			info = *per_cpu_ptr(uncore->info, i);
+   921			gid = info.split.gid;
+   922			if (test_bit(gid, gmask))
+   923				continue;
+   924	
+   925			__set_bit(gid, gmask);
+   926			group_num_pmus[gid] = hweight32(info.split.aux_data);
+   927			group_num_pmcs[gid] = info.split.num_pmcs;
+   928			uncore->num_pmus += group_num_pmus[gid];
+   929		}
+   930	
+   931		uncore->pmus = kzalloc(sizeof(*uncore->pmus) * uncore->num_pmus,
+   932				       GFP_KERNEL);
+   933		if (!uncore->pmus) {
+   934			uncore->num_pmus = 0;
+   935			goto done;
+   936		}
+   937	
+   938		for_each_set_bit(gid, gmask, UNCORE_GROUP_MAX) {
+   939			for (i = 0; i < group_num_pmus[gid]; i++) {
+   940				pmu = &uncore->pmus[index];
+ > 941				snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
+   942				pmu->num_counters = group_num_pmcs[gid] / group_num_pmus[gid];
+   943				pmu->msr_base = MSR_F19H_UMC_PERF_CTL + i * pmu->num_counters * 2;
+   944				pmu->rdpmc_base = -1;
+   945				pmu->group = gid;
+   946	
+   947				pmu->ctx = alloc_percpu(struct amd_uncore_ctx *);
+   948				if (!pmu->ctx)
+   949					goto done;
+   950	
+   951				pmu->pmu = (struct pmu) {
+   952					.task_ctx_nr	= perf_invalid_context,
+   953					.attr_groups	= amd_uncore_umc_attr_groups,
+   954					.name		= pmu->name,
+   955					.event_init	= amd_uncore_umc_event_init,
+   956					.add		= amd_uncore_add,
+   957					.del		= amd_uncore_del,
+   958					.start		= amd_uncore_umc_start,
+   959					.stop		= amd_uncore_stop,
+   960					.read		= amd_uncore_read,
+   961					.capabilities	= PERF_PMU_CAP_NO_EXCLUDE | PERF_PMU_CAP_NO_INTERRUPT,
+   962					.module		= THIS_MODULE,
+   963				};
+   964	
+   965				if (perf_pmu_register(&pmu->pmu, pmu->pmu.name, -1)) {
+   966					free_percpu(pmu->ctx);
+   967					pmu->ctx = NULL;
+   968					goto done;
+   969				}
+   970	
+   971				pr_info("%d %s counters detected\n", pmu->num_counters,
+   972					pmu->pmu.name);
+   973	
+   974				index++;
+   975			}
+   976		}
+   977	
+   978	done:
+   979		uncore->num_pmus = index;
+   980		uncore->init_done = true;
+   981	
+   982		return amd_uncore_ctx_init(uncore, cpu);
+   983	}
+   984	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
