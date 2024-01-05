@@ -1,47 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8057200AA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 07:50:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6FE2030C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 08:10:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyv6Dk3Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsOTpLIH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704441041; x=1735977041;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t8MKxl0UlVrrvohdRZeIZvu2TQYxXODY9FqfArPk0wY=;
-  b=cyv6Dk3ZABNvzutIRgiMpY48z/2SMfOxpTeq77U1wFAK6O9NWtT5+ZUc
-   aIvbnS8w/TkmNgpohCgoDEWlPziCJz6vhr2Bo5Vzx+GQuOe/5j/AEB2+f
-   mPlvR8ussRx4zCNJvi8vwqz5W2YL/s70nKB0WrfIqkQhJpXAWADzt1xaq
-   aqipnIqk+Lr0zN1i0JTFy8tQ3qxHtlktJ/NHAbcRyRrRCbb+YDOU56m35
-   RKm0KI7TtnW/UZ5mzlvdnPaEF+xFPFJx9tns6uM484WT6g04HJOI+i7xf
-   GCTOBPQsdl2MVOSgdFRwlCqSbZfxXOhI2tNjcPXuU9wh/nNVFOq+RkH6s
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="18968525"
+  t=1704442243; x=1735978243;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZWVz+R9ZTDJwoY4KhCcey0RALa2whPoaCXKx0Sx4Pg0=;
+  b=OsOTpLIH7FhaPEgOOyHj6ydbW92Ic2Vs7PN+j2n/EpCMrbKmxN99jMVj
+   J/ahMeIDm1fj4hVF1XnbRN2lzRvSKuutuLJQgnCcPyjiidhsgqyZLynxH
+   JN34LjmmH6HkeR1RJPQTJZ8DgROY4wkaNdxykRwvjlA+mz/yLDeE1wOLo
+   i+bYAptjS2lLV+wzSgHoi1JY+1bvL+KLsCqa0q91W05CwK8iQKc47C1Fa
+   T81LqHuaARVLqvAmDw5rptLqyT3eM7YRQdUsM2lshcStsk3m5OUsBcwLr
+   WHowAkgCCkrHLzC1ZALd/Psud9hqegMYkrkG9GJ2ETLFU71ULvkwWwops
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4828277"
 X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="18968525"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 23:50:40 -0800
+   d="scan'208";a="4828277"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 00:10:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="851067869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="899588668"
 X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="851067869"
+   d="scan'208";a="899588668"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 04 Jan 2024 23:50:38 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 05 Jan 2024 00:10:39 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLeyS-0000xb-2I;
-	Fri, 05 Jan 2024 07:50:36 +0000
-Date: Fri, 5 Jan 2024 15:50:04 +0800
+	id 1rLfHp-0000yy-1c;
+	Fri, 05 Jan 2024 08:10:37 +0000
+Date: Fri, 5 Jan 2024 16:09:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sandipan Das <sandipan.das@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: arch/x86/events/amd/uncore.c:941:52: error: '%d' directive output
- may be truncated writing between 1 and 10 bytes into a region of size 8
-Message-ID: <202401051554.teOdw8yt-lkp@intel.com>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>, jdelvare@suse.com,
+	linux@roeck-us.net
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] hwmon: (acpi_power_meter) Ensure IPMI space
+ handler is ready on Dell systems
+Message-ID: <202401051544.T4aBavV5-lkp@intel.com>
+References: <20240104024819.848979-2-kai.heng.feng@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,126 +54,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240104024819.848979-2-kai.heng.feng@canonical.com>
 
-Hi Sandipan,
+Hi Kai-Heng,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1f874787ed9a2d78ed59cb21d0d90ac0178eceb0
-commit: 25e56847821f7375bdee7dae1027c7917d07ce4b perf/x86/amd/uncore: Add memory controller support
-date:   3 months ago
-config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20240105/202401051554.teOdw8yt-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401051554.teOdw8yt-lkp@intel.com/reproduce)
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on groeck-staging/hwmon-next rafael-pm/acpi-bus rafael-pm/devprop linus/master v6.7-rc8 next-20240104]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kai-Heng-Feng/hwmon-acpi_power_meter-Ensure-IPMI-space-handler-is-ready-on-Dell-systems/20240104-105227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20240104024819.848979-2-kai.heng.feng%40canonical.com
+patch subject: [PATCH v3 2/2] hwmon: (acpi_power_meter) Ensure IPMI space handler is ready on Dell systems
+config: i386-randconfig-r133-20240104 (https://download.01.org/0day-ci/archive/20240105/202401051544.T4aBavV5-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401051544.T4aBavV5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401051554.teOdw8yt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401051544.T4aBavV5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/events/amd/uncore.c: In function 'amd_uncore_umc_ctx_init':
->> arch/x86/events/amd/uncore.c:941:52: error: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Werror=format-truncation=]
-       snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
-                                                       ^~
-   arch/x86/events/amd/uncore.c:941:43: note: directive argument in the range [0, 2147483647]
-       snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
-                                              ^~~~~~~~~~~~
-   arch/x86/events/amd/uncore.c:941:4: note: 'snprintf' output between 10 and 19 bytes into a destination of size 16
-       snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +941 arch/x86/events/amd/uncore.c
-
-   900	
-   901	static
-   902	int amd_uncore_umc_ctx_init(struct amd_uncore *uncore, unsigned int cpu)
-   903	{
-   904		DECLARE_BITMAP(gmask, UNCORE_GROUP_MAX) = { 0 };
-   905		u8 group_num_pmus[UNCORE_GROUP_MAX] = { 0 };
-   906		u8 group_num_pmcs[UNCORE_GROUP_MAX] = { 0 };
-   907		union amd_uncore_info info;
-   908		struct amd_uncore_pmu *pmu;
-   909		int index = 0, gid, i;
-   910	
-   911		if (pmu_version < 2)
-   912			return 0;
-   913	
-   914		/* Run just once */
-   915		if (uncore->init_done)
-   916			return amd_uncore_ctx_init(uncore, cpu);
-   917	
-   918		/* Find unique groups */
-   919		for_each_online_cpu(i) {
-   920			info = *per_cpu_ptr(uncore->info, i);
-   921			gid = info.split.gid;
-   922			if (test_bit(gid, gmask))
-   923				continue;
-   924	
-   925			__set_bit(gid, gmask);
-   926			group_num_pmus[gid] = hweight32(info.split.aux_data);
-   927			group_num_pmcs[gid] = info.split.num_pmcs;
-   928			uncore->num_pmus += group_num_pmus[gid];
-   929		}
-   930	
-   931		uncore->pmus = kzalloc(sizeof(*uncore->pmus) * uncore->num_pmus,
-   932				       GFP_KERNEL);
-   933		if (!uncore->pmus) {
-   934			uncore->num_pmus = 0;
-   935			goto done;
-   936		}
-   937	
-   938		for_each_set_bit(gid, gmask, UNCORE_GROUP_MAX) {
-   939			for (i = 0; i < group_num_pmus[gid]; i++) {
-   940				pmu = &uncore->pmus[index];
- > 941				snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
-   942				pmu->num_counters = group_num_pmcs[gid] / group_num_pmus[gid];
-   943				pmu->msr_base = MSR_F19H_UMC_PERF_CTL + i * pmu->num_counters * 2;
-   944				pmu->rdpmc_base = -1;
-   945				pmu->group = gid;
-   946	
-   947				pmu->ctx = alloc_percpu(struct amd_uncore_ctx *);
-   948				if (!pmu->ctx)
-   949					goto done;
-   950	
-   951				pmu->pmu = (struct pmu) {
-   952					.task_ctx_nr	= perf_invalid_context,
-   953					.attr_groups	= amd_uncore_umc_attr_groups,
-   954					.name		= pmu->name,
-   955					.event_init	= amd_uncore_umc_event_init,
-   956					.add		= amd_uncore_add,
-   957					.del		= amd_uncore_del,
-   958					.start		= amd_uncore_umc_start,
-   959					.stop		= amd_uncore_stop,
-   960					.read		= amd_uncore_read,
-   961					.capabilities	= PERF_PMU_CAP_NO_EXCLUDE | PERF_PMU_CAP_NO_INTERRUPT,
-   962					.module		= THIS_MODULE,
-   963				};
-   964	
-   965				if (perf_pmu_register(&pmu->pmu, pmu->pmu.name, -1)) {
-   966					free_percpu(pmu->ctx);
-   967					pmu->ctx = NULL;
-   968					goto done;
-   969				}
-   970	
-   971				pr_info("%d %s counters detected\n", pmu->num_counters,
-   972					pmu->pmu.name);
-   973	
-   974				index++;
-   975			}
-   976		}
-   977	
-   978	done:
-   979		uncore->num_pmus = index;
-   980		uncore->init_done = true;
-   981	
-   982		return amd_uncore_ctx_init(uncore, cpu);
-   983	}
-   984	
+>> ld.lld: error: undefined symbol: acpi_wait_for_acpi_ipmi
+   >>> referenced by acpi_power_meter.c:888 (drivers/hwmon/acpi_power_meter.c:888)
+   >>>               drivers/hwmon/acpi_power_meter.o:(acpi_power_meter_add) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
