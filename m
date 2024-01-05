@@ -1,137 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02FC360A3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 23:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ClnkXoUv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704496641; x=1736032641;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E2UMzbxUX8erLp860lm7gUP0ywm2Akf0mJDok3HzoXk=;
-  b=ClnkXoUv/A/SHaxOyxSUK1p5/GTAJcYH261MDUTlPZwTKsiDw1Ha3tIU
-   DmwdPho4aZPKECPWYO5y2tHPAlij+YFHLAGdZJw5bwpX0fatJZfbVP3YQ
-   QNFAGgAF9dj3qAWeModU6OBJn/nWmd6Zrq7RocNtKsw+RplxoIeO0+xm6
-   tQuSvs2SEDcNwQdpsaLEsa6y7mjTayegBjcLmTJhzDkawvHkERmphJq3y
-   MrzsvzCiDzxKEtM9q99YRMqnF8ffXfAwsLo49pVbJWlITOmzktOolPFLK
-   blfhCn8IxDcDIge6KPPjflDxiqHEXRscLMYYI57UlVPAc7bwPCrtL5dEN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="4365903"
-X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="4365903"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 15:15:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="15369613"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2024 15:15:54 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rLtPs-0001nc-02;
-	Fri, 05 Jan 2024 23:15:52 +0000
-Date: Sat, 6 Jan 2024 07:15:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>
-Subject: [esmil:jh7110 39/41]
- drivers/gpu/drm/verisilicon/starfive_hdmi.c:188:13: warning:
- 'starfive_hdmi_disable_clk_assert_rst' defined but not used
-Message-ID: <202401060747.837dGXb7-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBD4360AB
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 23:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-101-_D_FY1bAOYGSrnkXmJhLlA-1; Fri, 05 Jan 2024 23:53:00 +0000
+X-MC-Unique: _D_FY1bAOYGSrnkXmJhLlA-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 5 Jan
+ 2024 23:52:45 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Fri, 5 Jan 2024 23:52:45 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Linus Torvalds' <torvalds@linux-foundation.org>
+CC: Noah Goldstein <goldstein.w.n@gmail.com>, kernel test robot
+	<lkp@intel.com>, "x86@kernel.org" <x86@kernel.org>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"edumazet@google.com" <edumazet@google.com>, "tglx@linutronix.de"
+	<tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
+	<bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"hpa@zytor.com" <hpa@zytor.com>
+Subject: RE: x86/csum: Remove unnecessary odd handling
+Thread-Topic: x86/csum: Remove unnecessary odd handling
+Thread-Index: AQHZ7ib2fs4a8+P0bkWBCjHsrqR0abAo6HRAgKIYy6qAAJmVUIAAjHgAgABZ3tA=
+Date: Fri, 5 Jan 2024 23:52:45 +0000
+Message-ID: <204bf145e6ad47219c005e9a4407ebdc@AcuMS.aculab.com>
+References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
+ <202309231130.ZI5MdlDc-lkp@intel.com>
+ <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
+ <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com>
+ <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
+ <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
+ <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
+ <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
+ <CAHk-=wiNUucmvTKGmveWzXXe99SpOwU65nFtH-A2_aUpPsAPJQ@mail.gmail.com>
+ <5354eeec562345f6a1de84f0b2081b75@AcuMS.aculab.com>
+ <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com>
+In-Reply-To: <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-tree:   https://github.com/esmil/linux jh7110
-head:   bebe83d360486029c861b78d6f751aa6d857adf9
-commit: a29e27fe692ac1dbf20cd96282ad0de037bf576f [39/41] drm/vs: Add hdmi driver
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240106/202401060747.837dGXb7-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401060747.837dGXb7-lkp@intel.com/reproduce)
+RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMDUgSmFudWFyeSAyMDI0IDE4OjA2DQo+IA0K
+PiBPbiBGcmksIDUgSmFuIDIwMjQgYXQgMDI6NDEsIERhdmlkIExhaWdodCA8RGF2aWQuTGFpZ2h0
+QGFjdWxhYi5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSW50ZXJlc3RpbmcsIEknbSBwcmV0dHkgc3Vy
+ZSB0cnlpbmcgdG8gZ2V0IHR3byBibG9ja3Mgb2YNCj4gPiAgJ2FkYycgc2NoZWR1bGVkIGluIHBh
+cmFsbGVsIGxpa2UgdGhhdCBkb2Vzbid0IHdvcmsuDQo+IA0KPiBZb3Ugc2hvdWxkIGNoZWNrIG91
+dCB0aGUgYmVuY2htYXJrIGF0DQo+IA0KPiAgICAgICAgaHR0cHM6Ly9naXRodWIuY29tL2ZlbnJ1
+czc1L2NzdW1fcGFydGlhbA0KPiANCj4gYW5kIHNlZSBpZiB5b3UgY2FuIGltcHJvdmUgb24gaXQu
+IEknbSBpbmNsdWRpbmcgdGhlIHBhdGNoIChvbiB0b3Agb2YNCj4gdGhhdCBjb2RlIGJ5IEFyamFu
+KSB0byBpbXBsZW1lbnQgdGhlIGFjdHVhbCBjdXJyZW50IGtlcm5lbCB2ZXJzaW9uIGFzDQo+ICJO
+ZXcgdmVyc2lvbiIuDQoNCkknZCBoYXZlIHRvIGZpeCBoaXMgYmVuY2htYXJrIGNvZGUgZmlyc3Qg
+Oi0pDQpZb3UgY2FuJ3QgdXNlIHRoZSBUU0MgdW5sZXNzIHlvdSBsb2NrIHRoZSBjcHUgZnJlcXVl
+bmN5Lg0KVGhlIGxvbmdlciB0aGUgdGVzdCBydW5zIGZvciB0aGUgZmFzdGVyIHRoZSBjcHUgd2ls
+bCBydW4uDQpJJ3ZlIGhhZCB0byB1c2UgdGhlIHBlcmZvcm1hbmNlIGNvdW50ZXJzIHRvIGdldCBh
+Y2N1cmF0ZSBjeWNsZSBjb3VudHMuDQoNCkknbSBhbHNvIHN1cmUgSSB0cmllZCB0d28gc2VwYXJh
+dGUgJ2FkYycgY2hhaW5zIGFuZCBmYWlsZWQNCnRvIGdldCBhbnkgb3ZlcmxhcHBlZCBpbnN0cmlj
+dGlvbnMuDQpCdXQgSSdsbCB0cnkgaGlzIGxvb3AgaW4gbXkgZnJhbWV3b3JrLg0KDQpUaGUgJ2xm
+ZW5jZScgdmVyc2lvbiBhbHNvIHJlYWxseSBkb2VzIG1hdHRlci4NCkluIHNvbWUgc2Vuc2UgaXQg
+ZG9lc24ndCBtYXR0ZXIgaWYgeW91IGFkZCAxMCBjbG9ja3MgdG8gdGhlDQpJUCBoZWFkZXIgY2hl
+Y2tzdW0gLSB0aGV5J2xsIGJlIGR3YXJmZWQgYnkgZXZlcnl0aGluZyBlbHNlLg0KQnV0IGlmIHlv
+dSBkbyBoYXZlIHRvIGNoZWNrc3VtIGFuIDhrIE5GUyBVRFAgZGF0YWdyYW0gdGhlDQpsb29wIGNv
+dW50IG1hdHRlcnMuDQoNClRoZSBPT08gZW5naW5lIGlzIHZlcnkgZ29vZCBhIGp1c3QgcGlsaW5n
+IHVwIGluc3RydWN0aW9ucw0KdGhhdCBhcmUgd2FpdGluZyBmb3IgcHJldmlvdXMgaW5zdHJ1Y3Rp
+b25zIGluIGEgYmlnIHF1ZXVlDQphbmQgZXhlY3V0aW5nIGluc3RydWN0aW9uIGZvciB3aGljaCB0
+aGUgZGF0YSBpcyBhdmFpbGFibGUuDQpTbyB0aGUgY29udHJvbCBmbG93IGZvciB0aGUgY2hlY2tz
+dW0gY29kZSBjYW4gZmluaXNoIHdlbGwNCmJlZm9yZSB0aGUgY2hlY2tzdW0gaXMgYXZhaWxhYmxl
+Lg0KDQpPbiBhIHJlbGF0ZWQgcG9pbnQsIGRvIHlvdSByZW1lbWJlciB3aGF0IHRoZSAna2lsbGVy
+IGFwcCcNCndhcyBmb3IgZG9pbmcgdGhlIGNoZWNrc3VtIGluIGNvcHlfdG8vZnJvbV91c2VyPw0K
+DQpUaGUgY2hhbmdlIHByZS1kYXRlcyBnaXQgYW5kIEkgY2FuJ3QgZmluZCB0aGUgY29tbWl0IG1l
+c3NhZ2UuDQpUaGUgb25seSBwbGFjZSBpdCBpcyBkb25lIGluIHRoZSByZWNlaXZlIHBhdGggaXMg
+Zm9yIFVEUC4NCkF0IGEgZ3Vlc3MgdGhhdCBoZWxwZWQgOGsgVURQIGRhdGFncmFtcyBnb2luZyBp
+bnRvIGEgdXNlcnNwYWNlIG5mc2Q/DQpJIGJldCBub3RoaW5nIHJlYWxseSBkZXBlbmRzIG9uIFJY
+IFVEUCBwZXJmb3JtYW5jZSB0byB1c2Vyc3BhY2UNCm9uIHN5c3RlbXMgdGhhdCBkb24ndCBkbyBo
+dyBjaGVja3N1bT8NCg0KVGhlIHR4IHNpZGUgaXMgZG9uZSBjb3B5aW5nIGRhdGEgaW50byBhbiBz
+a2IsIEknbSBub3Qgc3VyZSBpZg0KdGhhdCBpcyBhbGwgY29waWVzIC0geW91IHJlYWxseSBkb24n
+dCB3YW50IHRvIGRvIGl0IGlmIHRoZQ0KaGFyZHdhcmUgc3VwcG9ydHMgdHggY2hlY2tzdW0gb2Zm
+bG9hZC4NClVzaW5nICdyZXAgbW92c2InIGZvciBjb3B5X2Zyb21fdXNlcigpIGhhcyAgdG8gYmUg
+ZmFzdGVyIHRoYW4NCnRoZSBJLWNhY2hlIGJ1c3RpbmcgJ2NvcHkgYW5kIGNoZWNrc3VtJyBjb2Rl
+IC0gZXZlbiBpZiB5b3UNCmVuZCB1cCBkb2luZyBhIGNoZWNrc3VtIG5vdCBtdWNoIGxhdGVyIG9u
+Lg0KDQpJSVJDIChJIGxvb2tlZCBhIGNvdXBsZSBvZiB3ZWVrcyBhZ28pIG9ubHkgeDg2LCBzcGFy
+YzMyIGFuZCBtNjhrDQphY3R1YWxseSBoYXZlICdjb3B5IGFuZCBjaGVja3N1bScgKGFuZCB0aGUg
+bTY4ayBkaWRuJ3Qgc2VlbSB0bw0KaGF2ZSB0aGUgbWFya2VycyBmb3IgZmF1bHRzISkuDQooQWxs
+IG9mIHRoZW0gYXJlIEktY2FjaGUga2lsbGVycykNClRoZSBkZWZhdWx0IGlvdmVjW10gdmVyc2lv
+biBjaGVja3N1bXMgZXZlcnkgZnJhZ21lbnQgLSB3aGljaA0KZ2l2ZXMgZ3JpZWYgdHJ5aW5nIHRv
+IHJlcG9ydCBhIDMyYml0IGNoZWNrc3VtIGFuZCBFRkFVTFQuDQpPVE9IIGl0IGNvdWxkIHN1bSB0
+aGUgbGluZWFyIGtlcm5lbCBidWZmZXIgYWZ0ZXIgdGhlIGNvcHkuDQpUaGF0IHdvdWxkIGxldCBp
+dCBmb2xkIHRoZSBjaGVja3N1bSB0byAxN2JpdHMgYW5kIHJlcG9ydCAtMQ0KZm9yIEVGQVVMVC4N
+Cg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2Fk
+LCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5v
+OiAxMzk3Mzg2IChXYWxlcykNCg==
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401060747.837dGXb7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/verisilicon/starfive_hdmi.c:188:13: warning: 'starfive_hdmi_disable_clk_assert_rst' defined but not used [-Wunused-function]
-     188 | static void starfive_hdmi_disable_clk_assert_rst(struct device *dev, struct starfive_hdmi *hdmi)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/verisilicon/starfive_hdmi.c:152:12: warning: 'starfive_hdmi_enable_clk_deassert_rst' defined but not used [-Wunused-function]
-     152 | static int starfive_hdmi_enable_clk_deassert_rst(struct device *dev, struct starfive_hdmi *hdmi)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DMA_CMA
-   Depends on [n]: HAVE_DMA_CONTIGUOUS [=n] && CMA [=y]
-   Selected by [y]:
-   - DRM_VERISILICON [=y] && HAS_IOMEM [=y] && DRM [=y]
-
-
-vim +/starfive_hdmi_disable_clk_assert_rst +188 drivers/gpu/drm/verisilicon/starfive_hdmi.c
-
-   151	
- > 152	static int starfive_hdmi_enable_clk_deassert_rst(struct device *dev, struct starfive_hdmi *hdmi)
-   153	{
-   154		int ret;
-   155	
-   156		ret = clk_prepare_enable(hdmi->sys_clk);
-   157		if (ret) {
-   158			dev_err(dev, "Cannot enable HDMI sys clock: %d\n", ret);
-   159			return ret;
-   160		}
-   161	
-   162		ret = clk_prepare_enable(hdmi->mclk);
-   163		if (ret) {
-   164			dev_err(dev, "Cannot enable HDMI mclk clock: %d\n", ret);
-   165			goto err_mclk;
-   166		}
-   167		ret = clk_prepare_enable(hdmi->bclk);
-   168		if (ret) {
-   169			dev_err(dev, "Cannot enable HDMI bclk clock: %d\n", ret);
-   170			goto err_bclk;
-   171		}
-   172		ret = reset_control_deassert(hdmi->tx_rst);
-   173		if (ret < 0) {
-   174			dev_err(dev, "failed to deassert tx_rst\n");
-   175			goto err_rst;
-   176		}
-   177		return 0;
-   178	
-   179	err_rst:
-   180		clk_disable_unprepare(hdmi->bclk);
-   181	err_bclk:
-   182		clk_disable_unprepare(hdmi->mclk);
-   183	err_mclk:
-   184		clk_disable_unprepare(hdmi->sys_clk);
-   185		return ret;
-   186	}
-   187	
- > 188	static void starfive_hdmi_disable_clk_assert_rst(struct device *dev, struct starfive_hdmi *hdmi)
-   189	{
-   190		int ret;
-   191	
-   192		ret = reset_control_assert(hdmi->tx_rst);
-   193		if (ret < 0)
-   194			dev_err(dev, "failed to assert tx_rst\n");
-   195	
-   196		clk_disable_unprepare(hdmi->sys_clk);
-   197		clk_disable_unprepare(hdmi->mclk);
-   198		clk_disable_unprepare(hdmi->bclk);
-   199	}
-   200	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
