@@ -1,209 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA48E1D68C;
-	Fri,  5 Jan 2024 07:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D632D1DDD9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 07:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1ZFzRMv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704439162; x=1735975162;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=EVi7xzinGzVxgRZPvqmQffpHeA90r1b+wyL9xLMrw0U=;
-  b=m1ZFzRMvPHfTBzL2n2+Aa994jEbecnZIkhab/sdLNFqMM2U6dvhEZ7jb
-   pWiSxQjz+DE/T0TsUZSbuf/vf8RRAhUsUYvAruQbx+k/sgXDEQXkzyta9
-   33r3cffgIEebwyAYjaTDRuCgU1cxtZ7g8D07EML+pboNNZiD6xMHTLl4u
-   jMrGDAVvJmNDDyN67lxCjpbUPv01dy80/EN83dbL4dZiAlO4mQSQRT3zp
-   xNQC1CE/tSuVDCa6XHzDiKfF7akumPga5xWtuYeITEGStmhuTvs0wRYGE
-   vJ/fm+YgErFiHK9BlwOA58av4s9RD/M7uLW9L5t6G2vwXfaCWx2xm3XKZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="400210709"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="400210709"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 23:19:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="29053403"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 04 Jan 2024 23:19:19 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rLeU8-0000vY-2S;
-	Fri, 05 Jan 2024 07:19:16 +0000
-Date: Fri, 5 Jan 2024 15:18:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:leases 8/8] fs/dlm/plock.c:265:7: error: no member named
- 'fl_flags' in 'struct file_lock'
-Message-ID: <202401051551.dziIMfHM-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H0aXX4E/"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a28bd9ca247so130925566b.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 23:28:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704439702; x=1705044502; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=D8KITSOusAldo+TqYE/5U2EXjKl/xJ/pl8u9x608Wlo=;
+        b=H0aXX4E/3OVMILi2gT94uFbyZC5UFwHZvk14tU9CtRbPWwjPwEu3QjoCiI8xHVj6Sm
+         +9cf1fVhwORgejfVIg40HRL+n+N3TxSm/PnqVcfZ9wa0Kn1ysV73G0WpoCRlNl3dGFU3
+         TXtRuxzca/M7+Fm8kEnZt49AvNbDdL2bHDmYvOuhRKWvB9AZovdVgbCnl43dB8Vs6hit
+         /Xl912H8BzTw1fEsKaOKjseBGsFqssZqraR0ICs/yUspkNq0kxRo/Z+uV7lhicR/FYay
+         4eQSyS/JRLmwzoDuzyy0wsa+VL/hKp+g3F1+LI6v5RRYhpx+hOVTh3sO3+lhzBBdfJsF
+         LUhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704439702; x=1705044502;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=D8KITSOusAldo+TqYE/5U2EXjKl/xJ/pl8u9x608Wlo=;
+        b=Pg/afXC2CoiY4C5OCsBhH2RC62PIX/vSVAhhVec3+/foX98jECF0EPqZRWGmaoAmQZ
+         YjE4kOb5QPrombTgUjHxp7V+ZVBQcre8PoluwuGuiCx2zAIiwmC3DuwUZkUl/ion/q3K
+         wdEId916xQQv1tQflXCgPImoeLicSk0Jjj/tiLye/GHgcd+xgCecYBdOEoklfYAPERE3
+         5aIVh5UW3fGMHBPRGqlSqh8dpJtDc8QN4SbTN2kN9ZlUh9XHEOIYjI8E0ae9adHGiWNE
+         9wQoz1uZEXPwkDtwU7vpNsF70TUWiLOQjZKP+QDBxYvQpzVpg9V1nkyUulypH3EAG/7V
+         PVfQ==
+X-Gm-Message-State: AOJu0YyYnb/kvz+3UZBFftZyyE/56wfGxpT8/E/v3u/y+P1zY+PKNDPB
+	NynbfV9zrnyTJq1VhTBj9aRgR7IFOgQq4A==
+X-Google-Smtp-Source: AGHT+IEFNOe2Swmoz60lwY+cYiY2ajV3wAAeiUteotMRlpQjLMev3o+Q8DUHSj+nwEre9zlaHDUgyA==
+X-Received: by 2002:a17:906:1597:b0:a28:e146:70e0 with SMTP id k23-20020a170906159700b00a28e14670e0mr785010ejd.68.1704439702118;
+        Thu, 04 Jan 2024 23:28:22 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id vr3-20020a170906bfe300b00a26e53be089sm552682ejb.44.2024.01.04.23.28.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jan 2024 23:28:21 -0800 (PST)
+Date: Fri, 5 Jan 2024 10:28:18 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Yury Norov <yury.norov@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [norov:group_cpus 8/9] lib/group_cpus.c:352 group_cpus_evenly()
+ error: uninitialized symbol 'npresmsk'.
+Message-ID: <6c28687b-f6d1-46ad-89a9-3ebd24bdd79c@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Jeff,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git leases
-head:   bfa9c95ea16416c581e8940d6d36de21aca94011
-commit: bfa9c95ea16416c581e8940d6d36de21aca94011 [8/8] filelock: move fl_flags into fl_core
-config: i386-buildonly-randconfig-002-20240105 (https://download.01.org/0day-ci/archive/20240105/202401051551.dziIMfHM-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401051551.dziIMfHM-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux group_cpus
+head:   1117349d164c1dec91f4ace657c7964c587cee24
+commit: 4c2e6aa6ff56057cd68a80f19e9d06ef4ce51d46 [8/9] lib/group_cpus: rework group_cpus_evenly()
+config: i386-randconfig-141-20240104 (https://download.01.org/0day-ci/archive/20240105/202401050452.IcgrcQON-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401051551.dziIMfHM-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202401050452.IcgrcQON-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+lib/group_cpus.c:352 group_cpus_evenly() error: uninitialized symbol 'npresmsk'.
 
->> fs/dlm/plock.c:265:7: error: no member named 'fl_flags' in 'struct file_lock'
-     265 |         flc->fl_flags &= ~FL_SLEEP;
-         |         ~~~  ^
-   fs/dlm/plock.c:298:31: error: no member named 'fl_flags' in 'struct file_lock'
-     298 |         unsigned char fl_flags = fl->fl_flags;
-         |                                  ~~  ^
-   fs/dlm/plock.c:311:6: error: no member named 'fl_flags' in 'struct file_lock'
-     311 |         fl->fl_flags |= FL_EXISTS;
-         |         ~~  ^
-   fs/dlm/plock.c:334:10: error: no member named 'fl_flags' in 'struct file_lock'
-     334 |         if (fl->fl_flags & FL_CLOSE) {
-         |             ~~  ^
-   fs/dlm/plock.c:355:6: error: no member named 'fl_flags' in 'struct file_lock'
-     355 |         fl->fl_flags = fl_flags;
-         |         ~~  ^
-   fs/dlm/plock.c:474:7: error: no member named 'fl_flags' in 'struct file_lock'
-     474 |                 fl->fl_flags = FL_POSIX;
-         |                 ~~  ^
-   6 errors generated.
---
->> fs/ceph/locks.c:230:32: error: no member named 'fl_flags' in 'struct file_lock'
-     230 |         unsigned int orig_flags = fl->fl_flags;
-         |                                   ~~  ^
-   fs/ceph/locks.c:231:6: error: no member named 'fl_flags' in 'struct file_lock'
-     231 |         fl->fl_flags |= FL_EXISTS;
-         |         ~~  ^
-   fs/ceph/locks.c:233:6: error: no member named 'fl_flags' in 'struct file_lock'
-     233 |         fl->fl_flags = orig_flags;
-         |         ~~  ^
-   fs/ceph/locks.c:256:12: error: no member named 'fl_flags' in 'struct file_lock'
-     256 |         if (!(fl->fl_flags & FL_POSIX))
-         |               ~~  ^
-   fs/ceph/locks.c:322:12: error: no member named 'fl_flags' in 'struct file_lock'
-     322 |         if (!(fl->fl_flags & FL_FLOCK))
-         |               ~~  ^
-   5 errors generated.
---
->> fs/nfsd/filecache.c:665:10: error: no member named 'fl_flags' in 'struct file_lock'
-     665 |         if (fl->fl_flags & FL_LEASE)
-         |             ~~  ^
-   1 error generated.
---
->> fs/9p/vfs_file.c:130:14: error: no member named 'fl_flags' in 'struct file_lock'
-     130 |         BUG_ON((fl->fl_flags & FL_POSIX) != FL_POSIX);
-         |                 ~~  ^
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-         |                                             ^~~~~~~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   fs/9p/vfs_file.c:327:12: error: no member named 'fl_flags' in 'struct file_lock'
-     327 |         if (!(fl->fl_flags & FL_FLOCK))
-         |               ~~  ^
-   fs/9p/vfs_file.c:335:6: error: no member named 'fl_flags' in 'struct file_lock'
-     335 |         fl->fl_flags |= FL_POSIX;
-         |         ~~  ^
-   fs/9p/vfs_file.c:336:6: error: no member named 'fl_flags' in 'struct file_lock'
-     336 |         fl->fl_flags ^= FL_FLOCK;
-         |         ~~  ^
-   4 errors generated.
---
->> fs/ocfs2/locks.c:57:11: error: no member named 'fl_flags' in 'struct file_lock'
-      57 |                 request.fl_flags = FL_FLOCK;
-         |                 ~~~~~~~ ^
-   fs/ocfs2/locks.c:103:12: error: no member named 'fl_flags' in 'struct file_lock'
-     103 |         if (!(fl->fl_flags & FL_FLOCK))
-         |               ~~  ^
-   fs/ocfs2/locks.c:121:12: error: no member named 'fl_flags' in 'struct file_lock'
-     121 |         if (!(fl->fl_flags & FL_POSIX))
-         |               ~~  ^
-   3 errors generated.
+Old smatch warnings:
+lib/group_cpus.c:353 group_cpus_evenly() error: uninitialized symbol 'nmsk'.
+lib/group_cpus.c:378 group_cpus_evenly() warn: unsigned 'nr_present' is never less than zero.
+lib/group_cpus.c:395 group_cpus_evenly() warn: unsigned 'nr_others' is never less than zero.
 
+vim +/npresmsk +352 lib/group_cpus.c
 
-vim +265 fs/dlm/plock.c
+f7b3ea8cf72f3d Ming Lei   2022-12-27  348  struct cpumask *group_cpus_evenly(unsigned int numgrps)
+f7b3ea8cf72f3d Ming Lei   2022-12-27  349  {
+4c2e6aa6ff5605 Yury Norov 2023-12-25  350  	cpumask_var_t *node_to_cpumask __free(free_node_to_cpumask) = alloc_node_to_cpumask();
+4c2e6aa6ff5605 Yury Norov 2023-12-25  351  	struct cpumask *masks __free(kfree) = kcalloc(numgrps, sizeof(*masks), GFP_KERNEL);
+4c2e6aa6ff5605 Yury Norov 2023-12-25 @352  	cpumask_var_t npresmsk __free(free_cpumask_var);
+4c2e6aa6ff5605 Yury Norov 2023-12-25  353  	cpumask_var_t nmsk __free(free_cpumask_var);
 
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  240  
-af901ca181d92a fs/dlm/plock.c              André Goddard Rosa 2009-11-14  241  /* Returns failure iff a successful lock operation should be canceled */
-2402211a838928 fs/dlm/plock.c              David Teigland     2008-03-14  242  static int dlm_plock_callback(struct plock_op *op)
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  243  {
-bcbb4ba6c9ba81 fs/dlm/plock.c              Alexander Aring    2022-04-04  244  	struct plock_async_data *op_data = op->data;
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  245  	struct file *file;
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  246  	struct file_lock *fl;
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  247  	struct file_lock *flc;
-d0449b90f80f26 fs/dlm/plock.c              Joe Perches        2014-08-22  248  	int (*notify)(struct file_lock *fl, int result) = NULL;
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  249  	int rv = 0;
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  250  
-a559790caa1c6c fs/dlm/plock.c              Alexander Aring    2022-04-04  251  	WARN_ON(!list_empty(&op->list));
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  252  
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  253  	/* check if the following 2 are still valid or make a copy */
-bcbb4ba6c9ba81 fs/dlm/plock.c              Alexander Aring    2022-04-04  254  	file = op_data->file;
-bcbb4ba6c9ba81 fs/dlm/plock.c              Alexander Aring    2022-04-04  255  	flc = &op_data->flc;
-bcbb4ba6c9ba81 fs/dlm/plock.c              Alexander Aring    2022-04-04  256  	fl = op_data->fl;
-bcbb4ba6c9ba81 fs/dlm/plock.c              Alexander Aring    2022-04-04  257  	notify = op_data->callback;
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  258  
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  259  	if (op->info.rv) {
-d0449b90f80f26 fs/dlm/plock.c              Joe Perches        2014-08-22  260  		notify(fl, op->info.rv);
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  261  		goto out;
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  262  	}
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  263  
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  264  	/* got fs lock; bookkeep locally as well: */
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14 @265  	flc->fl_flags &= ~FL_SLEEP;
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  266  	if (posix_lock_file(file, flc, NULL)) {
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  267  		/*
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  268  		 * This can only happen in the case of kmalloc() failure.
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  269  		 * The filesystem's own lock is the authoritative lock,
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  270  		 * so a failure to get the lock locally is not a disaster.
-2402211a838928 fs/dlm/plock.c              David Teigland     2008-03-14  271  		 * As long as the fs cannot reliably cancel locks (especially
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  272  		 * in a low-memory situation), we're better off ignoring
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  273  		 * this failure than trying to recover.
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  274  		 */
-2402211a838928 fs/dlm/plock.c              David Teigland     2008-03-14  275  		log_print("dlm_plock_callback: vfs lock error %llx file %p fl %p",
-2402211a838928 fs/dlm/plock.c              David Teigland     2008-03-14  276  			  (unsigned long long)op->info.number, file, fl);
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  277  	}
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  278  
-d0449b90f80f26 fs/dlm/plock.c              Joe Perches        2014-08-22  279  	rv = notify(fl, 0);
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  280  	if (rv) {
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  281  		/* XXX: We need to cancel the fs lock here: */
-99c58d6480d937 fs/dlm/plock.c              Alexander Aring    2023-07-20  282  		log_print("%s: lock granted after lock request failed; dangling lock!",
-99c58d6480d937 fs/dlm/plock.c              Alexander Aring    2023-07-20  283  			  __func__);
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  284  		goto out;
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  285  	}
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  286  
-586759f03e2e90 fs/gfs2/locking/dlm/plock.c Marc Eshel         2006-11-14  287  out:
-bcbb4ba6c9ba81 fs/dlm/plock.c              Alexander Aring    2022-04-04  288  	dlm_release_plock_op(op);
-869d81df53ad28 fs/gfs2/locking/dlm/plock.c David Teigland     2006-01-17  289  	return rv;
-869d81df53ad28 fs/gfs2/locking/dlm/plock.c David Teigland     2006-01-17  290  }
-869d81df53ad28 fs/gfs2/locking/dlm/plock.c David Teigland     2006-01-17  291  
+__free() functions have to be initialized before the first return.
+(Generally they are just initialized to NULL at the start).
 
-:::::: The code at line 265 was first introduced by commit
-:::::: 586759f03e2e9031ac5589912a51a909ed53c30a gfs2: nfs lock support for gfs2
+	cpumask_var_t npresmsk __free(free_cpumask_var) = NULL;
+	cpumask_var_t nmsk __free(free_cpumask_var) = NULL;
 
-:::::: TO: Marc Eshel <eshel@almaden.ibm.com>
-:::::: CC: J. Bruce Fields <bfields@citi.umich.edu>
+Otherwise it's an unitialized variable bug.
+
+4c2e6aa6ff5605 Yury Norov 2023-12-25  354  	unsigned int curgrp, nr_present, nr_others;
+4c2e6aa6ff5605 Yury Norov 2023-12-25  355  
+4c2e6aa6ff5605 Yury Norov 2023-12-25  356  	if (!masks || !node_to_cpumask || !alloc_cpumask_var(&nmsk, GFP_KERNEL)
+4c2e6aa6ff5605 Yury Norov 2023-12-25  357  			|| !alloc_cpumask_var(&npresmsk, GFP_KERNEL))
+f7b3ea8cf72f3d Ming Lei   2022-12-27  358  		return NULL;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  359  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  360  	build_node_to_cpumask(node_to_cpumask);
+f7b3ea8cf72f3d Ming Lei   2022-12-27  361  
+0263f92fadbb9d Ming Lei   2023-11-20  362  	/*
+0263f92fadbb9d Ming Lei   2023-11-20  363  	 * Make a local cache of 'cpu_present_mask', so the two stages
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
