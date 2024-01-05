@@ -1,87 +1,118 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698321FB4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 00:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB57C1845
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 00:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="J1QIeE9P"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-556ea884968so1247717a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 16:33:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1704414809; x=1705019609; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jW3PYuiGpDI9Y46QXBSVasJWKk1a/5VUlFNdiuTF92c=;
-        b=J1QIeE9PxnyGegPj2l2SIY93tOKgQR0sQJ+K1N5WqBp7pzoZDeoqbrYleasjBmnc5M
-         TBHbjNmuPqIPduPcVsFGgcs2Fdmr4vfdgOEKErYoVom0jB5/xVmErZtstLCqlfIoJNEB
-         oe8EM1JOx3M50j8WwL7VHQ1nXn7/6N42rCorw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704414809; x=1705019609;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jW3PYuiGpDI9Y46QXBSVasJWKk1a/5VUlFNdiuTF92c=;
-        b=ZgSvqS81mCtmL8DDB0wKqj98PiGvZoNzOlHAuXKdvL5jHV/WjjDIJHdmGUVJCn22n3
-         cwcaqcAnMbwAMJdrbJ46z8z5UUW+H+h8klkU/Wrn17dXd9zmj9P7S+Yqsx7Pt6WkbRH7
-         8W9Hl5NdgoF5INd5gC5gHFnamoWxHchRyvoAP6s5IxS+TwedGzO9Wb6Ie8ECiiotzP6p
-         Mcye40E6wrHakjEzhIueH3tkv81EeHycl2xvLFW866hbm/F5A/Bv3dZ0zSyc3JjliSnG
-         r8FTU6CGWpweSLQYC48vXsIQsEWCHkDAZReLSqL7povZ0AzAafPYVAaCai57IwbFw7Mm
-         +mYg==
-X-Gm-Message-State: AOJu0Yzk1Z2CMkH0w0bF32O71vnmIJfuNwm4yzIM8RXT3uZk4B/WfUGx
-	zNKsFFUCG3+Xhl2cQNc8hysUR/PiRCBL166DJyy8dFG0QVMabX70
-X-Google-Smtp-Source: AGHT+IEH/5vZ+HX0XZ8CuDL4HOezeTyLcmT1lxhKIDYs5Phep9P7wg5HkXQMaCAq/rSpck9NG8ugsA==
-X-Received: by 2002:a50:d750:0:b0:551:86d9:6252 with SMTP id i16-20020a50d750000000b0055186d96252mr798440edj.55.1704414809042;
-        Thu, 04 Jan 2024 16:33:29 -0800 (PST)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com. [209.85.208.45])
-        by smtp.gmail.com with ESMTPSA id f18-20020a05640214d200b00552cf686df3sm297230edx.52.2024.01.04.16.33.27
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jan 2024 16:33:28 -0800 (PST)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-55642663ac4so1253740a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Jan 2024 16:33:27 -0800 (PST)
-X-Received: by 2002:a17:906:489a:b0:a27:7da8:aaee with SMTP id
- v26-20020a170906489a00b00a277da8aaeemr676587ejq.12.1704414807557; Thu, 04 Jan
- 2024 16:33:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqwcIMo5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704415075; x=1735951075;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tA90xhyMvS/Co15Cl2K7RNsaBz2QUZfi/10E8B6OtUw=;
+  b=fqwcIMo5r6ecpiWZpRQizk/Ic6UI/LPffb43JgfRrWHXkEeMXaFzbje7
+   S49fr4/UrHuesBUFYnTPiKHHwap3PJ9v8lcxeDv+cts7VRiD5gxiOB2NA
+   qv4aNcGfjizabjEScsMFN4NoWFYuoEPHwRxLsISLz8t0OXOO0KcH75uGU
+   RhUFOGekCbUvhVyewa1kJiWfSRstUcWdWBnJhB/sqmgtjLCS7YJ+gviqy
+   WASDiX7b89/BwP2NcAqvdEzSTFxRE5BeDbtVVszMA4qLZAQPBKe05lyQx
+   UmMwtjLVm4RpmDpkUvMRRN8sSTdGt4mlnC05dhIcdKTpth6Yd7dnPQrcA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4176442"
+X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
+   d="scan'208";a="4176442"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 16:36:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
+   d="scan'208";a="22678031"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Jan 2024 16:36:37 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rLYCQ-0000Zg-23;
+	Fri, 05 Jan 2024 00:36:34 +0000
+Date: Fri, 5 Jan 2024 08:36:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 19/32]
+ drivers/virt/gunyah/vm_mgr.c:46:21: error: call to undeclared function
+ 'module_refcount'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202401050825.Qzq2QWCX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
- <202309231130.ZI5MdlDc-lkp@intel.com> <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
- <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com> <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
- <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
- <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com> <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
-In-Reply-To: <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 4 Jan 2024 16:33:10 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiNUucmvTKGmveWzXXe99SpOwU65nFtH-A2_aUpPsAPJQ@mail.gmail.com>
-Message-ID: <CAHk-=wiNUucmvTKGmveWzXXe99SpOwU65nFtH-A2_aUpPsAPJQ@mail.gmail.com>
-Subject: Re: x86/csum: Remove unnecessary odd handling
-To: Noah Goldstein <goldstein.w.n@gmail.com>
-Cc: David Laight <David.Laight@aculab.com>, kernel test robot <lkp@intel.com>, 
-	"x86@kernel.org" <x86@kernel.org>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>, 
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com" <hpa@zytor.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 4 Jan 2024 at 15:36, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> Anyway, since I looked at the thing originally, and feel like I know
-> the x86 side and understand the strange IP csum too, I just applied it
-> directly.
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   e74417834ea0485b4a1e9ba9d8d7f2fed143eddd
+commit: 291489ffb6b5de26afe2c403dc5cfe3977b5532c [19/32] BACKPORT: FROMLIST: gunyah: vm_mgr: Add framework to add VM Functions
+config: arm64-randconfig-004-20240105 (https://download.01.org/0day-ci/archive/20240105/202401050825.Qzq2QWCX-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401050825.Qzq2QWCX-lkp@intel.com/reproduce)
 
-I ended up just applying my 40-byte cleanup thing too that I've been
-keeping in my own tree since posting it (as the "Silly csum
-improvement. Maybe" patch).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401050825.Qzq2QWCX-lkp@intel.com/
 
-I've been running it on my own machine since last June, and I finally
-even enabled the csum KUnit test just to double-check it.
+All errors (new ones prefixed by >>):
 
-               Linus
+>> drivers/virt/gunyah/vm_mgr.c:46:21: error: call to undeclared function 'module_refcount'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      46 |         WARN_ON(fn->mod && module_refcount(fn->mod));
+         |                            ^
+   1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+
+
+vim +/module_refcount +46 drivers/virt/gunyah/vm_mgr.c
+
+    42	
+    43	void gh_vm_function_unregister(struct gh_vm_function *fn)
+    44	{
+    45		/* Expecting unregister to only come when unloading a module */
+  > 46		WARN_ON(fn->mod && module_refcount(fn->mod));
+    47		xa_erase(&functions, fn->type);
+    48	}
+    49	EXPORT_SYMBOL_GPL(gh_vm_function_unregister);
+    50	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
