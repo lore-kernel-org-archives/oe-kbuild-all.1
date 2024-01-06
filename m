@@ -1,145 +1,116 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769EFE575
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 19:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87136E570
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 19:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="hrFoLdEZ"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2cd46e7ae8fso2891701fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 06 Jan 2024 11:33:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1704569596; x=1705174396; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vnbj3rhVInTrKv/hVQzfYCA+VxXl65Gc/i9kYgD67kU=;
-        b=hrFoLdEZIZy0j3owWvALk3kaAs382AwxYE7wCFj/xcdZZOmgJia9TbErdK9T19n/Ip
-         Z1B9Gk2cMhD3RNPX6MjofNxDLWpemGV4xGhQ72S8YlYt+J+kZqv2IOWBC59dx2WTRm7V
-         uG/h30LVWnXHQoVt0KDuhke5CN+v2cEb4WcNk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704569596; x=1705174396;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vnbj3rhVInTrKv/hVQzfYCA+VxXl65Gc/i9kYgD67kU=;
-        b=BMP/0ILeIjh5NUvWi0wKrJICzjFuVo5NU5sHDrINIm1lR3uRMVyppVUSgUOJU5N3Kx
-         nhq9e2AjIBWDU7GwL77Ld4aK+fYZKAP9lVJYXDwOvFcA7ZzU5qW78Fa+q4MONeUsaNzI
-         Kk3d0K8SNfKwhrWrtMINw/oZKVeXeQ9KmR+/8RRdgVbPakEqUMFBglfPyIAtNmVNPuvN
-         jzm9dnSzCDN9QhStjxZX4FLDtRJjbbLBzQe5nFHPs9ctwPPObhqDMP8LUjAUwrYX8aBC
-         FAm/yZL11zK+rERdyeDrKspnqDwRdSA6J1tPFpz5fH/tmKql7aQoH/GEaKfwxsFD4Grc
-         KnKw==
-X-Gm-Message-State: AOJu0Yw6oEWP4UjntFMnWQ1/Wic/d2WtNqDWOli7MXX+Aqf+byJ+8cwA
-	7ud/nUXSesgaG0fZ/sU/qeRNGsvVjNIjwsK3yCXGVLghs6f5/Ztm
-X-Google-Smtp-Source: AGHT+IHI3NJBhwa7+k0pO87YkcjnNYTNKgvM4BxgYL6qK1J9nk9LlqzDzxz32TyVGl8RqREGa6LWjw==
-X-Received: by 2002:a05:651c:1a09:b0:2cc:de75:71b4 with SMTP id by9-20020a05651c1a0900b002ccde7571b4mr283879ljb.188.1704569595819;
-        Sat, 06 Jan 2024 11:33:15 -0800 (PST)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id u2-20020a2e91c2000000b002ccbc09230csm749289ljg.97.2024.01.06.11.33.15
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Jan 2024 11:33:15 -0800 (PST)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-50eabbc3dccso556905e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 06 Jan 2024 11:33:15 -0800 (PST)
-X-Received: by 2002:ac2:464d:0:b0:50e:7789:a22b with SMTP id
- s13-20020ac2464d000000b0050e7789a22bmr209061lfo.135.1704569594761; Sat, 06
- Jan 2024 11:33:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GudJ0yNl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704570533; x=1736106533;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mnFIl0dvqXooO299Hp/kM9Igogj5TlXsxdN7Rzfe+4w=;
+  b=GudJ0yNlHgMaTWu/7ULpPFf02ei/N/Mp9nMkztfoT85EAUOqKYtHhKtb
+   FMMut4UB550QwFF/No969fJXmNIkEh0jQNRWylg3ZOiVfYxEshF829CX6
+   r2wERj89P57YWsFq7bXYWofwKeBK+44rx5SAGzu50XVSmCkNM3I18aXsS
+   eAPRy2Itx7MdSKGo/M/7du/0kVbRrZ3bJ+v6IXRPHA63z6kV0aVQxfm2S
+   BHfxoMRUTHp2AMeb3ebXVsH9TpsWfoHiqJN6RChBG0Lymbcmyy8RdUVkD
+   PiuKAXYtnAdCZclzY9n74pBmzUYgI3RMh2zyFM8cQzQKMzSJGvH5PaTsh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="4769635"
+X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
+   d="scan'208";a="4769635"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 11:47:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="924502792"
+X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
+   d="scan'208";a="924502792"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2024 11:47:21 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rMCdb-0002wO-12;
+	Sat, 06 Jan 2024 19:47:19 +0000
+Date: Sun, 7 Jan 2024 03:47:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Yu-cheng Yu <yu-cheng.yu@intel.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Kees Cook <keescook@chromium.org>
+Subject: arch/x86/kernel/shstk.c:295:55: sparse: sparse: cast removes address
+ space '__user' of expression
+Message-ID: <202401070321.axBUxYMQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
- <202309231130.ZI5MdlDc-lkp@intel.com> <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
- <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com> <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
- <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
- <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
- <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
- <CAHk-=wiNUucmvTKGmveWzXXe99SpOwU65nFtH-A2_aUpPsAPJQ@mail.gmail.com>
- <5354eeec562345f6a1de84f0b2081b75@AcuMS.aculab.com> <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com>
- <204bf145e6ad47219c005e9a4407ebdc@AcuMS.aculab.com> <CAHk-=wjGaH6oA47WkphTweMiy15Zjfuk-aVcXSasMX=aX9rFLQ@mail.gmail.com>
- <CANn89iKjUZjw-9ACNWrEd_H+o79Uwkw9NVuujQ3w=c2pGRFotg@mail.gmail.com>
-In-Reply-To: <CANn89iKjUZjw-9ACNWrEd_H+o79Uwkw9NVuujQ3w=c2pGRFotg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 6 Jan 2024 11:32:57 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgobnShg4c2yyMbk2p=U-wmnOmX_0=b3ZY_479Jjey2xw@mail.gmail.com>
-Message-ID: <CAHk-=wgobnShg4c2yyMbk2p=U-wmnOmX_0=b3ZY_479Jjey2xw@mail.gmail.com>
-Subject: Re: x86/csum: Remove unnecessary odd handling
-To: Eric Dumazet <edumazet@google.com>
-Cc: David Laight <David.Laight@aculab.com>, Noah Goldstein <goldstein.w.n@gmail.com>, 
-	kernel test robot <lkp@intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com" <hpa@zytor.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 6 Jan 2024 at 02:26, Eric Dumazet <edumazet@google.com> wrote:
->
-> On a related note, at least with clang, I found that csum_ipv6_magic()
-> is needlessly using temporary on-stack storage,
-> showing a stall on Cascade Lake unless I am patching add32_with_carry() :
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
+commit: 05e36022c0543ba55a3de55af455b00cb3eb4fcc x86/shstk: Handle signals for shadow stack
+date:   5 months ago
+config: x86_64-randconfig-123-20240106 (https://download.01.org/0day-ci/archive/20240107/202401070321.axBUxYMQ-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070321.axBUxYMQ-lkp@intel.com/reproduce)
 
-This is a known compiler bug in clang:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070321.axBUxYMQ-lkp@intel.com/
 
-    https://github.com/llvm/llvm-project/issues/20571
-    https://github.com/llvm/llvm-project/issues/30873
-    https://github.com/llvm/llvm-project/issues/34837
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kernel/shstk.c:244:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __user *addr @@     got void *[noderef] __user @@
+   arch/x86/kernel/shstk.c:244:29: sparse:     expected unsigned long long [noderef] [usertype] __user *addr
+   arch/x86/kernel/shstk.c:244:29: sparse:     got void *[noderef] __user
+>> arch/x86/kernel/shstk.c:295:55: sparse: sparse: cast removes address space '__user' of expression
 
-and while we could always just use "r" for constraints, it will
+vim +/__user +295 arch/x86/kernel/shstk.c
 
- (a) possibly run out of registers in some situations
+   271	
+   272	int setup_signal_shadow_stack(struct ksignal *ksig)
+   273	{
+   274		void __user *restorer = ksig->ka.sa.sa_restorer;
+   275		unsigned long ssp;
+   276		int err;
+   277	
+   278		if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK) ||
+   279		    !features_enabled(ARCH_SHSTK_SHSTK))
+   280			return 0;
+   281	
+   282		if (!restorer)
+   283			return -EINVAL;
+   284	
+   285		ssp = get_user_shstk_addr();
+   286		if (unlikely(!ssp))
+   287			return -EINVAL;
+   288	
+   289		err = shstk_push_sigframe(&ssp);
+   290		if (unlikely(err))
+   291			return err;
+   292	
+   293		/* Push restorer address */
+   294		ssp -= SS_FRAME_SIZE;
+ > 295		err = write_user_shstk_64((u64 __user *)ssp, (u64)restorer);
+   296		if (unlikely(err))
+   297			return -EFAULT;
+   298	
+   299		fpregs_lock_and_load();
+   300		wrmsrl(MSR_IA32_PL3_SSP, ssp);
+   301		fpregs_unlock();
+   302	
+   303		return 0;
+   304	}
+   305	
 
- (b) pessimize gcc that does this right
-
-Can you please push the clang people to not do the stupid thing they
-do now, which is to say "oh, I can use registers _or_ memory, so I'll
-always use memory".
-
-Btw, it's actually much worse than that, and clang is just doing
-incredibly broken things. Switching to "r" just hides the garbage.
-
-Because sometimes the source really *is* memory, ie we have
-
-    net/ipv4/udp.c:
-                 csum = csum_add(csum, frags->csum);
-
-and then it's criminally stupid to load it into a register when it can
-be just used directly.
-
-But clang says "criminally stupid? *I* will show you stupid!" -
-because what *clang* does with the above is this thing of beauty:
-
-        movl    136(%rax), %edi
-        movl    %edi, 28(%rsp)
-        addl    28(%rsp), %ecx
-        adcl    $0, %ecx
-
-which has turned from "criminally stupid" to "it's art, I tell you -
-you're not supposed to understand it".
-
-Anyway, this is *literally* a clang bug. Complain to clang people for
-being *extra* stupid - we told the compiler that it can use a register
-or memory, and clang decided "I'll use memory", so then when we gave
-it a memory location, it said "no, not *that* memory - I'll just
-reload it on stack".
-
-In contrast, gcc gets this right - and for that udp.c case it just generates
-
-        addl 136(%rax),%ecx     # frags_67->D.58941.D.58869.D.58836.csum, a
-        adcl $0,%ecx    # a
-
-like it should.
-
-And for csum_ipv6_magic, gcc generates this:
-
-        addl %edx,%eax  # tmp112, a
-        adcl $0,%eax    # a
-
-IOW, the kernel is *right*, and this is purely clang being completely bogus.
-
-I really don't want to penalize a good compiler because a bad one
-can't get its act together.
-
-               Linus
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
