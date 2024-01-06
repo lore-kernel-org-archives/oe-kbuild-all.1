@@ -1,130 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B93628
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 00:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F15515A0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 00:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfSZKP1e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704500338; x=1736036338;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B5Q08NiZkUywFwJ9H+V1YSNPbYwNoPyjqYy46R4DDcs=;
-  b=QfSZKP1eClS51GwBx4ZNm9Zc7tV0yp9n7pIYr878tY4QxjhBv96WA/q0
-   j8AK/o4FmdSnNB1DtWEHXbNJ33GfxvRYBp4inL6GF7qLxt26ljyLk/L+V
-   ylm+PvTyeDYedfxjT89lTPENDcNg3ebKq7s07QrlPe3NGepXcc9gmyF/g
-   CcUD8cygiS0FpHg40Ro8gVZ5TPQnw17Gk1eyYSSzbtp15/pUbu5D5FgMB
-   mWUmzzM1mN9EpbN+Nv2LG+LuSgzUA2aELKvgKau2eUS1Qtt20XIhTIuoB
-   Bj9Lr/c1nw/t44exM0ubaXwak2pDLKDe3QvsBvruib+6BD/pCaNWWDw1/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="401400414"
-X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="401400414"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 16:18:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="899792600"
-X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="899792600"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 05 Jan 2024 16:18:55 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rLuOr-0001qC-1K;
-	Sat, 06 Jan 2024 00:18:53 +0000
-Date: Sat, 6 Jan 2024 08:18:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: versioncheck: ./tools/lib/bpf/bpf_helpers.h: 146: need
- linux/version.h
-Message-ID: <202401060844.GIliYBtI-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="VNejiONG"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a28ee72913aso193433266b.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 05 Jan 2024 16:19:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1704500342; x=1705105142; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KkrCdBNLcmk3x1SV45s/V/SWlteI2qUXSQc1BGercgY=;
+        b=VNejiONGkqQUD3uJEzxGcQKCwaUfARvtK91K8FThbFjelurjRrfHt1rzzQW3vQDcx2
+         eWQfJoq5OFRCs2uZxuOCrZb5sVOcVZD1ekKClxqxYl+iSstF0fAEpqZRtaFxd/V84eUr
+         dNtQQeeWAxVTkXz/XXPQ47a5ABZU+aF3HFY3E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704500342; x=1705105142;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KkrCdBNLcmk3x1SV45s/V/SWlteI2qUXSQc1BGercgY=;
+        b=X4TmxD+e6WRra4mlSAI0fF5zM6rOPERwKNZYYH6P534kmcifeD+KKK/GIY8FbXCKKx
+         EklJlJHrGgqXprpJuS3n70IOWF0iZAKlYmeT48Q2sB9lu4Yo0ZhzZKBJvNJPxzBu0pxl
+         2me8N+C2+YIqo/Im5iYd0s75JYexR6YlMA+6tGGbfzWS24G9bRhw32J2bQP11G+m4MJs
+         4fsjMyAvVBFgYChZbYty9lyXT7i/5L22fr6ktqW06pUACncmi89ft23g0BoOmfPX9o/z
+         jR2VfMcHjRU4jsqu0btFK1NRGYtZg/USa3dJZciS77gqVgxI2oSGKWSK3FIOx6I9oAGb
+         VK/w==
+X-Gm-Message-State: AOJu0YwACFwoZUVwdOYoyUp2HKCUm6E95qnaoceFm9OoQDFaynqvuNb8
+	LBWXYebbESPgIbkFJG/Zbp/mSa+O+J25CCMMHb27+aCJ2xk8Vo+I
+X-Google-Smtp-Source: AGHT+IE+RZNcSKZEFjo8jdIb2sL6LWUiKhRfJXGNPxs/IrzAP8tsUA3uFKQ7+2hZEk4rLOQNpLtA3A==
+X-Received: by 2002:a17:906:3e16:b0:a27:97a5:2424 with SMTP id k22-20020a1709063e1600b00a2797a52424mr257192eji.41.1704500342254;
+        Fri, 05 Jan 2024 16:19:02 -0800 (PST)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
+        by smtp.gmail.com with ESMTPSA id r10-20020a1709060d4a00b00a2825a9e1d0sm1404885ejh.174.2024.01.05.16.19.01
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Jan 2024 16:19:01 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a28da6285c1so24014466b.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 05 Jan 2024 16:19:01 -0800 (PST)
+X-Received: by 2002:a17:906:fe05:b0:a23:5939:759e with SMTP id
+ wy5-20020a170906fe0500b00a235939759emr344150ejb.26.1704500340786; Fri, 05 Jan
+ 2024 16:19:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
+ <202309231130.ZI5MdlDc-lkp@intel.com> <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
+ <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com> <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
+ <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
+ <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
+ <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
+ <CAHk-=wiNUucmvTKGmveWzXXe99SpOwU65nFtH-A2_aUpPsAPJQ@mail.gmail.com>
+ <5354eeec562345f6a1de84f0b2081b75@AcuMS.aculab.com> <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com>
+ <204bf145e6ad47219c005e9a4407ebdc@AcuMS.aculab.com>
+In-Reply-To: <204bf145e6ad47219c005e9a4407ebdc@AcuMS.aculab.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 5 Jan 2024 16:18:43 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjGaH6oA47WkphTweMiy15Zjfuk-aVcXSasMX=aX9rFLQ@mail.gmail.com>
+Message-ID: <CAHk-=wjGaH6oA47WkphTweMiy15Zjfuk-aVcXSasMX=aX9rFLQ@mail.gmail.com>
+Subject: Re: x86/csum: Remove unnecessary odd handling
+To: David Laight <David.Laight@aculab.com>
+Cc: Noah Goldstein <goldstein.w.n@gmail.com>, kernel test robot <lkp@intel.com>, 
+	"x86@kernel.org" <x86@kernel.org>, 
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com" <hpa@zytor.com>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a4ab2706bb1280693e7dff1c5c42a8cb9d70c177
-commit: 9ae2c26e43248b722e79fe867be38062c9dd1e5f libbpf: provide NULL and KERNEL_VERSION macros in bpf_helpers.h
-date:   2 years, 10 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20240106/202401060844.GIliYBtI-lkp@intel.com/reproduce)
+On Fri, 5 Jan 2024 at 15:53, David Laight <David.Laight@aculab.com> wrote:
+>
+> I'd have to fix his benchmark code first :-)
+> You can't use the TSC unless you lock the cpu frequency.
+> The longer the test runs for the faster the cpu will run.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401060844.GIliYBtI-lkp@intel.com/
+They'll stabilize, it has soem cycle result aging code.
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 14 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 177: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_proc.c: 3 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 47 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/mellanox/mlx5/core/main.c: 53 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 14 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/core/hcd.c: 14 linux/version.h not needed.
-   ./drivers/usb/gadget/udc/aspeed-vhub/hub.c: 33 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
-   ./include/linux/usb/composite.h: 39 linux/version.h not needed.
-   ./init/version.c: 16 linux/version.h not needed.
-   ./kernel/sys.c: 42 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
->> ./tools/lib/bpf/bpf_helpers.h: 146: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+But yes, set the CPU policy to 'performance' or do performance
+counters if you care deeply.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> On a related point, do you remember what the 'killer app'
+> was for doing the checksum in copy_to/from_user?
+
+No. It's a long time ago, and many things have changed since.
+
+It's possible the copy-and-csum it's not worth it any more, simply
+because all modern network cards will do the csum for us, and I think
+loopback sets a flag saying "no need to checksum" too.
+
+But I do have a strong memory of it being a big deal back when. A
+_loong_ time ago.
+
+          Linus
