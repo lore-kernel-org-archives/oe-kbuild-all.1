@@ -1,47 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5532136F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 01:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9941381;
+	Sat,  6 Jan 2024 01:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="deRUyUk6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCVts5YH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704504184; x=1736040184;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oUD5nPwpRpz4iuTXPl6a9Ihv7rV6n2mrRMaWybo8RzI=;
-  b=deRUyUk6ypYM9SI4WZMiMv0vu9HVE8z31XjJ5E555TixReP3yKJLBEnd
-   Tlc3YklUlOnn8SK7QcxK5jCKBeYBUqhN4iYOP+J4OP6ZPVVk7mwTGmV5Y
-   Zibz2XjgEfiYG9/XGRsAx7ZbysIkF1isLl3CGVANY/yKSJ8o7s+M9hgJl
-   kH3YtnNFzTzZQpXbkgKp9MmH7pBeUlhygIphJh0RCWhwj0OudTaZ7nDz/
-   duYZNRyUr75fj277bHrg2iKF0sOBSyDwfj+qR+Jndv6nVIEseBHur7C5h
-   u3chhSuhaabUo77pPPl9XQUEfFmqkuoVue5balRVku21D1v2WrigTkQSa
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="4390653"
+  t=1704505812; x=1736041812;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+zPV4KdyfFl+sXjH7eP/WUHCwtm4MlrhF0od0mDU42Y=;
+  b=aCVts5YHmn410X9YMBbZGJB+hAn6vfXgDnB1+JZ0aWwgoMEVApPb80S7
+   D8QFHg0K5UEgKGH32a5bvzRLvqmMPbYCab2bzw9D1Ii7bISVnQTD9Cxru
+   0nGDZIwMEZTh+GifblhcAbAy8hQPD8Ub7kqot+yR4AKq9lLwbw3PZQCc5
+   MpAcgCYQThokYazcAv4sQ59El3B3wZQs+dXymGEdnqStT9MU51Z8akZsQ
+   gPZcYToWxSvG1aLq5ka3My9TMGu/ApS3W86FFMq8RW0NhTvn0Kr9JBzZa
+   +adIjA8+8MejCfISlyLsSRho8N83zEdlcEHT4Yp3j6gqOoSqgBlHNl6P4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="4721287"
 X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="4390653"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 17:23:04 -0800
+   d="scan'208";a="4721287"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 17:50:10 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="780906885"
 X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="22653409"
+   d="scan'208";a="780906885"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 05 Jan 2024 17:23:02 -0800
+  by orsmga002.jf.intel.com with ESMTP; 05 Jan 2024 17:50:03 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLvOt-0001sT-2g;
-	Sat, 06 Jan 2024 01:22:59 +0000
-Date: Sat, 6 Jan 2024 09:22:50 +0800
+	id 1rLvp2-0001u4-2L;
+	Sat, 06 Jan 2024 01:50:00 +0000
+Date: Sat, 6 Jan 2024 09:49:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robert Marko <robimarko@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kalle Valo <quic_kvalo@quicinc.com>
-Subject: drivers/net/wireless/ath/ath10k/core.c:893:50: warning: '%s'
- directive output may be truncated writing up to 99 bytes into a region of
- size between 98 and 99
-Message-ID: <202401060901.bCLLpa8q-lkp@intel.com>
+To: James Ogletree <jogletre@opensource.cirrus.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	James Ogletree <jogletre@opensource.cirrus.com>,
+	Fred Treven <fred.treven@cirrus.com>,
+	Ben Bright <ben.bright@cirrus.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	James Schulman <james.schulman@cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Jacky Bai <ping.bai@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Arnd Bergmann <arnd@arndb.de>, Shenghao Ding <13916275206@139.com>,
+	Ryan Lee <ryans.lee@analog.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Maxim Kochetkov <fido_max@inbox.ru>,
+	Shuming Fan <shumingf@realtek.com>,
+	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>
+Subject: Re: [PATCH v5 3/5] mfd: cs40l50: Add support for CS40L50 core driver
+Message-ID: <202401060947.GIRePUi6-lkp@intel.com>
+References: <20240104223643.876292-4-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,75 +76,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240104223643.876292-4-jogletre@opensource.cirrus.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a4ab2706bb1280693e7dff1c5c42a8cb9d70c177
-commit: f2a7064a78b22f2b68b9fcbc8a6f4c5e61c5ba64 ath10k: support bus and device specific API 1 BDF selection
-date:   1 year, 8 months ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240106/202401060901.bCLLpa8q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401060901.bCLLpa8q-lkp@intel.com/reproduce)
+Hi James,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on lee-mfd/for-mfd-next]
+[also build test ERROR on dtor-input/next dtor-input/for-linus broonie-sound/for-next linus/master lee-mfd/for-mfd-fixes v6.7-rc8 next-20240105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Ogletree/firmware-cs_dsp-Add-write-sequencer-interface/20240105-064201
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20240104223643.876292-4-jogletre%40opensource.cirrus.com
+patch subject: [PATCH v5 3/5] mfd: cs40l50: Add support for CS40L50 core driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240106/202401060947.GIRePUi6-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401060947.GIRePUi6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401060901.bCLLpa8q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401060947.GIRePUi6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/ath/ath10k/core.c: In function 'ath10k_core_fetch_board_file':
->> drivers/net/wireless/ath/ath10k/core.c:893:50: warning: '%s' directive output may be truncated writing up to 99 bytes into a region of size between 98 and 99 [-Wformat-truncation=]
-     893 |         snprintf(filename, sizeof(filename), "%s/%s", dir, file);
-         |                                                  ^~
-   ......
-    1247 |                 ar->normal_mode_fw.board = ath10k_fetch_fw_file(ar,
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~
-    1248 |                                                                 ar->hw_params.fw.dir,
-         |                                                                 ~~~~~~~~~~~~~~~~~~~~~
-    1249 |                                                                 boardname);
-         |                                                                 ~~~~~~~~~~
-   In function 'ath10k_fetch_fw_file',
-       inlined from 'ath10k_core_fetch_board_data_api_1' at drivers/net/wireless/ath/ath10k/core.c:1247:30,
-       inlined from 'ath10k_core_fetch_board_file' at drivers/net/wireless/ath/ath10k/core.c:1620:8:
-   drivers/net/wireless/ath/ath10k/core.c:893:9: note: 'snprintf' output 2 or more bytes (assuming 102) into a destination of size 100
-     893 |         snprintf(filename, sizeof(filename), "%s/%s", dir, file);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mfd/cs40l50-spi.c:12:10: fatal error: 'linux/mfd/spi.h' file not found
+      12 | #include <linux/mfd/spi.h>
+         |          ^~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +893 drivers/net/wireless/ath/ath10k/core.c
+vim +12 drivers/mfd/cs40l50-spi.c
 
-5e3dd157d7e70f Kalle Valo       2013-06-12  878  
-5e3dd157d7e70f Kalle Valo       2013-06-12  879  static const struct firmware *ath10k_fetch_fw_file(struct ath10k *ar,
-5e3dd157d7e70f Kalle Valo       2013-06-12  880  						   const char *dir,
-5e3dd157d7e70f Kalle Valo       2013-06-12  881  						   const char *file)
-5e3dd157d7e70f Kalle Valo       2013-06-12  882  {
-5e3dd157d7e70f Kalle Valo       2013-06-12  883  	char filename[100];
-5e3dd157d7e70f Kalle Valo       2013-06-12  884  	const struct firmware *fw;
-5e3dd157d7e70f Kalle Valo       2013-06-12  885  	int ret;
-5e3dd157d7e70f Kalle Valo       2013-06-12  886  
-5e3dd157d7e70f Kalle Valo       2013-06-12  887  	if (file == NULL)
-5e3dd157d7e70f Kalle Valo       2013-06-12  888  		return ERR_PTR(-ENOENT);
-5e3dd157d7e70f Kalle Valo       2013-06-12  889  
-5e3dd157d7e70f Kalle Valo       2013-06-12  890  	if (dir == NULL)
-5e3dd157d7e70f Kalle Valo       2013-06-12  891  		dir = ".";
-5e3dd157d7e70f Kalle Valo       2013-06-12  892  
-5e3dd157d7e70f Kalle Valo       2013-06-12 @893  	snprintf(filename, sizeof(filename), "%s/%s", dir, file);
-c8e028026387ea Andres Rodriguez 2018-05-10  894  	ret = firmware_request_nowarn(&fw, filename, ar->dev);
-9f5bcfe93315d7 Michal Kazior    2017-02-13  895  	ath10k_dbg(ar, ATH10K_DBG_BOOT, "boot fw request '%s': %d\n",
-9f5bcfe93315d7 Michal Kazior    2017-02-13  896  		   filename, ret);
-9f5bcfe93315d7 Michal Kazior    2017-02-13  897  
-5e3dd157d7e70f Kalle Valo       2013-06-12  898  	if (ret)
-5e3dd157d7e70f Kalle Valo       2013-06-12  899  		return ERR_PTR(ret);
-5e3dd157d7e70f Kalle Valo       2013-06-12  900  
-5e3dd157d7e70f Kalle Valo       2013-06-12  901  	return fw;
-5e3dd157d7e70f Kalle Valo       2013-06-12  902  }
-5e3dd157d7e70f Kalle Valo       2013-06-12  903  
-
-:::::: The code at line 893 was first introduced by commit
-:::::: 5e3dd157d7e70f0e3cea3f2573ed69fb156a19d5 ath10k: mac80211 driver for Qualcomm Atheros 802.11ac CQA98xx devices
-
-:::::: TO: Kalle Valo <kvalo@qca.qualcomm.com>
-:::::: CC: Kalle Valo <kvalo@qca.qualcomm.com>
+  > 12	#include <linux/mfd/spi.h>
+    13	
 
 -- 
 0-DAY CI Kernel Test Service
