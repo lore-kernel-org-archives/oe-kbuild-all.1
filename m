@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460B0F9C7
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 20:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CE1F51E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 21:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iMAaM8iL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BwkW3rZn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704572378; x=1736108378;
+  t=1704576293; x=1736112293;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RKhBNxVXz0F+rE96hKcNXWC02MAzoNMSeD1B00Q4SNI=;
-  b=iMAaM8iLc2azy0fJU0s4c624+c09iC2H+QZsrnSTgus9sOVojiWmeHqP
-   ToTTydWASc7a5txCFo4RFbtNbYM7geFlEL3GZruDgr5BOih7bZAzG2bB8
-   Pzi8nu4GwQSPaT3iV1rkWLgGTPRefcZJVgCMPA5yoqkIBeLln8NNX0kCO
-   HhYdwQquv5DpIBexMvOP7EtAt+ncvc5HsgPqKatSP3AO4yPDXoBZRyfCs
-   2zfjdwmZZM+seUcfPyQD73wYas3A+rSquvV79a8zCol3iQOpGmX+3P0ej
-   N5nE0ksPSTVzeXyNlqfETlRtRgrqCDunZx/zZgho71jERningS8hG2vf/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="382648043"
+  bh=IYox++9NPxL9ZZQ0SaHmzRmKVlaZ8r8CyO0y8u2ghD0=;
+  b=BwkW3rZnT45IF40FPrUzLMrYru81KmS/ohoYazY+DqBteRWUxLThA/ZJ
+   jJVcDqDQpoHD2qKkiONEIUDxOOq2GE+MLCBiTlDhon336cQ2Xo0NVuUt7
+   2KlwoGpcCtm9rcYHqaxKJ1AWQcNAb6GsPvpSGhjpnkeckF6iCQSDDcBxx
+   S0SGGWOgRrENddSFy3lx2oxxsdDQGdmS6+vka7uGt/T33r/DA1zw3HKRp
+   HtxcxN8YmHrruw6nzVzUQEFX+dyAcD+IVs65RENkPKozPHHogbC6enOTr
+   5ubGx7z8UcMoZWLAgbgPJWW/hgEwrKVy0ivZVuGIhgrS1q3TZShEkGwfy
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="19188516"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="382648043"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 12:19:25 -0800
+   d="scan'208";a="19188516"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 13:23:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="1028051168"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="924511284"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="1028051168"
+   d="scan'208";a="924511284"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Jan 2024 12:19:23 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2024 13:23:25 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMD8a-0002xq-2b;
-	Sat, 06 Jan 2024 20:19:20 +0000
-Date: Sun, 7 Jan 2024 04:19:12 +0800
+	id 1rME8Z-00031y-04;
+	Sat, 06 Jan 2024 21:23:23 +0000
+Date: Sun, 7 Jan 2024 05:22:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Joerg Roedel <jroedel@suse.de>, Kevin Tian <kevin.tian@intel.com>,
-	Steve Wahl <steve.wahl@hpe.com>
-Subject: drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing
- between 1 and 10 bytes into a region of size 9
-Message-ID: <202401070415.wky5kFa6-lkp@intel.com>
+To: Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/misc/dw-xdata-pcie.c:20:41: warning: 'snprintf' output may
+ be truncated before the last format character
+Message-ID: <202401070541.9jGvpTOU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,157 +50,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lu,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
-commit: 913432f217c843a69ff9d11a6474a7982033087b iommu/vt-d: Use IDA interface to manage iommu sequence id
-date:   1 year, 6 months ago
-config: x86_64-sof-customedconfig-edison-defconfig (https://download.01.org/0day-ci/archive/20240107/202401070415.wky5kFa6-lkp@intel.com/config)
+commit: e8a30eef6ef6da4998fcdaaffaaf8d29777c5d7d misc: Add Synopsys DesignWare xData IP driver
+date:   2 years, 9 months ago
+config: x86_64-randconfig-001-20240105 (https://download.01.org/0day-ci/archive/20240107/202401070541.9jGvpTOU-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070415.wky5kFa6-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070541.9jGvpTOU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401070415.wky5kFa6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070541.9jGvpTOU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iommu/intel/dmar.c: In function 'dmar_parse_one_drhd':
->> drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing between 1 and 10 bytes into a region of size 9 [-Werror=format-overflow=]
-    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
-         |                                   ^~
-   In function 'alloc_iommu',
-       inlined from 'dmar_parse_one_drhd' at drivers/iommu/intel/dmar.c:439:8:
-   drivers/iommu/intel/dmar.c:1050:30: note: directive argument in the range [0, 2147483647]
-    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
-         |                              ^~~~~~~~
-   drivers/iommu/intel/dmar.c:1050:9: note: 'sprintf' output between 6 and 15 bytes into a destination of size 13
-    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   drivers/misc/dw-xdata-pcie.c: In function 'dw_xdata_pcie_probe':
+>> drivers/misc/dw-xdata-pcie.c:20:41: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+      20 | #define DW_XDATA_DRIVER_NAME            "dw-xdata-pcie"
+         |                                         ^~~~~~~~~~~~~~~
+   drivers/misc/dw-xdata-pcie.c:342:38: note: in expansion of macro 'DW_XDATA_DRIVER_NAME'
+     342 |         snprintf(name, sizeof(name), DW_XDATA_DRIVER_NAME ".%d", id);
+         |                                      ^~~~~~~~~~~~~~~~~~~~
+   drivers/misc/dw-xdata-pcie.c:390:64: note: format string is defined here
+     390 |         if (sscanf(dw->misc_dev.name, DW_XDATA_DRIVER_NAME ".%d", &id) != 1)
+         |                                                                ^
+   drivers/misc/dw-xdata-pcie.c:342:9: note: 'snprintf' output between 16 and 25 bytes into a destination of size 24
+     342 |         snprintf(name, sizeof(name), DW_XDATA_DRIVER_NAME ".%d", id);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1050 drivers/iommu/intel/dmar.c
+vim +/snprintf +20 drivers/misc/dw-xdata-pcie.c
 
-  1025	
-  1026	static int alloc_iommu(struct dmar_drhd_unit *drhd)
-  1027	{
-  1028		struct intel_iommu *iommu;
-  1029		u32 ver, sts;
-  1030		int agaw = -1;
-  1031		int msagaw = -1;
-  1032		int err;
-  1033	
-  1034		if (!drhd->reg_base_addr) {
-  1035			warn_invalid_dmar(0, "");
-  1036			return -EINVAL;
-  1037		}
-  1038	
-  1039		iommu = kzalloc(sizeof(*iommu), GFP_KERNEL);
-  1040		if (!iommu)
-  1041			return -ENOMEM;
-  1042	
-  1043		iommu->seq_id = ida_alloc_range(&dmar_seq_ids, 0,
-  1044						DMAR_UNITS_SUPPORTED - 1, GFP_KERNEL);
-  1045		if (iommu->seq_id < 0) {
-  1046			pr_err("Failed to allocate seq_id\n");
-  1047			err = iommu->seq_id;
-  1048			goto error;
-  1049		}
-> 1050		sprintf(iommu->name, "dmar%d", iommu->seq_id);
-  1051	
-  1052		err = map_iommu(iommu, drhd->reg_base_addr);
-  1053		if (err) {
-  1054			pr_err("Failed to map %s\n", iommu->name);
-  1055			goto error_free_seq_id;
-  1056		}
-  1057	
-  1058		err = -EINVAL;
-  1059		if (cap_sagaw(iommu->cap) == 0) {
-  1060			pr_info("%s: No supported address widths. Not attempting DMA translation.\n",
-  1061				iommu->name);
-  1062			drhd->ignored = 1;
-  1063		}
-  1064	
-  1065		if (!drhd->ignored) {
-  1066			agaw = iommu_calculate_agaw(iommu);
-  1067			if (agaw < 0) {
-  1068				pr_err("Cannot get a valid agaw for iommu (seq_id = %d)\n",
-  1069				       iommu->seq_id);
-  1070				drhd->ignored = 1;
-  1071			}
-  1072		}
-  1073		if (!drhd->ignored) {
-  1074			msagaw = iommu_calculate_max_sagaw(iommu);
-  1075			if (msagaw < 0) {
-  1076				pr_err("Cannot get a valid max agaw for iommu (seq_id = %d)\n",
-  1077				       iommu->seq_id);
-  1078				drhd->ignored = 1;
-  1079				agaw = -1;
-  1080			}
-  1081		}
-  1082		iommu->agaw = agaw;
-  1083		iommu->msagaw = msagaw;
-  1084		iommu->segment = drhd->segment;
-  1085	
-  1086		iommu->node = NUMA_NO_NODE;
-  1087	
-  1088		ver = readl(iommu->reg + DMAR_VER_REG);
-  1089		pr_info("%s: reg_base_addr %llx ver %d:%d cap %llx ecap %llx\n",
-  1090			iommu->name,
-  1091			(unsigned long long)drhd->reg_base_addr,
-  1092			DMAR_VER_MAJOR(ver), DMAR_VER_MINOR(ver),
-  1093			(unsigned long long)iommu->cap,
-  1094			(unsigned long long)iommu->ecap);
-  1095	
-  1096		/* Reflect status in gcmd */
-  1097		sts = readl(iommu->reg + DMAR_GSTS_REG);
-  1098		if (sts & DMA_GSTS_IRES)
-  1099			iommu->gcmd |= DMA_GCMD_IRE;
-  1100		if (sts & DMA_GSTS_TES)
-  1101			iommu->gcmd |= DMA_GCMD_TE;
-  1102		if (sts & DMA_GSTS_QIES)
-  1103			iommu->gcmd |= DMA_GCMD_QIE;
-  1104	
-  1105		raw_spin_lock_init(&iommu->register_lock);
-  1106	
-  1107		/*
-  1108		 * This is only for hotplug; at boot time intel_iommu_enabled won't
-  1109		 * be set yet. When intel_iommu_init() runs, it registers the units
-  1110		 * present at boot time, then sets intel_iommu_enabled.
-  1111		 */
-  1112		if (intel_iommu_enabled && !drhd->ignored) {
-  1113			err = iommu_device_sysfs_add(&iommu->iommu, NULL,
-  1114						     intel_iommu_groups,
-  1115						     "%s", iommu->name);
-  1116			if (err)
-  1117				goto err_unmap;
-  1118	
-  1119			err = iommu_device_register(&iommu->iommu, &intel_iommu_ops, NULL);
-  1120			if (err)
-  1121				goto err_sysfs;
-  1122		}
-  1123	
-  1124		drhd->iommu = iommu;
-  1125		iommu->drhd = drhd;
-  1126	
-  1127		return 0;
-  1128	
-  1129	err_sysfs:
-  1130		iommu_device_sysfs_remove(&iommu->iommu);
-  1131	err_unmap:
-  1132		unmap_iommu(iommu);
-  1133	error_free_seq_id:
-  1134		ida_free(&dmar_seq_ids, iommu->seq_id);
-  1135	error:
-  1136		kfree(iommu);
-  1137		return err;
-  1138	}
-  1139	
+    19	
+  > 20	#define DW_XDATA_DRIVER_NAME		"dw-xdata-pcie"
+    21	
 
 -- 
 0-DAY CI Kernel Test Service
