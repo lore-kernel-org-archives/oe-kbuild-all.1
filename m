@@ -1,47 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975233D62
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 03:58:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FAF1FB9;
+	Sat,  6 Jan 2024 04:30:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQWDrMdu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JH0neAiR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704513513; x=1736049513;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nmWIj9K0w6XZc/q5zHoIah/euBo0zmHTlXeW6gVWXbw=;
-  b=VQWDrMduUChVybZPSpnkw3OQpZhNvDyjG1AYB0+wT6irkY2iCineQYGq
-   g+NkxZjU1Ud2z9Wf1nEX+dCEb3L3DlOoz+Wxz3RoTn/oEHZ1niRcD3odG
-   JhJrKYdsxH6Xa8m/JF3HKUgs47/BOfy3YbkiRi9cMKj17OuN/zUZHS+1/
-   oC0XLLokRz3dsXP5niSFpvOpiJpgYNWkocqTJexlrpxeuudVLo/l83Var
-   EMFxOnYOyWaxv2JaYX7dmUjMQWfuXdIoIpno+PrLdNt0JtfF3xpvH9CDb
-   Z7P5qsImoXw24p4FCbShq0n0vqXeW7pFQxcnfCrLj2rYYXm51kv6kzGhg
+  t=1704515421; x=1736051421;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GxgAll06JSrUu0EJvq2url0vnem0z+UeoNCYdhG/ZPQ=;
+  b=JH0neAiRfFCIFIByFnLNZciUTtPuw2jSU8xG/kvPlW3nSWrAALe+TSBf
+   WLBSee0va6ifkeF+qnqeO9ZZLkLjTr4doP8hxq++OOfqqQBJMzP2pTtca
+   EXhYYqBqvzvKP4K2pXcyk0G+lfmz6B1nGnt9VMO6wmL0blh18wZN7j5FJ
+   JS4sKxzSOpqn25DuOdxqkIt8GKoVHGiWkmKzhtPzUJp1vV5/ejo3mvuTv
+   GB5hic5eK13Pgbtr0WR6SwKihV0TeCvFtX4/MRveqfSFyRRymMSaVYVdk
+   Auwqh7hB/v3/aGm9dLFYvHlMZgCcLDnJRX+VZzGY44f2Ys8fxJZfCZ/lN
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="377123101"
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="401417605"
 X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="377123101"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 19:58:19 -0800
+   d="scan'208";a="401417605"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 20:30:21 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="784376576"
 X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="29286444"
+   d="scan'208";a="784376576"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 05 Jan 2024 19:58:17 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 05 Jan 2024 20:30:17 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLxp8-000208-2o;
-	Sat, 06 Jan 2024 03:58:14 +0000
-Date: Sat, 6 Jan 2024 11:57:58 +0800
+	id 1rLyK7-00021c-26;
+	Sat, 06 Jan 2024 04:30:15 +0000
+Date: Sat, 6 Jan 2024 12:29:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>
-Subject: arch/riscv/kernel/traps_misaligned.c:249:21: sparse: sparse:
- dereference of noderef expression
-Message-ID: <202401061103.iYLnsFu2-lkp@intel.com>
+To: Leonardo Bras <leobras@redhat.com>, Oleg Nesterov <oleg@redhat.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Arnd Bergmann <arnd@arndb.de>, Guo Hui <guohui@uniontech.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] arm64: remove unnecessary ifdefs around
+ is_compat_task()
+Message-ID: <202401061219.Y2LD7LTx-lkp@intel.com>
+References: <20240105041458.126602-3-leobras@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,147 +57,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240105041458.126602-3-leobras@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a4ab2706bb1280693e7dff1c5c42a8cb9d70c177
-commit: 7c83232161f609bbc452a1255f823f41afc411dd riscv: add support for misaligned trap handling in S-mode
-date:   9 weeks ago
-config: riscv-randconfig-r122-20231115 (https://download.01.org/0day-ci/archive/20240106/202401061103.iYLnsFu2-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240106/202401061103.iYLnsFu2-lkp@intel.com/reproduce)
+Hi Leonardo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on linus/master v6.7-rc8 next-20240105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leonardo-Bras/arm64-remove-unnecessary-ifdefs-around-is_compat_task/20240105-121957
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20240105041458.126602-3-leobras%40redhat.com
+patch subject: [PATCH v1 1/1] arm64: remove unnecessary ifdefs around is_compat_task()
+config: arm64-randconfig-001-20240105 (https://download.01.org/0day-ci/archive/20240106/202401061219.Y2LD7LTx-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401061219.Y2LD7LTx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401061103.iYLnsFu2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401061219.Y2LD7LTx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kernel/traps_misaligned.c:249:21: sparse: sparse: dereference of noderef expression
-   arch/riscv/kernel/traps_misaligned.c:261:21: sparse: sparse: dereference of noderef expression
-   arch/riscv/kernel/traps_misaligned.c:269:21: sparse: sparse: dereference of noderef expression
->> arch/riscv/kernel/traps_misaligned.c:210:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned char const [noderef] __user *__gu_ptr @@     got unsigned char const [usertype] *addr @@
-   arch/riscv/kernel/traps_misaligned.c:210:24: sparse:     expected unsigned char const [noderef] __user *__gu_ptr
-   arch/riscv/kernel/traps_misaligned.c:210:24: sparse:     got unsigned char const [usertype] *addr
->> arch/riscv/kernel/traps_misaligned.c:249:21: sparse: sparse: dereference of noderef expression
-   arch/riscv/kernel/traps_misaligned.c:261:21: sparse: sparse: dereference of noderef expression
-   arch/riscv/kernel/traps_misaligned.c:269:21: sparse: sparse: dereference of noderef expression
->> arch/riscv/kernel/traps_misaligned.c:220:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned char [noderef] __user *__gu_ptr @@     got unsigned char [usertype] *addr @@
-   arch/riscv/kernel/traps_misaligned.c:220:24: sparse:     expected unsigned char [noderef] __user *__gu_ptr
-   arch/riscv/kernel/traps_misaligned.c:220:24: sparse:     got unsigned char [usertype] *addr
+All errors (new ones prefixed by >>):
 
-vim +249 arch/riscv/kernel/traps_misaligned.c
+>> arch/arm64/kernel/ptrace.c:2121:11: error: use of undeclared identifier 'user_aarch32_view'; did you mean 'user_aarch64_view'?
+    2121 |                 return &user_aarch32_view;
+         |                         ^~~~~~~~~~~~~~~~~
+         |                         user_aarch64_view
+   arch/arm64/kernel/ptrace.c:1591:38: note: 'user_aarch64_view' declared here
+    1591 | static const struct user_regset_view user_aarch64_view = {
+         |                                      ^
+>> arch/arm64/kernel/ptrace.c:2123:11: error: use of undeclared identifier 'user_aarch32_ptrace_view'
+    2123 |                 return &user_aarch32_ptrace_view;
+         |                         ^
+   2 errors generated.
 
-   172	
-   173	static inline int get_insn(struct pt_regs *regs, ulong mepc, ulong *r_insn)
-   174	{
-   175		register ulong __mepc asm ("a2") = mepc;
-   176		ulong val, rvc_mask = 3, tmp;
-   177	
-   178		asm ("and %[tmp], %[addr], 2\n"
-   179			"bnez %[tmp], 1f\n"
-   180	#if defined(CONFIG_64BIT)
-   181			__stringify(LWU) " %[insn], (%[addr])\n"
-   182	#else
-   183			__stringify(LW) " %[insn], (%[addr])\n"
-   184	#endif
-   185			"and %[tmp], %[insn], %[rvc_mask]\n"
-   186			"beq %[tmp], %[rvc_mask], 2f\n"
-   187			"sll %[insn], %[insn], %[xlen_minus_16]\n"
-   188			"srl %[insn], %[insn], %[xlen_minus_16]\n"
-   189			"j 2f\n"
-   190			"1:\n"
-   191			"lhu %[insn], (%[addr])\n"
-   192			"and %[tmp], %[insn], %[rvc_mask]\n"
-   193			"bne %[tmp], %[rvc_mask], 2f\n"
-   194			"lhu %[tmp], 2(%[addr])\n"
-   195			"sll %[tmp], %[tmp], 16\n"
-   196			"add %[insn], %[insn], %[tmp]\n"
-   197			"2:"
-   198		: [insn] "=&r" (val), [tmp] "=&r" (tmp)
-   199		: [addr] "r" (__mepc), [rvc_mask] "r" (rvc_mask),
-   200		  [xlen_minus_16] "i" (XLEN_MINUS_16));
-   201	
-   202		*r_insn = val;
-   203	
-   204		return 0;
-   205	}
-   206	#else
-   207	static inline int load_u8(struct pt_regs *regs, const u8 *addr, u8 *r_val)
-   208	{
-   209		if (user_mode(regs)) {
- > 210			return __get_user(*r_val, addr);
-   211		} else {
-   212			*r_val = *addr;
-   213			return 0;
-   214		}
-   215	}
-   216	
-   217	static inline int store_u8(struct pt_regs *regs, u8 *addr, u8 val)
-   218	{
-   219		if (user_mode(regs)) {
- > 220			return __put_user(val, addr);
-   221		} else {
-   222			*addr = val;
-   223			return 0;
-   224		}
-   225	}
-   226	
-   227	#define __read_insn(regs, insn, insn_addr)		\
-   228	({							\
-   229		int __ret;					\
-   230								\
-   231		if (user_mode(regs)) {				\
-   232			__ret = __get_user(insn, insn_addr);	\
-   233		} else {					\
-   234			insn = *insn_addr;			\
-   235			__ret = 0;				\
-   236		}						\
-   237								\
-   238		__ret;						\
-   239	})
-   240	
-   241	static inline int get_insn(struct pt_regs *regs, ulong epc, ulong *r_insn)
-   242	{
-   243		ulong insn = 0;
-   244	
-   245		if (epc & 0x2) {
-   246			ulong tmp = 0;
-   247			u16 __user *insn_addr = (u16 __user *)epc;
-   248	
- > 249			if (__read_insn(regs, insn, insn_addr))
-   250				return -EFAULT;
-   251			/* __get_user() uses regular "lw" which sign extend the loaded
-   252			 * value make sure to clear higher order bits in case we "or" it
-   253			 * below with the upper 16 bits half.
-   254			 */
-   255			insn &= GENMASK(15, 0);
-   256			if ((insn & __INSN_LENGTH_MASK) != __INSN_LENGTH_32) {
-   257				*r_insn = insn;
-   258				return 0;
-   259			}
-   260			insn_addr++;
-   261			if (__read_insn(regs, tmp, insn_addr))
-   262				return -EFAULT;
-   263			*r_insn = (tmp << 16) | insn;
-   264	
-   265			return 0;
-   266		} else {
-   267			u32 __user *insn_addr = (u32 __user *)epc;
-   268	
-   269			if (__read_insn(regs, insn, insn_addr))
-   270				return -EFAULT;
-   271			if ((insn & __INSN_LENGTH_MASK) == __INSN_LENGTH_32) {
-   272				*r_insn = insn;
-   273				return 0;
-   274			}
-   275			insn &= GENMASK(15, 0);
-   276			*r_insn = insn;
-   277	
-   278			return 0;
-   279		}
-   280	}
-   281	#endif
-   282	
+
+vim +2121 arch/arm64/kernel/ptrace.c
+
+478fcb2cdb2351 Will Deacon     2012-03-05  2111  
+478fcb2cdb2351 Will Deacon     2012-03-05  2112  const struct user_regset_view *task_user_regset_view(struct task_struct *task)
+478fcb2cdb2351 Will Deacon     2012-03-05  2113  {
+5d220ff9420f8b Catalin Marinas 2015-07-14  2114  	/*
+5d220ff9420f8b Catalin Marinas 2015-07-14  2115  	 * Core dumping of 32-bit tasks or compat ptrace requests must use the
+5d220ff9420f8b Catalin Marinas 2015-07-14  2116  	 * user_aarch32_view compatible with arm32. Native ptrace requests on
+5d220ff9420f8b Catalin Marinas 2015-07-14  2117  	 * 32-bit children use an extended user_aarch32_ptrace_view to allow
+5d220ff9420f8b Catalin Marinas 2015-07-14  2118  	 * access to the TLS register.
+5d220ff9420f8b Catalin Marinas 2015-07-14  2119  	 */
+5d220ff9420f8b Catalin Marinas 2015-07-14  2120  	if (is_compat_task())
+478fcb2cdb2351 Will Deacon     2012-03-05 @2121  		return &user_aarch32_view;
+5d220ff9420f8b Catalin Marinas 2015-07-14  2122  	else if (is_compat_thread(task_thread_info(task)))
+5d220ff9420f8b Catalin Marinas 2015-07-14 @2123  		return &user_aarch32_ptrace_view;
+e802ab35101cdf Leonardo Bras   2024-01-05  2124  
+478fcb2cdb2351 Will Deacon     2012-03-05  2125  	return &user_aarch64_view;
+478fcb2cdb2351 Will Deacon     2012-03-05  2126  }
+478fcb2cdb2351 Will Deacon     2012-03-05  2127  
 
 -- 
 0-DAY CI Kernel Test Service
