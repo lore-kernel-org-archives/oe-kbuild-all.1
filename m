@@ -1,53 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AD815AC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 02:55:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D31D15AC
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 03:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PayODf3l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyduCkpL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704509709; x=1736045709;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yUmZnDJRZn5RASncUMPR1NFagiYl3Oo7miAodR6tHP4=;
-  b=PayODf3lKsMvMYOaPJtNP8WsTnRTE/JzAvnfKrN41daKCF8lSPQiGT6U
-   KCHDZvcWd/lMEym7AsI6vcqOFDFhEdPAhjSrPkqmtFC+1CJdRAdRR6zoG
-   f5oCYE/GlwncF8EEAbzm460hlR1v5IzEFJuX7OlhKTmzWyQbJClPJ0dQJ
-   Rn+4QiHkeCXHBVoPOCWWWXuQjaZ6zbQ85Oz7RfdeyBGiXGqf+MhuZWDDA
-   Ty9W1kKVJiXKvNFj9uP1HMzpSAMbUhWQUpdx9b26rbv3nwnSRF5E3OEik
-   tRU4sgWMVxyGBsauwg4CweoqHPGTXbaAyI4KOxVSJH6QHNRLGYPe1zi+a
+  t=1704512238; x=1736048238;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8JNeGAeX5ljoZas15MfqQAb6FSvYoz7XZzjafFbHUuk=;
+  b=kyduCkpL7GCjXspcdT1QEMrn/6FmpQ2eMwUkJq25+QHvu9HpKApoytoJ
+   zk0xKx7IXHuD+LEF/vsbFd/47niEcgz/03cKTMeT6/K6g8UzdxVmifdu8
+   0jAiuAF4Rw4BYwJWqHAUse4K/9N6gsJJUA1qZYJ1n7w06Be0erhJ87HFH
+   sh4Fdw6vj+e0IROQpOILgpwOsRDGLsc7faF66PgNdC1owC9WuiY/TbT53
+   GiVMvTiggIXD2ImYfyef/U2c+HyyECGF+a1U5i36JVRi0hBzz8YezZq8Z
+   90c4eeUkUYGiJUptZx9mNWKz9OCDmptz4o8b/mND5eyPITT04QuJLQW0e
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="382598288"
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="10987217"
 X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="382598288"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 18:55:08 -0800
+   d="scan'208";a="10987217"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 19:37:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="815117020"
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="730636255"
 X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
-   d="scan'208";a="815117020"
+   d="scan'208";a="730636255"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 05 Jan 2024 18:55:05 -0800
+  by orsmga003.jf.intel.com with ESMTP; 05 Jan 2024 19:37:16 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rLwpz-0001xE-1W;
-	Sat, 06 Jan 2024 02:55:03 +0000
-Date: Sat, 6 Jan 2024 10:54:21 +0800
+	id 1rLxUo-0001zI-1H;
+	Sat, 06 Jan 2024 03:37:14 +0000
+Date: Sat, 6 Jan 2024 11:36:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
-	tzimmermann@suse.de, airlied@redhat.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
-	noralf@tronnes.org
-Cc: oe-kbuild-all@lists.linux.dev, gpiccoli@igalia.com,
-	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v7 5/9] drm/fb_dma: Add generic get_scanout_buffer() for
- drm_panic
-Message-ID: <202401061003.lNwFS0D6-lkp@intel.com>
-References: <20240104160301.185915-6-jfalempe@redhat.com>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Subject: arch/riscv/kernel/irq.c:49:1: sparse: sparse: symbol
+ '__pcpu_scope_irq_stack' was not declared. Should it be static?
+Message-ID: <202401061149.NAyvwB2V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,31 +50,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240104160301.185915-6-jfalempe@redhat.com>
 
-Hi Jocelyn,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 50a3c772bd927dd409c484832ddd9f6bf00b7389]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-format-helper-Add-drm_fb_blit_from_r1-and-drm_fb_fill/20240105-001038
-base:   50a3c772bd927dd409c484832ddd9f6bf00b7389
-patch link:    https://lore.kernel.org/r/20240104160301.185915-6-jfalempe%40redhat.com
-patch subject: [PATCH v7 5/9] drm/fb_dma: Add generic get_scanout_buffer() for drm_panic
-config: mips-gcw0_defconfig (https://download.01.org/0day-ci/archive/20240106/202401061003.lNwFS0D6-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401061003.lNwFS0D6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a4ab2706bb1280693e7dff1c5c42a8cb9d70c177
+commit: 163e76cc6ef43b7a5e9b6e245a6d6667c9d9b4a7 riscv: stack: Support HAVE_IRQ_EXIT_ON_IRQ_STACK
+date:   7 months ago
+config: riscv-randconfig-r122-20231115 (https://download.01.org/0day-ci/archive/20240106/202401061149.NAyvwB2V-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240106/202401061149.NAyvwB2V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401061003.lNwFS0D6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401061149.NAyvwB2V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/irq.c:49:1: sparse: sparse: symbol '__pcpu_scope_irq_stack' was not declared. Should it be static?
 
-   mipsel-linux-ld: drivers/gpu/drm/drm_fb_dma_helper.o: in function `drm_panic_is_format_supported':
->> drm_fb_dma_helper.c:(.text+0x2c8): multiple definition of `drm_panic_is_format_supported'; drivers/gpu/drm/drm_drv.o:drm_drv.c:(.text+0x1104): first defined here
+vim +/__pcpu_scope_irq_stack +49 arch/riscv/kernel/irq.c
+
+    35	
+    36	#ifdef CONFIG_VMAP_STACK
+    37	static void init_irq_stacks(void)
+    38	{
+    39		int cpu;
+    40		ulong *p;
+    41	
+    42		for_each_possible_cpu(cpu) {
+    43			p = arch_alloc_vmap_stack(IRQ_STACK_SIZE, cpu_to_node(cpu));
+    44			per_cpu(irq_stack_ptr, cpu) = p;
+    45		}
+    46	}
+    47	#else
+    48	/* irq stack only needs to be 16 byte aligned - not IRQ_STACK_SIZE aligned. */
+  > 49	DEFINE_PER_CPU_ALIGNED(ulong [IRQ_STACK_SIZE/sizeof(ulong)], irq_stack);
+    50	
 
 -- 
 0-DAY CI Kernel Test Service
