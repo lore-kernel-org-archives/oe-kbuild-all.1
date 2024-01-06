@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE8F79C0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 15:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CC5BE6C;
+	Sat,  6 Jan 2024 15:56:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="giw/9+TW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mRzppONY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704555790; x=1736091790;
+  t=1704556579; x=1736092579;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1ZHWlJjK6ZtDqDZYv83Gmkh+c9zux01ejrclOxDt3cA=;
-  b=giw/9+TW6Up1zkoh8eb4nTCmN4mwKpVoAeGCCLNnZKlKTC7HK9IE4vjG
-   OSBQbo4rDUkSYs7mFNzjhPForyGfq8S0vZRPrl7LTKcF0EqCwHvQmyz5E
-   mynZuTNT+cKKsjGUL0sAJHjkBdLw/frPpPPhXxKhr3GzadPv5DxhdGTMO
-   FIYooErrcclgYsJmvHtyPo+Rr2Dlhv3KuczkgvZfAMyYhUWH5NKYC+Ef5
-   zD30E63CeibnAnCXpCfcqGMyk/75+d31D1K9OxcOWwqAQvEe6AUVUv9lN
-   RxVxHXku6dei9VPeePXhW+kv0i5WaIfXV5hge6q3cr0c31khCeOqKuajy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="400421744"
+  bh=kb2OCBOKgj0HgngYqYUWIt76b9Hd9B5BBzKHeZg0v/s=;
+  b=mRzppONY+5uxuwXUBPEZ2ZBHycFtPtBpwopznunePT0dtntpLB6Jds+X
+   pgllRQPAgjVuW36JivrgRtLUpnY/XI1xk8z5620e2sck0DAlo/VQwFm8W
+   AlJmR93MXXhYeyD0mkryKWlu9VP9VvGw5HMlxl2JULShAPCuVk2Yw6b3+
+   kUAlkn2MVosQ8z6TB3dsSJ9xrZM4bFuMFCRqkN8d1nJ0oOLOfC0IhV5Jl
+   cXA99lDvB/e0YSFfayfbivSitZbG3z6BJYolnC4iGGgSkEUVax0aomSdp
+   ncDfCFi5vKj1fEAVusCJiPe2JWr+YC4sxwcWEyzsvSgVLGTJgU+v/exKQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="19172947"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="400421744"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 07:43:10 -0800
+   d="scan'208";a="19172947"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 07:56:11 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="899932856"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="22760862"
+   d="scan'208";a="899932856"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 06 Jan 2024 07:43:09 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 06 Jan 2024 07:56:09 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rM8pF-0002dg-3B;
-	Sat, 06 Jan 2024 15:43:05 +0000
-Date: Sat, 6 Jan 2024 23:42:52 +0800
+	id 1rM91r-0002eS-1W;
+	Sat, 06 Jan 2024 15:56:07 +0000
+Date: Sat, 6 Jan 2024 23:55:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ben Skeggs <bskeggs@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Gourav Samaiya <gsamaiya@nvidia.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning:
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Gourav Samaiya <gsamaiya@nvidia.com>
+Subject: drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:7: warning:
  variable 'loc' set but not used
-Message-ID: <202401062351.g53JVBxp-lkp@intel.com>
+Message-ID: <202401062340.4wmRg7ye-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,21 +59,21 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
 commit: 4b569ded09fdadb0c14f797c8dae4e8bc4bbad9f drm/nouveau/acr/ga102: initial support
 date:   1 year, 2 months ago
-config: i386-buildonly-randconfig-001-20240106 (https://download.01.org/0day-ci/archive/20240106/202401062351.g53JVBxp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401062351.g53JVBxp-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-002-20240105 (https://download.01.org/0day-ci/archive/20240106/202401062340.4wmRg7ye-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401062340.4wmRg7ye-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401062351.g53JVBxp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401062340.4wmRg7ye-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c: In function 'nvkm_acr_lsfw_load_sig_image_desc_v2':
->> drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
+>> drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:7: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
      221 |                 u32 loc, sig, cnt, *meta;
-         |                     ^~~
+         |                     ^
+   1 warning generated.
 
 
 vim +/loc +221 drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
