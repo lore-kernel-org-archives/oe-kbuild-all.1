@@ -1,110 +1,130 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBD4360AB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Jan 2024 23:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-101-_D_FY1bAOYGSrnkXmJhLlA-1; Fri, 05 Jan 2024 23:53:00 +0000
-X-MC-Unique: _D_FY1bAOYGSrnkXmJhLlA-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 5 Jan
- 2024 23:52:45 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Fri, 5 Jan 2024 23:52:45 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Linus Torvalds' <torvalds@linux-foundation.org>
-CC: Noah Goldstein <goldstein.w.n@gmail.com>, kernel test robot
-	<lkp@intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"edumazet@google.com" <edumazet@google.com>, "tglx@linutronix.de"
-	<tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
-	<bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"hpa@zytor.com" <hpa@zytor.com>
-Subject: RE: x86/csum: Remove unnecessary odd handling
-Thread-Topic: x86/csum: Remove unnecessary odd handling
-Thread-Index: AQHZ7ib2fs4a8+P0bkWBCjHsrqR0abAo6HRAgKIYy6qAAJmVUIAAjHgAgABZ3tA=
-Date: Fri, 5 Jan 2024 23:52:45 +0000
-Message-ID: <204bf145e6ad47219c005e9a4407ebdc@AcuMS.aculab.com>
-References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
- <202309231130.ZI5MdlDc-lkp@intel.com>
- <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
- <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com>
- <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
- <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
- <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
- <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
- <CAHk-=wiNUucmvTKGmveWzXXe99SpOwU65nFtH-A2_aUpPsAPJQ@mail.gmail.com>
- <5354eeec562345f6a1de84f0b2081b75@AcuMS.aculab.com>
- <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com>
-In-Reply-To: <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B93628
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 00:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfSZKP1e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704500338; x=1736036338;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B5Q08NiZkUywFwJ9H+V1YSNPbYwNoPyjqYy46R4DDcs=;
+  b=QfSZKP1eClS51GwBx4ZNm9Zc7tV0yp9n7pIYr878tY4QxjhBv96WA/q0
+   j8AK/o4FmdSnNB1DtWEHXbNJ33GfxvRYBp4inL6GF7qLxt26ljyLk/L+V
+   ylm+PvTyeDYedfxjT89lTPENDcNg3ebKq7s07QrlPe3NGepXcc9gmyF/g
+   CcUD8cygiS0FpHg40Ro8gVZ5TPQnw17Gk1eyYSSzbtp15/pUbu5D5FgMB
+   mWUmzzM1mN9EpbN+Nv2LG+LuSgzUA2aELKvgKau2eUS1Qtt20XIhTIuoB
+   Bj9Lr/c1nw/t44exM0ubaXwak2pDLKDe3QvsBvruib+6BD/pCaNWWDw1/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="401400414"
+X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
+   d="scan'208";a="401400414"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 16:18:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="899792600"
+X-IronPort-AV: E=Sophos;i="6.04,335,1695711600"; 
+   d="scan'208";a="899792600"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 05 Jan 2024 16:18:55 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rLuOr-0001qC-1K;
+	Sat, 06 Jan 2024 00:18:53 +0000
+Date: Sat, 6 Jan 2024 08:18:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: versioncheck: ./tools/lib/bpf/bpf_helpers.h: 146: need
+ linux/version.h
+Message-ID: <202401060844.GIliYBtI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-RnJvbTogTGludXMgVG9ydmFsZHMNCj4gU2VudDogMDUgSmFudWFyeSAyMDI0IDE4OjA2DQo+IA0K
-PiBPbiBGcmksIDUgSmFuIDIwMjQgYXQgMDI6NDEsIERhdmlkIExhaWdodCA8RGF2aWQuTGFpZ2h0
-QGFjdWxhYi5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSW50ZXJlc3RpbmcsIEknbSBwcmV0dHkgc3Vy
-ZSB0cnlpbmcgdG8gZ2V0IHR3byBibG9ja3Mgb2YNCj4gPiAgJ2FkYycgc2NoZWR1bGVkIGluIHBh
-cmFsbGVsIGxpa2UgdGhhdCBkb2Vzbid0IHdvcmsuDQo+IA0KPiBZb3Ugc2hvdWxkIGNoZWNrIG91
-dCB0aGUgYmVuY2htYXJrIGF0DQo+IA0KPiAgICAgICAgaHR0cHM6Ly9naXRodWIuY29tL2ZlbnJ1
-czc1L2NzdW1fcGFydGlhbA0KPiANCj4gYW5kIHNlZSBpZiB5b3UgY2FuIGltcHJvdmUgb24gaXQu
-IEknbSBpbmNsdWRpbmcgdGhlIHBhdGNoIChvbiB0b3Agb2YNCj4gdGhhdCBjb2RlIGJ5IEFyamFu
-KSB0byBpbXBsZW1lbnQgdGhlIGFjdHVhbCBjdXJyZW50IGtlcm5lbCB2ZXJzaW9uIGFzDQo+ICJO
-ZXcgdmVyc2lvbiIuDQoNCkknZCBoYXZlIHRvIGZpeCBoaXMgYmVuY2htYXJrIGNvZGUgZmlyc3Qg
-Oi0pDQpZb3UgY2FuJ3QgdXNlIHRoZSBUU0MgdW5sZXNzIHlvdSBsb2NrIHRoZSBjcHUgZnJlcXVl
-bmN5Lg0KVGhlIGxvbmdlciB0aGUgdGVzdCBydW5zIGZvciB0aGUgZmFzdGVyIHRoZSBjcHUgd2ls
-bCBydW4uDQpJJ3ZlIGhhZCB0byB1c2UgdGhlIHBlcmZvcm1hbmNlIGNvdW50ZXJzIHRvIGdldCBh
-Y2N1cmF0ZSBjeWNsZSBjb3VudHMuDQoNCkknbSBhbHNvIHN1cmUgSSB0cmllZCB0d28gc2VwYXJh
-dGUgJ2FkYycgY2hhaW5zIGFuZCBmYWlsZWQNCnRvIGdldCBhbnkgb3ZlcmxhcHBlZCBpbnN0cmlj
-dGlvbnMuDQpCdXQgSSdsbCB0cnkgaGlzIGxvb3AgaW4gbXkgZnJhbWV3b3JrLg0KDQpUaGUgJ2xm
-ZW5jZScgdmVyc2lvbiBhbHNvIHJlYWxseSBkb2VzIG1hdHRlci4NCkluIHNvbWUgc2Vuc2UgaXQg
-ZG9lc24ndCBtYXR0ZXIgaWYgeW91IGFkZCAxMCBjbG9ja3MgdG8gdGhlDQpJUCBoZWFkZXIgY2hl
-Y2tzdW0gLSB0aGV5J2xsIGJlIGR3YXJmZWQgYnkgZXZlcnl0aGluZyBlbHNlLg0KQnV0IGlmIHlv
-dSBkbyBoYXZlIHRvIGNoZWNrc3VtIGFuIDhrIE5GUyBVRFAgZGF0YWdyYW0gdGhlDQpsb29wIGNv
-dW50IG1hdHRlcnMuDQoNClRoZSBPT08gZW5naW5lIGlzIHZlcnkgZ29vZCBhIGp1c3QgcGlsaW5n
-IHVwIGluc3RydWN0aW9ucw0KdGhhdCBhcmUgd2FpdGluZyBmb3IgcHJldmlvdXMgaW5zdHJ1Y3Rp
-b25zIGluIGEgYmlnIHF1ZXVlDQphbmQgZXhlY3V0aW5nIGluc3RydWN0aW9uIGZvciB3aGljaCB0
-aGUgZGF0YSBpcyBhdmFpbGFibGUuDQpTbyB0aGUgY29udHJvbCBmbG93IGZvciB0aGUgY2hlY2tz
-dW0gY29kZSBjYW4gZmluaXNoIHdlbGwNCmJlZm9yZSB0aGUgY2hlY2tzdW0gaXMgYXZhaWxhYmxl
-Lg0KDQpPbiBhIHJlbGF0ZWQgcG9pbnQsIGRvIHlvdSByZW1lbWJlciB3aGF0IHRoZSAna2lsbGVy
-IGFwcCcNCndhcyBmb3IgZG9pbmcgdGhlIGNoZWNrc3VtIGluIGNvcHlfdG8vZnJvbV91c2VyPw0K
-DQpUaGUgY2hhbmdlIHByZS1kYXRlcyBnaXQgYW5kIEkgY2FuJ3QgZmluZCB0aGUgY29tbWl0IG1l
-c3NhZ2UuDQpUaGUgb25seSBwbGFjZSBpdCBpcyBkb25lIGluIHRoZSByZWNlaXZlIHBhdGggaXMg
-Zm9yIFVEUC4NCkF0IGEgZ3Vlc3MgdGhhdCBoZWxwZWQgOGsgVURQIGRhdGFncmFtcyBnb2luZyBp
-bnRvIGEgdXNlcnNwYWNlIG5mc2Q/DQpJIGJldCBub3RoaW5nIHJlYWxseSBkZXBlbmRzIG9uIFJY
-IFVEUCBwZXJmb3JtYW5jZSB0byB1c2Vyc3BhY2UNCm9uIHN5c3RlbXMgdGhhdCBkb24ndCBkbyBo
-dyBjaGVja3N1bT8NCg0KVGhlIHR4IHNpZGUgaXMgZG9uZSBjb3B5aW5nIGRhdGEgaW50byBhbiBz
-a2IsIEknbSBub3Qgc3VyZSBpZg0KdGhhdCBpcyBhbGwgY29waWVzIC0geW91IHJlYWxseSBkb24n
-dCB3YW50IHRvIGRvIGl0IGlmIHRoZQ0KaGFyZHdhcmUgc3VwcG9ydHMgdHggY2hlY2tzdW0gb2Zm
-bG9hZC4NClVzaW5nICdyZXAgbW92c2InIGZvciBjb3B5X2Zyb21fdXNlcigpIGhhcyAgdG8gYmUg
-ZmFzdGVyIHRoYW4NCnRoZSBJLWNhY2hlIGJ1c3RpbmcgJ2NvcHkgYW5kIGNoZWNrc3VtJyBjb2Rl
-IC0gZXZlbiBpZiB5b3UNCmVuZCB1cCBkb2luZyBhIGNoZWNrc3VtIG5vdCBtdWNoIGxhdGVyIG9u
-Lg0KDQpJSVJDIChJIGxvb2tlZCBhIGNvdXBsZSBvZiB3ZWVrcyBhZ28pIG9ubHkgeDg2LCBzcGFy
-YzMyIGFuZCBtNjhrDQphY3R1YWxseSBoYXZlICdjb3B5IGFuZCBjaGVja3N1bScgKGFuZCB0aGUg
-bTY4ayBkaWRuJ3Qgc2VlbSB0bw0KaGF2ZSB0aGUgbWFya2VycyBmb3IgZmF1bHRzISkuDQooQWxs
-IG9mIHRoZW0gYXJlIEktY2FjaGUga2lsbGVycykNClRoZSBkZWZhdWx0IGlvdmVjW10gdmVyc2lv
-biBjaGVja3N1bXMgZXZlcnkgZnJhZ21lbnQgLSB3aGljaA0KZ2l2ZXMgZ3JpZWYgdHJ5aW5nIHRv
-IHJlcG9ydCBhIDMyYml0IGNoZWNrc3VtIGFuZCBFRkFVTFQuDQpPVE9IIGl0IGNvdWxkIHN1bSB0
-aGUgbGluZWFyIGtlcm5lbCBidWZmZXIgYWZ0ZXIgdGhlIGNvcHkuDQpUaGF0IHdvdWxkIGxldCBp
-dCBmb2xkIHRoZSBjaGVja3N1bSB0byAxN2JpdHMgYW5kIHJlcG9ydCAtMQ0KZm9yIEVGQVVMVC4N
-Cg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2Fk
-LCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5v
-OiAxMzk3Mzg2IChXYWxlcykNCg==
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a4ab2706bb1280693e7dff1c5c42a8cb9d70c177
+commit: 9ae2c26e43248b722e79fe867be38062c9dd1e5f libbpf: provide NULL and KERNEL_VERSION macros in bpf_helpers.h
+date:   2 years, 10 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20240106/202401060844.GIliYBtI-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401060844.GIliYBtI-lkp@intel.com/
+
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 14 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
+   ./arch/s390/include/asm/setup.h: 177: need linux/version.h
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_proc.c: 3 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 47 linux/version.h not needed.
+   ./drivers/hv/hv.c: 16 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
+   ./drivers/net/ethernet/mellanox/mlx5/core/main.c: 53 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 14 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/usb/core/hcd.c: 14 linux/version.h not needed.
+   ./drivers/usb/gadget/udc/aspeed-vhub/hub.c: 33 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
+   ./include/linux/usb/composite.h: 39 linux/version.h not needed.
+   ./init/version.c: 16 linux/version.h not needed.
+   ./kernel/sys.c: 42 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+>> ./tools/lib/bpf/bpf_helpers.h: 146: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
