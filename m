@@ -1,96 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C309F8C12
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 17:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BEDD279
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 17:30:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGCqvQxa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7gJD8Z/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704560929; x=1736096929;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IAwvdhJYLS8yPLDpGRBLpndM9YLrPn9Cpf5WDRXt6fg=;
-  b=dGCqvQxaFzqmzGPfllyfSve6+7Gnl8KMWlIYjwt8nKyc6pgXUsg8PjdF
-   Ai/aJ7mnb7aa/2w2npYIwtE2j+0Blq9iEea+KTyu710SusD8RaShPeshH
-   ywImevIZHxIght2FxuHlMO2lPZJBz3wnrFHtzrxOvzWZMX7MwAuHdCFQ3
-   EjdQ5GIjOc74Y1Y2OVd2ouoRJzo0Zn1oHveFW0tvpTx+/YJ+xFKxp+aZ6
-   sST08F+hq6GdKZ9J0K4/YYs257+IwtVksfbsBzULV3qHCfKj8eb+rqYIa
-   Pu0jbBXacXxGZVWj7XdoIoYj2HsRf1pRWGt+1QLpTbGlXP4sJ1zRa+5wa
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="382638558"
+  t=1704562259; x=1736098259;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yDdiujozwQBkl6LUfD1mgQJdMsZM4n6TnVP5IS61zUU=;
+  b=N7gJD8Z/apx63m7mftdZ0Z2Mg1RWz/LQXtz4q0NyBqcpbkA9aQkUaLyx
+   Ikok2SSEflwzx6BlHbX+Cb0mUcRjIPd/4VK4f3FZ8kLo88irIli+mLA2j
+   tt3Bbm0ghPnfS/+ja65S7QWa2IR/psWcNULy6Lv7n4DtgVbLpbgDdgShE
+   fcauxfvOWWpAxVWF1+64vETD68ZRmdKUvO+pzkFaa1UcMgDRr1ilhb+OD
+   SRRPTPt9aw4yoyIl+2uVYQ29pKEuf6BoXe/jfB53HJ4OVuqGFoPmF8IGY
+   PRiBCpuwzdQYvJr51RlvAPoCSZnpB5A86pwGfO3E+2UZhiIdKlapHgk3c
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="4763437"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="382638558"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 09:08:49 -0800
+   d="scan'208";a="4763437"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 09:30:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="924486235"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="954249142"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="924486235"
+   d="scan'208";a="954249142"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2024 09:08:47 -0800
+  by orsmga005.jf.intel.com with ESMTP; 06 Jan 2024 09:30:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMAA9-0002mK-1t;
-	Sat, 06 Jan 2024 17:08:45 +0000
-Date: Sun, 7 Jan 2024 01:08:44 +0800
+	id 1rMAVS-0002o4-1Y;
+	Sat, 06 Jan 2024 17:30:46 +0000
+Date: Sun, 7 Jan 2024 01:30:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>,
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [steev:c630-linux-v6.7.0-rc8 160/165]
- sound/soc/codecs/wsa884x.c:1782:38: error: 'struct sdw_stream_runtime' has
- no member named 'dev'
-Message-ID: <202401070119.Uf29dEMS-lkp@intel.com>
+Subject: drivers/infiniband/core/cm.c:1272:20: sparse: sparse: cast from
+ restricted __be32
+Message-ID: <202401070142.Q4XXLJwy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/steev/linux c630-linux-v6.7.0-rc8
-head:   ff607c5b78e72a98f85de6a64124da02cca916b9
-commit: 36178948b637e43373619370cac68c51fd4fffdd [160/165] ASoC: codecs: wsa884x: check if set_stream is called for proper bus
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240107/202401070119.Uf29dEMS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070119.Uf29dEMS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
+commit: 34bd6d227ffc99d8ce1ced20bbfceacb14651869 arm64: dts: qcom: sc8280xp-pmics: Add support for PMK8280 RESIN input
+date:   1 year, 2 months ago
+config: i386-randconfig-062-20240106 (https://download.01.org/0day-ci/archive/20240107/202401070142.Q4XXLJwy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070142.Q4XXLJwy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401070119.Uf29dEMS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070142.Q4XXLJwy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/infiniband/core/cm.c:1272:20: sparse: sparse: cast from restricted __be32
 
-   sound/soc/codecs/wsa884x.c: In function 'wsa884x_set_stream':
->> sound/soc/codecs/wsa884x.c:1782:38: error: 'struct sdw_stream_runtime' has no member named 'dev'
-    1782 |         if (sdw->bus->dev != sruntime->dev)
-         |                                      ^~
+vim +1272 drivers/infiniband/core/cm.c
 
+067b171b8679f9 Haggai Eran    2015-07-30  1265  
+87a37ce9e400e4 Håkon Bugge    2018-07-04  1266  static __be64 cm_form_tid(struct cm_id_private *cm_id_priv)
+a977049dacdef6 Hal Rosenstock 2005-07-27  1267  {
+76039ac9095f5e Mark Zhang     2021-06-02  1268  	u64 hi_tid = 0, low_tid;
+76039ac9095f5e Mark Zhang     2021-06-02  1269  
+76039ac9095f5e Mark Zhang     2021-06-02  1270  	lockdep_assert_held(&cm_id_priv->lock);
+a977049dacdef6 Hal Rosenstock 2005-07-27  1271  
+87a37ce9e400e4 Håkon Bugge    2018-07-04 @1272  	low_tid = (u64)cm_id_priv->id.local_id;
+76039ac9095f5e Mark Zhang     2021-06-02  1273  	if (!cm_id_priv->av.port)
+76039ac9095f5e Mark Zhang     2021-06-02  1274  		return cpu_to_be64(low_tid);
+76039ac9095f5e Mark Zhang     2021-06-02  1275  
+76039ac9095f5e Mark Zhang     2021-06-02  1276  	spin_lock(&cm_id_priv->av.port->cm_dev->mad_agent_lock);
+76039ac9095f5e Mark Zhang     2021-06-02  1277  	if (cm_id_priv->av.port->mad_agent)
+76039ac9095f5e Mark Zhang     2021-06-02  1278  		hi_tid = ((u64)cm_id_priv->av.port->mad_agent->hi_tid) << 32;
+76039ac9095f5e Mark Zhang     2021-06-02  1279  	spin_unlock(&cm_id_priv->av.port->cm_dev->mad_agent_lock);
+a977049dacdef6 Hal Rosenstock 2005-07-27  1280  	return cpu_to_be64(hi_tid | low_tid);
+a977049dacdef6 Hal Rosenstock 2005-07-27  1281  }
+a977049dacdef6 Hal Rosenstock 2005-07-27  1282  
 
-vim +1782 sound/soc/codecs/wsa884x.c
+:::::: The code at line 1272 was first introduced by commit
+:::::: 87a37ce9e400e40daee537ff95343e3c94743c6d IB/cm: Remove unused and erroneous msg sequence encoding
 
-  1773	
-  1774	static int wsa884x_set_stream(struct snd_soc_dai *dai,
-  1775				      void *stream, int direction)
-  1776	{
-  1777		struct wsa884x_priv *wsa884x = dev_get_drvdata(dai->dev);
-  1778		struct sdw_stream_runtime *sruntime = stream;
-  1779		struct sdw_slave *sdw = dev_to_sdw_dev(dai->dev);
-  1780	
-  1781		/* Check if this belongs to same bus */
-> 1782		if (sdw->bus->dev != sruntime->dev)
-  1783			return 0;
-  1784	
-  1785		wsa884x->sruntime = stream;
-  1786	
-  1787		return 0;
-  1788	}
-  1789	
+:::::: TO: Håkon Bugge <haakon.bugge@oracle.com>
+:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
 
 -- 
 0-DAY CI Kernel Test Service
