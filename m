@@ -1,55 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61971101C9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 22:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4168F1079C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 23:00:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IB47QkbH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="imBRRDmJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704579460; x=1736115460;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JuigR2RkFX7GQS5l2ExgV/8o02li1QfT3/cMhwDWpkE=;
-  b=IB47QkbHWF9d2w89I7eOBhzVSzQXWEYFDHGxA7esZuZCBLrCZM/LniXR
-   qfq8mAng4+72aAbRwc6DLAelsDY5qa5zoPuUiYz1jyclXAYqF5o1vPtJ6
-   UupJnWRaAzwen/6Y1yeNbbuCZO/1QmGmI+Jf7F9QppGii6fYdydbmGjyE
-   hjMr24G9cYUxFK0P6oOSJApnsoCQhoBH62GeCi2LsQ7LbjQM6QlwoAyfb
-   vr8ew8VXpC3hpBxZHqHOoZ/nV1ONxzubetMe0oBw1sQl/FK5ty6NXRLI4
-   BIku3lJIM3MP+8l13YkoOKWcAQAh8Q8C5s0vKGCshmNU9PQoELVGRbstZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="4448943"
-X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="4448943"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 14:17:39 -0800
+  t=1704582006; x=1736118006;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fkAnOoCEuBDaTy6HUmcJlB4a4A5JVNK326EYrgY2KBM=;
+  b=imBRRDmJVnK5M29F7G5g3Nptra5yunmzPOOmPvkKXaMffjdSz9THni73
+   qN4p4VVoyc+GjhynWKIqfgXKdW3sAsFOt4qfHdQ8QFa/FR9j6eyhRLF9T
+   hE/jptl8n1LRELhRcLeYqQTMIOYdF9XGokJDs2Dxa/tAWtN6lRtJ7RRcc
+   WhlCVRxVkmg60voL9Tf+Pq8oha86zaNmtTAsYseWQRYq5zis4mNrZOW1q
+   fNv1ASEVTHcFoP+AsVyu7Sju0AQyLEQBl+vPDlN0SKBAjG8lShPtWDDVV
+   xm6l+fkt+Ys38/YkqZOjyNB6vvQPU/6axKiFU9G4h9bZmW9eA5OCtI2oA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="394856847"
+X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
+   d="scan'208";a="394856847"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 15:00:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="846860528"
-X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="846860528"
+X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
+   d="scan'208";a="22808491"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Jan 2024 14:17:36 -0800
+  by orviesa002.jf.intel.com with ESMTP; 06 Jan 2024 14:59:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMEz0-00034y-1K;
-	Sat, 06 Jan 2024 22:17:34 +0000
-Date: Sun, 7 Jan 2024 06:17:16 +0800
+	id 1rMFe0-00038C-11;
+	Sat, 06 Jan 2024 22:59:56 +0000
+Date: Sun, 7 Jan 2024 06:59:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Andi Kleen <ak@linux.intel.com>,
-	Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH] x86/trampoline: Bypass compat mode in
- trampoline_start64() if not needed
-Message-ID: <202401070610.WkJiWgWO-lkp@intel.com>
-References: <20240106010106.25772-1-kirill.shutemov@linux.intel.com>
+To: Anand Jain <anand.jain@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	David Sterba <dsterba@suse.com>
+Subject: fs/btrfs/volumes.c:1004:34: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202401070634.inITDmDk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,98 +49,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240106010106.25772-1-kirill.shutemov@linux.intel.com>
 
-Hi Kirill,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/master]
-[also build test ERROR on tip/x86/core tip/auto-latest linus/master v6.7-rc8 next-20240105]
-[cannot apply to bp/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kirill-A-Shutemov/x86-trampoline-Bypass-compat-mode-in-trampoline_start64-if-not-needed/20240106-090311
-base:   tip/master
-patch link:    https://lore.kernel.org/r/20240106010106.25772-1-kirill.shutemov%40linux.intel.com
-patch subject: [PATCH] x86/trampoline: Bypass compat mode in trampoline_start64() if not needed
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240107/202401070610.WkJiWgWO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070610.WkJiWgWO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
+commit: bb21e30260a672172a26ee1626dc1463215cf18c btrfs: move device->name RCU allocation and assign to btrfs_alloc_device()
+date:   1 year, 1 month ago
+config: arm-randconfig-r122-20240105 (https://download.01.org/0day-ci/archive/20240107/202401070634.inITDmDk-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070634.inITDmDk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401070610.WkJiWgWO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070634.inITDmDk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/btrfs/volumes.c:409:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
+   fs/btrfs/volumes.c:409:31: sparse:     expected struct rcu_string *str
+   fs/btrfs/volumes.c:409:31: sparse:     got struct rcu_string [noderef] __rcu *name
+   fs/btrfs/volumes.c:617:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:617:43: sparse:     expected char const *device_path
+   fs/btrfs/volumes.c:617:43: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:884:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const * @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:884:50: sparse:     expected char const *
+   fs/btrfs/volumes.c:884:50: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:954:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
+   fs/btrfs/volumes.c:954:39: sparse:     expected struct rcu_string *str
+   fs/btrfs/volumes.c:954:39: sparse:     got struct rcu_string [noderef] __rcu *name
+>> fs/btrfs/volumes.c:1004:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char const *dev_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:1004:34: sparse:     expected char const *dev_path
+   fs/btrfs/volumes.c:1004:34: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:2198:49: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:2198:49: sparse:     expected char const *device_path
+   fs/btrfs/volumes.c:2198:49: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:2313:41: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
+   fs/btrfs/volumes.c:2313:41: sparse:     expected char const *device_path
+   fs/btrfs/volumes.c:2313:41: sparse:     got char [noderef] __rcu *
+   fs/btrfs/volumes.c:1446:29: sparse: sparse: self-comparison always evaluates to false
 
-   as: arch/x86/realmode/rm/trampoline_64.o: unsupported relocation type: 0x185
-   arch/x86/realmode/rm/trampoline_64.S: Assembler messages:
->> arch/x86/realmode/rm/trampoline_64.S:225: Error: cannot represent relocation type BFD_RELOC_X86_64_32S
-   as: arch/x86/realmode/rm/trampoline_64.o: unsupported relocation type: 0x185
-   arch/x86/realmode/rm/trampoline_64.S:231: Error: cannot represent relocation type BFD_RELOC_X86_64_32S
+vim +1004 fs/btrfs/volumes.c
 
-
-vim +225 arch/x86/realmode/rm/trampoline_64.S
-
-   211	
-   212	SYM_CODE_START(trampoline_start64)
-   213		/*
-   214		 * APs start here on a direct transfer from 64-bit BIOS with identity
-   215		 * mapped page tables.  Load the kernel's GDT in order to gear down to
-   216		 * 32-bit mode (to handle 4-level vs. 5-level paging), and to (re)load
-   217		 * segment registers.  Load the zero IDT so any fault triggers a
-   218		 * shutdown instead of jumping back into BIOS.
-   219		 */
-   220		lidt	tr_idt(%rip)
-   221		lgdt	tr_gdt64(%rip)
-   222	
-   223		/* Check if paging mode has to be changed */
-   224		movq	%cr4, %rax
- > 225		xorq	pa_tr_cr4, %rax
-   226		andq	$X86_CR4_LA57, %rax
-   227		jnz	.L_switch_paging
-   228	
-   229		/* Paging mode is correct proceed in 64-bit mode */
-   230	
-   231		LOCK_AND_LOAD_REALMODE_ESP lock_pa=1
-   232	
-   233		movw	$__KERNEL_DS, %dx
-   234		movl	%edx, %ss
-   235		addl	$pa_real_mode_base, %esp
-   236		movl	%edx, %ds
-   237		movl	%edx, %es
-   238		movl	%edx, %fs
-   239		movl	%edx, %gs
-   240	
-   241		movl	$pa_trampoline_pgd, %eax
-   242		movq	%rax, %cr3
-   243	
-   244		jmpq	*tr_start(%rip)
-   245	.L_switch_paging:
-   246		/*
-   247		 * To switch between 4- and 5-level paging modes, it is necessary
-   248		 * to disable paging. This must be done in the compatibility mode.
-   249		 */
-   250		ljmpl	*tr_compat(%rip)
-   251	SYM_CODE_END(trampoline_start64)
-   252	
-   253		.section ".rodata","a"
-   254		# Duplicate the global descriptor table
-   255		# so the kernel can live anywhere
-   256		.balign	16
-   257	SYM_DATA_START(tr_gdt)
-   258		.short	tr_gdt_end - tr_gdt - 1	# gdt limit
-   259		.long	pa_tr_gdt
-   260		.short	0
-   261		.quad	0x00cf9b000000ffff	# __KERNEL32_CS
-   262		.quad	0x00af9b000000ffff	# __KERNEL_CS
-   263		.quad	0x00cf93000000ffff	# __KERNEL_DS
-   264	SYM_DATA_END_LABEL(tr_gdt, SYM_L_LOCAL, tr_gdt_end)
-   265	
+   980	
+   981	static struct btrfs_fs_devices *clone_fs_devices(struct btrfs_fs_devices *orig)
+   982	{
+   983		struct btrfs_fs_devices *fs_devices;
+   984		struct btrfs_device *device;
+   985		struct btrfs_device *orig_dev;
+   986		int ret = 0;
+   987	
+   988		lockdep_assert_held(&uuid_mutex);
+   989	
+   990		fs_devices = alloc_fs_devices(orig->fsid, NULL);
+   991		if (IS_ERR(fs_devices))
+   992			return fs_devices;
+   993	
+   994		fs_devices->total_devices = orig->total_devices;
+   995	
+   996		list_for_each_entry(orig_dev, &orig->devices, dev_list) {
+   997			const char *dev_path = NULL;
+   998	
+   999			/*
+  1000			 * This is ok to do without RCU read locked because we hold the
+  1001			 * uuid mutex so nothing we touch in here is going to disappear.
+  1002			 */
+  1003			if (orig_dev->name)
+> 1004				dev_path = orig_dev->name->str;
+  1005	
+  1006			device = btrfs_alloc_device(NULL, &orig_dev->devid,
+  1007						    orig_dev->uuid, dev_path);
+  1008			if (IS_ERR(device)) {
+  1009				ret = PTR_ERR(device);
+  1010				goto error;
+  1011			}
+  1012	
+  1013			if (orig_dev->zone_info) {
+  1014				struct btrfs_zoned_device_info *zone_info;
+  1015	
+  1016				zone_info = btrfs_clone_dev_zone_info(orig_dev);
+  1017				if (!zone_info) {
+  1018					btrfs_free_device(device);
+  1019					ret = -ENOMEM;
+  1020					goto error;
+  1021				}
+  1022				device->zone_info = zone_info;
+  1023			}
+  1024	
+  1025			list_add(&device->dev_list, &fs_devices->devices);
+  1026			device->fs_devices = fs_devices;
+  1027			fs_devices->num_devices++;
+  1028		}
+  1029		return fs_devices;
+  1030	error:
+  1031		free_fs_devices(fs_devices);
+  1032		return ERR_PTR(ret);
+  1033	}
+  1034	
 
 -- 
 0-DAY CI Kernel Test Service
