@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4168F1079C
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 23:00:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0912C10781
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 23:22:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="imBRRDmJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XR8st2Xc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704582006; x=1736118006;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fkAnOoCEuBDaTy6HUmcJlB4a4A5JVNK326EYrgY2KBM=;
-  b=imBRRDmJVnK5M29F7G5g3Nptra5yunmzPOOmPvkKXaMffjdSz9THni73
-   qN4p4VVoyc+GjhynWKIqfgXKdW3sAsFOt4qfHdQ8QFa/FR9j6eyhRLF9T
-   hE/jptl8n1LRELhRcLeYqQTMIOYdF9XGokJDs2Dxa/tAWtN6lRtJ7RRcc
-   WhlCVRxVkmg60voL9Tf+Pq8oha86zaNmtTAsYseWQRYq5zis4mNrZOW1q
-   fNv1ASEVTHcFoP+AsVyu7Sju0AQyLEQBl+vPDlN0SKBAjG8lShPtWDDVV
-   xm6l+fkt+Ys38/YkqZOjyNB6vvQPU/6axKiFU9G4h9bZmW9eA5OCtI2oA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="394856847"
+  t=1704583334; x=1736119334;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sLWyP0zXcpgivdfPlQzBG0P2YCPICg3qNcfrHAMtp68=;
+  b=XR8st2XcRR92hNW5slnj3ZVpEG0YHnshI7Z4xzs7gOyt2FrDtGm6ksH5
+   B4Ac7Pwolde0jMT1tzODo+vV6+9FTx7IVVKtAzyqVj9WF8suqhh3gMOPB
+   4KuoiwZPoqScQzjnCrxevhBTKL9XJgq7PUyOBvDJeXk296bHChBcBoA6s
+   nsnSSUoxNgPhNu15q7JAOF1rSK+Ub6Uok8Vi5YkMJk6dXqf29omBn4sTp
+   cdFfysaBwksPyfuAQVDF7GE83XY0r+7KJxY/DPxOirDTzEOhyaW1xMgA7
+   sbWOfIM1rSbzFPaJZstZw50dVd6cGYuEGdkAjZFzgMq6th9FYMcpLculh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="397410569"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="394856847"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 15:00:00 -0800
+   d="scan'208";a="397410569"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 15:22:00 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="22808491"
+   d="scan'208";a="15559485"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 06 Jan 2024 14:59:59 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 06 Jan 2024 15:21:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMFe0-00038C-11;
-	Sat, 06 Jan 2024 22:59:56 +0000
-Date: Sun, 7 Jan 2024 06:59:52 +0800
+	id 1rMFzJ-00039L-0d;
+	Sat, 06 Jan 2024 23:21:57 +0000
+Date: Sun, 7 Jan 2024 07:21:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anand Jain <anand.jain@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Sterba <dsterba@suse.com>
-Subject: fs/btrfs/volumes.c:1004:34: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202401070634.inITDmDk-lkp@intel.com>
+To: Harald Mommer <Harald.Mommer@opensynergy.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 3/3] SPI: Add virtio SPI driver (V10 draft
+ specification).
+Message-ID: <202401070701.Uhns7ic8-lkp@intel.com>
+References: <20240104130129.17823-4-Harald.Mommer@opensynergy.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,101 +50,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240104130129.17823-4-Harald.Mommer@opensynergy.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
-commit: bb21e30260a672172a26ee1626dc1463215cf18c btrfs: move device->name RCU allocation and assign to btrfs_alloc_device()
-date:   1 year, 1 month ago
-config: arm-randconfig-r122-20240105 (https://download.01.org/0day-ci/archive/20240107/202401070634.inITDmDk-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070634.inITDmDk-lkp@intel.com/reproduce)
+Hi Harald,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on linus/master v6.7-rc8 next-20240105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Harald-Mommer/virtio-Add-ID-for-virtio-SPI/20240104-213258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20240104130129.17823-4-Harald.Mommer%40opensynergy.com
+patch subject: [RFC PATCH v2 3/3] SPI: Add virtio SPI driver (V10 draft specification).
+reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070701.Uhns7ic8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401070634.inITDmDk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070701.Uhns7ic8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/btrfs/volumes.c:409:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
-   fs/btrfs/volumes.c:409:31: sparse:     expected struct rcu_string *str
-   fs/btrfs/volumes.c:409:31: sparse:     got struct rcu_string [noderef] __rcu *name
-   fs/btrfs/volumes.c:617:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:617:43: sparse:     expected char const *device_path
-   fs/btrfs/volumes.c:617:43: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:884:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const * @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:884:50: sparse:     expected char const *
-   fs/btrfs/volumes.c:884:50: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:954:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
-   fs/btrfs/volumes.c:954:39: sparse:     expected struct rcu_string *str
-   fs/btrfs/volumes.c:954:39: sparse:     got struct rcu_string [noderef] __rcu *name
->> fs/btrfs/volumes.c:1004:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char const *dev_path @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:1004:34: sparse:     expected char const *dev_path
-   fs/btrfs/volumes.c:1004:34: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:2198:49: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:2198:49: sparse:     expected char const *device_path
-   fs/btrfs/volumes.c:2198:49: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:2313:41: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:2313:41: sparse:     expected char const *device_path
-   fs/btrfs/volumes.c:2313:41: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:1446:29: sparse: sparse: self-comparison always evaluates to false
-
-vim +1004 fs/btrfs/volumes.c
-
-   980	
-   981	static struct btrfs_fs_devices *clone_fs_devices(struct btrfs_fs_devices *orig)
-   982	{
-   983		struct btrfs_fs_devices *fs_devices;
-   984		struct btrfs_device *device;
-   985		struct btrfs_device *orig_dev;
-   986		int ret = 0;
-   987	
-   988		lockdep_assert_held(&uuid_mutex);
-   989	
-   990		fs_devices = alloc_fs_devices(orig->fsid, NULL);
-   991		if (IS_ERR(fs_devices))
-   992			return fs_devices;
-   993	
-   994		fs_devices->total_devices = orig->total_devices;
-   995	
-   996		list_for_each_entry(orig_dev, &orig->devices, dev_list) {
-   997			const char *dev_path = NULL;
-   998	
-   999			/*
-  1000			 * This is ok to do without RCU read locked because we hold the
-  1001			 * uuid mutex so nothing we touch in here is going to disappear.
-  1002			 */
-  1003			if (orig_dev->name)
-> 1004				dev_path = orig_dev->name->str;
-  1005	
-  1006			device = btrfs_alloc_device(NULL, &orig_dev->devid,
-  1007						    orig_dev->uuid, dev_path);
-  1008			if (IS_ERR(device)) {
-  1009				ret = PTR_ERR(device);
-  1010				goto error;
-  1011			}
-  1012	
-  1013			if (orig_dev->zone_info) {
-  1014				struct btrfs_zoned_device_info *zone_info;
-  1015	
-  1016				zone_info = btrfs_clone_dev_zone_info(orig_dev);
-  1017				if (!zone_info) {
-  1018					btrfs_free_device(device);
-  1019					ret = -ENOMEM;
-  1020					goto error;
-  1021				}
-  1022				device->zone_info = zone_info;
-  1023			}
-  1024	
-  1025			list_add(&device->dev_list, &fs_devices->devices);
-  1026			device->fs_devices = fs_devices;
-  1027			fs_devices->num_devices++;
-  1028		}
-  1029		return fs_devices;
-  1030	error:
-  1031		free_fs_devices(fs_devices);
-  1032		return ERR_PTR(ret);
-  1033	}
-  1034	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/spi/spi-virtio.c: 15 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 403: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
