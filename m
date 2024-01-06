@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27FDC8C3
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 17:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146A7DDB2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 17:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzAfTr+I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SM24lSTB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704562923; x=1736098923;
+  t=1704562933; x=1736098933;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0EafuQOiDbYCvZsCgjBTG/erYME3BlIN2EID33SMSIs=;
-  b=YzAfTr+IpQ56BIjJb69jPeWixcUJar3whgI8U4QPhKhtLcp+/37C0TD0
-   KRIeYO7tD5vXV6gjxnWpN43J0y/WtUIKVDs8oML0cRhb9r1TcIaIFwUVq
-   vvVFafoOg/pNrOK0dg7uwzREexZezXCyr/BBSPWGuohMMQoRawrW8qhQJ
-   A3yqNX54qhQOlGR1KWOdCXyAxPirPSd4tUZHvjuJKm7G+u4wFUk2G4Utt
-   TGZXHGasfY6qJn7l3qtoPLk0VKeENLKvr3MhkmO+C0UeYbg95WipfGk98
-   jc7LKwwwSt0ti4w3jSNQt8ghdDxp3ygxZXa0j3/7DOl+nw98k/t8rI1Cl
+  bh=UOWNkhue9MomgSfp3RSCQ5H6UrOZJ0RcIj6sSREhIZg=;
+  b=SM24lSTBUOBRyOGQY5JKd5uukbWXvkVu6ZrFfs9KmIknjkAQSfnwKTPl
+   E8kQGSQGIRM1yGNe9qJVorPnXkXdonaUlGD8ukOwVjpAnHQEaWF4DDRKs
+   QKen40c+XZBJx98NfkWFlZABEiZB5U94JP9y9Jw5CLYOcSNtzyvpA901h
+   FhmhV2HXSSkn3yD5maX+SRRc53Ri6S9zW/vJBEQgM/nWRpZeoebYEQaef
+   xSHosaZ7Y1xoyrI17de2hBCjoH++lyrpdUT+h1eSF3mHZf6r6vHOQQ9n8
+   ywg1YJVN9SKcDvB5OmLM7Xj6P0ndYNtaJ52enmA3Xxf0hl9gJPzDElC2A
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="11022904"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="11157759"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="11022904"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 09:42:02 -0800
+   d="scan'208";a="11157759"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 09:42:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="784471304"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="871491295"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="784471304"
+   d="scan'208";a="871491295"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Jan 2024 09:42:01 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Jan 2024 09:41:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMAgH-0002or-2i;
-	Sat, 06 Jan 2024 17:41:58 +0000
-Date: Sun, 7 Jan 2024 01:41:34 +0800
+	id 1rMAgG-0002op-1x;
+	Sat, 06 Jan 2024 17:41:57 +0000
+Date: Sun, 7 Jan 2024 01:41:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Morgan <macromorgan@hotmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast
- truncates bits from constant value (aa01a0 becomes a0)
-Message-ID: <202401070147.gqwVulOn-lkp@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:xfile-page-caching 97/223] fs/xfs/scrub/common.c:257:2:
+ error: call to undeclared function 'trace_xchk_qcheck_error'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202401070107.4QTBRZgc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,42 +51,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
-commit: 66603243f5283f7f28c795f09e7c2167233df0bd Input: add driver for Hynitron cstxxx touchscreens
-date:   1 year, 2 months ago
-config: x86_64-randconfig-x051-20230705 (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   45b903e0e402a62723d43483a33cac8f3d9a4073
+commit: a13409e8c652b4fce3d5741a68a85d4427a8d569 [97/223] xfs: implement live quotacheck inode scan
+config: i386-randconfig-012-20240106 (https://download.01.org/0day-ci/archive/20240107/202401070107.4QTBRZgc-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070107.4QTBRZgc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401070147.gqwVulOn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070107.4QTBRZgc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/input/touchscreen/hynitron_cstxxx.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h):
->> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (aa01a0 becomes a0)
-   include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (aa01 becomes 1)
->> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (ab00d0 becomes d0)
-   include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (ab00 becomes 0)
+All errors (new ones prefixed by >>):
 
-vim +119 include/asm-generic/unaligned.h
+>> fs/xfs/scrub/common.c:257:2: error: call to undeclared function 'trace_xchk_qcheck_error'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     257 |         trace_xchk_qcheck_error(sc, dqtype, id, __return_address);
+         |         ^
+   1 error generated.
 
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  116  
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  117  static inline void __put_unaligned_le24(const u32 val, u8 *p)
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  118  {
-803f4e1eab7a89 Arnd Bergmann 2021-05-08 @119  	*p++ = val;
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  120  	*p++ = val >> 8;
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  121  	*p++ = val >> 16;
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  122  }
-803f4e1eab7a89 Arnd Bergmann 2021-05-08  123  
 
-:::::: The code at line 119 was first introduced by commit
-:::::: 803f4e1eab7a8938ba3a3c30dd4eb5e9eeef5e63 asm-generic: simplify asm/unaligned.h
+vim +/trace_xchk_qcheck_error +257 fs/xfs/scrub/common.c
 
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+   248	
+   249	/* Record a corrupt quota counter. */
+   250	void
+   251	xchk_qcheck_set_corrupt(
+   252		struct xfs_scrub	*sc,
+   253		unsigned int		dqtype,
+   254		xfs_dqid_t		id)
+   255	{
+   256		sc->sm->sm_flags |= XFS_SCRUB_OFLAG_CORRUPT;
+ > 257		trace_xchk_qcheck_error(sc, dqtype, id, __return_address);
+   258	}
+   259	
 
 -- 
 0-DAY CI Kernel Test Service
