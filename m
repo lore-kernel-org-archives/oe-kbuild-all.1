@@ -1,47 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDCD7460
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 13:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0147468;
+	Sat,  6 Jan 2024 13:57:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atfioCXw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VEy9fWwt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704546885; x=1736082885;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=08jgx8ytAVS3L9xXxt21JJeOVjwVtOFl6ZHUWa31dLE=;
-  b=atfioCXwx4zY3Hx4kFTdtUopOEjRyVi8QDbgqaYLJodfOQIzy8LCjgfH
-   DpqBcS84j+9meuZW+XM7HhvLjs8ORiorSpRq3XLJgowjYcK6X8x3PDQjx
-   Xo1X/fysp095GkVvlAtVqo03f0lJ6guUPVa3Ev78Zo/Dx/qguVevVFA0H
-   q3klMZ5ZfDFGnRapo5a+8kcKRlqS8cUo3jMPJWOO/V4NcQU8ZIFKQC5Dv
-   wTCNoDC4I+nu8PjJxQRnt/7WNi7h1zqPOcI9WVpNiHGr5ryMGXTMqrj/M
-   i+Hoq5Mq38vilk5f6zNU73TXWK4wJx8KHZgvNcTUDLYptbG0W75DjDzG1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="461955815"
+  t=1704549424; x=1736085424;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iEJTJz2Jddibopjfs8jx4G+D3yybQkJE2N06E9WrvVQ=;
+  b=VEy9fWwtalopt6pPZve840cZA6m6SorzhXFd4VZccVpkXmD9YWHcLluf
+   gCqtbpO0oXXHBkcg8ZPfwCCN7R4zXWN0MXmDq6O1t0VEVpTPZ2yfTaCVr
+   n/AIcRzdVl3ycXPcUHMSb7qLXlrutXiwmC7XT/I3H3YSB9Ajeuq+It9LU
+   5nJZ1e3Cf256JHXoM9l6evoxcociBJKbskOoWlK3tz8JVIpKLl5JlqanV
+   iuAhu3xxLCBG6diByktU/M3/tlv/7tqTxK03bYiwOAEZTn1XTm6aJKEd7
+   Z1xKJ9ZdlSk8POIXqg6oxvUvzBDZlDfi0oEFL3TwlIJTd8FCq3bPKLrAI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="11012494"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="461955815"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 05:14:44 -0800
+   d="scan'208";a="11012494"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 05:56:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10944"; a="924456737"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="846810525"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="924456737"
+   d="scan'208";a="846810525"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2024 05:14:43 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 06 Jan 2024 05:56:53 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rM6Vc-0002W2-0l;
-	Sat, 06 Jan 2024 13:14:40 +0000
-Date: Sat, 6 Jan 2024 21:14:09 +0800
+	id 1rM7AR-0002Xk-1L;
+	Sat, 06 Jan 2024 13:56:51 +0000
+Date: Sat, 6 Jan 2024 21:56:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Upton <oupton@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>, Reiji Watanabe <reijiw@google.com>
-Subject: arch/arm64/kvm/sys_regs.c:2402: warning: Function parameter or
- member 'params' not described in 'kvm_handle_cp_32'
-Message-ID: <202401062105.Xv4LmwCQ-lkp@intel.com>
+To: Oleksandr Tyshchenko <olekstysh@gmail.com>,
+	xen-devel@lists.xenproject.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>
+Subject: Re: [PATCH] xen/gntdev: Fix the abuse of underlying struct page in
+ DMA-buf import
+Message-ID: <202401062122.it6zvLG0-lkp@intel.com>
+References: <20240104185327.177376-1-olekstysh@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,68 +56,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240104185327.177376-1-olekstysh@gmail.com>
 
-Hi Oliver,
+Hi Oleksandr,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
-commit: e65197666773f39e4378161925e5a1c7771cff29 KVM: arm64: Wire up CP15 feature registers to their AArch64 equivalents
-date:   1 year, 8 months ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240106/202401062105.Xv4LmwCQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401062105.Xv4LmwCQ-lkp@intel.com/reproduce)
+[auto build test WARNING on xen-tip/linux-next]
+[also build test WARNING on linus/master v6.7-rc8 next-20240105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksandr-Tyshchenko/xen-gntdev-Fix-the-abuse-of-underlying-struct-page-in-DMA-buf-import/20240105-025516
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git linux-next
+patch link:    https://lore.kernel.org/r/20240104185327.177376-1-olekstysh%40gmail.com
+patch subject: [PATCH] xen/gntdev: Fix the abuse of underlying struct page in DMA-buf import
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20240106/202401062122.it6zvLG0-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401062122.it6zvLG0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401062105.Xv4LmwCQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401062122.it6zvLG0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm64/kvm/sys_regs.c:2305: warning: Function parameter or member 'global' not described in 'kvm_handle_cp_64'
-   arch/arm64/kvm/sys_regs.c:2305: warning: Function parameter or member 'nr_global' not described in 'kvm_handle_cp_64'
-   arch/arm64/kvm/sys_regs.c:2305: warning: Excess function parameter 'run' description in 'kvm_handle_cp_64'
->> arch/arm64/kvm/sys_regs.c:2402: warning: Function parameter or member 'params' not described in 'kvm_handle_cp_32'
-   arch/arm64/kvm/sys_regs.c:2402: warning: Function parameter or member 'global' not described in 'kvm_handle_cp_32'
-   arch/arm64/kvm/sys_regs.c:2402: warning: Function parameter or member 'nr_global' not described in 'kvm_handle_cp_32'
-   arch/arm64/kvm/sys_regs.c:2402: warning: Excess function parameter 'run' description in 'kvm_handle_cp_32'
+>> drivers/xen/gntdev-dmabuf.c:623:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     623 |         if (!gfns)
+         |             ^~~~~
+   drivers/xen/gntdev-dmabuf.c:660:9: note: uninitialized use occurs here
+     660 |         return ret;
+         |                ^~~
+   drivers/xen/gntdev-dmabuf.c:623:2: note: remove the 'if' if its condition is always false
+     623 |         if (!gfns)
+         |         ^~~~~~~~~~
+     624 |                 goto fail_unmap;
+         |                 ~~~~~~~~~~~~~~~
+   drivers/xen/gntdev-dmabuf.c:569:43: note: initialize the variable 'ret' to silence this warning
+     569 |         struct gntdev_dmabuf *gntdev_dmabuf, *ret;
+         |                                                  ^
+         |                                                   = NULL
+   1 warning generated.
 
 
-vim +2402 arch/arm64/kvm/sys_regs.c
+vim +623 drivers/xen/gntdev-dmabuf.c
 
-e65197666773f3 Oliver Upton 2022-05-03  2392  
-62a89c44954f09 Marc Zyngier 2013-02-07  2393  /**
-7769db905bd2df Shannon Zhao 2016-01-13  2394   * kvm_handle_cp_32 -- handles a mrc/mcr trap on a guest CP14/CP15 access
-62a89c44954f09 Marc Zyngier 2013-02-07  2395   * @vcpu: The VCPU pointer
-62a89c44954f09 Marc Zyngier 2013-02-07  2396   * @run:  The kvm_run struct
-62a89c44954f09 Marc Zyngier 2013-02-07  2397   */
-72564016aae45f Marc Zyngier 2014-04-24  2398  static int kvm_handle_cp_32(struct kvm_vcpu *vcpu,
-e65197666773f3 Oliver Upton 2022-05-03  2399  			    struct sys_reg_params *params,
-72564016aae45f Marc Zyngier 2014-04-24  2400  			    const struct sys_reg_desc *global,
-dcaffa7bf91157 James Morse  2020-06-22  2401  			    size_t nr_global)
-62a89c44954f09 Marc Zyngier 2013-02-07 @2402  {
-c667186f1c01ca Marc Zyngier 2017-04-27  2403  	int Rt  = kvm_vcpu_sys_get_rt(vcpu);
-62a89c44954f09 Marc Zyngier 2013-02-07  2404  
-e65197666773f3 Oliver Upton 2022-05-03  2405  	params->regval = vcpu_get_reg(vcpu, Rt);
-62a89c44954f09 Marc Zyngier 2013-02-07  2406  
-e65197666773f3 Oliver Upton 2022-05-03  2407  	if (emulate_cp(vcpu, params, global, nr_global)) {
-e65197666773f3 Oliver Upton 2022-05-03  2408  		if (!params->is_write)
-e65197666773f3 Oliver Upton 2022-05-03  2409  			vcpu_set_reg(vcpu, Rt, params->regval);
-72564016aae45f Marc Zyngier 2014-04-24  2410  		return 1;
-2ec5be3dbfdcb6 Pavel Fedin  2015-12-04  2411  	}
-72564016aae45f Marc Zyngier 2014-04-24  2412  
-e65197666773f3 Oliver Upton 2022-05-03  2413  	unhandled_cp_access(vcpu, params);
-62a89c44954f09 Marc Zyngier 2013-02-07  2414  	return 1;
-62a89c44954f09 Marc Zyngier 2013-02-07  2415  }
-62a89c44954f09 Marc Zyngier 2013-02-07  2416  
-
-:::::: The code at line 2402 was first introduced by commit
-:::::: 62a89c44954f09072bf07a714c8f68bda14ab87e arm64: KVM: 32bit handling of coprocessor traps
-
-:::::: TO: Marc Zyngier <marc.zyngier@arm.com>
-:::::: CC: Marc Zyngier <marc.zyngier@arm.com>
+   564	
+   565	static struct gntdev_dmabuf *
+   566	dmabuf_imp_to_refs(struct gntdev_dmabuf_priv *priv, struct device *dev,
+   567			   int fd, int count, int domid)
+   568	{
+   569		struct gntdev_dmabuf *gntdev_dmabuf, *ret;
+   570		struct dma_buf *dma_buf;
+   571		struct dma_buf_attachment *attach;
+   572		struct sg_table *sgt;
+   573		struct sg_dma_page_iter sg_iter;
+   574		unsigned long *gfns;
+   575		int i;
+   576	
+   577		dma_buf = dma_buf_get(fd);
+   578		if (IS_ERR(dma_buf))
+   579			return ERR_CAST(dma_buf);
+   580	
+   581		gntdev_dmabuf = dmabuf_imp_alloc_storage(count);
+   582		if (IS_ERR(gntdev_dmabuf)) {
+   583			ret = gntdev_dmabuf;
+   584			goto fail_put;
+   585		}
+   586	
+   587		gntdev_dmabuf->priv = priv;
+   588		gntdev_dmabuf->fd = fd;
+   589	
+   590		attach = dma_buf_attach(dma_buf, dev);
+   591		if (IS_ERR(attach)) {
+   592			ret = ERR_CAST(attach);
+   593			goto fail_free_obj;
+   594		}
+   595	
+   596		gntdev_dmabuf->u.imp.attach = attach;
+   597	
+   598		sgt = dma_buf_map_attachment_unlocked(attach, DMA_BIDIRECTIONAL);
+   599		if (IS_ERR(sgt)) {
+   600			ret = ERR_CAST(sgt);
+   601			goto fail_detach;
+   602		}
+   603	
+   604		/* Check that we have zero offset. */
+   605		if (sgt->sgl->offset) {
+   606			ret = ERR_PTR(-EINVAL);
+   607			pr_debug("DMA buffer has %d bytes offset, user-space expects 0\n",
+   608				 sgt->sgl->offset);
+   609			goto fail_unmap;
+   610		}
+   611	
+   612		/* Check number of pages that imported buffer has. */
+   613		if (attach->dmabuf->size != gntdev_dmabuf->nr_pages << PAGE_SHIFT) {
+   614			ret = ERR_PTR(-EINVAL);
+   615			pr_debug("DMA buffer has %zu pages, user-space expects %d\n",
+   616				 attach->dmabuf->size, gntdev_dmabuf->nr_pages);
+   617			goto fail_unmap;
+   618		}
+   619	
+   620		gntdev_dmabuf->u.imp.sgt = sgt;
+   621	
+   622		gfns = kcalloc(count, sizeof(*gfns), GFP_KERNEL);
+ > 623		if (!gfns)
+   624			goto fail_unmap;
+   625	
+   626		/* Now convert sgt to array of gfns without accessing underlying pages. */
+   627		i = 0;
+   628		for_each_sgtable_dma_page(sgt, &sg_iter, 0) {
+   629			dma_addr_t addr = sg_page_iter_dma_address(&sg_iter);
+   630			unsigned long pfn = bfn_to_pfn(XEN_PFN_DOWN(dma_to_phys(dev, addr)));
+   631	
+   632			gfns[i++] = pfn_to_gfn(pfn);
+   633		}
+   634	
+   635		ret = ERR_PTR(dmabuf_imp_grant_foreign_access(gfns,
+   636							      gntdev_dmabuf->u.imp.refs,
+   637							      count, domid));
+   638		kfree(gfns);
+   639		if (IS_ERR(ret))
+   640			goto fail_end_access;
+   641	
+   642		pr_debug("Imported DMA buffer with fd %d\n", fd);
+   643	
+   644		mutex_lock(&priv->lock);
+   645		list_add(&gntdev_dmabuf->next, &priv->imp_list);
+   646		mutex_unlock(&priv->lock);
+   647	
+   648		return gntdev_dmabuf;
+   649	
+   650	fail_end_access:
+   651		dmabuf_imp_end_foreign_access(gntdev_dmabuf->u.imp.refs, count);
+   652	fail_unmap:
+   653		dma_buf_unmap_attachment_unlocked(attach, sgt, DMA_BIDIRECTIONAL);
+   654	fail_detach:
+   655		dma_buf_detach(dma_buf, attach);
+   656	fail_free_obj:
+   657		dmabuf_imp_free_storage(gntdev_dmabuf);
+   658	fail_put:
+   659		dma_buf_put(dma_buf);
+   660		return ret;
+   661	}
+   662	
 
 -- 
 0-DAY CI Kernel Test Service
