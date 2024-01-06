@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E2679FE
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 15:31:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE8F79C0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Jan 2024 15:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPvmRh8w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="giw/9+TW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704555073; x=1736091073;
+  t=1704555790; x=1736091790;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qxhMfseHGKVfoAB+AFQXw+VctGHT8dZFf2jspGvSUe4=;
-  b=JPvmRh8wfN2u9LK8zJ45BvPHKbYkaQEo2XsPy38hVgGXEVULkdvd9/Jv
-   16As8HuOQK9m3+0bqaGlo0TEOdV3xeJ4m1jpvEG2KnfRIoyWf7tcE6Awt
-   dg12TLNEtcHJs8EN4ytjwm/kyZjmPfiTGOVRU/VeIVjM2sS0T1Y6+mx/A
-   rDyAwrtMDFqtvtF9TulaEp6TDP96wZAEVd/A4oh7LDiy6W8zdzoBHfxOy
-   QmahacIT8ARW39bZKfGZFc6NJRiP/MqVg2NrLxPCDiBlDek4xrU38dSnL
-   3B6kwoE96zI9bWjIgWupA9d1IxsL0U+kk8hzZCN+dHEle7mDReDPT32Mu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="388116351"
+  bh=1ZHWlJjK6ZtDqDZYv83Gmkh+c9zux01ejrclOxDt3cA=;
+  b=giw/9+TW6Up1zkoh8eb4nTCmN4mwKpVoAeGCCLNnZKlKTC7HK9IE4vjG
+   OSBQbo4rDUkSYs7mFNzjhPForyGfq8S0vZRPrl7LTKcF0EqCwHvQmyz5E
+   mynZuTNT+cKKsjGUL0sAJHjkBdLw/frPpPPhXxKhr3GzadPv5DxhdGTMO
+   FIYooErrcclgYsJmvHtyPo+Rr2Dlhv3KuczkgvZfAMyYhUWH5NKYC+Ef5
+   zD30E63CeibnAnCXpCfcqGMyk/75+d31D1K9OxcOWwqAQvEe6AUVUv9lN
+   RxVxHXku6dei9VPeePXhW+kv0i5WaIfXV5hge6q3cr0c31khCeOqKuajy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="400421744"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="388116351"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 07:31:09 -0800
+   d="scan'208";a="400421744"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 07:43:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="815208056"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="815208056"
+   d="scan'208";a="22760862"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 06 Jan 2024 07:31:07 -0800
+  by orviesa002.jf.intel.com with ESMTP; 06 Jan 2024 07:43:09 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rM8dd-0002d5-26;
-	Sat, 06 Jan 2024 15:31:05 +0000
-Date: Sat, 6 Jan 2024 23:30:48 +0800
+	id 1rM8pF-0002dg-3B;
+	Sat, 06 Jan 2024 15:43:05 +0000
+Date: Sat, 6 Jan 2024 23:42:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Jelinek <jakub@redhat.com>
+To: Ben Skeggs <bskeggs@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: security/keys/proc.c:217:45: warning: 'sprintf' may write a
- terminating nul past the end of the destination
-Message-ID: <202401062301.BVsuAP57-lkp@intel.com>
+	Gourav Samaiya <gsamaiya@nvidia.com>
+Subject: drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning:
+ variable 'loc' set but not used
+Message-ID: <202401062351.g53JVBxp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,120 +50,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Ben,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for constant arguments
-date:   3 years, 1 month ago
-config: arm-nhk8815_defconfig (https://download.01.org/0day-ci/archive/20240106/202401062301.BVsuAP57-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401062301.BVsuAP57-lkp@intel.com/reproduce)
+commit: 4b569ded09fdadb0c14f797c8dae4e8bc4bbad9f drm/nouveau/acr/ga102: initial support
+date:   1 year, 2 months ago
+config: i386-buildonly-randconfig-001-20240106 (https://download.01.org/0day-ci/archive/20240106/202401062351.g53JVBxp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401062351.g53JVBxp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401062301.BVsuAP57-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401062351.g53JVBxp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   security/keys/proc.c: In function 'proc_keys_show':
->> security/keys/proc.c:217:45: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
-     217 |                         sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
-         |                                             ^
-   security/keys/proc.c:217:25: note: 'sprintf' output between 3 and 17 bytes into a destination of size 16
-     217 |                         sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/keys/proc.c:215:45: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
-     215 |                         sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
-         |                                             ^
-   security/keys/proc.c:215:25: note: 'sprintf' output between 3 and 17 bytes into a destination of size 16
-     215 |                         sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> security/keys/proc.c:213:44: warning: 'h' directive writing 1 byte into a region of size between 0 and 15 [-Wformat-overflow=]
-     213 |                         sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
-         |                                            ^
-   security/keys/proc.c:213:25: note: 'sprintf' output between 3 and 18 bytes into a destination of size 16
-     213 |                         sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c: In function 'nvkm_acr_lsfw_load_sig_image_desc_v2':
+>> drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
+     221 |                 u32 loc, sig, cnt, *meta;
+         |                     ^~~
 
 
-vim +/sprintf +217 security/keys/proc.c
+vim +/loc +221 drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  152  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  153  static int proc_keys_show(struct seq_file *m, void *v)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  154  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  155  	struct rb_node *_p = v;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  156  	struct key *key = rb_entry(_p, struct key, serial_node);
-ab5c69f01313c8 Eric Biggers   2017-09-27  157  	unsigned long flags;
-927942aabbbe50 David Howells  2010-06-11  158  	key_ref_t key_ref, skey_ref;
-074d58989569b3 Baolin Wang    2017-11-15  159  	time64_t now, expiry;
-03dab869b7b239 David Howells  2016-10-26  160  	char xbuf[16];
-363b02dab09b32 David Howells  2017-10-04  161  	short state;
-074d58989569b3 Baolin Wang    2017-11-15  162  	u64 timo;
-06ec7be557a125 Michael LeMay  2006-06-26  163  	int rc;
-06ec7be557a125 Michael LeMay  2006-06-26  164  
-4bdf0bc3003141 David Howells  2013-09-24  165  	struct keyring_search_context ctx = {
-ede0fa98a900e6 Eric Biggers   2019-02-22  166  		.index_key		= key->index_key,
-4aa68e07d84556 Eric Biggers   2017-09-18  167  		.cred			= m->file->f_cred,
-462919591a1791 David Howells  2014-09-16  168  		.match_data.cmp		= lookup_user_key_possessed,
-462919591a1791 David Howells  2014-09-16  169  		.match_data.raw_data	= key,
-462919591a1791 David Howells  2014-09-16  170  		.match_data.lookup_type	= KEYRING_SEARCH_LOOKUP_DIRECT,
-dcf49dbc8077e2 David Howells  2019-06-26  171  		.flags			= (KEYRING_SEARCH_NO_STATE_CHECK |
-dcf49dbc8077e2 David Howells  2019-06-26  172  					   KEYRING_SEARCH_RECURSE),
-4bdf0bc3003141 David Howells  2013-09-24  173  	};
-4bdf0bc3003141 David Howells  2013-09-24  174  
-028db3e290f15a Linus Torvalds 2019-07-10  175  	key_ref = make_key_ref(key, 0);
-927942aabbbe50 David Howells  2010-06-11  176  
-927942aabbbe50 David Howells  2010-06-11  177  	/* determine if the key is possessed by this process (a test we can
-927942aabbbe50 David Howells  2010-06-11  178  	 * skip if the key does not indicate the possessor can view it
-927942aabbbe50 David Howells  2010-06-11  179  	 */
-028db3e290f15a Linus Torvalds 2019-07-10  180  	if (key->perm & KEY_POS_VIEW) {
-028db3e290f15a Linus Torvalds 2019-07-10  181  		rcu_read_lock();
-e59428f721ee09 David Howells  2019-06-19  182  		skey_ref = search_cred_keyrings_rcu(&ctx);
-028db3e290f15a Linus Torvalds 2019-07-10  183  		rcu_read_unlock();
-927942aabbbe50 David Howells  2010-06-11  184  		if (!IS_ERR(skey_ref)) {
-927942aabbbe50 David Howells  2010-06-11  185  			key_ref_put(skey_ref);
-927942aabbbe50 David Howells  2010-06-11  186  			key_ref = make_key_ref(key, 1);
-927942aabbbe50 David Howells  2010-06-11  187  		}
-927942aabbbe50 David Howells  2010-06-11  188  	}
-927942aabbbe50 David Howells  2010-06-11  189  
-4aa68e07d84556 Eric Biggers   2017-09-18  190  	/* check whether the current task is allowed to view the key */
-f5895943d91b41 David Howells  2014-03-14  191  	rc = key_task_permission(key_ref, ctx.cred, KEY_NEED_VIEW);
-06ec7be557a125 Michael LeMay  2006-06-26  192  	if (rc < 0)
-028db3e290f15a Linus Torvalds 2019-07-10  193  		return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  194  
-074d58989569b3 Baolin Wang    2017-11-15  195  	now = ktime_get_real_seconds();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  196  
-028db3e290f15a Linus Torvalds 2019-07-10  197  	rcu_read_lock();
-028db3e290f15a Linus Torvalds 2019-07-10  198  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  199  	/* come up with a suitable timeout value */
-ab5c69f01313c8 Eric Biggers   2017-09-27  200  	expiry = READ_ONCE(key->expiry);
-ab5c69f01313c8 Eric Biggers   2017-09-27  201  	if (expiry == 0) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  202  		memcpy(xbuf, "perm", 5);
-074d58989569b3 Baolin Wang    2017-11-15  203  	} else if (now >= expiry) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  204  		memcpy(xbuf, "expd", 5);
-7b1b9164598286 David Howells  2009-09-02  205  	} else {
-074d58989569b3 Baolin Wang    2017-11-15  206  		timo = expiry - now;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  207  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  208  		if (timo < 60)
-074d58989569b3 Baolin Wang    2017-11-15  209  			sprintf(xbuf, "%llus", timo);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  210  		else if (timo < 60*60)
-074d58989569b3 Baolin Wang    2017-11-15  211  			sprintf(xbuf, "%llum", div_u64(timo, 60));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  212  		else if (timo < 60*60*24)
-074d58989569b3 Baolin Wang    2017-11-15 @213  			sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  214  		else if (timo < 60*60*24*7)
-074d58989569b3 Baolin Wang    2017-11-15  215  			sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  216  		else
-074d58989569b3 Baolin Wang    2017-11-15 @217  			sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  218  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  219  
-363b02dab09b32 David Howells  2017-10-04  220  	state = key_read_state(key);
-363b02dab09b32 David Howells  2017-10-04  221  
-
-:::::: The code at line 217 was first introduced by commit
-:::::: 074d58989569b39f04294c90ef36dd82b8c2cc1a security: keys: Replace time_t/timespec with time64_t
-
-:::::: TO: Baolin Wang <baolin.wang@linaro.org>
-:::::: CC: David Howells <dhowells@redhat.com>
+   179	
+   180	int
+   181	nvkm_acr_lsfw_load_sig_image_desc_v2(struct nvkm_subdev *subdev,
+   182					     struct nvkm_falcon *falcon,
+   183					     enum nvkm_acr_lsf_id id,
+   184					     const char *path, int ver,
+   185					     const struct nvkm_acr_lsf_func *func)
+   186	{
+   187		const struct firmware *fw;
+   188		struct nvkm_acr_lsfw *lsfw;
+   189		const struct nvfw_ls_desc_v2 *desc;
+   190		int ret = 0;
+   191	
+   192		lsfw = nvkm_acr_lsfw_load_sig_image_desc_(subdev, falcon, id, path, ver, func, &fw);
+   193		if (IS_ERR(lsfw))
+   194			return PTR_ERR(lsfw);
+   195	
+   196		desc = nvfw_ls_desc_v2(subdev, fw->data);
+   197	
+   198		lsfw->secure_bootloader = desc->secure_bootloader;
+   199		lsfw->bootloader_size = ALIGN(desc->bootloader_size, 256);
+   200		lsfw->bootloader_imem_offset = desc->bootloader_imem_offset;
+   201	
+   202		lsfw->app_size = ALIGN(desc->app_size, 256);
+   203		lsfw->app_start_offset = desc->app_start_offset;
+   204		lsfw->app_imem_entry = desc->app_imem_entry;
+   205		lsfw->app_resident_code_offset = desc->app_resident_code_offset;
+   206		lsfw->app_resident_code_size = desc->app_resident_code_size;
+   207		lsfw->app_resident_data_offset = desc->app_resident_data_offset;
+   208		lsfw->app_resident_data_size = desc->app_resident_data_size;
+   209		lsfw->app_imem_offset = desc->app_imem_offset;
+   210		lsfw->app_dmem_offset = desc->app_dmem_offset;
+   211	
+   212		lsfw->ucode_size = ALIGN(lsfw->app_resident_data_offset, 256) + lsfw->bootloader_size;
+   213		lsfw->data_size = lsfw->app_size + lsfw->bootloader_size - lsfw->ucode_size;
+   214	
+   215		nvkm_firmware_put(fw);
+   216	
+   217		if (lsfw->secure_bootloader) {
+   218			const struct firmware *hsbl;
+   219			const struct nvfw_ls_hsbl_bin_hdr *hdr;
+   220			const struct nvfw_ls_hsbl_hdr *hshdr;
+ > 221			u32 loc, sig, cnt, *meta;
+   222	
+   223			ret = nvkm_firmware_load_name(subdev, path, "hs_bl_sig", ver, &hsbl);
+   224			if (ret)
+   225				return ret;
+   226	
+   227			hdr = nvfw_ls_hsbl_bin_hdr(subdev, hsbl->data);
+   228			hshdr = nvfw_ls_hsbl_hdr(subdev, hsbl->data + hdr->header_offset);
+   229			meta = (u32 *)(hsbl->data + hshdr->meta_data_offset);
+   230			loc = *(u32 *)(hsbl->data + hshdr->patch_loc);
+   231			sig = *(u32 *)(hsbl->data + hshdr->patch_sig);
+   232			cnt = *(u32 *)(hsbl->data + hshdr->num_sig);
+   233	
+   234			lsfw->fuse_ver = meta[0];
+   235			lsfw->engine_id = meta[1];
+   236			lsfw->ucode_id = meta[2];
+   237			lsfw->sig_size = hshdr->sig_prod_size / cnt;
+   238			lsfw->sig_nr = cnt;
+   239			lsfw->sigs = kmemdup(hsbl->data + hshdr->sig_prod_offset + sig,
+   240					     lsfw->sig_nr * lsfw->sig_size, GFP_KERNEL);
+   241			nvkm_firmware_put(hsbl);
+   242			if (!lsfw->sigs)
+   243				ret = -ENOMEM;
+   244		}
+   245	
+   246		return ret;
+   247	}
+   248	
 
 -- 
 0-DAY CI Kernel Test Service
