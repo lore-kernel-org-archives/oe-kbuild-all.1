@@ -1,47 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CC5BE6C;
-	Sat,  6 Jan 2024 15:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A3B847E;
+	Sat,  6 Jan 2024 16:27:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mRzppONY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNSKUoos"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704556579; x=1736092579;
+  t=1704558467; x=1736094467;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kb2OCBOKgj0HgngYqYUWIt76b9Hd9B5BBzKHeZg0v/s=;
-  b=mRzppONY+5uxuwXUBPEZ2ZBHycFtPtBpwopznunePT0dtntpLB6Jds+X
-   pgllRQPAgjVuW36JivrgRtLUpnY/XI1xk8z5620e2sck0DAlo/VQwFm8W
-   AlJmR93MXXhYeyD0mkryKWlu9VP9VvGw5HMlxl2JULShAPCuVk2Yw6b3+
-   kUAlkn2MVosQ8z6TB3dsSJ9xrZM4bFuMFCRqkN8d1nJ0oOLOfC0IhV5Jl
-   cXA99lDvB/e0YSFfayfbivSitZbG3z6BJYolnC4iGGgSkEUVax0aomSdp
-   ncDfCFi5vKj1fEAVusCJiPe2JWr+YC4sxwcWEyzsvSgVLGTJgU+v/exKQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="19172947"
+  bh=s2xOe7AnIKqVZIRBHetIwS6LF1GxLFtiXjzTZ9riLf0=;
+  b=SNSKUooszVGBpxmDT6iU8JEGc+aCEnX6QTjqEh0OOD/8+Ib2lOgO07Sp
+   3cBhqnv1LfvG3vLJ1TPF33ClQ9zIFeIZhlzoA4K5fDsiyb/oJnouxAPXv
+   BAoFGmpqo0/xYCgQPniUISRk0wR8xVuYzHdWeU9NEUcZPSuFd+VtRDB9q
+   uuYxHTV+MYJxXBq1/4/rCvW/1mBR4DHuBhNNAVbu+Oe69Qm6lIfZMdCGS
+   CxYA04Mo7pbxv1oYrIWxZ+AT24Lye7iCOuzL43/3jyGXNsvMAlfydgd+6
+   zefliMnPOuOIrujzECYhMXqlHR9uAEJrcf+pXD8F99XY/vQRjFZ0U4Job
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="397391850"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="19172947"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 07:56:11 -0800
+   d="scan'208";a="397391850"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 08:27:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="899932856"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="871484904"
 X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="899932856"
+   d="scan'208";a="871484904"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Jan 2024 07:56:09 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Jan 2024 08:27:44 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rM91r-0002eS-1W;
-	Sat, 06 Jan 2024 15:56:07 +0000
-Date: Sat, 6 Jan 2024 23:55:18 +0800
+	id 1rM9WP-0002jQ-2X;
+	Sat, 06 Jan 2024 16:27:41 +0000
+Date: Sun, 7 Jan 2024 00:27:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@redhat.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Gourav Samaiya <gsamaiya@nvidia.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:7: warning:
- variable 'loc' set but not used
-Message-ID: <202401062340.4wmRg7ye-lkp@intel.com>
+	intel-xe@lists.freedesktop.org,
+	Piotr =?iso-8859-1?Q?Pi=F3rkowski?= <piotr.piorkowski@intel.com>
+Subject: [drm-xe:drm-xe-next 9/10] drivers/gpu/drm/xe/xe_guc_relay.c:863:52:
+ error: call to undeclared function 'kunit_get_current_test'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202401070036.60pNn4uZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,103 +53,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ben,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
-commit: 4b569ded09fdadb0c14f797c8dae4e8bc4bbad9f drm/nouveau/acr/ga102: initial support
-date:   1 year, 2 months ago
-config: x86_64-buildonly-randconfig-002-20240105 (https://download.01.org/0day-ci/archive/20240106/202401062340.4wmRg7ye-lkp@intel.com/config)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+head:   cca0607b6f6a21bee68c092ed7ad9f3322e54523
+commit: 27b717bac93fb9a28f37ba17f3f4aa220fedae21 [9/10] drm/xe/kunit: Add GuC Relay kunit tests
+config: x86_64-randconfig-006-20240106 (https://download.01.org/0day-ci/archive/20240107/202401070036.60pNn4uZ-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401062340.4wmRg7ye-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070036.60pNn4uZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401062340.4wmRg7ye-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070036.60pNn4uZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the drm-xe/drm-xe-next HEAD cca0607b6f6a21bee68c092ed7ad9f3322e54523 builds fine.
+      It only hurts bisectability.
 
->> drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:7: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
-     221 |                 u32 loc, sig, cnt, *meta;
-         |                     ^
-   1 warning generated.
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/xe/xe_guc_relay.c:863:52: error: call to undeclared function 'kunit_get_current_test'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     863 |         if (unlikely(!IS_SRIOV_VF(relay_to_xe(relay)) && !kunit_get_current_test()))
+         |                                                           ^
+   drivers/gpu/drm/xe/xe_guc_relay.c:909:52: error: call to undeclared function 'kunit_get_current_test'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     909 |         if (unlikely(!IS_SRIOV_PF(relay_to_xe(relay)) && !kunit_get_current_test()))
+         |                                                           ^
+   2 errors generated.
 
 
-vim +/loc +221 drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
+vim +/kunit_get_current_test +863 drivers/gpu/drm/xe/xe_guc_relay.c
 
-   179	
-   180	int
-   181	nvkm_acr_lsfw_load_sig_image_desc_v2(struct nvkm_subdev *subdev,
-   182					     struct nvkm_falcon *falcon,
-   183					     enum nvkm_acr_lsf_id id,
-   184					     const char *path, int ver,
-   185					     const struct nvkm_acr_lsf_func *func)
-   186	{
-   187		const struct firmware *fw;
-   188		struct nvkm_acr_lsfw *lsfw;
-   189		const struct nvfw_ls_desc_v2 *desc;
-   190		int ret = 0;
-   191	
-   192		lsfw = nvkm_acr_lsfw_load_sig_image_desc_(subdev, falcon, id, path, ver, func, &fw);
-   193		if (IS_ERR(lsfw))
-   194			return PTR_ERR(lsfw);
-   195	
-   196		desc = nvfw_ls_desc_v2(subdev, fw->data);
-   197	
-   198		lsfw->secure_bootloader = desc->secure_bootloader;
-   199		lsfw->bootloader_size = ALIGN(desc->bootloader_size, 256);
-   200		lsfw->bootloader_imem_offset = desc->bootloader_imem_offset;
-   201	
-   202		lsfw->app_size = ALIGN(desc->app_size, 256);
-   203		lsfw->app_start_offset = desc->app_start_offset;
-   204		lsfw->app_imem_entry = desc->app_imem_entry;
-   205		lsfw->app_resident_code_offset = desc->app_resident_code_offset;
-   206		lsfw->app_resident_code_size = desc->app_resident_code_size;
-   207		lsfw->app_resident_data_offset = desc->app_resident_data_offset;
-   208		lsfw->app_resident_data_size = desc->app_resident_data_size;
-   209		lsfw->app_imem_offset = desc->app_imem_offset;
-   210		lsfw->app_dmem_offset = desc->app_dmem_offset;
-   211	
-   212		lsfw->ucode_size = ALIGN(lsfw->app_resident_data_offset, 256) + lsfw->bootloader_size;
-   213		lsfw->data_size = lsfw->app_size + lsfw->bootloader_size - lsfw->ucode_size;
-   214	
-   215		nvkm_firmware_put(fw);
-   216	
-   217		if (lsfw->secure_bootloader) {
-   218			const struct firmware *hsbl;
-   219			const struct nvfw_ls_hsbl_bin_hdr *hdr;
-   220			const struct nvfw_ls_hsbl_hdr *hshdr;
- > 221			u32 loc, sig, cnt, *meta;
-   222	
-   223			ret = nvkm_firmware_load_name(subdev, path, "hs_bl_sig", ver, &hsbl);
-   224			if (ret)
-   225				return ret;
-   226	
-   227			hdr = nvfw_ls_hsbl_bin_hdr(subdev, hsbl->data);
-   228			hshdr = nvfw_ls_hsbl_hdr(subdev, hsbl->data + hdr->header_offset);
-   229			meta = (u32 *)(hsbl->data + hshdr->meta_data_offset);
-   230			loc = *(u32 *)(hsbl->data + hshdr->patch_loc);
-   231			sig = *(u32 *)(hsbl->data + hshdr->patch_sig);
-   232			cnt = *(u32 *)(hsbl->data + hshdr->num_sig);
-   233	
-   234			lsfw->fuse_ver = meta[0];
-   235			lsfw->engine_id = meta[1];
-   236			lsfw->ucode_id = meta[2];
-   237			lsfw->sig_size = hshdr->sig_prod_size / cnt;
-   238			lsfw->sig_nr = cnt;
-   239			lsfw->sigs = kmemdup(hsbl->data + hshdr->sig_prod_offset + sig,
-   240					     lsfw->sig_nr * lsfw->sig_size, GFP_KERNEL);
-   241			nvkm_firmware_put(hsbl);
-   242			if (!lsfw->sigs)
-   243				ret = -ENOMEM;
-   244		}
-   245	
-   246		return ret;
-   247	}
-   248	
+   840	
+   841	/**
+   842	 * xe_guc_relay_process_guc2vf - Handle relay notification message from the GuC.
+   843	 * @relay: the &xe_guc_relay which will handle the message
+   844	 * @msg: message to be handled
+   845	 * @len: length of the message (in dwords)
+   846	 *
+   847	 * This function will handle relay messages received from the GuC.
+   848	 *
+   849	 * This function is can only be used if driver is running in SR-IOV mode.
+   850	 *
+   851	 * Return: 0 on success or a negative error code on failure.
+   852	 */
+   853	int xe_guc_relay_process_guc2vf(struct xe_guc_relay *relay, const u32 *msg, u32 len)
+   854	{
+   855		u32 rid;
+   856	
+   857		relay_assert(relay, len >= GUC_HXG_MSG_MIN_LEN);
+   858		relay_assert(relay, FIELD_GET(GUC_HXG_MSG_0_ORIGIN, msg[0]) == GUC_HXG_ORIGIN_GUC);
+   859		relay_assert(relay, FIELD_GET(GUC_HXG_MSG_0_TYPE, msg[0]) == GUC_HXG_TYPE_EVENT);
+   860		relay_assert(relay, FIELD_GET(GUC_HXG_EVENT_MSG_0_ACTION, msg[0]) ==
+   861			     XE_GUC_ACTION_GUC2VF_RELAY_FROM_PF);
+   862	
+ > 863		if (unlikely(!IS_SRIOV_VF(relay_to_xe(relay)) && !kunit_get_current_test()))
+   864			return -EPERM;
+   865	
+   866		if (unlikely(!relay_is_ready(relay)))
+   867			return -ENODEV;
+   868	
+   869		if (unlikely(len < GUC2VF_RELAY_FROM_PF_EVENT_MSG_MIN_LEN))
+   870			return -EPROTO;
+   871	
+   872		if (unlikely(len > GUC2VF_RELAY_FROM_PF_EVENT_MSG_MAX_LEN))
+   873			return -EMSGSIZE;
+   874	
+   875		if (unlikely(FIELD_GET(GUC_HXG_EVENT_MSG_0_DATA0, msg[0])))
+   876			return -EPFNOSUPPORT;
+   877	
+   878		rid = FIELD_GET(GUC2VF_RELAY_FROM_PF_EVENT_MSG_1_RELAY_ID, msg[1]);
+   879	
+   880		return relay_process_msg(relay, PFID, rid,
+   881					 msg + GUC2VF_RELAY_FROM_PF_EVENT_MSG_MIN_LEN,
+   882					 len - GUC2VF_RELAY_FROM_PF_EVENT_MSG_MIN_LEN);
+   883	}
+   884	
 
 -- 
 0-DAY CI Kernel Test Service
