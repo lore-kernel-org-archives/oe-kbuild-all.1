@@ -1,53 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2063D13FE1
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 17:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACFA13FE7
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 18:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Okdu1KCb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7t0JyM2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704650198; x=1736186198;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5ugHrpFBnKf/CLc1I/2bD5evFi4fe42YoHYlgKnnI6E=;
-  b=Okdu1KCbyeb9aLLYWZfFgKdo2p90HMa1hKbtmirJFlmas1JDltYovaz7
-   l96rOW0/SiUmr10XfEvEAt4RZwMovemcD0o0IbDyERXLC6NEY8gDrM4RQ
-   4BD/MantR676iorz6L1nu1LY9GyZNTcgdWvac+09OIK9ZXGxOlZyxAXST
-   Bpc/YZyNEgx6H4xtJmfHj7vCqbgjOcsHXeZ67fHYMAXg3yW7r3O7SIZ5v
-   y9kTDULTZdXeoswsq5IVCBi7qPP1sf4it0bZxB3PkBq+AHwcMKX8WlDUa
-   ljCqYh7Nddnji3jM/yAlQFMjAY8AJ7REVIqjFpBqqAXH8PKweh65QXbLN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="397467894"
+  t=1704650856; x=1736186856;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i1cVuD05ZlPCc678jkGdTzMK5Yj8UKJ9kh9lajhyInM=;
+  b=j7t0JyM2M7071fhNBXoJhfPP0uuCQsx/Y5jBXc02S44uOkUS/01Us6kG
+   NGVmprJyVFPMuO9XtZMAfiNS80Aefq9Uv8UGuVbUfgpeOCkByTZNNrMCh
+   sRBdGFbaiqCvjMlxvP7cAkF46EcdKGn8+wG0vQKIsX3x36QowGhRBaLZC
+   CzHkaRqGwlB0QEA2v1//hA2YWihyvLI8PEvBn8bp4zs76fA/YSO7TrkYn
+   8BV7ShH9YosM0OGBPQFqUwQhfkZ2CJnC06ExyiQIG4NMnf7oJTZbUY7Q2
+   +A9N7lRjuX8PL9tMTHqA0ZfX4bUPT0Hre51knzca56gbMWPMEefYbA8IK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="397469049"
 X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="397467894"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 09:56:37 -0800
+   d="scan'208";a="397469049"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 10:07:36 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="954434474"
 X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="22951534"
+   d="scan'208";a="954434474"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 07 Jan 2024 09:56:34 -0800
+  by orsmga005.jf.intel.com with ESMTP; 07 Jan 2024 10:07:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMXNw-000408-0N;
-	Sun, 07 Jan 2024 17:56:32 +0000
-Date: Mon, 8 Jan 2024 01:56:20 +0800
+	id 1rMXYa-00040V-19;
+	Sun, 07 Jan 2024 18:07:32 +0000
+Date: Mon, 8 Jan 2024 02:07:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dipam Turkar <dipamt1729@gmail.com>, alexander.deucher@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, christian.koenig@amd.com,
-	Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, Dipam Turkar <dipamt1729@gmail.com>
-Subject: Re: [PATCH 1/1] Refactor radeon driver to use
- drm_gem_create_map_offset() instead of its custom implementation for
- associating GEM object with a fake offset. Since, we already have a generic
- implementation, we don't need the custom function and it is better to
- standardize the code.
-Message-ID: <202401080151.JsIVh6p0-lkp@intel.com>
-References: <20240106141422.10734-1-dipamt1729@gmail.com>
+To: Vincent Whitchurch <vincent.whitchurch@axis.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: pcap-dbus.o:undefined reference to `dbus_message_demarshal'
+Message-ID: <202401080102.yhHBSIT3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,48 +49,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240106141422.10734-1-dipamt1729@gmail.com>
 
-Hi Dipam,
+Hi Vincent,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.7-rc8 next-20240105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dipam-Turkar/Refactor-radeon-driver-to-use-drm_gem_create_map_offset-instead-of-its-custom-implementation-for-associating-GEM-object-/20240106-221755
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240106141422.10734-1-dipamt1729%40gmail.com
-patch subject: [PATCH 1/1] Refactor radeon driver to use drm_gem_create_map_offset() instead of its custom implementation for associating GEM object with a fake offset. Since, we already have a generic implementation, we don't need the custom function and it is better to standardize the code.
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240108/202401080151.JsIVh6p0-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080151.JsIVh6p0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
+commit: 10f4c9b9a33b7df000f74fa0d896351fb1a61e6a x86/asm: Fix build of UML with KASAN
+date:   4 months ago
+config: um-randconfig-r063-20240107 (https://download.01.org/0day-ci/archive/20240108/202401080102.yhHBSIT3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080102.yhHBSIT3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401080151.JsIVh6p0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401080102.yhHBSIT3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/radeon/radeon_gem.c:34:10: fatal error: drm/dem_gem.h: No such file or directory
-      34 | #include <drm/dem_gem.h>
-         |          ^~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +34 drivers/gpu/drm/radeon/radeon_gem.c
-
-    31	
-    32	#include <drm/drm_device.h>
-    33	#include <drm/drm_file.h>
-  > 34	#include <drm/dem_gem.h>
-    35	#include <drm/drm_gem_ttm_helper.h>
-    36	#include <drm/radeon_drm.h>
-    37	
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_write':
+>> pcap-dbus.o:(.text+0x244df): undefined reference to `dbus_message_demarshal'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x244f5): undefined reference to `dbus_connection_send'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x244fe): undefined reference to `dbus_connection_flush'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24506): undefined reference to `dbus_message_unref'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24554): undefined reference to `dbus_error_free'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_read':
+>> pcap-dbus.o:(.text+0x245a0): undefined reference to `dbus_connection_pop_message'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x245c2): undefined reference to `dbus_connection_pop_message'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x245d8): undefined reference to `dbus_connection_read_write'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24642): undefined reference to `dbus_message_is_signal'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x2465e): undefined reference to `dbus_message_marshal'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x246c6): undefined reference to `dbus_free'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_cleanup':
+>> pcap-dbus.o:(.text+0x2472c): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_activate':
+>> pcap-dbus.o:(.text+0x247d6): undefined reference to `dbus_connection_open'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x247ee): undefined reference to `dbus_bus_register'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x248dc): undefined reference to `dbus_bus_add_match'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x248e4): undefined reference to `dbus_error_is_set'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x2492b): undefined reference to `dbus_bus_get'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2495c): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2496d): undefined reference to `dbus_bus_add_match'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24975): undefined reference to `dbus_error_is_set'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x249ae): undefined reference to `dbus_error_free'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x249ba): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x249e6): undefined reference to `dbus_bus_get'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24a22): undefined reference to `dbus_error_free'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24a35): undefined reference to `dbus_connection_set_max_received_size'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24a46): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24abc): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24afa): undefined reference to `dbus_error_free'
+   collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
