@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4497134B2
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 14:33:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EF7134BE
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 15:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nf9LbzQy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ai59iDNj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704638021; x=1736174021;
+  t=1704640290; x=1736176290;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DiN1RYYsBDIxvamdusUXDGUP4O0NrxrwHm5Zuba+DYA=;
-  b=Nf9LbzQybXn5OOml8orocZ67c3QBCGTtht2j+bmWTll0Cn+8VGAG6gD8
-   dmmgo28ZuoAk9O1Ea5mGnafxVWoU+p0jXBS9xtAkYH6kSMWm7HLrMdbIf
-   E4AeKGayF3WsHBNX03SCchXiTwQOU0oelOPXQwCSrv5nSpD7a0V5RWB6c
-   /hbAd+oVQ9Rk1DchfjXyWRMKcB/C1fOdUKwpK+sij8ApwusauCX7M5kE2
-   O0KrOBlxh80K2ucRIkSXTcNCbkkFjZJWmKKjOdhWB0++KMp0TMUIrU0jA
-   L6Efz8NXXUctvL3znJ78axgFS/oPVDOT+wTU56XzwQ2MDty2zcHEfgS24
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="5091325"
+  bh=b5FnAvKAjh3apuiymrU63z3dme+JNo0HiJmO9pmCKaQ=;
+  b=Ai59iDNjEi8xwajzG/06TOgj42N80vTwI6HbFqdpmuQGeL5og+bgvr+6
+   lhTRPV536aLbr9PTNQVNMNDQBVCp/bk5dg/5KGiE9JFYDG0qogPLtQNqO
+   diGp34aRjUMUwvFdpo1yfpwPxE5rhwInfilpNhR9d5LBe+r3XD0Zu+u/s
+   fmFk8NAjBTlShOyihd9NJk4v8HbpbncPbarRQhyBTFgAvkcSARWBULIZn
+   zVOnwaJeVsqcv0GMjuJiNNQtqi2L/GrLYyEGtQEaZ5f3ejyGLeSyUfAXq
+   MQZvbBGXmw3BN09AVy5oLe6bRu4cPuanXgYO2KyFLXZgqctlwJB/3KJ+9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="400492872"
 X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="5091325"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 06:33:40 -0800
+   d="scan'208";a="400492872"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 07:11:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="784622284"
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="1028182006"
 X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="784622284"
+   d="scan'208";a="1028182006"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Jan 2024 06:33:38 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 07 Jan 2024 07:11:28 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMUDY-0003r2-2U;
-	Sun, 07 Jan 2024 14:33:36 +0000
-Date: Sun, 7 Jan 2024 22:32:50 +0800
+	id 1rMUnN-0003sC-2P;
+	Sun, 07 Jan 2024 15:10:59 +0000
+Date: Sun, 7 Jan 2024 23:10:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-btree-cleanups 7/8] fs/xfs/libxfs/xfs_btree.c:1256:3:
- error: a label can only be part of a statement and a declaration is not a
- statement
-Message-ID: <202401072209.5luaUMKn-lkp@intel.com>
+Subject: [jirislaby:devel 59/66] drivers/video/console/vgacon.c:1209:20:
+ error: initialization from incompatible pointer type
+Message-ID: <202401072349.0rC0NNM4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,81 +50,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-btree-cleanups
-head:   96e3cee93fdff88908e5d39ee41b44b390a23baf
-commit: 40f7bff05193f552b08efc497c5e81f9112348e5 [7/8] xfs: split out a btree type from the geom flags
-config: i386-randconfig-011-20240107 (https://download.01.org/0day-ci/archive/20240107/202401072209.5luaUMKn-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401072209.5luaUMKn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   437c218ee88e00a08e97c7835435068074c4d32f
+commit: c177003db531e66faa7aff4128daaca50e580606 [59/66] sanitize con_set_origin
+config: i386-randconfig-014-20240107 (https://download.01.org/0day-ci/archive/20240107/202401072349.0rC0NNM4-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401072349.0rC0NNM4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401072209.5luaUMKn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401072349.0rC0NNM4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/xfs/libxfs/xfs_btree.c: In function '__xfs_btree_init_block':
->> fs/xfs/libxfs/xfs_btree.c:1256:3: error: a label can only be part of a statement and a declaration is not a statement
-    1256 |   __u32 __owner = (__u32)owner;
-         |   ^~~~~
+>> drivers/video/console/vgacon.c:1209:20: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+     .con_set_origin = vgacon_set_origin,
+                       ^~~~~~~~~~~~~~~~~
+   drivers/video/console/vgacon.c:1209:20: note: (near initialization for 'vga_con.con_set_origin')
+   cc1: some warnings being treated as errors
 
 
-vim +1256 fs/xfs/libxfs/xfs_btree.c
+vim +1209 drivers/video/console/vgacon.c
 
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1223  
-5f95064be02d1b fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1224  static void
-5f95064be02d1b fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1225  __xfs_btree_init_block(
-b64f3a390d3477 fs/xfs/xfs_btree.c        Dave Chinner      2012-11-13  1226  	struct xfs_mount	*mp,
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1227  	struct xfs_btree_block	*buf,
-c1f1f8904b933c fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1228  	const struct xfs_btree_ops *ops,
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1229  	xfs_daddr_t		blkno,
-b64f3a390d3477 fs/xfs/xfs_btree.c        Dave Chinner      2012-11-13  1230  	__u16			level,
-b64f3a390d3477 fs/xfs/xfs_btree.c        Dave Chinner      2012-11-13  1231  	__u16			numrecs,
-c1f1f8904b933c fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1232  	__u64			owner)
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1233  {
-c1f1f8904b933c fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1234  	bool			crc = ops->geom_flags & XFS_BTGEO_CRC_BLOCKS;
-c1f1f8904b933c fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1235  	__u32			magic = xfs_btree_magic(mp, ops);
-f88ae46b09e93e fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2017-01-27  1236  
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1237  	buf->bb_magic = cpu_to_be32(magic);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1238  	buf->bb_level = cpu_to_be16(level);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1239  	buf->bb_numrecs = cpu_to_be16(numrecs);
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1240  
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1241  	switch (ops->type) {
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1242  	case XFS_BTREE_TYPE_INODE:
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1243  	case XFS_BTREE_TYPE_MEM:
-d5cf09baced0ef fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2014-07-30  1244  		buf->bb_u.l.bb_leftsib = cpu_to_be64(NULLFSBLOCK);
-d5cf09baced0ef fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2014-07-30  1245  		buf->bb_u.l.bb_rightsib = cpu_to_be64(NULLFSBLOCK);
-f88ae46b09e93e fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2017-01-27  1246  		if (crc) {
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1247  			buf->bb_u.l.bb_blkno = cpu_to_be64(blkno);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1248  			buf->bb_u.l.bb_owner = cpu_to_be64(owner);
-ce748eaa65f2e9 fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2015-07-29  1249  			uuid_copy(&buf->bb_u.l.bb_uuid, &mp->m_sb.sb_meta_uuid);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1250  			buf->bb_u.l.bb_pad = 0;
-b58fa554e9b940 fs/xfs/xfs_btree.c        Dave Chinner      2013-08-28  1251  			buf->bb_u.l.bb_lsn = 0;
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1252  		}
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1253  		break;
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1254  	case XFS_BTREE_TYPE_AG:
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1255  		/* owner is a 32 bit value on short blocks */
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21 @1256  		__u32 __owner = (__u32)owner;
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1257  
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1258  		buf->bb_u.s.bb_leftsib = cpu_to_be32(NULLAGBLOCK);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1259  		buf->bb_u.s.bb_rightsib = cpu_to_be32(NULLAGBLOCK);
-f88ae46b09e93e fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2017-01-27  1260  		if (crc) {
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1261  			buf->bb_u.s.bb_blkno = cpu_to_be64(blkno);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1262  			buf->bb_u.s.bb_owner = cpu_to_be32(__owner);
-ce748eaa65f2e9 fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2015-07-29  1263  			uuid_copy(&buf->bb_u.s.bb_uuid, &mp->m_sb.sb_meta_uuid);
-b58fa554e9b940 fs/xfs/xfs_btree.c        Dave Chinner      2013-08-28  1264  			buf->bb_u.s.bb_lsn = 0;
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1265  		}
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1266  		break;
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1267  	}
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1268  }
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1269  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1183  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1184  /*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1185   *  The console `switch' structure for the VGA based console
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1186   */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1187  
+4918832d814b33 Jiri Slaby (SUSE  2023-05-29  1188) static void vgacon_clear(struct vc_data *vc, unsigned int sy, unsigned int sx,
+4918832d814b33 Jiri Slaby (SUSE  2023-05-29  1189) 			 unsigned int width) { }
+775ef630c10747 Jiri Slaby (SUSE  2023-12-07  1190) static void vgacon_putcs(struct vc_data *vc, const u16 *s, unsigned int count,
+775ef630c10747 Jiri Slaby (SUSE  2023-12-07  1191) 			 unsigned int ypos, unsigned int xpos) { }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1192  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1193  const struct consw vga_con = {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1194  	.owner = THIS_MODULE,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1195  	.con_startup = vgacon_startup,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1196  	.con_init = vgacon_init,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1197  	.con_deinit = vgacon_deinit,
+c396a5bf457fb6 Kees Cook         2018-02-26  1198  	.con_clear = vgacon_clear,
+c396a5bf457fb6 Kees Cook         2018-02-26  1199  	.con_putcs = vgacon_putcs,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1200  	.con_cursor = vgacon_cursor,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1201  	.con_scroll = vgacon_scroll,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1202  	.con_switch = vgacon_switch,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1203  	.con_blank = vgacon_blank,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1204  	.con_font_set = vgacon_font_set,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1205  	.con_font_get = vgacon_font_get,
+28254d439b8c65 Samuel Thibault   2005-09-09  1206  	.con_resize = vgacon_resize,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1207  	.con_set_palette = vgacon_set_palette,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1208  	.con_scrolldelta = vgacon_scrolldelta,
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @1209  	.con_set_origin = vgacon_set_origin,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1210  	.con_save_screen = vgacon_save_screen,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1211  	.con_build_attr = vgacon_build_attr,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1212  	.con_invert_region = vgacon_invert_region,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1213  };
+a4de05268e674e Daniel Vetter     2014-06-05  1214  EXPORT_SYMBOL(vga_con);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1215  
 
-:::::: The code at line 1256 was first introduced by commit
-:::::: ee1a47ab0e77600fcbdf1c87d461bd8f3f63150d xfs: add support for large btree blocks
+:::::: The code at line 1209 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Ben Myers <bpm@sgi.com>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
