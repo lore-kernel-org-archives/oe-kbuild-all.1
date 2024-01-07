@@ -1,56 +1,59 @@
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF8517C4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 00:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DBC259A;
+	Sun,  7 Jan 2024 01:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D0VjLrCr"
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7bc32b04dc9so29907039f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 06 Jan 2024 16:42:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704588155; x=1705192955; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0iwKIfolPiCJkop7a8HKvHjc7MC8O77M50KordKa/cE=;
-        b=D0VjLrCrEPVPWxi+ecDg2yHUHns6b8kDPJnrfziRZbU7uYcx8V6aBdsad0oJBxBF1o
-         cGOYDf8iJYFw3w3fhV49wMEuv93zr2cHlB6RbaNzKD9HwHyq65JhkBceomD+C921Bu6A
-         VXg/mSXvcwEd8W2Wg86fLWqb++aR/917FwucSgjyE5P5UC84o0JsnabWX85mfRW6RhTZ
-         UPcRkfoqx+qG2FiyRXHt02wDcszbKnhXitr1wwieAyyjJ1CPUiScYZ/r4Kflyc0t4pXy
-         mM75FSg8EO2jkLAjWfxYS3n/IvkqBQaljWEYEjDab+Erc1q5GVbGfTGtIpFQn58twnLv
-         lMcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704588155; x=1705192955;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0iwKIfolPiCJkop7a8HKvHjc7MC8O77M50KordKa/cE=;
-        b=Ik+E4tmazSa/DZ8scjQ0FRcejWVKRJkuQ717SMNLRZkd3LGbeqjAIzKdZOknjPqnu0
-         TMfxcV87jylvHK+EibAtQIcSnrrmr1MMGtoHej/OzV316NJPBkoG0o+K7GubohkAGw1D
-         6J3F5DfaEejdZfRGMWmM3Gh3fPayUq/MeJJ9S1f0IjaN3KZSp3qonDQvMuCc/hb1pHCu
-         J1c3WQEQfc+FUfJ54i5TuSXvJq8zLxa33KgB9SSR/okP7JaK38a5sfFHjUL7pIbGw/NU
-         elPOZWcTgF7KMlzcYcaOwn77qcGziOH3qsEuc+JfzrLLD1Y/6SLWzH/p2MOAC++9ps7U
-         OsgQ==
-X-Gm-Message-State: AOJu0YyDSwa6k82AM50FYG1FRKGwPborLk1J8t5r9RL8/PcvWJYOmbNN
-	wwPlMYnY5eRzH9+7faNk5qXHWDNwR1A=
-X-Google-Smtp-Source: AGHT+IGONh6fpIe76vM5bhUIqZ5BR/LTulgSn88TZBukeiKV2aanxgat8TSGukezge2OOI3ubq0obA==
-X-Received: by 2002:a5e:8c0c:0:b0:7ba:9191:e263 with SMTP id n12-20020a5e8c0c000000b007ba9191e263mr2350537ioj.41.1704588154675;
-        Sat, 06 Jan 2024 16:42:34 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:e05d:9c84:c3e5:2daf])
-        by smtp.gmail.com with ESMTPSA id l2-20020a056a00140200b006d9aa4b65fasm3668862pfu.98.2024.01.06.16.42.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jan 2024 16:42:34 -0800 (PST)
-Date: Sat, 6 Jan 2024 16:42:31 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
-	linux-sparse@vger.kernel.org
-Cc: Chris Morgan <macromorgan@hotmail.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast
- truncates bits from constant value (aa01a0 becomes a0)
-Message-ID: <ZZnzd3s2L-ZwGOlz@google.com>
-References: <202401070147.gqwVulOn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c3GGWgij"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704589616; x=1736125616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BL/G2+DBgzyngkKxm1Okb/HyxO0E8Sb22Xv27tX30GE=;
+  b=c3GGWgijseLIXLViTRVGe3MIyA8zx7PuuTh7Jt4hybRwLge9c/SMvpqq
+   fRY4n2ZhxAAFkOg+FaWPHQfwaYjKr6qScu92LSfXcLiO/lTIWams0owY5
+   70gzzdvxoJhuFiCFSY13agnoObQX/oEmH5V4IoD0HcNXdpuFTEJYczOAt
+   qEoeTGTqKRH1gkIpjqICBtQO8JRHODvBBNZIuOrcU4J847Yf1cf3HGETq
+   zCIbemcbzrVVddvzj3vN3ld3nwc+Z/dmtZzhpjt3ZL5e29X5atjL/U+Kj
+   bVZ2i5Ms5eiZZTEjn2COHw9D+9nIObzVqp2987q8IgCdsKv4/Jselyhpk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="382661492"
+X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
+   d="scan'208";a="382661492"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 17:06:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="899999269"
+X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
+   d="scan'208";a="899999269"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 06 Jan 2024 17:06:42 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rMHce-0003EK-0f;
+	Sun, 07 Jan 2024 01:06:40 +0000
+Date: Sun, 7 Jan 2024 09:06:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: WANG Rui <wangrui@loongson.cn>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+	loongson-kernel@lists.loongnix.cn, WANG Rui <wangrui@loongson.cn>
+Subject: Re: [PATCH] LoongArch: Enable initial Rust support
+Message-ID: <202401070815.6tdJWFme-lkp@intel.com>
+References: <20240106065941.180796-1-wangrui@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,121 +62,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202401070147.gqwVulOn-lkp@intel.com>
+In-Reply-To: <20240106065941.180796-1-wangrui@loongson.cn>
 
-On Sun, Jan 07, 2024 at 01:41:34AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
-> commit: 66603243f5283f7f28c795f09e7c2167233df0bd Input: add driver for Hynitron cstxxx touchscreens
-> date:   1 year, 2 months ago
-> config: x86_64-randconfig-x051-20230705 (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401070147.gqwVulOn-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->    drivers/input/touchscreen/hynitron_cstxxx.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h):
-> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (aa01a0 becomes a0)
->    include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (aa01 becomes 1)
-> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (ab00d0 becomes d0)
->    include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (ab00 becomes 0)
-> 
-> vim +119 include/asm-generic/unaligned.h
-> 
-> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  116  
-> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  117  static inline void __put_unaligned_le24(const u32 val, u8 *p)
-> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  118  {
-> 803f4e1eab7a89 Arnd Bergmann 2021-05-08 @119  	*p++ = val;
-> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  120  	*p++ = val >> 8;
-> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  121  	*p++ = val >> 16;
-> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  122  }
-> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  123  
+Hi WANG,
 
-This is not really a kernel/driver bug, just sparse being over-eager
-with truncation detection. I wonder if we could make sparse skip this
-check on forced casts like this:
+kernel test robot noticed the following build warnings:
 
-diff --git a/expand.c b/expand.c
-index f14e7181..5487e8b3 100644
---- a/expand.c
-+++ b/expand.c
-@@ -96,6 +96,7 @@ static long long get_longlong(struct expression *expr)
- 
- void cast_value(struct expression *expr, struct symbol *newtype, struct expression *old)
- {
-+	enum expression_type cast_type = expr->type;
- 	struct symbol *oldtype = old->ctype;
- 	int old_size = oldtype->bit_size;
- 	int new_size = newtype->bit_size;
-@@ -133,7 +134,7 @@ Int:
- 	expr->value = value & mask;
- 
- 	// Stop here unless checking for truncation
--	if (!Wcast_truncate || conservative)
-+	if (cast_type == EXPR_FORCE_CAST || !Wcast_truncate || conservative)
- 		return;
- 	
- 	// Check if we dropped any bits..
+[auto build test WARNING on rust/rust-next]
+[also build test WARNING on linus/master v6.7-rc8 next-20240105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-and then in the kernel we would do this:
+url:    https://github.com/intel-lab-lkp/linux/commits/WANG-Rui/LoongArch-Enable-initial-Rust-support/20240106-150902
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20240106065941.180796-1-wangrui%40loongson.cn
+patch subject: [PATCH] LoongArch: Enable initial Rust support
+reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070815.6tdJWFme-lkp@intel.com/reproduce)
 
-diff --git a/include/asm-generic/unaligned.h b/include/asm-generic/unaligned.h
-index 699650f81970..034237d12d70 100644
---- a/include/asm-generic/unaligned.h
-+++ b/include/asm-generic/unaligned.h
-@@ -104,9 +104,9 @@ static inline u32 get_unaligned_le24(const void *p)
- 
- static inline void __put_unaligned_be24(const u32 val, u8 *p)
- {
--	*p++ = val >> 16;
--	*p++ = val >> 8;
--	*p++ = val;
-+	*p++ = (__force u8)(val >> 16);
-+	*p++ = (__force u8)(val >> 8);
-+	*p++ = (__force u8)val;
- }
- 
- static inline void put_unaligned_be24(const u32 val, void *p)
-@@ -116,9 +116,9 @@ static inline void put_unaligned_be24(const u32 val, void *p)
- 
- static inline void __put_unaligned_le24(const u32 val, u8 *p)
- {
--	*p++ = val;
--	*p++ = val >> 8;
--	*p++ = val >> 16;
-+	*p++ = (__force u8)val;
-+	*p++ = (__force u8)(val >> 8);
-+	*p++ = (__force u8)(val >> 16);
- }
- 
- static inline void put_unaligned_le24(const u32 val, void *p)
-@@ -128,12 +128,12 @@ static inline void put_unaligned_le24(const u32 val, void *p)
- 
- static inline void __put_unaligned_be48(const u64 val, u8 *p)
- {
--	*p++ = val >> 40;
--	*p++ = val >> 32;
--	*p++ = val >> 24;
--	*p++ = val >> 16;
--	*p++ = val >> 8;
--	*p++ = val;
-+	*p++ = (__force u8)(val >> 40);
-+	*p++ = (__force u8)(val >> 32);
-+	*p++ = (__force u8)(val >> 24);
-+	*p++ = (__force u8)(val >> 16);
-+	*p++ = (__force u8)(val >> 8);
-+	*p++ = (__force u8)val;
- }
- 
- static inline void put_unaligned_be48(const u64 val, void *p)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070815.6tdJWFme-lkp@intel.com/
 
-What do you think?
+All warnings (new ones prefixed by >>):
 
-Thanks.
+>> Documentation/rust/arch-support.rst:18: WARNING: Malformed table.
+
+vim +18 Documentation/rust/arch-support.rst
+
+    14	
+    15	============  ================  ==============================================
+    16	Architecture  Level of support  Constraints
+    17	============  ================  ==============================================
+  > 18	``loongarch`` Maintained
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
