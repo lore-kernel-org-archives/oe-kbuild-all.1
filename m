@@ -1,47 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B1613ACD
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 16:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8705413AD9
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 16:31:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzFdMu4B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UVqpfz47"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704645093; x=1736181093;
+  t=1704645094; x=1736181094;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=URP0nqHM2/KQhWTGj8eeZ1Ls1tA2I/C1BE0k0cWvQEU=;
-  b=mzFdMu4BYg9ZdI2n1Li8/ufofb3Wo/YschqA+WjsPlZrArykvJHsYbJG
-   arFoa38HZLeBJG8c9EMer7vELu7WcylUfaFIy+g8+bT3L3P4q+FR4cVUr
-   ofiOy+6nQnE61jxbc59014A4+GNgqi6QnEsRdxIdy4kRyY8/dmjoeU67E
-   1vw/2qDgy3NYMHaAem7SHYQI9MT8hGyQyt4ettAxAa2O3aXEW2oqbYtut
-   //Z8RV2cfICqphPNrhPtFt0lygX4R1svqKkkVUJOj3ds7Gi79qDYXeBng
-   29SjDQ9uiiaDPjzBdsgNTspOmEbpkYLoKdt310zKLXtoGuEXr8d9bvt7Q
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="396627376"
+  bh=oNMzL668MgSACBaTvRfKi5Y6xEU5aNxKtjNOaM4E8Os=;
+  b=UVqpfz47fUY3M3E3Xd5mpYcJAT/wO6+p6otRrEu6frbKD35/QDPLiP8a
+   3icx5cNDvvRTgTYlg7zWnzBqdF0e/EeQhoypqiXRbzh60imHWU8i2eyCQ
+   /Yd34wAY1CWMDiSEIOaODnXhVhI/bOR7eQ9w97NqJD6oNeuMvJ+Xl2O1p
+   NBVIrxfyDRxfaYN1TehutnqFi4QYDspYg3Emdaia1VLUDUzf8cCAc6vZf
+   1+9bZnVb5hxHB3jk+j7pJYLEWfcGtpGJdL2bza3oI2Zc1VmASFdXvFVZK
+   1V67E5RmpVXAOgWfbPjpxwG5mYqJ41rSd+MrR3wXzWX1OUN83cjfWQaky
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="464140698"
 X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="396627376"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 08:31:32 -0800
+   d="scan'208";a="464140698"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 08:31:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="871671331"
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="1028190538"
 X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="871671331"
+   d="scan'208";a="1028190538"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Jan 2024 08:31:31 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 07 Jan 2024 08:31:31 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMW3d-0003wC-22;
+	id 1rMW3d-0003wE-27;
 	Sun, 07 Jan 2024 16:31:29 +0000
-Date: Mon, 8 Jan 2024 00:31:21 +0800
+Date: Mon, 8 Jan 2024 00:31:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 59/66] drivers/video/console/vgacon.c:1209:27:
- error: initialization of 'bool (*)(struct vc_data *)' {aka '_Bool (*)(struct
- vc_data *)'} from incompatible pointer type 'int (*)(struct vc_data *)'
-Message-ID: <202401080033.qAVoM95I-lkp@intel.com>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Yu-cheng Yu <yu-cheng.yu@intel.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Kees Cook <keescook@chromium.org>
+Subject: arch/x86/kernel/shstk.c:295:55: sparse: sparse: cast removes address
+ space '__user' of expression
+Message-ID: <202401080003.duO4RmjK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,68 +54,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   437c218ee88e00a08e97c7835435068074c4d32f
-commit: c177003db531e66faa7aff4128daaca50e580606 [59/66] sanitize con_set_origin
-config: i386-randconfig-013-20240107 (https://download.01.org/0day-ci/archive/20240108/202401080033.qAVoM95I-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080033.qAVoM95I-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
+commit: 05e36022c0543ba55a3de55af455b00cb3eb4fcc x86/shstk: Handle signals for shadow stack
+date:   5 months ago
+config: x86_64-randconfig-123-20240106 (https://download.01.org/0day-ci/archive/20240108/202401080003.duO4RmjK-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080003.duO4RmjK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401080033.qAVoM95I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401080003.duO4RmjK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kernel/shstk.c:244:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __user *addr @@     got void *[noderef] __user @@
+   arch/x86/kernel/shstk.c:244:29: sparse:     expected unsigned long long [noderef] [usertype] __user *addr
+   arch/x86/kernel/shstk.c:244:29: sparse:     got void *[noderef] __user
+>> arch/x86/kernel/shstk.c:295:55: sparse: sparse: cast removes address space '__user' of expression
 
->> drivers/video/console/vgacon.c:1209:27: error: initialization of 'bool (*)(struct vc_data *)' {aka '_Bool (*)(struct vc_data *)'} from incompatible pointer type 'int (*)(struct vc_data *)' [-Werror=incompatible-pointer-types]
-    1209 |         .con_set_origin = vgacon_set_origin,
-         |                           ^~~~~~~~~~~~~~~~~
-   drivers/video/console/vgacon.c:1209:27: note: (near initialization for 'vga_con.con_set_origin')
-   cc1: some warnings being treated as errors
+vim +/__user +295 arch/x86/kernel/shstk.c
 
-
-vim +1209 drivers/video/console/vgacon.c
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1183  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1184  /*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1185   *  The console `switch' structure for the VGA based console
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1186   */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1187  
-4918832d814b33 Jiri Slaby (SUSE  2023-05-29  1188) static void vgacon_clear(struct vc_data *vc, unsigned int sy, unsigned int sx,
-4918832d814b33 Jiri Slaby (SUSE  2023-05-29  1189) 			 unsigned int width) { }
-775ef630c10747 Jiri Slaby (SUSE  2023-12-07  1190) static void vgacon_putcs(struct vc_data *vc, const u16 *s, unsigned int count,
-775ef630c10747 Jiri Slaby (SUSE  2023-12-07  1191) 			 unsigned int ypos, unsigned int xpos) { }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1192  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1193  const struct consw vga_con = {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1194  	.owner = THIS_MODULE,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1195  	.con_startup = vgacon_startup,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1196  	.con_init = vgacon_init,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1197  	.con_deinit = vgacon_deinit,
-c396a5bf457fb6 Kees Cook         2018-02-26  1198  	.con_clear = vgacon_clear,
-c396a5bf457fb6 Kees Cook         2018-02-26  1199  	.con_putcs = vgacon_putcs,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1200  	.con_cursor = vgacon_cursor,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1201  	.con_scroll = vgacon_scroll,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1202  	.con_switch = vgacon_switch,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1203  	.con_blank = vgacon_blank,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1204  	.con_font_set = vgacon_font_set,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1205  	.con_font_get = vgacon_font_get,
-28254d439b8c65 Samuel Thibault   2005-09-09  1206  	.con_resize = vgacon_resize,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1207  	.con_set_palette = vgacon_set_palette,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1208  	.con_scrolldelta = vgacon_scrolldelta,
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @1209  	.con_set_origin = vgacon_set_origin,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1210  	.con_save_screen = vgacon_save_screen,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1211  	.con_build_attr = vgacon_build_attr,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1212  	.con_invert_region = vgacon_invert_region,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1213  };
-a4de05268e674e Daniel Vetter     2014-06-05  1214  EXPORT_SYMBOL(vga_con);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1215  
-
-:::::: The code at line 1209 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   271	
+   272	int setup_signal_shadow_stack(struct ksignal *ksig)
+   273	{
+   274		void __user *restorer = ksig->ka.sa.sa_restorer;
+   275		unsigned long ssp;
+   276		int err;
+   277	
+   278		if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK) ||
+   279		    !features_enabled(ARCH_SHSTK_SHSTK))
+   280			return 0;
+   281	
+   282		if (!restorer)
+   283			return -EINVAL;
+   284	
+   285		ssp = get_user_shstk_addr();
+   286		if (unlikely(!ssp))
+   287			return -EINVAL;
+   288	
+   289		err = shstk_push_sigframe(&ssp);
+   290		if (unlikely(err))
+   291			return err;
+   292	
+   293		/* Push restorer address */
+   294		ssp -= SS_FRAME_SIZE;
+ > 295		err = write_user_shstk_64((u64 __user *)ssp, (u64)restorer);
+   296		if (unlikely(err))
+   297			return -EFAULT;
+   298	
+   299		fpregs_lock_and_load();
+   300		wrmsrl(MSR_IA32_PL3_SSP, ssp);
+   301		fpregs_unlock();
+   302	
+   303		return 0;
+   304	}
+   305	
 
 -- 
 0-DAY CI Kernel Test Service
