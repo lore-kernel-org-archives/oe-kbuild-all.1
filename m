@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C720125AB;
-	Sun,  7 Jan 2024 22:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E9814003
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 23:36:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lU78CNDl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2pjGwOL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704666783; x=1736202783;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dwuvkjK+YjmXYxC+RxKdXyRyCQxEe699I/o3VBpTdNo=;
-  b=lU78CNDldskP3sjRGi8JsMrADMZV5oBJ3QMm2HrefBCqv6SBWaEhEjIr
-   Qoi/f4iZtWNkmzM98gUrtlpyYWd5DkPZ4kWmOtdvtjDqBYUaoaYA44GcD
-   hu7fIYXFL683+xd1uTkmY9wA6bK0GDSRUOtRJoIhXuz6h/kAdyNfJhdYa
-   hsSDzFajxOGu/Es2GVeyHjMmi//takYKLvlEJQN/Ce+VNoTrcppQy66Ju
-   hN5CdlwDblpBZw1tQFSO0arEZdt3jE/nJ8+ztS25biIcrjlun0cHJ6G7l
-   +rxnLrq2RBH9x/tXCKVaZ/NoqNHX2a0UxZwYh8sfXBECR3HBhCFm47rpk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="396645165"
+  t=1704670579; x=1736206579;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dZMoaqRD2icEdZxI18+pbwqsJfeDjeq99NLbNWVrP2c=;
+  b=O2pjGwOLsH5ECw74d0u22bsbInlfds3AsXeCkzAmkFa0oQJBWSkfmuJd
+   0DBQWuxacqBskkOgz70SU7cw+IEpAiWWCf45ezQF9qoMQVBlY5wpDfEHb
+   GxiWqz7fqQroSJNzydRMC6OcIEkJxHHtvuAMSL7tMhYC4kzGZZIQdbiDP
+   nu1pprXLd1R8/9QVl4ogzGiodjukkayi6IEWxCzbOdxNWbU+olHvij/57
+   2iDUhXyKv7/il02NemNa8wMT/gLmcGA4h5il+HxQtggMAUsURjBZnxtai
+   OyLg8U+pQSlipdZQ05ZhoYmcVoZEams+saJozE7eQdcjJZqLEbcUXaVU6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="11248474"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="396645165"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 14:33:02 -0800
+   d="scan'208";a="11248474"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 15:36:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="757452548"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="757452548"
+   d="scan'208";a="15745594"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 07 Jan 2024 14:33:00 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 07 Jan 2024 15:36:03 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMbhS-0004Dw-0g;
-	Sun, 07 Jan 2024 22:32:58 +0000
-Date: Mon, 8 Jan 2024 06:32:16 +0800
+	id 1rMcgT-0004Hq-0X;
+	Sun, 07 Jan 2024 23:36:01 +0000
+Date: Mon, 8 Jan 2024 07:35:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiqian Chen <Jiqian.Chen@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC KERNEL PATCH v4 2/3] xen/pvh: Setup gsi for passthrough
- device
-Message-ID: <202401080644.Pr19bqHH-lkp@intel.com>
-References: <20240105062217.349645-3-Jiqian.Chen@amd.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/file.c:862:14: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202401080703.g6Aje7mw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,82 +48,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240105062217.349645-3-Jiqian.Chen@amd.com>
 
-Hi Jiqian,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on xen-tip/linux-next]
-[also build test ERROR on pci/next pci/for-linus tip/x86/core rafael-pm/linux-next rafael-pm/acpi-bus rafael-pm/devprop linus/master v6.7-rc8 next-20240105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiqian-Chen/xen-pci-Add-xen_reset_device_state-function/20240105-142527
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git linux-next
-patch link:    https://lore.kernel.org/r/20240105062217.349645-3-Jiqian.Chen%40amd.com
-patch subject: [RFC KERNEL PATCH v4 2/3] xen/pvh: Setup gsi for passthrough device
-config: arm64-randconfig-001-20240107 (https://download.01.org/0day-ci/archive/20240108/202401080644.Pr19bqHH-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080644.Pr19bqHH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0dd3ee31125508cd67f7e7172247f05b7fd1753a
+commit: 0ede61d8589cc2d93aa78230d74ac58b5b8d0244 file: convert to SLAB_TYPESAFE_BY_RCU
+date:   3 months ago
+config: x86_64-randconfig-123-20240106 (https://download.01.org/0day-ci/archive/20240108/202401080703.g6Aje7mw-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080703.g6Aje7mw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401080644.Pr19bqHH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401080703.g6Aje7mw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/file.c:379:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:379:17: sparse:     expected struct file **old_fds
+   fs/file.c:379:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:380:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:380:17: sparse:     expected struct file **new_fds
+   fs/file.c:380:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:395:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/file.c:395:17: sparse:    struct file [noderef] __rcu *
+   fs/file.c:395:17: sparse:    struct file *
+   fs/file.c:430:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu *[assigned] __ret @@
+   fs/file.c:470:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] __rcu *fdt @@     got struct fdtable * @@
+   fs/file.c:646:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+   fs/file.c:841:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+>> fs/file.c:862:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
+>> fs/file.c:866:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct atomic64_t [usertype] *v @@     got struct atomic64_t [noderef] __rcu * @@
+>> fs/file.c:869:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file_reloaded @@     got struct file * @@
+>> fs/file.c:892:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file_reloaded @@
+>> fs/file.c:894:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
+   fs/file.c:915:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
+>> fs/file.c:922:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
+   fs/file.c:1212:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] __rcu * @@
 
-   In file included from drivers/xen/xen-pciback/pci_stub.c:23:
->> include/xen/acpi.h:63:37: error: too few arguments provided to function-like macro invocation
-      63 |                         &xen_acpi_notify_hypervisor_sleep);
-         |                                                          ^
-   include/linux/acpi.h:1110:9: note: macro 'acpi_os_set_prepare_sleep' defined here
-    1110 | #define acpi_os_set_prepare_sleep(func, pm1a_ctrl, pm1b_ctrl) do { } while (0)
-         |         ^
-   In file included from drivers/xen/xen-pciback/pci_stub.c:23:
->> include/xen/acpi.h:62:3: error: use of undeclared identifier 'acpi_os_set_prepare_sleep'; did you mean 'acpi_os_enter_sleep'?
-      62 |                 acpi_os_set_prepare_sleep(
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 acpi_os_enter_sleep
-   include/acpi/acpiosxf.h:326:13: note: 'acpi_os_enter_sleep' declared here
-     326 | acpi_status acpi_os_enter_sleep(u8 sleep_state, u32 rega_value, u32 regb_value);
-         |             ^
-   In file included from drivers/xen/xen-pciback/pci_stub.c:23:
->> include/xen/acpi.h:64:3: error: call to undeclared function 'acpi_os_set_prepare_extended_sleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      64 |                 acpi_os_set_prepare_extended_sleep(
-         |                 ^
->> include/xen/acpi.h:67:3: error: use of undeclared identifier 'acpi_suspend_lowlevel'
-      67 |                 acpi_suspend_lowlevel = xen_acpi_suspend_lowlevel;
-         |                 ^
-   include/xen/acpi.h:62:3: warning: expression result unused [-Wunused-value]
-      62 |                 acpi_os_set_prepare_sleep(
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 4 errors generated.
+vim +862 fs/file.c
 
-
-vim +63 include/xen/acpi.h
-
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14  58  
-268a207563f933 Liu Jinsong           2013-02-14  59  static inline void xen_acpi_sleep_register(void)
-268a207563f933 Liu Jinsong           2013-02-14  60  {
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14  61  	if (xen_initial_domain()) {
-268a207563f933 Liu Jinsong           2013-02-14 @62  		acpi_os_set_prepare_sleep(
-be6b25d15f5e67 Ben Guthro            2013-07-30 @63  			&xen_acpi_notify_hypervisor_sleep);
-be6b25d15f5e67 Ben Guthro            2013-07-30 @64  		acpi_os_set_prepare_extended_sleep(
-be6b25d15f5e67 Ben Guthro            2013-07-30  65  			&xen_acpi_notify_hypervisor_extended_sleep);
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14  66  
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14 @67  		acpi_suspend_lowlevel = xen_acpi_suspend_lowlevel;
-068e0dc7b7c1db Konrad Rzeszutek Wilk 2013-05-14  68  	}
-268a207563f933 Liu Jinsong           2013-02-14  69  }
-fa25bcf76b7984 Jiqian Chen           2024-01-05  70  int xen_pvh_passthrough_gsi(struct pci_dev *dev);
-268a207563f933 Liu Jinsong           2013-02-14  71  #else
-268a207563f933 Liu Jinsong           2013-02-14  72  static inline void xen_acpi_sleep_register(void)
-268a207563f933 Liu Jinsong           2013-02-14  73  {
-268a207563f933 Liu Jinsong           2013-02-14  74  }
-fa25bcf76b7984 Jiqian Chen           2024-01-05  75  
+   855	
+   856	static struct file *__get_file_rcu(struct file __rcu **f)
+   857	{
+   858		struct file __rcu *file;
+   859		struct file __rcu *file_reloaded;
+   860		struct file __rcu *file_reloaded_cmp;
+   861	
+ > 862		file = rcu_dereference_raw(*f);
+   863		if (!file)
+   864			return NULL;
+   865	
+ > 866		if (unlikely(!atomic_long_inc_not_zero(&file->f_count)))
+   867			return ERR_PTR(-EAGAIN);
+   868	
+ > 869		file_reloaded = rcu_dereference_raw(*f);
+   870	
+   871		/*
+   872		 * Ensure that all accesses have a dependency on the load from
+   873		 * rcu_dereference_raw() above so we get correct ordering
+   874		 * between reuse/allocation and the pointer check below.
+   875		 */
+   876		file_reloaded_cmp = file_reloaded;
+   877		OPTIMIZER_HIDE_VAR(file_reloaded_cmp);
+   878	
+   879		/*
+   880		 * atomic_long_inc_not_zero() above provided a full memory
+   881		 * barrier when we acquired a reference.
+   882		 *
+   883		 * This is paired with the write barrier from assigning to the
+   884		 * __rcu protected file pointer so that if that pointer still
+   885		 * matches the current file, we know we have successfully
+   886		 * acquired a reference to the right file.
+   887		 *
+   888		 * If the pointers don't match the file has been reallocated by
+   889		 * SLAB_TYPESAFE_BY_RCU.
+   890		 */
+   891		if (file == file_reloaded_cmp)
+ > 892			return file_reloaded;
+   893	
+ > 894		fput(file);
+   895		return ERR_PTR(-EAGAIN);
+   896	}
+   897	
+   898	/**
+   899	 * get_file_rcu - try go get a reference to a file under rcu
+   900	 * @f: the file to get a reference on
+   901	 *
+   902	 * This function tries to get a reference on @f carefully verifying that
+   903	 * @f hasn't been reused.
+   904	 *
+   905	 * This function should rarely have to be used and only by users who
+   906	 * understand the implications of SLAB_TYPESAFE_BY_RCU. Try to avoid it.
+   907	 *
+   908	 * Return: Returns @f with the reference count increased or NULL.
+   909	 */
+   910	struct file *get_file_rcu(struct file __rcu **f)
+   911	{
+   912		for (;;) {
+   913			struct file __rcu *file;
+   914	
+   915			file = __get_file_rcu(f);
+   916			if (unlikely(!file))
+   917				return NULL;
+   918	
+   919			if (unlikely(IS_ERR(file)))
+   920				continue;
+   921	
+ > 922			return file;
+   923		}
+   924	}
+   925	EXPORT_SYMBOL_GPL(get_file_rcu);
+   926	
 
 -- 
 0-DAY CI Kernel Test Service
