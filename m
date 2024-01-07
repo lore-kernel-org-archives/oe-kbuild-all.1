@@ -1,81 +1,83 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540E01118F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 19:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA15611701
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 20:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fq5aRHSH"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6810751e1fdso1408916d6.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 07 Jan 2024 11:47:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704656821; x=1705261621; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bgw6P5LZhwAlCIvVPfp2eYZqWEaTiqAWQo/dlHlVaXI=;
-        b=Fq5aRHSHdbAHSHpEy6CmxC3c7IS7Y7d2CCBiQ0wOmP9phEWX2iBKVYWwY/XBkvU6JG
-         EmhTNEZVmEnvG2mCSJtM1rnJZdyD1+RX3iVciy6l241LVocI0IkiuP48IdFn/zCqdPOf
-         6IOaMuxtuwcmABEx+qMh8MQZcmTCQF57YNkCCBgTR2yQAPFlu6LSOMlWtxBprhM6c+W6
-         +xLdAjuKErdxBR/eYiBun0D9apycyk/o6uTQYFsV6bEeCindq55RcCdTTyVkw26ad2Ja
-         JtAv0fuJcn9uXoCFtzptUi2XIsnLA1ykF6XTNe3sdFf12ugrbgovyW4Xy5qEr37gc2Ic
-         Rcmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704656821; x=1705261621;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Bgw6P5LZhwAlCIvVPfp2eYZqWEaTiqAWQo/dlHlVaXI=;
-        b=dFSTDpyuGLnFk9l+gVu2OoIspzhUX2QG579+YUjc0BnyNO1b+eBc4UESCx444BygIh
-         M4H1WJPUK3qgqOYkNqOE1DUjEWOXF5BA1OFx2F6CCKU/mnBnQv0myYTAzzLm7bVEmPaM
-         xG5KlMhdIz77TSe63UURMgAlCA4tZF3A/RQkL+GkYY/E/iC07MrwKs+R8NRd9I9AWntF
-         XzBFAxxtv7UHOqq/ZTa9ZpbGBBZr75olVvIJAvq/UxFq1ToAlc4mj6ujlllv492nfv02
-         RpwqvpA6cRY4QsfoV93ZiwwHKro8HaaJI7kCMUP6YPNIPVUafB25g0IZ3ZQVuUY4kify
-         EFSg==
-X-Gm-Message-State: AOJu0Yy0KaOlHgvgomxSE0CBG6RmMOCkw+DDGScKWc6jsA9jr34CVdyB
-	wS0UwT9etMzgX8/mphvgBvJ9t/T6FzZ6T1nAbTY=
-X-Google-Smtp-Source: AGHT+IGcTlPUiVIo4ImmPte03fF77QlSaouekvVBUc7VviYy4OCu8x8Y2c+1mJTb0YRoNxHun78P8T2uiOmCPPq6Uig=
-X-Received: by 2002:a05:6214:2a8e:b0:67f:3991:ef38 with SMTP id
- jr14-20020a0562142a8e00b0067f3991ef38mr4009781qvb.122.1704656821115; Sun, 07
- Jan 2024 11:47:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XY1UJUQU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704657831; x=1736193831;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4/wIk1KmFKl/yM/d27sbXZfzaXO/Q+V18y0IjRHAJ60=;
+  b=XY1UJUQUdFfTUjY4hVQqc/5ECDA8z/WPbfQKI8sKdk6VsHmExbpcNLXK
+   M2XWL3VdYuRVMRptA+K2oMefOfeGlnbO2P3k/nYgrUWsiFBpxze/1XPSB
+   KSTblyHmd14RQfLk2xP3x1usIX3WB60Y1gqs3oo4ZNJ5YdzJMZPIFlfzn
+   Twg0bQty8wslirrqEhmrPy4o1mRnf66gXeEvGRbtrdZkhGIWEkmDtFxdL
+   pVNPLc80GVeCZCkIip7alTZaId9HkWM03Q9Y5YbWF5f4l7TVDgNJVSUOa
+   JOTgxLA9wZXdWf/6lA4rXTq+Pa037sGdyIURdQb9SSz5GBNcK+utT8MK/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="377238334"
+X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
+   d="scan'208";a="377238334"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 12:03:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="924673745"
+X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
+   d="scan'208";a="924673745"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Jan 2024 12:03:50 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rMZN5-00046G-2k;
+	Sun, 07 Jan 2024 20:03:47 +0000
+Date: Mon, 8 Jan 2024 04:02:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:execmem/v0 7/14] arch/parisc/mm/execmem.c:7:7: error:
+ conflicting types for 'execmem_alloc'; have 'void *(long unsigned int)'
+Message-ID: <202401080329.9vQykQCG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202401070901.68H00NFa-lkp@intel.com> <CAGb2v64zGvceVXy_F7pVTrFYY7-eLQktoWZB4Xcb1MQtFu=1Ww@mail.gmail.com>
-In-Reply-To: <CAGb2v64zGvceVXy_F7pVTrFYY7-eLQktoWZB4Xcb1MQtFu=1Ww@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 7 Jan 2024 21:46:24 +0200
-Message-ID: <CAHp75VfiTCCa+Rjn4JavxvSziNmjBTXEgUq-UT+PHkD8__5dhw@mail.gmail.com>
-Subject: Re: drivers/iio/adc/axp20x_adc.c:572:26: sparse: sparse: dubious: x & !y
-To: wens@csie.org
-Cc: kernel test robot <lkp@intel.com>, Aidan MacDonald <aidanmacdonald.0x0@gmail.com>, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Jan 7, 2024 at 7:37=E2=80=AFAM Chen-Yu Tsai <wens@csie.org> wrote:
-> On Sun, Jan 7, 2024 at 9:30=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/v0
+head:   7b112b930be7b0627fa65c6f8a2b64cd325c0ea9
+commit: 701b6cd4f36f02872b28bdd4c2018d2720236b0b [7/14] dev: parisc: s/module_alloc/execmem_text_alloc/
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240108/202401080329.9vQykQCG-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080329.9vQykQCG-lkp@intel.com/reproduce)
 
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401080329.9vQykQCG-lkp@intel.com/
 
-> > sparse warnings: (new ones prefixed by >>)
-> > >> drivers/iio/adc/axp20x_adc.c:572:26: sparse: sparse: dubious: x & !y
-> >    drivers/iio/adc/axp20x_adc.c:577:26: sparse: sparse: dubious: x & !y
->
-> This looks like a false positive. The code is doing exactly what we want:
-> val =3D val ? 1 : 0, but in a shorter format.
+All errors (new ones prefixed by >>):
 
-Yes, but the problem is that FIELD_PREP() is a macro.
-You can replace these by ternary (here and in other cases) to satisfy
-sparse. Compiler will optimize that anyway, so no branch is expected
-in the generated code.
+>> arch/parisc/mm/execmem.c:7:7: error: conflicting types for 'execmem_alloc'; have 'void *(long unsigned int)'
+       7 | void *execmem_alloc(unsigned long size)
+         |       ^~~~~~~~~~~~~
+   In file included from arch/parisc/mm/execmem.c:4:
+   include/linux/execmem.h:16:7: note: previous declaration of 'execmem_alloc' with type 'void *(size_t)' {aka 'void *(unsigned int)'}
+      16 | void *execmem_alloc(size_t size);
+         |       ^~~~~~~~~~~~~
 
---=20
-With Best Regards,
-Andy Shevchenko
+
+vim +7 arch/parisc/mm/execmem.c
+
+     6	
+   > 7	void *execmem_alloc(unsigned long size)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
