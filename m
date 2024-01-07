@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEE4125D7
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 06:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EFD12B82;
+	Sun,  7 Jan 2024 08:01:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJKKjD6K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGyZACYb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704609606; x=1736145606;
+  t=1704614508; x=1736150508;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f/RZLPT6p0ebDjCoyzION04uQw5odX9ZXvphidLuD5Y=;
-  b=hJKKjD6KY+QDLwY4UbsRECMFsxLX1/n3CfQ0E6lgX25o6BPsgUhVIo7b
-   yHzx+QR6S1j8t0y4+m5Q7Tg4OgHit+tcO2eIfg9stFtkvgAMxB0iQFwb9
-   TGMn5SXqbb/DclkxLABwXmGuzhApnGtdfzzDoXt5mJ2AkHu21H7iCGmGr
-   bRUFfRVNfpF4eX6JpCa4gicdp9xQvdaP8H/EC7/IbRR7VTFnSXPzieL0T
-   wYJFI7AzQywLEROAtoKcv+GFuKiwM2Nl0OifdDFKcWWn/FWDvtalURSNG
-   Q3M/x9lACHi/7fsnMa/fqWO5jvCXuE+m+ot+oINr2G3HLSaH+rSPiFaae
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="388160482"
+  bh=F3iruKT4fxqF1QDuoTmtaxLu4zWWEUqI59gl02qbCy4=;
+  b=OGyZACYb6zhGufwFNtfM8jvQxlU0KsP+VZ28dAU5tm32vle+R/ZPMFDK
+   2E0Q9fQaWzq+XsnY2TfenNYeOBPQzjvZznuXI3th2a0LzwKmMnfM6Y5VS
+   6ycHdjKWagtw8mRJqJb9qZextx5WNLVFN0PosPl1/X2Ab3GV3rIbWME6e
+   K/VVLVPX9Ow30AMqiKrn1QhIqyDaI6wMrKUFijoD65qNCKYRx9P0afTvs
+   bA03EbhTXAIvirLTY3zepnIxzq39s9Zf/WCd9/RuVioWzVDkUhSrx7Md4
+   63pIKkJvZcpEYgosbmBy82VB9ywUbLL8tiGAQEaEU5gfckssSstO9NyKt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="397434504"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="388160482"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 22:40:06 -0800
+   d="scan'208";a="397434504"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 00:01:42 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="1112471401"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="22855899"
+   d="scan'208";a="1112471401"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 06 Jan 2024 22:40:05 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 07 Jan 2024 00:01:40 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMMpF-0003UW-27;
-	Sun, 07 Jan 2024 06:40:01 +0000
-Date: Sun, 7 Jan 2024 14:39:05 +0800
+	id 1rMO6E-0003c4-1R;
+	Sun, 07 Jan 2024 08:01:38 +0000
+Date: Sun, 7 Jan 2024 16:01:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kah Jing Lee <kah.jing.lee@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Radu Bacrau <radu.bacrau@intel.com>,
-	Ang Tien Sung <tien.sung.ang@intel.com>,
-	Dinh Nguyen <dinguyen@kernel.org>
-Subject: drivers/firmware/stratix10-rsu.c:93: warning: Function parameter or
- member 'dcmf_status' not described in 'stratix10_rsu_priv'
-Message-ID: <202401071443.x9tmUlhW-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/md/bcache/request.c:309: warning: Function parameter or
+ member 'bch_data_insert' not described in 'CLOSURE_CALLBACK'
+Message-ID: <202401071547.Zr3Ffy8F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,96 +51,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kah,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
-commit: 1b4394c5d731593063f53df9d72467335c3b0367 firmware: stratix10-svc: extend svc to support RSU feature
-date:   1 year, 6 months ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240107/202401071443.x9tmUlhW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401071443.x9tmUlhW-lkp@intel.com/reproduce)
+commit: d4e3b928ab487a8aecd1f6a140b40ac365116cfb closures: CLOSURE_CALLBACK() to fix type punning
+date:   6 weeks ago
+config: i386-buildonly-randconfig-001-20240107 (https://download.01.org/0day-ci/archive/20240107/202401071547.Zr3Ffy8F-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401071547.Zr3Ffy8F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401071443.x9tmUlhW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401071547.Zr3Ffy8F-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/firmware/stratix10-rsu.c:93: warning: Function parameter or member 'status' not described in 'stratix10_rsu_priv'
-   drivers/firmware/stratix10-rsu.c:93: warning: Function parameter or member 'dcmf_version' not described in 'stratix10_rsu_priv'
->> drivers/firmware/stratix10-rsu.c:93: warning: Function parameter or member 'dcmf_status' not described in 'stratix10_rsu_priv'
+>> drivers/md/bcache/request.c:309: warning: Function parameter or member 'bch_data_insert' not described in 'CLOSURE_CALLBACK'
+>> drivers/md/bcache/request.c:309: warning: expecting prototype for bch_data_insert(). Prototype was for CLOSURE_CALLBACK() instead
 
 
-vim +93 drivers/firmware/stratix10-rsu.c
+vim +309 drivers/md/bcache/request.c
 
-4526ebbc77732b Richard Gong 2019-09-03  37  
-4526ebbc77732b Richard Gong 2019-09-03  38  typedef void (*rsu_callback)(struct stratix10_svc_client *client,
-4526ebbc77732b Richard Gong 2019-09-03  39  			     struct stratix10_svc_cb_data *data);
-4526ebbc77732b Richard Gong 2019-09-03  40  /**
-4526ebbc77732b Richard Gong 2019-09-03  41   * struct stratix10_rsu_priv - rsu data structure
-4526ebbc77732b Richard Gong 2019-09-03  42   * @chan: pointer to the allocated service channel
-4526ebbc77732b Richard Gong 2019-09-03  43   * @client: active service client
-4526ebbc77732b Richard Gong 2019-09-03  44   * @completion: state for callback completion
-4526ebbc77732b Richard Gong 2019-09-03  45   * @lock: a mutex to protect callback completion state
-4526ebbc77732b Richard Gong 2019-09-03  46   * @status.current_image: address of image currently running in flash
-4526ebbc77732b Richard Gong 2019-09-03  47   * @status.fail_image: address of failed image in flash
-75bc73fc0188ef Richard Gong 2020-06-15  48   * @status.version: the interface version number of RSU firmware
-4526ebbc77732b Richard Gong 2019-09-03  49   * @status.state: the state of RSU system
-4526ebbc77732b Richard Gong 2019-09-03  50   * @status.error_details: error code
-4526ebbc77732b Richard Gong 2019-09-03  51   * @status.error_location: the error offset inside the image that failed
-75bc73fc0188ef Richard Gong 2020-06-15  52   * @dcmf_version.dcmf0: Quartus dcmf0 version
-75bc73fc0188ef Richard Gong 2020-06-15  53   * @dcmf_version.dcmf1: Quartus dcmf1 version
-75bc73fc0188ef Richard Gong 2020-06-15  54   * @dcmf_version.dcmf2: Quartus dcmf2 version
-75bc73fc0188ef Richard Gong 2020-06-15  55   * @dcmf_version.dcmf3: Quartus dcmf3 version
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  56   * @dcmf_status.dcmf0: dcmf0 status
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  57   * @dcmf_status.dcmf1: dcmf1 status
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  58   * @dcmf_status.dcmf2: dcmf2 status
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  59   * @dcmf_status.dcmf3: dcmf3 status
-4526ebbc77732b Richard Gong 2019-09-03  60   * @retry_counter: the current image's retry counter
-75bc73fc0188ef Richard Gong 2020-06-15  61   * @max_retry: the preset max retry value
-4526ebbc77732b Richard Gong 2019-09-03  62   */
-4526ebbc77732b Richard Gong 2019-09-03  63  struct stratix10_rsu_priv {
-4526ebbc77732b Richard Gong 2019-09-03  64  	struct stratix10_svc_chan *chan;
-4526ebbc77732b Richard Gong 2019-09-03  65  	struct stratix10_svc_client client;
-4526ebbc77732b Richard Gong 2019-09-03  66  	struct completion completion;
-4526ebbc77732b Richard Gong 2019-09-03  67  	struct mutex lock;
-4526ebbc77732b Richard Gong 2019-09-03  68  	struct {
-4526ebbc77732b Richard Gong 2019-09-03  69  		unsigned long current_image;
-4526ebbc77732b Richard Gong 2019-09-03  70  		unsigned long fail_image;
-4526ebbc77732b Richard Gong 2019-09-03  71  		unsigned int version;
-4526ebbc77732b Richard Gong 2019-09-03  72  		unsigned int state;
-4526ebbc77732b Richard Gong 2019-09-03  73  		unsigned int error_details;
-4526ebbc77732b Richard Gong 2019-09-03  74  		unsigned int error_location;
-4526ebbc77732b Richard Gong 2019-09-03  75  	} status;
-75bc73fc0188ef Richard Gong 2020-06-15  76  
-75bc73fc0188ef Richard Gong 2020-06-15  77  	struct {
-75bc73fc0188ef Richard Gong 2020-06-15  78  		unsigned int dcmf0;
-75bc73fc0188ef Richard Gong 2020-06-15  79  		unsigned int dcmf1;
-75bc73fc0188ef Richard Gong 2020-06-15  80  		unsigned int dcmf2;
-75bc73fc0188ef Richard Gong 2020-06-15  81  		unsigned int dcmf3;
-75bc73fc0188ef Richard Gong 2020-06-15  82  	} dcmf_version;
-75bc73fc0188ef Richard Gong 2020-06-15  83  
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  84  	struct {
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  85  		unsigned int dcmf0;
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  86  		unsigned int dcmf1;
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  87  		unsigned int dcmf2;
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  88  		unsigned int dcmf3;
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  89  	} dcmf_status;
-4a6c8c565db1d0 Kah Jing Lee 2022-07-11  90  
-4526ebbc77732b Richard Gong 2019-09-03  91  	unsigned int retry_counter;
-75bc73fc0188ef Richard Gong 2020-06-15  92  	unsigned int max_retry;
-4526ebbc77732b Richard Gong 2019-09-03 @93  };
-4526ebbc77732b Richard Gong 2019-09-03  94  
+cafe563591446c Kent Overstreet 2013-03-23  287  
+cafe563591446c Kent Overstreet 2013-03-23  288  /**
+a34a8bfd4e6358 Kent Overstreet 2013-10-24  289   * bch_data_insert - stick some data in the cache
+47344e330eabc1 Bart Van Assche 2018-03-18  290   * @cl: closure pointer.
+cafe563591446c Kent Overstreet 2013-03-23  291   *
+cafe563591446c Kent Overstreet 2013-03-23  292   * This is the starting point for any data to end up in a cache device; it could
+cafe563591446c Kent Overstreet 2013-03-23  293   * be from a normal write, or a writeback write, or a write to a flash only
+cafe563591446c Kent Overstreet 2013-03-23  294   * volume - it's also used by the moving garbage collector to compact data in
+cafe563591446c Kent Overstreet 2013-03-23  295   * mostly empty buckets.
+cafe563591446c Kent Overstreet 2013-03-23  296   *
+cafe563591446c Kent Overstreet 2013-03-23  297   * It first writes the data to the cache, creating a list of keys to be inserted
+cafe563591446c Kent Overstreet 2013-03-23  298   * (if the data had to be fragmented there will be multiple keys); after the
+cafe563591446c Kent Overstreet 2013-03-23  299   * data is written it calls bch_journal, and after the keys have been added to
+cafe563591446c Kent Overstreet 2013-03-23  300   * the next journal write they're inserted into the btree.
+cafe563591446c Kent Overstreet 2013-03-23  301   *
+3db4d0783eaf2a Shenghui Wang   2018-12-13  302   * It inserts the data in op->bio; bi_sector is used for the key offset,
+cafe563591446c Kent Overstreet 2013-03-23  303   * and op->inode is used for the key inode.
+cafe563591446c Kent Overstreet 2013-03-23  304   *
+3db4d0783eaf2a Shenghui Wang   2018-12-13  305   * If op->bypass is true, instead of inserting the data it invalidates the
+3db4d0783eaf2a Shenghui Wang   2018-12-13  306   * region of the cache represented by op->bio and op->inode.
+cafe563591446c Kent Overstreet 2013-03-23  307   */
+d4e3b928ab487a Kent Overstreet 2023-11-17  308  CLOSURE_CALLBACK(bch_data_insert)
+cafe563591446c Kent Overstreet 2013-03-23 @309  {
+d4e3b928ab487a Kent Overstreet 2023-11-17  310  	closure_type(op, struct data_insert_op, cl);
+cafe563591446c Kent Overstreet 2013-03-23  311  
+60ae81eee86dd7 Slava Pestov    2014-05-22  312  	trace_bcache_write(op->c, op->inode, op->bio,
+60ae81eee86dd7 Slava Pestov    2014-05-22  313  			   op->writeback, op->bypass);
+220bb38c21b83e Kent Overstreet 2013-09-10  314  
+220bb38c21b83e Kent Overstreet 2013-09-10  315  	bch_keylist_init(&op->insert_keys);
+220bb38c21b83e Kent Overstreet 2013-09-10  316  	bio_get(op->bio);
+d4e3b928ab487a Kent Overstreet 2023-11-17  317  	bch_data_insert_start(&cl->work);
+cafe563591446c Kent Overstreet 2013-03-23  318  }
+cafe563591446c Kent Overstreet 2013-03-23  319  
 
-:::::: The code at line 93 was first introduced by commit
-:::::: 4526ebbc77732bcae965ee374cf3e8d86436b2ad firmware: add Intel Stratix10 remote system update driver
+:::::: The code at line 309 was first introduced by commit
+:::::: cafe563591446cf80bfbc2fe3bc72a2e36cf1060 bcache: A block layer cache
 
-:::::: TO: Richard Gong <richard.gong@intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Kent Overstreet <koverstreet@google.com>
+:::::: CC: Kent Overstreet <koverstreet@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
