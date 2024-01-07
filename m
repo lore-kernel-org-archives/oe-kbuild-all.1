@@ -1,115 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8705413AD9
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 16:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAE713FE1;
+	Sun,  7 Jan 2024 17:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UVqpfz47"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CpX6D/yd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704645094; x=1736181094;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oNMzL668MgSACBaTvRfKi5Y6xEU5aNxKtjNOaM4E8Os=;
-  b=UVqpfz47fUY3M3E3Xd5mpYcJAT/wO6+p6otRrEu6frbKD35/QDPLiP8a
-   3icx5cNDvvRTgTYlg7zWnzBqdF0e/EeQhoypqiXRbzh60imHWU8i2eyCQ
-   /Yd34wAY1CWMDiSEIOaODnXhVhI/bOR7eQ9w97NqJD6oNeuMvJ+Xl2O1p
-   NBVIrxfyDRxfaYN1TehutnqFi4QYDspYg3Emdaia1VLUDUzf8cCAc6vZf
-   1+9bZnVb5hxHB3jk+j7pJYLEWfcGtpGJdL2bza3oI2Zc1VmASFdXvFVZK
-   1V67E5RmpVXAOgWfbPjpxwG5mYqJ41rSd+MrR3wXzWX1OUN83cjfWQaky
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="464140698"
+  t=1704649536; x=1736185536;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RPNJWRwOSNG+92W5g8P3LAsgtaNmWZFvCKObb1Jp08I=;
+  b=CpX6D/ydEROisvK0gWesmI3TNzaSTbV55pCM+l7jh+fCDL5kUyV5Ik/d
+   UosANWrYdmyteTlka8MsO2RVcTjVmPLw2LyJaQOX/mMwpGWWSJ/B8qw15
+   qdVjXn8o2QJJV6DPFiw64BktWThN4MR39ODj8RMImWd0xVKG6E9zApaCr
+   uO6IcVDgvvNPD3fnfjm+Cnso8wJVQq0VZt8SjsddFdkSYNN14Uj23M9ja
+   5g45Qwf3YVgU4GvPM0VZBZ8A1LtbmQAsnpEFapzS6FHgHdsMPnFjNTBSP
+   2LnmuWSx18C0BC6Uz3p8qp9sqIj29Sxew0RC6iCZtkuuCj+qye63hYotc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="4835147"
 X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="464140698"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 08:31:33 -0800
+   d="scan'208";a="4835147"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 09:45:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="1028190538"
 X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="1028190538"
+   d="scan'208";a="22950749"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 07 Jan 2024 08:31:31 -0800
+  by orviesa002.jf.intel.com with ESMTP; 07 Jan 2024 09:45:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMW3d-0003wE-27;
-	Sun, 07 Jan 2024 16:31:29 +0000
-Date: Mon, 8 Jan 2024 00:31:22 +0800
+	id 1rMXDH-0003z1-0W;
+	Sun, 07 Jan 2024 17:45:31 +0000
+Date: Mon, 8 Jan 2024 01:45:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Yu-cheng Yu <yu-cheng.yu@intel.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Kees Cook <keescook@chromium.org>
-Subject: arch/x86/kernel/shstk.c:295:55: sparse: sparse: cast removes address
- space '__user' of expression
-Message-ID: <202401080003.duO4RmjK-lkp@intel.com>
+To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: drivers/nvmem/meson-efuse.c:78:12: warning: cast from 'void
+ (*)(struct clk *)' to 'void (*)(void *)' converts to incompatible function
+ type
+Message-ID: <202401080110.6j92FbQa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+Hi Rafał,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
-commit: 05e36022c0543ba55a3de55af455b00cb3eb4fcc x86/shstk: Handle signals for shadow stack
-date:   5 months ago
-config: x86_64-randconfig-123-20240106 (https://download.01.org/0day-ci/archive/20240108/202401080003.duO4RmjK-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080003.duO4RmjK-lkp@intel.com/reproduce)
+commit: 28fc7c986f01fdcfd28af648be2597624cac0e27 nvmem: prefix all symbols with NVMEM_
+date:   1 year, 3 months ago
+config: arm64-randconfig-001-20240107 (https://download.01.org/0day-ci/archive/20240108/202401080110.6j92FbQa-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080110.6j92FbQa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401080003.duO4RmjK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401080110.6j92FbQa-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kernel/shstk.c:244:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __user *addr @@     got void *[noderef] __user @@
-   arch/x86/kernel/shstk.c:244:29: sparse:     expected unsigned long long [noderef] [usertype] __user *addr
-   arch/x86/kernel/shstk.c:244:29: sparse:     got void *[noderef] __user
->> arch/x86/kernel/shstk.c:295:55: sparse: sparse: cast removes address space '__user' of expression
+All warnings (new ones prefixed by >>):
 
-vim +/__user +295 arch/x86/kernel/shstk.c
+>> drivers/nvmem/meson-efuse.c:78:12: warning: cast from 'void (*)(struct clk *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
+      78 |                                        (void(*)(void *))clk_disable_unprepare,
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-   271	
-   272	int setup_signal_shadow_stack(struct ksignal *ksig)
-   273	{
-   274		void __user *restorer = ksig->ka.sa.sa_restorer;
-   275		unsigned long ssp;
-   276		int err;
-   277	
-   278		if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK) ||
-   279		    !features_enabled(ARCH_SHSTK_SHSTK))
-   280			return 0;
-   281	
-   282		if (!restorer)
-   283			return -EINVAL;
-   284	
-   285		ssp = get_user_shstk_addr();
-   286		if (unlikely(!ssp))
-   287			return -EINVAL;
-   288	
-   289		err = shstk_push_sigframe(&ssp);
-   290		if (unlikely(err))
-   291			return err;
-   292	
-   293		/* Push restorer address */
-   294		ssp -= SS_FRAME_SIZE;
- > 295		err = write_user_shstk_64((u64 __user *)ssp, (u64)restorer);
-   296		if (unlikely(err))
-   297			return -EFAULT;
-   298	
-   299		fpregs_lock_and_load();
-   300		wrmsrl(MSR_IA32_PL3_SSP, ssp);
-   301		fpregs_unlock();
-   302	
-   303		return 0;
-   304	}
-   305	
+
+vim +78 drivers/nvmem/meson-efuse.c
+
+ad855eae6caf0d Carlo Caione   2016-08-27   40  
+ad855eae6caf0d Carlo Caione   2016-08-27   41  static int meson_efuse_probe(struct platform_device *pdev)
+ad855eae6caf0d Carlo Caione   2016-08-27   42  {
+401488d121a4ec Jerome Brunet  2018-05-11   43  	struct device *dev = &pdev->dev;
+8cde3c2153e8f5 Carlo Caione   2019-07-31   44  	struct meson_sm_firmware *fw;
+8cde3c2153e8f5 Carlo Caione   2019-07-31   45  	struct device_node *sm_np;
+ad855eae6caf0d Carlo Caione   2016-08-27   46  	struct nvmem_device *nvmem;
+401488d121a4ec Jerome Brunet  2018-05-11   47  	struct nvmem_config *econfig;
+611fbca1c86197 Jerome Brunet  2018-11-30   48  	struct clk *clk;
+ad855eae6caf0d Carlo Caione   2016-08-27   49  	unsigned int size;
+611fbca1c86197 Jerome Brunet  2018-11-30   50  	int ret;
+611fbca1c86197 Jerome Brunet  2018-11-30   51  
+8cde3c2153e8f5 Carlo Caione   2019-07-31   52  	sm_np = of_parse_phandle(pdev->dev.of_node, "secure-monitor", 0);
+8cde3c2153e8f5 Carlo Caione   2019-07-31   53  	if (!sm_np) {
+8cde3c2153e8f5 Carlo Caione   2019-07-31   54  		dev_err(&pdev->dev, "no secure-monitor node\n");
+8cde3c2153e8f5 Carlo Caione   2019-07-31   55  		return -ENODEV;
+8cde3c2153e8f5 Carlo Caione   2019-07-31   56  	}
+8cde3c2153e8f5 Carlo Caione   2019-07-31   57  
+8cde3c2153e8f5 Carlo Caione   2019-07-31   58  	fw = meson_sm_get(sm_np);
+8cde3c2153e8f5 Carlo Caione   2019-07-31   59  	of_node_put(sm_np);
+8cde3c2153e8f5 Carlo Caione   2019-07-31   60  	if (!fw)
+8cde3c2153e8f5 Carlo Caione   2019-07-31   61  		return -EPROBE_DEFER;
+8cde3c2153e8f5 Carlo Caione   2019-07-31   62  
+611fbca1c86197 Jerome Brunet  2018-11-30   63  	clk = devm_clk_get(dev, NULL);
+611fbca1c86197 Jerome Brunet  2018-11-30   64  	if (IS_ERR(clk)) {
+611fbca1c86197 Jerome Brunet  2018-11-30   65  		ret = PTR_ERR(clk);
+611fbca1c86197 Jerome Brunet  2018-11-30   66  		if (ret != -EPROBE_DEFER)
+611fbca1c86197 Jerome Brunet  2018-11-30   67  			dev_err(dev, "failed to get efuse gate");
+611fbca1c86197 Jerome Brunet  2018-11-30   68  		return ret;
+611fbca1c86197 Jerome Brunet  2018-11-30   69  	}
+611fbca1c86197 Jerome Brunet  2018-11-30   70  
+611fbca1c86197 Jerome Brunet  2018-11-30   71  	ret = clk_prepare_enable(clk);
+611fbca1c86197 Jerome Brunet  2018-11-30   72  	if (ret) {
+611fbca1c86197 Jerome Brunet  2018-11-30   73  		dev_err(dev, "failed to enable gate");
+611fbca1c86197 Jerome Brunet  2018-11-30   74  		return ret;
+611fbca1c86197 Jerome Brunet  2018-11-30   75  	}
+611fbca1c86197 Jerome Brunet  2018-11-30   76  
+611fbca1c86197 Jerome Brunet  2018-11-30   77  	ret = devm_add_action_or_reset(dev,
+611fbca1c86197 Jerome Brunet  2018-11-30  @78  				       (void(*)(void *))clk_disable_unprepare,
+611fbca1c86197 Jerome Brunet  2018-11-30   79  				       clk);
+611fbca1c86197 Jerome Brunet  2018-11-30   80  	if (ret) {
+611fbca1c86197 Jerome Brunet  2018-11-30   81  		dev_err(dev, "failed to add disable callback");
+611fbca1c86197 Jerome Brunet  2018-11-30   82  		return ret;
+611fbca1c86197 Jerome Brunet  2018-11-30   83  	}
+ad855eae6caf0d Carlo Caione   2016-08-27   84  
+8cde3c2153e8f5 Carlo Caione   2019-07-31   85  	if (meson_sm_call(fw, SM_EFUSE_USER_MAX, &size, 0, 0, 0, 0, 0) < 0) {
+8649dbe58d359c Jerome Brunet  2018-11-30   86  		dev_err(dev, "failed to get max user");
+ad855eae6caf0d Carlo Caione   2016-08-27   87  		return -EINVAL;
+8649dbe58d359c Jerome Brunet  2018-11-30   88  	}
+ad855eae6caf0d Carlo Caione   2016-08-27   89  
+401488d121a4ec Jerome Brunet  2018-05-11   90  	econfig = devm_kzalloc(dev, sizeof(*econfig), GFP_KERNEL);
+401488d121a4ec Jerome Brunet  2018-05-11   91  	if (!econfig)
+401488d121a4ec Jerome Brunet  2018-05-11   92  		return -ENOMEM;
+401488d121a4ec Jerome Brunet  2018-05-11   93  
+401488d121a4ec Jerome Brunet  2018-05-11   94  	econfig->dev = dev;
+401488d121a4ec Jerome Brunet  2018-05-11   95  	econfig->name = dev_name(dev);
+401488d121a4ec Jerome Brunet  2018-05-11   96  	econfig->stride = 1;
+401488d121a4ec Jerome Brunet  2018-05-11   97  	econfig->word_size = 1;
+401488d121a4ec Jerome Brunet  2018-05-11   98  	econfig->reg_read = meson_efuse_read;
+e55077307d6f7c Jerome Brunet  2018-05-11   99  	econfig->reg_write = meson_efuse_write;
+401488d121a4ec Jerome Brunet  2018-05-11  100  	econfig->size = size;
+8cde3c2153e8f5 Carlo Caione   2019-07-31  101  	econfig->priv = fw;
+ad855eae6caf0d Carlo Caione   2016-08-27  102  
+401488d121a4ec Jerome Brunet  2018-05-11  103  	nvmem = devm_nvmem_register(&pdev->dev, econfig);
+ad855eae6caf0d Carlo Caione   2016-08-27  104  
+90696a4097e35f Andrey Smirnov 2018-03-09  105  	return PTR_ERR_OR_ZERO(nvmem);
+ad855eae6caf0d Carlo Caione   2016-08-27  106  }
+ad855eae6caf0d Carlo Caione   2016-08-27  107  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 611fbca1c861976e95a5244acf9f40bb0981977c nvmem: meson-efuse: add peripheral clock
+
+:::::: TO: Jerome Brunet <jbrunet@baylibre.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
