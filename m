@@ -1,47 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7051382
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 00:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF8517C4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 00:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cWPD6Mfy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704587942; x=1736123942;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jc1fr3TXXUiLWh/K84lcAKk/jX1fGwGlU8eyrDNE7+k=;
-  b=cWPD6Mfy2tz/Fiwd/Wwkkf/rJ506yPDGNymzawYR/a0YezdHljJx4KQs
-   A1ejHIjFNQDx6oINPdj/9nJ+iGw24PS7Q5G/32L2vpxWlRc2mA/z5Y1gS
-   8bC9rg2TnUfwoD1QA8REK9j1zEap6nAHL+Sp/h28joyzmOX6wCKn2w9+4
-   7Y2CJ+tU67el6EZ2q9reqA5r3dPpERoQHxMXkjnBZfYCMKQMMDmk6OahF
-   nmWR2+Cj7dE2/e0K5guHOykCpynkwVz9s7oCVoYHduOzsE+BdA9Ozrjuh
-   puBo5qtJ6TBhUi8a+FnrkbxcKwO9JRHDABzzjo4n6gOq95Xd5G2g7xa9R
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="4445189"
-X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="4445189"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 16:34:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="809877671"
-X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="809877671"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 06 Jan 2024 16:34:38 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMH7b-0003Cq-2g;
-	Sun, 07 Jan 2024 00:34:35 +0000
-Date: Sun, 7 Jan 2024 08:33:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ang Tien Sung <tien.sung.ang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dinh Nguyen <dinguyen@kernel.org>
-Subject: drivers/firmware/stratix10-svc.c:58: warning: Function parameter or
- member 'intel_svc_fcs' not described in 'stratix10_svc'
-Message-ID: <202401070808.wIHGhXPr-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D0VjLrCr"
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7bc32b04dc9so29907039f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 06 Jan 2024 16:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704588155; x=1705192955; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0iwKIfolPiCJkop7a8HKvHjc7MC8O77M50KordKa/cE=;
+        b=D0VjLrCrEPVPWxi+ecDg2yHUHns6b8kDPJnrfziRZbU7uYcx8V6aBdsad0oJBxBF1o
+         cGOYDf8iJYFw3w3fhV49wMEuv93zr2cHlB6RbaNzKD9HwHyq65JhkBceomD+C921Bu6A
+         VXg/mSXvcwEd8W2Wg86fLWqb++aR/917FwucSgjyE5P5UC84o0JsnabWX85mfRW6RhTZ
+         UPcRkfoqx+qG2FiyRXHt02wDcszbKnhXitr1wwieAyyjJ1CPUiScYZ/r4Kflyc0t4pXy
+         mM75FSg8EO2jkLAjWfxYS3n/IvkqBQaljWEYEjDab+Erc1q5GVbGfTGtIpFQn58twnLv
+         lMcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704588155; x=1705192955;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0iwKIfolPiCJkop7a8HKvHjc7MC8O77M50KordKa/cE=;
+        b=Ik+E4tmazSa/DZ8scjQ0FRcejWVKRJkuQ717SMNLRZkd3LGbeqjAIzKdZOknjPqnu0
+         TMfxcV87jylvHK+EibAtQIcSnrrmr1MMGtoHej/OzV316NJPBkoG0o+K7GubohkAGw1D
+         6J3F5DfaEejdZfRGMWmM3Gh3fPayUq/MeJJ9S1f0IjaN3KZSp3qonDQvMuCc/hb1pHCu
+         J1c3WQEQfc+FUfJ54i5TuSXvJq8zLxa33KgB9SSR/okP7JaK38a5sfFHjUL7pIbGw/NU
+         elPOZWcTgF7KMlzcYcaOwn77qcGziOH3qsEuc+JfzrLLD1Y/6SLWzH/p2MOAC++9ps7U
+         OsgQ==
+X-Gm-Message-State: AOJu0YyDSwa6k82AM50FYG1FRKGwPborLk1J8t5r9RL8/PcvWJYOmbNN
+	wwPlMYnY5eRzH9+7faNk5qXHWDNwR1A=
+X-Google-Smtp-Source: AGHT+IGONh6fpIe76vM5bhUIqZ5BR/LTulgSn88TZBukeiKV2aanxgat8TSGukezge2OOI3ubq0obA==
+X-Received: by 2002:a5e:8c0c:0:b0:7ba:9191:e263 with SMTP id n12-20020a5e8c0c000000b007ba9191e263mr2350537ioj.41.1704588154675;
+        Sat, 06 Jan 2024 16:42:34 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:e05d:9c84:c3e5:2daf])
+        by smtp.gmail.com with ESMTPSA id l2-20020a056a00140200b006d9aa4b65fasm3668862pfu.98.2024.01.06.16.42.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jan 2024 16:42:34 -0800 (PST)
+Date: Sat, 6 Jan 2024 16:42:31 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+	linux-sparse@vger.kernel.org
+Cc: Chris Morgan <macromorgan@hotmail.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast
+ truncates bits from constant value (aa01a0 becomes a0)
+Message-ID: <ZZnzd3s2L-ZwGOlz@google.com>
+References: <202401070147.gqwVulOn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,48 +59,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202401070147.gqwVulOn-lkp@intel.com>
 
-Hi Ang,
+On Sun, Jan 07, 2024 at 01:41:34AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   95c8a35f1c017327eab3b6a2ff5c04255737c856
+> commit: 66603243f5283f7f28c795f09e7c2167233df0bd Input: add driver for Hynitron cstxxx touchscreens
+> date:   1 year, 2 months ago
+> config: x86_64-randconfig-x051-20230705 (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401070147.gqwVulOn-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>    drivers/input/touchscreen/hynitron_cstxxx.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h):
+> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (aa01a0 becomes a0)
+>    include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (aa01 becomes 1)
+> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (ab00d0 becomes d0)
+>    include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (ab00 becomes 0)
+> 
+> vim +119 include/asm-generic/unaligned.h
+> 
+> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  116  
+> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  117  static inline void __put_unaligned_le24(const u32 val, u8 *p)
+> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  118  {
+> 803f4e1eab7a89 Arnd Bergmann 2021-05-08 @119  	*p++ = val;
+> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  120  	*p++ = val >> 8;
+> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  121  	*p++ = val >> 16;
+> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  122  }
+> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  123  
 
-FYI, the error/warning still remains.
+This is not really a kernel/driver bug, just sparse being over-eager
+with truncation detection. I wonder if we could make sparse skip this
+check on forced casts like this:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
-commit: e6281c26674e037798bf674f26a7593a324cdf39 firmware: stratix10-svc: Add support for FCS
-date:   1 year, 6 months ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240107/202401070808.wIHGhXPr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070808.wIHGhXPr-lkp@intel.com/reproduce)
+diff --git a/expand.c b/expand.c
+index f14e7181..5487e8b3 100644
+--- a/expand.c
++++ b/expand.c
+@@ -96,6 +96,7 @@ static long long get_longlong(struct expression *expr)
+ 
+ void cast_value(struct expression *expr, struct symbol *newtype, struct expression *old)
+ {
++	enum expression_type cast_type = expr->type;
+ 	struct symbol *oldtype = old->ctype;
+ 	int old_size = oldtype->bit_size;
+ 	int new_size = newtype->bit_size;
+@@ -133,7 +134,7 @@ Int:
+ 	expr->value = value & mask;
+ 
+ 	// Stop here unless checking for truncation
+-	if (!Wcast_truncate || conservative)
++	if (cast_type == EXPR_FORCE_CAST || !Wcast_truncate || conservative)
+ 		return;
+ 	
+ 	// Check if we dropped any bits..
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401070808.wIHGhXPr-lkp@intel.com/
+and then in the kernel we would do this:
 
-All warnings (new ones prefixed by >>):
+diff --git a/include/asm-generic/unaligned.h b/include/asm-generic/unaligned.h
+index 699650f81970..034237d12d70 100644
+--- a/include/asm-generic/unaligned.h
++++ b/include/asm-generic/unaligned.h
+@@ -104,9 +104,9 @@ static inline u32 get_unaligned_le24(const void *p)
+ 
+ static inline void __put_unaligned_be24(const u32 val, u8 *p)
+ {
+-	*p++ = val >> 16;
+-	*p++ = val >> 8;
+-	*p++ = val;
++	*p++ = (__force u8)(val >> 16);
++	*p++ = (__force u8)(val >> 8);
++	*p++ = (__force u8)val;
+ }
+ 
+ static inline void put_unaligned_be24(const u32 val, void *p)
+@@ -116,9 +116,9 @@ static inline void put_unaligned_be24(const u32 val, void *p)
+ 
+ static inline void __put_unaligned_le24(const u32 val, u8 *p)
+ {
+-	*p++ = val;
+-	*p++ = val >> 8;
+-	*p++ = val >> 16;
++	*p++ = (__force u8)val;
++	*p++ = (__force u8)(val >> 8);
++	*p++ = (__force u8)(val >> 16);
+ }
+ 
+ static inline void put_unaligned_le24(const u32 val, void *p)
+@@ -128,12 +128,12 @@ static inline void put_unaligned_le24(const u32 val, void *p)
+ 
+ static inline void __put_unaligned_be48(const u64 val, u8 *p)
+ {
+-	*p++ = val >> 40;
+-	*p++ = val >> 32;
+-	*p++ = val >> 24;
+-	*p++ = val >> 16;
+-	*p++ = val >> 8;
+-	*p++ = val;
++	*p++ = (__force u8)(val >> 40);
++	*p++ = (__force u8)(val >> 32);
++	*p++ = (__force u8)(val >> 24);
++	*p++ = (__force u8)(val >> 16);
++	*p++ = (__force u8)(val >> 8);
++	*p++ = (__force u8)val;
+ }
+ 
+ static inline void put_unaligned_be48(const u64 val, void *p)
 
->> drivers/firmware/stratix10-svc.c:58: warning: Function parameter or member 'intel_svc_fcs' not described in 'stratix10_svc'
+What do you think?
 
-
-vim +58 drivers/firmware/stratix10-svc.c
-
-7ca5ce896524f5 Richard Gong  2018-11-13  50  
-b5dc75c915cdae Richard Gong  2019-09-03  51  /**
-b5dc75c915cdae Richard Gong  2019-09-03  52   * struct stratix10_svc - svc private data
-b5dc75c915cdae Richard Gong  2019-09-03  53   * @stratix10_svc_rsu: pointer to stratix10 RSU device
-b5dc75c915cdae Richard Gong  2019-09-03  54   */
-b5dc75c915cdae Richard Gong  2019-09-03  55  struct stratix10_svc {
-b5dc75c915cdae Richard Gong  2019-09-03  56  	struct platform_device *stratix10_svc_rsu;
-e6281c26674e03 Ang Tien Sung 2022-07-11  57  	struct platform_device *intel_svc_fcs;
-b5dc75c915cdae Richard Gong  2019-09-03 @58  };
-b5dc75c915cdae Richard Gong  2019-09-03  59  
-
-:::::: The code at line 58 was first introduced by commit
-:::::: b5dc75c915cdaebab9b9875022e45638d6b14a7e firmware: stratix10-svc: extend svc to support new RSU features
-
-:::::: TO: Richard Gong <richard.gong@intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dmitry
