@@ -1,46 +1,34 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8BE134A6
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 12:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2847B134A0;
+	Sun,  7 Jan 2024 13:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bTkBENIc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704630114; x=1736166114;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O1XcEl9zImgXasRMZl6Vv+jiN/VSELKB/ZUjbOYOBC4=;
-  b=bTkBENIckoqG8kBGn1O9dTE3DwQ50ZeoRXKzPfatuwcDDCVVnjyyILtu
-   xE2xMWHM/Hd9JPAA+36s3haW3whD0juU/cKEEn4NPowpymwyoFJZzoxau
-   6D0V3fZ5MYEdXMrMJVVxgZ+2EOQOjs9WoiFzOsk7bVkfLrjIltZs+hGxQ
-   kwGeXmsnF4UYZzPIdPhg26Oh2tbgvVh+KgEYlAA1mOIfflHGMU8lTx/Ku
-   Nw24KNeo2+bZZJHgcW8MIDzVZfwzWZ6pG+jDUo///ROUf9IXtOftth+Ke
-   KDfx15d1rpdflXUis/aeEKFUPdQBP4bOTGpeBQgz2spDKOQsuHrrZ2/Ld
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="19229640"
-X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="19229640"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 04:21:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="871641276"
-X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="871641276"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Jan 2024 04:21:53 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMSA2-0003mK-2G;
-	Sun, 07 Jan 2024 12:21:50 +0000
-Date: Sun, 7 Jan 2024 20:21:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-btree-cleanups 7/8] fs/xfs/libxfs/xfs_btree.c:1256:3:
- error: expected expression
-Message-ID: <202401072010.QTeLEVCP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nmaaoaaf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14C9AC433C7;
+	Sun,  7 Jan 2024 13:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704632621;
+	bh=JQUOkY7pGDbzmZACx5v6FcY10tfDTJxeBz0eqhJQOFs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Nmaaoaafir2w9oojohBMa85RUSZbLgmAllYnvNNYv0+Np2+VC9N/d3ZttJgPVWDAE
+	 dFzbnpajB+dddDJlZCexo5udEEO9NPlipCYB4V3r43urL7OhUPIxSJQHsNMjmAfjpI
+	 lWN0emjSK+u0hVC4BKO28l7MJm+VjfODV5R0osjPIO7z0FDDlJhMRh79mQlKPAhpP9
+	 uoOkk8we9HA+CTZqXVEvMjqxbUkeUkbRYeLrCRnkeoU5yLr5OwSX/mCuVLe5vw+UbN
+	 20ge22SMMNKGhNMWFoINKRsTSoSMySj5TwrovqSKgIILqM2pat4eMQk2jovNxps12q
+	 cwczWkwcdXkxw==
+Date: Sun, 7 Jan 2024 14:03:32 +0100
+From: Luc Van Oostenryck <lucvoo@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>, linux-sparse@vger.kernel.org, 
+	Chris Morgan <macromorgan@hotmail.com>, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast
+ truncates bits from constant value (aa01a0 becomes a0)
+Message-ID: <7yxju53lhprhihayiue3dp4xnmzpugygl47tt4w56pyscsf6tx@2w3eytgeav7u>
+References: <202401070147.gqwVulOn-lkp@intel.com>
+ <ZZnzd3s2L-ZwGOlz@google.com>
+ <CAHk-=wjLaBe3Y_H5WArWdQ6d36+UOQ7NSbga1w+esGYJZaVfVg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,99 +37,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAHk-=wjLaBe3Y_H5WArWdQ6d36+UOQ7NSbga1w+esGYJZaVfVg@mail.gmail.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-btree-cleanups
-head:   96e3cee93fdff88908e5d39ee41b44b390a23baf
-commit: 40f7bff05193f552b08efc497c5e81f9112348e5 [7/8] xfs: split out a btree type from the geom flags
-config: i386-buildonly-randconfig-004-20240107 (https://download.01.org/0day-ci/archive/20240107/202401072010.QTeLEVCP-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401072010.QTeLEVCP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401072010.QTeLEVCP-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/xfs/libxfs/xfs_btree.c:1256:3: error: expected expression
-    1256 |                 __u32 __owner = (__u32)owner;
-         |                 ^
->> fs/xfs/libxfs/xfs_btree.c:1262:39: error: use of undeclared identifier '__owner'; did you mean 'owner'?
-    1262 |                         buf->bb_u.s.bb_owner = cpu_to_be32(__owner);
-         |                                                            ^~~~~~~
-         |                                                            owner
-   include/linux/byteorder/generic.h:94:21: note: expanded from macro 'cpu_to_be32'
-      94 | #define cpu_to_be32 __cpu_to_be32
-         |                     ^
-   include/uapi/linux/byteorder/little_endian.h:40:53: note: expanded from macro '__cpu_to_be32'
-      40 | #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
-         |                                                     ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   fs/xfs/libxfs/xfs_btree.c:1232:10: note: 'owner' declared here
-    1232 |         __u64                   owner)
-         |                                 ^
-   2 errors generated.
+On Sat, Jan 06, 2024 at 09:54:05PM -0800, Linus Torvalds wrote:
+> On Sat, 6 Jan 2024 at 16:42, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> >
+> > This is not really a kernel/driver bug, just sparse being over-eager
+> > with truncation detection. I wonder if we could make sparse skip this
+> > check on forced casts like this:
+> 
+> No, please don't.
+> 
+> Just face the fact that using integer casts to mask bits off is a bad idea.
+> 
+> ...
+> 
+> The *natural* thing to do is to simply make the masking itself be
+> explicit - not the cast. IOW, just write it as
+> 
+>         *p++ = (val >> 16) & 0xff;
+>         *p++ = (val >> 8) & 0xff;
+>         *p++ = val & 0xff;
+> 
+> ...
+> 
+> And while the code is a bit more to read, I think it is actually to
+> some degree more obvious to a human too what is going on.
 
 
-vim +1256 fs/xfs/libxfs/xfs_btree.c
+I fully agree.
 
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1223  
-5f95064be02d1b fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1224  static void
-5f95064be02d1b fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1225  __xfs_btree_init_block(
-b64f3a390d3477 fs/xfs/xfs_btree.c        Dave Chinner      2012-11-13  1226  	struct xfs_mount	*mp,
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1227  	struct xfs_btree_block	*buf,
-c1f1f8904b933c fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1228  	const struct xfs_btree_ops *ops,
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1229  	xfs_daddr_t		blkno,
-b64f3a390d3477 fs/xfs/xfs_btree.c        Dave Chinner      2012-11-13  1230  	__u16			level,
-b64f3a390d3477 fs/xfs/xfs_btree.c        Dave Chinner      2012-11-13  1231  	__u16			numrecs,
-c1f1f8904b933c fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1232  	__u64			owner)
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1233  {
-c1f1f8904b933c fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1234  	bool			crc = ops->geom_flags & XFS_BTGEO_CRC_BLOCKS;
-c1f1f8904b933c fs/xfs/libxfs/xfs_btree.c Darrick J. Wong   2023-03-06  1235  	__u32			magic = xfs_btree_magic(mp, ops);
-f88ae46b09e93e fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2017-01-27  1236  
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1237  	buf->bb_magic = cpu_to_be32(magic);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1238  	buf->bb_level = cpu_to_be16(level);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1239  	buf->bb_numrecs = cpu_to_be16(numrecs);
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1240  
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1241  	switch (ops->type) {
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1242  	case XFS_BTREE_TYPE_INODE:
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1243  	case XFS_BTREE_TYPE_MEM:
-d5cf09baced0ef fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2014-07-30  1244  		buf->bb_u.l.bb_leftsib = cpu_to_be64(NULLFSBLOCK);
-d5cf09baced0ef fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2014-07-30  1245  		buf->bb_u.l.bb_rightsib = cpu_to_be64(NULLFSBLOCK);
-f88ae46b09e93e fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2017-01-27  1246  		if (crc) {
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1247  			buf->bb_u.l.bb_blkno = cpu_to_be64(blkno);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1248  			buf->bb_u.l.bb_owner = cpu_to_be64(owner);
-ce748eaa65f2e9 fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2015-07-29  1249  			uuid_copy(&buf->bb_u.l.bb_uuid, &mp->m_sb.sb_meta_uuid);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1250  			buf->bb_u.l.bb_pad = 0;
-b58fa554e9b940 fs/xfs/xfs_btree.c        Dave Chinner      2013-08-28  1251  			buf->bb_u.l.bb_lsn = 0;
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1252  		}
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1253  		break;
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1254  	case XFS_BTREE_TYPE_AG:
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1255  		/* owner is a 32 bit value on short blocks */
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21 @1256  		__u32 __owner = (__u32)owner;
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1257  
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1258  		buf->bb_u.s.bb_leftsib = cpu_to_be32(NULLAGBLOCK);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1259  		buf->bb_u.s.bb_rightsib = cpu_to_be32(NULLAGBLOCK);
-f88ae46b09e93e fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2017-01-27  1260  		if (crc) {
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1261  			buf->bb_u.s.bb_blkno = cpu_to_be64(blkno);
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21 @1262  			buf->bb_u.s.bb_owner = cpu_to_be32(__owner);
-ce748eaa65f2e9 fs/xfs/libxfs/xfs_btree.c Eric Sandeen      2015-07-29  1263  			uuid_copy(&buf->bb_u.s.bb_uuid, &mp->m_sb.sb_meta_uuid);
-b58fa554e9b940 fs/xfs/xfs_btree.c        Dave Chinner      2013-08-28  1264  			buf->bb_u.s.bb_lsn = 0;
-ee1a47ab0e7760 fs/xfs/xfs_btree.c        Christoph Hellwig 2013-04-21  1265  		}
-40f7bff05193f5 fs/xfs/libxfs/xfs_btree.c Christoph Hellwig 2024-01-06  1266  		break;
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1267  	}
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1268  }
-f5eb8e7ca58bc1 fs/xfs/xfs_btree.c        Christoph Hellwig 2008-10-30  1269  
+It's kinda sad is that there is more than 800 occurrences of this
+"cast truncates bits from constant value" warning and almost all of
+them are of the kind:
+	"a 32bit constant must be written in 2 steps via 16bit IO registers"
 
-:::::: The code at line 1256 was first introduced by commit
-:::::: ee1a47ab0e77600fcbdf1c87d461bd8f3f63150d xfs: add support for large btree blocks
+In these cases, no bits are lost, they're just written in the other write,
+and real problems, when present, are drown/lost into these 800 harmless ones.
+It's in fact the 4th most common warning in the kernel, the top 10 being:
+   2858 incorrect type in assignment (different base types)
+   2715 cast to restricted type
+    923 incorrect type in argument (different address spaces)
+    818 cast truncates bits from constant value
+    739 restricted type degrades to integer
+    549 context imbalance - unexpected unlock
+    500 symbol was not declared. Should it be static?
+    407 cast removes address space '__iomem' of expression
+    344 incompatible types in comparison expression (different address spaces)
+    323 context imbalance - different lock contexts for basic block
 
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Ben Myers <bpm@sgi.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Luc
