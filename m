@@ -1,128 +1,116 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96A01382
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 01:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD8E612A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 01:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="iZSEy6m2"
-Received: from [IPv6:::1] ([172.56.208.238])
-	(authenticated bits=0)
-	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 4071HJpr962781
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sat, 6 Jan 2024 17:17:21 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 4071HJpr962781
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2023121201; t=1704590243;
-	bh=NC2CrnQRyBY2GhZKHwqRwBQvMsjgYLB7PY/48PwpD80=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=iZSEy6m20clspqHdRl10tIH4WTqAgVZXCZC4ZB3I2Kj8owfPsB7SlQ/eOE7U35W9Q
-	 HFHZPq1eQ8aMP6z7M2oSp+vq6mgw8XSv+Cr3dIhJL//zmB+Z5PH9XOCB/G6D7JKTS6
-	 r+DZJB3DEGduOsd28mPTOYyUsWxaxHNZPQRq4lJ0zvADus1/M72vOuQfXTndf3JfI3
-	 +EVdI4BUeDFFTDce+vkMCrvnI+9CDCfSPhr2VK5DDylmjC0DCyDoLHUYDOYv4y9VDo
-	 G3vFPf8oDAw9WIpdq3WbDZlsEFtY576PkK4gPw/Xi9EfyCil5J7bb5KuGONHcZt6X0
-	 jKaYMf+2wnItA==
-Date: Sat, 06 Jan 2024 17:09:09 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: David Laight <David.Laight@ACULAB.COM>,
-        "'Linus Torvalds'" <torvalds@linux-foundation.org>
-CC: Noah Goldstein <goldstein.w.n@gmail.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-Subject: RE: x86/csum: Remove unnecessary odd handling
-User-Agent: K-9 Mail for Android
-In-Reply-To: <124b21857fe44e499e29800cbf4f63f8@AcuMS.aculab.com>
-References: <20230920192300.3772199-1-goldstein.w.n@gmail.com> <202309231130.ZI5MdlDc-lkp@intel.com> <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com> <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com> <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com> <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com> <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com> <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com> <CAHk-=wiNUucmvTKGmveWzXXe99SpOwU65nFtH-A2_aUpPsAPJQ@mail.gmail.com> <5354eeec562345f6a1de84f0b2081b75@AcuMS.aculab.com> <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com> <124b21857fe44e499e29800cbf4f63f8@AcuMS.aculab.com>
-Message-ID: <4313F9BB-DE2E-448F-A366-A68CAEA2BFE0@zytor.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JnF1dePU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704590934; x=1736126934;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pLKt8l3zHhf2KM16EP0P1b8oNxi281vd02UU80eSG00=;
+  b=JnF1dePUN7iQb/pkngOt8YDcGutd9JlfJg3WlP5st+QTO+XyF6bX5aOi
+   SiYJkC1tEtg5vQBwbgJIr89vJpCvX6pCAMxhT1fO91I3x7bg4fNGNRB7C
+   L3/uLbHczpVI9cLON5teHr+aTyBnr9RIyzk0DLWRtV7WQ8asBcC13+qO1
+   KeCpldCuqTQZOt03dNM6JVY9JD645JlyE3U7ehzo57jL4XKAnYbtHx4gc
+   5mMicvgOZP9JLZKV/3e/pJJDwMgk3XaOmL9KgVEeZ7tGiDCZk8cB6ucWU
+   eNRBLEZmmCtMJubkvKGo4YuwtxITO2u24A+coMK9MRvcu+zbZqdzBzJVM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="11178045"
+X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
+   d="scan'208";a="11178045"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 17:28:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="904468580"
+X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
+   d="scan'208";a="904468580"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 06 Jan 2024 17:28:43 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rMHxx-0003F4-0g;
+	Sun, 07 Jan 2024 01:28:41 +0000
+Date: Sun, 7 Jan 2024 09:28:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: sound/core/control.c:390:11: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202401070905.atBrWkl7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On January 6, 2024 2:08:48 PM PST, David Laight <David=2ELaight@ACULAB=2ECO=
-M> wrote:
->From: Linus Torvalds
->> Sent: 05 January 2024 18:06
->>=20
->> On Fri, 5 Jan 2024 at 02:41, David Laight <David=2ELaight@aculab=2Ecom>=
- wrote:
->> >
->> > Interesting, I'm pretty sure trying to get two blocks of
->> >  'adc' scheduled in parallel like that doesn't work=2E
->>=20
->> You should check out the benchmark at
->>=20
->>        https://github=2Ecom/fenrus75/csum_partial
->>=20
->> and see if you can improve on it=2E I'm including the patch (on top of
->> that code by Arjan) to implement the actual current kernel version as
->> "New version"=2E
->
->Annoyingly (for me) you are partially right=2E=2E=2E
->
->I found where my ip checksum perf code was hiding and revisited it=2E
->Although I found comments elsewhere that the 'jecxz, adc, adc, lea, jmp'
->did an adc every clock it isn't happening for me now=2E
->
->I'm only measuring the inner loop for multiples of 64 bytes=2E
->The code less than 8 bytes and partial final words is a
->separate problem=2E
->The less unrolled the main loop, the less overhead there'll
->be for 'normal' sizes=2E
->So I've changed your '80 byte' block to 64 bytes for consistency=2E
->
->I'm ignoring pre-sandy bridge cpu (no split flags) and pre-broadwell
->(adc takes two clocks - although adc to alternate regs is one clock
->on sandy bridge)=2E
->My test system is an i7-7700, I think anything from broadwell (gen 4)
->will be at least as good=2E
->I don't have a modern amd cpu=2E
->
->The best loop for 256+ bytes is an adxc/adxo one=2E
->However that requires the run-time patching=2E
->Followed by new kernel version (two blocks of 4 adc)=2E
->The surprising one is:
->		xor	sum, sum
->	1:	adc	(buff), sum
->		adc	8(buff), sum
->		lea	16(buff), buff
->		dec	count
->		jnz	1b
->		adc	$0, sum
->For 256 bytes it is only a couple of clocks slower=2E
->Maybe 10% slower for 512+ bytes=2E
->But it need almost no extra code for 'normal' buffer sizes=2E
->By comparison the adxc/adxo one is 20% faster=2E
->
->The code is doing:
->	old =3D rdpmc
->	mfence
->	csum =3D do_csum(buf, len);
->	mfence
->	clocks =3D rdpmc - old
->(That is directly reading the pmc register=2E)
->With 'no-op' function it takes 160 clocks (I-cache resident)=2E
->Without the mfence 40 - but pretty much everything can execute
->after the 2nd rdpmc=2E
->
->I've attached my (horrid) test program=2E
->
->	David
->
->-
->Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1=
- 1PT, UK
->Registration No: 1397386 (Wales)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
+commit: c27e1efb61c545f36c450ef60862df9251d239a4 ALSA: control: Use xarray for faster lookups
+date:   1 year, 7 months ago
+config: x86_64-randconfig-121-20240106 (https://download.01.org/0day-ci/archive/20240107/202401070905.atBrWkl7-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070905.atBrWkl7-lkp@intel.com/reproduce)
 
-Rather than runtime patching perhaps separate paths=2E=2E=2E
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070905.atBrWkl7-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> sound/core/control.c:390:11: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long h @@     got restricted snd_ctl_elem_iface_t const [usertype] iface @@
+   sound/core/control.c:390:11: sparse:     expected unsigned long h
+   sound/core/control.c:390:11: sparse:     got restricted snd_ctl_elem_iface_t const [usertype] iface
+   sound/core/control.c:926:17: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control.c:926:26: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control.c:927:17: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control.c:927:26: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control.c:946:48: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control.c:1640:40: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control.c: note: in included file:
+   sound/core/control_compat.c:193:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] err @@     got restricted snd_ctl_elem_type_t [usertype] type @@
+   sound/core/control_compat.c:193:21: sparse:     expected int [assigned] err
+   sound/core/control_compat.c:193:21: sparse:     got restricted snd_ctl_elem_type_t [usertype] type
+   sound/core/control_compat.c:203:14: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control_compat.c:205:14: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control_compat.c:207:14: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control_compat.c:209:14: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control_compat.c:237:21: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control_compat.c:238:21: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control_compat.c:270:21: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+   sound/core/control_compat.c:271:21: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+
+vim +390 sound/core/control.c
+
+   378	
+   379	#ifdef CONFIG_SND_CTL_FAST_LOOKUP
+   380	/* Compute a hash key for the corresponding ctl id
+   381	 * It's for the name lookup, hence the numid is excluded.
+   382	 * The hash key is bound in LONG_MAX to be used for Xarray key.
+   383	 */
+   384	#define MULTIPLIER	37
+   385	static unsigned long get_ctl_id_hash(const struct snd_ctl_elem_id *id)
+   386	{
+   387		unsigned long h;
+   388		const unsigned char *p;
+   389	
+ > 390		h = id->iface;
+   391		h = MULTIPLIER * h + id->device;
+   392		h = MULTIPLIER * h + id->subdevice;
+   393		for (p = id->name; *p; p++)
+   394			h = MULTIPLIER * h + *p;
+   395		h = MULTIPLIER * h + id->index;
+   396		h &= LONG_MAX;
+   397		return h;
+   398	}
+   399	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
