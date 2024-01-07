@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0594C1118A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 03:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D79C1171A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 03:50:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NxIuNJXW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2Ev9oMY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704598568; x=1736134568;
+  t=1704599459; x=1736135459;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HRqD2lUnlcGevVzzfpPV9tFg2taamwhKHEr3ONqxqlw=;
-  b=NxIuNJXWR8IN9DZWakDV7fJXKY4yEtSnQQMKP/15YKAGmErm9HZBzI/2
-   Cfo5vGY8ZEPJyspbrbZ2Db2b2/q2yYNET7GLpuCwMgkN5QHoMQbLa82y6
-   SKMGBHiseC1QVLjilyGjA5y50RZ0BvDFdFiA6CEHZNN6jpiLKzz2zhwwU
-   OEHTFKvaXUSmSUj7sU4n3Y3dv+NoMrMb4HwPeAmcXhQE+E9beSidUTbnq
-   7jhvnC1QXFTmvkG5rMORtsXfiKGF3OAcRKWX1kPx9XojI101uVEu/6Mzv
-   YdejsSVnk1AuY0D+4o66X7yrdzKBv/3WBg+DdYTEBa7J51sC4nBI8NUjM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="382667347"
+  bh=KRKPLPnFv4jzH7oeggR6wXMnOYLydSE6fs05zQ0CEdk=;
+  b=N2Ev9oMYPlATKx9LfiVosi39nf3YfYEm9F42N0yfDCHpXhI3XTuGz6St
+   lcZztKiC4FFC0A8eC25dKLcbxz0BjoPNCqmRF5E/uhjUqMfv3/I1QAJJn
+   5XBrzubsy9SMoWdBigr7/MDV2Dj8lqq4RjeLVVwuT8lQ0cPjuw3kiIAsx
+   s4z9eawAl/SyTJzdrsweI1Dk00JrtP7Dab8DkU1SQunvCTgs1YiJV6byg
+   jKut1AC2XXhal9wSbZC/5vWrDLVG6BZ/5kTYiWordS/IvJP8y5cDotzg/
+   kDNH9x+OJDGsaZrKMOX6dtp5w3r+wGCa2zRJBhm+INBzHkWwqn6Vw20Qh
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="388153134"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="382667347"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 19:35:51 -0800
+   d="scan'208";a="388153134"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 19:50:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="851471212"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="871561639"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="851471212"
+   d="scan'208";a="871561639"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Jan 2024 19:35:47 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Jan 2024 19:50:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMJwv-0003KS-0X;
-	Sun, 07 Jan 2024 03:35:45 +0000
-Date: Sun, 7 Jan 2024 11:34:53 +0800
+	id 1rMKBS-0003Lp-0G;
+	Sun, 07 Jan 2024 03:50:46 +0000
+Date: Sun, 7 Jan 2024 11:50:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/file.c:862:14: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202401071109.RJ9OQWsn-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-lib 41/50] fs/cachefiles/io.c:552
+ __cachefiles_prepare_write() warn: unsigned 'pos' is never less than zero.
+Message-ID: <202401071152.DbKqMQMu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,116 +50,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
-commit: 0ede61d8589cc2d93aa78230d74ac58b5b8d0244 file: convert to SLAB_TYPESAFE_BY_RCU
-date:   3 months ago
-config: x86_64-randconfig-123-20240106 (https://download.01.org/0day-ci/archive/20240107/202401071109.RJ9OQWsn-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-lib
+head:   807c6d09cc99cbdf9933edfadcbaa8f0b856848d
+commit: 7097c96411d22a1b3f6370dfd7eb2e3b7b83ff98 [41/50] cachefiles: Fix __cachefiles_prepare_write()
+config: x86_64-randconfig-161-20240105 (https://download.01.org/0day-ci/archive/20240107/202401071152.DbKqMQMu-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401071109.RJ9OQWsn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401071109.RJ9OQWsn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401071152.DbKqMQMu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/file.c:379:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] __rcu **fd @@
-   fs/file.c:379:17: sparse:     expected struct file **old_fds
-   fs/file.c:379:17: sparse:     got struct file [noderef] __rcu **fd
-   fs/file.c:380:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] __rcu **fd @@
-   fs/file.c:380:17: sparse:     expected struct file **new_fds
-   fs/file.c:380:17: sparse:     got struct file [noderef] __rcu **fd
-   fs/file.c:395:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/file.c:395:17: sparse:    struct file [noderef] __rcu *
-   fs/file.c:395:17: sparse:    struct file *
-   fs/file.c:430:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu *[assigned] __ret @@
-   fs/file.c:470:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] __rcu *fdt @@     got struct fdtable * @@
-   fs/file.c:646:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
-   fs/file.c:841:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
->> fs/file.c:862:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
->> fs/file.c:866:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct atomic64_t [usertype] *v @@     got struct atomic64_t [noderef] __rcu * @@
->> fs/file.c:869:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file_reloaded @@     got struct file * @@
->> fs/file.c:892:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file_reloaded @@
->> fs/file.c:894:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
-   fs/file.c:915:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
->> fs/file.c:922:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
-   fs/file.c:1212:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] __rcu * @@
+New smatch warnings:
+fs/cachefiles/io.c:552 __cachefiles_prepare_write() warn: unsigned 'pos' is never less than zero.
 
-vim +862 fs/file.c
+Old smatch warnings:
+fs/cachefiles/io.c:573 __cachefiles_prepare_write() warn: unsigned 'pos' is never less than zero.
 
-   855	
-   856	static struct file *__get_file_rcu(struct file __rcu **f)
-   857	{
-   858		struct file __rcu *file;
-   859		struct file __rcu *file_reloaded;
-   860		struct file __rcu *file_reloaded_cmp;
-   861	
- > 862		file = rcu_dereference_raw(*f);
-   863		if (!file)
-   864			return NULL;
-   865	
- > 866		if (unlikely(!atomic_long_inc_not_zero(&file->f_count)))
-   867			return ERR_PTR(-EAGAIN);
-   868	
- > 869		file_reloaded = rcu_dereference_raw(*f);
-   870	
-   871		/*
-   872		 * Ensure that all accesses have a dependency on the load from
-   873		 * rcu_dereference_raw() above so we get correct ordering
-   874		 * between reuse/allocation and the pointer check below.
-   875		 */
-   876		file_reloaded_cmp = file_reloaded;
-   877		OPTIMIZER_HIDE_VAR(file_reloaded_cmp);
-   878	
-   879		/*
-   880		 * atomic_long_inc_not_zero() above provided a full memory
-   881		 * barrier when we acquired a reference.
-   882		 *
-   883		 * This is paired with the write barrier from assigning to the
-   884		 * __rcu protected file pointer so that if that pointer still
-   885		 * matches the current file, we know we have successfully
-   886		 * acquired a reference to the right file.
-   887		 *
-   888		 * If the pointers don't match the file has been reallocated by
-   889		 * SLAB_TYPESAFE_BY_RCU.
-   890		 */
-   891		if (file == file_reloaded_cmp)
- > 892			return file_reloaded;
-   893	
- > 894		fput(file);
-   895		return ERR_PTR(-EAGAIN);
-   896	}
-   897	
-   898	/**
-   899	 * get_file_rcu - try go get a reference to a file under rcu
-   900	 * @f: the file to get a reference on
-   901	 *
-   902	 * This function tries to get a reference on @f carefully verifying that
-   903	 * @f hasn't been reused.
-   904	 *
-   905	 * This function should rarely have to be used and only by users who
-   906	 * understand the implications of SLAB_TYPESAFE_BY_RCU. Try to avoid it.
-   907	 *
-   908	 * Return: Returns @f with the reference count increased or NULL.
-   909	 */
-   910	struct file *get_file_rcu(struct file __rcu **f)
-   911	{
-   912		for (;;) {
-   913			struct file __rcu *file;
-   914	
-   915			file = __get_file_rcu(f);
-   916			if (unlikely(!file))
-   917				return NULL;
-   918	
-   919			if (unlikely(IS_ERR(file)))
-   920				continue;
-   921	
- > 922			return file;
-   923		}
-   924	}
-   925	EXPORT_SYMBOL_GPL(get_file_rcu);
-   926	
+vim +/pos +552 fs/cachefiles/io.c
+
+8669247524c73e Jingbo Xu     2022-11-24  515  
+047487c947e8b9 David Howells 2021-10-21  516  /*
+047487c947e8b9 David Howells 2021-10-21  517   * Prepare for a write to occur.
+047487c947e8b9 David Howells 2021-10-21  518   */
+a06fac1599c179 Jeffle Xu     2022-04-25  519  int __cachefiles_prepare_write(struct cachefiles_object *object,
+a06fac1599c179 Jeffle Xu     2022-04-25  520  			       struct file *file,
+e0ace6ca98bef0 David Howells 2023-11-22  521  			       loff_t *_start, size_t *_len, size_t upper_len,
+047487c947e8b9 David Howells 2021-10-21  522  			       bool no_space_allocated_yet)
+047487c947e8b9 David Howells 2021-10-21  523  {
+047487c947e8b9 David Howells 2021-10-21  524  	struct cachefiles_cache *cache = object->volume->cache;
+7097c96411d22a David Howells 2024-01-02  525  	unsigned long long start = *_start, pos;
+7097c96411d22a David Howells 2024-01-02  526  	size_t len = *_len;
+047487c947e8b9 David Howells 2021-10-21  527  	int ret;
+047487c947e8b9 David Howells 2021-10-21  528  
+047487c947e8b9 David Howells 2021-10-21  529  	/* Round to DIO size */
+7097c96411d22a David Howells 2024-01-02  530  	start = round_down(*_start, PAGE_SIZE);
+7097c96411d22a David Howells 2024-01-02  531  	if (start != *_start) {
+7097c96411d22a David Howells 2024-01-02  532  		kleave(" = -ENOBUFS [down]");
+7097c96411d22a David Howells 2024-01-02  533  		return -ENOBUFS;
+7097c96411d22a David Howells 2024-01-02  534  	}
+7097c96411d22a David Howells 2024-01-02  535  	if (*_len > upper_len) {
+7097c96411d22a David Howells 2024-01-02  536  		kleave(" = -ENOBUFS [up]");
+e0ace6ca98bef0 David Howells 2023-11-22  537  		return -ENOBUFS;
+7097c96411d22a David Howells 2024-01-02  538  	}
+7097c96411d22a David Howells 2024-01-02  539  
+7097c96411d22a David Howells 2024-01-02  540  	*_len = round_up(len, PAGE_SIZE);
+047487c947e8b9 David Howells 2021-10-21  541  
+047487c947e8b9 David Howells 2021-10-21  542  	/* We need to work out whether there's sufficient disk space to perform
+047487c947e8b9 David Howells 2021-10-21  543  	 * the write - but we can skip that check if we have space already
+047487c947e8b9 David Howells 2021-10-21  544  	 * allocated.
+047487c947e8b9 David Howells 2021-10-21  545  	 */
+047487c947e8b9 David Howells 2021-10-21  546  	if (no_space_allocated_yet)
+047487c947e8b9 David Howells 2021-10-21  547  		goto check_space;
+047487c947e8b9 David Howells 2021-10-21  548  
+047487c947e8b9 David Howells 2021-10-21  549  	pos = cachefiles_inject_read_error();
+047487c947e8b9 David Howells 2021-10-21  550  	if (pos == 0)
+7097c96411d22a David Howells 2024-01-02  551  		pos = vfs_llseek(file, start, SEEK_DATA);
+047487c947e8b9 David Howells 2021-10-21 @552  	if (pos < 0 && pos >= (loff_t)-MAX_ERRNO) {
+047487c947e8b9 David Howells 2021-10-21  553  		if (pos == -ENXIO)
+047487c947e8b9 David Howells 2021-10-21  554  			goto check_space; /* Unallocated tail */
+047487c947e8b9 David Howells 2021-10-21  555  		trace_cachefiles_io_error(object, file_inode(file), pos,
+047487c947e8b9 David Howells 2021-10-21  556  					  cachefiles_trace_seek_error);
+047487c947e8b9 David Howells 2021-10-21  557  		return pos;
+047487c947e8b9 David Howells 2021-10-21  558  	}
+7097c96411d22a David Howells 2024-01-02  559  	if (pos >= start + *_len)
+047487c947e8b9 David Howells 2021-10-21  560  		goto check_space; /* Unallocated region */
+047487c947e8b9 David Howells 2021-10-21  561  
+047487c947e8b9 David Howells 2021-10-21  562  	/* We have a block that's at least partially filled - if we're low on
+047487c947e8b9 David Howells 2021-10-21  563  	 * space, we need to see if it's fully allocated.  If it's not, we may
+047487c947e8b9 David Howells 2021-10-21  564  	 * want to cull it.
+047487c947e8b9 David Howells 2021-10-21  565  	 */
+3929eca769b5a2 David Howells 2021-10-21  566  	if (cachefiles_has_space(cache, 0, *_len / PAGE_SIZE,
+3929eca769b5a2 David Howells 2021-10-21  567  				 cachefiles_has_space_check) == 0)
+047487c947e8b9 David Howells 2021-10-21  568  		return 0; /* Enough space to simply overwrite the whole block */
+047487c947e8b9 David Howells 2021-10-21  569  
+047487c947e8b9 David Howells 2021-10-21  570  	pos = cachefiles_inject_read_error();
+047487c947e8b9 David Howells 2021-10-21  571  	if (pos == 0)
+7097c96411d22a David Howells 2024-01-02  572  		pos = vfs_llseek(file, start, SEEK_HOLE);
+047487c947e8b9 David Howells 2021-10-21  573  	if (pos < 0 && pos >= (loff_t)-MAX_ERRNO) {
+047487c947e8b9 David Howells 2021-10-21  574  		trace_cachefiles_io_error(object, file_inode(file), pos,
+047487c947e8b9 David Howells 2021-10-21  575  					  cachefiles_trace_seek_error);
+047487c947e8b9 David Howells 2021-10-21  576  		return pos;
+047487c947e8b9 David Howells 2021-10-21  577  	}
+7097c96411d22a David Howells 2024-01-02  578  	if (pos >= start + *_len)
+047487c947e8b9 David Howells 2021-10-21  579  		return 0; /* Fully allocated */
+047487c947e8b9 David Howells 2021-10-21  580  
+047487c947e8b9 David Howells 2021-10-21  581  	/* Partially allocated, but insufficient space: cull. */
+3929eca769b5a2 David Howells 2021-10-21  582  	fscache_count_no_write_space();
+047487c947e8b9 David Howells 2021-10-21  583  	ret = cachefiles_inject_remove_error();
+047487c947e8b9 David Howells 2021-10-21  584  	if (ret == 0)
+047487c947e8b9 David Howells 2021-10-21  585  		ret = vfs_fallocate(file, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
+7097c96411d22a David Howells 2024-01-02  586  				    start, *_len);
+047487c947e8b9 David Howells 2021-10-21  587  	if (ret < 0) {
+047487c947e8b9 David Howells 2021-10-21  588  		trace_cachefiles_io_error(object, file_inode(file), ret,
+047487c947e8b9 David Howells 2021-10-21  589  					  cachefiles_trace_fallocate_error);
+047487c947e8b9 David Howells 2021-10-21  590  		cachefiles_io_error_obj(object,
+047487c947e8b9 David Howells 2021-10-21  591  					"CacheFiles: fallocate failed (%d)\n", ret);
+047487c947e8b9 David Howells 2021-10-21  592  		ret = -EIO;
+047487c947e8b9 David Howells 2021-10-21  593  	}
+047487c947e8b9 David Howells 2021-10-21  594  
+047487c947e8b9 David Howells 2021-10-21  595  	return ret;
+047487c947e8b9 David Howells 2021-10-21  596  
+047487c947e8b9 David Howells 2021-10-21  597  check_space:
+3929eca769b5a2 David Howells 2021-10-21  598  	return cachefiles_has_space(cache, 0, *_len / PAGE_SIZE,
+3929eca769b5a2 David Howells 2021-10-21  599  				    cachefiles_has_space_for_write);
+047487c947e8b9 David Howells 2021-10-21  600  }
+047487c947e8b9 David Howells 2021-10-21  601  
+
+:::::: The code at line 552 was first introduced by commit
+:::::: 047487c947e8b96b94579c3a33207bd4e266b4c6 cachefiles: Implement the I/O routines
+
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
