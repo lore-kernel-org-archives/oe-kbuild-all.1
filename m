@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD8E612A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 01:28:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6B11382
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 01:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JnF1dePU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewH0Wprc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704590934; x=1736126934;
+  t=1704590938; x=1736126938;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pLKt8l3zHhf2KM16EP0P1b8oNxi281vd02UU80eSG00=;
-  b=JnF1dePUN7iQb/pkngOt8YDcGutd9JlfJg3WlP5st+QTO+XyF6bX5aOi
-   SiYJkC1tEtg5vQBwbgJIr89vJpCvX6pCAMxhT1fO91I3x7bg4fNGNRB7C
-   L3/uLbHczpVI9cLON5teHr+aTyBnr9RIyzk0DLWRtV7WQ8asBcC13+qO1
-   KeCpldCuqTQZOt03dNM6JVY9JD645JlyE3U7ehzo57jL4XKAnYbtHx4gc
-   5mMicvgOZP9JLZKV/3e/pJJDwMgk3XaOmL9KgVEeZ7tGiDCZk8cB6ucWU
-   eNRBLEZmmCtMJubkvKGo4YuwtxITO2u24A+coMK9MRvcu+zbZqdzBzJVM
+  bh=OxLF2393s7TfSw37Q+XtUBUI5q02bkmOSGUxZDsWJPg=;
+  b=ewH0WprctP0G+mSLE8NWzYXeH5/7Q0tr7iv10M0JbZr6IS/2TV+j8gQ3
+   frE6oY8EcI6vCZhP6rRnXsI7tkrvGI1WRtYf2QnYUWgDi3Yn0mkKZCgzT
+   HvUApDBRAxMVk5H+8wfXmUOWbvE1192aVfllM81SYqffm/oaZH4cEX1eF
+   UUHjhzoBemzj3hwpvvJoBpmu80mOr9xzdsASENhoJYriPdUxEDeJ/oL4+
+   hxNW3Ub4RFWIuwgaX4bwMI51nkiUy5p0f+u74ODMTx3EIKNLwHmU/6kbm
+   7oMRCEXcb3tTTGSM4h317uOucRQ/LqCAbbIX7ZjCqaQEhlIzasb7hcO3o
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="11178045"
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="428875592"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="11178045"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 17:28:45 -0800
+   d="scan'208";a="428875592"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 17:28:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="904468580"
 X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="904468580"
+   d="scan'208";a="23179112"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 06 Jan 2024 17:28:43 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 06 Jan 2024 17:28:43 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMHxx-0003F4-0g;
+	id 1rMHxx-0003F2-0Y;
 	Sun, 07 Jan 2024 01:28:41 +0000
-Date: Sun, 7 Jan 2024 09:28:32 +0800
+Date: Sun, 7 Jan 2024 09:28:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: sound/core/control.c:390:11: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202401070905.atBrWkl7-lkp@intel.com>
+To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: drivers/iio/adc/axp20x_adc.c:572:26: sparse: sparse: dubious: x & !y
+Message-ID: <202401070901.68H00NFa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,64 +53,59 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
-commit: c27e1efb61c545f36c450ef60862df9251d239a4 ALSA: control: Use xarray for faster lookups
-date:   1 year, 7 months ago
-config: x86_64-randconfig-121-20240106 (https://download.01.org/0day-ci/archive/20240107/202401070905.atBrWkl7-lkp@intel.com/config)
+commit: 8957e5344353e9cd3f6b1e3004942e35449fa0e8 iio: adc: axp20x_adc: Minor code cleanups
+date:   10 months ago
+config: x86_64-randconfig-121-20240106 (https://download.01.org/0day-ci/archive/20240107/202401070901.68H00NFa-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070905.atBrWkl7-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070901.68H00NFa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401070905.atBrWkl7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401070901.68H00NFa-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> sound/core/control.c:390:11: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long h @@     got restricted snd_ctl_elem_iface_t const [usertype] iface @@
-   sound/core/control.c:390:11: sparse:     expected unsigned long h
-   sound/core/control.c:390:11: sparse:     got restricted snd_ctl_elem_iface_t const [usertype] iface
-   sound/core/control.c:926:17: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control.c:926:26: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control.c:927:17: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control.c:927:26: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control.c:946:48: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control.c:1640:40: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control.c: note: in included file:
-   sound/core/control_compat.c:193:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] err @@     got restricted snd_ctl_elem_type_t [usertype] type @@
-   sound/core/control_compat.c:193:21: sparse:     expected int [assigned] err
-   sound/core/control_compat.c:193:21: sparse:     got restricted snd_ctl_elem_type_t [usertype] type
-   sound/core/control_compat.c:203:14: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control_compat.c:205:14: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control_compat.c:207:14: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control_compat.c:209:14: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control_compat.c:237:21: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control_compat.c:238:21: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control_compat.c:270:21: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
-   sound/core/control_compat.c:271:21: sparse: sparse: restricted snd_ctl_elem_type_t degrades to integer
+>> drivers/iio/adc/axp20x_adc.c:572:26: sparse: sparse: dubious: x & !y
+   drivers/iio/adc/axp20x_adc.c:577:26: sparse: sparse: dubious: x & !y
 
-vim +390 sound/core/control.c
+vim +572 drivers/iio/adc/axp20x_adc.c
 
-   378	
-   379	#ifdef CONFIG_SND_CTL_FAST_LOOKUP
-   380	/* Compute a hash key for the corresponding ctl id
-   381	 * It's for the name lookup, hence the numid is excluded.
-   382	 * The hash key is bound in LONG_MAX to be used for Xarray key.
-   383	 */
-   384	#define MULTIPLIER	37
-   385	static unsigned long get_ctl_id_hash(const struct snd_ctl_elem_id *id)
-   386	{
-   387		unsigned long h;
-   388		const unsigned char *p;
-   389	
- > 390		h = id->iface;
-   391		h = MULTIPLIER * h + id->device;
-   392		h = MULTIPLIER * h + id->subdevice;
-   393		for (p = id->name; *p; p++)
-   394			h = MULTIPLIER * h + *p;
-   395		h = MULTIPLIER * h + id->index;
-   396		h &= LONG_MAX;
-   397		return h;
-   398	}
-   399	
+   551	
+   552	static int axp20x_write_raw(struct iio_dev *indio_dev,
+   553				    struct iio_chan_spec const *chan, int val, int val2,
+   554				    long mask)
+   555	{
+   556		struct axp20x_adc_iio *info = iio_priv(indio_dev);
+   557		unsigned int regmask, regval;
+   558	
+   559		/*
+   560		 * The AXP20X PMIC allows the user to choose between 0V and 0.7V offsets
+   561		 * for (independently) GPIO0 and GPIO1 when in ADC mode.
+   562		 */
+   563		if (mask != IIO_CHAN_INFO_OFFSET)
+   564			return -EINVAL;
+   565	
+   566		if (val != 0 && val != 700000)
+   567			return -EINVAL;
+   568	
+   569		switch (chan->channel) {
+   570		case AXP20X_GPIO0_V:
+   571			regmask = AXP20X_GPIO10_IN_RANGE_GPIO0;
+ > 572			regval = FIELD_PREP(AXP20X_GPIO10_IN_RANGE_GPIO0, !!val);
+   573			break;
+   574	
+   575		case AXP20X_GPIO1_V:
+   576			regmask = AXP20X_GPIO10_IN_RANGE_GPIO1;
+   577			regval = FIELD_PREP(AXP20X_GPIO10_IN_RANGE_GPIO1, !!val);
+   578			break;
+   579	
+   580		default:
+   581			return -EINVAL;
+   582		}
+   583	
+   584		return regmap_update_bits(info->regmap, AXP20X_GPIO10_IN_RANGE, regmask, regval);
+   585	}
+   586	
 
 -- 
 0-DAY CI Kernel Test Service
