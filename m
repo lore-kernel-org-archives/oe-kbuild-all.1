@@ -1,50 +1,48 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2B8134B4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 13:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2820134AC
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 14:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vr04ZOyL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704635901;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kAWVwfaNjpLshEWYFcR9bmtF8nNUppRn3hitAUVt2zE=;
-	b=Vr04ZOyLV55Opa2x1Kinf86zuibBmYTOiRbShvt3g9S3MYKHi0BTx7tgObUG6fsGzDyebE
-	9N6cx9XsNqsUAYDjjj87JtbmLp5DFvO7UkqlnrcW7r7oYt/WAtpnsQg6nhCXBmvggm/p4Y
-	MPW2t9Qr0KC8e3ynJ1BRiuWf+jZwX8c=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-20-tYf8LWUjPHCsHwWvnvmvTw-1; Sun,
- 07 Jan 2024 08:58:15 -0500
-X-MC-Unique: tYf8LWUjPHCsHwWvnvmvTw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C466029AC003;
-	Sun,  7 Jan 2024 13:58:14 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.129])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E9ECD5190;
-	Sun,  7 Jan 2024 13:58:13 +0000 (UTC)
-Date: Sun, 7 Jan 2024 21:58:10 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	akpm@linux-foundation.org, kexec@lists.infradead.org,
-	hbathini@linux.ibm.com, arnd@arndb.de, ignat@cloudflare.com,
-	eric_devolder@yahoo.com, viro@zeniv.linux.org.uk,
-	ebiederm@xmission.com, x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/5] kexec_core: move kdump related codes from
- crash_core.c to kexec_core.c
-Message-ID: <ZZqt8uXV6TwMiH32@MiWiFi-R3L-srv>
-References: <20240105103305.557273-2-bhe@redhat.com>
- <202401061800.3XPSaPsa-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HJP3RnAI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704636700; x=1736172700;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JABXZp+FvNEiI9FTBN+Ep9UkV7m/6QN5IJ/Vy+c2eWY=;
+  b=HJP3RnAIpSn9FVMcDzuI/gPOeNtMvGjnUBKBOb9tFixT7AQNeV2c6sQ+
+   9ZiU0rLGr8NvcRKiFK2xqaO6UfN4NS/AcKrv17X69RRjrUH+i/6YtI34g
+   Cv3YEtVi9gT9QATtxChnJizyiRItVcEJYukDqol4JFgyLpm6wPu4Htscn
+   iLy05pK63BRRFlyFtEOxlWdMQmgWTIaDs2AJMlKXXOlXBZXsM0ZnCYWOh
+   u6COhl/XodrT/1fCndmJ8G+j3w5aA20WVJpOwQU41icHsjecYSPrlb4nk
+   dwWG1R9PJZonH39PU8CuCgZ6cNQevQRbL34lMy4avOh41XaGU4bOqoviV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="4493552"
+X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
+   d="scan'208";a="4493552"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 06:11:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
+   d="scan'208";a="15674934"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 07 Jan 2024 06:11:38 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rMTsG-0003qF-1U;
+	Sun, 07 Jan 2024 14:11:36 +0000
+Date: Sun, 7 Jan 2024 22:11:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gergo Koteles <soyer@irl.hu>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [linux-next:master 11897/12662]
+ sound/pci/hda/tas2781_hda_i2c.c:433:30: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202401072137.Oc7pQgRW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,47 +51,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202401061800.3XPSaPsa-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-On 01/06/24 at 06:59pm, kernel test robot wrote:
-> Hi Baoquan,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.7-rc8]
-> [cannot apply to powerpc/next powerpc/fixes tip/x86/core arm64/for-next/core next-20240105]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec_core-move-kdump-related-codes-from-crash_core-c-to-kexec_core-c/20240105-223735
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20240105103305.557273-2-bhe%40redhat.com
-> patch subject: [PATCH 1/5] kexec_core: move kdump related codes from crash_core.c to kexec_core.c
-> config: x86_64-randconfig-104-20240106 (https://download.01.org/0day-ci/archive/20240106/202401061800.3XPSaPsa-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401061800.3XPSaPsa-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401061800.3XPSaPsa-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/linux/string.h:11,
->                     from include/linux/bitmap.h:12,
->                     from include/linux/cpumask.h:12,
->                     from include/linux/smp.h:13,
->                     from arch/x86/kernel/crash.c:18:
->    arch/x86/kernel/crash.c: In function 'fill_up_crash_elf_data':
-> >> include/linux/overflow.h:293:23: error: invalid application of 'sizeof' to incomplete type 'struct crash_mem'
->      293 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
+commit: c3ca4458cc2f719b1652abaa8d2fbf7f3d4311cb [11897/12662] ALSA: hda/tas2781: add TAS2563 support for 14ARB7
+config: x86_64-randconfig-122-20240107 (https://download.01.org/0day-ci/archive/20240107/202401072137.Oc7pQgRW-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401072137.Oc7pQgRW-lkp@intel.com/reproduce)
 
-Thanks for reporting.
-This is the same as the one reported and fixed in below link:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401072137.Oc7pQgRW-lkp@intel.com/
 
-https://lore.kernel.org/oe-kbuild-all/ZZpmP5QeH+VigqXw@MiWiFi-R3L-srv/
+sparse warnings: (new ones prefixed by >>)
+>> sound/pci/hda/tas2781_hda_i2c.c:433:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int data @@     got restricted __be32 [usertype] @@
+   sound/pci/hda/tas2781_hda_i2c.c:433:30: sparse:     expected unsigned int data
+   sound/pci/hda/tas2781_hda_i2c.c:433:30: sparse:     got restricted __be32 [usertype]
 
+vim +433 sound/pci/hda/tas2781_hda_i2c.c
+
+   424	
+   425	static void tas2563_apply_calib(struct tasdevice_priv *tas_priv)
+   426	{
+   427		unsigned int data;
+   428		int offset = 0;
+   429		int ret;
+   430	
+   431		for (int i = 0; i < tas_priv->ndev; i++) {
+   432			for (int j = 0; j < TAS2563_CAL_N; ++j) {
+ > 433				data = cpu_to_be32(
+   434					*(uint32_t *)&tas_priv->cali_data.data[offset]);
+   435				ret = tasdevice_dev_bulk_write(tas_priv, i, cal_regs[j],
+   436					(unsigned char *)&data, TAS2563_CAL_DATA_SIZE);
+   437				if (ret)
+   438					dev_err(tas_priv->dev,
+   439						"Error writing calib regs\n");
+   440				offset += TAS2563_CAL_DATA_SIZE;
+   441			}
+   442		}
+   443	}
+   444	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
