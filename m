@@ -1,112 +1,114 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5FE125AB
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 05:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4F1125AD;
+	Sun,  7 Jan 2024 05:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="fHY2TyKD"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50e72e3d435so762475e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 06 Jan 2024 21:54:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1704606864; x=1705211664; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2+WLp3U3zZ/tGPOXpKoB0JjWL2Gl79ktP3vftiqjZGc=;
-        b=fHY2TyKD+Et9rOOKty32vDmsAARC9W5TOcipbezxPEi+cKMH4RbLWwdbQrN+7FuNTE
-         lwbSCdEjNuFfowedC9vj9ixL29nsfUsypAL7Q/Jcd6yxCRIQ7l+S/ha2sW8pij7UMZxC
-         8kHCRmSq1KFWN9rA3vgVnRDQs/VnFTkOxWrdw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704606864; x=1705211664;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2+WLp3U3zZ/tGPOXpKoB0JjWL2Gl79ktP3vftiqjZGc=;
-        b=WMkcTN4FxxTiKPnNFQ4/+FbriwVJbsRAgSAhJm88yTWB7ZeiI9b4EinTOe4DtqgV8Y
-         vbpLJrmOCGG7Y1GMtmHqdAOvyZBbErJ1wOSnGKtAelejcH32MxfI6q2XnGcEOBae8qIb
-         HH6krThA2n45b23WktpRhqhppUpwWDfKOpv7YGmJ+9iROgccOcMUsctkqbklmb+tci/9
-         9fBG6DOa1YyezQl3JuQPFE2EzShuSoJSL1KNKQeWvFmIsFx7/QcxeYamXMeLlEt0BHn7
-         7y+yop0p79TF7usx5sqV30fUvLwdybvNPlY6LPG2qvCo9hFblOTamw72IepnzZevThO5
-         SMYA==
-X-Gm-Message-State: AOJu0YyKtbTcnDz+8Gqo/yBnLUYdZvWSMXO4tdFNw44ORSf/6XNVkPvO
-	KFUSc4UC5cPg4nZeLwYybRFK/Q8Unm6QDiKT9+SUs+xJNb/Vi+pG
-X-Google-Smtp-Source: AGHT+IGrJa6uQEQqzkw05fjeWKDHwHC44tiqNxGn5zebsanv8FcNWMUQPlaTiOa1jcjxT7WIPmjtTQ==
-X-Received: by 2002:a19:6416:0:b0:50e:a9c0:70a6 with SMTP id y22-20020a196416000000b0050ea9c070a6mr385412lfb.43.1704606864268;
-        Sat, 06 Jan 2024 21:54:24 -0800 (PST)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
-        by smtp.gmail.com with ESMTPSA id x17-20020a056512047100b0050e7e434e47sm713095lfd.271.2024.01.06.21.54.23
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Jan 2024 21:54:23 -0800 (PST)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50e72e3d435so762467e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 06 Jan 2024 21:54:23 -0800 (PST)
-X-Received: by 2002:a05:6512:98b:b0:50e:6e7b:1acc with SMTP id
- w11-20020a056512098b00b0050e6e7b1accmr424707lft.129.1704606862788; Sat, 06
- Jan 2024 21:54:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hDDUrmo7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704606965; x=1736142965;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CDM7O/aNwXft08O1jKgAlrtcGQec92BLDNxyXa3INsU=;
+  b=hDDUrmo7RLRkswS3MJUInTfQkOXkcYQ7NJ4Jgp+nbOLEqxbCl3jxUZdO
+   v20Q4jFGXEdyzXwEkR7oD1Kz6J87uxVYALHMKzrWAVaauQ5rna0qmt41L
+   g36U8dA+SdqZ/bZh6+KnBCdL26InqAhvZi6Q3nUf3kizDria3dOHaBpfh
+   Dt22F9uwn5BN7agzINeaXaPOYhgAUubCNQglPfzbg5CE1lAwS1Ct3BkAS
+   DRHqH9mOFftw3c+4DxVOMP1egwnJnLrOXKn0KzqbEChOBrBMby12xDk+u
+   QLRvztM8gXdifesd578gR+A7HUSNCu9MfWTcY4oQWDDl12iYfl477HdtZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="4457721"
+X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
+   d="scan'208";a="4457721"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 21:56:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="730823476"
+X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
+   d="scan'208";a="730823476"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 06 Jan 2024 21:56:02 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rMM8e-0003SM-1E;
+	Sun, 07 Jan 2024 05:56:00 +0000
+Date: Sun, 7 Jan 2024 13:55:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	Simon Horman <simon.horman@corigine.com>
+Subject: drivers/net/ethernet/freescale/enetc/enetc.c:2713:3: warning:
+ 'snprintf' will always be truncated; specified size is 80, but format string
+ expands to at least 110
+Message-ID: <202401071345.gs4ThqGA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202401070147.gqwVulOn-lkp@intel.com> <ZZnzd3s2L-ZwGOlz@google.com>
-In-Reply-To: <ZZnzd3s2L-ZwGOlz@google.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 6 Jan 2024 21:54:05 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjLaBe3Y_H5WArWdQ6d36+UOQ7NSbga1w+esGYJZaVfVg@mail.gmail.com>
-Message-ID: <CAHk-=wjLaBe3Y_H5WArWdQ6d36+UOQ7NSbga1w+esGYJZaVfVg@mail.gmail.com>
-Subject: Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast
- truncates bits from constant value (aa01a0 becomes a0)
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>, linux-sparse@vger.kernel.org, 
-	Chris Morgan <macromorgan@hotmail.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 6 Jan 2024 at 16:42, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
->
-> This is not really a kernel/driver bug, just sparse being over-eager
-> with truncation detection. I wonder if we could make sparse skip this
-> check on forced casts like this:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   52b1853b080a082ec3749c3a9577f6c71b1d4a90
+commit: 800db2d125c2bc22c448e2386c3518e663d6db71 net: enetc: ensure we always have a minimum number of TXQs for stack
+date:   11 months ago
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240107/202401071345.gs4ThqGA-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401071345.gs4ThqGA-lkp@intel.com/reproduce)
 
-No, please don't.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401071345.gs4ThqGA-lkp@intel.com/
 
-Just face the fact that using integer casts to mask bits off is a bad idea.
+All warnings (new ones prefixed by >>):
 
-Yes, we could say "explicit casting is ok", since it's really the
-hidden implicit casts changing values that sparse complains about, but
-your solution is really ugly:
+>> drivers/net/ethernet/freescale/enetc/enetc.c:2713:3: warning: 'snprintf' will always be truncated; specified size is 80, but format string expands to at least 110 [-Wformat-truncation]
+    2713 |                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                 ^
+   include/linux/netlink.h:131:2: note: expanded from macro 'NL_SET_ERR_MSG_FMT_MOD'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^
+   include/linux/netlink.h:116:6: note: expanded from macro 'NL_SET_ERR_MSG_FMT'
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^
+   1 warning generated.
 
->  static inline void __put_unaligned_be24(const u32 val, u8 *p)
->  {
-> -       *p++ = val >> 16;
-> -       *p++ = val >> 8;
-> -       *p++ = val;
-> +       *p++ = (__force u8)(val >> 16);
-> +       *p++ = (__force u8)(val >> 8);
-> +       *p++ = (__force u8)val;
->  }
 
-That's just disgusting.
+vim +/snprintf +2713 drivers/net/ethernet/freescale/enetc/enetc.c
 
-The *natural* thing to do is to simply make the masking itself be
-explicit - not the cast. IOW, just write it as
+  2703	
+  2704	static int enetc_setup_xdp_prog(struct net_device *ndev, struct bpf_prog *prog,
+  2705					struct netlink_ext_ack *extack)
+  2706	{
+  2707		int num_xdp_tx_queues = prog ? num_possible_cpus() : 0;
+  2708		struct enetc_ndev_priv *priv = netdev_priv(ndev);
+  2709		bool extended;
+  2710	
+  2711		if (priv->min_num_stack_tx_queues + num_xdp_tx_queues >
+  2712		    priv->num_tx_rings) {
+> 2713			NL_SET_ERR_MSG_FMT_MOD(extack,
+  2714					       "Reserving %d XDP TXQs does not leave a minimum of %d TXQs for network stack (total %d available)",
+  2715					       num_xdp_tx_queues,
+  2716					       priv->min_num_stack_tx_queues,
+  2717					       priv->num_tx_rings);
+  2718			return -EBUSY;
+  2719		}
+  2720	
+  2721		extended = !!(priv->active_offloads & ENETC_F_RX_TSTAMP);
+  2722	
+  2723		/* The buffer layout is changing, so we need to drain the old
+  2724		 * RX buffers and seed new ones.
+  2725		 */
+  2726		return enetc_reconfigure(priv, extended, enetc_reconfigure_xdp_cb, prog);
+  2727	}
+  2728	
 
-        *p++ = (val >> 16) & 0xff;
-        *p++ = (val >> 8) & 0xff;
-        *p++ = val & 0xff;
-
-and doesn't that look much more natural?
-
-Sure, the compiler will then just notice "you're assigning to a char,
-to I don't actually need to do any masking at all", but now sparse
-won't complain because there's no "cast silently drops bits" issue any
-more.
-
-And while the code is a bit more to read, I think it is actually to
-some degree more obvious to a human too what is going on.
-
-No?
-
-              Linus
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
