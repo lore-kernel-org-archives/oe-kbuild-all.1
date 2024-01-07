@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86197134AB
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 13:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2B8134B4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 13:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZ6fhTrd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704635652; x=1736171652;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6fC6d7pDwxbTjzrVi/xipif06Ku7BmBlOvBVgsat6lA=;
-  b=mZ6fhTrdntcaN7yY1s4ATDhRZV7gZ/IrcshpGyV3q6OSy8DsZ8ImXVpO
-   OuYlqY8wIyr/5d4W6ZJrqIW8cEBtvJlvakbV6OVKxCUkokOFmSeOSKOG9
-   0OlMwoF9ouu1R1R/1Cx9PVnAgKGFEwX/PKh0JR0HjdERijLKkgBt/Gxoa
-   eLz/60E2mlstw6dcr+EmrwSsrHAlJjcmPRbIWBAEO/H3h23SKfPclkNVH
-   P135+iAHihVbEIq3Be2kAJ3q8EavZJSO/0bV4IZXr+/y61sQbTKhTTWPr
-   D+4y/nvYrfTkX8cuU0WYfNSzqlyVqgljcJ7WWJ65tDOVGqHeNkyF3yA77
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="428913759"
-X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="428913759"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 05:54:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="809983359"
-X-IronPort-AV: E=Sophos;i="6.04,339,1695711600"; 
-   d="scan'208";a="809983359"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 07 Jan 2024 05:54:09 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMTbK-0003pU-2i;
-	Sun, 07 Jan 2024 13:54:06 +0000
-Date: Sun, 7 Jan 2024 21:54:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Antonio Quartulli <antonio@openvpn.net>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Antonio Quartulli <antonio@openvpn.net>
-Subject: Re: [PATCH net-next 1/1] net: introduce OpenVPN Data Channel Offload
- (ovpn)
-Message-ID: <202401072136.mmDh9bfe-lkp@intel.com>
-References: <20240106215740.14770-2-antonio@openvpn.net>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vr04ZOyL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1704635901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kAWVwfaNjpLshEWYFcR9bmtF8nNUppRn3hitAUVt2zE=;
+	b=Vr04ZOyLV55Opa2x1Kinf86zuibBmYTOiRbShvt3g9S3MYKHi0BTx7tgObUG6fsGzDyebE
+	9N6cx9XsNqsUAYDjjj87JtbmLp5DFvO7UkqlnrcW7r7oYt/WAtpnsQg6nhCXBmvggm/p4Y
+	MPW2t9Qr0KC8e3ynJ1BRiuWf+jZwX8c=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-20-tYf8LWUjPHCsHwWvnvmvTw-1; Sun,
+ 07 Jan 2024 08:58:15 -0500
+X-MC-Unique: tYf8LWUjPHCsHwWvnvmvTw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C466029AC003;
+	Sun,  7 Jan 2024 13:58:14 +0000 (UTC)
+Received: from localhost (unknown [10.72.116.129])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E9ECD5190;
+	Sun,  7 Jan 2024 13:58:13 +0000 (UTC)
+Date: Sun, 7 Jan 2024 21:58:10 +0800
+From: Baoquan He <bhe@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	akpm@linux-foundation.org, kexec@lists.infradead.org,
+	hbathini@linux.ibm.com, arnd@arndb.de, ignat@cloudflare.com,
+	eric_devolder@yahoo.com, viro@zeniv.linux.org.uk,
+	ebiederm@xmission.com, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/5] kexec_core: move kdump related codes from
+ crash_core.c to kexec_core.c
+Message-ID: <ZZqt8uXV6TwMiH32@MiWiFi-R3L-srv>
+References: <20240105103305.557273-2-bhe@redhat.com>
+ <202401061800.3XPSaPsa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,75 +53,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240106215740.14770-2-antonio@openvpn.net>
+In-Reply-To: <202401061800.3XPSaPsa-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-Hi Antonio,
+On 01/06/24 at 06:59pm, kernel test robot wrote:
+> Hi Baoquan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.7-rc8]
+> [cannot apply to powerpc/next powerpc/fixes tip/x86/core arm64/for-next/core next-20240105]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec_core-move-kdump-related-codes-from-crash_core-c-to-kexec_core-c/20240105-223735
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20240105103305.557273-2-bhe%40redhat.com
+> patch subject: [PATCH 1/5] kexec_core: move kdump related codes from crash_core.c to kexec_core.c
+> config: x86_64-randconfig-104-20240106 (https://download.01.org/0day-ci/archive/20240106/202401061800.3XPSaPsa-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240106/202401061800.3XPSaPsa-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401061800.3XPSaPsa-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/linux/string.h:11,
+>                     from include/linux/bitmap.h:12,
+>                     from include/linux/cpumask.h:12,
+>                     from include/linux/smp.h:13,
+>                     from arch/x86/kernel/crash.c:18:
+>    arch/x86/kernel/crash.c: In function 'fill_up_crash_elf_data':
+> >> include/linux/overflow.h:293:23: error: invalid application of 'sizeof' to incomplete type 'struct crash_mem'
+>      293 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
 
-kernel test robot noticed the following build errors:
+Thanks for reporting.
+This is the same as the one reported and fixed in below link:
 
-[auto build test ERROR on net-next/main]
+https://lore.kernel.org/oe-kbuild-all/ZZpmP5QeH+VigqXw@MiWiFi-R3L-srv/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/net-introduce-OpenVPN-Data-Channel-Offload-ovpn/20240107-061631
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240106215740.14770-2-antonio%40openvpn.net
-patch subject: [PATCH net-next 1/1] net: introduce OpenVPN Data Channel Offload (ovpn)
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240107/202401072136.mmDh9bfe-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401072136.mmDh9bfe-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401072136.mmDh9bfe-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> drivers/net/ovpn/netlink.c:42:38: error: implicit declaration of function 'NLA_POLICY_MAX_LEN'; did you mean 'NLA_POLICY_MIN_LEN'? [-Werror=implicit-function-declaration]
-      42 |         [OVPN_A_KEYDIR_CIPHER_KEY] = NLA_POLICY_MAX_LEN(U8_MAX),
-         |                                      ^~~~~~~~~~~~~~~~~~
-         |                                      NLA_POLICY_MIN_LEN
->> drivers/net/ovpn/netlink.c:42:38: error: initializer element is not constant
-   drivers/net/ovpn/netlink.c:42:38: note: (near initialization for 'ovpn_nl_policy_keydir[1].type')
->> drivers/net/ovpn/netlink.c:41:75: warning: missing braces around initializer [-Wmissing-braces]
-      41 | static const struct nla_policy ovpn_nl_policy_keydir[NUM_OVPN_A_KEYDIR] = {
-         |                                                                           ^
-   drivers/net/ovpn/netlink.c:63:34: error: initializer element is not constant
-      63 |         [OVPN_A_PEER_LOCAL_IP] = NLA_POLICY_MAX_LEN(sizeof(struct in6_addr)),
-         |                                  ^~~~~~~~~~~~~~~~~~
-   drivers/net/ovpn/netlink.c:63:34: note: (near initialization for 'ovpn_nl_policy_peer[8].type')
-   drivers/net/ovpn/netlink.c:64:36: error: initializer element is not constant
-      64 |         [OVPN_A_PEER_LOCAL_PORT] = NLA_POLICY_MAX_LEN(sizeof(u16)),
-         |                                    ^~~~~~~~~~~~~~~~~~
-   drivers/net/ovpn/netlink.c:64:36: note: (near initialization for 'ovpn_nl_policy_peer[9].type')
-   drivers/net/ovpn/netlink.c:57:71: warning: missing braces around initializer [-Wmissing-braces]
-      57 | static const struct nla_policy ovpn_nl_policy_peer[NUM_OVPN_A_PEER] = {
-         |                                                                       ^
-   drivers/net/ovpn/netlink.c:57:71: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/net/ovpn/netlink.c:57:71: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/net/ovpn/netlink.c:57:71: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/net/ovpn/netlink.c:57:71: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/net/ovpn/netlink.c:75:27: error: initializer element is not constant
-      75 |         [OVPN_A_IFNAME] = NLA_POLICY_MAX_LEN(IFNAMSIZ),
-         |                           ^~~~~~~~~~~~~~~~~~
-   drivers/net/ovpn/netlink.c:75:27: note: (near initialization for 'ovpn_nl_policy[2].type')
-   drivers/net/ovpn/netlink.c:73:61: warning: missing braces around initializer [-Wmissing-braces]
-      73 | static const struct nla_policy ovpn_nl_policy[NUM_OVPN_A] = {
-         |                                                             ^
-   drivers/net/ovpn/netlink.c:73:61: warning: missing braces around initializer [-Wmissing-braces]
-   drivers/net/ovpn/netlink.c:73:61: warning: missing braces around initializer [-Wmissing-braces]
-   cc1: some warnings being treated as errors
-
-
-vim +42 drivers/net/ovpn/netlink.c
-
-    39	
-    40	/** KEYDIR policy. Can be used for configuring an encryption and a decryption key */
-  > 41	static const struct nla_policy ovpn_nl_policy_keydir[NUM_OVPN_A_KEYDIR] = {
-  > 42		[OVPN_A_KEYDIR_CIPHER_KEY] = NLA_POLICY_MAX_LEN(U8_MAX),
-    43		[OVPN_A_KEYDIR_NONCE_TAIL] = NLA_POLICY_EXACT_LEN(NONCE_TAIL_SIZE),
-    44	};
-    45	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
