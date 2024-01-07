@@ -1,99 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD8B12B70
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 09:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Efn7VnBk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704620391; x=1736156391;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ml5XrxT+FaT3mS0cY7B7jAOVD6SkTX/TLEScsWRse9g=;
-  b=Efn7VnBkAlIbA/tS69Wn1j5DeFBF5KobgdOr069kDhX4moz4oYAUaVzS
-   4F7JdXicw8WG3HuorZgbL6RvUPN3Ezj5qc/vyvYRck89z4+pkgcTUcWto
-   hQYebFWUVdmANrpN5U2f9R7KIkBoZJm1l319qT1Un/eS8onk3R4jk1wjy
-   AD3q2WyisRoMOPmb6iKiMswCL5j7pVw3ZL19lZiQJLfWg0NL8gq4UsXp1
-   e/L4+EK2rdUpLGwz5/BAgVuWVjBQMq8ujV9HPtUZvchQMUUTXKRXJh4Mf
-   8vEkeCMunJWsdKzVZrqmUdst1Zmi6R4ueZKVlO8630wCyXP7CIEXaImgq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="388170849"
-X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="388170849"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 01:39:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="924598098"
-X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="924598098"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Jan 2024 01:39:49 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMPdC-0003j2-1L;
-	Sun, 07 Jan 2024 09:39:46 +0000
-Date: Sun, 7 Jan 2024 17:38:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Antonio Quartulli <antonio@openvpn.net>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Antonio Quartulli <antonio@openvpn.net>
-Subject: Re: [PATCH net-next 1/1] net: introduce OpenVPN Data Channel Offload
- (ovpn)
-Message-ID: <202401071734.vhNn4f3S-lkp@intel.com>
-References: <20240106215740.14770-2-antonio@openvpn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929AA12E4E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 11:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-315-3rmU9uLGNsK9_7Ue5NSFgQ-1; Sun, 07 Jan 2024 11:44:39 +0000
+X-MC-Unique: 3rmU9uLGNsK9_7Ue5NSFgQ-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 7 Jan
+ 2024 11:44:19 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sun, 7 Jan 2024 11:44:19 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: "'H. Peter Anvin'" <hpa@zytor.com>, 'Linus Torvalds'
+	<torvalds@linux-foundation.org>
+CC: Noah Goldstein <goldstein.w.n@gmail.com>, "x86@kernel.org"
+	<x86@kernel.org>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
+	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
+Subject: RE: x86/csum: Remove unnecessary odd handling
+Thread-Topic: x86/csum: Remove unnecessary odd handling
+Thread-Index: AQHZ7ib2fs4a8+P0bkWBCjHsrqR0abAo6HRAgKIYy6qAAJmVUIAAjHgAgAHC99CAAEWrgIAArarg
+Date: Sun, 7 Jan 2024 11:44:19 +0000
+Message-ID: <5dd4c01e4337455b9b2c0f5635d7f6f9@AcuMS.aculab.com>
+References: <20230920192300.3772199-1-goldstein.w.n@gmail.com>
+ <202309231130.ZI5MdlDc-lkp@intel.com>
+ <CAFUsyfKDRiX9kKOhHcA4PLqqT6Q5faHF0eRGiKN+9NSbvrUfDw@mail.gmail.com>
+ <d02bd4f823534a00ae4915ead3d92773@AcuMS.aculab.com>
+ <CAFUsyfL0M5P4+4s_b1kvJ_fE-ax8YBK0ammbKfoy7yKs1obzrA@mail.gmail.com>
+ <CAFUsyfJduB29c6=BNmTtgoWcHAWA1AZ-sdbhyp02JVhvA6Gp0w@mail.gmail.com>
+ <CAFUsyfLuo0_Sm91mqbM8Sbo-ncwnM4RaRq=GxQXDmkAN-nQ3uw@mail.gmail.com>
+ <CAHk-=wgv6h4ru=z8UR5XyutoRKveOetNpwovHburvRgG9NSa3g@mail.gmail.com>
+ <CAHk-=wiNUucmvTKGmveWzXXe99SpOwU65nFtH-A2_aUpPsAPJQ@mail.gmail.com>
+ <5354eeec562345f6a1de84f0b2081b75@AcuMS.aculab.com>
+ <CAHk-=wg8vssPVO68_qH_BHBCj6_DDawKQHBOgZh4gw5YFmpCKA@mail.gmail.com>
+ <124b21857fe44e499e29800cbf4f63f8@AcuMS.aculab.com>
+ <4313F9BB-DE2E-448F-A366-A68CAEA2BFE0@zytor.com>
+In-Reply-To: <4313F9BB-DE2E-448F-A366-A68CAEA2BFE0@zytor.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240106215740.14770-2-antonio@openvpn.net>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Hi Antonio,
+RnJvbTogSC4gUGV0ZXIgQW52aW4NCj4gU2VudDogMDcgSmFudWFyeSAyMDI0IDAxOjA5DQo+IA0K
+PiBPbiBKYW51YXJ5IDYsIDIwMjQgMjowODo0OCBQTSBQU1QsIERhdmlkIExhaWdodCA8RGF2aWQu
+TGFpZ2h0QEFDVUxBQi5DT00+IHdyb3RlOg0KLi4uDQo+ID5UaGUgYmVzdCBsb29wIGZvciAyNTYr
+IGJ5dGVzIGlzIGFuIGFkeGMvYWR4byBvbmUuDQo+ID5Ib3dldmVyIHRoYXQgcmVxdWlyZXMgdGhl
+IHJ1bi10aW1lIHBhdGNoaW5nLg0KLi4uDQo+IFJhdGhlciB0aGFuIHJ1bnRpbWUgcGF0Y2hpbmcg
+cGVyaGFwcyBzZXBhcmF0ZSBwYXRocy4uLg0KDQpJdCB3aWxsIG5lZWQgdG8gZGV0ZWN0IHRoZSBj
+cHUgdHlwZSBlYXJsaWVyLCBzbyBhIHN0YXRpYw0KYnJhbmNoIGlzIHByb2JhYmx5IGVub3VnaC4N
+CkVhc2llciB0aGFuIHN1YnN0aXR1dGluZyB0aGUgZW50aXJlIGNvZGUgYmxvY2suDQoNCkkgdGhp
+bmsgaXQgaXMgc2lsdmVybW9udCBhbmQga25pZ2h0J3MgbGFuZGluZyB0aGF0IGhhdmUNCmEgNCBj
+bG9jayBwZW5hbHR5IGZvciA2NGJpdCBhZHhjIChJbnRlbCBhdG9tIGZhbWlseSkuDQpUaGF0IG1p
+Z2h0IG9ubHkgYmUgYSBkZWNvZGUgcGVuYWx0eSwgc28gZG9lc24ndCBhZmZlY3QNCnRoZSBsb29w
+ICd0aGF0IG11Y2gnIChhZGMgaXMgMiBjbG9ja3Mgb24gdGhvc2UgY3B1KS4NClNvIHByb2JhYmx5
+IG5vdCBhY3R1YWxseSB3b3J0aCBkb2luZyBhIHJ1bi10aW1lDQpwZXJmb3JtYW5jZSBjaGVjay4N
+Cg0KSSBtaWdodCAnY29vayB1cCcgYSBmdWxsIGNoZWNrc3VtIGZ1bmN0aW9uIGxhdGVyLg0KDQoJ
+RGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
+dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEz
+OTczODYgKFdhbGVzKQ0K
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/net-introduce-OpenVPN-Data-Channel-Offload-ovpn/20240107-061631
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240106215740.14770-2-antonio%40openvpn.net
-patch subject: [PATCH net-next 1/1] net: introduce OpenVPN Data Channel Offload (ovpn)
-reproduce: (https://download.01.org/0day-ci/archive/20240107/202401071734.vhNn4f3S-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401071734.vhNn4f3S-lkp@intel.com/
-
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/net/ovpn/main.c: 28 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 406: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
