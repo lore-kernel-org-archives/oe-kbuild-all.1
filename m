@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E9814003
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Jan 2024 23:36:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E8F7F5
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 00:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2pjGwOL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2siVal0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704670579; x=1736206579;
+  t=1704674949; x=1736210949;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dZMoaqRD2icEdZxI18+pbwqsJfeDjeq99NLbNWVrP2c=;
-  b=O2pjGwOLsH5ECw74d0u22bsbInlfds3AsXeCkzAmkFa0oQJBWSkfmuJd
-   0DBQWuxacqBskkOgz70SU7cw+IEpAiWWCf45ezQF9qoMQVBlY5wpDfEHb
-   GxiWqz7fqQroSJNzydRMC6OcIEkJxHHtvuAMSL7tMhYC4kzGZZIQdbiDP
-   nu1pprXLd1R8/9QVl4ogzGiodjukkayi6IEWxCzbOdxNWbU+olHvij/57
-   2iDUhXyKv7/il02NemNa8wMT/gLmcGA4h5il+HxQtggMAUsURjBZnxtai
-   OyLg8U+pQSlipdZQ05ZhoYmcVoZEams+saJozE7eQdcjJZqLEbcUXaVU6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="11248474"
+  bh=P4R+CacFIR88COxYMDHUCYHoQmSIX897yqls8ZaU+04=;
+  b=U2siVal0dn6/KwonKsGHFTDi0pqnCs0WeaKmcbH3ofoOvuY5P9OTNLaw
+   pc5BX8GQSWebkRcYnhjNOeO0MhUblEXJBTTr9ZDD5RFkj1yJQbV3FsBUO
+   3OFobD1lBP9ehRAEoM6zol6HlbfFdMd/wFOIpTFXjcUIY+3VoJjgf/kLG
+   SUzcRYhXYEHO8xFIMXlnmws1S6vrpU5azFk2wXqhD14uxqp9t4MVGafE+
+   8h+KTw4iRjnahm/P0vP79pnu3fXZyR5o3gWScDMQi32c50Abw9o6IukAa
+   d1dzx34IOhJ+d932w4sC/znaP+ZW/rVut7CLwiBXyzIIzKXuYHfJVfcgS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="19271298"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="11248474"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 15:36:05 -0800
+   d="scan'208";a="19271298"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 16:49:08 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="1028249762"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="15745594"
+   d="scan'208";a="1028249762"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Jan 2024 15:36:03 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 07 Jan 2024 16:49:06 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMcgT-0004Hq-0X;
-	Sun, 07 Jan 2024 23:36:01 +0000
-Date: Mon, 8 Jan 2024 07:35:51 +0800
+	id 1rMdpA-0004NQ-1w;
+	Mon, 08 Jan 2024 00:49:04 +0000
+Date: Mon, 8 Jan 2024 08:48:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/file.c:862:14: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202401080703.g6Aje7mw-lkp@intel.com>
+To: Vadim Pasternak <vadimp@mellanox.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: drivers/platform/mellanox/mlxreg-hotplug.c:87:54: warning: '%d'
+ directive output may be truncated writing 1 byte into a region of size
+ between 0 and 31
+Message-ID: <202401080811.VjYaZS68-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,114 +54,76 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0dd3ee31125508cd67f7e7172247f05b7fd1753a
-commit: 0ede61d8589cc2d93aa78230d74ac58b5b8d0244 file: convert to SLAB_TYPESAFE_BY_RCU
-date:   3 months ago
-config: x86_64-randconfig-123-20240106 (https://download.01.org/0day-ci/archive/20240108/202401080703.g6Aje7mw-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080703.g6Aje7mw-lkp@intel.com/reproduce)
+commit: 92d020f97966b1724cfcac93e89176d0eb3aca61 platform/mellanox: mlxreg-hotplug: Add environmental data to uevent
+date:   3 years, 6 months ago
+config: x86_64-randconfig-001-20240107 (https://download.01.org/0day-ci/archive/20240108/202401080811.VjYaZS68-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401080811.VjYaZS68-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401080703.g6Aje7mw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401080811.VjYaZS68-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/file.c:379:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] __rcu **fd @@
-   fs/file.c:379:17: sparse:     expected struct file **old_fds
-   fs/file.c:379:17: sparse:     got struct file [noderef] __rcu **fd
-   fs/file.c:380:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] __rcu **fd @@
-   fs/file.c:380:17: sparse:     expected struct file **new_fds
-   fs/file.c:380:17: sparse:     got struct file [noderef] __rcu **fd
-   fs/file.c:395:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/file.c:395:17: sparse:    struct file [noderef] __rcu *
-   fs/file.c:395:17: sparse:    struct file *
-   fs/file.c:430:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu *[assigned] __ret @@
-   fs/file.c:470:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] __rcu *fdt @@     got struct fdtable * @@
-   fs/file.c:646:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
-   fs/file.c:841:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
->> fs/file.c:862:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
->> fs/file.c:866:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct atomic64_t [usertype] *v @@     got struct atomic64_t [noderef] __rcu * @@
->> fs/file.c:869:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file_reloaded @@     got struct file * @@
->> fs/file.c:892:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file_reloaded @@
->> fs/file.c:894:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
-   fs/file.c:915:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
->> fs/file.c:922:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
-   fs/file.c:1212:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] __rcu * @@
+All warnings (new ones prefixed by >>):
 
-vim +862 fs/file.c
+   In file included from include/linux/bits.h:23,
+                    from include/linux/bitops.h:5,
+                    from drivers/platform/mellanox/mlxreg-hotplug.c:8:
+   drivers/platform/mellanox/mlxreg-hotplug.c: In function 'mlxreg_hotplug_attr_init':
+   include/linux/bits.h:26:28: warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+      26 |   __builtin_constant_p((l) > (h)), (l) > (h), 0)))
+         |                            ^
+   include/linux/build_bug.h:16:62: note: in definition of macro 'BUILD_BUG_ON_ZERO'
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                              ^
+   include/linux/bits.h:39:3: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+      39 |  (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |   ^~~~~~~~~~~~~~~~~~~
+   drivers/platform/mellanox/mlxreg-hotplug.c:214:17: note: in expansion of macro 'GENMASK'
+     214 |    item->mask = GENMASK((regval & item->mask) - 1, 0);
+         |                 ^~~~~~~
+   include/linux/bits.h:26:40: warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+      26 |   __builtin_constant_p((l) > (h)), (l) > (h), 0)))
+         |                                        ^
+   include/linux/build_bug.h:16:62: note: in definition of macro 'BUILD_BUG_ON_ZERO'
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                              ^
+   include/linux/bits.h:39:3: note: in expansion of macro 'GENMASK_INPUT_CHECK'
+      39 |  (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |   ^~~~~~~~~~~~~~~~~~~
+   drivers/platform/mellanox/mlxreg-hotplug.c:214:17: note: in expansion of macro 'GENMASK'
+     214 |    item->mask = GENMASK((regval & item->mask) - 1, 0);
+         |                 ^~~~~~~
+   drivers/platform/mellanox/mlxreg-hotplug.c: In function 'mlxreg_hotplug_udev_event_send':
+>> drivers/platform/mellanox/mlxreg-hotplug.c:87:54: warning: '%d' directive output may be truncated writing 1 byte into a region of size between 0 and 31 [-Wformat-truncation=]
+      87 |  snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=%d", label, !!action);
+         |                                                      ^~
+   drivers/platform/mellanox/mlxreg-hotplug.c:87:50: note: directive argument in the range [0, 1]
+      87 |  snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=%d", label, !!action);
+         |                                                  ^~~~~~~
+   drivers/platform/mellanox/mlxreg-hotplug.c:87:2: note: 'snprintf' output between 3 and 34 bytes into a destination of size 32
+      87 |  snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=%d", label, !!action);
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   855	
-   856	static struct file *__get_file_rcu(struct file __rcu **f)
-   857	{
-   858		struct file __rcu *file;
-   859		struct file __rcu *file_reloaded;
-   860		struct file __rcu *file_reloaded_cmp;
-   861	
- > 862		file = rcu_dereference_raw(*f);
-   863		if (!file)
-   864			return NULL;
-   865	
- > 866		if (unlikely(!atomic_long_inc_not_zero(&file->f_count)))
-   867			return ERR_PTR(-EAGAIN);
-   868	
- > 869		file_reloaded = rcu_dereference_raw(*f);
-   870	
-   871		/*
-   872		 * Ensure that all accesses have a dependency on the load from
-   873		 * rcu_dereference_raw() above so we get correct ordering
-   874		 * between reuse/allocation and the pointer check below.
-   875		 */
-   876		file_reloaded_cmp = file_reloaded;
-   877		OPTIMIZER_HIDE_VAR(file_reloaded_cmp);
-   878	
-   879		/*
-   880		 * atomic_long_inc_not_zero() above provided a full memory
-   881		 * barrier when we acquired a reference.
-   882		 *
-   883		 * This is paired with the write barrier from assigning to the
-   884		 * __rcu protected file pointer so that if that pointer still
-   885		 * matches the current file, we know we have successfully
-   886		 * acquired a reference to the right file.
-   887		 *
-   888		 * If the pointers don't match the file has been reallocated by
-   889		 * SLAB_TYPESAFE_BY_RCU.
-   890		 */
-   891		if (file == file_reloaded_cmp)
- > 892			return file_reloaded;
-   893	
- > 894		fput(file);
-   895		return ERR_PTR(-EAGAIN);
-   896	}
-   897	
-   898	/**
-   899	 * get_file_rcu - try go get a reference to a file under rcu
-   900	 * @f: the file to get a reference on
-   901	 *
-   902	 * This function tries to get a reference on @f carefully verifying that
-   903	 * @f hasn't been reused.
-   904	 *
-   905	 * This function should rarely have to be used and only by users who
-   906	 * understand the implications of SLAB_TYPESAFE_BY_RCU. Try to avoid it.
-   907	 *
-   908	 * Return: Returns @f with the reference count increased or NULL.
-   909	 */
-   910	struct file *get_file_rcu(struct file __rcu **f)
-   911	{
-   912		for (;;) {
-   913			struct file __rcu *file;
-   914	
-   915			file = __get_file_rcu(f);
-   916			if (unlikely(!file))
-   917				return NULL;
-   918	
-   919			if (unlikely(IS_ERR(file)))
-   920				continue;
-   921	
- > 922			return file;
-   923		}
-   924	}
-   925	EXPORT_SYMBOL_GPL(get_file_rcu);
-   926	
+
+vim +87 drivers/platform/mellanox/mlxreg-hotplug.c
+
+    77	
+    78	static int
+    79	mlxreg_hotplug_udev_event_send(struct kobject *kobj,
+    80				       struct mlxreg_core_data *data, bool action)
+    81	{
+    82		char event_str[MLXREG_CORE_LABEL_MAX_SIZE + 2];
+    83		char label[MLXREG_CORE_LABEL_MAX_SIZE] = { 0 };
+    84	
+    85		mlxreg_hotplug_udev_envp[0] = event_str;
+    86		string_upper(label, data->label);
+  > 87		snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=%d", label, !!action);
+    88	
+    89		return kobject_uevent_env(kobj, KOBJ_CHANGE, mlxreg_hotplug_udev_envp);
+    90	}
+    91	
 
 -- 
 0-DAY CI Kernel Test Service
