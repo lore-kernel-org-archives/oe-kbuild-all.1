@@ -1,46 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC42A11711;
-	Mon,  8 Jan 2024 09:31:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FA914274
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 09:41:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WWMaPPU2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0OEMWqm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704706262; x=1736242262;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E62yb6m6HTmEbGX9G2MZ0Cv44SIxbiKEXobterk8kn8=;
-  b=WWMaPPU2FQBXNPEFEmm+aqJc4nalq1Mkum8PG/XtrPcqj9OgF0760x/o
-   2WPp/lyAhfOjqq0CvL0azHvl6L13znnRj1uvE01vk/kI924Ri/CWpwa1k
-   sabeyx1WRIcX5iUgj5c+zlwlNxbiFfjLav2BDqdA/HXnCbfycEs1irpKx
-   HHCu/MD0x8pNZ2JOD0fipLnnHOZffsSS+05SbFrsrmFGvSo27Ye6Rc+Wo
-   fEiHCPdW0ZeKUR2738tNik9iAyGZuAqz8HojZ8qKJAaS9kqLUrMwCs75z
-   gnbHgcgGaFt+/rBy3umIfV80ZgEp/5BUbvQmUN0NrLPyV/NWm3XqdMVpX
+  t=1704706872; x=1736242872;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IoKRp5Bx5etXxcBQsq55CfSugHG0VHE95WhSZ/NVhzU=;
+  b=e0OEMWqm8keJKGWJq7BXxJWLV+Z1qk3nOvnrCUoX0dAN964tOYmVV3dL
+   vxEKs4PQon9poMEz0+4V4VUH9C81TDJvIHviaEzam0QWYO0ctGJAW4mdu
+   JkdDRN+1yLb0Vz3Gn3+NYihMIb4YQVDDVynM5sm6M/vroFdu/jmW+9XKw
+   +QTGWWeVXwEHI/7KakWePcLKNKRZ8OFyBeY1zDlkphLdB9w0fjsw05b+b
+   gAFG4j+b4f2qcPlncsCfUx9eFG7b7dkSAki8S3Ttos+NlABxXUZlUoxjs
+   qDq0BRQL/6YkYutiOheXQbKTwu3x4uOotrHlXKwxUD/mBpZdv4c6v851S
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="401624447"
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="462125516"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="401624447"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 01:31:00 -0800
+   d="scan'208";a="462125516"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 01:41:12 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="757573113"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="15868033"
+   d="scan'208";a="757573113"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Jan 2024 01:30:59 -0800
+  by orsmga006.jf.intel.com with ESMTP; 08 Jan 2024 01:41:08 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMlyA-0004a8-3D;
-	Mon, 08 Jan 2024 09:30:55 +0000
-Date: Mon, 8 Jan 2024 17:30:34 +0800
+	id 1rMm81-0004aa-3D;
+	Mon, 08 Jan 2024 09:41:05 +0000
+Date: Mon, 8 Jan 2024 17:40:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.7-rc6-net-next-mv88e6xxx-leds-v3 8/8]
- drivers/net/dsa/qca/qca8k-leds.c:84:1: warning: no previous prototype for
- function 'qca8k_led_brightness_set'
-Message-ID: <202401081748.rICFp8NY-lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Eric Piel <eric.piel@tremplin-utc.net>
+Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+	Paul Menzel <pmenzel@molgen.mpg.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>, Dell.Client.Kernel@dell.com,
+	Marius Hoch <mail@mariushoch.de>,
+	Kai Heng Feng <kai.heng.feng@canonical.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	platform-driver-x86@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 3/6] platform/x86: dell-smo8800: Move instantiation of
+ lis3lv02d i2c_client from i2c-i801 to dell-smo8800
+Message-ID: <202401081755.B1WHdRuF-lkp@intel.com>
+References: <20231224213629.395741-4-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,295 +62,220 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231224213629.395741-4-hdegoede@redhat.com>
 
-tree:   https://github.com/lunn/linux.git v6.7-rc6-net-next-mv88e6xxx-leds-v3
-head:   9a48ae1a616c32799d10fcde6a9eea1bbade8496
-commit: 9a48ae1a616c32799d10fcde6a9eea1bbade8496 [8/8] dsa: qca8k: Use netdev_leds common code for LEDs
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240108/202401081748.rICFp8NY-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401081748.rICFp8NY-lkp@intel.com/reproduce)
+Hi Hans,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7]
+[cannot apply to wsa/i2c/for-next next-20240108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/platform-x86-dell-smo8800-Only-load-on-Dell-laptops/20231225-152720
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231224213629.395741-4-hdegoede%40redhat.com
+patch subject: [PATCH 3/6] platform/x86: dell-smo8800: Move instantiation of lis3lv02d i2c_client from i2c-i801 to dell-smo8800
+config: i386-randconfig-003-20240106 (https://download.01.org/0day-ci/archive/20240108/202401081755.B1WHdRuF-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401081755.B1WHdRuF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401081748.rICFp8NY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401081755.B1WHdRuF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/dsa/qca/qca8k-leds.c:84:1: warning: no previous prototype for function 'qca8k_led_brightness_set' [-Wmissing-prototypes]
-      84 | qca8k_led_brightness_set(struct net_device *ndev, u8 led_num,
-         | ^
-   drivers/net/dsa/qca/qca8k-leds.c:83:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      83 | int
-         | ^
-         | static 
->> drivers/net/dsa/qca/qca8k-leds.c:148:1: warning: no previous prototype for function 'qca8k_led_blink_set' [-Wmissing-prototypes]
-     148 | qca8k_led_blink_set(struct net_device *ndev, u8 led_num,
-         | ^
-   drivers/net/dsa/qca/qca8k-leds.c:147:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     147 | int
-         | ^
-         | static 
->> drivers/net/dsa/qca/qca8k-leds.c:233:1: warning: no previous prototype for function 'qca8k_led_hw_control_is_supported' [-Wmissing-prototypes]
-     233 | qca8k_led_hw_control_is_supported(struct net_device *ndev, u8 led,
-         | ^
-   drivers/net/dsa/qca/qca8k-leds.c:232:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     232 | int
-         | ^
-         | static 
->> drivers/net/dsa/qca/qca8k-leds.c:242:1: warning: no previous prototype for function 'qca8k_led_hw_control_set' [-Wmissing-prototypes]
-     242 | qca8k_led_hw_control_set(struct net_device *ndev, u8 led_num,
-         | ^
-   drivers/net/dsa/qca/qca8k-leds.c:241:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     241 | int
-         | ^
-         | static 
->> drivers/net/dsa/qca/qca8k-leds.c:271:1: warning: no previous prototype for function 'qca8k_led_hw_control_get' [-Wmissing-prototypes]
-     271 | qca8k_led_hw_control_get(struct net_device *ndev, u8 led_num,
-         | ^
-   drivers/net/dsa/qca/qca8k-leds.c:270:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     270 | int
-         | ^
-         | static 
-   5 warnings generated.
+   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_remove':
+>> drivers/platform/x86/dell/dell-smo8800.c:278: undefined reference to `i2c_unregister_device'
+   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_instantiate_i2c_client':
+>> drivers/platform/x86/dell/dell-smo8800.c:179: undefined reference to `i2c_bus_type'
+>> ld: drivers/platform/x86/dell/dell-smo8800.c:211: undefined reference to `i2c_put_adapter'
+   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_probe':
+   drivers/platform/x86/dell/dell-smo8800.c:267: undefined reference to `i2c_unregister_device'
+   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_instantiate_i2c_client':
+   drivers/platform/x86/dell/dell-smo8800.c:201: undefined reference to `i2c_new_client_device'
+   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_find_i801':
+>> drivers/platform/x86/dell/dell-smo8800.c:126: undefined reference to `i2c_verify_adapter'
+>> ld: drivers/platform/x86/dell/dell-smo8800.c:140: undefined reference to `i2c_get_adapter'
 
 
-vim +/qca8k_led_brightness_set +84 drivers/net/dsa/qca/qca8k-leds.c
+vim +278 drivers/platform/x86/dell/dell-smo8800.c
 
-    82	
-    83	int
-  > 84	qca8k_led_brightness_set(struct net_device *ndev, u8 led_num,
-    85				 enum led_brightness brightness)
-    86	{
-    87		struct dsa_switch *ds = dsa_user_to_ds(ndev);
-    88		struct qca8k_led_pattern_en reg_info;
-    89		struct qca8k_priv *priv = ds->priv;
-    90		int port = dsa_user_to_index(ndev);
-    91		u32 mask, val;
-    92		int port_num;
-    93	
-    94		port_num = qca8k_port_to_phy(port);
-    95		qca8k_get_enable_led_reg(port_num, led_num, &reg_info);
-    96	
-    97		val = QCA8K_LED_ALWAYS_OFF;
-    98		if (brightness)
-    99			val = QCA8K_LED_ALWAYS_ON;
-   100	
-   101		/* HW regs to control brightness is special and port 1-2-3
-   102		 * are placed in a different reg.
-   103		 *
-   104		 * To control port 0 brightness:
-   105		 * - the 2 bit (15, 14) of:
-   106		 *   - QCA8K_LED_CTRL0_REG for led1
-   107		 *   - QCA8K_LED_CTRL1_REG for led2
-   108		 *   - QCA8K_LED_CTRL2_REG for led3
-   109		 *
-   110		 * To control port 4:
-   111		 * - the 2 bit (31, 30) of:
-   112		 *   - QCA8K_LED_CTRL0_REG for led1
-   113		 *   - QCA8K_LED_CTRL1_REG for led2
-   114		 *   - QCA8K_LED_CTRL2_REG for led3
-   115		 *
-   116		 * To control port 1:
-   117		 *   - the 2 bit at (9, 8) of QCA8K_LED_CTRL3_REG are used for led1
-   118		 *   - the 2 bit at (11, 10) of QCA8K_LED_CTRL3_REG are used for led2
-   119		 *   - the 2 bit at (13, 12) of QCA8K_LED_CTRL3_REG are used for led3
-   120		 *
-   121		 * To control port 2:
-   122		 *   - the 2 bit at (15, 14) of QCA8K_LED_CTRL3_REG are used for led1
-   123		 *   - the 2 bit at (17, 16) of QCA8K_LED_CTRL3_REG are used for led2
-   124		 *   - the 2 bit at (19, 18) of QCA8K_LED_CTRL3_REG are used for led3
-   125		 *
-   126		 * To control port 3:
-   127		 *   - the 2 bit at (21, 20) of QCA8K_LED_CTRL3_REG are used for led1
-   128		 *   - the 2 bit at (23, 22) of QCA8K_LED_CTRL3_REG are used for led2
-   129		 *   - the 2 bit at (25, 24) of QCA8K_LED_CTRL3_REG are used for led3
-   130		 *
-   131		 * To abstract this and have less code, we use the port and led numm
-   132		 * to calculate the shift and the correct reg due to this problem of
-   133		 * not having a 1:1 map of LED with the regs.
-   134		 */
-   135		if (port_num == 0 || port_num == 4) {
-   136			mask = QCA8K_LED_PATTERN_EN_MASK;
-   137			val <<= QCA8K_LED_PATTERN_EN_SHIFT;
-   138		} else {
-   139			mask = QCA8K_LED_PHY123_PATTERN_EN_MASK;
-   140		}
-   141	
-   142		return regmap_update_bits(priv->regmap, reg_info.reg,
-   143					  mask << reg_info.shift,
-   144					  val << reg_info.shift);
-   145	}
-   146	
-   147	int
- > 148	qca8k_led_blink_set(struct net_device *ndev, u8 led_num,
-   149			    unsigned long *delay_on, unsigned long *delay_off)
-   150	{
-   151		struct dsa_switch *ds = dsa_user_to_ds(ndev);
-   152		u32 mask, val = QCA8K_LED_ALWAYS_BLINK_4HZ;
-   153		struct qca8k_led_pattern_en reg_info;
-   154		struct qca8k_priv *priv = ds->priv;
-   155		int port = dsa_user_to_index(ndev);
-   156		int port_num;
-   157	
-   158		port_num = qca8k_port_to_phy(port);
-   159	
-   160		if (*delay_on == 0 && *delay_off == 0) {
-   161			*delay_on = 125;
-   162			*delay_off = 125;
-   163		}
-   164	
-   165		if (*delay_on != 125 || *delay_off != 125) {
-   166			/* The hardware only supports blinking at 4Hz. Fall back
-   167			 * to software implementation in other cases.
-   168			 */
-   169			return -EINVAL;
-   170		}
-   171	
-   172		qca8k_get_enable_led_reg(port_num, led_num, &reg_info);
-   173	
-   174		if (port_num == 0 || port_num == 4) {
-   175			mask = QCA8K_LED_PATTERN_EN_MASK;
-   176			val <<= QCA8K_LED_PATTERN_EN_SHIFT;
-   177		} else {
-   178			mask = QCA8K_LED_PHY123_PATTERN_EN_MASK;
-   179		}
-   180	
-   181		regmap_update_bits(priv->regmap, reg_info.reg, mask << reg_info.shift,
-   182				   val << reg_info.shift);
-   183	
-   184		return 0;
-   185	}
-   186	
-   187	static int
-   188	qca8k_led_trigger_offload(struct qca8k_priv *priv, int port_num, u8 led_num,
-   189				  bool enable)
-   190	{
-   191		struct qca8k_led_pattern_en reg_info;
-   192		u32 mask, val = QCA8K_LED_ALWAYS_OFF;
-   193	
-   194		qca8k_get_enable_led_reg(port_num, led_num, &reg_info);
-   195	
-   196		if (enable)
-   197			val = QCA8K_LED_RULE_CONTROLLED;
-   198	
-   199		if (port_num == 0 || port_num == 4) {
-   200			mask = QCA8K_LED_PATTERN_EN_MASK;
-   201			val <<= QCA8K_LED_PATTERN_EN_SHIFT;
-   202		} else {
-   203			mask = QCA8K_LED_PHY123_PATTERN_EN_MASK;
-   204		}
-   205	
-   206		return regmap_update_bits(priv->regmap, reg_info.reg, mask << reg_info.shift,
-   207					  val << reg_info.shift);
-   208	}
-   209	
-   210	static bool
-   211	qca8k_led_hw_control_status(struct qca8k_priv *priv, int port_num, u8 led_num)
-   212	{
-   213		struct qca8k_led_pattern_en reg_info;
-   214		u32 val;
-   215	
-   216		qca8k_get_enable_led_reg(port_num, led_num, &reg_info);
-   217	
-   218		regmap_read(priv->regmap, reg_info.reg, &val);
-   219	
-   220		val >>= reg_info.shift;
+   111	
+   112	static int smo8800_find_i801(struct device *dev, void *data)
+   113	{
+   114		static const u16 i801_idf_pci_device_ids[] = {
+   115			0x1d70, /* Patsburg (PCH) */
+   116			0x1d71, /* Patsburg (PCH) */
+   117			0x1d72, /* Patsburg (PCH) */
+   118			0x8d7d, /* Wellsburg (PCH) */
+   119			0x8d7e, /* Wellsburg (PCH) */
+   120			0x8d7f, /* Wellsburg (PCH) */
+   121		};
+   122		struct i2c_adapter *adap, **adap_ret = data;
+   123		struct pci_dev *pdev;
+   124		int i;
+   125	
+ > 126		adap = i2c_verify_adapter(dev);
+   127		if (!adap)
+   128			return 0;
+   129	
+   130		if (!strstarts(adap->name, "SMBus I801 adapter"))
+   131			return 0;
+   132	
+   133		/* The parent of an I801 adapter is always a PCI device */
+   134		pdev = to_pci_dev(adap->dev.parent);
+   135		for (i = 0; i < ARRAY_SIZE(i801_idf_pci_device_ids); i++) {
+   136			if (pdev->device == i801_idf_pci_device_ids[i])
+   137				return 0; /* Only register client on main SMBus channel */
+   138		}
+   139	
+ > 140		*adap_ret = i2c_get_adapter(adap->nr);
+   141		return 1;
+   142	}
+   143	
+   144	/*
+   145	 * Accelerometer's I2C address is not specified in DMI nor ACPI,
+   146	 * so it is needed to define mapping table based on DMI product names.
+   147	 */
+   148	static const struct {
+   149		const char *dmi_product_name;
+   150		unsigned short i2c_addr;
+   151	} dell_lis3lv02d_devices[] = {
+   152		/*
+   153		 * Dell platform team told us that these Latitude devices have
+   154		 * ST microelectronics accelerometer at I2C address 0x29.
+   155		 */
+   156		{ "Latitude E5250",     0x29 },
+   157		{ "Latitude E5450",     0x29 },
+   158		{ "Latitude E5550",     0x29 },
+   159		{ "Latitude E6440",     0x29 },
+   160		{ "Latitude E6440 ATG", 0x29 },
+   161		{ "Latitude E6540",     0x29 },
+   162		/*
+   163		 * Additional individual entries were added after verification.
+   164		 */
+   165		{ "Latitude 5480",      0x29 },
+   166		{ "Latitude E6330",     0x29 },
+   167		{ "Vostro V131",        0x1d },
+   168		{ "Vostro 5568",        0x29 },
+   169	};
+   170	
+   171	static void smo8800_instantiate_i2c_client(struct smo8800_device *smo8800)
+   172	{
+   173		struct i2c_board_info info = { };
+   174		struct i2c_adapter *adap = NULL;
+   175		const char *dmi_product_name;
+   176		u8 addr = 0;
+   177		int i;
+   178	
+ > 179		bus_for_each_dev(&i2c_bus_type, NULL, &adap, smo8800_find_i801);
+   180		if (!adap)
+   181			return;
+   182	
+   183		dmi_product_name = dmi_get_system_info(DMI_PRODUCT_NAME);
+   184		for (i = 0; i < ARRAY_SIZE(dell_lis3lv02d_devices); ++i) {
+   185			if (strcmp(dmi_product_name,
+   186				   dell_lis3lv02d_devices[i].dmi_product_name) == 0) {
+   187				addr = dell_lis3lv02d_devices[i].i2c_addr;
+   188				break;
+   189			}
+   190		}
+   191	
+   192		if (!addr) {
+   193			dev_warn(smo8800->dev,
+   194				 "Accelerometer lis3lv02d is present on SMBus but its address is unknown, skipping registration\n");
+   195			goto put_adapter;
+   196		}
+   197	
+   198		info.addr = addr;
+   199		strscpy(info.type, "lis3lv02d", I2C_NAME_SIZE);
+   200	
+   201		smo8800->i2c_dev = i2c_new_client_device(adap, &info);
+   202		if (IS_ERR(smo8800->i2c_dev)) {
+   203			dev_err_probe(smo8800->dev, PTR_ERR(smo8800->i2c_dev),
+   204				      "registering accel i2c_client\n");
+   205			smo8800->i2c_dev = NULL;
+   206		} else {
+   207			dev_info(smo8800->dev, "Registered %s accelerometer on address 0x%02x\n",
+   208				 info.type, info.addr);
+   209		}
+   210	put_adapter:
+ > 211		i2c_put_adapter(adap);
+   212	}
+   213	
+   214	static int smo8800_probe(struct platform_device *device)
+   215	{
+   216		int err;
+   217		struct smo8800_device *smo8800;
+   218	
+   219		if (!dmi_match(DMI_SYS_VENDOR, "Dell Inc."))
+   220			return false;
    221	
-   222		if (port_num == 0 || port_num == 4) {
-   223			val &= QCA8K_LED_PATTERN_EN_MASK;
-   224			val >>= QCA8K_LED_PATTERN_EN_SHIFT;
-   225		} else {
-   226			val &= QCA8K_LED_PHY123_PATTERN_EN_MASK;
-   227		}
-   228	
-   229		return val == QCA8K_LED_RULE_CONTROLLED;
-   230	}
-   231	
-   232	int
- > 233	qca8k_led_hw_control_is_supported(struct net_device *ndev, u8 led,
-   234					  unsigned long rules)
-   235	{
-   236		u32 offload_trigger = 0;
-   237	
-   238		return qca8k_parse_netdev(rules, &offload_trigger);
-   239	}
-   240	
-   241	int
- > 242	qca8k_led_hw_control_set(struct net_device *ndev, u8 led_num,
-   243				 unsigned long rules)
-   244	{
-   245		struct dsa_switch *ds = dsa_user_to_ds(ndev);
-   246		struct qca8k_led_pattern_en reg_info;
-   247		struct qca8k_priv *priv = ds->priv;
-   248		int port = dsa_user_to_index(ndev);
-   249		u32 offload_trigger = 0;
-   250		int port_num;
-   251		int ret;
-   252	
-   253		port_num = qca8k_port_to_phy(port);
-   254	
-   255		ret = qca8k_parse_netdev(rules, &offload_trigger);
-   256		if (ret)
-   257			return ret;
+   222		smo8800 = devm_kzalloc(&device->dev, sizeof(*smo8800), GFP_KERNEL);
+   223		if (!smo8800) {
+   224			dev_err(&device->dev, "failed to allocate device data\n");
+   225			return -ENOMEM;
+   226		}
+   227	
+   228		smo8800->dev = &device->dev;
+   229		smo8800->miscdev.minor = MISC_DYNAMIC_MINOR;
+   230		smo8800->miscdev.name = "freefall";
+   231		smo8800->miscdev.fops = &smo8800_misc_fops;
+   232	
+   233		init_waitqueue_head(&smo8800->misc_wait);
+   234	
+   235		err = platform_get_irq(device, 0);
+   236		if (err < 0)
+   237			return err;
+   238		smo8800->irq = err;
+   239	
+   240		smo8800_instantiate_i2c_client(smo8800);
+   241	
+   242		err = misc_register(&smo8800->miscdev);
+   243		if (err) {
+   244			dev_err(&device->dev, "failed to register misc dev: %d\n", err);
+   245			goto error_unregister_i2c_client;
+   246		}
+   247	
+   248		err = request_threaded_irq(smo8800->irq, smo8800_interrupt_quick,
+   249					   smo8800_interrupt_thread,
+   250					   IRQF_TRIGGER_RISING | IRQF_ONESHOT,
+   251					   DRIVER_NAME, smo8800);
+   252		if (err) {
+   253			dev_err(&device->dev,
+   254				"failed to request thread for IRQ %d: %d\n",
+   255				smo8800->irq, err);
+   256			goto error;
+   257		}
    258	
-   259		ret = qca8k_led_trigger_offload(priv, port_num, led_num, true);
-   260		if (ret)
-   261			return ret;
-   262	
-   263		qca8k_get_control_led_reg(port_num, led_num, &reg_info);
-   264	
-   265		return regmap_update_bits(priv->regmap, reg_info.reg,
-   266					  QCA8K_LED_RULE_MASK << reg_info.shift,
-   267					  offload_trigger << reg_info.shift);
-   268	}
-   269	
-   270	int
- > 271	qca8k_led_hw_control_get(struct net_device *ndev, u8 led_num,
-   272				 unsigned long *rules)
-   273	{
-   274		struct dsa_switch *ds = dsa_user_to_ds(ndev);
-   275		struct qca8k_led_pattern_en reg_info;
-   276		struct qca8k_priv *priv = ds->priv;
-   277		int port = dsa_user_to_index(ndev);
-   278		int port_num;
-   279		u32 val;
-   280		int ret;
-   281	
-   282		port_num = qca8k_port_to_phy(port);
-   283	
-   284		/* With hw control not active return err */
-   285		if (!qca8k_led_hw_control_status(priv, port_num, led_num))
-   286			return -EINVAL;
-   287	
-   288		qca8k_get_control_led_reg(port_num, led_num, &reg_info);
-   289	
-   290		ret = regmap_read(priv->regmap, reg_info.reg, &val);
-   291		if (ret)
-   292			return ret;
-   293	
-   294		val >>= reg_info.shift;
-   295		val &= QCA8K_LED_RULE_MASK;
-   296	
-   297		/* Parsing specific to netdev trigger */
-   298		if (val & QCA8K_LED_TX_BLINK_MASK)
-   299			set_bit(TRIGGER_NETDEV_TX, rules);
-   300		if (val & QCA8K_LED_RX_BLINK_MASK)
-   301			set_bit(TRIGGER_NETDEV_RX, rules);
-   302		if (val & QCA8K_LED_LINK_10M_EN_MASK)
-   303			set_bit(TRIGGER_NETDEV_LINK_10, rules);
-   304		if (val & QCA8K_LED_LINK_100M_EN_MASK)
-   305			set_bit(TRIGGER_NETDEV_LINK_100, rules);
-   306		if (val & QCA8K_LED_LINK_1000M_EN_MASK)
-   307			set_bit(TRIGGER_NETDEV_LINK_1000, rules);
-   308		if (val & QCA8K_LED_HALF_DUPLEX_MASK)
-   309			set_bit(TRIGGER_NETDEV_HALF_DUPLEX, rules);
-   310		if (val & QCA8K_LED_FULL_DUPLEX_MASK)
-   311			set_bit(TRIGGER_NETDEV_FULL_DUPLEX, rules);
-   312	
-   313		return 0;
-   314	}
-   315	
+   259		dev_dbg(&device->dev, "device /dev/freefall registered with IRQ %d\n",
+   260			 smo8800->irq);
+   261		platform_set_drvdata(device, smo8800);
+   262		return 0;
+   263	
+   264	error:
+   265		misc_deregister(&smo8800->miscdev);
+   266	error_unregister_i2c_client:
+   267		i2c_unregister_device(smo8800->i2c_dev);
+   268		return err;
+   269	}
+   270	
+   271	static void smo8800_remove(struct platform_device *device)
+   272	{
+   273		struct smo8800_device *smo8800 = platform_get_drvdata(device);
+   274	
+   275		free_irq(smo8800->irq, smo8800);
+   276		misc_deregister(&smo8800->miscdev);
+   277		dev_dbg(&device->dev, "device /dev/freefall unregistered\n");
+ > 278		i2c_unregister_device(smo8800->i2c_dev);
+   279	}
+   280	
 
 -- 
 0-DAY CI Kernel Test Service
