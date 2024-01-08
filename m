@@ -1,47 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3EE47768
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 13:56:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932D146534
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 14:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPmub8en"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kV7UZw1C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704722186; x=1736258186;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3PJvlVZwPjO2KhnUOFTGmJGHXo2E/bIzpvK+S+Jxolg=;
-  b=FPmub8enaeANABMpeK3YLW4LuwC1mudWywO5v1J7BQS5u9AQ/DMQFBFG
-   BrKN8RbeaREHiJ64SWESb9LzcxMTm4WVIzBQl/Ttb4dIrBqvYPOHEb1JZ
-   t7qKhXveJLvn/TxC6Mm2pAcrwpM+Cvwfyc7kzosoD5tsVHCNSSc1jQRlC
-   d+Z/RRkEfMQJNDErUvc+TSbwogu3Un2+mxcw09zCk5fEqUzmFOUFjV73i
-   kOmuHJafBrnZyj0W3DXJdKQlh0Fp+Utu+/Au9gWzAFt8ehxDFhKK1TMm0
-   j2VcFP6O5x0ZgYEA5Hp4BptL0lEIqxpBs1dEzMkXNokBVvbsU93S27Lg1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="396768136"
+  t=1704723990; x=1736259990;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bj5j5nuhV/qrZwZnlx7DCKPmSdslwRR0SSqhJ0uVBmM=;
+  b=kV7UZw1C+kRb9Wq5CWjTqU0o+CwdEmDbc+2vlCBl/tbMg9WHjRnfZVGt
+   JdrEvOjdbsUapjWZYZVoD5G7CGBdqR7TQJdH8DxM+NLc9O5hSDQjAFHY5
+   WytXG/TFl215Q46ZPSxr3O13sJAWbHfYDj7a0zrmkOdA9Rpx9f7NRlbwJ
+   Dobolp7ZqUNOXZcrhKl1F8ZjJTnqbYe1hPq9kfAxGXVmNwV5FkPWaWHMb
+   Js+C0ZyiVaHLQ0ZKKjkN2TOMECOxLHDVYB9GfCpb6sC441MfczecElaAg
+   07jKUOfQ6O7P56c2kPvUMG6GsofW1c1Xy8Kt1al1b1p8bnpOfDZ+dhjqL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="4649802"
 X-IronPort-AV: E=Sophos;i="6.04,341,1695711600"; 
-   d="scan'208";a="396768136"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 05:56:25 -0800
+   d="scan'208";a="4649802"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 06:26:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="900384065"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="781425229"
 X-IronPort-AV: E=Sophos;i="6.04,341,1695711600"; 
-   d="scan'208";a="900384065"
+   d="scan'208";a="781425229"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Jan 2024 05:56:24 -0800
+  by orsmga002.jf.intel.com with ESMTP; 08 Jan 2024 06:26:26 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMq74-0004l6-2d;
-	Mon, 08 Jan 2024 13:56:22 +0000
-Date: Mon, 8 Jan 2024 21:55:48 +0800
+	id 1rMqa7-0004mh-2q;
+	Mon, 08 Jan 2024 14:26:23 +0000
+Date: Mon, 8 Jan 2024 22:26:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.7-dango-lro 11/11]
- drivers/net/ethernet/mediatek/mtk_eth_soc.c:4624:12: warning:
- 'mtk_change_mtu' defined but not used
-Message-ID: <202401082118.xqBjXnOI-lkp@intel.com>
+To: Xiao Wang <xiao.w.wang@intel.com>, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu
+Cc: oe-kbuild-all@lists.linux.dev, conor.dooley@microchip.com,
+	ajones@ventanamicro.com, heiko@sntech.de, haicheng.li@intel.com,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Xiao Wang <xiao.w.wang@intel.com>
+Subject: Re: [PATCH] riscv: Optimize crc32 with Zbc extension
+Message-ID: <202401082215.4rPI1A5Z-lkp@intel.com>
+References: <20240105080830.3738117-1-xiao.w.wang@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,53 +54,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240105080830.3738117-1-xiao.w.wang@intel.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.7-dango-lro
-head:   1f5055a5dde9e8569dec53b0505ed5632e934357
-commit: 1f5055a5dde9e8569dec53b0505ed5632e934357 [11/11] net: mediatek: update lro-code from balika
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240108/202401082118.xqBjXnOI-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401082118.xqBjXnOI-lkp@intel.com/reproduce)
+Hi Xiao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7 next-20240108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiao-Wang/riscv-Optimize-crc32-with-Zbc-extension/20240105-161053
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240105080830.3738117-1-xiao.w.wang%40intel.com
+patch subject: [PATCH] riscv: Optimize crc32 with Zbc extension
+config: riscv-randconfig-r121-20240106 (https://download.01.org/0day-ci/archive/20240108/202401082215.4rPI1A5Z-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240108/202401082215.4rPI1A5Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401082118.xqBjXnOI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401082215.4rPI1A5Z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/lib/crc32.c:192:19: sparse: sparse: invalid assignment: ^=
+   arch/riscv/lib/crc32.c:192:19: sparse:    left side has type unsigned long
+   arch/riscv/lib/crc32.c:192:19: sparse:    right side has type restricted __be64
+>> arch/riscv/lib/crc32.c:110:42: sparse: sparse: restricted __le64 degrades to integer
+>> arch/riscv/lib/crc32.c:110:42: sparse: sparse: restricted __le64 degrades to integer
 
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:4624:12: warning: 'mtk_change_mtu' defined but not used [-Wunused-function]
-    4624 | static int mtk_change_mtu(struct net_device *dev, int new_mtu)
-         |            ^~~~~~~~~~~~~~
+vim +192 arch/riscv/lib/crc32.c
 
-
-vim +/mtk_change_mtu +4624 drivers/net/ethernet/mediatek/mtk_eth_soc.c
-
-656e705243fd0c John Crispin     2016-03-08  4623  
-4fd59792097a6b DENG Qingfang    2021-01-25 @4624  static int mtk_change_mtu(struct net_device *dev, int new_mtu)
-4fd59792097a6b DENG Qingfang    2021-01-25  4625  {
-4fd59792097a6b DENG Qingfang    2021-01-25  4626  	int length = new_mtu + MTK_RX_ETH_HLEN;
-4fd59792097a6b DENG Qingfang    2021-01-25  4627  	struct mtk_mac *mac = netdev_priv(dev);
-4fd59792097a6b DENG Qingfang    2021-01-25  4628  	struct mtk_eth *eth = mac->hw;
-4fd59792097a6b DENG Qingfang    2021-01-25  4629  
-7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4630  	if (rcu_access_pointer(eth->prog) &&
-7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4631  	    length > MTK_PP_MAX_BUF_SIZE) {
-7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4632  		netdev_err(dev, "Invalid MTU for XDP mode\n");
-7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4633  		return -EINVAL;
-7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4634  	}
-7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4635  
-b677d6c7a695da Lorenzo Bianconi 2022-11-17  4636  	mtk_set_mcr_max_rx(mac, length);
-4fd59792097a6b DENG Qingfang    2021-01-25  4637  	dev->mtu = new_mtu;
-4fd59792097a6b DENG Qingfang    2021-01-25  4638  
-4fd59792097a6b DENG Qingfang    2021-01-25  4639  	return 0;
-4fd59792097a6b DENG Qingfang    2021-01-25  4640  }
-4fd59792097a6b DENG Qingfang    2021-01-25  4641  
-
-:::::: The code at line 4624 was first introduced by commit
-:::::: 4fd59792097a6b2fb949d41264386a7ecade469e net: ethernet: mediatek: support setting MTU
-
-:::::: TO: DENG Qingfang <dqfext@gmail.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+    78	
+    79	static inline u32 __pure crc32_le_generic(u32 crc, unsigned char const *p,
+    80	#if (BITS_PER_LONG == 64)
+    81						  size_t len, u32 poly, u64 poly_qt,
+    82	#else
+    83						  size_t len, u32 poly, u32 poly_qt,
+    84	#endif
+    85						  fallback crc_fb)
+    86	{
+    87		size_t offset, head_len, tail_len;
+    88		const unsigned long *p_ul;
+    89		unsigned long s;
+    90	
+    91		asm_volatile_goto(ALTERNATIVE("j %l[legacy]", "nop", 0,
+    92					      RISCV_ISA_EXT_ZBC, 1)
+    93				  : : : : legacy);
+    94	
+    95		/* Handle the unalignment head. */
+    96		offset = (unsigned long)p & OFFSET_MASK;
+    97		if (offset) {
+    98			head_len = MIN(STEP - offset, len);
+    99			crc = crc_fb(crc, p, head_len);
+   100			len -= head_len;
+   101			p += head_len;
+   102		}
+   103	
+   104		tail_len = len & OFFSET_MASK;
+   105		len = len >> STEP_ORDER;
+   106		p_ul = (unsigned long *)p;
+   107	
+   108		for (int i = 0; i < len; i++) {
+   109	#if (BITS_PER_LONG == 64)
+ > 110			s = (unsigned long)crc ^ __cpu_to_le64(*p_ul++);
+   111			/* We don't have a "clmulrh" insn, so use clmul + slli instead.
+   112			 */
+   113			asm volatile (".option push\n"
+   114				      ".option arch,+zbc\n"
+   115				      "clmul	%0, %1, %2\n"
+   116				      "slli	%0, %0, 1\n"
+   117				      "xor	%0, %0, %1\n"
+   118				      "clmulr	%0, %0, %3\n"
+   119				      "srli	%0, %0, 32\n"
+   120				      ".option pop\n"
+   121				      : "=&r" (crc)
+   122				      : "r" (s),
+   123					"r" (poly_qt),
+   124					"r" ((u64)poly << 32)
+   125				      :);
+   126	#else
+   127			s = crc ^ __cpu_to_le32(*p_ul++);
+   128			/* We don't have a "clmulrh" insn, so use clmul + slli instead.
+   129			 */
+   130			asm volatile (".option push\n"
+   131				      ".option arch,+zbc\n"
+   132				      "clmul	%0, %1, %2\n"
+   133				      "slli	%0, %0, 1\n"
+   134				      "xor	%0, %0, %1\n"
+   135				      "clmulr	%0, %0, %3\n"
+   136				      ".option pop\n"
+   137				      : "=&r" (crc)
+   138				      : "r" (s),
+   139					"r" (poly_qt),
+   140					"r" (poly)
+   141				      :);
+   142	#endif
+   143		}
+   144	
+   145		/* Handle the tail bytes. */
+   146		if (tail_len)
+   147			crc = crc_fb(crc, (unsigned char const *)p_ul, tail_len);
+   148		return crc;
+   149	
+   150	legacy:
+   151		return crc_fb(crc, p, len);
+   152	}
+   153	
+   154	u32 __pure crc32_le(u32 crc, unsigned char const *p, size_t len)
+   155	{
+   156		return crc32_le_generic(crc, p, len, CRC32_POLY_LE, CRC32_POLY_QT_LE,
+   157					crc32_le_base);
+   158	}
+   159	
+   160	u32 __pure __crc32c_le(u32 crc, unsigned char const *p, size_t len)
+   161	{
+   162		return crc32_le_generic(crc, p, len, CRC32C_POLY_LE,
+   163					CRC32C_POLY_QT_LE, __crc32c_le_base);
+   164	}
+   165	
+   166	u32 __pure crc32_be(u32 crc, unsigned char const *p, size_t len)
+   167	{
+   168		size_t offset, head_len, tail_len;
+   169		const unsigned long *p_ul;
+   170		unsigned long s;
+   171	
+   172		asm_volatile_goto(ALTERNATIVE("j %l[legacy]", "nop", 0,
+   173					      RISCV_ISA_EXT_ZBC, 1)
+   174				  : : : : legacy);
+   175	
+   176		/* Handle the unalignment head. */
+   177		offset = (unsigned long)p & OFFSET_MASK;
+   178		if (offset) {
+   179			head_len = MIN(STEP - offset, len);
+   180			crc = crc32_be_base(crc, p, head_len);
+   181			len -= head_len;
+   182			p += head_len;
+   183		}
+   184	
+   185		tail_len = len & OFFSET_MASK;
+   186		len = len >> STEP_ORDER;
+   187		p_ul = (unsigned long *)p;
+   188	
+   189		for (int i = 0; i < len; i++) {
+   190	#if (BITS_PER_LONG == 64)
+   191			s = (unsigned long)crc << 32;
+ > 192			s ^= __cpu_to_be64(*p_ul++);
 
 -- 
 0-DAY CI Kernel Test Service
