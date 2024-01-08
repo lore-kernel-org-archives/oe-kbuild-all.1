@@ -1,50 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB10405DD
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 12:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382095103D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 12:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MNorfnOl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704716671; x=1736252671;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U6PZV0XSf3M5jl7U4BTOkxIJfcJQG0oaRB000eW0FEs=;
-  b=MNorfnOlthR1sq3DXof/ROxE/h4bgHEZ+hyj+SeIdqgcfhMmKyY7N+QY
-   nfdJcbt0NPB3A6ILZZ/Xvs0S+6yf5I3omDosYVeVdIE/iEoJn578K+LrZ
-   02CmApq5wyRQsMr2EqbkM6R+9iskMQLM9WnzMp/Te/fLx11KHKZY7fVc+
-   4+1jnyVo77YV4qwH1v41lGSu3yvK9zb5Hcie5fYHUviLnx1IIF1730co+
-   zbTxoVZqIuk2Pg/PmpwCIFDX2rTcS0mlX2QlpMPSFIGX8s8f3n3BgXYFu
-   s+r8wFSP5lyhDqCs8qNLp4I1aUQzyUcXgX4cETIEr6uSVSmAyCd8V8M7N
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="484049017"
-X-IronPort-AV: E=Sophos;i="6.04,341,1695711600"; 
-   d="scan'208";a="484049017"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 04:24:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="815593873"
-X-IronPort-AV: E=Sophos;i="6.04,341,1695711600"; 
-   d="scan'208";a="815593873"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 08 Jan 2024 04:24:22 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMog0-0004ga-12;
-	Mon, 08 Jan 2024 12:24:20 +0000
-Date: Mon, 8 Jan 2024 20:24:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joseph Strauss <jstrauss@mailbox.org>, lee@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, pavel@ucw.cz, jansimon.moeller@gmx.de,
-	conor@kernel.org, christophe.jaillet@wanadoo.fr,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Joseph Strauss <jstrauss@mailbox.org>
-Subject: Re: [PATCH v4] Add multicolor support to BlinkM LED driver
-Message-ID: <202401082043.w97LLdJn-lkp@intel.com>
-References: <20240106172944.7593-1-jstrauss@mailbox.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xMjGNCgA"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40d89446895so10276535e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Jan 2024 04:32:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704717154; x=1705321954; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YIxLu4zoh3LL7Q1uFUiAUZZBCWCjlaxYGRlHTrnotok=;
+        b=xMjGNCgAS5GIKGKW3hodVjPpysmiu4vyo3zCd0zPFumxLXgF4yhblVb3g52TPMO/Qj
+         EC7H57IofNgjGXq+1SVg1Wl00Yru1M7G3HLbHqw9GYSOXGDUr53DmzcuyyFtPETSn8r1
+         c2I5L45U7sPq7Xo1LmwqHS6xOJEfqwkyRkwbVVr6qMswdTdTj/X+Ieh2je3ctLu7ZVnb
+         2ig0n8UC3d09XVxCAZU2503MaDmP790lAec6+0cO35muICnNuWjPlJfFfHPdUtkk5Sah
+         zGumZuPgHwhVMb28Xa1vnyK8rMFcfU2wGgj/43XReXB+vtMFEBvHzhDXxfFHP9KiN05d
+         pAnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704717154; x=1705321954;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YIxLu4zoh3LL7Q1uFUiAUZZBCWCjlaxYGRlHTrnotok=;
+        b=FEWxvFxVpHbWRnXDsBXN6EKXDgk0BYl2jlFiEoi26Yay5ha0QwF6MHoTbuLqojD6Lx
+         cuElUaS35/e9PQ+YXvA+tUuheaZzDxooTDC8abZ4OY9K1i+gGHKpXBe3Wo7NvB4Cyp6d
+         Sv3yppiJlBSi4dYMxNXfzBQIJJOtL6Z97knuTAa9JXtt9ycyN3KjlAT1++aOT1MRpJWq
+         k9YmBCEfcgofXqs3J4f8HcZzm3Qzz1ye7uIfoEX0rZvlybh9h+KS9Oea73Fj9e2Rdzpe
+         6YvwwmeqezlMlqzDOCGDXVj4xbe8ZJ4SvQqngeVeSDySUzb+xfnzyjOiU2sWelKpJt0/
+         bQ9g==
+X-Gm-Message-State: AOJu0YyVIorTfMNJ6u6xmV+W8ZzeArO33EQ2+WG0i9E7MupQirDNvz+j
+	PGC7k7QO65ojcKi3sYFx0khxIa16JucO5g==
+X-Google-Smtp-Source: AGHT+IE+NkW4hWdxv32tlGd7cXBMw5imwbk0V7RvQKd/VL9ZO1zWdxXipu6P7+Pqkybyv7RYrj3Kig==
+X-Received: by 2002:a05:600c:4212:b0:40d:7822:ce28 with SMTP id x18-20020a05600c421200b0040d7822ce28mr1669498wmh.83.1704717154499;
+        Mon, 08 Jan 2024 04:32:34 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id c4-20020a05600c0a4400b0040e39cbf2a4sm10621284wmq.42.2024.01.08.04.32.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 04:32:34 -0800 (PST)
+Date: Mon, 8 Jan 2024 15:32:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 9386/12908] mm/huge_memory.c:546 thpsize_create()
+ warn: Calling kobject_put|get with state->initialized unset from line: 533
+Message-ID: <efeda6be-8d1d-45a4-b6cb-950cb087124d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,211 +56,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240106172944.7593-1-jstrauss@mailbox.org>
 
-Hi Joseph,
+Hey Harshit,
 
-kernel test robot noticed the following build warnings:
+We get this warning when the DB isn't enabled.  I just pushed a fix for
+it.
 
-[auto build test WARNING on pavel-leds/for-next]
-[cannot apply to lee-leds/for-leds-next linus/master v6.7 next-20240108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+regards,
+dan carpenter
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joseph-Strauss/Add-multicolor-support-to-BlinkM-LED-driver/20240107-013235
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-patch link:    https://lore.kernel.org/r/20240106172944.7593-1-jstrauss%40mailbox.org
-patch subject: [PATCH v4] Add multicolor support to BlinkM LED driver
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240108/202401082043.w97LLdJn-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401082043.w97LLdJn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bffdfd2e7e63175ae261131a620f809d946cf9a7
+commit: 3485b88390b0af9e05dc2c3f57e9936f41e159a0 [9386/12908] mm: thp: introduce multi-size THP sysfs interface
+config: i386-randconfig-141-20240106 (https://download.01.org/0day-ci/archive/20240108/202401082055.s03XC1wp-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401082043.w97LLdJn-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202401082055.s03XC1wp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+mm/huge_memory.c:546 thpsize_create() warn: Calling kobject_put|get with state->initialized unset from line: 533
 
-   drivers/leds/leds-blinkm.c: In function 'blinkm_probe':
->> drivers/leds/leds-blinkm.c:721:53: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
-     721 |                          "blinkm-%d-%d:rgb:indicator",
-         |                                                     ^
-   drivers/leds/leds-blinkm.c:720:17: note: 'snprintf' output between 25 and 39 bytes into a destination of size 28
-     720 |                 snprintf(blinkm_led_name, sizeof(blinkm_led_name),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     721 |                          "blinkm-%d-%d:rgb:indicator",
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     722 |                          client->adapter->nr,
-         |                          ~~~~~~~~~~~~~~~~~~~~
-     723 |                          client->addr);
-         |                          ~~~~~~~~~~~~~
+vim +546 mm/huge_memory.c
 
-
-vim +/snprintf +721 drivers/leds/leds-blinkm.c
-
-   595	
-   596	static int blinkm_probe(struct i2c_client *client,
-   597				const struct i2c_device_id *id)
-   598	{
-   599		struct blinkm_data *data;
-   600		/* For multicolor support */
-   601		struct blinkm_led *mc_led;
-   602		struct mc_subled *mc_led_info;
-   603		/* 3 seperate classes for red, green, and blue respectively */
-   604		struct blinkm_led *leds[NUM_LEDS];
-   605		int err, i;
-   606		char blinkm_led_name[28];
-   607	
-   608		data = devm_kzalloc(&client->dev,
-   609				sizeof(struct blinkm_data), GFP_KERNEL);
-   610		if (!data) {
-   611			err = -ENOMEM;
-   612			goto exit;
-   613		}
-   614	
-   615		mc_led_info = devm_kcalloc(&client->dev, NUM_LEDS, sizeof(*mc_led_info),
-   616						GFP_KERNEL);
-   617		if (!mc_led_info) {
-   618			err = -ENOMEM;
-   619			goto exit;
-   620		}
-   621		data->i2c_addr = 0x08;
-   622		/* i2c addr  - use fake addr of 0x08 initially (real is 0x09) */
-   623		data->fw_ver = 0xfe;
-   624		/* firmware version - use fake until we read real value
-   625		 * (currently broken - BlinkM confused!) */
-   626		data->script_id = 0x01;
-   627		data->i2c_client = client;
-   628	
-   629		i2c_set_clientdata(client, data);
-   630		mutex_init(&data->update_lock);
-   631	
-   632		/* Register sysfs hooks */
-   633		err = sysfs_create_group(&client->dev.kobj, &blinkm_group);
-   634		if (err < 0) {
-   635			dev_err(&client->dev, "couldn't register sysfs group\n");
-   636			goto exit;
-   637		}
-   638	
-   639		if (!IS_ENABLED(CONFIG_LEDS_BLINKM_MULTICOLOR)) {
-   640			/* Register red, green, and blue sysfs classes */
-   641			for (i = 0; i < NUM_LEDS; i++) {
-   642				/* RED = 0, GREEN = 1, BLUE = 2 */
-   643				leds[i] = &data->blinkm_leds[i];
-   644				leds[i]->i2c_client = client;
-   645				leds[i]->id = i;
-   646				leds[i]->led_cdev.max_brightness = 255;
-   647				leds[i]->led_cdev.flags = LED_CORE_SUSPENDRESUME;
-   648				switch (i) {
-   649				case RED:
-   650					snprintf(blinkm_led_name, sizeof(blinkm_led_name),
-   651							 "blinkm-%d-%d-red",
-   652							 client->adapter->nr,
-   653							 client->addr);
-   654					leds[i]->led_cdev.name = blinkm_led_name;
-   655					leds[i]->led_cdev.brightness_set_blocking =
-   656									blinkm_led_red_set;
-   657					err = led_classdev_register(&client->dev,
-   658									&leds[i]->led_cdev);
-   659					if (err < 0) {
-   660						dev_err(&client->dev,
-   661							"couldn't register LED %s\n",
-   662							leds[i]->led_cdev.name);
-   663						goto failred;
-   664					}
-   665					break;
-   666				case GREEN:
-   667					snprintf(blinkm_led_name, sizeof(blinkm_led_name),
-   668							 "blinkm-%d-%d-green",
-   669							 client->adapter->nr,
-   670							 client->addr);
-   671					leds[i]->led_cdev.name = blinkm_led_name;
-   672					leds[i]->led_cdev.brightness_set_blocking =
-   673									blinkm_led_green_set;
-   674					err = led_classdev_register(&client->dev,
-   675								&leds[i]->led_cdev);
-   676					if (err < 0) {
-   677						dev_err(&client->dev,
-   678							"couldn't register LED %s\n",
-   679							leds[i]->led_cdev.name);
-   680						goto failgreen;
-   681					}
-   682					break;
-   683				case BLUE:
-   684					snprintf(blinkm_led_name, sizeof(blinkm_led_name),
-   685							 "blinkm-%d-%d-blue",
-   686							 client->adapter->nr,
-   687							 client->addr);
-   688					leds[i]->led_cdev.name = blinkm_led_name;
-   689					leds[i]->led_cdev.brightness_set_blocking =
-   690									blinkm_led_blue_set;
-   691					err = led_classdev_register(&client->dev,
-   692									&leds[i]->led_cdev);
-   693					if (err < 0) {
-   694						dev_err(&client->dev,
-   695							"couldn't register LED %s\n",
-   696							leds[i]->led_cdev.name);
-   697						goto failblue;
-   698					}
-   699					break;
-   700				default:
-   701					break;
-   702				}		/* end switch */
-   703			}			/* end for */
-   704		} else {
-   705			/* Register multicolor sysfs class */
-   706			/* The first element of leds is used for multicolor facilities */
-   707			mc_led = &data->blinkm_leds[RED];
-   708			mc_led->i2c_client = client;
-   709	
-   710			mc_led_info[RED].color_index = LED_COLOR_ID_RED;
-   711			mc_led_info[GREEN].color_index = LED_COLOR_ID_GREEN;
-   712			mc_led_info[BLUE].color_index = LED_COLOR_ID_BLUE;
-   713	
-   714			mc_led->mcled_cdev.subled_info = mc_led_info;
-   715			mc_led->mcled_cdev.num_colors = NUM_LEDS;
-   716			mc_led->mcled_cdev.led_cdev.brightness = 255;
-   717			mc_led->mcled_cdev.led_cdev.max_brightness = 255;
-   718			mc_led->mcled_cdev.led_cdev.flags = LED_CORE_SUSPENDRESUME;
-   719	
-   720			snprintf(blinkm_led_name, sizeof(blinkm_led_name),
- > 721				 "blinkm-%d-%d:rgb:indicator",
-   722				 client->adapter->nr,
-   723				 client->addr);
-   724			mc_led->mcled_cdev.led_cdev.name = blinkm_led_name;
-   725			mc_led->mcled_cdev.led_cdev.brightness_set_blocking = blinkm_set_mc_brightness;
-   726	
-   727			err = led_classdev_multicolor_register(&client->dev, &mc_led->mcled_cdev);
-   728			if (err < 0) {
-   729				dev_err(&client->dev, "couldn't register LED %s\n",
-   730						mc_led->led_cdev.name);
-   731				goto failmulti;
-   732			}
-   733		}
-   734	
-   735		blinkm_init_hw(client);
-   736	
-   737		return 0;
-   738	
-   739	failmulti:
-   740		led_classdev_unregister(&leds[BLUE]->led_cdev);
-   741	
-   742	failblue:
-   743		led_classdev_unregister(&leds[GREEN]->led_cdev);
-   744	
-   745	failgreen:
-   746		led_classdev_unregister(&leds[RED]->led_cdev);
-   747	
-   748	failred:
-   749		sysfs_remove_group(&client->dev.kobj, &blinkm_group);
-   750	
-   751	exit:
-   752		return err;
-   753	}
-   754	
+3485b88390b0af Ryan Roberts 2023-12-07  527  static struct thpsize *thpsize_create(int order, struct kobject *parent)
+3485b88390b0af Ryan Roberts 2023-12-07  528  {
+3485b88390b0af Ryan Roberts 2023-12-07  529  	unsigned long size = (PAGE_SIZE << order) / SZ_1K;
+3485b88390b0af Ryan Roberts 2023-12-07  530  	struct thpsize *thpsize;
+3485b88390b0af Ryan Roberts 2023-12-07  531  	int ret;
+3485b88390b0af Ryan Roberts 2023-12-07  532  
+3485b88390b0af Ryan Roberts 2023-12-07  533  	thpsize = kzalloc(sizeof(*thpsize), GFP_KERNEL);
+3485b88390b0af Ryan Roberts 2023-12-07  534  	if (!thpsize)
+3485b88390b0af Ryan Roberts 2023-12-07  535  		return ERR_PTR(-ENOMEM);
+3485b88390b0af Ryan Roberts 2023-12-07  536  
+3485b88390b0af Ryan Roberts 2023-12-07  537  	ret = kobject_init_and_add(&thpsize->kobj, &thpsize_ktype, parent,
+3485b88390b0af Ryan Roberts 2023-12-07  538  				   "hugepages-%lukB", size);
+3485b88390b0af Ryan Roberts 2023-12-07  539  	if (ret) {
+3485b88390b0af Ryan Roberts 2023-12-07  540  		kfree(thpsize);
+3485b88390b0af Ryan Roberts 2023-12-07  541  		return ERR_PTR(ret);
+3485b88390b0af Ryan Roberts 2023-12-07  542  	}
+3485b88390b0af Ryan Roberts 2023-12-07  543  
+3485b88390b0af Ryan Roberts 2023-12-07  544  	ret = sysfs_create_group(&thpsize->kobj, &thpsize_attr_group);
+3485b88390b0af Ryan Roberts 2023-12-07  545  	if (ret) {
+3485b88390b0af Ryan Roberts 2023-12-07 @546  		kobject_put(&thpsize->kobj);
+3485b88390b0af Ryan Roberts 2023-12-07  547  		return ERR_PTR(ret);
+3485b88390b0af Ryan Roberts 2023-12-07  548  	}
+3485b88390b0af Ryan Roberts 2023-12-07  549  
+3485b88390b0af Ryan Roberts 2023-12-07  550  	thpsize->order = order;
+3485b88390b0af Ryan Roberts 2023-12-07  551  	return thpsize;
+3485b88390b0af Ryan Roberts 2023-12-07  552  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
