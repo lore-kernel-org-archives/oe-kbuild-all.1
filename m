@@ -1,168 +1,263 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876A451C4E;
-	Mon,  8 Jan 2024 15:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CE053814
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 16:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="oSi+Rbc9";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="O5ByvHLf"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 408FsiYY010396;
-	Mon, 8 Jan 2024 15:58:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=mf1nTh5p3V7B/fMR2gabwJDqwgihcEUMAdkjlHbiTOE=;
- b=oSi+Rbc9N/gMXLTrbf+otqHPebKeU6DMLRm/6nDrGyjYn3cCuj6ujhs/ioa7u2fdda1j
- hj0qX0ncK8YHhNC6jMuibpvLxlJVjyzeItXhJ267mPoV8iEM+Tqj3CAF6OM1Z+TDv3PM
- yGT0pidgYLmo4Si17NxUC2zLwntJOngxZN1m9s8+x4+NwWQD6MwiFZ1LQE74roOEQgL8
- U1PT9WOHEdsBWi4lO209lGTgm70nYmIIPiAEDzO0lG+BJaUdEiRDACN8U+t/SwnECoWd
- Hq145EVQuQt8Bo173EBXvEF6SSSQHfM/CjqkPNoskDDlwgnlh9i7QucsUvILOcNObLVm SQ== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vgm3qr0ht-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 08 Jan 2024 15:58:20 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 408EjiUT035261;
-	Mon, 8 Jan 2024 15:58:18 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2168.outbound.protection.outlook.com [104.47.73.168])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vfuu338fn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 08 Jan 2024 15:58:18 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WJuHawTyZ2fWHT6Ps4pTvoLhXw77zZo2asY3cMBZGpzi1LVJqh9aposxC2s7V536+2SbFxUvtJTMHPVrKFQEQKoUDjn7HOkeUep3XxYuZw46I0N8KVfMz772k2pp7mGtEq8qbJH51C4Gg60ZoplWKzQ16hqgeD97PB/aArxQxM3eLAA46iOhCfylzoTlZO6eSrPRecJpQusqCxN7no8Dlo9ew2dGXPvfIvhJN/pv0oSC8iQ1JmwymxZEeeVjUuakq6yIf0aFLD9+75I1iGuBIwWy0KICoYnfTvSFofJ6XmfjpZmMIRYqHi8TsFfCGAbMCh3bB7jIdPTNlYYrTDZvnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mf1nTh5p3V7B/fMR2gabwJDqwgihcEUMAdkjlHbiTOE=;
- b=LA9o9TzHHdw2mnWcDCrLJtBOZ2lNFKqbzLyY7ZNS4uiTq+43gaQTNUwXD92cwrcKmG3zaDhiwx0T+aagPwO3gLZACG7zyJ0z5dGSdUJL0uoVvvTgpgmCps9P7+akczyS+EHNXdBvRuqcvlT7vJKKt2JSVg+u2gx8bM9tESv0BNXeUi2k+EIsJnthRzIDf3RIJrc94BFGKukQFI1fyIbgGdHv1TJ8qzpPjLaDhBQjvH5p669wT3kWCoY0ZR8R06HuhOwHHxXHaBNkgG0YcnLT9Youh0HAImpBtX3zuRrYdzWQJJdn4AHz5enpakWvw18ySkiVab5TQEFWYhBjPJanCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mf1nTh5p3V7B/fMR2gabwJDqwgihcEUMAdkjlHbiTOE=;
- b=O5ByvHLfCYyWEZ+7UYFKVH2g9egxxFOGu83CgV9gI63Yp3cBS9X5lovskiKnZOlEcYliAMDBu397lV3juSJs9f75CBu/kuJWEnBMBoEYLrLJilayNHRoR1AcuqPSiXplfNKCYGFxdki+xTv3u5sNRpL0mitj3Jq+jScyjc315GQ=
-Received: from PH8PR10MB6290.namprd10.prod.outlook.com (2603:10b6:510:1c1::7)
- by BY5PR10MB4132.namprd10.prod.outlook.com (2603:10b6:a03:20b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.21; Mon, 8 Jan
- 2024 15:58:06 +0000
-Received: from PH8PR10MB6290.namprd10.prod.outlook.com
- ([fe80::f41b:4111:b10e:4fa5]) by PH8PR10MB6290.namprd10.prod.outlook.com
- ([fe80::f41b:4111:b10e:4fa5%4]) with mapi id 15.20.7159.020; Mon, 8 Jan 2024
- 15:58:06 +0000
-Message-ID: <011c98d2-3845-43b9-99cf-bb03e7ce9b14@oracle.com>
-Date: Mon, 8 Jan 2024 21:27:57 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 9386/12908] mm/huge_memory.c:546
- thpsize_create() warn: Calling kobject_put|get with state->initialized unset
- from line: 533
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <efeda6be-8d1d-45a4-b6cb-950cb087124d@moroto.mountain>
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-In-Reply-To: <efeda6be-8d1d-45a4-b6cb-950cb087124d@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR20CA0044.namprd20.prod.outlook.com
- (2603:10b6:208:235::13) To PH8PR10MB6290.namprd10.prod.outlook.com
- (2603:10b6:510:1c1::7)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WPHA5LES"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704730578; x=1736266578;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lHewpDju222Rw/uCNRj6okHLUIGcwtjsBM9ErssIwgg=;
+  b=WPHA5LESMDXEa89wVbRyZfQIoamV0QRwu+oZn8eyP29hWX606odhBYiW
+   sZoqNB3AXUxuPH6Xs3A6U9zS0tSK99oaZOGAPj101r3Bgx8Cl/Pb8bJIJ
+   yk20dnIQW+zo1a6CeF+orHJd6nVukjvTQu+4R23Nc5ShqpYIDYUUrlI7y
+   sqWrpS5rw+nOHme6VJHV+KjqsBlODhHUnzznnynfpxdgG/2yEXD5bupr0
+   J9AWV6pTpnK+0hX/cd+eKpPi8Wv224m1CUd9Wybgs3fUStIIMbgsq7Oct
+   Il9zTl07hgqflZbpC7efkKAoO8H9Tdla7y8CVM6P4Os6wsfNQ3YSI5Z8P
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="11274303"
+X-IronPort-AV: E=Sophos;i="6.04,180,1695711600"; 
+   d="scan'208";a="11274303"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 08:16:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="774549101"
+X-IronPort-AV: E=Sophos;i="6.04,180,1695711600"; 
+   d="scan'208";a="774549101"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 08 Jan 2024 08:16:12 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rMsIL-0004rN-3C;
+	Mon, 08 Jan 2024 16:16:09 +0000
+Date: Tue, 9 Jan 2024 00:16:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Petlozu Pravareshwar <petlozup@nvidia.com>, thierry.reding@gmail.com,
+	jonathanh@nvidia.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	p.zabel@pengutronix.de, dmitry.osipenko@collabora.com,
+	ulf.hansson@linaro.org, kkartik@nvidia.com, cai.huoqing@linux.dev,
+	spatra@nvidia.com, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, petlozup@nvidia.com
+Subject: Re: [PATCH 2/3] dt-bindings: tegra: pmc: Update scratch as an
+ optional aperture
+Message-ID: <202401090058.4xtTta86-lkp@intel.com>
+References: <20240106075134.3933491-2-petlozup@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR10MB6290:EE_|BY5PR10MB4132:EE_
-X-MS-Office365-Filtering-Correlation-Id: a70f27c7-e2ca-4dd3-928c-08dc10629a5f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	77jyU3SiUb3dZbgUSz4Fx4sz56Vy+bWtNZ6JKc/R6G/Z3/253JyVmynSQB7Q9VWrlCnGRUj7mGTJ3bzN0IdeP31igNezA9ZLCVxCg3PUZ2ac6HRD4YqsQUdaXLlygCX3/F9rbRhiIoTbRUCY9C5p3HYvOzA/ccrXL/RY1BztEeU28joUvTYfQPp2pgpGPS0mCPF+8qFcmPk9gQQ6Sa8xQJQeyvkF/jlhWDPZ5WXmsXddBBoipm7Ws6de4yBtgMeI7Ew1BxjKuG0I+tsW6dDXsuopGP5+VEl1dMzX4fUqmAqjQlw0a6x8XBLCojY+CNrHu7dVa93wpgsYeYyzJiPVbYErZJz8Ng5lR3tNVQwqJXLt0fYGUzLdK+DEYZZtLub6S78K/WL0fqjUnW8pVw66MdcxbfzR3rniTxUZoAWm/cmebDNCvS1/tNZLErIXPNRKT6LTis9u+Bn9SIW4mFbx7QlugyMDCgKlFxSmE/b7YZvBbp7MnMoQw0wa+FIMVOAyVBHzIrKxdAxUrbs3UXesd2/amXuuEiO5suvDPbjjKMXRjLAGSgEOGSYqaI0+Wk8gyycTj3FXTn8oboa65pmJzIz5Kftr7I3a2N7e3B1FVUVqAztbTnTXi2QLr5KmexiVptxkXAAUWnE8c/kp41b4L6U6PLtT9ifAgG5XfpgRm/xYjSL7VDZM1xdUyg55IdaVkhheCLdh2plLQHuJrjpDcQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR10MB6290.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(39860400002)(136003)(376002)(230922051799003)(230173577357003)(230273577357003)(64100799003)(451199024)(186009)(1800799012)(2906002)(38100700002)(5660300002)(86362001)(41300700001)(31696002)(558084003)(31686004)(316002)(36756003)(8676002)(8936002)(6512007)(2616005)(6486002)(66946007)(66556008)(26005)(66476007)(478600001)(83380400001)(6506007)(6666004)(53546011)(4326008)(14583001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Q0wxemtocWdJTUtxRGxUTlNmTnVDZUo1ZXZwa1Y1SFg0V0lBNVgvall6VTUz?=
- =?utf-8?B?UCtpc1JxTHFabE9SOHI4eXhJNXJWbk5BZkZQOEJZN3cxUFNHY1Fwam5uMTdY?=
- =?utf-8?B?SkErYmxrbEsydFRjVFRZVE1qZitWSGVoM2V3QjFzOThCeFpVUWpyRjk1LzFx?=
- =?utf-8?B?VUNSK0FrK0R1Rm11ZDM2UWNDbFY5bzdSWTJMMmxmOENBVlZKekxFZmxuM1Zs?=
- =?utf-8?B?QlFZRnF5SDJzVXU1T0MxV0pEcnR1bnE2bzdNNEVCdVhBRGZYRmt2ZHpDVU9D?=
- =?utf-8?B?cWZ2NGF0YzlVbzdJVjd0VXBHazNRUEE1b2NpdGNYTkRnZTE2MGxwQXJnQ2t5?=
- =?utf-8?B?T0ZDSENjenZwdEJQZU0vZzNaTHR0NHEwMmZnNk43alRRV2hNNDJoWXo2M1VT?=
- =?utf-8?B?a2d1UzJNZFlkMmtYRmlVQTBoS1JtdUF5ZUU2eGpMT1NRY1EvUjRjcHMrRWNr?=
- =?utf-8?B?SGRRT09VdndMbjVnQkVvektxQjF3dVFsdWVoQVFQanBvTXhGNkprd09abXFS?=
- =?utf-8?B?TEE1OCtiVkN4Tmkwc2l5OE9EYTJPR2tWemVYNzZ5WEMvOXUwT1ROSGdDNWM3?=
- =?utf-8?B?bmliaFFZN3hiLzltSGNSVlp3RXNkR0Rxem5FckE3R1RzSUp6WDdoS1laa1JU?=
- =?utf-8?B?NzRnL2JjdzZLSnlEUEhyLy8zVzBjazAwc29KOEEyY0hpbm9QK0wzaENxQ096?=
- =?utf-8?B?WDhwYUFzbDlpbWs5b21HZnpkWkR6R1BWckNEM1RrVnB6RWFTZzlrY2JxWlZs?=
- =?utf-8?B?T295S0U1S0hFQm5DaVh5RCtNQUk1eWNQQ1BxOXNFRzE5dENlbE5WbERGN3lS?=
- =?utf-8?B?UXNiOGVQaWp5MjlPd1NpbW1iUk9CYnRhemNmOFN4Wk9NT1NUWXNKZTFZaHA3?=
- =?utf-8?B?U29SZ2RoT0tVQ0REZW9EbW43R25nYkJadTJLWS9pVXVPdHY1Vi9QeWljOGFH?=
- =?utf-8?B?UnJ5SzZiei9CNXJpVXFFQUptN3BoeEN5T3BQdjJLRlkxaE10bTlnK20xekZF?=
- =?utf-8?B?T2gzWXl1b1lKOWxnQjlDTjVhUVF2QVY0MVR6d1ltSGJucFl6TkVOOGJ0ZzFX?=
- =?utf-8?B?dUNYRkhoUlhmclBlWXlnNE1CdVZ5QWRkZHEwNzBpTThOZUdFSG15am13ZCtv?=
- =?utf-8?B?WkNxR0VZSWdvT2VHMWw2aU83VVlNL3gwaGVpbm0zQjJUSkZrZWpqZGhJSTZX?=
- =?utf-8?B?NnA5c0lGdjNXV3VGWG0zaTQ5d2wzTXFkNnhjNGtQdGk3VE5iWkRUcGI1ajQ5?=
- =?utf-8?B?N09lbS81QmdTZ2hoY3JRZGFkbytTYUozd0FPVDdSanh0bDgwcUFQaS9MZVFz?=
- =?utf-8?B?YmRxUnRMOUxPcWlLNnBNcFJFVmtoa3QyKzd0KzBWcS9rZzVqVVRTRDhQK2x0?=
- =?utf-8?B?aTZTWThhandkNmNLVnp6amRNZFZkS0N0NFh1cG1Cem4ySm94RjRzdGJCN25F?=
- =?utf-8?B?SzNBTTFGTzVoL2l2bGVUZUtFeXkxdktZSzIraFpWU0JGc2lBcFA5Y3NidmJH?=
- =?utf-8?B?cUw0OFBYM3lxYmdHK05rcHRlRVFSOC81SzhraG8yZkd6TXFxd01BWnBnekNH?=
- =?utf-8?B?NHdHZGh5Y25qZzNYSzNnQWU4TTVRTEpObEJjK0pDb2svN1ZTek4rTk0waGRS?=
- =?utf-8?B?V3lNNjRwckJxbmpxT01yeFU5ekoyMThSd2dyMklMZStKK29oZWlDbVgyNUUw?=
- =?utf-8?B?SWdubHYvMHBQOVFWME1penV6TXJ3ejVDS2IzY2N3NXQzelZydGJqNURSYVBo?=
- =?utf-8?B?d2JGWFdmNTEvRjZlczZ1V2ViR0NyYTNOZ09sZ25KWTFiT1RsTGFodytDQWdp?=
- =?utf-8?B?MG01aXhGTmUrNk9GOGV5bmkyeTJQZndVTm96a2RQZG1wbUFvTy9jNWkrVU13?=
- =?utf-8?B?YXlSRjJaU2pRdzJDQ09vUjRzRjg3dnBJanA2SFlnMEtiUFlsYUhkYWpFKzY5?=
- =?utf-8?B?Umt6dWQybkY4WHNReHNNMlFjNUdGQjFQWUs0Y2tGMmgrMVcvbUdsaGlSZHhC?=
- =?utf-8?B?K1RsNlRmeHhtcjlsZU05Tk1OU3phT2hwWk5FYzRRbWVUNGU2VnZhWjZIVFh4?=
- =?utf-8?B?dzExNWNPajlDSWg2cG1jR2UzRTFyc1FnbE9FQUx0N2YvR1c2NE5kUzNnNXc3?=
- =?utf-8?B?L1kvbStYUzVKaHBPdk82aVk1NjNRWmhhZDlSMExJdlJYcFBIbzIzNHJoZ2Y0?=
- =?utf-8?Q?5jTAMUZHO/1TA2mfYnnK6tM=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	F+yStSaLofQX4HPxnX4Nzrlj0eCCw58ykX6XL+B35lzGdvl8h2f4dKRDZnLC3e2MoRU+mh4y+838G+WkfXXu30NsgTfh78P/L4Mms0HmVyqTNMXLUh9bKRGOdP+j66SYzdvVoKpXL34764eVT/gsknzNYKRvj4ZroTjbML1gKCHUMUVkemzi97GaX6j9p0wwv5FgpJU3wVb/5I/gGho4WzSNKkxsfdgql2hhf+lpdceq2XeJhBHPJ/N4LZv0kwPTmyTKZL8Lodeb1JN6gsri2hQftm346vfw7Mo/FeK7BiAAzv8YINUETY6HqHDm/Is8jfMbBxuae3Nv1VRnIGdNqo8DY/7e7gj2+gjpu7tAd2g0IGvUMRcrMoXSLpeCpB2A5iNIbVakn/KY5GJ74fhBGssOAxE7eNYgST1J0UMcdXwdHeLNawZTLls5RMQCQ23lsV1Hq0tUBlwQeDf8BQlIl/n7qoss0nF+1Nm1SBd0CYGcqPjeWvm1GCpkI4cBY/XdA8nfNxu5bbLpdBFy1FskK9ruVlyR+rwZ5ftwmy43sl2VfZ6+TqJih6HSKTxxDmRPfG9qzDSKwpkB75KjcFUTNxKDWbuSm36CnTSSKIf1mIk=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a70f27c7-e2ca-4dd3-928c-08dc10629a5f
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR10MB6290.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2024 15:58:06.3816
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JAg23mI7I4pDo8umuLK/oZsHOgHZA7hbP+Aq7vISOztsmHsjX2XsUDNuVzXA5asTN6UAkboN1jliwB5rxuPFoadlMSPna9vdK/pJj4tx/bkeFYEV/lbZR+ngtFih2HN/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4132
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-08_06,2024-01-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 bulkscore=0
- mlxscore=0 mlxlogscore=999 adultscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2401080137
-X-Proofpoint-GUID: Y-yg6ZCgqM0u3NTfRHIJ9WdeoYnZflM-
-X-Proofpoint-ORIG-GUID: Y-yg6ZCgqM0u3NTfRHIJ9WdeoYnZflM-
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240106075134.3933491-2-petlozup@nvidia.com>
 
-Hi Dan,
+Hi Petlozu,
 
-On 08/01/24 6:02 pm, Dan Carpenter wrote:
-> Hey Harshit,
-> 
-> We get this warning when the DB isn't enabled.  I just pushed a fix for
-> it.
+kernel test robot noticed the following build warnings:
 
-Thanks for fixing it.
+[auto build test WARNING on tegra/for-next]
+[also build test WARNING on robh/for-next linus/master v6.7 next-20240108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Harshit
-> 
-> regards,
-> dan carpenter
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Petlozu-Pravareshwar/dt-bindings-tegra-pmc-Update-scratch-as-an-optional-aperture/20240106-155615
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240106075134.3933491-2-petlozup%40nvidia.com
+patch subject: [PATCH 2/3] dt-bindings: tegra: pmc: Update scratch as an optional aperture
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240109/202401090058.4xtTta86-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401090058.4xtTta86-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.yaml:85:12: [warning] wrong indentation: expected 12 but found 11 (indentation)
+
+vim +85 Documentation/devicetree/bindings/arm/tegra/nvidia,tegra186-pmc.yaml
+
+     8	
+     9	maintainers:
+    10	  - Thierry Reding <thierry.reding@gmail.com>
+    11	  - Jon Hunter <jonathanh@nvidia.com>
+    12	
+    13	properties:
+    14	  compatible:
+    15	    enum:
+    16	      - nvidia,tegra186-pmc
+    17	      - nvidia,tegra194-pmc
+    18	      - nvidia,tegra234-pmc
+    19	
+    20	  reg:
+    21	    minItems: 4
+    22	    maxItems: 5
+    23	
+    24	  reg-names:
+    25	    minItems: 4
+    26	    maxItems: 5
+    27	
+    28	  interrupt-controller: true
+    29	
+    30	  "#interrupt-cells":
+    31	    description: Specifies the number of cells needed to encode an
+    32	      interrupt source. The value must be 2.
+    33	    const: 2
+    34	
+    35	  nvidia,invert-interrupt:
+    36	    description: If present, inverts the PMU interrupt signal.
+    37	    $ref: /schemas/types.yaml#/definitions/flag
+    38	
+    39	allOf:
+    40	  - if:
+    41	      properties:
+    42	        compatible:
+    43	          contains:
+    44	            const: nvidia,tegra186-pmc
+    45	    then:
+    46	      properties:
+    47	        reg:
+    48	          maxItems: 4
+    49	        reg-names:
+    50	          items:
+    51	            - const: pmc
+    52	            - const: wake
+    53	            - const: aotag
+    54	            - const: scratch
+    55	
+    56	  - if:
+    57	      properties:
+    58	        compatible:
+    59	          contains:
+    60	            const: nvidia,tegra194-pmc
+    61	    then:
+    62	      properties:
+    63	        reg:
+    64	          minItems: 5
+    65	        reg-names:
+    66	          items:
+    67	            - const: pmc
+    68	            - const: wake
+    69	            - const: aotag
+    70	            - const: scratch
+    71	            - const: misc
+    72	
+    73	  - if:
+    74	      properties:
+    75	        compatible:
+    76	          contains:
+    77	            const: nvidia,tegra234-pmc
+    78	    then:
+    79	      properties:
+    80	        reg:
+    81	          minItems: 4
+    82	          maxItems: 5
+    83	        reg-names:
+    84	          anyOf:
+  > 85	           - items:
+    86	               - const: pmc
+    87	               - const: wake
+    88	               - const: aotag
+    89	               - const: misc
+    90	           - items:
+    91	               - const: pmc
+    92	               - const: wake
+    93	               - const: aotag
+    94	               - const: scratch
+    95	               - const: misc
+    96	
+    97	patternProperties:
+    98	  "^[a-z0-9]+-[a-z0-9]+$":
+    99	    if:
+   100	      type: object
+   101	    then:
+   102	      description: |
+   103	        These are pad configuration nodes. On Tegra SoCs a pad is a set of
+   104	        pins which are configured as a group. The pin grouping is a fixed
+   105	        attribute of the hardware. The PMC can be used to set pad power
+   106	        state and signaling voltage. A pad can be either in active or
+   107	        power down mode. The support for power state and signaling voltage
+   108	        configuration varies depending on the pad in question. 3.3 V and
+   109	        1.8 V signaling voltages are supported on pins where software
+   110	        controllable signaling voltage switching is available.
+   111	
+   112	        Pad configurations are described with pin configuration nodes
+   113	        which are placed under the pmc node and they are referred to by
+   114	        the pinctrl client properties. For more information see
+   115	
+   116	          Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
+   117	
+   118	        The following pads are present on Tegra186:
+   119	
+   120	          csia, csib, dsi, mipi-bias, pex-clk-bias, pex-clk3, pex-clk2,
+   121	          pex-clk1, usb0, usb1, usb2, usb-bias, uart, audio, hsic, dbg,
+   122	          hdmi-dp0, hdmi-dp1, pex-cntrl, sdmmc2-hv, sdmmc4, cam, dsib,
+   123	          dsic, dsid, csic, csid, csie, dsif, spi, ufs, dmic-hv, edp,
+   124	          sdmmc1-hv, sdmmc3-hv, conn, audio-hv, ao-hv
+   125	
+   126	        The following pads are present on Tegra194:
+   127	
+   128	          csia, csib, mipi-bias, pex-clk-bias, pex-clk3, pex-clk2,
+   129	          pex-clk1, eqos, pex-clk-2-bias, pex-clk-2, dap3, dap5, uart,
+   130	          pwr-ctl, soc-gpio53, audio, gp-pwm2, gp-pwm3, soc-gpio12,
+   131	          soc-gpio13, soc-gpio10, uart4, uart5, dbg, hdmi-dp3, hdmi-dp2,
+   132	          hdmi-dp0, hdmi-dp1, pex-cntrl, pex-ctl2, pex-l0-rst,
+   133	          pex-l1-rst, sdmmc4, pex-l5-rst, cam, csic, csid, csie, csif,
+   134	          spi, ufs, csig, csih, edp, sdmmc1-hv, sdmmc3-hv, conn,
+   135	          audio-hv, ao-hv
+   136	
+   137	      properties:
+   138	        pins:
+   139	          $ref: /schemas/types.yaml#/definitions/string
+   140	          description: Must contain the name of the pad(s) to be
+   141	            configured.
+   142	
+   143	        low-power-enable:
+   144	          description: Configure the pad into power down mode.
+   145	          $ref: /schemas/types.yaml#/definitions/flag
+   146	
+   147	        low-power-disable:
+   148	          description: Configure the pad into active mode.
+   149	          $ref: /schemas/types.yaml#/definitions/flag
+   150	
+   151	        power-source:
+   152	          $ref: /schemas/types.yaml#/definitions/uint32
+   153	          description: |
+   154	            Must contain either TEGRA_IO_PAD_VOLTAGE_1V8 or
+   155	            TEGRA_IO_PAD_VOLTAGE_3V3 to select between signalling
+   156	            voltages.
+   157	
+   158	            The values are defined in
+   159	
+   160	              include/dt-bindings/pinctrl/pinctrl-tegra-io-pad.h
+   161	
+   162	            The power state can be configured on all of the above pads
+   163	            except for ao-hv. Following pads have software configurable
+   164	            signaling voltages: sdmmc2-hv, dmic-hv, sdmmc1-hv, sdmmc3-hv,
+   165	            audio-hv, ao-hv.
+   166	
+   167	        phandle: true
+   168	
+   169	      required:
+   170	        - pins
+   171	
+   172	      additionalProperties: false
+   173	
+   174	required:
+   175	  - compatible
+   176	  - reg
+   177	  - reg-names
+   178	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
