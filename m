@@ -1,46 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691FD8F65
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 07:01:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C71FB647
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 07:46:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DqwWDey1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X0tIZ8zK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704697281; x=1736233281;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5S4isNVG9Yb7RJpP09hRnFGD7S+jYFLuPo45bW/bt5o=;
-  b=DqwWDey1+T38GDYEc9VrkEvpC0el72ezITooAQ4dITstZfv/ieoMWPcv
-   tBvJlNmRezOkOt71/7fLjMLXkEnliSQhcXIe7xLRXZah54ykB9lhgcuL7
-   H89UQ8qfnbYfrcljsplQPB1lTswPgE8nQnkmsc9dH9d53AALG4Xy4ZwVa
-   e2dhC/WWOcNIu0fVckqfKsUoFkUJibXnu2yeAn2NYO6+lH7zwrIfg23XG
-   yi2IzSZYQrEg7sbiMmmRQCVD/E8Y0q8hbiDpXdNRqOYmjdFzatZJewPE3
-   xbffhKWF3/3Bi7Nld0dVUjF8ybrTNBegNKz+RP2OVXyrCW3tLFu1oKAOF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="462099699"
+  t=1704700012; x=1736236012;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AvhfDm2j+qVAzbx7SoLzumEYgb5qaDh8X5waSOXgjnA=;
+  b=X0tIZ8zKVNyZNHQDlAvxmVzg496mogyN+qUZOwE9n7LScSnaFlPfZMFU
+   iqxkUzX8SvSNYEPqYsosKBXdEpfgaJoWfHgBs5xCAM45ehylgzWl1XYxi
+   SOp8bFxsgppmtqzWz6WZVkbE8ti/Fbh+E8h0FU9fqW5ACqPK8/XwjuqtO
+   gyAfNrhmd8zDzYKQDEc9quIvQwvByA2YkYS4QOlPWG0Z1oUiX1lAPAP6U
+   +NYD5Bc3SY6Eds+zUoDA7btkkQ2QjXR3HKLqXau0hn8euBhVH6CbiJcTD
+   poh28HhPf1RraiGb/6lVUub4mfNKUWAtlDxQX33PfMTOicuzu2mARtKMI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="19316776"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="462099699"
+   d="scan'208";a="19316776"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 23:01:20 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 23:46:51 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="23077666"
+   d="scan'208";a="23091188"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 07 Jan 2024 23:01:20 -0800
+  by orviesa002.jf.intel.com with ESMTP; 07 Jan 2024 23:46:45 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMjci-0004V6-1c;
-	Mon, 08 Jan 2024 07:00:59 +0000
-Date: Mon, 8 Jan 2024 14:59:54 +0800
+	id 1rMkLJ-0004Wy-2z;
+	Mon, 08 Jan 2024 07:46:41 +0000
+Date: Mon, 8 Jan 2024 15:46:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: drivers/usb/typec/ucsi/ucsi_glink.c:258:2-3: Unneeded semicolon
-Message-ID: <202401081453.4Ff5FBfw-lkp@intel.com>
+To: Philipp Stanner <pstanner@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.de>, David Gow <davidgow@google.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Philipp Stanner <pstanner@redhat.com>
+Subject: Re: [PATCH 1/2] platform_device: add devres function region-reqs
+Message-ID: <202401081547.VBj4FKaw-lkp@intel.com>
+References: <20240105172218.42457-3-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,43 +66,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240105172218.42457-3-pstanner@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0dd3ee31125508cd67f7e7172247f05b7fd1753a
-commit: 62b5412b1f4afab27d8df90ddcabb8e1e11a00ad usb: typec: ucsi: add PMIC Glink UCSI driver
-date:   10 months ago
-config: i386-randconfig-052-20240106 (https://download.01.org/0day-ci/archive/20240108/202401081453.4Ff5FBfw-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+Hi Philipp,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.7 next-20240105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/platform_device-add-devres-function-region-reqs/20240106-012526
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240105172218.42457-3-pstanner%40redhat.com
+patch subject: [PATCH 1/2] platform_device: add devres function region-reqs
+config: x86_64-randconfig-101-20240106 (https://download.01.org/0day-ci/archive/20240108/202401081547.VBj4FKaw-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401081547.VBj4FKaw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401081453.4Ff5FBfw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401081547.VBj4FKaw-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/usb/typec/ucsi/ucsi_glink.c:258:2-3: Unneeded semicolon
+All warnings (new ones prefixed by >>):
 
-vim +258 drivers/usb/typec/ucsi/ucsi_glink.c
+>> drivers/base/platform.c:101: warning: expecting prototype for devm_platform_get_and_resource(). Prototype was for devm_platform_get_resource() instead
 
-   242	
-   243	static void pmic_glink_ucsi_callback(const void *data, size_t len, void *priv)
-   244	{
-   245		struct pmic_glink_ucsi *ucsi = priv;
-   246		const struct pmic_glink_hdr *hdr = data;
-   247	
-   248		switch (hdr->opcode) {
-   249		case UC_UCSI_READ_BUF_REQ:
-   250			pmic_glink_ucsi_read_ack(ucsi, data, len);
-   251			break;
-   252		case UC_UCSI_WRITE_BUF_REQ:
-   253			pmic_glink_ucsi_write_ack(ucsi, data, len);
-   254			break;
-   255		case UC_UCSI_USBC_NOTIFY_IND:
-   256			schedule_work(&ucsi->notify_work);
-   257			break;
- > 258		};
-   259	}
-   260	
+
+vim +101 drivers/base/platform.c
+
+    84	
+    85	/**
+    86	 * devm_platform_get_and_resource - get and request a resource
+    87	 *
+    88	 * @pdev: the platform device to get the resource from
+    89	 * @type: resource type (either IORESOURCE_MEM or IORESOURCE_IO)
+    90	 * @num: resource index
+    91	 * @name: name to be associated with the request
+    92	 *
+    93	 * Return: a pointer to the resource on success, an ERR_PTR on failure.
+    94	 *
+    95	 * Gets a resource and requests it. Use this instead of
+    96	 * devm_platform_ioremap_resource() only if you have to create several single
+    97	 * mappings with devm_ioremap().
+    98	 */
+    99	struct resource *devm_platform_get_resource(struct platform_device *pdev,
+   100			unsigned int type, unsigned int num, const char *name)
+ > 101	{
+   102		struct resource *res;
+   103	
+   104		res = platform_get_resource(pdev, type, num);
+   105		if (!res)
+   106			return ERR_PTR(-EINVAL);
+   107	
+   108		if (type & IORESOURCE_MEM)
+   109			res = devm_request_mem_region(&pdev->dev, res->start, res->end, name);
+   110		else if (type & IORESOURCE_IO)
+   111			res = devm_request_region(&pdev->dev, res->start, res->end, name);
+   112		else
+   113			return ERR_PTR(-EINVAL);
+   114	
+   115		if (!res)
+   116			return ERR_PTR(-EBUSY);
+   117	
+   118		return res;
+   119	}
+   120	EXPORT_SYMBOL_GPL(devm_platform_get_resource);
+   121	
 
 -- 
 0-DAY CI Kernel Test Service
