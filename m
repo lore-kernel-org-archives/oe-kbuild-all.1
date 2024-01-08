@@ -1,282 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FA914274
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 09:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3458014291
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 10:00:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0OEMWqm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQlN9YuO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704706872; x=1736242872;
+  t=1704708044; x=1736244044;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IoKRp5Bx5etXxcBQsq55CfSugHG0VHE95WhSZ/NVhzU=;
-  b=e0OEMWqm8keJKGWJq7BXxJWLV+Z1qk3nOvnrCUoX0dAN964tOYmVV3dL
-   vxEKs4PQon9poMEz0+4V4VUH9C81TDJvIHviaEzam0QWYO0ctGJAW4mdu
-   JkdDRN+1yLb0Vz3Gn3+NYihMIb4YQVDDVynM5sm6M/vroFdu/jmW+9XKw
-   +QTGWWeVXwEHI/7KakWePcLKNKRZ8OFyBeY1zDlkphLdB9w0fjsw05b+b
-   gAFG4j+b4f2qcPlncsCfUx9eFG7b7dkSAki8S3Ttos+NlABxXUZlUoxjs
-   qDq0BRQL/6YkYutiOheXQbKTwu3x4uOotrHlXKwxUD/mBpZdv4c6v851S
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="462125516"
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=iWpSe0+WfT5CYlcinPsE0nq60rZgZg2wsO2FiDb2w9k=;
+  b=MQlN9YuOJCCDVy0LwOGTW1RVLZBCYJ9FKgKbTTstOQWeFDTcjax5n92E
+   QuFIAjZb/bC+DTSY61hA1JwqEjN2fLk/z/Jws4rtAh7xWXJKJIHlysSKR
+   EigY8PqRvzSMcLE95VaW9xDAZwyMoRDsrg/WUwqTErOs4TN1Es/2zMj17
+   QHDYTsn9VTCPWWKI9f3Y/KT68g7r77sHr8sD2X3rkxQtH+Ee//8HOeimd
+   Qn5po5jYyawmmZAS840IaRdPR7dR/Mey+6aYh3LKuGFznTnlkXZSjy1YJ
+   jhNMcHjam+JaGihWbx6NTyT+W5UOVK+s8bpyw4bUNIJ01hWwwyTv/awbz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="4918840"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="462125516"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 01:41:12 -0800
+   d="scan'208";a="4918840"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 02:00:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="757573113"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="757573113"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 08 Jan 2024 01:41:08 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMm81-0004aa-3D;
-	Mon, 08 Jan 2024 09:41:05 +0000
-Date: Mon, 8 Jan 2024 17:40:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Eric Piel <eric.piel@tremplin-utc.net>
-Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
-	Paul Menzel <pmenzel@molgen.mpg.de>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>, Dell.Client.Kernel@dell.com,
-	Marius Hoch <mail@mariushoch.de>,
-	Kai Heng Feng <kai.heng.feng@canonical.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	platform-driver-x86@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 3/6] platform/x86: dell-smo8800: Move instantiation of
- lis3lv02d i2c_client from i2c-i801 to dell-smo8800
-Message-ID: <202401081755.B1WHdRuF-lkp@intel.com>
-References: <20231224213629.395741-4-hdegoede@redhat.com>
+   d="scan'208";a="15872558"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Jan 2024 02:00:43 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 8 Jan 2024 02:00:42 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 8 Jan 2024 02:00:42 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 8 Jan 2024 02:00:42 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 8 Jan 2024 02:00:42 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Thck3B+/EjSfVqav6i7ADNwp1AGNX8HfGZgqGlXwfb6vpXvrSBaUHuFA/J9g6JjKftnnCxwRaW//jCNkQucd3pGTMCL/8d+Bo+Tl6vBI9HyjcNrOkjEUoP8SMvY5NFoYiEni/tHl6KJLfBpoOVUljV3mHv3eJaCsQnpEt/S6anDnWTHQwXsalOTnNZ97tZpzqyfDk8indbRJ5Uop+CaFc1x17uRTxkiwuCyHOn3Ei/Aet+wSwBEBuMoHJVsXhhI6kEqnEDTnVzizi09ciEwu56NBkwHk5Y3f41zU1HvWp8iw82BLhOZm/mhmWKtAaEmx+4ZkJX18GIeUChCBv4AxwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cyNmBfGm4w0hqaf/q0V9JcAzScJYifLe/cmD5zu7/9U=;
+ b=UGDJ9rb2iKiaWI2tBpf6A7ebH30VGfFKTLZdy6ObYXKa9FlZuNLtMxqbe745SinUJHexWzX9cF+zTCBlbZNd+mqjXo9AJeYgS91iRRVreux4g1v85DWehFXoYg9j1A+3UQeyDOg61bn+k/BvNUpAjo3CNs7KyihjcCEdDZ9ce7wmFoDB0T1uY0BfW6SNwWFM69d2pV7Sg7fgIm9jO5amyEABj2P/r+7//+V/eblqDZBaLnFZ920icup36A5m3rHZV+17qifdewUpeAnJw2xy4Rzq1zojaCpadI6VEr0E5g/IjHZ8z2OuqCDlkXbxTvfHQSCoRAAgFfbTuvAW1VusMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by SA2PR11MB5004.namprd11.prod.outlook.com (2603:10b6:806:112::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Mon, 8 Jan
+ 2024 10:00:40 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::b99c:f603:f176:aca]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::b99c:f603:f176:aca%5]) with mapi id 15.20.7159.020; Mon, 8 Jan 2024
+ 10:00:40 +0000
+Date: Mon, 8 Jan 2024 17:56:22 +0800
+From: Yujie Liu <yujie.liu@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+CC: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: arch/alpha/include/asm/core_t2.h:587:23: warning: no previous
+ prototype for 't2_ioread64'
+Message-ID: <ZZvGxhON7wNBgyg5@yujie-X299>
+References: <202401061736.yM5FZ2oV-lkp@intel.com>
+ <CACRpkdbx=qgdy1JRyxzFGW+8Ojj+g2tLKU4dD8oWX9V0xH2-JQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdbx=qgdy1JRyxzFGW+8Ojj+g2tLKU4dD8oWX9V0xH2-JQ@mail.gmail.com>
+X-ClientProxiedBy: SG2PR06CA0236.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::20) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231224213629.395741-4-hdegoede@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SA2PR11MB5004:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a04892c-562e-4c41-2006-08dc1030abcb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wd8Tsi7pC6AfssXNgAlcc4K5iWcMS0zeMG4bpRRwszlr44Wkq4/KHRAtV0J39HW41EtwmxIoLSkawj2dN+9E539p4Jc11rGzOw2sa7b6wfjrs7W8abpRc/wt73CwNEbYgF2EI965yKCrpfBYxKfnLef8cI5PNLe/sunKeOt+IpM3os7Utb8kJzT9RXPghP9rrdpCJIe9wuXAGTeSqTeArQxqhq2dvVITKa17FG+X3amrPCSucyExIuUsS/PCWZzmgfIZPji84MMcKYZJe8aE6rFSm2CLQFeQpbNWV61NoEzkotdKMrO0Y7qXaj8iPeP+xM5XT67ie22V6VfvSVcUhG2Jw4QXr6e1QXM5/n3MuW0/1x4Cgs4yuzSSOmUldT28KRaTuP2rumeUpy5NwsoeBfquJch+rECiIJTvxJdeFRGb8iOicCyOItB54qlNA39FWIR+Hqz/j7aGnqb+sNbEwmwFb4ZO/WI4hep82WMYp5UrWE30Bu+kK3G/Ch9kpn5y6+lWQDI19DqpstvHv4im3Zmzbx4FyFCnYy76g/r3BwB1M7UnXhOm83w0F8wyHFkE8/CsvnHc5FHcB3AYi8ln+o9s+jCvSn0ullFR5bJMcYbEaLFzovgVhkTMF5nSnabP
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(376002)(396003)(346002)(136003)(39860400002)(230922051799003)(230273577357003)(230173577357003)(64100799003)(451199024)(186009)(1800799012)(26005)(53546011)(9686003)(6666004)(6512007)(6506007)(478600001)(6486002)(966005)(38100700002)(86362001)(82960400001)(4744005)(2906002)(5660300002)(33716001)(41300700001)(83380400001)(66946007)(6916009)(8676002)(66556008)(66476007)(316002)(54906003)(4326008)(8936002)(44832011);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dTY1ZlZDZmVnK01DMnRka3R6YmdpS0ZnL3RScDEycjdBVlB6aFZvS0cvTTdO?=
+ =?utf-8?B?Z1k3ZzVBSnV5TFBQaWRNcTdCbStxc0FlcmpvSFZHSVo3OFNVdy9NWDJQNDhC?=
+ =?utf-8?B?WVlYeXE0MzRRZDltRW1keEhUdlRPVGRqc252RjB1MnhaQS9UQUYyR2ttYzhZ?=
+ =?utf-8?B?VnNOMElEamNOZWVyN2ljYUpCcG40U25aK0xrZVZwb0luRWJJQ2ZJemExeGdL?=
+ =?utf-8?B?czl2ckFXUXVIblByVWNJOXlONnNueGtHZ25NbmhQNk9mU05Ock1tU09EeHZP?=
+ =?utf-8?B?NlBVRTFzWG9mOU1CYjRIeWpDUTZ4WUU5dlFsWHVsQW93cG1VdE42SytVNUJZ?=
+ =?utf-8?B?eFQySUtQTTR1d2liU2tvZmFVY2hVZzdEMFBRZUE2ZjYyeTE4dCtvS2pnUFkr?=
+ =?utf-8?B?eGIwRysxdHl1czZJRTFoQ2EzNVVGeHRuVHNEclVPQkxGc3NZNzkvQWxERC90?=
+ =?utf-8?B?dU5sK0xVQkZicmMxMDFFL09ib2wxYmpDNG5hcDQxeDVOS3ptYzhTRm53dVZ2?=
+ =?utf-8?B?V0U5TXg3VW1neXNFajl5cGl1ZXdZOHVzY0laNW8zbWZoem1wSXNxRlI0ei9G?=
+ =?utf-8?B?SVVhTWkyNGdCbUx3REs5YU9WRCtOU0VJMW83WHd4Tmx4eWxGUmIyRUc3VWpj?=
+ =?utf-8?B?S09JYlVlelZpYXQwaHFNd0F1WlBua1AxeWFMVnJBRDR3SEI0Ykx2MWNjL1Vl?=
+ =?utf-8?B?OFgzY3BOcWZIZGZ1SHpTWm80QWFKZTJyRzRPZklPRVgzU09JMzllZUI5QWpm?=
+ =?utf-8?B?S2FZK01rVWJ3U0ZMUjREaUtJTXU0YWhqK2JwQmhWWHpxZ3JmSy80WFdZMUY1?=
+ =?utf-8?B?K0NBN0ZIMW1iVVVRVmNzdjVudGtlZ1RoOGkrNCtiN2FMRjFvNkFvUHZjZVZq?=
+ =?utf-8?B?OSt0L0lCM204T3daem1XUTRwREpoL2xVN0pKTGlYTzZaNS9HSXdXRUVldDQv?=
+ =?utf-8?B?OU44ZkxvU3h5d2xUWHhCZmlTVGtYWk9odEJSbmFmNEtsZUdiWWYwS0VWVEZU?=
+ =?utf-8?B?RFo5M290NDBIcDlwTzRHT0xoZkQrcms1UFpUQ2FJMW53NlFWbkF0L3ZkNUV6?=
+ =?utf-8?B?c1N5K0N6dUM4UVZHbnN3eTl2UG5tQndXRnFWYy9XUHMxcXZHTVd5SmtTN1o1?=
+ =?utf-8?B?SHpJRVFyL0xWZ0NVT0s1RFB3Mi9mWTBqVEJUQzd3eXZnTUsvc2xDQ2dwcVVC?=
+ =?utf-8?B?Wmt4TWNIWTluN1lJMFhFQmdVOExUbGZGYWYyS2VaTFhpN3JuQUJGcms5eTlm?=
+ =?utf-8?B?bFR3bVZsczVEbmlNVkhVS0Rla2NERi80YS9hNDNpQWNrRTZLUVVSVjJnMnA0?=
+ =?utf-8?B?TThBdXJpczVJcXBmSGN1Vi9UQm5DVXI5WFNkb1h2aGVSTy9GSE54WjM1QVo0?=
+ =?utf-8?B?dHNiV0Q2YmJreUoycklYbWdHVFMyTHB0SC85YXNoeEdsTXhHQlZUTGUrcnNK?=
+ =?utf-8?B?a2QzTUN4dmZKK2NyaWxzS0pTbXpGVWJDVzZneG1WR0MzMko5MTgxa2luSkc4?=
+ =?utf-8?B?eHg4ZE5zTHBOYzAwdHZzdi80T0RPRCs0OVQ1RkZKMTJVLzhTWVVxbnpON3oz?=
+ =?utf-8?B?Q01iS292SmNVRDU2ZU05K29PTXZjYXpJSEYza1VJMWxwcXZlNStGaFRQdlpV?=
+ =?utf-8?B?YUdXSFlTWlJHdmhuanYzTTc2cTcrZzZjbkQyNk1KZWFyOVlXaTVEQnJ2MW5T?=
+ =?utf-8?B?MkxhYUg5MjFDNkZIb1pXQ29pWHMrdTVEWWRpaHo1SmhVZ0RBYTZWczR1elM3?=
+ =?utf-8?B?bEIweTZMcDFpRW1CV1J4eHpwWUtla2xobThCTldDMUlMWWxXbXk0RFpwMnFH?=
+ =?utf-8?B?WTRxTXRkK3FtQStQajhBWkh4akk3QUhGYm11V0pZOWlKNWdaWmh3TXpOM1p3?=
+ =?utf-8?B?NDM3N3gyQ2pQaGJmSDYzODJDZEdCOGYreURnRUpvWVJZVXVXMW0rTUJQWGdi?=
+ =?utf-8?B?Z2VsNElEWHZwQ0pXNkhYSkJYSmlIQ0l1M1FaaHFxSDZWQmFKQm9BM3JaN2Zo?=
+ =?utf-8?B?ZENyTTU0ejlVY2ZKekdOTitscmplNzZKSHRvQ2IwT0tJUE05bDRiQyttRlhE?=
+ =?utf-8?B?amV0VXNyUU1JdExOWGQxVVQ0anpvR0J3QUJ2dkxrZVZYU2trTkRTNi9UeSta?=
+ =?utf-8?Q?m94c/ggKhSI/dhpaAUr2UxUl2?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a04892c-562e-4c41-2006-08dc1030abcb
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2024 10:00:40.7679
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YmKDMwEaHqHqHGX9xKBw5r8QMZcI9gTvzTurPtHNE5nCMIkh6cWkspu6D94xbleJDp2MbrtMp+9CpoVWq7uQ0w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5004
+X-OriginatorOrg: intel.com
 
-Hi Hans,
+Hi Linus Walleij,
 
-kernel test robot noticed the following build errors:
+On Sun, Jan 07, 2024 at 09:09:21PM +0100, Linus Walleij wrote:
+> Hi robot,
+> 
+> On Sat, Jan 6, 2024 at 10:40 AM kernel test robot <lkp@intel.com> wrote:
+> 
+> 
+> > Hi Arnd,
+> >
+> > FYI, the error/warning still remains.
+> 
+> FYI I have already said I can't reproduce this at all. Not using
+> allnoconfig, not using the .config attached to the report.
+> 
+> I have no idea what this is.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.7]
-[cannot apply to wsa/i2c/for-next next-20240108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+We double checked this, and looks like it needs to be reproduced by
+"make W=1". Could you please recheck with W=1?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/platform-x86-dell-smo8800-Only-load-on-Dell-laptops/20231225-152720
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231224213629.395741-4-hdegoede%40redhat.com
-patch subject: [PATCH 3/6] platform/x86: dell-smo8800: Move instantiation of lis3lv02d i2c_client from i2c-i801 to dell-smo8800
-config: i386-randconfig-003-20240106 (https://download.01.org/0day-ci/archive/20240108/202401081755.B1WHdRuF-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401081755.B1WHdRuF-lkp@intel.com/reproduce)
+The following link has some hints of handling W=1 warnings:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401081755.B1WHdRuF-lkp@intel.com/
+https://github.com/intel/lkp-tests/wiki/LKP-FAQ#how-is-one-meant-to-act-on-w1-reports-like--wmissing-prototypes
 
-All errors (new ones prefixed by >>):
+Please kindly let us know if you'd like to ignore these W=1 warnings,
+and we will configure the bot for you to avoid further bothering.
 
-   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_remove':
->> drivers/platform/x86/dell/dell-smo8800.c:278: undefined reference to `i2c_unregister_device'
-   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_instantiate_i2c_client':
->> drivers/platform/x86/dell/dell-smo8800.c:179: undefined reference to `i2c_bus_type'
->> ld: drivers/platform/x86/dell/dell-smo8800.c:211: undefined reference to `i2c_put_adapter'
-   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_probe':
-   drivers/platform/x86/dell/dell-smo8800.c:267: undefined reference to `i2c_unregister_device'
-   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_instantiate_i2c_client':
-   drivers/platform/x86/dell/dell-smo8800.c:201: undefined reference to `i2c_new_client_device'
-   ld: drivers/platform/x86/dell/dell-smo8800.o: in function `smo8800_find_i801':
->> drivers/platform/x86/dell/dell-smo8800.c:126: undefined reference to `i2c_verify_adapter'
->> ld: drivers/platform/x86/dell/dell-smo8800.c:140: undefined reference to `i2c_get_adapter'
-
-
-vim +278 drivers/platform/x86/dell/dell-smo8800.c
-
-   111	
-   112	static int smo8800_find_i801(struct device *dev, void *data)
-   113	{
-   114		static const u16 i801_idf_pci_device_ids[] = {
-   115			0x1d70, /* Patsburg (PCH) */
-   116			0x1d71, /* Patsburg (PCH) */
-   117			0x1d72, /* Patsburg (PCH) */
-   118			0x8d7d, /* Wellsburg (PCH) */
-   119			0x8d7e, /* Wellsburg (PCH) */
-   120			0x8d7f, /* Wellsburg (PCH) */
-   121		};
-   122		struct i2c_adapter *adap, **adap_ret = data;
-   123		struct pci_dev *pdev;
-   124		int i;
-   125	
- > 126		adap = i2c_verify_adapter(dev);
-   127		if (!adap)
-   128			return 0;
-   129	
-   130		if (!strstarts(adap->name, "SMBus I801 adapter"))
-   131			return 0;
-   132	
-   133		/* The parent of an I801 adapter is always a PCI device */
-   134		pdev = to_pci_dev(adap->dev.parent);
-   135		for (i = 0; i < ARRAY_SIZE(i801_idf_pci_device_ids); i++) {
-   136			if (pdev->device == i801_idf_pci_device_ids[i])
-   137				return 0; /* Only register client on main SMBus channel */
-   138		}
-   139	
- > 140		*adap_ret = i2c_get_adapter(adap->nr);
-   141		return 1;
-   142	}
-   143	
-   144	/*
-   145	 * Accelerometer's I2C address is not specified in DMI nor ACPI,
-   146	 * so it is needed to define mapping table based on DMI product names.
-   147	 */
-   148	static const struct {
-   149		const char *dmi_product_name;
-   150		unsigned short i2c_addr;
-   151	} dell_lis3lv02d_devices[] = {
-   152		/*
-   153		 * Dell platform team told us that these Latitude devices have
-   154		 * ST microelectronics accelerometer at I2C address 0x29.
-   155		 */
-   156		{ "Latitude E5250",     0x29 },
-   157		{ "Latitude E5450",     0x29 },
-   158		{ "Latitude E5550",     0x29 },
-   159		{ "Latitude E6440",     0x29 },
-   160		{ "Latitude E6440 ATG", 0x29 },
-   161		{ "Latitude E6540",     0x29 },
-   162		/*
-   163		 * Additional individual entries were added after verification.
-   164		 */
-   165		{ "Latitude 5480",      0x29 },
-   166		{ "Latitude E6330",     0x29 },
-   167		{ "Vostro V131",        0x1d },
-   168		{ "Vostro 5568",        0x29 },
-   169	};
-   170	
-   171	static void smo8800_instantiate_i2c_client(struct smo8800_device *smo8800)
-   172	{
-   173		struct i2c_board_info info = { };
-   174		struct i2c_adapter *adap = NULL;
-   175		const char *dmi_product_name;
-   176		u8 addr = 0;
-   177		int i;
-   178	
- > 179		bus_for_each_dev(&i2c_bus_type, NULL, &adap, smo8800_find_i801);
-   180		if (!adap)
-   181			return;
-   182	
-   183		dmi_product_name = dmi_get_system_info(DMI_PRODUCT_NAME);
-   184		for (i = 0; i < ARRAY_SIZE(dell_lis3lv02d_devices); ++i) {
-   185			if (strcmp(dmi_product_name,
-   186				   dell_lis3lv02d_devices[i].dmi_product_name) == 0) {
-   187				addr = dell_lis3lv02d_devices[i].i2c_addr;
-   188				break;
-   189			}
-   190		}
-   191	
-   192		if (!addr) {
-   193			dev_warn(smo8800->dev,
-   194				 "Accelerometer lis3lv02d is present on SMBus but its address is unknown, skipping registration\n");
-   195			goto put_adapter;
-   196		}
-   197	
-   198		info.addr = addr;
-   199		strscpy(info.type, "lis3lv02d", I2C_NAME_SIZE);
-   200	
-   201		smo8800->i2c_dev = i2c_new_client_device(adap, &info);
-   202		if (IS_ERR(smo8800->i2c_dev)) {
-   203			dev_err_probe(smo8800->dev, PTR_ERR(smo8800->i2c_dev),
-   204				      "registering accel i2c_client\n");
-   205			smo8800->i2c_dev = NULL;
-   206		} else {
-   207			dev_info(smo8800->dev, "Registered %s accelerometer on address 0x%02x\n",
-   208				 info.type, info.addr);
-   209		}
-   210	put_adapter:
- > 211		i2c_put_adapter(adap);
-   212	}
-   213	
-   214	static int smo8800_probe(struct platform_device *device)
-   215	{
-   216		int err;
-   217		struct smo8800_device *smo8800;
-   218	
-   219		if (!dmi_match(DMI_SYS_VENDOR, "Dell Inc."))
-   220			return false;
-   221	
-   222		smo8800 = devm_kzalloc(&device->dev, sizeof(*smo8800), GFP_KERNEL);
-   223		if (!smo8800) {
-   224			dev_err(&device->dev, "failed to allocate device data\n");
-   225			return -ENOMEM;
-   226		}
-   227	
-   228		smo8800->dev = &device->dev;
-   229		smo8800->miscdev.minor = MISC_DYNAMIC_MINOR;
-   230		smo8800->miscdev.name = "freefall";
-   231		smo8800->miscdev.fops = &smo8800_misc_fops;
-   232	
-   233		init_waitqueue_head(&smo8800->misc_wait);
-   234	
-   235		err = platform_get_irq(device, 0);
-   236		if (err < 0)
-   237			return err;
-   238		smo8800->irq = err;
-   239	
-   240		smo8800_instantiate_i2c_client(smo8800);
-   241	
-   242		err = misc_register(&smo8800->miscdev);
-   243		if (err) {
-   244			dev_err(&device->dev, "failed to register misc dev: %d\n", err);
-   245			goto error_unregister_i2c_client;
-   246		}
-   247	
-   248		err = request_threaded_irq(smo8800->irq, smo8800_interrupt_quick,
-   249					   smo8800_interrupt_thread,
-   250					   IRQF_TRIGGER_RISING | IRQF_ONESHOT,
-   251					   DRIVER_NAME, smo8800);
-   252		if (err) {
-   253			dev_err(&device->dev,
-   254				"failed to request thread for IRQ %d: %d\n",
-   255				smo8800->irq, err);
-   256			goto error;
-   257		}
-   258	
-   259		dev_dbg(&device->dev, "device /dev/freefall registered with IRQ %d\n",
-   260			 smo8800->irq);
-   261		platform_set_drvdata(device, smo8800);
-   262		return 0;
-   263	
-   264	error:
-   265		misc_deregister(&smo8800->miscdev);
-   266	error_unregister_i2c_client:
-   267		i2c_unregister_device(smo8800->i2c_dev);
-   268		return err;
-   269	}
-   270	
-   271	static void smo8800_remove(struct platform_device *device)
-   272	{
-   273		struct smo8800_device *smo8800 = platform_get_drvdata(device);
-   274	
-   275		free_irq(smo8800->irq, smo8800);
-   276		misc_deregister(&smo8800->miscdev);
-   277		dev_dbg(&device->dev, "device /dev/freefall unregistered\n");
- > 278		i2c_unregister_device(smo8800->i2c_dev);
-   279	}
-   280	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Yujie
