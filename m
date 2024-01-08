@@ -1,53 +1,47 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382095103D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 12:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3EE47768
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 13:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xMjGNCgA"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40d89446895so10276535e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Jan 2024 04:32:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704717154; x=1705321954; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YIxLu4zoh3LL7Q1uFUiAUZZBCWCjlaxYGRlHTrnotok=;
-        b=xMjGNCgAS5GIKGKW3hodVjPpysmiu4vyo3zCd0zPFumxLXgF4yhblVb3g52TPMO/Qj
-         EC7H57IofNgjGXq+1SVg1Wl00Yru1M7G3HLbHqw9GYSOXGDUr53DmzcuyyFtPETSn8r1
-         c2I5L45U7sPq7Xo1LmwqHS6xOJEfqwkyRkwbVVr6qMswdTdTj/X+Ieh2je3ctLu7ZVnb
-         2ig0n8UC3d09XVxCAZU2503MaDmP790lAec6+0cO35muICnNuWjPlJfFfHPdUtkk5Sah
-         zGumZuPgHwhVMb28Xa1vnyK8rMFcfU2wGgj/43XReXB+vtMFEBvHzhDXxfFHP9KiN05d
-         pAnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704717154; x=1705321954;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YIxLu4zoh3LL7Q1uFUiAUZZBCWCjlaxYGRlHTrnotok=;
-        b=FEWxvFxVpHbWRnXDsBXN6EKXDgk0BYl2jlFiEoi26Yay5ha0QwF6MHoTbuLqojD6Lx
-         cuElUaS35/e9PQ+YXvA+tUuheaZzDxooTDC8abZ4OY9K1i+gGHKpXBe3Wo7NvB4Cyp6d
-         Sv3yppiJlBSi4dYMxNXfzBQIJJOtL6Z97knuTAa9JXtt9ycyN3KjlAT1++aOT1MRpJWq
-         k9YmBCEfcgofXqs3J4f8HcZzm3Qzz1ye7uIfoEX0rZvlybh9h+KS9Oea73Fj9e2Rdzpe
-         6YvwwmeqezlMlqzDOCGDXVj4xbe8ZJ4SvQqngeVeSDySUzb+xfnzyjOiU2sWelKpJt0/
-         bQ9g==
-X-Gm-Message-State: AOJu0YyVIorTfMNJ6u6xmV+W8ZzeArO33EQ2+WG0i9E7MupQirDNvz+j
-	PGC7k7QO65ojcKi3sYFx0khxIa16JucO5g==
-X-Google-Smtp-Source: AGHT+IE+NkW4hWdxv32tlGd7cXBMw5imwbk0V7RvQKd/VL9ZO1zWdxXipu6P7+Pqkybyv7RYrj3Kig==
-X-Received: by 2002:a05:600c:4212:b0:40d:7822:ce28 with SMTP id x18-20020a05600c421200b0040d7822ce28mr1669498wmh.83.1704717154499;
-        Mon, 08 Jan 2024 04:32:34 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id c4-20020a05600c0a4400b0040e39cbf2a4sm10621284wmq.42.2024.01.08.04.32.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 04:32:34 -0800 (PST)
-Date: Mon, 8 Jan 2024 15:32:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 9386/12908] mm/huge_memory.c:546 thpsize_create()
- warn: Calling kobject_put|get with state->initialized unset from line: 533
-Message-ID: <efeda6be-8d1d-45a4-b6cb-950cb087124d@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPmub8en"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704722186; x=1736258186;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3PJvlVZwPjO2KhnUOFTGmJGHXo2E/bIzpvK+S+Jxolg=;
+  b=FPmub8enaeANABMpeK3YLW4LuwC1mudWywO5v1J7BQS5u9AQ/DMQFBFG
+   BrKN8RbeaREHiJ64SWESb9LzcxMTm4WVIzBQl/Ttb4dIrBqvYPOHEb1JZ
+   t7qKhXveJLvn/TxC6Mm2pAcrwpM+Cvwfyc7kzosoD5tsVHCNSSc1jQRlC
+   d+Z/RRkEfMQJNDErUvc+TSbwogu3Un2+mxcw09zCk5fEqUzmFOUFjV73i
+   kOmuHJafBrnZyj0W3DXJdKQlh0Fp+Utu+/Au9gWzAFt8ehxDFhKK1TMm0
+   j2VcFP6O5x0ZgYEA5Hp4BptL0lEIqxpBs1dEzMkXNokBVvbsU93S27Lg1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="396768136"
+X-IronPort-AV: E=Sophos;i="6.04,341,1695711600"; 
+   d="scan'208";a="396768136"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 05:56:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="900384065"
+X-IronPort-AV: E=Sophos;i="6.04,341,1695711600"; 
+   d="scan'208";a="900384065"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 08 Jan 2024 05:56:24 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rMq74-0004l6-2d;
+	Mon, 08 Jan 2024 13:56:22 +0000
+Date: Mon, 8 Jan 2024 21:55:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.7-dango-lro 11/11]
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c:4624:12: warning:
+ 'mtk_change_mtu' defined but not used
+Message-ID: <202401082118.xqBjXnOI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,59 +51,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hey Harshit,
-
-We get this warning when the DB isn't enabled.  I just pushed a fix for
-it.
-
-regards,
-dan carpenter
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bffdfd2e7e63175ae261131a620f809d946cf9a7
-commit: 3485b88390b0af9e05dc2c3f57e9936f41e159a0 [9386/12908] mm: thp: introduce multi-size THP sysfs interface
-config: i386-randconfig-141-20240106 (https://download.01.org/0day-ci/archive/20240108/202401082055.s03XC1wp-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.7-dango-lro
+head:   1f5055a5dde9e8569dec53b0505ed5632e934357
+commit: 1f5055a5dde9e8569dec53b0505ed5632e934357 [11/11] net: mediatek: update lro-code from balika
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240108/202401082118.xqBjXnOI-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401082118.xqBjXnOI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401082055.s03XC1wp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401082118.xqBjXnOI-lkp@intel.com/
 
-smatch warnings:
-mm/huge_memory.c:546 thpsize_create() warn: Calling kobject_put|get with state->initialized unset from line: 533
+All warnings (new ones prefixed by >>):
 
-vim +546 mm/huge_memory.c
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:4624:12: warning: 'mtk_change_mtu' defined but not used [-Wunused-function]
+    4624 | static int mtk_change_mtu(struct net_device *dev, int new_mtu)
+         |            ^~~~~~~~~~~~~~
 
-3485b88390b0af Ryan Roberts 2023-12-07  527  static struct thpsize *thpsize_create(int order, struct kobject *parent)
-3485b88390b0af Ryan Roberts 2023-12-07  528  {
-3485b88390b0af Ryan Roberts 2023-12-07  529  	unsigned long size = (PAGE_SIZE << order) / SZ_1K;
-3485b88390b0af Ryan Roberts 2023-12-07  530  	struct thpsize *thpsize;
-3485b88390b0af Ryan Roberts 2023-12-07  531  	int ret;
-3485b88390b0af Ryan Roberts 2023-12-07  532  
-3485b88390b0af Ryan Roberts 2023-12-07  533  	thpsize = kzalloc(sizeof(*thpsize), GFP_KERNEL);
-3485b88390b0af Ryan Roberts 2023-12-07  534  	if (!thpsize)
-3485b88390b0af Ryan Roberts 2023-12-07  535  		return ERR_PTR(-ENOMEM);
-3485b88390b0af Ryan Roberts 2023-12-07  536  
-3485b88390b0af Ryan Roberts 2023-12-07  537  	ret = kobject_init_and_add(&thpsize->kobj, &thpsize_ktype, parent,
-3485b88390b0af Ryan Roberts 2023-12-07  538  				   "hugepages-%lukB", size);
-3485b88390b0af Ryan Roberts 2023-12-07  539  	if (ret) {
-3485b88390b0af Ryan Roberts 2023-12-07  540  		kfree(thpsize);
-3485b88390b0af Ryan Roberts 2023-12-07  541  		return ERR_PTR(ret);
-3485b88390b0af Ryan Roberts 2023-12-07  542  	}
-3485b88390b0af Ryan Roberts 2023-12-07  543  
-3485b88390b0af Ryan Roberts 2023-12-07  544  	ret = sysfs_create_group(&thpsize->kobj, &thpsize_attr_group);
-3485b88390b0af Ryan Roberts 2023-12-07  545  	if (ret) {
-3485b88390b0af Ryan Roberts 2023-12-07 @546  		kobject_put(&thpsize->kobj);
-3485b88390b0af Ryan Roberts 2023-12-07  547  		return ERR_PTR(ret);
-3485b88390b0af Ryan Roberts 2023-12-07  548  	}
-3485b88390b0af Ryan Roberts 2023-12-07  549  
-3485b88390b0af Ryan Roberts 2023-12-07  550  	thpsize->order = order;
-3485b88390b0af Ryan Roberts 2023-12-07  551  	return thpsize;
-3485b88390b0af Ryan Roberts 2023-12-07  552  }
+
+vim +/mtk_change_mtu +4624 drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+656e705243fd0c John Crispin     2016-03-08  4623  
+4fd59792097a6b DENG Qingfang    2021-01-25 @4624  static int mtk_change_mtu(struct net_device *dev, int new_mtu)
+4fd59792097a6b DENG Qingfang    2021-01-25  4625  {
+4fd59792097a6b DENG Qingfang    2021-01-25  4626  	int length = new_mtu + MTK_RX_ETH_HLEN;
+4fd59792097a6b DENG Qingfang    2021-01-25  4627  	struct mtk_mac *mac = netdev_priv(dev);
+4fd59792097a6b DENG Qingfang    2021-01-25  4628  	struct mtk_eth *eth = mac->hw;
+4fd59792097a6b DENG Qingfang    2021-01-25  4629  
+7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4630  	if (rcu_access_pointer(eth->prog) &&
+7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4631  	    length > MTK_PP_MAX_BUF_SIZE) {
+7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4632  		netdev_err(dev, "Invalid MTU for XDP mode\n");
+7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4633  		return -EINVAL;
+7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4634  	}
+7c26c20da5d420 Lorenzo Bianconi 2022-07-22  4635  
+b677d6c7a695da Lorenzo Bianconi 2022-11-17  4636  	mtk_set_mcr_max_rx(mac, length);
+4fd59792097a6b DENG Qingfang    2021-01-25  4637  	dev->mtu = new_mtu;
+4fd59792097a6b DENG Qingfang    2021-01-25  4638  
+4fd59792097a6b DENG Qingfang    2021-01-25  4639  	return 0;
+4fd59792097a6b DENG Qingfang    2021-01-25  4640  }
+4fd59792097a6b DENG Qingfang    2021-01-25  4641  
+
+:::::: The code at line 4624 was first introduced by commit
+:::::: 4fd59792097a6b2fb949d41264386a7ecade469e net: ethernet: mediatek: support setting MTU
+
+:::::: TO: DENG Qingfang <dqfext@gmail.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
