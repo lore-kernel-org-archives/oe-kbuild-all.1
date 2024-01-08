@@ -1,63 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C71FB647
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 07:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EE8BA26
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 08:17:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X0tIZ8zK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q64gc0B5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704700012; x=1736236012;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AvhfDm2j+qVAzbx7SoLzumEYgb5qaDh8X5waSOXgjnA=;
-  b=X0tIZ8zKVNyZNHQDlAvxmVzg496mogyN+qUZOwE9n7LScSnaFlPfZMFU
-   iqxkUzX8SvSNYEPqYsosKBXdEpfgaJoWfHgBs5xCAM45ehylgzWl1XYxi
-   SOp8bFxsgppmtqzWz6WZVkbE8ti/Fbh+E8h0FU9fqW5ACqPK8/XwjuqtO
-   gyAfNrhmd8zDzYKQDEc9quIvQwvByA2YkYS4QOlPWG0Z1oUiX1lAPAP6U
-   +NYD5Bc3SY6Eds+zUoDA7btkkQ2QjXR3HKLqXau0hn8euBhVH6CbiJcTD
-   poh28HhPf1RraiGb/6lVUub4mfNKUWAtlDxQX33PfMTOicuzu2mARtKMI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="19316776"
+  t=1704701867; x=1736237867;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1oIzm1buvOF6cBPHfOCVeCyExen7GyXIh/XhobX4vUU=;
+  b=Q64gc0B5StSwpXGIusosw6lXQI+0xqXmFgyNsRarf0CRpevvdWqtJ604
+   dNH3DxHqUHk5POU/BixdsSCNZ7ahGkhJ9kHh+TQMYC/8uaBI0ZnI6TNYw
+   ynIc/rATuIARr0FaFXpBi/b+M6bugwiJCKRkAboqQXvaheHuX+EIoaJxX
+   NKCWCaCBiozW3LELEeNYlXI5SVMToSnFls6Rr/i9CygOCsILp2TwpDwLl
+   A6NiGBkNVKknc8gU0r2RhxztNqeWU9guwUc3fP+BNJCmzgjuq0pcJM485
+   HXrpuZb0IKa+LS6uYRk/0lOBdKKmTgwU9P/S2aGLWGcnNcNGbqtnucvd+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="400580189"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="19316776"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2024 23:46:51 -0800
+   d="scan'208";a="400580189"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 00:17:46 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="757554873"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="23091188"
+   d="scan'208";a="757554873"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 07 Jan 2024 23:46:45 -0800
+  by orsmga006.jf.intel.com with ESMTP; 08 Jan 2024 00:17:45 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMkLJ-0004Wy-2z;
-	Mon, 08 Jan 2024 07:46:41 +0000
-Date: Mon, 8 Jan 2024 15:46:19 +0800
+	id 1rMkpK-0004XY-2g;
+	Mon, 08 Jan 2024 08:17:42 +0000
+Date: Mon, 8 Jan 2024 16:17:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philipp Stanner <pstanner@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.de>, David Gow <davidgow@google.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Philipp Stanner <pstanner@redhat.com>
-Subject: Re: [PATCH 1/2] platform_device: add devres function region-reqs
-Message-ID: <202401081547.VBj4FKaw-lkp@intel.com>
-References: <20240105172218.42457-3-pstanner@redhat.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 12620/12908] fs/bcachefs/reflink.c:37:5-8:
+ Unneeded variable: "ret". Return "  0" on line 44
+Message-ID: <202401081634.pqnRsrqU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,76 +50,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240105172218.42457-3-pstanner@redhat.com>
 
-Hi Philipp,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.7 next-20240105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/platform_device-add-devres-function-region-reqs/20240106-012526
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240105172218.42457-3-pstanner%40redhat.com
-patch subject: [PATCH 1/2] platform_device: add devres function region-reqs
-config: x86_64-randconfig-101-20240106 (https://download.01.org/0day-ci/archive/20240108/202401081547.VBj4FKaw-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401081547.VBj4FKaw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bffdfd2e7e63175ae261131a620f809d946cf9a7
+commit: 074cbcdaeee433a02d6d0565b936bee0915cc5da [12620/12908] bcachefs: fsck_err()s don't need to manually check c->sb.version anymore
+config: x86_64-randconfig-102-20240107 (https://download.01.org/0day-ci/archive/20240108/202401081634.pqnRsrqU-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401081547.VBj4FKaw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401081634.pqnRsrqU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/reflink.c:37:5-8: Unneeded variable: "ret". Return "  0" on line 44
 
->> drivers/base/platform.c:101: warning: expecting prototype for devm_platform_get_and_resource(). Prototype was for devm_platform_get_resource() instead
+vim +37 fs/bcachefs/reflink.c
 
-
-vim +101 drivers/base/platform.c
-
-    84	
-    85	/**
-    86	 * devm_platform_get_and_resource - get and request a resource
-    87	 *
-    88	 * @pdev: the platform device to get the resource from
-    89	 * @type: resource type (either IORESOURCE_MEM or IORESOURCE_IO)
-    90	 * @num: resource index
-    91	 * @name: name to be associated with the request
-    92	 *
-    93	 * Return: a pointer to the resource on success, an ERR_PTR on failure.
-    94	 *
-    95	 * Gets a resource and requests it. Use this instead of
-    96	 * devm_platform_ioremap_resource() only if you have to create several single
-    97	 * mappings with devm_ioremap().
-    98	 */
-    99	struct resource *devm_platform_get_resource(struct platform_device *pdev,
-   100			unsigned int type, unsigned int num, const char *name)
- > 101	{
-   102		struct resource *res;
-   103	
-   104		res = platform_get_resource(pdev, type, num);
-   105		if (!res)
-   106			return ERR_PTR(-EINVAL);
-   107	
-   108		if (type & IORESOURCE_MEM)
-   109			res = devm_request_mem_region(&pdev->dev, res->start, res->end, name);
-   110		else if (type & IORESOURCE_IO)
-   111			res = devm_request_region(&pdev->dev, res->start, res->end, name);
-   112		else
-   113			return ERR_PTR(-EINVAL);
-   114	
-   115		if (!res)
-   116			return ERR_PTR(-EBUSY);
-   117	
-   118		return res;
-   119	}
-   120	EXPORT_SYMBOL_GPL(devm_platform_get_resource);
-   121	
+    31	
+    32	int bch2_reflink_p_invalid(struct bch_fs *c, struct bkey_s_c k,
+    33				   enum bkey_invalid_flags flags,
+    34				   struct printbuf *err)
+    35	{
+    36		struct bkey_s_c_reflink_p p = bkey_s_c_to_reflink_p(k);
+  > 37		int ret = 0;
+    38	
+    39		bkey_fsck_err_on(le64_to_cpu(p.v->idx) < le32_to_cpu(p.v->front_pad),
+    40				 c, err, reflink_p_front_pad_bad,
+    41				 "idx < front_pad (%llu < %u)",
+    42				 le64_to_cpu(p.v->idx), le32_to_cpu(p.v->front_pad));
+    43	fsck_err:
+  > 44		return ret;
+    45	}
+    46	
 
 -- 
 0-DAY CI Kernel Test Service
