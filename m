@@ -1,45 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD90E12B8F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 09:19:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E417312B71;
+	Mon,  8 Jan 2024 09:19:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWN39N6C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmzRHIWc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1704705598; x=1736241598;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=75vA+zbGat/AIFO8v9lmOiUn3QaRw+tJgNHp+s9iD2g=;
-  b=OWN39N6CHFmIitOu8ZiPyvGkDsMzyjisUczTaUxy0QsxEKyPKw5OdYs8
-   oTjdvTfWFad01eUbqbulFR7oJIA2DMS8Nkxx0yNtgkre+M3Oae2CiwHik
-   UojMrZMFVTI58meHCDTI+J/vUzcTvSwmATHkbyLSxaU+jdZNIGhK67Yof
-   Atu0qTr1kWKqgPD8c4gaV0foZYuvCrp/9eZQ1h1l8zPKkeAm+/p5fmYUB
-   RwfDK7J97mjHt+Q/Ca8TIu+IpZ5H4QzSUlZXgQIfn6xEC+Y2C8no/rfAp
-   ToCDUvjsboSGPQQ9WXJR4ZzRuWYZ15RixEoto8sCn47ekWrcCfkszEBZO
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="11178504"
+  bh=0GCPuY/Wp+lTIL30Wj2Uuo+to46Y+MRchxWxMArtASQ=;
+  b=BmzRHIWcqkYnvwrQMZtTr6mXvgzRRXeb4g5EKGzFI0/iNPUXY2in/P+8
+   DzrrcCJL9UxqOXgMhK55DktstAcyv/u+iFm3JxQNY6VzX5T0jPaejlRFj
+   SqAr1F5zCP+Ejur0sSB7IVvcuNljTzPiWkP7A8Tp0Md+L23UxbyqsFbEg
+   dPIgRInscVlGKUicc6sRJPwl7ioE+QLXWXaauL9oqjxdttmAVS9gi5nUZ
+   +rvj9Ci6TlbTi97FD0K9IhhjVOSWj+QycmaZ6i4KgPbu0ALUFe4GdhvHX
+   DZdXXHqp2BF9Dt2OJvgEoNv+fnSIIZv0Lr9C1yw+Fhdl397QqW7ZWg9Zt
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="396714902"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="11178504"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 01:19:58 -0800
+   d="scan'208";a="396714902"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 01:19:58 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10946"; a="847156068"
 X-IronPort-AV: E=Sophos;i="6.04,340,1695711600"; 
-   d="scan'208";a="29730374"
+   d="scan'208";a="847156068"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 08 Jan 2024 01:19:56 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 08 Jan 2024 01:19:56 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMlnV-0004Zk-2j;
+	id 1rMlnV-0004Zm-2q;
 	Mon, 08 Jan 2024 09:19:53 +0000
 Date: Mon, 8 Jan 2024 17:19:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:execmem/v0 13/14] arch/powerpc/kernel/kprobes.c:133:16: error:
- implicit declaration of function 'execmem_alloc'; did you mean 'mm_alloc'?
-Message-ID: <202401081719.hZ4JGrD9-lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, Heiko Stuebner <heiko@sntech.de>,
+	Alex Bee <knaerzche@gmail.com>
+Subject: [drm-misc:drm-misc-next 6/21]
+ drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: error: call to undeclared
+ function 'drm_atomic_get_new_connector_state'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202401081720.UtgAZgba-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,60 +54,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git execmem/v0
-head:   7b112b930be7b0627fa65c6f8a2b64cd325c0ea9
-commit: 6776e4ba438ac7c0d0f8317056f0098e73cc72eb [13/14] kprobes: remove dependency on CONFIG_MODULES
-config: powerpc-randconfig-r111-20240108 (https://download.01.org/0day-ci/archive/20240108/202401081719.hZ4JGrD9-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240108/202401081719.hZ4JGrD9-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   26a4591b31916e1c53a7c64fa3ba3fc7cc5d549f
+commit: d3e040f450ec8e46ff42fa495a433b976ab47686 [6/21] drm/rockchip: inno_hdmi: Get rid of mode_set
+config: s390-randconfig-001-20240106 (https://download.01.org/0day-ci/archive/20240108/202401081720.UtgAZgba-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240108/202401081720.UtgAZgba-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401081719.hZ4JGrD9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401081720.UtgAZgba-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/powerpc/kernel/kprobes.c: In function 'kprobes_alloc_insn_page':
->> arch/powerpc/kernel/kprobes.c:133:16: error: implicit declaration of function 'execmem_alloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
-     133 |         page = execmem_alloc(PAGE_SIZE);
-         |                ^~~~~~~~~~~~~
-         |                mm_alloc
->> arch/powerpc/kernel/kprobes.c:133:14: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     133 |         page = execmem_alloc(PAGE_SIZE);
-         |              ^
-   cc1: some warnings being treated as errors
---
-   arch/powerpc/mm/execmem.c: In function 'execmem_alloc':
->> arch/powerpc/mm/execmem.c:26:46: error: '_etext' undeclared (first use in this function)
-      26 |         unsigned long limit = (unsigned long)_etext - SZ_32M;
-         |                                              ^~~~~~
-   arch/powerpc/mm/execmem.c:26:46: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from drivers/gpu/drm/rockchip/inno_hdmi.c:8:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/rockchip/inno_hdmi.c:8:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/rockchip/inno_hdmi.c:8:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: error: call to undeclared function 'drm_atomic_get_new_connector_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+         |                      ^
+   drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: note: did you mean 'drm_atomic_helper_connector_reset'?
+   include/drm/drm_atomic_state_helper.h:73:6: note: 'drm_atomic_helper_connector_reset' declared here
+      73 | void drm_atomic_helper_connector_reset(struct drm_connector *connector);
+         |      ^
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:499:13: error: incompatible integer to pointer conversion assigning to 'struct drm_connector_state *' from 'int' [-Wint-conversion]
+     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:503:15: error: call to undeclared function 'drm_atomic_get_new_crtc_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+         |                      ^
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:503:13: error: incompatible integer to pointer conversion assigning to 'struct drm_crtc_state *' from 'int' [-Wint-conversion]
+     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 warnings and 4 errors generated.
 
 
-vim +133 arch/powerpc/kernel/kprobes.c
+vim +/drm_atomic_get_new_connector_state +499 drivers/gpu/drm/rockchip/inno_hdmi.c
 
-cc66bb91457827 Peter Zijlstra      2022-03-08  128  
-7483c8c81c9785 Mike Rapoport (IBM  2024-01-06  129) void *kprobes_alloc_insn_page(void)
-6a3a58e6230dc5 Russell Currey      2021-06-09  130  {
-6a3a58e6230dc5 Russell Currey      2021-06-09  131  	void *page;
-6a3a58e6230dc5 Russell Currey      2021-06-09  132  
-ccea3084f3f31f Mike Rapoport (IBM  2024-01-06 @133) 	page = execmem_alloc(PAGE_SIZE);
-6a3a58e6230dc5 Russell Currey      2021-06-09  134  	if (!page)
-6a3a58e6230dc5 Russell Currey      2021-06-09  135  		return NULL;
-6a3a58e6230dc5 Russell Currey      2021-06-09  136  
-d48567c9a0d1e6 Peter Zijlstra      2022-10-26  137  	if (strict_module_rwx_enabled())
-d48567c9a0d1e6 Peter Zijlstra      2022-10-26  138  		set_memory_rox((unsigned long)page, 1);
-d48567c9a0d1e6 Peter Zijlstra      2022-10-26  139  
-6a3a58e6230dc5 Russell Currey      2021-06-09  140  	return page;
-6a3a58e6230dc5 Russell Currey      2021-06-09  141  }
-6a3a58e6230dc5 Russell Currey      2021-06-09  142  
-
-:::::: The code at line 133 was first introduced by commit
-:::::: ccea3084f3f31f35c92c28ad9000871c94e194d5 dev: powerpc: s/module_alloc/execmem_text_alloc/
-
-:::::: TO: Mike Rapoport (IBM) <rppt@kernel.org>
-:::::: CC: Mike Rapoport (IBM) <rppt@kernel.org>
+   491	
+   492	static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
+   493					     struct drm_atomic_state *state)
+   494	{
+   495		struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+   496		struct drm_connector_state *conn_state;
+   497		struct drm_crtc_state *crtc_state;
+   498	
+ > 499		conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+   500		if (WARN_ON(!conn_state))
+   501			return;
+   502	
+ > 503		crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+   504		if (WARN_ON(!crtc_state))
+   505			return;
+   506	
+   507		inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
+   508		inno_hdmi_set_pwr_mode(hdmi, NORMAL);
+   509	}
+   510	
 
 -- 
 0-DAY CI Kernel Test Service
