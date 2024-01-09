@@ -1,53 +1,51 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03993DB92
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 23:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B2A3E495;
+	Tue,  9 Jan 2024 23:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SUCQf+ct"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-28bf1410e37so3087460a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 09 Jan 2024 15:01:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704841298; x=1705446098; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GR/ms3ctfSsOUjIPALp8Jd7xLfAi/c50pWgtGgQX/O4=;
-        b=SUCQf+ctqAJsGMJUM68nHr5tIWNca6lvX56J1xo08D0SNKZuyJLEKOJbVNbpMbd+B7
-         nXSLulNETzXsbB2r7nbgEo6AmJIp9rKLHWgHflfgRfjZ+Mb9jDSnPeerpCHsQXFuUznz
-         awVrttK58M87UL9aDHkt6p2XFGIs9AxVjcAlo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704841298; x=1705446098;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GR/ms3ctfSsOUjIPALp8Jd7xLfAi/c50pWgtGgQX/O4=;
-        b=H7wvdtLyKF+cVbFS7WDi0ZExxJKQ9JbD/t4r70urYv9Ogbg6Q3GIh3F/aAjKqm3Tz5
-         DqOp9KWnhlhSmjhxWHjcXG4Gbu+HbuionniW2gd12OJ1tEveLzcMViI5XavMQCfCYCcm
-         o3yHiecNKuwfM71D0poLm8geexBleUyjQemoGW3OPmrsLKUYclxxQzIKoAx4b+nKuvMq
-         047Fy2dhpULabal3ekVq5+EymTBxHOdoFEztIW4fURuFOXujcvLIPa9ZeftXwzmhlhwA
-         zly+nCc8C1w/sasCuLcyxsKWq907wmNZx5rpttpX8Zf4Ji/n9+KdwZcW1dkpLVJ45+I4
-         LPNA==
-X-Gm-Message-State: AOJu0YzEzdJotfF8NZ2nvBjor+iQPcR7ZsLdS+Jrs/E7FGJWBzOuRQkB
-	18hnpv4imhLlVupYSf+rFgGwoBIA9Wtu
-X-Google-Smtp-Source: AGHT+IEY9Ix5SjUd+2ybDs5lq+IUV5YSx5/dvVEQmA/K0Lydmc2CVqTv4/6oDxz4SjwLcsDqIp7aCQ==
-X-Received: by 2002:a17:90b:2397:b0:28c:446c:8093 with SMTP id mr23-20020a17090b239700b0028c446c8093mr40661pjb.26.1704841298243;
-        Tue, 09 Jan 2024 15:01:38 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id eu15-20020a17090af94f00b0028b845f2890sm19498pjb.33.2024.01.09.15.01.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 15:01:37 -0800 (PST)
-Date: Tue, 9 Jan 2024 15:01:37 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: lkp@intel.com, x86@kernel.org, bp@alien8.de,
-	dave.hansen@linux.intel.com, linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, yu-cheng.yu@intel.com
-Subject: Re: [PATCH] x86/shstk: Use __force when casting away __user
-Message-ID: <202401091501.4EC0C8EAD@keescook>
-References: <202401080003.duO4RmjK-lkp@intel.com>
- <20240109224619.1013899-1-rick.p.edgecombe@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVxJ6tAp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704841604; x=1736377604;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qB6rllY9Y9lF/uM8R45vNgHXRFEg+zZ+eoCghnpCI60=;
+  b=jVxJ6tApQ6k/f84mK8Lonb2Fp0pwhJcxrq95PRCT5diRMkMuKFLwiAaF
+   ap2VoTBIRebHhIXFcSCodqUtc/a4nYYjLKr4iBH3APiUXN8GsT8AmHHZC
+   Q8eSjEeuQZcS3zUiUp01z37J1x2lfmZVupELOWxKmX4OcXmEr2KnoXNhz
+   KVSg9hhCOMG01vL0Jjg0lGvOMbf3kBr3QRRsd+zSfh9rENpOmaTXyg4V0
+   4391sCrziteppLkQfW88uUmEB2oaqu33E1+GmEAE4VkjdU9jCiiTer8yo
+   II4lWXIf9JnpdzITansYeKTk/8ymweaWnEuZxbwrv3U9sL9oS26PcwYJe
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5122169"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="5122169"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 15:06:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="785405104"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="785405104"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 09 Jan 2024 15:05:57 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNLAR-0006LG-0v;
+	Tue, 09 Jan 2024 23:05:55 +0000
+Date: Wed, 10 Jan 2024 07:05:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jun Miao <jun.miao@intel.com>, kirill.shutemov@linux.intel.com,
+	dave.hansen@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jun.miao@intel.com,
+	x86@kernel.org, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] x86/tdx: Optimize try_accept_memory() to reduce 1GB page
+ accepted failed times
+Message-ID: <202401100620.TjY1Uq2O-lkp@intel.com>
+References: <20240109054824.9023-1-jun.miao@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,28 +54,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240109224619.1013899-1-rick.p.edgecombe@intel.com>
+In-Reply-To: <20240109054824.9023-1-jun.miao@intel.com>
 
-On Tue, Jan 09, 2024 at 02:46:19PM -0800, Rick Edgecombe wrote:
-> In setup_signal_shadow_stack() the kernel needs to push the restorer
-> address to the shadow stack. This involves writing the value of the
-> restorer pointer to the shadow stack. Since the restorer is defined as a
-> __user in struct k_sigaction, the __user needs to be casted away to read
-> the value. It is safe to do, because nothing is being dereferenced, and
-> the de-__user-ed value is not stashed in an accessible local variable
-> where it might accidentally be used for another purpose.
-> 
-> However, sparse warns about casting away __user. So use __force to
-> silence sparse and add a comment to explain why it is ok.
-> 
-> Fixes: 05e36022c054 ("x86/shstk: Handle signals for shadow stack")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202401080003.duO4RmjK-lkp@intel.com/
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Hi Jun,
 
-Seems fine to me. Thanks!
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+[auto build test WARNING on tip/x86/tdx]
+[also build test WARNING on next-20240109]
+[cannot apply to linus/master v6.7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jun-Miao/x86-tdx-Optimize-try_accept_memory-to-reduce-1GB-page-accepted-failed-times/20240109-134908
+base:   tip/x86/tdx
+patch link:    https://lore.kernel.org/r/20240109054824.9023-1-jun.miao%40intel.com
+patch subject: [PATCH] x86/tdx: Optimize try_accept_memory() to reduce 1GB page accepted failed times
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20240110/202401100620.TjY1Uq2O-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401100620.TjY1Uq2O-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401100620.TjY1Uq2O-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/x86/coco/tdx/tdx-shared.c:62:3: warning: '/*' within block comment [-Wcomment]
+      62 |                 /* The 4KB page case or accept 2MB page failed case. */
+         |                 ^
+>> arch/x86/coco/tdx/tdx-shared.c:63:8: warning: variable 'accept_size' is uninitialized when used here [-Wuninitialized]
+      63 |                 if (!accept_size)
+         |                      ^~~~~~~~~~~
+   arch/x86/coco/tdx/tdx-shared.c:49:28: note: initialize the variable 'accept_size' to silence this warning
+      49 |                 unsigned long accept_size;
+         |                                          ^
+         |                                           = 0
+   2 warnings generated.
+
+
+vim +62 arch/x86/coco/tdx/tdx-shared.c
+
+    40	
+    41	bool tdx_accept_memory(phys_addr_t start, phys_addr_t end)
+    42	{
+    43		/*
+    44		 * For shared->private conversion, accept the page using
+    45		 * TDG_MEM_PAGE_ACCEPT TDX module call.
+    46		 */
+    47		while (start < end) {
+    48			unsigned long len = end - start;
+    49			unsigned long accept_size;
+    50	
+    51			/*
+    52			 * Try larger accepts first. It gives chance to VMM to keep
+    53			 * 1G/2M Secure EPT entries where possible and speeds up
+    54			 * process by cutting number of hypercalls (if successful).
+    55			 * Since per current TDX spec, only support for adding 4KB or
+    56			 * 2MB page dynamically.
+    57			 * /
+    58	
+    59			if (IS_ALIGNED(start, PMD_SIZE) && len >= PMD_SIZE)
+    60				accept_size = try_accept_one(start, len, PG_LEVEL_2M);
+    61	
+  > 62			/* The 4KB page case or accept 2MB page failed case. */
+  > 63			if (!accept_size)
+    64				accept_size = try_accept_one(start, len, PG_LEVEL_4K);
+    65			if (!accept_size)
+    66				return false;
+    67			start += accept_size;
+    68		}
+    69	
+    70		return true;
+    71	}
+    72	
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
