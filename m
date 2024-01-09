@@ -1,47 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8543938DFE
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 16:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBFD38DF8;
+	Tue,  9 Jan 2024 17:58:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/5EfCKJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704819413; x=1736355413;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wFGeRb9jSbvVPmswXwZ+YOEe1egBm+HW1Du8pDx/U54=;
-  b=S/5EfCKJUprIlxrCeIekVEDfajbL6Yk61uH9Ubs6anDvirLG7AFYpTxj
-   3LL1cw7h77SebAW9DgLZvoTR0PCta0aC9rcxWYQ195sVmkdIGdyPrTj6i
-   8u5GuulZ3rAGSpbd+xnoyuKKHv7BJUR4U+Z+R+S0L6ULz23557JXeBvTS
-   yJOgZEgoqViEh8pzUR6zDWJpWv1nQMoIh1jt30+Fr1pm3uTh+cbLIOrqb
-   g/lEeigWcDejjRp3r9KIhoQWBqpPyTTHifxGtho76DtUgkfAT6TVcAE4+
-   uAVDdYPN1r1MK4xBfPb8PmFRg1peQuqm49p3QWa6/JarGqsjP9+sEdiwJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="11604801"
-X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; 
-   d="scan'208";a="11604801"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 08:56:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="900820013"
-X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; 
-   d="scan'208";a="900820013"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Jan 2024 08:56:50 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rNFPC-00064U-2P;
-	Tue, 09 Jan 2024 16:56:47 +0000
-Date: Wed, 10 Jan 2024 00:56:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anand Jain <anand.jain@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Sterba <dsterba@suse.com>
-Subject: fs/btrfs/volumes.c:1004:34: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202401100008.8yNVvYRI-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pBXR0hDI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD56C433F1;
+	Tue,  9 Jan 2024 17:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704823097;
+	bh=jPQukDAtVbClY9EBeS+NqfHyLacDsIvaawr24NohtKA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pBXR0hDIxuyEvjXNm0ZHkn82qvWJPxEeg8vRLhUWpcgwAjyw9QDysog3LK2PVQult
+	 9Go+Fi125jYvZDB64hW3vCXxDEcn1/BK+pt5NqtqqQKLTdqo9bY948RcuvcxU2solW
+	 4vKCSzlftGX3C8MVRS35uscVo5/xKVpYDqx9lrU9Apjy76V+ddXDE8gB+2mmN0AuZf
+	 oPcWHesQh5ieuYvzxayCuvHpRXx3KbE78X0kmN1z43HIDK8fHuuSm5D93GP6NTB/A2
+	 otf9gtIxEuJz5XBV4wxvbQ8xXHf1BOfBSoPrqMAdPLvPhwTHpw3vbnYVN41E5sHJLi
+	 jqPfsfuLkmYcA==
+Date: Tue, 9 Jan 2024 10:58:14 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, ardb@kernel.org,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	bhelgaas@google.com, arnd@arndb.de, zohar@linux.ibm.com,
+	dmitry.kasatkin@gmail.com, paul@paul-moore.com, jmorris@namei.org,
+	serge@hallyn.com, javierm@redhat.com, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] arch/x86: Move internal setup_data structures
+ into setup_data.h
+Message-ID: <20240109175814.GA5981@dev-arch.thelio-3990X>
+References: <20240108095903.8427-3-tzimmermann@suse.de>
+ <202401090800.UOBEKB3W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,102 +43,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202401090800.UOBEKB3W-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f8413c4a66f2fb776d3dc3c9ed20bf435eb305e
-commit: bb21e30260a672172a26ee1626dc1463215cf18c btrfs: move device->name RCU allocation and assign to btrfs_alloc_device()
-date:   1 year, 1 month ago
-config: arm-randconfig-r122-20240105 (https://download.01.org/0day-ci/archive/20240110/202401100008.8yNVvYRI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240110/202401100008.8yNVvYRI-lkp@intel.com/reproduce)
+On Tue, Jan 09, 2024 at 08:28:59AM +0800, kernel test robot wrote:
+> Hi Thomas,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on tip/x86/core]
+> [also build test WARNING on efi/next tip/master tip/auto-latest linus/master v6.7 next-20240108]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/arch-x86-Move-UAPI-setup-structures-into-setup_data-h/20240108-180158
+> base:   tip/x86/core
+> patch link:    https://lore.kernel.org/r/20240108095903.8427-3-tzimmermann%40suse.de
+> patch subject: [PATCH v4 2/4] arch/x86: Move internal setup_data structures into setup_data.h
+> config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240109/202401090800.UOBEKB3W-lkp@intel.com/config)
+> compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401090800.UOBEKB3W-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401090800.UOBEKB3W-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from arch/x86/realmode/rm/wakemain.c:3:
+>    In file included from arch/x86/boot/boot.h:24:
+>    In file included from arch/x86/include/asm/setup.h:10:
+>    In file included from arch/x86/include/asm/page_types.h:7:
+>    In file included from include/linux/mem_encrypt.h:17:
+>    In file included from arch/x86/include/asm/mem_encrypt.h:18:
+>    In file included from arch/x86/include/uapi/asm/bootparam.h:5:
+> >> arch/x86/include/asm/setup_data.h:10:20: warning: field 'data' with variable sized type 'struct setup_data' not at the end of a struct or class is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
+>       10 |         struct setup_data data;
+>          |                           ^
+>    1 warning generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401100008.8yNVvYRI-lkp@intel.com/
+I think this warning is expected. This structure is now included in the
+realmode part of arch/x86, which has its own set of build flags,
+including -Wall, which includes -Wgnu on clang. The kernel obviously
+uses GNU extensions and states this clearly with '-std=gnu11', so
+-Wno-gnu is unconditionally added to KBUILD_CFLAGS for clang. It seems
+that same treatment is needed for REALMODE_CFLAGS, which also matches
+arch/x86/boot/compressed/Makefile, see commit 6c3b56b19730 ("x86/boot:
+Disable Clang warnings about GNU extensions"):
 
-sparse warnings: (new ones prefixed by >>)
-   fs/btrfs/volumes.c:409:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
-   fs/btrfs/volumes.c:409:31: sparse:     expected struct rcu_string *str
-   fs/btrfs/volumes.c:409:31: sparse:     got struct rcu_string [noderef] __rcu *name
-   fs/btrfs/volumes.c:617:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:617:43: sparse:     expected char const *device_path
-   fs/btrfs/volumes.c:617:43: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:884:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const * @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:884:50: sparse:     expected char const *
-   fs/btrfs/volumes.c:884:50: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:954:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcu_string *str @@     got struct rcu_string [noderef] __rcu *name @@
-   fs/btrfs/volumes.c:954:39: sparse:     expected struct rcu_string *str
-   fs/btrfs/volumes.c:954:39: sparse:     got struct rcu_string [noderef] __rcu *name
->> fs/btrfs/volumes.c:1004:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char const *dev_path @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:1004:34: sparse:     expected char const *dev_path
-   fs/btrfs/volumes.c:1004:34: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:2198:49: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:2198:49: sparse:     expected char const *device_path
-   fs/btrfs/volumes.c:2198:49: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:2313:41: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *device_path @@     got char [noderef] __rcu * @@
-   fs/btrfs/volumes.c:2313:41: sparse:     expected char const *device_path
-   fs/btrfs/volumes.c:2313:41: sparse:     got char [noderef] __rcu *
-   fs/btrfs/volumes.c:1446:29: sparse: sparse: self-comparison always evaluates to false
-
-vim +1004 fs/btrfs/volumes.c
-
-   980	
-   981	static struct btrfs_fs_devices *clone_fs_devices(struct btrfs_fs_devices *orig)
-   982	{
-   983		struct btrfs_fs_devices *fs_devices;
-   984		struct btrfs_device *device;
-   985		struct btrfs_device *orig_dev;
-   986		int ret = 0;
-   987	
-   988		lockdep_assert_held(&uuid_mutex);
-   989	
-   990		fs_devices = alloc_fs_devices(orig->fsid, NULL);
-   991		if (IS_ERR(fs_devices))
-   992			return fs_devices;
-   993	
-   994		fs_devices->total_devices = orig->total_devices;
-   995	
-   996		list_for_each_entry(orig_dev, &orig->devices, dev_list) {
-   997			const char *dev_path = NULL;
-   998	
-   999			/*
-  1000			 * This is ok to do without RCU read locked because we hold the
-  1001			 * uuid mutex so nothing we touch in here is going to disappear.
-  1002			 */
-  1003			if (orig_dev->name)
-> 1004				dev_path = orig_dev->name->str;
-  1005	
-  1006			device = btrfs_alloc_device(NULL, &orig_dev->devid,
-  1007						    orig_dev->uuid, dev_path);
-  1008			if (IS_ERR(device)) {
-  1009				ret = PTR_ERR(device);
-  1010				goto error;
-  1011			}
-  1012	
-  1013			if (orig_dev->zone_info) {
-  1014				struct btrfs_zoned_device_info *zone_info;
-  1015	
-  1016				zone_info = btrfs_clone_dev_zone_info(orig_dev);
-  1017				if (!zone_info) {
-  1018					btrfs_free_device(device);
-  1019					ret = -ENOMEM;
-  1020					goto error;
-  1021				}
-  1022				device->zone_info = zone_info;
-  1023			}
-  1024	
-  1025			list_add(&device->dev_list, &fs_devices->devices);
-  1026			device->fs_devices = fs_devices;
-  1027			fs_devices->num_devices++;
-  1028		}
-  1029		return fs_devices;
-  1030	error:
-  1031		free_fs_devices(fs_devices);
-  1032		return ERR_PTR(ret);
-  1033	}
-  1034	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 1a068de12a56..24076db59783 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -53,6 +53,9 @@ REALMODE_CFLAGS += -fno-stack-protector
+ REALMODE_CFLAGS += -Wno-address-of-packed-member
+ REALMODE_CFLAGS += $(cc_stack_align4)
+ REALMODE_CFLAGS += $(CLANG_FLAGS)
++ifdef CONFIG_CC_IS_CLANG
++REALMODE_CFLAGS += -Wno-gnu
++endif
+ export REALMODE_CFLAGS
+ 
+ # BITS is used as extension for files which are available in a 32 bit
