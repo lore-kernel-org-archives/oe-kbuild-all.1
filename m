@@ -1,55 +1,46 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27CD364C6
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 09:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885A935EEF;
+	Tue,  9 Jan 2024 10:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IWw7SIN8"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40d5aefcc2fso30799125e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 09 Jan 2024 01:17:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704791869; x=1705396669; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XVkEFOHlWwhz7Duf5BVOmjNadYwqkcetos6KSo/cdnI=;
-        b=IWw7SIN8RX6sqdEzOiHZFIuX7SLCP2JIKvGmjKrArc/laiwFptzhz0qAN9juKmMr9+
-         f+Sk/0EbZs0hH0mgPeA+VhxrnIFA/c0ykkvd3oF8N9UA5abdmXVw9TEmMLqGV8wxndZg
-         Gr17jGTRANjHeE+PEBMMATzKHLBNnqlUbw/M642PmfUyBFmlvJ1bsIMm5I/tRdK5RosR
-         qKeMBqz6TapfQ8yhy2I2DxNt1n2OtiUM2Dncz6oQdCjzX9j4qyYyRMc12vIcZ0NztDF7
-         Ofu7o3KadJPWmUwvpyMfAul0DheQ6GCfLfL0CllheKzJCy7FOM6LEQA80bd40V6g5qxG
-         QiFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704791869; x=1705396669;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XVkEFOHlWwhz7Duf5BVOmjNadYwqkcetos6KSo/cdnI=;
-        b=T3nD16zHGK59IDELh/oTf8qdh3JP2h6D69A3cJ2OqpOD5okfR/Nep5AJXmRp/WL5P9
-         mWk5CjAMUibx5+e1Tvz56LpbqlxX/lhSdi4qjo13KzUVsBR4HRXTJB6dtEFxjOhHY1Uu
-         vlnN/00LNGns95MzkLuOzQgK0NxhBbfa3Soh92JXpDSt8g2GNP6GnSv75f7kVapralX0
-         Tnt21AEvvRocHNxyGjjlt0b/oNgAV6xxcfJD3MgoLIM0JvXba+J1g9jhS9gmiBFtkkBF
-         sGGpml1QjtFdDmB9PLsltxqHWa2qmd4/su0iNSaC0X8m6HW6gGSPLWODrJyZuHIWNAQk
-         Zifg==
-X-Gm-Message-State: AOJu0YximV3s0EFvJlHrFJXmw6rkMbS67fpEl6azwuO/f6r9eBb5ZH57
-	mPU+O8RHuqInJ1a3AHLIpEGs7KxfyzwdWg==
-X-Google-Smtp-Source: AGHT+IHYDtHCq2FubxD8DvGMVoVJReXJUMNuiPN38ZL3R7ASH6fd/DpawvPETlmROnrMCjzV/bj0UQ==
-X-Received: by 2002:a05:600c:470a:b0:40d:3864:a2af with SMTP id v10-20020a05600c470a00b0040d3864a2afmr2589128wmo.82.1704791869219;
-        Tue, 09 Jan 2024 01:17:49 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id h17-20020a05600c351100b0040d839e7bb3sm13920978wmq.19.2024.01.09.01.17.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 01:17:48 -0800 (PST)
-Date: Tue, 9 Jan 2024 12:17:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: fs/ntfs3/fsntfs.c:2661 ntfs_set_label() error: __builtin_memcpy()
- 'uni->name' too small (20 vs 256)
-Message-ID: <70b13673-23ce-4bb9-9842-65828650e563@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="am1JuW5h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704794939; x=1736330939;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JPXZc89KqoRuUtgmDmmzcqTmfoV0XfWp7XW/iX1D6eA=;
+  b=am1JuW5htAWlaZDUmP/WtblihrUKYfMvRrNSiXYVoWikT3eRBaaWkj6h
+   zj8j7gDURk66NTC8vpS6qRe2rp/qorBVmfnjI49JBFOAvqXd5ynIRbe7j
+   E0VMjFECRndB5Gkhyo6VK9B8YQcJnj+pG8XC16AsLDUjml8KhVuSlHDmq
+   ytKxI/oGCfBu4Olqzi4rme65g6McNo26QpUrgSIy2SZU93G20seRKBtdv
+   a12GO5AupqZIgYppBJwT6GpgS9m+zwRDNGoOu6LE1m4tz017G9cH1wi00
+   Vd1oPkMfSclM5D8Atb8tCB3dQva4WreTwJJHhIoQ+Vxtj7GIgR+DbCXDU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="464548957"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
+   d="scan'208";a="464548957"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 02:08:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="954963818"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
+   d="scan'208";a="954963818"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 09 Jan 2024 02:08:57 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rN92V-0005iU-2H;
+	Tue, 09 Jan 2024 10:08:55 +0000
+Date: Tue, 9 Jan 2024 18:08:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [iwlwifi-next:egrumbac_fixes_6.5 54/69] ld.lld: error: undefined
+ symbol: iwl_cfg_gl_a0_fm_a0
+Message-ID: <202401091728.rbPqoHhA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,67 +50,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f8413c4a66f2fb776d3dc3c9ed20bf435eb305e
-commit: 7832e123490ac39f85ab5befc2ceee7b25b03acb fs/ntfs3: Add support /proc/fs/ntfs3/<dev>/volinfo and /proc/fs/ntfs3/<dev>/label
-config: i386-randconfig-141-20240107 (https://download.01.org/0day-ci/archive/20240109/202401091421.3RJ24Mn3-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git egrumbac_fixes_6.5
+head:   9a1b32d1e9cff80526cab2834f9dfd7609d9c627
+commit: 38ffad1e8048085517946d1230f7e249b6c0db72 [54/69] MVM_CORE80
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240109/202401091728.rbPqoHhA-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401091728.rbPqoHhA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401091421.3RJ24Mn3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401091728.rbPqoHhA-lkp@intel.com/
 
-New smatch warnings:
-fs/ntfs3/fsntfs.c:2661 ntfs_set_label() error: __builtin_memcpy() 'uni->name' too small (20 vs 256)
+All errors (new ones prefixed by >>):
 
-vim +2661 fs/ntfs3/fsntfs.c
-
-7832e123490ac3 Konstantin Komarov 2023-05-08  2627  int ntfs_set_label(struct ntfs_sb_info *sbi, u8 *label, int len)
-7832e123490ac3 Konstantin Komarov 2023-05-08  2628  {
-7832e123490ac3 Konstantin Komarov 2023-05-08  2629  	int err;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2630  	struct ATTRIB *attr;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2631  	struct ntfs_inode *ni = sbi->volume.ni;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2632  	const u8 max_ulen = 0x80; /* TODO: use attrdef to get maximum length */
-7832e123490ac3 Konstantin Komarov 2023-05-08  2633  	/* Allocate PATH_MAX bytes. */
-7832e123490ac3 Konstantin Komarov 2023-05-08  2634  	struct cpu_str *uni = __getname();
-7832e123490ac3 Konstantin Komarov 2023-05-08  2635  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2636  	if (!uni)
-7832e123490ac3 Konstantin Komarov 2023-05-08  2637  		return -ENOMEM;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2638  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2639  	err = ntfs_nls_to_utf16(sbi, label, len, uni, (PATH_MAX - 2) / 2,
-7832e123490ac3 Konstantin Komarov 2023-05-08  2640  				UTF16_LITTLE_ENDIAN);
-7832e123490ac3 Konstantin Komarov 2023-05-08  2641  	if (err < 0)
-7832e123490ac3 Konstantin Komarov 2023-05-08  2642  		goto out;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2643  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2644  	if (uni->len > max_ulen) {
-
-uni->name is defined as 10 elements long.  So allowing PATH_MAX is
-weird.
-
-7832e123490ac3 Konstantin Komarov 2023-05-08  2645  		ntfs_warn(sbi->sb, "new label is too long");
-7832e123490ac3 Konstantin Komarov 2023-05-08  2646  		err = -EFBIG;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2647  		goto out;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2648  	}
-7832e123490ac3 Konstantin Komarov 2023-05-08  2649  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2650  	ni_lock(ni);
-7832e123490ac3 Konstantin Komarov 2023-05-08  2651  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2652  	/* Ignore any errors. */
-7832e123490ac3 Konstantin Komarov 2023-05-08  2653  	ni_remove_attr(ni, ATTR_LABEL, NULL, 0, false, NULL);
-7832e123490ac3 Konstantin Komarov 2023-05-08  2654  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2655  	err = ni_insert_resident(ni, uni->len * sizeof(u16), ATTR_LABEL, NULL,
-7832e123490ac3 Konstantin Komarov 2023-05-08  2656  				 0, &attr, NULL, NULL);
-7832e123490ac3 Konstantin Komarov 2023-05-08  2657  	if (err < 0)
-7832e123490ac3 Konstantin Komarov 2023-05-08  2658  		goto unlock_out;
-7832e123490ac3 Konstantin Komarov 2023-05-08  2659  
-7832e123490ac3 Konstantin Komarov 2023-05-08  2660  	/* write new label in on-disk struct. */
-7832e123490ac3 Konstantin Komarov 2023-05-08 @2661  	memcpy(resident_data(attr), uni->name, uni->len * sizeof(u16));
-                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Btw, I feel like if CONFIG_FORTIFY_SOURCE is enabled this will be a
-runtime issue but I don't know for sure.
+>> ld.lld: error: undefined symbol: iwl_cfg_gl_a0_fm_a0
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(iwl_dev_info_table)
+--
+>> ld.lld: error: undefined symbol: iwl_mvm_mac_testmode_cmd
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(iwl_mvm_hw_ops)
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(iwl_mvm_mld_hw_ops)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
