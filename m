@@ -1,52 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0BBEB8
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 04:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198FE15A7;
+	Tue,  9 Jan 2024 05:17:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QEkm0jnA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCgSSTrb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704775577; x=1736311577;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qRDK6Oo9AgDzs3fiuyV3rGxNrCnaC1HrYpHIF810WxY=;
-  b=QEkm0jnALS5DV4frSNnDpR6Uw3bGYcqej35cFbZett9rxxSAguIAzSei
-   wHBLbrvMmR7Y02lMHNdPVTAI9fyyVczOyWtpsIGwrqQfKW7g5/H9sUGkX
-   iuxqLrvc6OEi/HP/NaiQsOhVV2to1HXX790NwPg+Af0v3fIrDYKYHlyAQ
-   OB7Il/3p+RMwzQk59tTPDezo+YIA4kS46d4NBreynQ8tCTqUQlMs6TFkE
-   V8cnukw2nhHGhdgQBb3XmFRspvuJN4QADMd2wcZuHm+pJ87qR9vBOwB9M
-   dR3yH9TTK+2bswtFXDhowNxZGhdF+lA61pY94ioTFJPUOpMRyfuq0081h
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="395242011"
+  t=1704777439; x=1736313439;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rlxyczwCIKfgcTVqaDOLvj5sTxVl58CdAIE7qNApbjs=;
+  b=BCgSSTrbbevlT+VRkkJpKcJ1ZLa9WhiN1pN3DMnTXeL4A7O+vU7papuh
+   RYlJD74f4CjK8+efs0f0yCkCaaUtryKvqyk1A7mQKmCt6FP2vCcxNB/FK
+   Z4Ly24uJs+WyeZzn5TnqtXmuRnZCkfkTh1F//NHixlO4prCbf+iumZPpp
+   LOhrMam6uAT5aq91Pb8C++jUdqgOwpUAgm+4Iv8FX9J6jc4LmilrQ/lQK
+   thzfFJICVls/fmu7idSQr+C4xvMwiQoeNLCTU+S5Kheumk0hAY4oR6c25
+   5PFS8BUytKMMwzjDdcM0V4Mo36OW9lp8jrgc1StSnFrpflS5noJXcLOca
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="462366169"
 X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="395242011"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 20:46:16 -0800
+   d="scan'208";a="462366169"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 21:17:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="900617596"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="905027540"
 X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="900617596"
+   d="scan'208";a="905027540"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Jan 2024 20:46:13 -0800
+  by orsmga004.jf.intel.com with ESMTP; 08 Jan 2024 21:17:16 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rN40B-0005TY-0t;
-	Tue, 09 Jan 2024 04:46:11 +0000
-Date: Tue, 9 Jan 2024 12:45:15 +0800
+	id 1rN4UE-0005V8-2O;
+	Tue, 09 Jan 2024 05:17:14 +0000
+Date: Tue, 9 Jan 2024 13:17:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Tai <james.tai@realtek.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] irqchip: Introduce RTD1319D support using the
- Realtek common interrupt controller driver
-Message-ID: <202401091218.1mO2PJxw-lkp@intel.com>
-References: <20231228060825.1380439-5-james.tai@realtek.com>
+To: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [iwlwifi-next:egrumbac_fixes_6.5 55/69]
+ drivers/net/wireless/intel/iwlwifi/pcie/drv.c:38:34: error: use of
+ undeclared identifier 'iwl5100_agn_cfg'
+Message-ID: <202401091315.dZ40T5sg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,166 +50,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231228060825.1380439-5-james.tai@realtek.com>
 
-Hi James,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on robh/for-next linus/master v6.7 next-20240108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Tai/dt-bindings-interrupt-controller-Add-support-for-Realtek-DHC-SoCs/20231228-141213
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20231228060825.1380439-5-james.tai%40realtek.com
-patch subject: [PATCH v4 4/6] irqchip: Introduce RTD1319D support using the Realtek common interrupt controller driver
-config: s390-randconfig-r113-20240109 (https://download.01.org/0day-ci/archive/20240109/202401091218.1mO2PJxw-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
-reproduce: (https://download.01.org/0day-ci/archive/20240109/202401091218.1mO2PJxw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git egrumbac_fixes_6.5
+head:   9a1b32d1e9cff80526cab2834f9dfd7609d9c627
+commit: 93a3c02830e001c30586795dc8bbdae0498ea50a [55/69] f
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240109/202401091315.dZ40T5sg-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401091315.dZ40T5sg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401091218.1mO2PJxw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401091315.dZ40T5sg-lkp@intel.com/
+
+Note: the iwlwifi-next/egrumbac_fixes_6.5 HEAD 9a1b32d1e9cff80526cab2834f9dfd7609d9c627 builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/irqchip/irq-realtek-intc-common.c:8:
-   In file included from include/linux/irqchip.h:17:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/irqchip/irq-realtek-intc-common.c:8:
-   In file included from include/linux/irqchip.h:17:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/irqchip/irq-realtek-intc-common.c:8:
-   In file included from include/linux/irqchip.h:17:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/irqchip/irq-realtek-intc-common.c:204:3: error: call to undeclared function 'iounmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     204 |                 iounmap(data->base);
-         |                 ^
-   arch/s390/include/asm/io.h:29:17: note: expanded from macro 'iounmap'
-      29 | #define iounmap iounmap
-         |                 ^
-   drivers/irqchip/irq-realtek-intc-common.c:204:3: note: did you mean 'vunmap'?
-   arch/s390/include/asm/io.h:29:17: note: expanded from macro 'iounmap'
-      29 | #define iounmap iounmap
-         |                 ^
-   include/linux/vmalloc.h:167:13: note: 'vunmap' declared here
-     167 | extern void vunmap(const void *addr);
-         |             ^
-   12 warnings and 1 error generated.
+>> drivers/net/wireless/intel/iwlwifi/pcie/drv.c:38:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+      38 |         {IWL_PCI_DEVICE(0x4232, 0x1201, iwl5100_agn_cfg)}, /* Mini Card */
+         |                                         ^
+>> drivers/net/wireless/intel/iwlwifi/pcie/drv.c:38:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:39:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+      39 |         {IWL_PCI_DEVICE(0x4232, 0x1301, iwl5100_agn_cfg)}, /* Half Mini Card */
+         |                                         ^
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:39:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:40:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+      40 |         {IWL_PCI_DEVICE(0x4232, 0x1204, iwl5100_agn_cfg)}, /* Mini Card */
+         |                                         ^
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:40:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:41:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+      41 |         {IWL_PCI_DEVICE(0x4232, 0x1304, iwl5100_agn_cfg)}, /* Half Mini Card */
+         |                                         ^
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:41:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+>> drivers/net/wireless/intel/iwlwifi/pcie/drv.c:42:34: error: use of undeclared identifier 'iwl5100_bgn_cfg'
+      42 |         {IWL_PCI_DEVICE(0x4232, 0x1205, iwl5100_bgn_cfg)}, /* Mini Card */
+         |                                         ^
+>> drivers/net/wireless/intel/iwlwifi/pcie/drv.c:42:34: error: use of undeclared identifier 'iwl5100_bgn_cfg'
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:43:34: error: use of undeclared identifier 'iwl5100_bgn_cfg'
+      43 |         {IWL_PCI_DEVICE(0x4232, 0x1305, iwl5100_bgn_cfg)}, /* Half Mini Card */
+         |                                         ^
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:43:34: error: use of undeclared identifier 'iwl5100_bgn_cfg'
+>> drivers/net/wireless/intel/iwlwifi/pcie/drv.c:44:34: error: use of undeclared identifier 'iwl5100_abg_cfg'
+      44 |         {IWL_PCI_DEVICE(0x4232, 0x1206, iwl5100_abg_cfg)}, /* Mini Card */
+         |                                         ^
+>> drivers/net/wireless/intel/iwlwifi/pcie/drv.c:44:34: error: use of undeclared identifier 'iwl5100_abg_cfg'
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:45:34: error: use of undeclared identifier 'iwl5100_abg_cfg'
+      45 |         {IWL_PCI_DEVICE(0x4232, 0x1306, iwl5100_abg_cfg)}, /* Half Mini Card */
+         |                                         ^
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:45:34: error: use of undeclared identifier 'iwl5100_abg_cfg'
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:46:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+      46 |         {IWL_PCI_DEVICE(0x4232, 0x1221, iwl5100_agn_cfg)}, /* Mini Card */
+         |                                         ^
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:46:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+   drivers/net/wireless/intel/iwlwifi/pcie/drv.c:47:34: error: use of undeclared identifier 'iwl5100_agn_cfg'
+      47 |         {IWL_PCI_DEVICE(0x4232, 0x1321, iwl5100_agn_cfg)}, /* Half Mini Card */
+         |                                         ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
 
-vim +/iounmap +204 drivers/irqchip/irq-realtek-intc-common.c
+vim +/iwl5100_agn_cfg +38 drivers/net/wireless/intel/iwlwifi/pcie/drv.c
 
-59fe9dce1f284e James Tai 2023-12-28  161  
-59fe9dce1f284e James Tai 2023-12-28  162  int realtek_intc_probe(struct platform_device *pdev, const struct realtek_intc_info *info)
-59fe9dce1f284e James Tai 2023-12-28  163  {
-59fe9dce1f284e James Tai 2023-12-28  164  	struct realtek_intc_data *data;
-59fe9dce1f284e James Tai 2023-12-28  165  	struct device *dev = &pdev->dev;
-59fe9dce1f284e James Tai 2023-12-28  166  	struct device_node *node = dev->of_node;
-59fe9dce1f284e James Tai 2023-12-28  167  	int ret, i;
-59fe9dce1f284e James Tai 2023-12-28  168  
-59fe9dce1f284e James Tai 2023-12-28  169  	data = devm_kzalloc(dev, struct_size(data, subset_data, info->subset_num), GFP_KERNEL);
-59fe9dce1f284e James Tai 2023-12-28  170  	if (!data)
-59fe9dce1f284e James Tai 2023-12-28  171  		return -ENOMEM;
-59fe9dce1f284e James Tai 2023-12-28  172  
-59fe9dce1f284e James Tai 2023-12-28  173  	data->base = of_iomap(node, 0);
-59fe9dce1f284e James Tai 2023-12-28  174  	if (!data->base)
-59fe9dce1f284e James Tai 2023-12-28  175  		goto iomap_cleanup;
-59fe9dce1f284e James Tai 2023-12-28  176  
-59fe9dce1f284e James Tai 2023-12-28  177  	data->info = info;
-59fe9dce1f284e James Tai 2023-12-28  178  
-59fe9dce1f284e James Tai 2023-12-28  179  	raw_spin_lock_init(&data->lock);
-59fe9dce1f284e James Tai 2023-12-28  180  
-59fe9dce1f284e James Tai 2023-12-28  181  	data->domain = irq_domain_add_linear(node, 32, &realtek_intc_domain_ops, data);
-59fe9dce1f284e James Tai 2023-12-28  182  	if (!data->domain)
-59fe9dce1f284e James Tai 2023-12-28  183  		goto iomap_cleanup;
-59fe9dce1f284e James Tai 2023-12-28  184  
-59fe9dce1f284e James Tai 2023-12-28  185  	data->subset_data_num = info->subset_num;
-59fe9dce1f284e James Tai 2023-12-28  186  	for (i = 0; i < info->subset_num; i++) {
-59fe9dce1f284e James Tai 2023-12-28  187  		ret = realtek_intc_subset(node, data, i);
-59fe9dce1f284e James Tai 2023-12-28  188  		if (ret <= 0) {
-59fe9dce1f284e James Tai 2023-12-28  189  			dev_err(dev, "failed to init subset %d: %d", i, ret);
-59fe9dce1f284e James Tai 2023-12-28  190  			goto irq_domain_cleanup;
-59fe9dce1f284e James Tai 2023-12-28  191  		}
-59fe9dce1f284e James Tai 2023-12-28  192  	}
-59fe9dce1f284e James Tai 2023-12-28  193  
-59fe9dce1f284e James Tai 2023-12-28  194  	platform_set_drvdata(pdev, data);
-59fe9dce1f284e James Tai 2023-12-28  195  
-59fe9dce1f284e James Tai 2023-12-28  196  	return 0;
-59fe9dce1f284e James Tai 2023-12-28  197  
-59fe9dce1f284e James Tai 2023-12-28  198  irq_domain_cleanup:
-59fe9dce1f284e James Tai 2023-12-28  199  	if (data->domain)
-59fe9dce1f284e James Tai 2023-12-28  200  		irq_domain_remove(data->domain);
-59fe9dce1f284e James Tai 2023-12-28  201  
-59fe9dce1f284e James Tai 2023-12-28  202  iomap_cleanup:
-59fe9dce1f284e James Tai 2023-12-28  203  	if (data->base)
-59fe9dce1f284e James Tai 2023-12-28 @204  		iounmap(data->base);
-59fe9dce1f284e James Tai 2023-12-28  205  
-59fe9dce1f284e James Tai 2023-12-28  206  	return -ENOMEM;
-59fe9dce1f284e James Tai 2023-12-28  207  }
-59fe9dce1f284e James Tai 2023-12-28  208  EXPORT_SYMBOL_GPL(realtek_intc_probe);
-59fe9dce1f284e James Tai 2023-12-28  209  
+48a5494d6a4cb5 drivers/net/wireless/intel/iwlwifi/pcie/drv.c Johannes Berg     2021-03-30  29  
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  30  #define IWL_PCI_DEVICE(dev, subdev, cfg) \
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  31  	.vendor = PCI_VENDOR_ID_INTEL,  .device = (dev), \
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  32  	.subvendor = PCI_ANY_ID, .subdevice = (subdev), \
+48a5494d6a4cb5 drivers/net/wireless/intel/iwlwifi/pcie/drv.c Johannes Berg     2021-03-30  33  	.driver_data = _ASSIGN_CFG(cfg)
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  34  
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  35  /* Hardware specific file defines the PCI IDs table for that hardware module */
+9baa3c34ac4e27 drivers/net/wireless/iwlwifi/pcie/drv.c       Benoit Taine      2014-08-08  36  static const struct pci_device_id iwl_hw_card_ids[] = {
+4f25bbdb160e43 drivers/net/wireless/iwlwifi/pcie/drv.c       Johannes Berg     2013-06-10  37  #if IS_ENABLED(CONFIG_IWLDVM)
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24 @38  	{IWL_PCI_DEVICE(0x4232, 0x1201, iwl5100_agn_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  39  	{IWL_PCI_DEVICE(0x4232, 0x1301, iwl5100_agn_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  40  	{IWL_PCI_DEVICE(0x4232, 0x1204, iwl5100_agn_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  41  	{IWL_PCI_DEVICE(0x4232, 0x1304, iwl5100_agn_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24 @42  	{IWL_PCI_DEVICE(0x4232, 0x1205, iwl5100_bgn_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  43  	{IWL_PCI_DEVICE(0x4232, 0x1305, iwl5100_bgn_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24 @44  	{IWL_PCI_DEVICE(0x4232, 0x1206, iwl5100_abg_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  45  	{IWL_PCI_DEVICE(0x4232, 0x1306, iwl5100_abg_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  46  	{IWL_PCI_DEVICE(0x4232, 0x1221, iwl5100_agn_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  47  	{IWL_PCI_DEVICE(0x4232, 0x1321, iwl5100_agn_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  48  	{IWL_PCI_DEVICE(0x4232, 0x1224, iwl5100_agn_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  49  	{IWL_PCI_DEVICE(0x4232, 0x1324, iwl5100_agn_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  50  	{IWL_PCI_DEVICE(0x4232, 0x1225, iwl5100_bgn_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  51  	{IWL_PCI_DEVICE(0x4232, 0x1325, iwl5100_bgn_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  52  	{IWL_PCI_DEVICE(0x4232, 0x1226, iwl5100_abg_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  53  	{IWL_PCI_DEVICE(0x4232, 0x1326, iwl5100_abg_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  54  	{IWL_PCI_DEVICE(0x4237, 0x1211, iwl5100_agn_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  55  	{IWL_PCI_DEVICE(0x4237, 0x1311, iwl5100_agn_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  56  	{IWL_PCI_DEVICE(0x4237, 0x1214, iwl5100_agn_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  57  	{IWL_PCI_DEVICE(0x4237, 0x1314, iwl5100_agn_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  58  	{IWL_PCI_DEVICE(0x4237, 0x1215, iwl5100_bgn_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  59  	{IWL_PCI_DEVICE(0x4237, 0x1315, iwl5100_bgn_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  60  	{IWL_PCI_DEVICE(0x4237, 0x1216, iwl5100_abg_cfg)}, /* Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  61  	{IWL_PCI_DEVICE(0x4237, 0x1316, iwl5100_abg_cfg)}, /* Half Mini Card */
+48d1a2110ad9cb drivers/net/wireless/iwlwifi/iwl-pci.c        Emmanuel Grumbach 2011-05-24  62  
+
+:::::: The code at line 38 was first introduced by commit
+:::::: 48d1a2110ad9cb86e5cb0d790729824fa3cca83b iwlagn: add a iwl_pci.[ch] files that will contain all PCI specific code
+
+:::::: TO: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+:::::: CC: Wey-Yi Guy <wey-yi.w.guy@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
