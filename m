@@ -1,47 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFA828FD
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 03:24:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387DC13AE2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 03:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SQtPQf0q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPUwW/6L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704770646; x=1736306646;
+  t=1704771241; x=1736307241;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=75KfFcfqya+xhgKEfr7MozNNm2mJVQ/cF/oRDCl2r+U=;
-  b=SQtPQf0qmXEAfXsAiSPvnCG3ua27+Qwo07PWADmYzN4lWBkJQEKIbyFh
-   ssfJVmZVHgRsHAawsCQkvwNK+MjmQNGo6r/I+URVAO84TX9LMIYXsJsUa
-   JEA0LCsXlnx17/FeO8632hwFiHe2of8J4BzfBPF6OT7Qk+8f/7zAjmxM1
-   PfJUCSW+Z6DqBHz58ZCyutMXHI0/DsKMDFs63jPL7rk3MWlMciGo5jIst
-   Cki5UEvNrjjIlUYQoIiS062VnWidABxrxnicifdEzgQ6CubMf56nTd93N
-   jO9h4dztNIccuDFU8ZfuQvodUO6St9vWGncmFtEp0K25U0AO8DNrPPbaf
+  bh=r1/V/Q/VbvJvX735ytG3Ysh4o8esIAtCrcXC73TR+Z4=;
+  b=ZPUwW/6LHGovR7TZin8rGEZ/DLIYbxQdAOM46oZW8G7zITZwRNZNlOh6
+   1G1jUkJ4TJAA54oVDwKl/cc6vTvAw1SdZrS0vEDGHJMIVxUoSB+R647lR
+   +VWhUIGqF9I1smuPDcWyBQPxhZ2rS1fR/zCeSET1NH59Yp934VmBiMhfT
+   5eoQFAkuoHbMgcbEW54pzgmAg012oX00DJfEi1AtkvmiYMNVmt68T6G6o
+   ZZWZRkWGj95UlGIvibCBhRVWGIbpFWf1+Lnb0CNa+d/Kh/QZvnlyIxrvO
+   2DsT9K5q61S/rVfr+aoKurklyXb+V6DpeE49NwbNrkjwHzF2TecT1MWbK
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="4830958"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="4832406"
 X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="4830958"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 19:23:59 -0800
+   d="scan'208";a="4832406"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 19:33:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="785065952"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="872098191"
 X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="785065952"
+   d="scan'208";a="872098191"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Jan 2024 19:23:56 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Jan 2024 19:33:57 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rN2iY-0005PW-1N;
-	Tue, 09 Jan 2024 03:23:54 +0000
-Date: Tue, 9 Jan 2024 11:23:22 +0800
+	id 1rN2sE-0005Q7-2S;
+	Tue, 09 Jan 2024 03:33:54 +0000
+Date: Tue, 9 Jan 2024 11:33:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: include/trace/events/jbd2.h:356:1: sparse: sparse: cast to
- restricted blk_opf_t
-Message-ID: <202401091111.p7s9wEEq-lkp@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gregory Price <gourry.memverge@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>, Honggyu Kim <honggyu.kim@sk.com>,
+	Hyeongtak Ji <hyeongtak.ji@sk.com>,
+	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>,
+	Ravi Jonnalagadda <ravis.opensrc@micron.com>
+Subject: [gmprice:mempolicy2_mbind2 3/12] mm/mempolicy.c:1992:17: warning:
+ ISO C90 forbids variable length array 'weights'
+Message-ID: <202401091136.phEq6Fi8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,55 +55,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f0a78b3e2a0c842cc7b4c2686f4a35681f02ca72
-commit: 6669797b0dd41ced457760b6e1014fdda8ce19ce fs/jbd2: Fix the documentation of the jbd2_write_superblock() callers
-date:   1 year, 6 months ago
-config: x86_64-randconfig-121-20240107 (https://download.01.org/0day-ci/archive/20240109/202401091111.p7s9wEEq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401091111.p7s9wEEq-lkp@intel.com/reproduce)
+tree:   https://github.com/gmprice/linux mempolicy2_mbind2
+head:   4aff1aeabff106d25029a57f52d961d703588bc3
+commit: fcf523ffd2839c474457c3af29555129848d8eb3 [3/12] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240109/202401091136.phEq6Fi8-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401091136.phEq6Fi8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401091111.p7s9wEEq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401091136.phEq6Fi8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/jbd2/journal.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/jbd2.h):
->> include/trace/events/jbd2.h:356:1: sparse: sparse: cast to restricted blk_opf_t
->> include/trace/events/jbd2.h:356:1: sparse: sparse: cast to restricted blk_opf_t
->> include/trace/events/jbd2.h:356:1: sparse: sparse: restricted blk_opf_t degrades to integer
->> include/trace/events/jbd2.h:356:1: sparse: sparse: restricted blk_opf_t degrades to integer
+All warnings (new ones prefixed by >>):
 
-vim +356 include/trace/events/jbd2.h
+   mm/mempolicy.c: In function 'weighted_interleave_nid':
+>> mm/mempolicy.c:1992:17: warning: ISO C90 forbids variable length array 'weights' [-Wvla]
+    1992 |                 u8 weights[nr_nodes];
+         |                 ^~
+   mm/mempolicy.c: In function 'alloc_pages_bulk_array_weighted_interleave':
+   mm/mempolicy.c:2419:17: warning: ISO C90 forbids variable length array 'weights' [-Wvla]
+    2419 |                 u8 weights[nnodes];
+         |                 ^~
+   mm/mempolicy.c: In function 'mpol_parse_str':
+   mm/mempolicy.c:3237:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3237 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3119:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3119 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3237:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3237 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3119:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3119 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3237:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3237 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3119:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3119 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3237:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3237 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3119:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3119 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3237:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3237 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3119:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3119 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
+   mm/mempolicy.c:3237:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+    3237 |                 *--flags = '=';
+         |                 ~~~~~~~~~^~~~~
+   mm/mempolicy.c:3119:26: note: destination object 'str' of size [0, 9223372036854775807]
+    3119 | int mpol_parse_str(char *str, struct mempolicy **mpol)
+         |                    ~~~~~~^~~
 
-71f2be213a00090 Theodore Ts'o   2009-12-23  355  
-24bcc89c7e7c649 Jan Kara        2012-03-13 @356  TRACE_EVENT(jbd2_write_superblock,
-2201c590dd6e802 Seiji Aguchi    2012-02-20  357  
-6669797b0dd41ce Bart Van Assche 2022-07-14  358  	TP_PROTO(journal_t *journal, blk_opf_t write_flags),
-2201c590dd6e802 Seiji Aguchi    2012-02-20  359  
-6669797b0dd41ce Bart Van Assche 2022-07-14  360  	TP_ARGS(journal, write_flags),
-2201c590dd6e802 Seiji Aguchi    2012-02-20  361  
-2201c590dd6e802 Seiji Aguchi    2012-02-20  362  	TP_STRUCT__entry(
-2201c590dd6e802 Seiji Aguchi    2012-02-20  363  		__field(	dev_t,  dev			)
-6669797b0dd41ce Bart Van Assche 2022-07-14  364  		__field(    blk_opf_t,  write_flags		)
-2201c590dd6e802 Seiji Aguchi    2012-02-20  365  	),
-2201c590dd6e802 Seiji Aguchi    2012-02-20  366  
-2201c590dd6e802 Seiji Aguchi    2012-02-20  367  	TP_fast_assign(
-2201c590dd6e802 Seiji Aguchi    2012-02-20  368  		__entry->dev		= journal->j_fs_dev->bd_dev;
-6669797b0dd41ce Bart Van Assche 2022-07-14  369  		__entry->write_flags	= write_flags;
-2201c590dd6e802 Seiji Aguchi    2012-02-20  370  	),
-2201c590dd6e802 Seiji Aguchi    2012-02-20  371  
-6669797b0dd41ce Bart Van Assche 2022-07-14  372  	TP_printk("dev %d,%d write_flags %x", MAJOR(__entry->dev),
-6669797b0dd41ce Bart Van Assche 2022-07-14  373  		  MINOR(__entry->dev), (__force u32)__entry->write_flags)
-2201c590dd6e802 Seiji Aguchi    2012-02-20  374  );
-2201c590dd6e802 Seiji Aguchi    2012-02-20  375  
 
-:::::: The code at line 356 was first introduced by commit
-:::::: 24bcc89c7e7c64982e6192b4952a0a92379fc341 jbd2: split updating of journal superblock and marking journal empty
+vim +/weights +1992 mm/mempolicy.c
 
-:::::: TO: Jan Kara <jack@suse.cz>
-:::::: CC: Theodore Ts'o <tytso@mit.edu>
+  1981	
+  1982	static unsigned int weighted_interleave_nid(struct mempolicy *pol, pgoff_t ilx)
+  1983	{
+  1984		nodemask_t nodemask;
+  1985		unsigned int target, weight_total, nr_nodes, cur_node;
+  1986		int nid = numa_node_id();
+  1987		u8 weight;
+  1988	
+  1989		nr_nodes = read_once_policy_nodemask(pol, &nodemask);
+  1990	
+  1991		if (nr_nodes) {
+> 1992			u8 weights[nr_nodes];
+  1993	
+  1994			weight_total = read_once_interleave_weights(pol, weights,
+  1995								    &nodemask);
+  1996			if (!weight_total)
+  1997				return nid;
+  1998	
+  1999			/* Finally, calculate the node offset based on totals */
+  2000			target = ilx % weight_total;
+  2001			nid = first_node(nodemask);
+  2002			cur_node = 0;
+  2003			while (target) {
+  2004				weight = weights[cur_node++];
+  2005				if (target < weight)
+  2006					break;
+  2007				target -= weight;
+  2008				nid = next_node_in(nid, nodemask);
+  2009			}
+  2010		}
+  2011		return nid;
+  2012	}
+  2013	
 
 -- 
 0-DAY CI Kernel Test Service
