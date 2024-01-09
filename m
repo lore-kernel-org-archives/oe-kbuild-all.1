@@ -1,101 +1,242 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E0E2420E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 08:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487DC13ACF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 08:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vl1zmI9u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704787594; x=1736323594;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UnZNaEDVHHiNOmPFjrSb/L4xlWoqaMqkjktWc8ch+3Q=;
-  b=Vl1zmI9uHqYur2EC0SKRsAiSxRndygkVdlomdpTyBcFBLyp4b9m7Xs7W
-   SzN43rmEh5bOa1SB6Uth6JfQnYAwLYgbptMdv/oM45jHxoA42uAKDhAcW
-   roF3eggfAM4rT86ZQNqo4lacmNQhmRpjQ6WY2InqXEl9HPKZq+8ekFXNp
-   vQdkpeWB0+zWIL09rqAkL9ONoA2zbmFlsEys36fa8c2H1AhMu1Zyex4+P
-   ncD2AD66QoT5dilmWiTMfvdlP4UaQ05EBu0ZiT8UX9b20UolMVFsa6x65
-   zo7URV0wEH883vfJRIifuLpTad5HvO7y1nmpE7yNvh4kONluxibBI6Y3j
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="4876244"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="4876244"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 00:06:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="16194775"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Jan 2024 00:06:31 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rN781-0005b4-1B;
-	Tue, 09 Jan 2024 08:06:29 +0000
-Date: Tue, 9 Jan 2024 16:05:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/x86/kernel/cpu/debugfs.c:11:33: sparse: sparse: incorrect type
- in initializer (different address spaces)
-Message-ID: <202401091504.PDAmleJY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="jJ+erWAu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="1hYQ7UgD"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id B33023200AC9;
+	Tue,  9 Jan 2024 03:25:45 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 09 Jan 2024 03:25:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1704788745;
+	 x=1704875145; bh=hBMKB+Dkk2kBQqM04++7OqyTsEwWPWK3GWq70OG+7Eg=; b=
+	jJ+erWAuc1/3ehk7PkR7NYTchmB94azb/q2Fkw22xWHw42diWo6cIbcWlXlejMud
+	NJ/plXA23rA123lhW0Pnf1nqBPJBKgwJFWzziEag+lzvhVxEM+DswGhFk9VD71TJ
+	zqbVZhwF5X/xd0tPijaPzYguJRpWMo1MrFGx/DfKMhyLhNwzBKZZeJJ3XyfN0UMc
+	o3WXTkJXf/7bJsO83wrNqw91f+TJZ4wqtXLdw+Hxklu6Fq9NtgNSjUFAeSKeLbK/
+	0gxN925pco7FUihI8zj2fE4KdSss2gGb8R/PHr+JHIW8ya3pDxNIxnEibstO3bYn
+	gkAArTK8+eq8dcuRdFUfsA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1704788745; x=
+	1704875145; bh=hBMKB+Dkk2kBQqM04++7OqyTsEwWPWK3GWq70OG+7Eg=; b=1
+	hYQ7UgDZ/2dNLgU2obJugCGqdDgITW3X5b/e7rKs10uv23h9LqGaeOefXIRjDju7
+	D1PFCt+oVxKpqS3HQA45kNsTzpSpsStDLsgXjkUlLPEGkCQA8qnf/F4RIe3q2AHJ
+	fab4cJ/V0nlx7LJPAhf82G21kAVxwW4w8UbV1Y5ozp3LpXNJXqDDD0fNlwlojtGp
+	ZD5NacK2f5ovYh17trpSc/RFuuJap8By+OEtmrj6SNM0dUYTxYh1HwTItstjszWZ
+	4lVXAxeqTfR0m7RVXCbNDmxdAHn2NrDQxsCxf1DxTepoC9j6eDfXyOqRYjtJwhDv
+	IWqeyHjp90JITL23xTKpg==
+X-ME-Sender: <xms:CAOdZQ7FEJWR8jJoWOt7cEMzYexz-uiW39Gzcmprc9M97e3JPmxmjQ>
+    <xme:CAOdZR6XDJ63ehbXd_dp_O6U9WDOv1Esd9EEeGFMDRkTTo0FgpdQBEBY2zGVMnTbV
+    bheU7a-1b0MJcVkjYg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdehkedguddulecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
+    grthhtvghrnhepgeehgfegudeuvddvgfeigfffheeftdffvddvudethfdvvddthffgteev
+    teeuveehnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:CAOdZfejKeZq0sg3UMu0Q5IA8BWR7_yaFIDkN_8D032MWlXv6hkt_A>
+    <xmx:CAOdZVImogcMaM6TxUsDEOmyZ_0akC0DwORR0Bny1g11MSq85eLbRQ>
+    <xmx:CAOdZULBU5quxaUbhehtzln917TjyQQUWGSrI_7lGrknibiOFI9YXg>
+    <xmx:CQOdZehms4A0l6ZKDk_03hzLGFRcwhlvsiQX0AJ485utKGJJfsNz9w>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 49D0EB6008D; Tue,  9 Jan 2024 03:25:44 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-Id: <d9d3dbe5-1f5a-45cd-a5cc-a54836d8e077@app.fastmail.com>
+In-Reply-To: <ZZvGxhON7wNBgyg5@yujie-X299>
+References: <202401061736.yM5FZ2oV-lkp@intel.com>
+ <CACRpkdbx=qgdy1JRyxzFGW+8Ojj+g2tLKU4dD8oWX9V0xH2-JQ@mail.gmail.com>
+ <ZZvGxhON7wNBgyg5@yujie-X299>
+Date: Tue, 09 Jan 2024 09:23:57 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <yujie.liu@intel.com>,
+ "Linus Walleij" <linus.walleij@linaro.org>
+Cc: "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Matt Turner" <mattst88@gmail.com>
+Subject: Re: arch/alpha/include/asm/core_t2.h:587:23: warning: no previous prototype
+ for 't2_ioread64'
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f8413c4a66f2fb776d3dc3c9ed20bf435eb305e
-commit: 48525fd1ea1cfa059a580e77b10ea8790914efa2 x86/cpu: Provide debug interface
-date:   3 months ago
-config: x86_64-randconfig-123-20240106 (https://download.01.org/0day-ci/archive/20240109/202401091504.PDAmleJY-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401091504.PDAmleJY-lkp@intel.com/reproduce)
+On Mon, Jan 8, 2024, at 10:56, Yujie Liu wrote:
+> On Sun, Jan 07, 2024 at 09:09:21PM +0100, Linus Walleij wrote:
+>> Hi robot,
+>>=20
+>> On Sat, Jan 6, 2024 at 10:40=E2=80=AFAM kernel test robot <lkp@intel.=
+com> wrote:
+>>=20
+>>=20
+>> > Hi Arnd,
+>> >
+>> > FYI, the error/warning still remains.
+>>=20
+>> FYI I have already said I can't reproduce this at all. Not using
+>> allnoconfig, not using the .config attached to the report.
+>>=20
+>> I have no idea what this is.
+>
+> We double checked this, and looks like it needs to be reproduced by
+> "make W=3D1". Could you please recheck with W=3D1?
+>
+> The following link has some hints of handling W=3D1 warnings:
+>
+> https://github.com/intel/lkp-tests/wiki/LKP-FAQ#how-is-one-meant-to-ac=
+t-on-w1-reports-like--wmissing-prototypes
+>
+> Please kindly let us know if you'd like to ignore these W=3D1 warnings,
+> and we will configure the bot for you to avoid further bothering.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401091504.PDAmleJY-lkp@intel.com/
+This warning used to be part of the W=3D1 set (as well as C=3D1
+with sparse) but is now enabled by default once my patch from
+linux-mm makes it into mainline, but there are more things going
+on here:
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/debugfs.c:11:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct cpuinfo_x86 * @@
-   arch/x86/kernel/cpu/debugfs.c:11:33: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/kernel/cpu/debugfs.c:11:33: sparse:     got struct cpuinfo_x86 *
+- the particular warning about t2_ioread64() gets flagged by lkp
+  because it was introduced when I extended the ioread family
+  to also include the 64-bit access rather than just 8/16/32 bit
+  functions. The other ones were always there but are ignored
+  by lkp.
 
-vim +11 arch/x86/kernel/cpu/debugfs.c
+- Someone who cares about alpha should just address all
+  the warnings, including the old one about 'clone3' that needs
+  to be done by someone that understands the alpha calling
+  conventions, see below for the current output in linux-next.
 
-     7	
-     8	static int cpu_debug_show(struct seq_file *m, void *p)
-     9	{
-    10		unsigned long cpu = (unsigned long)m->private;
-  > 11		struct cpuinfo_x86 *c = per_cpu_ptr(&cpu_info, cpu);
-    12	
-    13		seq_printf(m, "online:              %d\n", cpu_online(cpu));
-    14		if (!c->initialized)
-    15			return 0;
-    16	
-    17		seq_printf(m, "initial_apicid:      %x\n", c->topo.initial_apicid);
-    18		seq_printf(m, "apicid:              %x\n", c->topo.apicid);
-    19		seq_printf(m, "pkg_id:              %u\n", c->topo.pkg_id);
-    20		seq_printf(m, "die_id:              %u\n", c->topo.die_id);
-    21		seq_printf(m, "cu_id:               %u\n", c->topo.cu_id);
-    22		seq_printf(m, "core_id:             %u\n", c->topo.core_id);
-    23		seq_printf(m, "logical_pkg_id:      %u\n", c->topo.logical_pkg_id);
-    24		seq_printf(m, "logical_die_id:      %u\n", c->topo.logical_die_id);
-    25		seq_printf(m, "llc_id:              %u\n", c->topo.llc_id);
-    26		seq_printf(m, "l2c_id:              %u\n", c->topo.l2c_id);
-    27		seq_printf(m, "max_cores:           %u\n", c->x86_max_cores);
-    28		seq_printf(m, "max_die_per_pkg:     %u\n", __max_die_per_package);
-    29		seq_printf(m, "smp_num_siblings:    %u\n", smp_num_siblings);
-    30		return 0;
-    31	}
-    32	
+- part of the problem of the missing-prototypes warnings on
+  alpha is the extensive use of 'extern inline' on this
+  architecture that should be replaced with 'static inline' in
+  almost all cases (as we did on all other architectures
+  decades ago).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+    Arnd
+
+8<---
+<stdin>:1521:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+/home/arnd/arm-soc/arch/alpha/kernel/traps.c:178:1: warning: no previous=
+ prototype for 'do_entArith' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/traps.c:200:1: warning: no previous=
+ prototype for 'do_entIF' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/traps.c:341:1: warning: no previous=
+ prototype for 'do_entDbg' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/traps.c:377:1: warning: no previous=
+ prototype for 'do_entUna' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/traps.c:662:1: warning: no previous=
+ prototype for 'do_entUnaUser' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/irq.c:96:1: warning: no previous pr=
+ototype for 'handle_irq' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/irq_alpha.c:45:1: warning: no previ=
+ous prototype for 'do_entInt' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/signal.c:205:1: warning: no previou=
+s prototype for 'do_sigreturn' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/signal.c:233:1: warning: no previou=
+s prototype for 'do_rt_sigreturn' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/signal.c:523:1: warning: no previou=
+s prototype for 'do_work_pending' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/ptrace.c:322:26: warning: no previo=
+us prototype for 'syscall_trace_enter' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/ptrace.c:334:1: warning: no previou=
+s prototype for 'syscall_trace_leave' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/io.c:654:1: warning: no previous pr=
+ototype for 'scr_memcpyw' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/bugs.c:19:9: warning: no previous p=
+rototype for 'cpu_show_meltdown' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/bugs.c:28:9: warning: no previous p=
+rototype for 'cpu_show_spectre_v1' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/bugs.c:37:9: warning: no previous p=
+rototype for 'cpu_show_spectre_v2' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/pci.c:285:1: warning: no previous p=
+rototype for 'pcibios_claim_one_bus' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:457:20: warning: no =
+previous prototype for 't2_readb' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:468:21: warning: no =
+previous prototype for 't2_readw' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:483:21: warning: no =
+previous prototype for 't2_readl' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:494:21: warning: no =
+previous prototype for 't2_readq' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:507:22: warning: no =
+previous prototype for 't2_writeb' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:518:22: warning: no =
+previous prototype for 't2_writew' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:533:22: warning: no =
+previous prototype for 't2_writel' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:542:22: warning: no =
+previous prototype for 't2_writeq' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:554:31: warning: no =
+previous prototype for 't2_ioportmap' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:559:31: warning: no =
+previous prototype for 't2_ioremap' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:565:21: warning: no =
+previous prototype for 't2_is_ioaddr' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:570:21: warning: no =
+previous prototype for 't2_is_mmio' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:579:23: warning: no =
+previous prototype for 't2_ioread8' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:586:22: warning: no =
+previous prototype for 't2_iowrite8' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:579:23: warning: no =
+previous prototype for 't2_ioread16' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:586:22: warning: no =
+previous prototype for 't2_iowrite16' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:579:23: warning: no =
+previous prototype for 't2_ioread32' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:586:22: warning: no =
+previous prototype for 't2_iowrite32' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:579:23: warning: no =
+previous prototype for 't2_ioread64' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:586:22: warning: no =
+previous prototype for 't2_iowrite64' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/include/asm/core_t2.h:606:33: warning: no =
+previous prototype for 't2_iounmap' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/srmcons.c:267:1: warning: no previo=
+us prototype for 'register_srm_console' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/srmcons.c:277:1: warning: no previo=
+us prototype for 'unregister_srm_console' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/console.c:39:1: warning: no previou=
+s prototype for 'locate_and_init_vga' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/console.c:72:1: warning: no previou=
+s prototype for 'find_console_vga_hose' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/core_cia.c:284:1: warning: no previ=
+ous prototype for 'cia_pci_tbi_try2' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/core_cia.c:580:1: warning: no previ=
+ous prototype for 'cia_save_srm_settings' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/core_cia.c:606:1: warning: no previ=
+ous prototype for 'cia_restore_srm_settings' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/sys_nautilus.c:82:1: warning: no pr=
+evious prototype for 'nautilus_kill_arch' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/sys_nautilus.c:131:1: warning: no p=
+revious prototype for 'nautilus_machine_check' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/sys_nautilus.c:201:1: warning: no p=
+revious prototype for 'nautilus_init_pci' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/smc37c669.c:2434:1: warning: no pre=
+vious prototype for 'SMC37c669_dump_registers' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/smc37c669.c:2467:13: warning: no pr=
+evious prototype for 'SMC669_Init' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/kernel/smc37c93x.c:238:12: warning: no pre=
+vious prototype for 'SMC93x_Init' [-Wmissing-prototypes]
+/home/arnd/arm-soc/arch/alpha/mm/init.c:261:1: warning: no previous prot=
+otype for 'srm_paging_stop' [-Wmissing-prototypes]
