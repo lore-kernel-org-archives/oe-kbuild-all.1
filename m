@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6988F3A1A7
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 11:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB58D3986F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Jan 2024 14:17:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gjNdpcPR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="me+qHDvi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704799275; x=1736335275;
+  t=1704809822; x=1736345822;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kL9RYEJ3I+pV8O78tEnwUL/so3ZveldwXG7i0sUvL1U=;
-  b=gjNdpcPRpNK5QuZ7SXoK1d4uMl9jGxtr8kxE+ceUJkug4AVS42a5zW89
-   t3J7eCJugBgv9wazVipjugAjbk7BkgApQ+nvO94vqUe+mGkV40UhwfAbh
-   aG4vX2j3UcMl95dqcRrHysda1kHzFu2bhm+M6x1uF18ngcNZkP1HeDSLz
-   W5igI8Fuv07wGMrLNjEwZ44EqfHav9kwga7piebCmbsZXxCY0LrpiiAMb
-   0h5r/Ha0fF+riOJaMiLRhl0m2VYkc/UNY9KFuafqUs2NuAoNkTxSafQgG
-   2FLjPplsYxiI/twKityNnF1rRiLWSlI2FzjFBjFj7HkFJi/rKb0hebqE6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="429352066"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="429352066"
+  bh=dMfsjjQLQz+MnxTGuMYc96Xmer/aSXSrqNz0HjYB4iQ=;
+  b=me+qHDvi6ynhART2z31QcRu/5TTU0SpAE2ZjG3gQseh+FdTMAetGptFO
+   02Xg0NSh/qeeMeUdahKQ6sGMVwiwSyAmeCx/3sigsh6h9A0QSm4zZ/N7K
+   E8mQahSsYw+b0YiHz6jAVibrkyObrJGH0Hjl+cZJRcZYw/YSbAMAmqOda
+   u3Nb09LADLh8ixzQmY6f9HPcTd2I3xbjDIZcT65xOarrVLuNWH6VsMeJU
+   0ic8l951Hz/wGxw9lRbYHTWX3PViGE9KdskY5a5IlpddfF210P+K9WdCO
+   aQfJ1fbSStNqX3jyYDxLwNYqZi1uKbjYh3qLrydZXQFTfG0c48BQuSNMo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="388648712"
+X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; 
+   d="scan'208";a="388648712"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 03:21:14 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 06:17:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="757952423"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="757952423"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="758002156"
+X-IronPort-AV: E=Sophos;i="6.04,183,1695711600"; 
+   d="scan'208";a="758002156"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 09 Jan 2024 03:21:12 -0800
+  by orsmga006.jf.intel.com with ESMTP; 09 Jan 2024 06:17:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNAAQ-0005mM-0I;
-	Tue, 09 Jan 2024 11:21:10 +0000
-Date: Tue, 9 Jan 2024 19:21:00 +0800
+	id 1rNCtf-0005vK-2k;
+	Tue, 09 Jan 2024 14:16:29 +0000
+Date: Tue, 9 Jan 2024 22:16:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [arm:aarch64/hotplug-vcpu/v6.7 22/42] drivers/acpi/scan.c:2387:15:
- error: use of undeclared identifier 'ACPI_PROCESSOR_DEVICE_HID'; did you
- mean 'ACPI_RECONFIG_DEVICE_ADD'?
-Message-ID: <202401091952.kpNcMQyp-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Subject: include/trace/events/nilfs2.h:191:1: sparse: sparse: cast to
+ restricted blk_opf_t
+Message-ID: <202401092241.I4mm9OWl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,51 +52,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git aarch64/hotplug-vcpu/v6.7
-head:   8fc7aed65dda1d73bd1423f9b82029b354ce027d
-commit: 65e760d9bf772f49ab4398c1a529816d030d4c11 [22/42] ACPI: Only enumerate enabled (or functional) processor devices
-config: x86_64-randconfig-161-20240109 (https://download.01.org/0day-ci/archive/20240109/202401091952.kpNcMQyp-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401091952.kpNcMQyp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9f8413c4a66f2fb776d3dc3c9ed20bf435eb305e
+commit: ed4512590bd5839f8ea9eef1626b0f4db626b1d1 fs/nilfs2: Use the enum req_op and blk_opf_t types
+date:   1 year, 6 months ago
+config: x86_64-randconfig-121-20240107 (https://download.01.org/0day-ci/archive/20240109/202401092241.I4mm9OWl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401092241.I4mm9OWl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401091952.kpNcMQyp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401092241.I4mm9OWl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/nilfs2/segment.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/nilfs2.h):
+>> include/trace/events/nilfs2.h:191:1: sparse: sparse: cast to restricted blk_opf_t
+>> include/trace/events/nilfs2.h:191:1: sparse: sparse: cast to restricted blk_opf_t
+>> include/trace/events/nilfs2.h:191:1: sparse: sparse: restricted blk_opf_t degrades to integer
+>> include/trace/events/nilfs2.h:191:1: sparse: sparse: restricted blk_opf_t degrades to integer
 
->> drivers/acpi/scan.c:2387:15: error: use of undeclared identifier 'ACPI_PROCESSOR_DEVICE_HID'; did you mean 'ACPI_RECONFIG_DEVICE_ADD'?
-    2387 |                     !strcmp(ACPI_PROCESSOR_DEVICE_HID, hwid->id))
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                             ACPI_RECONFIG_DEVICE_ADD
-   include/linux/acpi.h:720:2: note: 'ACPI_RECONFIG_DEVICE_ADD' declared here
-     720 |         ACPI_RECONFIG_DEVICE_ADD = 0,
-         |         ^
-   1 error generated.
+vim +191 include/trace/events/nilfs2.h
 
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  190  
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06 @191  TRACE_EVENT(nilfs2_mdt_submit_block,
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  192  	    TP_PROTO(struct inode *inode,
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  193  		     unsigned long ino,
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  194  		     unsigned long blkoff,
+ed4512590bd5839 Bart Van Assche 2022-07-14  195  		     enum req_op mode),
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  196  
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  197  	    TP_ARGS(inode, ino, blkoff, mode),
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  198  
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  199  	    TP_STRUCT__entry(
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  200  		    __field(struct inode *, inode)
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  201  		    __field(unsigned long, ino)
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  202  		    __field(unsigned long, blkoff)
+ed4512590bd5839 Bart Van Assche 2022-07-14  203  		    __field(enum req_op, mode)
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  204  	    ),
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  205  
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  206  	    TP_fast_assign(
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  207  		    __entry->inode = inode;
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  208  		    __entry->ino = ino;
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  209  		    __entry->blkoff = blkoff;
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  210  		    __entry->mode = mode;
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  211  		    ),
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  212  
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  213  	    TP_printk("inode = %p ino = %lu blkoff = %lu mode = %x",
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  214  		      __entry->inode,
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  215  		      __entry->ino,
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  216  		      __entry->blkoff,
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  217  		      __entry->mode)
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  218  );
+a9cd207c23ca4fa Hitoshi Mitake  2015-11-06  219  
 
-vim +2387 drivers/acpi/scan.c
+:::::: The code at line 191 was first introduced by commit
+:::::: a9cd207c23ca4fa5bd5f1092e867e87542e349a3 nilfs2: add tracepoints for analyzing reading and writing metadata files
 
-  2374	
-  2375	static bool acpi_dev_is_processor(const struct acpi_device *device)
-  2376	{
-  2377		struct acpi_hardware_id *hwid;
-  2378	
-  2379		if (device->device_type == ACPI_BUS_TYPE_PROCESSOR)
-  2380			return true;
-  2381	
-  2382		if (device->device_type != ACPI_BUS_TYPE_DEVICE)
-  2383			return false;
-  2384	
-  2385		list_for_each_entry(hwid, &device->pnp.ids, list)
-  2386			if (!strcmp(ACPI_PROCESSOR_OBJECT_HID, hwid->id) ||
-> 2387			    !strcmp(ACPI_PROCESSOR_DEVICE_HID, hwid->id))
-  2388				return true;
-  2389	
-  2390		return false;
-  2391	}
-  2392	
+:::::: TO: Hitoshi Mitake <mitake.hitoshi@lab.ntt.co.jp>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
