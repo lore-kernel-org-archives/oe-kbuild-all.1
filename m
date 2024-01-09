@@ -1,47 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5430156479
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Jan 2024 23:47:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD306375;
+	Tue,  9 Jan 2024 00:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c3czVehr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UB6dsE4M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704757644; x=1736293644;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dm7tPeEQCLzNSjz+oTFrpyMlFIImYg8aGgaIbyOr9Lg=;
-  b=c3czVehrF2CK2Q/NLw0ze75WUD4Hxekc0dLnfHUl8fRGlH9hPGWGWDTw
-   sIeFc8tHLbQBriOK3qGghTZ4PchWBNkFvpDkOn88eqKEgVB30IRQRL3jN
-   jXkB2uZrALU4gNYr/rGhfumXrwdG5nbQCZOPJ4a2Y5XlXyYLD7lpmbCpn
-   s4cdMJ/LdcXwcOX5tvAAyKSRfBoZQUuIkZJOAFaFrPyLtBZsHGr7kJ3wa
-   WXAQ6icm7teNqQtAzOGBWPkWWOsaiBBu11n9GTPh5eypU/yt7FUFBPC+y
-   KRkTKtbXZ+qVCNU2KCchaqrXnCDC/n//3XedGpS3/Xux48e5bnRjFUJiL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="11520965"
+  t=1704760166; x=1736296166;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ICS0Q1nES6wmFGgjB/iavarHm9pD/C1AFIAVIA7DcCg=;
+  b=UB6dsE4MWliEPB2d3l/bJQRQrzVICOxbEcBw80umsOR0+aGFAY3I9KsJ
+   xOWgzkgb2y/p80qCJksXJGCL7/t6od9UWGdQ7i9FiSEJ8oW5AaELx+eQx
+   p3Nht/gtJ+wHVN18LQmsGHSTT3ffOj9ecE5w09iSPa75n9rtL4gqoJVLX
+   919xhEv81R084j3N01pToEkoIQaOX4/Pz1biCWrRheyIM3R/MRokFaCDk
+   TM7IZ58FNpmwNmBv88An2zPeVvluYTrIlJReYcrECY9vK1NdXkSFI2qEX
+   FKMCi1ZCKwbX/poePiDJQWBGq0LfO7dOED6QBsDpk5DPS9uOUqaisRlsw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="396911418"
 X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="11520965"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 15:47:21 -0800
+   d="scan'208";a="396911418"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 16:29:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="785014922"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="900547474"
 X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="785014922"
+   d="scan'208";a="900547474"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Jan 2024 15:47:19 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 08 Jan 2024 16:29:19 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rMzKu-0005EQ-1k;
-	Mon, 08 Jan 2024 23:47:16 +0000
-Date: Tue, 9 Jan 2024 07:46:58 +0800
+	id 1rMzzZ-0005G6-28;
+	Tue, 09 Jan 2024 00:29:17 +0000
+Date: Tue, 9 Jan 2024 08:28:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: wenxu <wenxu@ucloud.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Pablo Neira Ayuso <pablo@netfilter.org>
-Subject: net/netfilter/nf_flow_table_offload.c:88:25: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202401090754.reS6Tzuj-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, ardb@kernel.org,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	bhelgaas@google.com, arnd@arndb.de, zohar@linux.ibm.com,
+	dmitry.kasatkin@gmail.com, paul@paul-moore.com, jmorris@namei.org,
+	serge@hallyn.com, javierm@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arch@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 2/4] arch/x86: Move internal setup_data structures
+ into setup_data.h
+Message-ID: <202401090800.UOBEKB3W-lkp@intel.com>
+References: <20240108095903.8427-3-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,145 +61,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240108095903.8427-3-tzimmermann@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5db8752c3b81bd33a549f6f812bab81e3bb61b20
-commit: 3e1b0c168f6c8648f217c78ed6a4135af8c9d830 netfilter: flowtable: add vlan match offload support
-date:   2 years, 9 months ago
-config: i386-randconfig-r132-20240106 (https://download.01.org/0day-ci/archive/20240109/202401090754.reS6Tzuj-lkp@intel.com/config)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on efi/next tip/master tip/auto-latest linus/master v6.7 next-20240108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/arch-x86-Move-UAPI-setup-structures-into-setup_data-h/20240108-180158
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20240108095903.8427-3-tzimmermann%40suse.de
+patch subject: [PATCH v4 2/4] arch/x86: Move internal setup_data structures into setup_data.h
+config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240109/202401090800.UOBEKB3W-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401090754.reS6Tzuj-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401090800.UOBEKB3W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401090754.reS6Tzuj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401090800.UOBEKB3W-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/netfilter/nf_flow_table_offload.c:46:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] keyid @@     got unsigned int @@
-   net/netfilter/nf_flow_table_offload.c:46:32: sparse:     expected restricted __be32 [usertype] keyid
-   net/netfilter/nf_flow_table_offload.c:46:32: sparse:     got unsigned int
-   net/netfilter/nf_flow_table_offload.c:56:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] src @@     got unsigned int @@
-   net/netfilter/nf_flow_table_offload.c:56:44: sparse:     expected restricted __be32 [usertype] src
-   net/netfilter/nf_flow_table_offload.c:56:44: sparse:     got unsigned int
-   net/netfilter/nf_flow_table_offload.c:58:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] dst @@     got unsigned int @@
-   net/netfilter/nf_flow_table_offload.c:58:44: sparse:     expected restricted __be32 [usertype] dst
-   net/netfilter/nf_flow_table_offload.c:58:44: sparse:     got unsigned int
->> net/netfilter/nf_flow_table_offload.c:88:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] vlan_tpid @@     got int @@
-   net/netfilter/nf_flow_table_offload.c:88:25: sparse:     expected restricted __be16 [usertype] vlan_tpid
-   net/netfilter/nf_flow_table_offload.c:88:25: sparse:     got int
-   net/netfilter/nf_flow_table_offload.c:147:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] src @@     got unsigned int @@
-   net/netfilter/nf_flow_table_offload.c:147:32: sparse:     expected restricted __be32 [usertype] src
-   net/netfilter/nf_flow_table_offload.c:147:32: sparse:     got unsigned int
-   net/netfilter/nf_flow_table_offload.c:149:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] dst @@     got unsigned int @@
-   net/netfilter/nf_flow_table_offload.c:149:32: sparse:     expected restricted __be32 [usertype] dst
-   net/netfilter/nf_flow_table_offload.c:149:32: sparse:     got unsigned int
-   net/netfilter/nf_flow_table_offload.c:164:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] n_proto @@     got int @@
-   net/netfilter/nf_flow_table_offload.c:164:29: sparse:     expected restricted __be16 [usertype] n_proto
-   net/netfilter/nf_flow_table_offload.c:164:29: sparse:     got int
-   net/netfilter/nf_flow_table_offload.c:182:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] src @@     got int @@
-   net/netfilter/nf_flow_table_offload.c:182:22: sparse:     expected restricted __be16 [usertype] src
-   net/netfilter/nf_flow_table_offload.c:182:22: sparse:     got int
-   net/netfilter/nf_flow_table_offload.c:184:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] dst @@     got int @@
-   net/netfilter/nf_flow_table_offload.c:184:22: sparse:     expected restricted __be16 [usertype] dst
-   net/netfilter/nf_flow_table_offload.c:184:22: sparse:     got int
-   net/netfilter/nf_flow_table_offload.c:247:30: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 const [usertype] *value @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:247:30: sparse:     expected restricted __be32 const [usertype] *value
-   net/netfilter/nf_flow_table_offload.c:247:30: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:247:36: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:247:36: sparse:     expected restricted __be32 const [usertype] *mask
-   net/netfilter/nf_flow_table_offload.c:247:36: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:252:30: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 const [usertype] *value @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:252:30: sparse:     expected restricted __be32 const [usertype] *value
-   net/netfilter/nf_flow_table_offload.c:252:30: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:252:36: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:252:36: sparse:     expected restricted __be32 const [usertype] *mask
-   net/netfilter/nf_flow_table_offload.c:252:36: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:306:30: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 const [usertype] *value @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:306:30: sparse:     expected restricted __be32 const [usertype] *value
-   net/netfilter/nf_flow_table_offload.c:306:30: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:306:36: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:306:36: sparse:     expected restricted __be32 const [usertype] *mask
-   net/netfilter/nf_flow_table_offload.c:306:36: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:312:30: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 const [usertype] *value @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:312:30: sparse:     expected restricted __be32 const [usertype] *value
-   net/netfilter/nf_flow_table_offload.c:312:30: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:312:36: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:312:36: sparse:     expected restricted __be32 const [usertype] *mask
-   net/netfilter/nf_flow_table_offload.c:312:36: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:323:20: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] mask @@     got restricted __be32 @@
-   net/netfilter/nf_flow_table_offload.c:323:20: sparse:     expected unsigned int [usertype] mask
-   net/netfilter/nf_flow_table_offload.c:323:20: sparse:     got restricted __be32
-   net/netfilter/nf_flow_table_offload.c:341:37: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:341:37: sparse:     expected restricted __be32 const [usertype] *mask
-   net/netfilter/nf_flow_table_offload.c:341:37: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:350:20: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] mask @@     got restricted __be32 @@
-   net/netfilter/nf_flow_table_offload.c:350:20: sparse:     expected unsigned int [usertype] mask
-   net/netfilter/nf_flow_table_offload.c:350:20: sparse:     got restricted __be32
-   net/netfilter/nf_flow_table_offload.c:368:37: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:368:37: sparse:     expected restricted __be32 const [usertype] *mask
-   net/netfilter/nf_flow_table_offload.c:368:37: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:390:20: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] mask @@     got restricted __be32 @@
-   net/netfilter/nf_flow_table_offload.c:390:20: sparse:     expected unsigned int [usertype] mask
-   net/netfilter/nf_flow_table_offload.c:390:20: sparse:     got restricted __be32
-   net/netfilter/nf_flow_table_offload.c:407:60: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:407:60: sparse:     expected restricted __be32 const [usertype] *mask
-   net/netfilter/nf_flow_table_offload.c:407:60: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:415:20: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] mask @@     got restricted __be32 @@
-   net/netfilter/nf_flow_table_offload.c:415:20: sparse:     expected unsigned int [usertype] mask
-   net/netfilter/nf_flow_table_offload.c:415:20: sparse:     got restricted __be32
-   net/netfilter/nf_flow_table_offload.c:432:60: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:432:60: sparse:     expected restricted __be32 const [usertype] *mask
-   net/netfilter/nf_flow_table_offload.c:432:60: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:467:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] port @@     got restricted __be32 [usertype] @@
-   net/netfilter/nf_flow_table_offload.c:467:22: sparse:     expected unsigned int [assigned] [usertype] port
-   net/netfilter/nf_flow_table_offload.c:467:22: sparse:     got restricted __be32 [usertype]
-   net/netfilter/nf_flow_table_offload.c:468:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] mask @@     got restricted __be32 @@
-   net/netfilter/nf_flow_table_offload.c:468:22: sparse:     expected unsigned int [usertype] mask
-   net/netfilter/nf_flow_table_offload.c:468:22: sparse:     got restricted __be32
-   net/netfilter/nf_flow_table_offload.c:473:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] port @@     got restricted __be32 [usertype] @@
-   net/netfilter/nf_flow_table_offload.c:473:22: sparse:     expected unsigned int [assigned] [usertype] port
-   net/netfilter/nf_flow_table_offload.c:473:22: sparse:     got restricted __be32 [usertype]
-   net/netfilter/nf_flow_table_offload.c:474:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] mask @@     got restricted __be32 @@
-   net/netfilter/nf_flow_table_offload.c:474:22: sparse:     expected unsigned int [usertype] mask
-   net/netfilter/nf_flow_table_offload.c:474:22: sparse:     got restricted __be32
-   net/netfilter/nf_flow_table_offload.c:481:30: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 const [usertype] *value @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:481:30: sparse:     expected restricted __be32 const [usertype] *value
-   net/netfilter/nf_flow_table_offload.c:481:30: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:481:37: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:481:37: sparse:     expected restricted __be32 const [usertype] *mask
-   net/netfilter/nf_flow_table_offload.c:481:37: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:497:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] port @@     got restricted __be32 [usertype] @@
-   net/netfilter/nf_flow_table_offload.c:497:22: sparse:     expected unsigned int [assigned] [usertype] port
-   net/netfilter/nf_flow_table_offload.c:497:22: sparse:     got restricted __be32 [usertype]
-   net/netfilter/nf_flow_table_offload.c:498:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] mask @@     got restricted __be32 @@
-   net/netfilter/nf_flow_table_offload.c:498:22: sparse:     expected unsigned int [usertype] mask
-   net/netfilter/nf_flow_table_offload.c:498:22: sparse:     got restricted __be32
-   net/netfilter/nf_flow_table_offload.c:503:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] port @@     got restricted __be32 [usertype] @@
-   net/netfilter/nf_flow_table_offload.c:503:22: sparse:     expected unsigned int [assigned] [usertype] port
-   net/netfilter/nf_flow_table_offload.c:503:22: sparse:     got restricted __be32 [usertype]
-   net/netfilter/nf_flow_table_offload.c:504:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] mask @@     got restricted __be32 @@
-   net/netfilter/nf_flow_table_offload.c:504:22: sparse:     expected unsigned int [usertype] mask
-   net/netfilter/nf_flow_table_offload.c:504:22: sparse:     got restricted __be32
-   net/netfilter/nf_flow_table_offload.c:511:30: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 const [usertype] *value @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:511:30: sparse:     expected restricted __be32 const [usertype] *value
-   net/netfilter/nf_flow_table_offload.c:511:30: sparse:     got unsigned int *
-   net/netfilter/nf_flow_table_offload.c:511:37: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __be32 const [usertype] *mask @@     got unsigned int * @@
-   net/netfilter/nf_flow_table_offload.c:511:37: sparse:     expected restricted __be32 const [usertype] *mask
+All warnings (new ones prefixed by >>):
 
-vim +88 net/netfilter/nf_flow_table_offload.c
+   In file included from arch/x86/realmode/rm/wakemain.c:3:
+   In file included from arch/x86/boot/boot.h:24:
+   In file included from arch/x86/include/asm/setup.h:10:
+   In file included from arch/x86/include/asm/page_types.h:7:
+   In file included from include/linux/mem_encrypt.h:17:
+   In file included from arch/x86/include/asm/mem_encrypt.h:18:
+   In file included from arch/x86/include/uapi/asm/bootparam.h:5:
+>> arch/x86/include/asm/setup_data.h:10:20: warning: field 'data' with variable sized type 'struct setup_data' not at the end of a struct or class is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
+      10 |         struct setup_data data;
+         |                           ^
+   1 warning generated.
 
-    80	
-    81	static void nf_flow_rule_vlan_match(struct flow_dissector_key_vlan *key,
-    82					    struct flow_dissector_key_vlan *mask,
-    83					    u16 vlan_id, __be16 proto)
-    84	{
-    85		key->vlan_id = vlan_id;
-    86		mask->vlan_id = VLAN_VID_MASK;
-    87		key->vlan_tpid = proto;
-  > 88		mask->vlan_tpid = 0xffff;
-    89	}
-    90	
+
+vim +10 arch/x86/include/asm/setup_data.h
+
+     8	
+     9	struct pci_setup_rom {
+  > 10		struct setup_data data;
+    11		uint16_t vendor;
+    12		uint16_t devid;
+    13		uint64_t pcilen;
+    14		unsigned long segment;
+    15		unsigned long bus;
+    16		unsigned long device;
+    17		unsigned long function;
+    18		uint8_t romdata[];
+    19	};
+    20	
 
 -- 
 0-DAY CI Kernel Test Service
