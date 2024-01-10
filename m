@@ -1,43 +1,46 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C8EBE5E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 10:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D0F39AE1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 10:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="lhRgrwMp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=W01nSssrELUPcU+e8tchaiZBCa287E2OsmbyHyZ83fw=; b=lhRgrwMpHx0Re+Zku5IbxHpv1U
-	uCCstboGwuEHKM6W1TXYJ/+t2zOsatzcFqLO/g26lxx8hYSokwY1JK54jZBHI60Kou8kto+Ibxam8
-	CC8mGltou8d6M0lUoJeji1i8Vsy0x6/PnVUBctidZvHOjqwcRWJD9r5xyECCw9NFYK96Uu+rfRil3
-	8IinptCkn86QCYopchSf4FO8N2ILbDpWuMwV4u0uYXUCz6y6tkIWZnOH2hbWlXgX2Cd5z97z/bBZp
-	HyQwPIfhxoTsAsZ1dGGsD2gJeL/HHrWmvk5N5SlhKFTE88okAO6CmMbGTF2YYCQGLdC5mYCFG4CJC
-	vBU5qjMw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:45132)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rNVRK-00057I-1M;
-	Wed, 10 Jan 2024 10:04:02 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rNVRK-0005Cc-SR; Wed, 10 Jan 2024 10:04:02 +0000
-Date: Wed, 10 Jan 2024 10:04:02 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: kernel test robot <lkp@intel.com>
-Cc: Jiawen Wu <jiawenwu@trustnetic.com>, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 12033/13011]
- drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:193:undefined reference to
- `phylink_ethtool_nway_reset'
-Message-ID: <ZZ5rkvvTs3BVGxtc@shell.armlinux.org.uk>
-References: <202401101414.8GvBGMXw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+k041fr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704881146; x=1736417146;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9vUWHdhX1zqeXe01/O8RlckpFZg3DnJ4T4JpTrBB08M=;
+  b=Y+k041fr1ghBtkWS3Ks5JZKvAlM2c+fb5JUg8EZVzX6Q+oQGxnYKzi6z
+   qn2+eKdjGxFI920BZ/CoiibZPfTCBKCFo9e6IOvDlQQaVZpWmA6/wt83D
+   WYKlmD2Yr3a/IQwcO/HBJtZ8m2YTHlUwr1DDyopFlWM8lnGxwlK3G2So5
+   Er2anE+uGNWbg0hs0nz2iLoeqeN+2b6lPx01RJeNF030hJMsRcx+UEStD
+   agAMHn1HNt4Z/dEHsrK0+80MRE1T8OHI/YCBp2iqq9SUB71LRqf/luAWq
+   zJKG/SO7nlfajsmct/zc1cTIm2R7CxQCinkMoNf8TEEDDURB20NzljWJ4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5244579"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="5244579"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 02:05:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="1029103734"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="1029103734"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 10 Jan 2024 02:05:44 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNVSR-0006ra-2O;
+	Wed, 10 Jan 2024 10:05:18 +0000
+Date: Wed, 10 Jan 2024 18:04:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:lukas-v3.2 18/35] lib/dynamic_debug.c:621:7: warning: no
+ previous prototype for 'skip_spaces_and_comma'
+Message-ID: <202401101740.n2bKWp02-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,20 +49,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202401101414.8GvBGMXw-lkp@intel.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Wed, Jan 10, 2024 at 02:09:24PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   0f067394dd3b2af3263339cf7183bdb6ee0ac1f8
-> commit: e8e138cf7383cf820419fcbec63992e75a01467b [12033/13011] net: libwx: add phylink to libwx
-> config: parisc-randconfig-r002-20221104 (https://download.01.org/0day-ci/archive/20240110/202401101414.8GvBGMXw-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401101414.8GvBGMXw-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git lukas-v3.2
+head:   c438921c4424913334b3622bf725bddc3db724e8
+commit: 0c25952b3398e024b22ba55879ba074ca617865c [18/35] dyndbg: treat comma as a token separator
+config: arm-aspeed_g5_defconfig (https://download.01.org/0day-ci/archive/20240110/202401101740.n2bKWp02-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401101740.n2bKWp02-lkp@intel.com/reproduce)
 
-Isn't there already a patch to add the required "select PHYLINK" for
-this?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401101740.n2bKWp02-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> lib/dynamic_debug.c:621:7: warning: no previous prototype for 'skip_spaces_and_comma' [-Wmissing-prototypes]
+     621 | char *skip_spaces_and_comma(const char *str)
+         |       ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/skip_spaces_and_comma +621 lib/dynamic_debug.c
+
+   620	
+ > 621	char *skip_spaces_and_comma(const char *str)
+   622	{
+   623		str = skip_spaces(str);
+   624		if (*str == ',')
+   625			str = skip_spaces(++str);
+   626		return (char *)str;
+   627	}
+   628	
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
