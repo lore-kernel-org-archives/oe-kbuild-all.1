@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB0C4BAAF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 15:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE8E3D60
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 15:51:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gekXx8vm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/+1q4h0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704900029; x=1736436029;
+  t=1704901870; x=1736437870;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lQ/ZO05JKhqEc5vjnrLQer1AElQsxEs7z3SXJDvKIso=;
-  b=gekXx8vm/9Maii0btW69z255HF0+zo8m81ti1+v0s78ueENivOlYSUGk
-   qaKKi6jGJmmDTGYSVal2MsHspiaTts4wAQeFas65rfkYq+AE4CeQDJJWh
-   eRoeEuL/S+9t/ZUgxkaNHIZ9HsLLzpXM5HB540+bxiXBGhVce7ZRghELG
-   +hvDggyNQx8VnHQPMMVxjkCy1AeYZ+H1bsthy7x4K4l0a4qFm/5HNU4ze
-   4JIMfPkWDb5lPhdrKVXTbPw2Jsc2SbEp0wV2iEP0+4e8SwNqD2L4bMaon
-   pqsz+2ObKjG3vi6ufhp8fewlSk38i7ekHrfuMTqm/kMkE2EUim6cDgk2x
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="388988354"
+  bh=vodH0CGAPrFjEV7X4fri+DZaZejqoO8INGxDuHelKyM=;
+  b=k/+1q4h05u+hox8TSJBES5KBKDeI/gwtx651zdcYCnMQkAUQQ9XzevzK
+   Fy6vOmIsbPbA9De01oblXVJxYdUUwOiSdDcjuJfZOONhhYQbxVNq4Ylr5
+   Yyu+BgItVCAB74SUL/qoDMUpu+e5x/VzlxJcaneBug4rezq6vI+JyIX+W
+   E7LGIV2mjy+QBgm3EZ5GdcXoEvGWzobnmkBWGXEy2/9+dmgwkDp4Rfq9h
+   soCLTTZW1hozU52LaE+CkRlBs6PzCIxyfZLT7n22aCI5KyT0zE4LYoQMa
+   RSkkWgt7EkoDbnxMif1nZyC3P024G4QvknweJ8gBTSh8V1NosvF+5W6rZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="5928685"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="388988354"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 07:20:07 -0800
+   d="scan'208";a="5928685"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 07:51:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="816384211"
+X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="731889642"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="816384211"
+   d="scan'208";a="731889642"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 10 Jan 2024 07:20:06 -0800
+  by orsmga003.jf.intel.com with ESMTP; 10 Jan 2024 07:51:07 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNaNA-0007Bg-04;
-	Wed, 10 Jan 2024 15:20:04 +0000
-Date: Wed, 10 Jan 2024 23:19:05 +0800
+	id 1rNarB-0007D4-05;
+	Wed, 10 Jan 2024 15:51:05 +0000
+Date: Wed, 10 Jan 2024 23:50:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: kernel/context_tracking.c:126:39: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202401102323.bG3shpgi-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1844/2334] mm/oom_kill.c:316: warning: Function
+ parameter or member 'task' not described in 'oom_next_task'
+Message-ID: <202401102337.KTGM5fx0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,81 +50,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ab27740f76654ed58dd32ac0ba0031c18a6dea3b
-commit: 481461f5109919babbb393d6f68002936b8e2493 linux/export.h: make <linux/export.h> independent of CONFIG_MODULES
-date:   6 months ago
-config: nios2-randconfig-r021-20230504 (https://download.01.org/0day-ci/archive/20240110/202401102323.bG3shpgi-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20240110/202401102323.bG3shpgi-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c780cd23389087490b4199975c7e16cb696da852
+commit: be8d95530886b0aaa5a59b5c43a285667c9eebc6 [1844/2334] memcg: support priority for oom
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240110/202401102337.KTGM5fx0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401102337.KTGM5fx0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401102323.bG3shpgi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401102337.KTGM5fx0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/context_tracking.c:126:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct context_tracking * @@
-   kernel/context_tracking.c:126:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/context_tracking.c:126:39: sparse:     got struct context_tracking *
-   kernel/context_tracking.c:165:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct context_tracking * @@
-   kernel/context_tracking.c:165:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/context_tracking.c:165:39: sparse:     got struct context_tracking *
-   kernel/context_tracking.c:206:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct context_tracking * @@
-   kernel/context_tracking.c:206:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/context_tracking.c:206:39: sparse:     got struct context_tracking *
-   kernel/context_tracking.c:261:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct context_tracking * @@
-   kernel/context_tracking.c:261:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/context_tracking.c:261:39: sparse:     got struct context_tracking *
+All warnings (new ones prefixed by >>):
 
-vim +126 kernel/context_tracking.c
+>> mm/oom_kill.c:316: warning: Function parameter or member 'task' not described in 'oom_next_task'
+>> mm/oom_kill.c:316: warning: Function parameter or member 'oc' not described in 'oom_next_task'
+>> mm/oom_kill.c:316: warning: Function parameter or member 'points' not described in 'oom_next_task'
+>> mm/oom_kill.c:316: warning: expecting prototype for We choose the task in low(). Prototype was for oom_next_task() instead
 
-172114552701b8 Frederic Weisbecker 2022-06-08  115  
-172114552701b8 Frederic Weisbecker 2022-06-08  116  /*
-172114552701b8 Frederic Weisbecker 2022-06-08  117   * Enter an RCU extended quiescent state, which can be either the
-172114552701b8 Frederic Weisbecker 2022-06-08  118   * idle loop or adaptive-tickless usermode execution.
-172114552701b8 Frederic Weisbecker 2022-06-08  119   *
-172114552701b8 Frederic Weisbecker 2022-06-08  120   * We crowbar the ->dynticks_nmi_nesting field to zero to allow for
-172114552701b8 Frederic Weisbecker 2022-06-08  121   * the possibility of usermode upcalls having messed up our count
-172114552701b8 Frederic Weisbecker 2022-06-08  122   * of interrupt nesting level during the prior busy period.
-172114552701b8 Frederic Weisbecker 2022-06-08  123   */
-171476775d32a4 Frederic Weisbecker 2022-06-08  124  static void noinstr ct_kernel_exit(bool user, int offset)
-172114552701b8 Frederic Weisbecker 2022-06-08  125  {
-172114552701b8 Frederic Weisbecker 2022-06-08 @126  	struct context_tracking *ct = this_cpu_ptr(&context_tracking);
-172114552701b8 Frederic Weisbecker 2022-06-08  127  
-172114552701b8 Frederic Weisbecker 2022-06-08  128  	WARN_ON_ONCE(ct_dynticks_nmi_nesting() != DYNTICK_IRQ_NONIDLE);
-172114552701b8 Frederic Weisbecker 2022-06-08  129  	WRITE_ONCE(ct->dynticks_nmi_nesting, 0);
-172114552701b8 Frederic Weisbecker 2022-06-08  130  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) &&
-172114552701b8 Frederic Weisbecker 2022-06-08  131  		     ct_dynticks_nesting() == 0);
-172114552701b8 Frederic Weisbecker 2022-06-08  132  	if (ct_dynticks_nesting() != 1) {
-172114552701b8 Frederic Weisbecker 2022-06-08  133  		// RCU will still be watching, so just do accounting and leave.
-172114552701b8 Frederic Weisbecker 2022-06-08  134  		ct->dynticks_nesting--;
-172114552701b8 Frederic Weisbecker 2022-06-08  135  		return;
-172114552701b8 Frederic Weisbecker 2022-06-08  136  	}
-172114552701b8 Frederic Weisbecker 2022-06-08  137  
-172114552701b8 Frederic Weisbecker 2022-06-08  138  	instrumentation_begin();
-172114552701b8 Frederic Weisbecker 2022-06-08  139  	lockdep_assert_irqs_disabled();
-172114552701b8 Frederic Weisbecker 2022-06-08  140  	trace_rcu_dyntick(TPS("Start"), ct_dynticks_nesting(), 0, ct_dynticks());
-172114552701b8 Frederic Weisbecker 2022-06-08  141  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && !user && !is_idle_task(current));
-172114552701b8 Frederic Weisbecker 2022-06-08  142  	rcu_preempt_deferred_qs(current);
-172114552701b8 Frederic Weisbecker 2022-06-08  143  
-171476775d32a4 Frederic Weisbecker 2022-06-08  144  	// instrumentation for the noinstr ct_kernel_exit_state()
-171476775d32a4 Frederic Weisbecker 2022-06-08  145  	instrument_atomic_write(&ct->state, sizeof(ct->state));
-172114552701b8 Frederic Weisbecker 2022-06-08  146  
-172114552701b8 Frederic Weisbecker 2022-06-08  147  	instrumentation_end();
-172114552701b8 Frederic Weisbecker 2022-06-08  148  	WRITE_ONCE(ct->dynticks_nesting, 0); /* Avoid irq-access tearing. */
-172114552701b8 Frederic Weisbecker 2022-06-08  149  	// RCU is watching here ...
-171476775d32a4 Frederic Weisbecker 2022-06-08  150  	ct_kernel_exit_state(offset);
-172114552701b8 Frederic Weisbecker 2022-06-08  151  	// ... but is no longer watching here.
-172114552701b8 Frederic Weisbecker 2022-06-08  152  	rcu_dynticks_task_enter();
-172114552701b8 Frederic Weisbecker 2022-06-08  153  }
-172114552701b8 Frederic Weisbecker 2022-06-08  154  
 
-:::::: The code at line 126 was first introduced by commit
-:::::: 172114552701b85d5c3b1a089a73ee85d0d7786b rcu/context-tracking: Move RCU-dynticks internal functions to context_tracking
+vim +316 mm/oom_kill.c
 
-:::::: TO: Frederic Weisbecker <frederic@kernel.org>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
+   308	
+   309	#ifdef CONFIG_MEMCG_OOM_PRIORITY
+   310	/**
+   311	 * We choose the task in low-priority memcg firstly. For the same state, we
+   312	 * choose the task with the highest number of 'points'.
+   313	 */
+   314	static bool oom_next_task(struct task_struct *task, struct oom_control *oc,
+   315				long points)
+ > 316	{
+   317		struct mem_cgroup *cur_memcg;
+   318		struct mem_cgroup *oc_memcg;
+   319		int cur_memcg_prio, oc_memcg_prio;
+   320	
+   321		if (points == LONG_MIN)
+   322			return true;
+   323	
+   324		if (!oc->chosen)
+   325			return false;
+   326	
+   327		rcu_read_lock();
+   328		oc_memcg = mem_cgroup_from_task(oc->chosen);
+   329		cur_memcg = mem_cgroup_from_task(task);
+   330		oc_memcg_prio = READ_ONCE(oc_memcg->oom_prio);
+   331		cur_memcg_prio = READ_ONCE(cur_memcg->oom_prio);
+   332		rcu_read_unlock();
+   333	
+   334		if (cur_memcg_prio == oc_memcg_prio)
+   335			return points < oc->chosen_points;
+   336	
+   337		/* if oc is low-priority, so skip the task */
+   338		if (oc_memcg_prio == MEMCG_LOW_OOM_PRIORITY)
+   339			return true;
+   340	
+   341		return false;
+   342	}
+   343	#else
+   344	static inline bool oom_next_task(struct task_struct *task,
+   345					struct oom_control *oc, long points)
+   346	{
+   347		return points == LONG_MIN || points < oc->chosen_points;
+   348	}
+   349	#endif
+   350	
 
 -- 
 0-DAY CI Kernel Test Service
