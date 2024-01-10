@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02F647A48
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 17:21:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E2C4E1A1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 17:54:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pd59UjXX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fyhe7WXQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704907273; x=1736443273;
+  t=1704909257; x=1736445257;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S5q6qQ/mVRtd8Lp2GoraYID8cvUn0ZdcxB0bf44ien8=;
-  b=Pd59UjXXgFqHw6LiSE1zAm6lzvZd3QisuK7bA/gW4az7/u4e9m7VkTJo
-   3Fd4ZSyBKoBWHILwX3PwJi6oTnWiF/cm5BVkVjwUQxgS/HDYVqg0hu0Tb
-   P1GbWiDnd9pxtBEO77AVLnjXdN58kHazoklLsHZKc/VxiramPJcrnzEAa
-   9rXLe71Q/VWFENvMCxj16XI9r6MRObNEBLpLvwzQxbze1ndtzLSDj9Yd8
-   BZ29VwSSlA4D9d+9J3fBiVCtJgQYJIzao/OOmSX0WWXFrXuR8e85jBzv6
-   r05uOiTH0at21Gf5LJ0yXkCnL4Puty2TQBpBGqw8DnFaK6TYyiPciSiXM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="397445483"
+  bh=gtvsdoAJOoObIN3HaFddrGHg0dn7/+7yx2T6oMJotJ8=;
+  b=fyhe7WXQntTQk4F0k2IxfHnXNNA7NhJCFVayiM3BHpA9etXun9BnDYb3
+   A7g50rzoWQCYKK/+yoEL1ExAZzWK9ogZJLncMI/GL1xG1LdPvFLNrG6Bm
+   tlNYs+HHbnqF8Fby5GukOxUvZF7ffyd5xzPxssSpyVfkGidnJQ75yZjgr
+   3/fO1LuDFWw0D4ZBSEh2to1CUuQYsyiGON2VYrXnOdjNVN+2NiNQWFfUK
+   ebMaPCE4KsrlgK0GGs6039hXMJrr34+8UeUAb3SLRZWPCxxYGBJxS9EfY
+   B/GhaQr5kwn9TJOE7orMH6AbUWjIIc9TevwTKRVDVITmbqe98/rQBh2u9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="20087894"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="397445483"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 09:21:12 -0800
+   d="scan'208";a="20087894"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 09:54:14 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="901222722"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="24024173"
+   d="scan'208";a="901222722"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 10 Jan 2024 09:21:11 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 10 Jan 2024 09:54:12 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNcGK-0007K4-2U;
-	Wed, 10 Jan 2024 17:21:08 +0000
-Date: Thu, 11 Jan 2024 01:20:18 +0800
+	id 1rNcmH-0007Lu-2x;
+	Wed, 10 Jan 2024 17:54:09 +0000
+Date: Thu, 11 Jan 2024 01:53:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: include/trace/stages/init.h:2:23: warning:
- 'str__irq_vectors__trace_system_name' defined but not used
-Message-ID: <202401110124.FXHxWlN9-lkp@intel.com>
+To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: drivers/iio/adc/axp20x_adc.c:572:26: sparse: sparse: dubious: x & !y
+Message-ID: <202401110159.j4qEZUPp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,51 +52,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Steven,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ab27740f76654ed58dd32ac0ba0031c18a6dea3b
-commit: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-date:   1 year, 10 months ago
-config: i386-buildonly-randconfig-003-20240106 (https://download.01.org/0day-ci/archive/20240111/202401110124.FXHxWlN9-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401110124.FXHxWlN9-lkp@intel.com/reproduce)
+commit: 8957e5344353e9cd3f6b1e3004942e35449fa0e8 iio: adc: axp20x_adc: Minor code cleanups
+date:   10 months ago
+config: csky-buildonly-randconfig-r006-20230413 (https://download.01.org/0day-ci/archive/20240111/202401110159.j4qEZUPp-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240111/202401110159.j4qEZUPp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401110124.FXHxWlN9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401110159.j4qEZUPp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/axp20x_adc.c:572:26: sparse: sparse: dubious: x & !y
+   drivers/iio/adc/axp20x_adc.c:577:26: sparse: sparse: dubious: x & !y
+   drivers/iio/adc/axp20x_adc.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/irq.h, ...):
+   include/linux/page-flags.h:246:46: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from arch/x86/include/asm/trace/irq_vectors.h:383,
-                    from arch/x86/kernel/irq.c:27:
->> include/trace/stages/init.h:2:23: warning: 'str__irq_vectors__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:20: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |  static const char TRACE_SYSTEM_STRING[] = \
-         |                    ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
+vim +572 drivers/iio/adc/axp20x_adc.c
 
-
-vim +/str__irq_vectors__trace_system_name +2 include/trace/stages/init.h
-
-   > 2	#define __app__(x, y) str__##x##y
-     3	#define __app(x, y) __app__(x, y)
-     4	
+   551	
+   552	static int axp20x_write_raw(struct iio_dev *indio_dev,
+   553				    struct iio_chan_spec const *chan, int val, int val2,
+   554				    long mask)
+   555	{
+   556		struct axp20x_adc_iio *info = iio_priv(indio_dev);
+   557		unsigned int regmask, regval;
+   558	
+   559		/*
+   560		 * The AXP20X PMIC allows the user to choose between 0V and 0.7V offsets
+   561		 * for (independently) GPIO0 and GPIO1 when in ADC mode.
+   562		 */
+   563		if (mask != IIO_CHAN_INFO_OFFSET)
+   564			return -EINVAL;
+   565	
+   566		if (val != 0 && val != 700000)
+   567			return -EINVAL;
+   568	
+   569		switch (chan->channel) {
+   570		case AXP20X_GPIO0_V:
+   571			regmask = AXP20X_GPIO10_IN_RANGE_GPIO0;
+ > 572			regval = FIELD_PREP(AXP20X_GPIO10_IN_RANGE_GPIO0, !!val);
+   573			break;
+   574	
+   575		case AXP20X_GPIO1_V:
+   576			regmask = AXP20X_GPIO10_IN_RANGE_GPIO1;
+   577			regval = FIELD_PREP(AXP20X_GPIO10_IN_RANGE_GPIO1, !!val);
+   578			break;
+   579	
+   580		default:
+   581			return -EINVAL;
+   582		}
+   583	
+   584		return regmap_update_bits(info->regmap, AXP20X_GPIO10_IN_RANGE, regmask, regval);
+   585	}
+   586	
 
 -- 
 0-DAY CI Kernel Test Service
