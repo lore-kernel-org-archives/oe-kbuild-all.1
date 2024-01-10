@@ -1,47 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686BE5381
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 04:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7E1D512;
+	Wed, 10 Jan 2024 04:37:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4wa+ljt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WtpAnYUu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704859874; x=1736395874;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a4Vr+jfopSrLnTGFZKeJgu1FCfviqGKx3Wvs6dsCBw8=;
-  b=U4wa+ljt2oLh5lxjx0OIOByG+xpybvybvlL87ukgNm+9lUmVSRCIW3IB
-   oBNo3pL2Qrt8T2GkVRp3jSZOKEffvSpXLDDS9J0za4o55Lx3pOUh/cbbt
-   Kp0PTyPB4Y4dtb9Y7gSh9jvWS5j1kEMy5Zn0WqNbIXIFrnhYIYCf7aEYc
-   VJf7cGPFSX7lkQKta+/L4f8YguhfqUy8FHiIUlmfamyWgN/xY+759TEt+
-   gK0z+ATlrTksfH+P4aLwKnHqRvB0mOTv3l6wmORcx+8x/htlYWFlCvCHN
-   /SbRxAJKlhR8jb3EA+G7Wc9eKBrA1fUFhtLaat866JKbISfnqGdj8tQJs
+  t=1704861447; x=1736397447;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dMN2k2IxkPv3stiLNe2/1XzpPBynojvgQm4Rwd7yxRY=;
+  b=WtpAnYUuCocSj4+OmwwxMypcyv3D9zW9tZhTmrAOgcQYrnrhS+7C5IpO
+   2TfQofjX+3NddIozyst363IMDe7GJt88qnTQWpWgm1s5+eqEiYhHr/kmg
+   FIP10/k9aFPuKoRiO8Vqvio7/t8jThThvDYehdCnaByNg9VerK3MYm61K
+   weB9WPZYrdzS+8r/CXJtYJ1AwRX5L0r4av2ifG72NXTc+tQtpFkmSbOgo
+   5a+Ispsv+1TQHFyYDLOyaoARno2zYEpBcYYpBKMTAcDyZhzsF2zzXJ8g4
+   zj8cMX1PofYhGPQR5aCM1HkICIy9LMGgF+ZIGyqaUaJb5DHNBXPznxEev
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="395560777"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="388846607"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="395560777"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 20:11:13 -0800
+   d="scan'208";a="388846607"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 20:37:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="905387054"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="955241614"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="905387054"
+   d="scan'208";a="955241614"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 09 Jan 2024 20:10:56 -0800
+  by orsmga005.jf.intel.com with ESMTP; 09 Jan 2024 20:37:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNPva-0006Zq-0N;
-	Wed, 10 Jan 2024 04:10:54 +0000
-Date: Wed, 10 Jan 2024 12:10:45 +0800
+	id 1rNQL8-0006b0-31;
+	Wed, 10 Jan 2024 04:37:18 +0000
+Date: Wed, 10 Jan 2024 12:36:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [iwlwifi-next:egrumbac_fixes_6.5_core80 56/59]
- drivers/net/wireless/ath/ath6kl/cfg80211.c:1122:9: error: too many arguments
- to function 'cfg80211_ch_switch_notify'
-Message-ID: <202401101203.h3LidZmU-lkp@intel.com>
+To: Philipp Stanner <pstanner@redhat.com>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	NXP Linux Team <linux-imx@nxp.com>, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Philipp Stanner <pstanner@redhat.com>
+Subject: Re: [PATCH v2 1/2] drm/dcss: request memory region
+Message-ID: <202401101201.yVs3iqFU-lkp@intel.com>
+References: <20240109102032.16165-2-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,92 +63,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240109102032.16165-2-pstanner@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git egrumbac_fixes_6.5_core80
-head:   260daff72d49b63c085ace273ce18843b70cc526
-commit: 6b3dc9d6464edf77fa4da952e1101ce6aaa244f0 [56/59] CFG80211
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240110/202401101203.h3LidZmU-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401101203.h3LidZmU-lkp@intel.com/reproduce)
+Hi Philipp,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.7]
+[also build test ERROR on linus/master next-20240109]
+[cannot apply to drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/drm-dcss-request-memory-region/20240109-182239
+base:   v6.7
+patch link:    https://lore.kernel.org/r/20240109102032.16165-2-pstanner%40redhat.com
+patch subject: [PATCH v2 1/2] drm/dcss: request memory region
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240110/202401101201.yVs3iqFU-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 7e186d366d6c7def0543acc255931f617e76dff0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401101201.yVs3iqFU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401101203.h3LidZmU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401101201.yVs3iqFU-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/ath/ath6kl/cfg80211.c: In function 'ath6kl_cfg80211_ch_switch_notify':
->> drivers/net/wireless/ath/ath6kl/cfg80211.c:1122:9: error: too many arguments to function 'cfg80211_ch_switch_notify'
-    1122 |         cfg80211_ch_switch_notify(vif->ndev, &chandef, 0, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/wireless/ath/ath6kl/core.h:26,
-                    from drivers/net/wireless/ath/ath6kl/cfg80211.c:25:
-   include/net/cfg80211.h:8422:6: note: declared here
-    8422 | void cfg80211_ch_switch_notify(struct net_device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c: In function 'mwifiex_11n_dispatch_amsdu_pkt':
->> drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c:35:17: error: too many arguments to function 'ieee80211_amsdu_to_8023s'
-      35 |                 ieee80211_amsdu_to_8023s(skb, &list, priv->curr_addr,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/wireless/marvell/mwifiex/decl.h:18,
-                    from drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c:8:
-   include/net/cfg80211.h:6309:6: note: declared here
-    6309 | void ieee80211_amsdu_to_8023s(struct sk_buff *skb, struct sk_buff_head *list,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/net/wireless/marvell/mwifiex/11h.c: In function 'mwifiex_dfs_chan_sw_work_queue':
->> drivers/net/wireless/marvell/mwifiex/11h.c:291:9: error: too many arguments to function 'cfg80211_ch_switch_notify'
-     291 |         cfg80211_ch_switch_notify(priv->netdev, &priv->dfs_chandef, 0, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/wireless/marvell/mwifiex/decl.h:18,
-                    from drivers/net/wireless/marvell/mwifiex/main.h:43,
-                    from drivers/net/wireless/marvell/mwifiex/11h.c:8:
-   include/net/cfg80211.h:8422:6: note: declared here
-    8422 | void cfg80211_ch_switch_notify(struct net_device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/net/wireless/virtual/mac80211_hwsim.c: In function 'mac80211_hwsim_send_pmsr_request_peer':
->> drivers/net/wireless/virtual/mac80211_hwsim.c:3338:15: error: implicit declaration of function 'nl80211_send_chandef' [-Werror=implicit-function-declaration]
-    3338 |         err = nl80211_send_chandef(msg, &request->chandef);
-         |               ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
->> net/wireless/scan.c:307:25: warning: no previous prototype for 'cfg80211_gen_new_ie' [-Wmissing-prototypes]
-     307 | VISIBLE_IF_KUNIT size_t cfg80211_gen_new_ie(const u8 *ie, size_t ielen,
-         |                         ^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/imx/dcss/dcss-dev.c:188:31: error: passing 'struct device' to parameter of incompatible type 'struct device *'; take the address with &
+     188 |         if (!devm_request_mem_region(pdev->dev, res->start, res_len, "dcss")) {
+         |                                      ^~~~~~~~~
+         |                                      &
+   include/linux/ioport.h:306:24: note: expanded from macro 'devm_request_mem_region'
+     306 |         __devm_request_region(dev, &iomem_resource, (start), (n), (name))
+         |                               ^~~
+   include/linux/ioport.h:308:63: note: passing argument to parameter 'dev' here
+     308 | extern struct resource * __devm_request_region(struct device *dev,
+         |                                                               ^
+   1 error generated.
 
 
-vim +/cfg80211_ch_switch_notify +1122 drivers/net/wireless/ath/ath6kl/cfg80211.c
+vim +188 drivers/gpu/drm/imx/dcss/dcss-dev.c
 
-bdcd81707973cf Kalle Valo         2011-07-18  1105  
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1106  void ath6kl_cfg80211_ch_switch_notify(struct ath6kl_vif *vif, int freq,
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1107  				      enum wmi_phy_mode mode)
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1108  {
-683b6d3b31a519 Johannes Berg      2012-11-08  1109  	struct cfg80211_chan_def chandef;
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1110  
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1111  	ath6kl_dbg(ATH6KL_DBG_WLAN_CFG,
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1112  		   "channel switch notify nw_type %d freq %d mode %d\n",
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1113  		   vif->nw_type, freq, mode);
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1114  
-3d9d1d6656a73e Johannes Berg      2012-11-08  1115  	cfg80211_chandef_create(&chandef,
-3d9d1d6656a73e Johannes Berg      2012-11-08  1116  				ieee80211_get_channel(vif->ar->wiphy, freq),
-f3651bae564497 Pierre Le Magourou 2016-07-18  1117  				(mode == WMI_11G_HT20 &&
-f3651bae564497 Pierre Le Magourou 2016-07-18  1118  				 ath6kl_band_2ghz.ht_cap.ht_supported) ?
-3d9d1d6656a73e Johannes Berg      2012-11-08  1119  					NL80211_CHAN_HT20 : NL80211_CHAN_NO_HT);
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1120  
-e487eaeb076a44 Simon Wunderlich   2013-11-21  1121  	mutex_lock(&vif->wdev.mtx);
-b345f0637c0042 Aloka Dixit        2023-01-30 @1122  	cfg80211_ch_switch_notify(vif->ndev, &chandef, 0, 0);
-e487eaeb076a44 Simon Wunderlich   2013-11-21  1123  	mutex_unlock(&vif->wdev.mtx);
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1124  }
-c4f7863eae6f58 Thomas Pedersen    2012-04-06  1125  
-
-:::::: The code at line 1122 was first introduced by commit
-:::::: b345f0637c0042f9e6b78378a32256d90f485774 wifi: cfg80211: include puncturing bitmap in channel switch events
-
-:::::: TO: Aloka Dixit <quic_alokad@quicinc.com>
-:::::: CC: Johannes Berg <johannes.berg@intel.com>
+   165	
+   166	struct dcss_dev *dcss_dev_create(struct device *dev, bool hdmi_output)
+   167	{
+   168		struct platform_device *pdev = to_platform_device(dev);
+   169		int ret;
+   170		struct resource *res;
+   171		struct dcss_dev *dcss;
+   172		const struct dcss_type_data *devtype;
+   173		resource_size_t res_len;
+   174	
+   175		devtype = of_device_get_match_data(dev);
+   176		if (!devtype) {
+   177			dev_err(dev, "no device match found\n");
+   178			return ERR_PTR(-ENODEV);
+   179		}
+   180	
+   181		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   182		if (!res) {
+   183			dev_err(dev, "cannot get memory resource\n");
+   184			return ERR_PTR(-EINVAL);
+   185		}
+   186	
+   187		res_len = res->end - res->start;
+ > 188		if (!devm_request_mem_region(pdev->dev, res->start, res_len, "dcss")) {
+   189			dev_err(dev, "cannot request memory region\n");
+   190			return ERR_PTR(-EBUSY);
+   191		}
+   192	
+   193		dcss = kzalloc(sizeof(*dcss), GFP_KERNEL);
+   194		if (!dcss)
+   195			return ERR_PTR(-ENOMEM);
+   196	
+   197		dcss->dev = dev;
+   198		dcss->devtype = devtype;
+   199		dcss->hdmi_output = hdmi_output;
+   200	
+   201		ret = dcss_clks_init(dcss);
+   202		if (ret) {
+   203			dev_err(dev, "clocks initialization failed\n");
+   204			goto err;
+   205		}
+   206	
+   207		dcss->of_port = of_graph_get_port_by_id(dev->of_node, 0);
+   208		if (!dcss->of_port) {
+   209			dev_err(dev, "no port@0 node in %pOF\n", dev->of_node);
+   210			ret = -ENODEV;
+   211			goto clks_err;
+   212		}
+   213	
+   214		dcss->start_addr = res->start;
+   215	
+   216		ret = dcss_submodules_init(dcss);
+   217		if (ret) {
+   218			of_node_put(dcss->of_port);
+   219			dev_err(dev, "submodules initialization failed\n");
+   220			goto clks_err;
+   221		}
+   222	
+   223		init_completion(&dcss->disable_completion);
+   224	
+   225		pm_runtime_set_autosuspend_delay(dev, 100);
+   226		pm_runtime_use_autosuspend(dev);
+   227		pm_runtime_set_suspended(dev);
+   228		pm_runtime_allow(dev);
+   229		pm_runtime_enable(dev);
+   230	
+   231		return dcss;
+   232	
+   233	clks_err:
+   234		dcss_clks_release(dcss);
+   235	
+   236	err:
+   237		kfree(dcss);
+   238	
+   239		return ERR_PTR(ret);
+   240	}
+   241	
 
 -- 
 0-DAY CI Kernel Test Service
