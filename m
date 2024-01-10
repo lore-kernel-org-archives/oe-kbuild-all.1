@@ -1,81 +1,49 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619784A34;
-	Wed, 10 Jan 2024 02:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4F12117;
+	Wed, 10 Jan 2024 03:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eaUBz3w+";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="49iOJqPx";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eaUBz3w+";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="49iOJqPx"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 22D0E221AC;
-	Wed, 10 Jan 2024 02:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1704854591;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VlOLXaLHsvBHWrXcO9mQTBfes0KgQuEY5TMFdGN05uE=;
-	b=eaUBz3w++O+GAjx7bmqiAFB4iYpgPTmG2ozstOmZk+M1VTSZ5fGCUcXIEge5elUEeBtAop
-	O2J27HQD7eYqBy6u5lL32V3rhC52l3sOxnVgvquEs4QyqAXm0grj0rwEY+musviHaQpWNj
-	fcXdn30z53LoS7rXq7ULGpXjBjznUKo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1704854591;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VlOLXaLHsvBHWrXcO9mQTBfes0KgQuEY5TMFdGN05uE=;
-	b=49iOJqPx0OLO2o8J58p5N7Fvftm70JjTiDNE6IwxrHUGdx6eH9FRyplYYeK1/SDEN6yrlR
-	37vrorziHQZ/1ZCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1704854591;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VlOLXaLHsvBHWrXcO9mQTBfes0KgQuEY5TMFdGN05uE=;
-	b=eaUBz3w++O+GAjx7bmqiAFB4iYpgPTmG2ozstOmZk+M1VTSZ5fGCUcXIEge5elUEeBtAop
-	O2J27HQD7eYqBy6u5lL32V3rhC52l3sOxnVgvquEs4QyqAXm0grj0rwEY+musviHaQpWNj
-	fcXdn30z53LoS7rXq7ULGpXjBjznUKo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1704854591;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VlOLXaLHsvBHWrXcO9mQTBfes0KgQuEY5TMFdGN05uE=;
-	b=49iOJqPx0OLO2o8J58p5N7Fvftm70JjTiDNE6IwxrHUGdx6eH9FRyplYYeK1/SDEN6yrlR
-	37vrorziHQZ/1ZCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F376A13786;
-	Wed, 10 Jan 2024 02:43:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Fcs+Oz4EnmUeJQAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Wed, 10 Jan 2024 02:43:10 +0000
-Date: Wed, 10 Jan 2024 03:42:56 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Qu Wenruo <wqu@suse.com>
-Cc: dsterba@suse.cz, kernel test robot <lkp@intel.com>,
-	linux-btrfs@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/3] btrfs: zlib: fix and simplify the inline extent
- decompression
-Message-ID: <20240110024256.GR28693@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-References: <29b7793e53e1cdd559ad212ee69cec211a3b4db2.1704704328.git.wqu@suse.com>
- <202401091012.pLm6PcKG-lkp@intel.com>
- <20240110015800.GP28693@twin.jikos.cz>
- <e3c5ace5-4266-4a6a-9836-f58f5fff66fe@suse.com>
- <20240110022643.GQ28693@twin.jikos.cz>
- <3fdafc03-91e6-4c36-9d10-417c07222d0b@suse.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XV6ANEau"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704855982; x=1736391982;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZewTevJw56ig0XC0uD4jZoysKT9xWByRTaoA4LMz9rg=;
+  b=XV6ANEauco2YgQqr8zfOx1jHeM/5aOyxpybhu79Roo4a/aTm17UVJ1Au
+   5M7ubTxQEGwkmHftCPNtTcPQTp/fKAPfVG9yD3aJ1VJTcrNKuRNzWfKqN
+   JvOSqKc9NKNBhJbnDvOn0b78/UfuooysYutJm3MViwi4gU35RrqEUj1BH
+   R4saLu4+tPeW5fqb7pINYQQmLliGogb9MjCL4AdW9j5LNrTySQOeu0/rX
+   F6ertpUTa7Gxk3RMQ6sATum6AmpYUfLIwjc/Ea4QkXbfhuD+muzibHcRz
+   vXF34w2N3pbrFaKQbgljOLMTGpT0+14MrwJibQ8uwhHGe/DBUZe+cORWt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="429579932"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="429579932"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 19:06:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="816196509"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="816196509"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 09 Jan 2024 19:06:18 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNOv2-0006WU-1J;
+	Wed, 10 Jan 2024 03:06:16 +0000
+Date: Wed, 10 Jan 2024 11:06:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Brian King <brking@linux.vnet.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	John Garry <john.g.garry@oracle.com>
+Subject: drivers/scsi/ipr.c:5430:6: warning: variable 'ioasc' set but not used
+Message-ID: <202401101004.fcxlPdWI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,104 +52,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3fdafc03-91e6-4c36-9d10-417c07222d0b@suse.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Level: **
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 22D0E221AC
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=eaUBz3w+;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=49iOJqPx
-X-Spam-Score: -4.21
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.21 / 50.00];
-	 ARC_NA(0.00)[];
-	 HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLYTO_ADDR_EQ_FROM(0.00)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.cz:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-0.977];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
 
-On Wed, Jan 10, 2024 at 01:04:06PM +1030, Qu Wenruo wrote:
-> >>>>
-> >>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> >>>> the same patch/commit), kindly add following tags
-> >>>> | Reported-by: kernel test robot <lkp@intel.com>
-> >>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202401091012.pLm6PcKG-lkp@intel.com/
-> >>>>
-> >>>> All warnings (new ones prefixed by >>):
-> >>>>
-> >>>>>> fs/btrfs/zlib.c:402:15: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-> >>>>        401 |                 pr_warn_ratelimited("BTRFS: infalte failed, decompressed=%lu expected=%lu\n",
-> >>>>            |                                                                                       ~~~
-> >>>>            |                                                                                       %zu
-> >>>>        402 |                                         to_copy, destlen);
-> >>>>            |                                                  ^~~~~~~
-> >>>
-> >>> Valid report but I can't reproduce it. Built with clang 17 and
-> >>> explicitly enabled -Wformat. We have additional warnings enabled per
-> >>> directory fs/btrfs/ so we can add -Wformat, I'd like to know what I'm
-> >>> missing, we've had fixups for the size_t printk format so it would make
-> >>> sense to catch it early.
-> >>
-> >> I guess it's due to the platform? (The report is from 32bit system).
-> > 
-> > Ah I see, I build on 64bit platform but should the Wformat warning also
-> > point out mismatch there? The size_t type is an alias of unsigned long
-> > so it is not an error but when size_t and %zu don't match could be a
-> > platform-independent error, no? This would save us reports and followup
-> > fixups roundtrips.
-> 
-> size_t is defined differently, in include/uapi/asm-generic/posix_types.h:
-> 
-> /*
->   * Most 32 bit architectures use "unsigned int" size_t,
->   * and all 64 bit architectures use "unsigned long" size_t.
->   */
-> #ifndef __kernel_size_t
-> #if __BITS_PER_LONG != 64
-> typedef unsigned int    __kernel_size_t;
-> typedef int             __kernel_ssize_t;
-> typedef int             __kernel_ptrdiff_t;
-> #else
-> typedef __kernel_ulong_t __kernel_size_t;
-> typedef __kernel_long_t __kernel_ssize_t;
-> typedef __kernel_long_t __kernel_ptrdiff_t;
-> #endif
-> #endif
-> 
-> Thus this is the reason why we need @zu for size_t to handle the 
-> difference, and since for 64bit it's just unsigned long, thus compiler 
-> won't give any warning.
+Hi Brian,
 
-So it's the int/long difference and kernel does it in a special way due
-to absence of the standard libc headers.
+FYI, the error/warning still remains.
 
-> (That's also why I tend to not use size_t at all, and why I like rust's 
-> explicit sized type, and we may want to go that path to prefer 
-> u8/u16/u32/u64 when possible)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ab27740f76654ed58dd32ac0ba0031c18a6dea3b
+commit: 65a15d6560dff065339f6cac91de4beded60fe3f scsi: ipr: Remove SATA support
+date:   9 months ago
+config: i386-buildonly-randconfig-002-20240107 (https://download.01.org/0day-ci/archive/20240110/202401101004.fcxlPdWI-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401101004.fcxlPdWI-lkp@intel.com/reproduce)
 
-Yeah, from what I've seen so far is that size_t brings us only problems,
-I would not mind conversions to explicit types like u32 or u64. We do
-that in many places, I think it's namely on the interface boundaries
-where we provide a callback with a size_t type, but from that down it
-could be u64.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401101004.fcxlPdWI-lkp@intel.com/
 
-Quick grep for size_t returns 300+ lines and 100+ of that is ssize_t,
-that's still a lot so the conversions should be targeted.
+All warnings (new ones prefixed by >>):
+
+   drivers/scsi/ipr.c:1104:15: warning: variable 'proto' set but not used [-Wunused-but-set-variable]
+    1104 |         unsigned int proto;
+         |                      ^
+   drivers/scsi/ipr.c:1261:15: warning: variable 'proto' set but not used [-Wunused-but-set-variable]
+    1261 |         unsigned int proto;
+         |                      ^
+   drivers/scsi/ipr.c:4417:29: warning: variable 'res' set but not used [-Wunused-but-set-variable]
+    4417 |         struct ipr_resource_entry *res;
+         |                                    ^
+>> drivers/scsi/ipr.c:5430:6: warning: variable 'ioasc' set but not used [-Wunused-but-set-variable]
+    5430 |         u32 ioasc;
+         |             ^
+   4 warnings generated.
+
+
+vim +/ioasc +5430 drivers/scsi/ipr.c
+
+3feeb89d40cc0ab Wayne Boyer                 2009-10-20  5426  
+b53d124a154d002 wenxiong@linux.vnet.ibm.com 2013-01-11  5427  static int ipr_process_hrrq(struct ipr_hrr_queue *hrr_queue, int budget,
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5428  						struct list_head *doneq)
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5429  {
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11 @5430  	u32 ioasc;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5431  	u16 cmd_index;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5432  	struct ipr_cmnd *ipr_cmd;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5433  	struct ipr_ioa_cfg *ioa_cfg = hrr_queue->ioa_cfg;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5434  	int num_hrrq = 0;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5435  
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5436  	/* If interrupts are disabled, ignore the interrupt */
+56d6aa33d3f6847 wenxiong@linux.vnet.ibm.com 2013-01-11  5437  	if (!hrr_queue->allow_interrupts)
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5438  		return 0;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5439  
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5440  	while ((be32_to_cpu(*hrr_queue->hrrq_curr) & IPR_HRRQ_TOGGLE_BIT) ==
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5441  	       hrr_queue->toggle_bit) {
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5442  
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5443  		cmd_index = (be32_to_cpu(*hrr_queue->hrrq_curr) &
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5444  			     IPR_HRRQ_REQ_RESP_HANDLE_MASK) >>
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5445  			     IPR_HRRQ_REQ_RESP_HANDLE_SHIFT;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5446  
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5447  		if (unlikely(cmd_index > hrr_queue->max_cmd_id ||
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5448  			     cmd_index < hrr_queue->min_cmd_id)) {
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5449  			ipr_isr_eh(ioa_cfg,
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5450  				"Invalid response handle from IOA: ",
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5451  				cmd_index);
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5452  			break;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5453  		}
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5454  
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5455  		ipr_cmd = ioa_cfg->ipr_cmnd_list[cmd_index];
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5456  		ioasc = be32_to_cpu(ipr_cmd->s.ioasa.hdr.ioasc);
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5457  
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5458  		ipr_trc_hook(ipr_cmd, IPR_TRACE_FINISH, ioasc);
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5459  
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5460  		list_move_tail(&ipr_cmd->queue, doneq);
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5461  
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5462  		if (hrr_queue->hrrq_curr < hrr_queue->hrrq_end) {
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5463  			hrr_queue->hrrq_curr++;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5464  		} else {
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5465  			hrr_queue->hrrq_curr = hrr_queue->hrrq_start;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5466  			hrr_queue->toggle_bit ^= 1u;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5467  		}
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5468  		num_hrrq++;
+b53d124a154d002 wenxiong@linux.vnet.ibm.com 2013-01-11  5469  		if (budget > 0 && num_hrrq >= budget)
+b53d124a154d002 wenxiong@linux.vnet.ibm.com 2013-01-11  5470  			break;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5471  	}
+b53d124a154d002 wenxiong@linux.vnet.ibm.com 2013-01-11  5472  
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5473  	return num_hrrq;
+05a6538a9a20499 wenxiong@linux.vnet.ibm.com 2013-01-11  5474  }
+b53d124a154d002 wenxiong@linux.vnet.ibm.com 2013-01-11  5475  
+
+:::::: The code at line 5430 was first introduced by commit
+:::::: 05a6538a9a204999e0c0f7faee00b81b334f4fc7 [SCSI] ipr: Add support for MSI-X and distributed completion
+
+:::::: TO: wenxiong@linux.vnet.ibm.com <wenxiong@linux.vnet.ibm.com>
+:::::: CC: James Bottomley <JBottomley@Parallels.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
