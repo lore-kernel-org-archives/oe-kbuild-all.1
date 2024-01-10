@@ -1,133 +1,168 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D693EA6B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 06:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDC23A1B7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 06:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y+xWiSRG"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40d8902da73so36194115e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 09 Jan 2024 22:52:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704869532; x=1705474332; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L22KO18sbXj/gCvC8sLlz2ecMZMQd6S3fGWWRO4JzMA=;
-        b=Y+xWiSRGFYG1CnfIPdjnnYldpW2bKbt94ffyzZEQ0bXbMhQRCTKSHha1nsRDcmsr00
-         TxkfNL8KWf3h+EG1KpbEmTbJv6jXgtDNzxkZZtPftiqW7TIGrEGGHvLMGTTCH29L9ZaE
-         Ghcph7br40RrE2avTSKyGWr2xkhY2annIEmSl9z/ID132fzpZCfL6C/Wc8wmTwrbHNQu
-         6Cmp9yewn8GpumrfY5z9rk/BCjPdpdqSHI3sSNcte+NRzbYp0utEstBxovv24zuyIYHi
-         JHeGO7QuXi/LtpvLnuFCZEsBX7aIckh8S+2cicgpECz2WuaQokLrJ1MLZeqGy34VFdse
-         1a1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704869532; x=1705474332;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L22KO18sbXj/gCvC8sLlz2ecMZMQd6S3fGWWRO4JzMA=;
-        b=kL/ubWbpXB1ZdNv7bUxZD+08GyhtOsI3iWCqRLPP0gP6BeTf8OP1HtacVgK2ktOgMe
-         1soqv2/JjQpW8RdG0nrrTRwoXlFo8kW93g4PX8CENEW60O7isCI0fzV78YbBhb7WPa2J
-         0sVDRHslDaUEL7u9rwZ5r5+mAzdDawbwE5XU1GUyeeyhML6Zu3ngUciP4hRyoTGEfxKT
-         A3wcKoXkPeaDRccf2D1dw9LtNZFgPuW57Ih+9q562Mp+BFRYvBTuaonBd1CMLyeBrH7o
-         C1H8d8dS4jlUJTctTywL4HOIyYvKqIXqLkOh4C7ut9rWR5J3i9khd5KmCIQTgy0z9OWI
-         wqag==
-X-Gm-Message-State: AOJu0Yyj97T86TPkFv/ruP5nLeAOQwPTR5DLp5b/INJFzILISGTV8d2T
-	7GAh56krx+mkVQ7KuqDbkSwPiuoycTzMQw==
-X-Google-Smtp-Source: AGHT+IE+1zaWSCHaJZPKuO/16YTtzNTgfW73/daw9bVm6mWi+T8KTtVZU8GI8MXd7YVH6iDcybfogQ==
-X-Received: by 2002:a05:600c:b94:b0:40d:8fd1:6111 with SMTP id fl20-20020a05600c0b9400b0040d8fd16111mr256548wmb.116.1704869532327;
-        Tue, 09 Jan 2024 22:52:12 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id hn3-20020a05600ca38300b0040e4a7a7ca3sm979068wmb.43.2024.01.09.22.52.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 22:52:11 -0800 (PST)
-Date: Wed, 10 Jan 2024 09:52:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Eric Biggers <ebiggers@google.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mike Snitzer <snitzer@kernel.org>
-Subject: drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp()
- 'actual_mac' too small (64 vs 448)
-Message-ID: <8f8bcc1a-005f-4477-8440-37558c61fa30@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lfe9KIHK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704869874; x=1736405874;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=p5+kxRVllNwHnanEHBnzDQenzt4GeNGWPgemg/3dHNk=;
+  b=Lfe9KIHK0OCr1BK9p0i8kKm8nSxTr8WHPXOqj3G7TEC+mAIQdDKcpnRg
+   MAGAtYfWu2EWSeEOnxNe5wlN+s/uIwsEkKfWSIbGfcl355d6eZ2uyjrbn
+   cZW3yDnQw/xKg2eLxwXzheItSMNpzN9uAXH2hUE74rZKsYnkFW7CfyhQK
+   EHs7knBTfFmxvENLVBkd0GZA8pdqttu8Cj7KRAnJz5IZHud2FQMHTbT4j
+   U43e4qyUVLIYWYB+hr8uuKT6uhQW0qOR+yurfgAO+jIv/s3Gs7PgJxLb0
+   2U9OiSWtOhTxZtOSfwx+mp7HlvWipb5s3L6/KYKCfoCp0XDncP+DuWuPa
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="388870786"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="388870786"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 22:57:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="731758641"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="731758641"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 09 Jan 2024 22:57:52 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNSX8-0006iX-24;
+	Wed, 10 Jan 2024 06:57:50 +0000
+Date: Wed, 10 Jan 2024 14:45:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [iwlwifi-next:egrumbac_fixes_6.5 66/73]
+ drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5330:24: warning: unused
+ variable 'tb'
+Message-ID: <202401101432.tCm65K6Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f8413c4a66f2fb776d3dc3c9ed20bf435eb305e
-commit: 070bb43ab01e891db1b742d4ddd7291c7f8d7022 dm integrity: use crypto_shash_digest() in sb_mac()
-config: i386-randconfig-141-20240107 (https://download.01.org/0day-ci/archive/20240109/202401092335.ZFBXDPA1-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git egrumbac_fixes_6.5
+head:   62c3c8b5f77cbdf3d8f5cabf61afc9e8be0cfedf
+commit: 59489cb42edffc67edbce229e9ac7c33eafb2212 [66/73] TESTMODE
+config: sparc64-allyesconfig (https://download.01.org/0day-ci/archive/20240110/202401101432.tCm65K6Z-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401101432.tCm65K6Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401092335.ZFBXDPA1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401101432.tCm65K6Z-lkp@intel.com/
 
-New smatch warnings:
-drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp() 'actual_mac' too small (64 vs 448)
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/md/dm-integrity.c:3607 dm_integrity_alloc_page_list() warn: Please consider using kvcalloc instead of kvmalloc_array
-drivers/md/dm-integrity.c:3641 dm_integrity_alloc_journal_scatterlist() warn: Please consider using kvcalloc instead of kvmalloc_array
-drivers/md/dm-integrity.c:3910 create_journal() warn: Please consider using kvcalloc instead of kvmalloc_array
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5320:50: error: 'IWL_TM_ATTR_MAX' undeclared here (not in a function); did you mean 'DCB_PG_ATTR_MAX'?
+    5320 | static const struct nla_policy iwl_mvm_tm_policy[IWL_TM_ATTR_MAX + 1] = {
+         |                                                  ^~~~~~~~~~~~~~~
+         |                                                  DCB_PG_ATTR_MAX
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5321:10: error: 'IWL_TM_ATTR_CMD' undeclared here (not in a function)
+    5321 |         [IWL_TM_ATTR_CMD] = { .type = NLA_U32 },
+         |          ^~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5322:10: error: 'IWL_TM_ATTR_NOA_DURATION' undeclared here (not in a function)
+    5322 |         [IWL_TM_ATTR_NOA_DURATION] = { .type = NLA_U32 },
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5323:10: error: 'IWL_TM_ATTR_BEACON_FILTER_STATE' undeclared here (not in a function)
+    5323 |         [IWL_TM_ATTR_BEACON_FILTER_STATE] = { .type = NLA_U32 },
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c: In function '__iwl_mvm_mac_testmode_cmd':
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5343:14: error: 'IWL_TM_CMD_SET_NOA' undeclared (first use in this function)
+    5343 |         case IWL_TM_CMD_SET_NOA:
+         |              ^~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5343:14: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5362:14: error: 'IWL_TM_CMD_SET_BEACON_FILTER' undeclared (first use in this function)
+    5362 |         case IWL_TM_CMD_SET_BEACON_FILTER:
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5330:24: warning: unused variable 'tb' [-Wunused-variable]
+    5330 |         struct nlattr *tb[IWL_TM_ATTR_MAX + 1];
+         |                        ^~
+   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c: At top level:
+>> drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5320:32: warning: 'iwl_mvm_tm_policy' defined but not used [-Wunused-variable]
+    5320 | static const struct nla_policy iwl_mvm_tm_policy[IWL_TM_ATTR_MAX + 1] = {
+         |                                ^~~~~~~~~~~~~~~~~
 
-vim +/actual_mac +521 drivers/md/dm-integrity.c
 
-09d85f8d8909ec Mikulas Patocka   2021-01-21  492  static int sb_mac(struct dm_integrity_c *ic, bool wr)
-09d85f8d8909ec Mikulas Patocka   2021-01-21  493  {
-09d85f8d8909ec Mikulas Patocka   2021-01-21  494  	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  495  	int r;
-070bb43ab01e89 Eric Biggers      2023-10-28  496  	unsigned int mac_size = crypto_shash_digestsize(ic->journal_mac);
-070bb43ab01e89 Eric Biggers      2023-10-28  497  	__u8 *sb = (__u8 *)ic->sb;
-070bb43ab01e89 Eric Biggers      2023-10-28  498  	__u8 *mac = sb + (1 << SECTOR_SHIFT) - mac_size;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  499  
-070bb43ab01e89 Eric Biggers      2023-10-28  500  	if (sizeof(struct superblock) + mac_size > 1 << SECTOR_SHIFT) {
+vim +/tb +5330 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c
 
-This caps mac_size to 448.
+8ca151b568b67a drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-01-24  5318  
+93a3c02830e001 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-08  5319  #ifdef CONFIG_NL80211_TESTMODE
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07 @5320  static const struct nla_policy iwl_mvm_tm_policy[IWL_TM_ATTR_MAX + 1] = {
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5321  	[IWL_TM_ATTR_CMD] = { .type = NLA_U32 },
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5322  	[IWL_TM_ATTR_NOA_DURATION] = { .type = NLA_U32 },
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5323  	[IWL_TM_ATTR_BEACON_FILTER_STATE] = { .type = NLA_U32 },
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5324  };
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5325  
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5326  static int __iwl_mvm_mac_testmode_cmd(struct iwl_mvm *mvm,
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5327  				      struct ieee80211_vif *vif,
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5328  				      void *data, int len)
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5329  {
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07 @5330  	struct nlattr *tb[IWL_TM_ATTR_MAX + 1];
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5331  	int err;
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5332  	u32 noa_duration;
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5333  
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5334  	err = nla_parse(tb, IWL_TM_ATTR_MAX, data, len, iwl_mvm_tm_policy,
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5335  			NULL);
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5336  	if (err)
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5337  		return err;
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5338  
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5339  	if (!tb[IWL_TM_ATTR_CMD])
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5340  		return -EINVAL;
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5341  
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5342  	switch (nla_get_u32(tb[IWL_TM_ATTR_CMD])) {
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5343  	case IWL_TM_CMD_SET_NOA:
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5344  		if (!vif || vif->type != NL80211_IFTYPE_AP || !vif->p2p ||
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5345  		    !vif->bss_conf.enable_beacon ||
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5346  		    !tb[IWL_TM_ATTR_NOA_DURATION])
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5347  			return -EINVAL;
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5348  
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5349  		noa_duration = nla_get_u32(tb[IWL_TM_ATTR_NOA_DURATION]);
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5350  		if (noa_duration >= vif->bss_conf.beacon_int)
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5351  			return -EINVAL;
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5352  
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5353  		mvm->noa_duration = noa_duration;
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5354  		mvm->noa_vif = vif;
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5355  
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5356  		if (fw_has_capa(&mvm->fw->ucode_capa,
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5357  				IWL_UCODE_TLV_CAPA_DYNAMIC_QUOTA)) {
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5358  			return -EOPNOTSUPP;
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5359  		}
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5360  
+22b2104193da5e drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Shaul Triebitz    2017-11-30  5361  		return iwl_mvm_update_quotas(mvm, true, NULL);
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5362  	case IWL_TM_CMD_SET_BEACON_FILTER:
+f6c6ad42b5e8b1 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-08-01  5363  		/* must be associated client vif - ignore authorized */
+f6c6ad42b5e8b1 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-08-01  5364  		if (!vif || vif->type != NL80211_IFTYPE_STATION ||
+f276e20b182dbf drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Johannes Berg     2022-05-10  5365  		    !vif->cfg.assoc || !vif->bss_conf.dtim_period ||
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5366  		    !tb[IWL_TM_ATTR_BEACON_FILTER_STATE])
+f6c6ad42b5e8b1 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-08-01  5367  			return -EINVAL;
+f6c6ad42b5e8b1 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-08-01  5368  
+38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5369  		if (nla_get_u32(tb[IWL_TM_ATTR_BEACON_FILTER_STATE]))
+a1022927194673 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Emmanuel Grumbach 2014-05-12  5370  			return iwl_mvm_enable_beacon_filter(mvm, vif, 0);
+a1022927194673 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Emmanuel Grumbach 2014-05-12  5371  		return iwl_mvm_disable_beacon_filter(mvm, vif, 0);
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5372  	}
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5373  
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5374  	return -EOPNOTSUPP;
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5375  }
+507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5376  
 
-09d85f8d8909ec Mikulas Patocka   2021-01-21  501  		dm_integrity_io_error(ic, "digest is too long", -EINVAL);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  502  		return -EINVAL;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  503  	}
-09d85f8d8909ec Mikulas Patocka   2021-01-21  504  
-09d85f8d8909ec Mikulas Patocka   2021-01-21  505  	desc->tfm = ic->journal_mac;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  506  
-09d85f8d8909ec Mikulas Patocka   2021-01-21  507  	if (likely(wr)) {
-070bb43ab01e89 Eric Biggers      2023-10-28  508  		r = crypto_shash_digest(desc, sb, mac - sb, mac);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  509  		if (unlikely(r < 0)) {
-070bb43ab01e89 Eric Biggers      2023-10-28  510  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  511  			return r;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  512  		}
-09d85f8d8909ec Mikulas Patocka   2021-01-21  513  	} else {
-070bb43ab01e89 Eric Biggers      2023-10-28  514  		__u8 actual_mac[HASH_MAX_DIGESTSIZE];
-0ef0b4717aa684 Heinz Mauelshagen 2023-02-01  515  
-070bb43ab01e89 Eric Biggers      2023-10-28  516  		r = crypto_shash_digest(desc, sb, mac - sb, actual_mac);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  517  		if (unlikely(r < 0)) {
-070bb43ab01e89 Eric Biggers      2023-10-28  518  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  519  			return r;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  520  		}
-070bb43ab01e89 Eric Biggers      2023-10-28 @521  		if (memcmp(mac, actual_mac, mac_size)) {
+:::::: The code at line 5330 was first introduced by commit
+:::::: 38ffad1e8048085517946d1230f7e249b6c0db72 MVM_CORE80
 
-But if it's more than 64 then it's a read overflow.
-
-09d85f8d8909ec Mikulas Patocka   2021-01-21  522  			dm_integrity_io_error(ic, "superblock mac", -EILSEQ);
-82bb85998cc9a3 Michael Weiß      2021-09-04  523  			dm_audit_log_target(DM_MSG_PREFIX, "mac-superblock", ic->ti, 0);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  524  			return -EILSEQ;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  525  		}
-09d85f8d8909ec Mikulas Patocka   2021-01-21  526  	}
-09d85f8d8909ec Mikulas Patocka   2021-01-21  527  
-09d85f8d8909ec Mikulas Patocka   2021-01-21  528  	return 0;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  529  }
+:::::: TO: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+:::::: CC: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
