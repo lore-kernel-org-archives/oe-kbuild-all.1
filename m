@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E854CDF3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 17:05:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BDA4C3C8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 17:10:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eHJpqrcC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpOzDNZ+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704906311; x=1736442311;
+  t=1704906613; x=1736442613;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Atxt8C9SVTdRf6ArBwu7HmFWQJNOjxzhJTTXf01IWY=;
-  b=eHJpqrcCbwzpiNbDpcy7e/83Mtl+HaIQAL7mY9Bt0iPEU2YsNAN0OQNT
-   Ig7rBI5UwpIvQw5by4quiy2FgmyDXfSD319dGPMm5lbZJU12Vstdmn5lD
-   HVoTilt2KvG7QrmLqJOVqYKHS+p9PrLr4UARY5q8U99cHGtyVw67EsG3P
-   4ifL05u3GErHo7OeuVNeZmhNgXPd7TRyekwQVgeqOSWKcUQYvLM+e30MU
-   eSi+SvzBY3atGZO97f5llBwhP4M82VZiNivQPxM2eUg9WtdHWSJHcGYOc
-   pJQytzSYS43Q9m+83dV0OnvWSQ+BQv3eb4LSivy1tjiMLweo7VuVdAlSY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="11931992"
+  bh=mqzNbcHoqP/MctvVyDMo6fTut4hoQm0Ux5no7sG0qRg=;
+  b=cpOzDNZ+NnHOwgQB0EVokxN2DTTprS+DgPLwJAhqypFrZeJJh2891qvQ
+   HdDIO6egTGgwlJ7sE5tOyYvyEiX3yIzP1CwEJMzqjEWLmOTKR+FGcnfrI
+   Ytgd075qhFRcDFy+0Zk8r0G26wflOdSbm3OEzR4srhJSgaqv15aLd02mq
+   zYDXA7AJQbiQKRKcLLdSD5EprtcZibOdIOgAnmz2pMi5vhVpAPPGrbmC4
+   sYZM8iOP1Nb66bcCZeyzeX3A4looaDBJlLvjMEOSiJb+tcJQcfMia5Kro
+   8tj93vweXcXEzB3W4Ipbuj4kDHIvE5HbUDPoZhqUP9mbollB2pdO/+Iih
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="17175577"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="11931992"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 09:04:12 -0800
+   d="scan'208";a="17175577"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 09:10:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="758449817"
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="731904712"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="758449817"
+   d="scan'208";a="731904712"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 10 Jan 2024 09:04:09 -0800
+  by orsmga003.jf.intel.com with ESMTP; 10 Jan 2024 09:10:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNbzr-0007IZ-2M;
-	Wed, 10 Jan 2024 17:04:07 +0000
-Date: Thu, 11 Jan 2024 01:03:27 +0800
+	id 1rNc5g-0007JO-0O;
+	Wed, 10 Jan 2024 17:10:08 +0000
+Date: Thu, 11 Jan 2024 01:09:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michal Simek <monstr@monstr.eu>
-Subject: arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
-Message-ID: <202401110054.XBP4dq5D-lkp@intel.com>
+To: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [iwlwifi-next:egrumbac_fixes_6.5_core80 54/59]
+ drivers/net/wireless/intel/iwlwifi/fw/dbg.c:3166:5: warning: no previous
+ prototype for 'iwl_fw_send_timestamp_marker_cmd'
+Message-ID: <202401110101.NTNGTBiO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,155 +51,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Appana,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ab27740f76654ed58dd32ac0ba0031c18a6dea3b
-commit: 88707ebe77e23e856981e597f322cabbf6415662 microblaze: Add custom break vector handler for mb manager
-date:   1 year, 3 months ago
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240111/202401110054.XBP4dq5D-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401110054.XBP4dq5D-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git egrumbac_fixes_6.5_core80
+head:   260daff72d49b63c085ace273ce18843b70cc526
+commit: 38ffad1e8048085517946d1230f7e249b6c0db72 [54/59] MVM_CORE80
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240111/202401110101.NTNGTBiO-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401110101.NTNGTBiO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401110054.XBP4dq5D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401110101.NTNGTBiO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/microblaze/kernel/entry.S: Assembler messages:
->> arch/microblaze/kernel/entry.S:945: Error: unknown opcode "suspend"
+>> drivers/net/wireless/intel/iwlwifi/fw/dbg.c:3166:5: warning: no previous prototype for 'iwl_fw_send_timestamp_marker_cmd' [-Wmissing-prototypes]
+    3166 | int iwl_fw_send_timestamp_marker_cmd(struct iwl_fw_runtime *fwrt)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/suspend +945 arch/microblaze/kernel/entry.S
+vim +/iwl_fw_send_timestamp_marker_cmd +3166 drivers/net/wireless/intel/iwlwifi/fw/dbg.c
 
-   825	
-   826		/* restore all the tlb's */
-   827		addik	r3, r0, TOPHYS(tlb_skip)
-   828		addik	r6, r0, PT_TLBL0
-   829		addik	r7, r0, PT_TLBH0
-   830	restore_tlb:
-   831		add	r6, r6, r1
-   832		add	r7, r7, r1
-   833		lwi	r2, r6, 0
-   834		mts 	rtlblo, r2
-   835		lwi	r2, r7, 0
-   836		mts	rtlbhi, r2
-   837		addik	r6, r6, 4
-   838		addik	r7, r7, 4
-   839		bgtid	r3, restore_tlb
-   840		addik	r3, r3, -1
-   841	
-   842		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
-   843		lwi	r8, r0, TOPHYS(xmb_manager_reset_callback)
-   844		set_vms
-   845		/* return from reset need -8 to adjust for rtsd r15, 8 */
-   846		addik   r15, r0, ret_from_reset - 8
-   847		rtbd	r8, 0
-   848		nop
-   849	
-   850	ret_from_reset:
-   851		set_bip /* Ints masked for state restore */
-   852		VM_OFF
-   853		/* MS: Restore all regs */
-   854		RESTORE_REGS
-   855		lwi	r14, r1, PT_R14
-   856		lwi	r16, r1, PT_PC
-   857		addik	r1, r1, PT_SIZE + 36
-   858		rtbd	r16, 0
-   859		nop
-   860	
-   861	/*
-   862	 * Break handler for MB Manager. Enter to _xmb_manager_break by
-   863	 * injecting fault in one of the TMR Microblaze core.
-   864	 * FIXME: This break handler supports getting
-   865	 * called from kernel space only.
-   866	 */
-   867	C_ENTRY(_xmb_manager_break):
-   868		/*
-   869		 * Reserve memory in the stack for context store/restore
-   870		 * (which includes memory for storing tlbs (max two tlbs))
-   871		 */
-   872		addik	r1, r1, -PT_SIZE - 36
-   873		swi	r1, r0, xmb_manager_stackpointer
-   874		SAVE_REGS
-   875		swi	r14, r1, PT_R14	/* rewrite saved R14 value */
-   876		swi	r16, r1, PT_PC; /* PC and r16 are the same */
-   877	
-   878		lwi	r6, r0, TOPHYS(xmb_manager_baseaddr)
-   879		lwi	r7, r0, TOPHYS(xmb_manager_crval)
-   880		/*
-   881		 * When the break vector gets asserted because of error injection,
-   882		 * the break signal must be blocked before exiting from the
-   883		 * break handler, below code configures the tmr manager
-   884		 * control register to block break signal.
-   885		 */
-   886		swi	r7, r6, 0
-   887	
-   888		/* Save the special purpose registers  */
-   889		mfs	r2, rpid
-   890		swi	r2, r1, PT_PID
-   891	
-   892		mfs	r2, rtlbx
-   893		swi	r2, r1, PT_TLBI
-   894	
-   895		mfs	r2, rzpr
-   896		swi	r2, r1, PT_ZPR
-   897	
-   898	#if CONFIG_XILINX_MICROBLAZE0_USE_FPU
-   899		mfs	r2, rfsr
-   900		swi	r2, r1, PT_FSR
-   901	#endif
-   902		mfs	r2, rmsr
-   903		swi	r2, r1, PT_MSR
-   904	
-   905		/* Save all the tlb's */
-   906		addik	r3, r0, TOPHYS(tlb_skip)
-   907		addik	r6, r0, PT_TLBL0
-   908		addik	r7, r0, PT_TLBH0
-   909	save_tlb:
-   910		add	r6, r6, r1
-   911		add	r7, r7, r1
-   912		mfs	r2, rtlblo
-   913		swi	r2, r6, 0
-   914		mfs	r2, rtlbhi
-   915		swi	r2, r7, 0
-   916		addik	r6, r6, 4
-   917		addik	r7, r7, 4
-   918		bgtid	r3, save_tlb
-   919		addik	r3, r3, -1
-   920	
-   921		lwi  	r5, r0, TOPHYS(xmb_manager_dev)
-   922		lwi	r8, r0, TOPHYS(xmb_manager_callback)
-   923		/* return from break need -8 to adjust for rtsd r15, 8 */
-   924		addik   r15, r0, ret_from_break - 8
-   925		rtbd	r8, 0
-   926		nop
-   927	
-   928	ret_from_break:
-   929		/* flush the d-cache */
-   930		bralid	r15, mb_flush_dcache
-   931		nop
-   932	
-   933		/*
-   934		 * To make sure microblaze i-cache is in a proper state
-   935		 * invalidate the i-cache.
-   936		 */
-   937		bralid	r15, mb_invalidate_icache
-   938		nop
-   939	
-   940		set_bip; /* Ints masked for state restore */
-   941		VM_OFF;
-   942		mbar	1
-   943		mbar	2
-   944		bri	4
- > 945		suspend
-   946		nop
-   947	#endif
-   948	
+b721f5b1be18ae6 Shahar S Matityahu 2019-05-21  3165  
+eeef0168e325573 Miri Korenblit     2023-06-20 @3166  int iwl_fw_send_timestamp_marker_cmd(struct iwl_fw_runtime *fwrt)
+eeef0168e325573 Miri Korenblit     2023-06-20  3167  {
+eeef0168e325573 Miri Korenblit     2023-06-20  3168  	struct iwl_mvm_marker marker = {
+eeef0168e325573 Miri Korenblit     2023-06-20  3169  		.dw_len = sizeof(struct iwl_mvm_marker) / 4,
+eeef0168e325573 Miri Korenblit     2023-06-20  3170  		.marker_id = MARKER_ID_SYNC_CLOCK,
+eeef0168e325573 Miri Korenblit     2023-06-20  3171  	};
+eeef0168e325573 Miri Korenblit     2023-06-20  3172  	struct iwl_host_cmd hcmd = {
+eeef0168e325573 Miri Korenblit     2023-06-20  3173  		.flags = CMD_ASYNC,
+eeef0168e325573 Miri Korenblit     2023-06-20  3174  		.id = WIDE_ID(LONG_GROUP, MARKER_CMD),
+eeef0168e325573 Miri Korenblit     2023-06-20  3175  		.dataflags = {},
+eeef0168e325573 Miri Korenblit     2023-06-20  3176  	};
+eeef0168e325573 Miri Korenblit     2023-06-20  3177  	struct iwl_mvm_marker_rsp *resp;
+eeef0168e325573 Miri Korenblit     2023-06-20  3178  	int cmd_ver = iwl_fw_lookup_cmd_ver(fwrt->fw,
+eeef0168e325573 Miri Korenblit     2023-06-20  3179  					    WIDE_ID(LONG_GROUP, MARKER_CMD),
+eeef0168e325573 Miri Korenblit     2023-06-20  3180  					    IWL_FW_CMD_VER_UNKNOWN);
+eeef0168e325573 Miri Korenblit     2023-06-20  3181  	int ret;
+eeef0168e325573 Miri Korenblit     2023-06-20  3182  
+eeef0168e325573 Miri Korenblit     2023-06-20  3183  	if (cmd_ver == 1) {
+eeef0168e325573 Miri Korenblit     2023-06-20  3184  		/* the real timestamp is taken from the ftrace clock
+eeef0168e325573 Miri Korenblit     2023-06-20  3185  		 * this is for finding the match between fw and kernel logs
+eeef0168e325573 Miri Korenblit     2023-06-20  3186  		 */
+eeef0168e325573 Miri Korenblit     2023-06-20  3187  		marker.timestamp = cpu_to_le64(fwrt->timestamp.seq++);
+eeef0168e325573 Miri Korenblit     2023-06-20  3188  	} else if (cmd_ver == 2) {
+eeef0168e325573 Miri Korenblit     2023-06-20  3189  		marker.timestamp = cpu_to_le64(ktime_get_boottime_ns());
+eeef0168e325573 Miri Korenblit     2023-06-20  3190  	} else {
+eeef0168e325573 Miri Korenblit     2023-06-20  3191  		IWL_DEBUG_INFO(fwrt,
+eeef0168e325573 Miri Korenblit     2023-06-20  3192  			       "Invalid version of Marker CMD. Ver = %d\n",
+eeef0168e325573 Miri Korenblit     2023-06-20  3193  			       cmd_ver);
+eeef0168e325573 Miri Korenblit     2023-06-20  3194  		return -EINVAL;
+eeef0168e325573 Miri Korenblit     2023-06-20  3195  	}
+eeef0168e325573 Miri Korenblit     2023-06-20  3196  
+eeef0168e325573 Miri Korenblit     2023-06-20  3197  	hcmd.data[0] = &marker;
+eeef0168e325573 Miri Korenblit     2023-06-20  3198  	hcmd.len[0] = sizeof(marker);
+eeef0168e325573 Miri Korenblit     2023-06-20  3199  
+eeef0168e325573 Miri Korenblit     2023-06-20  3200  	ret = iwl_trans_send_cmd(fwrt->trans, &hcmd);
+eeef0168e325573 Miri Korenblit     2023-06-20  3201  
+eeef0168e325573 Miri Korenblit     2023-06-20  3202  	if (cmd_ver > 1 && hcmd.resp_pkt) {
+eeef0168e325573 Miri Korenblit     2023-06-20  3203  		resp = (void *)hcmd.resp_pkt->data;
+38ffad1e8048085 Emmanuel Grumbach  2024-01-07  3204  		IWL_DEBUG_INFO(fwrt, "FW GP2 time: %u\n", le32_to_cpu(resp->gp2));
+eeef0168e325573 Miri Korenblit     2023-06-20  3205  	}
+eeef0168e325573 Miri Korenblit     2023-06-20  3206  
+eeef0168e325573 Miri Korenblit     2023-06-20  3207  	return ret;
+eeef0168e325573 Miri Korenblit     2023-06-20  3208  }
+eeef0168e325573 Miri Korenblit     2023-06-20  3209  
+
+:::::: The code at line 3166 was first introduced by commit
+:::::: eeef0168e3255732650ee81771e0d7e26e06a534 wifi: iwlwifi: fw: send marker cmd before suspend cmd
+
+:::::: TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
