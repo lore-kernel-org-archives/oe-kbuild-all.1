@@ -1,49 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D883C0A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 01:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03361378;
+	Wed, 10 Jan 2024 01:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QQ4iFQCs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704851007; x=1736387007;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+S4XeMOOJvvyOjc3lGPn+71egzVpNFplON5Pq+gaz7k=;
-  b=QQ4iFQCsdsz8Sm+W3L8+Ncw55/mXd8rjA5dbquzKsRYiTmRH/cxllvni
-   avGVqET7B85VyIZ4NcLC9w55sIziY66aw7kHbwWmEM6GnzkBqILXqEshH
-   dvqiQVydHuX5k0TN9o9jPISCj2DyYqFlJ4Hatxb+1TH5WZu6pUpMK2UKc
-   fj5Vtl3BHD05nU3kRT76vjmWLFoBlo0K/S31Hj8sF+TgNIj8D5Im3hrwa
-   wYoCCWC5rr8Ss4cliqURzWQCmcZdWE1gW9NLMjxNsx3Dq7si2f64GJt/a
-   iJ4jNwqIm3Jo6sssvurl7403tMaTWDEjfP/hKTwKjrFrfMFJ2+ymeF+vb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5462751"
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="5462751"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 17:43:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="1113271163"
-X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="1113271163"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Jan 2024 17:43:23 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rNNcn-0006TK-1U;
-	Wed, 10 Jan 2024 01:43:21 +0000
-Date: Wed, 10 Jan 2024 09:42:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Heiko Stuebner <heiko@sntech.de>, Alex Bee <knaerzche@gmail.com>
-Subject: [drm-misc:drm-misc-next 6/21]
- drivers/gpu/drm/rockchip/inno_hdmi.c:499:22: error: implicit declaration of
- function 'drm_atomic_get_new_connector_state'; did you mean
- 'drm_atomic_helper_connector_reset'?
-Message-ID: <202401100949.ZVRr0pIa-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QEwwo7M3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ebU4slKe";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qT90n4rs";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GllvsqAA"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BDCE32219D;
+	Wed, 10 Jan 2024 01:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1704851970;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CSwDIRV4DZMIzyvFLCeYPmg0euy+erTMyxRLYBH8TCQ=;
+	b=QEwwo7M3J3ToASO/jzRmh4ktzgUBNhne74P823fd9a2tKaTyfnztsi5EeHeiNe8LEOEcll
+	nmee9fRgHV7GdUlJc5zy0qHOj34hvaPcgxoD4G532TaWg+oeGPfD6XV8Bo3X9SL3L4Xpxe
+	eJkuEgROHxtOnaMsUuHH0+Lha9kP6z8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1704851970;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CSwDIRV4DZMIzyvFLCeYPmg0euy+erTMyxRLYBH8TCQ=;
+	b=ebU4slKel5Xb3+2CPuaeDWSe8ePOIs9guxXzKMVnU8j6pdaJkXO8M8inuLuGeVwShZFWs2
+	eoVkD7ZTocBF4NDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1704851969;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CSwDIRV4DZMIzyvFLCeYPmg0euy+erTMyxRLYBH8TCQ=;
+	b=qT90n4rsVQFFN0sZezn6U6vVJVpKvhdshTsXLB9i2ID7ZFYsdB6oXVt2hQSAQKtsBFVc7q
+	KrUccxPhPwtzFFK/wS3EkuPzDWrnNB6wXdtObTPsCT8e+3G5l/QfxQMjTSMUPdZlYxyl5E
+	qHZLcwN/ImdI+K3eOv9W631v7VLQ1nc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1704851969;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CSwDIRV4DZMIzyvFLCeYPmg0euy+erTMyxRLYBH8TCQ=;
+	b=GllvsqAAIGwNxW/5c2Bn2N6il5D6rDj9CCh/36j3H+yz753+Dip84OHYIUZwvaHH0SaLiL
+	yCLfOnRFiZN2XRCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A21C313C94;
+	Wed, 10 Jan 2024 01:59:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0oFlJwH6nWWBDgAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Wed, 10 Jan 2024 01:59:29 +0000
+Date: Wed, 10 Jan 2024 02:59:11 +0100
+From: David Sterba <dsterba@suse.cz>
+To: kernel test robot <lkp@intel.com>
+Cc: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/3] btrfs: zlib: fix and simplify the inline extent
+ decompression
+Message-ID: <20240110015800.GP28693@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <29b7793e53e1cdd559ad212ee69cec211a3b4db2.1704704328.git.wqu@suse.com>
+ <202401091012.pLm6PcKG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,62 +79,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202401091012.pLm6PcKG-lkp@intel.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Level: ***
+X-Spamd-Bar: +++
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=qT90n4rs;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=GllvsqAA
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [3.29 / 50.00];
+	 ARC_NA(0.00)[];
+	 HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLYTO_ADDR_EQ_FROM(0.00)[];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_SPAM_LONG(3.50)[1.000];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,git-scm.com:url,intel.com:email,suse.cz:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[11.44%];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Score: 3.29
+X-Rspamd-Queue-Id: BDCE32219D
+X-Spam-Flag: NO
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   632ca3c92f3840d91ba7ddda0271f84813036a11
-commit: d3e040f450ec8e46ff42fa495a433b976ab47686 [6/21] drm/rockchip: inno_hdmi: Get rid of mode_set
-config: s390-randconfig-001-20240109 (https://download.01.org/0day-ci/archive/20240110/202401100949.ZVRr0pIa-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401100949.ZVRr0pIa-lkp@intel.com/reproduce)
+On Tue, Jan 09, 2024 at 11:02:54AM +0800, kernel test robot wrote:
+> Hi Qu,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on kdave/for-next]
+> [also build test WARNING on next-20240108]
+> [cannot apply to linus/master v6.7]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-zlib-fix-and-simplify-the-inline-extent-decompression/20240108-171206
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+> patch link:    https://lore.kernel.org/r/29b7793e53e1cdd559ad212ee69cec211a3b4db2.1704704328.git.wqu%40suse.com
+> patch subject: [PATCH 1/3] btrfs: zlib: fix and simplify the inline extent decompression
+> config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240109/202401091012.pLm6PcKG-lkp@intel.com/config)
+> compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401091012.pLm6PcKG-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401091012.pLm6PcKG-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> fs/btrfs/zlib.c:402:15: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+>      401 |                 pr_warn_ratelimited("BTRFS: infalte failed, decompressed=%lu expected=%lu\n",
+>          |                                                                                       ~~~
+>          |                                                                                       %zu
+>      402 |                                         to_copy, destlen);
+>          |                                                  ^~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401100949.ZVRr0pIa-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/rockchip/inno_hdmi.c: In function 'inno_hdmi_encoder_enable':
->> drivers/gpu/drm/rockchip/inno_hdmi.c:499:22: error: implicit declaration of function 'drm_atomic_get_new_connector_state'; did you mean 'drm_atomic_helper_connector_reset'? [-Werror=implicit-function-declaration]
-     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      drm_atomic_helper_connector_reset
->> drivers/gpu/drm/rockchip/inno_hdmi.c:499:20: warning: assignment to 'struct drm_connector_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     499 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-         |                    ^
->> drivers/gpu/drm/rockchip/inno_hdmi.c:503:22: error: implicit declaration of function 'drm_atomic_get_new_crtc_state'; did you mean 'drm_atomic_helper_swap_state'? [-Werror=implicit-function-declaration]
-     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      drm_atomic_helper_swap_state
->> drivers/gpu/drm/rockchip/inno_hdmi.c:503:20: warning: assignment to 'struct drm_crtc_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     503 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-         |                    ^
-   cc1: some warnings being treated as errors
-
-
-vim +499 drivers/gpu/drm/rockchip/inno_hdmi.c
-
-   491	
-   492	static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
-   493					     struct drm_atomic_state *state)
-   494	{
-   495		struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
-   496		struct drm_connector_state *conn_state;
-   497		struct drm_crtc_state *crtc_state;
-   498	
- > 499		conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-   500		if (WARN_ON(!conn_state))
-   501			return;
-   502	
- > 503		crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-   504		if (WARN_ON(!crtc_state))
-   505			return;
-   506	
-   507		inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
-   508		inno_hdmi_set_pwr_mode(hdmi, NORMAL);
-   509	}
-   510	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Valid report but I can't reproduce it. Built with clang 17 and
+explicitly enabled -Wformat. We have additional warnings enabled per
+directory fs/btrfs/ so we can add -Wformat, I'd like to know what I'm
+missing, we've had fixups for the size_t printk format so it would make
+sense to catch it early.
