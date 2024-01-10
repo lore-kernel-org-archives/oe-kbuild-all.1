@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BD0482C5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 22:04:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C526D50244
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 22:57:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2xaULDL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BVwc1vQu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704924278; x=1736460278;
+  t=1704927421; x=1736463421;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oL3/a85pkGCNLsfBwWWCmIdcOC7Ppln7nY7s1Z4Bt1M=;
-  b=B2xaULDLMMt7cd144BB87uiRzP/8GlS8CK6vPqsSV+umA59eGncYTHgg
-   AcoHOHJolaxCbMAbv0+HLK2xaOfOQiwwa/jXxYJjDmUpMfJZaRrjHefY6
-   HeKvumMu5UHQJFFvvvhtOJgn9OrdltXBM/yhup2P7sqonas7CV7YLXhuh
-   ltkv3t3XLvAh/VPV4yYncbw1tEBU78k4QK6r5xR2i3paqMLVv6fg8d3Zo
-   AyJqaWJoKzEP4dvYGTv/kzycsjdDR9RzUz/4w8GzqD8HI6xGtU3hba67y
-   5EQiZqOrCqqiwMSLXiM2CK5eNs/Xior8AskyKrxipohUh0d9VWznbTQ75
+  bh=dGWc6Kh4TnyN8QwqKWvG3s8fLACZdznEGQINtfqefQA=;
+  b=BVwc1vQuiehJaCa29mJMrXad7iryGO0UUqL4yG24WXRqQZj8PBNQR0PW
+   Q93iOj7llg5NTmQtJlviObBJShblD0JgIinea+Uf7iTUrKD0/FXDgtK2i
+   yivAZMGM+ZFiGoRc89Tzo+AI2ffMUn8Y8O88FuOJm1lfctupHcO8ukXwF
+   gS3WlikRpUMJh1re4EjuQVwHsSYTs5dQl+Q4HptAOG2TZ4+8RZBJ2f+ie
+   F2wCeLc1jD0jxBdgZRITpk64am8OQHraVPl815cJdjknmpJ6LnOdgUvjL
+   g8T/SdM0+/h7TvVNqWndSxXiInJrSeeOh2plg89muPaabRM9SB732gFFy
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="5409528"
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="395825131"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="5409528"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 14:04:37 -0800
+   d="scan'208";a="395825131"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 14:56:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="955507473"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="955507473"
+   d="scan'208";a="24411061"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 10 Jan 2024 14:04:35 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Jan 2024 14:56:41 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNgga-0007XG-39;
-	Wed, 10 Jan 2024 22:04:32 +0000
-Date: Thu, 11 Jan 2024 06:04:21 +0800
+	id 1rNhUw-0007Za-2x;
+	Wed, 10 Jan 2024 22:56:34 +0000
+Date: Thu, 11 Jan 2024 06:56:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1758/2334] kernel/livepatch/core.c:1587:12:
- warning: no previous prototype for 'arch_klp_check_activeness_func'
-Message-ID: <202401110556.6JXzgyLd-lkp@intel.com>
+To: Jiawen Wu <jiawenwu@trustnetic.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: [linux-next:master 11985/13109]
+ drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:339:undefined reference to
+ `phylink_stop'
+Message-ID: <202401110606.hnUEDCxw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,130 +52,148 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c780cd23389087490b4199975c7e16cb696da852
-commit: 583e6e55fb6aa193b1a82909069e8028c5d5653d [1758/2334] livepatch/x86: Support livepatch without ftrace
-config: x86_64-openeuler_defconfig (https://download.01.org/0day-ci/archive/20240111/202401110556.6JXzgyLd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401110556.6JXzgyLd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8cb47d7cd090a690c1785385b2f3d407d4a53ad0
+commit: bc2426d74aa35cd8ec9c97a253ef57c2c5cd730c [11985/13109] net: ngbe: convert phylib to phylink
+config: arm64-randconfig-r003-20221211 (https://download.01.org/0day-ci/archive/20240111/202401110606.hnUEDCxw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401110606.hnUEDCxw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401110556.6JXzgyLd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401110606.hnUEDCxw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/livepatch/core.c:1587:12: warning: no previous prototype for 'arch_klp_check_activeness_func' [-Wmissing-prototypes]
-    1587 | int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/livepatch/core.c:1811:14: warning: no previous prototype for 'arch_klp_mem_alloc' [-Wmissing-prototypes]
-    1811 | void __weak *arch_klp_mem_alloc(size_t size)
-         |              ^~~~~~~~~~~~~~~~~~
->> kernel/livepatch/core.c:1816:13: warning: no previous prototype for 'arch_klp_mem_free' [-Wmissing-prototypes]
-    1816 | void __weak arch_klp_mem_free(void *mem)
-         |             ^~~~~~~~~~~~~~~~~
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_nway_reset':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:193:(.text+0x560): undefined reference to `phylink_ethtool_nway_reset'
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_link_ksettings':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:202:(.text+0x5a0): undefined reference to `phylink_ethtool_ksettings_get'
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_link_ksettings':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:211:(.text+0x5e0): undefined reference to `phylink_ethtool_ksettings_set'
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_close':
+>> drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:339:(.text+0x26c): undefined reference to `phylink_stop'
+>> aarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:433:(.text+0x29c): undefined reference to `phylink_disconnect_phy'
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_remove':
+>> drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:714:(.text+0x374): undefined reference to `phylink_destroy'
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_probe':
+   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:684:(.text+0xe5c): undefined reference to `phylink_destroy'
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_open':
+>> drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:391:(.text+0x1098): undefined reference to `phylink_connect_phy'
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:362:(.text+0x1250): undefined reference to `phylink_start'
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:407:(.text+0x1260): undefined reference to `phylink_disconnect_phy'
+   aarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.o: in function `ngbe_mdio_init':
+   drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.c:128:(.text+0x4f4): undefined reference to `phylink_create'
 
 
-vim +/arch_klp_check_activeness_func +1587 kernel/livepatch/core.c
+vim +339 drivers/net/ethernet/wangxun/ngbe/ngbe_main.c
 
-  1586	
-> 1587	int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
-  1588						  klp_add_func_t add_func,
-  1589						  struct list_head *func_list)
-  1590	{
-  1591		int ret;
-  1592		unsigned long func_addr = 0;
-  1593		unsigned long func_size;
-  1594		struct klp_func_node *func_node = NULL;
-  1595		unsigned long old_func = (unsigned long)func->old_func;
-  1596	
-  1597		func_node = func->func_node;
-  1598		/* Check func address in stack */
-  1599		if (enable) {
-  1600			if (func->patched || func->force == KLP_ENFORCEMENT)
-  1601				return 0;
-  1602			/*
-  1603			 * When enable, checking the currently active functions.
-  1604			 */
-  1605			if (list_empty(&func_node->func_stack)) {
-  1606				/*
-  1607				 * Not patched on this function [the origin one]
-  1608				 */
-  1609				func_addr = old_func;
-  1610				func_size = func->old_size;
-  1611			} else {
-  1612				/*
-  1613				 * Previously patched function [the active one]
-  1614				 */
-  1615				struct klp_func *prev;
-  1616	
-  1617				prev = list_first_or_null_rcu(&func_node->func_stack,
-  1618							      struct klp_func, stack_node);
-  1619				func_addr = (unsigned long)prev->new_func;
-  1620				func_size = prev->new_size;
-  1621			}
-  1622			/*
-  1623			 * When preemption is disabled and the replacement area
-  1624			 * does not contain a jump instruction, the migration
-  1625			 * thread is scheduled to run stop machine only after the
-  1626			 * execution of instructions to be replaced is complete.
-  1627			 */
-  1628			if (IS_ENABLED(CONFIG_PREEMPTION) ||
-  1629			    (func->force == KLP_NORMAL_FORCE) ||
-  1630			    arch_check_jump_insn(func_addr)) {
-  1631				ret = add_func(func_list, func_addr, func_size,
-  1632					       func->old_name, func->force);
-  1633				if (ret)
-  1634					return ret;
-  1635				if (func_addr != old_func) {
-  1636					ret = add_func(func_list, old_func, KLP_MAX_REPLACE_SIZE,
-  1637							func->old_name, func->force);
-  1638					if (ret)
-  1639						return ret;
-  1640				}
-  1641			}
-  1642		} else {
-  1643	#ifdef CONFIG_PREEMPTION
-  1644			/*
-  1645			 * No scheduling point in the replacement instructions. Therefore,
-  1646			 * when preemption is not enabled, atomic execution is performed
-  1647			 * and these instructions will not appear on the stack.
-  1648			 */
-  1649			if (list_is_singular(&func_node->func_stack)) {
-  1650				func_addr = old_func;
-  1651				func_size = func->old_size;
-  1652			} else {
-  1653				struct klp_func *prev;
-  1654	
-  1655				prev = list_first_or_null_rcu(
-  1656						&func_node->func_stack,
-  1657						struct klp_func, stack_node);
-  1658				func_addr = (unsigned long)prev->new_func;
-  1659				func_size = prev->new_size;
-  1660			}
-  1661			ret = add_func(func_list, func_addr,
-  1662					func_size, func->old_name, 0);
-  1663			if (ret)
-  1664				return ret;
-  1665			if (func_addr != old_func) {
-  1666				ret = add_func(func_list, old_func, KLP_MAX_REPLACE_SIZE,
-  1667						func->old_name, 0);
-  1668				if (ret)
-  1669					return ret;
-  1670			}
-  1671	#endif
-  1672	
-  1673			func_addr = (unsigned long)func->new_func;
-  1674			func_size = func->new_size;
-  1675			ret = add_func(func_list, func_addr,
-  1676					func_size, func->old_name, 0);
-  1677			if (ret)
-  1678				return ret;
-  1679		}
-  1680		return 0;
-  1681	}
-  1682	
+   336	
+   337	static void ngbe_down(struct wx *wx)
+   338	{
+ > 339		phylink_stop(wx->phylink);
+   340		ngbe_disable_device(wx);
+   341		wx_clean_all_tx_rings(wx);
+   342		wx_clean_all_rx_rings(wx);
+   343	}
+   344	
+   345	static void ngbe_up(struct wx *wx)
+   346	{
+   347		wx_configure_vectors(wx);
+   348	
+   349		/* make sure to complete pre-operations */
+   350		smp_mb__before_atomic();
+   351		wx_napi_enable_all(wx);
+   352		/* enable transmits */
+   353		netif_tx_start_all_queues(wx->netdev);
+   354	
+   355		/* clear any pending interrupts, may auto mask */
+   356		rd32(wx, WX_PX_IC(0));
+   357		rd32(wx, WX_PX_MISC_IC);
+   358		ngbe_irq_enable(wx, true);
+   359		if (wx->gpio_ctrl)
+   360			ngbe_sfp_modules_txrx_powerctl(wx, true);
+   361	
+   362		phylink_start(wx->phylink);
+   363	}
+   364	
+   365	/**
+   366	 * ngbe_open - Called when a network interface is made active
+   367	 * @netdev: network interface device structure
+   368	 *
+   369	 * Returns 0 on success, negative value on failure
+   370	 *
+   371	 * The open entry point is called when a network interface is made
+   372	 * active by the system (IFF_UP).
+   373	 **/
+   374	static int ngbe_open(struct net_device *netdev)
+   375	{
+   376		struct wx *wx = netdev_priv(netdev);
+   377		int err;
+   378	
+   379		wx_control_hw(wx, true);
+   380	
+   381		err = wx_setup_resources(wx);
+   382		if (err)
+   383			return err;
+   384	
+   385		wx_configure(wx);
+   386	
+   387		err = ngbe_request_irq(wx);
+   388		if (err)
+   389			goto err_free_resources;
+   390	
+ > 391		err = phylink_connect_phy(wx->phylink, wx->phydev);
+   392		if (err)
+   393			goto err_free_irq;
+   394	
+   395		err = netif_set_real_num_tx_queues(netdev, wx->num_tx_queues);
+   396		if (err)
+   397			goto err_dis_phy;
+   398	
+   399		err = netif_set_real_num_rx_queues(netdev, wx->num_rx_queues);
+   400		if (err)
+   401			goto err_dis_phy;
+   402	
+   403		ngbe_up(wx);
+   404	
+   405		return 0;
+   406	err_dis_phy:
+   407		phylink_disconnect_phy(wx->phylink);
+   408	err_free_irq:
+   409		wx_free_irq(wx);
+   410	err_free_resources:
+   411		wx_free_resources(wx);
+   412		return err;
+   413	}
+   414	
+   415	/**
+   416	 * ngbe_close - Disables a network interface
+   417	 * @netdev: network interface device structure
+   418	 *
+   419	 * Returns 0, this is not allowed to fail
+   420	 *
+   421	 * The close entry point is called when an interface is de-activated
+   422	 * by the OS.  The hardware is still under the drivers control, but
+   423	 * needs to be disabled.  A global MAC reset is issued to stop the
+   424	 * hardware, and all transmit and receive resources are freed.
+   425	 **/
+   426	static int ngbe_close(struct net_device *netdev)
+   427	{
+   428		struct wx *wx = netdev_priv(netdev);
+   429	
+   430		ngbe_down(wx);
+   431		wx_free_irq(wx);
+   432		wx_free_resources(wx);
+ > 433		phylink_disconnect_phy(wx->phylink);
+   434		wx_control_hw(wx, false);
+   435	
+   436		return 0;
+   437	}
+   438	
 
 -- 
 0-DAY CI Kernel Test Service
