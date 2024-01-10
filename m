@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE8E3D60
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 15:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CA14CB20
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 16:04:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/+1q4h0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VfQnM8/C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704901870; x=1736437870;
+  t=1704902669; x=1736438669;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vodH0CGAPrFjEV7X4fri+DZaZejqoO8INGxDuHelKyM=;
-  b=k/+1q4h05u+hox8TSJBES5KBKDeI/gwtx651zdcYCnMQkAUQQ9XzevzK
-   Fy6vOmIsbPbA9De01oblXVJxYdUUwOiSdDcjuJfZOONhhYQbxVNq4Ylr5
-   Yyu+BgItVCAB74SUL/qoDMUpu+e5x/VzlxJcaneBug4rezq6vI+JyIX+W
-   E7LGIV2mjy+QBgm3EZ5GdcXoEvGWzobnmkBWGXEy2/9+dmgwkDp4Rfq9h
-   soCLTTZW1hozU52LaE+CkRlBs6PzCIxyfZLT7n22aCI5KyT0zE4LYoQMa
-   RSkkWgt7EkoDbnxMif1nZyC3P024G4QvknweJ8gBTSh8V1NosvF+5W6rZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="5928685"
+  bh=latzeH/54fI32s8jXJkalnfR5LJRDtcQof+F08IkWZw=;
+  b=VfQnM8/CvqOGTzc7w++mrxQOI8n4taxPrRZn/qaN0JPg0FpGCazNmLGN
+   3YFSHoO/5orKdyfspqzsc+pTqWoHAgE1Jf4BtNjBnQiw1I3ddeDQDcUHt
+   TFng5deRjrlAxvPQFULe2CGM8O36aTwhnAHrD7w0jqRrYXOGBNjrPBIxT
+   xMfsqNjnwRgD3l0pyUCIevGOUIn6J9BAsbb8waROQtjb9JM2GwpOYS4w6
+   oQVR4Wi3VFefHmtvYokA9w+94Rt7HCUkEoxx4tkF8Tag7Q8uUDeb6Zewg
+   nrsVLIuu3HsrKrFXOhPkOS9Y1mmo6PtsLI4i/zWQJY6NYlc4pa6/X6dY3
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="5311333"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="5928685"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 07:51:09 -0800
+   d="scan'208";a="5311333"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 08:02:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="731889642"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="731889642"
+   d="scan'208";a="24309948"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 10 Jan 2024 07:51:07 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Jan 2024 08:02:07 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNarB-0007D4-05;
-	Wed, 10 Jan 2024 15:51:05 +0000
-Date: Wed, 10 Jan 2024 23:50:57 +0800
+	id 1rNb1p-0007Di-0s;
+	Wed, 10 Jan 2024 16:02:05 +0000
+Date: Thu, 11 Jan 2024 00:01:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1844/2334] mm/oom_kill.c:316: warning: Function
- parameter or member 'task' not described in 'oom_next_task'
-Message-ID: <202401102337.KTGM5fx0-lkp@intel.com>
+Subject: [android-common:android-4.19-stable 12217/30000]
+ drivers/soc/qcom/rpmh-rsc.c:697:16: error: expected parameter declarator
+Message-ID: <202401102326.hyXIHN2o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,71 +49,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c780cd23389087490b4199975c7e16cb696da852
-commit: be8d95530886b0aaa5a59b5c43a285667c9eebc6 [1844/2334] memcg: support priority for oom
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240110/202401102337.KTGM5fx0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401102337.KTGM5fx0-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   782f2a2a1a090d013575b791b3caec126353458c
+commit: 1ee367d36875a25c92ae7bb66d4b6f25f0d386d5 [12217/30000] ANDROID: GKI: drivers: qcom: rpmh-rsc: Add tristate support for qcom,rpmh-rsc driver
+config: x86_64-buildonly-randconfig-006-20240110 (https://download.01.org/0day-ci/archive/20240110/202401102326.hyXIHN2o-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401102326.hyXIHN2o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401102337.KTGM5fx0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401102326.hyXIHN2o-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/oom_kill.c:316: warning: Function parameter or member 'task' not described in 'oom_next_task'
->> mm/oom_kill.c:316: warning: Function parameter or member 'oc' not described in 'oom_next_task'
->> mm/oom_kill.c:316: warning: Function parameter or member 'points' not described in 'oom_next_task'
->> mm/oom_kill.c:316: warning: expecting prototype for We choose the task in low(). Prototype was for oom_next_task() instead
+>> drivers/soc/qcom/rpmh-rsc.c:697:16: error: expected parameter declarator
+     697 | MODULE_LICENSE("GPL v2");
+         |                ^
+>> drivers/soc/qcom/rpmh-rsc.c:697:16: error: expected ')'
+   drivers/soc/qcom/rpmh-rsc.c:697:15: note: to match this '('
+     697 | MODULE_LICENSE("GPL v2");
+         |               ^
+>> drivers/soc/qcom/rpmh-rsc.c:697:1: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+     697 | MODULE_LICENSE("GPL v2");
+         | ^
+         | int
+>> drivers/soc/qcom/rpmh-rsc.c:697:15: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+     697 | MODULE_LICENSE("GPL v2");
+         |               ^        
+         |                        void
+   drivers/soc/qcom/rpmh-rsc.c:698:20: error: expected parameter declarator
+     698 | MODULE_DESCRIPTION("Qualcomm RPM-Hardened (RPMH) Communication driver");
+         |                    ^
+   drivers/soc/qcom/rpmh-rsc.c:698:20: error: expected ')'
+   drivers/soc/qcom/rpmh-rsc.c:698:19: note: to match this '('
+     698 | MODULE_DESCRIPTION("Qualcomm RPM-Hardened (RPMH) Communication driver");
+         |                   ^
+   drivers/soc/qcom/rpmh-rsc.c:698:1: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+     698 | MODULE_DESCRIPTION("Qualcomm RPM-Hardened (RPMH) Communication driver");
+         | ^
+         | int
+   drivers/soc/qcom/rpmh-rsc.c:698:19: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+     698 | MODULE_DESCRIPTION("Qualcomm RPM-Hardened (RPMH) Communication driver");
+         |                   ^                                                   
+         |                                                                       void
+   8 errors generated.
 
 
-vim +316 mm/oom_kill.c
+vim +697 drivers/soc/qcom/rpmh-rsc.c
 
-   308	
-   309	#ifdef CONFIG_MEMCG_OOM_PRIORITY
-   310	/**
-   311	 * We choose the task in low-priority memcg firstly. For the same state, we
-   312	 * choose the task with the highest number of 'points'.
-   313	 */
-   314	static bool oom_next_task(struct task_struct *task, struct oom_control *oc,
-   315				long points)
- > 316	{
-   317		struct mem_cgroup *cur_memcg;
-   318		struct mem_cgroup *oc_memcg;
-   319		int cur_memcg_prio, oc_memcg_prio;
-   320	
-   321		if (points == LONG_MIN)
-   322			return true;
-   323	
-   324		if (!oc->chosen)
-   325			return false;
-   326	
-   327		rcu_read_lock();
-   328		oc_memcg = mem_cgroup_from_task(oc->chosen);
-   329		cur_memcg = mem_cgroup_from_task(task);
-   330		oc_memcg_prio = READ_ONCE(oc_memcg->oom_prio);
-   331		cur_memcg_prio = READ_ONCE(cur_memcg->oom_prio);
-   332		rcu_read_unlock();
-   333	
-   334		if (cur_memcg_prio == oc_memcg_prio)
-   335			return points < oc->chosen_points;
-   336	
-   337		/* if oc is low-priority, so skip the task */
-   338		if (oc_memcg_prio == MEMCG_LOW_OOM_PRIORITY)
-   339			return true;
-   340	
-   341		return false;
-   342	}
-   343	#else
-   344	static inline bool oom_next_task(struct task_struct *task,
-   345					struct oom_control *oc, long points)
-   346	{
-   347		return points == LONG_MIN || points < oc->chosen_points;
-   348	}
-   349	#endif
-   350	
+   696	
+ > 697	MODULE_LICENSE("GPL v2");
 
 -- 
 0-DAY CI Kernel Test Service
