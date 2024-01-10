@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DBB6ABF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 05:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6225DF56
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Jan 2024 05:53:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dH5cicVy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JxPEcTEw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704864556; x=1736400556;
+  t=1704866029; x=1736402029;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zqr0UFCjlpsLFzc4FCQDYOQ9+oRnucXeThSLDsnr3Pc=;
-  b=dH5cicVyleyBpwdXyrtDpb801hesAg0CqGQcNTtSptlZwuZ+FXlZLPA3
-   O87Jlzhkwpbv/wJbX686+kA5bRyeKcaXIyfg67T2tt+0dkfIByyMNb3I/
-   1LhKoSLyWtrdllpU7m1Y/xBYVrxATYgl92hXA6ip8JxRznA5ggTqWaMQc
-   +40XIpV5pQfVBewSflm8f9BQn2hnIw+k8wr26Mz2knVHAZ1l/QmNKATsw
-   hVLemQSVlhwnc7VLfUn2WRRsgF6VTYyCrD+TG7oQj1QOaWxLOQlOKr0oa
-   Ud/3OEkO/MXSaGTHtiQ+dD2v5vobRKHpM5wmUGkWFgyojZe8Xj+yIwaR3
+  bh=71deKptZ2qjixRbJHB2qsPBgtEgztiURxh3zwaIezxk=;
+  b=JxPEcTEw8bOtmK68LtJSjDYDD4OEqNdUEEGwqaVykXoVetxYw25ixgFL
+   fwMfAGuPo3cVPgwAt2O/uxCF6uqoHoYNbDFUsxhVG0oRtzymUwe8ZV8Ks
+   mbHNB3l1bmB6CLC/y/zTu2qz1FYEN9rq545A+3Kgvcx/vW3JdvFdVX+Zt
+   RFb3s79/j7qcYuMHg3iE3R+66XtkafxbZhuMcduU1AckaZLBFQcIATrIN
+   SHl3V/+74BSOpY2mjfKAtoN3gM9q+HXtOL0M0ignINCBORpVN5m+UR+u4
+   UlIWsINy/KKxy6z+aOtsYIynuJbOtSBk3qeyHg4CFkg+I74Ohbto3VXtZ
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="397266154"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="5189499"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="397266154"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 21:29:16 -0800
+   d="scan'208";a="5189499"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 21:53:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="852429416"
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="816238185"
 X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
-   d="scan'208";a="852429416"
+   d="scan'208";a="816238185"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Jan 2024 21:29:15 -0800
+  by orsmga001.jf.intel.com with ESMTP; 09 Jan 2024 21:53:38 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNR9N-0006e2-03;
-	Wed, 10 Jan 2024 05:29:13 +0000
-Date: Wed, 10 Jan 2024 13:28:37 +0800
+	id 1rNRWx-0006fg-2Z;
+	Wed, 10 Jan 2024 05:53:35 +0000
+Date: Wed, 10 Jan 2024 13:48:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [iwlwifi-next:egrumbac_fixes_6.5 66/73]
- drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5320:50: error:
- 'IWL_TM_ATTR_MAX' undeclared here (not in a function); did you mean
- 'DCB_PG_ATTR_MAX'?
-Message-ID: <202401101321.tg4FyZQh-lkp@intel.com>
+Subject: [iwlwifi-next:egrumbac_fixes_6.5_core80 55/59]
+ drivers/net/wireless/intel/iwlwifi/mvm/nan.c:388:17: warning: writing 1 byte
+ into a region of size 0
+Message-ID: <202401101310.cEAIxjPc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,117 +51,233 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git egrumbac_fixes_6.5
-head:   62c3c8b5f77cbdf3d8f5cabf61afc9e8be0cfedf
-commit: 59489cb42edffc67edbce229e9ac7c33eafb2212 [66/73] TESTMODE
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240110/202401101321.tg4FyZQh-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401101321.tg4FyZQh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git egrumbac_fixes_6.5_core80
+head:   260daff72d49b63c085ace273ce18843b70cc526
+commit: 93a3c02830e001c30586795dc8bbdae0498ea50a [55/59] f
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20240110/202401101310.cEAIxjPc-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240110/202401101310.cEAIxjPc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401101321.tg4FyZQh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401101310.cEAIxjPc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5320:50: error: 'IWL_TM_ATTR_MAX' undeclared here (not in a function); did you mean 'DCB_PG_ATTR_MAX'?
-    5320 | static const struct nla_policy iwl_mvm_tm_policy[IWL_TM_ATTR_MAX + 1] = {
-         |                                                  ^~~~~~~~~~~~~~~
-         |                                                  DCB_PG_ATTR_MAX
->> drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5321:10: error: 'IWL_TM_ATTR_CMD' undeclared here (not in a function)
-    5321 |         [IWL_TM_ATTR_CMD] = { .type = NLA_U32 },
-         |          ^~~~~~~~~~~~~~~
->> drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5322:10: error: 'IWL_TM_ATTR_NOA_DURATION' undeclared here (not in a function)
-    5322 |         [IWL_TM_ATTR_NOA_DURATION] = { .type = NLA_U32 },
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5323:10: error: 'IWL_TM_ATTR_BEACON_FILTER_STATE' undeclared here (not in a function)
-    5323 |         [IWL_TM_ATTR_BEACON_FILTER_STATE] = { .type = NLA_U32 },
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c: In function '__iwl_mvm_mac_testmode_cmd':
->> drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5343:14: error: 'IWL_TM_CMD_SET_NOA' undeclared (first use in this function)
-    5343 |         case IWL_TM_CMD_SET_NOA:
-         |              ^~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5343:14: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5362:14: error: 'IWL_TM_CMD_SET_BEACON_FILTER' undeclared (first use in this function)
-    5362 |         case IWL_TM_CMD_SET_BEACON_FILTER:
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5330:24: warning: unused variable 'tb' [-Wunused-variable]
-    5330 |         struct nlattr *tb[IWL_TM_ATTR_MAX + 1];
-         |                        ^~
-   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c: At top level:
-   drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c:5320:32: warning: 'iwl_mvm_tm_policy' defined but not used [-Wunused-variable]
-    5320 | static const struct nla_policy iwl_mvm_tm_policy[IWL_TM_ATTR_MAX + 1] = {
-         |                                ^~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/nan.c: In function 'iwl_mvm_add_nan_func':
+>> drivers/net/wireless/intel/iwlwifi/mvm/nan.c:388:17: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+     388 |                 memcpy(cmd_data, &srf_ctl, sizeof(srf_ctl));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireless/intel/iwlwifi/mvm/nan.c:10:
+   drivers/net/wireless/intel/iwlwifi/mvm/../fw/api/nan.h:254:12: note: destination object 'data' of size 0
+     254 |         u8 data[0];
+         |            ^~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/../fw/api/nan.h:267:12: note: destination object 'data' of size 0
+     267 |         u8 data[0];
+         |            ^~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/nan.c:378:17: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+     378 |                 memcpy(cmd_data, &srf_ctl, sizeof(srf_ctl));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/../fw/api/nan.h:254:12: note: destination object 'data' of size 0
+     254 |         u8 data[0];
+         |            ^~~~
+   drivers/net/wireless/intel/iwlwifi/mvm/../fw/api/nan.h:267:12: note: destination object 'data' of size 0
+     267 |         u8 data[0];
+         |            ^~~~
 
 
-vim +5320 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c
+vim +388 drivers/net/wireless/intel/iwlwifi/mvm/nan.c
 
-8ca151b568b67a drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-01-24  5318  
-93a3c02830e001 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-08  5319  #ifdef CONFIG_NL80211_TESTMODE
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07 @5320  static const struct nla_policy iwl_mvm_tm_policy[IWL_TM_ATTR_MAX + 1] = {
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07 @5321  	[IWL_TM_ATTR_CMD] = { .type = NLA_U32 },
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07 @5322  	[IWL_TM_ATTR_NOA_DURATION] = { .type = NLA_U32 },
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07 @5323  	[IWL_TM_ATTR_BEACON_FILTER_STATE] = { .type = NLA_U32 },
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5324  };
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5325  
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5326  static int __iwl_mvm_mac_testmode_cmd(struct iwl_mvm *mvm,
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5327  				      struct ieee80211_vif *vif,
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5328  				      void *data, int len)
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5329  {
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5330  	struct nlattr *tb[IWL_TM_ATTR_MAX + 1];
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5331  	int err;
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5332  	u32 noa_duration;
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5333  
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5334  	err = nla_parse(tb, IWL_TM_ATTR_MAX, data, len, iwl_mvm_tm_policy,
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5335  			NULL);
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5336  	if (err)
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5337  		return err;
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5338  
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5339  	if (!tb[IWL_TM_ATTR_CMD])
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5340  		return -EINVAL;
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5341  
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5342  	switch (nla_get_u32(tb[IWL_TM_ATTR_CMD])) {
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07 @5343  	case IWL_TM_CMD_SET_NOA:
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5344  		if (!vif || vif->type != NL80211_IFTYPE_AP || !vif->p2p ||
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5345  		    !vif->bss_conf.enable_beacon ||
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5346  		    !tb[IWL_TM_ATTR_NOA_DURATION])
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5347  			return -EINVAL;
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5348  
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5349  		noa_duration = nla_get_u32(tb[IWL_TM_ATTR_NOA_DURATION]);
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5350  		if (noa_duration >= vif->bss_conf.beacon_int)
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5351  			return -EINVAL;
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5352  
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5353  		mvm->noa_duration = noa_duration;
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5354  		mvm->noa_vif = vif;
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5355  
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5356  		if (fw_has_capa(&mvm->fw->ucode_capa,
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5357  				IWL_UCODE_TLV_CAPA_DYNAMIC_QUOTA)) {
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5358  			return -EOPNOTSUPP;
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5359  		}
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5360  
-22b2104193da5e drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Shaul Triebitz    2017-11-30  5361  		return iwl_mvm_update_quotas(mvm, true, NULL);
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07 @5362  	case IWL_TM_CMD_SET_BEACON_FILTER:
-f6c6ad42b5e8b1 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-08-01  5363  		/* must be associated client vif - ignore authorized */
-f6c6ad42b5e8b1 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-08-01  5364  		if (!vif || vif->type != NL80211_IFTYPE_STATION ||
-f276e20b182dbf drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Johannes Berg     2022-05-10  5365  		    !vif->cfg.assoc || !vif->bss_conf.dtim_period ||
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5366  		    !tb[IWL_TM_ATTR_BEACON_FILTER_STATE])
-f6c6ad42b5e8b1 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-08-01  5367  			return -EINVAL;
-f6c6ad42b5e8b1 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Johannes Berg     2013-08-01  5368  
-38ffad1e804808 drivers/net/wireless/intel/iwlwifi/mvm/mac80211.c Emmanuel Grumbach 2024-01-07  5369  		if (nla_get_u32(tb[IWL_TM_ATTR_BEACON_FILTER_STATE]))
-a1022927194673 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Emmanuel Grumbach 2014-05-12  5370  			return iwl_mvm_enable_beacon_filter(mvm, vif, 0);
-a1022927194673 drivers/net/wireless/iwlwifi/mvm/mac80211.c       Emmanuel Grumbach 2014-05-12  5371  		return iwl_mvm_disable_beacon_filter(mvm, vif, 0);
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5372  	}
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5373  
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5374  	return -EOPNOTSUPP;
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5375  }
-507cadf262fe67 drivers/net/wireless/iwlwifi/mvm/mac80211.c       David Spinadel    2013-07-31  5376  
-
-:::::: The code at line 5320 was first introduced by commit
-:::::: 38ffad1e8048085517946d1230f7e249b6c0db72 MVM_CORE80
-
-:::::: TO: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
-:::::: CC: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+   269	
+   270	int iwl_mvm_add_nan_func(struct ieee80211_hw *hw,
+   271				 struct ieee80211_vif *vif,
+   272				 const struct cfg80211_nan_func *nan_func)
+   273	{
+   274		struct iwl_mvm *mvm = IWL_MAC80211_GET_MVM(hw);
+   275		void *cmd;
+   276		struct iwl_nan_add_func_common *cmn;
+   277		struct iwl_nan_add_func_common_tail *tail;
+   278		struct iwl_host_cmd hcmd = {
+   279			.id = WIDE_ID(NAN_GROUP, NAN_DISCOVERY_FUNC_CMD),
+   280			.flags = CMD_WANT_SKB,
+   281		};
+   282		struct iwl_nan_add_func_res *resp;
+   283		struct iwl_rx_packet *pkt;
+   284		u8 *cmd_data;
+   285		u16 flags = 0;
+   286		u8 tx_filt_len, rx_filt_len;
+   287		size_t cmd_len;
+   288		int ret = 0;
+   289	
+   290		IWL_DEBUG_MAC80211(IWL_MAC80211_GET_MVM(hw), "Add NAN func\n");
+   291	
+   292		mutex_lock(&mvm->mutex);
+   293	
+   294		/* We assume here that mac80211 properly validated the nan_func */
+   295		cmd_len = iwl_mvm_nan_add_func_cmd_len(hw) +
+   296			  ALIGN(nan_func->serv_spec_info_len, 4);
+   297		if (nan_func->srf_bf_len)
+   298			cmd_len += ALIGN(nan_func->srf_bf_len + 1, 4);
+   299		else if (nan_func->srf_num_macs)
+   300			cmd_len += ALIGN(nan_func->srf_num_macs * ETH_ALEN + 1, 4);
+   301	
+   302		rx_filt_len = iwl_mvm_get_match_filter_len(nan_func->rx_filters,
+   303							   nan_func->num_rx_filters);
+   304	
+   305		tx_filt_len = iwl_mvm_get_match_filter_len(nan_func->tx_filters,
+   306							   nan_func->num_tx_filters);
+   307	
+   308		cmd_len += ALIGN(rx_filt_len, 4);
+   309		cmd_len += ALIGN(tx_filt_len, 4);
+   310	
+   311		cmd = kzalloc(cmd_len, GFP_KERNEL);
+   312	
+   313		if (!cmd) {
+   314			ret = -ENOBUFS;
+   315			goto unlock;
+   316		}
+   317	
+   318		hcmd.len[0] = cmd_len;
+   319		hcmd.data[0] = cmd;
+   320	
+   321		cmn = iwl_mvm_nan_get_add_func_common(hw, cmd);
+   322		tail = iwl_mvm_chan_info_cmd_tail(mvm, &cmn->faw_ci);
+   323	
+   324		cmd_data = iwl_mvm_nan_get_add_func_data(hw, cmd);
+   325		cmn->action = cpu_to_le32(FW_CTXT_ACTION_ADD);
+   326		cmn->type = iwl_fw_nan_func_type(nan_func->type);
+   327		cmn->instance_id = nan_func->instance_id;
+   328		tail->dw_interval = 1;
+   329	
+   330		memcpy(&cmn->service_id, nan_func->service_id, sizeof(cmn->service_id));
+   331	
+   332		/*
+   333		 * TODO: Currently we want all the events, however we might need to be
+   334		 * able to unset this flag for solicited publish to disable "Replied"
+   335		 * events.
+   336		 */
+   337		flags |= IWL_NAN_DE_FUNC_FLAG_RAISE_EVENTS;
+   338		if (nan_func->subscribe_active ||
+   339		    nan_func->publish_type == NL80211_NAN_UNSOLICITED_PUBLISH)
+   340			flags |= IWL_NAN_DE_FUNC_FLAG_UNSOLICITED_OR_ACTIVE;
+   341	
+   342		if (nan_func->close_range)
+   343			flags |= IWL_NAN_DE_FUNC_FLAG_CLOSE_RANGE;
+   344	
+   345		if (nan_func->type == NL80211_NAN_FUNC_FOLLOW_UP ||
+   346		    (nan_func->type == NL80211_NAN_FUNC_PUBLISH &&
+   347		     !nan_func->publish_bcast))
+   348			flags |= IWL_NAN_DE_FUNC_FLAG_UNICAST;
+   349	
+   350		if (nan_func->publish_type == NL80211_NAN_SOLICITED_PUBLISH)
+   351			flags |= IWL_NAN_DE_FUNC_FLAG_SOLICITED;
+   352	
+   353		cmn->flags = cpu_to_le16(flags);
+   354		cmn->ttl = cpu_to_le32(nan_func->ttl);
+   355		tail->serv_info_len = nan_func->serv_spec_info_len;
+   356		if (nan_func->serv_spec_info_len)
+   357			memcpy(cmd_data, nan_func->serv_spec_info,
+   358			       nan_func->serv_spec_info_len);
+   359	
+   360		if (nan_func->type == NL80211_NAN_FUNC_FOLLOW_UP) {
+   361			cmn->flw_up_id = nan_func->followup_id;
+   362			cmn->flw_up_req_id = nan_func->followup_reqid;
+   363			memcpy(cmn->flw_up_addr, nan_func->followup_dest.addr,
+   364			       ETH_ALEN);
+   365			cmn->ttl = cpu_to_le32(1);
+   366		}
+   367	
+   368		cmd_data += ALIGN(tail->serv_info_len, 4);
+   369		if (nan_func->srf_bf_len) {
+   370			u8 srf_ctl = 0;
+   371	
+   372			srf_ctl |= SRF_BF_TYPE;
+   373			srf_ctl |= (nan_func->srf_bf_idx << 2) & SRF_BLOOM_FILTER_IDX;
+   374			if (nan_func->srf_include)
+   375				srf_ctl |= SRF_INCLUDE;
+   376	
+   377			tail->srf_len = nan_func->srf_bf_len + 1;
+   378			memcpy(cmd_data, &srf_ctl, sizeof(srf_ctl));
+   379			memcpy(cmd_data + 1, nan_func->srf_bf, nan_func->srf_bf_len);
+   380		} else if (nan_func->srf_num_macs) {
+   381			u8 srf_ctl = 0;
+   382			int i;
+   383	
+   384			if (nan_func->srf_include)
+   385				srf_ctl |= SRF_INCLUDE;
+   386	
+   387			tail->srf_len = nan_func->srf_num_macs * ETH_ALEN + 1;
+ > 388			memcpy(cmd_data, &srf_ctl, sizeof(srf_ctl));
+   389	
+   390			for (i = 0; i < nan_func->srf_num_macs; i++) {
+   391				memcpy(cmd_data + 1 + i * ETH_ALEN,
+   392				       nan_func->srf_macs[i].addr, ETH_ALEN);
+   393			}
+   394		}
+   395	
+   396		cmd_data += ALIGN(tail->srf_len, 4);
+   397	
+   398		if (rx_filt_len > 0)
+   399			iwl_mvm_copy_filters(nan_func->rx_filters,
+   400					     nan_func->num_rx_filters, cmd_data);
+   401	
+   402		tail->rx_filter_len = rx_filt_len;
+   403		cmd_data += ALIGN(tail->rx_filter_len, 4);
+   404	
+   405		if (tx_filt_len > 0)
+   406			iwl_mvm_copy_filters(nan_func->tx_filters,
+   407					     nan_func->num_tx_filters, cmd_data);
+   408	
+   409		tail->tx_filter_len = tx_filt_len;
+   410	
+   411		ret = iwl_mvm_send_cmd(mvm, &hcmd);
+   412	
+   413		if (ret) {
+   414			IWL_ERR(mvm, "Couldn't send NAN_DISCOVERY_FUNC_CMD: %d\n", ret);
+   415			goto out_free;
+   416		}
+   417	
+   418		pkt = hcmd.resp_pkt;
+   419	
+   420		if (WARN_ON(iwl_rx_packet_payload_len(pkt) != sizeof(*resp))) {
+   421			ret = -EIO;
+   422			goto out_free_resp;
+   423		}
+   424	
+   425		resp = (void *)pkt->data;
+   426	
+   427		IWL_DEBUG_MAC80211(mvm,
+   428				   "Add NAN func response status: %d, instance_id: %d\n",
+   429				   resp->status, resp->instance_id);
+   430	
+   431		if (resp->status == IWL_NAN_DE_FUNC_STATUS_INSUFFICIENT_ENTRIES ||
+   432		    resp->status == IWL_NAN_DE_FUNC_STATUS_INSUFFICIENT_MEMORY) {
+   433			ret = -ENOBUFS;
+   434			goto out_free_resp;
+   435		}
+   436	
+   437		if (resp->status != IWL_NAN_DE_FUNC_STATUS_SUCCESSFUL) {
+   438			ret = -EIO;
+   439			goto out_free_resp;
+   440		}
+   441	
+   442		if (cmn->instance_id &&
+   443		    WARN_ON(resp->instance_id != cmn->instance_id)) {
+   444			ret = -EIO;
+   445			goto out_free_resp;
+   446		}
+   447	
+   448		ret = 0;
+   449	out_free_resp:
+   450		iwl_free_resp(&hcmd);
+   451	out_free:
+   452		kfree(cmd);
+   453	unlock:
+   454		mutex_unlock(&mvm->mutex);
+   455		return ret;
+   456	}
+   457	
 
 -- 
 0-DAY CI Kernel Test Service
