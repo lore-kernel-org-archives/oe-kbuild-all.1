@@ -1,45 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C01353E16
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 19:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9F156756
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 19:59:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PuWLr0ch"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WyYHUT+t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705001857; x=1736537857;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+7pLyIPOrGsS6alMT3nnjKoSt2FVMcCiFrTa7HW0XPI=;
-  b=PuWLr0chY9Hiy3d7vU2IRltNYFMJMG8M65+Swpu1bj6vOisNTG7prRkG
-   c/nCruNSwVDh49VCQe+CuVGHyaYX+KTxPRmawlYF5+KMvMGE2MXCDwqcj
-   Ch5ZwL7VS5ITFMPI9ukAQhgsaibxOmLDt54JvCIBEs6FJp/gEb/Qr7krV
-   TDF5eHehh5cz7JK68J/6O004VzD7zdwEUI2QMNud7e9DdLr9diE9vBKr4
-   NfgTVA3pvIQwPZ36nSxPMozufwpsrzKb0s+t9AG4hmJ8DQ5mPxcnvayZ5
-   hmTiN3HUPAFiE8Gwq7G1ukWSLCJnH21UmxWOyZusgANbTHumncQSx2Xfa
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="485140545"
+  t=1705003147; x=1736539147;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zWgdszgF2upi1RJNQNcI5k8HBE/XFq2LbjMvesYoLCk=;
+  b=WyYHUT+tFWycSN8F74TmVVL61TNZfDE/N/Bn8+j6x8PMotxHEPl2Mi4q
+   yi4LOq3oC77D72UoCfM89WAn9SveFAzd97vwFPiyGMVpU0ghiX1ICb++0
+   5NUWQr01lOsUrolz8VbVRjjExw0tHGucJixgjt4FGMf3L0n6RdNSNF4k6
+   4AlnxfwheCVl2CRU61FHDwHDv7uSOERJ5to3uwzO305r47jM25zNC46La
+   ibuazPpyW12/MeLHblCcnv2sdr4hdDeBIy1aq4n8URaHx61PCYXtiLxiC
+   O86X9IiAz6KfEPrZOD1+Lg3areWB8wSAIqmCg5t8WbXRLoLb/VupzFURh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="397846590"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="485140545"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 11:37:36 -0800
+   d="scan'208";a="397846590"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 11:59:06 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="786108629"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="17140903"
+   d="scan'208";a="786108629"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2024 11:37:36 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 11 Jan 2024 11:59:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rO0rt-0008fy-1m;
-	Thu, 11 Jan 2024 19:37:33 +0000
-Date: Fri, 12 Jan 2024 03:36:33 +0800
+	id 1rO1CS-0008gU-0D;
+	Thu, 11 Jan 2024 19:58:51 +0000
+Date: Fri, 12 Jan 2024 03:58:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2271/2356] kernel/sched/psi.c:908:31: error: use
- of undeclared identifier 'cpuacct_cgrp_id'; did you mean 'cpu_cgrp_id'?
-Message-ID: <202401120334.tGS5AHXP-lkp@intel.com>
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, kernel_team@skhynix.com,
+	akpm@linux-foundation.org, ying.huang@intel.com, namit@vmware.com,
+	xhao@linux.alibaba.com, mgorman@techsingularity.net,
+	hughd@google.com, willy@infradead.org, david@redhat.com,
+	peterz@infradead.org, luto@kernel.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
+Subject: Re: [v5 6/7] mm: Defer TLB flush by keeping both src and dst folios
+ at migration
+Message-ID: <202401120309.9xlXPJBx-lkp@intel.com>
+References: <20240111060757.13563-7-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,65 +57,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240111060757.13563-7-byungchul@sk.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ea6de9f6732d495c506f9c140b4ec17c957e1b77
-commit: 2dfc29e742a07863c2426aea03d5c2c97b558b9d [2271/2356] sched/psi: Export cgroup psi from cgroupv2 to cgroupv1
-config: x86_64-randconfig-005-20240111 (https://download.01.org/0day-ci/archive/20240112/202401120334.tGS5AHXP-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120334.tGS5AHXP-lkp@intel.com/reproduce)
+Hi Byungchul,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on tip/sched/core tip/x86/core arm64/for-next/core tip/x86/mm linus/master v6.7 next-20240111]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/x86-tlb-Add-APIs-manipulating-tlb-batch-s-arch-data/20240111-141049
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240111060757.13563-7-byungchul%40sk.com
+patch subject: [v5 6/7] mm: Defer TLB flush by keeping both src and dst folios at migration
+config: x86_64-buildonly-randconfig-005-20240111 (https://download.01.org/0day-ci/archive/20240112/202401120309.9xlXPJBx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120309.9xlXPJBx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401120334.tGS5AHXP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401120309.9xlXPJBx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:97:
->> kernel/sched/psi.c:908:31: error: use of undeclared identifier 'cpuacct_cgrp_id'; did you mean 'cpu_cgrp_id'?
-     908 |                         cgroup = task_cgroup(task, cpuacct_cgrp_id);
-         |                                                    ^~~~~~~~~~~~~~~
-         |                                                    cpu_cgrp_id
-   include/linux/cgroup_subsys.h:17:1: note: 'cpu_cgrp_id' declared here
-      17 | SUBSYS(cpu)
-         | ^
-   include/linux/cgroup-defs.h:42:20: note: expanded from macro 'SUBSYS'
-      42 | #define SUBSYS(_x) _x ## _cgrp_id,
-         |                    ^
-   <scratch space>:298:1: note: expanded from here
-     298 | cpu_cgrp_id
-         | ^
-   1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [y]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && !COMPILE_TEST [=n]
+   In file included from mm/hwpoison-inject.c:10:
+   mm/internal.h: In function 'init_tlb_ubc':
+>> mm/internal.h:931:9: error: implicit declaration of function 'arch_tlbbatch_clear' [-Werror=implicit-function-declaration]
+     931 |         arch_tlbbatch_clear(&ubc->arch);
+         |         ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +908 kernel/sched/psi.c
+vim +/arch_tlbbatch_clear +931 mm/internal.h
 
-   899	
-   900	static inline struct psi_group *task_psi_group(struct task_struct *task)
-   901	{
-   902	#ifdef CONFIG_CGROUPS
-   903		if (static_branch_likely(&psi_cgroups_enabled)) {
-   904			if (task_is_in_psi_v1()) {
-   905				struct cgroup *cgroup;
-   906	
-   907				rcu_read_lock();
- > 908				cgroup = task_cgroup(task, cpuacct_cgrp_id);
-   909				rcu_read_unlock();
-   910				return cgroup_psi(cgroup);
-   911			}
-   912			return cgroup_psi(task_dfl_cgroup(task));
-   913		}
-   914	#endif
-   915		return &psi_system;
-   916	}
-   917	
+   928	
+   929	static inline void init_tlb_ubc(struct tlbflush_unmap_batch *ubc)
+   930	{
+ > 931		arch_tlbbatch_clear(&ubc->arch);
+   932		ubc->flush_required = false;
+   933		ubc->writable = false;
+   934	}
+   935	#else
+   936	static inline void try_to_unmap_flush(void)
+   937	{
+   938	}
+   939	static inline void try_to_unmap_flush_dirty(void)
+   940	{
+   941	}
+   942	static inline void flush_tlb_batched_pending(struct mm_struct *mm)
+   943	{
+   944	}
+   945	static inline void fold_ubc(struct tlbflush_unmap_batch *dst, struct tlbflush_unmap_batch *src)
+   946	{
+   947	}
+   948	static inline void init_tlb_ubc(struct tlbflush_unmap_batch *ubc)
+   949	{
+   950	}
+   951	#endif /* CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH */
+   952	
 
 -- 
 0-DAY CI Kernel Test Service
