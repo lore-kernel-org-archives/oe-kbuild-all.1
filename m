@@ -1,142 +1,258 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B8C433D8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 15:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C844D13A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 15:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GAMKmIBT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kqmNk6aQYWTbr/IclVep//sJO0+hvFR21vEsqVKSKUuLTXhHM39CRRwqi+7fvqajPSp7+Ir+S+3scpcIv7Gu0IPQOOykNujE6x5o2kL1wkbZDIh7NmzrRnAWBr7/iIDhxZ3MZkBtvPyZ7g4AX2twsElmUNgZ7PLUCCTcprK5ILZk3ucqR4EjQ18HGKxFUAYkOqSoFIsfGT0gxMlUkkRYBT5g71N7MXY1+p9YYRzLVnAfnOuF4xdYcIMP3S1lA8AkJfkv6EhoLxI+xRVNemTcZZZkZfvIxGa49NYeLQ5ncTQvyX2tbaBlrNRlT9l15TJftJFXYX8A6zBsCSe2r8Xihw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b6Q3GacfprGhd6+nXCFuSsj0keRpI48VxzG8bJoGf6Y=;
- b=nE9rWV5HvLt5Nlp3P8gkl8LYk5umttebXx7oeGJNbSBZdER/9cdh6GNQqZgWjkrugnEX47UPvWLl+q9DUJ+7GE8UQIGHDkdr3atW8m3RUziTrK9Ja7L+h6mnNDLcb8ATb+Ia+rYIhPW+OObzsBXHpVnDRLUdlGjivl0xe6tW8GRSybBPZB/t6XCIrH5VVT+O/fnEUxRmjjCaXoPX7UgngPSrWbG0uNHymPrKH3DFFcVN0hA9RRqQsm+1KJbhAwrlShTiH0X8S8do1ImPBUt2/uAQwGgUX/H0qilYtJxtKJrnL0mOM/8Zk3rQTngdA5ETkIrp6TOrP/mJ8aMK1BGbsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b6Q3GacfprGhd6+nXCFuSsj0keRpI48VxzG8bJoGf6Y=;
- b=GAMKmIBT7K0bf8tLfnpen1GPtAg15sn9f1RUcV6BN1TuDPntxGZQoUHQYGXlMjpO/26p0lBAC6ezW6YEvodzyB3h9KqOdtjpw+TyN8A4I4999E0W370QvDM2bV/QYPTggiCYtf8nK/40WBidi2bqVxotd/zLg6+OerX7RMFXxSdxeZt10LO8iOjrt0W3Ab6UfOorRC4I2CfaRI9MfwYzerpCQvPAe6HQ59DICOQTiw/crmC3OMfBgMGgHP2dFbzCLawq8mSrMbw9XHn1KSYZuX3BjZFSXyqqyLLLxUebGgjQykXlfT1f16T2LcAn3IvQO47rGCTHW1qtMm/mKwrFKg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by SN7PR12MB7204.namprd12.prod.outlook.com (2603:10b6:806:2ab::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.18; Thu, 11 Jan
- 2024 15:40:33 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7159.020; Thu, 11 Jan 2024
- 15:40:33 +0000
-Date: Thu, 11 Jan 2024 11:40:31 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kevin Tian <kevin.tian@intel.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: drivers/iommu/iommufd/vfio_compat.c:315:17: sparse: sparse: cast
- removes address space '__user' of expression
-Message-ID: <20240111154031.GI439767@nvidia.com>
-References: <202401112201.oMA1N8EM-lkp@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202401112201.oMA1N8EM-lkp@intel.com>
-X-ClientProxiedBy: DM6PR10CA0016.namprd10.prod.outlook.com
- (2603:10b6:5:60::29) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TItDbZb+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704988431; x=1736524431;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eNYB9PnHuimYK9NcsIM4IFhKor4+3mjogDOh+XIWozw=;
+  b=TItDbZb+rFNgTmWjKBZGYyboyL9GHYa22USEirqmUdmmB8/kCrLWHTZm
+   9QX1zgiD5zi95axl3IGzUoZ+7gvQZpPY3mCDZqA1Kl6xR6zYW7qkRLi9E
+   FQ67dgSaGQbGb1ESwmwciCOj5UuYjykj4X+1W/r1B5cDMpJ1FeLjebUzg
+   /f1KefV68hbfHoH94oJeRIQ5rScvLCv+dzqz3OqRoNHjWaVqgG0c1MDe1
+   syPuZ8nVUCfx9eJOyhmUUngEVFDMQ36p2IFWwri50F/ZpnRudWMy5/ZDC
+   Wcq+1MgXqr5hK9aEdmSZoFjx2ZoDpfFqh6OzA/hwGvoxW/Q7zt4TuRbGV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="5623005"
+X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
+   d="scan'208";a="5623005"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 07:53:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="758801304"
+X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
+   d="scan'208";a="758801304"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 11 Jan 2024 07:53:47 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNxNH-0008Q4-2m;
+	Thu, 11 Jan 2024 15:53:44 +0000
+Date: Thu, 11 Jan 2024 23:53:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Peter Rosin <peda@axentia.se>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Peter Korsgaard <peter.korsgaard@barco.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Subject: Re: [PATCH 2/4] i2c: mux: add basic support for calling
+ i2c_register_spd on muxed bus segments
+Message-ID: <202401112333.GUpSFOuc-lkp@intel.com>
+References: <53e5c71a-d954-4211-91a1-de067451d532@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SN7PR12MB7204:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ab282ed-6583-4c5d-47c4-08dc12bba5ca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	sDAGaXiv2gwzG0vTZli+9JtAeE0zkiR6A85fezoMhkedmooPDimHHvPBZ0fugBAoEl102dPaNjzvGXMFz0N3zjl+IP+xZ03xQvjo0BXZTC5Cv4EKqRcdUs7GCtN0++Z6TXYUICdET6uoqp1HjoF91X3ZC0IuOP0/0aO1qiIp7KPqMAUToFiJ8S9d16N9da0ZrKcsaDMIao8a8iux9hSN67FEBF05PH273CT7hJZZ4X5QOSsWlIKN8lJvkHelx2upRDQab8ML1z0QFSawia6avJdlNjLQq2wUy67hC/SIMtXD51XsEDeTO2pQ6tTdkO3V1CFCC5A+IcVr3EwNWN/i0vo36DojpyjA6MdVnFlfuilZ/oPWWY0IxI7qP6O71DR4goS1vmHkSGWyTZLX1S594tkpk0Mi/IjdlhbyzpPxidDQ/aqbf5ycoKMXaxRjK76H+mz7Mgc7XXSXqZ9XuIeDqF6P487mATuQ25MNPhmduC5Ihmr4+gHteQ17loPDSp8uG0V7w+wpmLTZ/Is4UHioljmoGZJsnPFFEUp4Q/0qOSN3hZO0YXwoBa3MB9kKd+8z8uxUfWQQ3GhXmac9Brs4ADc0KE8e9KEyD/Bmt6IPzaBM8M0NQEhvmlhJrYv5+mcxyDn8qTsFKRVCZxBGTCnOZNRl3QNIjxCY38Cgx+PrWB7EHls9nGzRND1yjFTe0yk4
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(346002)(136003)(366004)(39860400002)(230922051799003)(230273577357003)(230173577357003)(186009)(1800799012)(64100799003)(451199024)(86362001)(36756003)(33656002)(8676002)(4326008)(6916009)(38100700002)(83380400001)(1076003)(2616005)(966005)(26005)(107886003)(6512007)(66556008)(6506007)(6486002)(66946007)(66476007)(478600001)(54906003)(316002)(41300700001)(8936002)(5660300002)(2906002)(27376004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?aIeA4C61CXbQr+qvg4J9C/i/8LSXCHVgfUJCcoXbRPvll7UOiH1TSvRF3vz4?=
- =?us-ascii?Q?GJELDueTGwTVv0CvESkhDa77aXBth0YR/Ymg32Z8HwOq7k2DZC8x4dvRNw4Q?=
- =?us-ascii?Q?7IGdKLezJB55X7+SudEWXhzguZ4spZkohl25xOSXdbIBRBDGSFINYKyOuG5h?=
- =?us-ascii?Q?vIXV4yRt+JYdDUXjfLA3h+ApFdVA+f7u8XgzbONwnnrVC0RPFzFplJXQaNJD?=
- =?us-ascii?Q?JBbEMgKxuQ3bDayAam4sp3be1AiIaZThofIJEBg9uJzdLAhtFI8xy8qLKnuG?=
- =?us-ascii?Q?89TvJFSwtfyh4QtnUcTifEsOnsA166ydio8AsMdkdIKuAhqgRw16yiArPh7D?=
- =?us-ascii?Q?ZdPGOkH5hYJVVKPyyzxFDGz+W/NgT7pyqaSDN7W/3OpSjJktIte4GqD6rdRm?=
- =?us-ascii?Q?pcrK89zflMwOH+KmjayCPX2W+INDSdLuB/BJLeUmIPj327PGTrScsYEqvI7m?=
- =?us-ascii?Q?cmdqEc10TKR7nJItgya6yF5fprUi7SJhkitAlzqvzOpUJjOH20Ktsuhve7aa?=
- =?us-ascii?Q?mhBxxiIYQEqioYZ5uXojY0j1jVSWK//GxX/uSN9F+Z2DkBJOpKBBJbq1uexj?=
- =?us-ascii?Q?T4bCYCINtQSSNxqXc4veWkQlOvSIGbnt+uRw/n8Q1ChDXFlVXDVKqvK+uAzY?=
- =?us-ascii?Q?Wa0lux0ppatHn29Pe3mij+QD5RGiigBG5mqhyHy8HWuQpBV4JDJCcxx9S54Y?=
- =?us-ascii?Q?wrBpDTRqj2chuXJKu6YaenHT4SGOkz4fFl5plowx4r8kJtyQtg8DyBXnLWF9?=
- =?us-ascii?Q?N7QQMEpQg0A2gNZ2dL4vnAdAaW/uxRWOcuuRVVbc91S/o8kDEl09N0Oodqkr?=
- =?us-ascii?Q?FDzSYfopw48oWigwxlyirmwD/+r9vV57Cgv/RuGHxzH8X97IKkPLgiPm+mTK?=
- =?us-ascii?Q?aV0tKyoHtXtLVwQI2eXpPJi8tulR48/7u96ZILsMPqkx7/9hNBkBwDDo9Pr0?=
- =?us-ascii?Q?/SmIHv4IdkiYDmfdDHxd/T1s+vXjytITv6oyXLPnpbjVZhAh1VF8wPSj8BlG?=
- =?us-ascii?Q?l/7RkeFhYo78N34k4ytfrmQ8whYH5RsidlgCUkfULJZQM1yNRWKIfmDzjQtd?=
- =?us-ascii?Q?avK5K7RR4H5wtcDjR89UdJsvKcQFH8JaTsnzCniAMLJboPsUp9BX/ht5qYWC?=
- =?us-ascii?Q?ZLSSMhfa3wJm7y3TXR6NywzEEtm2q2Rx0UZv+QvEYPlq6W5MeQDlIW2IP+pI?=
- =?us-ascii?Q?MTSo7+rjuGFLjw2rR+xVc1Gd3yf45oGBXkkynChLTp1a5mmr58n1wniO/vn9?=
- =?us-ascii?Q?A93OQrnRl2oYe4cCsRaf5f1QOCgdj5k5iTnubmaEQ2pNOGcWDiv6W3SJbUzj?=
- =?us-ascii?Q?yFalthPS4XZ6rsEBHAN1+nZoNgrC6u+eShPpAjGEXfSNkTQLgJ/bjsoaoDm/?=
- =?us-ascii?Q?J4Ab+e2i3cFdpCDKWfsvk6GTHz7dNYjbj91tdT4y91ScEe/RhdeO0Z5IpyVn?=
- =?us-ascii?Q?M4XzhuhRMw8DBeI7B33ft28nzJ71FrWAC6UZGl5t7K9gD5DaXC5L0neXhtlZ?=
- =?us-ascii?Q?hpOYd4W5e08OXjXBEAAtJxTYvnqGqA2rDfslmJdFRKjlePbw7SnyBPdZXTLo?=
- =?us-ascii?Q?7msPchqeGYZ3qv6JN0Q=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ab282ed-6583-4c5d-47c4-08dc12bba5ca
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2024 15:40:33.0573
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4CsKy08qgr+/NhaHuJ9Vjujh5tcM0bsnfeQkFbhNd4b8QgCHjhoHGzpQPsI/WqoH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7204
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53e5c71a-d954-4211-91a1-de067451d532@gmail.com>
 
-On Thu, Jan 11, 2024 at 11:05:36PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   de927f6c0b07d9e698416c5b287c521b07694cac
-> commit: d624d6652a65ad4f47a58b8651a1ec1163bb81d3 iommufd: vfio container FD ioctl compatibility
-> date:   1 year, 1 month ago
-> config: arm64-randconfig-r132-20240105 (https://download.01.org/0day-ci/archive/20240111/202401112201.oMA1N8EM-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20240111/202401112201.oMA1N8EM-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401112201.oMA1N8EM-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/iommu/iommufd/vfio_compat.c:315:17: sparse: sparse: cast removes address space '__user' of expression
-> 
-> vim +/__user +315 drivers/iommu/iommufd/vfio_compat.c
-> 
->    309	
->    310	static int iommufd_fill_cap_iova(struct iommufd_ioas *ioas,
->    311					 struct vfio_info_cap_header __user *cur,
->    312					 size_t avail)
->    313	{
->    314		struct vfio_iommu_type1_info_cap_iova_range __user *ucap_iovas =
->  > 315			container_of(cur,
->    316				     struct vfio_iommu_type1_info_cap_iova_range __user,
->    317				     header);
+Hi Heiner,
 
-I think this is a limitation of sparse, the __user tags are correct
-here..
+kernel test robot noticed the following build errors:
 
-Jason
+[auto build test ERROR on wsa/i2c/for-next]
+[also build test ERROR on next-20240111]
+[cannot apply to linus/master v6.7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/i2c-smbus-Prepare-i2c_register_spd-for-usage-on-muxed-segments/20240111-042152
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/53e5c71a-d954-4211-91a1-de067451d532%40gmail.com
+patch subject: [PATCH 2/4] i2c: mux: add basic support for calling i2c_register_spd on muxed bus segments
+config: i386-randconfig-053-20240111 (https://download.01.org/0day-ci/archive/20240111/202401112333.GUpSFOuc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401112333.GUpSFOuc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401112333.GUpSFOuc-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: drivers/i2c/i2c-mux.o: in function `i2c_mux_add_adapter':
+>> drivers/i2c/i2c-mux.c:434: undefined reference to `i2c_register_spd'
+
+
+vim +434 drivers/i2c/i2c-mux.c
+
+   283	
+   284	int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
+   285				u32 force_nr, u32 chan_id,
+   286				unsigned int class)
+   287	{
+   288		struct i2c_adapter *parent = muxc->parent;
+   289		struct i2c_mux_priv *priv;
+   290		char symlink_name[20];
+   291		int ret;
+   292	
+   293		if (muxc->num_adapters >= muxc->max_adapters) {
+   294			dev_err(muxc->dev, "No room for more i2c-mux adapters\n");
+   295			return -EINVAL;
+   296		}
+   297	
+   298		priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+   299		if (!priv)
+   300			return -ENOMEM;
+   301	
+   302		/* Set up private adapter data */
+   303		priv->muxc = muxc;
+   304		priv->chan_id = chan_id;
+   305	
+   306		/* Need to do algo dynamically because we don't know ahead
+   307		 * of time what sort of physical adapter we'll be dealing with.
+   308		 */
+   309		if (parent->algo->master_xfer) {
+   310			if (muxc->mux_locked)
+   311				priv->algo.master_xfer = i2c_mux_master_xfer;
+   312			else
+   313				priv->algo.master_xfer = __i2c_mux_master_xfer;
+   314		}
+   315		if (parent->algo->master_xfer_atomic)
+   316			priv->algo.master_xfer_atomic = priv->algo.master_xfer;
+   317	
+   318		if (parent->algo->smbus_xfer) {
+   319			if (muxc->mux_locked)
+   320				priv->algo.smbus_xfer = i2c_mux_smbus_xfer;
+   321			else
+   322				priv->algo.smbus_xfer = __i2c_mux_smbus_xfer;
+   323		}
+   324		if (parent->algo->smbus_xfer_atomic)
+   325			priv->algo.smbus_xfer_atomic = priv->algo.smbus_xfer;
+   326	
+   327		priv->algo.functionality = i2c_mux_functionality;
+   328	
+   329		/* Now fill out new adapter structure */
+   330		snprintf(priv->adap.name, sizeof(priv->adap.name),
+   331			 "i2c-%d-mux (chan_id %d)", i2c_adapter_id(parent), chan_id);
+   332		priv->adap.owner = THIS_MODULE;
+   333		priv->adap.algo = &priv->algo;
+   334		priv->adap.algo_data = priv;
+   335		priv->adap.dev.parent = &parent->dev;
+   336		priv->adap.retries = parent->retries;
+   337		priv->adap.timeout = parent->timeout;
+   338		priv->adap.quirks = parent->quirks;
+   339		if (muxc->mux_locked)
+   340			priv->adap.lock_ops = &i2c_mux_lock_ops;
+   341		else
+   342			priv->adap.lock_ops = &i2c_parent_lock_ops;
+   343	
+   344		/* Sanity check on class */
+   345		if (i2c_mux_parent_classes(parent) & class & ~I2C_CLASS_DEPRECATED)
+   346			dev_err(&parent->dev,
+   347				"Segment %d behind mux can't share classes with ancestors\n",
+   348				chan_id);
+   349		else
+   350			priv->adap.class = class;
+   351	
+   352		/*
+   353		 * Try to populate the mux adapter's of_node, expands to
+   354		 * nothing if !CONFIG_OF.
+   355		 */
+   356		if (muxc->dev->of_node) {
+   357			struct device_node *dev_node = muxc->dev->of_node;
+   358			struct device_node *mux_node, *child = NULL;
+   359			u32 reg;
+   360	
+   361			if (muxc->arbitrator)
+   362				mux_node = of_get_child_by_name(dev_node, "i2c-arb");
+   363			else if (muxc->gate)
+   364				mux_node = of_get_child_by_name(dev_node, "i2c-gate");
+   365			else
+   366				mux_node = of_get_child_by_name(dev_node, "i2c-mux");
+   367	
+   368			if (mux_node) {
+   369				/* A "reg" property indicates an old-style DT entry */
+   370				if (!of_property_read_u32(mux_node, "reg", &reg)) {
+   371					of_node_put(mux_node);
+   372					mux_node = NULL;
+   373				}
+   374			}
+   375	
+   376			if (!mux_node)
+   377				mux_node = of_node_get(dev_node);
+   378			else if (muxc->arbitrator || muxc->gate)
+   379				child = of_node_get(mux_node);
+   380	
+   381			if (!child) {
+   382				for_each_child_of_node(mux_node, child) {
+   383					ret = of_property_read_u32(child, "reg", &reg);
+   384					if (ret)
+   385						continue;
+   386					if (chan_id == reg)
+   387						break;
+   388				}
+   389			}
+   390	
+   391			priv->adap.dev.of_node = child;
+   392			of_node_put(mux_node);
+   393		}
+   394	
+   395		/*
+   396		 * Associate the mux channel with an ACPI node.
+   397		 */
+   398		if (has_acpi_companion(muxc->dev))
+   399			acpi_preset_companion(&priv->adap.dev,
+   400					      ACPI_COMPANION(muxc->dev),
+   401					      chan_id);
+   402	
+   403		if (force_nr) {
+   404			priv->adap.nr = force_nr;
+   405			ret = i2c_add_numbered_adapter(&priv->adap);
+   406			if (ret < 0) {
+   407				dev_err(&parent->dev,
+   408					"failed to add mux-adapter %u as bus %u (error=%d)\n",
+   409					chan_id, force_nr, ret);
+   410				goto err_free_priv;
+   411			}
+   412		} else {
+   413			ret = i2c_add_adapter(&priv->adap);
+   414			if (ret < 0) {
+   415				dev_err(&parent->dev,
+   416					"failed to add mux-adapter %u (error=%d)\n",
+   417					chan_id, ret);
+   418				goto err_free_priv;
+   419			}
+   420		}
+   421	
+   422		WARN(sysfs_create_link(&priv->adap.dev.kobj, &muxc->dev->kobj,
+   423				       "mux_device"),
+   424		     "can't create symlink to mux device\n");
+   425	
+   426		snprintf(symlink_name, sizeof(symlink_name), "channel-%u", chan_id);
+   427		WARN(sysfs_create_link(&muxc->dev->kobj, &priv->adap.dev.kobj,
+   428				       symlink_name),
+   429		     "can't create symlink to channel %u\n", chan_id);
+   430		dev_info(&parent->dev, "Added multiplexed i2c bus %d\n",
+   431			 i2c_adapter_id(&priv->adap));
+   432	
+   433		if (muxc->register_spd)
+ > 434			i2c_register_spd(&priv->adap);
+   435	
+   436		muxc->adapter[muxc->num_adapters++] = &priv->adap;
+   437		return 0;
+   438	
+   439	err_free_priv:
+   440		kfree(priv);
+   441		return ret;
+   442	}
+   443	EXPORT_SYMBOL_GPL(i2c_mux_add_adapter);
+   444	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
