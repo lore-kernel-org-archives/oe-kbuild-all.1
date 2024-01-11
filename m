@@ -1,54 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D9E58217
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 22:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70880FBF8;
+	Thu, 11 Jan 2024 22:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bmUrfBFn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705011183; x=1736547183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=77gniDFqbAtVKzXvNwUuWmc8OSijBmmZsRKorTWArWU=;
-  b=bmUrfBFnk5JI3nsIRDpwDQOb1BuSlJE7ML62c2kTPRVwoU8IAlIwuqfi
-   qFuAothMfW/F8X6Si0zMJVs/kFUO7Y8UBGgL5UNsqoZDiEyO/Ke6kWCRA
-   YUde9VZvpcQY87y8/6JvzzKv3SrIcAUKxAaUO+jZOg6QctZIVInU13iMa
-   ZujqOx1BNu3bDt0jvo0OvYyX4bF3xN3KkaiMz4P40fcxde1L1x3nWXmH+
-   H281LWV1juHoDbW3b34BBc/KN7yKs2BgeqiG/5SVbUY21Ng89t40awBps
-   sL8CeeIpO2TCYdeFO4QnRW3kkCbeUiocTiLxO9st0+ODTmaspPQ2qKaed
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="20479399"
-X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="20479399"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 14:13:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="1029716548"
-X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="1029716548"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Jan 2024 14:12:58 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rO3IG-0008mg-1Q;
-	Thu, 11 Jan 2024 22:12:56 +0000
-Date: Fri, 12 Jan 2024 06:12:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel_team@skhynix.com,
-	akpm@linux-foundation.org, ying.huang@intel.com, namit@vmware.com,
-	xhao@linux.alibaba.com, mgorman@techsingularity.net,
-	hughd@google.com, willy@infradead.org, david@redhat.com,
-	luto@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com
-Subject: Re: [v5 6/7] mm: Defer TLB flush by keeping both src and dst folios
- at migration
-Message-ID: <202401120637.ZuSqfagi-lkp@intel.com>
-References: <20240111060757.13563-7-byungchul@sk.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OfvTIE3Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E2ECC433F1;
+	Thu, 11 Jan 2024 22:41:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705012870;
+	bh=+WwJWrlRns8EY2E9CLCbBROU9LT8j8Mr6e6ahvyEWOU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OfvTIE3YPZ6MdksK4thbEF0gX4EYWItfgro+p6au+ae/0L1Rn5KPQUey1MO2mF7sb
+	 912wFQwxWJt6Eqz5rquvRdwVK23gOw+mZN3QMJzBuw9omsgfklBLL4ldqAI5eFHiMf
+	 UwH3kwKHmW649e28JAQ6P8MeeoY5YOS78K9x583/YWF7UJuVj+KZu6omk0vxfKcOhP
+	 NdiX663P8dwv8VefWE36YU8/vmf1Hpt79kYUnhnu0IyL1nEAxmLnqQ0zgq6NMjjG59
+	 7vahCIA30Sn0UeqmjWeNnB4C048bpJkLlXFQL2KrAO5l8ShyZvKdAqNwDxW80aGjE4
+	 KMyE7A/fIix6w==
+Date: Thu, 11 Jan 2024 15:41:08 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kernel test robot <lkp@intel.com>, ardb@kernel.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, bhelgaas@google.com, arnd@arndb.de,
+	zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, paul@paul-moore.com,
+	jmorris@namei.org, serge@hallyn.com, javierm@redhat.com,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arch@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] arch/x86: Move internal setup_data structures
+ into setup_data.h
+Message-ID: <20240111224108.GA227186@dev-arch.thelio-3990X>
+References: <20240108095903.8427-3-tzimmermann@suse.de>
+ <202401090800.UOBEKB3W-lkp@intel.com>
+ <20240109175814.GA5981@dev-arch.thelio-3990X>
+ <1fd1a3ca-edeb-4bf6-a12d-a8087a180d36@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,75 +45,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240111060757.13563-7-byungchul@sk.com>
+In-Reply-To: <1fd1a3ca-edeb-4bf6-a12d-a8087a180d36@suse.de>
 
-Hi Byungchul,
+On Thu, Jan 11, 2024 at 10:50:43AM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 09.01.24 um 18:58 schrieb Nathan Chancellor:
+> > On Tue, Jan 09, 2024 at 08:28:59AM +0800, kernel test robot wrote:
+> > > Hi Thomas,
+> > > 
+> > > kernel test robot noticed the following build warnings:
+> > > 
+> > > [auto build test WARNING on tip/x86/core]
+> > > [also build test WARNING on efi/next tip/master tip/auto-latest linus/master v6.7 next-20240108]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > 
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/arch-x86-Move-UAPI-setup-structures-into-setup_data-h/20240108-180158
+> > > base:   tip/x86/core
+> > > patch link:    https://lore.kernel.org/r/20240108095903.8427-3-tzimmermann%40suse.de
+> > > patch subject: [PATCH v4 2/4] arch/x86: Move internal setup_data structures into setup_data.h
+> > > config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240109/202401090800.UOBEKB3W-lkp@intel.com/config)
+> > > compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401090800.UOBEKB3W-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202401090800.UOBEKB3W-lkp@intel.com/
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > >     In file included from arch/x86/realmode/rm/wakemain.c:3:
+> > >     In file included from arch/x86/boot/boot.h:24:
+> > >     In file included from arch/x86/include/asm/setup.h:10:
+> > >     In file included from arch/x86/include/asm/page_types.h:7:
+> > >     In file included from include/linux/mem_encrypt.h:17:
+> > >     In file included from arch/x86/include/asm/mem_encrypt.h:18:
+> > >     In file included from arch/x86/include/uapi/asm/bootparam.h:5:
+> > > > > arch/x86/include/asm/setup_data.h:10:20: warning: field 'data' with variable sized type 'struct setup_data' not at the end of a struct or class is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
+> > >        10 |         struct setup_data data;
+> > >           |                           ^
+> > >     1 warning generated.
+> > 
+> > I think this warning is expected. This structure is now included in the
+> > realmode part of arch/x86, which has its own set of build flags,
+> > including -Wall, which includes -Wgnu on clang. The kernel obviously
+> > uses GNU extensions and states this clearly with '-std=gnu11', so
+> > -Wno-gnu is unconditionally added to KBUILD_CFLAGS for clang. It seems
+> > that same treatment is needed for REALMODE_CFLAGS, which also matches
+> > arch/x86/boot/compressed/Makefile, see commit 6c3b56b19730 ("x86/boot:
+> > Disable Clang warnings about GNU extensions"):
+> > 
+> > diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> > index 1a068de12a56..24076db59783 100644
+> > --- a/arch/x86/Makefile
+> > +++ b/arch/x86/Makefile
+> > @@ -53,6 +53,9 @@ REALMODE_CFLAGS += -fno-stack-protector
+> >   REALMODE_CFLAGS += -Wno-address-of-packed-member
+> >   REALMODE_CFLAGS += $(cc_stack_align4)
+> >   REALMODE_CFLAGS += $(CLANG_FLAGS)
+> > +ifdef CONFIG_CC_IS_CLANG
+> > +REALMODE_CFLAGS += -Wno-gnu
+> > +endif
+> 
+> Thanks. Shall I include this change in the patchset?
 
-kernel test robot noticed the following build warnings:
+Yes, I think so to keep the build clean.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tip/sched/core tip/x86/core arm64/for-next/core tip/x86/mm linus/master v6.7 next-20240111]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/x86-tlb-Add-APIs-manipulating-tlb-batch-s-arch-data/20240111-141049
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240111060757.13563-7-byungchul%40sk.com
-patch subject: [v5 6/7] mm: Defer TLB flush by keeping both src and dst folios at migration
-config: x86_64-randconfig-161-20240111 (https://download.01.org/0day-ci/archive/20240112/202401120637.ZuSqfagi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120637.ZuSqfagi-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401120637.ZuSqfagi-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> mm/migrate.c:152:6: warning: no previous prototype for 'migrc_flush_start' [-Wmissing-prototypes]
-     152 | void migrc_flush_start(void)
-         |      ^~~~~~~~~~~~~~~~~
->> mm/migrate.c:161:6: warning: no previous prototype for 'migrc_flush_end' [-Wmissing-prototypes]
-     161 | void migrc_flush_end(struct arch_tlbflush_unmap_batch *arch)
-         |      ^~~~~~~~~~~~~~~
+> Best regards
+> Thomas
+> 
+> >   export REALMODE_CFLAGS
+> >   # BITS is used as extension for files which are available in a 32 bit
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 
 
-vim +/migrc_flush_start +152 mm/migrate.c
 
-   151	
- > 152	void migrc_flush_start(void)
-   153	{
-   154		unsigned long flags;
-   155	
-   156		spin_lock_irqsave(&migrc_lock, flags);
-   157		migrc_flushing++;
-   158		spin_unlock_irqrestore(&migrc_lock, flags);
-   159	}
-   160	
- > 161	void migrc_flush_end(struct arch_tlbflush_unmap_batch *arch)
-   162	{
-   163		LIST_HEAD(folios);
-   164		struct folio *f, *f2;
-   165		unsigned long flags;
-   166	
-   167		spin_lock_irqsave(&migrc_lock, flags);
-   168		if (!arch_tlbbatch_done(&migrc_ubc.arch, arch)) {
-   169			list_splice_init(&migrc_folios, &folios);
-   170			migrc_ubc.flush_required = false;
-   171			migrc_ubc.writable = false;
-   172		}
-   173		migrc_flushing--;
-   174		spin_unlock_irqrestore(&migrc_lock, flags);
-   175	
-   176		list_for_each_entry_safe(f, f2, &folios, lru) {
-   177			folio_put_small_nopcp(f);
-   178			atomic_dec(&folio_zone(f)->migrc_pending_nr);
-   179		}
-   180	}
-   181	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
