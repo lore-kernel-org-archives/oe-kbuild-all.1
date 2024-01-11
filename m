@@ -1,125 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9F156756
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 19:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BFA56B7D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 21:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WyYHUT+t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705003147; x=1736539147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zWgdszgF2upi1RJNQNcI5k8HBE/XFq2LbjMvesYoLCk=;
-  b=WyYHUT+tFWycSN8F74TmVVL61TNZfDE/N/Bn8+j6x8PMotxHEPl2Mi4q
-   yi4LOq3oC77D72UoCfM89WAn9SveFAzd97vwFPiyGMVpU0ghiX1ICb++0
-   5NUWQr01lOsUrolz8VbVRjjExw0tHGucJixgjt4FGMf3L0n6RdNSNF4k6
-   4AlnxfwheCVl2CRU61FHDwHDv7uSOERJ5to3uwzO305r47jM25zNC46La
-   ibuazPpyW12/MeLHblCcnv2sdr4hdDeBIy1aq4n8URaHx61PCYXtiLxiC
-   O86X9IiAz6KfEPrZOD1+Lg3areWB8wSAIqmCg5t8WbXRLoLb/VupzFURh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="397846590"
-X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="397846590"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 11:59:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="786108629"
-X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="786108629"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Jan 2024 11:59:01 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rO1CS-0008gU-0D;
-	Thu, 11 Jan 2024 19:58:51 +0000
-Date: Fri, 12 Jan 2024 03:58:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel_team@skhynix.com,
-	akpm@linux-foundation.org, ying.huang@intel.com, namit@vmware.com,
-	xhao@linux.alibaba.com, mgorman@techsingularity.net,
-	hughd@google.com, willy@infradead.org, david@redhat.com,
-	peterz@infradead.org, luto@kernel.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Subject: Re: [v5 6/7] mm: Defer TLB flush by keeping both src and dst folios
- at migration
-Message-ID: <202401120309.9xlXPJBx-lkp@intel.com>
-References: <20240111060757.13563-7-byungchul@sk.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zcE674O9"
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-466eb1aeb6eso1415382137.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 13:20:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1705008044; x=1705612844; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fV8E3GY3Bf8X4jIpwdPtDTsqut4T51x4SGgA0WQsHBg=;
+        b=zcE674O9wlVJNY3roKvZSC7oaQb0b4tHQrcbY8WuOYrZeOmhrRPMc5MvGdKv/j83iw
+         2cGIaYCadT4GbE7kRblljdVL4n77PiA0PVVF6wWMlDmB9N6vlUM8se6U5VRLZHDK9518
+         AEx7C4+7gEpMLHK0RYUtZRM4dyBo4ngGVg0IXOxNJThAsOVWEnRpVn4KbkueRfdn5pVG
+         EW4jlsKVWT68EsKCOTTADVmgBo2tuxdbCi0xPxRasKXXweBe8Az45T3QCMIRfo09ZG6m
+         nOfLscNM31PU9vXPUigl+qychFEZ/earfUQtZVykOWjoPwt0f5wSKho5YUdOBf0m7fcS
+         wV6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705008044; x=1705612844;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fV8E3GY3Bf8X4jIpwdPtDTsqut4T51x4SGgA0WQsHBg=;
+        b=YLhRIr8CiBkawdvAcprNwc7kcbNGLj9cKP8YSX55tgcNLi0Ob2uHXiwRbWDk2tcGTm
+         VlwR3FGruCyAZRKFQETIF8+oR5/orUXvsLvY3hjRo29zsN8AuQeonYsFZUaEnmGaZkRm
+         e1hUSzgb7CW0YOLgx3CesfeInjT9vD1I38SeRCTZqH9WOv4D24IhFPmdyBwGBbsEtO7w
+         xz2G9oMjEdzWhRVMT540+SWbohUR17Hppku+M6NVokKlFSpYPB1dLZIQEkZNYZtrwulq
+         W6vPCkwqHo0p21oye2GVsTHCuYkIZHkkcavM73Cmsz4rRjWgPyk00wenUNFLbFpkKqmL
+         +a3w==
+X-Gm-Message-State: AOJu0YwuMdq/qByab+LBJSI907O29A7/7/cmerAdnzphQUfuuRVT0gGh
+	PeHAGNkMn2oNHO4xhC3nq3YYzWa4IT5dKtdjGaMShaQb9rvV
+X-Google-Smtp-Source: AGHT+IGD0yFAepkYBqAzxYxiPmzH2nLXLz0AQf5J6Kh1QXElngJUOD9LfOmgQyL5SKVkBz4lh0erKjErSzCLxOG6bbo=
+X-Received: by 2002:a67:f2d4:0:b0:468:1083:39ea with SMTP id
+ a20-20020a67f2d4000000b00468108339eamr448515vsn.20.1705008043947; Thu, 11 Jan
+ 2024 13:20:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240111060757.13563-7-byungchul@sk.com>
+References: <20240111001155.746-1-carlosgalo@google.com> <202401120052.rdFjpivG-lkp@intel.com>
+In-Reply-To: <202401120052.rdFjpivG-lkp@intel.com>
+From: Carlos Galo <carlosgalo@google.com>
+Date: Thu, 11 Jan 2024 13:20:30 -0800
+Message-ID: <CABtOLRJ8=fPePsAG1-QyF_uo2X=sOGXcgsU_fJJXk3mFyOVN+w@mail.gmail.com>
+Subject: Re: [PATCH] mm: Update mark_victim tracepoints fields
+To: kernel test robot <lkp@intel.com>
+Cc: rostedt@goodmis.org, akpm@linux-foundation.org, surenb@google.com, 
+	oe-kbuild-all@lists.linux.dev, android-mm@google.com, kernel-team@android.com, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Byungchul,
+On Thu, Jan 11, 2024 at 9:08=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Carlos,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 0dd3ee31125508cd67f7e7172247f05b7fd1753a]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Galo/mm-Upd=
+ate-mark_victim-tracepoints-fields/20240111-081635
+> base:   0dd3ee31125508cd67f7e7172247f05b7fd1753a
+> patch link:    https://lore.kernel.org/r/20240111001155.746-1-carlosgalo%=
+40google.com
+> patch subject: [PATCH] mm: Update mark_victim tracepoints fields
+> config: x86_64-defconfig (https://download.01.org/0day-ci/archive/2024011=
+2/202401120052.rdFjpivG-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240112/202401120052.rdFjpivG-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401120052.rdFjpivG-lkp=
+@intel.com/
+>
 
-kernel test robot noticed the following build errors:
+Sorry, I missed a comma in my final editing.
+I posted a V2 here:
+https://lore.kernel.org/lkml/20240111210539.636607-1-carlosgalo@google.com/
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on tip/sched/core tip/x86/core arm64/for-next/core tip/x86/mm linus/master v6.7 next-20240111]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks,
+Carlos
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/x86-tlb-Add-APIs-manipulating-tlb-batch-s-arch-data/20240111-141049
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240111060757.13563-7-byungchul%40sk.com
-patch subject: [v5 6/7] mm: Defer TLB flush by keeping both src and dst folios at migration
-config: x86_64-buildonly-randconfig-005-20240111 (https://download.01.org/0day-ci/archive/20240112/202401120309.9xlXPJBx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120309.9xlXPJBx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401120309.9xlXPJBx-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from mm/hwpoison-inject.c:10:
-   mm/internal.h: In function 'init_tlb_ubc':
->> mm/internal.h:931:9: error: implicit declaration of function 'arch_tlbbatch_clear' [-Werror=implicit-function-declaration]
-     931 |         arch_tlbbatch_clear(&ubc->arch);
-         |         ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/arch_tlbbatch_clear +931 mm/internal.h
-
-   928	
-   929	static inline void init_tlb_ubc(struct tlbflush_unmap_batch *ubc)
-   930	{
- > 931		arch_tlbbatch_clear(&ubc->arch);
-   932		ubc->flush_required = false;
-   933		ubc->writable = false;
-   934	}
-   935	#else
-   936	static inline void try_to_unmap_flush(void)
-   937	{
-   938	}
-   939	static inline void try_to_unmap_flush_dirty(void)
-   940	{
-   941	}
-   942	static inline void flush_tlb_batched_pending(struct mm_struct *mm)
-   943	{
-   944	}
-   945	static inline void fold_ubc(struct tlbflush_unmap_batch *dst, struct tlbflush_unmap_batch *src)
-   946	{
-   947	}
-   948	static inline void init_tlb_ubc(struct tlbflush_unmap_batch *ubc)
-   949	{
-   950	}
-   951	#endif /* CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH */
-   952	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> All errors (new ones prefixed by >>):
+>
+>    In file included from include/trace/define_trace.h:102,
+>                     from include/trace/events/oom.h:206,
+>                     from mm/oom_kill.c:54:
+>    include/trace/events/oom.h: In function 'trace_raw_output_mark_victim'=
+:
+> >> include/trace/stages/stage3_trace_output.h:6:17: error: called object =
+is not a function or function pointer
+>        6 | #define __entry field
+>          |                 ^~~~~
+>    include/trace/trace_events.h:203:34: note: in definition of macro 'DEC=
+LARE_EVENT_CLASS'
+>      203 |         trace_event_printf(iter, print);                      =
+          \
+>          |                                  ^~~~~
+>    include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAM=
+S'
+>       45 |                              PARAMS(print));                  =
+ \
+>          |                              ^~~~~~
+>    include/trace/events/oom.h:74:1: note: in expansion of macro 'TRACE_EV=
+ENT'
+>       74 | TRACE_EVENT(mark_victim,
+>          | ^~~~~~~~~~~
+>    include/trace/events/oom.h:93:9: note: in expansion of macro 'TP_print=
+k'
+>       93 |         TP_printk("pid=3D%d uid=3D%u comm=3D%s oom_score_adj=
+=3D%hd",
+>          |         ^~~~~~~~~
+>    include/trace/events/oom.h:95:17: note: in expansion of macro '__entry=
+'
+>       95 |                 __entry->uid
+>          |                 ^~~~~~~
+> >> include/trace/trace_events.h:203:39: error: expected expression before=
+ ')' token
+>      203 |         trace_event_printf(iter, print);                      =
+          \
+>          |                                       ^
+>    include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLAR=
+E_EVENT_CLASS'
+>       40 |         DECLARE_EVENT_CLASS(name,                             =
+ \
+>          |         ^~~~~~~~~~~~~~~~~~~
+>    include/trace/events/oom.h:74:1: note: in expansion of macro 'TRACE_EV=
+ENT'
+>       74 | TRACE_EVENT(mark_victim,
+>          | ^~~~~~~~~~~
+>
+>
+> vim +6 include/trace/stages/stage3_trace_output.h
+>
+> af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Goog=
+le  2022-03-03  4)
+> af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Goog=
+le  2022-03-03  5) #undef __entry
+> af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Goog=
+le  2022-03-03 @6) #define __entry field
+> af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Goog=
+le  2022-03-03  7)
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
