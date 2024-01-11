@@ -1,49 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA5958211
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 22:03:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D9E58217
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 22:13:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EhY8ND5N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bmUrfBFn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705010584; x=1736546584;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5ZQRrVAl0PG7SERb2bc3pt3R7Oth3GP77ikhV/19394=;
-  b=EhY8ND5NEOAUCP++3w9e7Qw0Z621Tgf1Ot9YxC1XcFaz7wql8MYVJ7ik
-   /sgHdWthYE/OrR47p3yArsFnHYdl04v9gfr1m014l5Eeh0Hx0pP3VbBD1
-   RP8XP6BHPN/Qw9/H5aSVh95IvRfkwNzCjMD5/bHpOdH1vwoENp450t1ph
-   /MP5ji+4fTs7egF818QIKqXfaL/WRE9fV7ums/Nwsqt7Jpi+ZCUZtp9FU
-   Z1rW/b3nGOEQEKbIjgdxJfEC7RWLPD5ZynhZDG212aSoV2F808rgVAV4A
-   BwYWvv+gydc14/UT+L4V7UU81vkVg7ylsTEH4Ryj9zqpDhUbSppIIdBRC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="5734288"
+  t=1705011183; x=1736547183;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=77gniDFqbAtVKzXvNwUuWmc8OSijBmmZsRKorTWArWU=;
+  b=bmUrfBFnk5JI3nsIRDpwDQOb1BuSlJE7ML62c2kTPRVwoU8IAlIwuqfi
+   qFuAothMfW/F8X6Si0zMJVs/kFUO7Y8UBGgL5UNsqoZDiEyO/Ke6kWCRA
+   YUde9VZvpcQY87y8/6JvzzKv3SrIcAUKxAaUO+jZOg6QctZIVInU13iMa
+   ZujqOx1BNu3bDt0jvo0OvYyX4bF3xN3KkaiMz4P40fcxde1L1x3nWXmH+
+   H281LWV1juHoDbW3b34BBc/KN7yKs2BgeqiG/5SVbUY21Ng89t40awBps
+   sL8CeeIpO2TCYdeFO4QnRW3kkCbeUiocTiLxO9st0+ODTmaspPQ2qKaed
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="20479399"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="5734288"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 14:03:00 -0800
+   d="scan'208";a="20479399"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 14:13:02 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="1029716548"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="31161487"
+   d="scan'208";a="1029716548"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 11 Jan 2024 14:02:59 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 11 Jan 2024 14:12:58 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rO38a-0008mU-14;
-	Thu, 11 Jan 2024 22:02:56 +0000
-Date: Fri, 12 Jan 2024 06:02:26 +0800
+	id 1rO3IG-0008mg-1Q;
+	Thu, 11 Jan 2024 22:12:56 +0000
+Date: Fri, 12 Jan 2024 06:12:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-doc@vger.kernel.org
-Subject: htmldocs: Warning:
- Documentation/devicetree/bindings/power/wakeup-source.txt references a file
- that doesn't exist:
- Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-Message-ID: <202401120516.KDduRkyp-lkp@intel.com>
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, kernel_team@skhynix.com,
+	akpm@linux-foundation.org, ying.huang@intel.com, namit@vmware.com,
+	xhao@linux.alibaba.com, mgorman@techsingularity.net,
+	hughd@google.com, willy@infradead.org, david@redhat.com,
+	luto@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com
+Subject: Re: [v5 6/7] mm: Defer TLB flush by keeping both src and dst folios
+ at migration
+Message-ID: <202401120637.ZuSqfagi-lkp@intel.com>
+References: <20240111060757.13563-7-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,25 +57,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240111060757.13563-7-byungchul@sk.com>
 
-Hi Dmitry,
+Hi Byungchul,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3e7aeb78ab01c2c2f0e1f784e5ddec88fcd3d106
-commit: 53ed3233e6b5fbfb63abc945d1fc156222f4eb62 dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
-date:   2 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20240112/202401120516.KDduRkyp-lkp@intel.com/reproduce)
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on tip/sched/core tip/x86/core arm64/for-next/core tip/x86/mm linus/master v6.7 next-20240111]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/x86-tlb-Add-APIs-manipulating-tlb-batch-s-arch-data/20240111-141049
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240111060757.13563-7-byungchul%40sk.com
+patch subject: [v5 6/7] mm: Defer TLB flush by keeping both src and dst folios at migration
+config: x86_64-randconfig-161-20240111 (https://download.01.org/0day-ci/archive/20240112/202401120637.ZuSqfagi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120637.ZuSqfagi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401120516.KDduRkyp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401120637.ZuSqfagi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+>> mm/migrate.c:152:6: warning: no previous prototype for 'migrc_flush_start' [-Wmissing-prototypes]
+     152 | void migrc_flush_start(void)
+         |      ^~~~~~~~~~~~~~~~~
+>> mm/migrate.c:161:6: warning: no previous prototype for 'migrc_flush_end' [-Wmissing-prototypes]
+     161 | void migrc_flush_end(struct arch_tlbflush_unmap_batch *arch)
+         |      ^~~~~~~~~~~~~~~
+
+
+vim +/migrc_flush_start +152 mm/migrate.c
+
+   151	
+ > 152	void migrc_flush_start(void)
+   153	{
+   154		unsigned long flags;
+   155	
+   156		spin_lock_irqsave(&migrc_lock, flags);
+   157		migrc_flushing++;
+   158		spin_unlock_irqrestore(&migrc_lock, flags);
+   159	}
+   160	
+ > 161	void migrc_flush_end(struct arch_tlbflush_unmap_batch *arch)
+   162	{
+   163		LIST_HEAD(folios);
+   164		struct folio *f, *f2;
+   165		unsigned long flags;
+   166	
+   167		spin_lock_irqsave(&migrc_lock, flags);
+   168		if (!arch_tlbbatch_done(&migrc_ubc.arch, arch)) {
+   169			list_splice_init(&migrc_folios, &folios);
+   170			migrc_ubc.flush_required = false;
+   171			migrc_ubc.writable = false;
+   172		}
+   173		migrc_flushing--;
+   174		spin_unlock_irqrestore(&migrc_lock, flags);
+   175	
+   176		list_for_each_entry_safe(f, f2, &folios, lru) {
+   177			folio_put_small_nopcp(f);
+   178			atomic_dec(&folio_zone(f)->migrc_pending_nr);
+   179		}
+   180	}
+   181	
 
 -- 
 0-DAY CI Kernel Test Service
