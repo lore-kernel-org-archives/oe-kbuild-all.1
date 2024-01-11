@@ -1,117 +1,96 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42ED152F89
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 17:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5cf1f4f6c3dso1259437a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 09:55:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704995757; x=1705600557;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n9arcEUo79iuH5i+dQJ8o/Ftr9e8e+zqckCAA6/vHao=;
-        b=cYED7I/7VxuHWYUzub3s1OXz9pDWpvJRWsxY6fFyVLokg31lejtSJ6HWjDgoay+g3W
-         S2xJdCPH8s8M1RkeAGydDQqvMgb9K6jiZUmun1ClhrtNwWI5pBoKyYGgjOaaKhGW3ONp
-         e+rIblLLIcfzEiFC7tYe4memZUQhkb+/1LYR4eoCXQ6Te3Zp0/Blhar0aL1S1+qb4rKk
-         laxM9er8P4krRGBsuqb/tQiMtMHlFRxIHblcX2czy0BcH44utj6AdWDfwBCShgVOMGRs
-         AOkeTOqKqv85A6qDaAhN6nOQtjg7dWIa4dMsRuO8uwiSldSlHFtDgXIvwSTBbrxxGske
-         m+kg==
-X-Gm-Message-State: AOJu0Yy+pVTeG0WzKsUgeManQeHqLqUqJ84DmXrOD3Fvk9gppn8otZDF
-	7I5XBUwAwDIEjNHzq7PhAvJZykiKqfg=
-X-Google-Smtp-Source: AGHT+IGCKXP/Me2EyaazqGPGYzpfCDrjY+044h6PG7i2KrkVjz4fSS4fq8NYYdUCrD//ET7yh10kZA==
-X-Received: by 2002:a05:6a20:3c91:b0:19a:41b2:7d98 with SMTP id b17-20020a056a203c9100b0019a41b27d98mr210749pzj.89.1704995757236;
-        Thu, 11 Jan 2024 09:55:57 -0800 (PST)
-Received: from ?IPV6:2620:0:1000:8411:2b84:6ee3:e813:3d8d? ([2620:0:1000:8411:2b84:6ee3:e813:3d8d])
-        by smtp.gmail.com with ESMTPSA id u25-20020a62d459000000b006db056542e6sm1500847pfl.190.2024.01.11.09.55.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jan 2024 09:55:56 -0800 (PST)
-Message-ID: <5b643088-7110-494e-9c5b-dd271c291894@acm.org>
-Date: Thu, 11 Jan 2024 09:55:54 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21013A1BE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 18:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2kU1R/C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704996126; x=1736532126;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NDUlt8cHUNRbo9p35sXswKdw7pM0gAGd1DD+yk0gvWE=;
+  b=C2kU1R/CWtEio/5XT/IybK9GnvT9QGPNZWvPyJh9Baqze3XkPvrmFIMS
+   Jhb63ua5UAYtucEdOi5rLQkfN3w2BkK431nNZ91lhMaRZ9bov3nn6U0x9
+   Cq+cgZHvs6gvMjx9ZusdxG7pcP/6p97wHIxjgkehrAI5JFO6zGYy8VG7K
+   GKA+AmJgZY/NtdX2Sg65RsIgHp+flqyxpM7Y7oyvn5Q+peTN9Wl9Dtb3C
+   DIxg33b0i9FjIDdnMPfLdeHaX2ClayWfju2yNglfPdhn4WPPoaR9SAFT2
+   BYEGiBiuf86JXPXPFS6Xfwrv08o/JoKYrXNjLbrhHTDaek6S1SGDc3p5Z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="430117080"
+X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
+   d="scan'208";a="430117080"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 10:02:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="1113939250"
+X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
+   d="scan'208";a="1113939250"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 11 Jan 2024 10:02:04 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNzNS-0008Yw-1h;
+	Thu, 11 Jan 2024 18:02:02 +0000
+Date: Fri, 12 Jan 2024 02:01:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1784/2356] kernel/livepatch/core.c:97:12:
+ warning: no previous prototype for 'arch_klp_init_func'
+Message-ID: <202401120149.MK9hqdEe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scsi: core: Safe warning about bad dev info string
-Content-Language: en-US
-To: Petr Mladek <pmladek@suse.com>,
- "James E . J . Bottomley" <jejb@linux.ibm.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
- Chris Down <chris@chrisdown.name>, oe-kbuild-all@lists.linux.dev,
- kernel test robot <lkp@intel.com>
-References: <20240111162419.12406-1-pmladek@suse.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240111162419.12406-1-pmladek@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 1/11/24 08:24, Petr Mladek wrote:
-> Both "model" and "strflags" are passed to "%s" even when one or both
-> are NULL.
-> 
-> It is safe because vsprintf() would detect the NULL pointer and print
-> "(null)". But it is a kernel-specific feature and compiler warns
-> about it:
-> 
-> <warning>
->     In file included from include/linux/kernel.h:19,
->                      from arch/x86/include/asm/percpu.h:27,
->                      from arch/x86/include/asm/current.h:6,
->                      from include/linux/sched.h:12,
->                      from include/linux/blkdev.h:5,
->                      from drivers/scsi/scsi_devinfo.c:3:
->     drivers/scsi/scsi_devinfo.c: In function 'scsi_dev_info_list_add_str':
->>> include/linux/printk.h:434:44: warning: '%s' directive argument is null [-Wformat-overflow=]
->       434 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
->           |                                            ^
->     include/linux/printk.h:430:3: note: in definition of macro 'printk_index_wrap'
->       430 |   _p_func(_fmt, ##__VA_ARGS__);    \
->           |   ^~~~~~~
->     drivers/scsi/scsi_devinfo.c:551:4: note: in expansion of macro 'printk'
->       551 |    printk(KERN_ERR "%s: bad dev info string '%s' '%s'"
->           |    ^~~~~~
->     drivers/scsi/scsi_devinfo.c:552:14: note: format string is defined here
->       552 |           " '%s'\n", __func__, vendor, model,
->           |              ^~
-> </warning>
-> 
-> Do not rely on the kernel specific behavior and print the message a safe way.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202401112002.AOjwMNM0-lkp@intel.com/
-> Signed-off-by: Petr Mladek <pmladek@suse.com>
-> ---
-> Note: The patch is only compile tested.
-> 
->   drivers/scsi/scsi_devinfo.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/scsi/scsi_devinfo.c b/drivers/scsi/scsi_devinfo.c
-> index 3fcaf10a9dfe..ba7237e83863 100644
-> --- a/drivers/scsi/scsi_devinfo.c
-> +++ b/drivers/scsi/scsi_devinfo.c
-> @@ -551,9 +551,9 @@ static int scsi_dev_info_list_add_str(char *dev_list)
->   		if (model)
->   			strflags = strsep(&next, next_check);
->   		if (!model || !strflags) {
-> -			printk(KERN_ERR "%s: bad dev info string '%s' '%s'"
-> -			       " '%s'\n", __func__, vendor, model,
-> -			       strflags);
-> +			pr_err("%s: bad dev info string '%s' '%s' '%s'\n",
-> +			       __func__, vendor, model ? model : "",
-> +			       strflags ? strflags : "");
->   			res = -EINVAL;
->   		} else
->   			res = scsi_dev_info_list_add(0 /* compatible */, vendor,
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   ea6de9f6732d495c506f9c140b4ec17c957e1b77
+commit: eabc33c6f2c91168537f10e9275b0921c9f78c45 [1784/2356] livepatch/ppc64: Implement livepatch without ftrace for ppc64be
+config: x86_64-openeuler_defconfig (https://download.01.org/0day-ci/archive/20240112/202401120149.MK9hqdEe-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120149.MK9hqdEe-lkp@intel.com/reproduce)
 
-Expressions like "model ? model : """ can be shortened into "model ? : """.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401120149.MK9hqdEe-lkp@intel.com/
 
-Anyway:
+All warnings (new ones prefixed by >>):
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+>> kernel/livepatch/core.c:97:12: warning: no previous prototype for 'arch_klp_init_func' [-Wmissing-prototypes]
+      97 | int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
+         |            ^~~~~~~~~~~~~~~~~~
+   kernel/livepatch/core.c:1756:12: warning: no previous prototype for 'arch_klp_check_activeness_func' [-Wmissing-prototypes]
+    1756 | int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/livepatch/core.c:2011:14: warning: no previous prototype for 'arch_klp_mem_alloc' [-Wmissing-prototypes]
+    2011 | void __weak *arch_klp_mem_alloc(size_t size)
+         |              ^~~~~~~~~~~~~~~~~~
+   kernel/livepatch/core.c:2016:13: warning: no previous prototype for 'arch_klp_mem_free' [-Wmissing-prototypes]
+    2016 | void __weak arch_klp_mem_free(void *mem)
+         |             ^~~~~~~~~~~~~~~~~
+   kernel/livepatch/core.c:2052:13: warning: no previous prototype for 'arch_klp_set_brk_func' [-Wmissing-prototypes]
+    2052 | void __weak arch_klp_set_brk_func(struct klp_func_node *func_node, void *new_func)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/arch_klp_init_func +97 kernel/livepatch/core.c
+
+    96	
+  > 97	int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
+    98	{
+    99		return 0;
+   100	}
+   101	#endif /* CONFIG_LIVEPATCH_FTRACE */
+   102	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
