@@ -1,46 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14A75812B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 21:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B41A58125
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 21:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2xPpeD+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAmRRwiJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705008061; x=1736544061;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8h5DFjlxATjdb8q4sJ0FkG/DSlJ4OkJJ5yUhgXAKbmI=;
-  b=R2xPpeD+kWKr/DrkLeseeQPic8gV4MLVWooXnUi2AMMclBjXV5A0njXS
-   KeTHuz6fL6/5mpsozLJwcLCJSCu3ieHeFZvZ5eEAoffjneM/a9S+BBAJd
-   44w/0aPWga2R+5TOFvGAcjm7qDhQMuWZfIrRfHedLzCPpZFbQpgK47bvx
-   0FeMh2wDpYeUDeBVmwYidIlxoNNowbXvQXawguGjHeneQ6KZlyHL6MPh1
-   TkUf1mOh9IFe7cnC47+7ITmAa0PFY6YJbYwezoQlL65DAFo2TChBynDBC
-   FFJUkNJnP9aRoNPEmHRLXfsy08pJEfNOrYnMVoWOh1PIDTOv71c5KupEs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="6354589"
+  t=1705008271; x=1736544271;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mpcYbrWhLXQV3OEkoZW3Ab2z9VEwcZ0Wmb5SJxoUv28=;
+  b=EAmRRwiJd4PT0O1KMQqjTqBU6KzcamkEOChi3pDBn2yDPHTga6wN3k9i
+   iNpV1MwCdh7gv2LRtFW0gXu7LES+rPd8OYDtFDn559aNkbbblFfQZlt/+
+   xqCUgyV3HKMtXGoud4nexjbEPztCAIEIXZRke0hsa33QV7TeQOJ1mZJhp
+   66OxwEFOsW+5MWHnmUERScDvtCNl3kFbwXtKbONJvE+6NjZGVK5CVcfaF
+   aVnE/6aApyByoOdxuAGVvdCqnSJ90KZbZa8lJwQpiV+YqBS8BhjzgtWNX
+   CJrf6vMG5UV88YhupSpiJk5ph4X40mGBQbjzVA16qXrhfwW96CMWNaum3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="5761228"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="6354589"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 13:20:58 -0800
+   d="scan'208";a="5761228"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 13:21:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="873156989"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="786126713"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="873156989"
+   d="scan'208";a="786126713"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Jan 2024 13:20:57 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 11 Jan 2024 13:20:57 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rO2Tv-0008kk-1U;
+	id 1rO2Tv-0008ke-1J;
 	Thu, 11 Jan 2024 21:20:55 +0000
-Date: Fri, 12 Jan 2024 05:20:35 +0800
+Date: Fri, 12 Jan 2024 05:20:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/base/regmap/regmap-kunit.c:795:43: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202401120557.tDMmzgkZ-lkp@intel.com>
+To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+	andriy.shevchenko@linux.intel.com, hdegoede@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, ilpo.jarvinen@linux.intel.com,
+	claus.stovgaard@gmail.com, tomi.valkeinen@ideasonboard.com,
+	tfiga@chromium.org, senozhatsky@chromium.org,
+	andreaskleist@gmail.com, bingbu.cao@intel.com,
+	bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
+	hongju.wang@intel.com
+Subject: Re: [PATCH v3 16/17] media: ipu6/isys: support line-based metadata
+ capture support
+Message-ID: <202401120528.5MY4pum6-lkp@intel.com>
+References: <20240111065531.2418836-17-bingbu.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,105 +58,513 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240111065531.2418836-17-bingbu.cao@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   de927f6c0b07d9e698416c5b287c521b07694cac
-commit: 155a6bd6375b584c8bdbf963b8ddef672ff9aca3 regmap: Provide basic KUnit coverage for the raw register I/O
-date:   7 months ago
-config: x86_64-randconfig-123-20240106 (https://download.01.org/0day-ci/archive/20240112/202401120557.tDMmzgkZ-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120557.tDMmzgkZ-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master linus/master v6.7 next-20240111]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/bingbu-cao-intel-com/media-intel-ipu6-add-IPU-auxiliary-devices/20240111-155551
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240111065531.2418836-17-bingbu.cao%40intel.com
+patch subject: [PATCH v3 16/17] media: ipu6/isys: support line-based metadata capture support
+config: x86_64-buildonly-randconfig-004-20240111 (https://download.01.org/0day-ci/archive/20240112/202401120528.5MY4pum6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120528.5MY4pum6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401120557.tDMmzgkZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401120528.5MY4pum6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/base/regmap/regmap-kunit.c:795:43: sparse: sparse: cast to restricted __le16
->> drivers/base/regmap/regmap-kunit.c:798:43: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:875:25: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:875:25: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:877:25: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:877:25: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:944:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:944:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:947:33: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:947:33: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:989:17: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:989:17: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:992:17: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:992:17: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1004:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1004:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1007:33: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1007:33: sparse: sparse: cast to restricted __le16
+All errors (new ones prefixed by >>):
 
-vim +795 drivers/base/regmap/regmap-kunit.c
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c: In function 'ipu6_isys_mbus_code_to_bpp':
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:23:14: error: 'MEDIA_BUS_FMT_META_24' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_VUY8_1X24'?
+      23 |         case MEDIA_BUS_FMT_META_24:
+         |              ^~~~~~~~~~~~~~~~~~~~~
+         |              MEDIA_BUS_FMT_VUY8_1X24
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:23:14: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:28:14: error: 'MEDIA_BUS_FMT_META_16' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_Y16_1X16'?
+      28 |         case MEDIA_BUS_FMT_META_16:
+         |              ^~~~~~~~~~~~~~~~~~~~~
+         |              MEDIA_BUS_FMT_Y16_1X16
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:34:14: error: 'MEDIA_BUS_FMT_META_12' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_UV8_1X8'?
+      34 |         case MEDIA_BUS_FMT_META_12:
+         |              ^~~~~~~~~~~~~~~~~~~~~
+         |              MEDIA_BUS_FMT_UV8_1X8
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:40:14: error: 'MEDIA_BUS_FMT_META_10' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_Y10_1X10'?
+      40 |         case MEDIA_BUS_FMT_META_10:
+         |              ^~~~~~~~~~~~~~~~~~~~~
+         |              MEDIA_BUS_FMT_Y10_1X10
+>> drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:46:14: error: 'MEDIA_BUS_FMT_META_8' undeclared (first use in this function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
+      46 |         case MEDIA_BUS_FMT_META_8:
+         |              ^~~~~~~~~~~~~~~~~~~~
+         |              MEDIA_BUS_FMT_Y8_1X8
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c: In function 'ipu6_isys_subdev_set_fmt':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:159:15: error: implicit declaration of function 'v4l2_subdev_state_get_stream_format'; did you mean 'v4l2_subdev_state_get_format'? [-Werror=implicit-function-declaration]
+     159 |         fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               v4l2_subdev_state_get_format
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:159:13: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     159 |         fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+         |             ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:185:16: error: implicit declaration of function 'v4l2_subdev_state_get_stream_crop'; did you mean 'v4l2_subdev_state_get_crop'? [-Werror=implicit-function-declaration]
+     185 |         crop = v4l2_subdev_state_get_stream_crop(state, other_pad,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                v4l2_subdev_state_get_crop
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:185:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     185 |         crop = v4l2_subdev_state_get_stream_crop(state, other_pad,
+         |              ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c: In function 'ipu6_isys_get_stream_pad_fmt':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:244:13: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     244 |         fmt = v4l2_subdev_state_get_stream_format(state, pad, stream);
+         |             ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c: In function 'ipu6_isys_get_stream_pad_crop':
+   drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c:262:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     262 |         rect = v4l2_subdev_state_get_stream_crop(state, pad, stream);
+         |              ^
+   cc1: some warnings being treated as errors
+--
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:45:9: error: 'MEDIA_BUS_FMT_META_8' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
+      45 |         MEDIA_BUS_FMT_META_8,
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         MEDIA_BUS_FMT_Y8_1X8
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:46:9: error: 'MEDIA_BUS_FMT_META_10' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_Y10_1X10'?
+      46 |         MEDIA_BUS_FMT_META_10,
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         MEDIA_BUS_FMT_Y10_1X10
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:47:9: error: 'MEDIA_BUS_FMT_META_12' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_UV8_1X8'?
+      47 |         MEDIA_BUS_FMT_META_12,
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         MEDIA_BUS_FMT_UV8_1X8
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:48:9: error: 'MEDIA_BUS_FMT_META_16' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_Y16_1X16'?
+      48 |         MEDIA_BUS_FMT_META_16,
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         MEDIA_BUS_FMT_Y16_1X16
+>> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:49:9: error: 'MEDIA_BUS_FMT_META_24' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_VUY8_1X24'?
+      49 |         MEDIA_BUS_FMT_META_24,
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         MEDIA_BUS_FMT_VUY8_1X24
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: In function 'ipu6_isys_csi2_set_sel':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:406:20: error: implicit declaration of function 'v4l2_subdev_state_get_stream_format'; did you mean 'v4l2_subdev_state_get_format'? [-Werror=implicit-function-declaration]
+     406 |         src_ffmt = v4l2_subdev_state_get_stream_format(state, sel->pad,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                    v4l2_subdev_state_get_format
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:406:18: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     406 |         src_ffmt = v4l2_subdev_state_get_stream_format(state, sel->pad,
+         |                  ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:411:16: error: implicit declaration of function 'v4l2_subdev_state_get_stream_crop'; did you mean 'v4l2_subdev_state_get_crop'? [-Werror=implicit-function-declaration]
+     411 |         crop = v4l2_subdev_state_get_stream_crop(state, sel->pad, sel->stream);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                v4l2_subdev_state_get_crop
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:411:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     411 |         crop = v4l2_subdev_state_get_stream_crop(state, sel->pad, sel->stream);
+         |              ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: In function 'ipu6_isys_csi2_get_sel':
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:456:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     456 |         crop = v4l2_subdev_state_get_stream_crop(state, sel->pad, sel->stream);
+         |              ^
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c: At top level:
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:483:10: error: 'const struct v4l2_subdev_pad_ops' has no member named 'init_cfg'
+     483 |         .init_cfg = ipu6_isys_subdev_init_cfg,
+         |          ^~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:483:21: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+     483 |         .init_cfg = ipu6_isys_subdev_init_cfg,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:483:21: note: (near initialization for 'csi2_sd_pad_ops')
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:483:21: error: invalid initializer
+   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:483:21: note: (near initialization for 'csi2_sd_pad_ops.<anonymous>')
+   cc1: some warnings being treated as errors
+--
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:88:10: error: 'V4L2_META_FMT_GENERIC_8' undeclared here (not in a function); did you mean 'V4L2_META_FMT_VIVID'?
+      88 |         {V4L2_META_FMT_GENERIC_8, 8, 8, MEDIA_BUS_FMT_META_8, 0},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+         |          V4L2_META_FMT_VIVID
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:88:41: error: 'MEDIA_BUS_FMT_META_8' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_Y8_1X8'?
+      88 |         {V4L2_META_FMT_GENERIC_8, 8, 8, MEDIA_BUS_FMT_META_8, 0},
+         |                                         ^~~~~~~~~~~~~~~~~~~~
+         |                                         MEDIA_BUS_FMT_Y8_1X8
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:89:10: error: 'V4L2_META_FMT_GENERIC_CSI2_10' undeclared here (not in a function)
+      89 |         {V4L2_META_FMT_GENERIC_CSI2_10, 10, 10, MEDIA_BUS_FMT_META_10, 0},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:89:49: error: 'MEDIA_BUS_FMT_META_10' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_Y10_1X10'?
+      89 |         {V4L2_META_FMT_GENERIC_CSI2_10, 10, 10, MEDIA_BUS_FMT_META_10, 0},
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+         |                                                 MEDIA_BUS_FMT_Y10_1X10
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:90:10: error: 'V4L2_META_FMT_GENERIC_CSI2_12' undeclared here (not in a function)
+      90 |         {V4L2_META_FMT_GENERIC_CSI2_12, 12, 12, MEDIA_BUS_FMT_META_12, 0},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:90:49: error: 'MEDIA_BUS_FMT_META_12' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_UV8_1X8'?
+      90 |         {V4L2_META_FMT_GENERIC_CSI2_12, 12, 12, MEDIA_BUS_FMT_META_12, 0},
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+         |                                                 MEDIA_BUS_FMT_UV8_1X8
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:91:10: error: 'V4L2_META_FMT_GENERIC_CSI2_16' undeclared here (not in a function)
+      91 |         {V4L2_META_FMT_GENERIC_CSI2_16, 16, 16, MEDIA_BUS_FMT_META_16, 0},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:91:49: error: 'MEDIA_BUS_FMT_META_16' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_Y16_1X16'?
+      91 |         {V4L2_META_FMT_GENERIC_CSI2_16, 16, 16, MEDIA_BUS_FMT_META_16, 0},
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+         |                                                 MEDIA_BUS_FMT_Y16_1X16
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:92:10: error: 'V4L2_META_FMT_GENERIC_CSI2_24' undeclared here (not in a function)
+      92 |         {V4L2_META_FMT_GENERIC_CSI2_24, 24, 24, MEDIA_BUS_FMT_META_24, 0},
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:92:49: error: 'MEDIA_BUS_FMT_META_24' undeclared here (not in a function); did you mean 'MEDIA_BUS_FMT_VUY8_1X24'?
+      92 |         {V4L2_META_FMT_GENERIC_CSI2_24, 24, 24, MEDIA_BUS_FMT_META_24, 0},
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+         |                                                 MEDIA_BUS_FMT_VUY8_1X24
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c: In function 'ipu6_isys_video_try_fmt_meta':
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:13: error: 'struct v4l2_meta_format' has no member named 'width'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |             ^~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/bits.h:21,
+                    from drivers/media/pci/intel/ipu6/ipu6-isys-video.c:7:
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:33: error: 'struct v4l2_meta_format' has no member named 'width'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                                 ^~
+   include/linux/compiler.h:236:55: note: in definition of macro '__is_constexpr'
+     236 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
+         |                                                       ^
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   In file included from include/linux/kernel.h:28,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from drivers/media/pci/intel/ipu6/ipu6-isys-video.c:9:
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:33: error: 'struct v4l2_meta_format' has no member named 'width'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                                 ^~
+   include/linux/minmax.h:61:11: note: in definition of macro '__clamp'
+      61 |         ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+         |           ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:33: error: 'struct v4l2_meta_format' has no member named 'width'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                                 ^~
+   include/linux/minmax.h:61:35: note: in definition of macro '__clamp'
+      61 |         ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+         |                                   ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:33: error: 'struct v4l2_meta_format' has no member named 'width'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                                 ^~
+   include/linux/minmax.h:61:58: note: in definition of macro '__clamp'
+      61 |         ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+         |                                                          ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:33: error: 'struct v4l2_meta_format' has no member named 'width'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                                 ^~
+   include/linux/minmax.h:64:16: note: in definition of macro '__clamp_once'
+      64 |         typeof(val) unique_val = (val);                                         \
+         |                ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:33: error: 'struct v4l2_meta_format' has no member named 'width'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                                 ^~
+   include/linux/minmax.h:64:35: note: in definition of macro '__clamp_once'
+      64 |         typeof(val) unique_val = (val);                                         \
+         |                                   ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:33: error: 'struct v4l2_meta_format' has no member named 'width'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                                 ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:70:9: note: in expansion of macro 'static_assert'
+      70 |         static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");    \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:31:31: note: in expansion of macro '__is_constexpr'
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |                               ^~~~~~~~~~~~~~
+   include/linux/minmax.h:31:46: note: in expansion of macro 'is_signed_type'
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |                                              ^~~~~~~~~~~~~~
+--
+         |                                                        ^~~~
+   include/linux/minmax.h:71:9: note: in expansion of macro 'static_assert'
+      71 |         static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");    \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:36:53: note: in expansion of macro '__is_signed'
+      36 |         (__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+         |                                                     ^~~~~~~~~~~
+   include/linux/minmax.h:41:17: note: in expansion of macro '__is_noneg_int'
+      41 |                 __is_noneg_int(x) || __is_noneg_int(y))
+         |                 ^~~~~~~~~~~~~~
+   include/linux/minmax.h:71:23: note: in expansion of macro '__types_ok'
+      71 |         static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");    \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:77:17: note: in expansion of macro '__clamp_once'
+      77 |                 __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+         |                 ^~~~~~~~~~~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:33: error: 'struct v4l2_meta_format' has no member named 'width'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                                 ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:71:9: note: in expansion of macro 'static_assert'
+      71 |         static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");    \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:41:17: note: in expansion of macro '__is_noneg_int'
+      41 |                 __is_noneg_int(x) || __is_noneg_int(y))
+         |                 ^~~~~~~~~~~~~~
+   include/linux/minmax.h:71:23: note: in expansion of macro '__types_ok'
+      71 |         static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");    \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:77:17: note: in expansion of macro '__clamp_once'
+      77 |                 __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+         |                 ^~~~~~~~~~~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   include/linux/minmax.h:36:10: error: first argument to '__builtin_choose_expr' not a constant
+      36 |         (__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:71:9: note: in expansion of macro 'static_assert'
+      71 |         static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");    \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:41:17: note: in expansion of macro '__is_noneg_int'
+      41 |                 __is_noneg_int(x) || __is_noneg_int(y))
+         |                 ^~~~~~~~~~~~~~
+   include/linux/minmax.h:71:23: note: in expansion of macro '__types_ok'
+      71 |         static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");    \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:77:17: note: in expansion of macro '__clamp_once'
+      77 |                 __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+         |                 ^~~~~~~~~~~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   include/linux/minmax.h:39:9: error: expression in static assertion is not an integer
+      39 |         (__is_signed(x) == __is_signed(y) ||                    \
+         |         ^
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:71:9: note: in expansion of macro 'static_assert'
+      71 |         static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");    \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:71:23: note: in expansion of macro '__types_ok'
+      71 |         static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");    \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:77:17: note: in expansion of macro '__clamp_once'
+      77 |                 __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+         |                 ^~~~~~~~~~~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+   include/linux/minmax.h:75:9: error: first argument to '__builtin_choose_expr' not a constant
+      75 |         __builtin_choose_expr(__is_constexpr((val) - (lo) + (hi)),      \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:265:23: note: in expansion of macro 'clamp'
+     265 |         meta->width = clamp(meta->width, IPU6_ISYS_MIN_WIDTH,
+         |                       ^~~~~
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:13: error: 'struct v4l2_meta_format' has no member named 'height'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |             ^~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:34: error: 'struct v4l2_meta_format' has no member named 'height'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                                  ^~
+   include/linux/compiler.h:236:55: note: in definition of macro '__is_constexpr'
+     236 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
+         |                                                       ^
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:24: note: in expansion of macro 'clamp'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                        ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:34: error: 'struct v4l2_meta_format' has no member named 'height'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                                  ^~
+   include/linux/minmax.h:61:11: note: in definition of macro '__clamp'
+      61 |         ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+         |           ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:24: note: in expansion of macro 'clamp'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                        ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:34: error: 'struct v4l2_meta_format' has no member named 'height'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                                  ^~
+   include/linux/minmax.h:61:35: note: in definition of macro '__clamp'
+      61 |         ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+         |                                   ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:24: note: in expansion of macro 'clamp'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                        ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:34: error: 'struct v4l2_meta_format' has no member named 'height'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                                  ^~
+   include/linux/minmax.h:61:58: note: in definition of macro '__clamp'
+      61 |         ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+         |                                                          ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:24: note: in expansion of macro 'clamp'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                        ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:34: error: 'struct v4l2_meta_format' has no member named 'height'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                                  ^~
+   include/linux/minmax.h:64:16: note: in definition of macro '__clamp_once'
+      64 |         typeof(val) unique_val = (val);                                         \
+         |                ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:24: note: in expansion of macro 'clamp'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                        ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:34: error: 'struct v4l2_meta_format' has no member named 'height'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                                  ^~
+   include/linux/minmax.h:64:35: note: in definition of macro '__clamp_once'
+      64 |         typeof(val) unique_val = (val);                                         \
+         |                                   ^~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+         |                            ^~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:24: note: in expansion of macro 'clamp'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                        ^~~~~
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c:267:34: error: 'struct v4l2_meta_format' has no member named 'height'
+     267 |         meta->height = clamp(meta->height, IPU6_ISYS_MIN_HEIGHT,
+         |                                  ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/minmax.h:70:9: note: in expansion of macro 'static_assert'
+      70 |         static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");    \
+         |         ^~~~~~~~~~~~~
+   include/linux/minmax.h:31:31: note: in expansion of macro '__is_constexpr'
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |                               ^~~~~~~~~~~~~~
+   include/linux/minmax.h:31:46: note: in expansion of macro 'is_signed_type'
+      31 |         __builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),        \
+         |                                              ^~~~~~~~~~~~~~
+   include/linux/minmax.h:39:10: note: in expansion of macro '__is_signed'
+      39 |         (__is_signed(x) == __is_signed(y) ||                    \
+         |          ^~~~~~~~~~~
+   include/linux/minmax.h:70:23: note: in expansion of macro '__types_ok'
+      70 |         static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");    \
+         |                       ^~~~~~~~~~
+   include/linux/minmax.h:77:17: note: in expansion of macro '__clamp_once'
+      77 |                 __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+         |                 ^~~~~~~~~~~~
+   include/linux/minmax.h:146:28: note: in expansion of macro '__careful_clamp'
+     146 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+..
 
-   758	
-   759	static struct regmap *gen_raw_regmap(struct regmap_config *config,
-   760					     struct raw_test_types *test_type,
-   761					     struct regmap_ram_data **data)
-   762	{
-   763		u16 *buf;
-   764		struct regmap *ret;
-   765		size_t size = (config->max_register + 1) * config->reg_bits / 8;
-   766		int i;
-   767		struct reg_default *defaults;
-   768	
-   769		config->cache_type = test_type->cache_type;
-   770		config->val_format_endian = test_type->val_endian;
-   771	
-   772		buf = kmalloc(size, GFP_KERNEL);
-   773		if (!buf)
-   774			return ERR_PTR(-ENOMEM);
-   775	
-   776		get_random_bytes(buf, size);
-   777	
-   778		*data = kzalloc(sizeof(**data), GFP_KERNEL);
-   779		if (!(*data))
-   780			return ERR_PTR(-ENOMEM);
-   781		(*data)->vals = (void *)buf;
-   782	
-   783		config->num_reg_defaults = config->max_register + 1;
-   784		defaults = kcalloc(config->num_reg_defaults,
-   785				   sizeof(struct reg_default),
-   786				   GFP_KERNEL);
-   787		if (!defaults)
-   788			return ERR_PTR(-ENOMEM);
-   789		config->reg_defaults = defaults;
-   790	
-   791		for (i = 0; i < config->num_reg_defaults; i++) {
-   792			defaults[i].reg = i;
-   793			switch (test_type->val_endian) {
-   794			case REGMAP_ENDIAN_LITTLE:
- > 795				defaults[i].def = le16_to_cpu(buf[i]);
-   796				break;
-   797			case REGMAP_ENDIAN_BIG:
- > 798				defaults[i].def = be16_to_cpu(buf[i]);
-   799				break;
-   800			default:
-   801				return ERR_PTR(-EINVAL);
-   802			}
-   803		}
-   804	
-   805		/*
-   806		 * We use the defaults in the tests but they don't make sense
-   807		 * to the core if there's no cache.
-   808		 */
-   809		if (config->cache_type == REGCACHE_NONE)
-   810			config->num_reg_defaults = 0;
-   811	
-   812		ret = regmap_init_raw_ram(config, *data);
-   813		if (IS_ERR(ret)) {
-   814			kfree(buf);
-   815			kfree(*data);
-   816		}
-   817	
-   818		return ret;
-   819	}
-   820	
+
+vim +23 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+
+    18	
+    19	unsigned int ipu6_isys_mbus_code_to_bpp(u32 code)
+    20	{
+    21		switch (code) {
+    22		case MEDIA_BUS_FMT_RGB888_1X24:
+  > 23		case MEDIA_BUS_FMT_META_24:
+    24			return 24;
+    25		case MEDIA_BUS_FMT_RGB565_1X16:
+    26		case MEDIA_BUS_FMT_UYVY8_1X16:
+    27		case MEDIA_BUS_FMT_YUYV8_1X16:
+  > 28		case MEDIA_BUS_FMT_META_16:
+    29			return 16;
+    30		case MEDIA_BUS_FMT_SBGGR12_1X12:
+    31		case MEDIA_BUS_FMT_SGBRG12_1X12:
+    32		case MEDIA_BUS_FMT_SGRBG12_1X12:
+    33		case MEDIA_BUS_FMT_SRGGB12_1X12:
+  > 34		case MEDIA_BUS_FMT_META_12:
+    35			return 12;
+    36		case MEDIA_BUS_FMT_SBGGR10_1X10:
+    37		case MEDIA_BUS_FMT_SGBRG10_1X10:
+    38		case MEDIA_BUS_FMT_SGRBG10_1X10:
+    39		case MEDIA_BUS_FMT_SRGGB10_1X10:
+  > 40		case MEDIA_BUS_FMT_META_10:
+    41			return 10;
+    42		case MEDIA_BUS_FMT_SBGGR8_1X8:
+    43		case MEDIA_BUS_FMT_SGBRG8_1X8:
+    44		case MEDIA_BUS_FMT_SGRBG8_1X8:
+    45		case MEDIA_BUS_FMT_SRGGB8_1X8:
+  > 46		case MEDIA_BUS_FMT_META_8:
+    47			return 8;
+    48		default:
+    49			WARN_ON(1);
+    50			return 8;
+    51		}
+    52	}
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
