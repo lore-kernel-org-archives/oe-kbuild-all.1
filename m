@@ -1,181 +1,142 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2048.outbound.protection.outlook.com [40.107.94.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902C54CB3C;
-	Thu, 11 Jan 2024 15:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B8C433D8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 15:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O3L9X7BE"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2cd8bd6ce1bso6964071fa.1;
-        Thu, 11 Jan 2024 07:38:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704987483; x=1705592283; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tB1E0ugJK0L2KvGbNzmJDN1gpsgaCYbTOW0J/2QoMFk=;
-        b=O3L9X7BEnSdJnTj0maaFf6rq3AkbrYG5059HaVx0BatOWZQc7ss0m16pj0eGoqrkal
-         /wzcAZE+cfL2rDj3C8Dui8hP1kcSXANZ5SDsWmP/qa0pR6zyLu2UWsjMS8C/WAJNr2vK
-         7PXkksiZKhdJ8R8Lzafhk4Z6JF2ljCTOpNLwdvoyPvAupk/qB5Ck+snekMsncNguNtv1
-         UVpBBJkylkW5C7kauB5xRF8YZvMMi0slPBX/vIvzhjeNnWUDUGo/9MkKy3ETOtof/amK
-         HRa5QyU3ILNxNFA8uXcJXmqGdVp/9JRtwORcejIHucuTc8ojTKt4GxkSNZrh9G/Gb1Ik
-         HJ4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704987483; x=1705592283;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tB1E0ugJK0L2KvGbNzmJDN1gpsgaCYbTOW0J/2QoMFk=;
-        b=xTekeRA5ffiKoY6NR68ph/W7zAc+0h66s2zh/Rtr7qMEl10223myccU5cj415iYmRZ
-         RksijpNX+mEJhn4GY+e8BIFl4GHs5rRxHQFYWC4xADoSNS59l+QFUgrBuPmtewJDxWnO
-         MhJKeneB4KbVsWswxllNaXAC4FP7W7lmu4SKsW1DibdzrRDudr6bEcWGR/urBJdOQhW3
-         k54lw9Sat1KDp56Y4iUaXvlsXXEcM7Ngf7cNxVOinUQs7xB4YSDl4HAwcD3OzHiwKPWq
-         eXwVtWzOyVGY7Dq5LLqvdrNay/VGrw7miHt7U3a4T7HqBn1X0sAyj1dmKYv1I22C4ico
-         IoFQ==
-X-Gm-Message-State: AOJu0YxZuLZv2dMjhNM9Wt/i7lzdvo17W89XpjqC9Wwj1k89e4LCV2de
-	Cj7SosJH4FvOnrX05iO6UzQ=
-X-Google-Smtp-Source: AGHT+IGSaV5E1Nu8lvLDmrSs+V2HXQYAgLdni6E7SHxF3rpvN64HoSAR4JS53m1gH71mWlE4IsfqJA==
-X-Received: by 2002:a05:6512:61c:b0:50e:ca97:5afb with SMTP id b28-20020a056512061c00b0050eca975afbmr420236lfe.18.1704987483272;
-        Thu, 11 Jan 2024 07:38:03 -0800 (PST)
-Received: from pc638.lan (host-185-121-47-193.sydskane.nu. [185.121.47.193])
-        by smtp.gmail.com with ESMTPSA id w11-20020a056512098b00b0050e8ea87dcesm225717lft.169.2024.01.11.07.38.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 07:38:02 -0800 (PST)
-From: Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@pc638.lan>
-Date: Thu, 11 Jan 2024 16:38:01 +0100
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Uladzislau Rezki (Sony)" <urezki@gmail.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 12999/13245] mm/vmalloc.c:4652:25: warning:
- variable 'addr' is uninitialized when used here
-Message-ID: <ZaALWUTLWUglNY0z@pc638.lan>
-References: <202401111304.N5dkFGNe-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GAMKmIBT"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kqmNk6aQYWTbr/IclVep//sJO0+hvFR21vEsqVKSKUuLTXhHM39CRRwqi+7fvqajPSp7+Ir+S+3scpcIv7Gu0IPQOOykNujE6x5o2kL1wkbZDIh7NmzrRnAWBr7/iIDhxZ3MZkBtvPyZ7g4AX2twsElmUNgZ7PLUCCTcprK5ILZk3ucqR4EjQ18HGKxFUAYkOqSoFIsfGT0gxMlUkkRYBT5g71N7MXY1+p9YYRzLVnAfnOuF4xdYcIMP3S1lA8AkJfkv6EhoLxI+xRVNemTcZZZkZfvIxGa49NYeLQ5ncTQvyX2tbaBlrNRlT9l15TJftJFXYX8A6zBsCSe2r8Xihw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b6Q3GacfprGhd6+nXCFuSsj0keRpI48VxzG8bJoGf6Y=;
+ b=nE9rWV5HvLt5Nlp3P8gkl8LYk5umttebXx7oeGJNbSBZdER/9cdh6GNQqZgWjkrugnEX47UPvWLl+q9DUJ+7GE8UQIGHDkdr3atW8m3RUziTrK9Ja7L+h6mnNDLcb8ATb+Ia+rYIhPW+OObzsBXHpVnDRLUdlGjivl0xe6tW8GRSybBPZB/t6XCIrH5VVT+O/fnEUxRmjjCaXoPX7UgngPSrWbG0uNHymPrKH3DFFcVN0hA9RRqQsm+1KJbhAwrlShTiH0X8S8do1ImPBUt2/uAQwGgUX/H0qilYtJxtKJrnL0mOM/8Zk3rQTngdA5ETkIrp6TOrP/mJ8aMK1BGbsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b6Q3GacfprGhd6+nXCFuSsj0keRpI48VxzG8bJoGf6Y=;
+ b=GAMKmIBT7K0bf8tLfnpen1GPtAg15sn9f1RUcV6BN1TuDPntxGZQoUHQYGXlMjpO/26p0lBAC6ezW6YEvodzyB3h9KqOdtjpw+TyN8A4I4999E0W370QvDM2bV/QYPTggiCYtf8nK/40WBidi2bqVxotd/zLg6+OerX7RMFXxSdxeZt10LO8iOjrt0W3Ab6UfOorRC4I2CfaRI9MfwYzerpCQvPAe6HQ59DICOQTiw/crmC3OMfBgMGgHP2dFbzCLawq8mSrMbw9XHn1KSYZuX3BjZFSXyqqyLLLxUebGgjQykXlfT1f16T2LcAn3IvQO47rGCTHW1qtMm/mKwrFKg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by SN7PR12MB7204.namprd12.prod.outlook.com (2603:10b6:806:2ab::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.18; Thu, 11 Jan
+ 2024 15:40:33 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7159.020; Thu, 11 Jan 2024
+ 15:40:33 +0000
+Date: Thu, 11 Jan 2024 11:40:31 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kevin Tian <kevin.tian@intel.com>,
+	Eric Auger <eric.auger@redhat.com>,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: drivers/iommu/iommufd/vfio_compat.c:315:17: sparse: sparse: cast
+ removes address space '__user' of expression
+Message-ID: <20240111154031.GI439767@nvidia.com>
+References: <202401112201.oMA1N8EM-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202401112201.oMA1N8EM-lkp@intel.com>
+X-ClientProxiedBy: DM6PR10CA0016.namprd10.prod.outlook.com
+ (2603:10b6:5:60::29) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202401111304.N5dkFGNe-lkp@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SN7PR12MB7204:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3ab282ed-6583-4c5d-47c4-08dc12bba5ca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	sDAGaXiv2gwzG0vTZli+9JtAeE0zkiR6A85fezoMhkedmooPDimHHvPBZ0fugBAoEl102dPaNjzvGXMFz0N3zjl+IP+xZ03xQvjo0BXZTC5Cv4EKqRcdUs7GCtN0++Z6TXYUICdET6uoqp1HjoF91X3ZC0IuOP0/0aO1qiIp7KPqMAUToFiJ8S9d16N9da0ZrKcsaDMIao8a8iux9hSN67FEBF05PH273CT7hJZZ4X5QOSsWlIKN8lJvkHelx2upRDQab8ML1z0QFSawia6avJdlNjLQq2wUy67hC/SIMtXD51XsEDeTO2pQ6tTdkO3V1CFCC5A+IcVr3EwNWN/i0vo36DojpyjA6MdVnFlfuilZ/oPWWY0IxI7qP6O71DR4goS1vmHkSGWyTZLX1S594tkpk0Mi/IjdlhbyzpPxidDQ/aqbf5ycoKMXaxRjK76H+mz7Mgc7XXSXqZ9XuIeDqF6P487mATuQ25MNPhmduC5Ihmr4+gHteQ17loPDSp8uG0V7w+wpmLTZ/Is4UHioljmoGZJsnPFFEUp4Q/0qOSN3hZO0YXwoBa3MB9kKd+8z8uxUfWQQ3GhXmac9Brs4ADc0KE8e9KEyD/Bmt6IPzaBM8M0NQEhvmlhJrYv5+mcxyDn8qTsFKRVCZxBGTCnOZNRl3QNIjxCY38Cgx+PrWB7EHls9nGzRND1yjFTe0yk4
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(346002)(136003)(366004)(39860400002)(230922051799003)(230273577357003)(230173577357003)(186009)(1800799012)(64100799003)(451199024)(86362001)(36756003)(33656002)(8676002)(4326008)(6916009)(38100700002)(83380400001)(1076003)(2616005)(966005)(26005)(107886003)(6512007)(66556008)(6506007)(6486002)(66946007)(66476007)(478600001)(54906003)(316002)(41300700001)(8936002)(5660300002)(2906002)(27376004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?aIeA4C61CXbQr+qvg4J9C/i/8LSXCHVgfUJCcoXbRPvll7UOiH1TSvRF3vz4?=
+ =?us-ascii?Q?GJELDueTGwTVv0CvESkhDa77aXBth0YR/Ymg32Z8HwOq7k2DZC8x4dvRNw4Q?=
+ =?us-ascii?Q?7IGdKLezJB55X7+SudEWXhzguZ4spZkohl25xOSXdbIBRBDGSFINYKyOuG5h?=
+ =?us-ascii?Q?vIXV4yRt+JYdDUXjfLA3h+ApFdVA+f7u8XgzbONwnnrVC0RPFzFplJXQaNJD?=
+ =?us-ascii?Q?JBbEMgKxuQ3bDayAam4sp3be1AiIaZThofIJEBg9uJzdLAhtFI8xy8qLKnuG?=
+ =?us-ascii?Q?89TvJFSwtfyh4QtnUcTifEsOnsA166ydio8AsMdkdIKuAhqgRw16yiArPh7D?=
+ =?us-ascii?Q?ZdPGOkH5hYJVVKPyyzxFDGz+W/NgT7pyqaSDN7W/3OpSjJktIte4GqD6rdRm?=
+ =?us-ascii?Q?pcrK89zflMwOH+KmjayCPX2W+INDSdLuB/BJLeUmIPj327PGTrScsYEqvI7m?=
+ =?us-ascii?Q?cmdqEc10TKR7nJItgya6yF5fprUi7SJhkitAlzqvzOpUJjOH20Ktsuhve7aa?=
+ =?us-ascii?Q?mhBxxiIYQEqioYZ5uXojY0j1jVSWK//GxX/uSN9F+Z2DkBJOpKBBJbq1uexj?=
+ =?us-ascii?Q?T4bCYCINtQSSNxqXc4veWkQlOvSIGbnt+uRw/n8Q1ChDXFlVXDVKqvK+uAzY?=
+ =?us-ascii?Q?Wa0lux0ppatHn29Pe3mij+QD5RGiigBG5mqhyHy8HWuQpBV4JDJCcxx9S54Y?=
+ =?us-ascii?Q?wrBpDTRqj2chuXJKu6YaenHT4SGOkz4fFl5plowx4r8kJtyQtg8DyBXnLWF9?=
+ =?us-ascii?Q?N7QQMEpQg0A2gNZ2dL4vnAdAaW/uxRWOcuuRVVbc91S/o8kDEl09N0Oodqkr?=
+ =?us-ascii?Q?FDzSYfopw48oWigwxlyirmwD/+r9vV57Cgv/RuGHxzH8X97IKkPLgiPm+mTK?=
+ =?us-ascii?Q?aV0tKyoHtXtLVwQI2eXpPJi8tulR48/7u96ZILsMPqkx7/9hNBkBwDDo9Pr0?=
+ =?us-ascii?Q?/SmIHv4IdkiYDmfdDHxd/T1s+vXjytITv6oyXLPnpbjVZhAh1VF8wPSj8BlG?=
+ =?us-ascii?Q?l/7RkeFhYo78N34k4ytfrmQ8whYH5RsidlgCUkfULJZQM1yNRWKIfmDzjQtd?=
+ =?us-ascii?Q?avK5K7RR4H5wtcDjR89UdJsvKcQFH8JaTsnzCniAMLJboPsUp9BX/ht5qYWC?=
+ =?us-ascii?Q?ZLSSMhfa3wJm7y3TXR6NywzEEtm2q2Rx0UZv+QvEYPlq6W5MeQDlIW2IP+pI?=
+ =?us-ascii?Q?MTSo7+rjuGFLjw2rR+xVc1Gd3yf45oGBXkkynChLTp1a5mmr58n1wniO/vn9?=
+ =?us-ascii?Q?A93OQrnRl2oYe4cCsRaf5f1QOCgdj5k5iTnubmaEQ2pNOGcWDiv6W3SJbUzj?=
+ =?us-ascii?Q?yFalthPS4XZ6rsEBHAN1+nZoNgrC6u+eShPpAjGEXfSNkTQLgJ/bjsoaoDm/?=
+ =?us-ascii?Q?J4Ab+e2i3cFdpCDKWfsvk6GTHz7dNYjbj91tdT4y91ScEe/RhdeO0Z5IpyVn?=
+ =?us-ascii?Q?M4XzhuhRMw8DBeI7B33ft28nzJ71FrWAC6UZGl5t7K9gD5DaXC5L0neXhtlZ?=
+ =?us-ascii?Q?hpOYd4W5e08OXjXBEAAtJxTYvnqGqA2rDfslmJdFRKjlePbw7SnyBPdZXTLo?=
+ =?us-ascii?Q?7msPchqeGYZ3qv6JN0Q=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ab282ed-6583-4c5d-47c4-08dc12bba5ca
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2024 15:40:33.0573
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4CsKy08qgr+/NhaHuJ9Vjujh5tcM0bsnfeQkFbhNd4b8QgCHjhoHGzpQPsI/WqoH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7204
 
-On Thu, Jan 11, 2024 at 01:13:59PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   9e21984d62c56a0f6d1fc6f76b646212cfd7fe88
-> commit: e88b85b81d5313a69cb62829b957d4a9ecde600b [12999/13245] mm: vmalloc: offload free_vmap_area_lock lock
-> config: arm-defconfig (https://download.01.org/0day-ci/archive/20240111/202401111304.N5dkFGNe-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401111304.N5dkFGNe-lkp@intel.com/reproduce)
+On Thu, Jan 11, 2024 at 11:05:36PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   de927f6c0b07d9e698416c5b287c521b07694cac
+> commit: d624d6652a65ad4f47a58b8651a1ec1163bb81d3 iommufd: vfio container FD ioctl compatibility
+> date:   1 year, 1 month ago
+> config: arm64-randconfig-r132-20240105 (https://download.01.org/0day-ci/archive/20240111/202401112201.oMA1N8EM-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20240111/202401112201.oMA1N8EM-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401111304.N5dkFGNe-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401112201.oMA1N8EM-lkp@intel.com/
 > 
-> All warnings (new ones prefixed by >>):
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/iommu/iommufd/vfio_compat.c:315:17: sparse: sparse: cast removes address space '__user' of expression
 > 
-> >> mm/vmalloc.c:4652:25: warning: variable 'addr' is uninitialized when used here [-Wuninitialized]
->                    va = __find_vmap_area(addr, &vn->busy.root);
->                                          ^~~~
->    mm/vmalloc.c:4645:20: note: initialize the variable 'addr' to silence this warning
->            unsigned long addr;
->                              ^
->                               = 0
->    1 warning generated.
+> vim +/__user +315 drivers/iommu/iommufd/vfio_compat.c
 > 
-> 
-> vim +/addr +4652 mm/vmalloc.c
-> 
-> a10aa579878fc6 Christoph Lameter       2008-04-28  4637  
-> 5bb1bb353cfe34 Paul E. McKenney        2021-01-07  4638  #ifdef CONFIG_PRINTK
-> 98f180837a896e Paul E. McKenney        2020-12-08  4639  bool vmalloc_dump_obj(void *object)
-> 98f180837a896e Paul E. McKenney        2020-12-08  4640  {
-> 98f180837a896e Paul E. McKenney        2020-12-08  4641  	void *objp = (void *)PAGE_ALIGN((unsigned long)object);
-> 0818e739b5c061 Joel Fernandes (Google  2023-09-04  4642) 	const void *caller;
-> 0818e739b5c061 Joel Fernandes (Google  2023-09-04  4643) 	struct vmap_area *va;
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4644) 	struct vmap_node *vn;
-> 0818e739b5c061 Joel Fernandes (Google  2023-09-04  4645) 	unsigned long addr;
-> 0818e739b5c061 Joel Fernandes (Google  2023-09-04  4646) 	unsigned int nr_pages;
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4647) 	bool success = false;
-> 98f180837a896e Paul E. McKenney        2020-12-08  4648  
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4649) 	vn = addr_to_node((unsigned long)objp);
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4650) 
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4651) 	if (spin_trylock(&vn->busy.lock)) {
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02 @4652) 		va = __find_vmap_area(addr, &vn->busy.root);
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4653) 
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4654) 		if (va && va->vm) {
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4655) 			addr = (unsigned long)va->vm->addr;
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4656) 			caller = va->vm->caller;
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4657) 			nr_pages = va->vm->nr_pages;
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4658) 			success = true;
-> 0818e739b5c061 Joel Fernandes (Google  2023-09-04  4659) 		}
-> 0818e739b5c061 Joel Fernandes (Google  2023-09-04  4660) 
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4661) 		spin_unlock(&vn->busy.lock);
-> 0818e739b5c061 Joel Fernandes (Google  2023-09-04  4662) 	}
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4663) 
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4664) 	if (success)
-> bd34dcd4120d7e Paul E. McKenney        2020-12-09  4665  		pr_cont(" %u-page vmalloc region starting at %#lx allocated at %pS\n",
-> 0818e739b5c061 Joel Fernandes (Google  2023-09-04  4666) 			nr_pages, addr, caller);
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4667) 
-> 86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4668) 	return success;
-> 98f180837a896e Paul E. McKenney        2020-12-08  4669  }
-> 5bb1bb353cfe34 Paul E. McKenney        2021-01-07  4670  #endif
-> 98f180837a896e Paul E. McKenney        2020-12-08  4671  
-> 
-> :::::: The code at line 4652 was first introduced by commit
-> :::::: 86817057732a9ce9cefdb6f513b6554a55ebbbbb mm: vmalloc: remove global vmap_area_root rb-tree
-> 
-> :::::: TO: Uladzislau Rezki (Sony) <urezki@gmail.com>
-> :::::: CC: Andrew Morton <akpm@linux-foundation.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>    309	
+>    310	static int iommufd_fill_cap_iova(struct iommufd_ioas *ioas,
+>    311					 struct vfio_info_cap_header __user *cur,
+>    312					 size_t avail)
+>    313	{
+>    314		struct vfio_iommu_type1_info_cap_iova_range __user *ucap_iovas =
+>  > 315			container_of(cur,
+>    316				     struct vfio_iommu_type1_info_cap_iova_range __user,
+>    317				     header);
 
-Same, i sent the patch, but just in case i post it here:
+I think this is a limitation of sparse, the __user tags are correct
+here..
 
-<snip>
-From fa613edf6c3d700a02ef109cbd42633b5df30abb Mon Sep 17 00:00:00 2001
-From: "Uladzislau Rezki (Sony)" <urezki@gmail.com>
-Date: Thu, 11 Jan 2024 13:04:07 +0100
-Subject: [PATCH 1/2] mm: vmalloc: Fix a wrong value passed to
- __find_vmap_area()
-
-There was a type in the vmalloc_dump_obj() function. Instead
-of passing a real address which is "objp" an "addr" was used
-what is wrong and not initialized.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Fixes: e88b85b81d5 ("mm: vmalloc: offload free_vmap_area_lock lock")
-Closes: https://lore.kernel.org/oe-kbuild-all/202401111810.TKPIXLCs-lkp@intel.com/
-Signed-off-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
----
- mm/vmalloc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index e30dabf68263..43a6608e1397 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -4688,7 +4688,7 @@ bool vmalloc_dump_obj(void *object)
- 	vn = addr_to_node((unsigned long)objp);
- 
- 	if (spin_trylock(&vn->busy.lock)) {
--		va = __find_vmap_area(addr, &vn->busy.root);
-+		va = __find_vmap_area((unsigned long)objp, &vn->busy.root);
- 
- 		if (va && va->vm) {
- 			addr = (unsigned long)va->vm->addr;
--- 
-2.39.2
-<snip>
-
-it can be folded into: e88b85b81d5 ("mm: vmalloc: offload free_vmap_area_lock lock")
-or applied as a separate patch.
-
---
-Uladzislau Rezki
+Jason
