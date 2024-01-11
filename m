@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE64D268;
-	Thu, 11 Jan 2024 07:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1371D287
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 07:45:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+oM8XOE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFLtDnuq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704957511; x=1736493511;
+  t=1704959146; x=1736495146;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HDr/MjNbv0VqpkHH0E6ZifwpGIab/brKKHJNgRFSkV0=;
-  b=A+oM8XOExuRb+F13/VvSdqH44g4U2lwvKYKhK4e7OlFC5tTmFRRWfjPo
-   mWvwivowP0MXCgHuhRTSG8PwhAtGz3AuMu1lVueGtU6RYSaFSKreEnNha
-   bymU8a7s3OF3ynrAAwu4fmtNInfrzSQLRm3BYXOAmKS/uSYj+0H/P/2a8
-   yVXqlt2EYNXOsbs3++LKWNOaAa2CcaOAiRdR5FvhasL5GT1zzDPJfJsla
-   z5a2kuc/5InuOc/DuAxqaK+U3z+a+ne8IjRfZeVTuc4DbKcOJOW1gHOkT
-   8l00r5RfGHrkJFGJBcj7t2s6RlEdQRZxnysL0hbIcu4nSvTp+Wu3BD+/K
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="6122478"
+  bh=P9xVQjZEUl1cN2vzmuc+Yyj+nwgVtITRtBb0YkAFlcU=;
+  b=dFLtDnuqSMSuasI6onPdK9n5oWTVOlvgkO8Uyfv6gAr868OIpZWx1Xd/
+   8bR8vEOtrLjf8SZhdqMv5HEc3m38RzqAYyOzSxe/OIP+Yg8Ht9QJ8thPA
+   hFdda0Lo1lre4yYlrGDQWtf1WAa0tH7/3AB8Ylq9hNW+XkK53zyktaHwe
+   J+CF7BQNa8utG51X09kU9MkIdUlU79wh4fGX2krFjGkyzgGgin/ccTF8d
+   Ff9QGK8r1nUDNOAV+icktdC7rPBZiKTyNwULHanp+YJ4Z3LSYR41fhoF7
+   DRc5EZ/ElVwLdkRbid16cV6oW2VjoXHpiZjm1jPKNdQ53E2WRAfhrpNhi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="12256264"
 X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="6122478"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 23:18:30 -0800
+   d="scan'208";a="12256264"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 23:45:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="905850135"
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="732126452"
 X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="905850135"
+   d="scan'208";a="732126452"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 10 Jan 2024 23:18:28 -0800
+  by orsmga003.jf.intel.com with ESMTP; 10 Jan 2024 23:45:43 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNpKT-0007wc-1J;
-	Thu, 11 Jan 2024 07:18:20 +0000
-Date: Thu, 11 Jan 2024 15:17:38 +0800
+	id 1rNpky-0007xu-2L;
+	Thu, 11 Jan 2024 07:45:40 +0000
+Date: Thu, 11 Jan 2024 15:45:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andres Beltran <lkmlabelt@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
-	"Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
-	Michael Kelley <mikelley@microsoft.com>
-Subject: drivers/hv/channel.c:514: warning: Function parameter or member
- 'size' not described in 'request_arr_init'
-Message-ID: <202401111558.xOlI0nqd-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2302/2334] mm/madvise.c:297:6: warning: no
+ previous prototype for 'force_swapin_vma'
+Message-ID: <202401111536.tvtzCQes-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,52 +50,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   de927f6c0b07d9e698416c5b287c521b07694cac
-commit: e8b7db38449ac5b950a3f00519171c4be3e226ff Drivers: hv: vmbus: Add vmbus_requestor data structure for VMBus hardening
-date:   3 years, 2 months ago
-config: x86_64-buildonly-randconfig-006-20240105 (https://download.01.org/0day-ci/archive/20240111/202401111558.xOlI0nqd-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401111558.xOlI0nqd-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c780cd23389087490b4199975c7e16cb696da852
+commit: 92a0eb9bde6c03412b39f9f3d20968c091ea3b46 [2302/2334] memcg: introduce per-memcg swapin interface
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240111/202401111536.tvtzCQes-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401111536.tvtzCQes-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401111558.xOlI0nqd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401111536.tvtzCQes-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hv/channel.c:514: warning: Function parameter or member 'size' not described in 'request_arr_init'
+>> mm/madvise.c:297:6: warning: no previous prototype for 'force_swapin_vma' [-Wmissing-prototypes]
+     297 | void force_swapin_vma(struct vm_area_struct *vma)
+         |      ^~~~~~~~~~~~~~~~
 
 
-vim +514 drivers/hv/channel.c
+vim +/force_swapin_vma +297 mm/madvise.c
 
-   505	
-   506	/**
-   507	 * request_arr_init - Allocates memory for the requestor array. Each slot
-   508	 * keeps track of the next available slot in the array. Initially, each
-   509	 * slot points to the next one (as in a Linked List). The last slot
-   510	 * does not point to anything, so its value is U64_MAX by default.
-   511	 * @size The size of the array
-   512	 */
-   513	static u64 *request_arr_init(u32 size)
- > 514	{
-   515		int i;
-   516		u64 *req_arr;
-   517	
-   518		req_arr = kcalloc(size, sizeof(u64), GFP_KERNEL);
-   519		if (!req_arr)
-   520			return NULL;
-   521	
-   522		for (i = 0; i < size - 1; i++)
-   523			req_arr[i] = i + 1;
-   524	
-   525		/* Last slot (no more available slots) */
-   526		req_arr[i] = U64_MAX;
-   527	
-   528		return req_arr;
-   529	}
-   530	
+   280	
+   281	#ifdef CONFIG_MEMCG_SWAP_QOS
+   282	void force_swapin_vma(struct vm_area_struct *vma)
+   283	{
+   284		struct file *file = vma->vm_file;
+   285	
+   286		if (!can_madv_lru_vma(vma))
+   287			return;
+   288	
+   289		if (!file) {
+   290			walk_page_vma(vma, &swapin_walk_ops, vma);
+   291			lru_add_drain();
+   292		} else if (shmem_mapping(file->f_mapping))
+   293			shmem_swapin_range(vma, vma->vm_start,
+   294				vma->vm_end, file->f_mapping);
+   295	}
+   296	#else
+ > 297	void force_swapin_vma(struct vm_area_struct *vma)
+   298	{
+   299	}
+   300	#endif
+   301	
 
 -- 
 0-DAY CI Kernel Test Service
