@@ -1,53 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DFF15E88;
-	Thu, 11 Jan 2024 13:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBA5171CD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 13:24:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tc29WRwQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h2RKWWsp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704978554; x=1736514554;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qOuB30Dc16U0vCarITox+yCHGsdehgXMs3mhCYq968c=;
-  b=Tc29WRwQQxo1a9NsxNhKsuVT5hhIOq1Kl73FnJ85gaxCTtBtZ06l3E7V
-   Hp+kFihwaXb8eUdRhXpGDiKx7DozpZUk2KDbaW6AQZDNDZgHBWoqpFVXK
-   3nxxVk/naADbaJKa8p3TBieg8SF6K9jkxqbENuLZu6ZEIWJd8B7z/KLNt
-   BHcIBFCJsOaDoiCwyt1916en3UJQYXfVsuhyGTndBdPfDSPc6iO4lk1mk
-   kTs3Z+rNGqKnWp0GkXGZfekoFPM7rlyWCTN4/pbTeQCnxGwEE8WKoEkUn
-   77n1sJyEefz73bUFRIfMEEDt1yN+/+4bUFfeL5iBQMOOkGV0cmFi+ZWuO
+  t=1704979453; x=1736515453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fjSemFIxycOpMNntlP67m9R7FK5weoTIjv9uukqcB3c=;
+  b=h2RKWWspwYVtNLOfnJLRPHKeeb4UFXMukDEF8dmA7MjRkT/CAC+zwV8P
+   SDhM2pOvKBgbuMECPsLHOpcSbCKNn2Izlvbyinqp89eXDlTdTr3a1zpP7
+   doCL6TvnWij+AD4TfeNzlkf5l7usC2va5esAsZiIwDPFlXW42cE3o/IGS
+   Nw2S5E0CD+pAj96UtElijSI/Raz7vhKRlAqy9VVakG2WwqkVQhy6M4b0n
+   WfaLY5xSh++UgxY+LrQuHodaWLuoJLJeSurSUB7RYtpK4naYzKRimZqP7
+   NpaOk8bNWZf/ze1sOS01COJyVHzVjFYKVu6HSkQxUp/EY6u81JcRmo8ha
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="463125643"
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="5583144"
 X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
-   d="scan'208";a="463125643"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 05:09:14 -0800
+   d="scan'208";a="5583144"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 05:24:12 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="816713833"
 X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
-   d="scan'208";a="17039461"
+   d="scan'208";a="816713833"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2024 05:09:10 -0800
+  by orsmga001.jf.intel.com with ESMTP; 11 Jan 2024 05:24:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNuo0-0008HM-1i;
-	Thu, 11 Jan 2024 13:09:08 +0000
-Date: Thu, 11 Jan 2024 21:08:13 +0800
+	id 1rNv2W-0008I8-3A;
+	Thu, 11 Jan 2024 13:24:08 +0000
+Date: Thu, 11 Jan 2024 21:23:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Carlos Galo <carlosgalo@google.com>, rostedt@goodmis.org,
-	akpm@linux-foundation.org, surenb@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	android-mm@google.com, kernel-team@android.com,
-	Carlos Galo <carlosgalo@google.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH] mm: Update mark_victim tracepoints fields
-Message-ID: <202401112057.lJYUSJJe-lkp@intel.com>
-References: <20240111001155.746-1-carlosgalo@google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 1/1] mm/oom_kill.c:423:6: warning:
+ no previous prototype for 'dump_tasks'
+Message-ID: <202401112115.cN0rEIG0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,135 +49,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240111001155.746-1-carlosgalo@google.com>
 
-Hi Carlos,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 0dd3ee31125508cd67f7e7172247f05b7fd1753a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Galo/mm-Update-mark_victim-tracepoints-fields/20240111-081635
-base:   0dd3ee31125508cd67f7e7172247f05b7fd1753a
-patch link:    https://lore.kernel.org/r/20240111001155.746-1-carlosgalo%40google.com
-patch subject: [PATCH] mm: Update mark_victim tracepoints fields
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240111/202401112057.lJYUSJJe-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401112057.lJYUSJJe-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   bf309bfecfed8d40a870a96a53d3c3c4448e67bf
+commit: 4df28ddcd988605998c6d2b723345b82c7f83a5a [1/1] ANDROID: mm: export dump_tasks symbol.
+config: i386-buildonly-randconfig-002-20240111 (https://download.01.org/0day-ci/archive/20240111/202401112115.cN0rEIG0-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401112115.cN0rEIG0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401112057.lJYUSJJe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401112115.cN0rEIG0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/oom_kill.c:54:
-   In file included from include/trace/events/oom.h:206:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:237:
->> include/trace/events/oom.h:96:3: error: called object type 'uid_t' (aka 'unsigned int') is not a function or function pointer
-      74 |         ),
-         |         ~~
-      75 | 
-      76 |         TP_fast_assign(
-         |         ~~~~~~~~~~~~~~~
-      77 |                 __entry->pid = task->pid;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~
-      78 |                 __entry->uid = uid;
-         |                 ~~~~~~~~~~~~~~~~~~~
-      79 |                 __assign_str(comm, task->comm);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      80 |                 __entry->oom_score_adj = task->signal->oom_score_adj;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      81 |         ),
-         |         ~~
-      82 | 
-      83 |         TP_printk("pid=%d uid=%u comm=%s oom_score_adj=%hd",
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      84 |                 __entry->pid,
-         |                 ~~~~~~~~~~~~~
-      85 |                 __entry->uid
-         |                 ~~~~~~~~~~~~
-      86 |                 __get_str(comm),
-         |                 ^~~~~~~~~~~~~~~~
-      87 |                 __entry->oom_score_adj,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~
-      88 |         )
-         |         ~
-      89 | );
-         | ~
-   include/trace/stages/stage3_trace_output.h:20:26: note: expanded from macro '__get_str'
-      20 | #define __get_str(field) ((char *)__get_dynamic_array(field))
-         |                          ^
-   include/trace/stages/stage3_trace_output.h:9:43: note: expanded from macro 'TP_printk'
-       9 | #define TP_printk(fmt, args...) fmt "\n", args
-         |                                           ^
-   include/trace/trace_events.h:45:16: note: expanded from macro 'TRACE_EVENT'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      41 |                              PARAMS(proto),                    \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      42 |                              PARAMS(args),                     \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      43 |                              PARAMS(tstruct),                  \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      44 |                              PARAMS(assign),                   \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      45 |                              PARAMS(print));                   \
-         |                              ~~~~~~~^~~~~~~
-   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
-     107 | #define PARAMS(args...) args
-         |                         ^
-   include/trace/trace_events.h:203:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   In file included from mm/oom_kill.c:54:
-   In file included from include/trace/events/oom.h:206:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:237:
->> include/trace/events/oom.h:74:1: error: expected expression
-      74 | TRACE_EVENT(mark_victim,
-         | ^
-   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^
-   include/trace/trace_events.h:203:32: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                       ^
-   2 errors generated.
+>> mm/oom_kill.c:423:6: warning: no previous prototype for 'dump_tasks' [-Wmissing-prototypes]
+     423 | void dump_tasks(struct oom_control *oc)
+         |      ^~~~~~~~~~
 
 
-vim +96 include/trace/events/oom.h
+vim +/dump_tasks +423 mm/oom_kill.c
 
-    73	
-  > 74	TRACE_EVENT(mark_victim,
-    75		TP_PROTO(struct task_struct *task, uid_t uid),
-    76	
-    77		TP_ARGS(task, uid),
-    78	
-    79		TP_STRUCT__entry(
-    80			__field(int, pid)
-    81			__field(uid_t, uid)
-    82			__string(comm, task->comm)
-    83			__field(short, oom_score_adj)
-    84		),
-    85	
-    86		TP_fast_assign(
-    87			__entry->pid = task->pid;
-    88			__entry->uid = uid;
-    89			__assign_str(comm, task->comm);
-    90			__entry->oom_score_adj = task->signal->oom_score_adj;
-    91		),
-    92	
-    93		TP_printk("pid=%d uid=%u comm=%s oom_score_adj=%hd",
-    94			__entry->pid,
-    95			__entry->uid
-  > 96			__get_str(comm),
-    97			__entry->oom_score_adj,
-    98		)
-    99	);
-   100	
+   412	
+   413	/**
+   414	 * dump_tasks - dump current memory state of all system tasks
+   415	 * @oc: pointer to struct oom_control
+   416	 *
+   417	 * Dumps the current memory state of all eligible tasks.  Tasks not in the same
+   418	 * memcg, not in the same cpuset, or bound to a disjoint set of mempolicy nodes
+   419	 * are not shown.
+   420	 * State information includes task's pid, uid, tgid, vm size, rss,
+   421	 * pgtables_bytes, swapents, oom_score_adj value, and name.
+   422	 */
+ > 423	void dump_tasks(struct oom_control *oc)
+   424	{
+   425		pr_info("Tasks state (memory values in pages):\n");
+   426		pr_info("[  pid  ]   uid  tgid total_vm      rss pgtables_bytes swapents oom_score_adj name\n");
+   427	
+   428		if (is_memcg_oom(oc))
+   429			mem_cgroup_scan_tasks(oc->memcg, dump_task, oc);
+   430		else {
+   431			struct task_struct *p;
+   432	
+   433			rcu_read_lock();
+   434			for_each_process(p)
+   435				dump_task(p, oc);
+   436			rcu_read_unlock();
+   437		}
+   438	}
+   439	EXPORT_SYMBOL_GPL(dump_tasks);
+   440	
 
 -- 
 0-DAY CI Kernel Test Service
