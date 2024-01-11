@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D2F12E7E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 10:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F6714AB7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 10:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kXEF5YCu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6RWtMeQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704969277; x=1736505277;
+  t=1704969993; x=1736505993;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UgV4Wnuf1o+K/dg+cmWrgakIB6Bl0OqQXQdAI96AEa8=;
-  b=kXEF5YCusMCKaNrNMtkGvZJhacho9sndj2xQHcIlZnzWRijtnEO6MCjx
-   S3bwTf659NNcSPGZnoro24iL2s7+ZhEEa3auZUw/3814tQj2dBG9u0aXP
-   KucYzyIf81Wwmbm24OBf4AOl4wOsxXyD9SJSAzkVjSWlnN3hdq2JhTcVy
-   Gpc1sqWjF0+AgK7LvXzW0OFUPu+3L6IEC7p0ZLfag0hwQkOD+s3CZlwzC
-   HbANoCa+A5gVNLKwQgpQRhH6oX4HHNBblThHu/XgJE0Se9rY9lDylhirv
-   t9sYvHsI37tTuY92rK8yfUB66TcAj+E//5LUC3LncKubhNbft5HXpxung
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="429988888"
+  bh=lj9M38C0qSG4EhpwXiPb1ehMUiBhSys1qM+pRQswwGY=;
+  b=I6RWtMeQY4lhU+QXT+y+wGSOi37mw4fksL5TSCd8vAD712/5a7uYv8ee
+   diy85HjxhoDaIz0vSochtfFOstw/kw2E8C2MOHeRvHMVOwoClHowWdFnT
+   5ejtjutvKWNFkkRySOP7Zp//y9wBl6CL6tK7tPU5KltDO6xX2gOesqslG
+   ApNOtLG0znzrayahgzBMSgAf1fpjag9tX3G5go1aWAEEjQ26woZDuGcdk
+   WtYHCC7gYZT8dhi4Y92q1WydYXrZdMDiu2IHOXBqPO+YwmRdIn7+DKia+
+   0C9c1idyUbxKbW0ejdWZf6LrFy7E53YMkrhE+9ekhPUdW12yjY2+I4EA4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="463097378"
 X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="429988888"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 02:34:32 -0800
+   d="scan'208";a="463097378"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 02:46:33 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="24284143"
+   d="scan'208";a="30954200"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 11 Jan 2024 02:34:31 -0800
+  by orviesa001.jf.intel.com with ESMTP; 11 Jan 2024 02:46:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNsOL-000898-01;
-	Thu, 11 Jan 2024 10:34:29 +0000
-Date: Thu, 11 Jan 2024 18:33:47 +0800
+	id 1rNsZx-0008AA-1T;
+	Thu, 11 Jan 2024 10:46:29 +0000
+Date: Thu, 11 Jan 2024 18:45:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Uladzislau Rezki (Sony)" <urezki@gmail.com>
+To: Jiawen Wu <jiawenwu@trustnetic.com>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 12999/13245] mm/vmalloc.c:4652:22: warning:
- 'addr' is used uninitialized
-Message-ID: <202401111810.TKPIXLCs-lkp@intel.com>
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: [linux-next:master 11933/13245]
+ drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:220:undefined reference to
+ `phylink_ethtool_get_pauseparam'
+Message-ID: <202401111846.TjO5BA3A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,70 +54,62 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   9e21984d62c56a0f6d1fc6f76b646212cfd7fe88
-commit: e88b85b81d5313a69cb62829b957d4a9ecde600b [12999/13245] mm: vmalloc: offload free_vmap_area_lock lock
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240111/202401111810.TKPIXLCs-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401111810.TKPIXLCs-lkp@intel.com/reproduce)
+commit: 2fe2ca09da953bac778eab5dfb309b4e7d274b1a [11933/13245] net: wangxun: add flow control support
+config: parisc-randconfig-r002-20221104 (https://download.01.org/0day-ci/archive/20240111/202401111846.TjO5BA3A-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401111846.TjO5BA3A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401111810.TKPIXLCs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401111846.TjO5BA3A-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/vmalloc.c: In function 'vmalloc_dump_obj':
->> mm/vmalloc.c:4652:22: warning: 'addr' is used uninitialized [-Wuninitialized]
-    4652 |                 va = __find_vmap_area(addr, &vn->busy.root);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmalloc.c:4645:23: note: 'addr' was declared here
-    4645 |         unsigned long addr;
-         |                       ^~~~
+   hppa-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_remove':
+   ngbe_main.c:(.text+0x1c): undefined reference to `phylink_destroy'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_close':
+   ngbe_main.c:(.text+0x300): undefined reference to `phylink_stop'
+   hppa-linux-ld: ngbe_main.c:(.text+0x330): undefined reference to `phylink_disconnect_phy'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_up':
+   ngbe_main.c:(.text+0x874): undefined reference to `phylink_start'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_open':
+   ngbe_main.c:(.text+0xae0): undefined reference to `phylink_connect_phy'
+   hppa-linux-ld: ngbe_main.c:(.text+0xb20): undefined reference to `phylink_disconnect_phy'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_probe':
+   ngbe_main.c:(.text+0x11c0): undefined reference to `phylink_destroy'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_nway_reset':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:193:(.text+0x2cc): undefined reference to `phylink_ethtool_nway_reset'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_link_ksettings':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:202:(.text+0x2f0): undefined reference to `phylink_ethtool_ksettings_get'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_link_ksettings':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:211:(.text+0x318): undefined reference to `phylink_ethtool_ksettings_set'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_pauseparam':
+>> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:220:(.text+0x340): undefined reference to `phylink_ethtool_get_pauseparam'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_pauseparam':
+>> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:229:(.text+0x368): undefined reference to `phylink_ethtool_set_pauseparam'
+   hppa-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.o: in function `ngbe_mdio_init':
+   drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.c:130:(.text+0x38c): undefined reference to `phylink_create'
 
 
-vim +/addr +4652 mm/vmalloc.c
+vim +220 drivers/net/ethernet/wangxun/libwx/wx_ethtool.c
 
-a10aa579878fc6 Christoph Lameter       2008-04-28  4637  
-5bb1bb353cfe34 Paul E. McKenney        2021-01-07  4638  #ifdef CONFIG_PRINTK
-98f180837a896e Paul E. McKenney        2020-12-08  4639  bool vmalloc_dump_obj(void *object)
-98f180837a896e Paul E. McKenney        2020-12-08  4640  {
-98f180837a896e Paul E. McKenney        2020-12-08  4641  	void *objp = (void *)PAGE_ALIGN((unsigned long)object);
-0818e739b5c061 Joel Fernandes (Google  2023-09-04  4642) 	const void *caller;
-0818e739b5c061 Joel Fernandes (Google  2023-09-04  4643) 	struct vmap_area *va;
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4644) 	struct vmap_node *vn;
-0818e739b5c061 Joel Fernandes (Google  2023-09-04  4645) 	unsigned long addr;
-0818e739b5c061 Joel Fernandes (Google  2023-09-04  4646) 	unsigned int nr_pages;
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4647) 	bool success = false;
-98f180837a896e Paul E. McKenney        2020-12-08  4648  
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4649) 	vn = addr_to_node((unsigned long)objp);
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4650) 
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4651) 	if (spin_trylock(&vn->busy.lock)) {
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02 @4652) 		va = __find_vmap_area(addr, &vn->busy.root);
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4653) 
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4654) 		if (va && va->vm) {
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4655) 			addr = (unsigned long)va->vm->addr;
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4656) 			caller = va->vm->caller;
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4657) 			nr_pages = va->vm->nr_pages;
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4658) 			success = true;
-0818e739b5c061 Joel Fernandes (Google  2023-09-04  4659) 		}
-0818e739b5c061 Joel Fernandes (Google  2023-09-04  4660) 
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4661) 		spin_unlock(&vn->busy.lock);
-0818e739b5c061 Joel Fernandes (Google  2023-09-04  4662) 	}
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4663) 
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4664) 	if (success)
-bd34dcd4120d7e Paul E. McKenney        2020-12-09  4665  		pr_cont(" %u-page vmalloc region starting at %#lx allocated at %pS\n",
-0818e739b5c061 Joel Fernandes (Google  2023-09-04  4666) 			nr_pages, addr, caller);
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4667) 
-86817057732a9c Uladzislau Rezki (Sony  2024-01-02  4668) 	return success;
-98f180837a896e Paul E. McKenney        2020-12-08  4669  }
-5bb1bb353cfe34 Paul E. McKenney        2021-01-07  4670  #endif
-98f180837a896e Paul E. McKenney        2020-12-08  4671  
-
-:::::: The code at line 4652 was first introduced by commit
-:::::: 86817057732a9ce9cefdb6f513b6554a55ebbbbb mm: vmalloc: remove global vmap_area_root rb-tree
-
-:::::: TO: Uladzislau Rezki (Sony) <urezki@gmail.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   214	
+   215	void wx_get_pauseparam(struct net_device *netdev,
+   216			       struct ethtool_pauseparam *pause)
+   217	{
+   218		struct wx *wx = netdev_priv(netdev);
+   219	
+ > 220		phylink_ethtool_get_pauseparam(wx->phylink, pause);
+   221	}
+   222	EXPORT_SYMBOL(wx_get_pauseparam);
+   223	
+   224	int wx_set_pauseparam(struct net_device *netdev,
+   225			      struct ethtool_pauseparam *pause)
+   226	{
+   227		struct wx *wx = netdev_priv(netdev);
+   228	
+ > 229		return phylink_ethtool_set_pauseparam(wx->phylink, pause);
 
 -- 
 0-DAY CI Kernel Test Service
