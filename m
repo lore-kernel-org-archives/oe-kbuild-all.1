@@ -1,45 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0851B50267
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 16:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE4D5100A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 17:08:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8ZxwKNk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hO1CbsFg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704991850; x=1736527850;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pc2I32TADlL0AIWTB9KDImNySQp6i4F5UTZgQNBPjXA=;
-  b=f8ZxwKNkC3Owc7i4BZudb5ZvstUvxSP5Z4noJRqeBGXtGNJ1ecoI6RVt
-   rPsA39XASPy6Xz78w4nC8Wr/oprlIv7GnNqwkFtp0Gkt6Gz1k9wdJ/ZUW
-   ZsqruorB/3zlN8P9nIfDeFuvgMQnmGQkKDYuEPIOyPntBT6jOhusXiWVF
-   A3pSaE81awKps+/sz5zUQn97NWOCm5XmBOHHYDY+b4gilplbMeWPrwPo/
-   ET31qeuuMgPqUgEPJ7x9vE2i30JfwpDE2IHKpMNPpTI0eRASxn2fetSC9
-   Den73oaK8QX+1dHALAZ4EETkn0SsqpPqCtzW11EHm5EccpIyO5AaPna4B
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="397786769"
+  t=1704992913; x=1736528913;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pZADfUlkNjpKkgkO8I89jRqUgQvYhM2PinPZp/8ueuk=;
+  b=hO1CbsFgjDJLbrK4DOTT3HTvEbBwtHDvgX+ZhL8TUdloYSfaiadvqaOD
+   xAmZH8refQmziIcpVdKYPCpXiUmrdKMH5ETZinnd/YiC4vd/jLsbbSh+a
+   Sk538Hy6ToiO5Nn1RwZCqVgOY8pTXMmPyObFCE/i6z7Ih4xSiiGdFvWh3
+   jmB55Mn1Sw0GLLCdH46QIUNNFoZApznmYVKcs53x6ETu9f1mM7IWwZMon
+   hssr4JahBA7EP62NTx6o40XcczAy92bXDbs98IA7aJ27kV99JoVXnGNru
+   AX+IqI7gxz8o5GG6rVhHAS6dZKohJYy0dLrgDJYhTn7CdICAjAhxaqThW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="430098457"
 X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
-   d="scan'208";a="397786769"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 08:50:35 -0800
+   d="scan'208";a="430098457"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 09:08:01 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
-   d="scan'208";a="17098896"
+   d="scan'208";a="31086890"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2024 08:50:34 -0800
+  by orviesa001.jf.intel.com with ESMTP; 11 Jan 2024 09:07:58 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rNyGG-0008Ux-1j;
-	Thu, 11 Jan 2024 16:50:32 +0000
-Date: Fri, 12 Jan 2024 00:46:22 +0800
+	id 1rNyX5-0008WK-12;
+	Thu, 11 Jan 2024 17:07:55 +0000
+Date: Fri, 12 Jan 2024 01:07:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/1] mm/oom_kill.c:423:6: warning:
- no previous prototype for function 'dump_tasks'
-Message-ID: <202401120053.JU59kq8d-lkp@intel.com>
+To: Carlos Galo <carlosgalo@google.com>, rostedt@goodmis.org,
+	akpm@linux-foundation.org, surenb@google.com
+Cc: oe-kbuild-all@lists.linux.dev, android-mm@google.com,
+	kernel-team@android.com, Carlos Galo <carlosgalo@google.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH] mm: Update mark_victim tracepoints fields
+Message-ID: <202401120052.rdFjpivG-lkp@intel.com>
+References: <20240111001155.746-1-carlosgalo@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,62 +55,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240111001155.746-1-carlosgalo@google.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   bf309bfecfed8d40a870a96a53d3c3c4448e67bf
-commit: 4df28ddcd988605998c6d2b723345b82c7f83a5a [1/1] ANDROID: mm: export dump_tasks symbol.
-config: i386-randconfig-011-20240111 (https://download.01.org/0day-ci/archive/20240112/202401120053.JU59kq8d-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120053.JU59kq8d-lkp@intel.com/reproduce)
+Hi Carlos,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 0dd3ee31125508cd67f7e7172247f05b7fd1753a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Galo/mm-Update-mark_victim-tracepoints-fields/20240111-081635
+base:   0dd3ee31125508cd67f7e7172247f05b7fd1753a
+patch link:    https://lore.kernel.org/r/20240111001155.746-1-carlosgalo%40google.com
+patch subject: [PATCH] mm: Update mark_victim tracepoints fields
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240112/202401120052.rdFjpivG-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120052.rdFjpivG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401120053.JU59kq8d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401120052.rdFjpivG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/oom_kill.c:423:6: warning: no previous prototype for function 'dump_tasks' [-Wmissing-prototypes]
-     423 | void dump_tasks(struct oom_control *oc)
-         |      ^
-   mm/oom_kill.c:423:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     423 | void dump_tasks(struct oom_control *oc)
-         | ^
-         | static 
-   1 warning generated.
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/events/oom.h:206,
+                    from mm/oom_kill.c:54:
+   include/trace/events/oom.h: In function 'trace_raw_output_mark_victim':
+>> include/trace/stages/stage3_trace_output.h:6:17: error: called object is not a function or function pointer
+       6 | #define __entry field
+         |                 ^~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   include/trace/events/oom.h:74:1: note: in expansion of macro 'TRACE_EVENT'
+      74 | TRACE_EVENT(mark_victim,
+         | ^~~~~~~~~~~
+   include/trace/events/oom.h:93:9: note: in expansion of macro 'TP_printk'
+      93 |         TP_printk("pid=%d uid=%u comm=%s oom_score_adj=%hd",
+         |         ^~~~~~~~~
+   include/trace/events/oom.h:95:17: note: in expansion of macro '__entry'
+      95 |                 __entry->uid
+         |                 ^~~~~~~
+>> include/trace/trace_events.h:203:39: error: expected expression before ')' token
+     203 |         trace_event_printf(iter, print);                                \
+         |                                       ^
+   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/trace/events/oom.h:74:1: note: in expansion of macro 'TRACE_EVENT'
+      74 | TRACE_EVENT(mark_victim,
+         | ^~~~~~~~~~~
 
 
-vim +/dump_tasks +423 mm/oom_kill.c
+vim +6 include/trace/stages/stage3_trace_output.h
 
-   412	
-   413	/**
-   414	 * dump_tasks - dump current memory state of all system tasks
-   415	 * @oc: pointer to struct oom_control
-   416	 *
-   417	 * Dumps the current memory state of all eligible tasks.  Tasks not in the same
-   418	 * memcg, not in the same cpuset, or bound to a disjoint set of mempolicy nodes
-   419	 * are not shown.
-   420	 * State information includes task's pid, uid, tgid, vm size, rss,
-   421	 * pgtables_bytes, swapents, oom_score_adj value, and name.
-   422	 */
- > 423	void dump_tasks(struct oom_control *oc)
-   424	{
-   425		pr_info("Tasks state (memory values in pages):\n");
-   426		pr_info("[  pid  ]   uid  tgid total_vm      rss pgtables_bytes swapents oom_score_adj name\n");
-   427	
-   428		if (is_memcg_oom(oc))
-   429			mem_cgroup_scan_tasks(oc->memcg, dump_task, oc);
-   430		else {
-   431			struct task_struct *p;
-   432	
-   433			rcu_read_lock();
-   434			for_each_process(p)
-   435				dump_task(p, oc);
-   436			rcu_read_unlock();
-   437		}
-   438	}
-   439	EXPORT_SYMBOL_GPL(dump_tasks);
-   440	
+af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  4) 
+af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  5) #undef __entry
+af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03 @6) #define __entry field
+af6b9668e85ffd include/trace/stages/stage3_defines.h Steven Rostedt (Google  2022-03-03  7) 
 
 -- 
 0-DAY CI Kernel Test Service
