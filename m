@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329B258120
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 21:20:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14A75812B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 21:21:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JxSF2MgJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2xPpeD+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705008059; x=1736544059;
+  t=1705008061; x=1736544061;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f2Fe0URilhBq3Tu9azzGhPRDfWOOy/AEvWWGLt7grP8=;
-  b=JxSF2MgJutigkv7hrTr7KTNOuKmeT5EDRXK/pidj7cKCre+bo7bRD3DZ
-   xjqowIpkxzm7EUGkln4g4qP81Dmn4dgdUkZCBGYcpFjIlNvhZo8nbKxXi
-   v5Dirvnw/GbQVtQ1NqKPZDQnyLmWbWAXU7/qeQ/pKfJG0wC1ipwyDhh7C
-   d6aUvDBSV1Ya6rKOjzmtFYTJu3uJOcZN1YzP6X1cg5jjgv77OZ2yuy+as
-   HXEVOphaZnxSlnmkVwtyuAa2sciK40eqVzDW1J0mSg0j94YGfKoCAmH89
-   DzA7/74HByep+K9ERfdap/AsSxwEvNWGB7Kqn5w0bWFVMh6OeeDdCCTOJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="6354586"
+  bh=8h5DFjlxATjdb8q4sJ0FkG/DSlJ4OkJJ5yUhgXAKbmI=;
+  b=R2xPpeD+kWKr/DrkLeseeQPic8gV4MLVWooXnUi2AMMclBjXV5A0njXS
+   KeTHuz6fL6/5mpsozLJwcLCJSCu3ieHeFZvZ5eEAoffjneM/a9S+BBAJd
+   44w/0aPWga2R+5TOFvGAcjm7qDhQMuWZfIrRfHedLzCPpZFbQpgK47bvx
+   0FeMh2wDpYeUDeBVmwYidIlxoNNowbXvQXawguGjHeneQ6KZlyHL6MPh1
+   TkUf1mOh9IFe7cnC47+7ITmAa0PFY6YJbYwezoQlL65DAFo2TChBynDBC
+   FFJUkNJnP9aRoNPEmHRLXfsy08pJEfNOrYnMVoWOh1PIDTOv71c5KupEs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="6354589"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="6354586"
+   d="scan'208";a="6354589"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 13:20:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="873156986"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="873156989"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="873156986"
+   d="scan'208";a="873156989"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by FMSMGA003.fm.intel.com with ESMTP; 11 Jan 2024 13:20:57 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rO2Tv-0008kh-1O;
+	id 1rO2Tv-0008kk-1U;
 	Thu, 11 Jan 2024 21:20:55 +0000
-Date: Fri, 12 Jan 2024 05:20:33 +0800
+Date: Fri, 12 Jan 2024 05:20:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2271/2356] kernel/sched/psi.c:908:52: error:
- 'cpuacct_cgrp_id' undeclared; did you mean 'cpu_cgrp_id'?
-Message-ID: <202401120554.MrkUMPFZ-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/base/regmap/regmap-kunit.c:795:43: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202401120557.tDMmzgkZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,50 +50,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ea6de9f6732d495c506f9c140b4ec17c957e1b77
-commit: 2dfc29e742a07863c2426aea03d5c2c97b558b9d [2271/2356] sched/psi: Export cgroup psi from cgroupv2 to cgroupv1
-config: x86_64-randconfig-011-20240111 (https://download.01.org/0day-ci/archive/20240112/202401120554.MrkUMPFZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120554.MrkUMPFZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de927f6c0b07d9e698416c5b287c521b07694cac
+commit: 155a6bd6375b584c8bdbf963b8ddef672ff9aca3 regmap: Provide basic KUnit coverage for the raw register I/O
+date:   7 months ago
+config: x86_64-randconfig-123-20240106 (https://download.01.org/0day-ci/archive/20240112/202401120557.tDMmzgkZ-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120557.tDMmzgkZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401120554.MrkUMPFZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401120557.tDMmzgkZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/regmap/regmap-kunit.c:795:43: sparse: sparse: cast to restricted __le16
+>> drivers/base/regmap/regmap-kunit.c:798:43: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:875:25: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:875:25: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:877:25: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:877:25: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:944:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:944:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:947:33: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:947:33: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:989:17: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:989:17: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:992:17: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:992:17: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1004:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1004:33: sparse: sparse: cast to restricted __be16
+   drivers/base/regmap/regmap-kunit.c:1007:33: sparse: sparse: cast to restricted __le16
+   drivers/base/regmap/regmap-kunit.c:1007:33: sparse: sparse: cast to restricted __le16
 
-   In file included from kernel/sched/build_utility.c:97:
-   kernel/sched/psi.c: In function 'task_psi_group':
->> kernel/sched/psi.c:908:52: error: 'cpuacct_cgrp_id' undeclared (first use in this function); did you mean 'cpu_cgrp_id'?
-     908 |                         cgroup = task_cgroup(task, cpuacct_cgrp_id);
-         |                                                    ^~~~~~~~~~~~~~~
-         |                                                    cpu_cgrp_id
-   kernel/sched/psi.c:908:52: note: each undeclared identifier is reported only once for each function it appears in
+vim +795 drivers/base/regmap/regmap-kunit.c
 
-
-vim +908 kernel/sched/psi.c
-
-   899	
-   900	static inline struct psi_group *task_psi_group(struct task_struct *task)
-   901	{
-   902	#ifdef CONFIG_CGROUPS
-   903		if (static_branch_likely(&psi_cgroups_enabled)) {
-   904			if (task_is_in_psi_v1()) {
-   905				struct cgroup *cgroup;
-   906	
-   907				rcu_read_lock();
- > 908				cgroup = task_cgroup(task, cpuacct_cgrp_id);
-   909				rcu_read_unlock();
-   910				return cgroup_psi(cgroup);
-   911			}
-   912			return cgroup_psi(task_dfl_cgroup(task));
-   913		}
-   914	#endif
-   915		return &psi_system;
-   916	}
-   917	
+   758	
+   759	static struct regmap *gen_raw_regmap(struct regmap_config *config,
+   760					     struct raw_test_types *test_type,
+   761					     struct regmap_ram_data **data)
+   762	{
+   763		u16 *buf;
+   764		struct regmap *ret;
+   765		size_t size = (config->max_register + 1) * config->reg_bits / 8;
+   766		int i;
+   767		struct reg_default *defaults;
+   768	
+   769		config->cache_type = test_type->cache_type;
+   770		config->val_format_endian = test_type->val_endian;
+   771	
+   772		buf = kmalloc(size, GFP_KERNEL);
+   773		if (!buf)
+   774			return ERR_PTR(-ENOMEM);
+   775	
+   776		get_random_bytes(buf, size);
+   777	
+   778		*data = kzalloc(sizeof(**data), GFP_KERNEL);
+   779		if (!(*data))
+   780			return ERR_PTR(-ENOMEM);
+   781		(*data)->vals = (void *)buf;
+   782	
+   783		config->num_reg_defaults = config->max_register + 1;
+   784		defaults = kcalloc(config->num_reg_defaults,
+   785				   sizeof(struct reg_default),
+   786				   GFP_KERNEL);
+   787		if (!defaults)
+   788			return ERR_PTR(-ENOMEM);
+   789		config->reg_defaults = defaults;
+   790	
+   791		for (i = 0; i < config->num_reg_defaults; i++) {
+   792			defaults[i].reg = i;
+   793			switch (test_type->val_endian) {
+   794			case REGMAP_ENDIAN_LITTLE:
+ > 795				defaults[i].def = le16_to_cpu(buf[i]);
+   796				break;
+   797			case REGMAP_ENDIAN_BIG:
+ > 798				defaults[i].def = be16_to_cpu(buf[i]);
+   799				break;
+   800			default:
+   801				return ERR_PTR(-EINVAL);
+   802			}
+   803		}
+   804	
+   805		/*
+   806		 * We use the defaults in the tests but they don't make sense
+   807		 * to the core if there's no cache.
+   808		 */
+   809		if (config->cache_type == REGCACHE_NONE)
+   810			config->num_reg_defaults = 0;
+   811	
+   812		ret = regmap_init_raw_ram(config, *data);
+   813		if (IS_ERR(ret)) {
+   814			kfree(buf);
+   815			kfree(*data);
+   816		}
+   817	
+   818		return ret;
+   819	}
+   820	
 
 -- 
 0-DAY CI Kernel Test Service
