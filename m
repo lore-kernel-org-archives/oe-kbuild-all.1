@@ -1,42 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70880FBF8;
-	Thu, 11 Jan 2024 22:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C77FBFE;
+	Thu, 11 Jan 2024 23:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OfvTIE3Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E2ECC433F1;
-	Thu, 11 Jan 2024 22:41:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705012870;
-	bh=+WwJWrlRns8EY2E9CLCbBROU9LT8j8Mr6e6ahvyEWOU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OfvTIE3YPZ6MdksK4thbEF0gX4EYWItfgro+p6au+ae/0L1Rn5KPQUey1MO2mF7sb
-	 912wFQwxWJt6Eqz5rquvRdwVK23gOw+mZN3QMJzBuw9omsgfklBLL4ldqAI5eFHiMf
-	 UwH3kwKHmW649e28JAQ6P8MeeoY5YOS78K9x583/YWF7UJuVj+KZu6omk0vxfKcOhP
-	 NdiX663P8dwv8VefWE36YU8/vmf1Hpt79kYUnhnu0IyL1nEAxmLnqQ0zgq6NMjjG59
-	 7vahCIA30Sn0UeqmjWeNnB4C048bpJkLlXFQL2KrAO5l8ShyZvKdAqNwDxW80aGjE4
-	 KMyE7A/fIix6w==
-Date: Thu, 11 Jan 2024 15:41:08 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: kernel test robot <lkp@intel.com>, ardb@kernel.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, bhelgaas@google.com, arnd@arndb.de,
-	zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com, javierm@redhat.com,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arch@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] arch/x86: Move internal setup_data structures
- into setup_data.h
-Message-ID: <20240111224108.GA227186@dev-arch.thelio-3990X>
-References: <20240108095903.8427-3-tzimmermann@suse.de>
- <202401090800.UOBEKB3W-lkp@intel.com>
- <20240109175814.GA5981@dev-arch.thelio-3990X>
- <1fd1a3ca-edeb-4bf6-a12d-a8087a180d36@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LyXCygAr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705016713; x=1736552713;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v72etu5y7sZ+gduFKZmkV/OgzunlUF6teBcVsS2AH8k=;
+  b=LyXCygArFCnvrY7S3rSZ3De3sMiMNY/BsKqyrXdseNcietPeVhFnSiLz
+   kNo53MNparly6YHdq82BthEcpwQuIBFAFfVnX1yAIVtsZvV7c8B1T+YmK
+   hJpg2iMNg05t1Z6GSaGBxKmfgbT9xrsIK71scjaGYowuA1UpJad2fh6Fe
+   F0561ZKhjTFLpROu6fQf+OrN6GO4nWOR7i/UQ6I3rr3PzllEyjPrZo8Z4
+   fn6TZ1OEYSYvYZmk3fiqfc/H1II/d2LuaohSqKU7rtMXbzguXOmZpULMr
+   QDkUL1tdE9J2ph2HCBCq+U827ah/owF9VhdjmxE6dw8M+42mmiZpRATiD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="463314018"
+X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
+   d="scan'208";a="463314018"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 15:45:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="1114016155"
+X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
+   d="scan'208";a="1114016155"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 11 Jan 2024 15:45:09 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rO4jT-0008rC-0I;
+	Thu, 11 Jan 2024 23:45:07 +0000
+Date: Fri, 12 Jan 2024 07:45:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>, Peng Fan <peng.fan@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+	Fabio Estevam <festevam@denx.de>, dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev
+Subject: Re: [PATCH] dmaengine: fsl-edma: fix Makefile logic
+Message-ID: <202401120722.iFJbAOb8-lkp@intel.com>
+References: <20240110232255.1099757-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,88 +53,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1fd1a3ca-edeb-4bf6-a12d-a8087a180d36@suse.de>
+In-Reply-To: <20240110232255.1099757-1-arnd@kernel.org>
 
-On Thu, Jan 11, 2024 at 10:50:43AM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 09.01.24 um 18:58 schrieb Nathan Chancellor:
-> > On Tue, Jan 09, 2024 at 08:28:59AM +0800, kernel test robot wrote:
-> > > Hi Thomas,
-> > > 
-> > > kernel test robot noticed the following build warnings:
-> > > 
-> > > [auto build test WARNING on tip/x86/core]
-> > > [also build test WARNING on efi/next tip/master tip/auto-latest linus/master v6.7 next-20240108]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > > And when submitting patch, we suggest to use '--base' as documented in
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > > 
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/arch-x86-Move-UAPI-setup-structures-into-setup_data-h/20240108-180158
-> > > base:   tip/x86/core
-> > > patch link:    https://lore.kernel.org/r/20240108095903.8427-3-tzimmermann%40suse.de
-> > > patch subject: [PATCH v4 2/4] arch/x86: Move internal setup_data structures into setup_data.h
-> > > config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240109/202401090800.UOBEKB3W-lkp@intel.com/config)
-> > > compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240109/202401090800.UOBEKB3W-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202401090800.UOBEKB3W-lkp@intel.com/
-> > > 
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > >     In file included from arch/x86/realmode/rm/wakemain.c:3:
-> > >     In file included from arch/x86/boot/boot.h:24:
-> > >     In file included from arch/x86/include/asm/setup.h:10:
-> > >     In file included from arch/x86/include/asm/page_types.h:7:
-> > >     In file included from include/linux/mem_encrypt.h:17:
-> > >     In file included from arch/x86/include/asm/mem_encrypt.h:18:
-> > >     In file included from arch/x86/include/uapi/asm/bootparam.h:5:
-> > > > > arch/x86/include/asm/setup_data.h:10:20: warning: field 'data' with variable sized type 'struct setup_data' not at the end of a struct or class is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
-> > >        10 |         struct setup_data data;
-> > >           |                           ^
-> > >     1 warning generated.
-> > 
-> > I think this warning is expected. This structure is now included in the
-> > realmode part of arch/x86, which has its own set of build flags,
-> > including -Wall, which includes -Wgnu on clang. The kernel obviously
-> > uses GNU extensions and states this clearly with '-std=gnu11', so
-> > -Wno-gnu is unconditionally added to KBUILD_CFLAGS for clang. It seems
-> > that same treatment is needed for REALMODE_CFLAGS, which also matches
-> > arch/x86/boot/compressed/Makefile, see commit 6c3b56b19730 ("x86/boot:
-> > Disable Clang warnings about GNU extensions"):
-> > 
-> > diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-> > index 1a068de12a56..24076db59783 100644
-> > --- a/arch/x86/Makefile
-> > +++ b/arch/x86/Makefile
-> > @@ -53,6 +53,9 @@ REALMODE_CFLAGS += -fno-stack-protector
-> >   REALMODE_CFLAGS += -Wno-address-of-packed-member
-> >   REALMODE_CFLAGS += $(cc_stack_align4)
-> >   REALMODE_CFLAGS += $(CLANG_FLAGS)
-> > +ifdef CONFIG_CC_IS_CLANG
-> > +REALMODE_CFLAGS += -Wno-gnu
-> > +endif
-> 
-> Thanks. Shall I include this change in the patchset?
+Hi Arnd,
 
-Yes, I think so to keep the build clean.
+kernel test robot noticed the following build errors:
 
-> Best regards
-> Thomas
-> 
-> >   export REALMODE_CFLAGS
-> >   # BITS is used as extension for files which are available in a 32 bit
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7 next-20240111]
+[cannot apply to vkoul-dmaengine/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/dmaengine-fsl-edma-fix-Makefile-logic/20240111-072410
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240110232255.1099757-1-arnd%40kernel.org
+patch subject: [PATCH] dmaengine: fsl-edma: fix Makefile logic
+config: m68k-stmark2_defconfig (https://download.01.org/0day-ci/archive/20240112/202401120722.iFJbAOb8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120722.iFJbAOb8-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401120722.iFJbAOb8-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   m68k-linux-ld: drivers/dma/mcf-edma-main.o: in function `mcf_edma_probe':
+>> mcf-edma-main.c:(.text+0x4de): undefined reference to `fsl_edma_alloc_chan_resources'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x4f8): undefined reference to `fsl_edma_slave_config'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x506): undefined reference to `fsl_edma_prep_slave_sg'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x516): undefined reference to `fsl_edma_pause'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x524): undefined reference to `fsl_edma_terminate_all'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x5d2): undefined reference to `fsl_edma_free_desc'
+   m68k-linux-ld: drivers/dma/mcf-edma-main.o: in function `mcf_edma_remove':
+>> mcf-edma-main.c:(.text+0xb4): undefined reference to `fsl_edma_cleanup_vchan'
+   m68k-linux-ld: drivers/dma/mcf-edma-main.o: in function `mcf_edma_err_handler':
+>> mcf-edma-main.c:(.text+0x12e): undefined reference to `fsl_edma_disable_request'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x17a): undefined reference to `fsl_edma_disable_request'
+   m68k-linux-ld: drivers/dma/mcf-edma-main.o: in function `mcf_edma_tx_handler':
+>> mcf-edma-main.c:(.text+0x20e): undefined reference to `fsl_edma_tx_chan_handler'
+   m68k-linux-ld: drivers/dma/mcf-edma-main.o: in function `mcf_edma_probe':
+>> mcf-edma-main.c:(.text+0x466): undefined reference to `fsl_edma_setup_regs'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x4d4): undefined reference to `fsl_edma_free_chan_resources'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x4e4): undefined reference to `fsl_edma_prep_dma_cyclic'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x4ee): undefined reference to `fsl_edma_tx_status'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x50c): undefined reference to `fsl_edma_resume'
+>> m68k-linux-ld: mcf-edma-main.c:(.text+0x52a): undefined reference to `fsl_edma_issue_pending'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
