@@ -1,55 +1,45 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D2D4F61E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 16:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0851B50267
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 16:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JJpmBrJg"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a28b1095064so609775466b.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 08:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1704990470; x=1705595270; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=plL10T18yoNF2cn1blPIOwyBNDgoNEpTCTt3sDg3Bg0=;
-        b=JJpmBrJgygKrQl2lvvOyvHW2gF2Mk9eyEPKbr791gHsqPa4GhHddt0rQWrY+cyRScJ
-         +IEIZM8su5sygxMnlqHvTiU/5CJt0JxH4Ol2IrN4peedE8+QyDsYVVIiN0aGPux/xKSf
-         apY9hUi0lyYjSxqh0ZHmpsrzNT+Zarl+gdgwDDLCQXqWVNAUBTqqh9RPBbRUijGTF8rT
-         KGlOjJMGur1rASnJ+3qlbH6hnjmjcaoirv7HDxTbvOOvS6h0IavcqVJymHmxgsq4syu4
-         1xpdoH6qDkmBtjEKn69vkDmuKrS7wV5hMllk7k7bM6Q0C1LVOvIwDYag4kfSk5YxqlnG
-         qAcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704990470; x=1705595270;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=plL10T18yoNF2cn1blPIOwyBNDgoNEpTCTt3sDg3Bg0=;
-        b=MvQwCOMYzynYdSrPd6K5uNa3DX9/4dd0zWNYReSMo59djtKz53qJnajtwoc15/vNlR
-         NM1n/03Nps1eg5G6uPjw9In0T/Bl087UH+tvKlcTjXa3twkqqvjcJnqRuHrG2zl5dgYZ
-         /xAUK1DXrfmefwRLcf6SGCvTur/DguciProNT9Gj1j+RTExFkuDtxpZW2SsdS82MvYn/
-         mP465svF5EWhOhrMNp2JCUSCaG81XA+DmcG41Ravug6bPdju+vjzoUYEtg2hP1RmvV4Z
-         brTgkkLfpet6AhDQoVo6PqtyTBK7Sob+ruCbT4vWddeee2JWFQGyLwJcnvalFrJoytfV
-         1plA==
-X-Gm-Message-State: AOJu0YwiQS4dkp6QOFV1+G+N5oZVcUVvVi4VhdRkff1cmUQn2fwgWyjA
-	z+70kww4/FmtrJ9Qc4ekUH5fOxhxczIFnA==
-X-Google-Smtp-Source: AGHT+IHMaSBFXfruQLkk+kFdLGi/DEBrOwgWv2codSYUyy6UUbGamfDp2bjrOv6DhUdWCNXlsojusQ==
-X-Received: by 2002:a17:907:3f25:b0:a2c:33ce:8c80 with SMTP id hq37-20020a1709073f2500b00a2c33ce8c80mr631263ejc.36.1704990470057;
-        Thu, 11 Jan 2024 08:27:50 -0800 (PST)
-Received: from alley ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id j15-20020a1709066dcf00b00a2a6e8f693esm748186ejt.152.2024.01.11.08.27.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 08:27:49 -0800 (PST)
-Date: Thu, 11 Jan 2024 17:27:44 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Chris Down <chris@chrisdown.name>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: include/linux/printk.h:434:44: warning: '%s' directive argument
- is null
-Message-ID: <ZaAXAGqUJCxmCXzm@alley>
-References: <202401112002.AOjwMNM0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8ZxwKNk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704991850; x=1736527850;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pc2I32TADlL0AIWTB9KDImNySQp6i4F5UTZgQNBPjXA=;
+  b=f8ZxwKNkC3Owc7i4BZudb5ZvstUvxSP5Z4noJRqeBGXtGNJ1ecoI6RVt
+   rPsA39XASPy6Xz78w4nC8Wr/oprlIv7GnNqwkFtp0Gkt6Gz1k9wdJ/ZUW
+   ZsqruorB/3zlN8P9nIfDeFuvgMQnmGQkKDYuEPIOyPntBT6jOhusXiWVF
+   A3pSaE81awKps+/sz5zUQn97NWOCm5XmBOHHYDY+b4gilplbMeWPrwPo/
+   ET31qeuuMgPqUgEPJ7x9vE2i30JfwpDE2IHKpMNPpTI0eRASxn2fetSC9
+   Den73oaK8QX+1dHALAZ4EETkn0SsqpPqCtzW11EHm5EccpIyO5AaPna4B
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="397786769"
+X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
+   d="scan'208";a="397786769"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 08:50:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,186,1695711600"; 
+   d="scan'208";a="17098896"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2024 08:50:34 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNyGG-0008Ux-1j;
+	Thu, 11 Jan 2024 16:50:32 +0000
+Date: Fri, 12 Jan 2024 00:46:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 1/1] mm/oom_kill.c:423:6: warning:
+ no previous prototype for function 'dump_tasks'
+Message-ID: <202401120053.JU59kq8d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,46 +48,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202401112002.AOjwMNM0-lkp@intel.com>
 
-On Thu 2024-01-11 20:29:05, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   de927f6c0b07d9e698416c5b287c521b07694cac
-> commit: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format indexing support
-> date:   2 years, 6 months ago
-> config: x86_64-randconfig-002-20240105 (https://download.01.org/0day-ci/archive/20240111/202401112002.AOjwMNM0-lkp@intel.com/config)
-> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240111/202401112002.AOjwMNM0-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401112002.AOjwMNM0-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/kernel.h:19,
->                     from arch/x86/include/asm/percpu.h:27,
->                     from arch/x86/include/asm/current.h:6,
->                     from include/linux/sched.h:12,
->                     from include/linux/blkdev.h:5,
->                     from drivers/scsi/scsi_devinfo.c:3:
->    drivers/scsi/scsi_devinfo.c: In function 'scsi_dev_info_list_add_str':
-> >> include/linux/printk.h:434:44: warning: '%s' directive argument is null [-Wformat-overflow=]
->      434 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
->          |                                            ^
->    include/linux/printk.h:430:3: note: in definition of macro 'printk_index_wrap'
->      430 |   _p_func(_fmt, ##__VA_ARGS__);    \
->          |   ^~~~~~~
->    drivers/scsi/scsi_devinfo.c:551:4: note: in expansion of macro 'printk'
->      551 |    printk(KERN_ERR "%s: bad dev info string '%s' '%s'"
->          |    ^~~~~~
->    drivers/scsi/scsi_devinfo.c:552:14: note: format string is defined here
->      552 |           " '%s'\n", __func__, vendor, model,
->          |              ^~
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   bf309bfecfed8d40a870a96a53d3c3c4448e67bf
+commit: 4df28ddcd988605998c6d2b723345b82c7f83a5a [1/1] ANDROID: mm: export dump_tasks symbol.
+config: i386-randconfig-011-20240111 (https://download.01.org/0day-ci/archive/20240112/202401120053.JU59kq8d-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120053.JU59kq8d-lkp@intel.com/reproduce)
 
-This should get fixed by
-https://lore.kernel.org/all/20240111162419.12406-1-pmladek@suse.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401120053.JU59kq8d-lkp@intel.com/
 
-Best Regards,
-Petr
+All warnings (new ones prefixed by >>):
+
+>> mm/oom_kill.c:423:6: warning: no previous prototype for function 'dump_tasks' [-Wmissing-prototypes]
+     423 | void dump_tasks(struct oom_control *oc)
+         |      ^
+   mm/oom_kill.c:423:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     423 | void dump_tasks(struct oom_control *oc)
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/dump_tasks +423 mm/oom_kill.c
+
+   412	
+   413	/**
+   414	 * dump_tasks - dump current memory state of all system tasks
+   415	 * @oc: pointer to struct oom_control
+   416	 *
+   417	 * Dumps the current memory state of all eligible tasks.  Tasks not in the same
+   418	 * memcg, not in the same cpuset, or bound to a disjoint set of mempolicy nodes
+   419	 * are not shown.
+   420	 * State information includes task's pid, uid, tgid, vm size, rss,
+   421	 * pgtables_bytes, swapents, oom_score_adj value, and name.
+   422	 */
+ > 423	void dump_tasks(struct oom_control *oc)
+   424	{
+   425		pr_info("Tasks state (memory values in pages):\n");
+   426		pr_info("[  pid  ]   uid  tgid total_vm      rss pgtables_bytes swapents oom_score_adj name\n");
+   427	
+   428		if (is_memcg_oom(oc))
+   429			mem_cgroup_scan_tasks(oc->memcg, dump_task, oc);
+   430		else {
+   431			struct task_struct *p;
+   432	
+   433			rcu_read_lock();
+   434			for_each_process(p)
+   435				dump_task(p, oc);
+   436			rcu_read_unlock();
+   437		}
+   438	}
+   439	EXPORT_SYMBOL_GPL(dump_tasks);
+   440	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
