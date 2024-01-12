@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114E96A019
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 12:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4256C6BB40
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 13:58:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbRbKwU5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bnrPWFXs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705064352; x=1736600352;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Juo712WWsb8sIVDGDsmK9FIje3DXE2p3vOV1XTwcHNw=;
-  b=PbRbKwU5GYUYPQimdUpKZXdeQ+RDwX2f8ltA8h6c/K/zBsKwltSo3Gzq
-   vKRk+CbzbOgRohgH+Iu2r+g09c56OqzGpf991uf6vlx3C4aP4yv/O2422
-   ITJfSpar47rSzY25h3Q61RfwvZW5NcR/hQmnv0MV7FYSbp+NgZYPf2vjM
-   ELSPong+DuoA0dNDL/UeUS7tXXkie5jFGly5Gm2Pexx/NAsGFGzCvIZq/
-   X9lGNaHh34pcPpzj5rLY9IRptC/0jZ9lZ8WgLRAC8d1QCJqdFGxbZzBfy
-   Cdhp+JqXivzRbKM+GKENEobULVVuhH/jUfR0pm4V/AlSp+vebDB25t9ra
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="430342456"
+  t=1705067911; x=1736603911;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DZ3thWCMXzVKYHpidQUx936D1LbhAlLXp+GRrOgJgnQ=;
+  b=bnrPWFXskGbNR1JMwSpvnP1ygX6uHbSqW0OeMcmXFcWzdzNEdXV3nqz6
+   I31+1SKbFF5bHKU1SJJqnmp0CsKNvkA/UTzX4zrbKzNXjFjjWe8WK+dQI
+   NEUq670XNwkuguu47lqmRVQwggLJ6kPAoXoUPuFMXRBITu+wIhjVWwXp+
+   QvENpWILv2icM94IRnwI6FKqyoXstgPhnGdaKlCukSPVL3n6QghSXFf+n
+   AWj1tb3l+uUAIGLTmY/btuO5yNdG5BkYRy+/Td8MG76TH5ilO7wLXeRZm
+   W6x4SFwastE+a9/AoKHmDx5BniCDnuaSv+rjRN9HdtYXDmhzRbF5kyU3A
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="430352719"
 X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
-   d="scan'208";a="430342456"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 04:59:10 -0800
+   d="scan'208";a="430352719"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 05:58:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="956094577"
+X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="873369008"
 X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
-   d="scan'208";a="956094577"
+   d="scan'208";a="873369008"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 12 Jan 2024 04:59:09 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 12 Jan 2024 05:58:29 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOH7r-0009U4-02;
-	Fri, 12 Jan 2024 12:59:07 +0000
-Date: Fri, 12 Jan 2024 20:59:02 +0800
+	id 1rOI3H-0009Xo-0o;
+	Fri, 12 Jan 2024 13:58:27 +0000
+Date: Fri, 12 Jan 2024 21:58:02 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Hao Li <hao3.li@intel.com>
-Subject: [intel-lts:6.1/dovetail-xenomai 15659/15708]
- arch/arm/mm/fault.c:158:15: warning: no previous prototype for function
- 'fault_entry'
-Message-ID: <202401122003.msBO6ufy-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: kernel/context_tracking.c:126:39: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202401122136.5Kgy2ZR3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,121 +50,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.1/dovetail-xenomai
-head:   b21b4201c7eb0370e452a439cb4ce6e97c732972
-commit: aa0b4997697a45275adce7baf2abc76a69973778 [15659/15708] ARM: dovetail: route traps
-config: arm-randconfig-001-20240112 (https://download.01.org/0day-ci/archive/20240112/202401122003.msBO6ufy-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401122003.msBO6ufy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   70d201a40823acba23899342d62bc2644051ad2e
+commit: 481461f5109919babbb393d6f68002936b8e2493 linux/export.h: make <linux/export.h> independent of CONFIG_MODULES
+date:   6 months ago
+config: csky-buildonly-randconfig-r006-20230413 (https://download.01.org/0day-ci/archive/20240112/202401122136.5Kgy2ZR3-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240112/202401122136.5Kgy2ZR3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401122003.msBO6ufy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401122136.5Kgy2ZR3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/context_tracking.c:126:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct context_tracking * @@
+   kernel/context_tracking.c:126:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/context_tracking.c:126:39: sparse:     got struct context_tracking *
+   kernel/context_tracking.c:165:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct context_tracking * @@
+   kernel/context_tracking.c:165:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/context_tracking.c:165:39: sparse:     got struct context_tracking *
+   kernel/context_tracking.c:206:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct context_tracking * @@
+   kernel/context_tracking.c:206:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/context_tracking.c:206:39: sparse:     got struct context_tracking *
+   kernel/context_tracking.c:261:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct context_tracking * @@
+   kernel/context_tracking.c:261:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   kernel/context_tracking.c:261:39: sparse:     got struct context_tracking *
+   kernel/context_tracking.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/irq.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
 
->> arch/arm/mm/fault.c:158:15: warning: no previous prototype for function 'fault_entry' [-Wmissing-prototypes]
-     158 | unsigned long fault_entry(int exception, struct pt_regs *regs)
-         |               ^
-   arch/arm/mm/fault.c:158:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     158 | unsigned long fault_entry(int exception, struct pt_regs *regs)
-         | ^
-         | static 
-   arch/arm/mm/fault.c:607:1: warning: no previous prototype for function 'do_DataAbort' [-Wmissing-prototypes]
-     607 | do_DataAbort(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
-         | ^
-   arch/arm/mm/fault.c:606:12: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     606 | asmlinkage void
-         |            ^
-         |            static 
-   arch/arm/mm/fault.c:640:1: warning: no previous prototype for function 'do_PrefetchAbort' [-Wmissing-prototypes]
-     640 | do_PrefetchAbort(unsigned long addr, unsigned int ifsr, struct pt_regs *regs)
-         | ^
-   arch/arm/mm/fault.c:639:12: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     639 | asmlinkage void
-         |            ^
-         |            static 
-   3 warnings generated.
+vim +126 kernel/context_tracking.c
 
+172114552701b8 Frederic Weisbecker 2022-06-08  115  
+172114552701b8 Frederic Weisbecker 2022-06-08  116  /*
+172114552701b8 Frederic Weisbecker 2022-06-08  117   * Enter an RCU extended quiescent state, which can be either the
+172114552701b8 Frederic Weisbecker 2022-06-08  118   * idle loop or adaptive-tickless usermode execution.
+172114552701b8 Frederic Weisbecker 2022-06-08  119   *
+172114552701b8 Frederic Weisbecker 2022-06-08  120   * We crowbar the ->dynticks_nmi_nesting field to zero to allow for
+172114552701b8 Frederic Weisbecker 2022-06-08  121   * the possibility of usermode upcalls having messed up our count
+172114552701b8 Frederic Weisbecker 2022-06-08  122   * of interrupt nesting level during the prior busy period.
+172114552701b8 Frederic Weisbecker 2022-06-08  123   */
+171476775d32a4 Frederic Weisbecker 2022-06-08  124  static void noinstr ct_kernel_exit(bool user, int offset)
+172114552701b8 Frederic Weisbecker 2022-06-08  125  {
+172114552701b8 Frederic Weisbecker 2022-06-08 @126  	struct context_tracking *ct = this_cpu_ptr(&context_tracking);
+172114552701b8 Frederic Weisbecker 2022-06-08  127  
+172114552701b8 Frederic Weisbecker 2022-06-08  128  	WARN_ON_ONCE(ct_dynticks_nmi_nesting() != DYNTICK_IRQ_NONIDLE);
+172114552701b8 Frederic Weisbecker 2022-06-08  129  	WRITE_ONCE(ct->dynticks_nmi_nesting, 0);
+172114552701b8 Frederic Weisbecker 2022-06-08  130  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) &&
+172114552701b8 Frederic Weisbecker 2022-06-08  131  		     ct_dynticks_nesting() == 0);
+172114552701b8 Frederic Weisbecker 2022-06-08  132  	if (ct_dynticks_nesting() != 1) {
+172114552701b8 Frederic Weisbecker 2022-06-08  133  		// RCU will still be watching, so just do accounting and leave.
+172114552701b8 Frederic Weisbecker 2022-06-08  134  		ct->dynticks_nesting--;
+172114552701b8 Frederic Weisbecker 2022-06-08  135  		return;
+172114552701b8 Frederic Weisbecker 2022-06-08  136  	}
+172114552701b8 Frederic Weisbecker 2022-06-08  137  
+172114552701b8 Frederic Weisbecker 2022-06-08  138  	instrumentation_begin();
+172114552701b8 Frederic Weisbecker 2022-06-08  139  	lockdep_assert_irqs_disabled();
+172114552701b8 Frederic Weisbecker 2022-06-08  140  	trace_rcu_dyntick(TPS("Start"), ct_dynticks_nesting(), 0, ct_dynticks());
+172114552701b8 Frederic Weisbecker 2022-06-08  141  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && !user && !is_idle_task(current));
+172114552701b8 Frederic Weisbecker 2022-06-08  142  	rcu_preempt_deferred_qs(current);
+172114552701b8 Frederic Weisbecker 2022-06-08  143  
+171476775d32a4 Frederic Weisbecker 2022-06-08  144  	// instrumentation for the noinstr ct_kernel_exit_state()
+171476775d32a4 Frederic Weisbecker 2022-06-08  145  	instrument_atomic_write(&ct->state, sizeof(ct->state));
+172114552701b8 Frederic Weisbecker 2022-06-08  146  
+172114552701b8 Frederic Weisbecker 2022-06-08  147  	instrumentation_end();
+172114552701b8 Frederic Weisbecker 2022-06-08  148  	WRITE_ONCE(ct->dynticks_nesting, 0); /* Avoid irq-access tearing. */
+172114552701b8 Frederic Weisbecker 2022-06-08  149  	// RCU is watching here ...
+171476775d32a4 Frederic Weisbecker 2022-06-08  150  	ct_kernel_exit_state(offset);
+172114552701b8 Frederic Weisbecker 2022-06-08  151  	// ... but is no longer watching here.
+172114552701b8 Frederic Weisbecker 2022-06-08  152  	rcu_dynticks_task_enter();
+172114552701b8 Frederic Weisbecker 2022-06-08  153  }
+172114552701b8 Frederic Weisbecker 2022-06-08  154  
 
-vim +/fault_entry +158 arch/arm/mm/fault.c
+:::::: The code at line 126 was first introduced by commit
+:::::: 172114552701b85d5c3b1a089a73ee85d0d7786b rcu/context-tracking: Move RCU-dynticks internal functions to context_tracking
 
-    88	
-    89	/*
-    90	 * This is useful to dump out the page tables associated with
-    91	 * 'addr' in mm 'mm'.
-    92	 */
-    93	void show_pte(const char *lvl, struct mm_struct *mm, unsigned long addr)
-    94	{
-    95		pgd_t *pgd;
-    96	
-    97		if (!mm)
-    98			mm = &init_mm;
-    99	
-   100		pgd = pgd_offset(mm, addr);
-   101		printk("%s[%08lx] *pgd=%08llx", lvl, addr, (long long)pgd_val(*pgd));
-   102	
-   103		do {
-   104			p4d_t *p4d;
-   105			pud_t *pud;
-   106			pmd_t *pmd;
-   107			pte_t *pte;
-   108	
-   109			p4d = p4d_offset(pgd, addr);
-   110			if (p4d_none(*p4d))
-   111				break;
-   112	
-   113			if (p4d_bad(*p4d)) {
-   114				pr_cont("(bad)");
-   115				break;
-   116			}
-   117	
-   118			pud = pud_offset(p4d, addr);
-   119			if (PTRS_PER_PUD != 1)
-   120				pr_cont(", *pud=%08llx", (long long)pud_val(*pud));
-   121	
-   122			if (pud_none(*pud))
-   123				break;
-   124	
-   125			if (pud_bad(*pud)) {
-   126				pr_cont("(bad)");
-   127				break;
-   128			}
-   129	
-   130			pmd = pmd_offset(pud, addr);
-   131			if (PTRS_PER_PMD != 1)
-   132				pr_cont(", *pmd=%08llx", (long long)pmd_val(*pmd));
-   133	
-   134			if (pmd_none(*pmd))
-   135				break;
-   136	
-   137			if (pmd_bad(*pmd)) {
-   138				pr_cont("(bad)");
-   139				break;
-   140			}
-   141	
-   142			/* We must not map this if we have highmem enabled */
-   143			if (PageHighMem(pfn_to_page(pmd_val(*pmd) >> PAGE_SHIFT)))
-   144				break;
-   145	
-   146			pte = pte_offset_map(pmd, addr);
-   147			pr_cont(", *pte=%08llx", (long long)pte_val(*pte));
-   148	#ifndef CONFIG_ARM_LPAE
-   149			pr_cont(", *ppte=%08llx",
-   150			       (long long)pte_val(pte[PTE_HWTABLE_PTRS]));
-   151	#endif
-   152			pte_unmap(pte);
-   153		} while(0);
-   154	
-   155		pr_cont("\n");
-   156	}
-   157	#else					/* CONFIG_MMU */
- > 158	unsigned long fault_entry(int exception, struct pt_regs *regs)
-   159	{
-   160		return 0;
-   161	}
-   162	
+:::::: TO: Frederic Weisbecker <frederic@kernel.org>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
