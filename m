@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2328EEBD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96FCED1
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 00:27:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cydRW9+U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTYdAj08"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1705019235; x=1736555235;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JPaXpwEDXZo+kgpou/OY1IeWkw+JDGD8i3xSyNc6s8w=;
-  b=cydRW9+ULF7q2MFSHF1TwH5+QR9EtnD0fHBpcV+TO35dtjuEkuVfh6cF
-   xVWgf7OfNNinSx2g6EZIYhbc+YHDqyqou+UTXr56G3FMhCid1N4h24pja
-   oysx2x46xvxeRVXzn4ruKkggBA8YqE1mDdYEF0rLCIJpDzXPuR9/30Ayk
-   PpUA9OljUCmQYCDYjYPUPsIXWQRoW31YI10uigxhXB+guk/O2+uiAl1CX
-   LgtICfdaBOdngZVc1tOr8W3L16MqeV7QA92eQL37hiZhrnnH+vyBLkOvh
-   lDO7kTAK8aQPX/4dMWHhVs68FsBQ5IX+JVfsxuEf+DLOxIa42eU4ujBsx
+  bh=i1UWrZ+W7NNjDlVpd+ksZYxVocCkskh0YhN/uIN1rs4=;
+  b=BTYdAj08d8UhsPxHRvx1EMcMlgeIAsBZbERHp+NKHMdiuz5lKxjDPnEi
+   Yhqq+8qrDn9WvhoBFxF9hpQ6pk8z/pY9jObnlQuTtgGZlnUsZqTn45GyC
+   u4rFk4H0fR1MJezNGlGrExp/hdRNwlfQbAQfSvH+F3Pbha5ItEgPe2x30
+   a72HfBbMkrna3t0gKS6YnFhTK6Yy6axx6ygL7lsup5QpZiuvFJg2DC473
+   CgQ1VUNxpAKWhZSiwIatEFcbZJRIUXabzJrBxg9DHrWK0IGSKDGQpsFIc
+   ExsiyC3yXdWtN8DZf9jqDy3un0bSRVeLJcmhr1ir2hPpi1sEMWeZnkdcU
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="397919463"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="5766682"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="397919463"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 16:27:14 -0800
+   d="scan'208";a="5766682"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 16:27:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="853121898"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="906140356"
 X-IronPort-AV: E=Sophos;i="6.04,187,1695711600"; 
-   d="scan'208";a="853121898"
+   d="scan'208";a="906140356"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Jan 2024 16:27:13 -0800
+  by orsmga004.jf.intel.com with ESMTP; 11 Jan 2024 16:27:13 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rO5OB-0008tT-1p;
+	id 1rO5OB-0008tO-1e;
 	Fri, 12 Jan 2024 00:27:11 +0000
 Date: Fri, 12 Jan 2024 08:27:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1814/2356] mm/page_cache_limit.c:94:5: warning:
- no previous prototype for function 'cache_limit_mbytes_sysctl_handler'
-Message-ID: <202401120819.78yCuGth-lkp@intel.com>
+To: Jassi Brar <jaswinder.singh@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Felipe Balbi <balbi@kernel.org>
+Subject: drivers/usb/gadget/udc/max3420_udc.c:555:41: sparse: sparse:
+ restricted __le16 degrades to integer
+Message-ID: <202401120851.7BJ9MPCT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,78 +51,166 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ea6de9f6732d495c506f9c140b4ec17c957e1b77
-commit: 7d1031b36ebd6c273d9aad316fd9e3e2daa01a85 [1814/2356] mm: support pagecache limit
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240112/202401120819.78yCuGth-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120819.78yCuGth-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   457e4f99765cc41d0b90e1385f51b848d6a921d0
+commit: 48ba02b2e2b1a1c80718e93fefe99c8319597c4a usb: gadget: add udc driver for max3420
+date:   3 years, 10 months ago
+config: i386-randconfig-061-20240106 (https://download.01.org/0day-ci/archive/20240112/202401120851.7BJ9MPCT-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401120851.7BJ9MPCT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401120819.78yCuGth-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401120851.7BJ9MPCT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/gadget/udc/max3420_udc.c:555:41: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/gadget/udc/max3420_udc.c:556:31: sparse: sparse: restricted __le16 degrades to integer
+>> drivers/usb/gadget/udc/max3420_udc.c:570:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [assigned] [usertype] status @@     got restricted __le16 [usertype] @@
+   drivers/usb/gadget/udc/max3420_udc.c:570:16: sparse:     expected unsigned short [assigned] [usertype] status
+   drivers/usb/gadget/udc/max3420_udc.c:570:16: sparse:     got restricted __le16 [usertype]
+   drivers/usb/gadget/udc/max3420_udc.c:588:31: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/gadget/udc/max3420_udc.c:602:32: sparse: sparse: restricted __le16 degrades to integer
+>> drivers/usb/gadget/udc/max3420_udc.c:631:29: sparse: sparse: cast from restricted __le16
+   drivers/usb/gadget/udc/max3420_udc.c:632:29: sparse: sparse: cast from restricted __le16
+   drivers/usb/gadget/udc/max3420_udc.c:633:30: sparse: sparse: cast from restricted __le16
 
-   mm/page_cache_limit.c:61:5: warning: no previous prototype for function 'cache_reclaim_enable_handler' [-Wmissing-prototypes]
-      61 | int cache_reclaim_enable_handler(struct ctl_table *table, int write,
-         |     ^
-   mm/page_cache_limit.c:61:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      61 | int cache_reclaim_enable_handler(struct ctl_table *table, int write,
-         | ^
-         | static 
-   mm/page_cache_limit.c:77:5: warning: no previous prototype for function 'cache_reclaim_sysctl_handler' [-Wmissing-prototypes]
-      77 | int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
-         |     ^
-   mm/page_cache_limit.c:77:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      77 | int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
-         | ^
-         | static 
->> mm/page_cache_limit.c:94:5: warning: no previous prototype for function 'cache_limit_mbytes_sysctl_handler' [-Wmissing-prototypes]
-      94 | int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
-         |     ^
-   mm/page_cache_limit.c:94:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      94 | int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
-         | ^
-         | static 
-   3 warnings generated.
+vim +555 drivers/usb/gadget/udc/max3420_udc.c
 
-
-vim +/cache_limit_mbytes_sysctl_handler +94 mm/page_cache_limit.c
-
-    93	
-  > 94	int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
-    95			void __user *buffer, size_t *length, loff_t *ppos)
-    96	{
-    97		int ret;
-    98		unsigned long vm_cache_limit_mbytes_max;
-    99		unsigned long origin_mbytes = vm_cache_limit_mbytes;
-   100		int nr_retries = MAX_RECLAIM_RETRIES;
-   101	
-   102		vm_cache_limit_mbytes_max = totalram_pages() >> (20 - PAGE_SHIFT);
-   103		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
-   104		if (ret || !write)
-   105			return ret;
-   106	
-   107		if (vm_cache_limit_mbytes > vm_cache_limit_mbytes_max) {
-   108			vm_cache_limit_mbytes = origin_mbytes;
-   109			return -EINVAL;
-   110		}
-   111	
-   112		if (write) {
-   113			while (should_reclaim_page_cache() && page_cache_over_limit() &&
-   114					nr_retries--) {
-   115				if (signal_pending(current))
-   116					return -EINTR;
-   117	
-   118				shrink_memory(node_reclaim_num(), false);
-   119			}
-   120		}
-   121	
-   122		return 0;
-   123	}
-   124	
+   538	
+   539	static void max3420_getstatus(struct max3420_udc *udc)
+   540	{
+   541		struct max3420_ep *ep;
+   542		u16 status = 0;
+   543	
+   544		switch (udc->setup.bRequestType & USB_RECIP_MASK) {
+   545		case USB_RECIP_DEVICE:
+   546			/* Get device status */
+   547			status = udc->gadget.is_selfpowered << USB_DEVICE_SELF_POWERED;
+   548			status |= (udc->remote_wkp << USB_DEVICE_REMOTE_WAKEUP);
+   549			break;
+   550		case USB_RECIP_INTERFACE:
+   551			if (udc->driver->setup(&udc->gadget, &udc->setup) < 0)
+   552				goto stall;
+   553			break;
+   554		case USB_RECIP_ENDPOINT:
+ > 555			ep = &udc->ep[udc->setup.wIndex & USB_ENDPOINT_NUMBER_MASK];
+   556			if (udc->setup.wIndex & USB_DIR_IN) {
+   557				if (!ep->ep_usb.caps.dir_in)
+   558					goto stall;
+   559			} else {
+   560				if (!ep->ep_usb.caps.dir_out)
+   561					goto stall;
+   562			}
+   563			if (ep->halted)
+   564				status = 1 << USB_ENDPOINT_HALT;
+   565			break;
+   566		default:
+   567			goto stall;
+   568		}
+   569	
+ > 570		status = cpu_to_le16(status);
+   571		spi_wr_buf(udc, MAX3420_REG_EP0FIFO, &status, 2);
+   572		spi_wr8_ack(udc, MAX3420_REG_EP0BC, 2, 1);
+   573		return;
+   574	stall:
+   575		dev_err(udc->dev, "Can't respond to getstatus request\n");
+   576		spi_wr8(udc, MAX3420_REG_EPSTALLS, STLEP0IN | STLEP0OUT | STLSTAT);
+   577	}
+   578	
+   579	static void max3420_set_clear_feature(struct max3420_udc *udc)
+   580	{
+   581		struct max3420_ep *ep;
+   582		int set = udc->setup.bRequest == USB_REQ_SET_FEATURE;
+   583		unsigned long flags;
+   584		int id;
+   585	
+   586		switch (udc->setup.bRequestType) {
+   587		case USB_RECIP_DEVICE:
+   588			if (udc->setup.wValue != USB_DEVICE_REMOTE_WAKEUP)
+   589				break;
+   590	
+   591			if (udc->setup.bRequest == USB_REQ_SET_FEATURE)
+   592				udc->remote_wkp = 1;
+   593			else
+   594				udc->remote_wkp = 0;
+   595	
+   596			return spi_ack_ctrl(udc);
+   597	
+   598		case USB_RECIP_ENDPOINT:
+   599			if (udc->setup.wValue != USB_ENDPOINT_HALT)
+   600				break;
+   601	
+   602			id = udc->setup.wIndex & USB_ENDPOINT_NUMBER_MASK;
+   603			ep = &udc->ep[id];
+   604	
+   605			spin_lock_irqsave(&ep->lock, flags);
+   606			ep->todo &= ~STALL_EP;
+   607			if (set)
+   608				ep->todo |= STALL;
+   609			else
+   610				ep->todo |= UNSTALL;
+   611			spin_unlock_irqrestore(&ep->lock, flags);
+   612	
+   613			spi_max3420_stall(ep);
+   614			return;
+   615		default:
+   616			break;
+   617		}
+   618	
+   619		dev_err(udc->dev, "Can't respond to SET/CLEAR FEATURE\n");
+   620		spi_wr8(udc, MAX3420_REG_EPSTALLS, STLEP0IN | STLEP0OUT | STLSTAT);
+   621	}
+   622	
+   623	static void max3420_handle_setup(struct max3420_udc *udc)
+   624	{
+   625		struct usb_ctrlrequest setup;
+   626		u8 addr;
+   627	
+   628		spi_rd_buf(udc, MAX3420_REG_SUDFIFO, (void *)&setup, 8);
+   629	
+   630		udc->setup = setup;
+ > 631		udc->setup.wValue = cpu_to_le16(setup.wValue);
+   632		udc->setup.wIndex = cpu_to_le16(setup.wIndex);
+   633		udc->setup.wLength = cpu_to_le16(setup.wLength);
+   634	
+   635		switch (udc->setup.bRequest) {
+   636		case USB_REQ_GET_STATUS:
+   637			/* Data+Status phase form udc */
+   638			if ((udc->setup.bRequestType &
+   639					(USB_DIR_IN | USB_TYPE_MASK)) !=
+   640					(USB_DIR_IN | USB_TYPE_STANDARD)) {
+   641				break;
+   642			}
+   643			return max3420_getstatus(udc);
+   644		case USB_REQ_SET_ADDRESS:
+   645			/* Status phase from udc */
+   646			if (udc->setup.bRequestType != (USB_DIR_OUT |
+   647					USB_TYPE_STANDARD | USB_RECIP_DEVICE)) {
+   648				break;
+   649			}
+   650			addr = spi_rd8_ack(udc, MAX3420_REG_FNADDR, 1);
+   651			dev_dbg(udc->dev, "Assigned Address=%d\n", udc->setup.wValue);
+   652			return;
+   653		case USB_REQ_CLEAR_FEATURE:
+   654		case USB_REQ_SET_FEATURE:
+   655			/* Requests with no data phase, status phase from udc */
+   656			if ((udc->setup.bRequestType & USB_TYPE_MASK)
+   657					!= USB_TYPE_STANDARD)
+   658				break;
+   659			return max3420_set_clear_feature(udc);
+   660		default:
+   661			break;
+   662		}
+   663	
+   664		if (udc->driver->setup(&udc->gadget, &setup) < 0) {
+   665			/* Stall EP0 */
+   666			spi_wr8(udc, MAX3420_REG_EPSTALLS,
+   667				STLEP0IN | STLEP0OUT | STLSTAT);
+   668		}
+   669	}
+   670	
 
 -- 
 0-DAY CI Kernel Test Service
