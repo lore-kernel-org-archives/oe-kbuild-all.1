@@ -1,53 +1,50 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892315B5BA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 06:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A03723C1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 06:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PFeJ3/uA"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40d5336986cso78080075e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Jan 2024 22:03:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705039422; x=1705644222; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ywmI/tG6PGjLugPlncHNh/C8Y7NuXCRr0z+zVLWGR40=;
-        b=PFeJ3/uAmJk6QMkiYBGntDSTt3xBxmYnKKYto1osOcL4NivPK1+l3YVBjCEVMzW9aA
-         JjYIf2hnfi5nNZSZ5/uYLJTyIDskjRrssgKb3Ef3saywxNAOmav5pQbjhlUtPq2l0/Gz
-         Ta1YjUjYH6ea9gRgH/5qco31fk8DUW4g6nH1FgbrwXETYzyEidkZzrrEI+lvIFiOSdEC
-         le9JlGm1uQQ2cZJPh1ru1kpvmSCkdqMrVXFHTuje9BeRTBqnL1WyCth0p8cmyZFXHcWL
-         U/r5IaQL0bzy0FP39mcbLryyCHQ1f0iAEAIKDG02i4+YamldG9+JAN8AfFK97O82jh7h
-         JC0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705039422; x=1705644222;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ywmI/tG6PGjLugPlncHNh/C8Y7NuXCRr0z+zVLWGR40=;
-        b=MBD8TWGRNwTLzX63/oPek6a2ZA7NQhyQLZ/xzFfxPH7zw3Mig5z3IUAFBRATcXSv9c
-         a5ehvJf6q9nfAruedupD/zn0gUgL/TYLL/jxl5KgVtJxU6qWCOSpCzHZiLkKkQV4DqqA
-         PwU9TVQmyxLmz0/AOAK2oaCFWQjD6XVb8ZoO1SXcINWnhFznxCXVEUuf8yGYqHeINT8N
-         Imv0K4in8XCDDWXy2eVp2b0YplkbjZI4zORSYI984J2XpHTrfn7FBimdcH4v+z1WVdJ/
-         8VDGewFGvSqASg2MjPe1/EoMNp+2ee5wlmLgN5SsLERR24U472UCRa2xRYckUB1CBmfd
-         cU5A==
-X-Gm-Message-State: AOJu0YxHEtSadJ0XyUAb7nEEX1KnuuzwqriA7UOyn2I5TZCMo+zOGErK
-	QEc+yR4XeYd1siPO4Lh8bX2fwIcuMWFUPg==
-X-Google-Smtp-Source: AGHT+IFkScJg/CAdcptAYmzfUO0QdYfAmuv2l9yWUHfX4Sr+Eu+IfngBH7WsodOy3Znh6EhVcpYtdg==
-X-Received: by 2002:a05:600c:42c1:b0:40e:52c3:47f9 with SMTP id j1-20020a05600c42c100b0040e52c347f9mr438260wme.67.1705039421699;
-        Thu, 11 Jan 2024 22:03:41 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id d14-20020a05600c34ce00b0040e60c00d2csm4340165wmq.12.2024.01.11.22.03.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 22:03:41 -0800 (PST)
-Date: Fri, 12 Jan 2024 09:03:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 34/36] drivers/media/i2c/ov2740.c:947
- ov2740_enable_streams() warn: missing unwind goto?
-Message-ID: <b2fca27d-9e2f-4d4e-a6c7-06a35befe4c2@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bWG4VulK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705041369; x=1736577369;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fKRsDn8W4tQGJ3IWNeAiK08VDkkQjZ2SeTZwpMxnKZs=;
+  b=bWG4VulK9DN3G2aLax3/gZ7seuQWmH7ly4fVb/szXK0BHiKpErc/clcx
+   hj7BcmH3qVsULqHDxhJ0TVb1zcFkITJDKKGxZlR/bIrRiJsG6Y56Lo07H
+   Clcog7YhDfNV+ZbukFHmvTHEkfu/Wssh+LfU5lYyInfXPRZ+1svyuvMnp
+   05EV91M67abDjj2v6IebKcTxZonNYQnVYxQkkuHWzai7WwZO2U7/n34wJ
+   +RV0e1wndmqD8EGFzLd+0v0Tv+XUgRBhHbPxDiWR3sAuT2b30/Jynqood
+   95Kvg81hp2d4iL8wU1g9hgDWWPflLF+wV1y3/n3XAGLGMPbu9XWyghdgM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="397975956"
+X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
+   d="scan'208";a="397975956"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 22:36:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="956022351"
+X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
+   d="scan'208";a="956022351"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 11 Jan 2024 22:36:05 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rOB98-0009AC-1C;
+	Fri, 12 Jan 2024 06:36:02 +0000
+Date: Fri, 12 Jan 2024 14:35:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wupeng Ma <mawupeng1@huawei.com>, akpm@linux-foundation.org,
+	dave.hansen@linux.intel.com, luto@kernel.org, tglx@linutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, mawupeng1@huawei.com, bp@suse.de, mingo@redhat.com
+Subject: Re: [PATCH v3 2/3] x86/mm/pat: Cleanup unused parameter in
+ follow_phys
+Message-ID: <202401121454.wuRFNxQE-lkp@intel.com>
+References: <20240111120929.2694440-3-mawupeng1@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,92 +53,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240111120929.2694440-3-mawupeng1@huawei.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   77a04fb9d17b29287728b8fe1da7a196b3364e44
-commit: 575405277b30f2459e65cd2a1e6176f34d2440b3 [34/36] media: ov2740: Switch to {enable,disable}_streams
-config: i386-randconfig-141-20240111 (https://download.01.org/0day-ci/archive/20240111/202401112346.2nUZ8Jyd-lkp@intel.com/config)
+Hi Wupeng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on tip/x86/mm tip/master linus/master v6.7 next-20240111]
+[cannot apply to tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wupeng-Ma/x86-mm-pat-Move-follow_phys-to-pat-related-file/20240111-201305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240111120929.2694440-3-mawupeng1%40huawei.com
+patch subject: [PATCH v3 2/3] x86/mm/pat: Cleanup unused parameter in follow_phys
+config: i386-alldefconfig (https://download.01.org/0day-ci/archive/20240112/202401121454.wuRFNxQE-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121454.wuRFNxQE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401112346.2nUZ8Jyd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401121454.wuRFNxQE-lkp@intel.com/
 
-smatch warnings:
-drivers/media/i2c/ov2740.c:947 ov2740_enable_streams() warn: missing unwind goto?
+All warnings (new ones prefixed by >>):
 
-vim +947 drivers/media/i2c/ov2740.c
+   arch/x86/mm/pat/memtype.c: In function 'follow_phys':
+>> arch/x86/mm/pat/memtype.c:972:1: warning: label 'unlock' defined but not used [-Wunused-label]
+     972 | unlock:
+         | ^~~~~~
 
-575405277b30f2 Sakari Ailus    2023-10-03  922  static int ov2740_enable_streams(struct v4l2_subdev *sd,
-575405277b30f2 Sakari Ailus    2023-10-03  923  				 struct v4l2_subdev_state *state, u32 pad,
-575405277b30f2 Sakari Ailus    2023-10-03  924  				 u64 streams_mask)
-866edc895171f1 Bingbu Cao      2020-05-11  925  {
-575405277b30f2 Sakari Ailus    2023-10-03  926  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-575405277b30f2 Sakari Ailus    2023-10-03  927  	struct ov2740 *ov2740 = to_ov2740(sd);
-866edc895171f1 Bingbu Cao      2020-05-11  928  	const struct ov2740_reg_list *reg_list;
-866edc895171f1 Bingbu Cao      2020-05-11  929  	int link_freq_index;
-3b0d0f33795403 Andy Shevchenko 2022-07-26  930  	int ret;
-866edc895171f1 Bingbu Cao      2020-05-11  931  
-575405277b30f2 Sakari Ailus    2023-10-03  932  	ret = pm_runtime_resume_and_get(&client->dev);
-575405277b30f2 Sakari Ailus    2023-10-03  933  	if (ret < 0)
-575405277b30f2 Sakari Ailus    2023-10-03  934  		return ret;
-575405277b30f2 Sakari Ailus    2023-10-03  935  
-ada2c4f54d0ae9 Bingbu Cao      2021-12-15  936  	ret = ov2740_identify_module(ov2740);
-ada2c4f54d0ae9 Bingbu Cao      2021-12-15  937  	if (ret)
-575405277b30f2 Sakari Ailus    2023-10-03  938  		goto out_pm_put;
-ada2c4f54d0ae9 Bingbu Cao      2021-12-15  939  
-39cc0f20d1bc2b Andy Shevchenko 2022-07-26  940  	if (ov2740->nvm)
-39cc0f20d1bc2b Andy Shevchenko 2022-07-26  941  		ov2740_load_otp_data(ov2740->nvm);
-5e6fd339b68df8 Bingbu Cao      2020-11-13  942  
-efff0a80bc66dc Hans de Goede   2023-12-04  943  	/* Reset the sensor */
-efff0a80bc66dc Hans de Goede   2023-12-04  944  	ret = ov2740_write_reg(ov2740, 0x0103, 1, 0x01);
-efff0a80bc66dc Hans de Goede   2023-12-04  945  	if (ret) {
-efff0a80bc66dc Hans de Goede   2023-12-04  946  		dev_err(&client->dev, "failed to reset\n");
-efff0a80bc66dc Hans de Goede   2023-12-04 @947  		return ret;
 
-goto out_pm_put;?
+vim +/unlock +972 arch/x86/mm/pat/memtype.c
 
-efff0a80bc66dc Hans de Goede   2023-12-04  948  	}
-efff0a80bc66dc Hans de Goede   2023-12-04  949  
-efff0a80bc66dc Hans de Goede   2023-12-04  950  	usleep_range(10000, 15000);
-efff0a80bc66dc Hans de Goede   2023-12-04  951  
-866edc895171f1 Bingbu Cao      2020-05-11  952  	link_freq_index = ov2740->cur_mode->link_freq_index;
-866edc895171f1 Bingbu Cao      2020-05-11  953  	reg_list = &link_freq_configs[link_freq_index].reg_list;
-866edc895171f1 Bingbu Cao      2020-05-11  954  	ret = ov2740_write_reg_list(ov2740, reg_list);
-866edc895171f1 Bingbu Cao      2020-05-11  955  	if (ret) {
-6919695f0616e2 Andy Shevchenko 2022-07-26  956  		dev_err(&client->dev, "failed to set plls\n");
-575405277b30f2 Sakari Ailus    2023-10-03  957  		goto out_pm_put;
-866edc895171f1 Bingbu Cao      2020-05-11  958  	}
-866edc895171f1 Bingbu Cao      2020-05-11  959  
-866edc895171f1 Bingbu Cao      2020-05-11  960  	reg_list = &ov2740->cur_mode->reg_list;
-866edc895171f1 Bingbu Cao      2020-05-11  961  	ret = ov2740_write_reg_list(ov2740, reg_list);
-866edc895171f1 Bingbu Cao      2020-05-11  962  	if (ret) {
-6919695f0616e2 Andy Shevchenko 2022-07-26  963  		dev_err(&client->dev, "failed to set mode\n");
-575405277b30f2 Sakari Ailus    2023-10-03  964  		goto out_pm_put;
-866edc895171f1 Bingbu Cao      2020-05-11  965  	}
-866edc895171f1 Bingbu Cao      2020-05-11  966  
-866edc895171f1 Bingbu Cao      2020-05-11  967  	ret = __v4l2_ctrl_handler_setup(ov2740->sd.ctrl_handler);
-866edc895171f1 Bingbu Cao      2020-05-11  968  	if (ret)
-575405277b30f2 Sakari Ailus    2023-10-03  969  		goto out_pm_put;
-866edc895171f1 Bingbu Cao      2020-05-11  970  
-866edc895171f1 Bingbu Cao      2020-05-11  971  	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-866edc895171f1 Bingbu Cao      2020-05-11  972  			       OV2740_MODE_STREAMING);
-575405277b30f2 Sakari Ailus    2023-10-03  973  	if (ret) {
-6919695f0616e2 Andy Shevchenko 2022-07-26  974  		dev_err(&client->dev, "failed to start streaming\n");
-575405277b30f2 Sakari Ailus    2023-10-03  975  		goto out_pm_put;
-866edc895171f1 Bingbu Cao      2020-05-11  976  	}
-866edc895171f1 Bingbu Cao      2020-05-11  977  
-575405277b30f2 Sakari Ailus    2023-10-03  978  	return 0;
-575405277b30f2 Sakari Ailus    2023-10-03  979  
-575405277b30f2 Sakari Ailus    2023-10-03  980  out_pm_put:
-575405277b30f2 Sakari Ailus    2023-10-03  981  	pm_runtime_put_noidle(&client->dev);
-866edc895171f1 Bingbu Cao      2020-05-11  982  
-575405277b30f2 Sakari Ailus    2023-10-03  983  	return ret;
-866edc895171f1 Bingbu Cao      2020-05-11  984  }
+5899329b19100c arch/x86/mm/pat.c         venkatesh.pallipadi@intel.com 2008-12-18  952  
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  953  static int follow_phys(struct vm_area_struct *vma,
+76b476f1ffb4bf arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  954  		unsigned long address,  unsigned long *prot,
+76b476f1ffb4bf arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  955  		resource_size_t *phys)
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  956  {
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  957  	int ret = -EINVAL;
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  958  	pte_t *ptep, pte;
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  959  	spinlock_t *ptl;
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  960  
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  961  	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  962  		goto out;
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  963  
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  964  	if (follow_pte(vma->vm_mm, address, &ptep, &ptl))
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  965  		goto out;
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  966  	pte = ptep_get(ptep);
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  967  
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  968  	*prot = pgprot_val(pte_pgprot(pte));
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  969  	*phys = (resource_size_t)pte_pfn(pte) << PAGE_SHIFT;
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  970  
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  971  	ret = 0;
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11 @972  unlock:
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  973  	pte_unmap_unlock(ptep, ptl);
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  974  out:
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  975  	return ret;
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  976  }
+b4e07d9667b7ae arch/x86/mm/pat/memtype.c Ma Wupeng                     2024-01-11  977  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
