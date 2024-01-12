@@ -1,146 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4A154273
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 09:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYOY6btz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705050462; x=1736586462;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=nKUQ3YVcdL48V6oYTbglzQHnBPG03i5cSW8m97SIAj0=;
-  b=NYOY6btzVKIY0fD+d1kZb4N3ZZ+pjAus0xsJNsYORVeXzfOR6WxPoTVI
-   r22OEoVVZIx4Wn4TBf0rmWU7nTTTP6oNLk9DJorO7p5Yln1KxW3QLO76x
-   IRuY5laaGvJxzsNDI0bfggyILx/gfytacroqCxE5XiSdEbqeDuFIKga4A
-   mKrDMxxbgeqZ0i5pSTUj6+hPSy/yh8INQXba79RGGmg3xEYDH8xgHVS5i
-   KG4hNdK8hPcngAJJ7uOvCuJlnshelSL2BzCEFAwJzZPaxrSR+HP42zDJE
-   gZccdn9W4uesp91AMt3Aip3wEyXzntp+emdMWI1yC17Ih8RFvLjTqqO5V
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="6491196"
-X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
-   d="scan'208";a="6491196"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 01:07:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
-   d="scan'208";a="24944433"
-Received: from kklimes-mobl1.amr.corp.intel.com (HELO localhost) ([10.252.38.5])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 01:07:37 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org, Xinhui
- <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Pan@freedesktop.org
-Subject: Re: [PATCH 3/6] drm/amdgpu: prefer snprintf over sprintf
-In-Reply-To: <202401121126.i9VGrvMb-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula@intel.com>
- <202401121126.i9VGrvMb-lkp@intel.com>
-Date: Fri, 12 Jan 2024 11:07:33 +0200
-Message-ID: <878r4uudgq.fsf@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85FF55C00
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 09:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5fc2e997804so873937b3.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 01:22:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705051376; x=1705656176;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oZ+2Dp9TWzBAJs7a7HXex6+HAK1whEFISVpRMsIzFtY=;
+        b=NKIcZeMxArd5PFOiXyKyMyfheKGvLc67mmOxjQ3+ICkjQsdw+vCNDrfm/PgYunDF+P
+         Rk+q7J4uKh0hpdH/kkFxwhTfpQycShntl09y7eNHj0ZI9FB7lBYYJrxeZJowKHOx93ZQ
+         rVXCuKaOQmbW7od9xggwlKfYug32grigb6eXlFcCTd3gW5dPi5O24sFCasd03ZUKz2lC
+         xX2BBZ0w2bg1eeF0zx/Azd2Kzdi/ioJ0uFGBkrvn7oa7udNsufNrFPuyY/Z0nuPw5QtW
+         +SqyOa0Rpjdnh1L/9wrxVtTlqEqSrCYmC118Bn85BYknfz9qNdfCQm6Xnop+1dM6RqG6
+         uUlA==
+X-Gm-Message-State: AOJu0YyRwj/o1IqTEo/S3AdMAY6pnVM6T72XqEOe8ysHW9LvE6ECBM8x
+	cAqOvtS2QNIUvPnqmwKk5BsVz8pJtgW2jQ==
+X-Google-Smtp-Source: AGHT+IEftYHGDvzfNa71MihpAhisk8dGOKzWY2KC8aL+HNWIcPL72yJbXDSE0tMrevZwSM3mT7uz0w==
+X-Received: by 2002:a0d:cbc9:0:b0:5e7:c191:8417 with SMTP id n192-20020a0dcbc9000000b005e7c1918417mr979123ywd.43.1705051376538;
+        Fri, 12 Jan 2024 01:22:56 -0800 (PST)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id cp10-20020a05690c0e0a00b005f134299392sm1181509ywb.52.2024.01.12.01.22.56
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jan 2024 01:22:56 -0800 (PST)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5fa4b03f3f5so32862267b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 01:22:56 -0800 (PST)
+X-Received: by 2002:a81:4522:0:b0:5fa:7e0a:b133 with SMTP id
+ s34-20020a814522000000b005fa7e0ab133mr895241ywa.79.1705051375948; Fri, 12 Jan
+ 2024 01:22:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240111162419.12406-1-pmladek@suse.com>
+In-Reply-To: <20240111162419.12406-1-pmladek@suse.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 12 Jan 2024 10:22:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW1XyimybybSwAfwgzeUyFj6riRZZZzQK7zjTVUJziX-Q@mail.gmail.com>
+Message-ID: <CAMuHMdW1XyimybybSwAfwgzeUyFj6riRZZZzQK7zjTVUJziX-Q@mail.gmail.com>
+Subject: Re: [PATCH] scsi: core: Safe warning about bad dev info string
+To: Petr Mladek <pmladek@suse.com>
+Cc: "James E . J . Bottomley" <jejb@linux.ibm.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Chris Down <chris@chrisdown.name>, oe-kbuild-all@lists.linux.dev, 
+	kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 12 Jan 2024, kernel test robot <lkp@intel.com> wrote:
-> Hi Jani,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on drm-misc/drm-misc-next]
-> [also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7 next-20240111]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-nouveau-acr-ga102-remove-unused-but-set-variable/20240111-014206
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula%40intel.com
-> patch subject: [PATCH 3/6] drm/amdgpu: prefer snprintf over sprintf
-> config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20240112/202401121126.i9VGrvMb-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121126.i9VGrvMb-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401121126.i9VGrvMb-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c: In function 'amdgpu_gfx_kiq_init_ring':
->>> drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:61: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 8 [-Wformat-truncation=]
->      332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
->          |                                                             ^~
->    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:50: note: directive argument in the range [0, 2147483647]
->      332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
->          |                                                  ^~~~~~~~~~~~~~~~~
->    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:9: note: 'snprintf' output between 12 and 41 bytes into a destination of size 16
->      332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->      333 |                  xcc_id, ring->me, ring->pipe, ring->queue);
->          |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Hi Petr,
 
-As the commit message says,
-
-This will trade the W=1 warning -Wformat-overflow to
--Wformat-truncation. This lets us enable -Wformat-overflow subsystem
-wide.
-
-
-BR,
-Jani.
-
+On Thu, Jan 11, 2024 at 5:26=E2=80=AFPM Petr Mladek <pmladek@suse.com> wrot=
+e:
+> Both "model" and "strflags" are passed to "%s" even when one or both
+> are NULL.
 >
+> It is safe because vsprintf() would detect the NULL pointer and print
+> "(null)". But it is a kernel-specific feature and compiler warns
+> about it:
 >
-> vim +332 drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+> <warning>
+>    In file included from include/linux/kernel.h:19,
+>                     from arch/x86/include/asm/percpu.h:27,
+>                     from arch/x86/include/asm/current.h:6,
+>                     from include/linux/sched.h:12,
+>                     from include/linux/blkdev.h:5,
+>                     from drivers/scsi/scsi_devinfo.c:3:
+>    drivers/scsi/scsi_devinfo.c: In function 'scsi_dev_info_list_add_str':
+> >> include/linux/printk.h:434:44: warning: '%s' directive argument is nul=
+l [-Wformat-overflow=3D]
+>      434 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__V=
+A_ARGS__)
+>          |                                            ^
+>    include/linux/printk.h:430:3: note: in definition of macro 'printk_ind=
+ex_wrap'
+>      430 |   _p_func(_fmt, ##__VA_ARGS__);    \
+>          |   ^~~~~~~
+>    drivers/scsi/scsi_devinfo.c:551:4: note: in expansion of macro 'printk=
+'
+>      551 |    printk(KERN_ERR "%s: bad dev info string '%s' '%s'"
+>          |    ^~~~~~
+>    drivers/scsi/scsi_devinfo.c:552:14: note: format string is defined her=
+e
+>      552 |           " '%s'\n", __func__, vendor, model,
+>          |              ^~
+> </warning>
 >
->    306	
->    307	int amdgpu_gfx_kiq_init_ring(struct amdgpu_device *adev,
->    308				     struct amdgpu_ring *ring,
->    309				     struct amdgpu_irq_src *irq, int xcc_id)
->    310	{
->    311		struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
->    312		int r = 0;
->    313	
->    314		spin_lock_init(&kiq->ring_lock);
->    315	
->    316		ring->adev = NULL;
->    317		ring->ring_obj = NULL;
->    318		ring->use_doorbell = true;
->    319		ring->xcc_id = xcc_id;
->    320		ring->vm_hub = AMDGPU_GFXHUB(xcc_id);
->    321		ring->doorbell_index =
->    322			(adev->doorbell_index.kiq +
->    323			 xcc_id * adev->doorbell_index.xcc_doorbell_range)
->    324			<< 1;
->    325	
->    326		r = amdgpu_gfx_kiq_acquire(adev, ring, xcc_id);
->    327		if (r)
->    328			return r;
->    329	
->    330		ring->eop_gpu_addr = kiq->eop_gpu_addr;
->    331		ring->no_scheduler = true;
->  > 332		snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
->    333			 xcc_id, ring->me, ring->pipe, ring->queue);
->    334		r = amdgpu_ring_init(adev, ring, 1024, irq, AMDGPU_CP_KIQ_IRQ_DRIVER0,
->    335				     AMDGPU_RING_PRIO_DEFAULT, NULL);
->    336		if (r)
->    337			dev_warn(adev->dev, "(%d) failed to init kiq ring\n", r);
->    338	
->    339		return r;
->    340	}
->    341	
+> Do not rely on the kernel specific behavior and print the message a safe =
+way.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202401112002.AOjwMNM0-lkp@i=
+ntel.com/
+> Signed-off-by: Petr Mladek <pmladek@suse.com>
+> ---
+> Note: The patch is only compile tested.
+>
+>  drivers/scsi/scsi_devinfo.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/scsi/scsi_devinfo.c b/drivers/scsi/scsi_devinfo.c
+> index 3fcaf10a9dfe..ba7237e83863 100644
+> --- a/drivers/scsi/scsi_devinfo.c
+> +++ b/drivers/scsi/scsi_devinfo.c
+> @@ -551,9 +551,9 @@ static int scsi_dev_info_list_add_str(char *dev_list)
+>                 if (model)
+>                         strflags =3D strsep(&next, next_check);
+>                 if (!model || !strflags) {
+> -                       printk(KERN_ERR "%s: bad dev info string '%s' '%s=
+'"
+> -                              " '%s'\n", __func__, vendor, model,
+> -                              strflags);
+> +                       pr_err("%s: bad dev info string '%s' '%s' '%s'\n"=
+,
+> +                              __func__, vendor, model ? model : "",
+> +                              strflags ? strflags : "");
 
--- 
-Jani Nikula, Intel
+Do we really want to make this change?
+The kernel's vsprintf() implementation has supported NULL pointers
+since forever, and lots of code relies on that behavior.
+
+Perhaps this warning can be disabled instead?
+
+>                         res =3D -EINVAL;
+>                 } else
+>                         res =3D scsi_dev_info_list_add(0 /* compatible */=
+, vendor,
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
