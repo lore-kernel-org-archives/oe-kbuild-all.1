@@ -1,47 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7463D0C1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 04:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019BA5B5B9;
+	Fri, 12 Jan 2024 05:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWMirJH1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VeCGgIpn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705033930; x=1736569930;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bwe4VBfFRqLYoVoM0ibKK9WeELsWiV+7yc5CWqKQwL0=;
-  b=NWMirJH1kCWrWiavYcd5RPVv/NZakL2I5VBUMZWvqxXwOw9QK+2zbkwr
-   UYqgs/uOI3JgBi6kO4WajmnHb3CmvLOZDTcTb8s97eAgFpjMMj3vL2qve
-   bE5VzkIpp/6mRl2wwiFG0XMtvuQu4CHeeAdibqTeHaj1psPaLS8dMC5BF
-   n7PaumY50wMl5Z4RSVQEJ9IBvNHZ1YMkeTwzoBBrGWvkFPpnMkC6AU7Hz
-   wOypAu/KcomyonWvn983Hgx3y0b6xnbNBLCR2sfGzAfZZtP7LbWQxLyEH
-   HIsjeebSbNEzXmh8f7eWiwLg/ENDxlAHVhboVPP4/cQPMNLKNNAEFDZQA
+  t=1705035801; x=1736571801;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BEnMykRj0gfQ2uvwNbjSOsgkj/yi+JkdtVey25I3rHo=;
+  b=VeCGgIpnn5yFqRmCNkGV8IZUOQxkDiTF43kNLhGUdTMWqpxmBaCQSRw8
+   MWD79Ua0XN9XVp8aB5CGmUHo5pNJ4iGaolMo5RtjSaAMESJx3DeBDlRqr
+   8i/fAI1w58RMVO3qUJuUnEcxYosd1bfNhyqCBg/O6WIz2AnIeKBR5xIas
+   ukEPi7l+ej2uwXKQHT/Kgwq4KnoNW54/Xe00mz3I3eTWnYj+G21/bhCE1
+   r8NLUt1HMy5Vzhk69ZkmonPeEvdWZ2jxS/Z5U1uVPP3CDjPr8U0PUTBJg
+   UVlP+xANfrfX5/6P+uWa0T5t00yerYHuEM7+/DVvBeE4t4HnxgM13EFLx
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="485256233"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="5846065"
 X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
-   d="scan'208";a="485256233"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 20:32:09 -0800
+   d="scan'208";a="5846065"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 21:03:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="901847725"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="926274324"
 X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
-   d="scan'208";a="901847725"
+   d="scan'208";a="926274324"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Jan 2024 20:32:07 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 11 Jan 2024 21:03:17 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rO9D3-00093u-20;
-	Fri, 12 Jan 2024 04:32:00 +0000
-Date: Fri, 12 Jan 2024 12:31:19 +0800
+	id 1rO9hL-000954-29;
+	Fri, 12 Jan 2024 05:03:15 +0000
+Date: Fri, 12 Jan 2024 13:03:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Igor Torrente <igormtorrente@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Melissa Wen <melissa.srw@gmail.com>
-Subject: drivers/gpu/drm/vkms/vkms_formats.c:91:35: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202401121243.vaUKTMMC-lkp@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>, david@redhat.com,
+	linux-s390@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3 08/10] mm: Convert to should_zap_page() to
+ should_zap_folio()
+Message-ID: <202401121250.A221BL2D-lkp@intel.com>
+References: <20240111152429.3374566-9-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,156 +55,202 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240111152429.3374566-9-willy@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   22d29f1112c85c1ad519a8c0403f7f7289cf060c
-commit: 3675d8a1726337bd1e839a185e0a7ce0bc459b6b drm: vkms: Adds XRGB_16161616 and ARGB_1616161616 formats
-date:   1 year, 4 months ago
-config: x86_64-randconfig-121-20240107 (https://download.01.org/0day-ci/archive/20240112/202401121243.vaUKTMMC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121243.vaUKTMMC-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/mm-Add-pfn_swap_entry_folio/20240111-232757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240111152429.3374566-9-willy%40infradead.org
+patch subject: [PATCH v3 08/10] mm: Convert to should_zap_page() to should_zap_folio()
+config: arm-milbeaut_m10v_defconfig (https://download.01.org/0day-ci/archive/20240112/202401121250.A221BL2D-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121250.A221BL2D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401121243.vaUKTMMC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401121250.A221BL2D-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/vkms/vkms_formats.c:91:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:92:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:93:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:94:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:109:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:110:35: sparse: sparse: cast to restricted __le16
-   drivers/gpu/drm/vkms/vkms_formats.c:111:35: sparse: sparse: cast to restricted __le16
->> drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:177:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:178:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:179:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:180:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:195:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:196:31: sparse:     got restricted __le16 [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse:     expected unsigned short [usertype]
-   drivers/gpu/drm/vkms/vkms_formats.c:197:31: sparse:     got restricted __le16 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +91 drivers/gpu/drm/vkms/vkms_formats.c
+>> mm/memory.c:1451:8: warning: variable 'folio' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+                           if (page)
+                               ^~~~
+   mm/memory.c:1454:44: note: uninitialized use occurs here
+                           if (unlikely(!should_zap_folio(details, folio)))
+                                                                   ^~~~~
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   mm/memory.c:1451:4: note: remove the 'if' if its condition is always true
+                           if (page)
+                           ^~~~~~~~~
+   mm/memory.c:1438:22: note: initialize the variable 'folio' to silence this warning
+                   struct folio *folio;
+                                      ^
+                                       = NULL
+   1 warning generated.
 
-    80	
-    81	static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-    82					     const struct vkms_frame_info *frame_info,
-    83					     int y)
-    84	{
-    85		struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-    86		u16 *src_pixels = get_packed_src_addr(frame_info, y);
-    87		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-    88				    stage_buffer->n_pixels);
-    89	
-    90		for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-  > 91			out_pixels[x].a = le16_to_cpu(src_pixels[3]);
-    92			out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-    93			out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-    94			out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-    95		}
-    96	}
-    97	
-    98	static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
-    99					     const struct vkms_frame_info *frame_info,
-   100					     int y)
-   101	{
-   102		struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-   103		u16 *src_pixels = get_packed_src_addr(frame_info, y);
-   104		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   105				    stage_buffer->n_pixels);
-   106	
-   107		for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
-   108			out_pixels[x].a = (u16)0xffff;
-   109			out_pixels[x].r = le16_to_cpu(src_pixels[2]);
-   110			out_pixels[x].g = le16_to_cpu(src_pixels[1]);
-   111			out_pixels[x].b = le16_to_cpu(src_pixels[0]);
-   112		}
-   113	}
-   114	
-   115	/*
-   116	 * The following  functions take an line of argb_u16 pixels from the
-   117	 * src_buffer, convert them to a specific format, and store them in the
-   118	 * destination.
-   119	 *
-   120	 * They are used in the `compose_active_planes` to convert and store a line
-   121	 * from the src_buffer to the writeback buffer.
-   122	 */
-   123	static void argb_u16_to_ARGB8888(struct vkms_frame_info *frame_info,
-   124					 const struct line_buffer *src_buffer, int y)
-   125	{
-   126		int x_dst = frame_info->dst.x1;
-   127		u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   128		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   129		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   130				    src_buffer->n_pixels);
-   131	
-   132		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
-   133			/*
-   134			 * This sequence below is important because the format's byte order is
-   135			 * in little-endian. In the case of the ARGB8888 the memory is
-   136			 * organized this way:
-   137			 *
-   138			 * | Addr     | = blue channel
-   139			 * | Addr + 1 | = green channel
-   140			 * | Addr + 2 | = Red channel
-   141			 * | Addr + 3 | = Alpha channel
-   142			 */
-   143			dst_pixels[3] = DIV_ROUND_CLOSEST(in_pixels[x].a, 257);
-   144			dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-   145			dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-   146			dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-   147		}
-   148	}
-   149	
-   150	static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
-   151					 const struct line_buffer *src_buffer, int y)
-   152	{
-   153		int x_dst = frame_info->dst.x1;
-   154		u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   155		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   156		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   157				    src_buffer->n_pixels);
-   158	
-   159		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
-   160			dst_pixels[3] = 0xff;
-   161			dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-   162			dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-   163			dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-   164		}
-   165	}
-   166	
-   167	static void argb_u16_to_ARGB16161616(struct vkms_frame_info *frame_info,
-   168					     const struct line_buffer *src_buffer, int y)
-   169	{
-   170		int x_dst = frame_info->dst.x1;
-   171		u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-   172		struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-   173		int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
-   174				    src_buffer->n_pixels);
-   175	
-   176		for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
- > 177			dst_pixels[3] = cpu_to_le16(in_pixels[x].a);
-   178			dst_pixels[2] = cpu_to_le16(in_pixels[x].r);
-   179			dst_pixels[1] = cpu_to_le16(in_pixels[x].g);
-   180			dst_pixels[0] = cpu_to_le16(in_pixels[x].b);
-   181		}
-   182	}
-   183	
+
+vim +1451 mm/memory.c
+
+  1414	
+  1415	static unsigned long zap_pte_range(struct mmu_gather *tlb,
+  1416					struct vm_area_struct *vma, pmd_t *pmd,
+  1417					unsigned long addr, unsigned long end,
+  1418					struct zap_details *details)
+  1419	{
+  1420		struct mm_struct *mm = tlb->mm;
+  1421		int force_flush = 0;
+  1422		int rss[NR_MM_COUNTERS];
+  1423		spinlock_t *ptl;
+  1424		pte_t *start_pte;
+  1425		pte_t *pte;
+  1426		swp_entry_t entry;
+  1427	
+  1428		tlb_change_page_size(tlb, PAGE_SIZE);
+  1429		init_rss_vec(rss);
+  1430		start_pte = pte = pte_offset_map_lock(mm, pmd, addr, &ptl);
+  1431		if (!pte)
+  1432			return addr;
+  1433	
+  1434		flush_tlb_batched_pending(mm);
+  1435		arch_enter_lazy_mmu_mode();
+  1436		do {
+  1437			pte_t ptent = ptep_get(pte);
+  1438			struct folio *folio;
+  1439			struct page *page;
+  1440	
+  1441			if (pte_none(ptent))
+  1442				continue;
+  1443	
+  1444			if (need_resched())
+  1445				break;
+  1446	
+  1447			if (pte_present(ptent)) {
+  1448				unsigned int delay_rmap;
+  1449	
+  1450				page = vm_normal_page(vma, addr, ptent);
+> 1451				if (page)
+  1452					folio = page_folio(page);
+  1453	
+  1454				if (unlikely(!should_zap_folio(details, folio)))
+  1455					continue;
+  1456				ptent = ptep_get_and_clear_full(mm, addr, pte,
+  1457								tlb->fullmm);
+  1458				arch_check_zapped_pte(vma, ptent);
+  1459				tlb_remove_tlb_entry(tlb, pte, addr);
+  1460				zap_install_uffd_wp_if_needed(vma, addr, pte, details,
+  1461							      ptent);
+  1462				if (unlikely(!page)) {
+  1463					ksm_might_unmap_zero_page(mm, ptent);
+  1464					continue;
+  1465				}
+  1466	
+  1467				delay_rmap = 0;
+  1468				if (!folio_test_anon(folio)) {
+  1469					if (pte_dirty(ptent)) {
+  1470						folio_set_dirty(folio);
+  1471						if (tlb_delay_rmap(tlb)) {
+  1472							delay_rmap = 1;
+  1473							force_flush = 1;
+  1474						}
+  1475					}
+  1476					if (pte_young(ptent) && likely(vma_has_recency(vma)))
+  1477						folio_mark_accessed(folio);
+  1478				}
+  1479				rss[mm_counter(page)]--;
+  1480				if (!delay_rmap) {
+  1481					folio_remove_rmap_pte(folio, page, vma);
+  1482					if (unlikely(page_mapcount(page) < 0))
+  1483						print_bad_pte(vma, addr, ptent, page);
+  1484				}
+  1485				if (unlikely(__tlb_remove_page(tlb, page, delay_rmap))) {
+  1486					force_flush = 1;
+  1487					addr += PAGE_SIZE;
+  1488					break;
+  1489				}
+  1490				continue;
+  1491			}
+  1492	
+  1493			entry = pte_to_swp_entry(ptent);
+  1494			if (is_device_private_entry(entry) ||
+  1495			    is_device_exclusive_entry(entry)) {
+  1496				page = pfn_swap_entry_to_page(entry);
+  1497				folio = page_folio(page);
+  1498				if (unlikely(!should_zap_folio(details, folio)))
+  1499					continue;
+  1500				/*
+  1501				 * Both device private/exclusive mappings should only
+  1502				 * work with anonymous page so far, so we don't need to
+  1503				 * consider uffd-wp bit when zap. For more information,
+  1504				 * see zap_install_uffd_wp_if_needed().
+  1505				 */
+  1506				WARN_ON_ONCE(!vma_is_anonymous(vma));
+  1507				rss[mm_counter(page)]--;
+  1508				if (is_device_private_entry(entry))
+  1509					folio_remove_rmap_pte(folio, page, vma);
+  1510				folio_put(folio);
+  1511			} else if (!non_swap_entry(entry)) {
+  1512				/* Genuine swap entry, hence a private anon page */
+  1513				if (!should_zap_cows(details))
+  1514					continue;
+  1515				rss[MM_SWAPENTS]--;
+  1516				if (unlikely(!free_swap_and_cache(entry)))
+  1517					print_bad_pte(vma, addr, ptent, NULL);
+  1518			} else if (is_migration_entry(entry)) {
+  1519				folio = pfn_swap_entry_folio(entry);
+  1520				if (!should_zap_folio(details, folio))
+  1521					continue;
+  1522				rss[mm_counter(&folio->page)]--;
+  1523			} else if (pte_marker_entry_uffd_wp(entry)) {
+  1524				/*
+  1525				 * For anon: always drop the marker; for file: only
+  1526				 * drop the marker if explicitly requested.
+  1527				 */
+  1528				if (!vma_is_anonymous(vma) &&
+  1529				    !zap_drop_file_uffd_wp(details))
+  1530					continue;
+  1531			} else if (is_hwpoison_entry(entry) ||
+  1532				   is_poisoned_swp_entry(entry)) {
+  1533				if (!should_zap_cows(details))
+  1534					continue;
+  1535			} else {
+  1536				/* We should have covered all the swap entry types */
+  1537				pr_alert("unrecognized swap entry 0x%lx\n", entry.val);
+  1538				WARN_ON_ONCE(1);
+  1539			}
+  1540			pte_clear_not_present_full(mm, addr, pte, tlb->fullmm);
+  1541			zap_install_uffd_wp_if_needed(vma, addr, pte, details, ptent);
+  1542		} while (pte++, addr += PAGE_SIZE, addr != end);
+  1543	
+  1544		add_mm_rss_vec(mm, rss);
+  1545		arch_leave_lazy_mmu_mode();
+  1546	
+  1547		/* Do the actual TLB flush before dropping ptl */
+  1548		if (force_flush) {
+  1549			tlb_flush_mmu_tlbonly(tlb);
+  1550			tlb_flush_rmaps(tlb, vma);
+  1551		}
+  1552		pte_unmap_unlock(start_pte, ptl);
+  1553	
+  1554		/*
+  1555		 * If we forced a TLB flush (either due to running out of
+  1556		 * batch buffers or because we needed to flush dirty TLB
+  1557		 * entries before releasing the ptl), free the batched
+  1558		 * memory too. Come back again if we didn't do everything.
+  1559		 */
+  1560		if (force_flush)
+  1561			tlb_flush_mmu(tlb);
+  1562	
+  1563		return addr;
+  1564	}
+  1565	
 
 -- 
 0-DAY CI Kernel Test Service
