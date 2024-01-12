@@ -1,49 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E8C1B28E;
-	Fri, 12 Jan 2024 04:09:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E5B1B281
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 04:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K76EFCgJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZQV865OG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705032584; x=1736568584;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k2xPkD/FPcG7prDILRuXLVVPQP+wBUE/8Pe3Qtuj2SE=;
-  b=K76EFCgJFdvnJ5w8KV3fQ9LL6GkWfaxo4bLmGgH0g5MMvyLYtU275YTW
-   /dSFM1Ohbf0QqczgdjHZV3Ir/v59sdIOJlqrm+Jl+TZWVMSEQR7tm5PGs
-   Fs9s9Qm5ARSu0wkyddkeizbz2GvoQLxa1jnTQ39cQmLsQ1s8FWAM/HzMY
-   bfFhfZ3CveXKM+nW8uQBh0a/tkL9Q6efHURRn833hEiyCrkfbhgf9ZjeN
-   SlEQ6zX0dHUPdlhGuqg1EpkAeV3H4eu+BEdHrmJnGLEISwXfZ8xuMUyIH
-   dO4v9wyGpYV5foPKd2fQnCaXoO7xKxZlRaJ5GDUjYtk2Tolo9hevbL6kr
+  t=1705032588; x=1736568588;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pVRB3MRByX33opvAG8pnOGwsL58VgShsQteTI0gaCFc=;
+  b=ZQV865OG9GkVfEVxJdXsOy6fRStUcNtM4mptgyy63/By++5DK/XdzG9i
+   SoO6Lz6iAq8yGnx4dGOPnXh712voyX5TLZQzjKkXFzJRIiAID+3jnb4bU
+   yPksdAIpWXsVw9xL9QQ5eKDWsmClHB/rUWOawr57LP5aCzw+GOFFfWiLX
+   QlG/Gtq/9uFMrCEWwJXc4p7inHyCfBAFqIaVjkC7+YSWKLuFhbNwsnYrd
+   F6VMPaTvpuwHnxMWb6poNgVUWcV8TP9uHTTOsycnGmzNiuFE5twZxVrMs
+   s+N4aVvxEqhvYwO2znI2LEswDHy6GnfpWEUKbpqNsj7KABJQ00rqaNbyb
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="389519603"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="463357606"
 X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
-   d="scan'208";a="389519603"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 20:09:41 -0800
+   d="scan'208";a="463357606"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 20:09:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="786226711"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="873258213"
 X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
-   d="scan'208";a="786226711"
+   d="scan'208";a="873258213"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Jan 2024 20:09:39 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Jan 2024 20:09:38 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rO8rQ-000935-2x;
+	id 1rO8rQ-000932-2r;
 	Fri, 12 Jan 2024 04:09:36 +0000
-Date: Fri, 12 Jan 2024 12:09:34 +0800
+Date: Fri, 12 Jan 2024 12:09:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ignat Korchagin <ignat@cloudflare.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Baoquan He <bhe@redhat.com>
-Subject: ld.lld: error: undefined symbol: arch_phys_to_idmap_offset
-Message-ID: <202401121124.9QvF22yh-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com,
+	intel-gfx@lists.freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Pan@freedesktop.org
+Subject: Re: [PATCH 3/6] drm/amdgpu: prefer snprintf over sprintf
+Message-ID: <202401121126.i9VGrvMb-lkp@intel.com>
+References: <fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,30 +55,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   22d29f1112c85c1ad519a8c0403f7f7289cf060c
-commit: c41bd2514184d75db087fe4c1221237fb7922875 kexec: drop dependency on ARCH_SUPPORTS_KEXEC from CRASH_DUMP
-date:   4 weeks ago
-config: arm-randconfig-001-20240112 (https://download.01.org/0day-ci/archive/20240112/202401121124.9QvF22yh-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121124.9QvF22yh-lkp@intel.com/reproduce)
+Hi Jani,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7 next-20240111]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-nouveau-acr-ga102-remove-unused-but-set-variable/20240111-014206
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/fea7a52924f98b1ac24f4a7e6ba21d7754422430.1704908087.git.jani.nikula%40intel.com
+patch subject: [PATCH 3/6] drm/amdgpu: prefer snprintf over sprintf
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20240112/202401121126.i9VGrvMb-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121126.i9VGrvMb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401121124.9QvF22yh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401121126.i9VGrvMb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: arch_phys_to_idmap_offset
-   >>> referenced by kexec_core.c
-   >>>               kernel/kexec_core.o:(kimage_alloc_control_pages) in archive vmlinux.a
-   >>> referenced by kexec_core.c
-   >>>               kernel/kexec_core.o:(kimage_alloc_control_pages) in archive vmlinux.a
-   >>> referenced by kexec_core.c
-   >>>               kernel/kexec_core.o:(kimage_free) in archive vmlinux.a
-   >>> referenced 15 more times
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c: In function 'amdgpu_gfx_kiq_init_ring':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:61: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 8 [-Wformat-truncation=]
+     332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
+         |                                                             ^~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:50: note: directive argument in the range [0, 2147483647]
+     332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
+         |                                                  ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:332:9: note: 'snprintf' output between 12 and 41 bytes into a destination of size 16
+     332 |         snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     333 |                  xcc_id, ring->me, ring->pipe, ring->queue);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +332 drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+
+   306	
+   307	int amdgpu_gfx_kiq_init_ring(struct amdgpu_device *adev,
+   308				     struct amdgpu_ring *ring,
+   309				     struct amdgpu_irq_src *irq, int xcc_id)
+   310	{
+   311		struct amdgpu_kiq *kiq = &adev->gfx.kiq[xcc_id];
+   312		int r = 0;
+   313	
+   314		spin_lock_init(&kiq->ring_lock);
+   315	
+   316		ring->adev = NULL;
+   317		ring->ring_obj = NULL;
+   318		ring->use_doorbell = true;
+   319		ring->xcc_id = xcc_id;
+   320		ring->vm_hub = AMDGPU_GFXHUB(xcc_id);
+   321		ring->doorbell_index =
+   322			(adev->doorbell_index.kiq +
+   323			 xcc_id * adev->doorbell_index.xcc_doorbell_range)
+   324			<< 1;
+   325	
+   326		r = amdgpu_gfx_kiq_acquire(adev, ring, xcc_id);
+   327		if (r)
+   328			return r;
+   329	
+   330		ring->eop_gpu_addr = kiq->eop_gpu_addr;
+   331		ring->no_scheduler = true;
+ > 332		snprintf(ring->name, sizeof(ring->name), "kiq_%d.%d.%d.%d",
+   333			 xcc_id, ring->me, ring->pipe, ring->queue);
+   334		r = amdgpu_ring_init(adev, ring, 1024, irq, AMDGPU_CP_KIQ_IRQ_DRIVER0,
+   335				     AMDGPU_RING_PRIO_DEFAULT, NULL);
+   336		if (r)
+   337			dev_warn(adev->dev, "(%d) failed to init kiq ring\n", r);
+   338	
+   339		return r;
+   340	}
+   341	
 
 -- 
 0-DAY CI Kernel Test Service
