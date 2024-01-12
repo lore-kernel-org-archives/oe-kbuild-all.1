@@ -1,50 +1,59 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E5958229
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 10:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F79267E6D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 11:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rOuoPt/H";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UE4ej+PJ"
-Date: Fri, 12 Jan 2024 11:58:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1705057118;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lcDPupKIRzXbxwgij2GVnfAkg467ozmzxDLRD9VH7oU=;
-	b=rOuoPt/HVkANoi6MITGsf0GCFh3cmJggz4jgwm0+38Ex7+R1ZajHhrPwt/ITIM/qoO/H6p
-	/FEa4uFCdOCUnmRnx/BFdBr75S6LvCukP0aTRSd+ebb0NuZ0urjYA3FataIaWqtzvjDV1N
-	co/7eZtzyCTFUQjoV2XlKmCsFsvTqudku6xatxNWokiuLfaJMD55VyI/3grGOKewz2P9ni
-	C7O/K/xOLHa3CxgagLBw+tuFv28gU/kng3Ug4WhOKKeSQfrvxPOQ+kYsm6x/bbS++Jn343
-	IAyYJho6rcoJDvPADg3PktmCFObfzA5pCJdgCveRh1JXP3Yuf5FQ+E+uqcoh8Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1705057118;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lcDPupKIRzXbxwgij2GVnfAkg467ozmzxDLRD9VH7oU=;
-	b=UE4ej+PJFqrYk6kHF8YRJSYdOczdRnIdOtMAphs6IQ4o9qDWXPlMT/IeS0i26iG3lS+lMz
-	fJ1JTp4b4Yj0lFBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH net-next 04/24] net: Use nested-BH locking for
- napi_alloc_cache.
-Message-ID: <20240112105836.mVtRB2us@linutronix.de>
-References: <20231215171020.687342-5-bigeasy@linutronix.de>
- <202312161210.q8xdLxsl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CUYQRyYi"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50eabfac2b7so7295342e87.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 03:27:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1705058840; x=1705663640; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Kp9FulKRwJjGJrCfGRUMhfQ4anea3Zsj5cwNQp7FQ1o=;
+        b=CUYQRyYiEIFIwTikIYoVDTzDUqQWBZl0sNDgHY2lp8C41tAswfGCHu/UKSK85mUCrj
+         ojdhwZFI036CmCIwMuPAXccBGxcY+vc6yw7UE+G1DkdiwlCdT9kZmwN22Ca1k+f4dEGX
+         tSqfxLYlSQkMFQyoYuo+2KxKXeGY+uiNrpWU0/D0/fPk0gB0DzWJmyWjBYaWn1FIgeOh
+         FG+bNUk8nV6aZXy9qmPAktvOMmSD4DWRSrIc6kGMfSJ+0TXHUJwQ/B+FxVP2mLHpOmzK
+         L2Sh7zBUfWzV2Rg1yG5EWtQdhln8xQohBee7Dd5zWs2xOUg0GNIjueMVg4TsSFKuQHf5
+         U5tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705058840; x=1705663640;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kp9FulKRwJjGJrCfGRUMhfQ4anea3Zsj5cwNQp7FQ1o=;
+        b=SI2IsFUOcuQf29QUXsiEPfoQcUieomo1mLLEb2kmCsJGKxsV68Jxs0wILjsAvzAMGb
+         kJKVTsSgq/VxMWCqB3aolvDArZsttOsn7r9A8PMfSbmsRREEEQpYgKxqEcIwyZ5ovzYZ
+         7Fx0WDeabubv+Wo3P16+jtDuv3bW3azv9xVJSZA7t3ysS2u+LKUyHR2K+ko7FlUdcsFe
+         JnrBgSV94R3eBhryWbDUowgrTiUnu0+MxoUtWZ41pZ9tXnqqjXYCcL7Dodg/DdtTEYVo
+         lyQdUMIZ5AF6m2iX4T74Z1GV7l/UfqXmDvHscoQEU2k86SOPLK4zT4UqwBxR0ef+A2Qx
+         5vyw==
+X-Gm-Message-State: AOJu0YwxC3jdWZ6Q8JQ1+5IYWadQnPSfI3A1YDfu06LTkq7OReAW/c72
+	vI3REcr/aKqd0YmOF4sTXFYQa+BvDAPrbg==
+X-Google-Smtp-Source: AGHT+IEdm8/GPp0AdnSxj/uKrOpzaNKDqHeAMpe1tqTwKfK94JJn3Q4glasMtgvGdF95sowmMK9eOA==
+X-Received: by 2002:ac2:5045:0:b0:50e:7e53:8f6b with SMTP id a5-20020ac25045000000b0050e7e538f6bmr487449lfm.127.1705058840084;
+        Fri, 12 Jan 2024 03:27:20 -0800 (PST)
+Received: from alley ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id j25-20020a19f519000000b0050eb25590ffsm472095lfb.207.2024.01.12.03.27.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jan 2024 03:27:19 -0800 (PST)
+Date: Fri, 12 Jan 2024 12:27:17 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: "James E . J . Bottomley" <jejb@linux.ibm.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Chris Down <chris@chrisdown.name>, oe-kbuild-all@lists.linux.dev,
+	kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH] scsi: core: Safe warning about bad dev info string
+Message-ID: <ZaEiFXscVBdOJEeI@alley>
+References: <20240111162419.12406-1-pmladek@suse.com>
+ <CAMuHMdW1XyimybybSwAfwgzeUyFj6riRZZZzQK7zjTVUJziX-Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,15 +62,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202312161210.q8xdLxsl-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdW1XyimybybSwAfwgzeUyFj6riRZZZzQK7zjTVUJziX-Q@mail.gmail.com>
 
-On 2023-12-16 12:43:23 [+0800], kernel test robot wrote:
-> Hi Sebastian,
-Hi,
+On Fri 2024-01-12 10:22:44, Geert Uytterhoeven wrote:
+> Hi Petr,
+> 
+> On Thu, Jan 11, 2024 at 5:26 PM Petr Mladek <pmladek@suse.com> wrote:
+> > Both "model" and "strflags" are passed to "%s" even when one or both
+> > are NULL.
+> >
+> > It is safe because vsprintf() would detect the NULL pointer and print
+> > "(null)". But it is a kernel-specific feature and compiler warns
+> > about it:
+> >
+> > <warning>
+> >    In file included from include/linux/kernel.h:19,
+> >                     from arch/x86/include/asm/percpu.h:27,
+> >                     from arch/x86/include/asm/current.h:6,
+> >                     from include/linux/sched.h:12,
+> >                     from include/linux/blkdev.h:5,
+> >                     from drivers/scsi/scsi_devinfo.c:3:
+> >    drivers/scsi/scsi_devinfo.c: In function 'scsi_dev_info_list_add_str':
+> > >> include/linux/printk.h:434:44: warning: '%s' directive argument is null [-Wformat-overflow=]
+> >      434 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+> >          |                                            ^
+> >    include/linux/printk.h:430:3: note: in definition of macro 'printk_index_wrap'
+> >      430 |   _p_func(_fmt, ##__VA_ARGS__);    \
+> >          |   ^~~~~~~
+> >    drivers/scsi/scsi_devinfo.c:551:4: note: in expansion of macro 'printk'
+> >      551 |    printk(KERN_ERR "%s: bad dev info string '%s' '%s'"
+> >          |    ^~~~~~
+> >    drivers/scsi/scsi_devinfo.c:552:14: note: format string is defined here
+> >      552 |           " '%s'\n", __func__, vendor, model,
+> >          |              ^~
+> > </warning>
+> >
+> > Do not rely on the kernel specific behavior and print the message
+> > a safe way.
+> >
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202401112002.AOjwMNM0-lkp@intel.com/
+> > Signed-off-by: Petr Mladek <pmladek@suse.com>
+> > ---
+> > Note: The patch is only compile tested.
+> >
+> >  drivers/scsi/scsi_devinfo.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/scsi/scsi_devinfo.c b/drivers/scsi/scsi_devinfo.c
+> > index 3fcaf10a9dfe..ba7237e83863 100644
+> > --- a/drivers/scsi/scsi_devinfo.c
+> > +++ b/drivers/scsi/scsi_devinfo.c
+> > @@ -551,9 +551,9 @@ static int scsi_dev_info_list_add_str(char *dev_list)
+> >                 if (model)
+> >                         strflags = strsep(&next, next_check);
+> >                 if (!model || !strflags) {
+> > -                       printk(KERN_ERR "%s: bad dev info string '%s' '%s'"
+> > -                              " '%s'\n", __func__, vendor, model,
+> > -                              strflags);
+> > +                       pr_err("%s: bad dev info string '%s' '%s' '%s'\n",
+> > +                              __func__, vendor, model ? model : "",
+> > +                              strflags ? strflags : "");
+> 
+> Do we really want to make this change?
+> The kernel's vsprintf() implementation has supported NULL pointers
+> since forever, and lots of code relies on that behavior.
 
-> >> net/core/skbuff.c:302:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct local_lock_t [usertype] *l @@     got struct local_lock_t [noderef] __percpu * @@
+Yeah, it was safe even in the first git commit. And it was probably
+safe long before.
 
-updated the guard definition for that.
-Thanks for the report.
+Well, I can't find easily how much code relies on this. I would
+personally do not rely on it when writing new code.
 
-Sebastian
+> Perhaps this warning can be disabled instead?
+
+IMHO, it is not a good idea to disable the warning. I believe that it
+checks also other scenarios and can find real problems.
+
+Also I think that compilers are getting more and more "clever".
+So keeping the "suspicious" code might be fighting with windmills.
+
+Best Regards,
+Petr
