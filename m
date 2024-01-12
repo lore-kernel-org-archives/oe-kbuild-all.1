@@ -1,85 +1,74 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392AA6EB74
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 15:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361BF7762B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 16:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3y1nE+Km";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WZEb6gDp"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1705073535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iM3HwRhzvPrfiWg1aI0QfH1zhPKXDcv1jxncJ33B+Ec=;
-	b=3y1nE+Km5QRt+ZoZTcfYmD+hl/rmV8xjMpQUy0ZK0C2q3101XmFXZv7Ok11jP7t4wyhCIZ
-	o+jYWioP2zrhJyay5mNOyLdK6MBPTO0owy+2t+aAPCxm3LmAnMsj25xJqiBL9aDBbv1sq2
-	dH5JGu0f1ZE7cTfwe3NiUDOly685100LNi5qnq5Ym8ahVMVLcZ75Q/Ic8uzDiaWc/8sC6w
-	ZXiX0GXez6lqJ80Wtng2SBtlxH9WB2Wl/+oCYJU+looSZnRtZRPK4KlsYJA5KMGuwKiGHU
-	vx9mV+++LfqWJeLfmXIt9hLVjprSIIg7zVILj9DIfkjroR1SPHSlvH73v1U0ZQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1705073535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iM3HwRhzvPrfiWg1aI0QfH1zhPKXDcv1jxncJ33B+Ec=;
-	b=WZEb6gDpCXhVvte4mljy4AJ+h/0L2s5NC7Fa3ezS5cK8R0cJdf4TAizYyQSsL84YovC+HO
-	PQLbWg+Z3tvkpqDg==
-To: kernel test robot <lkp@intel.com>, Thadeu Lima de Souza Cascardo
- <cascardo@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, "Paul E.
- McKenney" <paulmck@kernel.org>, Christian Brauner <brauner@kernel.org>
-Subject: Re: fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-In-Reply-To: <202401111036.STMizmwE-lkp@intel.com>
-References: <202401111036.STMizmwE-lkp@intel.com>
-Date: Fri, 12 Jan 2024 16:32:14 +0100
-Message-ID: <87jzoein41.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1KZbnY4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705078383; x=1736614383;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=4v0LWSaW4bFNlu/bfz3MHgIMseSCQKFUgxuEjZVhkQw=;
+  b=C1KZbnY4DL0SUIl9L2COjUPgTtHRTwWsfvFYrVV6zgQRKNY+P1x7JK6r
+   e+iwqVJG44KmAyqWDN/1TTn55j7kjWDw7oLwIuMEvQ/6VNLOa6/3M1Q9z
+   W3En7K9EMv+wGRmqZLMxYuzcnW1d2Y2zEMmKWdpYjiZARRMBkfhL/RV+r
+   3wG7DkeHzYRINUqAOuIMNRHiY0d0E9AXGrXe6WNqV5fAyq9uZUJDI9B56
+   tILkYP7CAr6yqCKvlEqUbcxml0j1QefbuC8WvI+wCC95mNomRTaeU1nuE
+   +dXMeMKdFe5qcnzZY7zzQ5vcB0xbjnAO7IRUzZ31653k50gLdTnu/KGBi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="463502494"
+X-IronPort-AV: E=Sophos;i="6.04,190,1695711600"; 
+   d="scan'208";a="463502494"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 08:53:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="902021105"
+X-IronPort-AV: E=Sophos;i="6.04,190,1695711600"; 
+   d="scan'208";a="902021105"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2024 08:53:00 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rOKlt-0009gO-2f;
+	Fri, 12 Jan 2024 16:52:49 +0000
+Date: Sat, 13 Jan 2024 00:52:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mikhail Ukhin <mish.uxin2012@yandex.ru>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5.10/5.15] jfs: add check if log->bdev is NULL in
+ lbmStartIO()
+Message-ID: <ZaFuP5LqBBIVktg7@c3f7b2283334>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240112165007.4764-1-mish.uxin2012@yandex.ru>
 
-On Thu, Jan 11 2024 at 10:44, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   acc657692aed438e9931438f8c923b2b107aebf9
-> commit: e362359ace6f87c201531872486ff295df306d13 posix-cpu-timers: Cleanup CPU timers before freeing them during exec
-> date:   1 year, 5 months ago
+Hi,
 
-I'm amused that it took 17 month ....
+Thanks for your patch.
 
->>> fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
->   1305	
->   1306	#ifdef CONFIG_POSIX_TIMERS
->> 1307		spin_lock_irq(&me->sighand->siglock);
->   1308		posix_cpu_timers_exit(me);
->   1309		spin_unlock_irq(&me->sighand->siglock);
->   1310		exit_itimers(me);
->   1311		flush_itimer_signals();
->   1312	#endif
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-So this warning is clearly wrong because 'current->sighand->siglock' is
-safe to dereference w/o RCU protection for 'current'.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-The real issue is this commit:
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 5.10/5.15] jfs: add check if log->bdev is NULL in lbmStartIO()
+Link: https://lore.kernel.org/stable/20240112165007.4764-1-mish.uxin2012%40yandex.ru
 
-   913292c97d75 ("sched.h: Annotate sighand_struct with __rcu")
+Please ignore this mail if the patch is not relevant for upstream.
 
-which blindly 'fixed' a sparse warning in signal.c w/o even trying to
-look at the consequences. There are 170+ instances of spin_[un]lock()
-variants which should emit exactly the same warning...
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-I think the right fix is to annotate this legit case of derefencing
-current->sighand->siglock so sparse knows that this is safe.
-
-Thanks,
-
-        tglx
 
 
