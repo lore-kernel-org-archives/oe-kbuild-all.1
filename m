@@ -1,175 +1,127 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08ABB67E80
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 11:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5f254d1a6daso66631417b3.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 03:33:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705059225; x=1705664025;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wJjVyh+7oYXym23boo4u//OtALG0QudsORSegf3gMfU=;
-        b=k5pOSN40O3/jcyoOPAheLP8QgxmU69iPkegfVDOEJTJBWM2UQM4UpXqxyUcBu/ppTF
-         8KHMYmj5ZMAU51YTWAh4adEikED9BVXypqnsGjv0vqX/XGIkwikWKe0U0FCmZsIQdmoc
-         g/lGf8oATDRY9SsA8aFZ/aM02suWeqG07LHScO6MhZ3SSlyIpKNxnzN+1nndINISAMF8
-         YsVyTefxr4DEV5rSOTqcKn8HcwR/xHzJTNfJrvPbAFnJhJws3SJ1VWm2+3gXUVwTj8ae
-         7whQc1t6lIYyBh4E+OTaa8nbujXOfiTO9byBW5yd1EiRvkafFgheiTFsfGf6Ktvs9V7R
-         2I0g==
-X-Gm-Message-State: AOJu0YzAwkqvRe2gbRmNWJWTTcwamsseaERISCs8NsNle0ebWy4vvfer
-	0jN96m2Imf9Y2twhJeJRPyXNFh1ILiQ5TA==
-X-Google-Smtp-Source: AGHT+IF6cIO+vDYlbcBZN/N5d10bqhyOBHlf4kEhpqpBRu6NaldUT0EtSxb5lkUahu2C4O3yGg85ow==
-X-Received: by 2002:a0d:df4c:0:b0:5f9:e175:4390 with SMTP id i73-20020a0ddf4c000000b005f9e1754390mr1222621ywe.56.1705059224838;
-        Fri, 12 Jan 2024 03:33:44 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id c128-20020a814e86000000b005e77a4a5761sm1252364ywb.113.2024.01.12.03.33.44
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jan 2024 03:33:44 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5e7409797a1so62234677b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 03:33:44 -0800 (PST)
-X-Received: by 2002:a81:b650:0:b0:5ea:5340:fb1d with SMTP id
- h16-20020a81b650000000b005ea5340fb1dmr1186575ywk.53.1705059224288; Fri, 12
- Jan 2024 03:33:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC403537F1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 12:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ro4wKMrz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705061110; x=1736597110;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Xd0MdpS8iE4G9Wrae+k+vsFTGjIyhjxqBFxlkuzH8Lw=;
+  b=Ro4wKMrzym67ToIrxHSmiLx2N46nQE//YC3+TjFDoEzcCS5E2/CQIDCH
+   pEfGCyWX/ZksHbAVl0RzRwPFEBYPngcAVf8uV9BPc8Mu1uO9BVIu4zfQS
+   jCtfZXg3Bs210JlSmCpfA6TRNyV3UtioKjTVPb/pVbixPWLOdfvCBbFaj
+   xRGD/Tl3mCKMGSOCm0TuyQrjt8nDGK7gT10Q9lrj8BT+Ldt3s032kv5VC
+   wq9Rw7g3M1YrrCSmLCm5yG2jE1QKxpfNUQmwqQmiTkc0x9a3/+SC57oiX
+   cRrHG4g7S3G/gQeMNU9IkX15DQVzzXBDznDYIdQrZGZDrJOn7kqJ4xGTC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="398840245"
+X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
+   d="scan'208";a="398840245"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 04:05:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
+   d="scan'208";a="31367160"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 12 Jan 2024 04:05:07 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rOGHZ-0009Qu-1V;
+	Fri, 12 Jan 2024 12:05:05 +0000
+Date: Fri, 12 Jan 2024 20:04:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:xfiles-wtf 203/614] fs/xfs/libxfs/xfs_btree.c:315:11:
+ error: unused variable 'bno'
+Message-ID: <202401121950.ZZ1UXrZC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240111162419.12406-1-pmladek@suse.com> <CAMuHMdW1XyimybybSwAfwgzeUyFj6riRZZZzQK7zjTVUJziX-Q@mail.gmail.com>
- <ZaEiFXscVBdOJEeI@alley>
-In-Reply-To: <ZaEiFXscVBdOJEeI@alley>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 12 Jan 2024 12:33:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW5V9wQzTzYt+iGBtYEDrcL-g4nzswAB6ME1At1W42qRw@mail.gmail.com>
-Message-ID: <CAMuHMdW5V9wQzTzYt+iGBtYEDrcL-g4nzswAB6ME1At1W42qRw@mail.gmail.com>
-Subject: Re: [PATCH] scsi: core: Safe warning about bad dev info string
-To: Petr Mladek <pmladek@suse.com>
-Cc: "James E . J . Bottomley" <jejb@linux.ibm.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Chris Down <chris@chrisdown.name>, oe-kbuild-all@lists.linux.dev, 
-	kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Petr,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfiles-wtf
+head:   b2d76ab4cf06faba959c4f2291472d3c068e10bc
+commit: 6aef791999d622317e1bcb743374e00238ef8662 [203/614] xfs: support in-memory btrees
+config: x86_64-sof-customedconfig-compile-test-defconfig (https://download.01.org/0day-ci/archive/20240112/202401121950.ZZ1UXrZC-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401121950.ZZ1UXrZC-lkp@intel.com/reproduce)
 
-On Fri, Jan 12, 2024 at 12:27=E2=80=AFPM Petr Mladek <pmladek@suse.com> wro=
-te:
-> On Fri 2024-01-12 10:22:44, Geert Uytterhoeven wrote:
-> > On Thu, Jan 11, 2024 at 5:26=E2=80=AFPM Petr Mladek <pmladek@suse.com> =
-wrote:
-> > > Both "model" and "strflags" are passed to "%s" even when one or both
-> > > are NULL.
-> > >
-> > > It is safe because vsprintf() would detect the NULL pointer and print
-> > > "(null)". But it is a kernel-specific feature and compiler warns
-> > > about it:
-> > >
-> > > <warning>
-> > >    In file included from include/linux/kernel.h:19,
-> > >                     from arch/x86/include/asm/percpu.h:27,
-> > >                     from arch/x86/include/asm/current.h:6,
-> > >                     from include/linux/sched.h:12,
-> > >                     from include/linux/blkdev.h:5,
-> > >                     from drivers/scsi/scsi_devinfo.c:3:
-> > >    drivers/scsi/scsi_devinfo.c: In function 'scsi_dev_info_list_add_s=
-tr':
-> > > >> include/linux/printk.h:434:44: warning: '%s' directive argument is=
- null [-Wformat-overflow=3D]
-> > >      434 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, #=
-#__VA_ARGS__)
-> > >          |                                            ^
-> > >    include/linux/printk.h:430:3: note: in definition of macro 'printk=
-_index_wrap'
-> > >      430 |   _p_func(_fmt, ##__VA_ARGS__);    \
-> > >          |   ^~~~~~~
-> > >    drivers/scsi/scsi_devinfo.c:551:4: note: in expansion of macro 'pr=
-intk'
-> > >      551 |    printk(KERN_ERR "%s: bad dev info string '%s' '%s'"
-> > >          |    ^~~~~~
-> > >    drivers/scsi/scsi_devinfo.c:552:14: note: format string is defined=
- here
-> > >      552 |           " '%s'\n", __func__, vendor, model,
-> > >          |              ^~
-> > > </warning>
-> > >
-> > > Do not rely on the kernel specific behavior and print the message
-> > > a safe way.
-> > >
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202401112002.AOjwMNM0-l=
-kp@intel.com/
-> > > Signed-off-by: Petr Mladek <pmladek@suse.com>
-> > > ---
-> > > Note: The patch is only compile tested.
-> > >
-> > >  drivers/scsi/scsi_devinfo.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/scsi/scsi_devinfo.c b/drivers/scsi/scsi_devinfo.=
-c
-> > > index 3fcaf10a9dfe..ba7237e83863 100644
-> > > --- a/drivers/scsi/scsi_devinfo.c
-> > > +++ b/drivers/scsi/scsi_devinfo.c
-> > > @@ -551,9 +551,9 @@ static int scsi_dev_info_list_add_str(char *dev_l=
-ist)
-> > >                 if (model)
-> > >                         strflags =3D strsep(&next, next_check);
-> > >                 if (!model || !strflags) {
-> > > -                       printk(KERN_ERR "%s: bad dev info string '%s'=
- '%s'"
-> > > -                              " '%s'\n", __func__, vendor, model,
-> > > -                              strflags);
-> > > +                       pr_err("%s: bad dev info string '%s' '%s' '%s=
-'\n",
-> > > +                              __func__, vendor, model ? model : "",
-> > > +                              strflags ? strflags : "");
-> >
-> > Do we really want to make this change?
-> > The kernel's vsprintf() implementation has supported NULL pointers
-> > since forever, and lots of code relies on that behavior.
->
-> Yeah, it was safe even in the first git commit. And it was probably
-> safe long before.
->
-> Well, I can't find easily how much code relies on this. I would
-> personally do not rely on it when writing new code.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401121950.ZZ1UXrZC-lkp@intel.com/
 
-Lots of debug code relies on this when printing string pointers.
-It doesn't warn because the compiler cannot prove (yet) that such a
-pointer can be NULL...
+All errors (new ones prefixed by >>):
 
-> > Perhaps this warning can be disabled instead?
->
-> IMHO, it is not a good idea to disable the warning. I believe that it
-> checks also other scenarios and can find real problems.
+>> fs/xfs/libxfs/xfs_btree.c:315:11: error: unused variable 'bno' [-Werror,-Wunused-variable]
+     315 |                 xfbno_t bno             = be64_to_cpu((&ptr->l)[index]);
+         |                         ^~~
+   1 error generated.
 
-True.
 
-> Also I think that compilers are getting more and more "clever".
-> So keeping the "suspicious" code might be fighting with windmills.
+vim +/bno +315 fs/xfs/libxfs/xfs_btree.c
 
-Also true, unfortunately.
+   302	
+   303	/*
+   304	 * Check that a given (indexed) btree pointer at a certain level of a
+   305	 * btree is valid and doesn't point past where it should.
+   306	 */
+   307	static int
+   308	xfs_btree_check_ptr(
+   309		struct xfs_btree_cur		*cur,
+   310		const union xfs_btree_ptr	*ptr,
+   311		int				index,
+   312		int				level)
+   313	{
+   314		if (cur->bc_ops->type == XFS_BTREE_TYPE_MEM) {
+ > 315			xfbno_t bno		= be64_to_cpu((&ptr->l)[index]);
+   316	
+   317			ASSERT(cur->bc_ops->ptr_len == XFS_BTREE_LONG_PTR_LEN);
+   318	
+   319			if (xfbtree_verify_bno(cur->bc_mem.xfbtree, bno))
+   320				return 0;
+   321	
+   322			xfs_err(cur->bc_mp,
+   323	"In-memory: Corrupt btree %d flags 0x%x pointer at level %d index %d fa %pS.",
+   324					cur->bc_btnum, cur->bc_flags, level, index,
+   325					__this_address);
+   326			return -EFSCORRUPTED;
+   327		}
+   328	
+   329		if (cur->bc_ops->ptr_len == XFS_BTREE_LONG_PTR_LEN) {
+   330			if (xfs_btree_check_lptr(cur, be64_to_cpu((&ptr->l)[index]),
+   331					level))
+   332				return 0;
+   333			xfs_err(cur->bc_mp,
+   334	"Inode %llu fork %d: Corrupt btree %d pointer at level %d index %d.",
+   335					cur->bc_ino.ip->i_ino,
+   336					cur->bc_ino.whichfork, cur->bc_btnum,
+   337					level, index);
+   338		} else {
+   339			if (xfs_btree_check_sptr(cur, be32_to_cpu((&ptr->s)[index]),
+   340					level))
+   341				return 0;
+   342			xfs_err(cur->bc_mp,
+   343	"AG %u: Corrupt btree %d pointer at level %d index %d.",
+   344					cur->bc_ag.pag->pag_agno, cur->bc_btnum,
+   345					level, index);
+   346		}
+   347	
+   348		xfs_btree_mark_sick(cur);
+   349		return -EFSCORRUPTED;
+   350	}
+   351	
 
-So one day the whole "if (!model || !strflags) { ... }" block might
-be optimized away, when the compiler decides that NULL pointers are
-Undefined Behavior, and thus this cannot happen.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
