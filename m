@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAE659B41
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 12:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114E96A019
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Jan 2024 12:59:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fW2+clcn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbRbKwU5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705063042; x=1736599042;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZqMKYEbgGZxLRdJIfPhOKBVu2UEQ09b51Sh26s6O/Us=;
-  b=fW2+clcnsyUgjePsnPFS3iIkSZCy33/kmb2YFz4jNXYbgb3OY/6BKqGs
-   EKHffQ9iTZSIPRGpBPzvQK0fBOfnC5eV8j+4TmKm1ps3yznhAv3UUnn6N
-   FbIP3TPDxKpK/uFonev/LE+K5N1u9vrv6rfRCfB9aarbMCf6t/OI6cmvE
-   reLr+7676ha3eGOKY8Ojrsetqmdp5uJFDCCQVakMd1wxaGuVXPjtsx/GC
-   yQBKzsgntAI3UwX4zr/GREa2/rSJtX1gobvxSYAlvQj48MXhMp7T/0aZZ
-   Z3Z+9E1pQbdC2THDKch7l9M7hmKxxuQTuhjMpe2+grEt1lc/owr3WgpVL
+  t=1705064352; x=1736600352;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=Juo712WWsb8sIVDGDsmK9FIje3DXE2p3vOV1XTwcHNw=;
+  b=PbRbKwU5GYUYPQimdUpKZXdeQ+RDwX2f8ltA8h6c/K/zBsKwltSo3Gzq
+   vKRk+CbzbOgRohgH+Iu2r+g09c56OqzGpf991uf6vlx3C4aP4yv/O2422
+   ITJfSpar47rSzY25h3Q61RfwvZW5NcR/hQmnv0MV7FYSbp+NgZYPf2vjM
+   ELSPong+DuoA0dNDL/UeUS7tXXkie5jFGly5Gm2Pexx/NAsGFGzCvIZq/
+   X9lGNaHh34pcPpzj5rLY9IRptC/0jZ9lZ8WgLRAC8d1QCJqdFGxbZzBfy
+   Cdhp+JqXivzRbKM+GKENEobULVVuhH/jUfR0pm4V/AlSp+vebDB25t9ra
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="6523352"
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="430342456"
 X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
-   d="scan'208";a="6523352"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 04:37:09 -0800
+   d="scan'208";a="430342456"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 04:59:10 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="956094577"
 X-IronPort-AV: E=Sophos;i="6.04,189,1695711600"; 
-   d="scan'208";a="24993712"
+   d="scan'208";a="956094577"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Jan 2024 04:37:08 -0800
+  by orsmga005.jf.intel.com with ESMTP; 12 Jan 2024 04:59:09 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOGmY-0009SW-0r;
-	Fri, 12 Jan 2024 12:37:06 +0000
-Date: Fri, 12 Jan 2024 20:36:35 +0800
+	id 1rOH7r-0009U4-02;
+	Fri, 12 Jan 2024 12:59:07 +0000
+Date: Fri, 12 Jan 2024 20:59:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 691/2356] arch/arm64/include/asm/elf.h:223:9:
- warning: 'COMPAT_ARCH_DLINFO' macro redefined
-Message-ID: <202401122047.CyxICDOd-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Hao Li <hao3.li@intel.com>
+Subject: [intel-lts:6.1/dovetail-xenomai 15659/15708]
+ arch/arm/mm/fault.c:158:15: warning: no previous prototype for function
+ 'fault_entry'
+Message-ID: <202401122003.msBO6ufy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,58 +50,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ea6de9f6732d495c506f9c140b4ec17c957e1b77
-commit: 7de3ab4c3dd938fae3626a6344830b018eb7ba4f [691/2356] arm64: introduce binfmt_elf32.c
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240112/202401122047.CyxICDOd-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401122047.CyxICDOd-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.1/dovetail-xenomai
+head:   b21b4201c7eb0370e452a439cb4ce6e97c732972
+commit: aa0b4997697a45275adce7baf2abc76a69973778 [15659/15708] ARM: dovetail: route traps
+config: arm-randconfig-001-20240112 (https://download.01.org/0day-ci/archive/20240112/202401122003.msBO6ufy-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240112/202401122003.msBO6ufy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401122047.CyxICDOd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401122003.msBO6ufy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/binfmt_elf32.c:27:
-   In file included from arch/arm64/kernel/../../../fs/compat_binfmt_elf.c:17:
-   In file included from include/linux/elfcore-compat.h:5:
-   In file included from include/linux/elf.h:6:
->> arch/arm64/include/asm/elf.h:223:9: warning: 'COMPAT_ARCH_DLINFO' macro redefined [-Wmacro-redefined]
-     223 | #define COMPAT_ARCH_DLINFO                                              \
-         |         ^
-   arch/arm64/kernel/binfmt_elf32.c:20:9: note: previous definition is here
-      20 | #define COMPAT_ARCH_DLINFO
-         |         ^
-   1 warning generated.
+>> arch/arm/mm/fault.c:158:15: warning: no previous prototype for function 'fault_entry' [-Wmissing-prototypes]
+     158 | unsigned long fault_entry(int exception, struct pt_regs *regs)
+         |               ^
+   arch/arm/mm/fault.c:158:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     158 | unsigned long fault_entry(int exception, struct pt_regs *regs)
+         | ^
+         | static 
+   arch/arm/mm/fault.c:607:1: warning: no previous prototype for function 'do_DataAbort' [-Wmissing-prototypes]
+     607 | do_DataAbort(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
+         | ^
+   arch/arm/mm/fault.c:606:12: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     606 | asmlinkage void
+         |            ^
+         |            static 
+   arch/arm/mm/fault.c:640:1: warning: no previous prototype for function 'do_PrefetchAbort' [-Wmissing-prototypes]
+     640 | do_PrefetchAbort(unsigned long addr, unsigned int ifsr, struct pt_regs *regs)
+         | ^
+   arch/arm/mm/fault.c:639:12: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     639 | asmlinkage void
+         |            ^
+         |            static 
+   3 warnings generated.
 
 
-vim +/COMPAT_ARCH_DLINFO +223 arch/arm64/include/asm/elf.h
+vim +/fault_entry +158 arch/arm/mm/fault.c
 
-7de3ab4c3dd938 Yury Norov        2023-11-27  221  
-85751e9e5b1480 Vincenzo Frascino 2019-07-10  222  #ifdef CONFIG_COMPAT_VDSO
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21 @223  #define COMPAT_ARCH_DLINFO						\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  224  do {									\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  225  	/*								\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  226  	 * Note that we use Elf64_Off instead of elf_addr_t because	\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  227  	 * elf_addr_t in compat is defined as Elf32_Addr and casting	\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  228  	 * current->mm->context.vdso to it triggers a cast warning of	\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  229  	 * cast from pointer to integer of different size.		\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  230  	 */								\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  231  	NEW_AUX_ENT(AT_SYSINFO_EHDR,					\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  232  			(Elf64_Off)current->mm->context.vdso);		\
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  233  } while (0)
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  234  #else
-f668cd1673aa2e Catalin Marinas   2012-03-05  235  #define COMPAT_ARCH_DLINFO
-1e3f17f55aec65 Vincenzo Frascino 2019-06-21  236  #endif
-7de3ab4c3dd938 Yury Norov        2023-11-27  237  
-
-:::::: The code at line 223 was first introduced by commit
-:::::: 1e3f17f55aec6510f88ff65dcbaae13435af0ba6 arm64: elf: VDSO code page discovery
-
-:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+    88	
+    89	/*
+    90	 * This is useful to dump out the page tables associated with
+    91	 * 'addr' in mm 'mm'.
+    92	 */
+    93	void show_pte(const char *lvl, struct mm_struct *mm, unsigned long addr)
+    94	{
+    95		pgd_t *pgd;
+    96	
+    97		if (!mm)
+    98			mm = &init_mm;
+    99	
+   100		pgd = pgd_offset(mm, addr);
+   101		printk("%s[%08lx] *pgd=%08llx", lvl, addr, (long long)pgd_val(*pgd));
+   102	
+   103		do {
+   104			p4d_t *p4d;
+   105			pud_t *pud;
+   106			pmd_t *pmd;
+   107			pte_t *pte;
+   108	
+   109			p4d = p4d_offset(pgd, addr);
+   110			if (p4d_none(*p4d))
+   111				break;
+   112	
+   113			if (p4d_bad(*p4d)) {
+   114				pr_cont("(bad)");
+   115				break;
+   116			}
+   117	
+   118			pud = pud_offset(p4d, addr);
+   119			if (PTRS_PER_PUD != 1)
+   120				pr_cont(", *pud=%08llx", (long long)pud_val(*pud));
+   121	
+   122			if (pud_none(*pud))
+   123				break;
+   124	
+   125			if (pud_bad(*pud)) {
+   126				pr_cont("(bad)");
+   127				break;
+   128			}
+   129	
+   130			pmd = pmd_offset(pud, addr);
+   131			if (PTRS_PER_PMD != 1)
+   132				pr_cont(", *pmd=%08llx", (long long)pmd_val(*pmd));
+   133	
+   134			if (pmd_none(*pmd))
+   135				break;
+   136	
+   137			if (pmd_bad(*pmd)) {
+   138				pr_cont("(bad)");
+   139				break;
+   140			}
+   141	
+   142			/* We must not map this if we have highmem enabled */
+   143			if (PageHighMem(pfn_to_page(pmd_val(*pmd) >> PAGE_SHIFT)))
+   144				break;
+   145	
+   146			pte = pte_offset_map(pmd, addr);
+   147			pr_cont(", *pte=%08llx", (long long)pte_val(*pte));
+   148	#ifndef CONFIG_ARM_LPAE
+   149			pr_cont(", *ppte=%08llx",
+   150			       (long long)pte_val(pte[PTE_HWTABLE_PTRS]));
+   151	#endif
+   152			pte_unmap(pte);
+   153		} while(0);
+   154	
+   155		pr_cont("\n");
+   156	}
+   157	#else					/* CONFIG_MMU */
+ > 158	unsigned long fault_entry(int exception, struct pt_regs *regs)
+   159	{
+   160		return 0;
+   161	}
+   162	
 
 -- 
 0-DAY CI Kernel Test Service
