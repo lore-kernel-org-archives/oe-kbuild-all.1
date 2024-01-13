@@ -1,54 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B43DFBEC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 06:10:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4BAFBEC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 06:27:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WKF91vYX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mmmuVP5C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705126240; x=1736662240;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Eld4MoQpbkUQ2AJhP3wOklAVBHkSsTYQWgcDlJwGMEo=;
-  b=WKF91vYXXfBwK7dbFj69h2eyzfTvOslUEiN6TPU1o5wYsr+iiyNSV2C5
-   L2H8FIkpyOCWJDw2PHP7ZljqJYxctinILX3rVo4TELvpYc/7htNYXGuls
-   s04sz0ro6RnbODD/xSCgE+HzZTSuckwlDk3z7rK9FwvZiBptv/pr5bwqT
-   wrPc6BuXkgTcl1yC5hivmjRVPG49foMBW3Ocgs58kgx0Oq+Q7Vck2eXBr
-   ppKlu0uQWcvOEla8NZP3FEafyOxxIyFf5QxF8oaHoD5WDb5xa9SLv4GZp
-   zxjhAVBfW/uA/dZGUTHc2IZaj9oRmtYzdI3ZGQB1KuIB29IPcyS3m6Ks4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="6074977"
+  t=1705127257; x=1736663257;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sVg/+BnjMeTbG8tXpTKZUPaNQe28hPaRXjNzmCOM3pc=;
+  b=mmmuVP5Cm3QD2ffNvK3sBdQPbF2bGoZljxc6dkMX7WAB3m6kl71wjZi9
+   KO1Vpd3aeRcZRhb2scJQ17kMHLBO87P9PtGJzk1HKbTY0x50p3BuNZD+m
+   zVW/mrDXe1gR0+Iqmf15/iC/50WauzoqGFGIyObMxXJSvQAMrty7z0xdK
+   X2cIrqsExYh7EcyULjcK7GMoEJ33vwjvsvdtLQeBa6V1xLpO03VTmCYa9
+   PoT5nuWTa4QA+w3ANRGH6mO8TLYnZ9WsVcOu2MWuqNbNmtF5P+B/ZGLqi
+   708BJW/4kRR5vIRFs+nRAHJLaRZyOiTwL1WUjwlVn7gahPTE8tpnjIp0r
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="399034834"
 X-IronPort-AV: E=Sophos;i="6.04,191,1695711600"; 
-   d="scan'208";a="6074977"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 22:10:39 -0800
+   d="scan'208";a="399034834"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 22:27:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="783260272"
 X-IronPort-AV: E=Sophos;i="6.04,191,1695711600"; 
-   d="scan'208";a="783260272"
+   d="scan'208";a="31611495"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 12 Jan 2024 22:10:35 -0800
+  by orviesa001.jf.intel.com with ESMTP; 12 Jan 2024 22:27:35 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOXE0-000A9q-1g;
-	Sat, 13 Jan 2024 06:10:32 +0000
-Date: Sat, 13 Jan 2024 14:10:02 +0800
+	id 1rOXUS-000AAm-2w;
+	Sat, 13 Jan 2024 06:27:32 +0000
+Date: Sat, 13 Jan 2024 14:27:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Catalin Popescu <catalin.popescu@leica-geosystems.com>,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, afd@ti.com,
-	andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Catalin Popescu <catalin.popescu@leica-geosystems.com>
-Subject: Re: [PATCH 1/3] dt-bindings: net: dp83826: add ti,cfg-dac-minus
- binding
-Message-ID: <202401131320.WhWHSzeD-lkp@intel.com>
-References: <20240111161927.3689084-1-catalin.popescu@leica-geosystems.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.2.x-imx 3816/17888]
+ drivers/spi/spi-nxp-fspi.c:1340:26: error: 'nxp_fspi_pm_ops' undeclared here
+ (not in a function); did you mean 'nxp_fspi_mem_ops'?
+Message-ID: <202401131404.npXnCv0P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,33 +49,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240111161927.3689084-1-catalin.popescu@leica-geosystems.com>
 
-Hi Catalin,
+Hi Haibo,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on net-next/main net/main linus/master v6.7 next-20240112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Catalin-Popescu/dt-bindings-net-dp83826-add-ti-cfg-dac-plus-binding/20240112-002701
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240111161927.3689084-1-catalin.popescu%40leica-geosystems.com
-patch subject: [PATCH 1/3] dt-bindings: net: dp83826: add ti,cfg-dac-minus binding
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240113/202401131320.WhWHSzeD-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   32a344619c750cdcbe31bed754adc1b30d362e45
+commit: e0b338dc8b0a33b70718899aa798738d157d0259 [3816/17888] spi: spi-nxp-fspi: enable runtime pm for fspi
+config: x86_64-buildonly-randconfig-002-20240113 (https://download.01.org/0day-ci/archive/20240113/202401131404.npXnCv0P-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240113/202401131404.npXnCv0P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401131320.WhWHSzeD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401131404.npXnCv0P-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/net/ti,dp83822.yaml: ti,cfg-dac-minus: missing type definition
-   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
+All errors (new ones prefixed by >>):
+
+>> drivers/spi/spi-nxp-fspi.c:1340:26: error: 'nxp_fspi_pm_ops' undeclared here (not in a function); did you mean 'nxp_fspi_mem_ops'?
+    1340 |                 .pm =   &nxp_fspi_pm_ops,
+         |                          ^~~~~~~~~~~~~~~
+         |                          nxp_fspi_mem_ops
+
+
+vim +1340 drivers/spi/spi-nxp-fspi.c
+
+55ab8487e01d184 kuldip dwivedi      2020-09-11  1334  
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1335  static struct platform_driver nxp_fspi_driver = {
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1336  	.driver = {
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1337  		.name	= "nxp-fspi",
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1338  		.of_match_table = nxp_fspi_dt_ids,
+55ab8487e01d184 kuldip dwivedi      2020-09-11  1339  		.acpi_match_table = ACPI_PTR(nxp_fspi_acpi_ids),
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15 @1340  		.pm =   &nxp_fspi_pm_ops,
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1341  	},
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1342  	.probe          = nxp_fspi_probe,
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1343  	.remove		= nxp_fspi_remove,
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1344  };
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1345  module_platform_driver(nxp_fspi_driver);
+a5356aef6a907c2 Yogesh Narayan Gaur 2019-01-15  1346  
+
+:::::: The code at line 1340 was first introduced by commit
+:::::: a5356aef6a907c2e2aed0caaa2b88b6021394471 spi: spi-mem: Add driver for NXP FlexSPI controller
+
+:::::: TO: Yogesh Narayan Gaur <yogeshnarayan.gaur@nxp.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
