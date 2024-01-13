@@ -1,50 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D689C210FD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 14:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FD721113
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 14:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lTfgOQxS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gyRSH3xN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705154647; x=1736690647;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sIagwPwOAueElpqqx8sL0/CYUj2+Uj8CJ1quEbZ/1po=;
-  b=lTfgOQxS932bRtDXGdBDovqjhVWcBbaMLuMjfbUDQN3JaW3Z0nQgdOpA
-   G7RHlKuTzK+Xz+LhtohzLeiaAE3mUiqE2OcEO/OKQD1RMMvnc4cDHTtqp
-   /hg/OLJjsoqQaiBZQKSs5hEPpyWHRdPqMOr+uhTigtivdJrn6+oEfD8r6
-   qpyr0tNNmle0lKKlL1a2UWdXyCZoi6x00cR8AcoIrp47Qqx+f9cAh46AE
-   8ZifAKRhsv6JBBCnhp3ANSiW4XizsUviudrJHi4kyxsEOp5JuEV7DFczn
-   sRIyVtwpe1HnSMvb8e60IbTsX+zcrAQl4jl4bsVzo4LcsmC5d98oRjDFB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="6099277"
+  t=1705155939; x=1736691939;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xapJ+ofSknnspAQxelzXXduJqOp7w43On1sapCcFlGI=;
+  b=gyRSH3xN18rxtcESbmzFjmCuDkXG/GheTbVxBICndHa+F1G+zf+FCXr+
+   kl/gH0LkcSvENUmWrbj8JHtDmrYX1kxWeW50wkdyb9ZITyJVqtS7eBfL+
+   nuNEa9k+KD8kyVWJwvJnxVP5gQFSl5poie0a1tDvWob21pAShZe69YKbk
+   qRMoSugO/QQ23P0Xk76m9PBA30WmioHc5zuVnvTswTi9Q2IQ+z+QpSGUp
+   HGBUN7nSCpUfcK/fTOfLWnsEFLYMrCKxVvSdZTV9+Hqi+ljlNY7FxWwO4
+   B8ICiEMaTXEmkfTdRxWNP0lutS4WdNALpUy3QwFf4S5SUeABWia6jYbIi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="396520253"
 X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="6099277"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 06:04:06 -0800
+   d="scan'208";a="396520253"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 06:25:38 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="906594160"
 X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="25012324"
+   d="scan'208";a="906594160"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 13 Jan 2024 06:04:04 -0800
+  by orsmga004.jf.intel.com with ESMTP; 13 Jan 2024 06:25:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOec8-000AYk-3B;
-	Sat, 13 Jan 2024 14:04:00 +0000
-Date: Sat, 13 Jan 2024 22:02:49 +0800
+	id 1rOex1-000AZS-2p;
+	Sat, 13 Jan 2024 14:25:32 +0000
+Date: Sat, 13 Jan 2024 22:24:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nam Dang <nam.dang.uw@rvc.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Dien Pham <dien.pham.ry@renesas.com>,
-	Tho Vu <tho.vu.wh@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [morimoto:renesas-bsp/v6.1.71-2024-01-10 281/551]
- drivers/soc/renesas/rcar-sysc.c:306:21: sparse: sparse: symbol
- 'rcar_domains' was not declared. Should it be static?
-Message-ID: <202401132124.75V3a080-lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Paul Menzel <pmenzel@molgen.mpg.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Andi Shyti <andi.shyti@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+	eric.piel@tremplin-utc.net, Marius Hoch <mail@mariushoch.de>,
+	Dell.Client.Kernel@dell.com,
+	Kai Heng Feng <kai.heng.feng@canonical.com>,
+	platform-driver-x86@vger.kernel.org,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] platform/x86: dell-smo8800: Allow using the IIO
+ st_accel driver
+Message-ID: <202401132242.9mmyvnaw-lkp@intel.com>
+References: <20240106160935.45487-5-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,35 +63,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240106160935.45487-5-hdegoede@redhat.com>
 
-tree:   https://github.com/morimoto/linux renesas-bsp/v6.1.71-2024-01-10
-head:   7942223d600b4cbaffeb04e8a3d6695f7a46e49d
-commit: 1975b0b1dfed22c19ac690e91a9663373801e9b7 [281/551] soc: renesas: rcar-sysc: Remove power domains always on for M3N v1.0
-config: parisc-randconfig-r121-20240113 (https://download.01.org/0day-ci/archive/20240113/202401132124.75V3a080-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240113/202401132124.75V3a080-lkp@intel.com/reproduce)
+Hi Hans,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7]
+[cannot apply to wsa/i2c/for-next next-20240112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/platform-x86-dell-smo8800-Change-probe-ordering-a-bit/20240107-001715
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240106160935.45487-5-hdegoede%40redhat.com
+patch subject: [PATCH v2 4/6] platform/x86: dell-smo8800: Allow using the IIO st_accel driver
+config: i386-buildonly-randconfig-005-20240113 (https://download.01.org/0day-ci/archive/20240113/202401132242.9mmyvnaw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240113/202401132242.9mmyvnaw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401132124.75V3a080-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401132242.9mmyvnaw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/renesas/rcar-sysc.c:306:21: sparse: sparse: symbol 'rcar_domains' was not declared. Should it be static?
-   drivers/soc/renesas/rcar-sysc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:248:46: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +/rcar_domains +306 drivers/soc/renesas/rcar-sysc.c
+   drivers/platform/x86/dell/dell-smo8800.c: In function 'smo8800_find_i801':
+   drivers/platform/x86/dell/dell-smo8800.c:149:21: error: implicit declaration of function 'i2c_get_adapter'; did you mean 'i2c_get_adapdata'? [-Werror=implicit-function-declaration]
+     149 |         *adap_ret = i2c_get_adapter(adap->nr);
+         |                     ^~~~~~~~~~~~~~~
+         |                     i2c_get_adapdata
+   drivers/platform/x86/dell/dell-smo8800.c:149:19: warning: assignment to 'struct i2c_adapter *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     149 |         *adap_ret = i2c_get_adapter(adap->nr);
+         |                   ^
+   drivers/platform/x86/dell/dell-smo8800.c: In function 'smo8800_detect_accel':
+>> drivers/platform/x86/dell/dell-smo8800.c:174:15: error: implicit declaration of function 'i2c_smbus_xfer' [-Werror=implicit-function-declaration]
+     174 |         err = i2c_smbus_xfer(adap, addr, 0, I2C_SMBUS_READ, LIS3_WHO_AM_I,
+         |               ^~~~~~~~~~~~~~
+   drivers/platform/x86/dell/dell-smo8800.c: In function 'smo8800_instantiate_i2c_client':
+   drivers/platform/x86/dell/dell-smo8800.c:280:28: error: implicit declaration of function 'i2c_new_client_device' [-Werror=implicit-function-declaration]
+     280 |         smo8800->i2c_dev = i2c_new_client_device(adap, &info);
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/dell/dell-smo8800.c:280:26: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     280 |         smo8800->i2c_dev = i2c_new_client_device(adap, &info);
+         |                          ^
+   drivers/platform/x86/dell/dell-smo8800.c:290:9: error: implicit declaration of function 'i2c_put_adapter' [-Werror=implicit-function-declaration]
+     290 |         i2c_put_adapter(adap);
+         |         ^~~~~~~~~~~~~~~
+   drivers/platform/x86/dell/dell-smo8800.c: In function 'smo8800_probe':
+   drivers/platform/x86/dell/dell-smo8800.c:346:9: error: implicit declaration of function 'i2c_unregister_device'; did you mean 'pci_unregister_driver'? [-Werror=implicit-function-declaration]
+     346 |         i2c_unregister_device(smo8800->i2c_dev);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         pci_unregister_driver
+   cc1: some warnings being treated as errors
 
-dcc09fd143bb97 Geert Uytterhoeven 2016-04-20  305  
-8d288f1e408132 Dien Pham          2018-03-15 @306  struct rcar_sysc_pd *rcar_domains[RCAR_PD_ALWAYS_ON + 1];
-8d288f1e408132 Dien Pham          2018-03-15  307  
 
-:::::: The code at line 306 was first introduced by commit
-:::::: 8d288f1e408132a5e8cf92c56cd6133a85a2911a soc: renesas: rcar-sysc: Improve power domains always on implementation
+vim +/i2c_smbus_xfer +174 drivers/platform/x86/dell/dell-smo8800.c
 
-:::::: TO: Dien Pham <dien.pham.ry@renesas.com>
-:::::: CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+   134	
+   135	static int smo8800_find_i801(struct device *dev, void *data)
+   136	{
+   137		struct i2c_adapter *adap, **adap_ret = data;
+   138	
+   139		adap = i2c_verify_adapter(dev);
+   140		if (!adap)
+   141			return 0;
+   142	
+   143		if (!strstarts(adap->name, "SMBus I801 adapter"))
+   144			return 0;
+   145	
+   146		if (pci_match_id(i801_idf_ids, to_pci_dev(adap->dev.parent)))
+   147			return 0; /* Only register client on main SMBus channel */
+   148	
+ > 149		*adap_ret = i2c_get_adapter(adap->nr);
+   150		return 1;
+   151	}
+   152	
+   153	/*
+   154	 * Set label to let iio-sensor-proxy know these freefall sensors are located in
+   155	 * the laptop base (not the display) and are not intended for screen rotation.
+   156	 */
+   157	static const struct property_entry smo8800_accel_props[] = {
+   158		PROPERTY_ENTRY_STRING("label", "accel-base"),
+   159		{}
+   160	};
+   161	
+   162	const struct software_node smo8800_accel_node = {
+   163		.properties = smo8800_accel_props,
+   164	};
+   165	
+   166	static int smo8800_detect_accel(struct smo8800_device *smo8800,
+   167					struct i2c_adapter *adap, u8 addr,
+   168					struct i2c_board_info *info)
+   169	{
+   170		union i2c_smbus_data smbus_data;
+   171		const char *type;
+   172		int err;
+   173	
+ > 174		err = i2c_smbus_xfer(adap, addr, 0, I2C_SMBUS_READ, LIS3_WHO_AM_I,
+   175				     I2C_SMBUS_BYTE_DATA, &smbus_data);
+   176		if (err < 0) {
+   177			dev_warn(smo8800->dev, "Failed to read who-am-i register: %d\n", err);
+   178			return err;
+   179		}
+   180	
+   181		/*
+   182		 * These who-am-i register mappings to model strings have been
+   183		 * taken from the old /dev/freefall chardev and joystick driver:
+   184		 * drivers/misc/lis3lv02d/lis3lv02d.c
+   185		 */
+   186		switch (smbus_data.byte) {
+   187		case 0x32:
+   188			type = "lis331dlh";
+   189			break;
+   190		case 0x33:
+   191			type = "lis2de12"; /* LIS3DC / HP3DC in drivers/misc/lis3lv02d/lis3lv02d.c */
+   192			break;
+   193		case 0x3a:
+   194			type = "lis3lv02dl_accel";
+   195			break;
+   196		case 0x3b:
+   197			type = "lis302dl";
+   198			break;
+   199		default:
+   200			dev_warn(smo8800->dev, "Unknown who-am-i register value 0x%02x\n",
+   201				 smbus_data.byte);
+   202			return -ENODEV;
+   203		}
+   204	
+   205		strscpy(info->type, type, I2C_NAME_SIZE);
+   206		info->addr = addr;
+   207		info->irq = smo8800->irq;
+   208		info->swnode = &smo8800_accel_node;
+   209		return 0;
+   210	}
+   211	
 
 -- 
 0-DAY CI Kernel Test Service
