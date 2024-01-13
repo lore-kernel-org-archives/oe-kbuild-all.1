@@ -1,57 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B62EDDB6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 18:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7BF63A7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 19:17:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnBMUv8d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="de4QuNMr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705171520; x=1736707520;
+  t=1705173440; x=1736709440;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DiKdK26Z+8poFs8WzHPup5a3zK6NjPvep1ZdekuTEEI=;
-  b=dnBMUv8diME1AomAMI4b9E/ApIhwkP+DM8dbnvTukK3+AJwLV1Aqrgqj
-   DxHCWggI3eYwh3yO5EY2O5lZqntW+iDbUw1CvIAN/BhpOIcH9nhsLWlNE
-   TsPk/0JreaIvSTTcyS0JQGXKdKHLDonfRBCkBb21ybP7SPz4ms0R4NP7d
-   IxjasURSfK1KqFvsXwljsYMHWe/rymdSLdVcd6zSDYigSAo577Om0y3Ib
-   aExY3EfJmhed1eOtALyLiSSFvJWOCxKAus4e3p4oBhIeLgAfuvZQlE//m
-   EP1F2eMF7oeV3mzfWy2DCO7IB1Sj3j7/oRNpkTHk1CeAcK+eaWv6nEc8r
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="6756352"
+  bh=l/RpQNj4gP732f2vHKYAlKSTUzjcPoYeEZirHy/RBPw=;
+  b=de4QuNMrVdp7LiFl3xnsx7VH54E5hymuG/uptzDe6rHv9oWNzSXkWoei
+   IWMltDP5P6/21ZIM1cc531s1kwM/qMIhIL/digKIScvQcLwmtpNsAayJU
+   b9lYYv1LtftKjalzPsFiASrYG95qqH574GTDbKNVwJyv/Gz2YHfKNwB/f
+   ovGGOvl+h4xveLnxHcDAd4L3l57ugwfpIDvQBCgkz5k9/32lOmhk7pLpE
+   K2LoBHZAcaF5ShtsqIyXXLL3MacATmLqb8ggAmZ48Ore867+LUz43K3oZ
+   Y6E5SbcLH8iFDVS3OA8Y3oK0eravvxlxPdo8lP623ObW6ry9XCFvQ5d+V
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="430573442"
 X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="6756352"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 10:45:19 -0800
+   d="scan'208";a="430573442"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 11:17:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="817410207"
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="776334957"
 X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="817410207"
+   d="scan'208";a="776334957"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 13 Jan 2024 10:45:14 -0800
+  by orsmga007.jf.intel.com with ESMTP; 13 Jan 2024 11:17:15 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOj0K-000AoW-1G;
-	Sat, 13 Jan 2024 18:45:12 +0000
-Date: Sun, 14 Jan 2024 02:45:06 +0800
+	id 1rOjVJ-000Aq4-0Q;
+	Sat, 13 Jan 2024 19:17:13 +0000
+Date: Sun, 14 Jan 2024 03:16:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Coiby Xu <coxu@redhat.com>, kexec@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Ondrej Kozina <okozina@redhat.com>,
-	Milan Broz <gmazyland@gmail.com>,
-	Thomas Staudt <tstaudt@de.ibm.com>,
-	Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
-	Kairui Song <ryncsn@gmail.com>, dm-devel@redhat.com,
-	Jan Pazdziora <jpazdziora@redhat.com>,
-	Pingfan Liu <kernelfans@gmail.com>, Baoquan He <bhe@redhat.com>,
-	Dave Young <dyoung@redhat.com>, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Dave Hansen <dave.hansen@intel.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH v2 3/5] crash_dump: retrieve dm crypt key in kdump kernel
-Message-ID: <202401140240.upb0a18s-lkp@intel.com>
-References: <20240110071522.1308935-4-coxu@redhat.com>
+To: Catalin Popescu <catalin.popescu@leica-geosystems.com>,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, afd@ti.com,
+	andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Catalin Popescu <catalin.popescu@leica-geosystems.com>
+Subject: Re: [PATCH 2/3] dt-bindings: net: dp83826: add ti,cfg-dac-plus
+ binding
+Message-ID: <202401140357.ZT1pEydN-lkp@intel.com>
+References: <20240111161927.3689084-2-catalin.popescu@leica-geosystems.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,128 +57,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240110071522.1308935-4-coxu@redhat.com>
+In-Reply-To: <20240111161927.3689084-2-catalin.popescu@leica-geosystems.com>
 
-Hi Coiby,
+Hi Catalin,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on v6.7]
-[cannot apply to linus/master next-20240112]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on net-next/main net/main linus/master v6.7 next-20240112]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Coiby-Xu/kexec_file-allow-to-place-kexec_buf-randomly/20240110-151859
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20240110071522.1308935-4-coxu%40redhat.com
-patch subject: [PATCH v2 3/5] crash_dump: retrieve dm crypt key in kdump kernel
-config: i386-buildonly-randconfig-003-20240113 (https://download.01.org/0day-ci/archive/20240114/202401140240.upb0a18s-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240114/202401140240.upb0a18s-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Catalin-Popescu/dt-bindings-net-dp83826-add-ti-cfg-dac-plus-binding/20240112-002701
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240111161927.3689084-2-catalin.popescu%40leica-geosystems.com
+patch subject: [PATCH 2/3] dt-bindings: net: dp83826: add ti,cfg-dac-plus binding
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240114/202401140357.ZT1pEydN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401140240.upb0a18s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401140357.ZT1pEydN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> kernel/crash_dump_dm_crypt.c:29:16: warning: no previous prototype for 'dm_crypt_key_read' [-Wmissing-prototypes]
-      29 | ssize_t __weak dm_crypt_key_read(char *buf, size_t count, u64 *ppos)
-         |                ^~~~~~~~~~~~~~~~~
-   kernel/crash_dump_dm_crypt.c:83:6: warning: no previous prototype for 'wipe_dm_crypt_key' [-Wmissing-prototypes]
-      83 | void wipe_dm_crypt_key(void)
-         |      ^~~~~~~~~~~~~~~~~
-   kernel/crash_dump_dm_crypt.c: In function 'crash_load_dm_crypt_key':
-   kernel/crash_dump_dm_crypt.c:207:16: error: variable 'kbuf' has initializer but incomplete type
-     207 |         struct kexec_buf kbuf = {
-         |                ^~~~~~~~~
-   kernel/crash_dump_dm_crypt.c:208:18: error: 'struct kexec_buf' has no member named 'image'
-     208 |                 .image = image,
-         |                  ^~~~~
-   kernel/crash_dump_dm_crypt.c:208:26: warning: excess elements in struct initializer
-     208 |                 .image = image,
-         |                          ^~~~~
-   kernel/crash_dump_dm_crypt.c:208:26: note: (near initialization for 'kbuf')
-   kernel/crash_dump_dm_crypt.c:209:18: error: 'struct kexec_buf' has no member named 'buf_min'
-     209 |                 .buf_min = 0,
-         |                  ^~~~~~~
-   kernel/crash_dump_dm_crypt.c:209:28: warning: excess elements in struct initializer
-     209 |                 .buf_min = 0,
-         |                            ^
-   kernel/crash_dump_dm_crypt.c:209:28: note: (near initialization for 'kbuf')
-   kernel/crash_dump_dm_crypt.c:210:18: error: 'struct kexec_buf' has no member named 'buf_max'
-     210 |                 .buf_max = ULONG_MAX,
-         |                  ^~~~~~~
-   In file included from include/linux/limits.h:7,
-                    from include/linux/kernel.h:17,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/nospec-branch.h:14,
-                    from arch/x86/include/asm/irqflags.h:9,
-                    from include/linux/irqflags.h:17,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rbtree.h:24,
-                    from include/linux/key.h:15,
-                    from kernel/crash_dump_dm_crypt.c:2:
-   include/vdso/limits.h:13:25: warning: excess elements in struct initializer
-      13 | #define ULONG_MAX       (~0UL)
-         |                         ^
-   kernel/crash_dump_dm_crypt.c:210:28: note: in expansion of macro 'ULONG_MAX'
-     210 |                 .buf_max = ULONG_MAX,
-         |                            ^~~~~~~~~
-   include/vdso/limits.h:13:25: note: (near initialization for 'kbuf')
-      13 | #define ULONG_MAX       (~0UL)
-         |                         ^
-   kernel/crash_dump_dm_crypt.c:210:28: note: in expansion of macro 'ULONG_MAX'
-     210 |                 .buf_max = ULONG_MAX,
-         |                            ^~~~~~~~~
-   kernel/crash_dump_dm_crypt.c:211:18: error: 'struct kexec_buf' has no member named 'top_down'
-     211 |                 .top_down = false,
-         |                  ^~~~~~~~
-   kernel/crash_dump_dm_crypt.c:211:29: warning: excess elements in struct initializer
-     211 |                 .top_down = false,
-         |                             ^~~~~
-   kernel/crash_dump_dm_crypt.c:211:29: note: (near initialization for 'kbuf')
-   kernel/crash_dump_dm_crypt.c:212:18: error: 'struct kexec_buf' has no member named 'random'
-     212 |                 .random = true,
-         |                  ^~~~~~
-   kernel/crash_dump_dm_crypt.c:212:27: warning: excess elements in struct initializer
-     212 |                 .random = true,
-         |                           ^~~~
-   kernel/crash_dump_dm_crypt.c:212:27: note: (near initialization for 'kbuf')
-   kernel/crash_dump_dm_crypt.c:207:26: error: storage size of 'kbuf' isn't known
-     207 |         struct kexec_buf kbuf = {
-         |                          ^~~~
-   kernel/crash_dump_dm_crypt.c:222:20: error: 'KEXEC_BUF_MEM_UNKNOWN' undeclared (first use in this function)
-     222 |         kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
-         |                    ^~~~~~~~~~~~~~~~~~~~~
-   kernel/crash_dump_dm_crypt.c:222:20: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/crash_dump_dm_crypt.c:223:15: error: implicit declaration of function 'kexec_add_buffer' [-Werror=implicit-function-declaration]
-     223 |         ret = kexec_add_buffer(&kbuf);
-         |               ^~~~~~~~~~~~~~~~
-   kernel/crash_dump_dm_crypt.c:207:26: warning: unused variable 'kbuf' [-Wunused-variable]
-     207 |         struct kexec_buf kbuf = {
-         |                          ^~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/dm_crypt_key_read +29 kernel/crash_dump_dm_crypt.c
-
-    25	
-    26	/*
-    27	 * Architectures may override this function to read dm crypt key
-    28	 */
-  > 29	ssize_t __weak dm_crypt_key_read(char *buf, size_t count, u64 *ppos)
-    30	{
-    31		struct kvec kvec = { .iov_base = buf, .iov_len = count };
-    32		struct iov_iter iter;
-    33	
-    34		iov_iter_kvec(&iter, READ, &kvec, 1, count);
-    35		return read_from_oldmem(&iter, count, ppos, false);
-    36	}
-    37	
+dtcheck warnings: (new ones prefixed by >>)
+   Documentation/devicetree/bindings/net/ti,dp83822.yaml: ti,cfg-dac-minus: missing type definition
+>> Documentation/devicetree/bindings/net/ti,dp83822.yaml: ti,cfg-dac-plus: missing type definition
+   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
