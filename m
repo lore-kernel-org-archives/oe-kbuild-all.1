@@ -1,60 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216D619456
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 01:17:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6721E12E65
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 01:38:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D3Pu4PuP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dtrd/7+Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705108654; x=1736644654;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=E438uW/rLScP3NrrSZ/+vU2ZbR/Hk3/BAayHZre5Mjg=;
-  b=D3Pu4PuPrTly6TDwFNVNo4Gn0oOucpdB+PKluoGmmYHm7BXXa4dY/Irt
-   wG2Tu0HA7M4bn6V6/+GPq4Zh+sm7nuzJvYxzEar34/NlHzf0j/Cltiyaj
-   L+4tTc8/iHp9+K8ZF0L5ZX0gIGRhdTFP6ZdO1/qlJidEijbog60biFzdk
-   v1LJjjTRwAJI1mkhmZjoU6hkmhSNaw9ntWg9n2kbjpvA+yINd/VuLNR9D
-   v5TOqop4wBl5CaUv2ywqVKzbCpkbiTkjz+R0Jk/VZrSD5CWJYtyQpbEhs
-   iRhw/k6g51kSOxnCvkenNSoaC0V4/CLlhkj+Wdy1jcC7zJJr4SX9liMqb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="389777272"
+  t=1705109912; x=1736645912;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JsfN++GeV+lIpUCWvqvYgZEkm/hKh9VW2H+7ZG+rPnw=;
+  b=Dtrd/7+YoSH4o1PWD8i5p9IZGIw3lGeVgro0p+DDQxrJmsUDZW1OgJ5I
+   xLmQxyt5UgV7maoxd5+XKGFBavoGftFPFqojpUxTYUI1ebx7DGrSBGRjs
+   KdSzO4otVW/qLfPVbFxgMG5hcACHHtNgGK1mfQ4TpAbh3Tax+Vjqf+rh7
+   Ce+mrDXACzq+us9YrBEv5gwDcqS73R5XBSnnvZRKbzCiOEKRLuPcqcjJH
+   hq3WHD4YbheqJuYMDK1i4E+nG34Oo54viDc8+xTf5Ed8LsastAf+Afhkz
+   ef965vEA5iYd15kgHxlRHSVQ+DCsjBNpr+MIKKlBGwn3BP5aJIGMWFYNr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="6090147"
 X-IronPort-AV: E=Sophos;i="6.04,191,1695711600"; 
-   d="scan'208";a="389777272"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 17:17:33 -0800
+   d="scan'208";a="6090147"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 17:38:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="1030096755"
 X-IronPort-AV: E=Sophos;i="6.04,191,1695711600"; 
-   d="scan'208";a="1030096755"
+   d="scan'208";a="24898388"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 12 Jan 2024 17:17:29 -0800
+  by orviesa002.jf.intel.com with ESMTP; 12 Jan 2024 17:38:31 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOSeM-0009xP-0b;
-	Sat, 13 Jan 2024 01:17:26 +0000
-Date: Sat, 13 Jan 2024 09:17:05 +0800
+	id 1rOSyh-0009y8-2W;
+	Sat, 13 Jan 2024 01:38:27 +0000
+Date: Sat, 13 Jan 2024 09:37:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	openbmc@lists.ozlabs.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] ARM64: dts: nuvoton: Add initial yosemitev4
- device tree
-Message-ID: <202401130946.VGBtdkKu-lkp@intel.com>
-References: <20240112013654.1424451-3-Delphine_CC_Chiu@wiwynn.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 20863/21544]
+ drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:3139:23: warning: unused
+ variable 'handle'
+Message-ID: <202401130942.KAnMSYAG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +49,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240112013654.1424451-3-Delphine_CC_Chiu@wiwynn.com>
 
-Hi Delphine,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.7 next-20240112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/dt-bindings-arm-nuvoton-add-Facebook-Yosemite-4-board/20240112-094033
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240112013654.1424451-3-Delphine_CC_Chiu%40wiwynn.com
-patch subject: [PATCH v1 2/2] ARM64: dts: nuvoton: Add initial yosemitev4 device tree
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240113/202401130946.VGBtdkKu-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240113/202401130946.VGBtdkKu-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   1f0983450549eeea71fb9333517330947a779262
+commit: 447625d22d93951e16bfa3b4b53387873a852406 [20863/21544] net: hns3: fix incorrect hw rss hash type of rx packet
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240113/202401130942.KAnMSYAG-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240113/202401130942.KAnMSYAG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401130946.VGBtdkKu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401130942.KAnMSYAG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts:6:10: fatal error: nuvoton-npcm845-pincfg-evb.dtsi: No such file or directory
-       6 | #include "nuvoton-npcm845-pincfg-evb.dtsi"
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+>> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:3139:23: warning: unused variable 'handle' [-Wunused-variable]
+    3139 |         struct hnae3_handle *handle = ring->tqp->handle;
+         |                              ^~~~~~
+   1 warning generated.
 
 
-vim +6 arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts
+vim +/handle +3139 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
 
-     3	
-     4	/dts-v1/;
-     5	#include "nuvoton-npcm845.dtsi"
-   > 6	#include "nuvoton-npcm845-pincfg-evb.dtsi"
-     7	#include <dt-bindings/i2c/i2c.h>
-     8	
+76ad4f0ee74758 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_enet.c Salil        2017-08-02  3133  
+fd757a27ab18c7 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yunsheng Lin 2019-04-23  3134  static void hns3_set_rx_skb_rss_type(struct hns3_enet_ring *ring,
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3135  				     struct sk_buff *skb, u32 rss_hash,
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3136  				     u32 l234info)
+fd757a27ab18c7 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yunsheng Lin 2019-04-23  3137  {
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3138  	enum pkt_hash_types rss_type = PKT_HASH_TYPE_NONE;
+fd757a27ab18c7 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yunsheng Lin 2019-04-23 @3139  	struct hnae3_handle *handle = ring->tqp->handle;
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3140  	int l3_type;
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3141  	int l4_type;
+fd757a27ab18c7 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yunsheng Lin 2019-04-23  3142  
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3143  	l3_type = hnae3_get_field(l234info, HNS3_RXD_L3ID_M, HNS3_RXD_L3ID_S);
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3144  	l4_type = hnae3_get_field(l234info, HNS3_RXD_L4ID_M, HNS3_RXD_L4ID_S);
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3145  	if (l3_type == HNS3_L3_TYPE_IPV4 ||
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3146  	    l3_type == HNS3_L3_TYPE_IPV6) {
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3147  		if (l4_type == HNS3_L4_TYPE_UDP ||
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3148  		    l4_type == HNS3_L4_TYPE_TCP ||
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3149  		    l4_type == HNS3_L4_TYPE_SCTP)
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3150  			rss_type = PKT_HASH_TYPE_L4;
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3151  		else if (l4_type == HNS3_L4_TYPE_IGMP ||
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3152  			 l4_type == HNS3_L4_TYPE_ICMP)
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3153  			rss_type = PKT_HASH_TYPE_L3;
+447625d22d9395 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yonglong Liu 2023-04-21  3154  	}
+fd757a27ab18c7 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yunsheng Lin 2019-04-23  3155  
+fd757a27ab18c7 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yunsheng Lin 2019-04-23  3156  	skb_set_hash(skb, rss_hash, rss_type);
+fd757a27ab18c7 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yunsheng Lin 2019-04-23  3157  }
+fd757a27ab18c7 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        Yunsheng Lin 2019-04-23  3158  
+
+:::::: The code at line 3139 was first introduced by commit
+:::::: fd757a27ab18c72be22c159061583d946ad9ddc7 net: hns3: modify kernel-module hns3 to be the same with kernel 5.1
+
+:::::: TO: Yunsheng Lin <linyunsheng@huawei.com>
+:::::: CC: Xie XiuQi <xiexiuqi@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
