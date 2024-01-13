@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71FCEC5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 10:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7062717BD2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Jan 2024 10:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgvUuZAz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XoPR4Mdb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705141125; x=1736677125;
+  t=1705141725; x=1736677725;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4w8H+23iObX54Z7B+cVilN7dXNAboXMVnRYVy94RTr4=;
-  b=IgvUuZAzo2jEYgK+RkhbLsbd/28ERZVLHZVbrSrYfwiksCxOt/EKr7x4
-   KHEgoNIZGt1caQYH6DmEkaCXFLOtf6Z2EisFMI6pAp6gORvACpZgMbpnw
-   Y9yjLAJ8oe5PVQOq0KavJengb9DqCFXXFJf3Vs83fKerP8Dst640YLTaC
-   UnoL7Mnsyembd1NfDAVCmaI9n/31Rzbiat3+eGVuzMK2rEKV5t2jLO2VW
-   DJjiiYi1W87szy5KWGYwSVD783trBC5vPgLkH3AnCKgkc2AXB+01l0Rpo
-   tTGOW+4qYy6aHlk16kI1Nz2bXfpL9/xS8ZMPTu+KAcVyxhMaVqAM69OI4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="430540078"
+  bh=ILrpWLfqKzTrPduRJxQOnkI67EMXRyvpIKNRlk1gk1c=;
+  b=XoPR4MdbNVaEBI7VX4OsmjZiAAVu/rPcabX8UdG8+EESRb2rcAHmn5nl
+   wJfiBbpzh1b/yAn1IkMwP6nrh1pZ/hb+cHFjtU7fReVKXcNrOVHD73bEh
+   MaE3kVAk5hiBrTHonj+X0BWoBVDi8D6iYCSVnbwgBeoPH+W0hAQSaPeWj
+   dvwTTn+XIirrMXBJxxCyY/pnk4mHzVPM9QrSS7lQHy/fc7Y1qQmnHS1uO
+   WEJPe/bgqFypIUMzQXCoFCt18cF8A9vxdHrs5RllR7KPyMx7qBwKBzcWe
+   kvDBwx+zIlcRYsI8itLqcd/aZLpatSLDmYczmYkqd+utzyPCcpphSgdQy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="6454791"
 X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="430540078"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 02:18:45 -0800
+   d="scan'208";a="6454791"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 02:28:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="786609023"
 X-IronPort-AV: E=Sophos;i="6.04,192,1695711600"; 
-   d="scan'208";a="786609023"
+   d="scan'208";a="17668267"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 13 Jan 2024 02:18:44 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 13 Jan 2024 02:28:43 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOb69-000ALU-1R;
-	Sat, 13 Jan 2024 10:18:41 +0000
-Date: Sat, 13 Jan 2024 18:17:42 +0800
+	id 1rObFp-000ALq-1w;
+	Sat, 13 Jan 2024 10:28:41 +0000
+Date: Sat, 13 Jan 2024 18:27:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.2.x-imx 9950/17888] /usr/bin/ld:
- i2c-flexio.c:undefined reference to `flexio_writel'
-Message-ID: <202401131804.0I5YH60a-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 20638/21544]
+ drivers/i2c/busses/i2c-zhaoxin.c:650:12: warning: 'zxi2c_resume' defined but
+ not used
+Message-ID: <202401131830.luikJ6dj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,54 +50,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
-head:   32a344619c750cdcbe31bed754adc1b30d362e45
-commit: 16b65085d4d93242942e510c861a445167acc4e6 [9950/17888] LF-8343-2: driver: i2c: buses: flexio: rework to use mfd
-config: um-randconfig-002-20240113 (https://download.01.org/0day-ci/archive/20240113/202401131804.0I5YH60a-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240113/202401131804.0I5YH60a-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   1f0983450549eeea71fb9333517330947a779262
+commit: 735c81b4d33c46ea097f6437f63ea624ccf6dee1 [20638/21544] i2c: Add Zhaoxin I2C driver
+config: x86_64-randconfig-002-20240112 (https://download.01.org/0day-ci/archive/20240113/202401131830.luikJ6dj-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240113/202401131830.luikJ6dj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401131804.0I5YH60a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401131830.luikJ6dj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   /usr/bin/ld: warning: certs/system_certificates.o: missing .note.GNU-stack section implies executable stack
-   /usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   /usr/bin/ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   /usr/bin/ld: drivers/i2c/busses/i2c-flexio.o: in function `i2c_master_enable_ack':
-   i2c-flexio.c:(.text+0x40): undefined reference to `flexio_readl'
->> /usr/bin/ld: i2c-flexio.c:(.text+0x60): undefined reference to `flexio_writel'
-   /usr/bin/ld: drivers/i2c/busses/i2c-flexio.o: in function `imx_flexio_i2c_isr':
-   i2c-flexio.c:(.text+0x192): undefined reference to `flexio_readl'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x1cf): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x211): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x259): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x277): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x2c5): undefined reference to `flexio_writel'
->> /usr/bin/ld: i2c-flexio.c:(.text+0x2fa): undefined reference to `flexio_readl'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x317): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x34c): undefined reference to `flexio_readl'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x3a4): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x3c4): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x3f1): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x417): undefined reference to `flexio_readl'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x42f): undefined reference to `flexio_readl'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x488): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x492): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x4b4): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x4cb): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x520): undefined reference to `flexio_readl'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x52f): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x53a): undefined reference to `flexio_readl'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x549): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x582): undefined reference to `flexio_readl'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x593): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x59d): undefined reference to `flexio_writel'
-   /usr/bin/ld: i2c-flexio.c:(.text+0x5b7): undefined reference to `flexio_writel'
->> collect2: error: ld returned 1 exit status
+>> drivers/i2c/busses/i2c-zhaoxin.c:650:12: warning: 'zxi2c_resume' defined but not used [-Wunused-function]
+     650 | static int zxi2c_resume(struct device *dev)
+         |            ^~~~~~~~~~~~
+>> drivers/i2c/busses/i2c-zhaoxin.c:645:12: warning: 'zxi2c_suspend' defined but not used [-Wunused-function]
+     645 | static int zxi2c_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~
+
+
+vim +/zxi2c_resume +650 drivers/i2c/busses/i2c-zhaoxin.c
+
+   644	
+ > 645	static int zxi2c_suspend(struct device *dev)
+   646	{
+   647		return 0;
+   648	}
+   649	
+ > 650	static int zxi2c_resume(struct device *dev)
+   651	{
+   652		struct zxi2c *i2c = dev_get_drvdata(dev);
+   653	
+   654		zxi2c_module_reset(i2c);
+   655		zxi2c_set_bus_speed(i2c);
+   656	
+   657		return 0;
+   658	}
+   659	
 
 -- 
 0-DAY CI Kernel Test Service
