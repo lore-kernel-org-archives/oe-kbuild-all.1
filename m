@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497A51851
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 07:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF711851
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 07:41:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VWnBsNVn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RsbKVHcQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705217455; x=1736753455;
+  t=1705218119; x=1736754119;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ycVprHuLcaQcSRoses8x3nCt90Kics7SG+SDU1E4EKg=;
-  b=VWnBsNVnRVQ0XmM7zXul3z6Lh24D2asV8VC6ntwXOLuVGlIDsWdG9jCf
-   1MqrnN16ZcxOvRqnGof8l5SFQGwI9dH9VsjqjkrgjHPQ9wZvPhfegG41E
-   KcCxbdFe/SaI72xTQzzAqlIywsPNrTPykeYXisM8m5IRLWFgwHg/qoaF4
-   lJpAle2GoVwMskH9M5Oy3l31dHiXQwFfWq6hDKuisKgmx/4kBlGzU2WCz
-   3Fn7Bjy0ZSSSlEUWO6u/Wmcwh7Lm1qefvmGdLR2m1j3lr4xbhZZhTu/9Q
-   X11btq8YM8xzyynZPB/POW6kpltcJDhfyMlPfhnceJEFIhK/TVlessvfp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="465819525"
+  bh=m5gdE0vVe2EN/8bUajXWFji3u30RWXo4wm2LoiNdcGQ=;
+  b=RsbKVHcQ4Z5t9BhpGLugKHuY3Qt5fRQoq4OnzKbY2zovHDSOFG6Z46+t
+   J9VircOFUweceAbHRXN/tnec029QDzU3OAJMhbfUvMb7/tZ5ymOvovCXn
+   MGP7RitEtLEcgzBqtaxoNCE4CCaKYYw4Nmta8TxphEKVgtz7Q6wbBFuA8
+   4pLVyh1hM2Hf3c0/+HDXRdJ8+NXaPHclqdlSaE9G+FEpvum9rUMAhr+X5
+   SYP4D1oBC9dmebMf6u4mZLTPyxuC0B+0/0WWhKyeUuRd5tK7yZtGrXABV
+   N/17iqEcS/qt+D4oYRXYDZCncwP0rBofX9P0eqisr/tCoYbpHEXEHO5Rk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="398305142"
 X-IronPort-AV: E=Sophos;i="6.04,193,1695711600"; 
-   d="scan'208";a="465819525"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 23:30:54 -0800
+   d="scan'208";a="398305142"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 23:41:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="906736507"
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="817515352"
 X-IronPort-AV: E=Sophos;i="6.04,193,1695711600"; 
-   d="scan'208";a="906736507"
+   d="scan'208";a="817515352"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 13 Jan 2024 23:30:53 -0800
+  by orsmga001.jf.intel.com with ESMTP; 13 Jan 2024 23:41:57 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOuxG-000BIV-35;
-	Sun, 14 Jan 2024 07:30:50 +0000
-Date: Sun, 14 Jan 2024 15:30:42 +0800
+	id 1rOv7x-000BJD-2x;
+	Sun, 14 Jan 2024 07:41:54 +0000
+Date: Sun, 14 Jan 2024 15:40:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21354/21544]
- drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:159:10: error:
- incompatible pointer to integer conversion returning 'void *' from a
- function with result type 'int'
-Message-ID: <202401141507.GsHMozwG-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 16693/21544]
+ arch/x86/kernel/unwind_orc.c:199:12: warning: 'orc_sort_cmp' defined but not
+ used
+Message-ID: <202401141520.xOsYiDEk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,185 +53,78 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
 head:   1f0983450549eeea71fb9333517330947a779262
-commit: af48889301db8235deab66a8822e3e00195ca14b [21354/21544] dwmac:add phytium dwmac driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240114/202401141507.GsHMozwG-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240114/202401141507.GsHMozwG-lkp@intel.com/reproduce)
+commit: badd79c400ed404df871e1d035bed971d20ead4c [16693/21544] x86/unwind/orc: Remove boot-time ORC unwind tables sorting
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240114/202401141520.xOsYiDEk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240114/202401141520.xOsYiDEk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401141507.GsHMozwG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401141520.xOsYiDEk-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:159:10: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
-     159 |                 return stmmac_res.addr;
-         |                        ^~~~~~~~~~~~~~~
->> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:172:5: warning: no previous prototype for function 'phytium_dwmac_remove' [-Wmissing-prototypes]
-     172 | int phytium_dwmac_remove(struct platform_device *pdev)
-         |     ^
-   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:172:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     172 | int phytium_dwmac_remove(struct platform_device *pdev)
-         | ^
-         | static 
-   1 warning and 1 error generated.
+>> arch/x86/kernel/unwind_orc.c:199:12: warning: 'orc_sort_cmp' defined but not used [-Wunused-function]
+     199 | static int orc_sort_cmp(const void *_a, const void *_b)
+         |            ^~~~~~~~~~~~
+>> arch/x86/kernel/unwind_orc.c:179:13: warning: 'orc_sort_swap' defined but not used [-Wunused-function]
+     179 | static void orc_sort_swap(void *_a, void *_b, int size)
+         |             ^~~~~~~~~~~~~
+   arch/x86/kernel/unwind_orc.o: warning: objtool: missing symbol for section .init.text
 
 
-vim +159 drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c
+vim +/orc_sort_cmp +199 arch/x86/kernel/unwind_orc.c
 
-    32	
-    33	static int phytium_dwmac_probe(struct platform_device *pdev)
-    34	{
-    35		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
-    36		struct plat_stmmacenet_data *plat;
-    37		struct stmmac_resources stmmac_res;
-    38		struct device_node *np = pdev->dev.of_node;
-    39		struct resource *res;
-    40		u64 clk_freq;
-    41		char clk_name[20];
-    42		int ret;
-    43	
-    44		plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
-    45		if (!plat)
-    46			return -ENOMEM;
-    47	
-    48		plat->dma_cfg = devm_kzalloc(&pdev->dev, sizeof(*plat->dma_cfg),
-    49					     GFP_KERNEL);
-    50		if (!plat->dma_cfg)
-    51			return -ENOMEM;
-    52	
-    53		plat->axi = devm_kzalloc(&pdev->dev, sizeof(*plat->axi), GFP_KERNEL);
-    54		if (!plat->axi)
-    55			return -ENOMEM;
-    56	
-    57		plat->interface = device_get_phy_mode(&pdev->dev);
-    58		if (plat->interface < 0)
-    59			return plat->interface;
-    60	
-    61		/* Configure PHY if using device-tree */
-    62		if (pdev->dev.of_node)
-    63			plat->phy_node = of_parse_phandle(np, "phy-handle", 0);
-    64	
-    65		if (pdev->dev.of_node) {
-    66			plat->bus_id = of_alias_get_id(np, "ethernet");
-    67			if (plat->bus_id < 0)
-    68				plat->bus_id = 0;
-    69		} else if (fwnode_property_read_u32(fwnode, "bus_id", &plat->bus_id)) {
-    70			plat->bus_id = 2;
-    71		}
-    72	
-    73		plat->phy_addr = -1;
-    74		plat->clk_csr = -1;
-    75		plat->has_gmac = 1;
-    76		plat->enh_desc = 1;
-    77		plat->bugged_jumbo = 1;
-    78		plat->pmt = 1;
-    79		plat->force_sf_dma_mode = 1;
-    80	
-    81		if (fwnode_property_read_u32(fwnode, "max-speed", &plat->max_speed))
-    82			plat->max_speed = -1;
-    83	
-    84		if (fwnode_property_read_u32(fwnode, "max-frame-size", &plat->maxmtu))
-    85			plat->maxmtu = JUMBO_LEN;
-    86	
-    87		if (fwnode_property_read_u32(fwnode, "snps,multicast-filter-bins",
-    88					     &plat->multicast_filter_bins))
-    89			plat->multicast_filter_bins = HASH_TABLE_SIZE;
-    90	
-    91		if (fwnode_property_read_u32(fwnode, "snps,perfect-filter-entries",
-    92					     &plat->unicast_filter_entries))
-    93			plat->unicast_filter_entries = 1;
-    94	
-    95		if (fwnode_property_read_u32(fwnode, "tx-fifo-depth",
-    96					     &plat->tx_fifo_size))
-    97			plat->tx_fifo_size = 0x1000;
-    98	
-    99		if (fwnode_property_read_u32(fwnode, "rx-fifo-depth",
-   100					     &plat->rx_fifo_size))
-   101			plat->rx_fifo_size = 0x1000;
-   102	
-   103		if (phytium_dwmac_acpi_phy(plat, fwnode, &pdev->dev))
-   104			return -ENODEV;
-   105	
-   106		plat->rx_queues_to_use = 1;
-   107		plat->tx_queues_to_use = 1;
-   108		plat->rx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
-   109		plat->tx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
-   110	
-   111		if (fwnode_property_read_u64(fwnode, "clock-frequency", &clk_freq))
-   112			clk_freq = 125000000;
-   113	
-   114		/* Set system clock */
-   115		snprintf(clk_name, sizeof(clk_name), "%s-%d", "stmmaceth",
-   116			 plat->bus_id);
-   117	
-   118		plat->stmmac_clk = clk_register_fixed_rate(&pdev->dev, clk_name,
-   119							   NULL, 0, clk_freq);
-   120		if (IS_ERR(plat->stmmac_clk)) {
-   121			dev_warn(&pdev->dev, "Fail to register stmmac-clk\n");
-   122			plat->stmmac_clk = NULL;
-   123		}
-   124	
-   125		ret = clk_prepare_enable(plat->stmmac_clk);
-   126		if (ret) {
-   127			clk_unregister_fixed_rate(plat->stmmac_clk);
-   128			return ret;
-   129		}
-   130	
-   131		plat->clk_ptp_rate = clk_get_rate(plat->stmmac_clk);
-   132		plat->clk_ptp_ref = NULL;
-   133	
-   134		if (fwnode_property_read_u32(fwnode, "snps,pbl", &plat->dma_cfg->pbl))
-   135			plat->dma_cfg->pbl = 16;
-   136	
-   137		fwnode_property_read_u32(fwnode, "snps,txpbl", &plat->dma_cfg->txpbl);
-   138		fwnode_property_read_u32(fwnode, "snps,rxpbl", &plat->dma_cfg->rxpbl);
-   139	
-   140		plat->dma_cfg->pblx8 = !fwnode_property_read_bool(fwnode,
-   141								  "snps,no-pbl-x8");
-   142		plat->dma_cfg->aal = fwnode_property_read_bool(fwnode, "snps,aal");
-   143		plat->dma_cfg->fixed_burst = fwnode_property_read_bool(fwnode,
-   144								       "snps,fixed-burst");
-   145		plat->dma_cfg->mixed_burst = fwnode_property_read_bool(fwnode,
-   146								       "snps,mixed-burst");
-   147	
-   148		plat->axi->axi_lpi_en = false;
-   149		plat->axi->axi_xit_frm = false;
-   150		plat->axi->axi_wr_osr_lmt = 7;
-   151		plat->axi->axi_rd_osr_lmt = 7;
-   152		plat->axi->axi_blen[0] = 16;
-   153	
-   154		memset(&stmmac_res, 0, sizeof(stmmac_res));
-   155		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   156		stmmac_res.addr = devm_ioremap_resource(&pdev->dev, res);
-   157		if (stmmac_res.addr < 0) {
-   158			dev_err(&pdev->dev, "resource map failed.\n");
- > 159			return stmmac_res.addr;
-   160		}
-   161		stmmac_res.irq = platform_get_irq(pdev, 0);
-   162		if (stmmac_res.irq < 0) {
-   163			dev_err(&pdev->dev, "IRQ not found.\n");
-   164			return -ENXIO;
-   165		}
-   166		stmmac_res.wol_irq = stmmac_res.irq;
-   167		stmmac_res.lpi_irq = -1;
-   168	
-   169		return  stmmac_dvr_probe(&pdev->dev, plat, &stmmac_res);
-   170	}
-   171	
- > 172	int phytium_dwmac_remove(struct platform_device *pdev)
-   173	{
-   174		int ret;
-   175		struct net_device *ndev = platform_get_drvdata(pdev);
-   176		struct stmmac_priv *priv = netdev_priv(ndev);
-   177		struct plat_stmmacenet_data *plat = priv->plat;
-   178	
-   179		ret = stmmac_pltfr_remove(pdev);
-   180		clk_unregister_fixed_rate(plat->stmmac_clk);
-   181		return ret;
-   182	}
-   183	
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  178  
+ee9f8fce996408 Josh Poimboeuf 2017-07-24 @179  static void orc_sort_swap(void *_a, void *_b, int size)
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  180  {
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  181  	struct orc_entry *orc_a, *orc_b;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  182  	struct orc_entry orc_tmp;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  183  	int *a = _a, *b = _b, tmp;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  184  	int delta = _b - _a;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  185  
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  186  	/* Swap the .orc_unwind_ip entries: */
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  187  	tmp = *a;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  188  	*a = *b + delta;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  189  	*b = tmp - delta;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  190  
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  191  	/* Swap the corresponding .orc_unwind entries: */
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  192  	orc_a = cur_orc_table + (a - cur_orc_ip_table);
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  193  	orc_b = cur_orc_table + (b - cur_orc_ip_table);
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  194  	orc_tmp = *orc_a;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  195  	*orc_a = *orc_b;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  196  	*orc_b = orc_tmp;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  197  }
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  198  
+ee9f8fce996408 Josh Poimboeuf 2017-07-24 @199  static int orc_sort_cmp(const void *_a, const void *_b)
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  200  {
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  201  	struct orc_entry *orc_a;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  202  	const int *a = _a, *b = _b;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  203  	unsigned long a_val = orc_ip(a);
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  204  	unsigned long b_val = orc_ip(b);
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  205  
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  206  	if (a_val > b_val)
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  207  		return 1;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  208  	if (a_val < b_val)
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  209  		return -1;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  210  
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  211  	/*
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  212  	 * The "weak" section terminator entries need to always be on the left
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  213  	 * to ensure the lookup code skips them in favor of real entries.
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  214  	 * These terminator entries exist to handle any gaps created by
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  215  	 * whitelisted .o files which didn't get objtool generation.
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  216  	 */
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  217  	orc_a = cur_orc_table + (a - cur_orc_ip_table);
+d31a580266eeb1 Josh Poimboeuf 2018-05-18  218  	return orc_a->sp_reg == ORC_REG_UNDEFINED && !orc_a->end ? -1 : 1;
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  219  }
+ee9f8fce996408 Josh Poimboeuf 2017-07-24  220  
+
+:::::: The code at line 199 was first introduced by commit
+:::::: ee9f8fce99640811b2b8e79d0d1dbe8bab69ba67 x86/unwind: Add the ORC unwinder
+
+:::::: TO: Josh Poimboeuf <jpoimboe@redhat.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
