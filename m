@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8222C681
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 23:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1312943B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 23:38:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U36A/ZdR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YPquZ/P4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705274899; x=1736810899;
+  t=1705275499; x=1736811499;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C8C6b4MvxiaWW5VbOKg5vdZEFz2a+tnPKC9toja5d8A=;
-  b=U36A/ZdRKx1Lyu5z+PlqU7G7SX9+5Vf/4oMFdS7qontWdZl4szIxzyCM
-   VZVNYQ0j+urJp/IJA1LMetvWy0YS7oBzwLg23d56V7/0QAy8ZY5zDuAzi
-   k1RCLdxzycNJD6Nu2QBvX7q0DQM9/guvPDvqfjC0EJeTMGW1yYRChzfXr
-   o34Q8oDfY+Wx7BJI5TUApyQbZEEn0XCswYKcKvRLPlvaGX2P4xff/HL+p
-   Uiip7JWzCYKz1iBKRQ4jeYza7iXrffMe7C99XZkZ3FlrfDV6PtzZFjewt
-   9sCVgyA8cJ6W3chfRE9xHfW/bQgh/wJok6yep05IpKDP+4gD8ihk4qvey
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="18101097"
+  bh=RIyTNdcyw0CL7u+5FV6QkJLE1fCnO7yaxxec8vIGgdA=;
+  b=YPquZ/P40NJaSc5u5jQcJLQbKxJ8ID9jJXPjR9Pndo9QE7LQstFTfu6G
+   LOvU/LmsTNW4NxiWiLJUrdIm9jXpA1/oHvXtRiJcQwJ5v3EzzyOUCy5QN
+   jh/1a3F2aLohIHF2l4QA0muu1T0m8qn/FKO6DU/VRyp1KbdUqZyQO8scI
+   IwMNtNXMmha9HyBlmuMCNLy/AqdkXYvNifWIA6+1pcIn+syqroBYQAu7c
+   jOXaPzEV/CsO9UJbuftUt9vqNb64sVoNeM5jpyqVoXcvpg41yU2/WqvHC
+   vo9Z4MG17hACdt0IimdSh/2/zGI59wfvR4DFQLnFiRLoX+KNn6Wo/KavZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6252665"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="18101097"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 15:28:18 -0800
+   d="scan'208";a="6252665"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 15:38:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="956664783"
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="1114758641"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="956664783"
+   d="scan'208";a="1114758641"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Jan 2024 15:28:17 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 14 Jan 2024 15:38:17 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rP9tn-000BvF-0C;
-	Sun, 14 Jan 2024 23:28:15 +0000
-Date: Mon, 15 Jan 2024 07:27:38 +0800
+	id 1rPA3T-000Bvu-1Q;
+	Sun, 14 Jan 2024 23:38:15 +0000
+Date: Mon, 15 Jan 2024 07:38:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 20229/30000]
- drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:589:58: warning: '%s'
- directive output may be truncated writing up to 119 bytes into a region of
- size 32
-Message-ID: <202401150738.19Xs4gEF-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 18113/21544]
+ drivers/iommu/arm-smmu-v3.c:4355:5: warning: no previous prototype for
+ 'arm_smmu_set_dev_user_mpam_en'
+Message-ID: <202401150754.d2iI1vG3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,70 +51,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   6d9d4951bf741189c66627715d5ae8a8cf1df85f
-commit: 3aa7f186a0ff2a5f104a5a4604c9e524aab0ea32 [20229/30000] net: hns3: add support for queue bonding mode of flow director
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240115/202401150738.19Xs4gEF-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   1f0983450549eeea71fb9333517330947a779262
+commit: 129938f5dfc8b2d8aaaeda0c565d57076bf5c1cc [18113/21544] iommu/arm-smmu-v3: Add support to enable/disable SMMU user_mpam_en
+config: arm64-randconfig-001-20240112 (https://download.01.org/0day-ci/archive/20240115/202401150754.d2iI1vG3-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150738.19Xs4gEF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150754.d2iI1vG3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401150738.19Xs4gEF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401150754.d2iI1vG3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c: In function 'hns3_get_strings':
->> drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:589:58: warning: '%s' directive output may be truncated writing up to 119 bytes into a region of size 32 [-Wformat-truncation=]
-     589 |                         snprintf(buff, ETH_GSTRING_LEN, "%s",
-         |                                                          ^~
-   drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:589:25: note: 'snprintf' output between 1 and 120 bytes into a destination of size 32
-     589 |                         snprintf(buff, ETH_GSTRING_LEN, "%s",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     590 |                                  hns3_priv_flags[i].name);
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:4299:5: warning: no previous prototype for 'arm_smmu_set_dev_mpam' [-Wmissing-prototypes]
+    4299 | int arm_smmu_set_dev_mpam(struct device *dev, int ssid, int partid, int pmg,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:4341:5: warning: no previous prototype for 'arm_smmu_get_dev_mpam' [-Wmissing-prototypes]
+    4341 | int arm_smmu_get_dev_mpam(struct device *dev, int ssid, int *partid, int *pmg,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/arm-smmu-v3.c:4355:5: warning: no previous prototype for 'arm_smmu_set_dev_user_mpam_en' [-Wmissing-prototypes]
+    4355 | int arm_smmu_set_dev_user_mpam_en(struct device *dev, int user_mpam_en)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/arm-smmu-v3.c:4373:5: warning: no previous prototype for 'arm_smmu_get_dev_user_mpam_en' [-Wmissing-prototypes]
+    4373 | int arm_smmu_get_dev_user_mpam_en(struct device *dev, int *user_mpam_en)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 'dev' not described in 'arm_smmu_set_dev_mpam'
+   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 'ssid' not described in 'arm_smmu_set_dev_mpam'
+   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 'partid' not described in 'arm_smmu_set_dev_mpam'
+   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 'pmg' not described in 'arm_smmu_set_dev_mpam'
+   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 's1mpam' not described in 'arm_smmu_set_dev_mpam'
+   drivers/iommu/arm-smmu-v3.c:4343: warning: Function parameter or member 'ssid' not described in 'arm_smmu_get_dev_mpam'
+   drivers/iommu/arm-smmu-v3.c:4343: warning: Function parameter or member 'partid' not described in 'arm_smmu_get_dev_mpam'
+   drivers/iommu/arm-smmu-v3.c:4343: warning: Function parameter or member 'pmg' not described in 'arm_smmu_get_dev_mpam'
+   drivers/iommu/arm-smmu-v3.c:4343: warning: Function parameter or member 's1mpam' not described in 'arm_smmu_get_dev_mpam'
+>> drivers/iommu/arm-smmu-v3.c:4356: warning: Function parameter or member 'dev' not described in 'arm_smmu_set_dev_user_mpam_en'
+>> drivers/iommu/arm-smmu-v3.c:4356: warning: Function parameter or member 'user_mpam_en' not described in 'arm_smmu_set_dev_user_mpam_en'
+>> drivers/iommu/arm-smmu-v3.c:4374: warning: Function parameter or member 'dev' not described in 'arm_smmu_get_dev_user_mpam_en'
+>> drivers/iommu/arm-smmu-v3.c:4374: warning: Function parameter or member 'user_mpam_en' not described in 'arm_smmu_get_dev_user_mpam_en'
 
 
-vim +589 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c
+vim +/arm_smmu_set_dev_user_mpam_en +4355 drivers/iommu/arm-smmu-v3.c
 
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  568  
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  569  static void hns3_get_strings(struct net_device *netdev, u32 stringset, u8 *data)
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  570  {
-9780cb97afd868 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Yunsheng Lin 2017-10-09  571  	struct hnae3_handle *h = hns3_get_handle(netdev);
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  572  	const struct hnae3_ae_ops *ops = h->ae_algo->ops;
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  573  	char *buff = (char *)data;
-35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  574  	int i;
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  575  
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  576  	if (!ops->get_strings)
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  577  		return;
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  578  
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  579  	switch (stringset) {
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  580  	case ETH_SS_STATS:
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  581  		buff = hns3_get_strings_tqps(h, buff);
-63cbf7a9414291 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Yufeng Mo    2019-06-07  582  		ops->get_strings(h, stringset, (u8 *)buff);
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  583  		break;
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  584  	case ETH_SS_TEST:
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  585  		ops->get_strings(h, stringset, data);
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  586  		break;
-35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  587  	case ETH_SS_PRIV_FLAGS:
-35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  588  		for (i = 0; i < HNS3_PRIV_FLAGS_LEN; i++) {
-35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16 @589  			snprintf(buff, ETH_GSTRING_LEN, "%s",
-35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  590  				 hns3_priv_flags[i].name);
-35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  591  			buff += ETH_GSTRING_LEN;
-35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  592  		}
-35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  593  		break;
-fa7a4bd564ccca drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2018-09-21  594  	default:
-fa7a4bd564ccca drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2018-09-21  595  		break;
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  596  	}
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  597  }
-496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  598  
-
-:::::: The code at line 589 was first introduced by commit
-:::::: 35e7064dbeed0431575404e80c1c0dcb5a922fb9 net: hns3: add priv flags support to switch limit promisc mode
-
-:::::: TO: Jian Shen <shenjian15@huawei.com>
-:::::: CC: Zheng Zengkai <zhengzengkai@huawei.com>
+  4351	
+  4352	/**
+  4353	 * arm_smmu_set_dev_user_mpam_en() - set user_mpam_en to smmu user cfg0
+  4354	 */
+> 4355	int arm_smmu_set_dev_user_mpam_en(struct device *dev, int user_mpam_en)
+> 4356	{
+  4357		struct arm_smmu_master_data *master = dev->iommu_fwspec->iommu_priv;
+  4358		struct arm_smmu_device *smmu = master->domain->smmu;
+  4359		u32 reg, __iomem *cfg = smmu->base + ARM_SMMU_USER_CFG0;
+  4360	
+  4361		reg = readl_relaxed(cfg);
+  4362		reg &= ~ARM_SMMU_USER_MPAM_EN;
+  4363		reg |= FIELD_PREP(ARM_SMMU_USER_MPAM_EN, user_mpam_en);
+  4364		writel_relaxed(reg, cfg);
+  4365	
+  4366		return 0;
+  4367	}
+  4368	EXPORT_SYMBOL(arm_smmu_set_dev_user_mpam_en);
+  4369	
+  4370	/**
+  4371	 * arm_smmu_get_dev_user_mpam_en() - get user_mpam_en from smmu user cfg0
+  4372	 */
+> 4373	int arm_smmu_get_dev_user_mpam_en(struct device *dev, int *user_mpam_en)
+> 4374	{
+  4375		struct arm_smmu_master_data *master = dev->iommu_fwspec->iommu_priv;
+  4376		struct arm_smmu_device *smmu = master->domain->smmu;
+  4377		u32 reg, __iomem *cfg = smmu->base + ARM_SMMU_USER_CFG0;
+  4378	
+  4379		reg = readl_relaxed(cfg);
+  4380		*user_mpam_en = FIELD_GET(ARM_SMMU_USER_MPAM_EN, reg);
+  4381	
+  4382		return 0;
+  4383	}
+  4384	EXPORT_SYMBOL(arm_smmu_get_dev_user_mpam_en);
+  4385	
 
 -- 
 0-DAY CI Kernel Test Service
