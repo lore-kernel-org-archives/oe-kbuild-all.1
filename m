@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1312943B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 23:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8C52C1A4;
+	Sun, 14 Jan 2024 23:38:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YPquZ/P4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h35U55ok"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1705275499; x=1736811499;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RIyTNdcyw0CL7u+5FV6QkJLE1fCnO7yaxxec8vIGgdA=;
-  b=YPquZ/P40NJaSc5u5jQcJLQbKxJ8ID9jJXPjR9Pndo9QE7LQstFTfu6G
-   LOvU/LmsTNW4NxiWiLJUrdIm9jXpA1/oHvXtRiJcQwJ5v3EzzyOUCy5QN
-   jh/1a3F2aLohIHF2l4QA0muu1T0m8qn/FKO6DU/VRyp1KbdUqZyQO8scI
-   IwMNtNXMmha9HyBlmuMCNLy/AqdkXYvNifWIA6+1pcIn+syqroBYQAu7c
-   jOXaPzEV/CsO9UJbuftUt9vqNb64sVoNeM5jpyqVoXcvpg41yU2/WqvHC
-   vo9Z4MG17hACdt0IimdSh/2/zGI59wfvR4DFQLnFiRLoX+KNn6Wo/KavZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6252665"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X5yqbSnE/WUDsZXtY4+3D4G94Ta+8acvu1Eq/NS7K88=;
+  b=h35U55okSKi0VsDmocKpXLXMHGCjBp+ef69qoDTSLTu4cCT4Bczkp34f
+   M7al9kfUL05rXP8+4rMXVQgD1WbCrhvY2QgH+akxiKQyJ+0gt42gvo79P
+   QiuVSCVP8wkP8R+O6qC8mieB6vmpeOV1dPqAEAzKelPMZ8q2SXk551n2U
+   MYHE3w1r3MF66cd0/RDtzgVYnEMhc1IIxedW6voItVZfd/JDvmrahfYAN
+   fPbuMa6Vkq5zYsVAf5kLpst87JHgH9ejB6tM6h9QS1v0EPHx4y/vRxKuA
+   tmWVC/C4oCOQtfaGBUjQXxYSlQWarpvZaCEKcDDT+sl3fYjmfcay3sm1t
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="463780955"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="6252665"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 15:38:18 -0800
+   d="scan'208";a="463780955"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 15:38:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="1114758641"
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="783634360"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="1114758641"
+   d="scan'208";a="783634360"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 14 Jan 2024 15:38:17 -0800
+  by orsmga002.jf.intel.com with ESMTP; 14 Jan 2024 15:38:17 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPA3T-000Bvu-1Q;
+	id 1rPA3T-000Bvs-1J;
 	Sun, 14 Jan 2024 23:38:15 +0000
-Date: Mon, 15 Jan 2024 07:38:04 +0800
+Date: Mon, 15 Jan 2024 07:38:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18113/21544]
- drivers/iommu/arm-smmu-v3.c:4355:5: warning: no previous prototype for
- 'arm_smmu_set_dev_user_mpam_en'
-Message-ID: <202401150754.d2iI1vG3-lkp@intel.com>
+To: alison.schofield@intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] cxl/region: Allow out of order assembly of
+ autodiscovered regions
+Message-ID: <202401150741.uj6rLfNF-lkp@intel.com>
+References: <20240113050421.1622533-1-alison.schofield@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,85 +51,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240113050421.1622533-1-alison.schofield@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   1f0983450549eeea71fb9333517330947a779262
-commit: 129938f5dfc8b2d8aaaeda0c565d57076bf5c1cc [18113/21544] iommu/arm-smmu-v3: Add support to enable/disable SMMU user_mpam_en
-config: arm64-randconfig-001-20240112 (https://download.01.org/0day-ci/archive/20240115/202401150754.d2iI1vG3-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150754.d2iI1vG3-lkp@intel.com/reproduce)
+Hi,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3601311593eb44d34f142b993cb6f38f9a7863b3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alison-schofield-intel-com/cxl-region-Allow-out-of-order-assembly-of-autodiscovered-regions/20240113-130553
+base:   3601311593eb44d34f142b993cb6f38f9a7863b3
+patch link:    https://lore.kernel.org/r/20240113050421.1622533-1-alison.schofield%40intel.com
+patch subject: [RFC PATCH] cxl/region: Allow out of order assembly of autodiscovered regions
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240115/202401150741.uj6rLfNF-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150741.uj6rLfNF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401150754.d2iI1vG3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401150741.uj6rLfNF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iommu/arm-smmu-v3.c:4299:5: warning: no previous prototype for 'arm_smmu_set_dev_mpam' [-Wmissing-prototypes]
-    4299 | int arm_smmu_set_dev_mpam(struct device *dev, int ssid, int partid, int pmg,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c:4341:5: warning: no previous prototype for 'arm_smmu_get_dev_mpam' [-Wmissing-prototypes]
-    4341 | int arm_smmu_get_dev_mpam(struct device *dev, int ssid, int *partid, int *pmg,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu-v3.c:4355:5: warning: no previous prototype for 'arm_smmu_set_dev_user_mpam_en' [-Wmissing-prototypes]
-    4355 | int arm_smmu_set_dev_user_mpam_en(struct device *dev, int user_mpam_en)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/arm-smmu-v3.c:4373:5: warning: no previous prototype for 'arm_smmu_get_dev_user_mpam_en' [-Wmissing-prototypes]
-    4373 | int arm_smmu_get_dev_user_mpam_en(struct device *dev, int *user_mpam_en)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 'dev' not described in 'arm_smmu_set_dev_mpam'
-   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 'ssid' not described in 'arm_smmu_set_dev_mpam'
-   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 'partid' not described in 'arm_smmu_set_dev_mpam'
-   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 'pmg' not described in 'arm_smmu_set_dev_mpam'
-   drivers/iommu/arm-smmu-v3.c:4301: warning: Function parameter or member 's1mpam' not described in 'arm_smmu_set_dev_mpam'
-   drivers/iommu/arm-smmu-v3.c:4343: warning: Function parameter or member 'ssid' not described in 'arm_smmu_get_dev_mpam'
-   drivers/iommu/arm-smmu-v3.c:4343: warning: Function parameter or member 'partid' not described in 'arm_smmu_get_dev_mpam'
-   drivers/iommu/arm-smmu-v3.c:4343: warning: Function parameter or member 'pmg' not described in 'arm_smmu_get_dev_mpam'
-   drivers/iommu/arm-smmu-v3.c:4343: warning: Function parameter or member 's1mpam' not described in 'arm_smmu_get_dev_mpam'
->> drivers/iommu/arm-smmu-v3.c:4356: warning: Function parameter or member 'dev' not described in 'arm_smmu_set_dev_user_mpam_en'
->> drivers/iommu/arm-smmu-v3.c:4356: warning: Function parameter or member 'user_mpam_en' not described in 'arm_smmu_set_dev_user_mpam_en'
->> drivers/iommu/arm-smmu-v3.c:4374: warning: Function parameter or member 'dev' not described in 'arm_smmu_get_dev_user_mpam_en'
->> drivers/iommu/arm-smmu-v3.c:4374: warning: Function parameter or member 'user_mpam_en' not described in 'arm_smmu_get_dev_user_mpam_en'
+>> drivers/cxl/core/region.c:756:6: warning: no previous prototype for function 'auto_order_ok' [-Wmissing-prototypes]
+     756 | bool auto_order_ok(struct cxl_port *port, struct cxl_region *cxlr_a,
+         |      ^
+   drivers/cxl/core/region.c:756:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     756 | bool auto_order_ok(struct cxl_port *port, struct cxl_region *cxlr_a,
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/arm_smmu_set_dev_user_mpam_en +4355 drivers/iommu/arm-smmu-v3.c
+vim +/auto_order_ok +756 drivers/cxl/core/region.c
 
-  4351	
-  4352	/**
-  4353	 * arm_smmu_set_dev_user_mpam_en() - set user_mpam_en to smmu user cfg0
-  4354	 */
-> 4355	int arm_smmu_set_dev_user_mpam_en(struct device *dev, int user_mpam_en)
-> 4356	{
-  4357		struct arm_smmu_master_data *master = dev->iommu_fwspec->iommu_priv;
-  4358		struct arm_smmu_device *smmu = master->domain->smmu;
-  4359		u32 reg, __iomem *cfg = smmu->base + ARM_SMMU_USER_CFG0;
-  4360	
-  4361		reg = readl_relaxed(cfg);
-  4362		reg &= ~ARM_SMMU_USER_MPAM_EN;
-  4363		reg |= FIELD_PREP(ARM_SMMU_USER_MPAM_EN, user_mpam_en);
-  4364		writel_relaxed(reg, cfg);
-  4365	
-  4366		return 0;
-  4367	}
-  4368	EXPORT_SYMBOL(arm_smmu_set_dev_user_mpam_en);
-  4369	
-  4370	/**
-  4371	 * arm_smmu_get_dev_user_mpam_en() - get user_mpam_en from smmu user cfg0
-  4372	 */
-> 4373	int arm_smmu_get_dev_user_mpam_en(struct device *dev, int *user_mpam_en)
-> 4374	{
-  4375		struct arm_smmu_master_data *master = dev->iommu_fwspec->iommu_priv;
-  4376		struct arm_smmu_device *smmu = master->domain->smmu;
-  4377		u32 reg, __iomem *cfg = smmu->base + ARM_SMMU_USER_CFG0;
-  4378	
-  4379		reg = readl_relaxed(cfg);
-  4380		*user_mpam_en = FIELD_GET(ARM_SMMU_USER_MPAM_EN, reg);
-  4381	
-  4382		return 0;
-  4383	}
-  4384	EXPORT_SYMBOL(arm_smmu_get_dev_user_mpam_en);
-  4385	
+   755	
+ > 756	bool auto_order_ok(struct cxl_port *port, struct cxl_region *cxlr_a,
+   757			   struct cxl_region *cxlr_b)
+   758	{
+   759		struct cxl_region_ref *cxl_rr;
+   760		struct cxl_decoder *cxld_a, *cxld_b;
+   761	
+   762		/*
+   763		 * Allow the out of order assembly of auto-discovered regions as
+   764		 * long as correct decoder programming order can be verified.
+   765		 *
+   766		 * Per CXL Spec 3.1 8.2.4.20.12 Committing Decoder Programming,
+   767		 * software must commit decoders in HPA order. Therefore it is
+   768		 * sufficient to sanity check that the lowered number decoder
+   769		 * has the lower HPA starting address.
+   770		 */
+   771		if (!test_bit(CXL_REGION_F_AUTO, &cxlr_a->flags))
+   772			return false;
+   773	
+   774		cxld_a = cxl_region_find_decoder(port, cxlr_a);
+   775		cxl_rr = cxl_rr_load(port, cxlr_b);
+   776		cxld_b = cxl_rr->decoder;
+   777	
+   778		if (cxld_b->id > cxld_a->id) {
+   779			dev_dbg(&cxlr_a->dev,
+   780				"allow out of order region ref alloc\n");
+   781			return true;
+   782		}
+   783	
+   784		return false;
+   785	}
+   786	
 
 -- 
 0-DAY CI Kernel Test Service
