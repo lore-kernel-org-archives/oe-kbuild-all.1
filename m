@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D48C1097D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 21:04:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A4A1A27D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 22:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVvWPUIa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqQlo+ga"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705266299; x=1736802299;
+  t=1705271150; x=1736807150;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bnldWYHLDtzGlXCbYp1zmIjqaidgkFbiQA7mW+A1a1o=;
-  b=EVvWPUIar3rLmRbs4wr0oFXdBfaVNOtNOGf7nIJC6YnqolEtd0lhdkSV
-   v3MehyICgh8td5udlONytRkZMC+hTFKRcXhhUnee6CZb+DKc7cGCswNOa
-   YKOsk0FciAxjNuELpI7T7ZN2wG29XKpWWBu3IHngrrH2ENzXV9IButHCq
-   bEqaRUh+AmoWdd6Xz0EwfijO9OjL3Q6KmAFrK9RtuvXOFvF1HnhxQAMvE
-   yIcuXncnLCuaanp7x450cPY1JLZQ/o0uWRLm0FRoZqGdn8ktxTRZQe5hz
-   ThO+1SJMJTmWBhYX792sqO9GZBNTfy4SJjUH6TKBMZoFnXLkPUKSQ00Dk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6859560"
+  bh=EY/5tEsd72MPhSsMUeIk31z7C3USkNnadaouy7F6oVo=;
+  b=jqQlo+gaCkY2MzsgXMJoZsSpOD3p14AeuUQqAcI88Yqkh2/QH4L8C1qN
+   0g51nPb+LqS4ScoMKcT3mMVxvrnb/vXP9Ml9JdRLxKD4w0VFASMAoNYNq
+   qERNh+nu6HoMVPg432v7gjMhuJnGkTXZ5blA2iW4PEi6BlNWsO2ws9/No
+   f+ydymMXeLg4ol7Oe7frC2sqJxLXu2kKRz87ZgIk8RxSxyJo06sxdjBFA
+   T+xER+LOpiCK92D7JXLiHbQekje5aBwhTUuksHNgzrNGj2AILvanW74iD
+   2cCftOdE53WMhznDpjAoZDSOaQ8dP+FSiO4pMkxI9Paam8AXVwEFv6744
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="18097620"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="6859560"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 13:04:59 -0800
+   d="scan'208";a="18097620"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 14:25:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="956646221"
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="1114749662"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="956646221"
+   d="scan'208";a="1114749662"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Jan 2024 13:04:57 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 14 Jan 2024 14:25:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rP7di-000BqK-26;
-	Sun, 14 Jan 2024 21:04:41 +0000
-Date: Mon, 15 Jan 2024 05:02:20 +0800
+	id 1rP8vK-000Bsi-1T;
+	Sun, 14 Jan 2024 22:25:46 +0000
+Date: Mon, 15 Jan 2024 06:25:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18192/21544] mm/memory.c:1546:24:
- error: implicit declaration of function 'hugetlb_insert_hugepage_pte_by_pa';
- did you mean 'hugetlb_insert__hugepage_pte_by_pa'?
-Message-ID: <202401150459.fFshvuVQ-lkp@intel.com>
+To: Jiawen Wu <jiawenwu@trustnetic.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:433:undefined
+ reference to `phylink_disconnect_phy'
+Message-ID: <202401150644.ZJlVhPCe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,79 +50,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   1f0983450549eeea71fb9333517330947a779262
-commit: 18f49509eef01d1ee6ed81899298994f2f88dd2a [18192/21544] ascend: share_pool: Use remap_pfn_range to share kva to uva
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240115/202401150459.fFshvuVQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150459.fFshvuVQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
+commit: 883b5984a5d2900468af5ab979cae90547a78da4 net: wangxun: add ethtool_ops for ring parameters
+date:   11 days ago
+config: s390-randconfig-r032-20230101 (https://download.01.org/0day-ci/archive/20240115/202401150644.ZJlVhPCe-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150644.ZJlVhPCe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401150459.fFshvuVQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401150644.ZJlVhPCe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'vm_insert_page':
->> mm/memory.c:1546:24: error: implicit declaration of function 'hugetlb_insert_hugepage_pte_by_pa'; did you mean 'hugetlb_insert__hugepage_pte_by_pa'? [-Werror=implicit-function-declaration]
-    1546 |                 return hugetlb_insert_hugepage_pte_by_pa(vma->vm_mm, addr,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        hugetlb_insert__hugepage_pte_by_pa
-   cc1: some warnings being treated as errors
+   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_nway_reset':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:193:(.text+0x76e): undefined reference to `phylink_ethtool_nway_reset'
+   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_link_ksettings':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:202:(.text+0x7b6): undefined reference to `phylink_ethtool_ksettings_get'
+   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_link_ksettings':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:211:(.text+0x7fe): undefined reference to `phylink_ethtool_ksettings_set'
+   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_pauseparam':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:220:(.text+0x846): undefined reference to `phylink_ethtool_get_pauseparam'
+   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_pauseparam':
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:229:(.text+0x88e): undefined reference to `phylink_ethtool_set_pauseparam'
+   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_remove':
+   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:714:(.text+0x432): undefined reference to `phylink_destroy'
+   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_probe':
+   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:684:(.text+0xd04): undefined reference to `phylink_destroy'
+   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_down':
+   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:339:(.text+0xe18): undefined reference to `phylink_stop'
+   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_close':
+>> drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:433:(.text+0x1090): undefined reference to `phylink_disconnect_phy'
+   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_up':
+   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:362:(.text+0x1368): undefined reference to `phylink_start'
+   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_open':
+   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:391:(.text+0x14e2): undefined reference to `phylink_connect_phy'
+   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:407:(.text+0x16ce): undefined reference to `phylink_disconnect_phy'
+   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.o: in function `ngbe_mdio_init':
+   drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.c:130:(.text+0x5e2): undefined reference to `phylink_create'
 
 
-vim +1546 mm/memory.c
+vim +433 drivers/net/ethernet/wangxun/ngbe/ngbe_main.c
 
-  1504	
-  1505	/**
-  1506	 * vm_insert_page - insert single page into user vma
-  1507	 * @vma: user vma to map to
-  1508	 * @addr: target user address of this page
-  1509	 * @page: source kernel page
-  1510	 *
-  1511	 * This allows drivers to insert individual pages they've allocated
-  1512	 * into a user vma.
-  1513	 *
-  1514	 * The page has to be a nice clean _individual_ kernel allocation.
-  1515	 * If you allocate a compound page, you need to have marked it as
-  1516	 * such (__GFP_COMP), or manually just split the page up yourself
-  1517	 * (see split_page()).
-  1518	 *
-  1519	 * NOTE! Traditionally this was done with "remap_pfn_range()" which
-  1520	 * took an arbitrary page protection parameter. This doesn't allow
-  1521	 * that. Your vma protection will have to be set up correctly, which
-  1522	 * means that if you want a shared writable mapping, you'd better
-  1523	 * ask for a shared writable mapping!
-  1524	 *
-  1525	 * The page does not need to be reserved.
-  1526	 *
-  1527	 * Usually this function is called from f_op->mmap() handler
-  1528	 * under mm->mmap_sem write-lock, so it can change vma->vm_flags.
-  1529	 * Caller must set VM_MIXEDMAP on vma if it wants to call this
-  1530	 * function from other places, for example from page-fault handler.
-  1531	 */
-  1532	int vm_insert_page(struct vm_area_struct *vma, unsigned long addr,
-  1533				struct page *page)
-  1534	{
-  1535		if (addr < vma->vm_start || addr >= vma->vm_end)
-  1536			return -EFAULT;
-  1537		if (!page_count(page))
-  1538			return -EINVAL;
-  1539		if (!(vma->vm_flags & VM_MIXEDMAP)) {
-  1540			BUG_ON(down_read_trylock(&vma->vm_mm->mmap_sem));
-  1541			BUG_ON(vma->vm_flags & VM_PFNMAP);
-  1542			vma->vm_flags |= VM_MIXEDMAP;
-  1543		}
-  1544	
-  1545		if (sp_check_hugepage(page))
-> 1546			return hugetlb_insert_hugepage_pte_by_pa(vma->vm_mm, addr,
-  1547						vma->vm_page_prot, page_to_phys(page));
-  1548		else
-  1549			return insert_page(vma, addr, page, vma->vm_page_prot);
-  1550	}
-  1551	EXPORT_SYMBOL(vm_insert_page);
-  1552	
+02338c484ab625 Mengyuan Lou 2022-10-31  414  
+02338c484ab625 Mengyuan Lou 2022-10-31  415  /**
+02338c484ab625 Mengyuan Lou 2022-10-31  416   * ngbe_close - Disables a network interface
+02338c484ab625 Mengyuan Lou 2022-10-31  417   * @netdev: network interface device structure
+02338c484ab625 Mengyuan Lou 2022-10-31  418   *
+02338c484ab625 Mengyuan Lou 2022-10-31  419   * Returns 0, this is not allowed to fail
+02338c484ab625 Mengyuan Lou 2022-10-31  420   *
+02338c484ab625 Mengyuan Lou 2022-10-31  421   * The close entry point is called when an interface is de-activated
+02338c484ab625 Mengyuan Lou 2022-10-31  422   * by the OS.  The hardware is still under the drivers control, but
+02338c484ab625 Mengyuan Lou 2022-10-31  423   * needs to be disabled.  A global MAC reset is issued to stop the
+02338c484ab625 Mengyuan Lou 2022-10-31  424   * hardware, and all transmit and receive resources are freed.
+02338c484ab625 Mengyuan Lou 2022-10-31  425   **/
+02338c484ab625 Mengyuan Lou 2022-10-31  426  static int ngbe_close(struct net_device *netdev)
+02338c484ab625 Mengyuan Lou 2022-10-31  427  {
+803df55d32eafb Mengyuan Lou 2023-01-06  428  	struct wx *wx = netdev_priv(netdev);
+02338c484ab625 Mengyuan Lou 2022-10-31  429  
+803df55d32eafb Mengyuan Lou 2023-01-06  430  	ngbe_down(wx);
+e7956139a6cf9a Mengyuan Lou 2023-02-03  431  	wx_free_irq(wx);
+b97f955ec47b49 Mengyuan Lou 2023-02-03  432  	wx_free_resources(wx);
+bc2426d74aa35c Jiawen Wu    2024-01-03 @433  	phylink_disconnect_phy(wx->phylink);
+803df55d32eafb Mengyuan Lou 2023-01-06  434  	wx_control_hw(wx, false);
+02338c484ab625 Mengyuan Lou 2022-10-31  435  
+02338c484ab625 Mengyuan Lou 2022-10-31  436  	return 0;
+02338c484ab625 Mengyuan Lou 2022-10-31  437  }
+02338c484ab625 Mengyuan Lou 2022-10-31  438  
+
+:::::: The code at line 433 was first introduced by commit
+:::::: bc2426d74aa35cd8ec9c97a253ef57c2c5cd730c net: ngbe: convert phylib to phylink
+
+:::::: TO: Jiawen Wu <jiawenwu@trustnetic.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
