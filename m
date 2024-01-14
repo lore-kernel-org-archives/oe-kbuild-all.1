@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EA410F1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 02:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D8F1845;
+	Sun, 14 Jan 2024 03:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhnUDW1w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTU/9gDH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705201171; x=1736737171;
+  t=1705202491; x=1736738491;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r0HURhWCvZPblGXSVB0Zz+wbbsEEkCWKa57k4tOfoDc=;
-  b=OhnUDW1wo4cF2hq4KmIPcGQuNWYnSNqQC61Epd4UfwWWaepbCvqGqAky
-   5l4FKXKt8nft3wMWdlkEbg2QzvkmoC/ojJzrdi/eZaOrmR78oYsHsLQZ1
-   lLwo99CbcXzxCLseCsCWObvAhlQgcgeFRWiP+n/0j/5VOU4LeLKxv1Rj/
-   4qatceVRTdRf8EpixbPX6egWVNEY1VXpJLqAjlxfNsn/fcqD96vkL4q2q
-   15BErIO5lazsF2VgGZxQ3OutqQ38l6uvw6EJU8oyiO8OstAQUw5oxNU9D
-   ch7CJQoPwJHIiK+5Q/Q8cvJPXzgXsx5qEBuiBcJOwnryumnbCUyHv3Vzk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="20906263"
+  bh=dXDD8oPvjiwGvhH7U/KlYHnlAJDHV4588ItGjtMOvag=;
+  b=JTU/9gDH1/WUy4um0Jeu3kUNxy5x/TtvLyjCnf5VXDvHKyO/mjKL5Es+
+   N1agAeTcGL+nAvCG+nTNNf86ZN5dS1MtVm1g0SUJPVDAQXTdL5lSXWcu3
+   ksskQF6y5PnloS5QYB6JYWP+nUeFv7hF+X5jG/wlRP099RyO/OA3pk+t2
+   Tez2wL/L3BHMTepgHi3AucMDrh5YsmRtalXp2GhSQbzxrgQIiGZQcZ8Sv
+   qdRgyBoL3Awo1h+C9xoSLW/W6Hl0vH4baao1jEekvqqwREfJUqpKHtb24
+   iW8nsAFRKatZygs+Bme7hFg48FF0l86mOUYcNUxXzSfV5tQ6a6gaOUIxK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="6795800"
 X-IronPort-AV: E=Sophos;i="6.04,193,1695711600"; 
-   d="scan'208";a="20906263"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 18:59:30 -0800
+   d="scan'208";a="6795800"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 19:21:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="817480135"
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="956484270"
 X-IronPort-AV: E=Sophos;i="6.04,193,1695711600"; 
-   d="scan'208";a="817480135"
+   d="scan'208";a="956484270"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 13 Jan 2024 18:59:28 -0800
+  by orsmga005.jf.intel.com with ESMTP; 13 Jan 2024 19:21:28 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOqic-000B8i-0G;
-	Sun, 14 Jan 2024 02:59:26 +0000
-Date: Sun, 14 Jan 2024 10:58:42 +0800
+	id 1rOr3u-000B9I-1R;
+	Sun, 14 Jan 2024 03:21:26 +0000
+Date: Sun, 14 Jan 2024 11:20:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiawen Wu <jiawenwu@trustnetic.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Subject: wx_ethtool.c:undefined reference to `phylink_ethtool_get_pauseparam'
-Message-ID: <202401141033.L4W51adl-lkp@intel.com>
+To: Steve Jeong <how2soft@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Dongjin Kim <tobetter@gmail.com>, linux-doc@vger.kernel.org
+Subject: [tobetter:odroid-6.1.y 1/84] drivers/char/rk3568-gpiomem.c:2:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202401141148.UUGFAYJe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,47 +52,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
-commit: 2fe2ca09da953bac778eab5dfb309b4e7d274b1a net: wangxun: add flow control support
-date:   10 days ago
-config: loongarch-randconfig-001-20240111 (https://download.01.org/0day-ci/archive/20240114/202401141033.L4W51adl-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240114/202401141033.L4W51adl-lkp@intel.com/reproduce)
+Hi Steve,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/tobetter/linux odroid-6.1.y
+head:   b0ba08f75cf1fc43c19f57ea6930f3358bd2e196
+commit: 161dee9509736facbf1906dd1005e70e240389fa [1/84] ODROID-M1: Add /dev/gpiomem device
+config: arm-randconfig-004-20240114 (https://download.01.org/0day-ci/archive/20240114/202401141148.UUGFAYJe-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240114/202401141148.UUGFAYJe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401141033.L4W51adl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401141148.UUGFAYJe-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_nway_reset':
-   wx_ethtool.c:(.text+0x3ac): undefined reference to `phylink_ethtool_nway_reset'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_link_ksettings':
-   wx_ethtool.c:(.text+0x3b4): undefined reference to `phylink_ethtool_ksettings_get'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_link_ksettings':
-   wx_ethtool.c:(.text+0x3bc): undefined reference to `phylink_ethtool_ksettings_set'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_pauseparam':
->> wx_ethtool.c:(.text+0x3c4): undefined reference to `phylink_ethtool_get_pauseparam'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_pauseparam':
->> wx_ethtool.c:(.text+0x3cc): undefined reference to `phylink_ethtool_set_pauseparam'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_close':
-   ngbe_main.c:(.text+0x48): undefined reference to `phylink_stop'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L10':
-   ngbe_main.c:(.text+0x1d8): undefined reference to `phylink_disconnect_phy'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L94':
-   ngbe_main.c:(.text+0x748): undefined reference to `phylink_connect_phy'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L109':
-   ngbe_main.c:(.text+0x814): undefined reference to `phylink_start'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L102':
-   ngbe_main.c:(.text+0x820): undefined reference to `phylink_disconnect_phy'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_remove':
-   ngbe_main.c:(.text+0x980): undefined reference to `phylink_destroy'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L185':
-   ngbe_main.c:(.text+0xf20): undefined reference to `phylink_destroy'
-   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.o: in function `.L46':
-   ngbe_mdio.c:(.text+0x2f4): undefined reference to `phylink_create'
+>> drivers/char/rk3568-gpiomem.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * GPIO memory device driver
+
+
+vim +2 drivers/char/rk3568-gpiomem.c
+
+   > 2	 * GPIO memory device driver
+     3	 *
+     4	 * Creates a chardev /dev/gpiomem which will provide user access to
+     5	 * the rk3568's GPIO registers when it is mmap()'d.
+     6	 * No longer need root for user GPIO access, but without relaxing permissions
+     7	 * on /dev/mem.
+     8	 *
+     9	 * Written by Luke Wren <luke@raspberrypi.org>
+    10	 * Copyright (c) 2015, Raspberry Pi (Trading) Ltd.
+    11	 *
+    12	 * Redistribution and use in source and binary forms, with or without
+    13	 * modification, are permitted provided that the following conditions
+    14	 * are met:
+    15	 * 1. Redistributions of source code must retain the above copyright
+    16	 *    notice, this list of conditions, and the following disclaimer,
+    17	 *    without modification.
+    18	 * 2. Redistributions in binary form must reproduce the above copyright
+    19	 *    notice, this list of conditions and the following disclaimer in the
+    20	 *    documentation and/or other materials provided with the distribution.
+    21	 * 3. The names of the above-listed copyright holders may not be used
+    22	 *    to endorse or promote products derived from this software without
+    23	 *    specific prior written permission.
+    24	 *
+    25	 * ALTERNATIVELY, this software may be distributed under the terms of the
+    26	 * GNU General Public License ("GPL") version 2, as published by the Free
+    27	 * Software Foundation.
+    28	 *
+    29	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+    30	 * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+    31	 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+    32	 * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+    33	 * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+    34	 * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    35	 * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+    36	 * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+    37	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    38	 * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    39	 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    40	 */
+    41	
 
 -- 
 0-DAY CI Kernel Test Service
