@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A4A1A27D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 22:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833781E506
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 22:58:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqQlo+ga"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6nloy7t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705271150; x=1736807150;
+  t=1705273089; x=1736809089;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EY/5tEsd72MPhSsMUeIk31z7C3USkNnadaouy7F6oVo=;
-  b=jqQlo+gaCkY2MzsgXMJoZsSpOD3p14AeuUQqAcI88Yqkh2/QH4L8C1qN
-   0g51nPb+LqS4ScoMKcT3mMVxvrnb/vXP9Ml9JdRLxKD4w0VFASMAoNYNq
-   qERNh+nu6HoMVPg432v7gjMhuJnGkTXZ5blA2iW4PEi6BlNWsO2ws9/No
-   f+ydymMXeLg4ol7Oe7frC2sqJxLXu2kKRz87ZgIk8RxSxyJo06sxdjBFA
-   T+xER+LOpiCK92D7JXLiHbQekje5aBwhTUuksHNgzrNGj2AILvanW74iD
-   2cCftOdE53WMhznDpjAoZDSOaQ8dP+FSiO4pMkxI9Paam8AXVwEFv6744
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="18097620"
+  bh=3dqo1siYFX8TAVTaKtQTHsQnsE74QTx+cnfvcidHipI=;
+  b=f6nloy7trQ0ol9lm4QQRdkWDfIEAJh0VOmg/ALUwTRM69cZzNmNSGIue
+   67octTJRmBVtQrKtwhwPThgjIr/2fdcijDveujUIlD49ECswhLRxE8g6u
+   Tunif2WJ3HJp4qJiijKo4x3HQoSPUE+nCICG3jAG1fCDRWfoirzbqyI6g
+   CE0tBzGPALsAQhxqgPEQeNZFAF8PAd1jP4IHLf6fmXD5YndIJgSEkpiRn
+   L0G007sgEKTsaO056BhoHXFhPQvWXOpAnEKpdsTnNMSdv4GMiZdXqwoEt
+   +55+4wZUEZk5AqvNhOwgNpuv9Z8TeT1dxG51btE23oXikfCIZGYnFs1zL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="398358918"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="18097620"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 14:25:49 -0800
+   d="scan'208";a="398358918"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 14:58:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="1114749662"
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="956661134"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="1114749662"
+   d="scan'208";a="956661134"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 14 Jan 2024 14:25:48 -0800
+  by orsmga005.jf.intel.com with ESMTP; 14 Jan 2024 14:58:07 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rP8vK-000Bsi-1T;
-	Sun, 14 Jan 2024 22:25:46 +0000
-Date: Mon, 15 Jan 2024 06:25:32 +0800
+	id 1rP9QZ-000Bu1-17;
+	Sun, 14 Jan 2024 22:58:03 +0000
+Date: Mon, 15 Jan 2024 06:56:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiawen Wu <jiawenwu@trustnetic.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:433:undefined
- reference to `phylink_disconnect_phy'
-Message-ID: <202401150644.ZJlVhPCe-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2143/2356] net/ipv4/tcp_comp.c:740:6: warning: no
+ previous prototype for function 'comp_stream_read'
+Message-ID: <202401150646.ycz09XSM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,81 +50,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
-commit: 883b5984a5d2900468af5ab979cae90547a78da4 net: wangxun: add ethtool_ops for ring parameters
-date:   11 days ago
-config: s390-randconfig-r032-20230101 (https://download.01.org/0day-ci/archive/20240115/202401150644.ZJlVhPCe-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150644.ZJlVhPCe-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   ea6de9f6732d495c506f9c140b4ec17c957e1b77
+commit: c31dcf6c5ab41f07da38d3f270987807735ec93e [2143/2356] tcp_comp: implement tcp compression
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240115/202401150646.ycz09XSM-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150646.ycz09XSM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401150644.ZJlVhPCe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401150646.ycz09XSM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_nway_reset':
-   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:193:(.text+0x76e): undefined reference to `phylink_ethtool_nway_reset'
-   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_link_ksettings':
-   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:202:(.text+0x7b6): undefined reference to `phylink_ethtool_ksettings_get'
-   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_link_ksettings':
-   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:211:(.text+0x7fe): undefined reference to `phylink_ethtool_ksettings_set'
-   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_pauseparam':
-   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:220:(.text+0x846): undefined reference to `phylink_ethtool_get_pauseparam'
-   s390-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_pauseparam':
-   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:229:(.text+0x88e): undefined reference to `phylink_ethtool_set_pauseparam'
-   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_remove':
-   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:714:(.text+0x432): undefined reference to `phylink_destroy'
-   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_probe':
-   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:684:(.text+0xd04): undefined reference to `phylink_destroy'
-   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_down':
-   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:339:(.text+0xe18): undefined reference to `phylink_stop'
-   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_close':
->> drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:433:(.text+0x1090): undefined reference to `phylink_disconnect_phy'
-   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_up':
-   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:362:(.text+0x1368): undefined reference to `phylink_start'
-   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_open':
-   drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:391:(.text+0x14e2): undefined reference to `phylink_connect_phy'
-   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.c:407:(.text+0x16ce): undefined reference to `phylink_disconnect_phy'
-   s390-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.o: in function `ngbe_mdio_init':
-   drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.c:130:(.text+0x5e2): undefined reference to `phylink_create'
+>> net/ipv4/tcp_comp.c:740:6: warning: no previous prototype for function 'comp_stream_read' [-Wmissing-prototypes]
+     740 | bool comp_stream_read(struct sock *sk)
+         |      ^
+   net/ipv4/tcp_comp.c:740:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     740 | bool comp_stream_read(struct sock *sk)
+         | ^
+         | static 
+>> net/ipv4/tcp_comp.c:779:6: warning: no previous prototype for function 'comp_setup_strp' [-Wmissing-prototypes]
+     779 | void comp_setup_strp(struct sock *sk, struct tcp_comp_context *ctx)
+         |      ^
+   net/ipv4/tcp_comp.c:779:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     779 | void comp_setup_strp(struct sock *sk, struct tcp_comp_context *ctx)
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +433 drivers/net/ethernet/wangxun/ngbe/ngbe_main.c
+vim +/comp_stream_read +740 net/ipv4/tcp_comp.c
 
-02338c484ab625 Mengyuan Lou 2022-10-31  414  
-02338c484ab625 Mengyuan Lou 2022-10-31  415  /**
-02338c484ab625 Mengyuan Lou 2022-10-31  416   * ngbe_close - Disables a network interface
-02338c484ab625 Mengyuan Lou 2022-10-31  417   * @netdev: network interface device structure
-02338c484ab625 Mengyuan Lou 2022-10-31  418   *
-02338c484ab625 Mengyuan Lou 2022-10-31  419   * Returns 0, this is not allowed to fail
-02338c484ab625 Mengyuan Lou 2022-10-31  420   *
-02338c484ab625 Mengyuan Lou 2022-10-31  421   * The close entry point is called when an interface is de-activated
-02338c484ab625 Mengyuan Lou 2022-10-31  422   * by the OS.  The hardware is still under the drivers control, but
-02338c484ab625 Mengyuan Lou 2022-10-31  423   * needs to be disabled.  A global MAC reset is issued to stop the
-02338c484ab625 Mengyuan Lou 2022-10-31  424   * hardware, and all transmit and receive resources are freed.
-02338c484ab625 Mengyuan Lou 2022-10-31  425   **/
-02338c484ab625 Mengyuan Lou 2022-10-31  426  static int ngbe_close(struct net_device *netdev)
-02338c484ab625 Mengyuan Lou 2022-10-31  427  {
-803df55d32eafb Mengyuan Lou 2023-01-06  428  	struct wx *wx = netdev_priv(netdev);
-02338c484ab625 Mengyuan Lou 2022-10-31  429  
-803df55d32eafb Mengyuan Lou 2023-01-06  430  	ngbe_down(wx);
-e7956139a6cf9a Mengyuan Lou 2023-02-03  431  	wx_free_irq(wx);
-b97f955ec47b49 Mengyuan Lou 2023-02-03  432  	wx_free_resources(wx);
-bc2426d74aa35c Jiawen Wu    2024-01-03 @433  	phylink_disconnect_phy(wx->phylink);
-803df55d32eafb Mengyuan Lou 2023-01-06  434  	wx_control_hw(wx, false);
-02338c484ab625 Mengyuan Lou 2022-10-31  435  
-02338c484ab625 Mengyuan Lou 2022-10-31  436  	return 0;
-02338c484ab625 Mengyuan Lou 2022-10-31  437  }
-02338c484ab625 Mengyuan Lou 2022-10-31  438  
-
-:::::: The code at line 433 was first introduced by commit
-:::::: bc2426d74aa35cd8ec9c97a253ef57c2c5cd730c net: ngbe: convert phylib to phylink
-
-:::::: TO: Jiawen Wu <jiawenwu@trustnetic.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   739	
+ > 740	bool comp_stream_read(struct sock *sk)
+   741	{
+   742		struct tcp_comp_context *ctx = comp_get_ctx(sk);
+   743	
+   744		if (!ctx)
+   745			return false;
+   746	
+   747		if (ctx->rx.pkt || ctx->rx.dpkt)
+   748			return true;
+   749	
+   750		return false;
+   751	}
+   752	
+   753	static void comp_data_ready(struct sock *sk)
+   754	{
+   755		struct tcp_comp_context *ctx = comp_get_ctx(sk);
+   756	
+   757		strp_data_ready(&ctx->rx.strp);
+   758	}
+   759	
+   760	static void comp_queue(struct strparser *strp, struct sk_buff *skb)
+   761	{
+   762		struct tcp_comp_context *ctx = comp_get_ctx(strp->sk);
+   763	
+   764		ctx->rx.pkt = skb;
+   765		strp_pause(strp);
+   766		ctx->rx.saved_data_ready(strp->sk);
+   767	}
+   768	
+   769	static int comp_read_size(struct strparser *strp, struct sk_buff *skb)
+   770	{
+   771		struct strp_msg *rxm = strp_msg(skb);
+   772	
+   773		if (rxm->offset > skb->len)
+   774			return 0;
+   775	
+   776		return skb->len - rxm->offset;
+   777	}
+   778	
+ > 779	void comp_setup_strp(struct sock *sk, struct tcp_comp_context *ctx)
+   780	{
+   781		struct strp_callbacks cb;
+   782	
+   783		memset(&cb, 0, sizeof(cb));
+   784		cb.rcv_msg = comp_queue;
+   785		cb.parse_msg = comp_read_size;
+   786		strp_init(&ctx->rx.strp, sk, &cb);
+   787	
+   788		write_lock_bh(&sk->sk_callback_lock);
+   789		ctx->rx.saved_data_ready = sk->sk_data_ready;
+   790		sk->sk_data_ready = comp_data_ready;
+   791		write_unlock_bh(&sk->sk_callback_lock);
+   792	
+   793		strp_check_rcv(&ctx->rx.strp);
+   794	}
+   795	
 
 -- 
 0-DAY CI Kernel Test Service
