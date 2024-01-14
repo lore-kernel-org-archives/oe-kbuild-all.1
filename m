@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F061A626
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 00:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EA410F1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 02:59:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sjq0zdzT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhnUDW1w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705192017; x=1736728017;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=I2mL3c3ERQHPa3sjMYvumkTu7KOXnWLKiyk7o7BzM2k=;
-  b=Sjq0zdzTc4uBDG2+XYic/o3cxEutT5CMUMT3sXts2ibaRQTP2Fgt9GOe
-   DQLCcPeyCGQK58IxxrLsA7CZVT7drsUFit+l2r+LG4oG5eyEUzAb1WPKV
-   JwFuWVLIRvQjYb8vZsZTv0ySOFkNW4TSEr7v3fg0TBxM9drZBTAKKddVC
-   4+QiEK7FYFmpvFUg6/WcewdXjEDBAeHFxHrS2FcIPanKVghJK1hDCh3h2
-   b1tC+Xr+mFoDfyqrO0HlXWxmYeXx5h/C2lFqTZlIs+mlK0UHwrkPSklM7
-   KLO65vaH70HU46Qkmznu4YBXbwPqFSvQvkJZgg1S3bJNZ//dH1OaeL/wT
+  t=1705201171; x=1736737171;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r0HURhWCvZPblGXSVB0Zz+wbbsEEkCWKa57k4tOfoDc=;
+  b=OhnUDW1wo4cF2hq4KmIPcGQuNWYnSNqQC61Epd4UfwWWaepbCvqGqAky
+   5l4FKXKt8nft3wMWdlkEbg2QzvkmoC/ojJzrdi/eZaOrmR78oYsHsLQZ1
+   lLwo99CbcXzxCLseCsCWObvAhlQgcgeFRWiP+n/0j/5VOU4LeLKxv1Rj/
+   4qatceVRTdRf8EpixbPX6egWVNEY1VXpJLqAjlxfNsn/fcqD96vkL4q2q
+   15BErIO5lazsF2VgGZxQ3OutqQ38l6uvw6EJU8oyiO8OstAQUw5oxNU9D
+   ch7CJQoPwJHIiK+5Q/Q8cvJPXzgXsx5qEBuiBcJOwnryumnbCUyHv3Vzk
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="6174186"
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="20906263"
 X-IronPort-AV: E=Sophos;i="6.04,193,1695711600"; 
-   d="scan'208";a="6174186"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 16:26:56 -0800
+   d="scan'208";a="20906263"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 18:59:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="873736301"
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="817480135"
 X-IronPort-AV: E=Sophos;i="6.04,193,1695711600"; 
-   d="scan'208";a="873736301"
+   d="scan'208";a="817480135"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 13 Jan 2024 16:26:54 -0800
+  by orsmga001.jf.intel.com with ESMTP; 13 Jan 2024 18:59:28 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rOoKy-000B2W-1Z;
-	Sun, 14 Jan 2024 00:26:52 +0000
-Date: Sun, 14 Jan 2024 08:25:57 +0800
+	id 1rOqic-000B8i-0G;
+	Sun, 14 Jan 2024 02:59:26 +0000
+Date: Sun, 14 Jan 2024 10:58:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ping-Ke Shih <pkshih@realtek.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>
-Subject: Re: [PATCH] wifi: rtlwifi: Speed up firmware loading for USB
-Message-ID: <202401140857.MXysoKVh-lkp@intel.com>
-References: <0d262acd-4f94-41c2-8d15-83486aeb976b@gmail.com>
+To: Jiawen Wu <jiawenwu@trustnetic.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: wx_ethtool.c:undefined reference to `phylink_ethtool_get_pauseparam'
+Message-ID: <202401141033.L4W51adl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,90 +49,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0d262acd-4f94-41c2-8d15-83486aeb976b@gmail.com>
 
-Hi Bitterblue,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[cannot apply to wireless/main linus/master v6.7 next-20240112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bitterblue-Smith/wifi-rtlwifi-Speed-up-firmware-loading-for-USB/20240113-035326
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/0d262acd-4f94-41c2-8d15-83486aeb976b%40gmail.com
-patch subject: [PATCH] wifi: rtlwifi: Speed up firmware loading for USB
-config: csky-randconfig-r113-20240114 (https://download.01.org/0day-ci/archive/20240114/202401140857.MXysoKVh-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240114/202401140857.MXysoKVh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
+commit: 2fe2ca09da953bac778eab5dfb309b4e7d274b1a net: wangxun: add flow control support
+date:   10 days ago
+config: loongarch-randconfig-001-20240111 (https://download.01.org/0day-ci/archive/20240114/202401141033.L4W51adl-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240114/202401141033.L4W51adl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401140857.MXysoKVh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401141033.L4W51adl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/realtek/rtlwifi/efuse.c:1329:41: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] val32 @@     got restricted __le32 [usertype] @@
-   drivers/net/wireless/realtek/rtlwifi/efuse.c:1329:41: sparse:     expected unsigned int [usertype] val32
-   drivers/net/wireless/realtek/rtlwifi/efuse.c:1329:41: sparse:     got restricted __le32 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +1329 drivers/net/wireless/realtek/rtlwifi/efuse.c
-
-  1289	
-  1290	static void _rtl_fw_block_write_usb(struct ieee80211_hw *hw, u8 *buffer, u32 size)
-  1291	{
-  1292		struct rtl_priv *rtlpriv = rtl_priv(hw);
-  1293		u32 blockcount, blockcount8, blockcount4;
-  1294		u32 remain8 = 0, remain4 = 0, remain = 0;
-  1295		const u32 blocksize = 64;
-  1296		const u32 blocksize8 = 8;
-  1297		const u32 blocksize4 = 4;
-  1298		u32 i, offset;
-  1299	
-  1300		blockcount = size / blocksize;
-  1301		remain8 = size % blocksize;
-  1302		for (i = 0; i < blockcount; i++) {
-  1303			offset = i * blocksize;
-  1304			rtl_write_chunk(rtlpriv,
-  1305					START_ADDRESS + offset,
-  1306					blocksize, buffer + offset);
-  1307		}
-  1308	
-  1309		if (remain8) {
-  1310			offset = blockcount * blocksize;
-  1311			blockcount8 = remain8 / blocksize8;
-  1312			remain4 = remain8 % blocksize8;
-  1313	
-  1314			for (i = 0; i < blockcount8; i++)
-  1315				rtl_write_chunk(rtlpriv,
-  1316						START_ADDRESS + offset + i * blocksize8,
-  1317						blocksize8,
-  1318						buffer + offset + i * blocksize8);
-  1319		}
-  1320	
-  1321		if (remain4) {
-  1322			offset += blockcount8 * blocksize8;
-  1323			blockcount4 = remain4 / blocksize4;
-  1324			remain = remain8 % blocksize4;
-  1325	
-  1326			for (i = 0; i < blockcount4; i++)
-  1327				rtl_write_dword(rtlpriv,
-  1328						START_ADDRESS + offset + i * blocksize4,
-> 1329						cpu_to_le32(*(u32 *)(buffer + offset + i)));
-  1330		}
-  1331	
-  1332		if (remain) {
-  1333			offset += blockcount4 * blocksize4;
-  1334	
-  1335			for (i = 0; i < remain; i++)
-  1336				rtl_write_byte(rtlpriv, START_ADDRESS + offset + i,
-  1337					       *(buffer + offset + i));
-  1338		}
-  1339	}
-  1340	
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_nway_reset':
+   wx_ethtool.c:(.text+0x3ac): undefined reference to `phylink_ethtool_nway_reset'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_link_ksettings':
+   wx_ethtool.c:(.text+0x3b4): undefined reference to `phylink_ethtool_ksettings_get'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_link_ksettings':
+   wx_ethtool.c:(.text+0x3bc): undefined reference to `phylink_ethtool_ksettings_set'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_pauseparam':
+>> wx_ethtool.c:(.text+0x3c4): undefined reference to `phylink_ethtool_get_pauseparam'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_pauseparam':
+>> wx_ethtool.c:(.text+0x3cc): undefined reference to `phylink_ethtool_set_pauseparam'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_close':
+   ngbe_main.c:(.text+0x48): undefined reference to `phylink_stop'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L10':
+   ngbe_main.c:(.text+0x1d8): undefined reference to `phylink_disconnect_phy'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L94':
+   ngbe_main.c:(.text+0x748): undefined reference to `phylink_connect_phy'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L109':
+   ngbe_main.c:(.text+0x814): undefined reference to `phylink_start'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L102':
+   ngbe_main.c:(.text+0x820): undefined reference to `phylink_disconnect_phy'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `ngbe_remove':
+   ngbe_main.c:(.text+0x980): undefined reference to `phylink_destroy'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_main.o: in function `.L185':
+   ngbe_main.c:(.text+0xf20): undefined reference to `phylink_destroy'
+   loongarch64-linux-ld: drivers/net/ethernet/wangxun/ngbe/ngbe_mdio.o: in function `.L46':
+   ngbe_mdio.c:(.text+0x2f4): undefined reference to `phylink_create'
 
 -- 
 0-DAY CI Kernel Test Service
