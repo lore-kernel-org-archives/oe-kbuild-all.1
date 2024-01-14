@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812C92100
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 13:41:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E4923A6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 14:06:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SFZtOuvp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZ7jw+tv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705239696; x=1736775696;
+  t=1705241196; x=1736777196;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O/8lSiMZey0ehfW7QlZp56Sn362q9RpCuNYQufXxbCQ=;
-  b=SFZtOuvpBg0Es9nl+iehz2nIyLxuH1GIWHVNNeHUErKpcJg2GH70ybXj
-   VJNzFBoflfos3Jci1o/Biz3AnMLcOjIBXYEcSX+jsRAoJBJkLJuq+KAxq
-   Q1A2NeyUurq0/D0SGfT2cEkzRP2BrT508xzvTIqpkqr26Z8eFk2KehMZs
-   GY84KyW/so17KAP68agRZ1sNMWn6puzeuT7a0grdMEF5j+nPYX9ipduRd
-   Nr20PFzlPj1AiZPeGUCn89ARfzp8C8nWwvEJQWA7jVBfL8MS8a2AnSNSW
-   AkMBobce10O6UW1efhO0mreisWgOZ/TlyS5mmhxPmcG8TuRAxCrNhb2Ns
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="463745242"
+  bh=3hEqVdc2wYXNuzBT/x2iFzmV3/cSh7f0kQliRqeqpd0=;
+  b=mZ7jw+tvmHej2n3xOAK6Mgxn44temUeVh9yL5C9eYO63qnZZsPK4Hlth
+   vMAlU5y9XCke+nmq1OdMiXf+BigS5Abk/MqttyS0jbUo8NDEvJ1qfsQ/E
+   OPz5ZjBDkK/mIEjmC8LN7mxUhB5aIO2MVXEgJJ+vgwsgsR1/7gxfW7hPy
+   nAjQFTQQRquBA6Y2SBnLqcGqqRX/KeWF4sGe9wzQCkii30ZRUYT85yesi
+   VgBxIEU85EdK3Irqk9stZt74k7NQ4UzwjKzT5d7ZBaoMHQl6/SKTAOscB
+   31UyZ1b1jlBNEKK4cHEH1sOPvtskOT/5A9kY0v8P6AOK+OMZBWQDL2K/Z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="465843232"
 X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
-   d="scan'208";a="463745242"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 05:41:35 -0800
+   d="scan'208";a="465843232"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 06:06:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="733060172"
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="853745465"
 X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
-   d="scan'208";a="733060172"
+   d="scan'208";a="853745465"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 14 Jan 2024 05:41:34 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 14 Jan 2024 06:06:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rP0k0-000BXk-0s;
-	Sun, 14 Jan 2024 13:41:32 +0000
-Date: Sun, 14 Jan 2024 21:41:03 +0800
+	id 1rP18C-000BYa-2D;
+	Sun, 14 Jan 2024 14:06:32 +0000
+Date: Sun, 14 Jan 2024 22:06:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21121/21544]
- drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:548:5: error: no
- previous prototype for function 'sss_pci_probe'
-Message-ID: <202401142144.b4BMA0S4-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 26130/30000] versioncheck:
+ ./drivers/ub/urma/uburma/uburma_cdev_file.c: 23 linux/version.h not needed.
+Message-ID: <202401142213.oXweSil4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,341 +50,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   1f0983450549eeea71fb9333517330947a779262
-commit: a6a7981cbf66d4951425d33cdce6ef39206eba83 [21121/21544] Net: ethernet: Support 3snic 3s9xx network card
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240114/202401142144.b4BMA0S4-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240114/202401142144.b4BMA0S4-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   6d9d4951bf741189c66627715d5ae8a8cf1df85f
+commit: ba51fa59f20867504902c747399b385ee586b745 [26130/30000] ub: support uburma to query device attr and store attrs in cdev.
+reproduce: (https://download.01.org/0day-ci/archive/20240114/202401142213.oXweSil4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401142144.b4BMA0S4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401142213.oXweSil4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:276:5: error: no previous prototype for function 'sss_attach_uld_driver' [-Werror,-Wmissing-prototypes]
-     276 | int sss_attach_uld_driver(struct sss_pci_adapter *adapter,
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:276:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     276 | int sss_attach_uld_driver(struct sss_pci_adapter *adapter,
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:548:5: error: no previous prototype for function 'sss_pci_probe' [-Werror,-Wmissing-prototypes]
-     548 | int sss_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:548:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     548 | int sss_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-         | ^
-         | static 
-   2 errors generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:90:6: error: no previous prototype for function 'sss_detach_uld_driver' [-Werror,-Wmissing-prototypes]
-      90 | void sss_detach_uld_driver(struct sss_pci_adapter *adapter,
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:90:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      90 | void sss_detach_uld_driver(struct sss_pci_adapter *adapter,
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:120:6: error: no previous prototype for function 'sss_detach_all_uld_driver' [-Werror,-Wmissing-prototypes]
-     120 | void sss_detach_all_uld_driver(struct sss_pci_adapter *adapter)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:120:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     120 | void sss_detach_all_uld_driver(struct sss_pci_adapter *adapter)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:138:6: error: no previous prototype for function 'sss_dettach_uld_dev' [-Werror,-Wmissing-prototypes]
-     138 | void sss_dettach_uld_dev(struct sss_pci_adapter *adapter)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:138:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     138 | void sss_dettach_uld_dev(struct sss_pci_adapter *adapter)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:179:6: error: no previous prototype for function 'sss_deinit_function' [-Werror,-Wmissing-prototypes]
-     179 | void sss_deinit_function(struct pci_dev *pdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:179:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     179 | void sss_deinit_function(struct pci_dev *pdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:200:6: error: no previous prototype for function 'sss_unmap_pci_bar' [-Werror,-Wmissing-prototypes]
-     200 | void sss_unmap_pci_bar(struct sss_pci_adapter *adapter)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:200:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     200 | void sss_unmap_pci_bar(struct sss_pci_adapter *adapter)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:211:5: error: no previous prototype for function 'sss_deinit_adapter' [-Werror,-Wmissing-prototypes]
-     211 | int sss_deinit_adapter(struct sss_pci_adapter *adapter)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:211:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     211 | int sss_deinit_adapter(struct sss_pci_adapter *adapter)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:237:6: error: no previous prototype for function 'sss_deinit_pci_dev' [-Werror,-Wmissing-prototypes]
-     237 | void sss_deinit_pci_dev(struct pci_dev *pdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:237:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     237 | void sss_deinit_pci_dev(struct pci_dev *pdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:249:6: error: no previous prototype for function 'sss_pci_remove' [-Werror,-Wmissing-prototypes]
-     249 | void sss_pci_remove(struct pci_dev *pdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:249:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     249 | void sss_pci_remove(struct pci_dev *pdev)
-         | ^
-         | static 
-   8 errors generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_shutdown.c:28:6: error: no previous prototype for function 'sss_pci_shutdown' [-Werror,-Wmissing-prototypes]
-      28 | void sss_pci_shutdown(struct pci_dev *pdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_shutdown.c:28:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      28 | void sss_pci_shutdown(struct pci_dev *pdev)
-         | ^
-         | static 
-   1 error generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_error.c:34:18: error: no previous prototype for function 'sss_detect_pci_error' [-Werror,-Wmissing-prototypes]
-      34 | pci_ers_result_t sss_detect_pci_error(struct pci_dev *pdev,
-         |                  ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_error.c:34:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      34 | pci_ers_result_t sss_detect_pci_error(struct pci_dev *pdev,
-         | ^
-         | static 
-   1 error generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:37:6: error: no previous prototype for function 'sss_init_uld_lock' [-Werror,-Wmissing-prototypes]
-      37 | void sss_init_uld_lock(void)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:37:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      37 | void sss_init_uld_lock(void)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:42:6: error: no previous prototype for function 'sss_lock_uld' [-Werror,-Wmissing-prototypes]
-      42 | void sss_lock_uld(void)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      42 | void sss_lock_uld(void)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:47:6: error: no previous prototype for function 'sss_unlock_uld' [-Werror,-Wmissing-prototypes]
-      47 | void sss_unlock_uld(void)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:47:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      47 | void sss_unlock_uld(void)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:52:14: error: no previous prototype for function 'sss_get_uld_names' [-Werror,-Wmissing-prototypes]
-      52 | const char **sss_get_uld_names(void)
-         |              ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:52:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      52 | const char **sss_get_uld_names(void)
-         |       ^
-         |       static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:57:22: error: no previous prototype for function 'sss_get_uld_info' [-Werror,-Wmissing-prototypes]
-      57 | struct sss_uld_info *sss_get_uld_info(void)
-         |                      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:57:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      57 | struct sss_uld_info *sss_get_uld_info(void)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:62:6: error: no previous prototype for function 'sss_attach_is_enable' [-Werror,-Wmissing-prototypes]
-      62 | bool sss_attach_is_enable(void)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:62:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      62 | bool sss_attach_is_enable(void)
-         | ^
-         | static 
-   6 errors generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:184:6: error: variable 'fault_level' set but not used [-Werror,-Wunused-but-set-variable]
-     184 |         u16 fault_level;
-         |             ^
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:185:6: error: variable 'pcie_src' set but not used [-Werror,-Wunused-but-set-variable]
-     185 |         u16 pcie_src;
-         |             ^
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:384:5: error: no previous prototype for function 'sss_init_hwdev' [-Werror,-Wmissing-prototypes]
-     384 | int sss_init_hwdev(struct sss_pci_adapter *adapter)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:384:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     384 | int sss_init_hwdev(struct sss_pci_adapter *adapter)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:487:6: error: no previous prototype for function 'sss_deinit_hwdev' [-Werror,-Wmissing-prototypes]
-     487 | void sss_deinit_hwdev(void *hwdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:487:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     487 | void sss_deinit_hwdev(void *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:518:6: error: no previous prototype for function 'sss_hwdev_stop' [-Werror,-Wmissing-prototypes]
-     518 | void sss_hwdev_stop(void *hwdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:518:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     518 | void sss_hwdev_stop(void *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:531:6: error: no previous prototype for function 'sss_hwdev_detach' [-Werror,-Wmissing-prototypes]
-     531 | void sss_hwdev_detach(void *hwdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:531:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     531 | void sss_hwdev_detach(void *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:539:6: error: no previous prototype for function 'sss_hwdev_shutdown' [-Werror,-Wmissing-prototypes]
-     539 | void sss_hwdev_shutdown(void *hwdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:539:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     539 | void sss_hwdev_shutdown(void *hwdev)
-         | ^
-         | static 
-   7 errors generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_mgmt_info.c:54:5: error: no previous prototype for function 'sss_init_mgmt_info' [-Werror,-Wmissing-prototypes]
-      54 | int sss_init_mgmt_info(struct sss_hwdev *hwdev)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_mgmt_info.c:54:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      54 | int sss_init_mgmt_info(struct sss_hwdev *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_mgmt_info.c:90:6: error: no previous prototype for function 'sss_deinit_mgmt_info' [-Werror,-Wmissing-prototypes]
-      90 | void sss_deinit_mgmt_info(struct sss_hwdev *hwdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_mgmt_info.c:90:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      90 | void sss_deinit_mgmt_info(struct sss_hwdev *hwdev)
-         | ^
-         | static 
-   2 errors generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_io_flush.c:91:5: error: no previous prototype for function 'sss_hwdev_flush_io' [-Werror,-Wmissing-prototypes]
-      91 | int sss_hwdev_flush_io(struct sss_hwdev *hwdev, u16 channel)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_io_flush.c:91:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      91 | int sss_hwdev_flush_io(struct sss_hwdev *hwdev, u16 channel)
-         | ^
-         | static 
-   1 error generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:277:5: error: no previous prototype for function 'sss_reinit_ctrlq_ctx' [-Werror,-Wmissing-prototypes]
-     277 | int sss_reinit_ctrlq_ctx(struct sss_hwdev *hwdev)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:277:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     277 | int sss_reinit_ctrlq_ctx(struct sss_hwdev *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:367:6: error: no previous prototype for function 'sss_deinit_ctrlq' [-Werror,-Wmissing-prototypes]
-     367 | void sss_deinit_ctrlq(struct sss_hwdev *hwdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:367:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     367 | void sss_deinit_ctrlq(struct sss_hwdev *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:501:5: error: no previous prototype for function 'sss_init_ctrlq_channel' [-Werror,-Wmissing-prototypes]
-     501 | int sss_init_ctrlq_channel(struct sss_hwdev *hwdev)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:501:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     501 | int sss_init_ctrlq_channel(struct sss_hwdev *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:538:6: error: no previous prototype for function 'sss_deinit_ctrlq_channel' [-Werror,-Wmissing-prototypes]
-     538 | void sss_deinit_ctrlq_channel(struct sss_hwdev *hwdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:538:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     538 | void sss_deinit_ctrlq_channel(struct sss_hwdev *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:547:6: error: no previous prototype for function 'sss_ctrlq_flush_sync_cmd' [-Werror,-Wmissing-prototypes]
-     547 | void sss_ctrlq_flush_sync_cmd(struct sss_hwdev *hwdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:547:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     547 | void sss_ctrlq_flush_sync_cmd(struct sss_hwdev *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:573:5: error: no previous prototype for function 'sss_wait_ctrlq_stop' [-Werror,-Wmissing-prototypes]
-     573 | int sss_wait_ctrlq_stop(struct sss_hwdev *hwdev)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:573:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     573 | int sss_wait_ctrlq_stop(struct sss_hwdev *hwdev)
-         | ^
-         | static 
-   6 errors generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:252:5: error: no previous prototype for function 'sss_init_func_mbx_msg' [-Werror,-Wmissing-prototypes]
-     252 | int sss_init_func_mbx_msg(void *hwdev, u16 func_num)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:252:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     252 | int sss_init_func_mbx_msg(void *hwdev, u16 func_num)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:401:5: error: no previous prototype for function 'sss_hwif_init_mbx' [-Werror,-Wmissing-prototypes]
-     401 | int sss_hwif_init_mbx(struct sss_hwdev *hwdev)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:401:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     401 | int sss_hwif_init_mbx(struct sss_hwdev *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:449:6: error: no previous prototype for function 'sss_hwif_deinit_mbx' [-Werror,-Wmissing-prototypes]
-     449 | void sss_hwif_deinit_mbx(struct sss_hwdev *hwdev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:449:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     449 | void sss_hwif_deinit_mbx(struct sss_hwdev *hwdev)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:872:6: error: no previous prototype for function 'sss_recv_mbx_aeq_handler' [-Werror,-Wmissing-prototypes]
-     872 | void sss_recv_mbx_aeq_handler(void *handle, u8 *header, u8 size)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:872:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     872 | void sss_recv_mbx_aeq_handler(void *handle, u8 *header, u8 size)
-         | ^
-         | static 
-   4 errors generated.
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:545:5: error: no previous prototype for function 'sss_adm_msg_write' [-Werror,-Wmissing-prototypes]
-     545 | int sss_adm_msg_write(struct sss_adm_msg *adm_msg, u8 node_id,
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:545:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     545 | int sss_adm_msg_write(struct sss_adm_msg *adm_msg, u8 node_id,
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:551:5: error: no previous prototype for function 'sss_adm_msg_read' [-Werror,-Wmissing-prototypes]
-     551 | int sss_adm_msg_read(struct sss_adm_msg *adm_msg, u8 node_id,
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:551:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     551 | int sss_adm_msg_read(struct sss_adm_msg *adm_msg, u8 node_id,
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:597:5: error: no previous prototype for function 'sss_adm_msg_read_ack' [-Werror,-Wmissing-prototypes]
-     597 | int sss_adm_msg_read_ack(void *hwdev, u8 dest, const void *cmd,
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:597:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     597 | int sss_adm_msg_read_ack(void *hwdev, u8 dest, const void *cmd,
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:618:5: error: no previous prototype for function 'sss_adm_msg_write_nack' [-Werror,-Wmissing-prototypes]
-     618 | int sss_adm_msg_write_nack(void *hwdev, u8 dest, const void *cmd, u16 size)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:618:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     618 | int sss_adm_msg_write_nack(void *hwdev, u8 dest, const void *cmd, u16 size)
-         | ^
-         | static 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:682:5: error: no previous prototype for function 'sss_sync_send_adm_msg' [-Werror,-Wmissing-prototypes]
-     682 | int sss_sync_send_adm_msg(void *hwdev, u8 mod, u16 cmd, void *buf_in,
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:682:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     682 | int sss_sync_send_adm_msg(void *hwdev, u8 mod, u16 cmd, void *buf_in,
-         | ^
-         | static 
-   5 errors generated.
-..
-
-
-vim +/sss_pci_probe +548 drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c
-
-   547	
- > 548	int sss_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
+   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 15 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
+   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
+   ./arch/s390/include/asm/setup.h: 183: need linux/version.h
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
+   ./drivers/char/ipmi/ipmi_si_ls2k500.c: 19 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 62 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/inspur/inspur_drm_de.c: 513: need linux/version.h
+   ./drivers/gpu/drm/inspur/inspur_drm_drv.c: 456: need linux/version.h
+   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 47 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
+   ./drivers/hv/hv.c: 16 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
+   ./drivers/net/ethernet/3snic/sssnic/include/kernel/sss_linux_kernel.h: 12 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/edma_drv/bma_include.h: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/edma_drv/bma_pci.c: 17 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_include.h: 20 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_main.c: 22 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_mce.c: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/hinic/ossl_knl.h: 22 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/hinic3/ossl_knl_linux.h: 12 linux/version.h not needed.
+   ./drivers/net/ethernet/nebula-matrix/m1600/common.h: 12 linux/version.h not needed.
+   ./drivers/net/ethernet/nebula-matrix/m1600/txrx.c: 9 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/huawei/hifc/hifc_knl_adp.h: 23 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/scsi/sssraid/sssraid_fw.c: 6 linux/version.h not needed.
+   ./drivers/scsi/sssraid/sssraid_os.c: 6 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/ub/urma/ubcore/ubcore_main.c: 28 linux/version.h not needed.
+   ./drivers/ub/urma/ubcore/ubcore_umem.c: 26 linux/version.h not needed.
+>> ./drivers/ub/urma/uburma/uburma_cdev_file.c: 23 linux/version.h not needed.
+   ./drivers/ub/urma/uburma/uburma_main.c: 30 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
+   ./fs/eulerfs/euler.h: 20 linux/version.h not needed.
+   ./fs/eulerfs/euler_common.h: 25 linux/version.h not needed.
+   ./fs/proc/etmem_scan.c: 13 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
+   ./kernel/bpf/syscall.c: 20 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/libbpf_sched.h: 19 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
