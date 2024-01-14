@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE97212E6C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 23:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8222C681
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Jan 2024 23:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IpXykD6y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U36A/ZdR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705274298; x=1736810298;
+  t=1705274899; x=1736810899;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4aiaZOYZ89Qwnh8MoAjkIM6qdeUCz0ys34b3dJe3kPs=;
-  b=IpXykD6yOIRDdmnr5n9ImBhS2mrMEvNCK+vbkihqQ4I6sNBDyXHcfR5w
-   n/t7fDFobxY/kzUNRNfYzXKnMUByFa1pdWl56IMfcafqQyUWig1/of410
-   +WgBf9HmSdStaKDI9wgQpvl7uUfbDU/PhpSPyDLZxjxeRPMV9/JnhFIy/
-   UxfTna207aFG4lhp8YzrOkD/dRhUETL3fajNmiXMNHZIt8hNTTeOVP/uG
-   zlwetJtaV3UexKiobICqsAERdZesfCPGj4Qy6v+WtVj16V0LuV0hveMIP
-   O4cp+rifbH6hqzRRV2K4+QfyiWwXOUSltWfnpMCxQ73q+c8YemqlhqB7e
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="463779857"
+  bh=C8C6b4MvxiaWW5VbOKg5vdZEFz2a+tnPKC9toja5d8A=;
+  b=U36A/ZdRKx1Lyu5z+PlqU7G7SX9+5Vf/4oMFdS7qontWdZl4szIxzyCM
+   VZVNYQ0j+urJp/IJA1LMetvWy0YS7oBzwLg23d56V7/0QAy8ZY5zDuAzi
+   k1RCLdxzycNJD6Nu2QBvX7q0DQM9/guvPDvqfjC0EJeTMGW1yYRChzfXr
+   o34Q8oDfY+Wx7BJI5TUApyQbZEEn0XCswYKcKvRLPlvaGX2P4xff/HL+p
+   Uiip7JWzCYKz1iBKRQ4jeYza7iXrffMe7C99XZkZ3FlrfDV6PtzZFjewt
+   9sCVgyA8cJ6W3chfRE9xHfW/bQgh/wJok6yep05IpKDP+4gD8ihk4qvey
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="18101097"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="463779857"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 15:18:18 -0800
+   d="scan'208";a="18101097"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 15:28:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="786913371"
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="956664783"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="786913371"
+   d="scan'208";a="956664783"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Jan 2024 15:18:17 -0800
+  by orsmga005.jf.intel.com with ESMTP; 14 Jan 2024 15:28:17 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rP9k6-000Bv2-33;
-	Sun, 14 Jan 2024 23:18:14 +0000
-Date: Mon, 15 Jan 2024 07:17:22 +0800
+	id 1rP9tn-000BvF-0C;
+	Sun, 14 Jan 2024 23:28:15 +0000
+Date: Mon, 15 Jan 2024 07:27:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.2.x-imx 4740/17888]
- drivers/staging/media/imx/gmsl-max9286.c:3115:9: warning: no previous
- prototype for function 'analog_test_pattern_show'
-Message-ID: <202401150719.vKWCZbGQ-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 20229/30000]
+ drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:589:58: warning: '%s'
+ directive output may be truncated writing up to 119 bytes into a region of
+ size 32
+Message-ID: <202401150738.19Xs4gEF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,53 +52,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
-head:   32a344619c750cdcbe31bed754adc1b30d362e45
-commit: 919bae297df242cd66d5f0ad28a1aa8dde1e297f [4740/17888] Merge remote-tracking branch 'origin/capture/max9286' into capture/next
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240115/202401150719.vKWCZbGQ-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150719.vKWCZbGQ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   6d9d4951bf741189c66627715d5ae8a8cf1df85f
+commit: 3aa7f186a0ff2a5f104a5a4604c9e524aab0ea32 [20229/30000] net: hns3: add support for queue bonding mode of flow director
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240115/202401150738.19Xs4gEF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150738.19Xs4gEF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401150719.vKWCZbGQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401150738.19Xs4gEF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/staging/media/imx/gmsl-max9286.c:3115:9: warning: no previous prototype for function 'analog_test_pattern_show' [-Wmissing-prototypes]
-    3115 | ssize_t analog_test_pattern_show(struct device *dev,
-         |         ^
-   drivers/staging/media/imx/gmsl-max9286.c:3115:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3115 | ssize_t analog_test_pattern_show(struct device *dev,
-         | ^
-         | static 
-   drivers/staging/media/imx/gmsl-max9286.c:2358:19: warning: unused function 'max9271_read_reg' [-Wunused-function]
-    2358 | static inline int max9271_read_reg(struct sensor_data *max9286_data, int index, u8 reg)
-         |                   ^~~~~~~~~~~~~~~~
-   2 warnings generated.
+   drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c: In function 'hns3_get_strings':
+>> drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:589:58: warning: '%s' directive output may be truncated writing up to 119 bytes into a region of size 32 [-Wformat-truncation=]
+     589 |                         snprintf(buff, ETH_GSTRING_LEN, "%s",
+         |                                                          ^~
+   drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:589:25: note: 'snprintf' output between 1 and 120 bytes into a destination of size 32
+     589 |                         snprintf(buff, ETH_GSTRING_LEN, "%s",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     590 |                                  hns3_priv_flags[i].name);
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/analog_test_pattern_show +3115 drivers/staging/media/imx/gmsl-max9286.c
+vim +589 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c
 
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3114  
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05 @3115  ssize_t analog_test_pattern_show(struct device *dev,
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3116  				 struct device_attribute *attr, char *buf)
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3117  {
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3118  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3119  	struct sensor_data *max9286_data = subdev_to_sensor_data(sd);
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3120  	u8 val = 0;
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3121  
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3122  	ov10635_read_reg(max9286_data, 0, 0x370A, &val);
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3123  	return sprintf(buf, "%s\n", (val & 0x4) ? "enabled" : "disabled");
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3124  }
-d1c38e8c82c4d3 Guoniu.zhou 2019-05-05  3125  
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  568  
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  569  static void hns3_get_strings(struct net_device *netdev, u32 stringset, u8 *data)
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  570  {
+9780cb97afd868 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Yunsheng Lin 2017-10-09  571  	struct hnae3_handle *h = hns3_get_handle(netdev);
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  572  	const struct hnae3_ae_ops *ops = h->ae_algo->ops;
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  573  	char *buff = (char *)data;
+35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  574  	int i;
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  575  
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  576  	if (!ops->get_strings)
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  577  		return;
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  578  
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  579  	switch (stringset) {
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  580  	case ETH_SS_STATS:
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  581  		buff = hns3_get_strings_tqps(h, buff);
+63cbf7a9414291 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Yufeng Mo    2019-06-07  582  		ops->get_strings(h, stringset, (u8 *)buff);
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  583  		break;
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  584  	case ETH_SS_TEST:
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  585  		ops->get_strings(h, stringset, data);
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  586  		break;
+35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  587  	case ETH_SS_PRIV_FLAGS:
+35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  588  		for (i = 0; i < HNS3_PRIV_FLAGS_LEN; i++) {
+35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16 @589  			snprintf(buff, ETH_GSTRING_LEN, "%s",
+35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  590  				 hns3_priv_flags[i].name);
+35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  591  			buff += ETH_GSTRING_LEN;
+35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  592  		}
+35e7064dbeed04 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2021-07-16  593  		break;
+fa7a4bd564ccca drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2018-09-21  594  	default:
+fa7a4bd564ccca drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c        Jian Shen    2018-09-21  595  		break;
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  596  	}
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  597  }
+496d03e960ae20 drivers/net/ethernet/hisilicon/hns3/hns3pf/hns3_ethtool.c Salil        2017-08-02  598  
 
-:::::: The code at line 3115 was first introduced by commit
-:::::: d1c38e8c82c4d3d280fe1344a53420c02dcea9fe media: staging: imx: add driver for GMSL MAX9286 device
+:::::: The code at line 589 was first introduced by commit
+:::::: 35e7064dbeed0431575404e80c1c0dcb5a922fb9 net: hns3: add priv flags support to switch limit promisc mode
 
-:::::: TO: Guoniu.zhou <guoniu.zhou@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+:::::: TO: Jian Shen <shenjian15@huawei.com>
+:::::: CC: Zheng Zengkai <zhengzengkai@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
