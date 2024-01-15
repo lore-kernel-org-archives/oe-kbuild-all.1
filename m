@@ -1,211 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF31882F;
-	Mon, 15 Jan 2024 08:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XAySov6z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705308431; x=1736844431;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1xWgi5kASA6dlTRDZTtCD0Jx+ThrEje1kmGZAUhdOXs=;
-  b=XAySov6zmPxl5hPrlHfG9RkIIvwxFCNubJqilSbsz0YRthBPaJ2uvRfs
-   LFUYuKkIUDSdAgnw0a5XmJkGKZ1oV6ljCZmmDVOl7AgNqBmC5a1m+dZR+
-   pnHBjKIPNwHXHuTcLhSSresuwfr938Kh+HQMwiDB1KhS0YPKcaH7SvZVf
-   OY7K7kgEJBI5AeSeLg+N8up7ANbzRAHmf6cxunBf4mm+o67Rar9ui4p1P
-   rQrTO4o5IZH5ILHx1P3Z62ShW3f4Tw9t+3R3DCSdfl+1dqFWrqGwCbJRb
-   SFMH9ccPVoHE6VX3pqqRGp4WcpiT04Z2q/Jni9R34lntQL9p41QjAQ4pv
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="396705789"
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
-   d="scan'208";a="396705789"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 00:47:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
-   d="scan'208";a="18093072"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Jan 2024 00:47:08 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPIbp-000CLO-0K;
-	Mon, 15 Jan 2024 08:46:40 +0000
-Date: Mon, 15 Jan 2024 16:44:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kevin Loughlin <kevinloughlin@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2] x86/sev: enforce RIP-relative accesses in early
- SEV/SME code
-Message-ID: <202401151649.U1tYCHdv-lkp@intel.com>
-References: <20240111223650.3502633-1-kevinloughlin@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B3E63AD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 10:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
+Received: from mail.maildlp.com ([172.25.15.154])
+	by h3cspam02-ex.h3c.com with ESMTP id 40FAfUqO038155;
+	Mon, 15 Jan 2024 18:41:30 +0800 (GMT-8)
+	(envelope-from hu.yadi@h3c.com)
+Received: from DAG6EX13-BJD.srv.huawei-3com.com (unknown [10.153.34.15])
+	by mail.maildlp.com (Postfix) with ESMTP id 88C4C2004DB6;
+	Mon, 15 Jan 2024 18:45:58 +0800 (CST)
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
+ DAG6EX13-BJD.srv.huawei-3com.com (10.153.34.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.27; Mon, 15 Jan 2024 18:41:32 +0800
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
+ by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
+ mapi id 15.02.1258.027; Mon, 15 Jan 2024 18:41:32 +0800
+From: Huyadi <hu.yadi@h3c.com>
+To: "'kernel test robot'" <lkp@intel.com>,
+        "jmorris@namei.org"
+	<jmorris@namei.org>,
+        "serge@hallyn.com" <serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mathieu.desnoyers@efficios.com"
+	<mathieu.desnoyers@efficios.com>,
+        "mic@digikod.net" <mic@digikod.net>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org"
+	<linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>,
+        "514118380@qq.com" <514118380@qq.com>
+Subject: =?gb2312?B?u9i4tDogW1BBVENIIHYzXSBzZWxmdGVzdHMvbGFuZGxvY2s6Rml4IHR3byBi?=
+ =?gb2312?Q?uild_issues?=
+Thread-Topic: [PATCH v3] selftests/landlock:Fix two build issues
+Thread-Index: AQHaRScQ690ykYEnskymgvTI87URSbDZuk8AgAD5tWA=
+Date: Mon, 15 Jan 2024 10:41:32 +0000
+Message-ID: <44bf55ff3e3649c88c5b1daf843a86b5@h3c.com>
+References: <20240112071245.669-1-hu.yadi@h3c.com>
+ <202401151147.T1s11iHJ-lkp@intel.com>
+In-Reply-To: <202401151147.T1s11iHJ-lkp@intel.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-sender-location: DAG2
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240111223650.3502633-1-kevinloughlin@google.com>
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:h3cspam02-ex.h3c.com 40FAfUqO038155
 
-Hi Kevin,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/x86/core]
-[also build test ERROR on tip/master tip/x86/mm linus/master v6.7 next-20240112]
-[cannot apply to tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kevin-Loughlin/x86-sev-enforce-RIP-relative-accesses-in-early-SEV-SME-code/20240112-063856
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20240111223650.3502633-1-kevinloughlin%40google.com
-patch subject: [RFC PATCH v2] x86/sev: enforce RIP-relative accesses in early SEV/SME code
-config: i386-randconfig-011-20240115 (https://download.01.org/0day-ci/archive/20240115/202401151649.U1tYCHdv-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401151649.U1tYCHdv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401151649.U1tYCHdv-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:79:
-   In file included from arch/x86/include/asm/preempt.h:9:
-   In file included from include/linux/thread_info.h:60:
-   In file included from arch/x86/include/asm/thread_info.h:12:
-   In file included from arch/x86/include/asm/page.h:9:
-   In file included from arch/x86/include/asm/page_types.h:7:
-   In file included from include/linux/mem_encrypt.h:17:
->> arch/x86/include/asm/mem_encrypt.h:139:19: error: cannot take the address of an rvalue of type 'unsigned long long'
-     139 |         return *((u64 *) GET_RIP_RELATIVE_PTR(sme_me_mask));
-         |                          ^                    ~~~~~~~~~~~
-   arch/x86/include/asm/mem_encrypt.h:30:10: note: expanded from macro 'GET_RIP_RELATIVE_PTR'
-      30 |                 : "p" (&var));          \
-         |                        ^~~~
-   arch/x86/include/asm/mem_encrypt.h:144:19: error: cannot take the address of an rvalue of type 'unsigned long long'
-     144 |         return *((u64 *) GET_RIP_RELATIVE_PTR(sev_status));
-         |                          ^                    ~~~~~~~~~~
-   arch/x86/include/asm/mem_encrypt.h:30:10: note: expanded from macro 'GET_RIP_RELATIVE_PTR'
-      30 |                 : "p" (&var));          \
-         |                        ^~~~
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      97 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      97 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-
-
-vim +139 arch/x86/include/asm/mem_encrypt.h
-
-   136	
-   137	static inline u64 sme_get_me_mask_fixup(void)
-   138	{
- > 139		return *((u64 *) GET_RIP_RELATIVE_PTR(sme_me_mask));
-   140	}
-   141	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+DQo+SGkgSHUsDQo+DQo+a2VybmVsIHRlc3Qgcm9ib3Qgbm90aWNlZCB0aGUgZm9sbG93aW5nIGJ1
+aWxkIGVycm9yczoNCj4NCj4gW2F1dG8gYnVpbGQgdGVzdCBFUlJPUiBvbiBzaHVhaC1rc2VsZnRl
+c3QvbmV4dF0gW2Fsc28gYnVpbGQgdGVzdCBFUlJPUiBvbiBzaHVhaC1rc2VsZnRlc3QvZml4ZXMg
+bGludXMvbWFzdGVyIHY2LjcgbmV4dC0yMDI0MDExMl0gW0lmIHlvdXIgcGF0Y2ggaXMgYXBwbGll
+ZCB0byB0aGUgd3JvbmcgZ2l0IHRyZWUsIGtpbmRseSBkcm9wIHVzIGEgbm90ZS4NCj5BbmQgd2hl
+biBzdWJtaXR0aW5nIHBhdGNoLCB3ZSBzdWdnZXN0IHRvIHVzZSAnLS1iYXNlJyBhcyBkb2N1bWVu
+dGVkIGluIGh0dHBzOi8vZ2l0LXNjbS5jb20vZG9jcy9naXQtZm9ybWF0LXBhdGNoI19iYXNlX3Ry
+ZWVfaW5mb3JtYXRpb25dDQoNCj51cmw6ICAgIGh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC1sYWIt
+bGtwL2xpbnV4L2NvbW1pdHMvSHUtWWFkaS9zZWxmdGVzdHMtbGFuZGxvY2stRml4LXR3by1idWls
+ZC1pc3N1ZXMvMjAyNDAxMTItMTUxODA1DQo+YmFzZTogICBodHRwczovL2dpdC5rZXJuZWwub3Jn
+L3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9zaHVhaC9saW51eC1rc2VsZnRlc3QuZ2l0IG5leHQN
+Cj5wYXRjaCBsaW5rOiAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjQwMTEyMDcxMjQ1
+LjY2OS0xLWh1LnlhZGklNDBoM2MuY29tDQo+cGF0Y2ggc3ViamVjdDogW1BBVENIIHYzXSBzZWxm
+dGVzdHMvbGFuZGxvY2s6Rml4IHR3byBidWlsZCBpc3N1ZXMNCj5jb21waWxlcjogZ2NjLTEyIChE
+ZWJpYW4gMTIuMi4wLTE0KSAxMi4yLjAgcmVwcm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKTog
+KGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDI0MDExNS8yMDI0MDEx
+NTExNDcuVDFzMTFpSEotbGtwQGludGVsLmNvbS9yZXByb2R1Y2UpDQo+DQo+SWYgeW91IGZpeCB0
+aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBwYXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcg
+dmVyc2lvbiBvZiB0aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0
+YWdzDQo+fCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+DQo+
+fCBDbG9zZXM6IA0KPnwgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDI0
+MDExNTExNDcuVDFzMTFpSEotbGtwQGludGVsLg0KPnwgY29tLw0KPg0KPkFsbCBlcnJvcnMgKG5l
+dyBvbmVzIHByZWZpeGVkIGJ5ID4+KToNCj4NCg0KRml4IGl0LCBhbmQgc2VuZCBwYXRjaCBWNCBz
+b29uLg0KDQo+Pj4gbmV0X3Rlc3QuYzoyNToxNDogZXJyb3I6IHN0YXRpYyBkZWNsYXJhdGlvbiBv
+ZiAnZ2V0dGlkJyBmb2xsb3dzIA0KPj4+IG5vbi1zdGF0aWMgZGVjbGFyYXRpb24NCj4gICAgICAy
+NSB8IHN0YXRpYyBwaWRfdCBnZXR0aWQodm9pZCkNCj4gICAgICAgICB8ICAgICAgICAgICAgICBe
+fn5+fn4NCj4gICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gL3Vzci9pbmNsdWRlL3VuaXN0ZC5oOjEy
+MTgsDQo+ICAgICAgICAgICAgICAgICAgICBmcm9tIC91c3IvaW5jbHVkZS94ODZfNjQtbGludXgt
+Z251L2JpdHMvc2lnc3Rrc3ouaDoyNCwNCj4gICAgICAgICAgICAgICAgICAgIGZyb20gL3Vzci9p
+bmNsdWRlL3NpZ25hbC5oOjMyOCwNCj4gICAgICAgICAgICAgICAgICAgIGZyb20gL3Vzci9pbmNs
+dWRlL3g4Nl82NC1saW51eC1nbnUvc3lzL3dhaXQuaDozNiwNCj4gICAgICAgICAgICAgICAgICAg
+IGZyb20gY29tbW9uLmg6MTYsDQo+ICAgICAgICAgICAgICAgICAgICBmcm9tIG5ldF90ZXN0LmM6
+MjI6DQo+ICAgL3Vzci9pbmNsdWRlL3g4Nl82NC1saW51eC1nbnUvYml0cy91bmlzdGRfZXh0Lmg6
+MzQ6MTY6IG5vdGU6IHByZXZpb3VzIGRlY2xhcmF0aW9uIG9mICdnZXR0aWQnIHdpdGggdHlwZSAn
+X19waWRfdCh2b2lkKScge2FrYSAnaW50KHZvaWQpJ30NCj4gICAgICAzNCB8IGV4dGVybiBfX3Bp
+ZF90IGdldHRpZCAodm9pZCkgX19USFJPVzsNCj4gICAgICAgICB8ICAgICAgICAgICAgICAgIF5+
+fn5+fg0KPg0KPi0tDQo+MC1EQVkgQ0kgS2VybmVsIFRlc3QgU2VydmljZQ0KaHR0cHM6Ly9naXRo
+dWIuY29tL2ludGVsL2xrcC10ZXN0cy93aWtpDQo=
