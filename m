@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF1B18627
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 18:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D92A1B7E0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 22:39:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bskdb/Uo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIK5AYDq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705342537; x=1736878537;
+  t=1705358376; x=1736894376;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e5HtEiJqxM8HUgXCO75ZfpHdH3fqr0CDxBWgUgQQ0v8=;
-  b=Bskdb/UoNTyLdz6POWKS3soWWryHfeETfyS+dP19XBBK1bvEYj+EQrTH
-   Ms1BB+Jk/z54DMpn6ye3SNYoNt9W4A28psFFQc5huEuYgfZk0EuDwYn0o
-   NYNq5ycSxWjEO6dtT3tD1TZ3sTnALV4c7+1VTa6xCqEYeBomJZAZQ1mOb
-   uIMiWB4F0/vgXB7/oWGHFSxa1fws3NQQeD54G2jhVoJrpF8fAtKI7g3kn
-   A5JE6Yob3XBDwZ10mz2gt7pdzDYc8F1+idpUhzyyeI0SL5idiOYU/W7rw
-   RCP0PiO0JlwAXQprOpUN9bVDujmhMlCsnsx90TCAqk7JpWug32VMka4tp
+  bh=KKRIEU5WKaIBRlqCA5izg094N5snF9+a3kcG+Cgm7W8=;
+  b=LIK5AYDq0ZZOzwqmrX/YzPZ9l4UBFgfpLfexP6go4yRCRLMk3qebKRPG
+   n4Lpdg2LmUnQW0BKziF9K/MD+0czgCxEz8lFVmxzG+EVsF7b2EeWSmIJ+
+   F80JYiyYLT4IvdGAGxWejras3kSngzeeW4G5XXiV8boCLpafiV3C2FgZN
+   y0+sxTZBDdCmy7NwoQaFhQk6q2k0uvdXEtRUl4x568j9S6faQwRkbkdxM
+   X+gYbzrGC6L2ffiQelDHynRoQeMwWTAtn42lBUVtATOWmxR0pTNxMyff0
+   9k/ZveFn4/GltTRTH7NSkhbuo4mbYsEBLeWQ8/5SZbkXZOmajrFZ2pl+t
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="13167250"
+X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="21177416"
 X-IronPort-AV: E=Sophos;i="6.04,197,1695711600"; 
-   d="scan'208";a="13167250"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 10:15:36 -0800
+   d="scan'208";a="21177416"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 14:39:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="907115799"
 X-IronPort-AV: E=Sophos;i="6.04,197,1695711600"; 
-   d="scan'208";a="907115799"
+   d="scan'208";a="32237975"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Jan 2024 10:15:35 -0800
+  by orviesa001.jf.intel.com with ESMTP; 15 Jan 2024 14:39:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPRUi-000Ceo-1Q;
-	Mon, 15 Jan 2024 18:15:32 +0000
-Date: Tue, 16 Jan 2024 02:15:01 +0800
+	id 1rPVcA-000Cls-2l;
+	Mon, 15 Jan 2024 22:39:30 +0000
+Date: Tue, 16 Jan 2024 06:39:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-nonmm-unstable 22/23] include/linux/stddef.h:8:14:
- error: invalid initializer
-Message-ID: <202401160231.mSAgDn9b-lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Heiko Stuebner <heiko@sntech.de>, Alex Bee <knaerzche@gmail.com>
+Subject: [drm-misc:drm-misc-next 6/21]
+ drivers/gpu/drm/rockchip/inno_hdmi.c:499:13: warning: assignment makes
+ pointer from integer without a cast
+Message-ID: <202401160618.cgYEdslz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,51 +51,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   3d69c575710800c9a4a58e94c157697310e32027
-commit: 526a17b65d5160a9ef956fb716172bd307109ff8 [22/23] lib/group_cpus: fix initialization section in group_cpus_evenly()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240116/202401160231.mSAgDn9b-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240116/202401160231.mSAgDn9b-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   ea489a3d983ba788c64712a55073d2a541e30d44
+commit: d3e040f450ec8e46ff42fa495a433b976ab47686 [6/21] drm/rockchip: inno_hdmi: Get rid of mode_set
+config: um-randconfig-r113-20240116 (https://download.01.org/0day-ci/archive/20240116/202401160618.cgYEdslz-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240116/202401160618.cgYEdslz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401160231.mSAgDn9b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401160618.cgYEdslz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:251,
-                    from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16,
-                    from lib/group_cpus.c:6:
-   lib/group_cpus.c: In function 'group_cpus_evenly':
->> include/linux/stddef.h:8:14: error: invalid initializer
-       8 | #define NULL ((void *)0)
-         |              ^
-   lib/group_cpus.c:352:59: note: in expansion of macro 'NULL'
-     352 |         cpumask_var_t npresmsk __free(free_cpumask_var) = NULL;
-         |                                                           ^~~~
+   drivers/gpu/drm/rockchip/inno_hdmi.c: In function 'inno_hdmi_encoder_enable':
+   drivers/gpu/drm/rockchip/inno_hdmi.c:499:15: error: implicit declaration of function 'drm_atomic_get_new_connector_state'; did you mean 'drm_atomic_helper_connector_reset'? [-Werror=implicit-function-declaration]
+     conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                  drm_atomic_helper_connector_reset
+>> drivers/gpu/drm/rockchip/inno_hdmi.c:499:13: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+                ^
+   drivers/gpu/drm/rockchip/inno_hdmi.c:503:15: error: implicit declaration of function 'drm_atomic_get_new_crtc_state'; did you mean 'drm_atomic_helper_swap_state'? [-Werror=implicit-function-declaration]
+     crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                  drm_atomic_helper_swap_state
+   drivers/gpu/drm/rockchip/inno_hdmi.c:503:13: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+                ^
+   cc1: some warnings being treated as errors
 
 
-vim +8 include/linux/stddef.h
+vim +499 drivers/gpu/drm/rockchip/inno_hdmi.c
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e218287432472 Richard Knutsson 2006-09-30  9  
-
-:::::: The code at line 8 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   491	
+   492	static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
+   493					     struct drm_atomic_state *state)
+   494	{
+   495		struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+   496		struct drm_connector_state *conn_state;
+   497		struct drm_crtc_state *crtc_state;
+   498	
+ > 499		conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
+   500		if (WARN_ON(!conn_state))
+   501			return;
+   502	
+   503		crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+   504		if (WARN_ON(!crtc_state))
+   505			return;
+   506	
+   507		inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
+   508		inno_hdmi_set_pwr_mode(hdmi, NORMAL);
+   509	}
+   510	
 
 -- 
 0-DAY CI Kernel Test Service
