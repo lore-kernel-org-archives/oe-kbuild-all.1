@@ -1,61 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049A418040
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 17:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF1B18627
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 18:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWXKfkDf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bskdb/Uo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705341280; x=1736877280;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GDOv+KMLJXKRPES2lOk9CeXDyPmRMw69IQKLB2cntJM=;
-  b=BWXKfkDfPtEz+VfHpMvWM1SkfGISn9ZyFSF7i67MzSJfmnAC13Cqk9uB
-   JoG6ZTUXPGNU6/lAJgKtoaWiTylR70W9tpr8qzXQfyNHJsC9hJv/qboLx
-   OSSXr/dLp2DQEpMdMBB8n++jFyK7kQ2rVpgTz5Ddsr9nATBc93ETDsyqt
-   a4MxQps9qPkdkwfN34YSJ8Lu/AWKYErS0UZp3DOaZXVt9ZYoZIlZmdBIc
-   b2QkuEqyi1Qw4DGnVTOO3k2Fc5ZzUgpn7q8i63kdiDFMC1aK3YKs4GsvM
-   C/G70rFpRprVOJom4NOvVazBpKJhimLWM86gWiBW6VPkQjYaiSqI+Gujq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="466045453"
+  t=1705342537; x=1736878537;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e5HtEiJqxM8HUgXCO75ZfpHdH3fqr0CDxBWgUgQQ0v8=;
+  b=Bskdb/UoNTyLdz6POWKS3soWWryHfeETfyS+dP19XBBK1bvEYj+EQrTH
+   Ms1BB+Jk/z54DMpn6ye3SNYoNt9W4A28psFFQc5huEuYgfZk0EuDwYn0o
+   NYNq5ycSxWjEO6dtT3tD1TZ3sTnALV4c7+1VTa6xCqEYeBomJZAZQ1mOb
+   uIMiWB4F0/vgXB7/oWGHFSxa1fws3NQQeD54G2jhVoJrpF8fAtKI7g3kn
+   A5JE6Yob3XBDwZ10mz2gt7pdzDYc8F1+idpUhzyyeI0SL5idiOYU/W7rw
+   RCP0PiO0JlwAXQprOpUN9bVDujmhMlCsnsx90TCAqk7JpWug32VMka4tp
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="13167250"
 X-IronPort-AV: E=Sophos;i="6.04,197,1695711600"; 
-   d="scan'208";a="466045453"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 09:54:39 -0800
+   d="scan'208";a="13167250"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 10:15:36 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="907115799"
 X-IronPort-AV: E=Sophos;i="6.04,197,1695711600"; 
-   d="scan'208";a="32190049"
+   d="scan'208";a="907115799"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 15 Jan 2024 09:54:31 -0800
+  by orsmga004.jf.intel.com with ESMTP; 15 Jan 2024 10:15:35 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPRAF-000Ce0-1n;
-	Mon, 15 Jan 2024 17:54:27 +0000
-Date: Tue, 16 Jan 2024 01:54:23 +0800
+	id 1rPRUi-000Ceo-1Q;
+	Mon, 15 Jan 2024 18:15:32 +0000
+Date: Tue, 16 Jan 2024 02:15:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Farouk Bouabid <farouk.bouabid@theobroma-systems.com>,
-	victor.liu@nxp.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	daniel@ffwll.ch, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	khilman@baylibre.com, jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com, hjc@rock-chips.com,
-	heiko@sntech.de, yannick.fertre@foss.st.com,
-	raphael.gallais-pou@foss.st.com, philippe.cornu@foss.st.com,
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-amlogic@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] drm/bridge: synopsys: dw-mipi-dsi: fix deferred dsi host
- probe breaks dsi device probe
-Message-ID: <202401160108.j5Lqkppm-lkp@intel.com>
-References: <20240112180737.551318-1-farouk.bouabid@theobroma-systems.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-nonmm-unstable 22/23] include/linux/stddef.h:8:14:
+ error: invalid initializer
+Message-ID: <202401160231.mSAgDn9b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,129 +51,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240112180737.551318-1-farouk.bouabid@theobroma-systems.com>
 
-Hi Farouk,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next linus/master v6.7 next-20240112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Farouk-Bouabid/drm-bridge-synopsys-dw-mipi-dsi-fix-deferred-dsi-host-probe-breaks-dsi-device-probe/20240113-020945
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240112180737.551318-1-farouk.bouabid%40theobroma-systems.com
-patch subject: [PATCH] drm/bridge: synopsys: dw-mipi-dsi: fix deferred dsi host probe breaks dsi device probe
-config: i386-buildonly-randconfig-002-20240115 (https://download.01.org/0day-ci/archive/20240116/202401160108.j5Lqkppm-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   3d69c575710800c9a4a58e94c157697310e32027
+commit: 526a17b65d5160a9ef956fb716172bd307109ff8 [22/23] lib/group_cpus: fix initialization section in group_cpus_evenly()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240116/202401160231.mSAgDn9b-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240116/202401160108.j5Lqkppm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240116/202401160231.mSAgDn9b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401160108.j5Lqkppm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401160231.mSAgDn9b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c:1187:5: warning: no previous prototype for '__dw_mipi_dsi_probe' [-Wmissing-prototypes]
-    1187 | int __dw_mipi_dsi_probe(struct platform_device *pdev,
-         |     ^~~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:251,
+                    from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from lib/group_cpus.c:6:
+   lib/group_cpus.c: In function 'group_cpus_evenly':
+>> include/linux/stddef.h:8:14: error: invalid initializer
+       8 | #define NULL ((void *)0)
+         |              ^
+   lib/group_cpus.c:352:59: note: in expansion of macro 'NULL'
+     352 |         cpumask_var_t npresmsk __free(free_cpumask_var) = NULL;
+         |                                                           ^~~~
 
 
-vim +/__dw_mipi_dsi_probe +1187 drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+vim +8 include/linux/stddef.h
 
-  1186	
-> 1187	int __dw_mipi_dsi_probe(struct platform_device *pdev,
-  1188			    const struct dw_mipi_dsi_plat_data *plat_data, struct dw_mipi_dsi **dsi_p)
-  1189	{
-  1190		struct device *dev = &pdev->dev;
-  1191		struct reset_control *apb_rst;
-  1192		struct dw_mipi_dsi *dsi;
-  1193		int ret;
-  1194	
-  1195		*dsi_p = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-  1196		if (!*dsi_p)
-  1197			return -ENOMEM;
-  1198	
-  1199		dsi = *dsi_p;
-  1200	
-  1201		dsi->dev = dev;
-  1202		dsi->plat_data = plat_data;
-  1203	
-  1204		if (!plat_data->phy_ops->init || !plat_data->phy_ops->get_lane_mbps ||
-  1205		    !plat_data->phy_ops->get_timing) {
-  1206			DRM_ERROR("Phy not properly configured\n");
-  1207			return -ENODEV;
-  1208		}
-  1209	
-  1210		if (!plat_data->base) {
-  1211			dsi->base = devm_platform_ioremap_resource(pdev, 0);
-  1212			if (IS_ERR(dsi->base))
-  1213				return -ENODEV;
-  1214	
-  1215		} else {
-  1216			dsi->base = plat_data->base;
-  1217		}
-  1218	
-  1219		dsi->pclk = devm_clk_get(dev, "pclk");
-  1220		if (IS_ERR(dsi->pclk)) {
-  1221			ret = PTR_ERR(dsi->pclk);
-  1222			dev_err(dev, "Unable to get pclk: %d\n", ret);
-  1223			return ret;
-  1224		}
-  1225	
-  1226		/*
-  1227		 * Note that the reset was not defined in the initial device tree, so
-  1228		 * we have to be prepared for it not being found.
-  1229		 */
-  1230		apb_rst = devm_reset_control_get_optional_exclusive(dev, "apb");
-  1231		if (IS_ERR(apb_rst)) {
-  1232			ret = PTR_ERR(apb_rst);
-  1233	
-  1234			if (ret != -EPROBE_DEFER)
-  1235				dev_err(dev, "Unable to get reset control: %d\n", ret);
-  1236	
-  1237			return ret;
-  1238		}
-  1239	
-  1240		if (apb_rst) {
-  1241			ret = clk_prepare_enable(dsi->pclk);
-  1242			if (ret) {
-  1243				dev_err(dev, "%s: Failed to enable pclk\n", __func__);
-  1244				return ret;
-  1245			}
-  1246	
-  1247			reset_control_assert(apb_rst);
-  1248			usleep_range(10, 20);
-  1249			reset_control_deassert(apb_rst);
-  1250	
-  1251			clk_disable_unprepare(dsi->pclk);
-  1252		}
-  1253	
-  1254		dw_mipi_dsi_debugfs_init(dsi);
-  1255		pm_runtime_enable(dev);
-  1256	
-  1257		dsi->dsi_host.ops = &dw_mipi_dsi_host_ops;
-  1258		dsi->dsi_host.dev = dev;
-  1259		dsi->bridge.driver_private = dsi;
-  1260		dsi->bridge.funcs = &dw_mipi_dsi_bridge_funcs;
-  1261		dsi->bridge.of_node = pdev->dev.of_node;
-  1262	
-  1263		ret = mipi_dsi_host_register(&dsi->dsi_host);
-  1264		if (ret) {
-  1265			dev_err(dev, "Failed to register MIPI host: %d\n", ret);
-  1266			pm_runtime_disable(dev);
-  1267			dw_mipi_dsi_debugfs_remove(dsi);
-  1268			return ret;
-  1269		}
-  1270	
-  1271	
-  1272		return 0;
-  1273	}
-  1274	
+^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
+6e218287432472 Richard Knutsson 2006-09-30  9  
+
+:::::: The code at line 8 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
