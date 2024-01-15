@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB801FAB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 04:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7471A1FB9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 04:28:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxkSb/5e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWH9e6s9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705292920; x=1736828920;
+  t=1705292921; x=1736828921;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V1oAIpF8t3An5yyswddKvv5oN6BWV9X7Lf42d++cuL8=;
-  b=kxkSb/5ews1KbdSLbctxaygfD00XmmlBWUVmbUtS0/r++JQKgLEz8wg0
-   WyqKc+gdIjhrUT7Z+SEM4dksYfLlTwqkUBnqpHhThcCv9OL8D85SbagTO
-   2Fakyy0rql7e3ghy27wTLMG1IoMAzemJeYqE21dlMxhU8K4J5YSXDDRrm
-   HNxsXE8juQDXlAmw2pJrhT9Z6gzVwFYL19eZ/zc8ctdBgMhgrIYsxTF1d
-   tUIOULp9lnTo89PNR6AAz7qez41W9nsdTkrrRs+Ct+TP4qWHSsiiAB9ut
-   sbyzjjlGzJJvodenfcFzLagCsaQZsyktbOC+Ann/IXxJrrIjX5ev27czX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="399209733"
+  bh=vg9rrQNnxx0hCgmrr1/1ynLqsD9wMMWaEV4duRQP5Xk=;
+  b=CWH9e6s9tOYmTXCDw4TAJ30kdxg7IwPP1Yi3GBuiVvOglkA2NdIZLjLO
+   B1ozhQjFixnRwq7YGkYPwEK0clfoZcs32b9JBU8MV/+E4UgEN14SVqcuw
+   On3ui3f1WrDIfqSzlnBFkmjvg8+IMTMl380mffmw9KevLG58V7GoGTGgF
+   b9A4FH7oNiQAhqQ0cDeWr4jcSsJUsLoDfedVMflihlWJD9pqqLwMvwLNI
+   ZvKy7t3GtQrh432yDLGld17JtaHtKdXLoAxFHcAaES0D4NleEyoeb0Yg7
+   rhGXHGwR/NjXSDaq5ImxVigDZzabp9mok5TN+DqaKyjpRqvl/i4ta2/q0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="12891855"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="399209733"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 20:28:40 -0800
+   d="scan'208";a="12891855"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 20:28:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="1030539599"
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="1114823586"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="1030539599"
+   d="scan'208";a="1114823586"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Jan 2024 20:28:39 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 14 Jan 2024 20:28:39 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPEaT-000C8t-0W;
+	id 1rPEaT-000C8q-0N;
 	Mon, 15 Jan 2024 04:28:37 +0000
-Date: Mon, 15 Jan 2024 12:28:28 +0800
+Date: Mon, 15 Jan 2024 12:28:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.6/zen-sauce 5/31]
- drivers/pci/controller/intel-nvme-remap.c:129:9: sparse: sparse: cast
- truncates bits from constant value (10601 becomes 1)
-Message-ID: <202401151207.qiItGNfl-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: include/trace/events/jbd2.h:356:1: sparse: sparse: cast to
+ restricted blk_opf_t
+Message-ID: <202401151239.cNgBQqgO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,101 +51,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.6/zen-sauce
-head:   4deded679db72f26a78e8134688c20f9289367df
-commit: 86da31dc0b4f191e8c2a75592b853799458113ea [5/31] ZEN: PCI: Add Intel remapped NVMe device support
-config: x86_64-randconfig-122-20240115 (https://download.01.org/0day-ci/archive/20240115/202401151207.qiItGNfl-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401151207.qiItGNfl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
+commit: 6669797b0dd41ced457760b6e1014fdda8ce19ce fs/jbd2: Fix the documentation of the jbd2_write_superblock() callers
+date:   1 year, 6 months ago
+config: x86_64-randconfig-121-20240107 (https://download.01.org/0day-ci/archive/20240115/202401151239.cNgBQqgO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401151239.cNgBQqgO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401151207.qiItGNfl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401151239.cNgBQqgO-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/pci/controller/intel-nvme-remap.c:129:9: sparse: sparse: cast truncates bits from constant value (10601 becomes 1)
-   drivers/pci/controller/intel-nvme-remap.c:129:9: sparse: sparse: cast truncates bits from constant value (106 becomes 6)
->> drivers/pci/controller/intel-nvme-remap.c:143:17: sparse: sparse: cast truncates bits from constant value (c000 becomes 0)
-   drivers/pci/controller/intel-nvme-remap.c:168:9: sparse: sparse: cast truncates bits from constant value (8086 becomes 86)
-   drivers/pci/controller/intel-nvme-remap.c:174:9: sparse: sparse: cast truncates bits from constant value (10802 becomes 2)
-   drivers/pci/controller/intel-nvme-remap.c:174:9: sparse: sparse: cast truncates bits from constant value (108 becomes 8)
->> drivers/pci/controller/intel-nvme-remap.c:446:17: sparse: sparse: Initializer entry defined twice
-   drivers/pci/controller/intel-nvme-remap.c:447:18: sparse:   also defined here
+   fs/jbd2/journal.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/jbd2.h):
+>> include/trace/events/jbd2.h:356:1: sparse: sparse: cast to restricted blk_opf_t
+>> include/trace/events/jbd2.h:356:1: sparse: sparse: cast to restricted blk_opf_t
+>> include/trace/events/jbd2.h:356:1: sparse: sparse: restricted blk_opf_t degrades to integer
+>> include/trace/events/jbd2.h:356:1: sparse: sparse: restricted blk_opf_t degrades to integer
 
-vim +129 drivers/pci/controller/intel-nvme-remap.c
+vim +356 include/trace/events/jbd2.h
 
-    79	
-    80	/*
-    81	 * Helper macros for tweaking returned contents of PCI configuration space.
-    82	 *
-    83	 * value contains len bytes of data read from reg.
-    84	 * If fixup_reg is included in that range, fix up the contents of that
-    85	 * register to fixed_value.
-    86	 */
-    87	#define NR_FIX8(fixup_reg, fixed_value) do { \
-    88			if (reg <= fixup_reg && fixup_reg < reg + len) \
-    89				((u8 *) value)[fixup_reg - reg] = (u8) (fixed_value); \
-    90		} while (0)
-    91	
-    92	#define NR_FIX16(fixup_reg, fixed_value) do { \
-    93			NR_FIX8(fixup_reg, fixed_value); \
-    94			NR_FIX8(fixup_reg + 1, fixed_value >> 8); \
-    95		} while (0)
-    96	
-    97	#define NR_FIX24(fixup_reg, fixed_value) do { \
-    98			NR_FIX8(fixup_reg, fixed_value); \
-    99			NR_FIX8(fixup_reg + 1, fixed_value >> 8); \
-   100			NR_FIX8(fixup_reg + 2, fixed_value >> 16); \
-   101		} while (0)
-   102	
-   103	#define NR_FIX32(fixup_reg, fixed_value) do { \
-   104			NR_FIX16(fixup_reg, (u16) fixed_value); \
-   105			NR_FIX16(fixup_reg + 2, fixed_value >> 16); \
-   106		} while (0)
-   107	
-   108	/*
-   109	 * Read PCI config space of the slot 0 (AHCI) device.
-   110	 * We pass through the read request to the underlying device, but
-   111	 * tweak the results in some cases.
-   112	 */
-   113	static int nvme_remap_pci_read_slot0(struct pci_bus *bus, int reg,
-   114					     int len, u32 *value)
-   115	{
-   116		struct nvme_remap_dev *nrdev = nrdev_from_bus(bus);
-   117		struct pci_bus *ahci_dev_bus = nrdev->dev->bus;
-   118		int ret;
-   119	
-   120		ret = ahci_dev_bus->ops->read(ahci_dev_bus, nrdev->dev->devfn,
-   121					      reg, len, value);
-   122		if (ret)
-   123			return ret;
-   124	
-   125		/*
-   126		 * Adjust the device class, to prevent this driver from attempting to
-   127		 * additionally probe the device we're simulating here.
-   128		 */
- > 129		NR_FIX24(PCI_CLASS_PROG, PCI_CLASS_STORAGE_SATA_AHCI);
-   130	
-   131		/*
-   132		 * Unset interrupt pin, otherwise ACPI tries to find routing
-   133		 * info for our virtual IRQ, fails, and complains.
-   134		 */
-   135		NR_FIX8(PCI_INTERRUPT_PIN, 0);
-   136	
-   137		/*
-   138		 * Truncate the AHCI BAR to not include the region that covers the
-   139		 * hidden devices. This will cause the ahci driver to successfully
-   140		 * probe th new device (instead of handing it over to this driver).
-   141		 */
-   142		if (nrdev->bar_sizing) {
- > 143			NR_FIX32(PCI_BASE_ADDRESS_5, ~(SZ_16K - 1));
-   144			nrdev->bar_sizing = false;
-   145		}
-   146	
-   147		return PCIBIOS_SUCCESSFUL;
-   148	}
-   149	
+71f2be213a00090 Theodore Ts'o   2009-12-23  355  
+24bcc89c7e7c649 Jan Kara        2012-03-13 @356  TRACE_EVENT(jbd2_write_superblock,
+2201c590dd6e802 Seiji Aguchi    2012-02-20  357  
+6669797b0dd41ce Bart Van Assche 2022-07-14  358  	TP_PROTO(journal_t *journal, blk_opf_t write_flags),
+2201c590dd6e802 Seiji Aguchi    2012-02-20  359  
+6669797b0dd41ce Bart Van Assche 2022-07-14  360  	TP_ARGS(journal, write_flags),
+2201c590dd6e802 Seiji Aguchi    2012-02-20  361  
+2201c590dd6e802 Seiji Aguchi    2012-02-20  362  	TP_STRUCT__entry(
+2201c590dd6e802 Seiji Aguchi    2012-02-20  363  		__field(	dev_t,  dev			)
+6669797b0dd41ce Bart Van Assche 2022-07-14  364  		__field(    blk_opf_t,  write_flags		)
+2201c590dd6e802 Seiji Aguchi    2012-02-20  365  	),
+2201c590dd6e802 Seiji Aguchi    2012-02-20  366  
+2201c590dd6e802 Seiji Aguchi    2012-02-20  367  	TP_fast_assign(
+2201c590dd6e802 Seiji Aguchi    2012-02-20  368  		__entry->dev		= journal->j_fs_dev->bd_dev;
+6669797b0dd41ce Bart Van Assche 2022-07-14  369  		__entry->write_flags	= write_flags;
+2201c590dd6e802 Seiji Aguchi    2012-02-20  370  	),
+2201c590dd6e802 Seiji Aguchi    2012-02-20  371  
+6669797b0dd41ce Bart Van Assche 2022-07-14  372  	TP_printk("dev %d,%d write_flags %x", MAJOR(__entry->dev),
+6669797b0dd41ce Bart Van Assche 2022-07-14  373  		  MINOR(__entry->dev), (__force u32)__entry->write_flags)
+2201c590dd6e802 Seiji Aguchi    2012-02-20  374  );
+2201c590dd6e802 Seiji Aguchi    2012-02-20  375  
+
+:::::: The code at line 356 was first introduced by commit
+:::::: 24bcc89c7e7c64982e6192b4952a0a92379fc341 jbd2: split updating of journal superblock and marking journal empty
+
+:::::: TO: Jan Kara <jack@suse.cz>
+:::::: CC: Theodore Ts'o <tytso@mit.edu>
 
 -- 
 0-DAY CI Kernel Test Service
