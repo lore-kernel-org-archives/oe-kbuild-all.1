@@ -1,45 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50D31FAE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 03:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD07E1842
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 03:42:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Curg8M7c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMjkvIQo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705288833; x=1736824833;
+  t=1705290154; x=1736826154;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ivsuH3IajAsKYE98xq7oEDhRK4j/kaaiRahz9dpLGb0=;
-  b=Curg8M7cMnCHmL5FGWIligBNtBXmiq6fTqO6XSJgBWIcHD2yjxuqouNf
-   N/2UjSoyYYbVAU511CnxH5i/mUENsMwdnX7h2yjSWzsLbJZZ88byu10HP
-   DsEtOjWW1pXKS7qtRXI/Ong7VscIs04H7rE7pc0KdUjBdiJdxURXyQrZH
-   RvzVCiQAoLGhehp/2cCrYZmbrGkJyynJY8q7yRPf/ORGOHZnCLaAacprM
-   yiZ9QOly/aH3SVJCqpacpIfCneRVJCCtAiUEG7/jFxToAM0yLZKtTLqRB
-   CxIh3Sc6tPS+WWsMPMD6zs/gFR4XY78LYQkBQT8ww7KS9WZua+lvcQLvj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6239722"
+  bh=CW+Vf2LhvaonZZEG4r6Tpoa3jqZsZ6TCUFTG4m24tRw=;
+  b=EMjkvIQop83Ms8MCLank1V+ljjndnFytBQX3Wu8Bq6yvXVV0z9D1FbdH
+   dR/97gbvsKPTXA1C2kwuygqrHKf9r0WpguAYXLwgmp7bxWVSZwIHdpS46
+   Qfn5wv/MsWyGxvBHG40pkCdSPgukXgX2ubDbKNi7MJ4DqGEfCboyxRSmE
+   DqZEcvJKiF+LItX3eqLl8FljSa3UoSgOeJij8ztmYAmezeTQzJktYKyh2
+   TUzNmzxZ0DsS4ILV/5UTg5Q5t5UWD/AcVBSQ4x7b336kWj6D6KHpbkEpG
+   yM/hfV5p5p2yuUSioQk9Od8uMtn9hyXij9JuwnSkoUYwzEXrRIonu+kJr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6896130"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="6239722"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 19:20:30 -0800
+   d="scan'208";a="6896130"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 19:42:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="18021452"
+   d="scan'208";a="32013846"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Jan 2024 19:20:30 -0800
+  by orviesa001.jf.intel.com with ESMTP; 14 Jan 2024 19:42:30 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPDUU-000C35-2K;
-	Mon, 15 Jan 2024 03:19:44 +0000
-Date: Mon, 15 Jan 2024 11:14:34 +0800
+	id 1rPDrd-000C5H-0P;
+	Mon, 15 Jan 2024 03:42:17 +0000
+Date: Mon, 15 Jan 2024 11:35:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 26173/30000] fs/xfs/libxfs/xfs_alloc.c:91:1:
- warning: no previous prototype for function 'xfs_ag_fixup_aside'
-Message-ID: <202401151109.dcoo1KEi-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 18747/21544] arch/x86/mm/maccess.o:
+ warning: objtool: missing symbol for section .text
+Message-ID: <202401151100.dWAZqpHu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,52 +49,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   6d9d4951bf741189c66627715d5ae8a8cf1df85f
-commit: 12a5c9f8f69c682f3aaf799a18f4a3631cc9bfbc [26173/30000] xfs: fix xfs shutdown since we reserve more blocks in agfl fixup
-config: x86_64-buildonly-randconfig-003-20240114 (https://download.01.org/0day-ci/archive/20240115/202401151109.dcoo1KEi-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401151109.dcoo1KEi-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   1f0983450549eeea71fb9333517330947a779262
+commit: 22058d2bdaf6b0526395ceec2736c72c3b5f435a [18747/21544] uaccess: Add strict non-pagefault kernel-space read function
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240115/202401151100.dWAZqpHu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401151100.dWAZqpHu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401151109.dcoo1KEi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401151100.dWAZqpHu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/xfs/libxfs/xfs_alloc.c:91:1: warning: no previous prototype for function 'xfs_ag_fixup_aside' [-Wmissing-prototypes]
-      91 | xfs_ag_fixup_aside(
-         | ^
-   fs/xfs/libxfs/xfs_alloc.c:90:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      90 | xfs_extlen_t
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/xfs_ag_fixup_aside +91 fs/xfs/libxfs/xfs_alloc.c
-
-    83	
-    84	/*
-    85	 * Twice fixup for the same ag may happen within exact one tp, and the consume
-    86	 * of agfl after first fixup may trigger second fixup's failure, then xfs will
-    87	 * shutdown. To avoid that, we reserve blocks which can satisfy the second
-    88	 * fixup.
-    89	 */
-    90	xfs_extlen_t
-  > 91	xfs_ag_fixup_aside(
-    92		struct xfs_mount	*mp)
-    93	{
-    94		xfs_extlen_t ret;
-    95	
-    96		ret = 2 * mp->m_ag_maxlevels;
-    97		if (xfs_has_rmapbt(mp))
-    98			ret += mp->m_rmap_maxlevels;
-    99	
-   100		return ret;
-   101	}
-   102	
+>> arch/x86/mm/maccess.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
