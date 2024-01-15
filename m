@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8C52C1A4;
-	Sun, 14 Jan 2024 23:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6CCA3D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Jan 2024 00:39:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h35U55ok"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bg0AxR1N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705275499; x=1736811499;
+  t=1705279166; x=1736815166;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=X5yqbSnE/WUDsZXtY4+3D4G94Ta+8acvu1Eq/NS7K88=;
-  b=h35U55okSKi0VsDmocKpXLXMHGCjBp+ef69qoDTSLTu4cCT4Bczkp34f
-   M7al9kfUL05rXP8+4rMXVQgD1WbCrhvY2QgH+akxiKQyJ+0gt42gvo79P
-   QiuVSCVP8wkP8R+O6qC8mieB6vmpeOV1dPqAEAzKelPMZ8q2SXk551n2U
-   MYHE3w1r3MF66cd0/RDtzgVYnEMhc1IIxedW6voItVZfd/JDvmrahfYAN
-   fPbuMa6Vkq5zYsVAf5kLpst87JHgH9ejB6tM6h9QS1v0EPHx4y/vRxKuA
-   tmWVC/C4oCOQtfaGBUjQXxYSlQWarpvZaCEKcDDT+sl3fYjmfcay3sm1t
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="463780955"
+  bh=9t1MaggR5CYDYkbCe9dvDID88aIWshEB/aaB/U6G6+U=;
+  b=bg0AxR1NkIeuuVEML+ddTiipaD46VJsPYUVukY3mewBdtc2xtJrtLOuE
+   6lf/xodNdFqe2FvjaTbNvI/YkDWiZbzZRLjXKk4UrOjjHA82LYK7HtLp6
+   tTKRji7eha+lBxepl5ZT5o3sBpnw6hxQHZSuaic0C0fAOhkly5ICN07jk
+   JuuMA4eqJr5LneV52yzn/xA1rRWRF3GWGFNZtd/FEvSRbRVcGHC1VBlTA
+   MGoytbFiMWyL7rmIB2djkCY6K7qeWflWC8CXWZ2hXEYV5aUu0QsmlDwlr
+   Ca3e2OcVXuhfU4+ipYX4rVX1bWl49t0Ye+MshxVSpgKJmFyRPBdxBSIv/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="6220943"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="463780955"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 15:38:19 -0800
+   d="scan'208";a="6220943"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 16:39:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="783634360"
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="1030497750"
 X-IronPort-AV: E=Sophos;i="6.04,195,1695711600"; 
-   d="scan'208";a="783634360"
+   d="scan'208";a="1030497750"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 14 Jan 2024 15:38:17 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 14 Jan 2024 16:39:24 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPA3T-000Bvs-1J;
-	Sun, 14 Jan 2024 23:38:15 +0000
-Date: Mon, 15 Jan 2024 07:38:05 +0800
+	id 1rPB0Z-000BxY-0N;
+	Mon, 15 Jan 2024 00:39:20 +0000
+Date: Mon, 15 Jan 2024 08:38:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: alison.schofield@intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH] cxl/region: Allow out of order assembly of
  autodiscovered regions
-Message-ID: <202401150741.uj6rLfNF-lkp@intel.com>
+Message-ID: <202401150855.1cEJYwiX-lkp@intel.com>
 References: <20240113050421.1622533-1-alison.schofield@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,25 +64,20 @@ url:    https://github.com/intel-lab-lkp/linux/commits/alison-schofield-intel-co
 base:   3601311593eb44d34f142b993cb6f38f9a7863b3
 patch link:    https://lore.kernel.org/r/20240113050421.1622533-1-alison.schofield%40intel.com
 patch subject: [RFC PATCH] cxl/region: Allow out of order assembly of autodiscovered regions
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240115/202401150741.uj6rLfNF-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150741.uj6rLfNF-lkp@intel.com/reproduce)
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240115/202401150855.1cEJYwiX-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240115/202401150855.1cEJYwiX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401150741.uj6rLfNF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401150855.1cEJYwiX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/cxl/core/region.c:756:6: warning: no previous prototype for function 'auto_order_ok' [-Wmissing-prototypes]
+>> drivers/cxl/core/region.c:756:6: warning: no previous prototype for 'auto_order_ok' [-Wmissing-prototypes]
      756 | bool auto_order_ok(struct cxl_port *port, struct cxl_region *cxlr_a,
-         |      ^
-   drivers/cxl/core/region.c:756:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     756 | bool auto_order_ok(struct cxl_port *port, struct cxl_region *cxlr_a,
-         | ^
-         | static 
-   1 warning generated.
+         |      ^~~~~~~~~~~~~
 
 
 vim +/auto_order_ok +756 drivers/cxl/core/region.c
