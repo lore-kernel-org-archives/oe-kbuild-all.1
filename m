@@ -1,211 +1,142 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2956C1D521
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 19:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394EB1CFBE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 19:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705433244; cv=none; b=WoHccXWHAtdmf9ql5UseUyaWLjTT9hYxetAo2SPoDwmH6rOFk2UM1vFncHl7dCcAMjDnsI9aKbFOcngy1phXRFtKl3cBbDPGEugYsXVHcG9F42Dvb4bqMU93T6t/v5RmoZ8obIuMEALjppO6TG1mjr29X1GM3Uj4WYO/I5blHbs=
+	t=1705433807; cv=none; b=dKiyOEx4NiFdTMgmGmte28c9N4jIHLcdbh6JIe5wola30HmMW7z54LKUZsyz9IWcomv3CMsREMAHl1kB5lQBmmgerPp0OdM3jbCTI9OTJuyFtRe6/VuR1N/rlBb0qBBOwmWngTC1CASlpsc7W6oei6LRHCP28hUGhC+WOgSiMBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705433244; c=relaxed/simple;
-	bh=HuCrJZo35r6ruH/amqCmbbDb7MvxiW0LNgoZe2NK7ZM=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:
-	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
-	 X-Google-Smtp-Source:X-Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 X-Mimecast-Spam-Score:X-Mimecast-Originator:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding; b=ZMQsyUAKoKG13g+oqB1p8CAKZXYzMfaxh7Gd5Lg0+xzIuWwkuunG/WG+Uf8sLEbeIpfZw1VtxIvSawr6boGz4ZdOkwVhH0bCOsjgpawOUyz4XNPHY33H8YKhpF1Vb+vVCW12cZ89zxIsUKrZhgNAhli6VUOidaO+8v4gekXD32A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TDl1Rx/+; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1705433807; c=relaxed/simple;
+	bh=YH9I4mIwagxCplANYVB6qh/qLIS7W5riVXR8JjeVHCk=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:User-Agent; b=JhjkMkyKfmVQV5SMjE6kxOAPLZsZAunInZTLW9L0CPsySrLBknV8ExdgOw+SSNCh/ioSsSk3s6hanpqQmZWyz+E0zCbULAK/m7YBcr3qIUEK3vSdaDyDolquOVvGfXToqoOBBp8zepwBRVwysWq7IUYg/CV1vYwDBWkfp6vL5Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b=GTNQgrGY; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TDl1Rx/+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705433242;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=esJyrwZ7t8TfGpWfViV1tydHUavaxnEyVLYlf+MWBAY=;
-	b=TDl1Rx/+SJmwHQQr6cDVmiGCVQVkRIT8YMCDZINiUB+I/5trnGYpZEGVp3+YPvZe4GW01n
-	vcGYRN/VBT2hgBrmi2qJjF5UAK3cbp6XQaBKj8CJHOkG+SmQvYsKCIa7guSuap+DXoaNuy
-	5663Nz1cIzSCSfwVaeuPnRT8aZVQwbo=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-91-wNbyjJ26N2aT7CjxoQmIKA-1; Tue, 16 Jan 2024 14:27:20 -0500
-X-MC-Unique: wNbyjJ26N2aT7CjxoQmIKA-1
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-429a7149210so83022771cf.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 11:27:20 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.b="GTNQgrGY"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cd8b64a52dso59644921fa.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 11:36:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1705433803; x=1706038603; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tNYuziFWfl9MkUwCZOX6uEvosc04pHrqJNu/2pkS60A=;
+        b=GTNQgrGY1zAh5j18e71jzW4L0wIup5Q4nkMWdjGDgLHGt1jPcR38AxH6qrt79rTKRB
+         n/wamdeXzbgsP6SYGfkxkIqUkaYgCLbF3SyTbwTg8/vkY1mZYgLAlivcYzNifhJ3mvZf
+         nW7a5re45yKfSEa6BgYVfDXlrTRMWuGt5PquU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705433240; x=1706038040;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=esJyrwZ7t8TfGpWfViV1tydHUavaxnEyVLYlf+MWBAY=;
-        b=lTUWzS+Axe3bTvf7xtv69ECJ5WeSKWgiP0NFcSYy6Jmpq4GInYhwUMEE6HsxEPI9Vg
-         tsCy9i1HxU+ZPDD0CQxsiwWi5oMTdqWwywnJn+Q72bbzYUyRV+vA5GBBX+wIRTk2xacT
-         YT2y++QDI0kACnHYac/9SrAPd8yexf/WaCwIgNzimxqdkDHUSENab+DmGK6KwzB6HwwJ
-         UQXyIakj+b1AJEED5MaH9Uzg+del3LRWZ9xA/HyKBH/wnboZvmiqLpVUWFB4r3Hc3ELz
-         dgFBc4IYE1YlrxcuBSvXFDs0U2XBfKRbl0LECSrTkXosSXLwAh6uU+Vpgs1/cLXDvK/w
-         vImQ==
-X-Gm-Message-State: AOJu0YwfaUBA805uJ/lLE0Gxc1nyfKad0XxRTydWHYc9xtsBNVty/Gya
-	kqiWeYSvtOOtChdN3jGPw/VTAG2BAfl5Z5MpChmRDRbNndf6m/SfvbbVN4oTR2WSqW8KjwUfkK9
-	YSJP76Bxbc8qV2raWlC0Hi4TKEjN/k748dg==
-X-Received: by 2002:a05:622a:178d:b0:429:ae56:5ae3 with SMTP id s13-20020a05622a178d00b00429ae565ae3mr8394156qtk.85.1705433240005;
-        Tue, 16 Jan 2024 11:27:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGS3fShy/i2zdxIwBWrU8CA6ttXbmT5UHLBUfFpZeqsNOaTW+nsjukhTUs/vzO0Uaayz0DNVQ==
-X-Received: by 2002:a05:622a:178d:b0:429:ae56:5ae3 with SMTP id s13-20020a05622a178d00b00429ae565ae3mr8394137qtk.85.1705433239700;
-        Tue, 16 Jan 2024 11:27:19 -0800 (PST)
-Received: from LeoBras.redhat.com ([2804:1b3:a803:64aa:6db9:6544:60c:9e16])
-        by smtp.gmail.com with ESMTPSA id fw6-20020a05622a4a8600b00427f89957d9sm5108195qtb.79.2024.01.16.11.27.16
+        d=1e100.net; s=20230601; t=1705433803; x=1706038603;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tNYuziFWfl9MkUwCZOX6uEvosc04pHrqJNu/2pkS60A=;
+        b=ep6DXVDog3gZB/BMIwFltg7vcaBGT1dgKpmh6st1A/SrU3Ox8YpWQYDDWvfIW22481
+         cj1FmJMBchERYUHOUtkt1KqdGKwxu8EMRZdQXD4lrfkt+rXFkeMVjz5Fl+AIh0S2sMZT
+         w1Zh8UjrLtNJ0FbePVG/pV0C1KBIJIEdulUCzLK9LB5X1sTFNDoY4uaqG6xKE/wQxYKZ
+         dx67OtykPOmlj3XBIKNwYjITj9SNPZFkXqhIYIkuIf713kXUazNNhIxKElWw5zmPb9br
+         xbootaAzO3NwyOlZKachZwdLP6Pw3B5wzHGQi8zhRvOnCyINWWD0BtpkdpBtpPjFl5HN
+         LVRg==
+X-Gm-Message-State: AOJu0YwtwquTJ9UXEjp/x/1oB0q0GeLD46ZfK8v0yeicmNlMnSxbvfiL
+	XKF4SQitYrBqFRGS6i70Mxl2pHsWoJ2aWA==
+X-Google-Smtp-Source: AGHT+IHHLv/HrDg3LpX9uLuJF5R6ejpXBS/hbsvxosqgj82njzmmB2g882OgUEjLdzAghkenrSucMw==
+X-Received: by 2002:a2e:9b97:0:b0:2cc:9435:a5f8 with SMTP id z23-20020a2e9b97000000b002cc9435a5f8mr3606713lji.6.1705433803162;
+        Tue, 16 Jan 2024 11:36:43 -0800 (PST)
+Received: from localhost ([2a01:4b00:8432:8600:5ee4:2aff:fe50:f48d])
+        by smtp.gmail.com with ESMTPSA id e11-20020a2e930b000000b002cd9e966ed1sm1400877ljh.127.2024.01.16.11.36.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jan 2024 11:27:19 -0800 (PST)
-From: Leonardo Bras <leobras@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Leonardo Bras <leobras@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Guo Ren <guoren@kernel.org>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v1 1/5] riscv/cmpxchg: Deduplicate xchg() asm functions
-Date: Tue, 16 Jan 2024 16:27:07 -0300
-Message-ID: <ZabYi5NoTiXJ4Hf2@LeoBras>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <202401131438.f8SELM0W-lkp@intel.com>
-References: <20240103163203.72768-3-leobras@redhat.com> <202401131438.f8SELM0W-lkp@intel.com>
+        Tue, 16 Jan 2024 11:36:42 -0800 (PST)
+Date: Tue, 16 Jan 2024 19:36:41 +0000
+From: Chris Down <chris@chrisdown.name>
+To: Petr Mladek <pmladek@suse.com>
+Cc: "James E . J . Bottomley" <jejb@linux.ibm.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] scsi: core: Safe warning about bad dev info string
+Message-ID: <ZabayZCoAHjiMb0d@chrisdown.name>
+References: <20240111162419.12406-1-pmladek@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240111162419.12406-1-pmladek@suse.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Sat, Jan 13, 2024 at 02:54:17PM +0800, kernel test robot wrote:
-> Hi Leonardo,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 610a9b8f49fbcf1100716370d3b5f6f884a2835a]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Leonardo-Bras/riscv-cmpxchg-Deduplicate-xchg-asm-functions/20240104-003501
+Petr Mladek writes:
+>Both "model" and "strflags" are passed to "%s" even when one or both
+>are NULL.
+>
+>It is safe because vsprintf() would detect the NULL pointer and print
+>"(null)". But it is a kernel-specific feature and compiler warns
+>about it:
+>
+><warning>
+>   In file included from include/linux/kernel.h:19,
+>                    from arch/x86/include/asm/percpu.h:27,
+>                    from arch/x86/include/asm/current.h:6,
+>                    from include/linux/sched.h:12,
+>                    from include/linux/blkdev.h:5,
+>                    from drivers/scsi/scsi_devinfo.c:3:
+>   drivers/scsi/scsi_devinfo.c: In function 'scsi_dev_info_list_add_str':
+>>> include/linux/printk.h:434:44: warning: '%s' directive argument is null [-Wformat-overflow=]
+>     434 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+>         |                                            ^
+>   include/linux/printk.h:430:3: note: in definition of macro 'printk_index_wrap'
+>     430 |   _p_func(_fmt, ##__VA_ARGS__);    \
+>         |   ^~~~~~~
+>   drivers/scsi/scsi_devinfo.c:551:4: note: in expansion of macro 'printk'
+>     551 |    printk(KERN_ERR "%s: bad dev info string '%s' '%s'"
+>         |    ^~~~~~
+>   drivers/scsi/scsi_devinfo.c:552:14: note: format string is defined here
+>     552 |           " '%s'\n", __func__, vendor, model,
+>         |              ^~
+></warning>
+>
+>Do not rely on the kernel specific behavior and print the message a safe way.
 
-Cloned this repo
+Acked-by: Chris Down <chris@chrisdown.name>
 
-> base:   610a9b8f49fbcf1100716370d3b5f6f884a2835a
-> patch link:    https://lore.kernel.org/r/20240103163203.72768-3-leobras%40redhat.com
-> patch subject: [PATCH v1 1/5] riscv/cmpxchg: Deduplicate xchg() asm functions
-> config: riscv-randconfig-r111-20240112 (https://download.01.org/0day-ci/archive/20240113/202401131438.f8SELM0W-lkp@intel.com/config)
-> compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
-> reproduce: (https://download.01.org/0day-ci/archive/20240113/202401131438.f8SELM0W-lkp@intel.com/reproduce)
-
-And followed those instructions, while using sparse v0.6.4-52-g1cf3d98c.
-
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401131438.f8SELM0W-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> net/ipv4/tcp_cong.c:300:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct tcp_congestion_ops const [noderef] __rcu *__new @@     got struct tcp_congestion_ops *[assigned] ca @@
->    net/ipv4/tcp_cong.c:300:24: sparse:     expected struct tcp_congestion_ops const [noderef] __rcu *__new
->    net/ipv4/tcp_cong.c:300:24: sparse:     got struct tcp_congestion_ops *[assigned] ca
->    net/ipv4/tcp_cong.c:300:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tcp_congestion_ops const *prev @@     got struct tcp_congestion_ops const [noderef] __rcu * @@
->    net/ipv4/tcp_cong.c:300:22: sparse:     expected struct tcp_congestion_ops const *prev
->    net/ipv4/tcp_cong.c:300:22: sparse:     got struct tcp_congestion_ops const [noderef] __rcu *
->    net/ipv4/tcp_cong.c: note: in included file (through include/linux/module.h):
->    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-> 
-> vim +300 net/ipv4/tcp_cong.c
-> 
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  281  
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  282  /* Used by sysctl to change default congestion control */
-> 6670e152447732 Stephen Hemminger 2017-11-14  283  int tcp_set_default_congestion_control(struct net *net, const char *name)
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  284  {
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  285  	struct tcp_congestion_ops *ca;
-> 6670e152447732 Stephen Hemminger 2017-11-14  286  	const struct tcp_congestion_ops *prev;
-> 6670e152447732 Stephen Hemminger 2017-11-14  287  	int ret;
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  288  
-> 6670e152447732 Stephen Hemminger 2017-11-14  289  	rcu_read_lock();
-> 6670e152447732 Stephen Hemminger 2017-11-14  290  	ca = tcp_ca_find_autoload(net, name);
-> 6670e152447732 Stephen Hemminger 2017-11-14  291  	if (!ca) {
-> 6670e152447732 Stephen Hemminger 2017-11-14  292  		ret = -ENOENT;
-> 0baf26b0fcd74b Martin KaFai Lau  2020-01-08  293  	} else if (!bpf_try_module_get(ca, ca->owner)) {
-> 6670e152447732 Stephen Hemminger 2017-11-14  294  		ret = -EBUSY;
-> 8d432592f30fcc Jonathon Reinhart 2021-05-01  295  	} else if (!net_eq(net, &init_net) &&
-> 8d432592f30fcc Jonathon Reinhart 2021-05-01  296  			!(ca->flags & TCP_CONG_NON_RESTRICTED)) {
-> 8d432592f30fcc Jonathon Reinhart 2021-05-01  297  		/* Only init netns can set default to a restricted algorithm */
-> 8d432592f30fcc Jonathon Reinhart 2021-05-01  298  		ret = -EPERM;
-> 6670e152447732 Stephen Hemminger 2017-11-14  299  	} else {
-> 6670e152447732 Stephen Hemminger 2017-11-14 @300  		prev = xchg(&net->ipv4.tcp_congestion_control, ca);
-> 6670e152447732 Stephen Hemminger 2017-11-14  301  		if (prev)
-> 0baf26b0fcd74b Martin KaFai Lau  2020-01-08  302  			bpf_module_put(prev, prev->owner);
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  303  
-> 6670e152447732 Stephen Hemminger 2017-11-14  304  		ca->flags |= TCP_CONG_NON_RESTRICTED;
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  305  		ret = 0;
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  306  	}
-> 6670e152447732 Stephen Hemminger 2017-11-14  307  	rcu_read_unlock();
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  308  
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  309  	return ret;
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  310  }
-> 317a76f9a44b43 Stephen Hemminger 2005-06-23  311  
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
-
-I did some testing using the instructions above on above file, and patch 
-1/5 haven't introduced anything new.
-
-
-Command for gathering sparse warnings:
-COMPILER_INSTALL_PATH=$HOME/0day ~/lkp-tests/kbuild/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__ -fmax-errors=unlimited -fmax-warnings=unlimited' O=build_dir ARCH=riscv SHELL=/bin/bash net/ipv4/tcp_cong.o 2> sparse
-
-I ran this for the commit mentioned in the reproduction instructions 
-(7931dc023 : riscv/cmpxchg: Deduplicate xchg() asm functions ) and for it's 
-parent (610a9b8f49 : Linux 6.7-rc8). The diff -u on the output was:
-
-# diff -u sparse_vanilla sparse_p1_5    
---- sparse_vanilla      2024-01-16 14:16:36.217965076 -0500              
-+++ sparse_p1_5 2024-01-16 14:15:29.942712160 -0500                      
-@@ -1,5 +1,5 @@                                                          
- ../net/ipv4/tcp_cong.c:300:24: sparse: warning: incorrect type in initializer (different address spaces)
--../net/ipv4/tcp_cong.c:300:24: sparse:    expected struct tcp_congestion_ops const [noderef] __rcu *_x_
-+../net/ipv4/tcp_cong.c:300:24: sparse:    expected struct tcp_congestion_ops const [noderef] __rcu *__new
- ../net/ipv4/tcp_cong.c:300:24: sparse:    got struct tcp_congestion_ops *[assigned] ca
- ../net/ipv4/tcp_cong.c:300:22: sparse: warning: incorrect type in assignment (different address spaces)
- ../net/ipv4/tcp_cong.c:300:22: sparse:    expected struct tcp_congestion_ops const *prev
-
-So I did not introduce anything new, as per sparse v0.6.4-52-g1cf3d98c .
-
-I noticed the output is slightly different, and that in the reproduction 
-steps this used:
-# sparse version: v0.6.4-52-g1cf3d98c-dirty
-
-Since there is no indicator on what the -dirty stands for, it's hard for me 
-to get the same reproduction, but as far as I could test there is not 
-any new error. 
+While I agree with the other thread that in reality this is ok, it's worth 
+reducing the addition to LKP noise for now and worrying about that later.
 
 Thanks!
-Leo
 
-
+>
+>Reported-by: kernel test robot <lkp@intel.com>
+>Closes: https://lore.kernel.org/oe-kbuild-all/202401112002.AOjwMNM0-lkp@intel.com/
+>Signed-off-by: Petr Mladek <pmladek@suse.com>
+>---
+>Note: The patch is only compile tested.
+>
+> drivers/scsi/scsi_devinfo.c | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+>
+>diff --git a/drivers/scsi/scsi_devinfo.c b/drivers/scsi/scsi_devinfo.c
+>index 3fcaf10a9dfe..ba7237e83863 100644
+>--- a/drivers/scsi/scsi_devinfo.c
+>+++ b/drivers/scsi/scsi_devinfo.c
+>@@ -551,9 +551,9 @@ static int scsi_dev_info_list_add_str(char *dev_list)
+> 		if (model)
+> 			strflags = strsep(&next, next_check);
+> 		if (!model || !strflags) {
+>-			printk(KERN_ERR "%s: bad dev info string '%s' '%s'"
+>-			       " '%s'\n", __func__, vendor, model,
+>-			       strflags);
+>+			pr_err("%s: bad dev info string '%s' '%s' '%s'\n",
+>+			       __func__, vendor, model ? model : "",
+>+			       strflags ? strflags : "");
+> 			res = -EINVAL;
+> 		} else
+> 			res = scsi_dev_info_list_add(0 /* compatible */, vendor,
+>-- 
+>2.43.0
+>
