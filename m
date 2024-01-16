@@ -1,103 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5901CABA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 17:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737D81CD04;
+	Tue, 16 Jan 2024 18:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705427135; cv=none; b=rJ04FzbuIdcJ8GKJFKEJIm7dHzf0QV0uD5GpUKozoewB0roU6Q/O8+p5l8ibDSNlcJdKF/8DbSpwIlrGG4Esotmb8MlgXFyicAJHe6ogyV9gS3BGgsInm4puAWipxjqWIjeCdSI+KlQOrIR2Upg4EWNc49gen7CvrG+uusR1JL4=
+	t=1705428388; cv=none; b=kxq/2ysLsPWHvHGeUFWsQbBJu34v1PEd9iCpZQr6dFsXEC/YPA5EezqzDvrxIQjOH+g/3ePXyqvfg2OY9CEfy5BgTXVA9837WyY9GCc8N4jv+UpIjV+GmJ+aB+biisRKjVKcRjfY+SBn5NzKARtyRrfZ/B3EyWs2hQ7xkY3ps78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705427135; c=relaxed/simple;
-	bh=ePRFPj1bioMNiByK/lse0KJkW56a+Yj6MNv4K9dpABM=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:
-	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
-	 X-Google-Smtp-Source:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
-	 X-Mimecast-Spam-Score:X-Mimecast-Originator:Content-Type:
-	 Content-Transfer-Encoding; b=UqRYJotyQggjhgjuoIeWjj/0/nk4un1wr7RWz9eu5/CRk5xPCmTGYlYbtANHh4rf+nTbgCqXwSPxq/OpFPNvVw3baIYw8no5tu1KpUutJP7Vt2gnLCJv442vTp9ucZBgSLEzkg4WbiuQ0sSebd30SDq+5kIf7MzqzYzTGOIEsco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UDMjuS9+; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1705428388; c=relaxed/simple;
+	bh=UX3kq6YtyE1PdEHxyUdmIdodg5pGEfTgztIGkSGO21A=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To; b=Rr/dpH8BlmXvtjU2TjdRtZg7XOoTqRBSLyelmqfnhyTzWlwgdwYD0DcbSVWtsLnjnJFiUSAppLmozzLv8zCXprPnQWu5SZc1Mm+FRojSgQzbuunyAuswNYbouqStp7dwQKAqbl4zIjcL8FEAtD7nPIfrTcg/MmSxW2bnqF7e3MM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jXZnaAwB; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UDMjuS9+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705427132;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=knW0WOf74tXPpCTSl1JxvD6cZl/HDrppfcXoxL22jXQ=;
-	b=UDMjuS9+3vkBaKLwWeg79KUKuQSYUxLJJFmqqacu2egRJJXr6e7P/jmiAXiugYD7fhEwOW
-	vQz+HLnik2331M3WznRNamnpx01dT4WMiAcAHXF0BCQMPxHgzCmzZC/202ZglxOotlfvua
-	AQt9SBywtzt6QzGPD1wAogF2Xui2lGs=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-66-Q5ULJjghNXugqnTVL742mA-1; Tue, 16 Jan 2024 12:45:30 -0500
-X-MC-Unique: Q5ULJjghNXugqnTVL742mA-1
-Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-4696784b943so721275137.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 09:45:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705427130; x=1706031930;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=knW0WOf74tXPpCTSl1JxvD6cZl/HDrppfcXoxL22jXQ=;
-        b=w+ucMBSQHfQuteEbMs0o5tF+y/+2d9C9vcg7QV1JI0hE5WqPxyWLoWD6qJtTBbh2z4
-         kh0FFFogbMmn69a5VLZFcz0pGzrmS1nh+QldQmhmKD/Ka/5475U9CztlwYPTRyyE5O0O
-         DQovGwuQr2NNd5RUWn4GyJCx0KmkVbexY74AXvrAe0poTTYKtxeN4qlFJxbnQPM5trTo
-         A4WZ5eLNNKyGLrYc+TqftWXZEKGlQVHLvnuz9EAGTV91tFXoB4z3EcxggVPtIG4ySNTv
-         1GrJoJwzK7svNriMoxpAKVk7aDrGhOhwq8Au3f8ddMntMD7BTBJ7sDJNSSPDi7cGsYM4
-         mS8Q==
-X-Gm-Message-State: AOJu0YyclHjn7GICF4G4L2bY04ogJLS80IMJWvVh1jHNhkKUwMUqApAN
-	xtCE4ZqUwKtgDv4AdDIU+wn3h0p7vAyc9MimkQYFFeJQ65q+ReEr3AqfSMDWEm0Bb1LSGfrfGTU
-	4PkmI5PX7s7H+fL53RpamJQoDq6xDIzME+0Zs+8zByECKN8++Hg==
-X-Received: by 2002:a67:ed0e:0:b0:468:15fc:2b2f with SMTP id l14-20020a67ed0e000000b0046815fc2b2fmr3858849vsp.55.1705427129175;
-        Tue, 16 Jan 2024 09:45:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEf7ZZOMX0Dc0NMImYpNAgb44vgHJkqkV6zuJT2cPxAttmESoCCDVVA8gGHD1jPxigjhZhzcIlLStd1q62Ugtw=
-X-Received: by 2002:a67:ed0e:0:b0:468:15fc:2b2f with SMTP id
- l14-20020a67ed0e000000b0046815fc2b2fmr3858821vsp.55.1705427127940; Tue, 16
- Jan 2024 09:45:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jXZnaAwB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705428388; x=1736964388;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UX3kq6YtyE1PdEHxyUdmIdodg5pGEfTgztIGkSGO21A=;
+  b=jXZnaAwBHadPGV65xNBZ/H8bwkiXw1xXcvHPPUpxVoID3vaaApwv3Eq2
+   pc9eyluZ/hTR4JqZ2y5Pe7MTDWu/VeOqj0X++ZnGInMzeF/y20OwJmd+N
+   ob3N9H7sjhgSU6qbvy8e/lqgR/dKKepqM2ZLbBmgWSprKykP2ZbJMyV38
+   9raZsIp1mM+jKLqzpqO1JZen647YE7fgbJ0MImtix6c8OLUZg+YRAZcaa
+   yvmwymF0s8UnHzyGrFOQCZQYx08qZRUnOzVyhMqPaTB55RyHm/LCbioCc
+   HqLdOc1b4YvC22FYyLb+pFNMqzdHhcqTs4Pszn4scvPfawDfF1RtmdzwT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6650936"
+X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
+   d="scan'208";a="6650936"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 10:06:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
+   d="scan'208";a="18552426"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 16 Jan 2024 10:06:23 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rPnpM-00012m-2R;
+	Tue, 16 Jan 2024 18:06:20 +0000
+Date: Wed, 17 Jan 2024 02:05:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, v9fs@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, kernel@pengutronix.de,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>
+Subject: Re: [PATCH 2/3] usb: gadget: legacy: add 9pfs multi gadget
+Message-ID: <202401170130.QaAJQe4j-lkp@intel.com>
+References: <20240116-ml-topic-u9p-v1-2-ad8c306f9a4e@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202401162158.2FqwkuiP-lkp@intel.com>
-In-Reply-To: <202401162158.2FqwkuiP-lkp@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 16 Jan 2024 18:45:15 +0100
-Message-ID: <CABgObfZfjD9RqHOQsZquv7g_u4TRaJyNj315Z05R=piGnFAEvg@mail.gmail.com>
-Subject: Re: [linux-next:master 697/13343] arch/loongarch/kvm/mmu.c:810:13:
- error: implicit declaration of function 'mmu_invalidate_retry_hva'; did you
- mean 'mmu_invalidate_retry_gfn'?
-To: kernel test robot <lkp@intel.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Xu Yilun <yilun.xu@linux.intel.com>, 
-	Kai Huang <kai.huang@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240116-ml-topic-u9p-v1-2-ad8c306f9a4e@pengutronix.de>
 
-On Tue, Jan 16, 2024 at 2:06=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   8d04a7e2ee3fd6aabb8096b00c64db0d735bc874
-> commit: 8569992d64b8f750e34b7858eac5d7daaf0f80fd [697/13343] KVM: Use gfn=
- instead of hva for mmu_notifier_retry
-> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/2=
-0240116/202401162158.2FqwkuiP-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240116/202401162158.2FqwkuiP-lkp@intel.com/reproduce)
+Hi Michael,
 
-This was fixed-up when merging the KVM tree, but I missed it because
-it was not mentioned in the loongarch pull request. I'll send a fixup
-as soon as Linus gets back online.
+kernel test robot noticed the following build warnings:
 
-Paolo
+[auto build test WARNING on 052d534373b7ed33712a63d5e17b2b6cdbce84fd]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Grzeschik/usb-gadget-function-9pfs/20240116-095914
+base:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
+patch link:    https://lore.kernel.org/r/20240116-ml-topic-u9p-v1-2-ad8c306f9a4e%40pengutronix.de
+patch subject: [PATCH 2/3] usb: gadget: legacy: add 9pfs multi gadget
+config: alpha-kismet-CONFIG_NET_9P-CONFIG_USB_9PFS-0-0 (https://download.01.org/0day-ci/archive/20240117/202401170130.QaAJQe4j-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240117/202401170130.QaAJQe4j-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401170130.QaAJQe4j-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for NET_9P when selected by USB_9PFS
+   
+   WARNING: unmet direct dependencies detected for NET_9P
+     Depends on [n]: NET [=n]
+     Selected by [y]:
+     - USB_F_9PFS [=y] && USB_SUPPORT [=y] && USB_GADGET [=y]
+     - USB_9PFS [=y] && USB_SUPPORT [=y] && USB_GADGET [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
