@@ -1,55 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA02E1DA28
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 23:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8031DA2A;
+	Tue, 16 Jan 2024 23:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705448499; cv=none; b=G+0zZktkZRvzJ3ks2JCGfSB+qnABC7a45fMQXjvSuDKKUYYfCEvPs+XXYrulPSOmpRF3o22G82K3LnUzGPJ3662d3WKfjBuI0DrbzPsxvhT463As/iw5Pv953fry0qSzb/WJ7OuaqI7zKx+/mOpYvksdhPvzt2j69sCEd9ZOP20=
+	t=1705448501; cv=none; b=ZgDfv8FVPBuIcFDYdX4QXbyequwxMB5yaw78zXAoo/1d8GXpJuhX7Iz49GpWHzMOgaNXy3936fCtUmcUTLF5k3KugpacU3WJQhq5XT1arWhJg7WAnkdwM7DZvrKiFw2rsywD0ams6RhlXi3U8w2ZdjZeckcBcuRC5fjguAz6wc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705448499; c=relaxed/simple;
-	bh=l4xEB1xA47KHUCZkdnjrnn4f53ZUp8bxu1UzDnOICb0=;
+	s=arc-20240116; t=1705448501; c=relaxed/simple;
+	bh=W72U7S1Jt5TV+GwwBd0uYWUfAkSSUDs+SxFcWOvvgpA=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition; b=BBJzpp5N3v2SCtpJCRaFL/H63xppge/z6AsxQeBm321v2RgHeukIQvuO2rih6FvMFCmqajRv1QsI/BckKGPYRjq3/84FIO+3GPiHM+WzUijGeJTh73raOnMuch+O/w0K/y/SwSbLvT8ETNS54MJK5aDizJNHCqQpBf5AofumQyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iy9Eqvsl; arc=none smtp.client-ip=192.55.52.88
+	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=tpMNEGsy8YjlAF64KX6hZUtYvYgUW5B3pgMKr80rClQWT0GlafwbrB8uR63GeQTebepHfuCsCYOB6iArfbUFIyrxYBL+yyo+GchPmFt1XCfSuP+S3TorJOi+3OUedxKz11DQrn6J6Fn2Ij8yAHc7RvmY4JNawqK2aEglssmz8XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MxAbaKKF; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iy9Eqvsl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxAbaKKF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705448497; x=1736984497;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l4xEB1xA47KHUCZkdnjrnn4f53ZUp8bxu1UzDnOICb0=;
-  b=Iy9Eqvsltrfw7h6jqx5q0ou2M2j9YXqvhYsAwqftcuO2yntf2tYZtc3m
-   Ccf8BY3EHHACS9IQyO9K5MllhtXDp4uIIbyNpF0jUOP6o3YUdoA15Gw5r
-   craMU+XSjRWnLou/1PsAx90KOwz30SLUAlqoaLkg92t2CuqOPXyFiTFlV
-   7G1wSDUugfE+T5wlGEzli62lXDk+s3gkBi4th/IuesLSYKPoA6ZrViQnh
-   UfLXYpkgXCDV29H0Y9H56y3GeOvQxufNSYp0IiZGJaVD4pJmd0MJKfeco
-   11/TUYKBAP0rN7lFSeUs/EwXoQrQb9YTHw7TxpxJj+FxfMV1bdskCjjZ/
+  t=1705448499; x=1736984499;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W72U7S1Jt5TV+GwwBd0uYWUfAkSSUDs+SxFcWOvvgpA=;
+  b=MxAbaKKFFz1964iZbk1ZSpLXx/tYzNz9K68PMfmtcqbk60F+hv7IF4dN
+   /jabgaXl+Y5sdLzIX70BY8g78JCHBB+HcdJUhugX4/M8O6i0ZcRkkZnr0
+   9rykhu05KmPJivEVvrSwIM2seq7lhJOvRR+f4I0/aNy7WBN91y/1jPeZB
+   EKcSTichDBwwof/uKzH1fb7Qv+YZGh/idhphBoQUCViy+x8K/Pbl5aadd
+   8pT8/BRVrC+7EgkXXEGtiEZPc+gOWIPV7FQSZrWQQnJgoli8HmRr59lTe
+   M74J1qAz4oZCJ2u+lNcflprtNdr2FnXwWR03eVMs3+AEdbzhHSQWCTz+X
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="431181780"
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6778019"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="431181780"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 15:41:37 -0800
+   d="scan'208";a="6778019"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 15:41:38 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="874641224"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="25973550"
+   d="scan'208";a="874641224"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Jan 2024 15:41:36 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Jan 2024 15:41:35 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPt3l-0001MT-1C;
+	id 1rPt3l-0001MV-1H;
 	Tue, 16 Jan 2024 23:41:33 +0000
-Date: Wed, 17 Jan 2024 07:41:20 +0800
+Date: Wed, 17 Jan 2024 07:41:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Shi <alexs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:master 7/8] kernel/sched/fair.c:9769: warning: Function
- parameter or struct member 'sd' not described in '_sched_asym'
-Message-ID: <202401170738.dCIK1Ssb-lkp@intel.com>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	ryan.roberts@arm.com, Matthew Wilcox <willy@infradead.org>,
+	David Hildenbrand <david@redhat.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH] mm: memory: move mem_cgroup_charge() into
+ alloc_anon_folio()
+Message-ID: <202401170708.XjVa9Trj-lkp@intel.com>
+References: <20240116071302.2282230-1-wangkefeng.wang@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,63 +68,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240116071302.2282230-1-wangkefeng.wang@huawei.com>
 
-tree:   https://github.com/alexshi/linux.git master
-head:   2669828cf33eb2f62d8b52a1c1e73fa03d921498
-commit: 897ed5bd9fb059d29348b23ed4ccfeb790fe503c [7/8] sched/fair: add a func _sched_asym
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240117/202401170738.dCIK1Ssb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170738.dCIK1Ssb-lkp@intel.com/reproduce)
+Hi Kefeng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-memory-move-mem_cgroup_charge-into-alloc_anon_folio/20240116-151640
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240116071302.2282230-1-wangkefeng.wang%40huawei.com
+patch subject: [PATCH] mm: memory: move mem_cgroup_charge() into alloc_anon_folio()
+config: i386-buildonly-randconfig-002-20240116 (https://download.01.org/0day-ci/archive/20240117/202401170708.XjVa9Trj-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170708.XjVa9Trj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170738.dCIK1Ssb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401170708.XjVa9Trj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/sched/fair.c:9769: warning: Function parameter or struct member 'sd' not described in '_sched_asym'
->> kernel/sched/fair.c:9769: warning: Function parameter or struct member 'dst_cpu' not described in '_sched_asym'
->> kernel/sched/fair.c:9769: warning: Function parameter or struct member 'repl_cpu' not described in '_sched_asym'
->> kernel/sched/fair.c:9769: warning: expecting prototype for sched_asym(). Prototype was for _sched_asym() instead
+>> mm/memory.c:4223:24: error: use of undeclared identifier 'vma'
+    4223 |         return folio_prealloc(vma->vm_mm, vma, vmf->address, true);
+         |                               ^
+   mm/memory.c:4223:36: error: use of undeclared identifier 'vma'
+    4223 |         return folio_prealloc(vma->vm_mm, vma, vmf->address, true);
+         |                                           ^
+   2 errors generated.
 
 
-vim +9769 kernel/sched/fair.c
+vim +/vma +4223 mm/memory.c
 
-eefefa716c9fa6 Ricardo Neri   2023-04-06  9747  
-4006a72bdd93b1 Ricardo Neri   2021-09-10  9748  /**
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9749   * sched_asym - Check if the destination CPU can do asym_packing load balance
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9750   * @env:	The load balancing environment
-4006a72bdd93b1 Ricardo Neri   2021-09-10  9751   * @sgs:	Load-balancing statistics of the candidate busiest group
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9752   * @group:	The candidate busiest group
-4006a72bdd93b1 Ricardo Neri   2021-09-10  9753   *
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9754   * @env::dst_cpu can do asym_packing if it has higher priority than the
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9755   * preferred CPU of @group.
-4006a72bdd93b1 Ricardo Neri   2021-09-10  9756   *
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9757   * SMT is a special case. If we are balancing load between cores, @env::dst_cpu
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9758   * can do asym_packing balance only if all its SMT siblings are idle. Also, it
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9759   * can only do it if @group is an SMT group and has exactly on busy CPU. Larger
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9760   * imbalances in the number of CPUS are dealt with in find_busiest_group().
-eefefa716c9fa6 Ricardo Neri   2023-04-06  9761   *
-f577cd57bfaa88 Peter Zijlstra 2023-07-12  9762   * If we are balancing load within an SMT core, or at PKG domain level, always
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9763   * proceed.
-4006a72bdd93b1 Ricardo Neri   2021-09-10  9764   *
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9765   * Return: true if @env::dst_cpu can do with asym_packing load balance. False
-c9ca07886aaa40 Ricardo Neri   2023-04-06  9766   * otherwise.
-ef7657d4d2d6a8 Ricardo Neri   2023-04-06  9767   */
-897ed5bd9fb059 Alex Shi       2024-01-16  9768  static inline bool _sched_asym(sched_domain *sd, int dst_cpu, int repl_cpu)
-aafc917a3c31dc Ricardo Neri   2021-09-10 @9769  {
-eefefa716c9fa6 Ricardo Neri   2023-04-06  9770  	/* Ensure that the whole local core is idle, if applicable. */
-897ed5bd9fb059 Alex Shi       2024-01-16  9771  	return sched_use_asym_prio(sd, dst_cpu) &&
-897ed5bd9fb059 Alex Shi       2024-01-16  9772  			sched_asym_prefer(dst_cpu, repl_cpu);
-897ed5bd9fb059 Alex Shi       2024-01-16  9773  }
-eefefa716c9fa6 Ricardo Neri   2023-04-06  9774  
-
-:::::: The code at line 9769 was first introduced by commit
-:::::: aafc917a3c31dcc76cb0279cd7617dda11b15f2a sched/fair: Carve out logic to mark a group for asymmetric packing
-
-:::::: TO: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+  4153	
+  4154	static struct folio *alloc_anon_folio(struct vm_fault *vmf)
+  4155	{
+  4156	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+  4157		struct vm_area_struct *vma = vmf->vma;
+  4158		unsigned long orders;
+  4159		struct folio *folio;
+  4160		unsigned long addr;
+  4161		pte_t *pte;
+  4162		gfp_t gfp;
+  4163		int order;
+  4164	
+  4165		/*
+  4166		 * If uffd is active for the vma we need per-page fault fidelity to
+  4167		 * maintain the uffd semantics.
+  4168		 */
+  4169		if (unlikely(userfaultfd_armed(vma)))
+  4170			goto fallback;
+  4171	
+  4172		/*
+  4173		 * Get a list of all the (large) orders below PMD_ORDER that are enabled
+  4174		 * for this vma. Then filter out the orders that can't be allocated over
+  4175		 * the faulting address and still be fully contained in the vma.
+  4176		 */
+  4177		orders = thp_vma_allowable_orders(vma, vma->vm_flags, false, true, true,
+  4178						  BIT(PMD_ORDER) - 1);
+  4179		orders = thp_vma_suitable_orders(vma, vmf->address, orders);
+  4180	
+  4181		if (!orders)
+  4182			goto fallback;
+  4183	
+  4184		pte = pte_offset_map(vmf->pmd, vmf->address & PMD_MASK);
+  4185		if (!pte)
+  4186			return ERR_PTR(-EAGAIN);
+  4187	
+  4188		/*
+  4189		 * Find the highest order where the aligned range is completely
+  4190		 * pte_none(). Note that all remaining orders will be completely
+  4191		 * pte_none().
+  4192		 */
+  4193		order = highest_order(orders);
+  4194		while (orders) {
+  4195			addr = ALIGN_DOWN(vmf->address, PAGE_SIZE << order);
+  4196			if (pte_range_none(pte + pte_index(addr), 1 << order))
+  4197				break;
+  4198			order = next_order(&orders, order);
+  4199		}
+  4200	
+  4201		pte_unmap(pte);
+  4202	
+  4203		/* Try allocating the highest of the remaining orders. */
+  4204		gfp = vma_thp_gfp_mask(vma);
+  4205		while (orders) {
+  4206			addr = ALIGN_DOWN(vmf->address, PAGE_SIZE << order);
+  4207			folio = vma_alloc_folio(gfp, order, vma, addr, true);
+  4208			if (folio) {
+  4209				if (mem_cgroup_charge(folio, vma->vm_mm, gfp)) {
+  4210					folio_put(folio);
+  4211					goto next;
+  4212				}
+  4213				folio_throttle_swaprate(folio, gfp);
+  4214				clear_huge_page(&folio->page, vmf->address, 1 << order);
+  4215				return folio;
+  4216			}
+  4217	next:
+  4218			order = next_order(&orders, order);
+  4219		}
+  4220	
+  4221	fallback:
+  4222	#endif
+> 4223		return folio_prealloc(vma->vm_mm, vma, vmf->address, true);
+  4224	}
+  4225	
 
 -- 
 0-DAY CI Kernel Test Service
