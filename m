@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1C91DA49
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 20:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DD425627
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 20:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705437337; cv=none; b=hWGL88B9XR9btD+O1i/aLGpH5EArke9QLFtAKBNeDPB56kHIHU3aN2x2PbDWcn6nGI7obz/bJCRGHOusAMMyphQMWD6lsVDwBf8DWjC+jWibsMA+VWExvZbdtpTjpqOHaot6oJTDeS+b7LiDHh6DHDf4MuVTae/eVpbb/4FdtWQ=
+	t=1705438535; cv=none; b=N4Ta5H+riTIQ6M0RA6D9dkIoJ52TdQJWIFelD/sBBX54nivYUKyQvJ3sODJcPPLvfOHsk1Z9qbVkvgOrdOCTgXjnvQhRifGs1S8z9G+KgXAxBhcl/OHKbvI2aFi42AWuE00TTP+hEZmc7UaM3lTf3tYKE6USiNizYtelTpTpm9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705437337; c=relaxed/simple;
-	bh=jbCqj83BmT4iET6xr6P3fUXs0HWBgnrHgbCisbDvIOk=;
+	s=arc-20240116; t=1705438535; c=relaxed/simple;
+	bh=ggdGREvMxKSy4YEN8yzW1S78sK8hyZ/yugRdPc8/fs8=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
 	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
 	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=BA0WDFZo9AjPTQrgQb3sVJDidGJA+zqTmvlZzOWPvrJF2z1fnU7j9ESDRfEaSjGw6dlj2vxeqDmMOtAajf6U2B6dnJ+B89pGIijzFI/kgMsfT5FijXafsPh72ZGPVjwJ4jgY+5JkTPR93/7Q/iE6BTAvwrB/VM47mwFtUYEEOsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BJ5Ml0A/; arc=none smtp.client-ip=134.134.136.65
+	b=WGEAHPlNZsDI2JFwgB5LZ5d6/m+d5Y8zSMdG7rAL56sxVnDQM5/ofGpP+n0HM4dnpWj2wRhhjZOtNu6TuNprH9Z4MQCEQVANr91kDv7t83Hcedcag9hgU0xSGmrIUIkY9IYSgZPbDvojjvbc5clgpGjbVHftXInbSE49u5B4z9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g7UXrsvO; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BJ5Ml0A/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7UXrsvO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705437336; x=1736973336;
+  t=1705438533; x=1736974533;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jbCqj83BmT4iET6xr6P3fUXs0HWBgnrHgbCisbDvIOk=;
-  b=BJ5Ml0A/Ifx6qyyZqKYb9W5kiTE4sAiqUM4+WwltSAZXAtyNLB5Y6UUx
-   LJ+dUmzMFXe2S8s1IjMeHlp6JL6/GaljNwNFQG4MKN47UNzyt0mg5B+vC
-   iVvr2ytRAPUEVdAd1RsGItjQq1stWcKgDd6miVi+qHgCobxAX9K1o0UEk
-   vREjab3Nqyh+X557uxM4VRLZ89KLvq1eWFfmGpQOivmQ1OoOa+ebRKscc
-   9i7gIQqZZ/gGLb1v5ZPnBaOv+gpf+thDTrgfr05XW8Mk3Udkze3Xf1mxo
-   HhEDvTUlOoVqNTkMuNRLDIxN0NFBKDy52Mvp9CVwqtFVOuTC/owcdnDOq
+  bh=ggdGREvMxKSy4YEN8yzW1S78sK8hyZ/yugRdPc8/fs8=;
+  b=g7UXrsvOb5LYeabqmnz/8Hivtg3EjCjcSE12/HzvOnk7+uipCLo8rT55
+   BPQrOE3k1miMgRHnKmMY7TCGLBKQvedxWJZ9UI7vlySKSdVM+kjHJwXwX
+   SGggFPLDUHv59o+IXypAK3RpuQ6/CS/tfdEns9A7s1JoyDJjlcM0R3UNN
+   7608pIKfSdQHCJ/1+P7+Ikx7lQ2dX6gxt+gGu0Ww+yrkeTjv0JuDFT5Ym
+   RYJscrFhYCItIIav/Mgmjt8MryFm278WK4Kgc8fxFMymRRKe+N4Nrcu1W
+   RQfdw9IZAdD/715FIWuKolyDxOsNzhAVe3vbg1tw/4vw5xdCT1fSZDrnl
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="403733444"
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6745034"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="403733444"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 12:35:34 -0800
+   d="scan'208";a="6745034"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 12:55:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="760311409"
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="907506229"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="760311409"
+   d="scan'208";a="907506229"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 16 Jan 2024 12:35:31 -0800
+  by orsmga004.jf.intel.com with ESMTP; 16 Jan 2024 12:55:30 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPq9f-0001Co-1s;
-	Tue, 16 Jan 2024 20:35:27 +0000
-Date: Wed, 17 Jan 2024 04:34:34 +0800
+	id 1rPqT2-0001Eg-0u;
+	Tue, 16 Jan 2024 20:55:28 +0000
+Date: Wed, 17 Jan 2024 04:55:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 21665/30000]
- drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4413:46: warning:
- implicit conversion from 'enum hnae3_reset_type' to 'enum
- hnae3_event_type_custom'
-Message-ID: <202401170427.OhYh4zd8-lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <natechancellor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: drivers/scsi/mpt3sas/mpt3sas_base.c:2951:54: warning: '%d' directive
+ output may be truncated writing between 1 and 3 bytes into a region of size
+ between 1 and 26
+Message-ID: <202401170432.bbjOvVyf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +65,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   e4bd0053052e24e0c30e34d05ec042203c41976c
-commit: 62aede9feaf6f4729af43df72be267a32bda43d1 [21665/30000] net: hns3: add support customized exception handling interfaces.
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240117/202401170427.OhYh4zd8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170427.OhYh4zd8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
+commit: cdf8a76fda4ae3b53c5a09e5a8c79e27b7b65d68 ubsan: move cc-option tests into Kconfig
+date:   3 years, 1 month ago
+config: x86_64-randconfig-002-20240105 (https://download.01.org/0day-ci/archive/20240117/202401170432.bbjOvVyf-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170432.bbjOvVyf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170427.OhYh4zd8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401170432.bbjOvVyf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_reset_event':
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4413:46: warning: implicit conversion from 'enum hnae3_reset_type' to 'enum hnae3_event_type_custom' [-Wenum-conversion]
-    4413 |         ret = hclge_ext_call_event(hdev, hdev->reset_level);
-         |                                          ~~~~^~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_get_strings':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:668:50: warning: '%s' directive output may be truncated writing up to 4895 bytes into a region of size 32 [-Wformat-truncation=]
-     668 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
+   drivers/scsi/mpt3sas/mpt3sas_base.c: In function '_base_request_irq':
+>> drivers/scsi/mpt3sas/mpt3sas_base.c:2951:54: warning: '%d' directive output may be truncated writing between 1 and 3 bytes into a region of size between 1 and 26 [-Wformat-truncation=]
+    2951 |   snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
+         |                                                      ^~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:2951:44: note: directive argument in the range [0, 255]
+    2951 |   snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
+         |                                            ^~~~~~~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:2951:3: note: 'snprintf' output between 8 and 35 bytes into a destination of size 32
+    2951 |   snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
+         |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2952 |       ioc->driver_name, ioc->id, index);
+         |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c: In function 'mpt3sas_base_start_watchdog':
+   drivers/scsi/mpt3sas/mpt3sas_base.c:751:50: warning: '%s' directive output may be truncated writing up to 23 bytes into a region of size 15 [-Wformat-truncation=]
+     751 |      sizeof(ioc->fault_reset_work_q_name), "poll_%s%d_status",
          |                                                  ^~
-   In function 'hclge_comm_get_strings',
-       inlined from 'hclge_get_strings' at drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:781:7:
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:668:17: note: 'snprintf' output between 1 and 4896 bytes into a destination of size 32
-     668 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:751:44: note: directive argument in the range [0, 255]
+     751 |      sizeof(ioc->fault_reset_work_q_name), "poll_%s%d_status",
+         |                                            ^~~~~~~~~~~~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:750:2: note: 'snprintf' output between 14 and 39 bytes into a destination of size 20
+     750 |  snprintf(ioc->fault_reset_work_q_name,
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     751 |      sizeof(ioc->fault_reset_work_q_name), "poll_%s%d_status",
+         |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     752 |      ioc->driver_name, ioc->id);
+         |      ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +4413 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+vim +2951 drivers/scsi/mpt3sas/mpt3sas_base.c
 
-  4374	
-  4375	void hclge_reset_event(struct pci_dev *pdev, struct hnae3_handle *handle)
-  4376	{
-  4377		struct hnae3_ae_dev *ae_dev = pci_get_drvdata(pdev);
-  4378		struct hclge_dev *hdev = ae_dev->priv;
-  4379		int ret;
-  4380	
-  4381		/* We might end up getting called broadly because of 2 below cases:
-  4382		 * 1. Recoverable error was conveyed through APEI and only way to bring
-  4383		 *    normalcy is to reset.
-  4384		 * 2. A new reset request from the stack due to timeout
-  4385		 *
-  4386		 * check if this is a new reset request and we are not here just because
-  4387		 * last reset attempt did not succeed and watchdog hit us again. We will
-  4388		 * know this if last reset request did not occur very recently (watchdog
-  4389		 * timer = 5*HZ, let us check after sufficiently large time, say 4*5*Hz)
-  4390		 * In case of new request we reset the "reset level" to PF reset.
-  4391		 * And if it is a repeat reset request of the most recent one then we
-  4392		 * want to make sure we throttle the reset request. Therefore, we will
-  4393		 * not allow it again before 3*HZ times.
-  4394		 */
-  4395	
-  4396		if (time_before(jiffies, (hdev->last_reset_time +
-  4397					  HCLGE_RESET_INTERVAL))) {
-  4398			mod_timer(&hdev->reset_timer, jiffies + HCLGE_RESET_INTERVAL);
-  4399			return;
-  4400		}
-  4401	
-  4402		if (hdev->default_reset_request) {
-  4403			hdev->reset_level =
-  4404				hclge_get_reset_level(ae_dev,
-  4405						      &hdev->default_reset_request);
-  4406		} else if (time_after(jiffies, (hdev->last_reset_time + 4 * 5 * HZ))) {
-  4407			hdev->reset_level = HNAE3_FUNC_RESET;
-  4408		}
-  4409	
-  4410		dev_info(&hdev->pdev->dev, "received reset event, reset type is %d\n",
-  4411			 hdev->reset_level);
-  4412	
-> 4413		ret = hclge_ext_call_event(hdev, hdev->reset_level);
-  4414		if (ret) {
-  4415			/* request reset & schedule reset task */
-  4416			set_bit(hdev->reset_level, &hdev->reset_request);
-  4417			hclge_reset_task_schedule(hdev);
-  4418		}
-  4419	
-  4420		if (hdev->reset_level < HNAE3_GLOBAL_RESET)
-  4421			hdev->reset_level++;
-  4422	}
-  4423	
+f92363d12359498 Sreekanth Reddy          2012-11-30  2925  
+f92363d12359498 Sreekanth Reddy          2012-11-30  2926  /**
+f92363d12359498 Sreekanth Reddy          2012-11-30  2927   * _base_request_irq - request irq
+f92363d12359498 Sreekanth Reddy          2012-11-30  2928   * @ioc: per adapter object
+f92363d12359498 Sreekanth Reddy          2012-11-30  2929   * @index: msix index into vector table
+f92363d12359498 Sreekanth Reddy          2012-11-30  2930   *
+f92363d12359498 Sreekanth Reddy          2012-11-30  2931   * Inserting respective reply_queue into the list.
+f92363d12359498 Sreekanth Reddy          2012-11-30  2932   */
+f92363d12359498 Sreekanth Reddy          2012-11-30  2933  static int
+1d55abc0e98a0bf Hannes Reinecke          2017-02-22  2934  _base_request_irq(struct MPT3SAS_ADAPTER *ioc, u8 index)
+f92363d12359498 Sreekanth Reddy          2012-11-30  2935  {
+1d55abc0e98a0bf Hannes Reinecke          2017-02-22  2936  	struct pci_dev *pdev = ioc->pdev;
+f92363d12359498 Sreekanth Reddy          2012-11-30  2937  	struct adapter_reply_queue *reply_q;
+f92363d12359498 Sreekanth Reddy          2012-11-30  2938  	int r;
+f92363d12359498 Sreekanth Reddy          2012-11-30  2939  
+f92363d12359498 Sreekanth Reddy          2012-11-30  2940  	reply_q =  kzalloc(sizeof(struct adapter_reply_queue), GFP_KERNEL);
+f92363d12359498 Sreekanth Reddy          2012-11-30  2941  	if (!reply_q) {
+919d8a3f3fef991 Joe Perches              2018-09-17  2942  		ioc_err(ioc, "unable to allocate memory %zu!\n",
+919d8a3f3fef991 Joe Perches              2018-09-17  2943  			sizeof(struct adapter_reply_queue));
+f92363d12359498 Sreekanth Reddy          2012-11-30  2944  		return -ENOMEM;
+f92363d12359498 Sreekanth Reddy          2012-11-30  2945  	}
+f92363d12359498 Sreekanth Reddy          2012-11-30  2946  	reply_q->ioc = ioc;
+f92363d12359498 Sreekanth Reddy          2012-11-30  2947  	reply_q->msix_index = index;
+14b3114d940cdc4 Sreekanth Reddy          2015-01-12  2948  
+f92363d12359498 Sreekanth Reddy          2012-11-30  2949  	atomic_set(&reply_q->busy, 0);
+f92363d12359498 Sreekanth Reddy          2012-11-30  2950  	if (ioc->msix_enable)
+f92363d12359498 Sreekanth Reddy          2012-11-30 @2951  		snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d-msix%d",
+c84b06a48c4d8ac Sreekanth Reddy          2015-11-11  2952  		    ioc->driver_name, ioc->id, index);
+f92363d12359498 Sreekanth Reddy          2012-11-30  2953  	else
+f92363d12359498 Sreekanth Reddy          2012-11-30  2954  		snprintf(reply_q->name, MPT_NAME_LENGTH, "%s%d",
+c84b06a48c4d8ac Sreekanth Reddy          2015-11-11  2955  		    ioc->driver_name, ioc->id);
+1d55abc0e98a0bf Hannes Reinecke          2017-02-22  2956  	r = request_irq(pci_irq_vector(pdev, index), _base_interrupt,
+1d55abc0e98a0bf Hannes Reinecke          2017-02-22  2957  			IRQF_SHARED, reply_q->name, reply_q);
+f92363d12359498 Sreekanth Reddy          2012-11-30  2958  	if (r) {
+fc7d510ec4c8ff8 Joe Perches              2018-09-17  2959  		pr_err("%s: unable to allocate interrupt %d!\n",
+1d55abc0e98a0bf Hannes Reinecke          2017-02-22  2960  		       reply_q->name, pci_irq_vector(pdev, index));
+da3cec2515f0094 Suganath prabu Subramani 2016-02-11  2961  		kfree(reply_q);
+f92363d12359498 Sreekanth Reddy          2012-11-30  2962  		return -EBUSY;
+f92363d12359498 Sreekanth Reddy          2012-11-30  2963  	}
+f92363d12359498 Sreekanth Reddy          2012-11-30  2964  
+f92363d12359498 Sreekanth Reddy          2012-11-30  2965  	INIT_LIST_HEAD(&reply_q->list);
+f92363d12359498 Sreekanth Reddy          2012-11-30  2966  	list_add_tail(&reply_q->list, &ioc->reply_queue_list);
+f92363d12359498 Sreekanth Reddy          2012-11-30  2967  	return 0;
+f92363d12359498 Sreekanth Reddy          2012-11-30  2968  }
+f92363d12359498 Sreekanth Reddy          2012-11-30  2969  
+
+:::::: The code at line 2951 was first introduced by commit
+:::::: f92363d12359498f9a9960511de1a550f0ec41c2 [SCSI] mpt3sas: add new driver supporting 12GB SAS
+
+:::::: TO: Sreekanth Reddy <Sreekanth.Reddy@lsi.com>
+:::::: CC: James Bottomley <JBottomley@Parallels.com>
 
 -- 
 0-DAY CI Kernel Test Service
