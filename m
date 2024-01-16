@@ -1,114 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A151CD22
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 18:16:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B9A1CABF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 18:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705428990; cv=none; b=RbZPz8bZpqaHa9lb4xsmY4LV6eioXXdab/xOtlgCZ718HUL5BXvkef048yv/qkNWUkNqeg80zvfz69wPAf9ukWS0alaltInotTaa8Y1SDseyi6N4UV9/tbcP/SdYLMdr+625tjr15Uh/U9d3b9Zf5dlLYIW1LomPzKQKn4yOBy0=
+	t=1705429014; cv=none; b=TTsPFQWPEY3CMzRg5LsMxb0cm21BkXMeY+pdDQTVjBbg/9bkKapsjADkW4iN5dNiD/hXxsya1B23vp1CVOcBsugmBkqIb4Kimj1BqccVqGjCQ3rWUxCRQQj/TKB+tIGJvHAg1aPp4R0K/+AQ5+lFnT5axh+LVf6YBfMh+yUBreM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705428990; c=relaxed/simple;
-	bh=x+odquCrrDirQ7x/gEmUiUWe1JUp/VumXQ48unawjto=;
+	s=arc-20240116; t=1705429014; c=relaxed/simple;
+	bh=KNUPmsD5ZPRdgdxtbO3/IuuN1OlB9S54qGLYcjXisWM=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
 	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To; b=hKXjxlXPKgKtbGdTfMydZmUe7NWoPDDiuGMqfkw7RjtE/3/grsiLgOsVSEBndsWUnp/xdBynoUrHrR9G/nmygnf8KPSZGcYY5KZRxAupqGkYAzTUC2Ngz76iQWEKGPZazYvuDKDDKtfs0pC4gpuMprEZ6BcaiOgeLU75Vt50TWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iPFf+tc1; arc=none smtp.client-ip=198.175.65.13
+	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	b=Jn4QgQpINUGJlPEKiMBTrc988PwsGRvA1mgY34vDT7Y6SBunee9htI971I+JoVl3+4HHkq3M2aDgrP3yy2dG67OFLLd2kUbeltoMiep9ov7+MME5hszZr4qyrtnhAg3RhN/SNuKpUXENwmoFanwl9I3wCdgSz+CuZF1gPIWKBjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNt4ro23; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iPFf+tc1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNt4ro23"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705428987; x=1736964987;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=x+odquCrrDirQ7x/gEmUiUWe1JUp/VumXQ48unawjto=;
-  b=iPFf+tc1C8sLttL1hCjccwt60UqlqPTFoG6vEjHnWIq1Cky07SyCf2v4
-   pGj+STZEku4WGzZw85aoyDVnPoEy3GblHANIp4sMjrYw/04RRKCSvKtsc
-   c58EL6h92+WKpinL+c0BJ1RuW8kBNl+FEhDYjLCnmfojy2ybzQpKnlE7a
-   hShPXPAaHHRFxt9G0UvUff2i6mxeWZlI9UdgNBjeELv4OJj/OuXHI/2Yw
-   M5sB4vUjAkPNtHMSOhsJn53lAAKpT0ZJ/TlWyzxfIjh7KX+MEFJr0UEH/
-   y/GTw7NKG9wA5aUsQbZlRhAjI/2Ih729LGknVkYCyWAggF1psPGQCgbvd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="7037954"
+  t=1705429013; x=1736965013;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KNUPmsD5ZPRdgdxtbO3/IuuN1OlB9S54qGLYcjXisWM=;
+  b=RNt4ro23KE9hotieIQ/beJrklmPuN3ZaMyB3M1+cGnT+bmOg+CXmZQM8
+   EBuiOPRH5mLd6r9OFsCeFs6wi2n9qe1od8gKOJn9ZkPeyKzd6VVhY08Ud
+   RoAiDUBuwC3GXtFt9jo7H0LI5oLlLf3Uu6v/8GUz+nswyorMyHxajSJtF
+   xDYlVaSwvRojLnxRH/Ue2jmjlRfRtmvfnffU79KvusOOF5cen2fNANsN2
+   QyZUJ6VXaPjPvg54MqnqGzbzMt7gh8GDfMJdknDSU4J4cdRRwUBXvRXjY
+   HJVSnjPbC9E7NXGKpg3xqXi7sPJgrmNGdZfF5k+kN0cap2tO7jilhO6Yk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6698915"
 X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="7037954"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 10:16:25 -0800
+   d="scan'208";a="6698915"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 10:16:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="733689661"
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="957242303"
 X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="733689661"
+   d="scan'208";a="957242303"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 16 Jan 2024 10:16:23 -0800
+  by orsmga005.jf.intel.com with ESMTP; 16 Jan 2024 10:16:23 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPnz3-00013o-1O;
+	id 1rPnz3-00013m-1K;
 	Tue, 16 Jan 2024 18:16:21 +0000
-Date: Wed, 17 Jan 2024 02:16:00 +0800
+Date: Wed, 17 Jan 2024 02:15:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 2/3] riscv: add support for SBI Supervisor
- Software Events extension
-Message-ID: <202401170228.sBZ0HUhl-lkp@intel.com>
-References: <20240112111720.2975069-3-cleger@rivosinc.com>
+Subject: [openeuler:OLK-6.6 2379/2425] include/trace/stages/init.h:2:23:
+ warning: 'str__bonding__trace_system_name' defined but not used
+Message-ID: <202401170210.jpY8kCcH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240112111720.2975069-3-cleger@rivosinc.com>
 
-Hi Clément,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7]
-[cannot apply to next-20240112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-L-ger/riscv-add-SBI-SSE-extension-definitions/20240112-191943
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240112111720.2975069-3-cleger%40rivosinc.com
-patch subject: [RFC PATCH v2 2/3] riscv: add support for SBI Supervisor Software Events extension
-config: riscv-randconfig-r111-20240116 (https://download.01.org/0day-ci/archive/20240117/202401170228.sBZ0HUhl-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
-reproduce: (https://download.01.org/0day-ci/archive/20240117/202401170228.sBZ0HUhl-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   ec7d78798bfb669efc713c2c416a553a40d4dc77
+commit: 69ddcb21328bd29cfd2f64710bdac158f4c90bf6 [2379/2425] drivers: hooks: add bonding driver vendor hooks
+config: x86_64-openeuler_defconfig-OLK-6.6-func (https://download.01.org/0day-ci/archive/20240117/202401170210.jpY8kCcH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170210.jpY8kCcH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170228.sBZ0HUhl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401170210.jpY8kCcH-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kernel/sse.c:57:15: sparse: sparse: symbol 'sse_stack_alloc' was not declared. Should it be static?
->> arch/riscv/kernel/sse.c:62:6: sparse: sparse: symbol 'sse_stack_free' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/sse_stack_alloc +57 arch/riscv/kernel/sse.c
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bonding.h:27,
+                    from drivers/hooks/vendor_hooks.c:11:
+>> include/trace/stages/init.h:2:23: warning: 'str__bonding__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
 
-    55	
-    56	#ifdef CONFIG_VMAP_STACK
-  > 57	unsigned long *sse_stack_alloc(unsigned int cpu, unsigned int size)
-    58	{
-    59		return arch_alloc_vmap_stack(size, cpu_to_node(cpu));
-    60	}
-    61	
-  > 62	void sse_stack_free(unsigned long *stack)
-    63	{
-    64		vfree(stack);
-    65	}
-    66	#else /* CONFIG_VMAP_STACK */
-    67	
+
+vim +/str__bonding__trace_system_name +2 include/trace/stages/init.h
+
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
