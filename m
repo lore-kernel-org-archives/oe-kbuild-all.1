@@ -1,40 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2808F134C1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 10:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4309E13AC8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 10:42:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oAo+U6ks"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vaz0DSAQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705399801; x=1736935801;
+  t=1705401727; x=1736937727;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LcspFKOnWW08Dve9A5/fi9ZB2V7B9o4EjqhBO4t07k8=;
-  b=oAo+U6ksGoz30Xw74gGWeGQNoQRCBqk6Y1z3aim/aGCSAS9BIBV5Ohti
-   fKUxUTn3qd4WZrTjrRPNG7kQCKZd5tDZI66EQIAPQQRqdEOLDsERWlqNZ
-   CB1fTQ/8TpJpBOQXkV3h9bzb2gm3d7OH7PUleCKfgDHemr02FdkR0ztYI
-   Q/mYNTsebC4BCGyaEkYGfkGFCOa3DNbntpeOwTaD9UTTPdmt4Abv4P68c
-   g/MGAqvyVbBbezeZpOo1wuIvk89kgBbas53NKD/xQ3B1Ue9t7ryQ9Ujgi
-   VuXcTQFKkV9pL1PhVP6mAXvtT4Woxy+yNlle/R2hK2hsfRx3Wqaa5p9Y2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="430980924"
+  bh=2Ww94hOka7bc310crAy9GxymCCMXbFrTe/1MjrnzhhE=;
+  b=Vaz0DSAQrzkmY9Dx2MQejJVCIiHHSuQcJCzlTWLsXFYCUax4Oq7sPVum
+   0wksH1A7RTPAWCcLt2cRTSBn83DRz5c/U8aK0usVgCLCUfz6kDjAj7nZE
+   35cHcyt/aMijq8UHxgTXy06wmYyhqkg2yqYMt7GOgT/vXXBazk+k6Ig5m
+   kxzY6rNrYfUpJhMvzHwQDxrfsMt88pP8W9VK3G+b+KGSKoHra32gz7GiU
+   B2RsI4S7p42Gn6spogGoSjQDJLMKKwxxCV4dacHEn89UE1FtkTGDEXU8n
+   CrDKfVTdaRFe9JjD8MsdT3Wh2BN0nAu41PQhT4W+GxWS0/w/+fVosaAi3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="396980941"
 X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="430980924"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 02:10:00 -0800
+   d="scan'208";a="396980941"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 02:42:06 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="26081915"
+   d="scan'208";a="32413533"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Jan 2024 02:09:56 -0800
+  by orviesa001.jf.intel.com with ESMTP; 16 Jan 2024 02:42:02 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPgOH-0000QQ-18;
-	Tue, 16 Jan 2024 10:09:53 +0000
-Date: Tue, 16 Jan 2024 18:09:42 +0800
+	id 1rPgtK-0000ZY-2i;
+	Tue, 16 Jan 2024 10:41:58 +0000
+Date: Tue, 16 Jan 2024 18:41:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: Mao Jinlong <quic_jinlmao@quicinc.com>,
 	Suzuki K Poulose <suzuki.poulose@arm.com>,
@@ -55,7 +55,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Mao Jinlong <quic_jinlmao@quicinc.com>,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-msm@vger.kernel.org
 Subject: Re: [PATCH v2 1/2] coresight: core: Add device name support
-Message-ID: <202401161751.IuhpKb75-lkp@intel.com>
+Message-ID: <202401161834.N4E6YW3K-lkp@intel.com>
 References: <20240115164252.26510-2-quic_jinlmao@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -81,21 +81,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Mao-Jinlong/coresight-cor
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
 patch link:    https://lore.kernel.org/r/20240115164252.26510-2-quic_jinlmao%40quicinc.com
 patch subject: [PATCH v2 1/2] coresight: core: Add device name support
-config: arm-randconfig-r112-20240116 (https://download.01.org/0day-ci/archive/20240116/202401161751.IuhpKb75-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240116/202401161751.IuhpKb75-lkp@intel.com/reproduce)
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240116/202401161834.N4E6YW3K-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240116/202401161834.N4E6YW3K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401161751.IuhpKb75-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401161834.N4E6YW3K-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwtracing/coresight/coresight-core.c:1775:14: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected char *name @@     got char const * @@
-   drivers/hwtracing/coresight/coresight-core.c:1775:14: sparse:     expected char *name
-   drivers/hwtracing/coresight/coresight-core.c:1775:14: sparse:     got char const *
+All warnings (new ones prefixed by >>):
 
-vim +1775 drivers/hwtracing/coresight/coresight-core.c
+   drivers/hwtracing/coresight/coresight-core.c: In function 'coresight_alloc_device_name':
+>> drivers/hwtracing/coresight/coresight-core.c:1775:14: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    1775 |         name = coresight_get_device_name(dev);
+         |              ^
+
+
+vim +/const +1775 drivers/hwtracing/coresight/coresight-core.c
 
   1758	
   1759	/*
