@@ -1,113 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B9A1CABF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 18:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0177F1CF81
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 18:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705429014; cv=none; b=TTsPFQWPEY3CMzRg5LsMxb0cm21BkXMeY+pdDQTVjBbg/9bkKapsjADkW4iN5dNiD/hXxsya1B23vp1CVOcBsugmBkqIb4Kimj1BqccVqGjCQ3rWUxCRQQj/TKB+tIGJvHAg1aPp4R0K/+AQ5+lFnT5axh+LVf6YBfMh+yUBreM=
+	t=1705430607; cv=none; b=DceGn8hJUn3IAQCGjSC3g8ObgUeRp7IRMogIBs7wHpeJ+kRVb3taW95KeBfeWpkInIvEhxpTGBq0TB2VN/VbVELE1gYFNcz0RdBwM9L0CTYyrIhso52A1odtTe/DKsbOuIrc3gfdvpwvSrq/HQlDH3THZZ0IH/LLtB8/k/NEBGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705429014; c=relaxed/simple;
-	bh=KNUPmsD5ZPRdgdxtbO3/IuuN1OlB9S54qGLYcjXisWM=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=Jn4QgQpINUGJlPEKiMBTrc988PwsGRvA1mgY34vDT7Y6SBunee9htI971I+JoVl3+4HHkq3M2aDgrP3yy2dG67OFLLd2kUbeltoMiep9ov7+MME5hszZr4qyrtnhAg3RhN/SNuKpUXENwmoFanwl9I3wCdgSz+CuZF1gPIWKBjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNt4ro23; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1705430607; c=relaxed/simple;
+	bh=pEtZ/PQY4sAHgy10G42wlxTyPdXdm1MryNzot9hL0Ps=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Date:
+	 In-Reply-To:Mime-Version:References:Message-ID:Subject:From:To:Cc:
+	 Content-Type:Content-Transfer-Encoding; b=Bvxc75syLXMN2sO+MjJihzdbP+RlCx0rOvSf/+46b4Nlfyp/egG9nd5JvJgnqCnmbQfKM6FWBeHPubdBWvgRtIsdb22WUGcR9IXxPyK8PpvZKw5k+Yn8UKYjjy4OD0YATgnmHNOw+f+gnubZFlIoCQondxgkWgurL4E1U5BAxO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rbb7kjN+; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNt4ro23"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705429013; x=1736965013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KNUPmsD5ZPRdgdxtbO3/IuuN1OlB9S54qGLYcjXisWM=;
-  b=RNt4ro23KE9hotieIQ/beJrklmPuN3ZaMyB3M1+cGnT+bmOg+CXmZQM8
-   EBuiOPRH5mLd6r9OFsCeFs6wi2n9qe1od8gKOJn9ZkPeyKzd6VVhY08Ud
-   RoAiDUBuwC3GXtFt9jo7H0LI5oLlLf3Uu6v/8GUz+nswyorMyHxajSJtF
-   xDYlVaSwvRojLnxRH/Ue2jmjlRfRtmvfnffU79KvusOOF5cen2fNANsN2
-   QyZUJ6VXaPjPvg54MqnqGzbzMt7gh8GDfMJdknDSU4J4cdRRwUBXvRXjY
-   HJVSnjPbC9E7NXGKpg3xqXi7sPJgrmNGdZfF5k+kN0cap2tO7jilhO6Yk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6698915"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="6698915"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 10:16:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="957242303"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="957242303"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 16 Jan 2024 10:16:23 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPnz3-00013m-1K;
-	Tue, 16 Jan 2024 18:16:21 +0000
-Date: Wed, 17 Jan 2024 02:15:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2379/2425] include/trace/stages/init.h:2:23:
- warning: 'str__bonding__trace_system_name' defined but not used
-Message-ID: <202401170210.jpY8kCcH-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rbb7kjN+"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-1d4d947ff1bso86017955ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 10:43:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1705430605; x=1706035405; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u9TOTOYKiYXtR8fzChRZElUOVeadOh16NAbSU+XGjNg=;
+        b=rbb7kjN+DaqJRo2OYbntHlcu/H6tqUR6JO6HxaG4wy7HWUiGM5oe9kiostqmshZI+b
+         Ndo5vcBnpaLbkQ1M/TVrn9HOtrst9yJbjFVpOQgirlwufePQ+YMGQd30q6kMe7NYvlSH
+         VknK3KgPTa5GsfhEGYG1VktAM0reZuCqv3xXsctuLy7f+y6wTpoiLuBn2kYXaBR8NwzT
+         MmnGc83vxm/qO6u06nPvLFIPjFJuQEbTGlHCA3TZI3wU9ZFlVDnVU4hCnnYejtCcaTsO
+         t1KFDpOTXnuUwPSXUd5p1P26AQbbOVmBu5dDbDIE3jhx6wAOcxpTskZcdq7pbgdDOmia
+         8T7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705430605; x=1706035405;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=u9TOTOYKiYXtR8fzChRZElUOVeadOh16NAbSU+XGjNg=;
+        b=OH72ctnNvxxTebwJOm4MMU5Y4EnWUZADJLh9QDtVfm6c8CUDnupAgTQC1weSWZOZ1R
+         8cz+MNdh4V5Lg8jFt9IQVcLAW/GbyWt2bG7B4auPxaGlxNBfmsVcp4zqLm/2G7xpfJvF
+         M1bdx1thYPdMAyb6hvPfYNXgodc/Q1CRalJWozsg9GUYEa3XSNp9B/3pqbeLeHuej53F
+         I3vTenPl6AW47oGW3eiyvLiyC1D0/kdRZzwWh8H9jXId9zB1NCON7fk56FZ+2f0kUif5
+         7wc9+bUarumqrGn+QXW2Ng8jz2A47xnHeeImXoQThqW6r3rY9W9VfCHL1fLV4WH5PVwk
+         JxaA==
+X-Gm-Message-State: AOJu0Yy1GTv6W4AwjP1Vh8vDcEPDwQ80eGmIXr2ysrULmuBc2TafWvXJ
+	FCLhtNIrtycrd9PvvDTo+XR8vwv5BHjRF8aFvw==
+X-Google-Smtp-Source: AGHT+IF1tJYaFGbxuwSQetApImgdes0brXERAz9LOY0tND9++HRAxi0e3vv4kZB0F2dVbVaRikCO0C2ShGk=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:dac2:b0:1d5:693a:8906 with SMTP id
+ q2-20020a170902dac200b001d5693a8906mr508496plx.3.1705430605309; Tue, 16 Jan
+ 2024 10:43:25 -0800 (PST)
+Date: Tue, 16 Jan 2024 10:43:23 -0800
+In-Reply-To: <CABgObfZfjD9RqHOQsZquv7g_u4TRaJyNj315Z05R=piGnFAEvg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+References: <202401162158.2FqwkuiP-lkp@intel.com> <CABgObfZfjD9RqHOQsZquv7g_u4TRaJyNj315Z05R=piGnFAEvg@mail.gmail.com>
+Message-ID: <ZabOS2uWDJ1fAhQi@google.com>
+Subject: Re: [linux-next:master 697/13343] arch/loongarch/kvm/mmu.c:810:13:
+ error: implicit declaration of function 'mmu_invalidate_retry_hva'; did you
+ mean 'mmu_invalidate_retry_gfn'?
+From: Sean Christopherson <seanjc@google.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, Chao Peng <chao.p.peng@linux.intel.com>, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Fuad Tabba <tabba@google.com>, 
+	Xu Yilun <yilun.xu@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
+	Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>, 
+	Huacai Chen <chenhuacai@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ec7d78798bfb669efc713c2c416a553a40d4dc77
-commit: 69ddcb21328bd29cfd2f64710bdac158f4c90bf6 [2379/2425] drivers: hooks: add bonding driver vendor hooks
-config: x86_64-openeuler_defconfig-OLK-6.6-func (https://download.01.org/0day-ci/archive/20240117/202401170210.jpY8kCcH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170210.jpY8kCcH-lkp@intel.com/reproduce)
++KVM LoongArch maintainers
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170210.jpY8kCcH-lkp@intel.com/
+On Tue, Jan 16, 2024, Paolo Bonzini wrote:
+> On Tue, Jan 16, 2024 at 2:06=E2=80=AFPM kernel test robot <lkp@intel.com>=
+ wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git master
+> > head:   8d04a7e2ee3fd6aabb8096b00c64db0d735bc874
+> > commit: 8569992d64b8f750e34b7858eac5d7daaf0f80fd [697/13343] KVM: Use g=
+fn instead of hva for mmu_notifier_retry
+> > config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive=
+/20240116/202401162158.2FqwkuiP-lkp@intel.com/config)
+> > compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240116/202401162158.2FqwkuiP-lkp@intel.com/reproduce)
+>=20
+> This was fixed-up when merging the KVM tree, but I missed it because
+> it was not mentioned in the loongarch pull request. I'll send a fixup
+> as soon as Linus gets back online.
 
-All warnings (new ones prefixed by >>):
+And I suspect KVM LooongArch isn't being fed into linux-next, e.g. the tree=
+ entry
+in MAINTAINERS points at your repo.
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bonding.h:27,
-                    from drivers/hooks/vendor_hooks.c:11:
->> include/trace/stages/init.h:2:23: warning: 'str__bonding__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/str__bonding__trace_system_name +2 include/trace/stages/init.h
-
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Side topic, where can I find a toolchain that can actually build KVM Looong=
+Arch?
+Clang recognizes the arch, but barfs on a variety of things, and I can't fi=
+nd the
+right Debian packages for gcc.
