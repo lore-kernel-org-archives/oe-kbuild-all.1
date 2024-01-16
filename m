@@ -1,47 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD4A11706
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 08:15:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6288F11714
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 08:15:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KvDrOILC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQkr4Moh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705392949; x=1736928949;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WU36ocGO6k0NXyGrLiO7MlDZDDyptfINp83pY0yJa+8=;
-  b=KvDrOILCOxKvi48bS8Rg+qHAu3XUkYos3rSmUIZE6JXzFrCXHfAHoCle
-   O/N+KDoFjAfJTNq/MJoDS4FyiqDND0/JyZCWsqILWexqEf2YoERsoO2im
-   sV/qOGRv/Ue11kZydKfiHc80Xmp5LDxzkpafhx+RC6kNAq8y/dqrHtehC
-   /ZXsVFClmuWkvGQmZU39yTrNP81kH/RCp54Ib8bHg+pBYT6tEeDX7sKvr
-   mWLMSyUC9zs0JThwbCMMgypznukGI0oB2Bbjirz4CWZ9PFFeMBVW6GLma
-   Osjrx1hnYsswJO1M26VGqpr0239eoOYPVkL4dVDCvSuMP7etpHWZjI8Ap
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="399458634"
+  t=1705392951; x=1736928951;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+93pTATwhylov/fGq+dM4wmJHrz3bwBGnnp7wd37fYM=;
+  b=EQkr4Moh7kUPaIs4sD6GkJnsoqDrTb0WW0zv/MMhLW/UIXdtDClQ8S/g
+   Vf2CXAqXiZq5ZF3OYH8TAlWmByktkQJTprI/E7/EVyhf3rl23YYBr9SpF
+   m/0/OzMDYUeXQpSKN4fkTchumJ19FSUisXd5546eKbjeJP3pzQuXn4YfP
+   h1Xhb1EijkviBatbKmkS7t42yO7Ki/9tRJl5gaNVRtV7q5NvU0N/lc78T
+   Quhly5e16QlYtqFSr7+NyzwTl0T23RKiSaUFt7XzglQS7M3fn81yTPefi
+   rOXlXEc/Sv4s/sjiwt/cUikITAg5rwXR7wmCsQam4mRuEo/yy90hJ9gV4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="18387569"
 X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="399458634"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 00:15:48 -0800
+   d="scan'208";a="18387569"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 00:15:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="907304219"
+X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="733529493"
 X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="907304219"
+   d="scan'208";a="733529493"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 16 Jan 2024 00:15:47 -0800
+  by orsmga003.jf.intel.com with ESMTP; 16 Jan 2024 00:15:45 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPebo-0000DU-2f;
-	Tue, 16 Jan 2024 08:15:44 +0000
-Date: Tue, 16 Jan 2024 16:15:39 +0800
+	id 1rPebn-0000CQ-04;
+	Tue, 16 Jan 2024 08:15:43 +0000
+Date: Tue, 16 Jan 2024 16:15:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 148/175]
- kernel/trace/ring_buffer.c:1833: warning: Function parameter or member
- 'writer' not described in '__ring_buffer_alloc'
-Message-ID: <202401161634.EQKR7L8L-lkp@intel.com>
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+Subject: Re: [PATCH 4/4] remoteproc: stm32: Add support of an OP-TEE TA to
+ load the firmware
+Message-ID: <202401161552.JWQXL1kD-lkp@intel.com>
+References: <20240115135249.296822-5-arnaud.pouliquen@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,119 +61,203 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240115135249.296822-5-arnaud.pouliquen@foss.st.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   58104a7a488632b39f3712aa1641d7c693c8c7a5
-commit: 8ab8966bc35292c86fed0985e28c73fd94df9a3b [148/175] ANDROID: ring-buffer: Introducing ring-buffer writer
-config: i386-buildonly-randconfig-002-20240116 (https://download.01.org/0day-ci/archive/20240116/202401161634.EQKR7L8L-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240116/202401161634.EQKR7L8L-lkp@intel.com/reproduce)
+Hi Arnaud,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on remoteproc/rproc-next]
+[also build test WARNING on robh/for-next linus/master v6.7 next-20240112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-Add-TEE-support/20240115-215613
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/20240115135249.296822-5-arnaud.pouliquen%40foss.st.com
+patch subject: [PATCH 4/4] remoteproc: stm32: Add support of an OP-TEE TA to load the firmware
+config: um-randconfig-r113-20240116 (https://download.01.org/0day-ci/archive/20240116/202401161552.JWQXL1kD-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240116/202401161552.JWQXL1kD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401161634.EQKR7L8L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401161552.JWQXL1kD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/remoteproc/tee_remoteproc.c:82:26: sparse: sparse: symbol 'tee_rproc_ctx' was not declared. Should it be static?
+>> drivers/remoteproc/tee_remoteproc.c:166:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *rsc_va @@     got void [noderef] __iomem * @@
+   drivers/remoteproc/tee_remoteproc.c:166:24: sparse:     expected void *rsc_va
+   drivers/remoteproc/tee_remoteproc.c:166:24: sparse:     got void [noderef] __iomem *
+>> drivers/remoteproc/tee_remoteproc.c:233:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *rsc_va @@
+   drivers/remoteproc/tee_remoteproc.c:233:31: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/remoteproc/tee_remoteproc.c:233:31: sparse:     got void *rsc_va
+   drivers/remoteproc/tee_remoteproc.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   kernel/trace/ring_buffer.c:936: warning: Function parameter or member 'cpu' not described in 'ring_buffer_wake_waiters'
->> kernel/trace/ring_buffer.c:1833: warning: Function parameter or member 'writer' not described in '__ring_buffer_alloc'
-   kernel/trace/ring_buffer.c:5427: warning: Excess function parameter 'cpu' description in 'ring_buffer_reset_online_cpus'
+vim +/tee_rproc_ctx +82 drivers/remoteproc/tee_remoteproc.c
 
-
-vim +1833 kernel/trace/ring_buffer.c
-
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1818  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1819  /**
-d611851b421731 zhangwei(Jovi             2013-07-15  1820)  * __ring_buffer_alloc - allocate a new ring_buffer
-68814b58c52077 Robert Richter            2008-11-24  1821   * @size: the size in bytes per cpu that is needed.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1822   * @flags: attributes to set for the ring buffer.
-59e7cffe5cca6f Fabian Frederick          2014-06-05  1823   * @key: ring buffer reader_lock_key.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1824   *
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1825   * Currently the only flag that is available is the RB_FL_OVERWRITE
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1826   * flag. This flag means that the buffer will overwrite old data
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1827   * when the buffer wraps. If this flag is not set, the buffer will
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1828   * drop data when the tail hits the head.
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1829   */
-13292494379f92 Steven Rostedt (VMware    2019-12-13  1830) struct trace_buffer *__ring_buffer_alloc(unsigned long size, unsigned flags,
-8ab8966bc35292 Vincent Donnefort         2023-06-09  1831  					struct lock_class_key *key,
-8ab8966bc35292 Vincent Donnefort         2023-06-09  1832  					struct ring_buffer_writer *writer)
-7a8e76a3829f10 Steven Rostedt            2008-09-29 @1833  {
-13292494379f92 Steven Rostedt (VMware    2019-12-13  1834) 	struct trace_buffer *buffer;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  1835) 	long nr_pages;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1836  	int bsize;
-9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  1837) 	int cpu;
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1838  	int ret;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1839  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1840  	/* keep it in its own cache line */
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1841  	buffer = kzalloc(ALIGN(sizeof(*buffer), cache_line_size()),
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1842  			 GFP_KERNEL);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1843  	if (!buffer)
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1844  		return NULL;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1845  
-b18cc3de00ec34 Sebastian Andrzej Siewior 2016-12-07  1846  	if (!zalloc_cpumask_var(&buffer->cpumask, GFP_KERNEL))
-9e01c1b74c9531 Rusty Russell             2009-01-01  1847  		goto fail_free_buffer;
-9e01c1b74c9531 Rusty Russell             2009-01-01  1848  
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  1849  	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1850  	buffer->flags = flags;
-37886f6a9f62d2 Steven Rostedt            2009-03-17  1851  	buffer->clock = trace_clock_local;
-1f8a6a10fb9437 Peter Zijlstra            2009-06-08  1852  	buffer->reader_lock_key = key;
-8ab8966bc35292 Vincent Donnefort         2023-06-09  1853  	if (writer) {
-8ab8966bc35292 Vincent Donnefort         2023-06-09  1854  		buffer->writer = writer;
-8ab8966bc35292 Vincent Donnefort         2023-06-09  1855  		atomic_inc(&buffer->record_disabled);
-8ab8966bc35292 Vincent Donnefort         2023-06-09  1856  	}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1857  
-15693458c4bc06 Steven Rostedt (Red Hat   2013-02-28  1858) 	init_irq_work(&buffer->irq_work.work, rb_wake_up_waiters);
-f1dc6725882b5c Steven Rostedt (Red Hat   2013-03-04  1859) 	init_waitqueue_head(&buffer->irq_work.waiters);
-15693458c4bc06 Steven Rostedt (Red Hat   2013-02-28  1860) 
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1861  	/* need at least two pages */
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  1862  	if (nr_pages < 2)
-438ced1720b584 Vaibhav Nagarnaik         2012-02-02  1863  		nr_pages = 2;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1864  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1865  	buffer->cpus = nr_cpu_ids;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1866  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1867  	bsize = sizeof(void *) * nr_cpu_ids;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1868  	buffer->buffers = kzalloc(ALIGN(bsize, cache_line_size()),
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1869  				  GFP_KERNEL);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1870  	if (!buffer->buffers)
-9e01c1b74c9531 Rusty Russell             2009-01-01  1871  		goto fail_free_cpumask;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1872  
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1873  	cpu = raw_smp_processor_id();
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1874  	cpumask_set_cpu(cpu, buffer->cpumask);
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1875  	buffer->buffers[cpu] = rb_allocate_cpu_buffer(buffer, nr_pages, cpu);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1876  	if (!buffer->buffers[cpu])
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1877  		goto fail_free_buffers;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1878  
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1879  	ret = cpuhp_state_add_instance(CPUHP_TRACE_RB_PREPARE, &buffer->node);
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1880  	if (ret < 0)
-b32614c03413f8 Sebastian Andrzej Siewior 2016-11-27  1881  		goto fail_free_buffers;
-554f786e284a6c Steven Rostedt            2009-03-11  1882  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1883  	mutex_init(&buffer->mutex);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1884  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1885  	return buffer;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1886  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1887   fail_free_buffers:
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1888  	for_each_buffer_cpu(buffer, cpu) {
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1889  		if (buffer->buffers[cpu])
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1890  			rb_free_cpu_buffer(buffer->buffers[cpu]);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1891  	}
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1892  	kfree(buffer->buffers);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1893  
-9e01c1b74c9531 Rusty Russell             2009-01-01  1894   fail_free_cpumask:
-9e01c1b74c9531 Rusty Russell             2009-01-01  1895  	free_cpumask_var(buffer->cpumask);
-9e01c1b74c9531 Rusty Russell             2009-01-01  1896  
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1897   fail_free_buffer:
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1898  	kfree(buffer);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1899  	return NULL;
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1900  }
-1f8a6a10fb9437 Peter Zijlstra            2009-06-08  1901  EXPORT_SYMBOL_GPL(__ring_buffer_alloc);
-7a8e76a3829f10 Steven Rostedt            2008-09-29  1902  
-
-:::::: The code at line 1833 was first introduced by commit
-:::::: 7a8e76a3829f1067b70f715771ff88baf2fbf3c3 tracing: unified trace buffer
-
-:::::: TO: Steven Rostedt <rostedt@goodmis.org>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   81  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  @82  struct tee_rproc_context *tee_rproc_ctx;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   83  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   84  static void prepare_args(struct tee_rproc *trproc, int cmd, struct tee_ioctl_invoke_arg *arg,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   85  			 struct tee_param *param, unsigned int num_params)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   86  {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   87  	memset(arg, 0, sizeof(*arg));
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   88  	memset(param, 0, MAX_TEE_PARAM_ARRY_MEMBER * sizeof(*param));
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   89  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   90  	arg->func = cmd;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   91  	arg->session = trproc->session_id;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   92  	arg->num_params = num_params + 1;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   93  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   94  	param[0] = (struct tee_param) {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   95  		.attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   96  		.u.value.a = trproc->rproc_id,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   97  	};
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   98  }
+6805d1065198e1 Arnaud Pouliquen 2024-01-15   99  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  100  int tee_rproc_load_fw(struct tee_rproc *trproc, const struct firmware *fw)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  101  {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  102  	struct tee_ioctl_invoke_arg arg;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  103  	struct tee_param param[MAX_TEE_PARAM_ARRY_MEMBER];
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  104  	struct tee_shm *fw_shm;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  105  	int ret;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  106  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  107  	fw_shm = tee_shm_register_kernel_buf(tee_rproc_ctx->tee_ctx, (void *)fw->data, fw->size);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  108  	if (IS_ERR(fw_shm))
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  109  		return PTR_ERR(fw_shm);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  110  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  111  	prepare_args(trproc, TA_RPROC_FW_CMD_LOAD_FW, &arg, param, 1);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  112  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  113  	/* Provide the address of the firmware image */
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  114  	param[1] = (struct tee_param) {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  115  		.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  116  		.u.memref = {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  117  			.shm = fw_shm,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  118  			.size = fw->size,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  119  			.shm_offs = 0,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  120  		},
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  121  	};
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  122  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  123  	ret = tee_client_invoke_func(tee_rproc_ctx->tee_ctx, &arg, param);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  124  	if (ret < 0 || arg.ret != 0) {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  125  		dev_err(tee_rproc_ctx->dev,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  126  			"TA_RPROC_FW_CMD_LOAD_FW invoke failed TEE err: %x, ret:%x\n",
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  127  			arg.ret, ret);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  128  		if (!ret)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  129  			ret = -EIO;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  130  	}
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  131  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  132  	tee_shm_free(fw_shm);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  133  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  134  	return ret;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  135  }
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  136  EXPORT_SYMBOL_GPL(tee_rproc_load_fw);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  137  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  138  int rproc_tee_get_rsc_table(struct tee_rproc *trproc)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  139  {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  140  	struct tee_ioctl_invoke_arg arg;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  141  	struct tee_param param[MAX_TEE_PARAM_ARRY_MEMBER];
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  142  	struct rproc *rproc = trproc->rproc;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  143  	size_t rsc_size;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  144  	int ret;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  145  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  146  	prepare_args(trproc, TA_RPROC_FW_CMD_GET_RSC_TABLE, &arg, param, 2);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  147  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  148  	param[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  149  	param[2].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  150  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  151  	ret = tee_client_invoke_func(tee_rproc_ctx->tee_ctx, &arg, param);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  152  	if (ret < 0 || arg.ret != 0) {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  153  		dev_err(tee_rproc_ctx->dev,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  154  			"TA_RPROC_FW_CMD_GET_RSC_TABLE invoke failed TEE err: %x, ret:%x\n",
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  155  			arg.ret, ret);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  156  		return -EIO;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  157  	}
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  158  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  159  	rsc_size = param[2].u.value.a;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  160  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  161  	/* If the size is null no resource table defined in the image */
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  162  	if (!rsc_size)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  163  		return 0;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  164  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  165  	/* Store the resource table address that would be updated by the remote core . */
+6805d1065198e1 Arnaud Pouliquen 2024-01-15 @166  	trproc->rsc_va = ioremap_wc(param[1].u.value.a, rsc_size);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  167  	if (IS_ERR_OR_NULL(trproc->rsc_va)) {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  168  		dev_err(tee_rproc_ctx->dev, "Unable to map memory region: %lld+%zx\n",
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  169  			param[1].u.value.a, rsc_size);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  170  		trproc->rsc_va = NULL;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  171  		return -ENOMEM;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  172  	}
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  173  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  174  	/*
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  175  	 * A cached table is requested as the physical address is not mapped yet
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  176  	 * but remoteproc needs to parse the table for resources.
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  177  	 */
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  178  	rproc->cached_table = kmemdup(trproc->rsc_va, rsc_size, GFP_KERNEL);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  179  	if (!rproc->cached_table)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  180  		return -ENOMEM;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  181  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  182  	rproc->table_ptr = rproc->cached_table;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  183  	rproc->table_sz = rsc_size;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  184  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  185  	return 0;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  186  }
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  187  EXPORT_SYMBOL_GPL(rproc_tee_get_rsc_table);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  188  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  189  struct resource_table *tee_rproc_get_loaded_rsc_table(struct tee_rproc *trproc)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  190  {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  191  	return (struct resource_table *)trproc->rsc_va;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  192  }
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  193  EXPORT_SYMBOL_GPL(tee_rproc_get_loaded_rsc_table);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  194  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  195  int tee_rproc_start(struct tee_rproc *trproc)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  196  {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  197  	struct tee_ioctl_invoke_arg arg;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  198  	struct tee_param param[MAX_TEE_PARAM_ARRY_MEMBER];
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  199  	int ret;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  200  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  201  	prepare_args(trproc, TA_RPROC_FW_CMD_START_FW, &arg, param, 0);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  202  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  203  	ret = tee_client_invoke_func(tee_rproc_ctx->tee_ctx, &arg, param);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  204  	if (ret < 0 || arg.ret != 0) {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  205  		dev_err(tee_rproc_ctx->dev,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  206  			"TA_RPROC_FW_CMD_START_FW invoke failed TEE err: %x, ret:%x\n",
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  207  			arg.ret, ret);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  208  		if (!ret)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  209  			ret = -EIO;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  210  	}
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  211  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  212  	return ret;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  213  }
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  214  EXPORT_SYMBOL_GPL(tee_rproc_start);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  215  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  216  int tee_rproc_stop(struct tee_rproc *trproc)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  217  {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  218  	struct tee_ioctl_invoke_arg arg;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  219  	struct tee_param param[MAX_TEE_PARAM_ARRY_MEMBER];
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  220  	int ret;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  221  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  222  	prepare_args(trproc, TA_RPROC_FW_CMD_STOP_FW, &arg, param, 0);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  223  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  224  	ret = tee_client_invoke_func(tee_rproc_ctx->tee_ctx, &arg, param);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  225  	if (ret < 0 || arg.ret != 0) {
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  226  		dev_err(tee_rproc_ctx->dev,
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  227  			"TA_RPROC_FW_CMD_STOP_FW invoke failed TEE err: %x, ret:%x\n",
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  228  			arg.ret, ret);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  229  		if (!ret)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  230  			ret = -EIO;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  231  	}
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  232  	if (trproc->rsc_va)
+6805d1065198e1 Arnaud Pouliquen 2024-01-15 @233  		iounmap(trproc->rsc_va);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  234  	trproc->rsc_va = NULL;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  235  
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  236  	return ret;
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  237  }
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  238  EXPORT_SYMBOL_GPL(tee_rproc_stop);
+6805d1065198e1 Arnaud Pouliquen 2024-01-15  239  
 
 -- 
 0-DAY CI Kernel Test Service
