@@ -1,61 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FEF1CD02
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 17:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0B51CAA3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 17:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705426467; cv=none; b=N6ZnQ4HHhgmaKLS+iFffseejRRpcYrPcBfMz5j1JUa00e0FMc1aF2weym8aJ8v9Xcs0Afsoj+TWwHYS76rHXWXbXkgQTPrRvYaFGPAiZpLreCDauiGjvCRKDCTtiSnclylstQx++1TYmi+7+ZFNfK7eD5LbvLZ8tSAFOjCrlj9Q=
+	t=1705426861; cv=none; b=O/Ggtw15BplaFocodWWtTlzC9VLu+XXrN2T/xQcw2FGDHAzUUwVUSqkHl9SqIKvGT8iWu+BStYdGgRAA54w5EC5To+M1JGUKzPbqSyblWq6gq06Pv5qDpk2pJNxXHuBIJ2ogPYa3S5F6ORWQ741Yi14oPNt0M2dqubSkXiMTeoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705426467; c=relaxed/simple;
-	bh=kN4tXKxMcqWmj5n0iAp3DXXMvRuBtkCGEFI+G4GUgJQ=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=gCRCpObGpagTdJxk2sTplsD4IibLUC/Y6XQWHdV+RKrPM4hiTlTugV5GQQC/TuY1/GCEWJC41BpalkJw8vODiL3q6HY/1RqAHsHMaGw+1U3AdUGqwd5ltcI4XFx1nxKvLEhOe/s5nCls16GPAxvyrNdTOmdS6WCx+sA1PGcC8a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hx67+mxA; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1705426861; c=relaxed/simple;
+	bh=XvvcYoCr4zpjWC2RHZe0h/ouCH5Zo/Y79WhWx6k5mnY=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=J11YlscpfZHweZgM2ANcmkKs1tXGTQbNNn43RxtfFGfYKBN8Vwqv7iy/SNmCiGlReunzZmsDNeLZi/XjwnJCtn3SY4oCz8XDsAf1PGxDdoNQqSDHVvtFAEjiOWUQNzNx5yKcBdQ9LLOte0qqKgemvHjeBDBWCkOdOfV9Ca8nXM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d3TrqOjg; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hx67+mxA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705426466; x=1736962466;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kN4tXKxMcqWmj5n0iAp3DXXMvRuBtkCGEFI+G4GUgJQ=;
-  b=Hx67+mxAizPMOuEOCv2lnqoMqIcAfymEx0V6tB/tJpCfwcNfeB/fab4o
-   fqbOqJnEMo1MGO+AD+moEj3OxcadaOp1i+BtEplIWy9CY7W9wez9YNbrp
-   ETvHDSeJRq7/gRoxRu70EOJtwYcpavMowlpR3Dmzd3Sok4frLZ7LgxQE9
-   g4/Cu9Z6FOAYA54GVoKNozg7xEBENvPcghrcif9gGVvH2CH35vZh6Mi4Z
-   0zgbeNFd3pAkZF/omXAJMjaoKXwfInb+iXcPVbSyeEAc4gnYlgSZ+wozf
-   tDvjyNyRvyxqTnTAdWkCAaU1w/dcEBqw7CPtQHuHcHsEJ4n/rpNRKUOPM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="13286354"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="13286354"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 09:34:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="787520639"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="787520639"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 16 Jan 2024 09:34:21 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPnKN-00010w-26;
-	Tue, 16 Jan 2024 17:34:19 +0000
-Date: Wed, 17 Jan 2024 01:33:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Martin Kaistra <martin.kaistra@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Kalle Valo <kvalo@kernel.org>, linux-wireless@vger.kernel.org,
-	Ping-Ke Shih <pkshih@realtek.com>
-Subject: [wireless-next:main 34/56]
- drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:7668:30: sparse:
- sparse: symbol 'rtl8xxxu_limits' was not declared. Should it be static?
-Message-ID: <202401170132.Yz1gBFOg-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d3TrqOjg"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6d98ce84e18so8891656b3a.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 09:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1705426858; x=1706031658; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BOlwdSwaFY4qZZ/MF2sX5IosH4JrIbBPd9daBrZxqLw=;
+        b=d3TrqOjgF6NA9oVF0Za8tNZ0JbqkMO6S3DPibKml07Yv5RsB/p3yD60b9GZvJd88Uv
+         FRx+Xdi4Z4FhK2NgqVlTDwLx8REllOil7oTJrcOQKlJCZZ4vKnfKp0J8iNoYmbNyvR07
+         ZU47jYRWLYAyAETmXZsBdzA4WTFOhqrjMxdiM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705426858; x=1706031658;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BOlwdSwaFY4qZZ/MF2sX5IosH4JrIbBPd9daBrZxqLw=;
+        b=Mfe7w1bf1xqlWOMgByfPEt3hRqAPp0F+XpK+HjwOEltD4NVOrHEtPmWJA4yUbTvF69
+         ElObSMb3pwZTXF5cCnGvmviszu3Qjo/ww6o13QCrf3Q23UkTSrXOgaP9Krb4Bh7A8waJ
+         niKaITkjbMdcXKQie92EcUowm/kcjd89w1D3TGLuDACBRgHCZQiKi4nNvTJs8V6F0JDk
+         oXyxkfmwvvXrAeEsISiyI3jTak1hql8YSVXUinzlL9ElXy5y/JwJXd/ED2kY4pYqC8U3
+         Ysb676U6+aDVsRKWFmfQSuoaYYbweKkRqFhabdTnsl11/CShYwwrirDk6gb6jLQ3FqEc
+         70xg==
+X-Gm-Message-State: AOJu0YzjEzdaNYnO33Q5idPhG0d+lxyEJyA/kwBes9IVjmVZVlMBRos4
+	pDP5uhe74P7AeK/UUmYTiI8VLmwzWc3F
+X-Google-Smtp-Source: AGHT+IGSq12YfeBII3I7eyQkB4trJr8EZhJyUqknHpzHjJNorjltxMMcubYS6hhtjlOeab7iuZAREg==
+X-Received: by 2002:a05:6a00:4604:b0:6db:7038:fc0f with SMTP id ko4-20020a056a00460400b006db7038fc0fmr7290950pfb.63.1705426858263;
+        Tue, 16 Jan 2024 09:40:58 -0800 (PST)
+Received: from localhost ([2620:15c:9d:2:88f1:3bea:43ea:b8b8])
+        by smtp.gmail.com with UTF8SMTPSA id x16-20020a056a000bd000b006d9b2694b0csm9640397pfu.200.2024.01.16.09.40.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jan 2024 09:40:57 -0800 (PST)
+Date: Tue, 16 Jan 2024 09:40:55 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: kernel test robot <lkp@intel.com>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Cc: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] firmware: google: cbmem: Add to module device table
+Message-ID: <Zaa_pwuPOMCQV4GD@google.com>
+References: <20240111151226.842603-4-nfraprado@collabora.com>
+ <202401151013.Xioj5wZo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,48 +71,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202401151013.Xioj5wZo-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-head:   ece90a8622320bf5a24d3326da1f8e109891573c
-commit: 1cd165adf314f6bf25cde58f02f4ff51d01730b0 [34/56] wifi: rtl8xxxu: declare concurrent mode support for 8188f
-config: riscv-randconfig-r132-20240116 (https://download.01.org/0day-ci/archive/20240117/202401170132.Yz1gBFOg-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240117/202401170132.Yz1gBFOg-lkp@intel.com/reproduce)
+Hi Nicolas,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170132.Yz1gBFOg-lkp@intel.com/
+On Mon, Jan 15, 2024 at 10:53:48AM +0800, kernel test robot wrote:
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/firmware/google/cbmem.c:118:40: warning: unused variable 'cbmem_ids' [-Wunused-const-variable]
+>      118 | static const struct coreboot_device_id cbmem_ids[] = {
+>          |                                        ^~~~~~~~~
+>    1 warning generated.
+> 
+> 
+> vim +/cbmem_ids +118 drivers/firmware/google/cbmem.c
+> 
+>    117	
+>  > 118	static const struct coreboot_device_id cbmem_ids[] = {
+>    119		{ .tag = LB_TAG_CBMEM_ENTRY },
+>    120		{ /* sentinel */ }
+>    121	};
+>    122	MODULE_DEVICE_TABLE(coreboot, cbmem_ids);
+>    123	
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5623:40: sparse: sparse: invalid assignment: |=
-   drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5623:40: sparse:    left side has type restricted __le32
-   drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5623:40: sparse:    right side has type unsigned long
->> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:7668:30: sparse: sparse: symbol 'rtl8xxxu_limits' was not declared. Should it be static?
->> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:7673:36: sparse: sparse: symbol 'rtl8xxxu_combinations' was not declared. Should it be static?
-   drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+I was wondering why we have a seemingly unique "unused variable" failure
+mode in comparison to other similarly-structured device/bus drivers, and
+I realized that's because we're not relying on the same structure for
+both MODULE_DEVICE_TABLE (struct coreboot_device_id) and for the driver
+definition (struct coreboot_driver -> 'u32 tag'). Thus, this structure
+is only used for #define MODULE builds, and otherwise not used.
 
-vim +/rtl8xxxu_limits +7668 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
+Rather than wrapping these definitions in "#ifdef MODULE", perhaps we
+can settle on a single field, and replace `struct coreboot_driver::tag`
+with an instance of `struct coreboot_device_id`? That would normally be
+a breaking change that would require changing all drivers at the same
+time as the bus (or else some kind of intermediate transition state),
+but considering there are only 4 driver implementations and they all
+live under the same maintainer tree, that seems like it should still be
+OK (IMO).
 
-  7667	
-> 7668	struct ieee80211_iface_limit rtl8xxxu_limits[] = {
-  7669		{ .max = 2, .types = BIT(NL80211_IFTYPE_STATION), },
-  7670		{ .max = 1, .types = BIT(NL80211_IFTYPE_AP), },
-  7671	};
-  7672	
-> 7673	struct ieee80211_iface_combination rtl8xxxu_combinations[] = {
-  7674		{
-  7675			.limits = rtl8xxxu_limits,
-  7676			.n_limits = ARRAY_SIZE(rtl8xxxu_limits),
-  7677			.max_interfaces = 2,
-  7678			.num_different_channels = 1,
-  7679		},
-  7680	};
-  7681	
+If it makes the series more readable/incremental, perhaps the switchover
+can be the last patch in the series, and there can remain some
+duplication (and potential -Wunused-const-variable issues) for the
+middle of the series.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Brian
