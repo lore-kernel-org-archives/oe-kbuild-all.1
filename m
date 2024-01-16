@@ -1,43 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4CA67C4A;
-	Tue, 16 Jan 2024 22:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA02E1DA28
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 23:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705445739; cv=none; b=VcwA/nANt3H5KIRnShFRoW0o+ZWnvBTemDnuichZpfZGbpW1YtnGVXIrXY5p3gFn0FwPKCS3O0mqCi8MJHhN5IKsjn6S/D/ehIfJC/aT204nYuemFN7p/L87D3BAPWZCouM74+piLdLxcGivzv00XKE8FxTcMRUMQFgWslU6lYI=
+	t=1705448499; cv=none; b=G+0zZktkZRvzJ3ks2JCGfSB+qnABC7a45fMQXjvSuDKKUYYfCEvPs+XXYrulPSOmpRF3o22G82K3LnUzGPJ3662d3WKfjBuI0DrbzPsxvhT463As/iw5Pv953fry0qSzb/WJ7OuaqI7zKx+/mOpYvksdhPvzt2j69sCEd9ZOP20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705445739; c=relaxed/simple;
-	bh=71axzYVePkdOhXMyOm7/PfyST3HfK/W4XQ2iKAJiU0s=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=N3iZiE6BHXrfy6ylrcz7lb/T8Q5MZuXwXx3Hrjt/ScmJGZQ6m4E0N6i/8N+cZJ9wepdTMW7Bhnc0LCYpzMMWiDJF6Cfd7uKSUejNe9zMv6oeLD82bDef8Avtk8PqIb9jyaXs5Cs79yIEWwbIsi29IRaFOmMzQT8Npj9AeWNx36s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uLGsK5J+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705448499; c=relaxed/simple;
+	bh=l4xEB1xA47KHUCZkdnjrnn4f53ZUp8bxu1UzDnOICb0=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition; b=BBJzpp5N3v2SCtpJCRaFL/H63xppge/z6AsxQeBm321v2RgHeukIQvuO2rih6FvMFCmqajRv1QsI/BckKGPYRjq3/84FIO+3GPiHM+WzUijGeJTh73raOnMuch+O/w0K/y/SwSbLvT8ETNS54MJK5aDizJNHCqQpBf5AofumQyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iy9Eqvsl; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uLGsK5J+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 445C7C433F1;
-	Tue, 16 Jan 2024 22:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705445738;
-	bh=71axzYVePkdOhXMyOm7/PfyST3HfK/W4XQ2iKAJiU0s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uLGsK5J+EP+401FSdThFWDtXa1RvlnNZRWk8bybGaNlA8eOPFr/thZBeSr7cyvV18
-	 CVUCSl5fQeyaIK/0XLCKar8Up6SjXQEiJbK+s7DZkAHap/kZsRkZO8NRYvyVRjd/hn
-	 I3btsF6mhppjjjWDTgPxG/qx4+tGAFqE2hNpR70VRTHaIV92AkQMWL+f/ep81BPC5e
-	 1XdFB/YFrG4hmRfTLD/pk+RsFFSOVMfJCn3wkGPI55ICwNVrq0HZ3d2gnQAhwkyD94
-	 3ouQrx7i2vILyFrFEbzlaVmde8pKtFY+n7QL9F5wFD6yObxSc0m1phRNcaXRaWOPsZ
-	 4jkcvksR4VuEQ==
-Date: Tue, 16 Jan 2024 15:55:36 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Yury Norov <yury.norov@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 22/23] lib/group_cpus.c:352:16:
- error: array initializer must be an initializer list
-Message-ID: <20240116225536.GA3108998@dev-arch.thelio-3990X>
-References: <202401140117.pwAcsXAT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iy9Eqvsl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705448497; x=1736984497;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=l4xEB1xA47KHUCZkdnjrnn4f53ZUp8bxu1UzDnOICb0=;
+  b=Iy9Eqvsltrfw7h6jqx5q0ou2M2j9YXqvhYsAwqftcuO2yntf2tYZtc3m
+   Ccf8BY3EHHACS9IQyO9K5MllhtXDp4uIIbyNpF0jUOP6o3YUdoA15Gw5r
+   craMU+XSjRWnLou/1PsAx90KOwz30SLUAlqoaLkg92t2CuqOPXyFiTFlV
+   7G1wSDUugfE+T5wlGEzli62lXDk+s3gkBi4th/IuesLSYKPoA6ZrViQnh
+   UfLXYpkgXCDV29H0Y9H56y3GeOvQxufNSYp0IiZGJaVD4pJmd0MJKfeco
+   11/TUYKBAP0rN7lFSeUs/EwXoQrQb9YTHw7TxpxJj+FxfMV1bdskCjjZ/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="431181780"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="431181780"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 15:41:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="25973550"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 16 Jan 2024 15:41:36 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rPt3l-0001MT-1C;
+	Tue, 16 Jan 2024 23:41:33 +0000
+Date: Wed, 17 Jan 2024 07:41:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Shi <alexs@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:master 7/8] kernel/sched/fair.c:9769: warning: Function
+ parameter or struct member 'sd' not described in '_sched_asym'
+Message-ID: <202401170738.dCIK1Ssb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,39 +58,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202401140117.pwAcsXAT-lkp@intel.com>
 
-On Sun, Jan 14, 2024 at 01:40:11AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-> head:   3d69c575710800c9a4a58e94c157697310e32027
-> commit: a868f9c8816cb72f983d1ff940b0938737fe8ee7 [22/23] lib/group_cpus: fix initialization section in group_cpus_evenly()
-> config: i386-randconfig-011-20240113 (https://download.01.org/0day-ci/archive/20240114/202401140117.pwAcsXAT-lkp@intel.com/config)
-> compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240114/202401140117.pwAcsXAT-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401140117.pwAcsXAT-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> lib/group_cpus.c:352:16: error: array initializer must be an initializer list
->      352 |         cpumask_var_t npresmsk __free(free_cpumask_var) = NULL;
->          |                       ^
->    1 error generated.
+tree:   https://github.com/alexshi/linux.git master
+head:   2669828cf33eb2f62d8b52a1c1e73fa03d921498
+commit: 897ed5bd9fb059d29348b23ed4ccfeb790fe503c [7/8] sched/fair: add a func _sched_asym
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240117/202401170738.dCIK1Ssb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170738.dCIK1Ssb-lkp@intel.com/reproduce)
 
-Not a compiler specific error, as evidenced by the GCC report:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401170738.dCIK1Ssb-lkp@intel.com/
 
-https://lore.kernel.org/202401160231.mSAgDn9b-lkp@intel.com/
+All warnings (new ones prefixed by >>):
 
-Neither configuration has CONFIG_CPUMASK_OFFSTACK, which is not going to
-be enabled for most configurations, as it is not user selectable without
-CONFIG_DEBUG_PER_CPU_MAPS and there are only a few conditions where it
-is force selected. In other words, I suspect this error is going to be
-quite widespread if it hits -next. I can still reproduce it at the
-current mm-nonmm-unstable, commit 08be2d243fb7 ("lib/sort: Optimize
-heapsort with double-pop variation").
+>> kernel/sched/fair.c:9769: warning: Function parameter or struct member 'sd' not described in '_sched_asym'
+>> kernel/sched/fair.c:9769: warning: Function parameter or struct member 'dst_cpu' not described in '_sched_asym'
+>> kernel/sched/fair.c:9769: warning: Function parameter or struct member 'repl_cpu' not described in '_sched_asym'
+>> kernel/sched/fair.c:9769: warning: expecting prototype for sched_asym(). Prototype was for _sched_asym() instead
 
-Cheers,
-Nathan
+
+vim +9769 kernel/sched/fair.c
+
+eefefa716c9fa6 Ricardo Neri   2023-04-06  9747  
+4006a72bdd93b1 Ricardo Neri   2021-09-10  9748  /**
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9749   * sched_asym - Check if the destination CPU can do asym_packing load balance
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9750   * @env:	The load balancing environment
+4006a72bdd93b1 Ricardo Neri   2021-09-10  9751   * @sgs:	Load-balancing statistics of the candidate busiest group
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9752   * @group:	The candidate busiest group
+4006a72bdd93b1 Ricardo Neri   2021-09-10  9753   *
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9754   * @env::dst_cpu can do asym_packing if it has higher priority than the
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9755   * preferred CPU of @group.
+4006a72bdd93b1 Ricardo Neri   2021-09-10  9756   *
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9757   * SMT is a special case. If we are balancing load between cores, @env::dst_cpu
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9758   * can do asym_packing balance only if all its SMT siblings are idle. Also, it
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9759   * can only do it if @group is an SMT group and has exactly on busy CPU. Larger
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9760   * imbalances in the number of CPUS are dealt with in find_busiest_group().
+eefefa716c9fa6 Ricardo Neri   2023-04-06  9761   *
+f577cd57bfaa88 Peter Zijlstra 2023-07-12  9762   * If we are balancing load within an SMT core, or at PKG domain level, always
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9763   * proceed.
+4006a72bdd93b1 Ricardo Neri   2021-09-10  9764   *
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9765   * Return: true if @env::dst_cpu can do with asym_packing load balance. False
+c9ca07886aaa40 Ricardo Neri   2023-04-06  9766   * otherwise.
+ef7657d4d2d6a8 Ricardo Neri   2023-04-06  9767   */
+897ed5bd9fb059 Alex Shi       2024-01-16  9768  static inline bool _sched_asym(sched_domain *sd, int dst_cpu, int repl_cpu)
+aafc917a3c31dc Ricardo Neri   2021-09-10 @9769  {
+eefefa716c9fa6 Ricardo Neri   2023-04-06  9770  	/* Ensure that the whole local core is idle, if applicable. */
+897ed5bd9fb059 Alex Shi       2024-01-16  9771  	return sched_use_asym_prio(sd, dst_cpu) &&
+897ed5bd9fb059 Alex Shi       2024-01-16  9772  			sched_asym_prefer(dst_cpu, repl_cpu);
+897ed5bd9fb059 Alex Shi       2024-01-16  9773  }
+eefefa716c9fa6 Ricardo Neri   2023-04-06  9774  
+
+:::::: The code at line 9769 was first introduced by commit
+:::::: aafc917a3c31dcc76cb0279cd7617dda11b15f2a sched/fair: Carve out logic to mark a group for asymmetric packing
+
+:::::: TO: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
