@@ -1,101 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77610F9F6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 06:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DFE101E8;
+	Tue, 16 Jan 2024 06:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aol/xPA1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705386165; x=1736922165;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T2HUSRrSF0gl6JOqX4YdcfSMQQjj74IfOdQ2rVoRLys=;
-  b=Aol/xPA1AHpo4qJqsOS5jYQ4Qw7dtDx3Kosc/m3l+q8HIHSj+6Va41bM
-   f9RVpF2xtJ93O4yPIt2QkU/SvWP3KJEMMd4JSpY6H0dADWSqkte4eBnk+
-   /YG93H6780qPLejXugVsqzPntbjQCyyMsLxyeMWPZMSsrYr6oM4GHC6RR
-   NnfEuJL0/LNOJAEX+n7OuJldm0m/6VAxxLACyCHuRgndSH1WXQdtfZTij
-   03XgqS9mL6R7LxMh2qf1ChOpFzGILTY5iJHgC2HrJzEV4GFwoxstUwQIn
-   l7Jvw7IshguVM3k6kEG0PsJ+d4gQFSTHNwdgMBiIZ5h9Ae2ZOHqVAricy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="390217879"
-X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="390217879"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 22:22:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="733504139"
-X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="733504139"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 15 Jan 2024 22:22:40 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPcqM-00006u-2E;
-	Tue, 16 Jan 2024 06:22:38 +0000
-Date: Tue, 16 Jan 2024 14:22:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-Subject: Re: [PATCH 4/4] remoteproc: stm32: Add support of an OP-TEE TA to
- load the firmware
-Message-ID: <202401161447.0AQqNEiO-lkp@intel.com>
-References: <20240115135249.296822-5-arnaud.pouliquen@foss.st.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LIWd9iG8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30961C433C7;
+	Tue, 16 Jan 2024 06:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705386192;
+	bh=wn5afpTDsUt4WqYPTCnDiyIElZQNuJSw8lHT2Uhwh5k=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=LIWd9iG8qo3cXa094mD7kjv18MKoQe8U4Ml1yfgNowrLZa9m7uwflsVyDbY8c+Qg3
+	 2KG+DCpATXmjuDfnShYXJs0+84KYtDi/dEEL/SuAwJDbFGS55SEyuOl2XC5ey7nXDY
+	 j02FaMCRg7nfX+iVk3qZun7zFCQ/bPZ1gWvXL90efBSj+qV3kLJApf7paibBLnD10b
+	 4gSpe75lhasICL3zKbv3VMOqBKOdJHq8cZZjASVNDomc7tf4co2KwqG8wqTVPGl6d4
+	 Z2UumhD8EsZF0oIGIrPPIKETJK2S469gjM2f/Bo/I3UDA0h6Im3zVvGXoSF3iW0odQ
+	 M84NzH/4lrvKA==
+From: Kalle Valo <kvalo@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Martin Kaistra <martin.kaistra@linutronix.de>,
+  oe-kbuild-all@lists.linux.dev,  Johannes Berg
+ <johannes@sipsolutions.net>,  linux-wireless@vger.kernel.org,  Ping-Ke
+ Shih <pkshih@realtek.com>
+Subject: Re: [wireless-next:main 32/56]
+ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5623:40: sparse:
+ sparse: invalid assignment: |=
+References: <202401161318.YtXoCkjU-lkp@intel.com>
+Date: Tue, 16 Jan 2024 08:23:08 +0200
+In-Reply-To: <202401161318.YtXoCkjU-lkp@intel.com> (kernel test robot's
+	message of "Tue, 16 Jan 2024 13:47:32 +0800")
+Message-ID: <877ck9hk4z.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240115135249.296822-5-arnaud.pouliquen@foss.st.com>
+Content-Type: text/plain
 
-Hi Arnaud,
+kernel test robot <lkp@intel.com> writes:
 
-kernel test robot noticed the following build warnings:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+> head:   ece90a8622320bf5a24d3326da1f8e109891573c
+> commit: b837f78fbffa5f8e7e7c59879db54793abf161ec [32/56] wifi: rtl8xxxu: add hw crypto support for AP mode
+> config: riscv-randconfig-r132-20240116 (https://download.01.org/0day-ci/archive/20240116/202401161318.YtXoCkjU-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20240116/202401161318.YtXoCkjU-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401161318.YtXoCkjU-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5623:40: sparse: sparse: invalid assignment: |=
+>    drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5623:40: sparse:    left side has type restricted __le32
+>    drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:5623:40: sparse:    right side has type unsigned long
 
-[auto build test WARNING on remoteproc/rproc-next]
-[also build test WARNING on robh/for-next linus/master v6.7 next-20240112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-Add-TEE-support/20240115-215613
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
-patch link:    https://lore.kernel.org/r/20240115135249.296822-5-arnaud.pouliquen%40foss.st.com
-patch subject: [PATCH 4/4] remoteproc: stm32: Add support of an OP-TEE TA to load the firmware
-config: alpha-kismet-CONFIG_TEE_REMOTEPROC-CONFIG_STM32_RPROC-0-0 (https://download.01.org/0day-ci/archive/20240116/202401161447.0AQqNEiO-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240116/202401161447.0AQqNEiO-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401161447.0AQqNEiO-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for TEE_REMOTEPROC when selected by STM32_RPROC
-   
-   WARNING: unmet direct dependencies detected for TEE_REMOTEPROC
-     Depends on [n]: REMOTEPROC [=y] && OPTEE [=n]
-     Selected by [y]:
-     - STM32_RPROC [=y] && (ARCH_STM32 || COMPILE_TEST [=y]) && REMOTEPROC [=y]
+Martin, could you send a fix for this ASAP?
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
