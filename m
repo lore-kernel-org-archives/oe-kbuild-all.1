@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0381E20305
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 13:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0E420307
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 13:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705499050; cv=none; b=PWZb4Uu0uyUsDYr/hWarp2JZmWyh7rMvyCsN+YEmpRIfrfhOAZDkLA6bXlexzJVzxQmdZscw4bIaYPwCg/nv4RxuxPIlCSaGmWVofUmFudPfJzhtDpdeXtPDfMFG0F9hx1aWTlVYg5XbQC0NJAcEgkt4oHEtL8vR4I7Cbq5fozw=
+	t=1705499654; cv=none; b=hwaIp8HYbzEgKIka/kUe6F/KndFP/PLTvPGFdkHtqnUs3xPMlyXpG3tZEBBam3zdWYbBfe+SSuW29VpLMIp1hi8PPMXCli0y3G31L7ajZHgMG6kynopeNE2xZ4ao/X3MzqlR395DwbHLJckmBTStznQHhft/hi2FK8j+R+dyykY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705499050; c=relaxed/simple;
-	bh=34onJ52Q9w48mQ5X+eLbvIFaWkTgbwEwZsz/UH3+Ats=;
+	s=arc-20240116; t=1705499654; c=relaxed/simple;
+	bh=RsDYYhAXyCkg8b9dp9cHoIHW7NnKRGtWQb9rJsyA5KI=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=pIyiGUX/MlL5h1/N7i4GAPLFIjhjyCWApaCRaLnDzgCRm78l/lnUX+Ak8RMrBxQHvzUqGqtooVXcgq+i7tdd3TUIv4Mb+6f6+/L33QomoQ3RoLh1/vFKaBrOC8essZNSspie8hZiC4LTmn8zrl6sfl7j7Q++G+sDeHdXGDcyY1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xtowitsi; arc=none smtp.client-ip=198.175.65.14
+	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition; b=nEXMITUKFI26quI4WfopPzFFeBd8A0WJ6rJLwLwW+XisaySG5ZBUHEzcN8NSzUhu+hqFnEOFCl9RS3bNGVmwKU/pdPP7rDWFPa+Hda9NBnly+uBHMkKAoxrOny7hSoSOv7pz1SAOQcyzUf3Haoj3PYVSi3EGSoyvOSzlVtY7114=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BT26mb7J; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xtowitsi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BT26mb7J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705499048; x=1737035048;
+  t=1705499653; x=1737035653;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=34onJ52Q9w48mQ5X+eLbvIFaWkTgbwEwZsz/UH3+Ats=;
-  b=XtowitsiFYivfdr4xsmvpADonQbXsZzJv2okJWcQ7RtLlN49NUOjZEqP
-   ckv3pE7GWvNvCmU9VeZKYKdgY+behl6an5RHbTQZO7RXtDaoRJ9XEzAFv
-   Fn2XwLnOt6DEdJbZRvC7VwS6k3HZiI0UCHpqN0n5a5KynzEYoT0e+qETy
-   bWEyra8pO/HtRAgNAsooS8aqW7R+pEq2XKnB0kLPgGWq2bCRvSL+jDFI1
-   d7xAvxttLiPfASYqFIvscZ8ggc56yy7qWWjEicLzRa9bPvszELQ+HdGLq
-   DjzJ+a8Lj7yaqGXW/tt6HO9oE+VijuCcNZScSMdnL1UIXkC0LNUT/Xrrk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="59178"
+  bh=RsDYYhAXyCkg8b9dp9cHoIHW7NnKRGtWQb9rJsyA5KI=;
+  b=BT26mb7JG+uAu7aWjh7KucA2pSzai0tx6zqf1zZk8VeOUUDCsFTh5wtX
+   W9cv4oizwifZ+azpXQ6XuQ1ThFRPkyjxQbQjaa1WF4PaMrN2U+O/QKhKX
+   z8TRqe3BuiS8kp4I5BL4LyqpUGJxL0QwbfznFM783m+olI1xSzzvrU0eP
+   9iJDpnp67E/oUI7ixP/CcY+Kv7yINBV+ZqPdUkeQiJcdeVBj5CZ/kNSN3
+   pi95i6FQpI9b1Hbcz9CMRTLNh5TVajtjRLkQrA9CEmrBsUhEE0Km46S5f
+   q03UVxeYC0E5HIFEz7XZ/IMmZDer2mMCHN9mYpytF+pfBN/oOeoSp4SXZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6874032"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="59178"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 05:44:07 -0800
+   d="scan'208";a="6874032"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 05:54:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="818519204"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="818519204"
+   d="scan'208";a="26493561"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 17 Jan 2024 05:44:05 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 17 Jan 2024 05:54:05 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQ6D5-00022s-02;
-	Wed, 17 Jan 2024 13:44:03 +0000
-Date: Wed, 17 Jan 2024 21:43:40 +0800
+	id 1rQ6Ml-00023e-1L;
+	Wed, 17 Jan 2024 13:54:03 +0000
+Date: Wed, 17 Jan 2024 21:53:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.7-dango-lro 8153/8200]
- include/asm-generic/div64.h:238:36: error: passing argument 1 of
- '__div64_32' from incompatible pointer type
-Message-ID: <202401172143.ERwMkceY-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 13597/13716]
+ fs/bcachefs/btree_write_buffer.c:128:24: warning: unused variable 'c'
+Message-ID: <202401172139.XSfsNhrJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,103 +60,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.7-dango-lro
-head:   797c8f292de00b02d88325e6b299fd36bf5d0a1f
-commit: 6603ccb18f15b9c1ec3c60f546d654d4c4de0f33 [8153/8200] mtd: ubi: provide NVMEM layer over UBI volumes
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20240117/202401172143.ERwMkceY-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401172143.ERwMkceY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   943b9f0ab2cfbaea148dd6ac279957eb08b96904
+commit: 3e76edb0f4db19fca9ee02a6c163a670bc66fa2c [13597/13716] bcachefs: Prep work for variable size btree node buffers
+config: x86_64-buildonly-randconfig-003-20240117 (https://download.01.org/0day-ci/archive/20240117/202401172139.XSfsNhrJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401172139.XSfsNhrJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401172143.ERwMkceY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401172139.XSfsNhrJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from ./arch/openrisc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:10,
-                    from include/linux/thread_info.h:14,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/openrisc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rbtree.h:24,
-                    from drivers/mtd/ubi/ubi.h:14,
-                    from drivers/mtd/ubi/nvmem.c:7:
-   drivers/mtd/ubi/nvmem.c: In function 'ubi_nvmem_reg_read':
-   include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                                   ^~
-   drivers/mtd/ubi/nvmem.c:34:16: note: in expansion of macro 'do_div'
-      34 |         offs = do_div(lnum, unv->usable_leb_size);
-         |                ^~~~~~
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from drivers/mtd/ubi/ubi.h:13:
-   include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   drivers/mtd/ubi/nvmem.c:34:16: note: in expansion of macro 'do_div'
-      34 |         offs = do_div(lnum, unv->usable_leb_size);
-         |                ^~~~~~
->> include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     238 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-         |                                    |
-         |                                    int *
-   drivers/mtd/ubi/nvmem.c:34:16: note: in expansion of macro 'do_div'
-      34 |         offs = do_div(lnum, unv->usable_leb_size);
-         |                ^~~~~~
-   include/asm-generic/div64.h:213:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'int *'
-     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                            ~~~~~~~~~~^~~~~~~~
-   cc1: some warnings being treated as errors
+   fs/bcachefs/btree_write_buffer.c: In function 'wb_flush_one':
+>> fs/bcachefs/btree_write_buffer.c:128:24: warning: unused variable 'c' [-Wunused-variable]
+     128 |         struct bch_fs *c = trans->c;
+         |                        ^
 
 
-vim +/__div64_32 +238 include/asm-generic/div64.h
+vim +/c +128 fs/bcachefs/btree_write_buffer.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  215  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
-^1da177e4c3f41 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  218   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
-461a5e51060c93 Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
-461a5e51060c93 Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
-461a5e51060c93 Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  234  	} else if (likely(((n) >> 32) == 0)) {		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  237  	} else {					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @238  		__rem = __div64_32(&(n), __base);	\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  239  	}						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	__rem;						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  241   })
-^1da177e4c3f41 Linus Torvalds     2005-04-16  242  
+ab4fb4b678c378 Kent Overstreet 2023-11-26  123  
+ab4fb4b678c378 Kent Overstreet 2023-11-26  124  static inline int wb_flush_one(struct btree_trans *trans, struct btree_iter *iter,
+920e69bc3db88d Kent Overstreet 2023-01-04  125  			       struct btree_write_buffered_key *wb,
+ab4fb4b678c378 Kent Overstreet 2023-11-26  126  			       bool *write_locked, size_t *fast)
+920e69bc3db88d Kent Overstreet 2023-01-04  127  {
+920e69bc3db88d Kent Overstreet 2023-01-04 @128  	struct bch_fs *c = trans->c;
+920e69bc3db88d Kent Overstreet 2023-01-04  129  	struct btree_path *path;
+920e69bc3db88d Kent Overstreet 2023-01-04  130  	int ret;
+920e69bc3db88d Kent Overstreet 2023-01-04  131  
+ab4fb4b678c378 Kent Overstreet 2023-11-26  132  	EBUG_ON(!wb->journal_seq);
+09caeabe1a5daa Kent Overstreet 2023-11-02  133  	EBUG_ON(!c->btree_write_buffer.flushing.pin.seq);
+09caeabe1a5daa Kent Overstreet 2023-11-02  134  	EBUG_ON(c->btree_write_buffer.flushing.pin.seq > wb->journal_seq);
+09caeabe1a5daa Kent Overstreet 2023-11-02  135  
+920e69bc3db88d Kent Overstreet 2023-01-04  136  	ret = bch2_btree_iter_traverse(iter);
+920e69bc3db88d Kent Overstreet 2023-01-04  137  	if (ret)
+920e69bc3db88d Kent Overstreet 2023-01-04  138  		return ret;
+920e69bc3db88d Kent Overstreet 2023-01-04  139  
+e17b93eb36729c Kent Overstreet 2023-11-07  140  	/*
+e17b93eb36729c Kent Overstreet 2023-11-07  141  	 * We can't clone a path that has write locks: unshare it now, before
+e17b93eb36729c Kent Overstreet 2023-11-07  142  	 * set_pos and traverse():
+e17b93eb36729c Kent Overstreet 2023-11-07  143  	 */
+07f383c71fadc9 Kent Overstreet 2023-12-04  144  	if (btree_iter_path(trans, iter)->ref > 1)
+07f383c71fadc9 Kent Overstreet 2023-12-04  145  		iter->path = __bch2_btree_path_make_mut(trans, iter->path, true, _THIS_IP_);
+e17b93eb36729c Kent Overstreet 2023-11-07  146  
+07f383c71fadc9 Kent Overstreet 2023-12-04  147  	path = btree_iter_path(trans, iter);
+920e69bc3db88d Kent Overstreet 2023-01-04  148  
+920e69bc3db88d Kent Overstreet 2023-01-04  149  	if (!*write_locked) {
+920e69bc3db88d Kent Overstreet 2023-01-04  150  		ret = bch2_btree_node_lock_write(trans, path, &path->l[0].b->c);
+920e69bc3db88d Kent Overstreet 2023-01-04  151  		if (ret)
+920e69bc3db88d Kent Overstreet 2023-01-04  152  			return ret;
+920e69bc3db88d Kent Overstreet 2023-01-04  153  
+920e69bc3db88d Kent Overstreet 2023-01-04  154  		bch2_btree_node_prep_for_write(trans, path, path->l[0].b);
+920e69bc3db88d Kent Overstreet 2023-01-04  155  		*write_locked = true;
+920e69bc3db88d Kent Overstreet 2023-01-04  156  	}
+920e69bc3db88d Kent Overstreet 2023-01-04  157  
+3e76edb0f4db19 Kent Overstreet 2024-01-16  158  	if (unlikely(!bch2_btree_node_insert_fits(path->l[0].b, wb->k.k.u64s))) {
+920e69bc3db88d Kent Overstreet 2023-01-04  159  		*write_locked = false;
+ab4fb4b678c378 Kent Overstreet 2023-11-26  160  		return wb_flush_one_slowpath(trans, iter, wb);
+920e69bc3db88d Kent Overstreet 2023-01-04  161  	}
+920e69bc3db88d Kent Overstreet 2023-01-04  162  
+920e69bc3db88d Kent Overstreet 2023-01-04  163  	bch2_btree_insert_key_leaf(trans, path, &wb->k, wb->journal_seq);
+920e69bc3db88d Kent Overstreet 2023-01-04  164  	(*fast)++;
+920e69bc3db88d Kent Overstreet 2023-01-04  165  	return 0;
+920e69bc3db88d Kent Overstreet 2023-01-04  166  }
+920e69bc3db88d Kent Overstreet 2023-01-04  167  
 
-:::::: The code at line 238 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 128 was first introduced by commit
+:::::: 920e69bc3db88d3825c69190cafd43f0a1918d3b bcachefs: Btree write buffer
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
