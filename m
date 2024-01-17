@@ -1,56 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD36249FD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 19:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1CF249FF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 19:50:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705521023; cv=none; b=qRJri2vb+fojMqxpoDOwioSzzMcNvCvUQGQZUVAFTHpe1GOKLOXaHGgasWUDutKAQLz7RtqrNsH8pYOqDyaOeLioY3j9QDtEnwgJaZdVWA9CJAs0SZ9lsM2NmJDyrOqVW78ztStoT0mxCFpUcaMJMrb+RDe1fag8+0DIBSVof2o=
+	t=1705521023; cv=none; b=sI5NtULYKHtJ5FDo9O9TpbEnuBgTugH7HQUTAjHASPamAS6eA44m4kLdBErJ67DV4B8hJ+y75bWIS7KY8nhLXoILVy7SZRV36jmtzXARKM5+JP6g9wnETCbNRoLTrOA6huDHYNgoGdhVj+Zaat/4EGOFJmkQuvj1noQhpoYgeTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1705521023; c=relaxed/simple;
-	bh=7uWsevCJg8hxIjynqHfTSYwg9Bcxoqr0Q2bfh3tEKlo=;
+	bh=Fm2CknV0MfegVZFPR7FGUg1R68g3ZxsXj4HRLDeUZq0=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
 	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition; b=V2piW0L2Cgf6hYVhDOzQqKWf4a50Wv+kSUwVxHXqnKoY7Ivw5rwEFvKfTYczinutJtIE/u9W59TtiBlZzF7iTbouG7ey/uc3MdhQt2xQ/usQiHrHfOZRB/ZtiFz6K1CpDIljlxQiS8zrKDse0aEV6aB+3qLdAhslGn9buUtG41Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nUxtdAyH; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version:Content-Type:Content-Disposition; b=QD/0NLTS0D6uFGDH747h8NQqlOEgVuhCUvZ5RnfXAoteErrbgjfEgZqFa3jubUoWwX3/f+iXrEoVDK95z7VsAS0aNjOnXGntsmzMgeB7KqpT4KMpf7krNPtug9vQtZO8xp8bz9y2tFmAXfcxeg1WuLSfUaSxpmPJJ8VQxe1djdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WsbdhRQV; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUxtdAyH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WsbdhRQV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1705521021; x=1737057021;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7uWsevCJg8hxIjynqHfTSYwg9Bcxoqr0Q2bfh3tEKlo=;
-  b=nUxtdAyHY8Y38rseNTFmbxlYEf0V4MZTFqgKbJaiip9l9OQjghKXiaOo
-   LJlyVdF2ukRb7hg4tTKu3WEkaEFmNfQ1hdzn0c6AJ2I/z3KoBtCHxCUVl
-   l/X9KXz7u1MFIxBMLhiXCp8BydjgKa5Y4iQcn3MY6nwBfw3klvIdhVo1a
-   cFIyQu7FSvqNCQRKjuvgASnKGReYgd6zfbaGvqjYODMJ8liY0SppK22kY
-   uTFakYG2zTvUzVluts6KMRKFL3rkQ13wCTdjR5/riSpxjcjKWGA/YIAfp
-   fzkA+0UD/R/Yzo3MIaqobYpQF8G+lDPX3Vl8zIMzptz6EOyIefAzE5eZ5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7349225"
+  bh=Fm2CknV0MfegVZFPR7FGUg1R68g3ZxsXj4HRLDeUZq0=;
+  b=WsbdhRQVgvkiBfnWuRWQu7UF81LNmhW6ARcj6YLJqLs6AZ+DnixzrWFa
+   QhwBFSg2RoIF0KMaXBkmfpeVvl2YSBfxlEFlS3pOq+vgr9FmSKOV4EMHo
+   D8zpIWWHCs8qC+m/msquUL3aZ2tiahRlniolyxDsjn928vVFM9fm0ytx1
+   rl1DoMjt/gXcT1l2EhiGAYuFMgDjUTvBHp45y7PTEC8/qadcYrWfYjSw4
+   Itqq1j8bjxi6ozCToSApurZAQlpUSrVkVvSQhsTKmUzetqNTHCKNdMbA2
+   KNeO0JnmkHzC/Igd9DbpFL0SSlEULkJsjOkB3aV8+7G4BSNy8WQyNS+pq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7349226"
 X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="7349225"
+   d="scan'208";a="7349226"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 11:50:18 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="18915506"
+   d="scan'208";a="18915504"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 17 Jan 2024 11:50:15 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQBvR-0002Ic-1G;
+	id 1rQBvR-0002IY-1A;
 	Wed, 17 Jan 2024 19:50:13 +0000
-Date: Thu, 18 Jan 2024 03:49:29 +0800
+Date: Thu, 18 Jan 2024 03:49:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/1] net/bridge/br_input.c:250:2:
- error: call to undeclared function 'nf_hook_state_init'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <202401180303.MilqE8p3-lkp@intel.com>
+Subject: [dhowells-fs:ceph-iter 105/105] fs/ceph/addr.c:471:13: warning:
+ 'ceph_fscache_write_to_cache' defined but not used
+Message-ID: <202401180325.S7ZD6gvH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,86 +59,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   899194d7e9095594e35bb0097dc0e3e2c7d8a0e6
-commit: bc4d82ee40515f0c770b28d0dc4fa532a2b1850e [1/1] ANDROID: KMI workaround for CONFIG_NETFILTER_FAMILY_BRIDGE
-config: x86_64-randconfig-123-20240117 (https://download.01.org/0day-ci/archive/20240118/202401180303.MilqE8p3-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401180303.MilqE8p3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   2cf82c6e7baf6d3a2adc0692707028da395f1553
+commit: 2cf82c6e7baf6d3a2adc0692707028da395f1553 [105/105] ceph: Use netfslib
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240118/202401180325.S7ZD6gvH-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401180325.S7ZD6gvH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401180303.MilqE8p3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401180325.S7ZD6gvH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/bridge/br_input.c:250:2: error: call to undeclared function 'nf_hook_state_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     250 |         nf_hook_state_init(&state, NF_BR_PRE_ROUTING,
-         |         ^
-   net/bridge/br_input.c:250:2: note: did you mean 'ethtool_stats_init'?
-   include/linux/ethtool.h:281:20: note: 'ethtool_stats_init' declared here
-     281 | static inline void ethtool_stats_init(u64 *stats, unsigned int n)
-         |                    ^
->> net/bridge/br_input.c:255:13: error: call to undeclared function 'nf_hook_entry_hookfn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     255 |                 verdict = nf_hook_entry_hookfn(&e->hooks[i], skb, &state);
-         |                           ^
-   2 errors generated.
+   fs/ceph/addr.c: In function 'get_oldest_context':
+   fs/ceph/addr.c:547:1: warning: label 'out' defined but not used [-Wunused-label]
+     547 | out:
+         | ^~~
+   fs/ceph/addr.c: In function 'ceph_page_mkwrite':
+   fs/ceph/addr.c:901:44: error: 'struct ceph_inode_info' has no member named 'head_snapc'; did you mean 'i_head_snapc'?
+     901 |         return netfs_page_mkwrite(vmf, ci->head_snapc);
+         |                                            ^~~~~~~~~~
+         |                                            i_head_snapc
+   fs/ceph/addr.c:897:35: warning: unused variable 'snapc' [-Wunused-variable]
+     897 |         struct ceph_snap_context *snapc;
+         |                                   ^~~~~
+   fs/ceph/addr.c: At top level:
+   fs/ceph/addr.c:66:12: warning: 'ceph_netfs_check_write_begin' used but never defined
+      66 | static int ceph_netfs_check_write_begin(struct file *file, loff_t pos, unsigned int len,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/addr.c: In function 'ceph_page_mkwrite':
+   fs/ceph/addr.c:902:1: warning: control reaches end of non-void function [-Wreturn-type]
+     902 | }
+         | ^
+   fs/ceph/addr.c: At top level:
+>> fs/ceph/addr.c:471:13: warning: 'ceph_fscache_write_to_cache' defined but not used [-Wunused-function]
+     471 | static void ceph_fscache_write_to_cache(struct inode *inode, u64 off, u64 len, bool caching)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/ceph/addr.c:458:13: warning: 'ceph_folio_start_fscache' defined but not used [-Wunused-function]
+     458 | static void ceph_folio_start_fscache(struct folio *folio)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/addr.c:69:34: warning: 'folio_snap_context' defined but not used [-Wunused-function]
+      69 | static struct ceph_snap_context *folio_snap_context(struct folio *folio)
+         |                                  ^~~~~~~~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for NETFILTER_FAMILY_BRIDGE
-   Depends on [n]: NET [=y] && INET [=y] && NETFILTER [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
 
+vim +/ceph_fscache_write_to_cache +471 fs/ceph/addr.c
 
-vim +/nf_hook_state_init +250 net/bridge/br_input.c
+f0702876e152f0 Jeff Layton             2020-06-01  456  
+1702e79734104d Jeff Layton             2021-12-07  457  #ifdef CONFIG_CEPH_FSCACHE
+797983eb27623a Matthew Wilcox (Oracle  2023-08-25 @458) static void ceph_folio_start_fscache(struct folio *folio)
+1702e79734104d Jeff Layton             2021-12-07  459  {
+797983eb27623a Matthew Wilcox (Oracle  2023-08-25  460) 	folio_start_fscache(folio);
+1702e79734104d Jeff Layton             2021-12-07  461  }
+1702e79734104d Jeff Layton             2021-12-07  462  
+1702e79734104d Jeff Layton             2021-12-07  463  static void ceph_fscache_write_terminated(void *priv, ssize_t error, bool was_async)
+1702e79734104d Jeff Layton             2021-12-07  464  {
+1702e79734104d Jeff Layton             2021-12-07  465  	struct inode *inode = priv;
+1702e79734104d Jeff Layton             2021-12-07  466  
+1702e79734104d Jeff Layton             2021-12-07  467  	if (IS_ERR_VALUE(error) && error != -ENOBUFS)
+1702e79734104d Jeff Layton             2021-12-07  468  		ceph_fscache_invalidate(inode, false);
+1702e79734104d Jeff Layton             2021-12-07  469  }
+1702e79734104d Jeff Layton             2021-12-07  470  
+1702e79734104d Jeff Layton             2021-12-07 @471  static void ceph_fscache_write_to_cache(struct inode *inode, u64 off, u64 len, bool caching)
+1702e79734104d Jeff Layton             2021-12-07  472  {
+1702e79734104d Jeff Layton             2021-12-07  473  	struct ceph_inode_info *ci = ceph_inode(inode);
+1702e79734104d Jeff Layton             2021-12-07  474  	struct fscache_cookie *cookie = ceph_fscache_cookie(ci);
+1702e79734104d Jeff Layton             2021-12-07  475  
+1702e79734104d Jeff Layton             2021-12-07  476  	fscache_write_to_cache(cookie, inode->i_mapping, off, len, i_size_read(inode),
+1702e79734104d Jeff Layton             2021-12-07  477  			       ceph_fscache_write_terminated, inode, caching);
+1702e79734104d Jeff Layton             2021-12-07  478  }
+1702e79734104d Jeff Layton             2021-12-07  479  #else
+797983eb27623a Matthew Wilcox (Oracle  2023-08-25  480) static inline void ceph_folio_start_fscache(struct folio *folio)
+1702e79734104d Jeff Layton             2021-12-07  481  {
+1702e79734104d Jeff Layton             2021-12-07  482  }
+1702e79734104d Jeff Layton             2021-12-07  483  
 
-971502d77faa50 Florian Westphal 2019-04-11  245  
-bc4d82ee40515f Norihiko Hama    2023-12-15  246  	e = rcu_dereference(get_nf_hooks_bridge(net)[NF_BR_PRE_ROUTING]);
-971502d77faa50 Florian Westphal 2019-04-11  247  	if (!e)
-971502d77faa50 Florian Westphal 2019-04-11  248  		goto frame_finish;
-971502d77faa50 Florian Westphal 2019-04-11  249  
-971502d77faa50 Florian Westphal 2019-04-11 @250  	nf_hook_state_init(&state, NF_BR_PRE_ROUTING,
-971502d77faa50 Florian Westphal 2019-04-11  251  			   NFPROTO_BRIDGE, skb->dev, NULL, NULL,
-971502d77faa50 Florian Westphal 2019-04-11  252  			   net, br_handle_frame_finish);
-971502d77faa50 Florian Westphal 2019-04-11  253  
-971502d77faa50 Florian Westphal 2019-04-11  254  	for (i = 0; i < e->num_hook_entries; i++) {
-971502d77faa50 Florian Westphal 2019-04-11 @255  		verdict = nf_hook_entry_hookfn(&e->hooks[i], skb, &state);
-971502d77faa50 Florian Westphal 2019-04-11  256  		switch (verdict & NF_VERDICT_MASK) {
-971502d77faa50 Florian Westphal 2019-04-11  257  		case NF_ACCEPT:
-223fd0adfa8af3 Florian Westphal 2019-04-11  258  			if (BR_INPUT_SKB_CB(skb)->br_netfilter_broute) {
-223fd0adfa8af3 Florian Westphal 2019-04-11  259  				*pskb = skb;
-223fd0adfa8af3 Florian Westphal 2019-04-11  260  				return RX_HANDLER_PASS;
-223fd0adfa8af3 Florian Westphal 2019-04-11  261  			}
-971502d77faa50 Florian Westphal 2019-04-11  262  			break;
-971502d77faa50 Florian Westphal 2019-04-11  263  		case NF_DROP:
-971502d77faa50 Florian Westphal 2019-04-11  264  			kfree_skb(skb);
-971502d77faa50 Florian Westphal 2019-04-11  265  			return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  266  		case NF_QUEUE:
-0d9cb300acad29 Florian Westphal 2019-07-02  267  			ret = nf_queue(skb, &state, i, verdict);
-971502d77faa50 Florian Westphal 2019-04-11  268  			if (ret == 1)
-971502d77faa50 Florian Westphal 2019-04-11  269  				continue;
-971502d77faa50 Florian Westphal 2019-04-11  270  			return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  271  		default: /* STOLEN */
-971502d77faa50 Florian Westphal 2019-04-11  272  			return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  273  		}
-971502d77faa50 Florian Westphal 2019-04-11  274  	}
-971502d77faa50 Florian Westphal 2019-04-11  275  frame_finish:
-971502d77faa50 Florian Westphal 2019-04-11  276  	net = dev_net(skb->dev);
-971502d77faa50 Florian Westphal 2019-04-11  277  	br_handle_frame_finish(net, NULL, skb);
-971502d77faa50 Florian Westphal 2019-04-11  278  #else
-971502d77faa50 Florian Westphal 2019-04-11  279  	br_handle_frame_finish(dev_net(skb->dev), NULL, skb);
-971502d77faa50 Florian Westphal 2019-04-11  280  #endif
-971502d77faa50 Florian Westphal 2019-04-11  281  	return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  282  }
-971502d77faa50 Florian Westphal 2019-04-11  283  
+:::::: The code at line 471 was first introduced by commit
+:::::: 1702e79734104d711a84ff55bd6a93c21947bc01 ceph: add fscache writeback support
 
-:::::: The code at line 250 was first introduced by commit
-:::::: 971502d77faa50a37c89bc6d172450294ad9a5fd bridge: netfilter: unroll NF_HOOK helper in bridge input path
-
-:::::: TO: Florian Westphal <fw@strlen.de>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+:::::: TO: Jeff Layton <jlayton@kernel.org>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
