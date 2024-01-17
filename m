@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5418625624
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 21:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A6B25622
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 21:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705528405; cv=none; b=WdJmclll7aPXaWyoe8juSpC4V9Wl9L3I0xi0i7zNHhrSlyADK0yNl4gBtSUyh/OE0re0E7S0XeRQ92sUo915UeSJ7m+VQk475GzyzVfTiwQkXwyueN3JsQyQYV6hujx3QRX1wyIBSQmGo20HEBVO454juOJJLxKCfOlBR7KeYw8=
+	t=1705528405; cv=none; b=nUDGbcLPUgKQVlSxPoIKtPYAeLe8SFT8mf7PV4/zUgaLkPIieARgofkjx+5QJh3Xj77mCWt1hJC/C4BpHyJ+p5WpJOj9ucPCo3fBfxyRMwlNH5FZuolD2G2l85ALYuj19PIU+c3Ol4nz03aARTqKP2tPIkgYOdNBpukp9I693rI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1705528405; c=relaxed/simple;
-	bh=f2Ra+sQ7t6rzUkTzQkWh4uqtScQNX1h8QkfWcqdRrm8=;
+	bh=CZFomuzaELJmIoa5gpuAsnH07X7XzQXCFB1I2qrnzNg=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
 	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=k1wLOZCbRLD3eq8ols5SorWOH4GvUxl+yV8YwOGnTJIgdZhIL7RV+q5rb0CPgIR1RbhwMgaMd1vp5RJUslGIm1Z0nBwl/xrQjOcnDG1HQ4TFo0Qhusc1EVGy2C4vQp8QCoAFlfU1APpHF3jM4e7iQRYxZG+F7FRhIXS4j6kk+zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eshbwn1b; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition:In-Reply-To; b=O49jC+gghLTR/hnD8HZ9+N8yQ/kfHDc/iBNMOQ9cuBuhKYw7tEtp+1YlwBg5dnG+mIkgfckX/fWm/UZQRvULzIg/HPyar5O08n4SXYQ2+5Mm3z1Ji+qSHIV+dJUY29/dyHOJnHE97wVsLJjTBC+7Is+kOWZxF2e4E2HeX3Sye/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkP/a1pv; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eshbwn1b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkP/a1pv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1705528403; x=1737064403;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=f2Ra+sQ7t6rzUkTzQkWh4uqtScQNX1h8QkfWcqdRrm8=;
-  b=eshbwn1bfobxR2ZTro0mLbiVUXutZq4SJTDmeCpvLKeU2K7WR37Z2T06
-   Bx3YtypcHyWnuaI3GO2A+mtQOTf5Jl9P+U9qtwBmpgzBo8ookGQ5oSGfP
-   wArAm2KCieBdM3sN2SGSDC4Izb4YLbEZ6Yl9Q+fX4cA+AeAOR3D9OkH6Y
-   HHNTL93ZTS95AW2p/bz22xI2sSd3f7YS6wQhe4rvGKTxU7aW6I0wOgJN0
-   QDa+KkNe5pEggWd9aBukEY0YVOQ+w0VDmQHx1kIWdGKLUMBhCeLy5t72b
-   ZydbPjxrFtvoYAUUkp/8pRLHnpFO8MHxLTxpEydu4GrzrdVBm2P0xY+q2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="13793939"
+  bh=CZFomuzaELJmIoa5gpuAsnH07X7XzQXCFB1I2qrnzNg=;
+  b=RkP/a1pvsy7iuU88/gEdnPXdJb7Q1e1p+zkGYA1Dch1krGcSutD88UT0
+   dWquapE4XimNiWYhEzjzLjSY3/jEfwKlYSxmmkVHCG16EE2Vcwhcba6DC
+   Gazx8ohlgw0R/gxEGtUie2r8kJSnjXsx6mymOYimFQ1OCArFcBsqKt7X6
+   c8csywghSVp/P1qofvXCnguKGzX9nnrmewdvztATxHnIC7bxsqRs1CEPH
+   yYmrt1yXhikoepwFMsWXNVTzFeHgtjI+t0UT47jE2uyDBNEbVN7X7L1/y
+   dIMo0hSMRb2b53VYDbL066WVUZK31HY9X1k2JiXp9vKYia8yN+CYf0mkp
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="6982468"
 X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="13793939"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 13:53:22 -0800
+   d="scan'208";a="6982468"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 13:53:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="818630909"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="874908487"
 X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="818630909"
+   d="scan'208";a="874908487"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 17 Jan 2024 13:53:20 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Jan 2024 13:53:19 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQDqX-0002Mm-1P;
+	id 1rQDqX-0002Mk-1L;
 	Wed, 17 Jan 2024 21:53:17 +0000
-Date: Thu, 18 Jan 2024 05:52:21 +0800
+Date: Thu, 18 Jan 2024 05:52:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lance Yang <ioworker0@gmail.com>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, zokeefe@google.com,
-	songmuchun@bytedance.com, linux-kernel@vger.kernel.org,
-	Lance Yang <ioworker0@gmail.com>
-Subject: Re: [PATCH v1 1/2] mm/madvise: introduce MADV_TRY_COLLAPSE for
- attempted synchronous hugepage collapse
-Message-ID: <202401180500.SKo0zynj-lkp@intel.com>
-References: <20240117050217.43610-1-ioworker0@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+	deller@gmx.de, daniel@ffwll.ch, airlied@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/3] video/cmdline: Hide __video_get_options() behind
+ CONFIG_FB_CORE
+Message-ID: <202401180531.K8mdBrAu-lkp@intel.com>
+References: <20240115100939.21562-3-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,123 +65,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240117050217.43610-1-ioworker0@gmail.com>
+In-Reply-To: <20240115100939.21562-3-tzimmermann@suse.de>
 
-Hi Lance,
+Hi Thomas,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test ERROR on 05b317e8457c8e2bd1a797c9440ec07b7f341584]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lance-Yang/mm-madvise-add-MADV_TRY_COLLAPSE-to-process_madvise/20240117-130450
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240117050217.43610-1-ioworker0%40gmail.com
-patch subject: [PATCH v1 1/2] mm/madvise: introduce MADV_TRY_COLLAPSE for attempted synchronous hugepage collapse
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240118/202401180500.SKo0zynj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401180500.SKo0zynj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/video-cmdline-Introduce-CONFIG_VIDEO-for-video-parameter/20240115-181419
+base:   05b317e8457c8e2bd1a797c9440ec07b7f341584
+patch link:    https://lore.kernel.org/r/20240115100939.21562-3-tzimmermann%40suse.de
+patch subject: [PATCH 2/3] video/cmdline: Hide __video_get_options() behind CONFIG_FB_CORE
+config: i386-randconfig-011-20240118 (https://download.01.org/0day-ci/archive/20240118/202401180531.K8mdBrAu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401180531.K8mdBrAu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401180500.SKo0zynj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401180531.K8mdBrAu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/khugepaged.c: In function 'madvise_collapse':
->> mm/khugepaged.c:2784:28: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    2784 |                         if (cc->is_try) {
-         |                            ^
-   mm/khugepaged.c:2789:17: note: here
-    2789 |                 case SCAN_PMD_NULL:
-         |                 ^~~~
+   drivers/video/fbdev/core/fb_cmdline.c: In function 'fb_get_options':
+>> drivers/video/fbdev/core/fb_cmdline.c:45:19: error: implicit declaration of function '__video_get_options'; did you mean 'video_get_options'? [-Werror=implicit-function-declaration]
+      45 |         enabled = __video_get_options(name, &options, is_of);
+         |                   ^~~~~~~~~~~~~~~~~~~
+         |                   video_get_options
+   cc1: some warnings being treated as errors
 
 
-vim +2784 mm/khugepaged.c
+vim +45 drivers/video/fbdev/core/fb_cmdline.c
 
-  2702	
-  2703	int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct **prev,
-  2704			     unsigned long start, unsigned long end, bool is_try)
-  2705	{
-  2706		struct collapse_control *cc;
-  2707		struct mm_struct *mm = vma->vm_mm;
-  2708		unsigned long hstart, hend, addr;
-  2709		int thps = 0, last_fail = SCAN_FAIL;
-  2710		bool mmap_locked = true;
-  2711	
-  2712		BUG_ON(vma->vm_start > start);
-  2713		BUG_ON(vma->vm_end < end);
-  2714	
-  2715		*prev = vma;
-  2716	
-  2717		if (!thp_vma_allowable_order(vma, vma->vm_flags, false, false, false,
-  2718					     PMD_ORDER))
-  2719			return -EINVAL;
-  2720	
-  2721		cc = kmalloc(sizeof(*cc), GFP_KERNEL);
-  2722		if (!cc)
-  2723			return -ENOMEM;
-  2724		cc->is_khugepaged = false;
-  2725		cc->is_try = is_try;
-  2726	
-  2727		mmgrab(mm);
-  2728		lru_add_drain_all();
-  2729	
-  2730		hstart = (start + ~HPAGE_PMD_MASK) & HPAGE_PMD_MASK;
-  2731		hend = end & HPAGE_PMD_MASK;
-  2732	
-  2733		for (addr = hstart; addr < hend; addr += HPAGE_PMD_SIZE) {
-  2734			int result = SCAN_FAIL;
-  2735	
-  2736			if (!mmap_locked) {
-  2737				cond_resched();
-  2738				mmap_read_lock(mm);
-  2739				mmap_locked = true;
-  2740				result = hugepage_vma_revalidate(mm, addr, false, &vma,
-  2741								 cc);
-  2742				if (result  != SCAN_SUCCEED) {
-  2743					last_fail = result;
-  2744					goto out_nolock;
-  2745				}
-  2746	
-  2747				hend = min(hend, vma->vm_end & HPAGE_PMD_MASK);
-  2748			}
-  2749			mmap_assert_locked(mm);
-  2750			memset(cc->node_load, 0, sizeof(cc->node_load));
-  2751			nodes_clear(cc->alloc_nmask);
-  2752			if (IS_ENABLED(CONFIG_SHMEM) && vma->vm_file) {
-  2753				struct file *file = get_file(vma->vm_file);
-  2754				pgoff_t pgoff = linear_page_index(vma, addr);
-  2755	
-  2756				mmap_read_unlock(mm);
-  2757				mmap_locked = false;
-  2758				result = hpage_collapse_scan_file(mm, addr, file, pgoff,
-  2759								  cc);
-  2760				fput(file);
-  2761			} else {
-  2762				result = hpage_collapse_scan_pmd(mm, vma, addr,
-  2763								 &mmap_locked, cc);
-  2764			}
-  2765			if (!mmap_locked)
-  2766				*prev = NULL;  /* Tell caller we dropped mmap_lock */
-  2767	
-  2768	handle_result:
-  2769			switch (result) {
-  2770			case SCAN_SUCCEED:
-  2771			case SCAN_PMD_MAPPED:
-  2772				++thps;
-  2773				break;
-  2774			case SCAN_PTE_MAPPED_HUGEPAGE:
-  2775				BUG_ON(mmap_locked);
-  2776				BUG_ON(*prev);
-  2777				mmap_read_lock(mm);
-  2778				result = collapse_pte_mapped_thp(mm, addr, true);
-  2779				mmap_read_unlock(mm);
-  2780				goto handle_result;
-  2781			/* MADV_TRY_COLLAPSE: fail quickly */
-  2782			case SCAN_ALLOC_HUGE_PAGE_FAIL:
-  2783			case SCAN_CGROUP_CHARGE_FAIL:
-> 2784				if (cc->is_try) {
+367221793d4796 Thomas Zimmermann 2023-02-09  23  
+ea6763c104c93a Daniel Vetter     2014-08-06  24  /**
+ea6763c104c93a Daniel Vetter     2014-08-06  25   * fb_get_options - get kernel boot parameters
+ea6763c104c93a Daniel Vetter     2014-08-06  26   * @name:   framebuffer name as it would appear in
+ea6763c104c93a Daniel Vetter     2014-08-06  27   *          the boot parameter line
+ea6763c104c93a Daniel Vetter     2014-08-06  28   *          (video=<name>:<options>)
+ea6763c104c93a Daniel Vetter     2014-08-06  29   * @option: the option will be stored here
+ea6763c104c93a Daniel Vetter     2014-08-06  30   *
+73ce73c30ba9ae Thomas Zimmermann 2023-02-09  31   * The caller owns the string returned in @option and is
+73ce73c30ba9ae Thomas Zimmermann 2023-02-09  32   * responsible for releasing the memory.
+73ce73c30ba9ae Thomas Zimmermann 2023-02-09  33   *
+ea6763c104c93a Daniel Vetter     2014-08-06  34   * NOTE: Needed to maintain backwards compatibility
+ea6763c104c93a Daniel Vetter     2014-08-06  35   */
+ea6763c104c93a Daniel Vetter     2014-08-06  36  int fb_get_options(const char *name, char **option)
+ea6763c104c93a Daniel Vetter     2014-08-06  37  {
+93604a5ade3a02 Thomas Zimmermann 2023-02-09  38  	const char *options = NULL;
+93604a5ade3a02 Thomas Zimmermann 2023-02-09  39  	bool is_of = false;
+93604a5ade3a02 Thomas Zimmermann 2023-02-09  40  	bool enabled;
+cedaf7cddd7339 Thomas Zimmermann 2023-02-09  41  
+93604a5ade3a02 Thomas Zimmermann 2023-02-09  42  	if (name)
+93604a5ade3a02 Thomas Zimmermann 2023-02-09  43  		is_of = strncmp(name, "offb", 4);
+ea6763c104c93a Daniel Vetter     2014-08-06  44  
+93604a5ade3a02 Thomas Zimmermann 2023-02-09 @45  	enabled = __video_get_options(name, &options, is_of);
 
 -- 
 0-DAY CI Kernel Test Service
