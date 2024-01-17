@@ -1,164 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D764683
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 00:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37D710EB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 01:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705452407; cv=none; b=EoUv9zZY9koqXEUJO1TPcoUyebnV86HYfFAE4RlSJXH8lCOmgNAKs9lddLAyq2S0+pjPRV7foAbUIwFwIjQYNqMt2QTueuWHIlhlkjIFVrRI3EtFRmf7JkuqQbgr1iKDR2anS4d8dY1+u+vkxc3IuJuIJEDWJyJdJkVqs5od4WA=
+	t=1705453347; cv=none; b=nLnqNdcyOR/XoQWMDUgKdgaZcvtPemwbD8NMf3hM8Yq0ratLnfEnYBia1xNBquFG3gdej2cw5kGFpri6SNDEz+NyKCpKOTaVi3s7wV4ksTjyv08rdC8c7GIgLPTD3XnLpis0HvZMNNfA2hYtpetS1ZZhJjlupVismbn0GUXlIlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705452407; c=relaxed/simple;
-	bh=Rp5Mh0IN5g+mXkkdBQo6SGc/Tl24YpwvDJVIMMPS0jw=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=S5EOaCVWOr/HRBJbQfWM5yzJ2/QaKlPWFJLwFx5mn2uj+ouh+6N91cdkS1p/YUrhuNcLd7y8rNCVZ8Scq9PuASpbhdUgpiBeHr5+0OOnICGSfWu+TdWHXs/359KvAI2alqA5HvPmBMAh7xLij/zrhg1HQoZLkdAd6aYabiUITd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WxGsmWOA; arc=none smtp.client-ip=192.55.52.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WxGsmWOA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705452405; x=1736988405;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rp5Mh0IN5g+mXkkdBQo6SGc/Tl24YpwvDJVIMMPS0jw=;
-  b=WxGsmWOAmcSZHBkz9oXfaqQ5ltv5C4BrwUmZ8eYgCmlNxxNYkEyis0im
-   Vo4rTVD1ejHpNHpH9QB+9+aT5VVFPFROULpQuG/L/5uNBh/tOzJbCxG97
-   rXsKYcgpX1JotT+ffU+OAhjZfOtOwd0ARMjBZfUBqSl2E2W0psb147GhD
-   tGkoPoK65wh3gSzgve1meD5ku0LUZwsifYlcRIrlYmgJdPpDLqEW1iZqe
-   ewa3ShumhzxDJ/jfEQOppRI7DEB263tSV0TbrInYBP0bePlshkQx0R5AU
-   ep0LD7NKVijlkM7NDHyh3WuvPbfO1QhlNVckJiIQgGekQLEje7sxrRUt0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="399701080"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="399701080"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 16:46:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="760373669"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="760373669"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 16 Jan 2024 16:46:37 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPu4h-0001Pg-0f;
-	Wed, 17 Jan 2024 00:46:35 +0000
-Date: Wed, 17 Jan 2024 08:45:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>, 675146817@qq.com,
-	story_19872006@126.com, herbert@gondor.apana.org.au,
-	davem@davemloft.net, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, seanjc@google.com, kim.phillips@amd.com,
-	kirill.shutemov@linux.intel.com, jmattson@google.com,
-	babu.moger@amd.com, kai.huang@intel.com, acme@redhat.com,
-	aik@amd.com, namhyung@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, CobeChen@zhaoxin.com, TimGuo@zhaoxin.com,
-	LeoLiu-oc@zhaoxin.com, GeorgeXue@zhaoxin.com
-Subject: Re: [PATCH 3/3] crypto: Zhaoxin: Hardware Engine Driver for
- SHA1/256/384/512
-Message-ID: <202401170833.HWvPThMS-lkp@intel.com>
-References: <20240116063549.3016-4-TonyWWang-oc@zhaoxin.com>
+	s=arc-20240116; t=1705453347; c=relaxed/simple;
+	bh=mIVlDBEqzyTiH3zn66mWsFtkIbDIh+J6mb4Dut3+6so=;
+	h=Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:CC:References:Content-Language:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Originating-IP:X-ClientProxiedBy; b=pmgWKQbSExzCyVx2i7Y157ceDavjQ53AyV3WbC7yNS9NNyiLTp374ExopmAXikkhTiqzI+TGqkU4nKBEEuIJulPvbbCT6KytfovmI0bh/6S8WuHeU8rHGviBvxuBF00jiioBBSNWCCgvn5Mkp7/BmpNTDfPek/2l93FJX51f6j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4TF6xv0JTHzvV2y;
+	Wed, 17 Jan 2024 09:00:51 +0800 (CST)
+Received: from dggpemm100001.china.huawei.com (unknown [7.185.36.93])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4B64E18006C;
+	Wed, 17 Jan 2024 09:02:15 +0800 (CST)
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 17 Jan 2024 09:02:14 +0800
+Message-ID: <3089af79-c5fd-4c13-a1e1-cb9f67d4ea4f@huawei.com>
+Date: Wed, 17 Jan 2024 09:02:14 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240116063549.3016-4-TonyWWang-oc@zhaoxin.com>
-
-Hi Tony,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on tip/x86/core linus/master v6.7 next-20240112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tony-W-Wang-oc/crypto-padlock-sha-Matches-CPU-with-Family-with-6-explicitly/20240116-144827
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20240116063549.3016-4-TonyWWang-oc%40zhaoxin.com
-patch subject: [PATCH 3/3] crypto: Zhaoxin: Hardware Engine Driver for SHA1/256/384/512
-config: hexagon-randconfig-r071-20240117 (https://download.01.org/0day-ci/archive/20240117/202401170833.HWvPThMS-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170833.HWvPThMS-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170833.HWvPThMS-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/crypto/zhaoxin-sha.c:17:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/crypto/zhaoxin-sha.c:17:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/crypto/zhaoxin-sha.c:17:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/crypto/zhaoxin-sha.c:20:10: fatal error: 'asm/cpu_device_id.h' file not found
-   #include <asm/cpu_device_id.h>
-            ^~~~~~~~~~~~~~~~~~~~~
-   6 warnings and 1 error generated.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm: memory: move mem_cgroup_charge() into
+ alloc_anon_folio()
+To: kernel test robot <lkp@intel.com>, Andrew Morton
+	<akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, Linux Memory Management List
+	<linux-mm@kvack.org>, <ryan.roberts@arm.com>, Matthew Wilcox
+	<willy@infradead.org>, David Hildenbrand <david@redhat.com>
+References: <20240116071302.2282230-1-wangkefeng.wang@huawei.com>
+ <202401170535.2TfJ7u74-lkp@intel.com>
+Content-Language: en-US
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <202401170535.2TfJ7u74-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm100001.china.huawei.com (7.185.36.93)
 
 
-vim +20 drivers/crypto/zhaoxin-sha.c
 
-  > 20	#include <asm/cpu_device_id.h>
-    21	#include <asm/fpu/api.h>
-    22	#include "zhaoxin-sha.h"
-    23	
+On 2024/1/17 5:26, kernel test robot wrote:
+> Hi Kefeng,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on akpm-mm/mm-everything]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-memory-move-mem_cgroup_charge-into-alloc_anon_folio/20240116-151640
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20240116071302.2282230-1-wangkefeng.wang%40huawei.com
+> patch subject: [PATCH] mm: memory: move mem_cgroup_charge() into alloc_anon_folio()
+> config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240117/202401170535.2TfJ7u74-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170535.2TfJ7u74-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401170535.2TfJ7u74-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+thanks, will fix built on !CONFIG_TRANSPARENT_HUGEPAGE
+
+>     mm/memory.c: In function 'alloc_anon_folio':
+>>> mm/memory.c:4223:31: error: 'vma' undeclared (first use in this function); did you mean 'vmf'?
+>      4223 |         return folio_prealloc(vma->vm_mm, vma, vmf->address, true);
+>           |                               ^~~
+>           |                               vmf
+>     mm/memory.c:4223:31: note: each undeclared identifier is reported only once for each function it appears in
+>>> mm/memory.c:4224:1: warning: control reaches end of non-void function [-Wreturn-type]
+>      4224 | }
+>           | ^
+> 
+> 
+> vim +4223 mm/memory.c
+> 
+>    4153	
+>    4154	static struct folio *alloc_anon_folio(struct vm_fault *vmf)
+>    4155	{
+>    4156	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>    4157		struct vm_area_struct *vma = vmf->vma;
+>    4158		unsigned long orders;
+>    4159		struct folio *folio;
+>    4160		unsigned long addr;
+>    4161		pte_t *pte;
+>    4162		gfp_t gfp;
+>    4163		int order;
+>    4164	
+>    4165		/*
+>    4166		 * If uffd is active for the vma we need per-page fault fidelity to
+>    4167		 * maintain the uffd semantics.
+>    4168		 */
+>    4169		if (unlikely(userfaultfd_armed(vma)))
+>    4170			goto fallback;
+>    4171	
+>    4172		/*
+>    4173		 * Get a list of all the (large) orders below PMD_ORDER that are enabled
+>    4174		 * for this vma. Then filter out the orders that can't be allocated over
+>    4175		 * the faulting address and still be fully contained in the vma.
+>    4176		 */
+>    4177		orders = thp_vma_allowable_orders(vma, vma->vm_flags, false, true, true,
+>    4178						  BIT(PMD_ORDER) - 1);
+>    4179		orders = thp_vma_suitable_orders(vma, vmf->address, orders);
+>    4180	
+>    4181		if (!orders)
+>    4182			goto fallback;
+>    4183	
+>    4184		pte = pte_offset_map(vmf->pmd, vmf->address & PMD_MASK);
+>    4185		if (!pte)
+>    4186			return ERR_PTR(-EAGAIN);
+>    4187	
+>    4188		/*
+>    4189		 * Find the highest order where the aligned range is completely
+>    4190		 * pte_none(). Note that all remaining orders will be completely
+>    4191		 * pte_none().
+>    4192		 */
+>    4193		order = highest_order(orders);
+>    4194		while (orders) {
+>    4195			addr = ALIGN_DOWN(vmf->address, PAGE_SIZE << order);
+>    4196			if (pte_range_none(pte + pte_index(addr), 1 << order))
+>    4197				break;
+>    4198			order = next_order(&orders, order);
+>    4199		}
+>    4200	
+>    4201		pte_unmap(pte);
+>    4202	
+>    4203		/* Try allocating the highest of the remaining orders. */
+>    4204		gfp = vma_thp_gfp_mask(vma);
+>    4205		while (orders) {
+>    4206			addr = ALIGN_DOWN(vmf->address, PAGE_SIZE << order);
+>    4207			folio = vma_alloc_folio(gfp, order, vma, addr, true);
+>    4208			if (folio) {
+>    4209				if (mem_cgroup_charge(folio, vma->vm_mm, gfp)) {
+>    4210					folio_put(folio);
+>    4211					goto next;
+>    4212				}
+>    4213				folio_throttle_swaprate(folio, gfp);
+>    4214				clear_huge_page(&folio->page, vmf->address, 1 << order);
+>    4215				return folio;
+>    4216			}
+>    4217	next:
+>    4218			order = next_order(&orders, order);
+>    4219		}
+>    4220	
+>    4221	fallback:
+>    4222	#endif
+>> 4223		return folio_prealloc(vma->vm_mm, vma, vmf->address, true);
+>> 4224	}
+>    4225	
+> 
