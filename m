@@ -1,57 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDFB3BE49
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 00:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D764683
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 00:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705450479; cv=none; b=qIDOrj4bC6PTPSObdiIemwokp9NLRkvwqZfo+aakiLmTXifj40guZ5R6MggrrHbo7P0+tTJaDkuKHlaYdiosaRmlCOklx/83kv9lnMv79cQctHvPZkMVXPX5hZD4rG/efJX0DNz6M91epZGIWblnKMemimTLFq9/Jv8U5nOBTUM=
+	t=1705452407; cv=none; b=EoUv9zZY9koqXEUJO1TPcoUyebnV86HYfFAE4RlSJXH8lCOmgNAKs9lddLAyq2S0+pjPRV7foAbUIwFwIjQYNqMt2QTueuWHIlhlkjIFVrRI3EtFRmf7JkuqQbgr1iKDR2anS4d8dY1+u+vkxc3IuJuIJEDWJyJdJkVqs5od4WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705450479; c=relaxed/simple;
-	bh=3Zw2X9nxtfnqIz/p0XB1ubV4t0bIvxRx/y1svr7ip54=;
+	s=arc-20240116; t=1705452407; c=relaxed/simple;
+	bh=Rp5Mh0IN5g+mXkkdBQo6SGc/Tl24YpwvDJVIMMPS0jw=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
 	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=IYYBUOOIdXKtQenXnI/tsKzVhprYzdiHWttrNj0+I1p+F4MFb8rJGSTp9w/UNnz0cJZFmCcABSnAHWhMgsz7gTxcY5xHcIMesXvq2uzDYXWy0nitBw1UGm2GLuXMLpSWf8nCCyiSC3AgQLYXe4oeXCRh4MRRt+bRizowrH5bb/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oHVzGV1s; arc=none smtp.client-ip=192.198.163.11
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=S5EOaCVWOr/HRBJbQfWM5yzJ2/QaKlPWFJLwFx5mn2uj+ouh+6N91cdkS1p/YUrhuNcLd7y8rNCVZ8Scq9PuASpbhdUgpiBeHr5+0OOnICGSfWu+TdWHXs/359KvAI2alqA5HvPmBMAh7xLij/zrhg1HQoZLkdAd6aYabiUITd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WxGsmWOA; arc=none smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oHVzGV1s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WxGsmWOA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705450477; x=1736986477;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3Zw2X9nxtfnqIz/p0XB1ubV4t0bIvxRx/y1svr7ip54=;
-  b=oHVzGV1stwWej6/bGib40M7dmQeUBzOFQl9kuypfEsCsg9UpDKdgGF5Y
-   GXEvUBkLI8nEbJUYN7NxA6kQpVIk5RyHU+1d2PU7DHAFVyp+g+vExd+DB
-   c3j55w160ID/bSnxbB1NZGDdTgY03RZOnNtT3cXFSFNYTSZgc6LZQvZ61
-   yF7Pl7v4DE69d/qhdJSTKnJKqn3BD/ox816PCAc9WEo7iok+IQhzxoo/4
-   Xe1hfXM+WcV0IUorfGCVdKivuyWxTvDqYNaPXmvCXdLQACEaoKVBKkRqB
-   49xRAwMdEMXZVEdo3H26cmHKMlIU9GrIZGccGh7CAXH7Bu1nU+m2ErQlf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6736907"
+  t=1705452405; x=1736988405;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Rp5Mh0IN5g+mXkkdBQo6SGc/Tl24YpwvDJVIMMPS0jw=;
+  b=WxGsmWOAmcSZHBkz9oXfaqQ5ltv5C4BrwUmZ8eYgCmlNxxNYkEyis0im
+   Vo4rTVD1ejHpNHpH9QB+9+aT5VVFPFROULpQuG/L/5uNBh/tOzJbCxG97
+   rXsKYcgpX1JotT+ffU+OAhjZfOtOwd0ARMjBZfUBqSl2E2W0psb147GhD
+   tGkoPoK65wh3gSzgve1meD5ku0LUZwsifYlcRIrlYmgJdPpDLqEW1iZqe
+   ewa3ShumhzxDJ/jfEQOppRI7DEB263tSV0TbrInYBP0bePlshkQx0R5AU
+   ep0LD7NKVijlkM7NDHyh3WuvPbfO1QhlNVckJiIQgGekQLEje7sxrRUt0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="399701080"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="6736907"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 16:14:37 -0800
+   d="scan'208";a="399701080"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 16:46:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="927670021"
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="760373669"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="927670021"
+   d="scan'208";a="760373669"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Jan 2024 16:14:36 -0800
+  by orsmga006.jf.intel.com with ESMTP; 16 Jan 2024 16:46:37 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rPtZh-0001Nq-37;
-	Wed, 17 Jan 2024 00:14:33 +0000
-Date: Wed, 17 Jan 2024 08:13:41 +0800
+	id 1rPu4h-0001Pg-0f;
+	Wed, 17 Jan 2024 00:46:35 +0000
+Date: Wed, 17 Jan 2024 08:45:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Shi <alexs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:master 7/8] kernel/sched/fair.c:9768:32: error: unknown
- type name 'sched_domain'; did you mean 'sched_domain_mask_f'?
-Message-ID: <202401170859.ZvmCANPD-lkp@intel.com>
+To: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>, 675146817@qq.com,
+	story_19872006@126.com, herbert@gondor.apana.org.au,
+	davem@davemloft.net, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, seanjc@google.com, kim.phillips@amd.com,
+	kirill.shutemov@linux.intel.com, jmattson@google.com,
+	babu.moger@amd.com, kai.huang@intel.com, acme@redhat.com,
+	aik@amd.com, namhyung@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, CobeChen@zhaoxin.com, TimGuo@zhaoxin.com,
+	LeoLiu-oc@zhaoxin.com, GeorgeXue@zhaoxin.com
+Subject: Re: [PATCH 3/3] crypto: Zhaoxin: Hardware Engine Driver for
+ SHA1/256/384/512
+Message-ID: <202401170833.HWvPThMS-lkp@intel.com>
+References: <20240116063549.3016-4-TonyWWang-oc@zhaoxin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,75 +71,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240116063549.3016-4-TonyWWang-oc@zhaoxin.com>
 
-tree:   https://github.com/alexshi/linux.git master
-head:   2669828cf33eb2f62d8b52a1c1e73fa03d921498
-commit: 897ed5bd9fb059d29348b23ed4ccfeb790fe503c [7/8] sched/fair: add a func _sched_asym
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240117/202401170859.ZvmCANPD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170859.ZvmCANPD-lkp@intel.com/reproduce)
+Hi Tony,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on tip/x86/core linus/master v6.7 next-20240112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tony-W-Wang-oc/crypto-padlock-sha-Matches-CPU-with-Family-with-6-explicitly/20240116-144827
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20240116063549.3016-4-TonyWWang-oc%40zhaoxin.com
+patch subject: [PATCH 3/3] crypto: Zhaoxin: Hardware Engine Driver for SHA1/256/384/512
+config: hexagon-randconfig-r071-20240117 (https://download.01.org/0day-ci/archive/20240117/202401170833.HWvPThMS-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170833.HWvPThMS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170859.ZvmCANPD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401170833.HWvPThMS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/fair.c:9768:32: error: unknown type name 'sched_domain'; did you mean 'sched_domain_mask_f'?
-    9768 | static inline bool _sched_asym(sched_domain *sd, int dst_cpu, int repl_cpu)
-         |                                ^~~~~~~~~~~~
-         |                                sched_domain_mask_f
-   kernel/sched/fair.c: In function 'sched_asym':
->> kernel/sched/fair.c:9784:17: error: implicit declaration of function '_sched_asym'; did you mean 'sched_asym'? [-Werror=implicit-function-declaration]
-    9784 |                 _sched_asym(env->sd, env->dst_cpu, group->asym_prefer_cpu);
-         |                 ^~~~~~~~~~~
-         |                 sched_asym
-   cc1: some warnings being treated as errors
+   In file included from drivers/crypto/zhaoxin-sha.c:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/crypto/zhaoxin-sha.c:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/crypto/zhaoxin-sha.c:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/crypto/zhaoxin-sha.c:20:10: fatal error: 'asm/cpu_device_id.h' file not found
+   #include <asm/cpu_device_id.h>
+            ^~~~~~~~~~~~~~~~~~~~~
+   6 warnings and 1 error generated.
 
 
-vim +9768 kernel/sched/fair.c
+vim +20 drivers/crypto/zhaoxin-sha.c
 
-  9747	
-  9748	/**
-  9749	 * sched_asym - Check if the destination CPU can do asym_packing load balance
-  9750	 * @env:	The load balancing environment
-  9751	 * @sgs:	Load-balancing statistics of the candidate busiest group
-  9752	 * @group:	The candidate busiest group
-  9753	 *
-  9754	 * @env::dst_cpu can do asym_packing if it has higher priority than the
-  9755	 * preferred CPU of @group.
-  9756	 *
-  9757	 * SMT is a special case. If we are balancing load between cores, @env::dst_cpu
-  9758	 * can do asym_packing balance only if all its SMT siblings are idle. Also, it
-  9759	 * can only do it if @group is an SMT group and has exactly on busy CPU. Larger
-  9760	 * imbalances in the number of CPUS are dealt with in find_busiest_group().
-  9761	 *
-  9762	 * If we are balancing load within an SMT core, or at PKG domain level, always
-  9763	 * proceed.
-  9764	 *
-  9765	 * Return: true if @env::dst_cpu can do with asym_packing load balance. False
-  9766	 * otherwise.
-  9767	 */
-> 9768	static inline bool _sched_asym(sched_domain *sd, int dst_cpu, int repl_cpu)
-  9769	{
-  9770		/* Ensure that the whole local core is idle, if applicable. */
-  9771		return sched_use_asym_prio(sd, dst_cpu) &&
-  9772				sched_asym_prefer(dst_cpu, repl_cpu);
-  9773	}
-  9774	
-  9775	static inline bool
-  9776	sched_asym(struct lb_env *env, struct sg_lb_stats *sgs, struct sched_group *group)
-  9777	{
-  9778		/*
-  9779		 * CPU priorities does not make sense for SMT cores with more than one
-  9780		 * busy sibling.
-  9781		 */
-  9782		return !(group->flags & SD_SHARE_CPUCAPACITY &&
-  9783				sgs->group_weight - sgs->idle_cpus != 1) &&
-> 9784			_sched_asym(env->sd, env->dst_cpu, group->asym_prefer_cpu);
-  9785	}
-  9786	
+  > 20	#include <asm/cpu_device_id.h>
+    21	#include <asm/fpu/api.h>
+    22	#include "zhaoxin-sha.h"
+    23	
 
 -- 
 0-DAY CI Kernel Test Service
