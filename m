@@ -1,39 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001F8200C9;
-	Wed, 17 Jan 2024 16:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DAA22EE0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 17:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705507679; cv=none; b=L5QFvrmgEHrN79T7RCtNeDK65QQJ5DISEXOGjVkczA3hnxehRv8eAp8j9Xd88TrMkD/ZrJF9NUkVGIfqBnlVtDZT+J3hhcJXSOSm+IYG3HhUE9U7/4xsHpvJDaNq8d+jN1bFwQxZc4Jj4hJm2T9Fu9KRo2tZc52uuBijM3VTXu4=
+	t=1705513995; cv=none; b=fMinv8am0FMKWoTH5M7aZeG+GCsl4ySzsldDQAe2qxBJii8F2SJQSiXjxZ0PSh0WvLtGsuKmKzV6k4kg3SUkLBC8qOdI/76YwP/cUTtX+nWGIes2v9twOM/HOuCXp2Hl+zNXk9HKtgYNM9CDTnnLLze4oHHZfGfIlAZz4/yaMj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705507679; c=relaxed/simple;
-	bh=oDP05LnhDIbTjB4jT0mJYX/ihYTAmAr4+2MpdCn0d4o=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=KnZcuWef1nzIrPrSuYp1fblXLBKmEGm+n5yOT/WoJEo7+Pmz4TsGnB31mkR5XCMwXrf2qBuIx2UnkxN29q3+jQZwh8gMsjphneV4h9UdYYVwyNRWby6gRWaQsSthjCSUuujZOk4201Oepn/+t8SQjRx5rtCom8i4VvJvd8RsN1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NspDVcYf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705513995; c=relaxed/simple;
+	bh=c5X3LPtq0bGW5W0TcWNNKF7Ck6QvbA6gHJAn8ACGa2U=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ZETrSagy3BlkL9Ykm6ngks7NeGY4QUKM90op9Hdwx//AO85tjwjp9052nKP6PHiP6IWAMHHzuD2ZsMgw/i68BCacPwiCu9Is8weJNdCcLhTqilyQKqakBx1oU1vHkFHa1Zo3wnWv24/gUPoCkZAFVbBJ6cmlodwOGgtF0p565CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PT9YSSLO; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NspDVcYf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0D8C433C7;
-	Wed, 17 Jan 2024 16:07:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1705507678;
-	bh=oDP05LnhDIbTjB4jT0mJYX/ihYTAmAr4+2MpdCn0d4o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NspDVcYfFeLLW41tD7zT6pMgeAy9qGfjrOopzSNgka7fWvetmwlNsii7eE8uyuzFm
-	 3naWASkMCs2FA7S8oH13CiQr9ldMdg329166/TcUiapboo65aCq9p/14z9f192yIlG
-	 FEeHvVxQTgfNy3DzP54qE0YHiPhwSjhwNpi6hEiM=
-Date: Wed, 17 Jan 2024 17:07:55 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Jiri Olsa <jolsa@kernel.org>, stable@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCHv2 stable 6.1 1/2] btf, scripts: Exclude Rust CUs with
- pahole
-Message-ID: <2024011746-aloha-ripcord-8dd7@gregkh>
-References: <20240117133520.733288-2-jolsa@kernel.org>
- <ZafYCmLzkWeqI6sF@fc6e15c3a4e0>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PT9YSSLO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705513993; x=1737049993;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c5X3LPtq0bGW5W0TcWNNKF7Ck6QvbA6gHJAn8ACGa2U=;
+  b=PT9YSSLObykcNXx2myDl9GPI6Aolf2Lzjap0aeL7gJTE+XpRbq7Ahlhw
+   Pttw74KzRTlyT8vFe1GDCGB8brlN7Ix1lT8UrjrdM+uLmS2cVz0acWxms
+   TUwDABpdUDglCclZbiThnttbUWDvZSbHGNoBIie8lI0DoDsIDlrtQUmlD
+   A1wI/5IpftLJ39/xDRp0EjVWBELFMEFNYMUXh0Pc8Chvg5DFDAHz6BlH9
+   LxtWL8Uw7aqIUMTa5C+b/VhUy26VaViptp0uiHJccWNKPdxKzoJ30lV9k
+   3napiVsWr5QGvRhrm5bpBixtmvhUIAb8kJs1yR1kGILws+nRuGwqOw7y/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="6993942"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="6993942"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 09:53:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="927879938"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="927879938"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 17 Jan 2024 09:53:10 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rQA68-0002DG-24;
+	Wed, 17 Jan 2024 17:53:08 +0000
+Date: Thu, 18 Jan 2024 01:53:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luca Coelho <luciano.coelho@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] drm/i915: move interrupt save/restore into vblank
+ section helpers
+Message-ID: <202401180149.BsppQD72-lkp@intel.com>
+References: <20240117094613.1401573-1-luciano.coelho@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,19 +62,281 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZafYCmLzkWeqI6sF@fc6e15c3a4e0>
+In-Reply-To: <20240117094613.1401573-1-luciano.coelho@intel.com>
 
-On Wed, Jan 17, 2024 at 09:37:14PM +0800, kernel test robot wrote:
-> Hi,
-> 
-> Thanks for your patch.
-> 
-> FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> 
-> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-> 
-> Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-> Subject: [PATCHv2 stable 6.1 1/2] btf, scripts: Exclude Rust CUs with pahole
-> Link: https://lore.kernel.org/stable/20240117133520.733288-2-jolsa%40kernel.org
+Hi Luca,
 
-False positive :(
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-tip/drm-tip linus/master next-20240117]
+[cannot apply to drm-intel/for-linux-next-fixes v6.7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Coelho/drm-i915-move-interrupt-save-restore-into-vblank-section-helpers/20240117-174910
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240117094613.1401573-1-luciano.coelho%40intel.com
+patch subject: [PATCH] drm/i915: move interrupt save/restore into vblank section helpers
+config: i386-buildonly-randconfig-004-20240117 (https://download.01.org/0day-ci/archive/20240118/202401180149.BsppQD72-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401180149.BsppQD72-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401180149.BsppQD72-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from include/linux/bitops.h:7:0,
+                    from include/linux/kernel.h:23,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/mutex.h:14,
+                    from include/linux/notifier.h:14,
+                    from include/linux/pm_qos.h:16,
+                    from drivers/gpu/drm/i915/i915_drv.h:35,
+                    from drivers/gpu/drm/i915/display/intel_vblank.c:6:
+   drivers/gpu/drm/i915/display/intel_vblank.c: In function 'intel_vblank_section_enter':
+>> drivers/gpu/drm/i915/display/intel_vblank.c:282:17: error: 'irqflags' undeclared (first use in this function); did you mean 'mf_flags'?
+     local_irq_save(irqflags);
+                    ^
+   include/linux/typecheck.h:11:9: note: in definition of macro 'typecheck'
+     typeof(x) __dummy2; \
+            ^
+   include/linux/irqflags.h:245:36: note: in expansion of macro 'raw_local_irq_save'
+    #define local_irq_save(flags) do { raw_local_irq_save(flags); } while (0)
+                                       ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vblank.c:282:2: note: in expansion of macro 'local_irq_save'
+     local_irq_save(irqflags);
+     ^~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vblank.c:282:17: note: each undeclared identifier is reported only once for each function it appears in
+     local_irq_save(irqflags);
+                    ^
+   include/linux/typecheck.h:11:9: note: in definition of macro 'typecheck'
+     typeof(x) __dummy2; \
+            ^
+   include/linux/irqflags.h:245:36: note: in expansion of macro 'raw_local_irq_save'
+    #define local_irq_save(flags) do { raw_local_irq_save(flags); } while (0)
+                                       ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vblank.c:282:2: note: in expansion of macro 'local_irq_save'
+     local_irq_save(irqflags);
+     ^~~~~~~~~~~~~~
+   include/linux/typecheck.h:12:18: warning: comparison of distinct pointer types lacks a cast
+     (void)(&__dummy == &__dummy2); \
+                     ^
+   include/linux/irqflags.h:178:3: note: in expansion of macro 'typecheck'
+      typecheck(unsigned long, flags); \
+      ^~~~~~~~~
+   include/linux/irqflags.h:245:36: note: in expansion of macro 'raw_local_irq_save'
+    #define local_irq_save(flags) do { raw_local_irq_save(flags); } while (0)
+                                       ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vblank.c:282:2: note: in expansion of macro 'local_irq_save'
+     local_irq_save(irqflags);
+     ^~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vblank.c: In function 'intel_vblank_section_exit':
+   drivers/gpu/drm/i915/display/intel_vblank.c:294:20: error: 'irqflags' undeclared (first use in this function); did you mean 'mf_flags'?
+     local_irq_restore(irqflags);
+                       ^
+   include/linux/typecheck.h:11:9: note: in definition of macro 'typecheck'
+     typeof(x) __dummy2; \
+            ^
+   include/linux/irqflags.h:246:39: note: in expansion of macro 'raw_local_irq_restore'
+    #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } while (0)
+                                          ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vblank.c:294:2: note: in expansion of macro 'local_irq_restore'
+     local_irq_restore(irqflags);
+     ^~~~~~~~~~~~~~~~~
+   include/linux/typecheck.h:12:18: warning: comparison of distinct pointer types lacks a cast
+     (void)(&__dummy == &__dummy2); \
+                     ^
+   include/linux/irqflags.h:183:3: note: in expansion of macro 'typecheck'
+      typecheck(unsigned long, flags); \
+      ^~~~~~~~~
+   include/linux/irqflags.h:246:39: note: in expansion of macro 'raw_local_irq_restore'
+    #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } while (0)
+                                          ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vblank.c:294:2: note: in expansion of macro 'local_irq_restore'
+     local_irq_restore(irqflags);
+     ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vblank.c: In function 'i915_get_crtc_scanoutpos':
+>> drivers/gpu/drm/i915/display/intel_vblank.c:309:16: warning: unused variable 'irqflags' [-Wunused-variable]
+     unsigned long irqflags;
+                   ^~~~~~~~
+   drivers/gpu/drm/i915/display/intel_vblank.c: In function 'intel_get_crtc_scanline':
+   drivers/gpu/drm/i915/display/intel_vblank.c:441:16: warning: unused variable 'irqflags' [-Wunused-variable]
+     unsigned long irqflags;
+                   ^~~~~~~~
+
+
+vim +282 drivers/gpu/drm/i915/display/intel_vblank.c
+
+   267	
+   268	/*
+   269	 * These functions help enter and exit vblank critical sections.  When
+   270	 * entering, they disable interrupts and, for i915, acquire the
+   271	 * uncore's spinlock.  Conversely, when exiting, they release the
+   272	 * spinlock and restore the interrupts state.
+   273	 *
+   274	 * This lock in i915 is needed because some old platforms (at least
+   275	 * IVB and possibly HSW as well), which are not supported in Xe, need
+   276	 * all register accesses to the same cacheline to be serialized,
+   277	 * otherwise they may hang.
+   278	 */
+   279	static void intel_vblank_section_enter(struct drm_i915_private *i915)
+   280		__acquires(i915->uncore.lock)
+   281	{
+ > 282		local_irq_save(irqflags);
+   283	#ifdef I915
+   284		spin_lock(&i915->uncore.lock);
+   285	#endif
+   286	}
+   287	
+   288	static void intel_vblank_section_exit(struct drm_i915_private *i915)
+   289		__releases(i915->uncore.lock)
+   290	{
+   291	#ifdef I915
+   292		spin_unlock(&i915->uncore.lock);
+   293	#endif
+   294		local_irq_restore(irqflags);
+   295	}
+   296	
+   297	static bool i915_get_crtc_scanoutpos(struct drm_crtc *_crtc,
+   298					     bool in_vblank_irq,
+   299					     int *vpos, int *hpos,
+   300					     ktime_t *stime, ktime_t *etime,
+   301					     const struct drm_display_mode *mode)
+   302	{
+   303		struct drm_device *dev = _crtc->dev;
+   304		struct drm_i915_private *dev_priv = to_i915(dev);
+   305		struct intel_crtc *crtc = to_intel_crtc(_crtc);
+   306		enum pipe pipe = crtc->pipe;
+   307		int position;
+   308		int vbl_start, vbl_end, hsync_start, htotal, vtotal;
+ > 309		unsigned long irqflags;
+   310		bool use_scanline_counter = DISPLAY_VER(dev_priv) >= 5 ||
+   311			IS_G4X(dev_priv) || DISPLAY_VER(dev_priv) == 2 ||
+   312			crtc->mode_flags & I915_MODE_FLAG_USE_SCANLINE_COUNTER;
+   313	
+   314		if (drm_WARN_ON(&dev_priv->drm, !mode->crtc_clock)) {
+   315			drm_dbg(&dev_priv->drm,
+   316				"trying to get scanoutpos for disabled pipe %c\n",
+   317				pipe_name(pipe));
+   318			return false;
+   319		}
+   320	
+   321		htotal = mode->crtc_htotal;
+   322		hsync_start = mode->crtc_hsync_start;
+   323		vtotal = mode->crtc_vtotal;
+   324		vbl_start = mode->crtc_vblank_start;
+   325		vbl_end = mode->crtc_vblank_end;
+   326	
+   327		if (mode->flags & DRM_MODE_FLAG_INTERLACE) {
+   328			vbl_start = DIV_ROUND_UP(vbl_start, 2);
+   329			vbl_end /= 2;
+   330			vtotal /= 2;
+   331		}
+   332	
+   333		/*
+   334		 * Enter vblank critical section, as we will do multiple
+   335		 * timing critical raw register reads, potentially with
+   336		 * preemption disabled, so the following code must not block.
+   337		 */
+   338		intel_vblank_section_enter(dev_priv);
+   339	
+   340		/* preempt_disable_rt() should go right here in PREEMPT_RT patchset. */
+   341	
+   342		/* Get optional system timestamp before query. */
+   343		if (stime)
+   344			*stime = ktime_get();
+   345	
+   346		if (crtc->mode_flags & I915_MODE_FLAG_VRR) {
+   347			int scanlines = intel_crtc_scanlines_since_frame_timestamp(crtc);
+   348	
+   349			position = __intel_get_crtc_scanline(crtc);
+   350	
+   351			/*
+   352			 * Already exiting vblank? If so, shift our position
+   353			 * so it looks like we're already apporaching the full
+   354			 * vblank end. This should make the generated timestamp
+   355			 * more or less match when the active portion will start.
+   356			 */
+   357			if (position >= vbl_start && scanlines < position)
+   358				position = min(crtc->vmax_vblank_start + scanlines, vtotal - 1);
+   359		} else if (use_scanline_counter) {
+   360			/* No obvious pixelcount register. Only query vertical
+   361			 * scanout position from Display scan line register.
+   362			 */
+   363			position = __intel_get_crtc_scanline(crtc);
+   364		} else {
+   365			/*
+   366			 * Have access to pixelcount since start of frame.
+   367			 * We can split this into vertical and horizontal
+   368			 * scanout position.
+   369			 */
+   370			position = (intel_de_read_fw(dev_priv, PIPEFRAMEPIXEL(pipe)) & PIPE_PIXEL_MASK) >> PIPE_PIXEL_SHIFT;
+   371	
+   372			/* convert to pixel counts */
+   373			vbl_start *= htotal;
+   374			vbl_end *= htotal;
+   375			vtotal *= htotal;
+   376	
+   377			/*
+   378			 * In interlaced modes, the pixel counter counts all pixels,
+   379			 * so one field will have htotal more pixels. In order to avoid
+   380			 * the reported position from jumping backwards when the pixel
+   381			 * counter is beyond the length of the shorter field, just
+   382			 * clamp the position the length of the shorter field. This
+   383			 * matches how the scanline counter based position works since
+   384			 * the scanline counter doesn't count the two half lines.
+   385			 */
+   386			position = min(position, vtotal - 1);
+   387	
+   388			/*
+   389			 * Start of vblank interrupt is triggered at start of hsync,
+   390			 * just prior to the first active line of vblank. However we
+   391			 * consider lines to start at the leading edge of horizontal
+   392			 * active. So, should we get here before we've crossed into
+   393			 * the horizontal active of the first line in vblank, we would
+   394			 * not set the DRM_SCANOUTPOS_INVBL flag. In order to fix that,
+   395			 * always add htotal-hsync_start to the current pixel position.
+   396			 */
+   397			position = (position + htotal - hsync_start) % vtotal;
+   398		}
+   399	
+   400		/* Get optional system timestamp after query. */
+   401		if (etime)
+   402			*etime = ktime_get();
+   403	
+   404		/* preempt_enable_rt() should go right here in PREEMPT_RT patchset. */
+   405	
+   406		intel_vblank_section_exit(dev_priv);
+   407	
+   408		/*
+   409		 * While in vblank, position will be negative
+   410		 * counting up towards 0 at vbl_end. And outside
+   411		 * vblank, position will be positive counting
+   412		 * up since vbl_end.
+   413		 */
+   414		if (position >= vbl_start)
+   415			position -= vbl_end;
+   416		else
+   417			position += vtotal - vbl_end;
+   418	
+   419		if (use_scanline_counter) {
+   420			*vpos = position;
+   421			*hpos = 0;
+   422		} else {
+   423			*vpos = position / htotal;
+   424			*hpos = position - (*vpos * htotal);
+   425		}
+   426	
+   427		return true;
+   428	}
+   429	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
