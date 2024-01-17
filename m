@@ -1,105 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF6415B7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 02:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5193179C2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 04:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705457305; cv=none; b=RJHBanRcKEbRrTNBRA+t1ELUBaiYdJvXCu30Jz/JTRCDrATxsR1tmK6giC0dBOZbUoPFMmwIqT0ZLGCeNemX4FTpZAszfkBJSDb9XaY8dHbWYRR3w+tI5hX2/wB/005LeZCgSV1/T9cuMpOmNtiSGz9wuzydje1pMn85CXEfEu0=
+	t=1705465909; cv=none; b=pCW8cRopie5+yoGxuaRlvIM+fadqude8ZlzxgPYVjCn/SBbcgnb4Z4KDVUPa2Sxlsyh1IGkpWQYl4jMkUScP2Y2dyh1u0fT02Anz3695f+GwVRZ2D1o9u97eW/xeC5EXoHF/mLBbwRfFMySGKSEkJsd4/aD05RDiEH6I9mYRQV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705457305; c=relaxed/simple;
-	bh=Bm14510XYePLzpFu500ofgyv3b2dt8dJQ+40Vm5GQVA=;
-	h=Received:DKIM-Signature:Received:X-Gm-Message-State:
-	 X-Google-Smtp-Source:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding; b=tH1nglp3mMuH5eukZ4CMqQaGcDX/A7ihYsjWzolP2K0Ajtp0juraVk+kTfvz/jk6HYb1QGoFXOROOl3aOHRhZRJbVAUjnbODZUYiRavJ16sGlwR2KJDXotozwXooc6HR9oAZYLdOOFIBHPBf0FpInfknivNcvBKmZLrQyIyIRV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f988wN/g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705465909; c=relaxed/simple;
+	bh=ifV3ANuXtyCO4cFPbJ6KyXZso0fZ7mdYZosd04SbJQM=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition; b=XFfWqrm8AsI2EB+rsizwfECKv9fUfkHmccsR+9MpbHlQS/Q7FpFhZTYQf4jn2GxfOomUVsAZ4vKd/5P0YSo8mdlGcMyjnn6tki+1vLWkhxZHPt4IsX5C+Ic7nFu85y+9falFUAhvvsZT2O1Sl6HdXiPYMF72pYkPKHgsM7X/jss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBqeDo0P; arc=none smtp.client-ip=192.55.52.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f988wN/g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE183C433F1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 02:08:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705457304;
-	bh=Bm14510XYePLzpFu500ofgyv3b2dt8dJQ+40Vm5GQVA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=f988wN/gcPGM5IRkfpfYxH4z6zKjMV9cPC4yl2kvawWdAdpZQybsOc7T2FGdLVEYY
-	 i/swwStbcnM89p1R0IIWYrAFfgqJXgGAomMvfsvQBCgTenRc0iEHPG71U+Drjj2CsT
-	 xHiL0qX05MycKAgR3YUwjWWY15OSsWUHSNoqT65r4kqUK4xEZ2MZmjBZWspehsct2R
-	 X0DvzX7v0Hj/l+VQDEkUEva7t38KcMXfQQTt34OJK6DAZnV0zMX+U+GiqmGw3TvsmK
-	 0AB+9U5DB78IUywaPoSP6VctDCrqmrkEilBvOVjBfwE910FIHW4DMTYeEEz75Ol3Cu
-	 +5FtpMyOFE90A==
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2cad931c50so506138966b.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 18:08:24 -0800 (PST)
-X-Gm-Message-State: AOJu0YysRcMi4tZwsjBultHtsqAr9pobOHO6SHhII22246YHEXad4VsD
-	O4QA7BD3wi/TzPAFiOu3DBTBsieRdZPx1Af5PVo=
-X-Google-Smtp-Source: AGHT+IHHEa1Q29hz/yiz+IRbSeevG759P2f+k7ymwiWy6GmA0z2dlrK+4T8XbLvezLvFMvM/eMBBxV6U102Y0UJF1hc=
-X-Received: by 2002:a17:907:c310:b0:a2e:ac1a:974f with SMTP id
- tl16-20020a170907c31000b00a2eac1a974fmr464915ejc.12.1705457303136; Tue, 16
- Jan 2024 18:08:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBqeDo0P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705465907; x=1737001907;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ifV3ANuXtyCO4cFPbJ6KyXZso0fZ7mdYZosd04SbJQM=;
+  b=VBqeDo0PvyFp2OQwIRxEFbj/AHPzjkKMkICF0I1lkAzev50niCs9Xv3S
+   KKNf+iWQgO2bWxZse4aFgUf4QQAies3D2Dqsq7lCKrIoaBqTt2TSYihzO
+   i+D61MHQvH5JjkLb8EZRUgyxfWrAE/wP84GnxZbJ4PS+EjGj51TIBxxmt
+   dptvEMWxbGiCIYxOTlPhTkvYiMGZB7/B1BAuaElB7xpdhfZRjO9YxbrC9
+   NhA+c26ePZuxaIFXQi5TDcgV+Mh2yB26RsCsPPkFOwslzzgoSRnwrRFnB
+   F0uZNkkb/5Sw+h9AIdQUQCUE7xjtbWKmrrlve/i7tWKbBDk0tXvWMF+Xb
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="398936848"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="398936848"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 20:31:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="26034233"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 16 Jan 2024 20:31:46 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rPxaY-0001am-2L;
+	Wed, 17 Jan 2024 04:31:42 +0000
+Date: Wed, 17 Jan 2024 12:30:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 29756/30000]
+ drivers/irqchip/irq-gic-v3-its-platform-msi.c:15:20: warning: no previous
+ prototype for 'vp_get_irq_domain'
+Message-ID: <202401171215.UCpSxsgp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202401162158.2FqwkuiP-lkp@intel.com> <CABgObfZfjD9RqHOQsZquv7g_u4TRaJyNj315Z05R=piGnFAEvg@mail.gmail.com>
- <ZabOS2uWDJ1fAhQi@google.com>
-In-Reply-To: <ZabOS2uWDJ1fAhQi@google.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 17 Jan 2024 10:08:12 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6UOdm1yEXcO3MvdwbFHq19ib-QW-PjRQ-9pWDU5KFuiQ@mail.gmail.com>
-Message-ID: <CAAhV-H6UOdm1yEXcO3MvdwbFHq19ib-QW-PjRQ-9pWDU5KFuiQ@mail.gmail.com>
-Subject: Re: [linux-next:master 697/13343] arch/loongarch/kvm/mmu.c:810:13:
- error: implicit declaration of function 'mmu_invalidate_retry_hva'; did you
- mean 'mmu_invalidate_retry_gfn'?
-To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, kernel test robot <lkp@intel.com>, 
-	Chao Peng <chao.p.peng@linux.intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Fuad Tabba <tabba@google.com>, 
-	Xu Yilun <yilun.xu@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
-	Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi, Sean,
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   e4bd0053052e24e0c30e34d05ec042203c41976c
+commit: db0a347cea38c38e957a7239689069d8c4ec5005 [29756/30000] irqchip/gic-v3-its: Add virt platform devices MSI support
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20240117/202401171215.UCpSxsgp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401171215.UCpSxsgp-lkp@intel.com/reproduce)
 
-On Wed, Jan 17, 2024 at 2:43=E2=80=AFAM Sean Christopherson <seanjc@google.=
-com> wrote:
->
-> +KVM LoongArch maintainers
->
-> On Tue, Jan 16, 2024, Paolo Bonzini wrote:
-> > On Tue, Jan 16, 2024 at 2:06=E2=80=AFPM kernel test robot <lkp@intel.co=
-m> wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne=
-xt.git master
-> > > head:   8d04a7e2ee3fd6aabb8096b00c64db0d735bc874
-> > > commit: 8569992d64b8f750e34b7858eac5d7daaf0f80fd [697/13343] KVM: Use=
- gfn instead of hva for mmu_notifier_retry
-> > > config: loongarch-allmodconfig (https://download.01.org/0day-ci/archi=
-ve/20240116/202401162158.2FqwkuiP-lkp@intel.com/config)
-> > > compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20240116/202401162158.2FqwkuiP-lkp@intel.com/reproduce)
-> >
-> > This was fixed-up when merging the KVM tree, but I missed it because
-> > it was not mentioned in the loongarch pull request. I'll send a fixup
-> > as soon as Linus gets back online.
->
-> And I suspect KVM LooongArch isn't being fed into linux-next, e.g. the tr=
-ee entry
-> in MAINTAINERS points at your repo.
-There is already a fix patch at
-https://lore.kernel.org/loongarch/20231220144024.7d9fd46b@canb.auug.org.au/=
-T/#t
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401171215.UCpSxsgp-lkp@intel.com/
 
->
-> Side topic, where can I find a toolchain that can actually build KVM Looo=
-ngArch?
-> Clang recognizes the arch, but barfs on a variety of things, and I can't =
-find the
-> right Debian packages for gcc.
-Normally we use toolchain from here:
-https://mirrors.edge.kernel.org/pub/tools/crosstool/
+All warnings (new ones prefixed by >>):
 
-Huacai
+>> drivers/irqchip/irq-gic-v3-its-platform-msi.c:15:20: warning: no previous prototype for 'vp_get_irq_domain' [-Wmissing-prototypes]
+      15 | struct irq_domain *vp_get_irq_domain(void)
+         |                    ^~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-gic-v3-its-platform-msi.c:52:12: warning: no previous prototype for 'iort_pmsi_get_dev_id' [-Wmissing-prototypes]
+      52 | int __weak iort_pmsi_get_dev_id(struct device *dev, u32 *dev_id)
+         |            ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/vp_get_irq_domain +15 drivers/irqchip/irq-gic-v3-its-platform-msi.c
+
+    14	
+  > 15	struct irq_domain *vp_get_irq_domain(void)
+    16	{
+    17		if (!vp_irq_domain)
+    18			pr_err("virtual platform irqdomain hasn't be initialized!\n");
+    19	
+    20		return vp_irq_domain;
+    21	}
+    22	EXPORT_SYMBOL_GPL(vp_get_irq_domain);
+    23	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
