@@ -1,183 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8B415B7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 01:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF6415B7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 02:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705456735; cv=none; b=lYaw/uNy9y9pAeQVUwJt3zpNhtgo3QtHD/jpIqnvfQO/Yjjci+i4lLbvKbCxWXOOMruYwwQB1A46DKQnJ6eqq60NxnOykYML3nHSXT4KweTxRI9lJEByr0xtqMxvZ2DYVxEa8vt0WpDBeeAdJ7g2ihhwWnERLXu8gY4ILiQmEwg=
+	t=1705457305; cv=none; b=RJHBanRcKEbRrTNBRA+t1ELUBaiYdJvXCu30Jz/JTRCDrATxsR1tmK6giC0dBOZbUoPFMmwIqT0ZLGCeNemX4FTpZAszfkBJSDb9XaY8dHbWYRR3w+tI5hX2/wB/005LeZCgSV1/T9cuMpOmNtiSGz9wuzydje1pMn85CXEfEu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705456735; c=relaxed/simple;
-	bh=6OVY63OWbcmgbRUAiZn4CHWeN3hkgKVHWaKZP3Q0rg4=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=BjtxExkNmIScm7eVO21Yw/wZzLKxa8D9YPRpTOPUlZ4VRZg3tDu4WHO28GLniSCN523+e2owDzAFJuX1TNILEmNBkK2nW0YePEhAB9cM6paQ50bGGbd9ydNFYZFtZOMA0wR+AbBDiYf2+usvOwczQBtK6vORBPuy7YUHgPGwn6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zx2C5Mrn; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705457305; c=relaxed/simple;
+	bh=Bm14510XYePLzpFu500ofgyv3b2dt8dJQ+40Vm5GQVA=;
+	h=Received:DKIM-Signature:Received:X-Gm-Message-State:
+	 X-Google-Smtp-Source:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding; b=tH1nglp3mMuH5eukZ4CMqQaGcDX/A7ihYsjWzolP2K0Ajtp0juraVk+kTfvz/jk6HYb1QGoFXOROOl3aOHRhZRJbVAUjnbODZUYiRavJ16sGlwR2KJDXotozwXooc6HR9oAZYLdOOFIBHPBf0FpInfknivNcvBKmZLrQyIyIRV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f988wN/g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zx2C5Mrn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705456733; x=1736992733;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6OVY63OWbcmgbRUAiZn4CHWeN3hkgKVHWaKZP3Q0rg4=;
-  b=Zx2C5MrnImd6D+NM/4mu1WvdpolmIQFQAH0JRlS7vLFCbBc5oQpDpMoj
-   SBDhNrsbQwtPP5/BduwvrHL1iKopGuJKhNZH2eAOAKU7Up4zf/rlhASHZ
-   4fnH+tkyPEDhcBFbtUwSVN7ZguC3Jw5eDDL9GnuhRvJSbYp1rTymPJdHz
-   YIVN2IontBH49u4bu5gdgoZyNKjBcQt/ATQYq8KV7XkXkR1xU2/P21ScW
-   8tIvskG9BR1XP6yBdTPMpfHN4LchdnmUkeqbA0L/2ySsHXA/J9KoIsDmX
-   TBfJ+aMH47B+KQOFKpPhi3fIyX6u3cT4U8Uwq13jgJz4b1KdiB7AAofm8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="21522347"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="21522347"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 17:58:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="874669651"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="874669651"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Jan 2024 17:58:39 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPvCP-0001So-2L;
-	Wed, 17 Jan 2024 01:58:37 +0000
-Date: Wed, 17 Jan 2024 09:57:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 156/175]
- arch/arm64/kvm/hyp_events.c:100:6: warning: no previous prototype for
- function 'hyp_trace_init_event_tracefs'
-Message-ID: <202401170902.j8vRl6b2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f988wN/g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE183C433F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 02:08:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705457304;
+	bh=Bm14510XYePLzpFu500ofgyv3b2dt8dJQ+40Vm5GQVA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=f988wN/gcPGM5IRkfpfYxH4z6zKjMV9cPC4yl2kvawWdAdpZQybsOc7T2FGdLVEYY
+	 i/swwStbcnM89p1R0IIWYrAFfgqJXgGAomMvfsvQBCgTenRc0iEHPG71U+Drjj2CsT
+	 xHiL0qX05MycKAgR3YUwjWWY15OSsWUHSNoqT65r4kqUK4xEZ2MZmjBZWspehsct2R
+	 X0DvzX7v0Hj/l+VQDEkUEva7t38KcMXfQQTt34OJK6DAZnV0zMX+U+GiqmGw3TvsmK
+	 0AB+9U5DB78IUywaPoSP6VctDCrqmrkEilBvOVjBfwE910FIHW4DMTYeEEz75Ol3Cu
+	 +5FtpMyOFE90A==
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2cad931c50so506138966b.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Jan 2024 18:08:24 -0800 (PST)
+X-Gm-Message-State: AOJu0YysRcMi4tZwsjBultHtsqAr9pobOHO6SHhII22246YHEXad4VsD
+	O4QA7BD3wi/TzPAFiOu3DBTBsieRdZPx1Af5PVo=
+X-Google-Smtp-Source: AGHT+IHHEa1Q29hz/yiz+IRbSeevG759P2f+k7ymwiWy6GmA0z2dlrK+4T8XbLvezLvFMvM/eMBBxV6U102Y0UJF1hc=
+X-Received: by 2002:a17:907:c310:b0:a2e:ac1a:974f with SMTP id
+ tl16-20020a170907c31000b00a2eac1a974fmr464915ejc.12.1705457303136; Tue, 16
+ Jan 2024 18:08:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202401162158.2FqwkuiP-lkp@intel.com> <CABgObfZfjD9RqHOQsZquv7g_u4TRaJyNj315Z05R=piGnFAEvg@mail.gmail.com>
+ <ZabOS2uWDJ1fAhQi@google.com>
+In-Reply-To: <ZabOS2uWDJ1fAhQi@google.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Wed, 17 Jan 2024 10:08:12 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6UOdm1yEXcO3MvdwbFHq19ib-QW-PjRQ-9pWDU5KFuiQ@mail.gmail.com>
+Message-ID: <CAAhV-H6UOdm1yEXcO3MvdwbFHq19ib-QW-PjRQ-9pWDU5KFuiQ@mail.gmail.com>
+Subject: Re: [linux-next:master 697/13343] arch/loongarch/kvm/mmu.c:810:13:
+ error: implicit declaration of function 'mmu_invalidate_retry_hva'; did you
+ mean 'mmu_invalidate_retry_gfn'?
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, kernel test robot <lkp@intel.com>, 
+	Chao Peng <chao.p.peng@linux.intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Fuad Tabba <tabba@google.com>, 
+	Xu Yilun <yilun.xu@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
+	Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   00d46b7d4ac191fcc28b0ea7cbdb8611a8628fce
-commit: 92831dd9422c1f5f813254c9a1595e611e847b97 [156/175] ANDROID: KVM: arm64: Add support for nVHE hyp events
-config: arm64-randconfig-003-20240116 (https://download.01.org/0day-ci/archive/20240117/202401170902.j8vRl6b2-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170902.j8vRl6b2-lkp@intel.com/reproduce)
+Hi, Sean,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170902.j8vRl6b2-lkp@intel.com/
+On Wed, Jan 17, 2024 at 2:43=E2=80=AFAM Sean Christopherson <seanjc@google.=
+com> wrote:
+>
+> +KVM LoongArch maintainers
+>
+> On Tue, Jan 16, 2024, Paolo Bonzini wrote:
+> > On Tue, Jan 16, 2024 at 2:06=E2=80=AFPM kernel test robot <lkp@intel.co=
+m> wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne=
+xt.git master
+> > > head:   8d04a7e2ee3fd6aabb8096b00c64db0d735bc874
+> > > commit: 8569992d64b8f750e34b7858eac5d7daaf0f80fd [697/13343] KVM: Use=
+ gfn instead of hva for mmu_notifier_retry
+> > > config: loongarch-allmodconfig (https://download.01.org/0day-ci/archi=
+ve/20240116/202401162158.2FqwkuiP-lkp@intel.com/config)
+> > > compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
+rchive/20240116/202401162158.2FqwkuiP-lkp@intel.com/reproduce)
+> >
+> > This was fixed-up when merging the KVM tree, but I missed it because
+> > it was not mentioned in the loongarch pull request. I'll send a fixup
+> > as soon as Linus gets back online.
+>
+> And I suspect KVM LooongArch isn't being fed into linux-next, e.g. the tr=
+ee entry
+> in MAINTAINERS points at your repo.
+There is already a fix patch at
+https://lore.kernel.org/loongarch/20231220144024.7d9fd46b@canb.auug.org.au/=
+T/#t
 
-All warnings (new ones prefixed by >>):
+>
+> Side topic, where can I find a toolchain that can actually build KVM Looo=
+ngArch?
+> Clang recognizes the arch, but barfs on a variety of things, and I can't =
+find the
+> right Debian packages for gcc.
+Normally we use toolchain from here:
+https://mirrors.edge.kernel.org/pub/tools/crosstool/
 
-   In file included from arch/arm64/kvm/hyp_events.c:9:
-   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: warning: no previous prototype for function 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-      14 | HYP_EVENT(hyp_enter,
-         | ^
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^
-   <scratch space>:59:1: note: expanded from here
-      59 | hyp_event_trace_hyp_enter
-         | ^
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |         ^
-   In file included from arch/arm64/kvm/hyp_events.c:9:
-   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: warning: no previous prototype for function 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-      23 | HYP_EVENT(hyp_exit,
-         | ^
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^
-   <scratch space>:64:1: note: expanded from here
-      64 | hyp_event_trace_hyp_exit
-         | ^
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |         ^
->> arch/arm64/kvm/hyp_events.c:100:6: warning: no previous prototype for function 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
-     100 | void hyp_trace_init_event_tracefs(struct dentry *parent)
-         |      ^
-   arch/arm64/kvm/hyp_events.c:100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     100 | void hyp_trace_init_event_tracefs(struct dentry *parent)
-         | ^
-         | static 
->> arch/arm64/kvm/hyp_events.c:130:19: warning: no previous prototype for function 'hyp_trace_find_event' [-Wmissing-prototypes]
-     130 | struct hyp_event *hyp_trace_find_event(int id)
-         |                   ^
-   arch/arm64/kvm/hyp_events.c:130:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     130 | struct hyp_event *hyp_trace_find_event(int id)
-         | ^
-         | static 
->> arch/arm64/kvm/hyp_events.c:143:5: warning: no previous prototype for function 'hyp_trace_init_events' [-Wmissing-prototypes]
-     143 | int hyp_trace_init_events(void)
-         |     ^
-   arch/arm64/kvm/hyp_events.c:143:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     143 | int hyp_trace_init_events(void)
-         | ^
-         | static 
-   5 warnings generated.
-
-
-vim +/hyp_trace_init_event_tracefs +100 arch/arm64/kvm/hyp_events.c
-
-    99	
- > 100	void hyp_trace_init_event_tracefs(struct dentry *parent)
-   101	{
-   102		struct hyp_event *event = __hyp_events_start;
-   103	
-   104		parent = tracefs_create_dir("events", parent);
-   105		if (!parent) {
-   106			pr_err("Failed to create tracefs folder for hyp events\n");
-   107			return;
-   108		}
-   109	
-   110		parent = tracefs_create_dir("hyp", parent);
-   111		if (!parent) {
-   112			pr_err("Failed to create tracefs folder for hyp events\n");
-   113			return;
-   114		}
-   115	
-   116		for (; (unsigned long)event < (unsigned long)__hyp_events_end; event++) {
-   117			struct dentry *event_dir = tracefs_create_dir(event->name, parent);
-   118			if (!event_dir) {
-   119				pr_err("Failed to create events/hyp/%s\n", event->name);
-   120				continue;
-   121			}
-   122	
-   123			tracefs_create_file("enable", 0700, event_dir, (void *)event,
-   124					    &hyp_event_fops);
-   125			tracefs_create_file("id", 0400, event_dir, (void *)event,
-   126					    &hyp_event_id_fops);
-   127		}
-   128	}
-   129	
- > 130	struct hyp_event *hyp_trace_find_event(int id)
-   131	{
-   132		struct hyp_event *event = __hyp_events_start + id;
-   133	
-   134		if ((unsigned long)event > (unsigned long)__hyp_events_end)
-   135			return NULL;
-   136	
-   137		return event;
-   138	}
-   139	
-   140	/*
-   141	 * Register hyp events and write their id into the hyp section _hyp_event_ids.
-   142	 */
- > 143	int hyp_trace_init_events(void)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Huacai
