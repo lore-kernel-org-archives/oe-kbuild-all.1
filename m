@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAB49467
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 07:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AAC14270;
+	Wed, 17 Jan 2024 10:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705476499; cv=none; b=AbmEfoyl5pXjnxObA6ABfFfTOJl/BCpI/jOXWbNCB2oPLRXBEPlss604qykHdnVX8qB2lkWTSACP48hixzVqSggkLUSGnttxGS+nQ/dtlYwR20RfYUZRFqXrV5NL2ScVf7o8EXlllN0nfMW9wmU01xMqfHcW14PBrksAzRt1x/E=
+	t=1705486325; cv=none; b=Cqop0ZPxytUQc1pl6IpVTw7BwAe7sHfQdGJ+gniu5TG2gQlr7Gwst2ps7M+iEL4l1Lwee0VnFyqUyka7z8sgMgOPUF1wIzNAHvyi3WcwAe6IDxk6eJIkCm+pQURC6IEhbugXN8MhWdn5a8nD0onygxjjpu/omXqnrQVuW7kfwdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705476499; c=relaxed/simple;
-	bh=GE5+WRJHYBdFsA501NJMrxDPiYYuEhXzBiCY24hdDP4=;
+	s=arc-20240116; t=1705486325; c=relaxed/simple;
+	bh=A8QQxh4Zjk+z67BAbAJ4nXFfTq18Kkr2LN41/MW+/00=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
 	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=lNMJH97I92tpfXyLEre29eGHA6TnsKQtHb5fUCmSnolpCSo5ndnmfMtDflUylSYeCAxuo2DxZj23lx3ETkkIkO2Xh9JkevMO4M6VKjDTDWPJPj8PBbkLAf7E9f0fRFjLiapPOgAWL1kk64nHvaAxMdTCvghgp+Wrw8GDttKwvdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/XryZbT; arc=none smtp.client-ip=192.55.52.93
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=f7mSOUTUPvYqLwm0YghF7FwK4I0+kSWrf+GBalkHnBKQ7yIDyw7lGY+p8faFjkjb0NRe/FOFW2GJxxHR+vrKDlItFg0qkIp6GKseMk4eouz+aLPV/kDZ1uN/7zektRBkb0bvUykHRjyxT0yaqjgVAlqe31i2EIJRH4hvQJRHEGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CUiZiLpF; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/XryZbT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CUiZiLpF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705476496; x=1737012496;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GE5+WRJHYBdFsA501NJMrxDPiYYuEhXzBiCY24hdDP4=;
-  b=U/XryZbT8rS5F4px8HaXWVOeoQ7XzS9CIvvlcKZJVr4GDkf56ReNwsSi
-   95qaDyoVkrAcYH9CtmzfMIMLP9KUSD96vuH0+ZiZWpHRoluoDeJIrB5A7
-   9tGI+nkdMwJ1akhSrmME+QZRRESW1YHcoZny/5W85ppLryfEpoGEGvodn
-   t7B5UzWTh7Rhr1eXpQM96CMjsB0xra7u0WDiZYNdicrogygz0343zBidg
-   n7Uwwa9MWYxRiyioljrYfssaT6Z0UK8l6THTE0gVB76zpj6uc9m1Hn7wm
-   UPPO9p/xhrZr6Io+6X4b9NNaU9WBOYIemKibkplk7aF22gQ94Scti4UKP
+  t=1705486324; x=1737022324;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A8QQxh4Zjk+z67BAbAJ4nXFfTq18Kkr2LN41/MW+/00=;
+  b=CUiZiLpFC31aGt/yyxzKwYnyTXgsJJ1VIwG8yLUBUXI0GSo0GQAPQRQB
+   t4IlGrWsI69/FLtMzXF6WcqCtFHW2MRZrKJzAe37fv2W4FqB5EMOUOWyw
+   ZxnQIG+yAlVwP8w9vhfbLX2hYa6q108rZOEVSbgwkIreLw8A/8t0ieWWd
+   FQigRGfgQM3wkQ1QH/mQyIYwqKbjQROmJo/wsrb+OINKKWVY43SYAIhVD
+   aW6Wie2BGftc/c8tRqvF10q8NdCCnIMjz6/A0AEQAlS7eslC7GNcdSRnU
+   aW4GxWwCGwWb7Wvl8NTaRyiido80qZ8eVMOBUX4YMHvE9/G2xOpmbM/zU
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="397252687"
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6835461"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="397252687"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 23:27:52 -0800
+   d="scan'208";a="6835461"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 02:12:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="787714222"
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="733939431"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="787714222"
+   d="scan'208";a="733939431"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 16 Jan 2024 23:27:50 -0800
+  by orsmga003.jf.intel.com with ESMTP; 17 Jan 2024 02:12:01 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQ0Ky-0001kQ-0i;
-	Wed, 17 Jan 2024 07:27:48 +0000
-Date: Wed, 17 Jan 2024 15:27:12 +0800
+	id 1rQ2tn-0001rg-29;
+	Wed, 17 Jan 2024 10:11:55 +0000
+Date: Wed, 17 Jan 2024 18:11:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 21666/30000]
- drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ext.c:29:43: warning:
- implicit conversion from 'enum hclge_ext_opcode_type' to 'enum
- hclge_opcode_type'
-Message-ID: <202401171529.LjkP8vic-lkp@intel.com>
+To: Geliang Tang <geliang.tang@linux.dev>, mptcp@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Geliang Tang <tanggeliang@kylinos.cn>
+Subject: Re: [PATCH mptcp-next v9 07/23] mptcp: implement
+ mptcp_userspace_pm_dump_addr
+Message-ID: <202401171744.SJN2kTRQ-lkp@intel.com>
+References: <fe0b361ec239de2c02192c729a083c45f301e559.1705375746.git.tanggeliang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,70 +63,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <fe0b361ec239de2c02192c729a083c45f301e559.1705375746.git.tanggeliang@kylinos.cn>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   e4bd0053052e24e0c30e34d05ec042203c41976c
-commit: 26f6cbad1a22ab7b8d77b0f84aae9c3aa8e473bc [21666/30000] net: hns3: add supports pfc storm detection and suppression
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240117/202401171529.LjkP8vic-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401171529.LjkP8vic-lkp@intel.com/reproduce)
+Hi Geliang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mptcp/export]
+[also build test WARNING on mptcp/export-net linus/master next-20240117]
+[cannot apply to v6.7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/mptcp-add-pm_has_addr_attr_id-helper/20240116-113812
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+patch link:    https://lore.kernel.org/r/fe0b361ec239de2c02192c729a083c45f301e559.1705375746.git.tanggeliang%40kylinos.cn
+patch subject: [PATCH mptcp-next v9 07/23] mptcp: implement mptcp_userspace_pm_dump_addr
+config: i386-buildonly-randconfig-002-20240116 (https://download.01.org/0day-ci/archive/20240117/202401171744.SJN2kTRQ-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401171744.SJN2kTRQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401171529.LjkP8vic-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401171744.SJN2kTRQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.h:13,
-                    from drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ext.c:4:
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ext.c: In function 'hclge_set_pfc_storm_para':
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ext.c:29:43: warning: implicit conversion from 'enum hclge_ext_opcode_type' to 'enum hclge_opcode_type' [-Wenum-conversion]
-      29 |         hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_CFG_PAUSE_STORM_PARA,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_cmd.h:24:47: note: in definition of macro 'hclge_cmd_setup_basic_desc'
-      24 |         hclge_comm_cmd_setup_basic_desc(desc, opcode, is_read)
-         |                                               ^~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ext.c: In function 'hclge_get_pfc_storm_para':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ext.c:57:43: warning: implicit conversion from 'enum hclge_ext_opcode_type' to 'enum hclge_opcode_type' [-Wenum-conversion]
-      57 |         hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_CFG_PAUSE_STORM_PARA, true);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_cmd.h:24:47: note: in definition of macro 'hclge_cmd_setup_basic_desc'
-      24 |         hclge_comm_cmd_setup_basic_desc(desc, opcode, is_read)
-         |                                               ^~~~~~
+>> net/mptcp/pm_userspace.c:602:6: warning: variable 'sk' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     602 |         if (!mptcp_pm_is_userspace(msk)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_userspace.c:634:11: note: uninitialized use occurs here
+     634 |         sock_put(sk);
+         |                  ^~
+   net/mptcp/pm_userspace.c:602:2: note: remove the 'if' if its condition is always false
+     602 |         if (!mptcp_pm_is_userspace(msk)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     603 |                 GENL_SET_ERR_MSG(info, "invalid request; userspace PM not selected");
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     604 |                 goto out;
+         |                 ~~~~~~~~~
+     605 |         }
+         |         ~
+   net/mptcp/pm_userspace.c:590:17: note: initialize the variable 'sk' to silence this warning
+     590 |         struct sock *sk;
+         |                        ^
+         |                         = NULL
+   1 warning generated.
 
 
-vim +29 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_ext.c
+vim +602 net/mptcp/pm_userspace.c
 
-    17	
-    18	static int hclge_set_pfc_storm_para(struct hclge_dev *hdev, void *data,
-    19					    size_t length)
-    20	{
-    21		struct hclge_pfc_storm_para_cmd *para_cmd;
-    22		struct hnae3_pfc_storm_para *para;
-    23		struct hclge_desc desc;
-    24		int ret;
-    25	
-    26		if (length != sizeof(struct hnae3_pfc_storm_para))
-    27			return -EINVAL;
-    28	
-  > 29		hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_CFG_PAUSE_STORM_PARA,
-    30					   false);
-    31		para = (struct hnae3_pfc_storm_para *)data;
-    32		para_cmd = (struct hclge_pfc_storm_para_cmd *)desc.data;
-    33		para_cmd->dir = cpu_to_le32(para->dir);
-    34		para_cmd->enable = cpu_to_le32(para->enable);
-    35		para_cmd->period_ms = cpu_to_le32(para->period_ms);
-    36		para_cmd->times = cpu_to_le32(para->times);
-    37		para_cmd->recovery_period_ms = cpu_to_le32(para->recovery_period_ms);
-    38	
-    39		ret = hclge_cmd_send(&hdev->hw, &desc, 1);
-    40		if (ret)
-    41			dev_err(&hdev->pdev->dev,
-    42				"failed to set pfc storm para, ret = %d\n", ret);
-    43		return ret;
-    44	}
-    45	
+   577	
+   578	int mptcp_userspace_pm_dump_addr(struct sk_buff *msg,
+   579					 struct netlink_callback *cb)
+   580	{
+   581		struct id_bitmap {
+   582			DECLARE_BITMAP(map, MPTCP_PM_MAX_ADDR_ID + 1);
+   583		} *bitmap;
+   584		const struct genl_info *info = genl_info_dump(cb);
+   585		struct net *net = sock_net(msg->sk);
+   586		struct mptcp_pm_addr_entry *entry;
+   587		struct mptcp_sock *msk;
+   588		struct nlattr *token;
+   589		int ret = -EINVAL;
+   590		struct sock *sk;
+   591		void *hdr;
+   592	
+   593		bitmap = (struct id_bitmap *)cb->ctx;
+   594		token = info->attrs[MPTCP_PM_ATTR_TOKEN];
+   595	
+   596		msk = mptcp_token_get_sock(net, nla_get_u32(token));
+   597		if (!msk) {
+   598			NL_SET_ERR_MSG_ATTR(info->extack, token, "invalid token");
+   599			return ret;
+   600		}
+   601	
+ > 602		if (!mptcp_pm_is_userspace(msk)) {
 
 -- 
 0-DAY CI Kernel Test Service
