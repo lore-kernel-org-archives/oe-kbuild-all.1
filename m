@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C449A1EB24
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 13:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BD81EB51
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Jan 2024 13:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705497726; cv=none; b=RGkXY2tn0CEP6akltTguyS1MLrskJCrxSYEt/WmtOR/mqQSh9XOcc/hhZaKNiWx5LbqEySZUXZs6BPv4hh2aoDZVoRcYogk/tgA7qQz5C4mkojm33Mzuj2VDB575Zqh+LIHNmFQEIZeVQtB7XWpGFgSSin+QO9NCz7z/YkXRqGM=
+	t=1705498688; cv=none; b=kw7Siaf4VGDk1gOzrEqDjQfhOCDPzRWoRZxWXqNKRSadivRw2MIgfNkfy5qGCMPHhlGd1ChD/EMJzlJA9p8fABSnJsi8myWIK/MvnMcX1srTsQMSuD1StL+BWeIVGN3pCCdPbLwVJ2q0KLmGSVD64XSBZHl8Kb+v58SxmDipOFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705497726; c=relaxed/simple;
-	bh=BiTv3W2tCoJzk4RKgVeVoCKcNYVMy9KSitAPKUSDn48=;
+	s=arc-20240116; t=1705498688; c=relaxed/simple;
+	bh=fGT48Zw5xEX/HcJfmi+SxK9GweVFjsjrtkK1fkz0rAY=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=q4S6Flu3TOEG5NNPHxT70ZigqWzNa2PlM41JkfkrXImOeZ8QY19LW+TbF0TZ29sG/egHOUP+e5uzVrMe3cSGdRKkwnGIoE3USGfVE6W41LphR05I12EscWbVFIPgQkNFyDSXlwlmnsuFuwswxPwqtUMGqbi1tPjhsiKbw5cUKeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KMk2mbA7; arc=none smtp.client-ip=134.134.136.65
+	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To; b=HekKXP7hGZxErlCTSEls9J+81RsJOXElSD7ZWSdfxU5D58iI29WmokxWmhD1gIK7RjvjHTg3KCyhyuJ8x6ms3fFWl9C9detfdihbLmfY6lYUhqxA8PXo2IsCnf9fE41Q94HPPCO8G20ezZU50/xvkRfnOkr2EngM6n6d0MdLdAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MchJ+yVh; arc=none smtp.client-ip=192.55.52.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMk2mbA7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MchJ+yVh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705497724; x=1737033724;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BiTv3W2tCoJzk4RKgVeVoCKcNYVMy9KSitAPKUSDn48=;
-  b=KMk2mbA7BkCxcRdi552Im/zvqEj6wzWkqqzVLLbqXShCqdwQJFbIsC7t
-   DjuOKZShlWU7QkfHffzkDgDsnH/sgFquDCkJBftd73Z1CLFlN5kMmQSp1
-   6m+L5myt/WSEZFY7XxhWCtkHGtMyCywrsnal8LME5eWSzR/wazx2Knv/k
-   OBiaglk3UWSLun6w5fFDu+r2K+F745H4qNX4itTbKSXyEYrs5PYJZGzSi
-   46NoAvV9r8EfzzSXCCiFU2gyQuXbosGhTvosZN5ARXzkQHyTVmIk1hrbs
-   fDcNbr1JSjBzOQwUxtBwvp7902sJyJD3Rj9ZKMfaf2Ymn/ilWRXeDjCe/
+  t=1705498686; x=1737034686;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=fGT48Zw5xEX/HcJfmi+SxK9GweVFjsjrtkK1fkz0rAY=;
+  b=MchJ+yVhq3bPnLghMtMAGJeonmn+e3RwLhaxN1hD3OZ1RyVgAsrRKKGK
+   JiTpsb+QmQspK4ChyDLrITEs1RxncD3Yqd5v/pxPeFnTMkOtXUbZVW1Dr
+   gryiIMBtDfGNt6q5OPwYdADkA3xQBAHUqZSyysSCij57Ek0T0HQNxKVgz
+   aRkY5IAJv9rkqVNmTNODs3z1rfFYR2tboSiZVr8ekUdXsdUuKMO/Sr1jG
+   H9RDc/pboSNT+kDqz3EWRQM4U3vCjyeCqny2VuIoztsF+CMZWsXzRyIUV
+   0HVUt9KSiclZHUrPDMPokkEZNPzWG1pJfb4ouTBMd1A/gFL5q0nfuOA9X
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="403923950"
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="397322290"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="403923950"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 05:22:04 -0800
+   d="scan'208";a="397322290"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 05:38:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="854699807"
 X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="854699807"
+   d="scan'208";a="43628"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Jan 2024 05:22:02 -0800
+  by orviesa005.jf.intel.com with ESMTP; 17 Jan 2024 05:38:04 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQ5rk-00021C-1m;
-	Wed, 17 Jan 2024 13:22:00 +0000
-Date: Wed, 17 Jan 2024 21:21:51 +0800
+	id 1rQ67F-00022M-0t;
+	Wed, 17 Jan 2024 13:38:01 +0000
+Date: Wed, 17 Jan 2024 21:37:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 160/175]
- arch/arm64/kvm/hyp_trace.c:763:37: warning: unused variable 'hyp_trace_fops'
-Message-ID: <202401172136.NjYKreba-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCHv2 stable 6.1 1/2] btf, scripts: Exclude Rust CUs with
+ pahole
+Message-ID: <ZafYCmLzkWeqI6sF@fc6e15c3a4e0>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,47 +59,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240117133520.733288-2-jolsa@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   00d46b7d4ac191fcc28b0ea7cbdb8611a8628fce
-commit: c5c554823f2b582cf6a0a1e2b37297f623392483 [160/175] ANDROID: KVM: arm64: Add trace_clock for nVHE tracing
-config: arm64-randconfig-003-20240116 (https://download.01.org/0day-ci/archive/20240117/202401172136.NjYKreba-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401172136.NjYKreba-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401172136.NjYKreba-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   arch/arm64/kvm/hyp_trace.c:719:37: warning: unused variable 'hyp_trace_raw_fops' [-Wunused-const-variable]
-     719 | static const struct file_operations hyp_trace_raw_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp_trace.c:763:37: warning: unused variable 'hyp_trace_fops' [-Wunused-const-variable]
-     763 | static const struct file_operations hyp_trace_fops = {
-         |                                     ^~~~~~~~~~~~~~
-   2 warnings generated.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +/hyp_trace_fops +763 arch/arm64/kvm/hyp_trace.c
-
-c24ca55000da34 Vincent Donnefort 2023-06-13  762  
-c24ca55000da34 Vincent Donnefort 2023-06-13 @763  static const struct file_operations hyp_trace_fops = {
-c24ca55000da34 Vincent Donnefort 2023-06-13  764  	.open           = hyp_trace_open,
-c24ca55000da34 Vincent Donnefort 2023-06-13  765  	.read           = hyp_trace_read,
-c24ca55000da34 Vincent Donnefort 2023-06-13  766  	.write          = hyp_trace_write,
-c24ca55000da34 Vincent Donnefort 2023-06-13  767  	.release        = NULL,
-c24ca55000da34 Vincent Donnefort 2023-06-13  768  };
-c24ca55000da34 Vincent Donnefort 2023-06-13  769  
-
-:::::: The code at line 763 was first introduced by commit
-:::::: c24ca55000da3492aacf4e383634f060faeb5050 ANDROID: KVM: arm64: Add nVHE hyp tracing to tracefs
-
-:::::: TO: Vincent Donnefort <vdonnefort@google.com>
-:::::: CC: Fuad Tabba <tabba@google.com>
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCHv2 stable 6.1 1/2] btf, scripts: Exclude Rust CUs with pahole
+Link: https://lore.kernel.org/stable/20240117133520.733288-2-jolsa%40kernel.org
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
