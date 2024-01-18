@@ -1,186 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B036328DA0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 14:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705589549; cv=fail; b=gaw/4bbKkgKOg6GudhhKI5iKCtk4yEzBUPUCS2zhqgaMff3+96yhtEHmYfUtdctui62bqGmoK9g5EB8WDtVFyk7gwHgPd/DXR1rrxUyEiFKtYnWvxFhQEL6oDQNpILGwcqWIJ1+G5EExYIh63pqStrGz81DrMhqfy6pR/9kezHM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705589549; c=relaxed/simple;
-	bh=G9cr6OtwlGC8pzq3diMgdX43t6POYlkpB73mrg/S1x8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B25924B40
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 14:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705589662; cv=none; b=B4VcxMDOrvhfHCm3ak8ZeLbZ0zAuU4lRhkvrFKvjMQrOp/rFkGk1tc21PG6emzW1ViBlSOvcqN75IdP9zZ9hKVPJ8v718qt00318Vf9CCyzlnSh0zbn2ECArGzikbxOSbtV/qQL8YWbE1BoyB8ug4/L+XVwc7b/oqqLWFuwQS/o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705589662; c=relaxed/simple;
+	bh=6T29mlB1hgc62DKh8mMcQUFuchxbv0HaK/GYUQmhz+M=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Received:Received:
-	 Received:ARC-Message-Signature:ARC-Authentication-Results:Received:
-	 Received:Date:From:To:CC:Subject:Message-ID:References:
-	 Content-Type:Content-Disposition:In-Reply-To:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	b=ld4ATMqYcCnKVtQSwj5H8icNOAwGRmJi7qptBVJ+cINyJexktbm/FPdMlbjlQAobu9WUdauKFxFI+tnfU9u3GEztNeAciaZWThNFLuZNewlofxuyW9fvy2sHug0jeaTaCo+pHZzs0rc9vcRtn0Qhpe4Iq6yabc3sA++0KtCr3V8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJbIoHMf; arc=fail smtp.client-ip=198.175.65.14
+	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition; b=At7DKm0X8W5NutkHohRtGNHUc1pUcgxvjHQUkd2z2+N1BsVNdaqcDp3bs/bGdGsrAa/f6Yl0cpDhRzzX0W0pZqb+TX1IA0zxoTXEoTm3maDktQIvsEGFP6u8GhmOl//nRpExI00gJpjUc5MnAiurfjhuyVJDDXsXidT/LWpYdk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbzkUacg; arc=none smtp.client-ip=192.55.52.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJbIoHMf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbzkUacg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705589548; x=1737125548;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=G9cr6OtwlGC8pzq3diMgdX43t6POYlkpB73mrg/S1x8=;
-  b=aJbIoHMfTCtvGK3BsWmZEJBRr7Lj0OP8laamGN9qNc98EiWFjO+w5jEq
-   4l+cQiTbrslU1YAnixlP2Gd1ipRTVIwK4HARR57z7w/1ZEgcDfvWlOYDI
-   t1cH3LqXXDthVeLzhtpn9lnJvwrGZ7QJ/QtHb6ZZGu8k9x1OIoP4yAaC8
-   dB5P1SnZHwYfea3nC2XgPZjJgyZt+olFctLDsbgJqj8iYSB0hxFkX/LoX
-   iXMxtgjRZPEUmwkMnkW7/cRDr2GfAbkVU4ZbsxdnMlUj3JMr+QR1sfjVE
-   Ox+t+WoFv4Sa3bRZ5TYgTN/4n/3RbVtW3X7yU8ByfBR0WsuD/GEf+OIMd
+  t=1705589661; x=1737125661;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6T29mlB1hgc62DKh8mMcQUFuchxbv0HaK/GYUQmhz+M=;
+  b=RbzkUacgLFN8VDl7kIUijixJ+u5cWbC0JDveGulS6xFKQv5hyeTxXQQc
+   k4H+ILXmVd9tFyPWdfQJK94A+hD+nbdkTe7wOOudx4P6eZmFe40OJRPsh
+   XM2ZRLsKTMaZWrqsBH9Rau4J5n9LvtU1gUn5Xwqh5V2kdK13OgQu+QjZw
+   9Zddav2Jej4jI7iH1/X4CQBIVALl2/hxNu8da4BjPidBQW5GQG/JbTS1E
+   TV+AgF+zdvc9OeF1eVyEaj19GLR06rLBKOoHlVIoNkJzOlliZA3wjRmXe
+   GUrKqqPnk9lPRd1Nn0ZRoASgleiYtM3U1w74oi5rVN8Fm2ABiIHc2vvn0
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="369142"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="397628473"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="369142"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 06:52:27 -0800
+   d="scan'208";a="397628473"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 06:54:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="957840373"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="957840373"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Jan 2024 06:52:26 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 18 Jan 2024 06:52:25 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 18 Jan 2024 06:52:25 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 18 Jan 2024 06:52:25 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 18 Jan 2024 06:52:24 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d31juHU7XEOjhO6y7iCkk2beiOyT9awIjW8OhV2P0cKQUuyhcTir2CvECbXkD3FcC+E/+7/oB+0okSrI0NpeeREDPjXKEiejbAlwd/3iZg57uCTa53jtkawgIxfFm67b34/24dKDgvYUTqjD2gxKFRTCSwhD9rgObNKawTXLNaKe3f/LDrqmbiQVv8v4pimfZonm/ow6zHE1u2eANbcp4O6dFlAR064yDN/awB+h4odc3gdF39Ar7yjHlWfnzChXqXTUxQj3oCWZO2yqZSraJhl0nrnLbwDL7R25jFi1wEX1QEHFBeZrEmWGBl79kLErDzcEDugBm1otYn67eoajpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VFRPzRgo5CkNh+0hcS2nSFrm03js96Gnm325TBQFnT4=;
- b=XzzBkfInZje3Zq6U4Lnb5KAy4S0PrR1WjkVVY5Jt1g/TYgGdZucnfiVf9uwbJc6/x2Qk40sg327tMWB3J5yhAOBYSqohTU97ZGnBJJY6iCUcGsuwkPQY5Iyamm0p2MDBcV5RVmSr/xCNvpNidtiX1iQVUzJZssQ1nv5eKN5+FRKt8RWr6y7RUHaVuZ6nscl6KpLJIEUOxj6Z7ZFrZAY6QHB5mT32YgKr8w1zN3OaH4j7ed4+1h0zxFu19VIzIHIyuE0i77t9EwAfYZ34qGoUAiZs9/JvVZGVtdBpHB8BHxqH0xrEjuMOBssxEqUcFVdmFjTNEQAq5Yae7ZqZzSnqxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DS0PR11MB6445.namprd11.prod.outlook.com (2603:10b6:8:c6::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Thu, 18 Jan
- 2024 14:52:23 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b99c:f603:f176:aca]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b99c:f603:f176:aca%5]) with mapi id 15.20.7202.024; Thu, 18 Jan 2024
- 14:52:22 +0000
-Date: Thu, 18 Jan 2024 22:45:33 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: kernel test robot <lkp@intel.com>, Jiri Olsa <jolsa@kernel.org>,
-	<stable@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCHv2 stable 6.1 1/2] btf, scripts: Exclude Rust CUs with
- pahole
-Message-ID: <Zak5jaQDxxgVLnHj@yujie-X299>
-References: <20240117133520.733288-2-jolsa@kernel.org>
- <ZafYCmLzkWeqI6sF@fc6e15c3a4e0>
- <2024011746-aloha-ripcord-8dd7@gregkh>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <2024011746-aloha-ripcord-8dd7@gregkh>
-X-ClientProxiedBy: SG2PR04CA0168.apcprd04.prod.outlook.com (2603:1096:4::30)
- To CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+   d="scan'208";a="26781710"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 18 Jan 2024 06:54:18 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rQTma-00033g-26;
+	Thu, 18 Jan 2024 14:54:16 +0000
+Date: Thu, 18 Jan 2024 22:53:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 13537/13783] arch/parisc/kernel/smp.c:369:17:
+ sparse: sparse: cast truncates bits from constant value (aabbccdd11223344
+ becomes 11223344)
+Message-ID: <202401182236.k7vm9ww7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DS0PR11MB6445:EE_
-X-MS-Office365-Filtering-Correlation-Id: 355ab2b4-c12b-4d2a-f8e6-08dc183513e3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CpuoP6pQ117odnTcfniVAZe48DLAccr2jAoXUWlNrC9w+TthdUGHMgBkz/EhwqN9Uroa0fdsvuZuKXvjvgr4dqV2za20Md41pRaE5i4qZxUuLuHjRy4k+Jb3d54emETREyAdiJY2y5Fdqj1OxaDK8HpZrKBfYddFJ8bCwpl0+jiSlcIeAgBWBClAQwoRwHUVyHEWemZMxtWw4hrnujCsZLntsKQb7HkwS7fAzYO2T0w4z+On7gpSbRqGsP+nNqhRMwfthgxuLD7Smmnbmi02eg044sLoQ5+V1P+rArB9ztXW4uK4jbMBe7IL+V087gv5AmioXMmpWA/zIBdrySJmP5yYqqdlxhajKQv3qr32NZ6Lxnlsh/nTCixq0/oMxcEjjscQlWSmQ0DDPzOJ0xKoMiK1q6V578Yyh0l+owjeRazojGibG38k4KBck7fyQpny7k0wI+dJjV3k6QtD9/0+k21SlPiOD/Jf1tiAuKJqbH3tg/HDIgMhy8rP2BpGXxoOBlg/uEK2LvOcjS1LszY9CjfkSFqX6obZIIM5YckxlRJBdBPaBwtlOTlb+4VuRhLQM6X5L4ETRitQ1A4FMzsn8g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(346002)(396003)(376002)(39860400002)(366004)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(86362001)(8936002)(66556008)(54906003)(6916009)(66476007)(66946007)(82960400001)(5660300002)(4744005)(2906002)(316002)(966005)(6506007)(6486002)(4326008)(44832011)(8676002)(38100700002)(83380400001)(41300700001)(26005)(33716001)(6512007)(9686003)(6666004)(478600001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WQt32WtLUoT/dFOYhcH31yZlGM18LzRKExtaJscOKnS7cCiHDQgDAPiyEicT?=
- =?us-ascii?Q?m942SKXpwXZ1CxlD/m4Pk89+eoWvzrbfb2XmM2YxSJ/vBorydr9D7Q7kg2Ha?=
- =?us-ascii?Q?5VCjaRKI/9HUPHwUn9PQIv77pVipgOZgW93ez3yoqWZmtViHRE9mkJhYYxGn?=
- =?us-ascii?Q?6yczGTXSJ/cEwr/j06rKxjD2/uqpiCAW/5ELhECqIuZrD4UxIPCZ/gDLXR56?=
- =?us-ascii?Q?2jYTOy1Q/VPi6l1n0xeEwTkGOn1SGtakJ6k4lagjPJPvLDJQ0j/hiNqS8Y5l?=
- =?us-ascii?Q?6MeqxK7HJ122t7im1YWJ2f+B2Wab+L00Fs31gsQsDtp9Vhlb51BGd9Mi5GCy?=
- =?us-ascii?Q?1dvt43CZ4BotLHJHQi6MZJbEQ1wdT3j+w2tL8i8nKKVAk8wv7/y5zs8F9ET1?=
- =?us-ascii?Q?8RjftKATjjiykft4XelH/h5Z4TBb1FzNuy0mBRWDglT3fnUaUgQVlGeTOpDz?=
- =?us-ascii?Q?TU6lg0lrK/3zI0oK6OIhQGs4eHHRZg/eBuznbLcgeINNEukDzbvpsLvuXReF?=
- =?us-ascii?Q?AAmhY3ecmwNGbjLcUeIdeGnPIcCJNm4kHsiyvUryK4GiFH4Uf19Bp3UK//X/?=
- =?us-ascii?Q?L9akKuVM7cyJHNjU+80lF+uVbGf/j9AfOO9BbJJDqts86tuvO5ylsEaX5ieQ?=
- =?us-ascii?Q?JLgKMcv0WkTvOWc98hWW69SKilWg+F9CzMgAUYY9yMesldwfvvMMOUetp3y/?=
- =?us-ascii?Q?zzSOKR8noDiMTffrL5Ypar++Ro+WCqFgGdllynOWLCvan29n/bkvNesNgUxJ?=
- =?us-ascii?Q?NRlAK0r1jhp4EsTJvoGU+Wzh0OfrjbPTlBfW284A9V3C7GLiFFOOzw1wC3UB?=
- =?us-ascii?Q?nMNuspk3olHptrgCJiNbp1vAt3v8dOVHm+N6Z3NB3RloAzUXrVFJO1mJoen1?=
- =?us-ascii?Q?G0xu0Ep9zCsj7WLkxREJWzDJHIlxiJxD8fzJmcrBFcIbI/fx0xKlIq/swvHU?=
- =?us-ascii?Q?ubF6xNaCZjD+AW0ezEwW0iHJCXSaTgqezY/r+3yUfAmVNrcEOlXohb4teY+G?=
- =?us-ascii?Q?BFneGr00hA3DsqNoDhsOIyPb7hdAKCmg1uXFKEsjTzD4G46WwNPX/mlEcD6y?=
- =?us-ascii?Q?w95RyG99egP2RmGhyhE6yBWeJgRVzYVUBvs6DlnWOiwPYoROil8WHTLHgS7F?=
- =?us-ascii?Q?dSCqpGsikBNVaSSQZ3koSOQN8tTC5/Q9QYV3wtn6knmbI5tgacPrOzh0bHxu?=
- =?us-ascii?Q?UKGwvEfHtgyofcXGDRdpYR3OcfHFzAjoxjxY00BlZPPalNrPcC5hXbJ+mnbt?=
- =?us-ascii?Q?1vVBnLCmsc//ELZo17XrnxwxcRX6isJqn/953bnubXvCluRqQb5YkgOMMTC2?=
- =?us-ascii?Q?FEnZpHJNFQkHnSxccWOs9SSy36BLOtlxl/o7zuKstAfMP7mOqp5bQlKpq2D+?=
- =?us-ascii?Q?P5V5EuY+bjYH3Z8QFFUVhLbVeVPueCPWyRinc4ysh+wbHD8AnvCrn4nVjCN+?=
- =?us-ascii?Q?y41jRwEK1QKRA4yffA+x5sGcEOOinFmqYbwdb3iMTykxo+GtQ8TKypQaRWTb?=
- =?us-ascii?Q?sDP0W26Bwn8Mm0aNfPXjxh7kmvEGy7FcebpFWP6cDooewefLdD60wEER2SZp?=
- =?us-ascii?Q?xD3wlL2hGtwa4NYImZ7C1o+uAlF60QTz69xLGZTQ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 355ab2b4-c12b-4d2a-f8e6-08dc183513e3
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2024 14:52:22.7844
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pO5Di8qf2wmB9c0mlhdNtS2nRwlRbMD1LKMJJA6whMDJ/8Qn597OxCUN6vhAuehgDQCw16/J20uQ3ZrWiGVS+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6445
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Jan 17, 2024 at 05:07:55PM +0100, Greg KH wrote:
-> On Wed, Jan 17, 2024 at 09:37:14PM +0800, kernel test robot wrote:
-> > Hi,
-> > 
-> > Thanks for your patch.
-> > 
-> > FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> > 
-> > The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-> > 
-> > Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-> > Subject: [PATCHv2 stable 6.1 1/2] btf, scripts: Exclude Rust CUs with pahole
-> > Link: https://lore.kernel.org/stable/20240117133520.733288-2-jolsa%40kernel.org
-> 
-> False positive :(
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2863b714f3ad0a9686f2de1b779228ad8c7a8052
+commit: e8d2fac59ea8f3dca39aef74c40f487f3b56713b [13537/13783] parisc: Runtime unalignment testcase
+config: parisc-randconfig-r121-20240118 (https://download.01.org/0day-ci/archive/20240118/202401182236.k7vm9ww7-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240118/202401182236.k7vm9ww7-lkp@intel.com/reproduce)
 
-Sorry for the false positive. The bot wrongly parsed the patch prefix.
-We've fixed the bug now.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401182236.k7vm9ww7-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> arch/parisc/kernel/smp.c:369:17: sparse: sparse: cast truncates bits from constant value (aabbccdd11223344 becomes 11223344)
+>> arch/parisc/kernel/smp.c:370:17: sparse: sparse: cast truncates bits from constant value (a0b0c0d01020304 becomes 1020304)
+
+vim +369 arch/parisc/kernel/smp.c
+
+   351	
+   352		/* wait until last booting CPU has started. */
+   353		while (cpu_now_booting)
+   354			;
+   355	
+   356		/* Let _start know what logical CPU we're booting
+   357		** (offset into init_tasks[],cpu_data[])
+   358		*/
+   359		cpu_now_booting = cpuid;
+   360	
+   361		/* 
+   362		** boot strap code needs to know the task address since
+   363		** it also contains the process stack.
+   364		*/
+   365		smp_init_current_idle_task = idle ;
+   366		mb();
+   367	
+   368		printk(KERN_INFO "Releasing cpu %d now, hpa=%lx  vector %x\n", cpuid, p->hpa, PAGE0->vec_rendz);
+ > 369		t2[0] = 0xaabbccdd11223344;
+ > 370		t2[1] = 0x0a0b0c0d01020304;
+   371		asm("nop ! nop ! nop" : : : "memory");
+   372		asm volatile("ldw 1(%1),%0" : "=r" (i) : "r"(&t2) : "memory");
+   373		printk("VAL1 %04x\n", i);
+   374		asm volatile("ldw 2(%1),%0" : "=r" (i) : "r"(&t2) : "memory");
+   375		printk("VAL2 %04x\n", i);
+   376		asm volatile("ldw 3(%1),%0" : "=r" (i) : "r"(&t2) : "memory");
+   377		printk("VAL3 %04x\n", i);
+   378		asm volatile("ldw 4(%1),%0" : "=r" (i) : "r"(&t2) : "memory");
+   379		printk("VAL4 %04x\n", i);
+   380		// asm("b,n ." : : : "memory");
+   381	
+   382		/*
+   383		** This gets PDC to release the CPU from a very tight loop.
+   384		**
+   385		** From the PA-RISC 2.0 Firmware Architecture Reference Specification:
+   386		** "The MEM_RENDEZ vector specifies the location of OS_RENDEZ which 
+   387		** is executed after receiving the rendezvous signal (an interrupt to 
+   388		** EIR{0}). MEM_RENDEZ is valid only when it is nonzero and the 
+   389		** contents of memory are valid."
+   390		*/
+   391		gsc_writel(TIMER_IRQ - CPU_IRQ_BASE, p->hpa);
+   392		mb();
+   393	
+   394		/* 
+   395		 * OK, wait a bit for that CPU to finish staggering about. 
+   396		 * Slave will set a bit when it reaches smp_cpu_init().
+   397		 * Once the "monarch CPU" sees the bit change, it can move on.
+   398		 */
+   399		for (timeout = 0; timeout < 10000; timeout++) {
+   400			if(cpu_online(cpuid)) {
+   401				/* Which implies Slave has started up */
+   402				cpu_now_booting = 0;
+   403				goto alive ;
+   404			}
+   405			udelay(100);
+   406			barrier();
+   407		}
+   408		printk(KERN_CRIT "SMP: CPU:%d is stuck.\n", cpuid);
+   409		return -1;
+   410	
+   411	alive:
+   412		/* Remember the Slave data */
+   413		smp_debug(100, KERN_DEBUG "SMP: CPU:%d came alive after %ld _us\n",
+   414			cpuid, timeout * 100);
+   415		return 0;
+   416	}
+   417	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
