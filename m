@@ -1,190 +1,183 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D2C2E645
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 20:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585BD2E834
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 20:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705610195; cv=none; b=mDvz1LR4H0LZW9yZSOluhOfEZabQs4gsMG2TpWPoWZ2xlcZSineBpszlwXOrtO89LpnwNp9WMrrTzaPjs83v7aF1IvVpAAmkyeRQiM6ThQE7vBC7kiQRH3CuvTqTwRZkwx3ac1vXIR8VDDi7kNqfnjkv6aLvTAk/W+tBiiK2xkE=
+	t=1705610606; cv=none; b=kF1k16pwJnFcrz3S54TqMGuT0N2m+DeG0RBD+Mdhh2kyQUaWPWTFlBH1SR7n4ENW0S/hAvB4iIW9ZGaLHMx9r7sUcx7YUR41xNlQsizdffxcGs2c8PQSNzO7Ne1+7/PslvII+53xQly57pAdw1fr9qnj+D45tzZG1oxwzcC7C4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705610195; c=relaxed/simple;
-	bh=CR+CPgkwVgLCbPAIyGRpihDaYVG336e/bnFESDj19dY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lP2a5pbs8iODRQfS5um7M3JXoqtj3PA3rYP+bIa5JH0NJSiArSasKHOkiwcx7r+L9Pl8MkCDuZhov3vusqgYNsG8B5Gm8U/dpfoLqEE6FgXuzioGp9BTFEwOlp0UQxGvcA2HC6ygwfR3RiDookAqH7iZ/qbvbhCGjymPh9HBdnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bz/29lEe; arc=none smtp.client-ip=134.134.136.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705610606; c=relaxed/simple;
+	bh=si1Ui22ll5G3lFse8vth01kcs8pZT/4Keb7YoTaw4FU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fj+JPalIdd5RkcUCHCWS03fOcmvYQpB7LZe0zCbUVuwjrDBpfdzlDpDuXaOP/OvUgP29AYcJx0/IcQaqHYkgHL+j5zYFkfX3gn5LEqU6QqjgWVikA6H9L4CIdB/F9GDTEiaoWqdWno/fNZ+xuR1yhNBC2EQALoiLbiaj9hdH12s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ScCGN2u+; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bz/29lEe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705610193; x=1737146193;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=CR+CPgkwVgLCbPAIyGRpihDaYVG336e/bnFESDj19dY=;
-  b=bz/29lEepwruoAgcoJXqsP0OnToHFj8ThSb3ab0hCwirvlr8J8l3iyI1
-   kW3LTogii9DXpiL33FAnHSIgWktqYRb5UPBOgPLr3BpmUXanCLFon/wSg
-   GH2l/AIkayACWVpVKFoDqxwICgi0j0icxmvxw98PQYxDxQad79HHCY+Dy
-   cxyA+JhoW4PUw4zDJIVoB4rtxK5PG4liWz4Zf/XKGf6Bm62PSIJGd2hvM
-   5W6EU+kqxv0a+viLXnwCFYEputunOJe1iGM+yv3xDEvEGWuNC80EWvq0X
-   3gn4oQ/dgv6uqyOatXfUqXaNyrLifN4bpranc58pHeSiUgrxTMXhj61zW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="391015303"
-X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="391015303"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 12:36:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="386852"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Jan 2024 12:36:30 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rQZ7k-0003Jq-0r;
-	Thu, 18 Jan 2024 20:36:28 +0000
-Date: Fri, 19 Jan 2024 04:36:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhu Yanjun <yanjun.zhu@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Subject: [linux-next:master 13015/13783] drivers/net/virtio_net.c:4340:35:
- error: '%u' directive writing between 1 and 10 bytes into a region of size 9
-Message-ID: <202401190425.IGYMqCJW-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ScCGN2u+"
+Message-ID: <036fb42d-a104-4f4e-a66d-1bc1fe17835e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1705610600;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7coExLm/dMM5fu/UmGFQt9I4AbmJQqAbogUfxuBo2jk=;
+	b=ScCGN2u+rK/Y6mv0kaKuWfLrMkrwTBACU5/LSob9eyAS5NqcC+g0yx7DiPU+x6vGjKiO+n
+	KEzD4NAjyNtQyeu/LHcsQZ3zeb2lc/D+RFsWPEkJfUDvDSTFcn+qcD6yis077i50XnSyr/
+	Q/wFZHpyNM+sna840DTUppeU38063cU=
+Date: Thu, 18 Jan 2024 12:43:14 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Subject: Re: [bpf-next:master 32/36] net/core/filter.c:11842:13: warning:
+ declaration of 'struct bpf_tcp_req_attrs' will not be visible outside of this
+ function
+Content-Language: en-US
+To: Kuniyuki Iwashima <kuniyu@amazon.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Martin KaFai Lau <martin.lau@kernel.org>, kernel test robot <lkp@intel.com>
+References: <202401180418.CUVc0hxF-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <202401180418.CUVc0hxF-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2863b714f3ad0a9686f2de1b779228ad8c7a8052
-commit: e3fe8d28c67bf6c291e920c6d04fa22afa14e6e4 [13015/13783] virtio_net: Fix "‘%d’ directive writing between 1 and 11 bytes into a region of size 10" warnings
-config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20240119/202401190425.IGYMqCJW-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190425.IGYMqCJW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401190425.IGYMqCJW-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/net/virtio_net.c: In function 'init_vqs':
-   drivers/net/virtio_net.c:4339:36: error: 'sprintf' may write a terminating nul past the end of the destination [-Werror=format-overflow=]
-      sprintf(vi->rq[i].name, "input.%u", i);
-                                       ^
-   drivers/net/virtio_net.c:4339:3: note: 'sprintf' output between 8 and 17 bytes into a destination of size 16
-      sprintf(vi->rq[i].name, "input.%u", i);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/virtio_net.c:4340:35: error: '%u' directive writing between 1 and 10 bytes into a region of size 9 [-Werror=format-overflow=]
-      sprintf(vi->sq[i].name, "output.%u", i);
-                                      ^~
-   drivers/net/virtio_net.c:4340:27: note: directive argument in the range [0, 2147483647]
-      sprintf(vi->sq[i].name, "output.%u", i);
-                              ^~~~~~~~~~~
-   drivers/net/virtio_net.c:4340:3: note: 'sprintf' output between 9 and 18 bytes into a destination of size 16
-      sprintf(vi->sq[i].name, "output.%u", i);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+On 1/17/24 12:10 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> head:   be7c19de9ecf4d93a9908003a1a3b8f1e8f8a672
+> commit: b9c3eca5c086eb65f20ad92fe3aa3d556f23103b [32/36] bpf: tcp: Support arbitrary SYN Cookie.
+> config: i386-randconfig-011-20240117 (https://download.01.org/0day-ci/archive/20240118/202401180418.CUVc0hxF-lkp@intel.com/config)
+> compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401180418.CUVc0hxF-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401180418.CUVc0hxF-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> net/core/filter.c:11842:13: warning: declaration of 'struct bpf_tcp_req_attrs' will not be visible outside of this function [-Wvisibility]
+>      11842 |                                         struct bpf_tcp_req_attrs *attrs, int attrs__sz)
+>            |                                                ^
+>     1 warning generated.
 
 
-vim +4340 drivers/net/virtio_net.c
+Hi Kuniyuki,
 
-  4293	
-  4294	static int virtnet_find_vqs(struct virtnet_info *vi)
-  4295	{
-  4296		vq_callback_t **callbacks;
-  4297		struct virtqueue **vqs;
-  4298		const char **names;
-  4299		int ret = -ENOMEM;
-  4300		int total_vqs;
-  4301		bool *ctx;
-  4302		u16 i;
-  4303	
-  4304		/* We expect 1 RX virtqueue followed by 1 TX virtqueue, followed by
-  4305		 * possible N-1 RX/TX queue pairs used in multiqueue mode, followed by
-  4306		 * possible control vq.
-  4307		 */
-  4308		total_vqs = vi->max_queue_pairs * 2 +
-  4309			    virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VQ);
-  4310	
-  4311		/* Allocate space for find_vqs parameters */
-  4312		vqs = kcalloc(total_vqs, sizeof(*vqs), GFP_KERNEL);
-  4313		if (!vqs)
-  4314			goto err_vq;
-  4315		callbacks = kmalloc_array(total_vqs, sizeof(*callbacks), GFP_KERNEL);
-  4316		if (!callbacks)
-  4317			goto err_callback;
-  4318		names = kmalloc_array(total_vqs, sizeof(*names), GFP_KERNEL);
-  4319		if (!names)
-  4320			goto err_names;
-  4321		if (!vi->big_packets || vi->mergeable_rx_bufs) {
-  4322			ctx = kcalloc(total_vqs, sizeof(*ctx), GFP_KERNEL);
-  4323			if (!ctx)
-  4324				goto err_ctx;
-  4325		} else {
-  4326			ctx = NULL;
-  4327		}
-  4328	
-  4329		/* Parameters for control virtqueue, if any */
-  4330		if (vi->has_cvq) {
-  4331			callbacks[total_vqs - 1] = NULL;
-  4332			names[total_vqs - 1] = "control";
-  4333		}
-  4334	
-  4335		/* Allocate/initialize parameters for send/receive virtqueues */
-  4336		for (i = 0; i < vi->max_queue_pairs; i++) {
-  4337			callbacks[rxq2vq(i)] = skb_recv_done;
-  4338			callbacks[txq2vq(i)] = skb_xmit_done;
-  4339			sprintf(vi->rq[i].name, "input.%u", i);
-> 4340			sprintf(vi->sq[i].name, "output.%u", i);
-  4341			names[rxq2vq(i)] = vi->rq[i].name;
-  4342			names[txq2vq(i)] = vi->sq[i].name;
-  4343			if (ctx)
-  4344				ctx[rxq2vq(i)] = true;
-  4345		}
-  4346	
-  4347		ret = virtio_find_vqs_ctx(vi->vdev, total_vqs, vqs, callbacks,
-  4348					  names, ctx, NULL);
-  4349		if (ret)
-  4350			goto err_find;
-  4351	
-  4352		if (vi->has_cvq) {
-  4353			vi->cvq = vqs[total_vqs - 1];
-  4354			if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VLAN))
-  4355				vi->dev->features |= NETIF_F_HW_VLAN_CTAG_FILTER;
-  4356		}
-  4357	
-  4358		for (i = 0; i < vi->max_queue_pairs; i++) {
-  4359			vi->rq[i].vq = vqs[rxq2vq(i)];
-  4360			vi->rq[i].min_buf_len = mergeable_min_buf_len(vi, vi->rq[i].vq);
-  4361			vi->sq[i].vq = vqs[txq2vq(i)];
-  4362		}
-  4363	
-  4364		/* run here: ret == 0. */
-  4365	
-  4366	
-  4367	err_find:
-  4368		kfree(ctx);
-  4369	err_ctx:
-  4370		kfree(names);
-  4371	err_names:
-  4372		kfree(callbacks);
-  4373	err_callback:
-  4374		kfree(vqs);
-  4375	err_vq:
-  4376		return ret;
-  4377	}
-  4378	
+This looks different from the other kfunc compiler warnings. Can you take a look?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Martin
+
+
+> 
+> 
+> vim +11842 net/core/filter.c
+> 
+>   11840	
+>   11841	__bpf_kfunc int bpf_sk_assign_tcp_reqsk(struct sk_buff *skb, struct sock *sk,
+>   11842						struct bpf_tcp_req_attrs *attrs, int attrs__sz)
+>   11843	{
+>   11844	#if IS_ENABLED(CONFIG_SYN_COOKIES)
+>   11845		const struct request_sock_ops *ops;
+>   11846		struct inet_request_sock *ireq;
+>   11847		struct tcp_request_sock *treq;
+>   11848		struct request_sock *req;
+>   11849		struct net *net;
+>   11850		__u16 min_mss;
+>   11851		u32 tsoff = 0;
+>   11852	
+>   11853		if (attrs__sz != sizeof(*attrs) ||
+>   11854		    attrs->reserved[0] || attrs->reserved[1] || attrs->reserved[2])
+>   11855			return -EINVAL;
+>   11856	
+>   11857		if (!skb_at_tc_ingress(skb))
+>   11858			return -EINVAL;
+>   11859	
+>   11860		net = dev_net(skb->dev);
+>   11861		if (net != sock_net(sk))
+>   11862			return -ENETUNREACH;
+>   11863	
+>   11864		switch (skb->protocol) {
+>   11865		case htons(ETH_P_IP):
+>   11866			ops = &tcp_request_sock_ops;
+>   11867			min_mss = 536;
+>   11868			break;
+>   11869	#if IS_BUILTIN(CONFIG_IPV6)
+>   11870		case htons(ETH_P_IPV6):
+>   11871			ops = &tcp6_request_sock_ops;
+>   11872			min_mss = IPV6_MIN_MTU - 60;
+>   11873			break;
+>   11874	#endif
+>   11875		default:
+>   11876			return -EINVAL;
+>   11877		}
+>   11878	
+>   11879		if (sk->sk_type != SOCK_STREAM || sk->sk_state != TCP_LISTEN ||
+>   11880		    sk_is_mptcp(sk))
+>   11881			return -EINVAL;
+>   11882	
+>   11883		if (attrs->mss < min_mss)
+>   11884			return -EINVAL;
+>   11885	
+>   11886		if (attrs->wscale_ok) {
+>   11887			if (!READ_ONCE(net->ipv4.sysctl_tcp_window_scaling))
+>   11888				return -EINVAL;
+>   11889	
+>   11890			if (attrs->snd_wscale > TCP_MAX_WSCALE ||
+>   11891			    attrs->rcv_wscale > TCP_MAX_WSCALE)
+>   11892				return -EINVAL;
+>   11893		}
+>   11894	
+>   11895		if (attrs->sack_ok && !READ_ONCE(net->ipv4.sysctl_tcp_sack))
+>   11896			return -EINVAL;
+>   11897	
+>   11898		if (attrs->tstamp_ok) {
+>   11899			if (!READ_ONCE(net->ipv4.sysctl_tcp_timestamps))
+>   11900				return -EINVAL;
+>   11901	
+>   11902			tsoff = attrs->rcv_tsecr - tcp_ns_to_ts(attrs->usec_ts_ok, tcp_clock_ns());
+>   11903		}
+>   11904	
+>   11905		req = inet_reqsk_alloc(ops, sk, false);
+>   11906		if (!req)
+>   11907			return -ENOMEM;
+>   11908	
+>   11909		ireq = inet_rsk(req);
+>   11910		treq = tcp_rsk(req);
+>   11911	
+>   11912		req->rsk_listener = sk;
+>   11913		req->syncookie = 1;
+>   11914		req->mss = attrs->mss;
+>   11915		req->ts_recent = attrs->rcv_tsval;
+>   11916	
+>   11917		ireq->snd_wscale = attrs->snd_wscale;
+>   11918		ireq->rcv_wscale = attrs->rcv_wscale;
+>   11919		ireq->tstamp_ok	= !!attrs->tstamp_ok;
+>   11920		ireq->sack_ok = !!attrs->sack_ok;
+>   11921		ireq->wscale_ok = !!attrs->wscale_ok;
+>   11922		ireq->ecn_ok = !!attrs->ecn_ok;
+>   11923	
+>   11924		treq->req_usec_ts = !!attrs->usec_ts_ok;
+>   11925		treq->ts_off = tsoff;
+>   11926	
+>   11927		skb_orphan(skb);
+>   11928		skb->sk = req_to_sk(req);
+>   11929		skb->destructor = sock_pfree;
+>   11930	
+>   11931		return 0;
+>   11932	#else
+>   11933		return -EOPNOTSUPP;
+>   11934	#endif
+>   11935	}
+>   11936	
+> 
+
