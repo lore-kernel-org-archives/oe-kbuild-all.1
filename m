@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71C9257B;
-	Thu, 18 Jan 2024 00:00:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B01199
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 00:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705536028; cv=none; b=bGlHrVYBY3kRxY/9ETmP14sQqKjwD3YgEqLd6rBNYwOMNMs2DWBn5GvViSXljH9/J3E7l8n8lANtkFoZ9/tTMqivoLR5NSQHxUDZoxtdZgmOzZT3vSVmBn+Ntz2abKUd43G1q0y7xB8qc6O3KYPpJ+rmWKMhYz+eBaYeFOg9Fm8=
+	t=1705537347; cv=none; b=lvDml8WRNXjUcZCuV4Po9Jt7szofhcCNiLmnAT0AemFBiFCuisj2F1Yq6D9jpjsvZkCpsqB2Zy4a3aycy2b3Y8WmlgRN3P7uBDuVoVLCbjWkJNQP8JTmofKITVkzWWGc+RcCNUsE0DN9y3XkNsuSkUg+O5mX4z0+/b6saM79cPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705536028; c=relaxed/simple;
-	bh=XWXZkiGg+J2TcDKMPMa6E/KddB3/LnBMtmKJ5tsgasY=;
+	s=arc-20240116; t=1705537347; c=relaxed/simple;
+	bh=B1nEnXyQ/SAtlAIKMWbDMRGkGTuCSjWo+sHTG+RqFS0=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
 	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
 	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=kTWrJHzbN2L0/qVPE9Ek4WSf+q0cbVQGgpz8a3n+G4Rwp/h9iPBz4F26oS3qJf10lCWUxqpBU+E+SO7ohBLHro+F2xXDYYatLaZbG+9S/Xg85ilu97zcoWTRkEo8we/+PdYM8lflEHXimtife4yQLeNvQpALkfkA1lKW1xT0mCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nv2VYl36; arc=none smtp.client-ip=134.134.136.20
+	b=DI0VP1KWteA/lf6AfpvgfAIzGknpXuCA31jl6I0iU8LBoxHJWJiVKY5PJfxw4/j6Kxf00J3/EusYm8sXvZwF4pfhBDQE1rCFUgtTdSo0aSb/PJH1GHFEKd90PbnX1x5Um4xZMOhpVB28r+YKRC4QTiiKxxZlaqkydhsBLNGQb10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W4ThXqlN; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nv2VYl36"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W4ThXqlN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705536027; x=1737072027;
+  t=1705537345; x=1737073345;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XWXZkiGg+J2TcDKMPMa6E/KddB3/LnBMtmKJ5tsgasY=;
-  b=Nv2VYl36y5ExmBFub2VmpTKhDwmzA+AX+uMGosMVzA+d7ZTJJAIzcOdQ
-   Ap/+c9RdojIoJs+QO/ZLPbSFq01k5E4DcwrE0tydZBF+Uu1TTaRFaiOIt
-   3KssSPwBX1LhhrJYC3kReVNRDiFIGWBRnTubzUdOLFxkc9rQKi8sWvfRA
-   RNI91vdbPlrbdP/cGPvHnLmN925YZJAirzsSril9rrGITj0N9mwlxxk/Z
-   C5hPFlkLt9L7lgXsqELedjn+XH5+XnMRg8YK9TpTOvxLzSJRq9K+xlkJU
-   lhX6sB9pdrWf+lk3NIJH7BQ8VjNrL9IFmlaNZMuUoUmWxGKMsl08tfVYo
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="390755973"
+  bh=B1nEnXyQ/SAtlAIKMWbDMRGkGTuCSjWo+sHTG+RqFS0=;
+  b=W4ThXqlNW315pRS6+71AxP9A7WvgGOqESCcgane69X3wFTn4shnSI2Kb
+   blTMvMxuHL2oU72zx74EwjNLPq8OnKgR7R9hfxaXNGynWEapoaOmdrqbu
+   pStdX2lTmER9wZN+7PAGDAdlx0iz8kSiVnFbb/RwEYRfD+kv75Y40Hs/T
+   wahCXBoJCy8HsQbTwE3CV5ew0w1qTAlRCQJb8C1ai5q7QNgcG8KPqd3XP
+   N58GVx55O6EpY2WXYsCtYRr8aeiLaO7KnApZnVrQLHjMGqFxz64+r6wM2
+   0w/U4df5ln77ZG0W0nB78NA2mpiaK3Tg8bmeWNwD6c0u6K81xj3yWwKdk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="21793261"
 X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="390755973"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 16:00:25 -0800
+   d="scan'208";a="21793261"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 16:22:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="787923549"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="760721406"
 X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="787923549"
+   d="scan'208";a="760721406"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 17 Jan 2024 16:00:22 -0800
+  by orsmga006.jf.intel.com with ESMTP; 17 Jan 2024 16:22:23 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQFpT-0002RO-2V;
-	Thu, 18 Jan 2024 00:00:19 +0000
-Date: Thu, 18 Jan 2024 08:00:09 +0800
+	id 1rQGAm-0002S4-1R;
+	Thu, 18 Jan 2024 00:22:20 +0000
+Date: Thu, 18 Jan 2024 08:21:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/topo-full 56/71]
- arch/x86/kernel/cpu/topology.c:150:31: warning: variable 'bsp_apicid' is
- uninitialized when used here
-Message-ID: <202401180751.hErhvgvl-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 104/105] fs/ceph/crypto.c:545:5: warning: no
+ previous prototype for 'ceph_fscrypt_decrypt_pages'
+Message-ID: <202401180825.lncIWq4e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +61,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topo-full
-head:   db28d91b811f57395f2628ad23002acaef9e1ee1
-commit: 3159457cc55b83cde16d0db14e765eabd4160b98 [56/71] x86/cpu: Detect real BSP on crash kernels
-config: i386-buildonly-randconfig-003-20240118 (https://download.01.org/0day-ci/archive/20240118/202401180751.hErhvgvl-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401180751.hErhvgvl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   2cf82c6e7baf6d3a2adc0692707028da395f1553
+commit: 8c002b7822991845125f6d219796f28b75055b90 [104/105] fixes
+config: i386-randconfig-141-20240117 (https://download.01.org/0day-ci/archive/20240118/202401180825.lncIWq4e-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401180825.lncIWq4e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401180751.hErhvgvl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401180825.lncIWq4e-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/cpu/topology.c:150:31: warning: variable 'bsp_apicid' is uninitialized when used here [-Wuninitialized]
-     150 |         topo_info.real_bsp_apic_id = bsp_apicid;
-         |                                      ^~~~~~~~~~
-   arch/x86/kernel/cpu/topology.c:123:16: note: initialize the variable 'bsp_apicid' to silence this warning
-     123 |         u32 bsp_apicid;
-         |                       ^
-         |                        = 0
-   arch/x86/kernel/cpu/topology.c:156:11: warning: unused variable 'dom' [-Wunused-variable]
-     156 |         int cpu, dom;
-         |                  ^~~
-   2 warnings generated.
+>> fs/ceph/crypto.c:545:5: warning: no previous prototype for 'ceph_fscrypt_decrypt_pages' [-Wmissing-prototypes]
+     545 | int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/crypto.c:591:5: error: conflicting types for 'ceph_fscrypt_decrypt_extents'; have 'int(struct inode *, struct page **, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct inode *, struct page **, long long unsigned int,  struct ceph_sparse_extent *, unsigned int)'}
+     591 | int ceph_fscrypt_decrypt_extents(struct inode *inode, struct page **page,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/ceph/super.h:25,
+                    from fs/ceph/crypto.c:14:
+   fs/ceph/crypto.h:160:5: note: previous declaration of 'ceph_fscrypt_decrypt_extents' with type 'int(struct inode *, struct ceph_databuf *, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct inode *, struct ceph_databuf *, long long unsigned int,  struct ceph_sparse_extent *, unsigned int)'}
+     160 | int ceph_fscrypt_decrypt_extents(struct inode *inode, struct ceph_databuf *dbuf, u64 off,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/crypto.c: In function 'ceph_fscrypt_decrypt_extents':
+   fs/ceph/crypto.c:625:58: error: passing argument 2 of 'ceph_fscrypt_decrypt_pages' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     625 |                 fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
+         |                                                          ^~~~~~~~~~~~
+         |                                                          |
+         |                                                          struct page **
+   fs/ceph/crypto.c:545:74: note: expected 'struct ceph_databuf *' but argument is of type 'struct page **'
+     545 | int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
+         |                                                     ~~~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/bsp_apicid +150 arch/x86/kernel/cpu/topology.c
+vim +/ceph_fscrypt_decrypt_pages +545 fs/ceph/crypto.c
 
-   120	
-   121	static __init bool check_for_real_bsp(u32 apic_id)
-   122	{
-   123		u32 bsp_apicid;
-   124	
-   125		/*
-   126		 * There is no real good way to detect whether this a kdump()
-   127		 * kernel, but except on the Voyager SMP monstrosity which is not
-   128		 * longer supported, the real BSP APIC ID is the first one which is
-   129		 * enumerated by firmware. That allows to detect whether the boot
-   130		 * CPU is the real BSP. If it is not, then do not register the APIC
-   131		 * because sending INIT to the real BSP would reset the whole
-   132		 * system.
-   133		 *
-   134		 * The first APIC ID which is enumerated by firmware is detectable
-   135		 * because the boot CPU APIC ID is registered before that without
-   136		 * invoking this code.
-   137		 */
-   138		if (topo_info.real_bsp_apic_id != BAD_APICID)
-   139			return false;
-   140	
-   141		if (apic_id == topo_info.boot_cpu_apic_id) {
-   142			topo_info.real_bsp_apic_id = apic_id;
-   143			return false;
-   144		}
-   145	
-   146		pr_warn("Boot CPU APIC ID not the first enumerated APIC ID: %x > %x\n",
-   147			topo_info.boot_cpu_apic_id, bsp_apicid);
-   148		pr_warn("Crash kernel detected. Disabling real BSP to prevent machine INIT\n");
-   149	
- > 150		topo_info.real_bsp_apic_id = bsp_apicid;
-   151		return true;
-   152	}
-   153	
+   529	
+   530	/**
+   531	 * ceph_fscrypt_decrypt_data - Decrypt buffered data
+   532	 * @inode: pointer to inode associated with these pages
+   533	 * @dbuf: pointer to buffer containing the data
+   534	 * @off: offset into the file that the read data starts
+   535	 * @len: max length to decrypt
+   536	 *
+   537	 * Decrypt an buffer of fscrypt'ed pages and return the amount of
+   538	 * data decrypted. Any data in the page prior to the start of the
+   539	 * first complete block in the read is ignored. Any incomplete
+   540	 * crypto blocks at the end of the array are ignored (and should
+   541	 * probably be zeroed by the caller).
+   542	 *
+   543	 * Returns the length of the decrypted data or a negative errno.
+   544	 */
+ > 545	int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
+   546				       u64 off, int len)
+   547	{
+   548		int i, num_blocks;
+   549		u64 baseblk = off >> CEPH_FSCRYPT_BLOCK_SHIFT;
+   550		int ret = 0;
+   551	
+   552		/*
+   553		 * We can't deal with partial blocks on an encrypted file, so mask off
+   554		 * the last bit.
+   555		 */
+   556		num_blocks = ceph_fscrypt_blocks(off, len & CEPH_FSCRYPT_BLOCK_MASK);
+   557	
+   558		/* Decrypt each block */
+   559		for (i = 0; i < num_blocks; ++i) {
+   560			int blkoff = i << CEPH_FSCRYPT_BLOCK_SHIFT;
+   561			int pgidx = blkoff >> PAGE_SHIFT;
+   562			unsigned int pgoffs = offset_in_page(blkoff);
+   563			int fret;
+   564	
+   565			fret = ceph_fscrypt_decrypt_block_inplace(inode,
+   566					ceph_databuf_page(dbuf, pgidx),
+   567					CEPH_FSCRYPT_BLOCK_SIZE, pgoffs,
+   568					baseblk + i);
+   569			if (fret < 0) {
+   570				if (ret == 0)
+   571					ret = fret;
+   572				break;
+   573			}
+   574			ret += CEPH_FSCRYPT_BLOCK_SIZE;
+   575		}
+   576		return ret;
+   577	}
+   578	
 
 -- 
 0-DAY CI Kernel Test Service
