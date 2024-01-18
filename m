@@ -1,142 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3351170F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 07:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D32125A6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 09:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705563516; cv=none; b=oAuzqfhUHY6MS7Ewkl7ZbTg7n2pmAcTAKHMHc+8pTCWQLelATC+PPW+T8li1VdhLo9R8NDayz/782W8Ik/JibkLSJRQh1NXPubDbUR3zsaxVK0Vw+Lw/u65Mah/f4zvSuMzpat5cqmMbYNldsZLBQW3rCL7jDjO3Ac+nIn/oMTQ=
+	t=1705568651; cv=none; b=U6oB70RpJVRWxTHfi/kj8pBWBr3YwKvaKIBADLYSjNxgLEa5RTNml87bcSE9mJ4bToByM0pVGTv0BYOi2vNPwscvYqEA4DDPQvYeBT3LnvpLyYeUr72gd/jKLqryKXHOoj+4/ulMnwuNeYtdzinnWpqKNB7VhOznrSqZFV2NQBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705563516; c=relaxed/simple;
-	bh=oEgWvrslnSM4xcNArZv/SqPbZt3JAcjMLGKjSG+iUmE=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=LInZr9h33NA2DnFEypj67i9cf0JqraLYxJ/yykWIBE7EQp41ZP+QImIhUfI7r1ChUk1ezl12BeyinO1nF7xz7yFtWzAXfuBBDW5tqANzba9tftfR6r1htsSEObYWUVq3rGPgoi8GgVCDr2Fxnq8eo8bIOpp9rC8RORR1a93vfHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxXESg8B; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705568651; c=relaxed/simple;
+	bh=4DjnG5jzD2NozgBVxo3sEg89nTgo8GqY8Y50icPgxKw=;
+	h=Received:DKIM-Signature:Received:X-Gm-Message-State:
+	 X-Google-Smtp-Source:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding; b=I/3XPO+vulNuHU4j6G6be9wt212quEPUyV8qvGlcMJ2xFz6O9zEjH3+PkREXAMvdcuLAyyvOay4ZRzpIRI0qkbxpyz4vOPNCeYa7f5rmUlkxA7TvVzhN7REnk2AqnmlRiNpbPAwZePmGWYju+u///Y1hilQhaimrdsYghUJZ3qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QoJjibI8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxXESg8B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705563514; x=1737099514;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oEgWvrslnSM4xcNArZv/SqPbZt3JAcjMLGKjSG+iUmE=;
-  b=IxXESg8BmHMpx/WhHtu6W4851LTiCNa01HjFqtr7xI9oIsPioPUk5pRU
-   FncgXN1HZxliTYp+Amh9rX6iRHvw+hV+TRU4jD0zNFxtFhGtL16POWqBg
-   MWZiM3KROZRshD9yI3YeT39NSRUd4OAD3WRMj4PdOwiNXHlV7zauEz0VK
-   9qJCv1m68pvcl4fr6gfo6YVvhJkCMh1mk819TOcbRPpes5WN1dQHxKIei
-   9caiM6EfsPLxQ9GxtD1qD2zcCLYGgWxhoduMHH69b5tPwQVW+LhhBka8+
-   aEc29JN+6kuD6zNkvGc8H+gUUovMyGXJiCwBFrF1Q6zZsyBz54LB/xyWr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7744989"
-X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="7744989"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 23:38:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="329433"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 17 Jan 2024 23:38:30 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rQMyp-0002lY-0Q;
-	Thu, 18 Jan 2024 07:38:27 +0000
-Date: Thu, 18 Jan 2024 15:37:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-Subject: Re: [PATCH 4/4] remoteproc: stm32: Add support of an OP-TEE TA to
- load the firmware
-Message-ID: <202401181522.bvg4EMU4-lkp@intel.com>
-References: <20240115135249.296822-5-arnaud.pouliquen@foss.st.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QoJjibI8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F08CDC433C7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 09:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705568651;
+	bh=4DjnG5jzD2NozgBVxo3sEg89nTgo8GqY8Y50icPgxKw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QoJjibI8/kEJQAAex60nrSQYgKnoEI895mptaHK4hRdpGjtzaw5vm/61ycBisLYX3
+	 i4/kh5ur2mqpXOyUwU1Tl9VX5dlonHFTg1ZcQrW4q3EuLPuD2NbWQLxOa7OHMm2aOJ
+	 guSHpHj1BxVjgklQdN7KZZ1ssPPsmFehFa6QkA8PKsMQJvcI1AfZCdXTOC0U6AQHu8
+	 AEQj77gQzIgYB3gmUb30juqCFyorKLY1G4D2bR7UO5XokYTEd7f0SUOkV5nIRlW07e
+	 V6210gxYALiNx1D4achuEavnbt/kSvzoLj+Gk9dBxSAOqL6QMa5iCJn5R3j3pw5eUx
+	 ZdDl+I241FLLw==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50e7b273352so13437854e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 01:04:10 -0800 (PST)
+X-Gm-Message-State: AOJu0YzDJn/PRWI3/Dewaipr90i1Bl4swr6u67aWAR3o1nPqQdXN3ijZ
+	KoVN6fkp+Ey1QFtQdzZaDp7gUDYlflDmH3kRzgkYOU4iuMoUBGdxQ6tkKEA7qglxE7BmeWe2Be7
+	g2s9AtufHugHkSNBfy6a9KlHt/hk=
+X-Google-Smtp-Source: AGHT+IH6wcBhoC+YMOO0KdyTPDPd5MtfcqqfD6ZhyGkBnR2HGKI/sIEKMi1pc87gMIuaT8itxHbFO7XwWi6nygFqoz4=
+X-Received: by 2002:a05:6512:3ca0:b0:50e:b1fe:8ee4 with SMTP id
+ h32-20020a0565123ca000b0050eb1fe8ee4mr325687lfv.111.1705568649219; Thu, 18
+ Jan 2024 01:04:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240115135249.296822-5-arnaud.pouliquen@foss.st.com>
+References: <202401162158.2FqwkuiP-lkp@intel.com> <CABgObfZfjD9RqHOQsZquv7g_u4TRaJyNj315Z05R=piGnFAEvg@mail.gmail.com>
+ <ZabOS2uWDJ1fAhQi@google.com> <CAAhV-H6UOdm1yEXcO3MvdwbFHq19ib-QW-PjRQ-9pWDU5KFuiQ@mail.gmail.com>
+In-Reply-To: <CAAhV-H6UOdm1yEXcO3MvdwbFHq19ib-QW-PjRQ-9pWDU5KFuiQ@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Thu, 18 Jan 2024 17:03:58 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4hQ6pbim7czzXCeQ-q6t2uf7GgR9J6q5asqmkuoUx2GA@mail.gmail.com>
+Message-ID: <CAAhV-H4hQ6pbim7czzXCeQ-q6t2uf7GgR9J6q5asqmkuoUx2GA@mail.gmail.com>
+Subject: Re: [linux-next:master 697/13343] arch/loongarch/kvm/mmu.c:810:13:
+ error: implicit declaration of function 'mmu_invalidate_retry_hva'; did you
+ mean 'mmu_invalidate_retry_gfn'?
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, kernel test robot <lkp@intel.com>, 
+	Chao Peng <chao.p.peng@linux.intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Fuad Tabba <tabba@google.com>, 
+	Xu Yilun <yilun.xu@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
+	Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Arnaud,
+Hi, Paolo,
 
-kernel test robot noticed the following build errors:
+If you take this patch,
+https://lore.kernel.org/loongarch/20231220144024.7d9fd46b@canb.auug.org.au/=
+T/#t
+Please also take this one,
+https://lore.kernel.org/loongarch/20231227012240.6545-1-rdunlap@infradead.o=
+rg/T/#u
 
-[auto build test ERROR on remoteproc/rproc-next]
-[also build test ERROR on linus/master v6.7 next-20240117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-Add-TEE-support/20240115-215613
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
-patch link:    https://lore.kernel.org/r/20240115135249.296822-5-arnaud.pouliquen%40foss.st.com
-patch subject: [PATCH 4/4] remoteproc: stm32: Add support of an OP-TEE TA to load the firmware
-config: arm64-randconfig-r081-20240118 (https://download.01.org/0day-ci/archive/20240118/202401181522.bvg4EMU4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401181522.bvg4EMU4-lkp@intel.com/reproduce)
+Huacai
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401181522.bvg4EMU4-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   aarch64-linux-ld: drivers/remoteproc/tee_remoteproc.o: in function `tee_rproc_load_fw':
->> tee_remoteproc.c:(.text+0x138): undefined reference to `tee_shm_register_kernel_buf'
->> tee_remoteproc.c:(.text+0x138): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_shm_register_kernel_buf'
->> aarch64-linux-ld: tee_remoteproc.c:(.text+0x18c): undefined reference to `tee_client_invoke_func'
->> tee_remoteproc.c:(.text+0x18c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_client_invoke_func'
->> aarch64-linux-ld: tee_remoteproc.c:(.text+0x1ac): undefined reference to `tee_shm_free'
->> tee_remoteproc.c:(.text+0x1ac): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_shm_free'
-   aarch64-linux-ld: drivers/remoteproc/tee_remoteproc.o: in function `tee_rproc_start':
->> tee_remoteproc.c:(.text+0x240): undefined reference to `tee_client_invoke_func'
-   tee_remoteproc.c:(.text+0x240): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_client_invoke_func'
-   aarch64-linux-ld: drivers/remoteproc/tee_remoteproc.o: in function `rproc_tee_get_rsc_table':
-   tee_remoteproc.c:(.text+0x2dc): undefined reference to `tee_client_invoke_func'
-   tee_remoteproc.c:(.text+0x2dc): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_client_invoke_func'
-   aarch64-linux-ld: drivers/remoteproc/tee_remoteproc.o: in function `tee_rproc_stop':
-   tee_remoteproc.c:(.text+0x408): undefined reference to `tee_client_invoke_func'
-   tee_remoteproc.c:(.text+0x408): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_client_invoke_func'
-   aarch64-linux-ld: drivers/remoteproc/tee_remoteproc.o: in function `tee_rproc_register':
->> tee_remoteproc.c:(.text+0x51c): undefined reference to `tee_client_open_session'
->> tee_remoteproc.c:(.text+0x51c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_client_open_session'
-   aarch64-linux-ld: drivers/remoteproc/tee_remoteproc.o: in function `tee_rproc_unregister':
->> tee_remoteproc.c:(.text+0x624): undefined reference to `tee_client_close_session'
->> tee_remoteproc.c:(.text+0x624): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_client_close_session'
-   aarch64-linux-ld: drivers/remoteproc/tee_remoteproc.o: in function `tee_rproc_probe':
->> tee_remoteproc.c:(.text+0x6b0): undefined reference to `tee_client_open_context'
->> tee_remoteproc.c:(.text+0x6b0): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_client_open_context'
->> aarch64-linux-ld: tee_remoteproc.c:(.text+0x6e0): undefined reference to `tee_client_close_context'
->> tee_remoteproc.c:(.text+0x6e0): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `tee_client_close_context'
-   aarch64-linux-ld: drivers/remoteproc/tee_remoteproc.o: in function `tee_rproc_remove':
-   tee_remoteproc.c:(.text+0x78c): undefined reference to `tee_client_close_session'
-   tee_remoteproc.c:(.text+0x78c): additional relocation overflows omitted from the output
-   aarch64-linux-ld: tee_remoteproc.c:(.text+0x7dc): undefined reference to `tee_client_close_context'
->> aarch64-linux-ld: drivers/remoteproc/tee_remoteproc.o:(.data+0x10): undefined reference to `tee_bus_type'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for TEE_REMOTEPROC
-   Depends on [m]: REMOTEPROC [=y] && OPTEE [=m]
-   Selected by [y]:
-   - STM32_RPROC [=y] && (ARCH_STM32 [=y] || COMPILE_TEST [=y]) && REMOTEPROC [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Wed, Jan 17, 2024 at 10:08=E2=80=AFAM Huacai Chen <chenhuacai@kernel.org=
+> wrote:
+>
+> Hi, Sean,
+>
+> On Wed, Jan 17, 2024 at 2:43=E2=80=AFAM Sean Christopherson <seanjc@googl=
+e.com> wrote:
+> >
+> > +KVM LoongArch maintainers
+> >
+> > On Tue, Jan 16, 2024, Paolo Bonzini wrote:
+> > > On Tue, Jan 16, 2024 at 2:06=E2=80=AFPM kernel test robot <lkp@intel.=
+com> wrote:
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-=
+next.git master
+> > > > head:   8d04a7e2ee3fd6aabb8096b00c64db0d735bc874
+> > > > commit: 8569992d64b8f750e34b7858eac5d7daaf0f80fd [697/13343] KVM: U=
+se gfn instead of hva for mmu_notifier_retry
+> > > > config: loongarch-allmodconfig (https://download.01.org/0day-ci/arc=
+hive/20240116/202401162158.2FqwkuiP-lkp@intel.com/config)
+> > > > compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> > > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci=
+/archive/20240116/202401162158.2FqwkuiP-lkp@intel.com/reproduce)
+> > >
+> > > This was fixed-up when merging the KVM tree, but I missed it because
+> > > it was not mentioned in the loongarch pull request. I'll send a fixup
+> > > as soon as Linus gets back online.
+> >
+> > And I suspect KVM LooongArch isn't being fed into linux-next, e.g. the =
+tree entry
+> > in MAINTAINERS points at your repo.
+> There is already a fix patch at
+> https://lore.kernel.org/loongarch/20231220144024.7d9fd46b@canb.auug.org.a=
+u/T/#t
+>
+> >
+> > Side topic, where can I find a toolchain that can actually build KVM Lo=
+oongArch?
+> > Clang recognizes the arch, but barfs on a variety of things, and I can'=
+t find the
+> > right Debian packages for gcc.
+> Normally we use toolchain from here:
+> https://mirrors.edge.kernel.org/pub/tools/crosstool/
+>
+> Huacai
