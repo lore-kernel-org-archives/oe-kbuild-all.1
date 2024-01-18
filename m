@@ -1,56 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692B62E65A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 20:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE612DF73
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 20:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705609473; cv=none; b=lKXiuaMW8VlhCs43DN3NGDaAyXMYF6YpZjxY8W1ddQXD9wZPfajeeETx4M6xP2neoGymh93Knn3y0pBK3PK3HKJSqXWUDKUMfrnJpTvs7jDgQPjwLZGCKlx0evFchR3ETufz6HKPMHcl6oCkq24hVT0u1F5KGatLzZnUGuIwFZA=
+	t=1705609605; cv=none; b=PbAxxDWNRpIAjBsIj4wXGjqQcx7s1rqGsN/uXf85d78s1hgmpaFDpTVpcZ7m/D3vWn6sI3JqrkPMFRmP+6USDVDqbCsLQ//egZEdqdqDsJKPtClqgL7MZXcg0Fwvnoi+ab1OirFoEyVE2CjaCTqLjrkMXgCaYP9Oi8S7iCylbyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705609473; c=relaxed/simple;
-	bh=G7UVXBe1MHbjrnRyj9WIoO0uJnFTCNpd+P5PqhXIcOY=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OtZSmjEOgPgSJw+9ekEdgqcbJ9BKqKSCWLVtLkJ000hfWDk86DWMV/f2Agu/8wK0jk+BxcGxKjy54DZ3nXb27sThJJ9C0771uSyzlWT8pDUfoWAh73mqdFslql9IfWELFYUalCBv6/sdu7wM1nMJWEau1Cf7X/OI6rHvW0S9e8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h1twm1nb; arc=none smtp.client-ip=192.55.52.115
+	s=arc-20240116; t=1705609605; c=relaxed/simple;
+	bh=j5iHafqTBpMTcjoJG75vfFQfzhST5xzpGkHTn92hwQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m+XReAA/pg0K4UOFMaliKPIaqcgoSjgWvenTqiGUE0jowmgU8kAZ7IfbGLyxEEJoKAn5lTBsv+92M8QzgiM6AibHYy3Czjs7KKJTXNICIIFlM4yxlC92MnP/iydo+Y4QFoiJ9ynJoZgQXUsCfbXtXmcvKsfey438Kix57JjyG8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O/KqVpoy; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h1twm1nb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O/KqVpoy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705609471; x=1737145471;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=G7UVXBe1MHbjrnRyj9WIoO0uJnFTCNpd+P5PqhXIcOY=;
-  b=h1twm1nbzg2QBr5MSJi/BNhuDmyy39hYF/FBBqrusiMEy+S+5J2kX+3i
-   eaihWAB11DUUBuEZ9BJbB82enCwdI6ts3UVMre+OVXJDnRFfLDB93U8MB
-   Zt3f17vyYd8p/6mZzYF8SmoaCT6+TTp+5yPfZF3c+hq5Xl4v0ua1XigZP
-   ZKd497gswXVpSR5TrAadakgtk8vQHD6HpFLN3AoAWN8GPSwt2TBBo11U4
-   a3re47N1eI72b/XkoK7GHWylmgyZs10Sn842jH1AnEeh1RbPy5YO9fkC3
-   BzvDfSe5bhQsnNT1N46donCylzh3BU5wvwJ7Ox9k7QLnnlMrwxS6+eFTC
+  t=1705609603; x=1737145603;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=j5iHafqTBpMTcjoJG75vfFQfzhST5xzpGkHTn92hwQk=;
+  b=O/KqVpoynj460eHAA5gvZpnBl53920sGr8Z9+Pfx57qlKnqyEj34TTR3
+   wZ4jqFMw7JKMMOrRVJQgVu/4tGP+/uCZdm8o2g8Wn7hEI2opXDZdd7iAS
+   g9W5qM+L55CiU3DmUwvT7S8rlI/ubGfhIiCPAaGMQ0eJqBxd/8bR6dBtR
+   FJFh4sRwwT+a+eZYyZP3tkcvZs2FuaG5Nl854DyZfBHurV/LeumDyQ44Z
+   AmD/7npsHahrBHg/olBXthj6D2OeIpr595LKana2WPVTa+rkBC8fsMMx9
+   xGn4K3ph3D5EpfIHxT8ZAx8wMBNEEN8mitSzW/EiL3Qc+MEyp0y5UJHf2
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="400227905"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7968856"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="400227905"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 12:24:30 -0800
+   d="scan'208";a="7968856"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 12:24:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="855118067"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="818873100"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="855118067"
+   d="scan'208";a="818873100"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Jan 2024 12:24:30 -0800
+  by orsmga001.jf.intel.com with ESMTP; 18 Jan 2024 12:24:30 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQYw7-0003J0-2W
-	for oe-kbuild-all@lists.linux.dev;
+	id 1rQYw7-0003Iy-2R;
 	Thu, 18 Jan 2024 20:24:27 +0000
 Date: Fri, 19 Jan 2024 04:24:24 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jsarha:topic/cros-sof-v4.19 1074/6555]
- drivers/gpu/drm/drm_syncobj.c:134:6: sparse: sparse: symbol
- 'drm_syncobj_remove_callback' was not declared. Should it be static?
-Message-ID: <202401190442.Sv07zLbc-lkp@intel.com>
+To: Rakie Kim <rakie.kim@sk.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Honggyu Kim <honggyu.kim@sk.com>,
+	Gregory Price <gregory.price@memverge.com>,
+	Hyeongtak Ji <hyeongtak.ji@sk.com>
+Subject: [akpm-mm:mm-unstable 77/88] mm/mempolicy.c:3141:17: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202401190453.R3kE0fNX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,44 +64,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
-head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
-commit: 8e82fa1ed837aefa829a82894a950e7abc393536 [1074/6555] UPSTREAM: drm/syncobj: Drop add/remove_callback from driver interface
-config: i386-randconfig-061-20240118 (https://download.01.org/0day-ci/archive/20240119/202401190442.Sv07zLbc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190442.Sv07zLbc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   d7ba3d7c3bf13e2faf419cce9e9bdfc3a1a50905
+commit: 87bb2dbb869cbd1a0aa8cfd43d7f96882c9924a0 [77/88] mm/mempolicy: implement the sysfs-based weighted_interleave interface
+config: s390-randconfig-r132-20240118 (https://download.01.org/0day-ci/archive/20240119/202401190453.R3kE0fNX-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240119/202401190453.R3kE0fNX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401190442.Sv07zLbc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401190453.R3kE0fNX-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_syncobj.c:134:6: sparse: sparse: symbol 'drm_syncobj_remove_callback' was not declared. Should it be static?
-   drivers/gpu/drm/drm_syncobj.c:125:6: warning: no previous prototype for 'drm_syncobj_add_callback' [-Wmissing-prototypes]
-     125 | void drm_syncobj_add_callback(struct drm_syncobj *syncobj,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:134:6: warning: no previous prototype for 'drm_syncobj_remove_callback' [-Wmissing-prototypes]
-     134 | void drm_syncobj_remove_callback(struct drm_syncobj *syncobj,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/mempolicy.c:3111:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct iw_table [noderef] __rcu *table @@     got struct iw_table * @@
+   mm/mempolicy.c:3111:15: sparse:     expected struct iw_table [noderef] __rcu *table
+   mm/mempolicy.c:3111:15: sparse:     got struct iw_table *
+   mm/mempolicy.c:3132:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct iw_table [noderef] __rcu *new @@     got void * @@
+   mm/mempolicy.c:3132:13: sparse:     expected struct iw_table [noderef] __rcu *new
+   mm/mempolicy.c:3132:13: sparse:     got void *
+   mm/mempolicy.c:3137:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct iw_table [noderef] __rcu *old @@     got struct iw_table * @@
+   mm/mempolicy.c:3137:13: sparse:     expected struct iw_table [noderef] __rcu *old
+   mm/mempolicy.c:3137:13: sparse:     got struct iw_table *
+>> mm/mempolicy.c:3141:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dest @@     got unsigned char [noderef] [usertype] __rcu ( * )[2] @@
+   mm/mempolicy.c:3141:17: sparse:     expected void *dest
+   mm/mempolicy.c:3141:17: sparse:     got unsigned char [noderef] [usertype] __rcu ( * )[2]
+>> mm/mempolicy.c:3141:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *src @@     got unsigned char [noderef] [usertype] __rcu ( * )[2] @@
+   mm/mempolicy.c:3141:32: sparse:     expected void const *src
+   mm/mempolicy.c:3141:32: sparse:     got unsigned char [noderef] [usertype] __rcu ( * )[2]
+   mm/mempolicy.c:3145:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
+   mm/mempolicy.c:3145:9: sparse:     expected struct callback_head *head
+   mm/mempolicy.c:3145:9: sparse:     got struct callback_head [noderef] __rcu *
+   mm/mempolicy.c:3145:9: sparse: sparse: cast removes address space '__rcu' of expression
+   mm/mempolicy.c:3239:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/mempolicy.c:3239:22: sparse:    struct iw_table [noderef] __rcu *
+   mm/mempolicy.c:3239:22: sparse:    struct iw_table *
+   mm/mempolicy.c:3260:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct iw_table [noderef] __rcu *static [addressable] [assigned] [toplevel] iw_table @@     got struct iw_table * @@
+   mm/mempolicy.c:3262:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct iw_table [noderef] __rcu *table @@     got void * @@
+   mm/mempolicy.c:3266:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dest @@     got unsigned char [noderef] [usertype] __rcu ( * )[2] @@
+   mm/mempolicy.c:3271:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct iw_table [noderef] __rcu *table @@
+   mm/mempolicy.c:3278:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct iw_table [noderef] __rcu *table @@
+   mm/mempolicy.c:535:17: sparse: sparse: context imbalance in 'queue_folios_pte_range' - unexpected unlock
+   mm/mempolicy.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   mm/mempolicy.c:3112:32: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:3142:21: sparse: sparse: dereference of noderef expression
 
-vim +/drm_syncobj_remove_callback +134 drivers/gpu/drm/drm_syncobj.c
+vim +3141 mm/mempolicy.c
 
-9c19fb10a5893d Jason Ekstrand 2017-08-28  133  
-9c19fb10a5893d Jason Ekstrand 2017-08-28 @134  void drm_syncobj_remove_callback(struct drm_syncobj *syncobj,
-9c19fb10a5893d Jason Ekstrand 2017-08-28  135  				 struct drm_syncobj_cb *cb)
-9c19fb10a5893d Jason Ekstrand 2017-08-28  136  {
-9c19fb10a5893d Jason Ekstrand 2017-08-28  137  	spin_lock(&syncobj->lock);
-9c19fb10a5893d Jason Ekstrand 2017-08-28  138  	list_del_init(&cb->node);
-9c19fb10a5893d Jason Ekstrand 2017-08-28  139  	spin_unlock(&syncobj->lock);
-9c19fb10a5893d Jason Ekstrand 2017-08-28  140  }
-9c19fb10a5893d Jason Ekstrand 2017-08-28  141  
-
-:::::: The code at line 134 was first introduced by commit
-:::::: 9c19fb10a5893d6501df4d0fb93d954d5fc1d91b drm/syncobj: Add a callback mechanism for replace_fence (v3)
-
-:::::: TO: Jason Ekstrand <jason@jlekstrand.net>
-:::::: CC: Dave Airlie <airlied@redhat.com>
+  3117	
+  3118	static ssize_t node_store(struct kobject *kobj, struct kobj_attribute *attr,
+  3119				  const char *buf, size_t count)
+  3120	{
+  3121		struct iw_node_attr *node_attr;
+  3122		struct iw_table __rcu *new;
+  3123		struct iw_table __rcu *old;
+  3124		u8 weight = 0;
+  3125	
+  3126		node_attr = container_of(attr, struct iw_node_attr, kobj_attr);
+  3127		if (count == 0 || sysfs_streq(buf, ""))
+  3128			weight = 0;
+  3129		else if (kstrtou8(buf, 0, &weight))
+  3130			return -EINVAL;
+  3131	
+  3132		new = kmalloc(sizeof(*new), GFP_KERNEL);
+  3133		if (!new)
+  3134			return -ENOMEM;
+  3135	
+  3136		mutex_lock(&iw_table_mtx);
+  3137		old = rcu_dereference_protected(iw_table,
+  3138						lockdep_is_held(&iw_table_mtx));
+  3139		/* If value is 0, revert to default weight */
+  3140		weight = weight ? weight : default_iw_table.weights[node_attr->nid];
+> 3141		memcpy(&new->weights, &old->weights, sizeof(new->weights));
+  3142		new->weights[node_attr->nid] = weight;
+  3143		rcu_assign_pointer(iw_table, new);
+  3144		mutex_unlock(&iw_table_mtx);
+  3145		kfree_rcu(old, rcu);
+  3146		return count;
+  3147	}
+  3148	
 
 -- 
 0-DAY CI Kernel Test Service
