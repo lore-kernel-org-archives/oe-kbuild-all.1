@@ -1,56 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F491E486
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 22:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA6631A94
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 22:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705616378; cv=none; b=CjTFdmvkgTxkgdhJONXJcINzB2KZ2/4rk0GYW8calCG+TnT3r5h/gAAqL+nmQ/q1cm94fSVPKrUFzWudllcgS2tEgSVIPWof+OP3Wvqo0mEzb0XAFwOpWoIozs5XHsyECnBV0F4u8bFUOXyTxzojbC81QVUdeFL30MDJ2eFuHaU=
+	t=1705616383; cv=none; b=MWDmEwdDOg9CxuJlmQj1jil6TBKSVRa4P9WSrmF4kfV14Ek53VNWMPNeuSa3VDCMwe66YtMIuaNN7DrMC2aFLXvpVoV7EUSguggmQAxht7CeSuWg/i46ltNQC0vEy+M/5V6ZGvREkfJrkQdyIfWawJjGCVmZgIq5vdXErDtitGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705616378; c=relaxed/simple;
-	bh=6emG1MjuhSCKJVf+ksRJZ6H3KRvSNxPWDiHQBMc/jvU=;
+	s=arc-20240116; t=1705616383; c=relaxed/simple;
+	bh=L0wo69bwUuKqWDOhJ7O+bOQ/3OKR1AzFmWwGR001hlo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OkaBgXilcopy6AYZk3XVBK5IDDfSt1XuQrgNe+FBdCsyKFr7dicQzvlofGjdfI5zZt9kQDDmwdfDRdffqEdQSI2mYrF5Gtq6w+LyqT6qbIshQHOdJLPikO9ZvaU7oGVOy01M6RqEgljFS2ONjT1JmtAs22Huq0yBLsVlE2xlcj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CGObgzXB; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=jhsMtFk6bko/zYQIn+bwW92k+BZmGkVdau6gHnUz18i60pXmrJKRNxXGEwYKQBeMKLOqug5MrcC9AIdBwDECV7J65Rco/iHeKzswrJmNvfx6+YWkc8towXgrM1KS0xR2EuQfxDAcDjqZ4S0ofsvtWxemvJCp1ShCvvnGzvjv20E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f7OMv8/Q; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CGObgzXB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f7OMv8/Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705616376; x=1737152376;
+  t=1705616378; x=1737152378;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6emG1MjuhSCKJVf+ksRJZ6H3KRvSNxPWDiHQBMc/jvU=;
-  b=CGObgzXBP6WF3GvBXlX1lqteAVrDd/jyMOn0kEcCeQdXXcsUcyalCgeg
-   W9m/QMOCLRb3lxUGysYibhtJ8XNqTtXLhkOB4y0/7EwYrqL9DQ8HVDvCt
-   M0HzLlcPGNx0pams8TsykCZyUcZ67rnFbAr4ZbnwwXmWUlLoDT1XNKckL
-   coSuZW1vlcqPgx56XCQqc8SZE5twp59c0sC2wI7hpNr3ll4YSrdoO0ct7
-   Tv7HYB4Bv01jUatw0AprDiHFtMbkOoi7ssfwltdMf7ILSZ4/GwZkJQQcB
-   tdTpY9WmcqBJhODjB8bfbH57V+wKUSh5prssU18Jhetqe4s8FxhEMY8k3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7992366"
+  bh=L0wo69bwUuKqWDOhJ7O+bOQ/3OKR1AzFmWwGR001hlo=;
+  b=f7OMv8/QRooa6VQqe+4HnYKvvyw8jCCnCccEmmh8mzh8HHbEyEbqjy3M
+   KfjAqhjMZqUU7TKrMGi4ZdH0/0EQvJAkByA1ajZnJ8kO+K3e0sfSsKcKW
+   UgXxmP+7bg/VnURFbGx+S6ImNXlWw+1Ts844Vu2A8ZWHeJt7Mugj4VXpl
+   IZ+aksg1ccfKBYsavNthrsA180033FumJRZVkCG/frD2peuB7gBhzONk/
+   viw3EUsYTjWk/tQajl4U7+gmU3QxNF/3y0fKFs4Wx8ozC3nOd75MGzoW/
+   kBfa3OgvSATm5jyXqgoDg2RGHw9tB2cLPqw28HFKzpvAP875LFEtipnXn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7992365"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="7992366"
+   d="scan'208";a="7992365"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 14:19:36 -0800
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 14:19:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="875204465"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="875204464"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="875204465"
+   d="scan'208";a="875204464"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2024 14:19:34 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQajU-0003Ne-29;
+	id 1rQajU-0003Nc-25;
 	Thu, 18 Jan 2024 22:19:32 +0000
-Date: Fri, 19 Jan 2024 06:18:55 +0800
+Date: Fri, 19 Jan 2024 06:18:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Vesa <abel.vesa@linaro.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
- 15603/15673] drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter
- or struct member 'masters' not described in 'spmi_pmic_arb'
-Message-ID: <202401190604.s9WsqorW-lkp@intel.com>
+Subject: [android-common:android14-5.15 32/33]
+ drivers/android/binder_alloc.c:883:25: sparse: sparse: Using plain integer
+ as NULL pointer
+Message-ID: <202401190625.6EvaSCpr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,94 +60,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
-head:   5cac1bb64a0300d340c5e369489c731b30aa5e79
-commit: e21b73fba00f3539873c978ceaa948061687684f [15603/15673] spmi: pmic-arb: Add support for multi-master
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240119/202401190604.s9WsqorW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190604.s9WsqorW-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   d85e6cb67922e2ae0926f07dfcf79a975ef890ad
+commit: 63f7ddea2e483bd4e475d03590c877d7d1837a71 [32/33] ANDROID: binder: fix KMI-break due to address type change
+config: i386-randconfig-062-20240118 (https://download.01.org/0day-ci/archive/20240119/202401190625.6EvaSCpr-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190625.6EvaSCpr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401190604.s9WsqorW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401190625.6EvaSCpr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/android/binder_alloc.c:883:25: sparse: sparse: Using plain integer as NULL pointer
 
-   drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'core' not described in 'spmi_pmic_arb'
-   drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'core_size' not described in 'spmi_pmic_arb'
-   drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'mapping_table_valid' not described in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'masters' not described in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'masters_count' not described in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'intr' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'cnfg' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'irq' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'min_apid' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'max_apid' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'base_apid' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'apid_count' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'domain' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'ppid_to_apid' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'last_apid' description in 'spmi_pmic_arb'
->> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'apid_data' description in 'spmi_pmic_arb'
-   drivers/spmi/spmi-pmic-arb.c:254: warning: Function parameter or struct member 'pmic_arb' not described in 'pmic_arb_read_data'
-   drivers/spmi/spmi-pmic-arb.c:268: warning: Function parameter or struct member 'pmic_arb' not described in 'pmic_arb_write_data'
+vim +883 drivers/android/binder_alloc.c
 
+0c972a05cde66e Todd Kjos     2017-06-29  808  
+0c972a05cde66e Todd Kjos     2017-06-29  809  /**
+0c972a05cde66e Todd Kjos     2017-06-29  810   * binder_alloc_mmap_handler() - map virtual address space for proc
+0c972a05cde66e Todd Kjos     2017-06-29  811   * @alloc:	alloc structure for this proc
+0c972a05cde66e Todd Kjos     2017-06-29  812   * @vma:	vma passed to mmap()
+0c972a05cde66e Todd Kjos     2017-06-29  813   *
+0c972a05cde66e Todd Kjos     2017-06-29  814   * Called by binder_mmap() to initialize the space specified in
+0c972a05cde66e Todd Kjos     2017-06-29  815   * vma for allocating binder buffers
+0c972a05cde66e Todd Kjos     2017-06-29  816   *
+0c972a05cde66e Todd Kjos     2017-06-29  817   * Return:
+0c972a05cde66e Todd Kjos     2017-06-29  818   *      0 = success
+0c972a05cde66e Todd Kjos     2017-06-29  819   *      -EBUSY = address space already mapped
+0c972a05cde66e Todd Kjos     2017-06-29  820   *      -ENOMEM = failed to map memory to given address space
+0c972a05cde66e Todd Kjos     2017-06-29  821   */
+0c972a05cde66e Todd Kjos     2017-06-29  822  int binder_alloc_mmap_handler(struct binder_alloc *alloc,
+0c972a05cde66e Todd Kjos     2017-06-29  823  			      struct vm_area_struct *vma)
+0c972a05cde66e Todd Kjos     2017-06-29  824  {
+0c972a05cde66e Todd Kjos     2017-06-29  825  	struct binder_buffer *buffer;
+af711934126ebb Carlos Llamas 2023-12-01  826  	const char *failure_string;
+af711934126ebb Carlos Llamas 2023-12-01  827  	int ret, i;
+0c972a05cde66e Todd Kjos     2017-06-29  828  
+d276fb4a7eb8be Carlos Llamas 2022-11-04  829  	if (unlikely(vma->vm_mm != alloc->vma_vm_mm)) {
+d276fb4a7eb8be Carlos Llamas 2022-11-04  830  		ret = -EINVAL;
+d276fb4a7eb8be Carlos Llamas 2022-11-04  831  		failure_string = "invalid vma->vm_mm";
+d276fb4a7eb8be Carlos Llamas 2022-11-04  832  		goto err_invalid_mm;
+d276fb4a7eb8be Carlos Llamas 2022-11-04  833  	}
+d276fb4a7eb8be Carlos Llamas 2022-11-04  834  
+0c972a05cde66e Todd Kjos     2017-06-29  835  	mutex_lock(&binder_alloc_mmap_lock);
+a7a74d7ff55a0c Jann Horn     2019-10-18  836  	if (alloc->buffer_size) {
+0c972a05cde66e Todd Kjos     2017-06-29  837  		ret = -EBUSY;
+0c972a05cde66e Todd Kjos     2017-06-29  838  		failure_string = "already mapped";
+0c972a05cde66e Todd Kjos     2017-06-29  839  		goto err_already_mapped;
+0c972a05cde66e Todd Kjos     2017-06-29  840  	}
+a7a74d7ff55a0c Jann Horn     2019-10-18  841  	alloc->buffer_size = min_t(unsigned long, vma->vm_end - vma->vm_start,
+a7a74d7ff55a0c Jann Horn     2019-10-18  842  				   SZ_4M);
+a7a74d7ff55a0c Jann Horn     2019-10-18  843  	mutex_unlock(&binder_alloc_mmap_lock);
+0c972a05cde66e Todd Kjos     2017-06-29  844  
+63f7ddea2e483b Carlos Llamas 2023-12-05  845  	alloc->buffer = (void __user *)vma->vm_start;
+0c972a05cde66e Todd Kjos     2017-06-29  846  
+45d02f79b53907 Jann Horn     2019-10-16  847  	alloc->pages = kcalloc(alloc->buffer_size / PAGE_SIZE,
+6396bb221514d2 Kees Cook     2018-06-12  848  			       sizeof(alloc->pages[0]),
+0c972a05cde66e Todd Kjos     2017-06-29  849  			       GFP_KERNEL);
+0c972a05cde66e Todd Kjos     2017-06-29  850  	if (alloc->pages == NULL) {
+0c972a05cde66e Todd Kjos     2017-06-29  851  		ret = -ENOMEM;
+0c972a05cde66e Todd Kjos     2017-06-29  852  		failure_string = "alloc page array";
+0c972a05cde66e Todd Kjos     2017-06-29  853  		goto err_alloc_pages_failed;
+0c972a05cde66e Todd Kjos     2017-06-29  854  	}
+0c972a05cde66e Todd Kjos     2017-06-29  855  
+af711934126ebb Carlos Llamas 2023-12-01  856  	for (i = 0; i < alloc->buffer_size / PAGE_SIZE; i++) {
+af711934126ebb Carlos Llamas 2023-12-01  857  		alloc->pages[i].alloc = alloc;
+af711934126ebb Carlos Llamas 2023-12-01  858  		INIT_LIST_HEAD(&alloc->pages[i].lru);
+af711934126ebb Carlos Llamas 2023-12-01  859  	}
+af711934126ebb Carlos Llamas 2023-12-01  860  
+74310e06be4d74 Sherry Yang   2017-08-23  861  	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+74310e06be4d74 Sherry Yang   2017-08-23  862  	if (!buffer) {
+0c972a05cde66e Todd Kjos     2017-06-29  863  		ret = -ENOMEM;
+74310e06be4d74 Sherry Yang   2017-08-23  864  		failure_string = "alloc buffer struct";
+74310e06be4d74 Sherry Yang   2017-08-23  865  		goto err_alloc_buf_struct_failed;
+0c972a05cde66e Todd Kjos     2017-06-29  866  	}
+74310e06be4d74 Sherry Yang   2017-08-23  867  
+bde4a19fc04f5f Todd Kjos     2019-02-08  868  	buffer->user_data = alloc->buffer;
+0c972a05cde66e Todd Kjos     2017-06-29  869  	list_add(&buffer->entry, &alloc->buffers);
+0c972a05cde66e Todd Kjos     2017-06-29  870  	buffer->free = 1;
+0c972a05cde66e Todd Kjos     2017-06-29  871  	binder_insert_free_buffer(alloc, buffer);
+0c972a05cde66e Todd Kjos     2017-06-29  872  	alloc->free_async_space = alloc->buffer_size / 2;
+b094b047791717 Carlos Llamas 2023-05-30  873  
+b094b047791717 Carlos Llamas 2023-05-30  874  	/* Signal binder_alloc is fully initialized */
+da1b9564e85b1d Minchan Kim   2018-08-23  875  	binder_alloc_set_vma(alloc, vma);
+0c972a05cde66e Todd Kjos     2017-06-29  876  
+0c972a05cde66e Todd Kjos     2017-06-29  877  	return 0;
+0c972a05cde66e Todd Kjos     2017-06-29  878  
+74310e06be4d74 Sherry Yang   2017-08-23  879  err_alloc_buf_struct_failed:
+0c972a05cde66e Todd Kjos     2017-06-29  880  	kfree(alloc->pages);
+0c972a05cde66e Todd Kjos     2017-06-29  881  	alloc->pages = NULL;
+0c972a05cde66e Todd Kjos     2017-06-29  882  err_alloc_pages_failed:
+c38a89805ff5b8 Carlos Llamas 2023-12-01 @883  	alloc->buffer = 0;
+a7a74d7ff55a0c Jann Horn     2019-10-18  884  	mutex_lock(&binder_alloc_mmap_lock);
+a7a74d7ff55a0c Jann Horn     2019-10-18  885  	alloc->buffer_size = 0;
+0c972a05cde66e Todd Kjos     2017-06-29  886  err_already_mapped:
+0c972a05cde66e Todd Kjos     2017-06-29  887  	mutex_unlock(&binder_alloc_mmap_lock);
+d276fb4a7eb8be Carlos Llamas 2022-11-04  888  err_invalid_mm:
+128f3804103500 Sherry Yang   2018-08-07  889  	binder_alloc_debug(BINDER_DEBUG_USER_ERROR,
+128f3804103500 Sherry Yang   2018-08-07  890  			   "%s: %d %lx-%lx %s failed %d\n", __func__,
+128f3804103500 Sherry Yang   2018-08-07  891  			   alloc->pid, vma->vm_start, vma->vm_end,
+128f3804103500 Sherry Yang   2018-08-07  892  			   failure_string, ret);
+0c972a05cde66e Todd Kjos     2017-06-29  893  	return ret;
+0c972a05cde66e Todd Kjos     2017-06-29  894  }
+0c972a05cde66e Todd Kjos     2017-06-29  895  
 
-vim +193 drivers/spmi/spmi-pmic-arb.c
+:::::: The code at line 883 was first introduced by commit
+:::::: c38a89805ff5b8e40d61d1f581c2b784ab04df87 FROMGIT: binder: keep vma addresses type as unsigned long
 
-e21b73fba00f35 Abel Vesa              2024-01-08  149  
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  150  /**
-80c606a842e6b6 Randy Dunlap           2023-04-13  151   * struct spmi_pmic_arb - SPMI PMIC Arbiter object
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  152   *
-d0c6ae41d12ad7 Gilad Avidov           2015-03-25  153   * @rd_base:		on v1 "core", on v2 "observer" register base off DT.
-d0c6ae41d12ad7 Gilad Avidov           2015-03-25  154   * @wr_base:		on v1 "core", on v2 "chnls"    register base off DT.
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  155   * @intr:		address of the SPMI interrupt control registers.
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  156   * @cnfg:		address of the PMIC Arbiter configuration registers.
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  157   * @lock:		lock to synchronize accesses.
-d0c6ae41d12ad7 Gilad Avidov           2015-03-25  158   * @channel:		execution environment channel to use for accesses.
-67b563f1f25873 Josh Cartwright        2014-02-12  159   * @irq:		PMIC ARB interrupt.
-67b563f1f25873 Josh Cartwright        2014-02-12  160   * @ee:			the current Execution Environment
-231601cd22bd60 David Collins          2022-11-10  161   * @bus_instance:	on v7: 0 = primary SPMI bus, 1 = secondary SPMI bus
-67b563f1f25873 Josh Cartwright        2014-02-12  162   * @min_apid:		minimum APID (used for bounding IRQ search)
-67b563f1f25873 Josh Cartwright        2014-02-12  163   * @max_apid:		maximum APID
-231601cd22bd60 David Collins          2022-11-10  164   * @base_apid:		on v7: minimum APID associated with the particular SPMI
-231601cd22bd60 David Collins          2022-11-10  165   *			bus instance
-231601cd22bd60 David Collins          2022-11-10  166   * @apid_count:		on v5 and v7: number of APIDs associated with the
-231601cd22bd60 David Collins          2022-11-10  167   *			particular SPMI bus instance
-67b563f1f25873 Josh Cartwright        2014-02-12  168   * @mapping_table:	in-memory copy of PPID -> APID mapping table.
-67b563f1f25873 Josh Cartwright        2014-02-12  169   * @domain:		irq domain object for PMIC IRQ domain
-67b563f1f25873 Josh Cartwright        2014-02-12  170   * @spmic:		SPMI controller object
-d0c6ae41d12ad7 Gilad Avidov           2015-03-25  171   * @ver_ops:		version dependent operations.
-231601cd22bd60 David Collins          2022-11-10  172   * @ppid_to_apid:	in-memory copy of PPID -> APID mapping table.
-231601cd22bd60 David Collins          2022-11-10  173   * @last_apid:		Highest value APID in use
-231601cd22bd60 David Collins          2022-11-10  174   * @apid_data:		Table of data for all APIDs
-231601cd22bd60 David Collins          2022-11-10  175   * @max_periphs:	Number of elements in apid_data[]
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  176   */
-111a10bf3e53ae Abhijeet Dharmapurikar 2017-05-10  177  struct spmi_pmic_arb {
-d0c6ae41d12ad7 Gilad Avidov           2015-03-25  178  	void __iomem		*rd_base;
-d0c6ae41d12ad7 Gilad Avidov           2015-03-25  179  	void __iomem		*wr_base;
-987a9f128b8ad8 Stephen Boyd           2015-11-17  180  	void __iomem		*core;
-987a9f128b8ad8 Stephen Boyd           2015-11-17  181  	resource_size_t		core_size;
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  182  	raw_spinlock_t		lock;
-39ae93e3a31d0c Kenneth Heitke         2014-02-12  183  	u8			channel;
-67b563f1f25873 Josh Cartwright        2014-02-12  184  	u8			ee;
-231601cd22bd60 David Collins          2022-11-10  185  	u32			bus_instance;
-987a9f128b8ad8 Stephen Boyd           2015-11-17  186  	u32			*mapping_table;
-987a9f128b8ad8 Stephen Boyd           2015-11-17  187  	DECLARE_BITMAP(mapping_table_valid, PMIC_ARB_MAX_PERIPHS);
-67b563f1f25873 Josh Cartwright        2014-02-12  188  	struct spmi_controller	*spmic;
-d0c6ae41d12ad7 Gilad Avidov           2015-03-25  189  	const struct pmic_arb_ver_ops *ver_ops;
-231601cd22bd60 David Collins          2022-11-10  190  	int			max_periphs;
-e21b73fba00f35 Abel Vesa              2024-01-08  191  	struct spmi_pmic_master *masters;
-e21b73fba00f35 Abel Vesa              2024-01-08  192  	int			masters_count;
-d0c6ae41d12ad7 Gilad Avidov           2015-03-25 @193  };
-d0c6ae41d12ad7 Gilad Avidov           2015-03-25  194  
-
-:::::: The code at line 193 was first introduced by commit
-:::::: d0c6ae41d12ad7b2ba271f279936327320b6671c spmi: pmic_arb: add support for hw version 2
-
-:::::: TO: Gilad Avidov <gavidov@codeaurora.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Carlos Llamas <cmllamas@google.com>
+:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
