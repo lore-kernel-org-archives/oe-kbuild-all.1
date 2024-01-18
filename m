@@ -1,208 +1,154 @@
-Received: from smtp-fw-9102.amazon.com (smtp-fw-9102.amazon.com [207.171.184.29])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C282E84E;
-	Thu, 18 Jan 2024 21:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.184.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F491E486
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 22:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705611926; cv=none; b=Cps34a9HZpgOTC1l19kYGv6YXWP9Dw13hXlKh5n4h9fpAyMXydaE9dBZ8gSnsMrh9YZOam7RM8mjSqjMbNGKu2R05rZTY6T+NR7zOyShHzkOfopeU7V2qmXj1WAI+cHvcA9XaBGuxkzzcuczAsSLnl2xxs5hptSlfvuKkJgY9Nw=
+	t=1705616378; cv=none; b=CjTFdmvkgTxkgdhJONXJcINzB2KZ2/4rk0GYW8calCG+TnT3r5h/gAAqL+nmQ/q1cm94fSVPKrUFzWudllcgS2tEgSVIPWof+OP3Wvqo0mEzb0XAFwOpWoIozs5XHsyECnBV0F4u8bFUOXyTxzojbC81QVUdeFL30MDJ2eFuHaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705611926; c=relaxed/simple;
-	bh=tFJRUiA0tVwkYi1FQlr+WSepoEJuUieDS8eB+sRlVGU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DacrZYxX3aGOnCThYk6Kb3DX6uF0g3ZcvFwBDn19wgpMi96YTiHmfPuULr3GhCSyTGpGwZ7Y61bBGTKgaLfEibMNYO/FXFC4wAzsr0338h+bEJvcmFT7b6s0S+hr+t6SpKHcxnw6aqYFbtWrpXLXtP0FulHCLiCkRZ272B1Q+5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=qD18p5SP; arc=none smtp.client-ip=207.171.184.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+	s=arc-20240116; t=1705616378; c=relaxed/simple;
+	bh=6emG1MjuhSCKJVf+ksRJZ6H3KRvSNxPWDiHQBMc/jvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OkaBgXilcopy6AYZk3XVBK5IDDfSt1XuQrgNe+FBdCsyKFr7dicQzvlofGjdfI5zZt9kQDDmwdfDRdffqEdQSI2mYrF5Gtq6w+LyqT6qbIshQHOdJLPikO9ZvaU7oGVOy01M6RqEgljFS2ONjT1JmtAs22Huq0yBLsVlE2xlcj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CGObgzXB; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="qD18p5SP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1705611922; x=1737147922;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=68pe+VlC5ubDZY200aT+GsMbLsq2yC21PqJftalEdPo=;
-  b=qD18p5SPFtHcGr96vizaYPsfNrc/o2kOq+0NrSDYkglVAm1MRYUtzF4L
-   yqkRye/Oi2gATN2mMgZ2BuNOyVekj61FUF1Is30na5OxA5a49tB2s07oj
-   KS5D0gcLtSdx6M7iVmGgMHpy+DzKtDjO5vIdjTUvZYLpU4yi/FAX1yFA8
-   w=;
-X-IronPort-AV: E=Sophos;i="6.05,203,1701129600"; 
-   d="scan'208";a="390809184"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-pdx-2a-m6i4x-af372327.us-west-2.amazon.com) ([10.25.36.214])
-  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 21:05:16 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
-	by email-inbound-relay-pdx-2a-m6i4x-af372327.us-west-2.amazon.com (Postfix) with ESMTPS id 75DAF60AAB;
-	Thu, 18 Jan 2024 21:05:15 +0000 (UTC)
-Received: from EX19MTAUWA002.ant.amazon.com [10.0.21.151:17241]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.24.5:2525] with esmtp (Farcaster)
- id 5426b456-b98b-4e60-b287-dce80d6cd5b9; Thu, 18 Jan 2024 21:05:15 +0000 (UTC)
-X-Farcaster-Flow-ID: 5426b456-b98b-4e60-b287-dce80d6cd5b9
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 18 Jan 2024 21:05:14 +0000
-Received: from 88665a182662.ant.amazon.com (10.88.183.204) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 18 Jan 2024 21:05:12 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <martin.lau@linux.dev>
-CC: <kuniyu@amazon.com>, <lkp@intel.com>, <llvm@lists.linux.dev>,
-	<martin.lau@kernel.org>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [bpf-next:master 32/36] net/core/filter.c:11842:13: warning: declaration of 'struct bpf_tcp_req_attrs' will not be visible outside of this function
-Date: Thu, 18 Jan 2024 13:05:03 -0800
-Message-ID: <20240118210503.24167-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <036fb42d-a104-4f4e-a66d-1bc1fe17835e@linux.dev>
-References: <036fb42d-a104-4f4e-a66d-1bc1fe17835e@linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CGObgzXB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705616376; x=1737152376;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6emG1MjuhSCKJVf+ksRJZ6H3KRvSNxPWDiHQBMc/jvU=;
+  b=CGObgzXBP6WF3GvBXlX1lqteAVrDd/jyMOn0kEcCeQdXXcsUcyalCgeg
+   W9m/QMOCLRb3lxUGysYibhtJ8XNqTtXLhkOB4y0/7EwYrqL9DQ8HVDvCt
+   M0HzLlcPGNx0pams8TsykCZyUcZ67rnFbAr4ZbnwwXmWUlLoDT1XNKckL
+   coSuZW1vlcqPgx56XCQqc8SZE5twp59c0sC2wI7hpNr3ll4YSrdoO0ct7
+   Tv7HYB4Bv01jUatw0AprDiHFtMbkOoi7ssfwltdMf7ILSZ4/GwZkJQQcB
+   tdTpY9WmcqBJhODjB8bfbH57V+wKUSh5prssU18Jhetqe4s8FxhEMY8k3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7992366"
+X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
+   d="scan'208";a="7992366"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 14:19:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="875204465"
+X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
+   d="scan'208";a="875204465"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2024 14:19:34 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rQajU-0003Ne-29;
+	Thu, 18 Jan 2024 22:19:32 +0000
+Date: Fri, 19 Jan 2024 06:18:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
+ 15603/15673] drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter
+ or struct member 'masters' not described in 'spmi_pmic_arb'
+Message-ID: <202401190604.s9WsqorW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D033UWC001.ant.amazon.com (10.13.139.218) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Martin KaFai Lau <martin.lau@linux.dev>
-Date: Thu, 18 Jan 2024 12:43:14 -0800
-> On 1/17/24 12:10 PM, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> > head:   be7c19de9ecf4d93a9908003a1a3b8f1e8f8a672
-> > commit: b9c3eca5c086eb65f20ad92fe3aa3d556f23103b [32/36] bpf: tcp: Support arbitrary SYN Cookie.
-> > config: i386-randconfig-011-20240117 (https://download.01.org/0day-ci/archive/20240118/202401180418.CUVc0hxF-lkp@intel.com/config)
-> > compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401180418.CUVc0hxF-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202401180418.CUVc0hxF-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >>> net/core/filter.c:11842:13: warning: declaration of 'struct bpf_tcp_req_attrs' will not be visible outside of this function [-Wvisibility]
-> >      11842 |                                         struct bpf_tcp_req_attrs *attrs, int attrs__sz)
-> >            |                                                ^
-> >     1 warning generated.
-> 
-> 
-> Hi Kuniyuki,
-> 
-> This looks different from the other kfunc compiler warnings. Can you take a look?
+tree:   https://github.com/krzk/linux n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
+head:   5cac1bb64a0300d340c5e369489c731b30aa5e79
+commit: e21b73fba00f3539873c978ceaa948061687684f [15603/15673] spmi: pmic-arb: Add support for multi-master
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240119/202401190604.s9WsqorW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190604.s9WsqorW-lkp@intel.com/reproduce)
 
-Probably because I moved #if guard into bpf_sk_assign_tcp_reqsk() but
-struct bpf_tcp_req_attrs is defined under #ifdef CONFIG_SYN_COOKIES.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401190604.s9WsqorW-lkp@intel.com/
 
-I'll post a fix soon.
+All warnings (new ones prefixed by >>):
 
-Thanks!
+   drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'core' not described in 'spmi_pmic_arb'
+   drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'core_size' not described in 'spmi_pmic_arb'
+   drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'mapping_table_valid' not described in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'masters' not described in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Function parameter or struct member 'masters_count' not described in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'intr' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'cnfg' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'irq' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'min_apid' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'max_apid' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'base_apid' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'apid_count' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'domain' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'ppid_to_apid' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'last_apid' description in 'spmi_pmic_arb'
+>> drivers/spmi/spmi-pmic-arb.c:193: warning: Excess struct member 'apid_data' description in 'spmi_pmic_arb'
+   drivers/spmi/spmi-pmic-arb.c:254: warning: Function parameter or struct member 'pmic_arb' not described in 'pmic_arb_read_data'
+   drivers/spmi/spmi-pmic-arb.c:268: warning: Function parameter or struct member 'pmic_arb' not described in 'pmic_arb_write_data'
 
-> 
-> Thanks,
-> Martin
-> 
-> 
-> > 
-> > 
-> > vim +11842 net/core/filter.c
-> > 
-> >   11840	
-> >   11841	__bpf_kfunc int bpf_sk_assign_tcp_reqsk(struct sk_buff *skb, struct sock *sk,
-> >   11842						struct bpf_tcp_req_attrs *attrs, int attrs__sz)
-> >   11843	{
-> >   11844	#if IS_ENABLED(CONFIG_SYN_COOKIES)
-> >   11845		const struct request_sock_ops *ops;
-> >   11846		struct inet_request_sock *ireq;
-> >   11847		struct tcp_request_sock *treq;
-> >   11848		struct request_sock *req;
-> >   11849		struct net *net;
-> >   11850		__u16 min_mss;
-> >   11851		u32 tsoff = 0;
-> >   11852	
-> >   11853		if (attrs__sz != sizeof(*attrs) ||
-> >   11854		    attrs->reserved[0] || attrs->reserved[1] || attrs->reserved[2])
-> >   11855			return -EINVAL;
-> >   11856	
-> >   11857		if (!skb_at_tc_ingress(skb))
-> >   11858			return -EINVAL;
-> >   11859	
-> >   11860		net = dev_net(skb->dev);
-> >   11861		if (net != sock_net(sk))
-> >   11862			return -ENETUNREACH;
-> >   11863	
-> >   11864		switch (skb->protocol) {
-> >   11865		case htons(ETH_P_IP):
-> >   11866			ops = &tcp_request_sock_ops;
-> >   11867			min_mss = 536;
-> >   11868			break;
-> >   11869	#if IS_BUILTIN(CONFIG_IPV6)
-> >   11870		case htons(ETH_P_IPV6):
-> >   11871			ops = &tcp6_request_sock_ops;
-> >   11872			min_mss = IPV6_MIN_MTU - 60;
-> >   11873			break;
-> >   11874	#endif
-> >   11875		default:
-> >   11876			return -EINVAL;
-> >   11877		}
-> >   11878	
-> >   11879		if (sk->sk_type != SOCK_STREAM || sk->sk_state != TCP_LISTEN ||
-> >   11880		    sk_is_mptcp(sk))
-> >   11881			return -EINVAL;
-> >   11882	
-> >   11883		if (attrs->mss < min_mss)
-> >   11884			return -EINVAL;
-> >   11885	
-> >   11886		if (attrs->wscale_ok) {
-> >   11887			if (!READ_ONCE(net->ipv4.sysctl_tcp_window_scaling))
-> >   11888				return -EINVAL;
-> >   11889	
-> >   11890			if (attrs->snd_wscale > TCP_MAX_WSCALE ||
-> >   11891			    attrs->rcv_wscale > TCP_MAX_WSCALE)
-> >   11892				return -EINVAL;
-> >   11893		}
-> >   11894	
-> >   11895		if (attrs->sack_ok && !READ_ONCE(net->ipv4.sysctl_tcp_sack))
-> >   11896			return -EINVAL;
-> >   11897	
-> >   11898		if (attrs->tstamp_ok) {
-> >   11899			if (!READ_ONCE(net->ipv4.sysctl_tcp_timestamps))
-> >   11900				return -EINVAL;
-> >   11901	
-> >   11902			tsoff = attrs->rcv_tsecr - tcp_ns_to_ts(attrs->usec_ts_ok, tcp_clock_ns());
-> >   11903		}
-> >   11904	
-> >   11905		req = inet_reqsk_alloc(ops, sk, false);
-> >   11906		if (!req)
-> >   11907			return -ENOMEM;
-> >   11908	
-> >   11909		ireq = inet_rsk(req);
-> >   11910		treq = tcp_rsk(req);
-> >   11911	
-> >   11912		req->rsk_listener = sk;
-> >   11913		req->syncookie = 1;
-> >   11914		req->mss = attrs->mss;
-> >   11915		req->ts_recent = attrs->rcv_tsval;
-> >   11916	
-> >   11917		ireq->snd_wscale = attrs->snd_wscale;
-> >   11918		ireq->rcv_wscale = attrs->rcv_wscale;
-> >   11919		ireq->tstamp_ok	= !!attrs->tstamp_ok;
-> >   11920		ireq->sack_ok = !!attrs->sack_ok;
-> >   11921		ireq->wscale_ok = !!attrs->wscale_ok;
-> >   11922		ireq->ecn_ok = !!attrs->ecn_ok;
-> >   11923	
-> >   11924		treq->req_usec_ts = !!attrs->usec_ts_ok;
-> >   11925		treq->ts_off = tsoff;
-> >   11926	
-> >   11927		skb_orphan(skb);
-> >   11928		skb->sk = req_to_sk(req);
-> >   11929		skb->destructor = sock_pfree;
-> >   11930	
-> >   11931		return 0;
-> >   11932	#else
-> >   11933		return -EOPNOTSUPP;
-> >   11934	#endif
-> >   11935	}
-> >   11936	
+
+vim +193 drivers/spmi/spmi-pmic-arb.c
+
+e21b73fba00f35 Abel Vesa              2024-01-08  149  
+39ae93e3a31d0c Kenneth Heitke         2014-02-12  150  /**
+80c606a842e6b6 Randy Dunlap           2023-04-13  151   * struct spmi_pmic_arb - SPMI PMIC Arbiter object
+39ae93e3a31d0c Kenneth Heitke         2014-02-12  152   *
+d0c6ae41d12ad7 Gilad Avidov           2015-03-25  153   * @rd_base:		on v1 "core", on v2 "observer" register base off DT.
+d0c6ae41d12ad7 Gilad Avidov           2015-03-25  154   * @wr_base:		on v1 "core", on v2 "chnls"    register base off DT.
+39ae93e3a31d0c Kenneth Heitke         2014-02-12  155   * @intr:		address of the SPMI interrupt control registers.
+39ae93e3a31d0c Kenneth Heitke         2014-02-12  156   * @cnfg:		address of the PMIC Arbiter configuration registers.
+39ae93e3a31d0c Kenneth Heitke         2014-02-12  157   * @lock:		lock to synchronize accesses.
+d0c6ae41d12ad7 Gilad Avidov           2015-03-25  158   * @channel:		execution environment channel to use for accesses.
+67b563f1f25873 Josh Cartwright        2014-02-12  159   * @irq:		PMIC ARB interrupt.
+67b563f1f25873 Josh Cartwright        2014-02-12  160   * @ee:			the current Execution Environment
+231601cd22bd60 David Collins          2022-11-10  161   * @bus_instance:	on v7: 0 = primary SPMI bus, 1 = secondary SPMI bus
+67b563f1f25873 Josh Cartwright        2014-02-12  162   * @min_apid:		minimum APID (used for bounding IRQ search)
+67b563f1f25873 Josh Cartwright        2014-02-12  163   * @max_apid:		maximum APID
+231601cd22bd60 David Collins          2022-11-10  164   * @base_apid:		on v7: minimum APID associated with the particular SPMI
+231601cd22bd60 David Collins          2022-11-10  165   *			bus instance
+231601cd22bd60 David Collins          2022-11-10  166   * @apid_count:		on v5 and v7: number of APIDs associated with the
+231601cd22bd60 David Collins          2022-11-10  167   *			particular SPMI bus instance
+67b563f1f25873 Josh Cartwright        2014-02-12  168   * @mapping_table:	in-memory copy of PPID -> APID mapping table.
+67b563f1f25873 Josh Cartwright        2014-02-12  169   * @domain:		irq domain object for PMIC IRQ domain
+67b563f1f25873 Josh Cartwright        2014-02-12  170   * @spmic:		SPMI controller object
+d0c6ae41d12ad7 Gilad Avidov           2015-03-25  171   * @ver_ops:		version dependent operations.
+231601cd22bd60 David Collins          2022-11-10  172   * @ppid_to_apid:	in-memory copy of PPID -> APID mapping table.
+231601cd22bd60 David Collins          2022-11-10  173   * @last_apid:		Highest value APID in use
+231601cd22bd60 David Collins          2022-11-10  174   * @apid_data:		Table of data for all APIDs
+231601cd22bd60 David Collins          2022-11-10  175   * @max_periphs:	Number of elements in apid_data[]
+39ae93e3a31d0c Kenneth Heitke         2014-02-12  176   */
+111a10bf3e53ae Abhijeet Dharmapurikar 2017-05-10  177  struct spmi_pmic_arb {
+d0c6ae41d12ad7 Gilad Avidov           2015-03-25  178  	void __iomem		*rd_base;
+d0c6ae41d12ad7 Gilad Avidov           2015-03-25  179  	void __iomem		*wr_base;
+987a9f128b8ad8 Stephen Boyd           2015-11-17  180  	void __iomem		*core;
+987a9f128b8ad8 Stephen Boyd           2015-11-17  181  	resource_size_t		core_size;
+39ae93e3a31d0c Kenneth Heitke         2014-02-12  182  	raw_spinlock_t		lock;
+39ae93e3a31d0c Kenneth Heitke         2014-02-12  183  	u8			channel;
+67b563f1f25873 Josh Cartwright        2014-02-12  184  	u8			ee;
+231601cd22bd60 David Collins          2022-11-10  185  	u32			bus_instance;
+987a9f128b8ad8 Stephen Boyd           2015-11-17  186  	u32			*mapping_table;
+987a9f128b8ad8 Stephen Boyd           2015-11-17  187  	DECLARE_BITMAP(mapping_table_valid, PMIC_ARB_MAX_PERIPHS);
+67b563f1f25873 Josh Cartwright        2014-02-12  188  	struct spmi_controller	*spmic;
+d0c6ae41d12ad7 Gilad Avidov           2015-03-25  189  	const struct pmic_arb_ver_ops *ver_ops;
+231601cd22bd60 David Collins          2022-11-10  190  	int			max_periphs;
+e21b73fba00f35 Abel Vesa              2024-01-08  191  	struct spmi_pmic_master *masters;
+e21b73fba00f35 Abel Vesa              2024-01-08  192  	int			masters_count;
+d0c6ae41d12ad7 Gilad Avidov           2015-03-25 @193  };
+d0c6ae41d12ad7 Gilad Avidov           2015-03-25  194  
+
+:::::: The code at line 193 was first introduced by commit
+:::::: d0c6ae41d12ad7b2ba271f279936327320b6671c spmi: pmic_arb: add support for hw version 2
+
+:::::: TO: Gilad Avidov <gavidov@codeaurora.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
