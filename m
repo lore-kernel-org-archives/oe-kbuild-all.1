@@ -1,80 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0541E87A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 15:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C5328DA6;
+	Thu, 18 Jan 2024 15:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705591050; cv=none; b=dfMkPjLkqYPoYoKYr8zNIvykDN/jYusT1yNGMkCTrsY6bHusY4dTo5BJm83m0TPDiAYERRTz2KmG32E8Ar3rT+vKLGnBfSmOy6EEplx68ct6TmL5v1F3mZ/QYL9iNJWTsPfnYZy+9tZNcRzYb75Su55SFN7Y4HU8I4w28H5NJNE=
+	t=1705592965; cv=none; b=YVq3rcuhGEjZDyCMGkyDTNgIoWcqqRnt35oitXoNv6b3oIRLLGamKOv3SVH0y41E5U1s5Tx59T50U7E56og0soON83OtGezlfblQEM42FJQghqbuJTTh6aLjGdo40tN0pdcIdFlGEg1GPbX8sk4F3aK72DD6nyoIBLlfyZ4rPwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705591050; c=relaxed/simple;
-	bh=+kFrRhjHpv40nvSzG/vyhe0ms38QkgFWWNV2IL9QDBA=;
+	s=arc-20240116; t=1705592965; c=relaxed/simple;
+	bh=MA2t7tS5gh7WozDgJtI8vdppZjC/LmNVLxq0gONG1UA=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
 	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=LapEHk4tkWGNvqxB2QcmlhZxScqKrdBgv1ke9lZRGYjwaTs9PRldM+tCQFM8AKmbuCTkuZQvK4O316QC0nijt6v7pfYKkUkvgzkrlBUDMt9Z4BmaQCPjTz9b2x+lEw70SWMLW00Nru4BFtRNimfDm5kyJsIs702pUWrCyfYHyPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jos3LyJw; arc=none smtp.client-ip=134.134.136.100
+	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
+	b=lqzRRFHpXrXRcDv0FdQ5agHd7JbsW5YKdEwkI83KzDB1YwxZfr8KeS5fudfpRdyKSaf2S0XGJVxP18NZnrl8WMGp1pqa6BIwoq/rhT+CQl/0dXaKutbS5X8q6VC6a/+IzeOAs6wrIrF/g9npNZ4cTeKYKebtIyRIJFCGoTUO/AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4c3Dfe3; arc=none smtp.client-ip=192.55.52.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jos3LyJw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4c3Dfe3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705591048; x=1737127048;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+kFrRhjHpv40nvSzG/vyhe0ms38QkgFWWNV2IL9QDBA=;
-  b=Jos3LyJwZG0gr4hvzsvWO+C+GkVfx0FDJ4nevitvyH03X0E98m6IqiQ6
-   oU8vFcRLfAYcHvxw7vVAoCaJwo7bXJSWNJLf2JqIt7jl7/Tee/Te7WOR+
-   FzNG5GDrEAvJjoO+Dq74wx/dJ5hnWxQwSnnrDX7Uh9Ld01Y19npvs/+9i
-   x6PIyl2m0LSgw3jf7gLQ2YaqLpo+zLAFd//7FpvwCRoaigyA9lgx64JE1
-   8TUj0Vqop1c9XXIhPizWMdKqc8TPPMo5lBe8FvK1tpXsq0aFfqXAp7/LG
-   j0T9+IRq+pn2EmbNT+pYLIu6IMywLQIU2+2XTZrvUXrCX+lKm4U7x99rO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="466852646"
+  t=1705592963; x=1737128963;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MA2t7tS5gh7WozDgJtI8vdppZjC/LmNVLxq0gONG1UA=;
+  b=m4c3Dfe3gvPZXvD8KNub2jK/AGUtXZTShc2iIaR3uPMSGuKi1DOfpmvq
+   Dwn2xBy3KB5ubZpgKjfsom3pfZkfPXR7/bONo5Fvlq4E+0NeZgoBeiYwV
+   m7BBFrs+kSu/1jLTIg+kUytW1UXZO+zVBlPYkL54sdRueRj+/A+cm5ucW
+   7p5WemVzPlVvy3vFhsgMbAqT6KyE0iiZigv8sKo+jdNXorTQ+jeVYpi6h
+   eQ7HtJ1O+z8DIit1PYfR5SJCtz0eaNAFkwZg3IZBzKNNFSrnyd9g21DT6
+   GmkzPtvcjkbGrXBb/jnJq9a4qEIZ22uTY+w32WuwUPBJRWMP0xxNZFCX+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="486633201"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="466852646"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 07:17:28 -0800
+   d="scan'208";a="486633201"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 07:49:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="784826988"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="928140848"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="784826988"
+   d="scan'208";a="928140848"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2024 07:17:20 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 18 Jan 2024 07:49:20 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQU8r-000356-1C;
-	Thu, 18 Jan 2024 15:17:17 +0000
-Date: Thu, 18 Jan 2024 23:16:17 +0800
+	id 1rQUdq-00036W-0g;
+	Thu, 18 Jan 2024 15:49:18 +0000
+Date: Thu, 18 Jan 2024 23:48:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org, x86@kernel.org,
-	Eric Biederman <ebiederm@xmission.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	James Gowans <jgowans@amazon.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v3 13/17] tracing: Recover trace buffers from kexec
- handover
-Message-ID: <202401182318.vEGddOt1-lkp@intel.com>
-References: <20240117144704.602-14-graf@amazon.com>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
+ 15603/15673] drivers/spmi/spmi-pmic-arb.c:5:10: fatal error: 'asm/memory.h'
+ file not found
+Message-ID: <202401182300.EiKtJ6oV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,118 +61,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240117144704.602-14-graf@amazon.com>
 
-Hi Alexander,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[cannot apply to tip/x86/core arm64/for-next/core akpm-mm/mm-everything v6.7 next-20240118]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20240117-225136
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240117144704.602-14-graf%40amazon.com
-patch subject: [PATCH v3 13/17] tracing: Recover trace buffers from kexec handover
-config: i386-randconfig-061-20240118 (https://download.01.org/0day-ci/archive/20240118/202401182318.vEGddOt1-lkp@intel.com/config)
+tree:   https://github.com/krzk/linux n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
+head:   5cac1bb64a0300d340c5e369489c731b30aa5e79
+commit: e21b73fba00f3539873c978ceaa948061687684f [15603/15673] spmi: pmic-arb: Add support for multi-master
+config: i386-buildonly-randconfig-003-20240118 (https://download.01.org/0day-ci/archive/20240118/202401182300.EiKtJ6oV-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401182318.vEGddOt1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401182300.EiKtJ6oV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401182318.vEGddOt1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401182300.EiKtJ6oV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/ring_buffer.c:1105:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
-   kernel/trace/ring_buffer.c:1105:32: sparse:     expected restricted __poll_t
-   kernel/trace/ring_buffer.c:1105:32: sparse:     got int
-   kernel/trace/ring_buffer.c:4955:9: sparse: sparse: context imbalance in 'ring_buffer_peek' - different lock contexts for basic block
-   kernel/trace/ring_buffer.c:5041:9: sparse: sparse: context imbalance in 'ring_buffer_consume' - different lock contexts for basic block
-   kernel/trace/ring_buffer.c:5421:17: sparse: sparse: context imbalance in 'ring_buffer_empty' - different lock contexts for basic block
-   kernel/trace/ring_buffer.c:5451:9: sparse: sparse: context imbalance in 'ring_buffer_empty_cpu' - different lock contexts for basic block
->> kernel/trace/ring_buffer.c:5937:82: sparse: sparse: non size-preserving integer to pointer cast
-   kernel/trace/ring_buffer.c:5939:84: sparse: sparse: non size-preserving integer to pointer cast
+All errors (new ones prefixed by >>):
 
-vim +5937 kernel/trace/ring_buffer.c
+>> drivers/spmi/spmi-pmic-arb.c:5:10: fatal error: 'asm/memory.h' file not found
+       5 | #include "asm/memory.h"
+         |          ^~~~~~~~~~~~~~
+   1 error generated.
 
-  5896	
-  5897	static int rb_kho_replace_buffers(struct ring_buffer_per_cpu *cpu_buffer,
-  5898					     struct rb_kho_cpu *kho)
-  5899	{
-  5900		bool first_loop = true;
-  5901		struct list_head *tmp;
-  5902		int err = 0;
-  5903		int i = 0;
-  5904	
-  5905		if (!IS_ENABLED(CONFIG_FTRACE_KHO))
-  5906			return -EINVAL;
-  5907	
-  5908		if (kho->nr_mems != cpu_buffer->nr_pages * 2)
-  5909			return -EINVAL;
-  5910	
-  5911		for (tmp = rb_list_head(cpu_buffer->pages);
-  5912		     tmp != rb_list_head(cpu_buffer->pages) || first_loop;
-  5913		     tmp = rb_list_head(tmp->next), first_loop = false) {
-  5914			struct buffer_page *bpage = (struct buffer_page *)tmp;
-  5915			const struct kho_mem *mem_bpage = &kho->mem[i++];
-  5916			const struct kho_mem *mem_page = &kho->mem[i++];
-  5917			const uint64_t rb_page_head = 1;
-  5918			struct buffer_page *old_bpage;
-  5919			void *old_page;
-  5920	
-  5921			old_bpage = __va(mem_bpage->addr);
-  5922			if (!bpage)
-  5923				goto out;
-  5924	
-  5925			if ((ulong)old_bpage->list.next & rb_page_head) {
-  5926				struct list_head *new_lhead;
-  5927				struct buffer_page *new_head;
-  5928	
-  5929				new_lhead = rb_list_head(bpage->list.next);
-  5930				new_head = (struct buffer_page *)new_lhead;
-  5931	
-  5932				/* Assume the buffer is completely full */
-  5933				cpu_buffer->tail_page = bpage;
-  5934				cpu_buffer->commit_page = bpage;
-  5935				/* Set the head pointers to what they were before */
-  5936				cpu_buffer->head_page->list.prev->next = (struct list_head *)
-> 5937					((ulong)cpu_buffer->head_page->list.prev->next & ~rb_page_head);
-  5938				cpu_buffer->head_page = new_head;
-  5939				bpage->list.next = (struct list_head *)((ulong)new_lhead | rb_page_head);
-  5940			}
-  5941	
-  5942			if (rb_page_entries(old_bpage) || rb_page_write(old_bpage)) {
-  5943				/*
-  5944				 * We want to recycle the pre-kho page, it contains
-  5945				 * trace data. To do so, we unreserve it and swap the
-  5946				 * current data page with the pre-kho one
-  5947				 */
-  5948				old_page = kho_claim_mem(mem_page);
-  5949	
-  5950				/* Recycle the old page, it contains data */
-  5951				free_page((ulong)bpage->page);
-  5952				bpage->page = old_page;
-  5953	
-  5954				bpage->write = old_bpage->write;
-  5955				bpage->entries = old_bpage->entries;
-  5956				bpage->real_end = old_bpage->real_end;
-  5957	
-  5958				local_inc(&cpu_buffer->pages_touched);
-  5959			} else {
-  5960				kho_return_mem(mem_page);
-  5961			}
-  5962	
-  5963			kho_return_mem(mem_bpage);
-  5964		}
-  5965	
-  5966	out:
-  5967		return err;
-  5968	}
-  5969	
+
+vim +5 drivers/spmi/spmi-pmic-arb.c
+
+   > 5	#include "asm/memory.h"
+     6	#include <linux/bitmap.h>
+     7	#include <linux/delay.h>
+     8	#include <linux/err.h>
+     9	#include <linux/interrupt.h>
+    10	#include <linux/io.h>
+    11	#include <linux/irqchip/chained_irq.h>
+    12	#include <linux/irqdomain.h>
+    13	#include <linux/irq.h>
+    14	#include <linux/kernel.h>
+    15	#include <linux/module.h>
+    16	#include <linux/of.h>
+    17	#include <linux/of_address.h>
+    18	#include <linux/of_irq.h>
+    19	#include <linux/platform_device.h>
+    20	#include <linux/slab.h>
+    21	#include <linux/spmi.h>
+    22	
 
 -- 
 0-DAY CI Kernel Test Service
