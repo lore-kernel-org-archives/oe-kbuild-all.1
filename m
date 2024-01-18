@@ -1,57 +1,80 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A908F1E87A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 15:17:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0541E87A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 15:17:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705591044; cv=none; b=H68QburXfNPIr87/lfEZjV+xaFu3KiBr4Kjq0bbnuaeTuNDgxN/65dRh4YoSe3ff3ePe07gnku7lbZDqQ6skVgVqkTmjK6VySUnmri1L2vGo9zDNyS6zRp8JVArvOmjLzK0Ntan0bXE32noDQmw+RDSv8nkOhoMg9+Ka/Jri+T8=
+	t=1705591050; cv=none; b=dfMkPjLkqYPoYoKYr8zNIvykDN/jYusT1yNGMkCTrsY6bHusY4dTo5BJm83m0TPDiAYERRTz2KmG32E8Ar3rT+vKLGnBfSmOy6EEplx68ct6TmL5v1F3mZ/QYL9iNJWTsPfnYZy+9tZNcRzYb75Su55SFN7Y4HU8I4w28H5NJNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705591044; c=relaxed/simple;
-	bh=q2zdfSMwVBR0+EEmzvq+H6GgAoKGlY4NMNYUFCuSx8g=;
+	s=arc-20240116; t=1705591050; c=relaxed/simple;
+	bh=+kFrRhjHpv40nvSzG/vyhe0ms38QkgFWWNV2IL9QDBA=;
 	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
 	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition;
-	b=b98LsOrnT9/GL4OIshXd3cxpuy5v0EZQ/N2YrZ85Zd/l3FMUU9yC5dmwtD//m9DmL+rpPqxrF5WLuP1m3OWUplpx3EEq38iAvze1XDsP0IswzCtORUid502BUwss5ujpdPDjILKKUOE/V2wcSWNg85Ytz1dFd9b2b2wxCkBPiE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VG6fiXkZ; arc=none smtp.client-ip=134.134.136.100
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=LapEHk4tkWGNvqxB2QcmlhZxScqKrdBgv1ke9lZRGYjwaTs9PRldM+tCQFM8AKmbuCTkuZQvK4O316QC0nijt6v7pfYKkUkvgzkrlBUDMt9Z4BmaQCPjTz9b2x+lEw70SWMLW00Nru4BFtRNimfDm5kyJsIs702pUWrCyfYHyPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jos3LyJw; arc=none smtp.client-ip=134.134.136.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VG6fiXkZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jos3LyJw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705591042; x=1737127042;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q2zdfSMwVBR0+EEmzvq+H6GgAoKGlY4NMNYUFCuSx8g=;
-  b=VG6fiXkZlwdKQbnMnZicQyBRrA1EKwdCCDiVfPA+eBkONFLfvaTBGwKl
-   D/kA98i8tpFj8t5bZB4dsmTzx4aRyY72gNFiUsEIXMurGjooZ7GsCwtX5
-   9vSiJpVYJT5sJJt3WDEu4KZ03SQMfbUl0Nj7FFlqE+Z2vdLyN1oHJAhzt
-   lTSf8u9ckFdUHJ1XdYjUf4MXS79+Y8u42SiOREPBUDl/WHFoxiMfUUMKW
-   NxG1He9UvjFsu4IxYnN4fbqDo20X7WuVYULiGA8Vk6M/os2a1iZl1fcPg
-   /Irmm3nP5iT5xGRzCj1I31rO9wnisBgnkaMDKGyf9Q3jPlsPimjOpTiUn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="466852608"
+  t=1705591048; x=1737127048;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+kFrRhjHpv40nvSzG/vyhe0ms38QkgFWWNV2IL9QDBA=;
+  b=Jos3LyJwZG0gr4hvzsvWO+C+GkVfx0FDJ4nevitvyH03X0E98m6IqiQ6
+   oU8vFcRLfAYcHvxw7vVAoCaJwo7bXJSWNJLf2JqIt7jl7/Tee/Te7WOR+
+   FzNG5GDrEAvJjoO+Dq74wx/dJ5hnWxQwSnnrDX7Uh9Ld01Y19npvs/+9i
+   x6PIyl2m0LSgw3jf7gLQ2YaqLpo+zLAFd//7FpvwCRoaigyA9lgx64JE1
+   8TUj0Vqop1c9XXIhPizWMdKqc8TPPMo5lBe8FvK1tpXsq0aFfqXAp7/LG
+   j0T9+IRq+pn2EmbNT+pYLIu6IMywLQIU2+2XTZrvUXrCX+lKm4U7x99rO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="466852646"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="466852608"
+   d="scan'208";a="466852646"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 07:17:21 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 07:17:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="784826997"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="784826988"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="784826997"
+   d="scan'208";a="784826988"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 18 Jan 2024 07:17:20 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQU8r-000358-1G;
+	id 1rQU8r-000356-1C;
 	Thu, 18 Jan 2024 15:17:17 +0000
-Date: Thu, 18 Jan 2024 23:16:18 +0800
+Date: Thu, 18 Jan 2024 23:16:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vishal Verma <vishal.l.verma@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vishal:vv/dax_abi 4/5] include/linux/memory_hotplug.h:266:13:
- error: 'mhp_supports_memmap_on_memory' defined but not used
-Message-ID: <202401182300.W4jJUzae-lkp@intel.com>
+To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	linux-mm@kvack.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, x86@kernel.org,
+	Eric Biederman <ebiederm@xmission.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	James Gowans <jgowans@amazon.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 13/17] tracing: Recover trace buffers from kexec
+ handover
+Message-ID: <202401182318.vEGddOt1-lkp@intel.com>
+References: <20240117144704.602-14-graf@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,135 +83,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240117144704.602-14-graf@amazon.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vishal/linux.git vv/dax_abi
-head:   d3de88ca301b687923a19a41d16a22afcd9c40a1
-commit: 8c76ff6fca69d280f0a316831957accd9ded09b8 [4/5] mm/memory_hotplug: export mhp_supports_memmap_on_memory()
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240118/202401182300.W4jJUzae-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401182300.W4jJUzae-lkp@intel.com/reproduce)
+Hi Alexander,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[cannot apply to tip/x86/core arm64/for-next/core akpm-mm/mm-everything v6.7 next-20240118]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20240117-225136
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240117144704.602-14-graf%40amazon.com
+patch subject: [PATCH v3 13/17] tracing: Recover trace buffers from kexec handover
+config: i386-randconfig-061-20240118 (https://download.01.org/0day-ci/archive/20240118/202401182318.vEGddOt1-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401182318.vEGddOt1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401182300.W4jJUzae-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401182318.vEGddOt1-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/ring_buffer.c:1105:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   kernel/trace/ring_buffer.c:1105:32: sparse:     expected restricted __poll_t
+   kernel/trace/ring_buffer.c:1105:32: sparse:     got int
+   kernel/trace/ring_buffer.c:4955:9: sparse: sparse: context imbalance in 'ring_buffer_peek' - different lock contexts for basic block
+   kernel/trace/ring_buffer.c:5041:9: sparse: sparse: context imbalance in 'ring_buffer_consume' - different lock contexts for basic block
+   kernel/trace/ring_buffer.c:5421:17: sparse: sparse: context imbalance in 'ring_buffer_empty' - different lock contexts for basic block
+   kernel/trace/ring_buffer.c:5451:9: sparse: sparse: context imbalance in 'ring_buffer_empty_cpu' - different lock contexts for basic block
+>> kernel/trace/ring_buffer.c:5937:82: sparse: sparse: non size-preserving integer to pointer cast
+   kernel/trace/ring_buffer.c:5939:84: sparse: sparse: non size-preserving integer to pointer cast
 
-   In file included from include/linux/mmzone.h:1425,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/sh/kernel/asm-offsets.c:14:
->> include/linux/memory_hotplug.h:266:13: warning: 'mhp_supports_memmap_on_memory' defined but not used [-Wunused-function]
-     266 | static bool mhp_supports_memmap_on_memory(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   lib/vsprintf.c: In function 'va_format':
-   lib/vsprintf.c:1683:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1683 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
-         |         ^~~
-   In file included from include/linux/mmzone.h:1425,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:15,
-                    from include/linux/radix-tree.h:21,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/clk-provider.h:9,
-                    from lib/vsprintf.c:23:
-   include/linux/memory_hotplug.h: At top level:
->> include/linux/memory_hotplug.h:266:13: warning: 'mhp_supports_memmap_on_memory' defined but not used [-Wunused-function]
-     266 | static bool mhp_supports_memmap_on_memory(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/mmzone.h:1425,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from lib/test_bitops.c:9:
->> include/linux/memory_hotplug.h:266:13: error: 'mhp_supports_memmap_on_memory' defined but not used [-Werror=unused-function]
-     266 | static bool mhp_supports_memmap_on_memory(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   lib/test_ubsan.c: In function 'test_ubsan_out_of_bounds':
-   lib/test_ubsan.c:40:22: warning: variable 'arr' set but not used [-Wunused-but-set-variable]
-      40 |         volatile int arr[4];
-         |                      ^~~
-   lib/test_ubsan.c:39:23: warning: variable 'above' set but not used [-Wunused-but-set-variable]
-      39 |         volatile char above[4] = { }; /* Protect surrounding memory. */
-         |                       ^~~~~
-   lib/test_ubsan.c: In function 'test_ubsan_load_invalid_value':
-   lib/test_ubsan.c:62:44: warning: variable 'eptr' set but not used [-Wunused-but-set-variable]
-      62 |         enum ubsan_test_enum eval, eval2, *eptr;
-         |                                            ^~~~
-   lib/test_ubsan.c:61:26: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
-      61 |         bool val, val2, *ptr;
-         |                          ^~~
-   lib/test_ubsan.c: At top level:
-   lib/test_ubsan.c:100:28: warning: 'skip_ubsan_array' defined but not used [-Wunused-const-variable=]
-     100 | static const test_ubsan_fp skip_ubsan_array[] = {
-         |                            ^~~~~~~~~~~~~~~~
-   In file included from include/linux/mmzone.h:1425,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from lib/test_ubsan.c:4:
->> include/linux/memory_hotplug.h:266:13: warning: 'mhp_supports_memmap_on_memory' defined but not used [-Wunused-function]
-     266 | static bool mhp_supports_memmap_on_memory(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   lib/test_blackhole_dev.c: In function 'test_blackholedev_init':
-   lib/test_blackhole_dev.c:32:24: warning: variable 'ethh' set but not used [-Wunused-but-set-variable]
-      32 |         struct ethhdr *ethh;
-         |                        ^~~~
-   In file included from include/linux/mmzone.h:1425,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from lib/test_blackhole_dev.c:13:
-   include/linux/memory_hotplug.h: At top level:
->> include/linux/memory_hotplug.h:266:13: warning: 'mhp_supports_memmap_on_memory' defined but not used [-Wunused-function]
-     266 | static bool mhp_supports_memmap_on_memory(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/comedi/drivers/tests/ni_routes_test.c:22:
-   drivers/comedi/drivers/tests/../ni_stc.h:1140:35: warning: 'range_ni_E_ao_ext' defined but not used [-Wunused-const-variable=]
-    1140 | static const struct comedi_lrange range_ni_E_ao_ext;
-         |                                   ^~~~~~~~~~~~~~~~~
-   In file included from include/linux/mmzone.h:1425,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from drivers/comedi/drivers/tests/ni_routes_test.c:20:
->> include/linux/memory_hotplug.h:266:13: warning: 'mhp_supports_memmap_on_memory' defined but not used [-Wunused-function]
-     266 | static bool mhp_supports_memmap_on_memory(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/mmzone.h:1425,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/sh/kernel/asm-offsets.c:14:
->> include/linux/memory_hotplug.h:266:13: warning: 'mhp_supports_memmap_on_memory' defined but not used [-Wunused-function]
-     266 | static bool mhp_supports_memmap_on_memory(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   <stdin>:1519:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+vim +5937 kernel/trace/ring_buffer.c
 
-
-vim +/mhp_supports_memmap_on_memory +266 include/linux/memory_hotplug.h
-
-   265	
- > 266	static bool mhp_supports_memmap_on_memory(void)
-   267	{
-   268		return false;
-   269	}
-   270	
+  5896	
+  5897	static int rb_kho_replace_buffers(struct ring_buffer_per_cpu *cpu_buffer,
+  5898					     struct rb_kho_cpu *kho)
+  5899	{
+  5900		bool first_loop = true;
+  5901		struct list_head *tmp;
+  5902		int err = 0;
+  5903		int i = 0;
+  5904	
+  5905		if (!IS_ENABLED(CONFIG_FTRACE_KHO))
+  5906			return -EINVAL;
+  5907	
+  5908		if (kho->nr_mems != cpu_buffer->nr_pages * 2)
+  5909			return -EINVAL;
+  5910	
+  5911		for (tmp = rb_list_head(cpu_buffer->pages);
+  5912		     tmp != rb_list_head(cpu_buffer->pages) || first_loop;
+  5913		     tmp = rb_list_head(tmp->next), first_loop = false) {
+  5914			struct buffer_page *bpage = (struct buffer_page *)tmp;
+  5915			const struct kho_mem *mem_bpage = &kho->mem[i++];
+  5916			const struct kho_mem *mem_page = &kho->mem[i++];
+  5917			const uint64_t rb_page_head = 1;
+  5918			struct buffer_page *old_bpage;
+  5919			void *old_page;
+  5920	
+  5921			old_bpage = __va(mem_bpage->addr);
+  5922			if (!bpage)
+  5923				goto out;
+  5924	
+  5925			if ((ulong)old_bpage->list.next & rb_page_head) {
+  5926				struct list_head *new_lhead;
+  5927				struct buffer_page *new_head;
+  5928	
+  5929				new_lhead = rb_list_head(bpage->list.next);
+  5930				new_head = (struct buffer_page *)new_lhead;
+  5931	
+  5932				/* Assume the buffer is completely full */
+  5933				cpu_buffer->tail_page = bpage;
+  5934				cpu_buffer->commit_page = bpage;
+  5935				/* Set the head pointers to what they were before */
+  5936				cpu_buffer->head_page->list.prev->next = (struct list_head *)
+> 5937					((ulong)cpu_buffer->head_page->list.prev->next & ~rb_page_head);
+  5938				cpu_buffer->head_page = new_head;
+  5939				bpage->list.next = (struct list_head *)((ulong)new_lhead | rb_page_head);
+  5940			}
+  5941	
+  5942			if (rb_page_entries(old_bpage) || rb_page_write(old_bpage)) {
+  5943				/*
+  5944				 * We want to recycle the pre-kho page, it contains
+  5945				 * trace data. To do so, we unreserve it and swap the
+  5946				 * current data page with the pre-kho one
+  5947				 */
+  5948				old_page = kho_claim_mem(mem_page);
+  5949	
+  5950				/* Recycle the old page, it contains data */
+  5951				free_page((ulong)bpage->page);
+  5952				bpage->page = old_page;
+  5953	
+  5954				bpage->write = old_bpage->write;
+  5955				bpage->entries = old_bpage->entries;
+  5956				bpage->real_end = old_bpage->real_end;
+  5957	
+  5958				local_inc(&cpu_buffer->pages_touched);
+  5959			} else {
+  5960				kho_return_mem(mem_page);
+  5961			}
+  5962	
+  5963			kho_return_mem(mem_bpage);
+  5964		}
+  5965	
+  5966	out:
+  5967		return err;
+  5968	}
+  5969	
 
 -- 
 0-DAY CI Kernel Test Service
