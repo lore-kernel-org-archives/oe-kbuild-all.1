@@ -1,68 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3651EA78
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 16:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7AB55763
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 16:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705682006; cv=none; b=tWMztfh+82rAwv1uHvis71vXrWojxmVurUw5/WdMhqDiqzEmwXftcYGdY0qF+NkxvE2HH8lMlqgZvr5QYbvGAkqmkITmz9SS3VESFEhhEl0FYwmB9K9ztQ74ErX92auCE2tJ0Ael2QnEoi/k6keUINbd3B1R3TVCDfSGJtamViA=
+	t=1705682713; cv=none; b=HNVMzzx68coTD/h1d8OJZzVCJ47QY6HltsKMPym0GH+0XeJvVLkTsuoZ4fneC/t6FicesoWtFl0DbgXrIJby3auwHU1OeujwTtMN18YZpPFO7dHaz8nuo0kKx20P2+yVcc9Hg12BeR8H/cyO2NrpJeMBOfdi9zDHTU6j32XB0bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705682006; c=relaxed/simple;
-	bh=4MTHcTMRo8vaC78u9KaJGas7GabALp0/v9oyhzhuUno=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Suk4Nl6LnJlSrdXDYEsQQOn3kRgpd7K7y5Lmwubj1wfc4NR2kgZitVQEVjoYBdDOrK4DCuhUunh3m5uEDL87cU4RSgbhC8j0SAsLBHFpWcnQQOWvchu+zU3318e4kjKLD4edvEOacXiwC+3p7dWQkgvIgCM9fMbNu6knC+e7cfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M36cCNoO; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1705682713; c=relaxed/simple;
+	bh=kiRZ/O4Wwrk1VZ7h0YeAWN9ZmE1sqEfzjM0bFC5j2Kk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=TNMDwqbTfObGjv5jeDHuMBSHBk8yzP/oIGL36ZhpXFbX5uHNK+qFQNE7hmftKvhr2gRGhNxfFgRdP4wWlAbyVZ6PUjs5Zugq9Ab67Qu3Yply0Z+mPIK83iABtkIOyAgFf6ury39eWCdaojI14/tFfcsUI6PWqLTehFejTUubDOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDJ6ymhd; arc=none smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M36cCNoO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDJ6ymhd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705682004; x=1737218004;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4MTHcTMRo8vaC78u9KaJGas7GabALp0/v9oyhzhuUno=;
-  b=M36cCNoOtzFdGySNm9/zqm8BA5I3Iq7TT1HH49HDR9PqGPoq3mVUJdCN
-   Q7ucOIxS184Xxgve+2V1H1hewwXKTC2oU/tH6ATvDGok8wI99LO91jvFK
-   g3H9bGKdWE19ydJeHbjVoVTjxUCptG/OWn3e4IXjjqJb0w3yR4olKOq8S
-   KQ7eNt+W8v5X9WhfGLltGvtOxyWNvqHdEtTxM03ntMY++NEBPnsmco1Zg
-   XPOemhnmIKm+0COUqPVMoMeDKYlvMBhlmyB9BIyvziGxGb58RM5rahmv1
-   BRW1F8HglzViCrigcGEztm9yf9/vkLPRApCNxriuqQfoU8YqRsS7LQdUg
+  t=1705682711; x=1737218711;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=kiRZ/O4Wwrk1VZ7h0YeAWN9ZmE1sqEfzjM0bFC5j2Kk=;
+  b=kDJ6ymhdZ2jOvwTXrIzzXSQ8LhW8QuwXVI+3inVvDdJaZXajxJjTpls2
+   n5B3OEDCt+yEpGRJUrCEt1smC97wmiqJEz3IlzBKWByf4YIXjuYJOdXj1
+   Gs08U51gqEusd1r+2K3JtcCECkFwTlZzLL4E481clhmFTy0SRNYuqrQUJ
+   PnERK0qfMs0jSU0oQ+qEBvBZJLxmj9nTvGHaPllzeIJg6NP1gdY2gTdOu
+   wBEfZGzYN0DfQIol6BxJKq+sBmzjr7Z67rmqBlrylnrct2V7PuYa92ZTd
+   8KFCUWHDv5Oi+J226IupqDt00yLhahSfEp3Lrf8X4LpIVUEg4oxb9dQK9
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="676874"
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="400442289"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="676874"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 08:33:15 -0800
+   d="scan'208";a="400442289"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 08:45:10 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="788396511"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="27082145"
+   d="scan'208";a="788396511"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2024 08:33:09 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 19 Jan 2024 08:45:09 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQrnm-0004Fy-2T;
-	Fri, 19 Jan 2024 16:33:06 +0000
-Date: Sat, 20 Jan 2024 00:32:24 +0800
+	id 1rQrzP-0004Gi-1m;
+	Fri, 19 Jan 2024 16:45:07 +0000
+Date: Sat, 20 Jan 2024 00:44:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huang Shijie <shijie@os.amperecomputing.com>,
-	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, patches@amperecomputing.com,
-	rafael@kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, yury.norov@gmail.com, kuba@kernel.org,
-	vschneid@redhat.com, mingo@kernel.org, akpm@linux-foundation.org,
-	vbabka@suse.cz, rppt@kernel.org, tglx@linutronix.de,
-	jpoimboe@kernel.org, ndesaulniers@google.com,
-	mikelley@microsoft.com, mhiramat@kernel.org, arnd@arndb.de,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com,
-	will@kernel.org, mark.rutland@arm.com, mpe@ellerman.id.au,
-	linuxppc-dev@lists.ozlabs.org, chenhuacai@kernel.org,
-	jiaxun.yang@flygoat.com, linux-mips@vger.kernel.org
-Subject: Re: [PATCH] NUMA: Early use of cpu_to_node() returns 0 instead of
- the correct node id
-Message-ID: <202401200006.wOMN1YgH-lkp@intel.com>
-References: <20240119033227.14113-1-shijie@os.amperecomputing.com>
+To: Stefan Wiehler <stefan.wiehler@nokia.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] mips/smp: Call rcu_cpu_starting() earlier
+Message-ID: <Zaqm12Nfvj5souqU@d42765ab1e58>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,56 +58,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240119033227.14113-1-shijie@os.amperecomputing.com>
+In-Reply-To: <20240119163811.3884999-1-stefan.wiehler@nokia.com>
 
-Hi Huang,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on driver-core/driver-core-testing]
-[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus akpm-mm/mm-everything linus/master v6.7 next-20240119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Huang-Shijie/NUMA-Early-use-of-cpu_to_node-returns-0-instead-of-the-correct-node-id/20240119-113623
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20240119033227.14113-1-shijie%40os.amperecomputing.com
-patch subject: [PATCH] NUMA: Early use of cpu_to_node() returns 0 instead of the correct node id
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240120/202401200006.wOMN1YgH-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401200006.wOMN1YgH-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401200006.wOMN1YgH-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: vmlinux.o: in function `rapl_cpu_online':
->> rapl.c:(.text+0x75ec): undefined reference to `cpu_to_node'
-   ld: vmlinux.o: in function `amd_pmu_cpu_prepare':
->> core.c:(.text+0x8580): undefined reference to `cpu_to_node'
->> ld: core.c:(.text+0x85d6): undefined reference to `cpu_to_node'
-   ld: vmlinux.o: in function `amd_uncore_ctx_init.part.0':
->> uncore.c:(.text+0xc3bd): undefined reference to `cpu_to_node'
-   ld: vmlinux.o: in function `intel_cpuc_prepare':
->> (.text+0x129ee): undefined reference to `cpu_to_node'
-   ld: vmlinux.o:(.text+0x12a71): more undefined references to `cpu_to_node' follow
-   ld: vmlinux.o: in function `kernel_init_freeable':
->> main.c:(.init.text+0x1240): undefined reference to `_cpu_to_node'
-   ld: vmlinux.o: in function `check_timer':
->> io_apic.c:(.init.text+0x1ec1d): undefined reference to `cpu_to_node'
-   ld: vmlinux.o: in function `kvm_alloc_cpumask':
->> kvm.c:(.init.text+0x21678): undefined reference to `cpu_to_node'
-   ld: vmlinux.o: in function `fork_idle':
->> (.init.text+0x28fe2): undefined reference to `cpu_to_node'
-   ld: vmlinux.o: in function `cpus_share_numa':
->> workqueue.c:(.init.text+0x2a4c8): undefined reference to `cpu_to_node'
->> ld: workqueue.c:(.init.text+0x2a4d8): undefined reference to `cpu_to_node'
-   ld: vmlinux.o:workqueue.c:(.init.text+0x2a7bc): more undefined references to `cpu_to_node' follow
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] mips/smp: Call rcu_cpu_starting() earlier
+Link: https://lore.kernel.org/stable/20240119163811.3884999-1-stefan.wiehler%40nokia.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
