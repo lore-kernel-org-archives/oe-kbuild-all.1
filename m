@@ -1,201 +1,169 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC496D50F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 07:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0481E887
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 08:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705650288; cv=none; b=dT19hTOpKs930S1Ur9Gtfg3xTD9RkW3EgOEHkITr8mFxvkp/gXBmZa/+jfrmOgXWj0gd0zE3zRX3XY3yrQfDRrtg7a1V+OBrpaZiyKs+PH9nC8tsvKWKJ5ptPa2tBKBjqiX2RCb9i6hJzSv/iqzeJnyJlt6PcjdafTdxn5Ho0zs=
+	t=1705653453; cv=none; b=aO2FT2tSg1yXNFrta0Ib591U9FL5M/Ngmnvpj9mhBQ8SgZzLP7A3dfzCDPsLTsWXnVpUHKEbcONrRHqzX8SUuFAjahSSWbmriTjg4ZZUiYIfA5VMNKHb3YpSomUWD2USSCsAJrSCljl011wCHwsjRFCafPPLAou7v7RW++fe+mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705650288; c=relaxed/simple;
-	bh=ZEXbqYXwT8yT4lsujguw5hF3X4s7crtA+ohr4KhGRgc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JVcqM+BhcE4pxdwIHiYu4rICLF+PysJDgZ6MqgQRL2YudjuO72U8hSHKG5VumMtas6grXLMcK3sScTWe/o/Z7NnzFAeSNSH8D1yCyNFOXxmc6dxnyaEKTXZR0go8ePHrwPE5wcYLzLuzWtRZnFtkyTRSg0ZCeEUFa1o3qxQ+AXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nBww+/xI; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1705653453; c=relaxed/simple;
+	bh=lK4MYTGk+LLGnKIrNyR4BUyPuK/kpvJ3iBXwKgmLHE0=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=aPCvWose2Yf8shT7OWHsoL65uHFvoKgr+fV2dUlThiY3wFlrk5gviBEjlQOXuMgCJUShntgNt45+GKPLKNprM/vDMKTY2WsYKStaEieQrVdMKwyS3SIHvKFVB6OVELTE9WoaiTby3AJLO+vNlFr9+xDxYzfCnNsUGsiSd18RahQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=WpC6uKKT; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nBww+/xI"
-Message-ID: <7f334083-afab-4393-97d5-7d5fdfab2991@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1705650283;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NfdbWh15m6eGg8EbFU7d9Mus+SMsi4OG6VHA3hHpJRY=;
-	b=nBww+/xICupSH571ZfuSPoZCOk49z5yEvhug1esLrDXCgGSEHixCaP7eaAFT7SdROWovc/
-	Bf4uh7/hGLC+EwUjon/nz2tzunFdU65M8vRvK2A1FIfGrWwcE23Hzs1kUBb1y/rZ0a5IcQ
-	FQPKjrojPDHRgOfbQZ7Gix3cFmuc3Bo=
-Date: Fri, 19 Jan 2024 15:44:35 +0800
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="WpC6uKKT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qHwLxG3XXvDj6i3V51GtruF33I9dNC9PJdW5RW/t6Z8=;
+  b=WpC6uKKTyXoGTFhRvfQLpMAH9zznrgiAsDK6vINhIvltGvsILLaqRIxk
+   XrE3DIlVOETqzIgB7j3tfXZSZVH5xNvGp+IBe3Emcd/JxBoEVgPczf+Af
+   WjzNoOltBIZ3VdtkYy6fbwo/Z9T34HTvObPutm3EVuQ9toEEn1+TxevET
+   k=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.05,204,1701126000"; 
+   d="scan'208";a="77245273"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 09:37:27 +0100
+Date: Fri, 19 Jan 2024 09:37:26 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Tom Zanussi <tom.zanussi@linux.intel.com>, 
+    Herbert Xu <herbert@gondor.apana.org.au>, linux-kernel@vger.kernel.org
+cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/crypto/intel/keembay/ocs-aes.c:1476:49-50: WARNING opportunity
+ for min() (fwd)
+Message-ID: <15aa10f2-189-7cbb-1c58-799ce8f2d3e@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [linux-next:master 13015/13783] drivers/net/virtio_net.c:4340:35:
- error: '%u' directive writing between 1 and 10 bytes into a region of size 9
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- Jakub Kicinski <kuba@kernel.org>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-References: <202401190425.IGYMqCJW-lkp@intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <202401190425.IGYMqCJW-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
 
+Please see the last line of the code extract.
 
-在 2024/1/19 4:36, kernel test robot 写道:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   2863b714f3ad0a9686f2de1b779228ad8c7a8052
-> commit: e3fe8d28c67bf6c291e920c6d04fa22afa14e6e4 [13015/13783] virtio_net: Fix "‘%d’ directive writing between 1 and 11 bytes into a region of size 10" warnings
-> config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20240119/202401190425.IGYMqCJW-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+---------- Forwarded message ----------
+Date: Fri, 19 Jan 2024 10:52:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/crypto/intel/keembay/ocs-aes.c:1476:49-50: WARNING opportunity
+    for min()
 
-I can reproduce this problem in my local host.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Tom Zanussi <tom.zanussi@linux.intel.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
-It seems that this problem is related with gcc-7. In the same test 
-environment, with gcc-7, this problem will occur. With gcc later than 
-version 9, this problem will not occur.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0f289bdd4102fc870c8b97652c57d41952040d70
+commit: fbf31dd599875cb132d764cf4d05d7985e332c05 crypto: keembay - Move driver to drivers/crypto/intel/keembay
+date:   10 months ago
+:::::: branch date: 85 minutes ago
+:::::: commit date: 10 months ago
+config: hexagon-randconfig-r061-20240117 (https://download.01.org/0day-ci/archive/20240119/202401191031.nqVcuyDA-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
 
-And with u16, the range of %u should be [0, 65535]. Not the following:
-"
-    drivers/net/virtio_net.c:4141:27: note: directive argument in the 
-range [0, 2147483647]
-       sprintf(vi->sq[i].name, "output.%u", i); "
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202401191031.nqVcuyDA-lkp@intel.com/
 
-And the size of name is 16. That is, the name string can contain 15 
-bytes characters.
-When the variable i is set to the maximum 65535, the string should be 
-"output.65535". The size of the string is 12 + 1 = 13 bytes.
-The size of the name is greater than the maximum string "output.65535".
+cocci warnings: (new ones prefixed by >>)
+>> drivers/crypto/intel/keembay/ocs-aes.c:1476:49-50: WARNING opportunity for min()
 
-In short, from the above, this problem results from gcc-7. It is a 
-problem with gcc-7. Based on my tests with gcc-9, gcc-13, this problem 
-is fixed in later gcc versions.
-And the warning is a false warning to this commit.
+vim +1476 drivers/crypto/intel/keembay/ocs-aes.c
 
-Best Regards
-Zhu Yanjun
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1400
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1401  /**
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1402   * ocs_create_linked_list_from_sg() - Create OCS DMA linked list from SG list.
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1403   * @aes_dev:	  The OCS AES device the list will be created for.
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1404   * @sg:		  The SG list OCS DMA linked list will be created from. When
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1405   *		  passed to this function, @sg must have been already mapped
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1406   *		  with dma_map_sg().
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1407   * @sg_dma_count: The number of DMA-mapped entries in @sg. This must be the
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1408   *		  value returned by dma_map_sg() when @sg was mapped.
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1409   * @dll_desc:	  The OCS DMA dma_list to use to store information about the
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1410   *		  created linked list.
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1411   * @data_size:	  The size of the data (from the SG list) to be mapped into the
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1412   *		  OCS DMA linked list.
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1413   * @data_offset:  The offset (within the SG list) of the data to be mapped.
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1414   *
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1415   * Return:	0 on success, negative error code otherwise.
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1416   */
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1417  int ocs_create_linked_list_from_sg(const struct ocs_aes_dev *aes_dev,
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1418  				   struct scatterlist *sg,
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1419  				   int sg_dma_count,
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1420  				   struct ocs_dll_desc *dll_desc,
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1421  				   size_t data_size, size_t data_offset)
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1422  {
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1423  	struct ocs_dma_linked_list *ll = NULL;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1424  	struct scatterlist *sg_tmp;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1425  	unsigned int tmp;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1426  	int dma_nents;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1427  	int i;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1428
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1429  	if (!dll_desc || !sg || !aes_dev)
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1430  		return -EINVAL;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1431
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1432  	/* Default values for when no ddl_desc is created. */
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1433  	dll_desc->vaddr = NULL;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1434  	dll_desc->dma_addr = DMA_MAPPING_ERROR;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1435  	dll_desc->size = 0;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1436
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1437  	if (data_size == 0)
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1438  		return 0;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1439
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1440  	/* Loop over sg_list until we reach entry at specified offset. */
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1441  	while (data_offset >= sg_dma_len(sg)) {
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1442  		data_offset -= sg_dma_len(sg);
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1443  		sg_dma_count--;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1444  		sg = sg_next(sg);
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1445  		/* If we reach the end of the list, offset was invalid. */
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1446  		if (!sg || sg_dma_count == 0)
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1447  			return -EINVAL;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1448  	}
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1449
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1450  	/* Compute number of DMA-mapped SG entries to add into OCS DMA list. */
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1451  	dma_nents = 0;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1452  	tmp = 0;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1453  	sg_tmp = sg;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1454  	while (tmp < data_offset + data_size) {
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1455  		/* If we reach the end of the list, data_size was invalid. */
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1456  		if (!sg_tmp)
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1457  			return -EINVAL;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1458  		tmp += sg_dma_len(sg_tmp);
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1459  		dma_nents++;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1460  		sg_tmp = sg_next(sg_tmp);
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1461  	}
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1462  	if (dma_nents > sg_dma_count)
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1463  		return -EINVAL;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1464
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1465  	/* Allocate the DMA list, one entry for each SG entry. */
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1466  	dll_desc->size = sizeof(struct ocs_dma_linked_list) * dma_nents;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1467  	dll_desc->vaddr = dma_alloc_coherent(aes_dev->dev, dll_desc->size,
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1468  					     &dll_desc->dma_addr, GFP_KERNEL);
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1469  	if (!dll_desc->vaddr)
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1470  		return -ENOMEM;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1471
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1472  	/* Populate DMA linked list entries. */
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1473  	ll = dll_desc->vaddr;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1474  	for (i = 0; i < dma_nents; i++, sg = sg_next(sg)) {
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26  1475  		ll[i].src_addr = sg_dma_address(sg) + data_offset;
+88574332451380 drivers/crypto/keembay/ocs-aes.c Mike Healy 2020-11-26 @1476  		ll[i].src_len = (sg_dma_len(sg) - data_offset) < data_size ?
 
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190425.IGYMqCJW-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401190425.IGYMqCJW-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     drivers/net/virtio_net.c: In function 'init_vqs':
->     drivers/net/virtio_net.c:4339:36: error: 'sprintf' may write a terminating nul past the end of the destination [-Werror=format-overflow=]
->        sprintf(vi->rq[i].name, "input.%u", i);
->                                         ^
->     drivers/net/virtio_net.c:4339:3: note: 'sprintf' output between 8 and 17 bytes into a destination of size 16
->        sprintf(vi->rq[i].name, "input.%u", i);
->        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>> drivers/net/virtio_net.c:4340:35: error: '%u' directive writing between 1 and 10 bytes into a region of size 9 [-Werror=format-overflow=]
->        sprintf(vi->sq[i].name, "output.%u", i);
->                                        ^~
->     drivers/net/virtio_net.c:4340:27: note: directive argument in the range [0, 2147483647]
->        sprintf(vi->sq[i].name, "output.%u", i);
->                                ^~~~~~~~~~~
->     drivers/net/virtio_net.c:4340:3: note: 'sprintf' output between 9 and 18 bytes into a destination of size 16
->        sprintf(vi->sq[i].name, "output.%u", i);
->        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->     cc1: all warnings being treated as errors
->
->
-> vim +4340 drivers/net/virtio_net.c
->
->    4293	
->    4294	static int virtnet_find_vqs(struct virtnet_info *vi)
->    4295	{
->    4296		vq_callback_t **callbacks;
->    4297		struct virtqueue **vqs;
->    4298		const char **names;
->    4299		int ret = -ENOMEM;
->    4300		int total_vqs;
->    4301		bool *ctx;
->    4302		u16 i;
->    4303	
->    4304		/* We expect 1 RX virtqueue followed by 1 TX virtqueue, followed by
->    4305		 * possible N-1 RX/TX queue pairs used in multiqueue mode, followed by
->    4306		 * possible control vq.
->    4307		 */
->    4308		total_vqs = vi->max_queue_pairs * 2 +
->    4309			    virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VQ);
->    4310	
->    4311		/* Allocate space for find_vqs parameters */
->    4312		vqs = kcalloc(total_vqs, sizeof(*vqs), GFP_KERNEL);
->    4313		if (!vqs)
->    4314			goto err_vq;
->    4315		callbacks = kmalloc_array(total_vqs, sizeof(*callbacks), GFP_KERNEL);
->    4316		if (!callbacks)
->    4317			goto err_callback;
->    4318		names = kmalloc_array(total_vqs, sizeof(*names), GFP_KERNEL);
->    4319		if (!names)
->    4320			goto err_names;
->    4321		if (!vi->big_packets || vi->mergeable_rx_bufs) {
->    4322			ctx = kcalloc(total_vqs, sizeof(*ctx), GFP_KERNEL);
->    4323			if (!ctx)
->    4324				goto err_ctx;
->    4325		} else {
->    4326			ctx = NULL;
->    4327		}
->    4328	
->    4329		/* Parameters for control virtqueue, if any */
->    4330		if (vi->has_cvq) {
->    4331			callbacks[total_vqs - 1] = NULL;
->    4332			names[total_vqs - 1] = "control";
->    4333		}
->    4334	
->    4335		/* Allocate/initialize parameters for send/receive virtqueues */
->    4336		for (i = 0; i < vi->max_queue_pairs; i++) {
->    4337			callbacks[rxq2vq(i)] = skb_recv_done;
->    4338			callbacks[txq2vq(i)] = skb_xmit_done;
->    4339			sprintf(vi->rq[i].name, "input.%u", i);
->> 4340			sprintf(vi->sq[i].name, "output.%u", i);
->    4341			names[rxq2vq(i)] = vi->rq[i].name;
->    4342			names[txq2vq(i)] = vi->sq[i].name;
->    4343			if (ctx)
->    4344				ctx[rxq2vq(i)] = true;
->    4345		}
->    4346	
->    4347		ret = virtio_find_vqs_ctx(vi->vdev, total_vqs, vqs, callbacks,
->    4348					  names, ctx, NULL);
->    4349		if (ret)
->    4350			goto err_find;
->    4351	
->    4352		if (vi->has_cvq) {
->    4353			vi->cvq = vqs[total_vqs - 1];
->    4354			if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VLAN))
->    4355				vi->dev->features |= NETIF_F_HW_VLAN_CTAG_FILTER;
->    4356		}
->    4357	
->    4358		for (i = 0; i < vi->max_queue_pairs; i++) {
->    4359			vi->rq[i].vq = vqs[rxq2vq(i)];
->    4360			vi->rq[i].min_buf_len = mergeable_min_buf_len(vi, vi->rq[i].vq);
->    4361			vi->sq[i].vq = vqs[txq2vq(i)];
->    4362		}
->    4363	
->    4364		/* run here: ret == 0. */
->    4365	
->    4366	
->    4367	err_find:
->    4368		kfree(ctx);
->    4369	err_ctx:
->    4370		kfree(names);
->    4371	err_names:
->    4372		kfree(callbacks);
->    4373	err_callback:
->    4374		kfree(vqs);
->    4375	err_vq:
->    4376		return ret;
->    4377	}
->    4378	
->
+:::::: The code at line 1476 was first introduced by commit
+:::::: 88574332451380f4b51f6ca88ab9810e714bfb9b crypto: keembay - Add support for Keem Bay OCS AES/SM4
+
+:::::: TO: Mike Healy <mikex.healy@intel.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
