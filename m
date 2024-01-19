@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1D4481C7;
-	Fri, 19 Jan 2024 10:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32992DDAB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 11:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705660321; cv=none; b=DzpSrm+HY3F/cUDc9iTrZl65UwBWN+3wDqeRlU9CpeSbA7GeXeJZqo9sdnwZSOHIZUUfe3u24QK+DBxYhoxq0JZID0KauEmXStySnQAuYtl+yOf4jmlhczSQl5AC5GWlXKORNy7/PCFOBSYM/zAByUyurjSPSmuwToS5Oa08OXI=
+	t=1705662659; cv=none; b=sU3f4VN55y5htI1tTBhHXujqr3vSICpq3TEM5K7Ivt6jKUVmKdMsOFmWhQohazCgZQ76GihZzWR/HcrYLkOKGeV1PY8RAT3u1YHLalFhLnqdiizyI/PpN5lUl4T/wK1o9DwTYXGr8vSTtknf8MweLVH4Cf9iTjM8rwVk/EXFRqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705660321; c=relaxed/simple;
-	bh=ugbG3rsqUiWrBnnSNz7P6Oi4cdnkEG1z83KyGg6hLZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ovCanD6HlFmoPflPJ76cwNWZGDN4ujOjXGIvvrvDIZ+BeG+HgK2wSJ36Lc6NakABfMeP4th5RYkDoORzfCRmcyvQ5UDfROmfMBO3msABxL3s3ezfEmF1y+KkFLnM4xwWYzUX894P9nsPdlyRYkcuhlfXoN+gSrnz6WYdfmu5RP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oEPE5F0t; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705662659; c=relaxed/simple;
+	bh=/xzSjiSdBXWGYK6ctLWTtVvDRWbjNfPwhb5OjXYpyrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EU0RW3awGVTClVdWwOiexLDF6NilbUM+Ahsn5n9cuT/a5L/R3Abz6CYCyp6VzLbW3TAUlUUvqJsfK5VDeTtrHTX36kkTn6As64x60Bj3fhBcho1FqpJp3z86XfUuvvtynp3fHdAdVdC7x7vjOA4KvyanJTSXeZf98rpEr8tIPDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=akDHIbjD; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEPE5F0t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705660319; x=1737196319;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ugbG3rsqUiWrBnnSNz7P6Oi4cdnkEG1z83KyGg6hLZc=;
-  b=oEPE5F0tEsD7eRbWX0FPlPlbLqM2LTpk5/GIZKzzudxFgY020rwDqsQz
-   uRocyM7EFVUjDEbwPHrbuwXNpKO0CNHZCQON8Rx4BoeXxOkG/hXjL7WJn
-   OJwwdX7VFuVHUGvFMxMCndTuHOcHNYnS2ekALEcHyzMsdH0yZdZVLGja4
-   uCxzDBeFcoQZnqrsHkJ9yFC6fq62Egt77HuFRJgFTWjI1Ws02EQu1PKx3
-   /HFT8tjhWz4XLlTaTeekcSyQ1Atqmz2pWQh+F7BBlBVI3TzTxzrNJLjbT
-   zqpyFN2QjMIbUKxiMVULCoR8BS6j2EAl8z8BZbGAFmT85YPOsLb7U4JQq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7407069"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="7407069"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 02:31:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="908295072"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="908295072"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 19 Jan 2024 02:31:55 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rQmAC-0003uy-37;
-	Fri, 19 Jan 2024 10:31:52 +0000
-Date: Fri, 19 Jan 2024 18:31:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH net-next 3/3] virtio-net: reduce the CPU consumption of
- dim worker
-Message-ID: <202401191807.RIhMHJ4U-lkp@intel.com>
-References: <1705410693-118895-4-git-send-email-hengqi@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="akDHIbjD"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40e9ef9853bso2135085e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 03:10:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1705662655; x=1706267455; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=c/tlRd9ir6O1nYz/6SExASgeFu7aYjEIcs7W6XXABxg=;
+        b=akDHIbjDLU9W73A5bxrNkD3cgGYW+l1wqi223JVQRblnxg+sYBqvsZ7k5HqELLhJ7X
+         MEhve7+VnWOHfCcKSKdkruytwUM3E51wfIRgBZKjWL0r4/oXPo9ID9cfrlYc3aedLmyS
+         zupckMksjxD7bcxuVO0uv+F86h8FXgKzr+4KpSpVgK/TeJiqyTfHV35f8JTOxrIHB+aY
+         QQTeMasH/88mffSK9FLSIWPf9bkhr7O4VzUz6ArzxnzvxbvXQnjhBFEaOlzJOOdHDBlN
+         zrR4h17OXwrffhu57GSVVzjK1cXwQxK87j1EckYbV51jt8H1Yv/xP91QXSDRqr9j4Clp
+         Es3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705662655; x=1706267455;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c/tlRd9ir6O1nYz/6SExASgeFu7aYjEIcs7W6XXABxg=;
+        b=oVrpM7nmvSXbt+6zJoiWK4688U4lCCBuV6LVmOdK/BeKi09ak2maJG8OYvRpgCezv8
+         VKottS6WDGjp7wenbFtJLwtIzA43IaNrOW8/oQVJyADBdZcz6VB2WPMTuwvtvVzGEfEi
+         P2i/nAeiI+VBIF2Z1ntemmzYP9PLdHi2StiwYIbUI/uhyaYGdVQfBrU9TTKxUfKCUsQp
+         NRjVvZPaN8nopETTjKLYXTIvHlvp6sJyYoBUvtvYwV+8BdNFntUUp+AB/cuKWvX2TeXZ
+         tS7iblGUzMOBIBLPOUM5ZsgTCesHhzDXGAtpoPEMlkKYCsrRI+57yFc54fZPn7xAUPe5
+         U2MA==
+X-Gm-Message-State: AOJu0Yzo3wy76y2TFQidzMa4CIk0OpaEkX9dk5ue/2n74jkpZktuzPab
+	eFsfBmV036kqDSrnNyEQwJm71Lo8u8l/CVKc73DB+stdqVAmOfYpTp01Ws8+a/0=
+X-Google-Smtp-Source: AGHT+IHNff0iIWFoPY0M5bi4fGnVi4PmL1Ayyq9kDA3QdW2gd3OKsuUlx0ugFCeUCq3lSVvlcoFD0Q==
+X-Received: by 2002:a05:600c:43c3:b0:40c:6939:b470 with SMTP id f3-20020a05600c43c300b0040c6939b470mr524991wmn.53.1705662655349;
+        Fri, 19 Jan 2024 03:10:55 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id u17-20020a05600c19d100b0040e47dc2e8fsm28591668wmq.6.2024.01.19.03.10.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jan 2024 03:10:54 -0800 (PST)
+Date: Fri, 19 Jan 2024 14:10:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:vectorized-scrub 209/370] fs/xfs/xfs_buf_mem.c:124
+ xmbuf_alloc() warn: missing error code 'error'
+Message-ID: <930e558a-4e40-4014-abd4-62d8150c0dae@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,102 +64,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1705410693-118895-4-git-send-email-hengqi@linux.alibaba.com>
 
-Hi Heng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-fix-possible-dim-status-unrecoverable/20240116-211306
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/1705410693-118895-4-git-send-email-hengqi%40linux.alibaba.com
-patch subject: [PATCH net-next 3/3] virtio-net: reduce the CPU consumption of dim worker
-config: i386-randconfig-012-20240119 (https://download.01.org/0day-ci/archive/20240119/202401191807.RIhMHJ4U-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191807.RIhMHJ4U-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
+head:   47566740a753390604b54a9f3786737c56ab4d7b
+commit: e9fac4aaae33bd311c3925cc81cd7b9e43ba53a2 [209/370] xfs: support in-memory buffer cache targets
+config: x86_64-randconfig-161-20240119 (https://download.01.org/0day-ci/archive/20240119/202401191812.feAbH0et-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401191807.RIhMHJ4U-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202401191812.feAbH0et-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/xfs/xfs_buf_mem.c:124 xmbuf_alloc() warn: missing error code 'error'
 
->> drivers/net/virtio_net.c:3590:27: error: invalid application of 'sizeof' to an incomplete type 'struct virtnet_coal_entry'
-    3590 |                     ctrl->num_entries * sizeof(struct virtnet_coal_entry));
-         |                                         ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/virtio_net.c:3590:41: note: forward declaration of 'struct virtnet_coal_entry'
-    3590 |                     ctrl->num_entries * sizeof(struct virtnet_coal_entry));
-         |                                                       ^
-   drivers/net/virtio_net.c:3658:27: error: invalid application of 'sizeof' to an incomplete type 'struct virtnet_coal_entry'
-    3658 |                                 vi->max_queue_pairs * sizeof(struct virtnet_coal_entry));
-         |                                                       ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/virtio_net.c:3658:41: note: forward declaration of 'struct virtnet_coal_entry'
-    3658 |                                 vi->max_queue_pairs * sizeof(struct virtnet_coal_entry));
-         |                                                                     ^
-   drivers/net/virtio_net.c:4544:31: error: invalid application of 'sizeof' to an incomplete type 'struct virtnet_coal_entry'
-    4544 |                       vi->max_queue_pairs * sizeof(struct virtnet_coal_entry)), GFP_KERNEL);
-         |                                             ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/virtio_net.c:4544:45: note: forward declaration of 'struct virtnet_coal_entry'
-    4544 |                       vi->max_queue_pairs * sizeof(struct virtnet_coal_entry)), GFP_KERNEL);
-         |                                                           ^
-   drivers/net/virtio_net.c:4551:27: error: invalid application of 'sizeof' to an incomplete type 'struct virtnet_coal_entry'
-    4551 |                                 vi->max_queue_pairs * sizeof(struct virtnet_coal_entry));
-         |                                                       ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/virtio_net.c:4544:45: note: forward declaration of 'struct virtnet_coal_entry'
-    4544 |                       vi->max_queue_pairs * sizeof(struct virtnet_coal_entry)), GFP_KERNEL);
-         |                                                           ^
-   4 errors generated.
+vim +/error +124 fs/xfs/xfs_buf_mem.c
 
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   63  int
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   64  xmbuf_alloc(
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   65  	struct xfs_mount	*mp,
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   66  	const char		*descr,
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   67  	struct xmbuf		**xmbp)
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   68  {
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   69  	struct file		*file;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   70  	struct inode		*inode;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   71  	struct xmbuf		*xmb;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   72  	int			error;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   73  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   74  	xmb = kzalloc(sizeof(*xmb), GFP_KERNEL);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   75  	if (!xmb)
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   76  		return -ENOMEM;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   77  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   78  	file = shmem_kernel_file_setup(descr, 0, 0);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   79  	if (IS_ERR(file)) {
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   80  		error = PTR_ERR(file);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   81  		goto out_xmb;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   82  	}
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   83  	xmb->file = file;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   84  	inode = file_inode(xmb->file);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   85  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   86  	/* private file, private locking */
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   87  	lockdep_set_class(&inode->i_rwsem, &xmbuf_i_mutex_key);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   88  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   89  	/* no highmem so we can use page_address */
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   90  	mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   91  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   92  	/* all writes are below EOF */
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   93  	i_size_write(inode, inode->i_sb->s_maxbytes);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   94  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   95  	trace_xmbuf_create(xmb);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   96  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   97  	error = xfs_buf_cache_init(&xmb->bcache);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   98  	if (error)
+e9fac4aaae33bd Darrick J. Wong 2024-01-09   99  		goto out_file;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  100  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  101  	/* Initialize buffer target */
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  102  	xmb->target.bt_mount = mp;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  103  	xmb->target.bt_dev = (dev_t)-1U;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  104  	xmb->target.bt_file = xmb->file;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  105  	xmb->target.bt_flags |= XFS_BUFTARG_MEM;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  106  	xmb->target.bt_cache = &xmb->bcache;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  107  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  108  	xmb->target.bt_meta_sectorsize = XMBUF_BLOCKSIZE;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  109  	xmb->target.bt_meta_sectormask = XMBUF_BLOCKSIZE - 1;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  110  	xmb->target.bt_logical_sectorsize = XMBUF_BLOCKSIZE;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  111  	xmb->target.bt_logical_sectormask = XMBUF_BLOCKSIZE - 1;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  112  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  113  	/*
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  114  	 * Buffer IO error rate limiting. Limit it to no more than 10 messages
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  115  	 * per 30 seconds so as to not spam logs too much on repeated errors.
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  116  	 */
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  117  	ratelimit_state_init(&xmb->target.bt_ioerror_rl, 30 * HZ,
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  118  			     DEFAULT_RATELIMIT_BURST);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  119  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  120  	if (list_lru_init(&xmb->target.bt_lru))
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  121  		goto out_bcache;
 
-vim +3590 drivers/net/virtio_net.c
+Set error code?
 
-  3570	
-  3571	static bool virtnet_add_dim_command(struct virtnet_info *vi,
-  3572					    struct virtnet_batch_coal *ctrl)
-  3573	{
-  3574		struct scatterlist *sgs[4], hdr, stat, out;
-  3575		unsigned out_num = 0;
-  3576		int ret;
-  3577	
-  3578		/* Caller should know better */
-  3579		BUG_ON(!virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VQ));
-  3580	
-  3581		ctrl->hdr.class = VIRTIO_NET_CTRL_NOTF_COAL;
-  3582		ctrl->hdr.cmd = VIRTIO_NET_CTRL_NOTF_COAL_VQS_SET;
-  3583	
-  3584		/* Add header */
-  3585		sg_init_one(&hdr, &ctrl->hdr, sizeof(ctrl->hdr));
-  3586		sgs[out_num++] = &hdr;
-  3587	
-  3588		/* Add body */
-  3589		sg_init_one(&out, &ctrl->num_entries, sizeof(ctrl->num_entries) +
-> 3590			    ctrl->num_entries * sizeof(struct virtnet_coal_entry));
-  3591		sgs[out_num++] = &out;
-  3592	
-  3593		/* Add return status. */
-  3594		ctrl->status = VIRTIO_NET_OK;
-  3595		sg_init_one(&stat, &ctrl->status, sizeof(ctrl->status));
-  3596		sgs[out_num] = &stat;
-  3597	
-  3598		BUG_ON(out_num + 1 > ARRAY_SIZE(sgs));
-  3599		ret = virtqueue_add_sgs(vi->cvq, sgs, out_num, 1, ctrl, GFP_ATOMIC);
-  3600		if (ret < 0) {
-  3601			dev_warn(&vi->vdev->dev, "Failed to add sgs for command vq: %d\n.", ret);
-  3602			return false;
-  3603		}
-  3604	
-  3605		virtqueue_kick(vi->cvq);
-  3606	
-  3607		ctrl->usable = false;
-  3608		vi->cvq_cmd_nums++;
-  3609	
-  3610		return true;
-  3611	}
-  3612	
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  122  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  123  	if (percpu_counter_init(&xmb->target.bt_io_count, 0, GFP_KERNEL))
+e9fac4aaae33bd Darrick J. Wong 2024-01-09 @124  		goto out_lru;
+
+Here too.
+
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  125  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  126  	*xmbp = xmb;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  127  	return 0;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  128  
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  129  out_lru:
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  130  	list_lru_destroy(&xmb->target.bt_lru);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  131  out_bcache:
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  132  	xfs_buf_cache_destroy(&xmb->bcache);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  133  out_file:
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  134  	xmbuf_close(xmb);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  135  out_xmb:
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  136  	kfree(xmb);
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  137  	return error;
+e9fac4aaae33bd Darrick J. Wong 2024-01-09  138  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
