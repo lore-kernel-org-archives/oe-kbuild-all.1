@@ -1,39 +1,59 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EC45821A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 21:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A659158230;
+	Fri, 19 Jan 2024 22:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705700438; cv=none; b=pRO5DrVzHH040Oz6gh7yY5V4Sb1NEiDW7rjj6O2+VrvCHChtyQGEEHsCEon6w1uOk0UswXWEH/Jvr+8/otnXV38tAq9+xKXdr8E10727hQq11gILOQl9RsZG3aPUZJ8XM9WIosmEtHDXF4lkA7Qe5pVqT0sDZgxfkatLs2edwcY=
+	t=1705701744; cv=none; b=R92jJWEjdOuXkE+iD2fRPK/pK22XP6nHmg6/NEQCo+DQF6sGMBBTnajh5CVXKOJ3imf7fIPx8RwDEchKkLO+dbJiVOVygumcAS5ZIqFa+0Szoe0/ix/DGPb+BbPY22tPskIeDlvU/GyJQfgq+OEbE60SC5BfyOZtIAgcl2yeAxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705700438; c=relaxed/simple;
-	bh=nAC89f8X8johnpv+URotV+e2rcj2kEeyMjs6mLBR+Sc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rzuE0tbD2H6nyFBT9TqtGdsoAKWgRdOj9qaJiqnl3jmCRnSATAea553rXZX33NhwyWsslBosjfzam5Ef2AUMvgiLdbIaig+HpoppKsPN7HOGnt+hFSV9ethOLKGtKWC6Cpm6W1N7jCDmHEl7G6tqUPJB1L468HN8QE6ogwDzBTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nImPMnLU; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1705701744; c=relaxed/simple;
+	bh=6awVfRxtAEE0qZrrYgNTskPSt1swQVGsrDR/RDMf3tc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ATKsG0Pt7G5ZAuT0v1XWrBNrQ50raugWZ25z+43upmV3jFeQ1GKPojfCI5I75uydimNpGzGs9WsC59nwZ1tNRaf+qwXeqRjNK1rq4B0qIjXOtXXybNLsHK2f31lfJa919Xv4ewSjf6pYGFAATt11vFTiilB/3YrXE5ueD6jvrAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=izgzZpF9; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nImPMnLU"
-Date: Fri, 19 Jan 2024 16:40:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1705700435;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CL7Fqi9wJdDJQ7mbKqAQUb1dIye7tr1dS4PuVlo2Y4k=;
-	b=nImPMnLUgKWOVj1e2odWGZyr47SQmvvPDoVjYia1NEhMH8RNywJ6QcznO/fVoOvY1wafM1
-	quzLTeGQsSE8/rLGE84QDDcKa5lUJRwnR+QQHIp/qlBd1NESLGnQ4RzaMQV91AOHcVWt1L
-	T0NMaCKZtYXjXP7IFlf3l2KSn0hKZ2c=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: fs/bcachefs/bkey_methods.c:46:5-8: Unneeded variable: "ret".
- Return "  0" on line 53
-Message-ID: <tmj24xougircv23l2kmsxkzoj3j5yyyclzcujysiatavvre4fo@luejm2g2kcxx>
-References: <202401192156.IvrA7iSY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="izgzZpF9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705701742; x=1737237742;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6awVfRxtAEE0qZrrYgNTskPSt1swQVGsrDR/RDMf3tc=;
+  b=izgzZpF9f+AmtXfGWlAeV9Q1dZpaAKvCr56ktewhGVNtZ8zfCdmS/9+6
+   coYFkvnSwi1hsAIvWIaa5uh2L8DtKSlAJUPgFIXEfI6ZAJ7HOZbhasSL/
+   QyFBZvzTsdJx4j6NMdVjA7n9YCmJgWVJD6wgoWJwpH5EnBRhY+mq3Om8B
+   xbTYxu+IOlha3Dq8UV5Eo7w1DenbQcU2ZjBzsMlQ0xoJWwMqqqBFlUahK
+   773YN3WbvgGGl8EHVb5D77//7Gn3GtpgrSOyTtJ9dA/t1Eb1u6GlvNGAB
+   wYw5tO6i4fclxmrsbaKqb4zktdM7Lg99bWHn2nyoHVotkm3VJEQnaGFxD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="19427374"
+X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
+   d="scan'208";a="19427374"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 14:02:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="928482752"
+X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
+   d="scan'208";a="928482752"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 19 Jan 2024 14:02:16 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rQwwI-0004SG-0N;
+	Fri, 19 Jan 2024 22:02:14 +0000
+Date: Sat, 20 Jan 2024 06:01:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chris Morgan <macromorgan@hotmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [dtor-input:next 134/135]
+ drivers/input/joystick/adc-joystick.c:194:10: error: call to undeclared
+ function 'min_array'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202401200525.sV9c5cWM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,43 +62,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202401192156.IvrA7iSY-lkp@intel.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jan 19, 2024 at 09:31:24PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   9d1694dc91ce7b80bc96d6d8eaf1a1eca668d847
-> commit: b65db750e2bb9252321fd54c284edd73c1595a09 bcachefs: Enumerate fsck errors
-> date:   3 months ago
-> config: hexagon-randconfig-r061-20240117 (https://download.01.org/0day-ci/archive/20240119/202401192156.IvrA7iSY-lkp@intel.com/config)
-> compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401192156.IvrA7iSY-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
-> >> fs/bcachefs/bkey_methods.c:46:5-8: Unneeded variable: "ret". Return "  0" on line 53
->    fs/bcachefs/bkey_methods.c:219:5-8: Unneeded variable: "ret". Return "  0" on line 229
-> 
-> vim +46 fs/bcachefs/bkey_methods.c
-> 
->     42	
->     43	static int empty_val_key_invalid(struct bch_fs *c, struct bkey_s_c k,
->     44					 enum bkey_invalid_flags flags, struct printbuf *err)
->     45	{
->   > 46		int ret = 0;
->     47	
->     48		bkey_fsck_err_on(bkey_val_bytes(k.k), c, err,
->     49				 bkey_val_size_nonzero,
->     50				 "incorrect value size (%zu != 0)",
->     51				 bkey_val_bytes(k.k));
->     52	fsck_err:
->   > 53		return ret;
->     54	}
->     55	
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+head:   3af6e24a456437d323d1080bd254053f7af05234
+commit: 6380a59c534ecab1462608a1f76490289a45a377 [134/135] Input: adc-joystick - handle inverted axes
+config: i386-randconfig-001-20240120 (https://download.01.org/0day-ci/archive/20240120/202401200525.sV9c5cWM-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401200525.sV9c5cWM-lkp@intel.com/reproduce)
 
-This isn't an actual bug; ret and the fsck_err: labels are used by
-fsck_err() and related macros - we need a way to annotate that ret isn't
-unused if we want to silence this.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401200525.sV9c5cWM-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/input/joystick/adc-joystick.c:194:10: error: call to undeclared function 'min_array'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     194 |                                      min_array(axes[i].range, 2),
+         |                                      ^
+>> drivers/input/joystick/adc-joystick.c:195:10: error: call to undeclared function 'max_array'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     195 |                                      max_array(axes[i].range, 2),
+         |                                      ^
+   2 errors generated.
+
+
+vim +/min_array +194 drivers/input/joystick/adc-joystick.c
+
+   135	
+   136	static int adc_joystick_set_axes(struct device *dev, struct adc_joystick *joy)
+   137	{
+   138		struct adc_joystick_axis *axes;
+   139		struct fwnode_handle *child;
+   140		int num_axes, error, i;
+   141	
+   142		num_axes = device_get_child_node_count(dev);
+   143		if (!num_axes) {
+   144			dev_err(dev, "Unable to find child nodes\n");
+   145			return -EINVAL;
+   146		}
+   147	
+   148		if (num_axes != joy->num_chans) {
+   149			dev_err(dev, "Got %d child nodes for %d channels\n",
+   150				num_axes, joy->num_chans);
+   151			return -EINVAL;
+   152		}
+   153	
+   154		axes = devm_kmalloc_array(dev, num_axes, sizeof(*axes), GFP_KERNEL);
+   155		if (!axes)
+   156			return -ENOMEM;
+   157	
+   158		device_for_each_child_node(dev, child) {
+   159			error = fwnode_property_read_u32(child, "reg", &i);
+   160			if (error) {
+   161				dev_err(dev, "reg invalid or missing\n");
+   162				goto err_fwnode_put;
+   163			}
+   164	
+   165			if (i >= num_axes) {
+   166				error = -EINVAL;
+   167				dev_err(dev, "No matching axis for reg %d\n", i);
+   168				goto err_fwnode_put;
+   169			}
+   170	
+   171			error = fwnode_property_read_u32(child, "linux,code",
+   172							 &axes[i].code);
+   173			if (error) {
+   174				dev_err(dev, "linux,code invalid or missing\n");
+   175				goto err_fwnode_put;
+   176			}
+   177	
+   178			error = fwnode_property_read_u32_array(child, "abs-range",
+   179							       axes[i].range, 2);
+   180			if (error) {
+   181				dev_err(dev, "abs-range invalid or missing\n");
+   182				goto err_fwnode_put;
+   183			}
+   184	
+   185			if (axes[i].range[0] > axes[i].range[1]) {
+   186				dev_dbg(dev, "abs-axis %d inverted\n", i);
+   187				axes[i].inverted = true;
+   188			}
+   189	
+   190			fwnode_property_read_u32(child, "abs-fuzz", &axes[i].fuzz);
+   191			fwnode_property_read_u32(child, "abs-flat", &axes[i].flat);
+   192	
+   193			input_set_abs_params(joy->input, axes[i].code,
+ > 194					     min_array(axes[i].range, 2),
+ > 195					     max_array(axes[i].range, 2),
+   196					     axes[i].fuzz, axes[i].flat);
+   197			input_set_capability(joy->input, EV_ABS, axes[i].code);
+   198		}
+   199	
+   200		joy->axes = axes;
+   201	
+   202		return 0;
+   203	
+   204	err_fwnode_put:
+   205		fwnode_handle_put(child);
+   206		return error;
+   207	}
+   208	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
