@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9308F5B;
-	Fri, 19 Jan 2024 07:23:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7248F61
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 07:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705649033; cv=none; b=YJZyzStUb2dpQx/tDYLI4LlFSjouG+frmh0J5F7Ubpo6ASfFmYUMsqIo/yUkIS5PU5v/739XwVCIAOratx8o1qqkqNPcYPyrYL3OWZ9a6Iq9Cm7htI3CVcIM0V0aHkpAw8pHx7t/4fqQkJsEYa4/W9lWMDc0hjXjlzSMn4VkB+E=
+	t=1705649036; cv=none; b=NNMdQPKokbBp5eB1+dCiTK/6Hz6YNq4uUZ+VSRJsFW5sSTXdOPIWciRO0yjwvHzaVZTogPPZRbohWXKwyr5vSD9SX6HjavwW6Wh8CWt6zT0pIInQRKNbGCB/oHWZlp7qx0ofMoqC1AvxAbufCTV7fzeCl/4JXumNvN/G5KjWxlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705649033; c=relaxed/simple;
-	bh=h88Q/4eF+gGTCeHvH7WpqcgPLBE8uqiclyrPl0c77C0=;
+	s=arc-20240116; t=1705649036; c=relaxed/simple;
+	bh=b2LLXycIP26jUqiFJmT13k/JBSF1Ddwuyn8sosdDgXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BPfzmUcoP/ywHSnZdt33zp/Xd+wHwN5SKBA5X3RH8CXkACxylVYJdaSEozU+zbM81cn7IS/RTAifrVJ2uywqlckRXTVz0kGdAVA7W7wXMvTZtIV9730K2XQIBkik72ebAT9Xzep2Ney31YD5SIq9OythKLnywMNYMXIJ7/F37HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQNudNHQ; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=LhrpZ+0JimAfi7/UcNvegVR/73wW6+19elkEgKM4YkcMTkvjwn9ycWjzRn07za/kokx1nRmBmjeMBl2FIx3uq0lSaKPne5gHKRYFmA9PlYK4moUStpMuaFT0v6jSN1oylV+3Ag2O+WWYzKXIWT+FCBNmckNPlwUBZaUZxn3mMBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GxB1DJwE; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQNudNHQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GxB1DJwE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705649032; x=1737185032;
+  t=1705649033; x=1737185033;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h88Q/4eF+gGTCeHvH7WpqcgPLBE8uqiclyrPl0c77C0=;
-  b=EQNudNHQvn/8vQP3gbMm8RMMZRYEOJAVZZmR1/stMl1K/muTxHt2ZmJQ
-   S1ggfCRkIdnxelzcWjI+DZKx7fH++XtnBUdt5lWDluvMW5Cp+a3G3H/XU
-   obO7PuGvsLxgeuU9N+BqlAwtagPqlir5V6QUIMaOLBCWlkK//Hh1IxEY7
-   TOdElROt/SjN2M2et9rgTEO7j33kOhq+5APOVxlujs0+8IumU/paDCROf
-   C9Ga971pUtGmSh2MpF7vUa3x0h2YrOKuT3PkFBatK5OBzckoeDFQi+OYD
-   O4CLT+7MTcN9kpGe7ZcsQn3RB6aGQwJR3R+Nue6xcMTC1P3BI/4dIw/GQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7387120"
+  bh=b2LLXycIP26jUqiFJmT13k/JBSF1Ddwuyn8sosdDgXY=;
+  b=GxB1DJwEl/JFS+rE2r1UHnhDOYig+PCprJlrRrBm+r+/7C+2fjbUUa31
+   mMqsEDal4vUfq3BFdEm8xzE31N9M6YigdMBC2AS8oOYAcR8wm194cdc7I
+   d1xsZsRRYqmpTMe1cL/Q2OKIVfKOXNykaH0VSavQwPp/LwPmVP/NpO8kW
+   YZoLP7WohZGP40aEGsj5xxtB3k1aPeDXleKolqWNIr5NsoJI57k21v3dK
+   Wdwe7lwkH8b0xLdSMvjNXWVC7M54zaDWSCNUFQjIkj6KEfeGSEWdv5BTt
+   wWu7ISj9jlXNv6nIj4e4iJbd5P8CHedA+5ncw03pXELpBp/UOapl7pTjI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="431852762"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="7387120"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 23:23:51 -0800
+   d="scan'208";a="431852762"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 23:23:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="788292588"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="785008304"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="788292588"
+   d="scan'208";a="785008304"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Jan 2024 23:23:49 -0800
+  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2024 23:23:49 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQjEB-0003kk-1d;
+	id 1rQjEB-0003ki-1W;
 	Fri, 19 Jan 2024 07:23:47 +0000
-Date: Fri, 19 Jan 2024 15:23:29 +0800
+Date: Fri, 19 Jan 2024 15:23:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:mlx5_wc 2/10] arch/s390/include/asm/io.h:82:2: error:
- call to undeclared function 'zpci_memcpy_toio'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202401191500.XqDyUna1-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1357/2432] mm/share_pool.c:787: warning: Function
+ parameter or member 'node_id' not described in 'sp_area_alloc'
+Message-ID: <202401191500.neRWROb9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,139 +59,188 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux mlx5_wc
-head:   9154e4ba473efc3536a8820244a4088f3b5a783c
-commit: ad883e9437958651d52e49b456a3c545d56d2e48 [2/10] s390: Implement __iowrite32_copy()
-config: s390-randconfig-001-20240119 (https://download.01.org/0day-ci/archive/20240119/202401191500.XqDyUna1-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191500.XqDyUna1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   2e018278a1c987a70fec748cda0909af70d20977
+commit: b39fcd51ad1b62c99ed0932ad0d2f89dfdc17aaa [1357/2432] mm/sharepool: Add sp_area management code
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240119/202401191500.neRWROb9-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191500.neRWROb9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401191500.XqDyUna1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401191500.neRWROb9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
->> arch/s390/include/asm/io.h:82:2: error: call to undeclared function 'zpci_memcpy_toio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           zpci_memcpy_toio(to, from, count * 4);
-           ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:86:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:86:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:86:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:591:
-   In file included from arch/s390/include/asm/hw_irq.h:6:
-   In file included from include/linux/pci.h:37:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:160:
-   include/linux/compat.h:454:22: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-           case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
-                               ^        ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:591:
-   In file included from arch/s390/include/asm/hw_irq.h:6:
-   In file included from include/linux/pci.h:37:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:160:
-   include/linux/compat.h:454:10: warning: array index 7 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
-           case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
-                   ^     ~
-   include/linux/compat.h:130:2: note: array 'sig' declared here
+   mm/share_pool.c:685: warning: expecting prototype for mp_sp_group_id_by_pid(). Prototype was for mg_sp_group_id_by_pid() instead
+>> mm/share_pool.c:787: warning: Function parameter or member 'node_id' not described in 'sp_area_alloc'
+   mm/share_pool.c:1110: warning: duplicate section name 'Return'
+   mm/share_pool.c:1145: warning: Function parameter or member 'spg_id' not described in 'mg_sp_unshare'
 
 
-vim +/zpci_memcpy_toio +82 arch/s390/include/asm/io.h
+vim +787 mm/share_pool.c
 
-    77	
-    78	/* combine single writes by using store-block insn */
-    79	static inline void __iowrite32_copy(void __iomem *to, const void *from,
-    80					    size_t count)
-    81	{
-  > 82		zpci_memcpy_toio(to, from, count * 4);
-    83	}
-    84	#define __iowrite32_copy __iowrite32_copy
-    85	
+   773	
+   774	/**
+   775	 * sp_area_alloc() - Allocate a region of VA from the share pool.
+   776	 * @size: the size of VA to allocate.
+   777	 * @flags: how to allocate the memory.
+   778	 * @spg: the share group that the memory is allocated to.
+   779	 * @type: the type of the region.
+   780	 * @applier: the tgid of the task which allocates the region.
+   781	 *
+   782	 * Return: a valid pointer for success, NULL on failure.
+   783	 */
+   784	static struct sp_area *sp_area_alloc(unsigned long size, unsigned long flags,
+   785					     struct sp_group *spg, enum spa_type type,
+   786					     pid_t applier, int node_id)
+ > 787	{
+   788		int device_id;
+   789		struct sp_area *spa, *first, *err;
+   790		struct rb_node *n;
+   791		unsigned long vstart;
+   792		unsigned long vend;
+   793		unsigned long addr;
+   794		unsigned long size_align = ALIGN(size, PMD_SIZE); /* va aligned to 2M */
+   795		struct sp_mapping *mapping;
+   796	
+   797		device_id = sp_flags_device_id(flags);
+   798		if (device_id < 0 || device_id >= MAX_DEVID) {
+   799			pr_err("invalid device id %d\n", device_id);
+   800			return ERR_PTR(-EINVAL);
+   801		}
+   802	
+   803		if (flags & SP_PROT_FOCUS) {
+   804			if ((flags & (SP_DVPP | SP_PROT_RO)) != SP_PROT_RO) {
+   805				pr_err("invalid sp_flags [%lx]\n", flags);
+   806				return ERR_PTR(-EINVAL);
+   807			}
+   808			mapping = spg->mapping[SP_MAPPING_RO];
+   809		} else if (flags & SP_DVPP) {
+   810			mapping = spg->mapping[SP_MAPPING_DVPP];
+   811		} else {
+   812			mapping = spg->mapping[SP_MAPPING_NORMAL];
+   813		}
+   814	
+   815		if (!mapping) {
+   816			pr_err_ratelimited("non DVPP spg, id %d\n", spg->id);
+   817			return ERR_PTR(-EINVAL);
+   818		}
+   819	
+   820		vstart = mapping->start[device_id];
+   821		vend = mapping->end[device_id];
+   822		spa = kmalloc(sizeof(struct sp_area), GFP_KERNEL);
+   823		if (unlikely(!spa))
+   824			return ERR_PTR(-ENOMEM);
+   825	
+   826		spin_lock(&mapping->sp_mapping_lock);
+   827	
+   828		/*
+   829		 * Invalidate cache if we have more permissive parameters.
+   830		 * cached_hole_size notes the largest hole noticed _below_
+   831		 * the sp_area cached in free_area_cache: if size fits
+   832		 * into that hole, we want to scan from vstart to reuse
+   833		 * the hole instead of allocating above free_area_cache.
+   834		 * Note that sp_area_free may update free_area_cache
+   835		 * without updating cached_hole_size.
+   836		 */
+   837		if (!mapping->free_area_cache || size_align < mapping->cached_hole_size ||
+   838		    vstart != mapping->cached_vstart) {
+   839			mapping->cached_hole_size = 0;
+   840			mapping->free_area_cache = NULL;
+   841		}
+   842	
+   843		/* record if we encounter less permissive parameters */
+   844		mapping->cached_vstart = vstart;
+   845	
+   846		/* find starting point for our search */
+   847		if (mapping->free_area_cache) {
+   848			first = rb_entry(mapping->free_area_cache, struct sp_area, rb_node);
+   849			addr = first->va_end;
+   850			if (addr + size_align < addr) {
+   851				err = ERR_PTR(-EOVERFLOW);
+   852				goto error;
+   853			}
+   854		} else {
+   855			addr = vstart;
+   856			if (addr + size_align < addr) {
+   857				err = ERR_PTR(-EOVERFLOW);
+   858				goto error;
+   859			}
+   860	
+   861			n = mapping->area_root.rb_node;
+   862			first = NULL;
+   863	
+   864			while (n) {
+   865				struct sp_area *tmp;
+   866	
+   867				tmp = rb_entry(n, struct sp_area, rb_node);
+   868				if (tmp->va_end >= addr) {
+   869					first = tmp;
+   870					if (tmp->va_start <= addr)
+   871						break;
+   872					n = n->rb_left;
+   873				} else
+   874					n = n->rb_right;
+   875			}
+   876	
+   877			if (!first)
+   878				goto found;
+   879		}
+   880	
+   881		/* from the starting point, traverse areas until a suitable hole is found */
+   882		while (addr + size_align > first->va_start && addr + size_align <= vend) {
+   883			if (addr + mapping->cached_hole_size < first->va_start)
+   884				mapping->cached_hole_size = first->va_start - addr;
+   885			addr = first->va_end;
+   886			if (addr + size_align < addr) {
+   887				err = ERR_PTR(-EOVERFLOW);
+   888				goto error;
+   889			}
+   890	
+   891			n = rb_next(&first->rb_node);
+   892			if (n)
+   893				first = rb_entry(n, struct sp_area, rb_node);
+   894			else
+   895				goto found;
+   896		}
+   897	
+   898	found:
+   899		if (addr + size_align > vend) {
+   900			err = ERR_PTR(-EOVERFLOW);
+   901			goto error;
+   902		}
+   903	
+   904		spa->va_start          = addr;
+   905		spa->va_end            = addr + size_align;
+   906		spa->real_size         = size;
+   907		spa->region_vstart     = vstart;
+   908		spa->flags             = flags;
+   909		spa->is_hugepage       = (flags & SP_HUGEPAGE);
+   910		spa->spg               = spg;
+   911		spa->spm               = mapping;
+   912		spa->type              = type;
+   913		spa->kva               = 0;   /* NULL pointer */
+   914		spa->applier           = applier;
+   915		spa->preferred_node_id = node_id;
+   916		atomic_set(&spa->use_count, 1);
+   917	
+   918		/* the link location could be saved before, to be optimized */
+   919		spm_insert_area(mapping, spa);
+   920		mapping->free_area_cache = &spa->rb_node;
+   921	
+   922		spin_unlock(&mapping->sp_mapping_lock);
+   923		sp_group_insert_area(spg, spa);
+   924	
+   925		return spa;
+   926	
+   927	error:
+   928		spin_unlock(&mapping->sp_mapping_lock);
+   929		kfree(spa);
+   930		return err;
+   931	}
+   932	
 
 -- 
 0-DAY CI Kernel Test Service
