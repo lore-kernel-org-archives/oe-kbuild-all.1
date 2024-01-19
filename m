@@ -1,57 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0F13C6A6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 09:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1D4481C7;
+	Fri, 19 Jan 2024 10:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705658399; cv=none; b=rfYpZIhhvIAnnANzwWR0Jh4ly1BvzmkwO/HoTo6EH1h5Jsmp65QKt8lOZnjeZo8WgsJ4RvVqLg93CECfdVDxIvvI1HTIYihWa0slOtXRvqZQdZ0al23CScSrWxZz+G8wGAxzzVhiALeOielctbZn9pJbdnGmIJz2BxzV/IS23dc=
+	t=1705660321; cv=none; b=DzpSrm+HY3F/cUDc9iTrZl65UwBWN+3wDqeRlU9CpeSbA7GeXeJZqo9sdnwZSOHIZUUfe3u24QK+DBxYhoxq0JZID0KauEmXStySnQAuYtl+yOf4jmlhczSQl5AC5GWlXKORNy7/PCFOBSYM/zAByUyurjSPSmuwToS5Oa08OXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705658399; c=relaxed/simple;
-	bh=ceS1OQpfknSObP+xJGoQdEam3OBkMU+ho+OaOWYPECE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oYZtiY4TOCoMag2wMWZMCzY4SPd8PrdjIJOrpBE3jr/ECQCMxeo+ESAUqU4zgDSkbFhNEG6hVWjKCGFODJ4oaG3ErLE+h8vJGkCZG0r/mdq5nlOWmSqiLFvVppDBoj7NZav0l3Fj369neltsKDR/GtjDdTB7TRfBnkGdgQodXXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bpWVHalG; arc=none smtp.client-ip=134.134.136.100
+	s=arc-20240116; t=1705660321; c=relaxed/simple;
+	bh=ugbG3rsqUiWrBnnSNz7P6Oi4cdnkEG1z83KyGg6hLZc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ovCanD6HlFmoPflPJ76cwNWZGDN4ujOjXGIvvrvDIZ+BeG+HgK2wSJ36Lc6NakABfMeP4th5RYkDoORzfCRmcyvQ5UDfROmfMBO3msABxL3s3ezfEmF1y+KkFLnM4xwWYzUX894P9nsPdlyRYkcuhlfXoN+gSrnz6WYdfmu5RP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oEPE5F0t; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bpWVHalG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEPE5F0t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705658397; x=1737194397;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ceS1OQpfknSObP+xJGoQdEam3OBkMU+ho+OaOWYPECE=;
-  b=bpWVHalGN0o8Z2vNzEkSom6LNv0ckoMTVaLxjrBJVSJfLNni7uogjtZR
-   yGDgh+VoKSWimcjuIeQZIHtHU2nsDnCK9pey36wpqwDQ25BSCcEhPjVVe
-   nHEjY1Oa1Wz1XVMaRWeO5hru0Bq4QZG8r2K0ifq8jqaIe5kshicfBTvMd
-   f/ehyHJKYqhpGJVY+4f7uDOHrUpIapGJYFta35wj33dR8+GtoJmFswvxs
-   hc66HfFyCdzFJNOvKcBmh0G0cMYMbm66CwSZq5Y51vclfDcaI7JssgcK+
-   EtCjSBCd5JAqRzz41oTEomoNQF9t8xb7xmOsYf7ASAXx1qzCvaIe+wuah
+  t=1705660319; x=1737196319;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ugbG3rsqUiWrBnnSNz7P6Oi4cdnkEG1z83KyGg6hLZc=;
+  b=oEPE5F0tEsD7eRbWX0FPlPlbLqM2LTpk5/GIZKzzudxFgY020rwDqsQz
+   uRocyM7EFVUjDEbwPHrbuwXNpKO0CNHZCQON8Rx4BoeXxOkG/hXjL7WJn
+   OJwwdX7VFuVHUGvFMxMCndTuHOcHNYnS2ekALEcHyzMsdH0yZdZVLGja4
+   uCxzDBeFcoQZnqrsHkJ9yFC6fq62Egt77HuFRJgFTWjI1Ws02EQu1PKx3
+   /HFT8tjhWz4XLlTaTeekcSyQ1Atqmz2pWQh+F7BBlBVI3TzTxzrNJLjbT
+   zqpyFN2QjMIbUKxiMVULCoR8BS6j2EAl8z8BZbGAFmT85YPOsLb7U4JQq
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="467083175"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7407069"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="467083175"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 01:59:55 -0800
+   d="scan'208";a="7407069"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 02:31:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="875332376"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="908295072"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="875332376"
+   d="scan'208";a="908295072"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Jan 2024 01:59:54 -0800
+  by orsmga004.jf.intel.com with ESMTP; 19 Jan 2024 02:31:55 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQlfD-0003tA-2J;
-	Fri, 19 Jan 2024 09:59:51 +0000
-Date: Fri, 19 Jan 2024 17:59:05 +0800
+	id 1rQmAC-0003uy-37;
+	Fri, 19 Jan 2024 10:31:52 +0000
+Date: Fri, 19 Jan 2024 18:31:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Kubiak <michal.kubiak@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexander Lobakin <aleksander.lobakin@intel.com>
-Subject: [alobakin:idpf-libie 46/51]
- drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Function
- parameter or struct member 'params' not described in 'idpf_send_chunked_msg'
-Message-ID: <202401191713.9Uzbk7t9-lkp@intel.com>
+To: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
+	virtualization@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH net-next 3/3] virtio-net: reduce the CPU consumption of
+ dim worker
+Message-ID: <202401191807.RIhMHJ4U-lkp@intel.com>
+References: <1705410693-118895-4-git-send-email-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,113 +66,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1705410693-118895-4-git-send-email-hengqi@linux.alibaba.com>
 
-tree:   https://github.com/alobakin/linux idpf-libie
-head:   29cca1ea6c555a8b97694e38f18926da7969dcfe
-commit: 71ad20b6fa09908fc43a332e3894eace412acf58 [46/51] idpf: add vc functions to manage selected queues
-config: x86_64-buildonly-randconfig-004-20240119 (https://download.01.org/0day-ci/archive/20240119/202401191713.9Uzbk7t9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191713.9Uzbk7t9-lkp@intel.com/reproduce)
+Hi Heng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-fix-possible-dim-status-unrecoverable/20240116-211306
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/1705410693-118895-4-git-send-email-hengqi%40linux.alibaba.com
+patch subject: [PATCH net-next 3/3] virtio-net: reduce the CPU consumption of dim worker
+config: i386-randconfig-012-20240119 (https://download.01.org/0day-ci/archive/20240119/202401191807.RIhMHJ4U-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191807.RIhMHJ4U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401191713.9Uzbk7t9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401191807.RIhMHJ4U-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Function parameter or struct member 'params' not described in 'idpf_send_chunked_msg'
-   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'xn_params' description in 'idpf_send_chunked_msg'
-   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'prep_msg' description in 'idpf_send_chunked_msg'
-   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'config_data_size' description in 'idpf_send_chunked_msg'
-   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'num_chunks' description in 'idpf_send_chunked_msg'
-   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'chunk_size' description in 'idpf_send_chunked_msg'
-   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'chunks' description in 'idpf_send_chunked_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1710: warning: Function parameter or struct member 'q' not described in 'idpf_fill_rxbufq_config_chunk'
-   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1710: warning: expecting prototype for idpf_fill_bufq_config_chunk(). Prototype was for idpf_fill_rxbufq_config_chunk() instead
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1935: warning: Function parameter or struct member 'vc_op' not described in 'idpf_send_ena_dis_selected_qs_msg'
-   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1935: warning: Excess function parameter 'ena' description in 'idpf_send_ena_dis_selected_qs_msg'
+>> drivers/net/virtio_net.c:3590:27: error: invalid application of 'sizeof' to an incomplete type 'struct virtnet_coal_entry'
+    3590 |                     ctrl->num_entries * sizeof(struct virtnet_coal_entry));
+         |                                         ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/virtio_net.c:3590:41: note: forward declaration of 'struct virtnet_coal_entry'
+    3590 |                     ctrl->num_entries * sizeof(struct virtnet_coal_entry));
+         |                                                       ^
+   drivers/net/virtio_net.c:3658:27: error: invalid application of 'sizeof' to an incomplete type 'struct virtnet_coal_entry'
+    3658 |                                 vi->max_queue_pairs * sizeof(struct virtnet_coal_entry));
+         |                                                       ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/virtio_net.c:3658:41: note: forward declaration of 'struct virtnet_coal_entry'
+    3658 |                                 vi->max_queue_pairs * sizeof(struct virtnet_coal_entry));
+         |                                                                     ^
+   drivers/net/virtio_net.c:4544:31: error: invalid application of 'sizeof' to an incomplete type 'struct virtnet_coal_entry'
+    4544 |                       vi->max_queue_pairs * sizeof(struct virtnet_coal_entry)), GFP_KERNEL);
+         |                                             ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/virtio_net.c:4544:45: note: forward declaration of 'struct virtnet_coal_entry'
+    4544 |                       vi->max_queue_pairs * sizeof(struct virtnet_coal_entry)), GFP_KERNEL);
+         |                                                           ^
+   drivers/net/virtio_net.c:4551:27: error: invalid application of 'sizeof' to an incomplete type 'struct virtnet_coal_entry'
+    4551 |                                 vi->max_queue_pairs * sizeof(struct virtnet_coal_entry));
+         |                                                       ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/virtio_net.c:4544:45: note: forward declaration of 'struct virtnet_coal_entry'
+    4544 |                       vi->max_queue_pairs * sizeof(struct virtnet_coal_entry)), GFP_KERNEL);
+         |                                                           ^
+   4 errors generated.
 
 
-vim +1499 drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
+vim +3590 drivers/net/virtio_net.c
 
-  1482	
-  1483	/**
-  1484	 * idpf_send_chunked_msg - Send a VC message consisting of chunks.
-  1485	 * @vport: virtual port data structure
-  1486	 * @xn_params: parameters for this particular transaction including
-  1487	 * @prep_msg: pointer to the helper function for preparing the VC message
-  1488	 * @config_data_size: size of the message config data
-  1489	 * @num_chunks: number of chunks in the message
-  1490	 * @chunk_size: size of single message chunk
-  1491	 * @chunks: pointer to a buffer containig chunks of the message
-  1492	 *
-  1493	 * Helper function for preparing the message describing queues to be enabled
-  1494	 * or disabled.
-  1495	 * Returns the total size of the prepared message.
-  1496	 */
-  1497	static int idpf_send_chunked_msg(struct idpf_vport *vport,
-  1498					 struct idpf_chunked_msg_params *params)
-> 1499	{
-  1500		u32 num_msgs, max_chunks, left_chunks, max_buf_sz;
-  1501		u32 num_chunks = params->num_chunks;
-  1502		int err = 0, i;
-  1503		u8 *msg_buf;
-  1504	
-  1505		max_chunks = min_t(u32, IDPF_NUM_CHUNKS_PER_MSG(params->config_sz,
-  1506								params->chunk_sz),
-  1507								params->num_chunks);
-  1508		max_buf_sz = params->config_sz + max_chunks * params->chunk_sz;
-  1509		num_msgs = DIV_ROUND_UP(params->num_chunks, max_chunks);
-  1510	
-  1511		msg_buf = kzalloc(max_buf_sz, GFP_KERNEL);
-  1512		if (!msg_buf) {
-  1513			err = -ENOMEM;
-  1514			goto error;
-  1515		}
-  1516	
-  1517		mutex_lock(&vport->vc_buf_lock);
-  1518	
-  1519		left_chunks = num_chunks;
-  1520		for (i = 0; i < num_msgs; i++) {
-  1521			u8 *chunks = params->chunks;
-  1522			int buf_sz, msg_size;
-  1523			u8 *first_chunk;
-  1524	
-  1525			num_chunks = min(max_chunks, left_chunks);
-  1526			first_chunk = chunks + (i * params->chunk_sz * max_chunks);
-  1527			msg_size = params->chunk_sz * num_chunks + params->config_sz;
-  1528	
-  1529			buf_sz = params->prepare_msg(vport, msg_buf, first_chunk,
-  1530						     num_chunks);
-  1531			if (buf_sz != msg_size) {
-  1532				err = -EINVAL;
-  1533				goto msg_error;
-  1534			}
-  1535	
-  1536			err = idpf_send_mb_msg(vport->adapter, params->op,
-  1537					       buf_sz, msg_buf);
-  1538			if (err)
-  1539				goto msg_error;
-  1540	
-  1541			err = __idpf_wait_for_event(vport->adapter, vport,
-  1542						    params->state, params->err_check,
-  1543						    params->timeout);
-  1544			if (err)
-  1545				goto msg_error;
-  1546	
-  1547			left_chunks -= num_chunks;
-  1548		}
-  1549	
-  1550		if (left_chunks != 0)
-  1551			err = -EINVAL;
-  1552	msg_error:
-  1553		mutex_unlock(&vport->vc_buf_lock);
-  1554		kfree(msg_buf);
-  1555	error:
-  1556		return err;
-  1557	}
-  1558	
+  3570	
+  3571	static bool virtnet_add_dim_command(struct virtnet_info *vi,
+  3572					    struct virtnet_batch_coal *ctrl)
+  3573	{
+  3574		struct scatterlist *sgs[4], hdr, stat, out;
+  3575		unsigned out_num = 0;
+  3576		int ret;
+  3577	
+  3578		/* Caller should know better */
+  3579		BUG_ON(!virtio_has_feature(vi->vdev, VIRTIO_NET_F_CTRL_VQ));
+  3580	
+  3581		ctrl->hdr.class = VIRTIO_NET_CTRL_NOTF_COAL;
+  3582		ctrl->hdr.cmd = VIRTIO_NET_CTRL_NOTF_COAL_VQS_SET;
+  3583	
+  3584		/* Add header */
+  3585		sg_init_one(&hdr, &ctrl->hdr, sizeof(ctrl->hdr));
+  3586		sgs[out_num++] = &hdr;
+  3587	
+  3588		/* Add body */
+  3589		sg_init_one(&out, &ctrl->num_entries, sizeof(ctrl->num_entries) +
+> 3590			    ctrl->num_entries * sizeof(struct virtnet_coal_entry));
+  3591		sgs[out_num++] = &out;
+  3592	
+  3593		/* Add return status. */
+  3594		ctrl->status = VIRTIO_NET_OK;
+  3595		sg_init_one(&stat, &ctrl->status, sizeof(ctrl->status));
+  3596		sgs[out_num] = &stat;
+  3597	
+  3598		BUG_ON(out_num + 1 > ARRAY_SIZE(sgs));
+  3599		ret = virtqueue_add_sgs(vi->cvq, sgs, out_num, 1, ctrl, GFP_ATOMIC);
+  3600		if (ret < 0) {
+  3601			dev_warn(&vi->vdev->dev, "Failed to add sgs for command vq: %d\n.", ret);
+  3602			return false;
+  3603		}
+  3604	
+  3605		virtqueue_kick(vi->cvq);
+  3606	
+  3607		ctrl->usable = false;
+  3608		vi->cvq_cmd_nums++;
+  3609	
+  3610		return true;
+  3611	}
+  3612	
 
 -- 
 0-DAY CI Kernel Test Service
