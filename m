@@ -1,61 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6F8C13B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 07:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9308F5B;
+	Fri, 19 Jan 2024 07:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705648315; cv=none; b=ejRQ9RmrmJIwvoRQAyth78OLksZF+PdF/r6gEPouDUwg5yBRoI+lBqFjQ6W9KkaGQrzkyApcpLCmJLVdWg3j2MmP78Mp73EX3LamgJ9M/evg2Ay9+yiOdOLaiOuXAbgxHyrnupXHsk9NGo+6rStf7q6gfkESP8JHlL82VrtwA2g=
+	t=1705649033; cv=none; b=YJZyzStUb2dpQx/tDYLI4LlFSjouG+frmh0J5F7Ubpo6ASfFmYUMsqIo/yUkIS5PU5v/739XwVCIAOratx8o1qqkqNPcYPyrYL3OWZ9a6Iq9Cm7htI3CVcIM0V0aHkpAw8pHx7t/4fqQkJsEYa4/W9lWMDc0hjXjlzSMn4VkB+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705648315; c=relaxed/simple;
-	bh=Pe8MQts4DxMBgh4hosuzuHjkTl98NBN4UFDSJ1FnMJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GLf4VnuEs6RHgPJfsc1Ym+7NYrbwSsHOdYsyvRz68MoS3D4iKEdI1KEgu1nTpjjoKBoVG1VWb36ym77diaWbIotbCJWLOlMgdYEdcqYoRhdQF4EknOs7r+fRruVejtkTFHyTx0Z3MxqKMmAAaEB13axC2fCll9ButymXfRfGUlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GhLi6ZMO; arc=none smtp.client-ip=192.55.52.115
+	s=arc-20240116; t=1705649033; c=relaxed/simple;
+	bh=h88Q/4eF+gGTCeHvH7WpqcgPLBE8uqiclyrPl0c77C0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BPfzmUcoP/ywHSnZdt33zp/Xd+wHwN5SKBA5X3RH8CXkACxylVYJdaSEozU+zbM81cn7IS/RTAifrVJ2uywqlckRXTVz0kGdAVA7W7wXMvTZtIV9730K2XQIBkik72ebAT9Xzep2Ney31YD5SIq9OythKLnywMNYMXIJ7/F37HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQNudNHQ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GhLi6ZMO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQNudNHQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705648313; x=1737184313;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Pe8MQts4DxMBgh4hosuzuHjkTl98NBN4UFDSJ1FnMJ0=;
-  b=GhLi6ZMO0MQ/q4Q5+gobspMhCvpPA3vutx4283clkbQb6TW9H1HIvTae
-   bzZKENjvIaZGS0+V+N936R2I2Ee38nfqrzUjPgkN2YYJ1dqAtuAhW0CZO
-   j0lK6ozLb10h+spOKGVEduk8KEMApD99jbiYwf4fAmvOVkP5Axsaet56B
-   gLFm9JGrRi6wWU5v4QH/NyPfZcwtyCMOOkJ7YTdKxgmhOQj7bBI6iCdQ6
-   gzLLkf2017uQR4Zszb/86oaTraVBxljuGlt7TbNHzyPJSbRoAB+irP8RU
-   mA5BRWRSU1QiMKTGUtsc5YECWOFyZhs5t3vNqlF2iwqHi+p+fbfyLZ0gb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="400338075"
+  t=1705649032; x=1737185032;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h88Q/4eF+gGTCeHvH7WpqcgPLBE8uqiclyrPl0c77C0=;
+  b=EQNudNHQvn/8vQP3gbMm8RMMZRYEOJAVZZmR1/stMl1K/muTxHt2ZmJQ
+   S1ggfCRkIdnxelzcWjI+DZKx7fH++XtnBUdt5lWDluvMW5Cp+a3G3H/XU
+   obO7PuGvsLxgeuU9N+BqlAwtagPqlir5V6QUIMaOLBCWlkK//Hh1IxEY7
+   TOdElROt/SjN2M2et9rgTEO7j33kOhq+5APOVxlujs0+8IumU/paDCROf
+   C9Ga971pUtGmSh2MpF7vUa3x0h2YrOKuT3PkFBatK5OBzckoeDFQi+OYD
+   O4CLT+7MTcN9kpGe7ZcsQn3RB6aGQwJR3R+Nue6xcMTC1P3BI/4dIw/GQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7387120"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="400338075"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 23:11:52 -0800
+   d="scan'208";a="7387120"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 23:23:51 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="788292588"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="622401"
+   d="scan'208";a="788292588"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jan 2024 23:11:50 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 18 Jan 2024 23:23:49 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQj2Z-0003kK-0n;
-	Fri, 19 Jan 2024 07:11:47 +0000
-Date: Fri, 19 Jan 2024 15:11:19 +0800
+	id 1rQjEB-0003kk-1d;
+	Fri, 19 Jan 2024 07:23:47 +0000
+Date: Fri, 19 Jan 2024 15:23:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Mark Brown <broonie@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
-	kernel@pengutronix.de, Michal Simek <monstr@monstr.eu>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 17/33] spi: bitbang: Follow renaming of SPI "master" to
- "controller"
-Message-ID: <202401191416.5ex4deYN-lkp@intel.com>
-References: <95602f4f5b17eae6f3381a3153dedd0031b03aba.1705348269.git.u.kleine-koenig@pengutronix.de>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:mlx5_wc 2/10] arch/s390/include/asm/io.h:82:2: error:
+ call to undeclared function 'zpci_memcpy_toio'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202401191500.XqDyUna1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,111 +59,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <95602f4f5b17eae6f3381a3153dedd0031b03aba.1705348269.git.u.kleine-koenig@pengutronix.de>
 
-Hi Uwe,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8d04a7e2ee3fd6aabb8096b00c64db0d735bc874]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/fpga-ice40-spi-Follow-renaming-of-SPI-master-to-controller/20240116-082610
-base:   8d04a7e2ee3fd6aabb8096b00c64db0d735bc874
-patch link:    https://lore.kernel.org/r/95602f4f5b17eae6f3381a3153dedd0031b03aba.1705348269.git.u.kleine-koenig%40pengutronix.de
-patch subject: [PATCH 17/33] spi: bitbang: Follow renaming of SPI "master" to "controller"
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240119/202401191416.5ex4deYN-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191416.5ex4deYN-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux mlx5_wc
+head:   9154e4ba473efc3536a8820244a4088f3b5a783c
+commit: ad883e9437958651d52e49b456a3c545d56d2e48 [2/10] s390: Implement __iowrite32_copy()
+config: s390-randconfig-001-20240119 (https://download.01.org/0day-ci/archive/20240119/202401191500.XqDyUna1-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191500.XqDyUna1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401191416.5ex4deYN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401191500.XqDyUna1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-sh-sci.c: In function 'sh_sci_spi_probe':
->> drivers/spi/spi-sh-sci.c:139:20: error: 'struct spi_bitbang' has no member named 'master'
-     139 |         sp->bitbang.master = host;
-         |                    ^
-   drivers/spi/spi-sh-sci.c:140:20: error: 'struct spi_bitbang' has no member named 'master'
-     140 |         sp->bitbang.master->bus_num = sp->info->bus_num;
-         |                    ^
-   drivers/spi/spi-sh-sci.c:141:20: error: 'struct spi_bitbang' has no member named 'master'
-     141 |         sp->bitbang.master->num_chipselect = sp->info->num_chipselect;
-         |                    ^
-   drivers/spi/spi-sh-sci.c:169:39: error: 'struct spi_bitbang' has no member named 'master'
-     169 |         spi_controller_put(sp->bitbang.master);
-         |                                       ^
-   drivers/spi/spi-sh-sci.c: In function 'sh_sci_spi_remove':
-   drivers/spi/spi-sh-sci.c:181:39: error: 'struct spi_bitbang' has no member named 'master'
-     181 |         spi_controller_put(sp->bitbang.master);
-         |                                       ^
+   In file included from arch/s390/kernel/asm-offsets.c:11:
+   In file included from include/linux/kvm_host.h:19:
+   In file included from include/linux/msi.h:27:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+>> arch/s390/include/asm/io.h:82:2: error: call to undeclared function 'zpci_memcpy_toio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           zpci_memcpy_toio(to, from, count * 4);
+           ^
+   In file included from arch/s390/kernel/asm-offsets.c:11:
+   In file included from include/linux/kvm_host.h:19:
+   In file included from include/linux/msi.h:27:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:86:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from arch/s390/kernel/asm-offsets.c:11:
+   In file included from include/linux/kvm_host.h:19:
+   In file included from include/linux/msi.h:27:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:86:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from arch/s390/kernel/asm-offsets.c:11:
+   In file included from include/linux/kvm_host.h:19:
+   In file included from include/linux/msi.h:27:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:86:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   In file included from arch/s390/kernel/asm-offsets.c:11:
+   In file included from include/linux/kvm_host.h:19:
+   In file included from include/linux/msi.h:27:
+   In file included from include/linux/irq.h:591:
+   In file included from arch/s390/include/asm/hw_irq.h:6:
+   In file included from include/linux/pci.h:37:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:160:
+   include/linux/compat.h:454:22: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+           case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+                               ^        ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/s390/kernel/asm-offsets.c:11:
+   In file included from include/linux/kvm_host.h:19:
+   In file included from include/linux/msi.h:27:
+   In file included from include/linux/irq.h:591:
+   In file included from arch/s390/include/asm/hw_irq.h:6:
+   In file included from include/linux/pci.h:37:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:160:
+   include/linux/compat.h:454:10: warning: array index 7 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+           case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+                   ^     ~
+   include/linux/compat.h:130:2: note: array 'sig' declared here
 
 
-vim +139 drivers/spi/spi-sh-sci.c
+vim +/zpci_memcpy_toio +82 arch/s390/include/asm/io.h
 
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  113  
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  114  static int sh_sci_spi_probe(struct platform_device *dev)
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  115  {
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  116  	struct resource	*r;
-91a940bb1075337 drivers/spi/spi-sh-sci.c Yang Yingliang 2023-08-18  117  	struct spi_controller *host;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  118  	struct sh_sci_spi *sp;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  119  	int ret;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  120  
-91a940bb1075337 drivers/spi/spi-sh-sci.c Yang Yingliang 2023-08-18  121  	host = spi_alloc_host(&dev->dev, sizeof(struct sh_sci_spi));
-91a940bb1075337 drivers/spi/spi-sh-sci.c Yang Yingliang 2023-08-18  122  	if (host == NULL) {
-91a940bb1075337 drivers/spi/spi-sh-sci.c Yang Yingliang 2023-08-18  123  		dev_err(&dev->dev, "failed to allocate spi host\n");
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  124  		ret = -ENOMEM;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  125  		goto err0;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  126  	}
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  127  
-91a940bb1075337 drivers/spi/spi-sh-sci.c Yang Yingliang 2023-08-18  128  	sp = spi_controller_get_devdata(host);
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  129  
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  130  	platform_set_drvdata(dev, sp);
-8074cf063e410a2 drivers/spi/spi-sh-sci.c Jingoo Han     2013-07-30  131  	sp->info = dev_get_platdata(&dev->dev);
-ed8eb250d7b097d drivers/spi/spi-sh-sci.c Axel Lin       2014-03-13  132  	if (!sp->info) {
-ed8eb250d7b097d drivers/spi/spi-sh-sci.c Axel Lin       2014-03-13  133  		dev_err(&dev->dev, "platform data is missing\n");
-ed8eb250d7b097d drivers/spi/spi-sh-sci.c Axel Lin       2014-03-13  134  		ret = -ENOENT;
-ed8eb250d7b097d drivers/spi/spi-sh-sci.c Axel Lin       2014-03-13  135  		goto err1;
-ed8eb250d7b097d drivers/spi/spi-sh-sci.c Axel Lin       2014-03-13  136  	}
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  137  
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  138  	/* setup spi bitbang adaptor */
-91a940bb1075337 drivers/spi/spi-sh-sci.c Yang Yingliang 2023-08-18 @139  	sp->bitbang.master = host;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  140  	sp->bitbang.master->bus_num = sp->info->bus_num;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  141  	sp->bitbang.master->num_chipselect = sp->info->num_chipselect;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  142  	sp->bitbang.chipselect = sh_sci_spi_chipselect;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  143  
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  144  	sp->bitbang.txrx_word[SPI_MODE_0] = sh_sci_spi_txrx_mode0;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  145  	sp->bitbang.txrx_word[SPI_MODE_1] = sh_sci_spi_txrx_mode1;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  146  	sp->bitbang.txrx_word[SPI_MODE_2] = sh_sci_spi_txrx_mode2;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  147  	sp->bitbang.txrx_word[SPI_MODE_3] = sh_sci_spi_txrx_mode3;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  148  
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  149  	r = platform_get_resource(dev, IORESOURCE_MEM, 0);
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  150  	if (r == NULL) {
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  151  		ret = -ENOENT;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  152  		goto err1;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  153  	}
-76b6fdd35a2d796 drivers/spi/spi_sh_sci.c hartleys       2009-12-14  154  	sp->membase = ioremap(r->start, resource_size(r));
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  155  	if (!sp->membase) {
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  156  		ret = -ENXIO;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  157  		goto err1;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  158  	}
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  159  	sp->val = ioread8(SCSPTR(sp));
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  160  	setbits(sp, PIN_INIT, 1);
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  161  
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  162  	ret = spi_bitbang_start(&sp->bitbang);
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  163  	if (!ret)
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  164  		return 0;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  165  
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  166  	setbits(sp, PIN_INIT, 0);
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  167  	iounmap(sp->membase);
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  168   err1:
-91a940bb1075337 drivers/spi/spi-sh-sci.c Yang Yingliang 2023-08-18  169  	spi_controller_put(sp->bitbang.master);
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  170   err0:
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  171  	return ret;
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  172  }
-37e466408796300 drivers/spi/spi_sh_sci.c Magnus Damm    2008-02-06  173  
+    77	
+    78	/* combine single writes by using store-block insn */
+    79	static inline void __iowrite32_copy(void __iomem *to, const void *from,
+    80					    size_t count)
+    81	{
+  > 82		zpci_memcpy_toio(to, from, count * 4);
+    83	}
+    84	#define __iowrite32_copy __iowrite32_copy
+    85	
 
 -- 
 0-DAY CI Kernel Test Service
