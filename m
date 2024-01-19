@@ -1,197 +1,222 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C75A1392;
-	Fri, 19 Jan 2024 06:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2CA186F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 07:08:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705645010; cv=none; b=NuEiCjYdb/sH3bJKqoVUijsaRx1SELbSkNtgOB8rRXvs/RHSExSarTBxTMZmzYb8tUhtPHHgq1ZCE9lve+s+ybqKWmiqnTvy/NvvwjoWGwFskabCDapym+t39luPWrjWWCGtp7lsYuvHl1M4ADAxNe9lkerJ6WN5rMm/BwkgDdg=
+	t=1705648134; cv=none; b=APXluYxHUZL2gLkd6iKim3ANJ1X0p/pbSelZZYqZloAKbbjm50Y8ISUgxGXLNKHrhah3GsfCuZo6CFTt6684PxBkuHtiencQBsy0VOAqGwKM1Cok9HZxhwfNjY0Lo/AVIYvjDrWJipcOiPK/QkX7Wgb1s02bQWYMjkjYxK6ra78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705645010; c=relaxed/simple;
-	bh=AeZc1G1QZrYUhhw+2d1R1QuzWzh80Ewbyy8YHsaoZsk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vDXkTXumAzO1l+IYLlgU25fwZtkJKaFCP1MBikoIUxphLtBBMB5DwV1jGrn240FKwOvKV6zmFQHUwrh8OttEO8llkAq90zsPgAR9FLMcSgez+7C07qeJkV+tR/O8cLtO/5UXqDPFYHbODWIA3hr0zIIo68zkMwXPoH7ts0QpptI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZzXallnG; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1705648134; c=relaxed/simple;
+	bh=23qAmk0xuZo77ffy5gtdhiNhzJD5Dy91FkBD1e2snjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Nq/zaxXiWpjQEqOgCwvjh/NQk4k+nOVaDWvB3A2ECiGn7IWQ5qzt1CgH2hKD6sZOfSWEJgORxZ1+zkONG6wZCILd6s87+9VzQ6EF/sJKGmv9f7bIuqVQgrOjFrtPqf4o2B1lyle9acDNrbk8OsWeIGkjxLedSuEdFgPsRKHizmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZxn2JEB; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZzXallnG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZxn2JEB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705645008; x=1737181008;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=AeZc1G1QZrYUhhw+2d1R1QuzWzh80Ewbyy8YHsaoZsk=;
-  b=ZzXallnGA+THLs9h50B9QxVtdUJiA/HPsJPPfIP3qbfkqwT4EKUAuPCD
-   8vyeW4O75th5s4vkB08VaO/PItupmiq9sNJJEv7ogwv+CV19Ee6mPCwtR
-   IRaO0vHSbOz46nvKg6jhrapsXkbIF/zlppovkOWXJX4ErgHvl12XONHoc
-   7pzENPoKDJ/MwXtihmSYK4HC3NTpdFmLHktZ3PobVIPD8u6jcsFoT2VYo
-   UF6AsNWZ0qsE0ah3d0oX0tro2iGPeyd+mGnsbEtEQKh9azVCktG9IYhkz
-   NJeDYa1qqRNBzSSFnL+fRMe64y1Foye8HdZ5gcjQDw9HvgfPSKnTDs19V
+  t=1705648132; x=1737184132;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=23qAmk0xuZo77ffy5gtdhiNhzJD5Dy91FkBD1e2snjg=;
+  b=fZxn2JEBiVzooJu0C+Il+hrXpOUSZNWN8pdXkD7yctz2cKaYB5t8Pz1Z
+   jRBnDw8tSbq06Cz1+lo/4OhEmoA70qPkP/IQRVx3/4jff0MftVBZrkgIi
+   b9qG321ZfqvP3LRG906j8H96e1ZAsGTyc/0I4nxXFEkU7w+SIC0J6XAbe
+   jbt8ku9JmFP6UGHfi2YD6rSfxvqob+dQ4uqRgN+jJIpJefHWflJ04rbUJ
+   Aoc6+SSI6MEIFVJP1+Lzz2JzdFWF+bmmU3aPVOt6F+gf1NURCCUxd0rNI
+   hO221sTJvzLb3kNtROYOM539IeNiZaR2QFH1hhI3/G+aT3zos3nch/5w/
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="14195111"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="391119214"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="14195111"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 22:16:47 -0800
+   d="scan'208";a="391119214"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 23:08:51 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="958053552"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="497527"
+   d="scan'208";a="958053552"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Jan 2024 22:16:46 -0800
+  by orsmga005.jf.intel.com with ESMTP; 18 Jan 2024 23:08:49 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQiBH-0003hI-2l;
-	Fri, 19 Jan 2024 06:16:43 +0000
-Date: Fri, 19 Jan 2024 14:15:51 +0800
+	id 1rQizf-0003kG-0j;
+	Fri, 19 Jan 2024 07:08:47 +0000
+Date: Fri, 19 Jan 2024 15:08:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RESEND RFC PATCH v1 2/2] serial/8250: Avoid getting lock in RT
- atomic context
-Message-ID: <202401191330.lRpnBCKD-lkp@intel.com>
-References: <20240116073701.2356171-3-leobras@redhat.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 104/105] fs/ceph/crypto.c:591:5: error:
+ conflicting types for 'ceph_fscrypt_decrypt_extents'; have 'int(struct inode
+ *, struct page **, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct
+ inode *, struct page **, long long unsigned int,  struct ceph_sparse_e...
+Message-ID: <202401191542.03dlInqN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240116073701.2356171-3-leobras@redhat.com>
 
-Hi Leonardo,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 052d534373b7ed33712a63d5e17b2b6cdbce84fd]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leonardo-Bras/irq-spurious-Reset-irqs_unhandled-if-an-irq_thread-handles-one-IRQ-request/20240116-153933
-base:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
-patch link:    https://lore.kernel.org/r/20240116073701.2356171-3-leobras%40redhat.com
-patch subject: [RESEND RFC PATCH v1 2/2] serial/8250: Avoid getting lock in RT atomic context
-config: i386-randconfig-011-20240119 (https://download.01.org/0day-ci/archive/20240119/202401191330.lRpnBCKD-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191330.lRpnBCKD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   2cf82c6e7baf6d3a2adc0692707028da395f1553
+commit: 8c002b7822991845125f6d219796f28b75055b90 [104/105] fixes
+config: i386-randconfig-141-20240117 (https://download.01.org/0day-ci/archive/20240119/202401191542.03dlInqN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191542.03dlInqN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401191330.lRpnBCKD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401191542.03dlInqN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/tty/serial/8250/8250_port.c:3401:3: error: expected ')'
-    3401 |                 locked = uart_port_trylock_irqsave(port, &flags);
-         |                 ^
-   drivers/tty/serial/8250/8250_port.c:3400:5: note: to match this '('
-    3400 |         if (oops_in_progress || (IS_ENABLED(CONFIG_PREEMPT_RT) && in_atomic())
-         |            ^
-   1 error generated.
+   fs/ceph/crypto.c:545:5: warning: no previous prototype for 'ceph_fscrypt_decrypt_pages' [-Wmissing-prototypes]
+     545 | int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/ceph/crypto.c:591:5: error: conflicting types for 'ceph_fscrypt_decrypt_extents'; have 'int(struct inode *, struct page **, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct inode *, struct page **, long long unsigned int,  struct ceph_sparse_extent *, unsigned int)'}
+     591 | int ceph_fscrypt_decrypt_extents(struct inode *inode, struct page **page,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/ceph/super.h:25,
+                    from fs/ceph/crypto.c:14:
+   fs/ceph/crypto.h:160:5: note: previous declaration of 'ceph_fscrypt_decrypt_extents' with type 'int(struct inode *, struct ceph_databuf *, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct inode *, struct ceph_databuf *, long long unsigned int,  struct ceph_sparse_extent *, unsigned int)'}
+     160 | int ceph_fscrypt_decrypt_extents(struct inode *inode, struct ceph_databuf *dbuf, u64 off,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/crypto.c: In function 'ceph_fscrypt_decrypt_extents':
+>> fs/ceph/crypto.c:625:58: error: passing argument 2 of 'ceph_fscrypt_decrypt_pages' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     625 |                 fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
+         |                                                          ^~~~~~~~~~~~
+         |                                                          |
+         |                                                          struct page **
+   fs/ceph/crypto.c:545:74: note: expected 'struct ceph_databuf *' but argument is of type 'struct page **'
+     545 | int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
+         |                                                     ~~~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +3401 drivers/tty/serial/8250/8250_port.c
+vim +591 fs/ceph/crypto.c
 
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3379  
-b6830f6df8914f Peter Hurley         2015-06-27  3380  /*
-b6830f6df8914f Peter Hurley         2015-06-27  3381   *	Print a string to the serial port trying not to disturb
-b6830f6df8914f Peter Hurley         2015-06-27  3382   *	any possible real use of the port...
-b6830f6df8914f Peter Hurley         2015-06-27  3383   *
-b6830f6df8914f Peter Hurley         2015-06-27  3384   *	The console_lock must be held when we get here.
-bedb404e91bb29 Andy Shevchenko      2020-02-17  3385   *
-bedb404e91bb29 Andy Shevchenko      2020-02-17  3386   *	Doing runtime PM is really a bad idea for the kernel console.
-bedb404e91bb29 Andy Shevchenko      2020-02-17  3387   *	Thus, we assume the function is called when device is powered up.
-b6830f6df8914f Peter Hurley         2015-06-27  3388   */
-b6830f6df8914f Peter Hurley         2015-06-27  3389  void serial8250_console_write(struct uart_8250_port *up, const char *s,
-b6830f6df8914f Peter Hurley         2015-06-27  3390  			      unsigned int count)
-b6830f6df8914f Peter Hurley         2015-06-27  3391  {
-7f9803072ff636 Lukas Wunner         2020-02-28  3392  	struct uart_8250_em485 *em485 = up->em485;
-b6830f6df8914f Peter Hurley         2015-06-27  3393  	struct uart_port *port = &up->port;
-b6830f6df8914f Peter Hurley         2015-06-27  3394  	unsigned long flags;
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3395  	unsigned int ier, use_fifo;
-b6830f6df8914f Peter Hurley         2015-06-27  3396  	int locked = 1;
-b6830f6df8914f Peter Hurley         2015-06-27  3397  
-b6830f6df8914f Peter Hurley         2015-06-27  3398  	touch_nmi_watchdog();
-b6830f6df8914f Peter Hurley         2015-06-27  3399  
-5194c99b116191 Leonardo Bras        2024-01-16  3400  	if (oops_in_progress || (IS_ENABLED(CONFIG_PREEMPT_RT) && in_atomic())
-e8f87d3c335702 Thomas Gleixner      2023-09-14 @3401  		locked = uart_port_trylock_irqsave(port, &flags);
-b6830f6df8914f Peter Hurley         2015-06-27  3402  	else
-e8f87d3c335702 Thomas Gleixner      2023-09-14  3403  		uart_port_lock_irqsave(port, &flags);
-b6830f6df8914f Peter Hurley         2015-06-27  3404  
-b6830f6df8914f Peter Hurley         2015-06-27  3405  	/*
-b6830f6df8914f Peter Hurley         2015-06-27  3406  	 *	First save the IER then disable the interrupts
-b6830f6df8914f Peter Hurley         2015-06-27  3407  	 */
-b6830f6df8914f Peter Hurley         2015-06-27  3408  	ier = serial_port_in(port, UART_IER);
-a3911f6ea5542d Ilpo Järvinen        2022-08-16  3409  	serial8250_clear_IER(up);
-b6830f6df8914f Peter Hurley         2015-06-27  3410  
-b6830f6df8914f Peter Hurley         2015-06-27  3411  	/* check scratch reg to see if port powered off during system sleep */
-b6830f6df8914f Peter Hurley         2015-06-27  3412  	if (up->canary && (up->canary != serial_port_in(port, UART_SCR))) {
-10791233e98fbd Peter Hurley         2015-09-25  3413  		serial8250_console_restore(up);
-b6830f6df8914f Peter Hurley         2015-06-27  3414  		up->canary = 0;
-b6830f6df8914f Peter Hurley         2015-06-27  3415  	}
-b6830f6df8914f Peter Hurley         2015-06-27  3416  
-7f9803072ff636 Lukas Wunner         2020-02-28  3417  	if (em485) {
-7f9803072ff636 Lukas Wunner         2020-02-28  3418  		if (em485->tx_stopped)
-7f9803072ff636 Lukas Wunner         2020-02-28  3419  			up->rs485_start_tx(up);
-7f9803072ff636 Lukas Wunner         2020-02-28  3420  		mdelay(port->rs485.delay_rts_before_send);
-7f9803072ff636 Lukas Wunner         2020-02-28  3421  	}
-7f9803072ff636 Lukas Wunner         2020-02-28  3422  
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3423  	use_fifo = (up->capabilities & UART_CAP_FIFO) &&
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3424  		/*
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3425  		 * BCM283x requires to check the fifo
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3426  		 * after each byte.
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3427  		 */
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3428  		!(up->capabilities & UART_CAP_MINI) &&
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3429  		/*
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3430  		 * tx_loadsz contains the transmit fifo size
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3431  		 */
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3432  		up->tx_loadsz > 1 &&
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3433  		(up->fcr & UART_FCR_ENABLE_FIFO) &&
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3434  		port->state &&
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3435  		test_bit(TTY_PORT_INITIALIZED, &port->state->port.iflags) &&
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3436  		/*
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3437  		 * After we put a data in the fifo, the controller will send
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3438  		 * it regardless of the CTS state. Therefore, only use fifo
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3439  		 * if we don't use control flow.
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3440  		 */
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3441  		!(up->port.flags & UPF_CONS_FLOW);
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3442  
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3443  	if (likely(use_fifo))
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3444  		serial8250_console_fifo_write(up, s, count);
-8f3631f0f6eb42 Wander Lairson Costa 2022-04-11  3445  	else
-b6830f6df8914f Peter Hurley         2015-06-27  3446  		uart_console_write(port, s, count, serial8250_console_putchar);
-b6830f6df8914f Peter Hurley         2015-06-27  3447  
-b6830f6df8914f Peter Hurley         2015-06-27  3448  	/*
-b6830f6df8914f Peter Hurley         2015-06-27  3449  	 *	Finally, wait for transmitter to become empty
-b6830f6df8914f Peter Hurley         2015-06-27  3450  	 *	and restore the IER
-b6830f6df8914f Peter Hurley         2015-06-27  3451  	 */
-34619de1b8cb52 Ilpo Järvinen        2022-06-24  3452  	wait_for_xmitr(up, UART_LSR_BOTH_EMPTY);
-b6830f6df8914f Peter Hurley         2015-06-27  3453  
-7f9803072ff636 Lukas Wunner         2020-02-28  3454  	if (em485) {
-4e36f94e996ebe Lukas Wunner         2020-03-27  3455  		mdelay(port->rs485.delay_rts_after_send);
-7f9803072ff636 Lukas Wunner         2020-02-28  3456  		if (em485->tx_stopped)
-7f9803072ff636 Lukas Wunner         2020-02-28  3457  			up->rs485_stop_tx(up);
-7f9803072ff636 Lukas Wunner         2020-02-28  3458  	}
-7f9803072ff636 Lukas Wunner         2020-02-28  3459  
-8d5b305484e8a3 Lukas Wunner         2020-03-27  3460  	serial_port_out(port, UART_IER, ier);
-8d5b305484e8a3 Lukas Wunner         2020-03-27  3461  
-b6830f6df8914f Peter Hurley         2015-06-27  3462  	/*
-b6830f6df8914f Peter Hurley         2015-06-27  3463  	 *	The receive handling will happen properly because the
-b6830f6df8914f Peter Hurley         2015-06-27  3464  	 *	receive ready bit will still be set; it is not cleared
-b6830f6df8914f Peter Hurley         2015-06-27  3465  	 *	on read.  However, modem control will not, we must
-b6830f6df8914f Peter Hurley         2015-06-27  3466  	 *	call it if we have saved something in the saved flags
-b6830f6df8914f Peter Hurley         2015-06-27  3467  	 *	while processing with interrupts off.
-b6830f6df8914f Peter Hurley         2015-06-27  3468  	 */
-b6830f6df8914f Peter Hurley         2015-06-27  3469  	if (up->msr_saved_flags)
-b6830f6df8914f Peter Hurley         2015-06-27  3470  		serial8250_modem_status(up);
-b6830f6df8914f Peter Hurley         2015-06-27  3471  
-b6830f6df8914f Peter Hurley         2015-06-27  3472  	if (locked)
-e8f87d3c335702 Thomas Gleixner      2023-09-14  3473  		uart_port_unlock_irqrestore(port, flags);
-b6830f6df8914f Peter Hurley         2015-06-27  3474  }
-b6830f6df8914f Peter Hurley         2015-06-27  3475  
+77cdb7e17e39eb Jeff Layton   2022-08-25  529  
+77cdb7e17e39eb Jeff Layton   2022-08-25  530  /**
+8c002b78229918 David Howells 2023-08-23  531   * ceph_fscrypt_decrypt_data - Decrypt buffered data
+77cdb7e17e39eb Jeff Layton   2022-08-25  532   * @inode: pointer to inode associated with these pages
+8c002b78229918 David Howells 2023-08-23  533   * @dbuf: pointer to buffer containing the data
+77cdb7e17e39eb Jeff Layton   2022-08-25  534   * @off: offset into the file that the read data starts
+77cdb7e17e39eb Jeff Layton   2022-08-25  535   * @len: max length to decrypt
+77cdb7e17e39eb Jeff Layton   2022-08-25  536   *
+8c002b78229918 David Howells 2023-08-23  537   * Decrypt an buffer of fscrypt'ed pages and return the amount of
+77cdb7e17e39eb Jeff Layton   2022-08-25  538   * data decrypted. Any data in the page prior to the start of the
+77cdb7e17e39eb Jeff Layton   2022-08-25  539   * first complete block in the read is ignored. Any incomplete
+77cdb7e17e39eb Jeff Layton   2022-08-25  540   * crypto blocks at the end of the array are ignored (and should
+77cdb7e17e39eb Jeff Layton   2022-08-25  541   * probably be zeroed by the caller).
+77cdb7e17e39eb Jeff Layton   2022-08-25  542   *
+77cdb7e17e39eb Jeff Layton   2022-08-25  543   * Returns the length of the decrypted data or a negative errno.
+77cdb7e17e39eb Jeff Layton   2022-08-25  544   */
+8c002b78229918 David Howells 2023-08-23 @545  int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
+77cdb7e17e39eb Jeff Layton   2022-08-25  546  			       u64 off, int len)
+77cdb7e17e39eb Jeff Layton   2022-08-25  547  {
+77cdb7e17e39eb Jeff Layton   2022-08-25  548  	int i, num_blocks;
+77cdb7e17e39eb Jeff Layton   2022-08-25  549  	u64 baseblk = off >> CEPH_FSCRYPT_BLOCK_SHIFT;
+77cdb7e17e39eb Jeff Layton   2022-08-25  550  	int ret = 0;
+77cdb7e17e39eb Jeff Layton   2022-08-25  551  
+77cdb7e17e39eb Jeff Layton   2022-08-25  552  	/*
+77cdb7e17e39eb Jeff Layton   2022-08-25  553  	 * We can't deal with partial blocks on an encrypted file, so mask off
+77cdb7e17e39eb Jeff Layton   2022-08-25  554  	 * the last bit.
+77cdb7e17e39eb Jeff Layton   2022-08-25  555  	 */
+77cdb7e17e39eb Jeff Layton   2022-08-25  556  	num_blocks = ceph_fscrypt_blocks(off, len & CEPH_FSCRYPT_BLOCK_MASK);
+77cdb7e17e39eb Jeff Layton   2022-08-25  557  
+77cdb7e17e39eb Jeff Layton   2022-08-25  558  	/* Decrypt each block */
+77cdb7e17e39eb Jeff Layton   2022-08-25  559  	for (i = 0; i < num_blocks; ++i) {
+77cdb7e17e39eb Jeff Layton   2022-08-25  560  		int blkoff = i << CEPH_FSCRYPT_BLOCK_SHIFT;
+77cdb7e17e39eb Jeff Layton   2022-08-25  561  		int pgidx = blkoff >> PAGE_SHIFT;
+77cdb7e17e39eb Jeff Layton   2022-08-25  562  		unsigned int pgoffs = offset_in_page(blkoff);
+77cdb7e17e39eb Jeff Layton   2022-08-25  563  		int fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  564  
+8c002b78229918 David Howells 2023-08-23  565  		fret = ceph_fscrypt_decrypt_block_inplace(inode,
+8c002b78229918 David Howells 2023-08-23  566  				ceph_databuf_page(dbuf, pgidx),
+77cdb7e17e39eb Jeff Layton   2022-08-25  567  				CEPH_FSCRYPT_BLOCK_SIZE, pgoffs,
+77cdb7e17e39eb Jeff Layton   2022-08-25  568  				baseblk + i);
+77cdb7e17e39eb Jeff Layton   2022-08-25  569  		if (fret < 0) {
+77cdb7e17e39eb Jeff Layton   2022-08-25  570  			if (ret == 0)
+77cdb7e17e39eb Jeff Layton   2022-08-25  571  				ret = fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  572  			break;
+77cdb7e17e39eb Jeff Layton   2022-08-25  573  		}
+77cdb7e17e39eb Jeff Layton   2022-08-25  574  		ret += CEPH_FSCRYPT_BLOCK_SIZE;
+77cdb7e17e39eb Jeff Layton   2022-08-25  575  	}
+77cdb7e17e39eb Jeff Layton   2022-08-25  576  	return ret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  577  }
+77cdb7e17e39eb Jeff Layton   2022-08-25  578  
+77cdb7e17e39eb Jeff Layton   2022-08-25  579  /**
+77cdb7e17e39eb Jeff Layton   2022-08-25  580   * ceph_fscrypt_decrypt_extents: decrypt received extents in given buffer
+77cdb7e17e39eb Jeff Layton   2022-08-25  581   * @inode: inode associated with pages being decrypted
+77cdb7e17e39eb Jeff Layton   2022-08-25  582   * @page: pointer to page array
+77cdb7e17e39eb Jeff Layton   2022-08-25  583   * @off: offset into the file that the data in page[0] starts
+77cdb7e17e39eb Jeff Layton   2022-08-25  584   * @map: pointer to extent array
+77cdb7e17e39eb Jeff Layton   2022-08-25  585   * @ext_cnt: length of extent array
+77cdb7e17e39eb Jeff Layton   2022-08-25  586   *
+77cdb7e17e39eb Jeff Layton   2022-08-25  587   * Given an extent map and a page array, decrypt the received data in-place,
+77cdb7e17e39eb Jeff Layton   2022-08-25  588   * skipping holes. Returns the offset into buffer of end of last decrypted
+77cdb7e17e39eb Jeff Layton   2022-08-25  589   * block.
+77cdb7e17e39eb Jeff Layton   2022-08-25  590   */
+77cdb7e17e39eb Jeff Layton   2022-08-25 @591  int ceph_fscrypt_decrypt_extents(struct inode *inode, struct page **page,
+77cdb7e17e39eb Jeff Layton   2022-08-25  592  				 u64 off, struct ceph_sparse_extent *map,
+77cdb7e17e39eb Jeff Layton   2022-08-25  593  				 u32 ext_cnt)
+77cdb7e17e39eb Jeff Layton   2022-08-25  594  {
+38d46409c4639a Xiubo Li      2023-06-12  595  	struct ceph_client *cl = ceph_inode_to_client(inode);
+77cdb7e17e39eb Jeff Layton   2022-08-25  596  	int i, ret = 0;
+77cdb7e17e39eb Jeff Layton   2022-08-25  597  	struct ceph_inode_info *ci = ceph_inode(inode);
+77cdb7e17e39eb Jeff Layton   2022-08-25  598  	u64 objno, objoff;
+77cdb7e17e39eb Jeff Layton   2022-08-25  599  	u32 xlen;
+77cdb7e17e39eb Jeff Layton   2022-08-25  600  
+77cdb7e17e39eb Jeff Layton   2022-08-25  601  	/* Nothing to do for empty array */
+77cdb7e17e39eb Jeff Layton   2022-08-25  602  	if (ext_cnt == 0) {
+38d46409c4639a Xiubo Li      2023-06-12  603  		doutc(cl, "%p %llx.%llx empty array, ret 0\n", inode,
+38d46409c4639a Xiubo Li      2023-06-12  604  		      ceph_vinop(inode));
+77cdb7e17e39eb Jeff Layton   2022-08-25  605  		return 0;
+77cdb7e17e39eb Jeff Layton   2022-08-25  606  	}
+77cdb7e17e39eb Jeff Layton   2022-08-25  607  
+77cdb7e17e39eb Jeff Layton   2022-08-25  608  	ceph_calc_file_object_mapping(&ci->i_layout, off, map[0].len,
+77cdb7e17e39eb Jeff Layton   2022-08-25  609  				      &objno, &objoff, &xlen);
+77cdb7e17e39eb Jeff Layton   2022-08-25  610  
+77cdb7e17e39eb Jeff Layton   2022-08-25  611  	for (i = 0; i < ext_cnt; ++i) {
+77cdb7e17e39eb Jeff Layton   2022-08-25  612  		struct ceph_sparse_extent *ext = &map[i];
+77cdb7e17e39eb Jeff Layton   2022-08-25  613  		int pgsoff = ext->off - objoff;
+77cdb7e17e39eb Jeff Layton   2022-08-25  614  		int pgidx = pgsoff >> PAGE_SHIFT;
+77cdb7e17e39eb Jeff Layton   2022-08-25  615  		int fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  616  
+77cdb7e17e39eb Jeff Layton   2022-08-25  617  		if ((ext->off | ext->len) & ~CEPH_FSCRYPT_BLOCK_MASK) {
+38d46409c4639a Xiubo Li      2023-06-12  618  			pr_warn_client(cl,
+38d46409c4639a Xiubo Li      2023-06-12  619  				"%p %llx.%llx bad encrypted sparse extent "
+38d46409c4639a Xiubo Li      2023-06-12  620  				"idx %d off %llx len %llx\n",
+38d46409c4639a Xiubo Li      2023-06-12  621  				inode, ceph_vinop(inode), i, ext->off,
+38d46409c4639a Xiubo Li      2023-06-12  622  				ext->len);
+77cdb7e17e39eb Jeff Layton   2022-08-25  623  			return -EIO;
+77cdb7e17e39eb Jeff Layton   2022-08-25  624  		}
+77cdb7e17e39eb Jeff Layton   2022-08-25 @625  		fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
+77cdb7e17e39eb Jeff Layton   2022-08-25  626  						 off + pgsoff, ext->len);
+38d46409c4639a Xiubo Li      2023-06-12  627  		doutc(cl, "%p %llx.%llx [%d] 0x%llx~0x%llx fret %d\n", inode,
+38d46409c4639a Xiubo Li      2023-06-12  628  		      ceph_vinop(inode), i, ext->off, ext->len, fret);
+77cdb7e17e39eb Jeff Layton   2022-08-25  629  		if (fret < 0) {
+77cdb7e17e39eb Jeff Layton   2022-08-25  630  			if (ret == 0)
+77cdb7e17e39eb Jeff Layton   2022-08-25  631  				ret = fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  632  			break;
+77cdb7e17e39eb Jeff Layton   2022-08-25  633  		}
+77cdb7e17e39eb Jeff Layton   2022-08-25  634  		ret = pgsoff + fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  635  	}
+38d46409c4639a Xiubo Li      2023-06-12  636  	doutc(cl, "ret %d\n", ret);
+77cdb7e17e39eb Jeff Layton   2022-08-25  637  	return ret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  638  }
+77cdb7e17e39eb Jeff Layton   2022-08-25  639  
+
+:::::: The code at line 591 was first introduced by commit
+:::::: 77cdb7e17e39ebb986f60bbd3c2b3507687bf475 ceph: add infrastructure for file encryption and decryption
+
+:::::: TO: Jeff Layton <jlayton@kernel.org>
+:::::: CC: Ilya Dryomov <idryomov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
