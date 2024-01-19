@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21336ECE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 01:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA807BE4D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 02:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705628687; cv=none; b=GxLoEpaRAjpLz3uQNLrPI20Qi4boyX+ryED23oemd2mv6JscsToxsdeVjk3pO0wOpmXyncdaT20IMZHLR3+SZwsCuiVHIwsOCqAL4dmfhKIZ+9ZsWQRz6FWaDordHYVQ/TsOvFKoh+RGueIRZpAZesnPyQg0Y2hRBadxDN48m1E=
+	t=1705630063; cv=none; b=PiJtSGWDPof8+rau+Sux6CwH+4BHAQEyDYD9WYcN/+g5z8UQYgDGP4BMZEqb9YWsrYSuexf2UeaGlyUcmH1ygWtdi+gFHSI2QD6mjXmAGji9XiRJL4nvQMNEfeqdyOnebEP8AmmPFdAzj8g+flbCK3FsEzLyn/7oIk+Ds6R0UX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705628687; c=relaxed/simple;
-	bh=K5Uxt9mMy9PpfjffJrIFnvVsZy0rrA1cQHfo+rgVQgE=;
+	s=arc-20240116; t=1705630063; c=relaxed/simple;
+	bh=YoMLw/a2/uqVjn8pyjo4AUhty8dnuuRipNijGTdljno=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Br+sZxx+rzxwG3a+PouPaZtZA7JkcIMF3nmErnidGUORwhOh4YttX5FN5i2q96vsdpLHVfcPwdUzYWAnS1fFyaLB1wKRYbEEtQoYwUkSIe9AXy4iUeKjn+lMZ9IbYVUaP1GaQ+961VLBX/DghdYk3e5p7iypIE8sdIuTntrsht0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WwdFsZvt; arc=none smtp.client-ip=192.55.52.120
+	 Content-Disposition; b=X4zmQov6gUNU/oQlNDmU+lcopHjccVo37ZdNLpMk3i85GeFzeqRYcty1z+OMpDzinaaSaWjs5sLNu+IY9kVPqScT7NIpDF8ucvqmSOxDx3UkIvXPYIANyQRKhRjU3GK6CDlVdNMTUL1VYcFPYG6LeHeJ5MwQc3gS7URLunWRdpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOyRpDaQ; arc=none smtp.client-ip=192.55.52.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WwdFsZvt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOyRpDaQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705628685; x=1737164685;
+  t=1705630061; x=1737166061;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K5Uxt9mMy9PpfjffJrIFnvVsZy0rrA1cQHfo+rgVQgE=;
-  b=WwdFsZvtdcXozZBvFe9TPw7NUS1RmnqqhXeoY215UzPO6AWUChL2yKfD
-   W9bxv7Zh9r3L/0GR72YpanFKrHX6m+XTdaQi9D9OMwYPDL91jDy7NF9eB
-   poh7l3VUgQejMoCDg/+a3RlYpfFeqFjr2V4/n7GNkz0ll4C3RzyKLb/aF
-   2eZnav76O4nLg+Jqwad5kw7tHXMBRoF+ufNLvnzTiTZ3k6nornXQYXQit
-   g8crSeOmDocv1oE/9Sw/YbCCSLb/9+MzWN39aZ55UgmOBqQauTnkF0Sa7
-   nev4vl88EJ79+a8lvTs7emFFw9UEnhjoYgNn/mUS3MgG3iswl31au6WfT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="399504423"
+  bh=YoMLw/a2/uqVjn8pyjo4AUhty8dnuuRipNijGTdljno=;
+  b=iOyRpDaQibhTCdFL2PppdumPNgFjsoVooveAujtd43T6w1pH0bnArNXf
+   jKnZ6v4RZwBgYgaYVoMW0lNnBp0lv9NokgJqxQXa5jMeBzB13Emo2+IXh
+   HGBXqa4adKpkDn14XhTPjefEMKrMABWfVSyELcxedw/P0oZoQa4OPInns
+   y4HMvdeT9zOYTz2saG7azhpgHkI9kgCDs9jYYBtnnq3Vsb5gwjE9LRVqj
+   gts5sBvfrSB4KayqkCyJIRf4i2DKmJgrJzdU2rXxEkPHkE/lwUNhR3qM/
+   RpOV2MgM8XewsX9o55+6HgcaMiKNxFq17YueSVrpPuS6l1zh6bLcE21ED
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="486786715"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="399504423"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 17:44:40 -0800
+   d="scan'208";a="486786715"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 18:07:41 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="855194720"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="19268129"
+   d="scan'208";a="855194720"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Jan 2024 17:44:40 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 18 Jan 2024 18:07:40 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQdvx-0003Vc-1s;
-	Fri, 19 Jan 2024 01:44:37 +0000
-Date: Fri, 19 Jan 2024 09:44:21 +0800
+	id 1rQeIE-0003WU-0D;
+	Fri, 19 Jan 2024 02:07:38 +0000
+Date: Fri, 19 Jan 2024 10:07:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 17532/21559] kernel/hung_task.c:148:7:
- error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
-Message-ID: <202401190948.KPPQJXEa-lkp@intel.com>
+Subject: [hch-xfs:xfs-btree-check-cleanups 36/37]
+ fs/xfs/libxfs/xfs_btree.c:102:1: warning: no previous prototype for function
+ '__xfs_btree_check_fsblock'
+Message-ID: <202401191022.olDCTYyU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,96 +60,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   8135318753544d6f8afa1f01a47c81fbccb59e39
-commit: 190aae97bcddbed131a203f829257b168f5058ce [17532/21559] kernel/hung_task.c: introduce sysctl to print all traces when a hung task is detected
-config: x86_64-buildonly-randconfig-003-20240112 (https://download.01.org/0day-ci/archive/20240119/202401190948.KPPQJXEa-lkp@intel.com/config)
+Hi Christoph,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   git://git.infradead.org/users/hch/xfs xfs-btree-check-cleanups
+head:   b6892a137b424db9d9e928e41c21a5f45f991052
+commit: 1ecac9eecc63f962e39a682cca57c6914b82cb30 [36/37] xfs: rename btree helpers that depends on the block number representation
+config: i386-randconfig-012-20240119 (https://download.01.org/0day-ci/archive/20240119/202401191022.olDCTYyU-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190948.KPPQJXEa-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401191022.olDCTYyU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401190948.KPPQJXEa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401191022.olDCTYyU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/hung_task.c:148:7: error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
-     148 |                 if (sysctl_hung_task_all_cpu_backtrace)
-         |                     ^
-   kernel/hung_task.c:235:5: warning: no previous prototype for function 'proc_dohung_task_timeout_secs' [-Wmissing-prototypes]
-     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
-         |     ^
-   kernel/hung_task.c:235:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
+>> fs/xfs/libxfs/xfs_btree.c:102:1: warning: no previous prototype for function '__xfs_btree_check_fsblock' [-Wmissing-prototypes]
+     102 | __xfs_btree_check_fsblock(
+         | ^
+   fs/xfs/libxfs/xfs_btree.c:101:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     101 | xfs_failaddr_t
          | ^
          | static 
-   1 warning and 1 error generated.
+>> fs/xfs/libxfs/xfs_btree.c:156:1: warning: no previous prototype for function '__xfs_btree_check_agblock' [-Wmissing-prototypes]
+     156 | __xfs_btree_check_agblock(
+         | ^
+   fs/xfs/libxfs/xfs_btree.c:155:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     155 | xfs_failaddr_t
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +/sysctl_hung_task_all_cpu_backtrace +148 kernel/hung_task.c
+vim +/__xfs_btree_check_fsblock +102 fs/xfs/libxfs/xfs_btree.c
 
-    94	
-    95	static void check_hung_task(struct task_struct *t, unsigned long timeout)
-    96	{
-    97		unsigned long switch_count = t->nvcsw + t->nivcsw;
-    98	
-    99		/*
-   100		 * Ensure the task is not frozen.
-   101		 * Also, skip vfork and any other user process that freezer should skip.
-   102		 */
-   103		if (unlikely(t->flags & (PF_FROZEN | PF_FREEZER_SKIP)))
-   104		    return;
-   105	
-   106		/*
-   107		 * When a freshly created task is scheduled once, changes its state to
-   108		 * TASK_UNINTERRUPTIBLE without having ever been switched out once, it
-   109		 * musn't be checked.
-   110		 */
-   111		if (unlikely(!switch_count))
-   112			return;
-   113	
-   114		if (switch_count != t->last_switch_count) {
-   115			t->last_switch_count = switch_count;
-   116			t->last_switch_time = jiffies;
-   117			return;
-   118		}
-   119		if (time_is_after_jiffies(t->last_switch_time + timeout * HZ))
-   120			return;
+    96	
+    97	/*
+    98	 * Check a long btree block header.  Return the address of the failing check,
+    99	 * or NULL if everything is ok.
+   100	 */
+   101	xfs_failaddr_t
+ > 102	__xfs_btree_check_fsblock(
+   103		struct xfs_btree_cur	*cur,
+   104		struct xfs_btree_block	*block,
+   105		int			level,
+   106		struct xfs_buf		*bp)
+   107	{
+   108		struct xfs_mount	*mp = cur->bc_mp;
+   109		xfs_failaddr_t		fa;
+   110		xfs_fsblock_t		fsb;
+   111	
+   112		if (xfs_has_crc(mp)) {
+   113			if (!uuid_equal(&block->bb_u.l.bb_uuid, &mp->m_sb.sb_meta_uuid))
+   114				return __this_address;
+   115			if (block->bb_u.l.bb_blkno !=
+   116			    cpu_to_be64(bp ? xfs_buf_daddr(bp) : XFS_BUF_DADDR_NULL))
+   117				return __this_address;
+   118			if (block->bb_u.l.bb_pad != cpu_to_be32(0))
+   119				return __this_address;
+   120		}
    121	
-   122		trace_sched_process_hang(t);
-   123	
-   124		if (sysctl_hung_task_panic) {
-   125			console_verbose();
-   126			hung_task_show_lock = true;
-   127			hung_task_call_panic = true;
-   128		}
+   122		if (be32_to_cpu(block->bb_magic) != xfs_btree_magic(mp, cur->bc_ops))
+   123			return __this_address;
+   124		if (be16_to_cpu(block->bb_level) != level)
+   125			return __this_address;
+   126		if (be16_to_cpu(block->bb_numrecs) >
+   127		    cur->bc_ops->get_maxrecs(cur, level))
+   128			return __this_address;
    129	
    130		/*
-   131		 * Ok, the task did not get scheduled for more than 2 minutes,
-   132		 * complain:
+   131		 * For inode-rooted btrees, the root block sits in the inode fork.  In
+   132		 * that case bp is NULL, and the block must not have any siblings.
    133		 */
-   134		if (sysctl_hung_task_warnings) {
-   135			if (sysctl_hung_task_warnings > 0)
-   136				sysctl_hung_task_warnings--;
-   137			pr_err("INFO: task %s:%d blocked for more than %ld seconds.\n",
-   138				t->comm, t->pid, timeout);
-   139			pr_err("      %s %s %.*s\n",
-   140				print_tainted(), init_utsname()->release,
-   141				(int)strcspn(init_utsname()->version, " "),
-   142				init_utsname()->version);
-   143			pr_err("\"echo 0 > /proc/sys/kernel/hung_task_timeout_secs\""
-   144				" disables this message.\n");
-   145			sched_show_task(t);
-   146			hung_task_show_lock = true;
-   147	
- > 148			if (sysctl_hung_task_all_cpu_backtrace)
-   149				hung_task_show_all_bt = true;
-   150		}
-   151	
-   152		touch_nmi_watchdog();
-   153	}
-   154	
+   134		if (!bp) {
+   135			if (block->bb_u.l.bb_leftsib != cpu_to_be64(NULLFSBLOCK))
+   136				return __this_address;
+   137			if (block->bb_u.l.bb_rightsib != cpu_to_be64(NULLFSBLOCK))
+   138				return __this_address;
+   139			return NULL;
+   140		}
+   141	
+   142		fsb = XFS_DADDR_TO_FSB(mp, xfs_buf_daddr(bp));
+   143		fa = xfs_btree_check_fsblock_siblings(mp, fsb,
+   144				block->bb_u.l.bb_leftsib);
+   145		if (!fa)
+   146			fa = xfs_btree_check_fsblock_siblings(mp, fsb,
+   147					block->bb_u.l.bb_rightsib);
+   148		return fa;
+   149	}
+   150	
+   151	/*
+   152	 * Check a short btree block header.  Return the address of the failing check,
+   153	 * or NULL if everything is ok.
+   154	 */
+   155	xfs_failaddr_t
+ > 156	__xfs_btree_check_agblock(
+   157		struct xfs_btree_cur	*cur,
+   158		struct xfs_btree_block	*block,
+   159		int			level,
+   160		struct xfs_buf		*bp)
+   161	{
+   162		struct xfs_mount	*mp = cur->bc_mp;
+   163		struct xfs_perag	*pag = cur->bc_ag.pag;
+   164		xfs_failaddr_t		fa;
+   165		xfs_agblock_t		agbno;
+   166	
+   167		if (xfs_has_crc(mp)) {
+   168			if (!uuid_equal(&block->bb_u.s.bb_uuid, &mp->m_sb.sb_meta_uuid))
+   169				return __this_address;
+   170			if (block->bb_u.s.bb_blkno != cpu_to_be64(xfs_buf_daddr(bp)))
+   171				return __this_address;
+   172		}
+   173	
+   174		if (be32_to_cpu(block->bb_magic) != xfs_btree_magic(mp, cur->bc_ops))
+   175			return __this_address;
+   176		if (be16_to_cpu(block->bb_level) != level)
+   177			return __this_address;
+   178		if (be16_to_cpu(block->bb_numrecs) >
+   179		    cur->bc_ops->get_maxrecs(cur, level))
+   180			return __this_address;
+   181	
+   182		agbno = xfs_daddr_to_agbno(mp, xfs_buf_daddr(bp));
+   183		fa = xfs_btree_check_agblock_siblings(pag, agbno,
+   184				block->bb_u.s.bb_leftsib);
+   185		if (!fa)
+   186			fa = xfs_btree_check_agblock_siblings(pag, agbno,
+   187					block->bb_u.s.bb_rightsib);
+   188		return fa;
+   189	}
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
