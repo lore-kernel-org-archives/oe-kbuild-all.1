@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300FB3174D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Jan 2024 22:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21336ECE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 01:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705616979; cv=none; b=qqcoWif2WaUZRRUsbpXh4F8yYiS+ef8JBasxGROQlZMEXF9N9/t/5NKSGMb+AtU8OKj9iUu4Nu/KvxqWVEvPkhm6SjvcBLxv/RJ0rO1IILsNC+SFz9WzXjRlRdVQSsuXpswUXfNXykkDh9c26TWSXPczDOM+p7InYnI9lBW5Jbk=
+	t=1705628687; cv=none; b=GxLoEpaRAjpLz3uQNLrPI20Qi4boyX+ryED23oemd2mv6JscsToxsdeVjk3pO0wOpmXyncdaT20IMZHLR3+SZwsCuiVHIwsOCqAL4dmfhKIZ+9ZsWQRz6FWaDordHYVQ/TsOvFKoh+RGueIRZpAZesnPyQg0Y2hRBadxDN48m1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705616979; c=relaxed/simple;
-	bh=lXdEVdYT6JTJjyFWudFyndszSQS9zPZmmcLm8NE4FQ4=;
+	s=arc-20240116; t=1705628687; c=relaxed/simple;
+	bh=K5Uxt9mMy9PpfjffJrIFnvVsZy0rrA1cQHfo+rgVQgE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sGjMB36hy6no4zES9gCDF1QDHHXNWj9jbfqBrnM4HxW6+pb1avMyFuTi6llcMbzNL1KVehX2w4iX4uXIXuHAyWhibnr4qqUnrIZ6j124tVpgbCP8jjGTj4ABODfRYBVLo+tgP5/uGCscvIv1L2i/d2e5uV2qPeK8Pv2XVpKsFYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QvulZtkQ; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=Br+sZxx+rzxwG3a+PouPaZtZA7JkcIMF3nmErnidGUORwhOh4YttX5FN5i2q96vsdpLHVfcPwdUzYWAnS1fFyaLB1wKRYbEEtQoYwUkSIe9AXy4iUeKjn+lMZ9IbYVUaP1GaQ+961VLBX/DghdYk3e5p7iypIE8sdIuTntrsht0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WwdFsZvt; arc=none smtp.client-ip=192.55.52.120
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QvulZtkQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WwdFsZvt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705616977; x=1737152977;
+  t=1705628685; x=1737164685;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lXdEVdYT6JTJjyFWudFyndszSQS9zPZmmcLm8NE4FQ4=;
-  b=QvulZtkQh+GBWj31rGxlyzgcWOk+B5GYkX7QI6V9liIuUE/TVe1LR6/r
-   G+VEgmhHjB51Oqli5fdwFA+gbVfqrR3X/GjDoNebhX28Y4jCwBI0nUOgZ
-   RgkiCdiPPCAGqbJ4gPvZXKdb8TbliSIeffu3M+WtsuFOsGCYC7AHcOTcI
-   RMbRQubmBGWP+WBaUaV53BOI64i+H0evdT5Xen+K9hUXEmIqTcJZSqSk5
-   Q/OOopWiPyENhNH/UM3/s1ByHbIrYQViIKHg/R0yJVUDj4HzrSXqKPlYH
-   ElrKyzewweiLxh3g1lms6r5m0T3L+BvRGIeqOIzIvQiQ9z++XqBA2elNK
+  bh=K5Uxt9mMy9PpfjffJrIFnvVsZy0rrA1cQHfo+rgVQgE=;
+  b=WwdFsZvtdcXozZBvFe9TPw7NUS1RmnqqhXeoY215UzPO6AWUChL2yKfD
+   W9bxv7Zh9r3L/0GR72YpanFKrHX6m+XTdaQi9D9OMwYPDL91jDy7NF9eB
+   poh7l3VUgQejMoCDg/+a3RlYpfFeqFjr2V4/n7GNkz0ll4C3RzyKLb/aF
+   2eZnav76O4nLg+Jqwad5kw7tHXMBRoF+ufNLvnzTiTZ3k6nornXQYXQit
+   g8crSeOmDocv1oE/9Sw/YbCCSLb/9+MzWN39aZ55UgmOBqQauTnkF0Sa7
+   nev4vl88EJ79+a8lvTs7emFFw9UEnhjoYgNn/mUS3MgG3iswl31au6WfT
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7349781"
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="399504423"
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="7349781"
+   d="scan'208";a="399504423"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 14:29:36 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 17:44:40 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
-   d="scan'208";a="19230937"
+   d="scan'208";a="19268129"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Jan 2024 14:29:35 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 18 Jan 2024 17:44:40 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQatB-0003Oe-10;
-	Thu, 18 Jan 2024 22:29:33 +0000
-Date: Fri, 19 Jan 2024 06:29:30 +0800
+	id 1rQdvx-0003Vc-1s;
+	Fri, 19 Jan 2024 01:44:37 +0000
+Date: Fri, 19 Jan 2024 09:44:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
- 15/30] sound/soc/qcom/lpass.h:43:14: error: 'LPASS_CDC_DMA_RX0' undeclared
-Message-ID: <202401190656.0tH51yre-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 17532/21559] kernel/hung_task.c:148:7:
+ error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
+Message-ID: <202401190948.KPPQJXEa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,83 +58,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux n/audio-sm8650-on-neil-codelinaro-topic-sm8650-upstream-integ
-head:   5cac1bb64a0300d340c5e369489c731b30aa5e79
-commit: 09ac587b4c3759cc859d282118bf963cbdfc17ac [15/30] UPSTREAM: ASoC: qcom: reduce number of binding headers includes
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240119/202401190656.0tH51yre-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190656.0tH51yre-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   8135318753544d6f8afa1f01a47c81fbccb59e39
+commit: 190aae97bcddbed131a203f829257b168f5058ce [17532/21559] kernel/hung_task.c: introduce sysctl to print all traces when a hung task is detected
+config: x86_64-buildonly-randconfig-003-20240112 (https://download.01.org/0day-ci/archive/20240119/202401190948.KPPQJXEa-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401190948.KPPQJXEa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401190656.0tH51yre-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401190948.KPPQJXEa-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from sound/soc/qcom/lpass-ipq806x.c:21:
-   sound/soc/qcom/lpass.h: In function 'is_cdc_dma_port':
->> sound/soc/qcom/lpass.h:43:14: error: 'LPASS_CDC_DMA_RX0' undeclared (first use in this function)
-      43 |         case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-         |              ^~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h:43:14: note: each undeclared identifier is reported only once for each function it appears in
->> sound/soc/qcom/lpass.h:43:36: error: 'LPASS_CDC_DMA_RX9' undeclared (first use in this function)
-      43 |         case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-         |                                    ^~~~~~~~~~~~~~~~~
->> sound/soc/qcom/lpass.h:44:14: error: 'LPASS_CDC_DMA_TX0' undeclared (first use in this function)
-      44 |         case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-         |              ^~~~~~~~~~~~~~~~~
->> sound/soc/qcom/lpass.h:44:36: error: 'LPASS_CDC_DMA_TX8' undeclared (first use in this function)
-      44 |         case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-         |                                    ^~~~~~~~~~~~~~~~~
->> sound/soc/qcom/lpass.h:45:14: error: 'LPASS_CDC_DMA_VA_TX0' undeclared (first use in this function)
-      45 |         case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
-         |              ^~~~~~~~~~~~~~~~~~~~
->> sound/soc/qcom/lpass.h:45:39: error: 'LPASS_CDC_DMA_VA_TX8' undeclared (first use in this function)
-      45 |         case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
-         |                                       ^~~~~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h: In function 'is_rxtx_cdc_dma_port':
-   sound/soc/qcom/lpass.h:54:14: error: 'LPASS_CDC_DMA_RX0' undeclared (first use in this function)
-      54 |         case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-         |              ^~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h:54:36: error: 'LPASS_CDC_DMA_RX9' undeclared (first use in this function)
-      54 |         case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-         |                                    ^~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h:55:14: error: 'LPASS_CDC_DMA_TX0' undeclared (first use in this function)
-      55 |         case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-         |              ^~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass.h:55:36: error: 'LPASS_CDC_DMA_TX8' undeclared (first use in this function)
-      55 |         case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-         |                                    ^~~~~~~~~~~~~~~~~
+>> kernel/hung_task.c:148:7: error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
+     148 |                 if (sysctl_hung_task_all_cpu_backtrace)
+         |                     ^
+   kernel/hung_task.c:235:5: warning: no previous prototype for function 'proc_dohung_task_timeout_secs' [-Wmissing-prototypes]
+     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
+         |     ^
+   kernel/hung_task.c:235:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
+         | ^
+         | static 
+   1 warning and 1 error generated.
 
 
-vim +/LPASS_CDC_DMA_RX0 +43 sound/soc/qcom/lpass.h
+vim +/sysctl_hung_task_all_cpu_backtrace +148 kernel/hung_task.c
 
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  32  
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  33  #define QCOM_REGMAP_FIELD_ALLOC(d, m, f, mf)    \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  34  	do { \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  35  		mf = devm_regmap_field_alloc(d, m, f);     \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  36  		if (IS_ERR(mf))                \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  37  			return -EINVAL;         \
-7cb37b7bd0d3c9 V Sujith Kumar Reddy    2020-10-08  38  	} while (0)
-cd59f13823ae65 Kenneth Westfield       2015-03-03  39  
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  40  static inline bool is_cdc_dma_port(int dai_id)
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  41  {
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  42  	switch (dai_id) {
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24 @43  	case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24 @44  	case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24 @45  	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  46  		return true;
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  47  	}
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  48  	return false;
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  49  }
-dc8d9766bc03ef Srinivasa Rao Mandadapu 2022-02-24  50  
-
-:::::: The code at line 43 was first introduced by commit
-:::::: dc8d9766bc03efee4d1b6dd912659858fdf981de ASoC: qcom: Add register definition for codec rddma and wrdma
-
-:::::: TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+    94	
+    95	static void check_hung_task(struct task_struct *t, unsigned long timeout)
+    96	{
+    97		unsigned long switch_count = t->nvcsw + t->nivcsw;
+    98	
+    99		/*
+   100		 * Ensure the task is not frozen.
+   101		 * Also, skip vfork and any other user process that freezer should skip.
+   102		 */
+   103		if (unlikely(t->flags & (PF_FROZEN | PF_FREEZER_SKIP)))
+   104		    return;
+   105	
+   106		/*
+   107		 * When a freshly created task is scheduled once, changes its state to
+   108		 * TASK_UNINTERRUPTIBLE without having ever been switched out once, it
+   109		 * musn't be checked.
+   110		 */
+   111		if (unlikely(!switch_count))
+   112			return;
+   113	
+   114		if (switch_count != t->last_switch_count) {
+   115			t->last_switch_count = switch_count;
+   116			t->last_switch_time = jiffies;
+   117			return;
+   118		}
+   119		if (time_is_after_jiffies(t->last_switch_time + timeout * HZ))
+   120			return;
+   121	
+   122		trace_sched_process_hang(t);
+   123	
+   124		if (sysctl_hung_task_panic) {
+   125			console_verbose();
+   126			hung_task_show_lock = true;
+   127			hung_task_call_panic = true;
+   128		}
+   129	
+   130		/*
+   131		 * Ok, the task did not get scheduled for more than 2 minutes,
+   132		 * complain:
+   133		 */
+   134		if (sysctl_hung_task_warnings) {
+   135			if (sysctl_hung_task_warnings > 0)
+   136				sysctl_hung_task_warnings--;
+   137			pr_err("INFO: task %s:%d blocked for more than %ld seconds.\n",
+   138				t->comm, t->pid, timeout);
+   139			pr_err("      %s %s %.*s\n",
+   140				print_tainted(), init_utsname()->release,
+   141				(int)strcspn(init_utsname()->version, " "),
+   142				init_utsname()->version);
+   143			pr_err("\"echo 0 > /proc/sys/kernel/hung_task_timeout_secs\""
+   144				" disables this message.\n");
+   145			sched_show_task(t);
+   146			hung_task_show_lock = true;
+   147	
+ > 148			if (sysctl_hung_task_all_cpu_backtrace)
+   149				hung_task_show_all_bt = true;
+   150		}
+   151	
+   152		touch_nmi_watchdog();
+   153	}
+   154	
 
 -- 
 0-DAY CI Kernel Test Service
