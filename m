@@ -1,56 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3276628DD2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 16:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3651EA78
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 16:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705681993; cv=none; b=joHxYcHir6wYHPOqX/Vjs7sN8DcvENmIamtTuxjjOiOQC5g3EiTvta8LzC1K1kAk6aPr9Xl0cfBjtO/+BpXEyl8BOpCVp4qoJQ38mYebFrsxmTCPKJBBXpCSNyvqotOq+/aEVlpH3lo8Gmk1+by0VEleoLv8oVXGjI6pWColIUw=
+	t=1705682006; cv=none; b=tWMztfh+82rAwv1uHvis71vXrWojxmVurUw5/WdMhqDiqzEmwXftcYGdY0qF+NkxvE2HH8lMlqgZvr5QYbvGAkqmkITmz9SS3VESFEhhEl0FYwmB9K9ztQ74ErX92auCE2tJ0Ael2QnEoi/k6keUINbd3B1R3TVCDfSGJtamViA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705681993; c=relaxed/simple;
-	bh=dKS5npDIjAK35M70cYpT+7Wv4sNBpWTGv1pyRXc7OWo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fWP2T+6i/2r3jXfBzFhjFIu2gUPQST0vWAGtkYkiM9Z6goGM1Cc2Q+HDZVXLveX3s8xuptzZe2HIVNUhrtbrEfcY4ThLMPduu9BPr/0ojJ1VY/GSQ1RiGzCxRymhqbPRYHx6dTBK5OdTG7QjJe5wH5d9Ggnpv6t2YybUWOLULBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lV1gPslP; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1705682006; c=relaxed/simple;
+	bh=4MTHcTMRo8vaC78u9KaJGas7GabALp0/v9oyhzhuUno=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Suk4Nl6LnJlSrdXDYEsQQOn3kRgpd7K7y5Lmwubj1wfc4NR2kgZitVQEVjoYBdDOrK4DCuhUunh3m5uEDL87cU4RSgbhC8j0SAsLBHFpWcnQQOWvchu+zU3318e4kjKLD4edvEOacXiwC+3p7dWQkgvIgCM9fMbNu6knC+e7cfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M36cCNoO; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lV1gPslP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M36cCNoO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705681991; x=1737217991;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dKS5npDIjAK35M70cYpT+7Wv4sNBpWTGv1pyRXc7OWo=;
-  b=lV1gPslP1OdTOvySSlAXhy3cQXtoKDIfaRJJr6rqqCu59+TLyVcc7B11
-   DagPhtnA/Um7W3HgDPJysdEfhFW0G3azQve2k2LKCN+g4LEYEx8lhF6pB
-   qO90sVemZIias/RXfgfAC185JYGR+SJGGEpbOsVx+/B8nHKQEaSXtOa9b
-   mTennTIVYOjexQSRVyzSVosbtDfQla/dh4147usvffixVh7cZTPGzx5s/
-   eOrw1kKqnQ82pZL5Vdbx2wWtDpN7XTdRsiyW/9GgQUsrT8dDSxHJlh9T/
-   nqROYzbVFiiySxjqBiusDiQVK/eQpbdLKEfX+08ST3NPN+dQnu30/rCS7
+  t=1705682004; x=1737218004;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4MTHcTMRo8vaC78u9KaJGas7GabALp0/v9oyhzhuUno=;
+  b=M36cCNoOtzFdGySNm9/zqm8BA5I3Iq7TT1HH49HDR9PqGPoq3mVUJdCN
+   Q7ucOIxS184Xxgve+2V1H1hewwXKTC2oU/tH6ATvDGok8wI99LO91jvFK
+   g3H9bGKdWE19ydJeHbjVoVTjxUCptG/OWn3e4IXjjqJb0w3yR4olKOq8S
+   KQ7eNt+W8v5X9WhfGLltGvtOxyWNvqHdEtTxM03ntMY++NEBPnsmco1Zg
+   XPOemhnmIKm+0COUqPVMoMeDKYlvMBhlmyB9BIyvziGxGb58RM5rahmv1
+   BRW1F8HglzViCrigcGEztm9yf9/vkLPRApCNxriuqQfoU8YqRsS7LQdUg
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="14304864"
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="676874"
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="14304864"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 08:33:10 -0800
+   d="scan'208";a="676874"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 08:33:15 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="691322"
+   d="scan'208";a="27082145"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Jan 2024 08:33:09 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2024 08:33:09 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQrnm-0004Fw-2O;
+	id 1rQrnm-0004Fy-2T;
 	Fri, 19 Jan 2024 16:33:06 +0000
-Date: Sat, 20 Jan 2024 00:32:23 +0800
+Date: Sat, 20 Jan 2024 00:32:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [linux-next:master 13664/13959] lib/checksum_kunit.c:616:17: sparse:
- sparse: incorrect type in argument 5 (different base types)
-Message-ID: <202401200016.e774FjBx-lkp@intel.com>
+To: Huang Shijie <shijie@os.amperecomputing.com>,
+	gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, patches@amperecomputing.com,
+	rafael@kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, yury.norov@gmail.com, kuba@kernel.org,
+	vschneid@redhat.com, mingo@kernel.org, akpm@linux-foundation.org,
+	vbabka@suse.cz, rppt@kernel.org, tglx@linutronix.de,
+	jpoimboe@kernel.org, ndesaulniers@google.com,
+	mikelley@microsoft.com, mhiramat@kernel.org, arnd@arndb.de,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com,
+	will@kernel.org, mark.rutland@arm.com, mpe@ellerman.id.au,
+	linuxppc-dev@lists.ozlabs.org, chenhuacai@kernel.org,
+	jiaxun.yang@flygoat.com, linux-mips@vger.kernel.org
+Subject: Re: [PATCH] NUMA: Early use of cpu_to_node() returns 0 instead of
+ the correct node id
+Message-ID: <202401200006.wOMN1YgH-lkp@intel.com>
+References: <20240119033227.14113-1-shijie@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,157 +71,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240119033227.14113-1-shijie@os.amperecomputing.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ad5c60d66016e544c51ed98635a74073f761f45d
-commit: 6f4c45cbcb00d649475a3099235e5b4fce569b4b [13664/13959] kunit: Add tests for csum_ipv6_magic and ip_fast_csum
-config: x86_64-randconfig-121-20240119 (https://download.01.org/0day-ci/archive/20240120/202401200016.e774FjBx-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401200016.e774FjBx-lkp@intel.com/reproduce)
+Hi Huang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus akpm-mm/mm-everything linus/master v6.7 next-20240119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huang-Shijie/NUMA-Early-use-of-cpu_to_node-returns-0-instead-of-the-correct-node-id/20240119-113623
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20240119033227.14113-1-shijie%40os.amperecomputing.com
+patch subject: [PATCH] NUMA: Early use of cpu_to_node() returns 0 instead of the correct node id
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240120/202401200006.wOMN1YgH-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401200006.wOMN1YgH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401200016.e774FjBx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401200006.wOMN1YgH-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/checksum_kunit.c:442:33: sparse:     got int
-   lib/checksum_kunit.c:442:41: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:442:41: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:442:41: sparse:     got int
-   lib/checksum_kunit.c:442:49: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:442:49: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:442:49: sparse:     got int
-   lib/checksum_kunit.c:442:57: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:442:57: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:442:57: sparse:     got int
-   lib/checksum_kunit.c:442:65: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:442:65: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:442:65: sparse:     got int
-   lib/checksum_kunit.c:442:73: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:442:73: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:442:73: sparse:     got int
-   lib/checksum_kunit.c:443:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:443:9: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:443:9: sparse:     got int
-   lib/checksum_kunit.c:443:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:443:17: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:443:17: sparse:     got int
-   lib/checksum_kunit.c:443:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:443:25: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:443:25: sparse:     got int
-   lib/checksum_kunit.c:443:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:443:33: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:443:33: sparse:     got int
-   lib/checksum_kunit.c:443:41: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:443:41: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:443:41: sparse:     got int
-   lib/checksum_kunit.c:443:49: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:443:49: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:443:49: sparse:     got int
-   lib/checksum_kunit.c:443:57: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:443:57: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:443:57: sparse:     got int
-   lib/checksum_kunit.c:443:65: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:443:65: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:443:65: sparse:     got int
-   lib/checksum_kunit.c:443:73: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:443:73: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:443:73: sparse:     got int
-   lib/checksum_kunit.c:444:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:444:9: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:444:9: sparse:     got int
-   lib/checksum_kunit.c:444:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:444:17: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:444:17: sparse:     got int
-   lib/checksum_kunit.c:444:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:444:25: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:444:25: sparse:     got int
-   lib/checksum_kunit.c:444:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:444:33: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:444:33: sparse:     got int
-   lib/checksum_kunit.c:444:41: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:444:41: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:444:41: sparse:     got int
-   lib/checksum_kunit.c:444:49: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:444:49: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:444:49: sparse:     got int
-   lib/checksum_kunit.c:444:57: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:444:57: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:444:57: sparse:     got int
-   lib/checksum_kunit.c:444:65: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:444:65: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:444:65: sparse:     got int
-   lib/checksum_kunit.c:444:73: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:444:73: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:444:73: sparse:     got int
-   lib/checksum_kunit.c:445:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:445:9: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:445:9: sparse:     got int
-   lib/checksum_kunit.c:445:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:445:17: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:445:17: sparse:     got int
-   lib/checksum_kunit.c:445:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:445:25: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:445:25: sparse:     got int
-   lib/checksum_kunit.c:445:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:445:33: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:445:33: sparse:     got int
-   lib/checksum_kunit.c:445:41: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:445:41: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:445:41: sparse:     got int
-   lib/checksum_kunit.c:445:49: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:445:49: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:445:49: sparse:     got int
-   lib/checksum_kunit.c:445:57: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:445:57: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:445:57: sparse:     got int
-   lib/checksum_kunit.c:445:65: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:445:65: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:445:65: sparse:     got int
-   lib/checksum_kunit.c:445:73: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:445:73: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:445:73: sparse:     got int
-   lib/checksum_kunit.c:446:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __sum16 @@     got int @@
-   lib/checksum_kunit.c:446:9: sparse:     expected restricted __sum16
-   lib/checksum_kunit.c:446:9: sparse:     got int
->> lib/checksum_kunit.c:616:17: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int [assigned] csum @@
-   lib/checksum_kunit.c:616:17: sparse:     expected restricted __wsum [usertype] csum
-   lib/checksum_kunit.c:616:17: sparse:     got unsigned int [assigned] csum
->> lib/checksum_kunit.c:616:17: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int [assigned] csum @@
-   lib/checksum_kunit.c:616:17: sparse:     expected restricted __wsum [usertype] csum
-   lib/checksum_kunit.c:616:17: sparse:     got unsigned int [assigned] csum
+All errors (new ones prefixed by >>):
 
-vim +616 lib/checksum_kunit.c
-
-   593	
-   594	static void test_csum_ipv6_magic(struct kunit *test)
-   595	{
-   596		const struct in6_addr *saddr;
-   597		const struct in6_addr *daddr;
-   598		unsigned int len;
-   599		unsigned char proto;
-   600		unsigned int csum;
-   601	
-   602		const int daddr_offset = sizeof(struct in6_addr);
-   603		const int len_offset = sizeof(struct in6_addr) + sizeof(struct in6_addr);
-   604		const int proto_offset = sizeof(struct in6_addr) + sizeof(struct in6_addr) +
-   605				     sizeof(int);
-   606		const int csum_offset = sizeof(struct in6_addr) + sizeof(struct in6_addr) +
-   607				    sizeof(int) + sizeof(char);
-   608	
-   609		for (int i = 0; i < NUM_IPv6_TESTS; i++) {
-   610			saddr = (const struct in6_addr *)(random_buf + i);
-   611			daddr = (const struct in6_addr *)(random_buf + i +
-   612							  daddr_offset);
-   613			len = *(unsigned int *)(random_buf + i + len_offset);
-   614			proto = *(random_buf + i + proto_offset);
-   615			csum = *(unsigned int *)(random_buf + i + csum_offset);
- > 616			CHECK_EQ(expected_csum_ipv6_magic[i],
-   617				 csum_ipv6_magic(saddr, daddr, len, proto, csum));
-   618		}
-   619	}
-   620	
+   ld: vmlinux.o: in function `rapl_cpu_online':
+>> rapl.c:(.text+0x75ec): undefined reference to `cpu_to_node'
+   ld: vmlinux.o: in function `amd_pmu_cpu_prepare':
+>> core.c:(.text+0x8580): undefined reference to `cpu_to_node'
+>> ld: core.c:(.text+0x85d6): undefined reference to `cpu_to_node'
+   ld: vmlinux.o: in function `amd_uncore_ctx_init.part.0':
+>> uncore.c:(.text+0xc3bd): undefined reference to `cpu_to_node'
+   ld: vmlinux.o: in function `intel_cpuc_prepare':
+>> (.text+0x129ee): undefined reference to `cpu_to_node'
+   ld: vmlinux.o:(.text+0x12a71): more undefined references to `cpu_to_node' follow
+   ld: vmlinux.o: in function `kernel_init_freeable':
+>> main.c:(.init.text+0x1240): undefined reference to `_cpu_to_node'
+   ld: vmlinux.o: in function `check_timer':
+>> io_apic.c:(.init.text+0x1ec1d): undefined reference to `cpu_to_node'
+   ld: vmlinux.o: in function `kvm_alloc_cpumask':
+>> kvm.c:(.init.text+0x21678): undefined reference to `cpu_to_node'
+   ld: vmlinux.o: in function `fork_idle':
+>> (.init.text+0x28fe2): undefined reference to `cpu_to_node'
+   ld: vmlinux.o: in function `cpus_share_numa':
+>> workqueue.c:(.init.text+0x2a4c8): undefined reference to `cpu_to_node'
+>> ld: workqueue.c:(.init.text+0x2a4d8): undefined reference to `cpu_to_node'
+   ld: vmlinux.o:workqueue.c:(.init.text+0x2a7bc): more undefined references to `cpu_to_node' follow
 
 -- 
 0-DAY CI Kernel Test Service
