@@ -1,66 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA241172C;
-	Sat, 20 Jan 2024 20:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC6823AA;
+	Sat, 20 Jan 2024 22:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705782058; cv=none; b=FFldQPRTj+drPSPTChwiM/f2hHhhobZe33diCKtB4Fc7m4T/myQLLq3F2HP4g9dUMMR2OJWPVtfGjslaBr2/XdYxp8iu/c+Xxm3cpwG6Dgxo2gqSca53zftoU517557B1fYynldhcfwkFpZX3bKsrNJc+Evje+JBWReHg2ZSCvQ=
+	t=1705791361; cv=none; b=u1WcD0rrU6/VbYwI86P4DiwNMMObVL9sEuWZ9OI5SUoMZF5Hh3fYxDYpkiW40n995FV1hFnu0EvyDcxsewfBSNmlZ91EW0W01NCVKchNxFCO4feli/boKIWsOPHqGBJstU0HiYfjBJj++VYy752i10m/j5sFvkf3VeQ6srd64iQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705782058; c=relaxed/simple;
-	bh=U78daOtSkrFdUaUQZUr/tYdCEiTmvCOAjx1R2N9s7GE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nW1iqHYSZoqUD/bQSfT29MkzFu7BegfMrNl/nDwAsWzhT/AEAggs0vnWK0Bb+cM5a6VOmwJ5Pk2D2nP8mocE0vC1zFEj4P4u+Kz24uPaCIbWv4HsJpUpH2o6w5LOgNJq348cLLOrLqWmE2X2sp3AUzCCKySGhBQxsuqsO5tLzm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FkArX6R3; arc=none smtp.client-ip=192.55.52.43
+	s=arc-20240116; t=1705791361; c=relaxed/simple;
+	bh=8uE/WQL/QoHuBFDbD4rTA/vZXsTcU7RketlVUulifrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tNKDgRtlC5v0X12iMxX+u0ymNNlVGW4vSu3U4XD38XMcNlHSk0dBebZWtIWKqm/2YXWMhKqCxqefFmqcz72GTw8YXSEHcbN8vfbwEpVCYd+8oNxtYog8AtN018wMfFAtlFP9C5Jp+B8hpYzuI1zpFLq+sWYpy+DMhbcSVIr7ewM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LluG64hB; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FkArX6R3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LluG64hB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705782056; x=1737318056;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U78daOtSkrFdUaUQZUr/tYdCEiTmvCOAjx1R2N9s7GE=;
-  b=FkArX6R3LWD+LJhhphBwBzZoNZNx/4XTVGJu3g891C4+y2qJ75KASpx0
-   A+qv4imYPcusKdmUJaWcqbReLvpPAxTN/bI8sa7aPYN9prFBNqQwp6WGI
-   GwAoqqBmMp6Wpj4gT0Hu6x2eo92kX57ssoUF2vioua0UiYgmEaPMtus26
-   oknMiug3MMBskwdURBTAeqNlpRoXhl4h6xO3aID7nB7HSQ7LBWM/2/Am6
-   dKhPjf1UkYCMsaWXNLAlb8fJ4lMdc4gnup4qzWCmHoGucg4oxqSY0aB9q
-   L/2GCI/G5KWhkhzcWVNh4QxxWLAzOklRJI4V1KfV6uMAviRkXCaAnF/g/
+  t=1705791359; x=1737327359;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8uE/WQL/QoHuBFDbD4rTA/vZXsTcU7RketlVUulifrQ=;
+  b=LluG64hBDrcm176nQM8QKGJ5IMNId+rS7m2dCttUHwC6fyyjyKK9M9TM
+   Sud5SRvhXbXSuLTIomVUARWasHyNyOriSRBPh39YTQLNe0KvKzk87xBWw
+   SbHtpf3/OIOTtnAUrDM/W6Uo4rEaWEfJDsdZb2T1Nwy6vaMR7lHhnCZia
+   DZXv9owKiNOduB+68SOs7BhK1pQH9lKMO8kVfazKKGyV3mhIQyYVL7UuX
+   W30BLnvMO29tlDsFl9uRgloQ8SW4qyQSTjgYgElM8pAoU96NV/Wql/VIB
+   D65zg8G2LIO7kZTuTuiNBeL41V3BeCWKthScVkHJuPw76e0ZuqBsu4Zy9
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="487111251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="8353967"
 X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="487111251"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 12:20:56 -0800
+   d="scan'208";a="8353967"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 14:55:58 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="788648469"
 X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="941461"
+   d="scan'208";a="788648469"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 Jan 2024 12:20:53 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 20 Jan 2024 14:55:56 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRHpi-0005Pv-0Y;
-	Sat, 20 Jan 2024 20:20:50 +0000
-Date: Sun, 21 Jan 2024 04:20:40 +0800
+	id 1rRKFl-0005VC-2o;
+	Sat, 20 Jan 2024 22:55:53 +0000
+Date: Sun, 21 Jan 2024 06:55:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+To: Kevin Kim <ckkim@hardkernel.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Paul Cercueil <paul@crapouillou.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 1/6] dma-buf: Add dma_buf_{begin,end}_access()
-Message-ID: <202401210406.YYgVcAC1-lkp@intel.com>
-References: <20240119141402.44262-2-paul@crapouillou.net>
+	Dongjin Kim <tobetter@gmail.com>,
+	Olliver Schinagl <oliver@schinagl.nl>
+Subject: [tobetter:odroid-6.1.y 20/91] drivers/pwm/pwm-gpio.c:60:22: warning:
+ no previous prototype for function 'gpio_pwm_timer'
+Message-ID: <202401210628.5lKKsZ7A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,106 +60,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240119141402.44262-2-paul@crapouillou.net>
 
-Hi Paul,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus drm-misc/drm-misc-next lwn/docs-next linus/master v6.7 next-20240119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dma-buf-Add-dma_buf_-begin-end-_access/20240119-221604
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240119141402.44262-2-paul%40crapouillou.net
-patch subject: [PATCH v5 1/6] dma-buf: Add dma_buf_{begin,end}_access()
-config: arm-randconfig-001-20240120 (https://download.01.org/0day-ci/archive/20240121/202401210406.YYgVcAC1-lkp@intel.com/config)
+tree:   https://github.com/tobetter/linux odroid-6.1.y
+head:   4abe38fb1d55e2c5f10582404c5ff88505060b73
+commit: 459931baf254b27d2ec9a732b41bf2bff9e1c1d2 [20/91] ODROID-COMMON: pwm: gpio: Add a generic gpio based PWM driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240121/202401210628.5lKKsZ7A-lkp@intel.com/config)
 compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d92ce344bf641e6bb025b41b3f1a77dd25e2b3e9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240121/202401210406.YYgVcAC1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240121/202401210628.5lKKsZ7A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401210406.YYgVcAC1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401210628.5lKKsZ7A-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/dma-buf/dma-buf.c:1608: warning: Cannot understand  * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
-    on line 1608 - I thought it was a doc line
->> drivers/dma-buf/dma-buf.c:1640: warning: Cannot understand  * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
-    on line 1640 - I thought it was a doc line
+>> drivers/pwm/pwm-gpio.c:60:22: warning: no previous prototype for function 'gpio_pwm_timer' [-Wmissing-prototypes]
+      60 | enum hrtimer_restart gpio_pwm_timer(struct hrtimer *timer)
+         |                      ^
+   drivers/pwm/pwm-gpio.c:60:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      60 | enum hrtimer_restart gpio_pwm_timer(struct hrtimer *timer)
+         | ^
+         | static 
+   drivers/pwm/pwm-gpio.c:138:3: error: field designator 'config' does not refer to any field in type 'const struct pwm_ops'
+     138 |         .config = gpio_pwm_config,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-gpio.c:139:3: error: field designator 'set_polarity' does not refer to any field in type 'const struct pwm_ops'
+     139 |         .set_polarity = gpio_pwm_set_polarity,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-gpio.c:140:3: error: field designator 'enable' does not refer to any field in type 'const struct pwm_ops'
+     140 |         .enable = gpio_pwm_enable,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-gpio.c:141:3: error: field designator 'disable' does not refer to any field in type 'const struct pwm_ops'
+     141 |         .disable = gpio_pwm_disable,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 4 errors generated.
 
 
-vim +1608 drivers/dma-buf/dma-buf.c
+vim +/gpio_pwm_timer +60 drivers/pwm/pwm-gpio.c
 
-  1606	
-  1607	/**
-> 1608	 * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
-  1609	 * @attach:	[in]	attachment used for hardware access
-  1610	 * @sg_table:	[in]	scatterlist used for the DMA transfer
-  1611	 * @direction:  [in]    direction of DMA transfer
-  1612	 */
-  1613	int dma_buf_begin_access(struct dma_buf_attachment *attach,
-  1614				 struct sg_table *sgt, enum dma_data_direction dir)
-  1615	{
-  1616		struct dma_buf *dmabuf;
-  1617		bool cookie;
-  1618		int ret;
-  1619	
-  1620		if (WARN_ON(!attach))
-  1621			return -EINVAL;
-  1622	
-  1623		dmabuf = attach->dmabuf;
-  1624	
-  1625		if (!dmabuf->ops->begin_access)
-  1626			return 0;
-  1627	
-  1628		cookie = dma_fence_begin_signalling();
-  1629		ret = dmabuf->ops->begin_access(attach, sgt, dir);
-  1630		dma_fence_end_signalling(cookie);
-  1631	
-  1632		if (WARN_ON_ONCE(ret))
-  1633			return ret;
-  1634	
-  1635		return 0;
-  1636	}
-  1637	EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
-  1638	
-  1639	/**
-> 1640	 * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
-  1641	 * @attach:	[in]	attachment used for hardware access
-  1642	 * @sg_table:	[in]	scatterlist used for the DMA transfer
-  1643	 * @direction:  [in]    direction of DMA transfer
-  1644	 */
-  1645	int dma_buf_end_access(struct dma_buf_attachment *attach,
-  1646			       struct sg_table *sgt, enum dma_data_direction dir)
-  1647	{
-  1648		struct dma_buf *dmabuf;
-  1649		bool cookie;
-  1650		int ret;
-  1651	
-  1652		if (WARN_ON(!attach))
-  1653			return -EINVAL;
-  1654	
-  1655		dmabuf = attach->dmabuf;
-  1656	
-  1657		if (!dmabuf->ops->end_access)
-  1658			return 0;
-  1659	
-  1660		cookie = dma_fence_begin_signalling();
-  1661		ret = dmabuf->ops->end_access(attach, sgt, dir);
-  1662		dma_fence_end_signalling(cookie);
-  1663	
-  1664		if (WARN_ON_ONCE(ret))
-  1665			return ret;
-  1666	
-  1667		return 0;
-  1668	}
-  1669	EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
-  1670	
+    59	
+  > 60	enum hrtimer_restart gpio_pwm_timer(struct hrtimer *timer)
+    61	{
+    62		struct gpio_pwm_data *gpio_data = container_of(timer,
+    63							      struct gpio_pwm_data,
+    64							      timer);
+    65		if (!gpio_data->run) {
+    66			gpio_pwm_off(gpio_data);
+    67			gpio_data->pin_on = false;
+    68			return HRTIMER_NORESTART;
+    69		}
+    70	
+    71		if (!gpio_data->pin_on) {
+    72			hrtimer_forward_now(&gpio_data->timer,
+    73					    ns_to_ktime(gpio_data->on_time));
+    74			gpio_pwm_on(gpio_data);
+    75			gpio_data->pin_on = true;
+    76		} else {
+    77			hrtimer_forward_now(&gpio_data->timer,
+    78					    ns_to_ktime(gpio_data->off_time));
+    79			gpio_pwm_off(gpio_data);
+    80			gpio_data->pin_on = false;
+    81		}
+    82	
+    83		return HRTIMER_RESTART;
+    84	}
+    85	
 
 -- 
 0-DAY CI Kernel Test Service
