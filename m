@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34A3EEDE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 13:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4E0F515
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 13:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705758524; cv=none; b=jeGWvQ/Umu6JbkBt4BJ30NZRZ36qRXPt5Xsf8BVHtyFKyTVh2TLbk97zjMvYK0xu0FrtctgrXLbBD69pKmbFhjizOFnptGaABTIYMyyAyTvxSL7yCBcx+aQUXTMI2xKkwjzTbZAcZn+9yLDwLSH1dYljDZCbKPUQNbx6gRHLpdY=
+	t=1705759124; cv=none; b=YC7ogj/6782l+G8IfR1O5zyUQMX3FuaHnhfbkXjC9v9JCzEb/6c4vYLdESW8u9ETJOR93U8j1mqPZcDETuxzPCvZkVo2izzw6LxPvxL4bFaigTkwvetLoZLsSbwBi0hljQbZo0b9A13cla+F1e/61SmCbIQz7+cNu6roN40TFrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705758524; c=relaxed/simple;
-	bh=m7imhMKSdTdJ5ydf3ZsGHyNCubPOqsBtBgYGic8Yrok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A5AhxhM8aen69SxMkrLy9NOTh03fWWy3kXCrWQrx88tOEY/c9RRZeIM36rUJTKDAsY/UNx0egFsb6FvL2imOUb5Z05lgw/WIbPhiTFmNFmrVzkM2PUffJv7dcklgABScnEfeBFr1ryf/hSEMZZk4Mafd10B3z7GZcvQ8GU+T34s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FrkHE97J; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1705759124; c=relaxed/simple;
+	bh=psdXtLVtAycfvfbsKwADXrIq5sgeShf4Ycfj0e9wKF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ms9oL+UqwbUXcw4u76HS7cKNAc+CFbY54hqUvVDm+0//OpwlqshepMi0+f6aSD2tvVFlNITUrPSD3mlVsaPcN6JYLxYrYW6i8l2lSwWLJtkSAPlQTg6DwxRdkxFZdgErTYDdNcfqoiua5i0bmr4v2yiJf+Y3QBRDAwh+cdF5XUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NBZMOmXO; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FrkHE97J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NBZMOmXO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705758522; x=1737294522;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m7imhMKSdTdJ5ydf3ZsGHyNCubPOqsBtBgYGic8Yrok=;
-  b=FrkHE97Jb37AlocD7RBdcZlldMOgHfOfSgGC14FQ6D7y+U5/JgeWc1sN
-   E2Hcqi43ckkFORThCvUNmwUXpta7WI7YxjBZhQUjIJxhMgchgWaH5/Bqb
-   EOww0VfFM3oGuW8KJOO6+OK5tOXkCmhDKWLn4VirS2MQCZE9V6o54XRyf
-   oygMAqt8oPlofQmgwTfJjX1ptQKsZLuhPB/K8IIDKyPcUuclPMUAHbUsm
-   lBFL3bLpZK2Rby9MJkvYGu0SEeo6lkZVzu+q8WiJFni2wK6TN3yQQVQT7
-   im1ZfZW+B+1VG/GUgj5EV3N8x/P0AlTOkUve835HkQyANb9j7/Pk6I8oc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="19513679"
+  t=1705759123; x=1737295123;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=psdXtLVtAycfvfbsKwADXrIq5sgeShf4Ycfj0e9wKF4=;
+  b=NBZMOmXONfpzbEMIGV2a0cQuApGCXfo3FvKqiqXPjFdvjH6xC9pN7SEq
+   GSc3xCmilqfb3tMM/xar4OQiLfGOJX1PBuVC60WsEdj2LYjH68jHHLr/1
+   LgqAmUco+CGTma8vJaf9nkts22KlT7I0k84ltIOj+q+uWPBX6SxAKQzvy
+   BtM+HelHIFg7l0jQiAhfP090p/iNFOB0hbs2XVwPcdldhJciMbKyu48wJ
+   ZYkQENfesKGaOsKkO+Cxo7fnfjkc/n8G1RIP/rRvS6SB2rcU1MBmd8vMK
+   kLgWJjNrdtOpzNOcBZCoUkgd95OqLjJg3J5Ljf4Jkdl6qr2CJLbZixR0o
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="432115014"
 X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="19513679"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 05:48:41 -0800
+   d="scan'208";a="432115014"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 05:58:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="904413133"
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="778213703"
 X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="904413133"
+   d="scan'208";a="778213703"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2024 05:48:40 -0800
+  by orsmga007.jf.intel.com with ESMTP; 20 Jan 2024 05:58:40 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRBi9-000580-36;
-	Sat, 20 Jan 2024 13:48:37 +0000
-Date: Sat, 20 Jan 2024 21:47:59 +0800
+	id 1rRBrp-000586-3A;
+	Sat, 20 Jan 2024 13:58:37 +0000
+Date: Sat, 20 Jan 2024 21:58:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amery Hung <ameryhung@gmail.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v7 1/8] net_sched: Introduce eBPF based Qdisc
-Message-ID: <202401202131.VhVYkEh1-lkp@intel.com>
-References: <232881645a5c4c05a35df4ff1f08a19ef9a02662.1705432850.git.amery.hung@bytedance.com>
+Subject: [openeuler:openEuler-1.0-LTS 21355/21561]
+ drivers/gpio/gpio-phytium-pci.c:52:23: warning: ordered comparison of
+ pointer with integer zero
+Message-ID: <202401202135.1mqJsBua-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,88 +59,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <232881645a5c4c05a35df4ff1f08a19ef9a02662.1705432850.git.amery.hung@bytedance.com>
 
-Hi Amery,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mst-vhost/linux-next]
-[also build test ERROR on v6.7]
-[cannot apply to bpf-next/master bpf/master net/main net-next/main linus/master horms-ipvs/master next-20240119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amery-Hung/net_sched-Introduce-eBPF-based-Qdisc/20240118-055917
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/232881645a5c4c05a35df4ff1f08a19ef9a02662.1705432850.git.amery.hung%40bytedance.com
-patch subject: [RFC PATCH v7 1/8] net_sched: Introduce eBPF based Qdisc
-config: i386-randconfig-013-20240120 (https://download.01.org/0day-ci/archive/20240120/202401202131.VhVYkEh1-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401202131.VhVYkEh1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   0d29fbb6f9321a629cbf0ca30f15ce6f333ed7b9
+commit: 00711bad7e372a30c4975ba43811ffa666aff0e1 [21355/21561] gpio: add phytium gpio driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240120/202401202135.1mqJsBua-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401202135.1mqJsBua-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401202131.VhVYkEh1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401202135.1mqJsBua-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/core/filter.c: In function 'tc_qdisc_is_valid_access':
->> net/core/filter.c:8929:9: error: implicit declaration of function 'bpf_get_btf_vmlinux' [-Werror=implicit-function-declaration]
-    8929 |   btf = bpf_get_btf_vmlinux();
-         |         ^~~~~~~~~~~~~~~~~~~
-   net/core/filter.c:8929:7: warning: assignment to 'struct btf *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    8929 |   btf = bpf_get_btf_vmlinux();
-         |       ^
-   cc1: some warnings being treated as errors
+   drivers/gpio/gpio-phytium-pci.c: In function 'phytium_gpio_pci_probe':
+>> drivers/gpio/gpio-phytium-pci.c:52:23: warning: ordered comparison of pointer with integer zero [-Wextra]
+      52 |         if (gpio->irq < 0)
+         |                       ^
 
 
-vim +/bpf_get_btf_vmlinux +8929 net/core/filter.c
+vim +52 drivers/gpio/gpio-phytium-pci.c
 
-  8909	
-  8910	static bool tc_qdisc_is_valid_access(int off, int size,
-  8911					     enum bpf_access_type type,
-  8912					     const struct bpf_prog *prog,
-  8913					     struct bpf_insn_access_aux *info)
-  8914	{
-  8915		struct btf *btf;
-  8916	
-  8917		if (off < 0 || off >= sizeof(struct bpf_qdisc_ctx))
-  8918			return false;
-  8919	
-  8920		switch (off) {
-  8921		case offsetof(struct bpf_qdisc_ctx, skb):
-  8922			if (type == BPF_WRITE ||
-  8923			    size != sizeof_field(struct bpf_qdisc_ctx, skb))
-  8924				return false;
-  8925	
-  8926			if (prog->expected_attach_type != BPF_QDISC_ENQUEUE)
-  8927				return false;
-  8928	
-> 8929			btf = bpf_get_btf_vmlinux();
-  8930			if (IS_ERR_OR_NULL(btf))
-  8931				return false;
-  8932	
-  8933			info->btf = btf;
-  8934			info->btf_id = tc_qdisc_ctx_access_btf_ids[0];
-  8935			info->reg_type = PTR_TO_BTF_ID | PTR_TRUSTED;
-  8936			return true;
-  8937		case bpf_ctx_range(struct bpf_qdisc_ctx, classid):
-  8938			return size == sizeof_field(struct bpf_qdisc_ctx, classid);
-  8939		case bpf_ctx_range(struct bpf_qdisc_ctx, expire):
-  8940			return size == sizeof_field(struct bpf_qdisc_ctx, expire);
-  8941		case bpf_ctx_range(struct bpf_qdisc_ctx, delta_ns):
-  8942			return size == sizeof_field(struct bpf_qdisc_ctx, delta_ns);
-  8943		default:
-  8944			return false;
-  8945		}
-  8946	
-  8947		return false;
-  8948	}
-  8949	
+    15	
+    16	static int phytium_gpio_pci_probe(struct pci_dev *pdev,
+    17			const struct pci_device_id *id)
+    18	{
+    19		struct device *dev = &pdev->dev;
+    20		struct phytium_gpio *gpio;
+    21		struct gpio_irq_chip *girq;
+    22		int err;
+    23	
+    24		gpio = devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
+    25		if (!gpio)
+    26			return -ENOMEM;
+    27	
+    28		err = pcim_enable_device(pdev);
+    29		if (err) {
+    30			dev_err(dev, "Failed to enable PCI device: err %d\n", err);
+    31			goto out;
+    32		}
+    33	
+    34		err = pcim_iomap_regions(pdev, 1 << 0, pci_name(pdev));
+    35		if (err) {
+    36			dev_err(dev, "Failed to iomap PCI device: err %d\n", err);
+    37			goto out;
+    38		}
+    39	
+    40		gpio->regs = pcim_iomap_table(pdev)[0];
+    41		if (!gpio->regs) {
+    42			dev_err(dev, "Cannot map PCI resource\n");
+    43			err = -ENOMEM;
+    44			goto out;
+    45		}
+    46	
+    47		err = pci_enable_msi(pdev);
+    48		if (err < 0)
+    49			goto out;
+    50	
+    51		gpio->irq[0] = pdev->irq;
+  > 52		if (gpio->irq < 0)
+    53			dev_warn(dev, "no irq is found.\n");
+    54	
+    55		/* There is only one group of Pins at the moment. */
+    56		gpio->ngpio[0] = NGPIO_MAX;
+    57	
+    58		/* irq_chip support */
+    59		gpio->irq_chip.name = dev_name(dev);
+    60		gpio->irq_chip.irq_ack = phytium_gpio_irq_ack;
+    61		gpio->irq_chip.irq_mask = phytium_gpio_irq_mask;
+    62		gpio->irq_chip.irq_unmask = phytium_gpio_irq_unmask;
+    63		gpio->irq_chip.irq_set_type = phytium_gpio_irq_set_type;
+    64		gpio->irq_chip.irq_enable = phytium_gpio_irq_enable;
+    65		gpio->irq_chip.irq_disable = phytium_gpio_irq_disable;
+    66	
+    67		raw_spin_lock_init(&gpio->lock);
+    68	
+    69		gpio->gc.base = -1;
+    70		gpio->gc.get_direction = phytium_gpio_get_direction;
+    71		gpio->gc.direction_input = phytium_gpio_direction_input;
+    72		gpio->gc.direction_output = phytium_gpio_direction_output;
+    73		gpio->gc.get = phytium_gpio_get;
+    74		gpio->gc.set = phytium_gpio_set;
+    75		gpio->gc.ngpio = gpio->ngpio[0] + gpio->ngpio[1];
+    76		gpio->gc.label = dev_name(dev);
+    77		gpio->gc.parent = dev;
+    78		gpio->gc.owner = THIS_MODULE;
+    79	
+    80		girq = &gpio->gc.irq;
+    81		girq->handler = handle_bad_irq;
+    82		girq->default_type = IRQ_TYPE_NONE;
+    83	
+    84		girq->num_parents = 1;
+    85		girq->parents = devm_kcalloc(&pdev->dev, girq->num_parents,
+    86					     sizeof(*girq->parents), GFP_KERNEL);
+    87		if (!girq->parents)
+    88			return -ENOMEM;
+    89		girq->parents[0] = gpio->irq[0];
+    90		girq->parent_handler = phytium_gpio_irq_handler;
+    91	
+    92		girq->chip = &gpio->irq_chip;
+    93	
+    94		err = devm_gpiochip_add_data(dev, &gpio->gc, gpio);
+    95		if (err)
+    96			goto out;
+    97	
+    98		dev_info(dev, "Phytium PCI GPIO controller @%pa registered\n",
+    99			&gpio->regs);
+   100	
+   101		pci_set_drvdata(pdev, gpio);
+   102	
+   103	out:
+   104		return err;
+   105	}
+   106	
 
 -- 
 0-DAY CI Kernel Test Service
