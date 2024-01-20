@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26375650
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 01:00:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5651C30;
+	Sat, 20 Jan 2024 02:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705712424; cv=none; b=ous1zB7PLm+2orIxaheLNHccKTtglrLL9eW4IKtlDAxDZvbpjdtKLnqenYl6xFpzDK9Qdlbn4DBvQf/WLRViACYgJcM8vKQ/X/nsK+HT6nMRh8nyOMrJYvEZrXZiEL3DHtqhaSLDCN9t/MwEhL7n3hH/qXMjtcalZC7gd/hNoVI=
+	t=1705716148; cv=none; b=eEc2LAGeClgbAx9/to4Gg/cUM7aRdaOInBROafKArnheIjiOjJf9Vd/X25qKCJ5JQNAyDAlBS1vS77t/t0YuuvgVottJqozkBjlFS3+mgdawOc6DWz+nzVnp0Qp5r2HsOBIxpW8LhsDFj2EG/UYAqvb0i5O73IJAZSvCWY890/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705712424; c=relaxed/simple;
-	bh=UU78AjLsRGIao+d+hsqQWmqvxCN9e2tC4cM0iwRrczs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S4/qZEbTSl1jFRg2pF/CFmYrfAcuDoXfuKbMv1wgniPjNy24AiEQ0ScyV3Yfk47DChlRI5tqfOXbsJOSxu/32Z9ZsAwvTNhL1j00lE39tu/98zqrRtzZ2XbDCp9GR1gFLgZmqlLWdAtpdr4d6wezj6qMkWPDDKrHF37XxN5Lhig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DEoSlEre; arc=none smtp.client-ip=192.55.52.115
+	s=arc-20240116; t=1705716148; c=relaxed/simple;
+	bh=X1HSAxsQmyoehFoVKxF3tvAJHlvER4GCjaXle8K7R3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EpWGJKhbV2MwCQGSa+2KrwG7SHSBV8RraDEsn2/UPNznVvyNirSDnNnLWljanpOpx9Nx/6nz+tsiH3U9aUY3D0GqTVWZ70zUvL/MmMwypHJPs8Sdbip7C/YkOA4fM1oQVZQwfgfLVyWJTvCKNrrcunpDS/I9Z3sVimJEH5XKmrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KsSaud2J; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DEoSlEre"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KsSaud2J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705712423; x=1737248423;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UU78AjLsRGIao+d+hsqQWmqvxCN9e2tC4cM0iwRrczs=;
-  b=DEoSlEreVENsrCEqqHLvIV5HDmfCCo3BkRJYXYXPpzsMVjNNWzBhksgG
-   VdYim1hhFULovhCIBotXdGzgClv5Jm7qC1dHFt/IOjDEriBShR/0ESy7r
-   LF2/sK/ORmRdz/mtvFHTdLooxBT6fQZhL9mAtlfUBQ1sRh7qncl4pOPy/
-   AMGUFCF38iu1P6zqRZ+bSJLrCcNGoZM6AdoU3yQ8PHmQIeH3zOmNClHT1
-   q0CrCaCkmEL6s4jUFArrH+oDmQTMFMP4g0BMJUgllgbWu/pNABseHu31Q
-   qIN7oP6ZzdKqCQYeV4fVnahWeq6Rp8JY6KBLz7J0FKdbGCMErTdDZ0TKZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="400543613"
+  t=1705716146; x=1737252146;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X1HSAxsQmyoehFoVKxF3tvAJHlvER4GCjaXle8K7R3g=;
+  b=KsSaud2JcY1n6P5V5Wnbaft/O03KSh76ZP56rvB8O6qxVerXHwQtBQT+
+   3dg4sARAC7/7k9CPv6vN8k8uHZh7jxwgeooR9dfLxdnznprycyH0GWCwH
+   Pqu3Xc1K6aBfASnHgJOA3xMgJfgm6Oj/141yHjojxpz3AU6BcDx4Np1et
+   YRMJeKz1DEtQJiyymsYgIGFo3O1qpUz6QrGoeeEH4j0QEuwI5leZ5KHfn
+   cociL4xN7wPsrhWw7drSPJrOWjH/Rcz7pGyWcz9ETxXyDcvE5F2v/cElb
+   t81VrAI3OwG47jxcv4mLF4Znm7hPqyf9IHW8KYCrHNpAxysjrqFVH+ZIf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="22390345"
 X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
-   d="scan'208";a="400543613"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 17:00:22 -0800
+   d="scan'208";a="22390345"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 18:02:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="1032089546"
 X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
-   d="scan'208";a="1032089546"
+   d="scan'208";a="26904895"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Jan 2024 17:00:20 -0800
+  by orviesa002.jf.intel.com with ESMTP; 19 Jan 2024 18:02:22 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQzic-0004YA-0q;
-	Sat, 20 Jan 2024 01:00:18 +0000
-Date: Sat, 20 Jan 2024 08:59:53 +0800
+	id 1rR0gd-0004c2-3B;
+	Sat, 20 Jan 2024 02:02:19 +0000
+Date: Sat, 20 Jan 2024 10:01:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ye Bin <yebin10@huawei.com>, rostedt@goodmis.org, mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com, linux-trace-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	yebin10@huawei.com
-Subject: Re: [PATCH 1/3] tracing/probes: support '%pd' type for print struct
- dentry's name
-Message-ID: <202401200837.b9DEGdBT-lkp@intel.com>
-References: <20240119013848.3111364-2-yebin10@huawei.com>
+To: "charles.park" <charles.park@hardkernel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-5.15.y 32/204]
+ drivers/thermal/thermal_helpers.c:79: warning: expecting prototype for
+ thermal_zone_get_temp(). Prototype was for CRITICAL_TEMP() instead
+Message-ID: <202401200935.e4c5rbTN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,63 +59,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240119013848.3111364-2-yebin10@huawei.com>
 
-Hi Ye,
+Hi charles.park,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7 next-20240119]
-[cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/tracing-probes-support-pd-type-for-print-struct-dentry-s-name/20240119-093912
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240119013848.3111364-2-yebin10%40huawei.com
-patch subject: [PATCH 1/3] tracing/probes: support '%pd' type for print struct dentry's name
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20240120/202401200837.b9DEGdBT-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401200837.b9DEGdBT-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-5.15.y
+head:   abb0d3e05ad22d863c174be2eec4e27812205317
+commit: 80ab63aad57c0100e5277218c03ce79f4256d8c4 [32/204] ODROID-XU4: Update hack avoiding the invalid temperature by TMU broken
+config: i386-buildonly-randconfig-002-20240120 (https://download.01.org/0day-ci/archive/20240120/202401200935.e4c5rbTN-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401200935.e4c5rbTN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401200837.b9DEGdBT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401200935.e4c5rbTN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/trace/trace_probe.c: In function 'traceprobe_expand_dentry':
->> kernel/trace/trace_probe.c:1106:36: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'unsigned int' [-Wformat=]
-     if (snprintf(new_argv, len, "+0x%lx(%s)",
-                                     ~~^
-                                     %x
+>> drivers/thermal/thermal_helpers.c:79: warning: expecting prototype for thermal_zone_get_temp(). Prototype was for CRITICAL_TEMP() instead
 
 
-vim +1106 kernel/trace/trace_probe.c
+vim +79 drivers/thermal/thermal_helpers.c
 
-  1095	
-  1096	static char* traceprobe_expand_dentry(const char *argv)
-  1097	{
-  1098		#define DENTRY_EXPAND_LEN 7  /* +0xXX() */
-  1099		char *new_argv;
-  1100		int len = strlen(argv) + 1 + DENTRY_EXPAND_LEN;
-  1101	
-  1102		new_argv = kmalloc(len, GFP_KERNEL);
-  1103		if (!new_argv)
-  1104			return NULL;
-  1105	
-> 1106		if (snprintf(new_argv, len, "+0x%lx(%s)",
-  1107			     offsetof(struct dentry, d_name.name), argv) >= len) {
-  1108			kfree(new_argv);
-  1109			return NULL;
-  1110		}
-  1111	
-  1112		return new_argv;
-  1113	}
-  1114	
+    67	
+    68	/**
+    69	 * thermal_zone_get_temp() - returns the temperature of a thermal zone
+    70	 * @tz: a valid pointer to a struct thermal_zone_device
+    71	 * @temp: a valid pointer to where to store the resulting temperature.
+    72	 *
+    73	 * When a valid thermal zone reference is passed, it will fetch its
+    74	 * temperature and fill @temp.
+    75	 *
+    76	 * Return: On success returns 0, an error code otherwise
+    77	 */
+    78	
+  > 79	#define	CRITICAL_TEMP	120000
+    80	int thermal_zone_data[4] = { 0, };
+    81	
 
 -- 
 0-DAY CI Kernel Test Service
