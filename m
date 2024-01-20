@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A62C53AA;
-	Sat, 20 Jan 2024 10:05:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742F3D266
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 10:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705745140; cv=none; b=VkJvxcVcDYyUL04ScrP/I9YT9N62NB/WmWxXrdpfrclgDes8n02AIv0Dj7Bik58+GiAvzq13ZqDpbueczazNjgQvVpTrAs9MKXj3QvK7G3lhRNO7lpWChG56OQPdFLDfLePhqJ0IphXSgV6UMBZCi47LNN3WvF+OScw3ntOMmf0=
+	t=1705745800; cv=none; b=G9p84JxqSTAGuu+N/rNuwRoDzSqs6x8ci+R3MP42PR0wMC5VGYOBKFeGt1rSp2X0YpsszSCiMOObupJJxufbDLJNB64juMlWEZF+VOibIHSS2UYELMVl4syqnoAgnsOZPgwc1/cU9IlXnrrwxs6xUA0Frob9Fk31/IncmhwNAow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705745140; c=relaxed/simple;
-	bh=NfHVKsFGC+7KKNZ5KrKMVmMcbIGJsutL72AWtM+2pg4=;
+	s=arc-20240116; t=1705745800; c=relaxed/simple;
+	bh=gVmk0ozw6QWM+Tj5M0OucW2rfs/feQWs3jJKlfDoYqo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PIe/GXFi2FmcjIVXAV/Mgy6Ogeoyxjf0hDm5AmIM1A0T/TO6jbfL+l6nt138NYDWevOuSTf5r4t1Bdi8Pcw40gmshkTD1wfGTZDk2IvhK/xVou0T9DLhkBQl8i0u2Jx2UnSTfGzUgv0vJHo3Y3W42fQXdIyc0rhnpt43/CeSQbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bg/TExL0; arc=none smtp.client-ip=192.55.52.93
+	 Content-Disposition; b=V9Auq1HiA6Gvql4SNcZz4dYqLaGCS9AOkdWIDttn1QsAdw5/kjak9q9otAbKf4oFBBh31S44TpWXGljtVF0R4t7CDcSHs1iE9eqe4fbIvA6/4++FR4k7iajpbuP4QtvJDqia9F2pukSGkBMKF5Wjys9JYTLPDy93GNahzjfdWco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FKF1tikz; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bg/TExL0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKF1tikz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705745138; x=1737281138;
+  t=1705745798; x=1737281798;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NfHVKsFGC+7KKNZ5KrKMVmMcbIGJsutL72AWtM+2pg4=;
-  b=Bg/TExL0VtVwPL+eZ1ad6qcE1l9bE7fAK/1HJxiFuybR77SdqHizrNcw
-   VlOuK96tU0a+N1KJgpHaMlbMB7vQqC1XbQ+mNyOZ3mbjC+pnPMeEJLuEY
-   Rf7gq8VoN9rnrSHPFbiEpaZFhboIodFuuHPbbKWLR1lA14S3ovIc8SZ+7
-   xSnR3wog3I76lDu2yUnlwLEwevdhHwYdmfLU6N3Fi+V7AMWHpPTxtUvhl
-   RjrQE9fqhryxZ7bJBbRNt21hndMQQOIWTz6EDFH24sX61YQ4xq9D39Tbp
-   fXrUKB/w785rIOYIojkcEQXR513R1XhPcXD2wcdk0Vdi7w2+JY4puC9ng
+  bh=gVmk0ozw6QWM+Tj5M0OucW2rfs/feQWs3jJKlfDoYqo=;
+  b=FKF1tikzmnGhd8mbHERLuV0ib6xzSXSt9t5NASAZNs0ABOsiSsS/vxSy
+   CcxTNmfQG73HaAyUSUIhKVIpXTzL+3JlHkTwHXBsFy9/Z2XjX0UTTFJx3
+   3OWjqCKp3ndl0oUKPaTg3DJqWlcWI/EKyQclFyQLKdn7RA2MgLAc9V7yy
+   kPUKSS6I92CxPy2wh8MwF7yom0ybrjl8Po7bZKZiV9MzUd07bgermvOSJ
+   I54sxKheGxeCvE1jvgRvK1ZdgjaV51lfmjuvJnXTEVJ1fCmESI0XkG2/p
+   5taAAeKDNFmoSZLve63zTmTNDAIqeDXUHfAQUFaFOPLqZPZoOkd9jSDrl
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="398090505"
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="391373097"
 X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
-   d="scan'208";a="398090505"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 02:05:37 -0800
+   d="scan'208";a="391373097"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 02:16:37 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="855527208"
 X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
-   d="scan'208";a="26952402"
+   d="scan'208";a="855527208"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Jan 2024 02:05:35 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 20 Jan 2024 02:16:35 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rR8EH-0004ys-0g;
-	Sat, 20 Jan 2024 10:05:33 +0000
-Date: Sat, 20 Jan 2024 18:04:34 +0800
+	id 1rR8Ov-0004zY-1q;
+	Sat, 20 Jan 2024 10:16:33 +0000
+Date: Sat, 20 Jan 2024 18:16:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:cifs-netfs 3/13] fs/smb/client/readdir.c:144:38: error:
- no member named 'server_eof' in 'struct cifsInodeInfo'
-Message-ID: <202401201756.yjQXoulz-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v2 6/15] arch/x86/include/asm/processor.h:416:9:
+ error: call to undeclared function 'per_cpu_offset'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202401201851.zSW9z5gU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,132 +60,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git cifs-netfs
-head:   6dd72c2b9e0f5141be61959f3f8a74ed0e37192b
-commit: 4dd30fbc06d88f77b19de231c6fdfbe147384988 [3/13] cifs: Share server EOF pos with netfslib
-config: i386-buildonly-randconfig-004-20240120 (https://download.01.org/0day-ci/archive/20240120/202401201756.yjQXoulz-lkp@intel.com/config)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v2
+head:   29ffb3695f4c4dbeaf110a752cee0d918e3b6519
+commit: e68ec274b0f929ef4ccb4be27152a2464a103f74 [6/15] x86: Use stack protector with guard symbol if supported
+config: x86_64-randconfig-102-20240120 (https://download.01.org/0day-ci/archive/20240120/202401201851.zSW9z5gU-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201756.yjQXoulz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201851.zSW9z5gU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401201756.yjQXoulz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401201851.zSW9z5gU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/smb/client/readdir.c:144:38: error: no member named 'server_eof' in 'struct cifsInodeInfo'
-     144 |                                                 fattr->cf_eof = CIFS_I(inode)->server_eof;
-         |                                                                 ~~~~~~~~~~~~~  ^
-   1 error generated.
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   In file included from include/linux/spinlock.h:60:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/x86/include/asm/thread_info.h:53:
+   In file included from arch/x86/include/asm/cpufeature.h:5:
+>> arch/x86/include/asm/processor.h:416:9: error: call to undeclared function 'per_cpu_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     416 |         return per_cpu_offset(cpu);
+         |                ^
+   In file included from arch/x86/kernel/asm-offsets.c:10:
+   In file included from include/crypto/aria.h:22:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:10:
+   In file included from include/crypto/aria.h:22:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:10:
+   In file included from include/crypto/aria.h:22:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:10:
+   In file included from include/crypto/aria.h:22:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:10:
+   In file included from include/crypto/aria.h:22:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:10:
+   In file included from include/crypto/aria.h:22:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/x86/include/asm/elf.h:10:
+   In file included from arch/x86/include/asm/ia32.h:7:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
 
 
-vim +144 fs/smb/client/readdir.c
+vim +/per_cpu_offset +416 arch/x86/include/asm/processor.h
 
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06   74  
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   75  /*
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03   76   * Attempt to preload the dcache with the results from the FIND_FIRST/NEXT
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03   77   *
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   78   * Find the dentry that matches "name". If there isn't one, create one. If it's
-9e6d722f3d91c9 fs/cifs/readdir.c       Nakajima Akira    2014-12-19   79   * a negative dentry or the uniqueid or filetype(mode) changed,
-9e6d722f3d91c9 fs/cifs/readdir.c       Nakajima Akira    2014-12-19   80   * then drop it and recreate it.
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   81   */
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03   82  static void
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03   83  cifs_prime_dcache(struct dentry *parent, struct qstr *name,
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   84  		    struct cifs_fattr *fattr)
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   85  {
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   86  	struct dentry *dentry, *alias;
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   87  	struct inode *inode;
-fc64005c93090c fs/cifs/readdir.c       Al Viro           2016-04-10   88  	struct super_block *sb = parent->d_sb;
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18   89  	struct cifs_sb_info *cifs_sb = CIFS_SB(sb);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   90  	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06   91  	int rc;
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   92  
-f96637be081141 fs/cifs/readdir.c       Joe Perches       2013-05-04   93  	cifs_dbg(FYI, "%s: for %s\n", __func__, name->name);
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   94  
-4f522a247bc26d fs/cifs/readdir.c       Al Viro           2013-02-11   95  	dentry = d_hash_and_lookup(parent, name);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   96  	if (!dentry) {
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   97  		/*
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   98  		 * If we know that the inode will need to be revalidated
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   99  		 * immediately, then don't create a new dentry for it.
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  100  		 * We'll end up doing an on the wire call either way and
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  101  		 * this spares us an invalidation.
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  102  		 */
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  103  retry:
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  104  		if ((fattr->cf_cifsattrs & ATTR_REPARSE) ||
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  105  		    (fattr->cf_flags & CIFS_FATTR_NEED_REVAL))
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  106  			return;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  107  
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  108  		dentry = d_alloc_parallel(parent, name, &wq);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  109  	}
-a1c83681d52704 fs/cifs/readdir.c       Viresh Kumar      2015-08-12  110  	if (IS_ERR(dentry))
-4f522a247bc26d fs/cifs/readdir.c       Al Viro           2013-02-11  111  		return;
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  112  	if (!d_in_lookup(dentry)) {
-2b0143b5c986be fs/cifs/readdir.c       David Howells     2015-03-17  113  		inode = d_inode(dentry);
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  114  		if (inode) {
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  115  			if (d_mountpoint(dentry)) {
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  116  				dput(dentry);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  117  				return;
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  118  			}
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  119  			/*
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  120  			 * If we're generating inode numbers, then we don't
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  121  			 * want to clobber the existing one with the one that
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  122  			 * the readdir code created.
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  123  			 */
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  124  			if (!(cifs_sb->mnt_cifs_flags & CIFS_MOUNT_SERVER_INUM))
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  125  				fattr->cf_uniqueid = CIFS_I(inode)->uniqueid;
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  126  
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  127  			/*
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  128  			 * Update inode in place if both i_ino and i_mode didn't
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  129  			 * change.
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  130  			 */
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  131  			if (CIFS_I(inode)->uniqueid == fattr->cf_uniqueid) {
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  132  				/*
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  133  				 * Query dir responses don't provide enough
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  134  				 * information about reparse points other than
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  135  				 * their reparse tags.  Save an invalidation by
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  136  				 * not clobbering the existing mode, size and
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  137  				 * symlink target (if any) when reparse tag and
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  138  				 * ctime haven't changed.
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  139  				 */
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  140  				rc = 0;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  141  				if (fattr->cf_cifsattrs & ATTR_REPARSE) {
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  142  					if (likely(reparse_inode_match(inode, fattr))) {
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  143  						fattr->cf_mode = inode->i_mode;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06 @144  						fattr->cf_eof = CIFS_I(inode)->server_eof;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  145  						fattr->cf_symlink_target = NULL;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  146  					} else {
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  147  						CIFS_I(inode)->time = 0;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  148  						rc = -ESTALE;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  149  					}
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  150  				}
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  151  				if (!rc && !cifs_fattr_to_inode(inode, fattr)) {
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  152  					dput(dentry);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  153  					return;
-cd60042cc1392e fs/cifs/readdir.c       Jeff Layton       2012-07-06  154  				}
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  155  			}
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  156  		}
-5542aa2fa7f6cd fs/cifs/readdir.c       Eric W. Biederman 2014-02-13  157  		d_invalidate(dentry);
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  158  		dput(dentry);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  159  		goto retry;
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  160  	} else {
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  161  		inode = cifs_iget(sb, fattr);
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03  162  		if (!inode)
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  163  			inode = ERR_PTR(-ENOMEM);
-41d28bca2da4bd fs/cifs/readdir.c       Al Viro           2014-10-12  164  		alias = d_splice_alias(inode, dentry);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  165  		d_lookup_done(dentry);
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03  166  		if (alias && !IS_ERR(alias))
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03  167  			dput(alias);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  168  	}
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  169  	dput(dentry);
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  170  }
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  171  
-
-:::::: The code at line 144 was first introduced by commit
-:::::: 6d039984c15d1ea1ca080176df6dfab443e44585 smb: client: stop revalidating reparse points unnecessarily
-
-:::::: TO: Paulo Alcantara <pc@manguebit.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+   413	
+   414	static inline unsigned long cpu_kernelmode_gs_base(int cpu)
+   415	{
+ > 416		return per_cpu_offset(cpu);
+   417	}
+   418	
 
 -- 
 0-DAY CI Kernel Test Service
