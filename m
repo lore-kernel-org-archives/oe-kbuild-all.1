@@ -1,204 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2377538E;
-	Sat, 20 Jan 2024 16:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8C214AAC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 17:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705769151; cv=none; b=hXicXL6YAEOq9XLgagwRW6h0TvjrnWXu/k4Ne2ZwN/jFPVTwAnZS6ca0WxgnN7rr1bex0CCbRMjnA5n+jgOFfkmdEWb+2ZuPGDCzpPNfKRR6vwAb1O+s/C6rV2aOABeC9S/hlRsz84jA2nMj/NabIH+9h2mXw5rNejIqn3keNBo=
+	t=1705770121; cv=none; b=XSy6wLrB8QLUo0C8+PCFVvuSzGENnyzmJZKviWbqlUqEG4qap64ajBxhYOivM72f4pU5+bRL3bgAvLHvbAvbt2dUc3h/n6BLAuDRYwDbMM6xBrZJ1xXBsrAdCd3kBlLfaXGLiBGU4ZWQM3Nf+CsgBXlOcPvoO2ZV3KKpx5oPHt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705769151; c=relaxed/simple;
-	bh=oLfRbzsDL54Ca8ky7ImNsIIyd9ndBwYsmOAJIXNyOCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GeVcULVWM+YkUCMZRIr2fHNtMBbjrwqLL8qweXo061W+ZI8iJJjzxZdR2O9CHJgphflg896+ZVgO96cETndB9j5NgdRNJBqPmqDaK/xs72RWUGTAIIaob59n3gMfvmmXwqU9V11ZKD8nldei/9pvm4Stl37JKjBX8kRNyynGLdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lutKKJry; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705770121; c=relaxed/simple;
+	bh=iOKtxqkD+uVBgNmg41T8J8mZCNBvDaB3xqiyDIU9ZEA=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=PGKisbELBk5FbCvslA/Hf8sJjX/4sxA2KDGSBGdW7nog3sRxl8mc5OVo740BBERt3f3NgnTM7VosWstmKfFWHuWI2ck3s4h8ui3m6zwZ5zQDDYTZT3hGm2fF+4Ux0QTEoZpV/KWMe/CtT1RA5bMvQYL2bA49lEdKaYetzyCsqQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=cGpXFM98; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lutKKJry"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705769149; x=1737305149;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="cGpXFM98"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oLfRbzsDL54Ca8ky7ImNsIIyd9ndBwYsmOAJIXNyOCI=;
-  b=lutKKJryeJp5dyIz4CHAL4P+oIoHx1OcwYjYMwo/ULC44ecbbGjOkoni
-   EkxMH+Rd1ZAnU/jYY5cM15GbWLONhuKuF8Z7T3e0vF5PAtM8wIil5oTZL
-   KONft3zL3NJhOe6nn6uNgmA36D3AP6+58yDGAlKymacUPFKqNrcG0JWRu
-   o4U/2onr+1mZ8zf+uQ+9clFGg6gvpDATSKmEeK218ekhIT0+3YrMEujkj
-   4i58BGY8KmnfZSwfIkrPjAjxxVZqCxEiioMmVQgQOovJuadiyRc0MZAwS
-   xj4/bS9U8/+ZtG54gil37vEMIFNUwV+xWFyvXJ9s2+/BndPfTdF/IxGJN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="7633293"
-X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="7633293"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 08:45:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="904438246"
-X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="904438246"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2024 08:45:46 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rRETY-0005HG-1z;
-	Sat, 20 Jan 2024 16:45:44 +0000
-Date: Sun, 21 Jan 2024 00:44:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:rmap_batching 3/11] include/linux/pgtable.h:227:3:
- error: call to undeclared function 'ptep_set_wrprotect'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <202401210031.nDeCDGF7-lkp@intel.com>
+  bh=PcVDw+MAg0iXihFy7kIFofjy7tQqpJkW2nROprh3snQ=;
+  b=cGpXFM989Nd+JoJA+xDXSj1VV/aEGoAWmr19ute3OnKMI2HYnOIhs1+/
+   XkhsYZ80BkCjQzcUCkk5tCF/iC76GHa2kp+2NobQToop/sB7RsYd+h35Z
+   ouh2wZ8BfO6CVUMaVpAgmSMj4yLH6WGs6mDS5fDDDAVB28IIoH52D/+Sk
+   g=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.05,208,1701126000"; 
+   d="scan'208";a="77357534"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 18:01:53 +0100
+Date: Sat, 20 Jan 2024 18:01:53 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Elaine Zhang <zhangqing@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>, 
+    Sebastian Reichel <sebastian.reichel@collabora.com>
+cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: drivers/clk/rockchip/clk-pll.c:912:2-8: WARNING: do_div() does a
+ 64-by-32 division, please consider using div64_u64 instead. (fwd)
+Message-ID: <alpine.DEB.2.22.394.2401201801080.3267@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://github.com/davidhildenbrand/linux rmap_batching
-head:   c54f3b69b7a799efa06dbf58a60db9b3fac04111
-commit: d84c9158468598cb15b038bca27fd80e113b456c [3/11] mm/memory: optimize fork() with PTE-mapped THP
-config: arm-mmp2_defconfig (https://download.01.org/0day-ci/archive/20240121/202401210031.nDeCDGF7-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240121/202401210031.nDeCDGF7-lkp@intel.com/reproduce)
+
+
+---------- Forwarded message ----------
+Date: Sun, 21 Jan 2024 00:55:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/clk/rockchip/clk-pll.c:912:2-8: WARNING: do_div() does a
+    64-by-32 division, please consider using div64_u64 instead.
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Elaine Zhang <zhangqing@rock-chips.com>
+CC: Heiko Stuebner <heiko@sntech.de>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9d64bf433c53cab2f48a3fff7a1f2a696bc5229a
+commit: 8f6594494b1cb0ad14493795b436413cfe64a0f8 clk: rockchip: add pll type for RK3588
+date:   1 year, 2 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 1 year, 2 months ago
+config: arm-randconfig-r062-20240117 (https://download.01.org/0day-ci/archive/20240121/202401210007.174n0NM0-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401210031.nDeCDGF7-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202401210007.174n0NM0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/clk/rockchip/clk-pll.c:912:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
 
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:29:
-   include/linux/pgtable.h:218:38: error: use of undeclared identifier 'PFN_PTE_SHIFT'
-           return __pte(pte_val(pte) + (1UL << PFN_PTE_SHIFT));
-                                               ^
->> include/linux/pgtable.h:227:3: error: call to undeclared function 'ptep_set_wrprotect'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   ptep_set_wrprotect(mm, addr, ptep);
-                   ^
-   include/linux/pgtable.h:227:3: note: did you mean 'pte_wrprotect'?
-   arch/arm/include/asm/pgtable.h:226:21: note: 'pte_wrprotect' declared here
-   static inline pte_t pte_wrprotect(pte_t pte)
-                       ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:29:
-   include/linux/pgtable.h:638:20: error: static declaration of 'ptep_set_wrprotect' follows non-static declaration
-   static inline void ptep_set_wrprotect(struct mm_struct *mm, unsigned long address, pte_t *ptep)
-                      ^
-   include/linux/pgtable.h:227:3: note: previous implicit declaration is here
-                   ptep_set_wrprotect(mm, addr, ptep);
-                   ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (which contains 2 elements) [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                           ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (which contains 2 elements) [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                                         ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (which contains 2 elements) [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                            ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (which contains 2 elements) [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                                            ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (which contains 2 elements) [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
-                            ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (which contains 2 elements) [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
-                                            ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (which contains 2 elements) [-Warray-bounds]
+vim +912 drivers/clk/rockchip/clk-pll.c
 
-
-vim +/ptep_set_wrprotect +227 include/linux/pgtable.h
-
-   221	
-   222	#ifndef wrprotect_ptes
-   223	static inline void wrprotect_ptes(struct mm_struct *mm, unsigned long addr,
-   224			pte_t *ptep, unsigned int nr)
-   225	{
-   226		for (;;) {
- > 227			ptep_set_wrprotect(mm, addr, ptep);
-   228			if (--nr == 0)
-   229				break;
-   230			ptep++;
-   231			addr += PAGE_SIZE;
-   232		}
-   233	}
-   234	#endif
-   235	
+8f6594494b1cb0 Elaine Zhang 2022-10-18  895
+8f6594494b1cb0 Elaine Zhang 2022-10-18  896  static unsigned long rockchip_rk3588_pll_recalc_rate(struct clk_hw *hw, unsigned long prate)
+8f6594494b1cb0 Elaine Zhang 2022-10-18  897  {
+8f6594494b1cb0 Elaine Zhang 2022-10-18  898  	struct rockchip_clk_pll *pll = to_rockchip_clk_pll(hw);
+8f6594494b1cb0 Elaine Zhang 2022-10-18  899  	struct rockchip_pll_rate_table cur;
+8f6594494b1cb0 Elaine Zhang 2022-10-18  900  	u64 rate64 = prate, postdiv;
+8f6594494b1cb0 Elaine Zhang 2022-10-18  901
+8f6594494b1cb0 Elaine Zhang 2022-10-18  902  	rockchip_rk3588_pll_get_params(pll, &cur);
+8f6594494b1cb0 Elaine Zhang 2022-10-18  903
+8f6594494b1cb0 Elaine Zhang 2022-10-18  904  	rate64 *= cur.m;
+8f6594494b1cb0 Elaine Zhang 2022-10-18  905  	do_div(rate64, cur.p);
+8f6594494b1cb0 Elaine Zhang 2022-10-18  906
+8f6594494b1cb0 Elaine Zhang 2022-10-18  907  	if (cur.k) {
+8f6594494b1cb0 Elaine Zhang 2022-10-18  908  		/* fractional mode */
+8f6594494b1cb0 Elaine Zhang 2022-10-18  909  		u64 frac_rate64 = prate * cur.k;
+8f6594494b1cb0 Elaine Zhang 2022-10-18  910
+8f6594494b1cb0 Elaine Zhang 2022-10-18  911  		postdiv = cur.p * 65535;
+8f6594494b1cb0 Elaine Zhang 2022-10-18 @912  		do_div(frac_rate64, postdiv);
+8f6594494b1cb0 Elaine Zhang 2022-10-18  913  		rate64 += frac_rate64;
+8f6594494b1cb0 Elaine Zhang 2022-10-18  914  	}
+8f6594494b1cb0 Elaine Zhang 2022-10-18  915  	rate64 = rate64 >> cur.s;
+8f6594494b1cb0 Elaine Zhang 2022-10-18  916
+8f6594494b1cb0 Elaine Zhang 2022-10-18  917  	return (unsigned long)rate64;
+8f6594494b1cb0 Elaine Zhang 2022-10-18  918  }
+8f6594494b1cb0 Elaine Zhang 2022-10-18  919
 
 -- 
 0-DAY CI Kernel Test Service
