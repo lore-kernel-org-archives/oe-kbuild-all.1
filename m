@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF4C10A08;
-	Sat, 20 Jan 2024 18:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABBB111A5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 18:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705774074; cv=none; b=HSrauGT3m7R3146TLUAcZ3Qm6zw50fEwkl8vH458kKQMyA4hE9Y1IZqWsnJbAdw0GgMgMBHTPsHe02uwE1bbZUMJFG8h1Xv1iIUtIsfD8yCk4mvfBmuYMSlNkFtmPM69l2onQ0fMoOL4pjf/sgI54tL1irxYJnnxWdy++mfwHuM=
+	t=1705774734; cv=none; b=NtIyk92xPl2iUm6JuHMhWZwuAwZ+kfyfZO6imK6Yej8Yn7sW08Uwox1DZH7L9fytwDa6ZvJz924PodQfrPempiZGj3NXtq/V5iSG/2rluWq6ufWN/peU0qy49mUGPLATjfrhmjW5sA0G3b27BpZPIGDWsxbOxe0lpMi3SRkORVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705774074; c=relaxed/simple;
-	bh=9iH2U7pUtgFS76JXG+8tNM9WNpAF00TE+sMZWNI9lZw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KgP3npFwzqa18Z4mBxHw5NFVv7JSp9p9OJX6XGIgTE6TQIMAMDaS9d7YcOmvlctEY/bLVgBuvX2m7gFwN7y9j28GKHQpuQY9iluCI+nbcWdus1Izh6IQyqmEyFt2tElKXXyS4uQFz4uGMHmzaaw97KvWUzEYjB7PZgSBCsvnJUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGCeJpS/; arc=none smtp.client-ip=192.55.52.115
+	s=arc-20240116; t=1705774734; c=relaxed/simple;
+	bh=oYKLNQ9Byo05LuqILEdNTwLxkpmunMgp5caR99UpcyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gkNbn4rj2lXr9GLXNnJduh9Swxmo8/dkHxbtlPh5EUcel4TgTzYu2fmlh07FVN+J4+6cTlyxFxKZxzv5UH2nNzMmYnOZ+2lAR8+R43KEe3uagBA+uHe/WQHi+vW9JvkPa7dL73jOmW6pqZff7zOAEWH9/wzdT/C29dIoW5Lj40U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsFjF1K1; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGCeJpS/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsFjF1K1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705774072; x=1737310072;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9iH2U7pUtgFS76JXG+8tNM9WNpAF00TE+sMZWNI9lZw=;
-  b=nGCeJpS/1J07W3C8Q7dj+ULrykfWqLKfV2f8nfcwYgxczYxI1IzQcYnm
-   cSvY3Oj1/+NOJnoDGKRVCMXTtjFfEeyve4ADmr1OR4A9vrIjqdzbSuT9s
-   uPVHIpv4RDN4oD/PAfHN17UYO16gH0Ji6CINeSM4PO1NA6D6mrbYji1G5
-   zpXHZjZYN/PlUnzb0lhCAqd6I4BOESG9hR3txRbi0CMx9dLgeZ1bdZ6Mf
-   8KrMdfLy+dOnDwxwKq5tDBTX9/hLvnAoOCZUNNu08uEaKgELhdJvRLUxZ
-   4Yg3guimCIhOEFjhpaLTNBnOUmXFvYSajZCsAVbpRIpd1sM9jA2NYDzVo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="400612518"
+  t=1705774733; x=1737310733;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oYKLNQ9Byo05LuqILEdNTwLxkpmunMgp5caR99UpcyE=;
+  b=jsFjF1K1JgLFbRQoLq2CpVFIIaiJEolmbKTwcqNxQQhemVnlDm65MF2h
+   L+N+YRtYYwNxyZzcdqWH8+PpbjUzMVEYsQMuXxzZc732U/f2h9W8GUIwg
+   m/FZ4DUW/SJRvHznMPENBFtyX8+K+u5nRkn/ZAIcg5C6V69uhIxxInaxS
+   pT1eHY7rhtwkNlaTj0lf9bAzZAsjgTa7crtRkUWCsy21bQjhpkL8qSwNu
+   pTcBs2Mou7NvxRjo7xySnXqvd1sU3UXhTKpJIM/2xwPuVKSh+/UBjSOzH
+   mkPtvAb4WTafrMpmkAbcyOffCLkHxObKHh4k5ApS2V4YmpvNjiBa5bhZU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="19534011"
 X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="400612518"
+   d="scan'208";a="19534011"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 10:07:51 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 10:18:52 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="805323"
+   d="scan'208";a="806354"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Jan 2024 10:07:49 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 20 Jan 2024 10:18:50 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRFkx-0005La-2A;
-	Sat, 20 Jan 2024 18:07:47 +0000
-Date: Sun, 21 Jan 2024 02:07:40 +0800
+	id 1rRFvb-0005M2-31;
+	Sat, 20 Jan 2024 18:18:47 +0000
+Date: Sun, 21 Jan 2024 02:17:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Alcock <nick.alcock@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kris Van Hees <kris.van.hees@oracle.com>,
-	Tomas Jedlicka <tomas.jedlicka@oracle.com>,
-	Alan Maguire <alan.maguire@oracle.com>
-Subject: [oracle-dtrace:v2/6.7 8/11] arch/arm/vdso/vgettimeofday.c:15:9:
- error: implicit declaration of function '__cvdso_clock_gettime32' is invalid
- in C99
-Message-ID: <202401210234.D0pkqR97-lkp@intel.com>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v12 14/15] media: imx-asrc: Add memory to memory driver
+Message-ID: <202401210216.fF5PuPC8-lkp@intel.com>
+References: <1705581128-4604-15-git-send-email-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,71 +58,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1705581128-4604-15-git-send-email-shengjiu.wang@nxp.com>
 
-tree:   https://github.com/oracle/dtrace-linux-kernel v2/6.7
-head:   59b53403fac6433487b678d487564fa2ee67f229
-commit: df8b67f4493c3b35575a87765a6afdfeb61ebb64 [8/11] ctf: generate CTF information for the kernel
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240121/202401210234.D0pkqR97-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240121/202401210234.D0pkqR97-lkp@intel.com/reproduce)
+Hi Shengjiu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on broonie-sound/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.7 next-20240119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shengjiu-Wang/ASoC-fsl_asrc-define-functions-for-memory-to-memory-usage/20240118-211929
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/1705581128-4604-15-git-send-email-shengjiu.wang%40nxp.com
+patch subject: [PATCH v12 14/15] media: imx-asrc: Add memory to memory driver
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20240121/202401210216.fF5PuPC8-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240121/202401210216.fF5PuPC8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401210234.D0pkqR97-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401210216.fF5PuPC8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm/vdso/vgettimeofday.c:15:9: error: implicit declaration of function '__cvdso_clock_gettime32' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           return __cvdso_clock_gettime32(clock, ts);
-                  ^
-   arch/arm/vdso/vgettimeofday.c:15:9: note: did you mean '__cvdso_clock_gettime'?
-   lib/vdso/gettimeofday.c:266:1: note: '__cvdso_clock_gettime' declared here
-   __cvdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
-   ^
->> arch/arm/vdso/vgettimeofday.c:33:9: error: implicit declaration of function '__cvdso_clock_getres_time32' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           return __cvdso_clock_getres_time32(clock_id, res);
-                  ^
-   arch/arm/vdso/vgettimeofday.c:33:9: note: did you mean '__cvdso_clock_getres_common'?
-   lib/vdso/gettimeofday.c:357:5: note: '__cvdso_clock_getres_common' declared here
-   int __cvdso_clock_getres_common(const struct vdso_data *vd, clockid_t clock,
-       ^
-   2 errors generated.
+>> drivers/media/platform/nxp/imx-asrc.c:456:10: error: 'const struct v4l2_ctrl_config' has no member named 'fraction_bits'
+     456 |         .fraction_bits = 32,
+         |          ^~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-asrc.c:456:26: warning: initialized field overwritten [-Woverride-init]
+     456 |         .fraction_bits = 32,
+         |                          ^~
+   drivers/media/platform/nxp/imx-asrc.c:456:26: note: (near initialization for 'asrc_src_rate_off_control.def')
+   drivers/media/platform/nxp/imx-asrc.c:468:10: error: 'const struct v4l2_ctrl_config' has no member named 'fraction_bits'
+     468 |         .fraction_bits = 32,
+         |          ^~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-asrc.c:468:26: warning: initialized field overwritten [-Woverride-init]
+     468 |         .fraction_bits = 32,
+         |                          ^~
+   drivers/media/platform/nxp/imx-asrc.c:468:26: note: (near initialization for 'asrc_dst_rate_off_control.def')
 
 
-vim +/__cvdso_clock_gettime32 +15 arch/arm/vdso/vgettimeofday.c
+vim +456 drivers/media/platform/nxp/imx-asrc.c
 
-8512287a816559 Nathan Lynch      2015-03-25  11  
-20e2fc42312f96 Vincenzo Frascino 2019-11-04  12  int __vdso_clock_gettime(clockid_t clock,
-20e2fc42312f96 Vincenzo Frascino 2019-11-04  13  			 struct old_timespec32 *ts)
-8512287a816559 Nathan Lynch      2015-03-25  14  {
-20e2fc42312f96 Vincenzo Frascino 2019-11-04 @15  	return __cvdso_clock_gettime32(clock, ts);
-8512287a816559 Nathan Lynch      2015-03-25  16  }
-8512287a816559 Nathan Lynch      2015-03-25  17  
-74d06efb9c2f99 Vincenzo Frascino 2019-11-04  18  int __vdso_clock_gettime64(clockid_t clock,
-74d06efb9c2f99 Vincenzo Frascino 2019-11-04  19  			   struct __kernel_timespec *ts)
-74d06efb9c2f99 Vincenzo Frascino 2019-11-04  20  {
-74d06efb9c2f99 Vincenzo Frascino 2019-11-04  21  	return __cvdso_clock_gettime(clock, ts);
-74d06efb9c2f99 Vincenzo Frascino 2019-11-04  22  }
-74d06efb9c2f99 Vincenzo Frascino 2019-11-04  23  
-20e2fc42312f96 Vincenzo Frascino 2019-11-04  24  int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
-20e2fc42312f96 Vincenzo Frascino 2019-11-04  25  			struct timezone *tz)
-8512287a816559 Nathan Lynch      2015-03-25  26  {
-20e2fc42312f96 Vincenzo Frascino 2019-11-04  27  	return __cvdso_gettimeofday(tv, tz);
-8512287a816559 Nathan Lynch      2015-03-25  28  }
-8512287a816559 Nathan Lynch      2015-03-25  29  
-052e76a31b4a64 Vincenzo Frascino 2019-11-04  30  int __vdso_clock_getres(clockid_t clock_id,
-052e76a31b4a64 Vincenzo Frascino 2019-11-04  31  			struct old_timespec32 *res)
-052e76a31b4a64 Vincenzo Frascino 2019-11-04  32  {
-052e76a31b4a64 Vincenzo Frascino 2019-11-04 @33  	return __cvdso_clock_getres_time32(clock_id, res);
-052e76a31b4a64 Vincenzo Frascino 2019-11-04  34  }
-052e76a31b4a64 Vincenzo Frascino 2019-11-04  35  
-
-:::::: The code at line 15 was first introduced by commit
-:::::: 20e2fc42312f960f497ac2d617e3742754e1fa5e ARM: 8930/1: Add support for generic vDSO
-
-:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
-:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
+   446	
+   447	static const struct v4l2_ctrl_config asrc_src_rate_off_control = {
+   448		.ops = &asrc_m2m_ctrl_ops,
+   449		.id = V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET,
+   450		.name = "Audio Source Sample Rate Offset",
+   451		.type = V4L2_CTRL_TYPE_INTEGER64,
+   452		.min = v4l2_ctrl_fp_compose(-128, 0, 32),
+   453		.max = v4l2_ctrl_fp_compose(127, 0xffffffff, 32),
+   454		.def = 0,
+   455		.step = 1,
+ > 456		.fraction_bits = 32,
+   457	};
+   458	
 
 -- 
 0-DAY CI Kernel Test Service
