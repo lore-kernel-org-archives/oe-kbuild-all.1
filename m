@@ -1,55 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7AA5381
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 08:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC3A5382;
+	Sat, 20 Jan 2024 08:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705738657; cv=none; b=NTCyxCiOusVi6KJEmkBvIffAJxJJvCqZXebkHBNZUnesQ5IjTkK1C7ZhbeJX6GpFl5NAJOKG/yv7XpbXDGVOxipe14Aa7bvZOmhlApRJNawTZuMN3oO6yaS2/+F5AW6+9+UIEX46vi532vPUATKRTcDeQDTA2COteE/G+nTA+GA=
+	t=1705738658; cv=none; b=l6b8ZapHAJyNOG7owRA2PQCGlXRRIzuu2Ir71XUhQ1tCnoUwK83xTDEeC397nufSncpeRkrIUbBtvBt2i6aX5I938I41t19FyF5PDFHDCXI1Av5TPHejQN+w1CHPtyKfmTATQDufkxNXdyiUDDC7xppaVGxnQ56XheRqXQDFYgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705738657; c=relaxed/simple;
-	bh=WSWmk677I/Q0/MjSpdzSelXL8w3hDhv3DWS98lnHAi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XiNwz3L96DJBr+QV5KjCGnuJwSbDrq9LOPAjK1CcuRcOU1C54t/NoDEDG4FEAUUvVzTvNnEx7qnmuXYQDQuwPNF/4qy4uWzFxuSLHPcoplRYRY8YamPec/2+gSkh/ZICTihy7HmLrRAE8msrL9Jovs+hRC2WCwHIRvtb5nTJ7v4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSs/8spR; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1705738658; c=relaxed/simple;
+	bh=sXI31xflBZoXA+tOcFBTUtwh+TGZWqBsqHMNQZvsPlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hbpVNvzMOHgGGQuLXjocnwghNMzOoCzMJthVV2qs4DOJHMIw4MTjvEPYqfsjI6lJAjZWoInlLwWdh6tnaNPmEK5bpmlMQRgqkl13R8pP0/6CK7Cv+zmsnzsFGHNwzanZ6rrBdICiGix+B7gSrr1Uudn8y4ZHqjsuO4wW4wrHkac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AOfMi+ft; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSs/8spR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AOfMi+ft"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705738655; x=1737274655;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WSWmk677I/Q0/MjSpdzSelXL8w3hDhv3DWS98lnHAi8=;
-  b=nSs/8spRy2cWN6/pNsLXCA0gqZLfoQl4bPuqznsTygcvK1vzhcR0aDeq
-   Zg7n75IERCgvWW+Ko8iGnmTxIhwXzUJn15TFC3m1TcWl3Fyz0WMr3uTsi
-   Oy6zkGkNcd+/jQICRjNtdFAy7mAzz7Dqltj6rWA5OEJQo4lUzOcnVmj60
-   v/pCVyp5fj8evWujm/XTs/Y/H2kXSvKQIuIt5SJsnVLz8XOYF73GO6VC+
-   PMU1LZfiNJwVeAYtA4cOvvYtPURBpS42zYI0iEqgt3sWjGmy2EpHiZVP8
-   ZEzovQnSvN2L6he1j8e0PFUcD8pKd9+sfmS+xhdh3/cbuf9VVh4Myibc3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="14439232"
+  t=1705738656; x=1737274656;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sXI31xflBZoXA+tOcFBTUtwh+TGZWqBsqHMNQZvsPlg=;
+  b=AOfMi+ftngAdao842O+rsCGIpTfhyAuy1JVa7h94fxF/NJpC+j8wLqR/
+   h8lJSiPXVcPITnEA20gGZFtGkXMgD1lPhDnX4EmYhxSlTc6Wf6WMfsRRF
+   90O5YJ9HzKADG6/6Xmu7RTv7hxB1aPo7R7P9qSOvDd3MkYLNDQZsP8kuP
+   KO9WRVHOXECcLBVLDiHmXFkFpav0Znhzu5aKiitbZfM02QUf2snnKFjgt
+   p76ef+t1WsOPbhr8PncdSUsoaXgd7fHPE0i7TkICk/+JMj1sQqu7wZRyr
+   aida7t7PzOOiVWnPWUzwYJb6Zj7/5sa8yFQf4GiX6uZKLBjFSfJumto7T
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="14439234"
 X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
-   d="scan'208";a="14439232"
+   d="scan'208";a="14439234"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 00:17:34 -0800
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 00:17:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="908514174"
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="908514187"
 X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
-   d="scan'208";a="908514174"
+   d="scan'208";a="908514187"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 20 Jan 2024 00:17:32 -0800
+  by orsmga004.jf.intel.com with ESMTP; 20 Jan 2024 00:17:33 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rR6Xi-0004tq-1O;
+	id 1rR6Xi-0004ty-2Y;
 	Sat, 20 Jan 2024 08:17:30 +0000
-Date: Sat, 20 Jan 2024 16:16:44 +0800
+Date: Sat, 20 Jan 2024 16:16:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kees:devel/overflow/wrap-around 38/77] zip.c:137:46: error:
- implicit declaration of function 'add_would_overflow'
-Message-ID: <202401201617.7dVhQJxo-lkp@intel.com>
+To: Jedrzej Jagielski <jedrzej.jagielski@intel.com>,
+	intel-wired-lan@lists.osuosl.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	Jedrzej Jagielski <jedrzej.jagielski@intel.com>
+Subject: Re: [PATCH iwl-next v3 3/3] ixgbe: Cleanup after type convertion
+Message-ID: <202401201602.Mg8UEw6K-lkp@intel.com>
+References: <20240118134332.470907-3-jedrzej.jagielski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,41 +62,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240118134332.470907-3-jedrzej.jagielski@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git devel/overflow/wrap-around
-head:   e89bc1e50a4aea7c77987a344e7917eb41d290eb
-commit: d35d22196bde30e00d2b8b7b4e404d1526651659 [38/77] libbpf: Refactor intentional wrap-around test
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240120/202401201617.7dVhQJxo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201617.7dVhQJxo-lkp@intel.com/reproduce)
+Hi Jedrzej,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tnguy-next-queue/dev-queue]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jedrzej-Jagielski/ixgbe-Fix-smatch-warnings-after-type-convertion/20240119-015659
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20240118134332.470907-3-jedrzej.jagielski%40intel.com
+patch subject: [PATCH iwl-next v3 3/3] ixgbe: Cleanup after type convertion
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240120/202401201602.Mg8UEw6K-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201602.Mg8UEw6K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401201617.7dVhQJxo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401201602.Mg8UEw6K-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   zip.c: In function 'check_access':
->> zip.c:137:46: error: implicit declaration of function 'add_would_overflow' [-Werror=implicit-function-declaration]
-     137 |         if (offset + size > archive->size || add_would_overflow(offset, size))
-         |                                              ^~~~~~~~~~~~~~~~~~
->> zip.c:137:46: error: nested extern declaration of 'add_would_overflow' [-Werror=nested-externs]
-   cc1: all warnings being treated as errors
-   make[6]: *** [tools/build/Makefile.build:105: tools/bpf/resolve_btfids/libbpf/staticobjs/zip.o] Error 1
-   make[6]: *** Waiting for unfinished jobs....
-   make[5]: *** [Makefile:157: tools/bpf/resolve_btfids/libbpf/staticobjs/libbpf-in.o] Error 2
-   make[4]: *** [Makefile:63: tools/bpf/resolve_btfids//libbpf/libbpf.a] Error 2
-   make[3]: *** [Makefile:76: bpf/resolve_btfids] Error 2
-   make[2]: *** [Makefile:1351: tools/bpf/resolve_btfids] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c:774:27: error: use of undeclared identifier 'autoc2'
+     774 |         u32 pma_pmd_10g_serial = autoc2 & IXGBE_AUTOC2_10G_SERIAL_PMA_PMD_MASK;
+         |                                  ^
+   1 error generated.
+
+
+vim +/autoc2 +774 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c
+
+cd7e1f0b056c07 drivers/net/ixgbe/ixgbe_82599.c                Don Skidmore             2009-10-08  761  
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  762  /**
+8620a103b5e38d drivers/net/ixgbe/ixgbe_82599.c                Mallikarjuna R Chilakala 2009-09-01  763   *  ixgbe_setup_mac_link_82599 - Set MAC link speed
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  764   *  @hw: pointer to hardware structure
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  765   *  @speed: new link speed
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  766   *  @autoneg_wait_to_complete: true when waiting for completion is needed
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  767   *
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  768   *  Set the link speed in the AUTOC register and restarts link.
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  769   **/
+7e23e4751a3586 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jedrzej Jagielski        2024-01-18  770  static int ixgbe_setup_mac_link_82599(struct ixgbe_hw *hw,
+fd0326f2cf9e5d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Josh Hay                 2012-12-15  771  				      ixgbe_link_speed speed,
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  772  				      bool autoneg_wait_to_complete)
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  773  {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27 @774  	u32 pma_pmd_10g_serial = autoc2 & IXGBE_AUTOC2_10G_SERIAL_PMA_PMD_MASK;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  775  	ixgbe_link_speed link_capabilities = IXGBE_LINK_SPEED_UNKNOWN;
+36f3bb88d9a5de drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jedrzej Jagielski        2024-01-18  776  	u32 autoc2 = IXGBE_READ_REG(hw, IXGBE_AUTOC2);
+36f3bb88d9a5de drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jedrzej Jagielski        2024-01-18  777  	u32 pma_pmd_1g, link_mode, links_reg, i;
+36f3bb88d9a5de drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jedrzej Jagielski        2024-01-18  778  	bool autoneg = false;
+36f3bb88d9a5de drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jedrzej Jagielski        2024-01-18  779  	int status;
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  780  
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  781  	/* holds the value of AUTOC register at this current point in time */
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  782  	u32 current_autoc = IXGBE_READ_REG(hw, IXGBE_AUTOC);
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  783  	/* holds the cached value of AUTOC register */
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  784  	u32 orig_autoc = 0;
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  785  	/* temporary variable used for comparison purposes */
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  786  	u32 autoc = current_autoc;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  787  
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  788  	/* Check to see if speed passed in is supported. */
+9cdcf098800d95 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Don Skidmore             2012-02-17  789  	status = hw->mac.ops.get_link_capabilities(hw, &link_capabilities,
+9cdcf098800d95 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Don Skidmore             2012-02-17  790  						   &autoneg);
+e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Mark Rustad              2014-07-22  791  	if (status)
+e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Mark Rustad              2014-07-22  792  		return status;
+0b0c2b31bdf8d6 drivers/net/ixgbe/ixgbe_82599.c                Emil Tantilov            2011-02-26  793  
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  794  	speed &= link_capabilities;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  795  
+e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Mark Rustad              2014-07-22  796  	if (speed == IXGBE_LINK_SPEED_UNKNOWN)
+5795f533f30a80 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jedrzej Jagielski        2023-12-18  797  		return -EINVAL;
+50ac58ba1d707d drivers/net/ixgbe/ixgbe_82599.c                Peter P Waskiewicz Jr    2009-06-04  798  
+1eb99d5ac44e2a drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-04-09  799  	/* Use stored value (EEPROM defaults) of AUTOC to find KR/KX4 support*/
+1eb99d5ac44e2a drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-04-09  800  	if (hw->mac.orig_link_settings_stored)
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  801  		orig_autoc = hw->mac.orig_autoc;
+1eb99d5ac44e2a drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-04-09  802  	else
+1eb99d5ac44e2a drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-04-09  803  		orig_autoc = autoc;
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  804  
+5e82f2f07645ef drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Emil Tantilov            2013-04-12  805  	link_mode = autoc & IXGBE_AUTOC_LMS_MASK;
+5e82f2f07645ef drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Emil Tantilov            2013-04-12  806  	pma_pmd_1g = autoc & IXGBE_AUTOC_1G_PMA_PMD_MASK;
+1eb99d5ac44e2a drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-04-09  807  
+50ac58ba1d707d drivers/net/ixgbe/ixgbe_82599.c                Peter P Waskiewicz Jr    2009-06-04  808  	if (link_mode == IXGBE_AUTOC_LMS_KX4_KX_KR ||
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  809  	    link_mode == IXGBE_AUTOC_LMS_KX4_KX_KR_1G_AN ||
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  810  	    link_mode == IXGBE_AUTOC_LMS_KX4_KX_KR_SGMII) {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  811  		/* Set KX4/KX/KR support according to speed requested */
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  812  		autoc &= ~(IXGBE_AUTOC_KX4_KX_SUPP_MASK | IXGBE_AUTOC_KR_SUPP);
+55461ddbcb0b36 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Emil Tantilov            2012-08-10  813  		if (speed & IXGBE_LINK_SPEED_10GB_FULL) {
+1eb99d5ac44e2a drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-04-09  814  			if (orig_autoc & IXGBE_AUTOC_KX4_SUPP)
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  815  				autoc |= IXGBE_AUTOC_KX4_SUPP;
+cd7e1f0b056c07 drivers/net/ixgbe/ixgbe_82599.c                Don Skidmore             2009-10-08  816  			if ((orig_autoc & IXGBE_AUTOC_KR_SUPP) &&
+cd7e1f0b056c07 drivers/net/ixgbe/ixgbe_82599.c                Don Skidmore             2009-10-08  817  			    (hw->phy.smart_speed_active == false))
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  818  				autoc |= IXGBE_AUTOC_KR_SUPP;
+55461ddbcb0b36 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Emil Tantilov            2012-08-10  819  		}
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  820  		if (speed & IXGBE_LINK_SPEED_1GB_FULL)
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  821  			autoc |= IXGBE_AUTOC_KX_SUPP;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  822  	} else if ((pma_pmd_1g == IXGBE_AUTOC_1G_SFI) &&
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  823  		   (link_mode == IXGBE_AUTOC_LMS_1G_LINK_NO_AN ||
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  824  		    link_mode == IXGBE_AUTOC_LMS_1G_AN)) {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  825  		/* Switch from 1G SFI to 10G SFI if requested */
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  826  		if ((speed == IXGBE_LINK_SPEED_10GB_FULL) &&
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  827  		    (pma_pmd_10g_serial == IXGBE_AUTOC2_10G_SFI)) {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  828  			autoc &= ~IXGBE_AUTOC_LMS_MASK;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  829  			autoc |= IXGBE_AUTOC_LMS_10G_SERIAL;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  830  		}
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  831  	} else if ((pma_pmd_10g_serial == IXGBE_AUTOC2_10G_SFI) &&
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  832  		   (link_mode == IXGBE_AUTOC_LMS_10G_SERIAL)) {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  833  		/* Switch from 10G SFI to 1G SFI if requested */
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  834  		if ((speed == IXGBE_LINK_SPEED_1GB_FULL) &&
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  835  		    (pma_pmd_1g == IXGBE_AUTOC_1G_SFI)) {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  836  			autoc &= ~IXGBE_AUTOC_LMS_MASK;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  837  			if (autoneg)
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  838  				autoc |= IXGBE_AUTOC_LMS_1G_AN;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  839  			else
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  840  				autoc |= IXGBE_AUTOC_LMS_1G_LINK_NO_AN;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  841  		}
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  842  	}
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  843  
+ee98b577e7711d drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  844  	if (autoc != current_autoc) {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  845  		/* Restart link */
+429d6a3be9b656 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Don Skidmore             2014-02-27  846  		status = hw->mac.ops.prot_autoc_write(hw, autoc, false);
+f8cf7a00d82b6c drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Don Skidmore             2014-03-19  847  		if (status)
+e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Mark Rustad              2014-07-22  848  			return status;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  849  
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  850  		/* Only poll for autoneg to complete if specified to do so */
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  851  		if (autoneg_wait_to_complete) {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  852  			if (link_mode == IXGBE_AUTOC_LMS_KX4_KX_KR ||
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  853  			    link_mode == IXGBE_AUTOC_LMS_KX4_KX_KR_1G_AN ||
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  854  			    link_mode == IXGBE_AUTOC_LMS_KX4_KX_KR_SGMII) {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  855  				links_reg = 0; /*Just in case Autoneg time=0*/
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  856  				for (i = 0; i < IXGBE_AUTO_NEG_TIME; i++) {
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  857  					links_reg =
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  858  					       IXGBE_READ_REG(hw, IXGBE_LINKS);
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  859  					if (links_reg & IXGBE_LINKS_KX_AN_COMP)
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  860  						break;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  861  					msleep(100);
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  862  				}
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  863  				if (!(links_reg & IXGBE_LINKS_KX_AN_COMP)) {
+5795f533f30a80 drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jedrzej Jagielski        2023-12-18  864  					status = -EIO;
+305f8cec7be51e drivers/net/ethernet/intel/ixgbe/ixgbe_82599.c Jacob Keller             2014-02-22  865  					hw_dbg(hw, "Autoneg did not complete.\n");
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  866  				}
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  867  			}
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  868  		}
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  869  
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  870  		/* Add delay to filter out noises during initial link setup */
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  871  		msleep(50);
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  872  	}
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  873  
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  874  	return status;
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  875  }
+11afc1b1fd802c drivers/net/ixgbe/ixgbe_82599.c                PJ Waskiewicz            2009-02-27  876  
 
 -- 
 0-DAY CI Kernel Test Service
