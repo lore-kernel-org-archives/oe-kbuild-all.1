@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C7B5810D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Jan 2024 23:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26375650
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 01:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705708101; cv=none; b=PMKCxdD+pGUtXJJunjBPKQT9tXO7TX15LYT6B5xD6ptsa1xjT5lBKslMhP5+jUJpJqtb/AI9TULYCYrJoAd20QU6fTn+XEMhbKfkRNeywdvvcnn0LIGqVjI3lkwM077cG3BXU9wcf5jPlgtlIwTz8eFUJVFBBqvnoGKHnbKmof8=
+	t=1705712424; cv=none; b=ous1zB7PLm+2orIxaheLNHccKTtglrLL9eW4IKtlDAxDZvbpjdtKLnqenYl6xFpzDK9Qdlbn4DBvQf/WLRViACYgJcM8vKQ/X/nsK+HT6nMRh8nyOMrJYvEZrXZiEL3DHtqhaSLDCN9t/MwEhL7n3hH/qXMjtcalZC7gd/hNoVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705708101; c=relaxed/simple;
-	bh=isQ3TQE/bGMHHU3RGuiYg0H8wjJm4jPGMyFOKfqdyA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mghqLG6HJPr3R/SWJoATMruGTCApuZWgTqKEzn6sCniqF2R4Tg1n03aEVfHWKNTOu3nKkAp8q3nR3JaEfxfxSpRuV/vhAjS7qEY62/H9AyhS950kka6MvVC7ldFLil2mnhyxrAxuCCq37Y0DvKKi/Dtqth2zjL08BvKsnf0r7ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ue/EbrEM; arc=none smtp.client-ip=134.134.136.100
+	s=arc-20240116; t=1705712424; c=relaxed/simple;
+	bh=UU78AjLsRGIao+d+hsqQWmqvxCN9e2tC4cM0iwRrczs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S4/qZEbTSl1jFRg2pF/CFmYrfAcuDoXfuKbMv1wgniPjNy24AiEQ0ScyV3Yfk47DChlRI5tqfOXbsJOSxu/32Z9ZsAwvTNhL1j00lE39tu/98zqrRtzZ2XbDCp9GR1gFLgZmqlLWdAtpdr4d6wezj6qMkWPDDKrHF37XxN5Lhig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DEoSlEre; arc=none smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ue/EbrEM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DEoSlEre"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705708099; x=1737244099;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=isQ3TQE/bGMHHU3RGuiYg0H8wjJm4jPGMyFOKfqdyA4=;
-  b=Ue/EbrEMjvJ4WPuSRfta9PxH7CmImGlBoj3R1bJYMPNDSNIRhkjsxhRA
-   q1zn8UOGMBHCZJWTSAdSh3IPpblStObcgKrHb7VukAnIUc+VAN+LIll0Y
-   AZLceEZ1PGsD/dt3btzahhT0qfozxz0SAzDjRIXf90ha/xIHyVQ5dOhvh
-   nk93BAsp/PYhzUW43aIIo1DskNDYcS9AFVc0K9I4wGur3/VSyYwBUFCpB
-   oH/lwPgUFJyGf59KD1f7himr5ozxFVpxQedfuKNEmJurlOSX4HqQtx5p9
-   0BiEolF9vrJdExntMRmQkjYIpHZkDyrH3O5Z6Xbgedq8NHO21mMsq6pug
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="467243021"
+  t=1705712423; x=1737248423;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UU78AjLsRGIao+d+hsqQWmqvxCN9e2tC4cM0iwRrczs=;
+  b=DEoSlEreVENsrCEqqHLvIV5HDmfCCo3BkRJYXYXPpzsMVjNNWzBhksgG
+   VdYim1hhFULovhCIBotXdGzgClv5Jm7qC1dHFt/IOjDEriBShR/0ESy7r
+   LF2/sK/ORmRdz/mtvFHTdLooxBT6fQZhL9mAtlfUBQ1sRh7qncl4pOPy/
+   AMGUFCF38iu1P6zqRZ+bSJLrCcNGoZM6AdoU3yQ8PHmQIeH3zOmNClHT1
+   q0CrCaCkmEL6s4jUFArrH+oDmQTMFMP4g0BMJUgllgbWu/pNABseHu31Q
+   qIN7oP6ZzdKqCQYeV4fVnahWeq6Rp8JY6KBLz7J0FKdbGCMErTdDZ0TKZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="400543613"
 X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
-   d="scan'208";a="467243021"
+   d="scan'208";a="400543613"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 15:48:18 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 17:00:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="1032078739"
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="1032089546"
 X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
-   d="scan'208";a="1032078739"
+   d="scan'208";a="1032089546"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Jan 2024 15:48:17 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 19 Jan 2024 17:00:20 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rQyat-0004VU-1y;
-	Fri, 19 Jan 2024 23:48:15 +0000
-Date: Sat, 20 Jan 2024 07:47:47 +0800
+	id 1rQzic-0004YA-0q;
+	Sat, 20 Jan 2024 01:00:18 +0000
+Date: Sat, 20 Jan 2024 08:59:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djiang:cxl-hmem-report 13/13] drivers/cxl/core/cdat.c:632:10:
- error: call to undeclared function 'acpi_node_backed_by_real_pxm'; ISO C99
- and later do not support implicit function declarations
-Message-ID: <202401200753.HgOzENaW-lkp@intel.com>
+To: Ye Bin <yebin10@huawei.com>, rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	yebin10@huawei.com
+Subject: Re: [PATCH 1/3] tracing/probes: support '%pd' type for print struct
+ dentry's name
+Message-ID: <202401200837.b9DEGdBT-lkp@intel.com>
+References: <20240119013848.3111364-2-yebin10@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,33 +62,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240119013848.3111364-2-yebin10@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-hmem-report
-head:   b720bb8edd5a52abe7d5c888245352e3dbaefdb1
-commit: 1be4f7102ff8722322c7935ae6c9a75527e3fd91 [13/13] cxl: Deal with numa nodes not enumarated by SRAT
-config: x86_64-randconfig-121-20240119 (https://download.01.org/0day-ci/archive/20240120/202401200753.HgOzENaW-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401200753.HgOzENaW-lkp@intel.com/reproduce)
+Hi Ye,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7 next-20240119]
+[cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/tracing-probes-support-pd-type-for-print-struct-dentry-s-name/20240119-093912
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240119013848.3111364-2-yebin10%40huawei.com
+patch subject: [PATCH 1/3] tracing/probes: support '%pd' type for print struct dentry's name
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20240120/202401200837.b9DEGdBT-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401200837.b9DEGdBT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401200753.HgOzENaW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401200837.b9DEGdBT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/cxl/core/cdat.c:632:10: error: call to undeclared function 'acpi_node_backed_by_real_pxm'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     632 |         return !acpi_node_backed_by_real_pxm(nid);
-         |                 ^
-   1 error generated.
+   kernel/trace/trace_probe.c: In function 'traceprobe_expand_dentry':
+>> kernel/trace/trace_probe.c:1106:36: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'unsigned int' [-Wformat=]
+     if (snprintf(new_argv, len, "+0x%lx(%s)",
+                                     ~~^
+                                     %x
 
 
-vim +/acpi_node_backed_by_real_pxm +632 drivers/cxl/core/cdat.c
+vim +1106 kernel/trace/trace_probe.c
 
-   629	
-   630	bool cxl_need_node_perf_attrs_update(int nid)
-   631	{
- > 632		return !acpi_node_backed_by_real_pxm(nid);
+  1095	
+  1096	static char* traceprobe_expand_dentry(const char *argv)
+  1097	{
+  1098		#define DENTRY_EXPAND_LEN 7  /* +0xXX() */
+  1099		char *new_argv;
+  1100		int len = strlen(argv) + 1 + DENTRY_EXPAND_LEN;
+  1101	
+  1102		new_argv = kmalloc(len, GFP_KERNEL);
+  1103		if (!new_argv)
+  1104			return NULL;
+  1105	
+> 1106		if (snprintf(new_argv, len, "+0x%lx(%s)",
+  1107			     offsetof(struct dentry, d_name.name), argv) >= len) {
+  1108			kfree(new_argv);
+  1109			return NULL;
+  1110		}
+  1111	
+  1112		return new_argv;
+  1113	}
+  1114	
 
 -- 
 0-DAY CI Kernel Test Service
