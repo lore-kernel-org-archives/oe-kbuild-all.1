@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BAB523D5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 09:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23875381
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 09:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705742499; cv=none; b=NCdjfSshHadLbRDohnR5a3OR+YY+0o11P3iJYG60jV9qaHGq1fCP92fAjl1AvFOHeS4DTe0YHO5eEfL+UxxudINMXPKvWBHNV2jC0a4XcngRxWRJ4cXtb9CAcdCbQp1qBbf42gF8wXhUYwLSXPQcmT2O7n3wORJVxEZfl96FUzg=
+	t=1705743219; cv=none; b=F28+W5Zr2IqZHp0xKTYRK/18PlNRZWs/CnDqtWSdGGGBZFCEEQs8S0N72d/BERP+9p7lwAlqd46+ccYu8uBBCA+hpkMtn4qr4FIXkpDIgOup9gCdwbMr4adrD8nu2uRbRMXq7vrNGyVdrc8y/wApX/XQowYuGamg66GSK7oh96U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705742499; c=relaxed/simple;
-	bh=pIOp6jz5JcWKz+6dvVW5GGpAYoAXIr+OHRKVpR1kQOA=;
+	s=arc-20240116; t=1705743219; c=relaxed/simple;
+	bh=h1GZXQWOvtkmLxOIaLWQnfERLYvaCGZJ9gIlf8DnUcI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r6zrJxT7QHYk/PyYygfYh1BXsQrnJmLyVikODaNcPBUt8kTGZr9GxjQl41CC+sOEeGcnw+qT04QHF3ZqQsheV/Zoyguk4C5Wh0UyupUaVPTW6ErgKXPYoUwsdUqw1ndp2/rzA4jmZR1loWpNRMLOdSAFp+2x6ESFAo+QxqX1kOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndR09NbR; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=gxHdYCE0iIioKjj5wLEkg3aejvkaXoYTcyPKpmu6f00xl9opWwwzwfEvbnFbV7vUHuRjs1TmjBiT7AvUoJ5s4lM1Vm5fszRRbW6rO9CDouv95xvbJBzB7Li/zoPFwdM61xh2TmcXqlmBWFIAR6Y5Px0KJYOSPrghO8gYYgMGKe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iz5JROUe; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndR09NbR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iz5JROUe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705742496; x=1737278496;
+  t=1705743217; x=1737279217;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pIOp6jz5JcWKz+6dvVW5GGpAYoAXIr+OHRKVpR1kQOA=;
-  b=ndR09NbR8eJ8lMByLtxlcsqjWD1p/Om8gkkbJYSkYzSnz5u5duXkcJKf
-   veboVYDOsm6fY1d/QS0Q18Mx+u/FShf69hqIkkI4Pxul9RN3LUrNfci3E
-   BQQ1ARRsqkro6Zoi4OREnOqoL32fG40/359CiNhot7pYvweLKOcPfvOi9
-   CR8wgPEgDe81BGXfeg0OoDaQ9SzD3lbudx8cbX2HqdNOnLVy6kFA+D8e6
-   EEX7BcSYvIcQ3YCoOnHzfaqA9tOmmPHLyavyXmCEjze8gFPu9rEFajtiu
-   v+Eu7/e1ipheHAmyw/Ra7lf2a0UI79T0vQSf1CIZbWVNo3csrpOGWfBFe
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="22414836"
+  bh=h1GZXQWOvtkmLxOIaLWQnfERLYvaCGZJ9gIlf8DnUcI=;
+  b=iz5JROUegFzyILM29ef56kAVwoGdzrq2B5NsaUiGz/xzOGKz61t9VMdD
+   CAMOj8TlShNBIR98QDrpRpqDZXDl1gS1l9MQH7Su1wLBZE8k1u6m9qiBb
+   1oz4SyCjVCZEChTgBC1Yr+MSjM3L+IzCA6mSirGVZePsnmji4U8XBRUNr
+   Y3d4ZXFsY+dRkqFENyhHoItq15tWrYctaj7O3eyniov1Qj5MavK3OjA9u
+   oXllgMcKjjN/+tIwedWlhTQZjgHQawwutfPQ2nA0Rcvib0YcVieUMFyY5
+   wyeHRZQ0c6MLJ3E3dQNF7p4N4FSZ/LDpIdsf1IAcSoZE4NtPFPaoCoJee
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="8325975"
 X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
-   d="scan'208";a="22414836"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 01:21:35 -0800
+   d="scan'208";a="8325975"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 01:33:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="855522614"
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="788554684"
 X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
-   d="scan'208";a="855522614"
+   d="scan'208";a="788554684"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Jan 2024 01:21:34 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 20 Jan 2024 01:33:34 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rR7Xg-0004xC-0y;
-	Sat, 20 Jan 2024 09:21:32 +0000
-Date: Sat, 20 Jan 2024 17:21:13 +0800
+	id 1rR7jI-0004xS-1S;
+	Sat, 20 Jan 2024 09:33:32 +0000
+Date: Sat, 20 Jan 2024 17:32:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:cifs-netfs 3/13] fs/smb/client/readdir.c:144:36: error:
- 'struct cifsInodeInfo' has no member named 'server_eof'
-Message-ID: <202401201714.Iow8dtiD-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 15515/21561]
+ arch/x86/events/zhaoxin/core.c:505:12: error: redefinition of
+ 'zhaoxin_pmu_init'
+Message-ID: <202401201745.BrLe3Qs6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,132 +60,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git cifs-netfs
-head:   6dd72c2b9e0f5141be61959f3f8a74ed0e37192b
-commit: 4dd30fbc06d88f77b19de231c6fdfbe147384988 [3/13] cifs: Share server EOF pos with netfslib
-config: i386-randconfig-011-20240120 (https://download.01.org/0day-ci/archive/20240120/202401201714.Iow8dtiD-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201714.Iow8dtiD-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   0d29fbb6f9321a629cbf0ca30f15ce6f333ed7b9
+commit: 0ce7c3b6e8a986ee9ef92a07ae18964835446c07 [15515/21561] x86/perf: Add hardware performance events support for Zhaoxin CPU.
+config: x86_64-randconfig-002-20240120 (https://download.01.org/0day-ci/archive/20240120/202401201745.BrLe3Qs6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201745.BrLe3Qs6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401201714.Iow8dtiD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401201745.BrLe3Qs6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/smb/client/readdir.c: In function 'cifs_prime_dcache':
->> fs/smb/client/readdir.c:144:36: error: 'struct cifsInodeInfo' has no member named 'server_eof'
-     144 |       fattr->cf_eof = CIFS_I(inode)->server_eof;
-         |                                    ^~
+>> arch/x86/events/zhaoxin/core.c:505:12: error: redefinition of 'zhaoxin_pmu_init'
+     505 | __init int zhaoxin_pmu_init(void)
+         |            ^~~~~~~~~~~~~~~~
+   In file included from arch/x86/events/zhaoxin/core.c:19:
+   arch/x86/events/zhaoxin/../perf_event.h:1054:19: note: previous definition of 'zhaoxin_pmu_init' with type 'int(void)'
+    1054 | static inline int zhaoxin_pmu_init(void)
+         |                   ^~~~~~~~~~~~~~~~
 
 
-vim +144 fs/smb/client/readdir.c
+vim +/zhaoxin_pmu_init +505 arch/x86/events/zhaoxin/core.c
 
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06   74  
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   75  /*
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03   76   * Attempt to preload the dcache with the results from the FIND_FIRST/NEXT
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03   77   *
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   78   * Find the dentry that matches "name". If there isn't one, create one. If it's
-9e6d722f3d91c9 fs/cifs/readdir.c       Nakajima Akira    2014-12-19   79   * a negative dentry or the uniqueid or filetype(mode) changed,
-9e6d722f3d91c9 fs/cifs/readdir.c       Nakajima Akira    2014-12-19   80   * then drop it and recreate it.
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   81   */
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03   82  static void
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03   83  cifs_prime_dcache(struct dentry *parent, struct qstr *name,
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   84  		    struct cifs_fattr *fattr)
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   85  {
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   86  	struct dentry *dentry, *alias;
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   87  	struct inode *inode;
-fc64005c93090c fs/cifs/readdir.c       Al Viro           2016-04-10   88  	struct super_block *sb = parent->d_sb;
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18   89  	struct cifs_sb_info *cifs_sb = CIFS_SB(sb);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   90  	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06   91  	int rc;
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   92  
-f96637be081141 fs/cifs/readdir.c       Joe Perches       2013-05-04   93  	cifs_dbg(FYI, "%s: for %s\n", __func__, name->name);
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25   94  
-4f522a247bc26d fs/cifs/readdir.c       Al Viro           2013-02-11   95  	dentry = d_hash_and_lookup(parent, name);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   96  	if (!dentry) {
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   97  		/*
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   98  		 * If we know that the inode will need to be revalidated
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20   99  		 * immediately, then don't create a new dentry for it.
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  100  		 * We'll end up doing an on the wire call either way and
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  101  		 * this spares us an invalidation.
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  102  		 */
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  103  retry:
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  104  		if ((fattr->cf_cifsattrs & ATTR_REPARSE) ||
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  105  		    (fattr->cf_flags & CIFS_FATTR_NEED_REVAL))
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  106  			return;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  107  
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  108  		dentry = d_alloc_parallel(parent, name, &wq);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  109  	}
-a1c83681d52704 fs/cifs/readdir.c       Viresh Kumar      2015-08-12  110  	if (IS_ERR(dentry))
-4f522a247bc26d fs/cifs/readdir.c       Al Viro           2013-02-11  111  		return;
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  112  	if (!d_in_lookup(dentry)) {
-2b0143b5c986be fs/cifs/readdir.c       David Howells     2015-03-17  113  		inode = d_inode(dentry);
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  114  		if (inode) {
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  115  			if (d_mountpoint(dentry)) {
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  116  				dput(dentry);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  117  				return;
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  118  			}
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  119  			/*
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  120  			 * If we're generating inode numbers, then we don't
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  121  			 * want to clobber the existing one with the one that
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  122  			 * the readdir code created.
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  123  			 */
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  124  			if (!(cifs_sb->mnt_cifs_flags & CIFS_MOUNT_SERVER_INUM))
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  125  				fattr->cf_uniqueid = CIFS_I(inode)->uniqueid;
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  126  
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  127  			/*
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  128  			 * Update inode in place if both i_ino and i_mode didn't
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  129  			 * change.
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  130  			 */
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  131  			if (CIFS_I(inode)->uniqueid == fattr->cf_uniqueid) {
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  132  				/*
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  133  				 * Query dir responses don't provide enough
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  134  				 * information about reparse points other than
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  135  				 * their reparse tags.  Save an invalidation by
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  136  				 * not clobbering the existing mode, size and
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  137  				 * symlink target (if any) when reparse tag and
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  138  				 * ctime haven't changed.
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  139  				 */
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  140  				rc = 0;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  141  				if (fattr->cf_cifsattrs & ATTR_REPARSE) {
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  142  					if (likely(reparse_inode_match(inode, fattr))) {
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  143  						fattr->cf_mode = inode->i_mode;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06 @144  						fattr->cf_eof = CIFS_I(inode)->server_eof;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  145  						fattr->cf_symlink_target = NULL;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  146  					} else {
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  147  						CIFS_I(inode)->time = 0;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  148  						rc = -ESTALE;
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  149  					}
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  150  				}
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  151  				if (!rc && !cifs_fattr_to_inode(inode, fattr)) {
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  152  					dput(dentry);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  153  					return;
-cd60042cc1392e fs/cifs/readdir.c       Jeff Layton       2012-07-06  154  				}
-2f2591a34db6c9 fs/cifs/readdir.c       Jeff Layton       2012-12-18  155  			}
-6d039984c15d1e fs/smb/client/readdir.c Paulo Alcantara   2024-01-06  156  		}
-5542aa2fa7f6cd fs/cifs/readdir.c       Eric W. Biederman 2014-02-13  157  		d_invalidate(dentry);
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  158  		dput(dentry);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  159  		goto retry;
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  160  	} else {
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  161  		inode = cifs_iget(sb, fattr);
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03  162  		if (!inode)
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  163  			inode = ERR_PTR(-ENOMEM);
-41d28bca2da4bd fs/cifs/readdir.c       Al Viro           2014-10-12  164  		alias = d_splice_alias(inode, dentry);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  165  		d_lookup_done(dentry);
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03  166  		if (alias && !IS_ERR(alias))
-eb1b3fa5cdb9c2 fs/cifs/readdir.c       Jeff Layton       2012-12-03  167  			dput(alias);
-3125d2650cae97 fs/cifs/readdir.c       Al Viro           2016-04-20  168  	}
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  169  	dput(dentry);
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  170  }
-cc0bad7552308e fs/cifs/readdir.c       Jeff Layton       2009-06-25  171  
-
-:::::: The code at line 144 was first introduced by commit
-:::::: 6d039984c15d1ea1ca080176df6dfab443e44585 smb: client: stop revalidating reparse points unnecessarily
-
-:::::: TO: Paulo Alcantara <pc@manguebit.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+   504	
+ > 505	__init int zhaoxin_pmu_init(void)
 
 -- 
 0-DAY CI Kernel Test Service
