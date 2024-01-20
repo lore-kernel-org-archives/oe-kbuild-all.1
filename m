@@ -1,63 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668DDF515;
-	Sat, 20 Jan 2024 13:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F53210B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 15:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705759127; cv=none; b=PWmnkQNrSplDPHS7XSQBme4qpHRgm3CrxlzPRvkmAy73VpnmrBhzVmMu7sxQC1X+m0KyCezVh9U6tM1Msm67P9Dpjeon/UFTZbkMiVb6CJ4lnKp7aese9rjYA4t2npZO0ZwkD3fmGCuqSN3PFj03e9EJkB9tzqKmoIvJQlc0y7o=
+	t=1705762847; cv=none; b=Mz8n1RspqaFnsKP36ERCi4+ZSzXwGgo6hJvs8GgijSPqQN7mFKpNYFpLPiqYxIUdgbytlkaoMd56iiLOdrFLzO4qMPLLtSCsYV1M3XdyST0KrLHZzrpAm6NpzgeXxK5fMhG8wb8NdNRCX2y6G3EQ6LVAApyqyVBMhdWcW9Jw1hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705759127; c=relaxed/simple;
-	bh=D7c3vMf9ccSBFZdgQbSr1dRX1CxiKZpITQQp7zG1YTU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nl59EteM/Sld03Gey6Qz8GaYrC+8eLRLwOk/+K/HdFtAZYcAhygdMRpG5BU0iu3VuAR5vCqVq+EzGnIB9HcbyX/XrXwWdo10U8ysBH7NDLqhiSqaEm8S+hw4J5snJWKzyFs5l/VjLSG/ZiEvSjEPvJbsNN5UbHMOogweXzYCUFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A4EsLcXF; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1705762847; c=relaxed/simple;
+	bh=2wMHTfNMmoMow4xQe5Y5qJeOsz0cWBlJMvawS9Pd5EM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gMpYvnbEz7dQHqo3+/vUoyzmvstPHRzZRokQHSuH+6ksaWuDFmTskZzi6w0VSLUot0+Uwj4+ivM/6SLe57Q1XxG894AV5bk7IfmUtlhmJiukG3IA8dtyCdubZ5R0uxWvq/juxJtlM/rUyD+YGTJTZ62+rTJ/gbZPyEK8mgrXloU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T90YlhCZ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4EsLcXF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T90YlhCZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705759126; x=1737295126;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D7c3vMf9ccSBFZdgQbSr1dRX1CxiKZpITQQp7zG1YTU=;
-  b=A4EsLcXFptu9zt9cMF8vIbGgPveudmdkyPUvuLx3o/5b6NUIzc+jWzYR
-   x7IAbs8mSt9GHXouObLiXJfqQaE5kIHiIQbdrS+C4hnbZ9j0+h04A2liq
-   za5s2k9MmzI6jueH6NJqpFPoPFc3WbThl5oME0Emv1ix6MNJLZynQj3eU
-   D2Q8C/vMH5Kc8TV1yZ2nnctWOKgz3Eo4ug8cPC5l3hFz9xoMB3ojRzQtg
-   qmOrNFhFdn0pfPLhtGX10zZdcWxJ6SzWRRdWAp3lXxI9Bgubq9E7aJxN3
-   q7YVpReXa4Xchnpqc8GAGsbxpo/1j07mUzHYAzw9ftagfB47uMDjwQZNR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="8314738"
+  t=1705762845; x=1737298845;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2wMHTfNMmoMow4xQe5Y5qJeOsz0cWBlJMvawS9Pd5EM=;
+  b=T90YlhCZQ+eYGe9sBmxdtaEWU9B6tzDQa0/+c6ILU8n/vrc3SNTV2sRc
+   Hn4Yq+bD8T18L7MlF0h/GJOXCGSeWJykvJRnm5Z6z2y4zQK0JOFkGLTrq
+   B2QN00cyBvO129M1oTwOlb3cZtEFqqqHHCtN60arQnJvx6Vg4jOaMsVCk
+   9d0NWKIGph0rjPOBQxS/RlFQw/hAMVIC/6juvArHzQYHbeDlUmUe3kyRu
+   e242v5fRK+WmLCuHv9XFRN2Vf5sk4fYOFr4XambWfwDfDjxHVGjT/6v1b
+   rkEjOoY1R8GkR+6HXH0ZLxaLWOIVr/RlNR7o9eCGE1kNYph5SkANf9SMW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="7636536"
 X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="8314738"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 05:58:45 -0800
+   d="scan'208";a="7636536"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 07:00:44 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="761363626"
 X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="834696"
+   d="scan'208";a="761363626"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Jan 2024 05:58:40 -0800
+  by orsmga006.jf.intel.com with ESMTP; 20 Jan 2024 07:00:42 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRBrq-00058A-04;
-	Sat, 20 Jan 2024 13:58:38 +0000
-Date: Sat, 20 Jan 2024 21:58:16 +0800
+	id 1rRCpr-0005BO-2v;
+	Sat, 20 Jan 2024 15:00:39 +0000
+Date: Sat, 20 Jan 2024 23:00:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kexec@lists.infradead.org,
-	x86@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org, loongarch@lists.linux.dev,
-	akpm@linux-foundation.org, ebiederm@xmission.com,
-	hbathini@linux.ibm.com, piliu@redhat.com, viro@zeniv.linux.org.uk,
-	Baoquan He <bhe@redhat.com>
-Subject: Re: [PATCH v2 11/14] arm, crash: wrap crash dumping code into crash
- related ifdefs
-Message-ID: <202401202159.9a6W0aOH-lkp@intel.com>
-References: <20240119145241.769622-12-bhe@redhat.com>
+To: Steev Klimaszewski <steev@kali.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [steev:c630-linux-6.7.y 140/172] drivers/soc/qcom/qcom_pdm.c:56:4:
+ error: call to undeclared function 'kfree'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202401202205.dYve9KNj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,124 +59,240 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240119145241.769622-12-bhe@redhat.com>
 
-Hi Baoquan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[cannot apply to tip/x86/core arm64/for-next/core powerpc/next powerpc/fixes v6.7 next-20240119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec-split-crashkernel-reservation-code-out-from-crash_core-c/20240119-225820
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240119145241.769622-12-bhe%40redhat.com
-patch subject: [PATCH v2 11/14] arm, crash: wrap crash dumping code into crash related ifdefs
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240120/202401202159.9a6W0aOH-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401202159.9a6W0aOH-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux c630-linux-6.7.y
+head:   39a217c94e52774dd6abf3251a6c999edee2aa76
+commit: 983c9e9eb9686ca3f28ad71a52dc1f3d1444ecae [140/172] soc: qcom: add pd-mapper implementation
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240120/202401202205.dYve9KNj-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d92ce344bf641e6bb025b41b3f1a77dd25e2b3e9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401202205.dYve9KNj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401202159.9a6W0aOH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401202205.dYve9KNj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm/kernel/setup.c: In function 'reserve_crashkernel':
->> arch/arm/kernel/setup.c:1036:63: error: 'SECTION_SIZE' undeclared (first use in this function); did you mean 'SECTIONS_SHIFT'?
-    1036 |                 start = memblock_phys_alloc_range(crash_size, SECTION_SIZE,
-         |                                                               ^~~~~~~~~~~~
-         |                                                               SECTIONS_SHIFT
-   arch/arm/kernel/setup.c:1036:63: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from arch/arm/include/asm/efi.h:12,
-                    from arch/arm/kernel/setup.c:37:
-   arch/arm/include/asm/fixmap.h: At top level:
-   arch/arm/include/asm/fixmap.h:39:35: warning: '__end_of_fixed_addresses' defined but not used [-Wunused-const-variable=]
-      39 | static const enum fixed_addresses __end_of_fixed_addresses =
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/soc/qcom/qcom_pdm.c:56:4: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      56 |                         kfree(domain);
+         |                         ^
+>> drivers/soc/qcom/qcom_pdm.c:85:13: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      85 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
+         |                           ^
+>> drivers/soc/qcom/qcom_pdm.c:85:11: error: incompatible integer to pointer conversion assigning to 'struct qcom_pdm_service *' from 'int' [-Wint-conversion]
+      85 |                 service = kzalloc(sizeof(*service), GFP_KERNEL);
+         |                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pdm.c:95:11: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      95 |         domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+         |                  ^
+>> drivers/soc/qcom/qcom_pdm.c:95:9: error: incompatible integer to pointer conversion assigning to 'struct qcom_pdm_domain *' from 'int' [-Wint-conversion]
+      95 |         domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+         |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pdm.c:99:4: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      99 |                         kfree(service->name);
+         |                         ^
+   drivers/soc/qcom/qcom_pdm.c:173:49: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     173 |         struct servreg_loc_get_domain_list_resp *rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+         |                                                        ^
+>> drivers/soc/qcom/qcom_pdm.c:173:43: error: incompatible integer to pointer conversion initializing 'struct servreg_loc_get_domain_list_resp *' with an expression of type 'int' [-Wint-conversion]
+     173 |         struct servreg_loc_get_domain_list_resp *rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+         |                                                  ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/qcom_pdm.c:227:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     227 |         kfree(rsp);
+         |         ^
+   9 errors generated.
 
 
-vim +1036 arch/arm/kernel/setup.c
+vim +/kfree +56 drivers/soc/qcom/qcom_pdm.c
 
-3c57fb43c8fcbe Mika Westerberg 2010-05-10   995  
-3c57fb43c8fcbe Mika Westerberg 2010-05-10   996  /**
-3c57fb43c8fcbe Mika Westerberg 2010-05-10   997   * reserve_crashkernel() - reserves memory are for crash kernel
-3c57fb43c8fcbe Mika Westerberg 2010-05-10   998   *
-3c57fb43c8fcbe Mika Westerberg 2010-05-10   999   * This function reserves memory area given in "crashkernel=" kernel command
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1000   * line parameter. The memory reserved is used by a dump capture kernel when
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1001   * primary kernel is crashing.
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1002   */
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1003  static void __init reserve_crashkernel(void)
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1004  {
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1005  	unsigned long long crash_size, crash_base;
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1006  	unsigned long long total_mem;
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1007  	int ret;
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1008  
-8f460484669cba Baoquan He      2024-01-19  1009  	if (!IS_ENABLED(CONFIG_CRASH_RESERVE))
-8f460484669cba Baoquan He      2024-01-19  1010  		return;
-8f460484669cba Baoquan He      2024-01-19  1011  
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1012  	total_mem = get_total_mem();
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1013  	ret = parse_crashkernel(boot_command_line, total_mem,
-a9e1a3d84e4a0e Baoquan He      2023-09-14  1014  				&crash_size, &crash_base,
-a9e1a3d84e4a0e Baoquan He      2023-09-14  1015  				NULL, NULL);
-9d17f337230642 Austin Kim      2022-04-01  1016  	/* invalid value specified or crashkernel=0 */
-9d17f337230642 Austin Kim      2022-04-01  1017  	if (ret || !crash_size)
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1018  		return;
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1019  
-61603016e2122b Russell King    2016-03-14  1020  	if (crash_base <= 0) {
-d0506a2395eb07 Russell King    2016-04-01  1021  		unsigned long long crash_max = idmap_to_phys((u32)~0);
-67556d7a851c20 Russell King    2017-07-19  1022  		unsigned long long lowmem_max = __pa(high_memory - 1) + 1;
-67556d7a851c20 Russell King    2017-07-19  1023  		if (crash_max > lowmem_max)
-67556d7a851c20 Russell King    2017-07-19  1024  			crash_max = lowmem_max;
-a7259df7670240 Mike Rapoport   2021-09-02  1025  
-a7259df7670240 Mike Rapoport   2021-09-02  1026  		crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
-a7259df7670240 Mike Rapoport   2021-09-02  1027  						       CRASH_ALIGN, crash_max);
-61603016e2122b Russell King    2016-03-14  1028  		if (!crash_base) {
-61603016e2122b Russell King    2016-03-14  1029  			pr_err("crashkernel reservation failed - No suitable area found.\n");
-61603016e2122b Russell King    2016-03-14  1030  			return;
-61603016e2122b Russell King    2016-03-14  1031  		}
-61603016e2122b Russell King    2016-03-14  1032  	} else {
-a7259df7670240 Mike Rapoport   2021-09-02  1033  		unsigned long long crash_max = crash_base + crash_size;
-61603016e2122b Russell King    2016-03-14  1034  		unsigned long long start;
-61603016e2122b Russell King    2016-03-14  1035  
-a7259df7670240 Mike Rapoport   2021-09-02 @1036  		start = memblock_phys_alloc_range(crash_size, SECTION_SIZE,
-a7259df7670240 Mike Rapoport   2021-09-02  1037  						  crash_base, crash_max);
-a7259df7670240 Mike Rapoport   2021-09-02  1038  		if (!start) {
-61603016e2122b Russell King    2016-03-14  1039  			pr_err("crashkernel reservation failed - memory is in use.\n");
-61603016e2122b Russell King    2016-03-14  1040  			return;
-61603016e2122b Russell King    2016-03-14  1041  		}
-61603016e2122b Russell King    2016-03-14  1042  	}
-61603016e2122b Russell King    2016-03-14  1043  
-1b0f6681fcbc0e Olof Johansson  2013-12-05  1044  	pr_info("Reserving %ldMB of memory at %ldMB for crashkernel (System RAM: %ldMB)\n",
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1045  		(unsigned long)(crash_size >> 20),
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1046  		(unsigned long)(crash_base >> 20),
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1047  		(unsigned long)(total_mem >> 20));
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1048  
-f7f0b7dc720f81 Russell King    2016-08-02  1049  	/* The crashk resource must always be located in normal mem */
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1050  	crashk_res.start = crash_base;
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1051  	crashk_res.end = crash_base + crash_size - 1;
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1052  	insert_resource(&iomem_resource, &crashk_res);
-f7f0b7dc720f81 Russell King    2016-08-02  1053  
-f7f0b7dc720f81 Russell King    2016-08-02  1054  	if (arm_has_idmap_alias()) {
-f7f0b7dc720f81 Russell King    2016-08-02  1055  		/*
-f7f0b7dc720f81 Russell King    2016-08-02  1056  		 * If we have a special RAM alias for use at boot, we
-f7f0b7dc720f81 Russell King    2016-08-02  1057  		 * need to advertise to kexec tools where the alias is.
-f7f0b7dc720f81 Russell King    2016-08-02  1058  		 */
-f7f0b7dc720f81 Russell King    2016-08-02  1059  		static struct resource crashk_boot_res = {
-f7f0b7dc720f81 Russell King    2016-08-02  1060  			.name = "Crash kernel (boot alias)",
-f7f0b7dc720f81 Russell King    2016-08-02  1061  			.flags = IORESOURCE_BUSY | IORESOURCE_MEM,
-f7f0b7dc720f81 Russell King    2016-08-02  1062  		};
-f7f0b7dc720f81 Russell King    2016-08-02  1063  
-f7f0b7dc720f81 Russell King    2016-08-02  1064  		crashk_boot_res.start = phys_to_idmap(crash_base);
-f7f0b7dc720f81 Russell King    2016-08-02  1065  		crashk_boot_res.end = crashk_boot_res.start + crash_size - 1;
-f7f0b7dc720f81 Russell King    2016-08-02  1066  		insert_resource(&iomem_resource, &crashk_boot_res);
-f7f0b7dc720f81 Russell King    2016-08-02  1067  	}
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1068  }
-3c57fb43c8fcbe Mika Westerberg 2010-05-10  1069  
+    43	
+    44	static void qcom_pdm_del_service_domain_locked(const char *service_name, const char *domain_name)
+    45	{
+    46		struct qcom_pdm_service *service;
+    47		struct qcom_pdm_domain *domain, *temp;
+    48	
+    49		service = qcom_pdm_find_locked(service_name);
+    50		if (WARN_ON(!service))
+    51			return;
+    52	
+    53		list_for_each_entry_safe(domain, temp, &service->domains, list) {
+    54			if (!strcmp(domain->name, domain_name)) {
+    55				list_del(&domain->list);
+  > 56				kfree(domain);
+    57	
+    58				if (list_empty(&service->domains)) {
+    59					list_del(&service->list);
+    60					kfree(service->name);
+    61					kfree(service);
+    62				}
+    63	
+    64				return;
+    65			}
+    66		}
+    67	
+    68		WARN(1, "domain not found");
+    69	}
+    70	
+    71	static int qcom_pdm_add_service_domain_locked(const char *service_name,
+    72						      const char *domain_name,
+    73						      u32 instance_id)
+    74	{
+    75		struct qcom_pdm_service *service;
+    76		struct qcom_pdm_domain *domain;
+    77	
+    78		service = qcom_pdm_find_locked(service_name);
+    79		if (service) {
+    80			list_for_each_entry(domain, &service->domains, list) {
+    81				if (!strcmp(domain->name, domain_name))
+    82					return -EBUSY;
+    83			}
+    84		} else {
+  > 85			service = kzalloc(sizeof(*service), GFP_KERNEL);
+    86			if (!service)
+    87				return -ENOMEM;
+    88	
+    89			INIT_LIST_HEAD(&service->domains);
+    90			service->name = kstrdup(service_name, GFP_KERNEL);
+    91	
+    92			list_add_tail(&service->list, &qcom_pdm_services);
+    93		}
+    94	
+  > 95		domain = kzalloc(sizeof(*domain), GFP_KERNEL);
+    96		if (!domain) {
+    97			if (list_empty(&service->domains)) {
+    98				list_del(&service->list);
+    99				kfree(service->name);
+   100				kfree(service);
+   101			}
+   102	
+   103			return -ENOMEM;
+   104		}
+   105	
+   106		/*
+   107		 * service name can outlive calling module and so it should be strdup'ed.
+   108		 * domain name can not outlive the module, so there is no need to strdup it.
+   109		 */
+   110		domain->name = domain_name;
+   111		domain->instance_id = instance_id;
+   112		list_add(&domain->list, &service->domains);
+   113	
+   114		return 0;
+   115	}
+   116	
+   117	int qcom_pdm_add_domain(const struct qcom_pdm_domain_data *data)
+   118	{
+   119		int ret;
+   120		int i;
+   121	
+   122		mutex_lock(&qcom_pdm_mutex);
+   123	
+   124		ret = qcom_pdm_add_service_domain_locked(TMS_SERVREG_SERVICE,
+   125							 data->domain,
+   126							 data->instance_id);
+   127	
+   128		for (i = 0; data->services[i]; i++) {
+   129			ret = qcom_pdm_add_service_domain_locked(data->services[i],
+   130								 data->domain,
+   131								 data->instance_id);
+   132			if (ret)
+   133				goto err;
+   134		}
+   135	
+   136		mutex_unlock(&qcom_pdm_mutex);
+   137	
+   138		return 0;
+   139	
+   140	err:
+   141		while (--i >= 0)
+   142			qcom_pdm_del_service_domain_locked(data->services[i], data->domain);
+   143	
+   144		qcom_pdm_del_service_domain_locked(TMS_SERVREG_SERVICE, data->domain);
+   145	
+   146		mutex_unlock(&qcom_pdm_mutex);
+   147	
+   148		return ret;
+   149	}
+   150	EXPORT_SYMBOL_GPL(qcom_pdm_add_domain);
+   151	
+   152	void qcom_pdm_del_domain(const struct qcom_pdm_domain_data *data)
+   153	{
+   154		int i;
+   155	
+   156		mutex_lock(&qcom_pdm_mutex);
+   157	
+   158		for (i = 0; data->services[i]; i++)
+   159			qcom_pdm_del_service_domain_locked(data->services[i], data->domain);
+   160	
+   161		qcom_pdm_del_service_domain_locked(TMS_SERVREG_SERVICE, data->domain);
+   162	
+   163		mutex_unlock(&qcom_pdm_mutex);
+   164	}
+   165	EXPORT_SYMBOL_GPL(qcom_pdm_del_domain);
+   166	
+   167	static void qcom_pdm_get_domain_list(struct qmi_handle *qmi,
+   168					     struct sockaddr_qrtr *sq,
+   169					     struct qmi_txn *txn,
+   170					     const void *decoded)
+   171	{
+   172		const struct servreg_loc_get_domain_list_req *req = decoded;
+ > 173		struct servreg_loc_get_domain_list_resp *rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+   174		struct qcom_pdm_service *service;
+   175		u32 offset;
+   176		int ret;
+   177	
+   178		pr_info("PDM: service '%s' offset %d\n", req->name, req->offset_valid ? req->offset : -1);
+   179	
+   180		offset = req->offset_valid ? req->offset : 0;
+   181	
+   182		rsp->rsp.result = QMI_RESULT_SUCCESS_V01;
+   183		rsp->rsp.error = QMI_ERR_NONE_V01;
+   184	
+   185		rsp->db_revision_valid = true;
+   186		rsp->db_revision = 1;
+   187	
+   188		rsp->total_domains_valid = 1;
+   189		rsp->total_domains = 0;
+   190	
+   191		mutex_lock(&qcom_pdm_mutex);
+   192	
+   193		service = qcom_pdm_find_locked(req->name);
+   194		if (service) {
+   195			struct qcom_pdm_domain *domain;
+   196	
+   197			rsp->domain_list_valid = 1;
+   198			rsp->domain_list_len = 0;
+   199	
+   200			list_for_each_entry(domain, &service->domains, list) {
+   201				u32 i = rsp->total_domains++;
+   202	
+   203				if (i >= offset && i < SERVREG_LOC_MAX_DOMAINS) {
+   204					u32 j = rsp->domain_list_len++;
+   205	
+   206					strlcpy(rsp->domain_list[j].name, domain->name,
+   207						sizeof(rsp->domain_list[i].name));
+   208					rsp->domain_list[j].instance_id = domain->instance_id;
+   209	
+   210					pr_info("PDM: returning %s / %d\n", domain->name,
+   211						domain->instance_id);
+   212				}
+   213			}
+   214	
+   215		}
+   216	
+   217		mutex_unlock(&qcom_pdm_mutex);
+   218	
+   219		pr_info("PDM: service '%s' %d domains (of %d)\n", req->name, rsp->domain_list_len, rsp->total_domains);
+   220	
+   221		ret = qmi_send_response(qmi, sq, txn, SERVREG_LOC_GET_DOMAIN_LIST,
+   222					2658,
+   223					servreg_loc_get_domain_list_resp_ei, rsp);
+   224		if (ret)
+   225			pr_err("Error sending servreg response: %d\n", ret);
+   226	
+   227		kfree(rsp);
+   228	}
+   229	
 
 -- 
 0-DAY CI Kernel Test Service
