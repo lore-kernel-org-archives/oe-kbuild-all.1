@@ -1,113 +1,131 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8C214AAC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 17:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF4C10A08;
+	Sat, 20 Jan 2024 18:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705770121; cv=none; b=XSy6wLrB8QLUo0C8+PCFVvuSzGENnyzmJZKviWbqlUqEG4qap64ajBxhYOivM72f4pU5+bRL3bgAvLHvbAvbt2dUc3h/n6BLAuDRYwDbMM6xBrZJ1xXBsrAdCd3kBlLfaXGLiBGU4ZWQM3Nf+CsgBXlOcPvoO2ZV3KKpx5oPHt4=
+	t=1705774074; cv=none; b=HSrauGT3m7R3146TLUAcZ3Qm6zw50fEwkl8vH458kKQMyA4hE9Y1IZqWsnJbAdw0GgMgMBHTPsHe02uwE1bbZUMJFG8h1Xv1iIUtIsfD8yCk4mvfBmuYMSlNkFtmPM69l2onQ0fMoOL4pjf/sgI54tL1irxYJnnxWdy++mfwHuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705770121; c=relaxed/simple;
-	bh=iOKtxqkD+uVBgNmg41T8J8mZCNBvDaB3xqiyDIU9ZEA=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=PGKisbELBk5FbCvslA/Hf8sJjX/4sxA2KDGSBGdW7nog3sRxl8mc5OVo740BBERt3f3NgnTM7VosWstmKfFWHuWI2ck3s4h8ui3m6zwZ5zQDDYTZT3hGm2fF+4Ux0QTEoZpV/KWMe/CtT1RA5bMvQYL2bA49lEdKaYetzyCsqQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=cGpXFM98; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1705774074; c=relaxed/simple;
+	bh=9iH2U7pUtgFS76JXG+8tNM9WNpAF00TE+sMZWNI9lZw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KgP3npFwzqa18Z4mBxHw5NFVv7JSp9p9OJX6XGIgTE6TQIMAMDaS9d7YcOmvlctEY/bLVgBuvX2m7gFwN7y9j28GKHQpuQY9iluCI+nbcWdus1Izh6IQyqmEyFt2tElKXXyS4uQFz4uGMHmzaaw97KvWUzEYjB7PZgSBCsvnJUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGCeJpS/; arc=none smtp.client-ip=192.55.52.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="cGpXFM98"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGCeJpS/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705774072; x=1737310072;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PcVDw+MAg0iXihFy7kIFofjy7tQqpJkW2nROprh3snQ=;
-  b=cGpXFM989Nd+JoJA+xDXSj1VV/aEGoAWmr19ute3OnKMI2HYnOIhs1+/
-   XkhsYZ80BkCjQzcUCkk5tCF/iC76GHa2kp+2NobQToop/sB7RsYd+h35Z
-   ouh2wZ8BfO6CVUMaVpAgmSMj4yLH6WGs6mDS5fDDDAVB28IIoH52D/+Sk
-   g=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.05,208,1701126000"; 
-   d="scan'208";a="77357534"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 18:01:53 +0100
-Date: Sat, 20 Jan 2024 18:01:53 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Elaine Zhang <zhangqing@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>, 
-    Sebastian Reichel <sebastian.reichel@collabora.com>
-cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: drivers/clk/rockchip/clk-pll.c:912:2-8: WARNING: do_div() does a
- 64-by-32 division, please consider using div64_u64 instead. (fwd)
-Message-ID: <alpine.DEB.2.22.394.2401201801080.3267@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+  bh=9iH2U7pUtgFS76JXG+8tNM9WNpAF00TE+sMZWNI9lZw=;
+  b=nGCeJpS/1J07W3C8Q7dj+ULrykfWqLKfV2f8nfcwYgxczYxI1IzQcYnm
+   cSvY3Oj1/+NOJnoDGKRVCMXTtjFfEeyve4ADmr1OR4A9vrIjqdzbSuT9s
+   uPVHIpv4RDN4oD/PAfHN17UYO16gH0Ji6CINeSM4PO1NA6D6mrbYji1G5
+   zpXHZjZYN/PlUnzb0lhCAqd6I4BOESG9hR3txRbi0CMx9dLgeZ1bdZ6Mf
+   8KrMdfLy+dOnDwxwKq5tDBTX9/hLvnAoOCZUNNu08uEaKgELhdJvRLUxZ
+   4Yg3guimCIhOEFjhpaLTNBnOUmXFvYSajZCsAVbpRIpd1sM9jA2NYDzVo
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="400612518"
+X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
+   d="scan'208";a="400612518"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 10:07:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
+   d="scan'208";a="805323"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 20 Jan 2024 10:07:49 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rRFkx-0005La-2A;
+	Sat, 20 Jan 2024 18:07:47 +0000
+Date: Sun, 21 Jan 2024 02:07:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kris Van Hees <kris.van.hees@oracle.com>,
+	Tomas Jedlicka <tomas.jedlicka@oracle.com>,
+	Alan Maguire <alan.maguire@oracle.com>
+Subject: [oracle-dtrace:v2/6.7 8/11] arch/arm/vdso/vgettimeofday.c:15:9:
+ error: implicit declaration of function '__cvdso_clock_gettime32' is invalid
+ in C99
+Message-ID: <202401210234.D0pkqR97-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-
-
----------- Forwarded message ----------
-Date: Sun, 21 Jan 2024 00:55:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/clk/rockchip/clk-pll.c:912:2-8: WARNING: do_div() does a
-    64-by-32 division, please consider using div64_u64 instead.
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Elaine Zhang <zhangqing@rock-chips.com>
-CC: Heiko Stuebner <heiko@sntech.de>
-CC: Sebastian Reichel <sebastian.reichel@collabora.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9d64bf433c53cab2f48a3fff7a1f2a696bc5229a
-commit: 8f6594494b1cb0ad14493795b436413cfe64a0f8 clk: rockchip: add pll type for RK3588
-date:   1 year, 2 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: arm-randconfig-r062-20240117 (https://download.01.org/0day-ci/archive/20240121/202401210007.174n0NM0-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
+tree:   https://github.com/oracle/dtrace-linux-kernel v2/6.7
+head:   59b53403fac6433487b678d487564fa2ee67f229
+commit: df8b67f4493c3b35575a87765a6afdfeb61ebb64 [8/11] ctf: generate CTF information for the kernel
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240121/202401210234.D0pkqR97-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240121/202401210234.D0pkqR97-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401210007.174n0NM0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401210234.D0pkqR97-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/rockchip/clk-pll.c:912:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+All errors (new ones prefixed by >>):
 
-vim +912 drivers/clk/rockchip/clk-pll.c
+>> arch/arm/vdso/vgettimeofday.c:15:9: error: implicit declaration of function '__cvdso_clock_gettime32' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           return __cvdso_clock_gettime32(clock, ts);
+                  ^
+   arch/arm/vdso/vgettimeofday.c:15:9: note: did you mean '__cvdso_clock_gettime'?
+   lib/vdso/gettimeofday.c:266:1: note: '__cvdso_clock_gettime' declared here
+   __cvdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
+   ^
+>> arch/arm/vdso/vgettimeofday.c:33:9: error: implicit declaration of function '__cvdso_clock_getres_time32' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           return __cvdso_clock_getres_time32(clock_id, res);
+                  ^
+   arch/arm/vdso/vgettimeofday.c:33:9: note: did you mean '__cvdso_clock_getres_common'?
+   lib/vdso/gettimeofday.c:357:5: note: '__cvdso_clock_getres_common' declared here
+   int __cvdso_clock_getres_common(const struct vdso_data *vd, clockid_t clock,
+       ^
+   2 errors generated.
 
-8f6594494b1cb0 Elaine Zhang 2022-10-18  895
-8f6594494b1cb0 Elaine Zhang 2022-10-18  896  static unsigned long rockchip_rk3588_pll_recalc_rate(struct clk_hw *hw, unsigned long prate)
-8f6594494b1cb0 Elaine Zhang 2022-10-18  897  {
-8f6594494b1cb0 Elaine Zhang 2022-10-18  898  	struct rockchip_clk_pll *pll = to_rockchip_clk_pll(hw);
-8f6594494b1cb0 Elaine Zhang 2022-10-18  899  	struct rockchip_pll_rate_table cur;
-8f6594494b1cb0 Elaine Zhang 2022-10-18  900  	u64 rate64 = prate, postdiv;
-8f6594494b1cb0 Elaine Zhang 2022-10-18  901
-8f6594494b1cb0 Elaine Zhang 2022-10-18  902  	rockchip_rk3588_pll_get_params(pll, &cur);
-8f6594494b1cb0 Elaine Zhang 2022-10-18  903
-8f6594494b1cb0 Elaine Zhang 2022-10-18  904  	rate64 *= cur.m;
-8f6594494b1cb0 Elaine Zhang 2022-10-18  905  	do_div(rate64, cur.p);
-8f6594494b1cb0 Elaine Zhang 2022-10-18  906
-8f6594494b1cb0 Elaine Zhang 2022-10-18  907  	if (cur.k) {
-8f6594494b1cb0 Elaine Zhang 2022-10-18  908  		/* fractional mode */
-8f6594494b1cb0 Elaine Zhang 2022-10-18  909  		u64 frac_rate64 = prate * cur.k;
-8f6594494b1cb0 Elaine Zhang 2022-10-18  910
-8f6594494b1cb0 Elaine Zhang 2022-10-18  911  		postdiv = cur.p * 65535;
-8f6594494b1cb0 Elaine Zhang 2022-10-18 @912  		do_div(frac_rate64, postdiv);
-8f6594494b1cb0 Elaine Zhang 2022-10-18  913  		rate64 += frac_rate64;
-8f6594494b1cb0 Elaine Zhang 2022-10-18  914  	}
-8f6594494b1cb0 Elaine Zhang 2022-10-18  915  	rate64 = rate64 >> cur.s;
-8f6594494b1cb0 Elaine Zhang 2022-10-18  916
-8f6594494b1cb0 Elaine Zhang 2022-10-18  917  	return (unsigned long)rate64;
-8f6594494b1cb0 Elaine Zhang 2022-10-18  918  }
-8f6594494b1cb0 Elaine Zhang 2022-10-18  919
+
+vim +/__cvdso_clock_gettime32 +15 arch/arm/vdso/vgettimeofday.c
+
+8512287a816559 Nathan Lynch      2015-03-25  11  
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  12  int __vdso_clock_gettime(clockid_t clock,
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  13  			 struct old_timespec32 *ts)
+8512287a816559 Nathan Lynch      2015-03-25  14  {
+20e2fc42312f96 Vincenzo Frascino 2019-11-04 @15  	return __cvdso_clock_gettime32(clock, ts);
+8512287a816559 Nathan Lynch      2015-03-25  16  }
+8512287a816559 Nathan Lynch      2015-03-25  17  
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  18  int __vdso_clock_gettime64(clockid_t clock,
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  19  			   struct __kernel_timespec *ts)
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  20  {
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  21  	return __cvdso_clock_gettime(clock, ts);
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  22  }
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  23  
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  24  int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  25  			struct timezone *tz)
+8512287a816559 Nathan Lynch      2015-03-25  26  {
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  27  	return __cvdso_gettimeofday(tv, tz);
+8512287a816559 Nathan Lynch      2015-03-25  28  }
+8512287a816559 Nathan Lynch      2015-03-25  29  
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  30  int __vdso_clock_getres(clockid_t clock_id,
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  31  			struct old_timespec32 *res)
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  32  {
+052e76a31b4a64 Vincenzo Frascino 2019-11-04 @33  	return __cvdso_clock_getres_time32(clock_id, res);
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  34  }
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  35  
+
+:::::: The code at line 15 was first introduced by commit
+:::::: 20e2fc42312f960f497ac2d617e3742754e1fa5e ARM: 8930/1: Add support for generic vDSO
+
+:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
+:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
