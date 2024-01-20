@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F18EED9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 11:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF52210B;
+	Sat, 20 Jan 2024 12:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705750901; cv=none; b=EmsWoSvYKD846GXEWv+z4PSF4nlx8/z5BUl5XELoLEc1oSUG3iQOW5jv478pcsrhKffPaFiaP93OrfINx6E06618CNXXhEMQNjPyMequFp1JEwKT896VKuGKDOyTIFmE8Fdp5LIh0JotW2AJK/JaKaDVXo6DjnuAhas9h3k+pnA=
+	t=1705752883; cv=none; b=GxAxzvHBijjtU2pbJup98BJnypfzumWdG17S9cU2GCVTA30wTE59VxrRgh2e/LuTcFsx7/xdGiMD/N/23B6VHrVp7dY0MCALrDlFRFBCQxfbT6X9Zl6Bx/TPdzVRsJhHB+++NFxGOMmKaTrjeTK63f+BvoR9PWo7UUwfSynAoNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705750901; c=relaxed/simple;
-	bh=KgsJUu5MlSz3Li/EeI/JgUhqhUlk00vBJCBrf2/bK20=;
+	s=arc-20240116; t=1705752883; c=relaxed/simple;
+	bh=LcYyEkTqMXbJ+x3dFR1L0XJLk6bdfqSrtZZZQ0Ew/a4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YqhDi6CbSpBk7ECUFVyhSuKJyftEzJa/pqNws9QPiz5EG5ZYWBDV05L/Q5Z8OMKCp/EKpu8BFkptpHJZEHsOwHqmPX+FSgAKDl3cJPt1qNBj3UrtCFvLRiBpVs3KoorE/3UuUYo3iLOJczcUQdzxYEduygj1SjV4Q6HoVCpWHQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8dDW33f; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=EHVkREoFJkGQhP2BwNNhhpEHP+KyE5LZHJ/H/Jf8Qg8mVob1Psr+V5bpBCI32vzq0I+s98NLgN+AwkcWyJ4DhDh2CClLTCVgoxsZZyGwq/wnQzSavffQVyjksFAma+0Bk78q3C9uhb7Gkcm1G1rBenA7QRyLvhuaUgBANkzjGD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nhJNTgyo; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8dDW33f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nhJNTgyo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705750900; x=1737286900;
+  t=1705752881; x=1737288881;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KgsJUu5MlSz3Li/EeI/JgUhqhUlk00vBJCBrf2/bK20=;
-  b=N8dDW33fDJai7Z9NLkOXQNykFDT2nX+YnJC4fXdEZvjFRXXDjze0dqjQ
-   m9bxflaU6iXddpxZacybBf3Yz6osFw0BGxetVN4jn+RUR8QmsfrPoqnHZ
-   nejPwwi3rA1+n0RZuZVdE9iyUQDXybbj1kNEgkLrkPkQXzfo5xOmFMb/t
-   aNMfjobQgemdrL2ooumFU52R0pzHg0Nv2sqJ7y+Ypa1HGtF48GV+JH5NQ
-   uu7Gb23Uqzv+fhrINmUvf4cjjEFo2d5S2QAI8Dtk2/C00v6EQrwcvgRm7
-   kZP2MwvMF1fHQMvc8ApNvIhutBPeTUminXODhlm7tq+QPMShMM53ef88h
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="7625441"
+  bh=LcYyEkTqMXbJ+x3dFR1L0XJLk6bdfqSrtZZZQ0Ew/a4=;
+  b=nhJNTgyoX+QmXiAqh+VTB9Y0Kjayjp5hvDn4Os73uLQwRynmQZ5QODev
+   70rDQQXgFLtkmFHoW1vkub0cGRyb9Mlvjn6n9vvjNVQ8xn0p2QRjUkmyd
+   Z3w21OP2/beAmfHNqRGDEDvHBJAUoQfA8kkrnKKxks3K9JW0dIIhwSsMs
+   jwXDB0uaxNvhnbB6YQr13gYDPTb32dkZqsauIUfUPX817Vu/g7x5zzTWW
+   1NM+o2fyFR22f3h6f1Hh1A1dEPfqzQD3uZ6pReQ6wVoCdhH1MfSGe6O4z
+   sxss9vrdPL8aEU7mX3q1Y/CAkwQ6/08ij+Jb9BSXPAZK0/2cmePxPMV/H
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="19508279"
 X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
-   d="scan'208";a="7625441"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 03:41:38 -0800
+   d="scan'208";a="19508279"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 04:14:40 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
-   d="scan'208";a="782889"
+   d="scan'208";a="26963911"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Jan 2024 03:41:37 -0800
+  by orviesa002.jf.intel.com with ESMTP; 20 Jan 2024 04:14:39 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rR9jD-00053K-1A;
-	Sat, 20 Jan 2024 11:41:35 +0000
-Date: Sat, 20 Jan 2024 19:41:35 +0800
+	id 1rRAFA-00054m-0r;
+	Sat, 20 Jan 2024 12:14:36 +0000
+Date: Sat, 20 Jan 2024 20:13:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Amery Hung <ameryhung@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH v7 1/8] net_sched: Introduce eBPF based Qdisc
-Message-ID: <202401201946.WJWvnukr-lkp@intel.com>
+Message-ID: <202401201954.x8zfr4TI-lkp@intel.com>
 References: <232881645a5c4c05a35df4ff1f08a19ef9a02662.1705432850.git.amery.hung@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,10 +63,10 @@ In-Reply-To: <232881645a5c4c05a35df4ff1f08a19ef9a02662.1705432850.git.amery.hung
 Hi Amery,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on mst-vhost/linux-next]
-[also build test WARNING on v6.7]
+[auto build test ERROR on mst-vhost/linux-next]
+[also build test ERROR on v6.7]
 [cannot apply to bpf-next/master bpf/master net/main net-next/main linus/master horms-ipvs/master next-20240119]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -76,28 +76,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Amery-Hung/net_sched-Intr
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
 patch link:    https://lore.kernel.org/r/232881645a5c4c05a35df4ff1f08a19ef9a02662.1705432850.git.amery.hung%40bytedance.com
 patch subject: [RFC PATCH v7 1/8] net_sched: Introduce eBPF based Qdisc
-config: i386-randconfig-013-20240120 (https://download.01.org/0day-ci/archive/20240120/202401201946.WJWvnukr-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201946.WJWvnukr-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-002-20240120 (https://download.01.org/0day-ci/archive/20240120/202401201954.x8zfr4TI-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201954.x8zfr4TI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401201946.WJWvnukr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401201954.x8zfr4TI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/core/filter.c: In function 'tc_qdisc_is_valid_access':
-   net/core/filter.c:8929:9: error: implicit declaration of function 'bpf_get_btf_vmlinux' [-Werror=implicit-function-declaration]
-    8929 |   btf = bpf_get_btf_vmlinux();
-         |         ^~~~~~~~~~~~~~~~~~~
->> net/core/filter.c:8929:7: warning: assignment to 'struct btf *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    8929 |   btf = bpf_get_btf_vmlinux();
-         |       ^
-   cc1: some warnings being treated as errors
+>> net/core/filter.c:8929:9: error: call to undeclared function 'bpf_get_btf_vmlinux'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    8929 |                 btf = bpf_get_btf_vmlinux();
+         |                       ^
+>> net/core/filter.c:8929:7: error: incompatible integer to pointer conversion assigning to 'struct btf *' from 'int' [-Wint-conversion]
+    8929 |                 btf = bpf_get_btf_vmlinux();
+         |                     ^ ~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +8929 net/core/filter.c
+vim +/bpf_get_btf_vmlinux +8929 net/core/filter.c
 
   8909	
   8910	static bool tc_qdisc_is_valid_access(int off, int size,
