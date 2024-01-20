@@ -1,67 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F741398;
-	Sat, 20 Jan 2024 04:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52DE1856
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Jan 2024 05:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705726414; cv=none; b=uwlX3kXAyhHMTWlazC+CRqud32/Oc+P16gw50uy80IMY+a/E+nm+REw4wiYz/6TsuP4YF43RaGpYxxrIjYwR10qRNxKs4m97aOZPTN7LNgunjMRVaoH9o+/+PEJPjrhVdwBfabo3XfgVV4LABI70YAcV5K8beQyYMhQrdYrQ1D8=
+	t=1705729531; cv=none; b=oD+JbBR6INuCUWsvCOI8SVlNGwXlIcSIOrEe9+eQ3gVJhknO3zWfwoMcf0FWKhfyJG9bkTl2Knwn49Uhsn47UEL6fRgO1Inr5qCkaJWSEmjYJfFoPFAy5qBCruJ+dIv28xqXLhonW/0JqIMTbhO37Rmjk9Rfv023UFPhkgghHa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705726414; c=relaxed/simple;
-	bh=ORrLc+xjKGUPxA9uxulNGeyU1mju4Nwt8QJoJJN3VpY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=okVPGNpS6Dx70Wttxh0Os76zYlFkyUj0XXvANMYPyCEGPriSSEpAExK0Agsf1WNO115KgZXdEhUBSn7MBNxn6YBgwxmQDYegJ5O/HODckE/fT20Me/MFQQ+Cij9WK4sGDfzUJC3oA2dDv7P34uw45cZ/tv2CIzu7aOuKuU1Ni5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEMnr3ES; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1705729531; c=relaxed/simple;
+	bh=O2kkhb1LouWmLoJvwuo6o2u2GIA5mxd3g/broZ2VUkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Y/28c8I23RFJhjItcG45+8cTTXnNK1IkVyJe2l6dM/a72bS2j9+DKn5vIlSTWMni9zE+z+gnKg6WHcjo3g/8Y9VYul1jzWv0QklcfRIVU7/xQQTm3we8hg30WsO9GaiXMzokjUKmQhb1S+6tRt1XjgVKl/h0w24KiroMMgcyxls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eeps8hYm; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEMnr3ES"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eeps8hYm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705726413; x=1737262413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ORrLc+xjKGUPxA9uxulNGeyU1mju4Nwt8QJoJJN3VpY=;
-  b=IEMnr3ESivP9hHPUMXyriSDDjC9RkEGCMi/YwmJxc7P2sFXhPx77t+s5
-   TF5+YABcpEMk0Gt3D2n2MCSyK5ObNnd3P8+c6hbWgHa38k5AUHH3W1/q3
-   kghxjTaWH2ZpypBlSSScCgEEhrpIOEDelYgSHMqjot6hAwJ9m7OZnJs2c
-   FxlIeRgevmigqMIvZCruJ8AIOlo1cvpVDZ6LwMnWqaUX30nZkH9JLdZg0
-   d/5L5bpOi6Pp29Po83Ldin/ho0UgzPdycbiXPwpRcLe823At6A0JuScju
-   mnNkZFKsTmM0CFnltowyyEH2MDHyeMXEuNWADmcQbYjznX8Hm1iF0S46T
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="820995"
-X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
-   d="scan'208";a="820995"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 20:53:32 -0800
+  t=1705729529; x=1737265529;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O2kkhb1LouWmLoJvwuo6o2u2GIA5mxd3g/broZ2VUkQ=;
+  b=eeps8hYmMRILMGKBsVPfZmdjpUCbO8oW1lbqnyIBnPBPg4bWe8UswEt6
+   tX1GJzrKcK6ELKJfs3L5sqWyDAagaj5LG8jkJsVw4jattzR7V9hlc5YFO
+   /jvyxTlqoF/fnnNlTd8YeZyEMJwuzfXQdmqB4Gjstq6g+nRbmG8vH76Bx
+   I/DTxCP1IJOu51/rwuhT+VP35gumkyjs8DO6b1cXytKA7trev18Oixxu+
+   UnedJzzq2ijPKJf6UJ5VxOtWxDnKDP4k7X4KCmTsw9tPAioojB98f9VKm
+   Xdl0NeruQkSg4CrEDU4OI2PJOsj3jLTxRTSTNcJ5oD2iuNK5XMdExCHn0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="14264990"
+X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
+   d="scan'208";a="14264990"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 21:45:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="928558440"
-X-IronPort-AV: E=Sophos;i="6.05,206,1701158400"; 
-   d="scan'208";a="928558440"
+X-IronPort-AV: E=McAfee;i="6600,9927,10957"; a="734718147"
+X-IronPort-AV: E=Sophos;i="6.05,207,1701158400"; 
+   d="scan'208";a="734718147"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Jan 2024 20:53:27 -0800
+  by orsmga003.jf.intel.com with ESMTP; 19 Jan 2024 21:45:27 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rR3MC-0004lG-2d;
-	Sat, 20 Jan 2024 04:53:24 +0000
-Date: Sat, 20 Jan 2024 12:52:39 +0800
+	id 1rR4AX-0004n2-2Q;
+	Sat, 20 Jan 2024 05:45:25 +0000
+Date: Sat, 20 Jan 2024 13:45:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	heikki.krogerus@linux.intel.com, matthias.bgg@gmail.com,
-	dmitry.baryshkov@linaro.org, neil.armstrong@linaro.org,
-	andersson@kernel.org, nathan@kernel.org, luca.weiss@fairphone.com,
-	tianping.fang@mediatek.com, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v2 2/2] usb: typec: mux: Add ITE IT5205 Alternate Mode
- Passive MUX driver
-Message-ID: <202401201228.eFyUxBzW-lkp@intel.com>
-References: <20240119125812.239197-3-angelogioacchino.delregno@collabora.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl-hmem-report 13/13] drivers/cxl/core/cdat.c:632:17:
+ error: implicit declaration of function 'acpi_node_backed_by_real_pxm'
+Message-ID: <202401201314.xzykMb0n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,55 +58,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240119125812.239197-3-angelogioacchino.delregno@collabora.com>
 
-Hi AngeloGioacchino,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus robh/for-next westeri-thunderbolt/next linus/master v6.7 next-20240119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-usb-Introduce-ITE-IT5205-Alt-Mode-Passive-MUX/20240119-210119
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240119125812.239197-3-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v2 2/2] usb: typec: mux: Add ITE IT5205 Alternate Mode Passive MUX driver
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240120/202401201228.eFyUxBzW-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201228.eFyUxBzW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-hmem-report
+head:   b720bb8edd5a52abe7d5c888245352e3dbaefdb1
+commit: 1be4f7102ff8722322c7935ae6c9a75527e3fd91 [13/13] cxl: Deal with numa nodes not enumarated by SRAT
+config: arm-randconfig-001-20240119 (https://download.01.org/0day-ci/archive/20240120/202401201314.xzykMb0n-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401201314.xzykMb0n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401201228.eFyUxBzW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401201314.xzykMb0n-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/typec/mux/it5205.c:278:25: error: use of undeclared identifier 'it5205_match_table'; did you mean 'it5205_of_table'?
-     278 | MODULE_DEVICE_TABLE(of, it5205_match_table);
-         |                         ^~~~~~~~~~~~~~~~~~
-         |                         it5205_of_table
-   include/linux/module.h:244:15: note: expanded from macro 'MODULE_DEVICE_TABLE'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^
-   drivers/usb/typec/mux/it5205.c:274:34: note: 'it5205_of_table' declared here
-     274 | static const struct of_device_id it5205_of_table[] = {
-         |                                  ^
-   1 error generated.
+   drivers/cxl/core/cdat.c: In function 'cxl_update_hmat_access_coordinates':
+   drivers/cxl/core/cdat.c:627:16: error: implicit declaration of function 'hmat_update_target_coordinates'; did you mean 'cxl_update_hmat_access_coordinates'? [-Werror=implicit-function-declaration]
+     627 |         return hmat_update_target_coordinates(nid, &cxlr->coord[access], access);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                cxl_update_hmat_access_coordinates
+   drivers/cxl/core/cdat.c: In function 'cxl_need_node_perf_attrs_update':
+>> drivers/cxl/core/cdat.c:632:17: error: implicit declaration of function 'acpi_node_backed_by_real_pxm' [-Werror=implicit-function-declaration]
+     632 |         return !acpi_node_backed_by_real_pxm(nid);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +278 drivers/usb/typec/mux/it5205.c
+vim +/acpi_node_backed_by_real_pxm +632 drivers/cxl/core/cdat.c
 
-   273	
-   274	static const struct of_device_id it5205_of_table[] = {
-   275		{ .compatible = "ite,it5205" },
-   276		{ /* sentinel */ }
-   277	};
- > 278	MODULE_DEVICE_TABLE(of, it5205_match_table);
-   279	
+   629	
+   630	bool cxl_need_node_perf_attrs_update(int nid)
+   631	{
+ > 632		return !acpi_node_backed_by_real_pxm(nid);
 
 -- 
 0-DAY CI Kernel Test Service
