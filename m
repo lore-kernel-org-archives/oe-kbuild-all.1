@@ -1,60 +1,61 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C8136101
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jan 2024 01:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701D415D0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jan 2024 02:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705802142; cv=none; b=tqLR9fr3wpDtc23w/TyRe6jSg/4coMDnl6NIvUIrNhp2VAm8WrBBbsFEsfhECN+UyEe9/GByRGuqSWYpFgx0bU6ZRGNS9oMnTQytN/lepLvXvQOPqhgI+uNRzjHqgcPBCBT343V2UubwCbRNDpo8d3dnK9Wch4o8JZCdbSLzg/A=
+	t=1705802825; cv=none; b=W4pvHIJ1KSSJqphLi6mD7L/5Sb4Iy+DpciKxckJbVIntX6+bSIAnbjAwyv3Gk8VCQRoQrDu/aJjBZU0HsbpX4bGAMJyjXP1fkTre4i5XDV4jZYy+tXsIhATeiCpmyVrWWRgSuVLNygarLWsijKqMfYnlIK7dQ+AEfbI9X+s6dRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705802142; c=relaxed/simple;
-	bh=F07fcMUCVAhZ2po5qnBsuN6WuYRNvBEurPJ6lfARstY=;
+	s=arc-20240116; t=1705802825; c=relaxed/simple;
+	bh=SYFDB18YSASADrg7kQUk2ZYfq0PEGYsVZP7Xd6Nm+3s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M9RzH2G65y13PoYBVVKSVqbL+tFsbqA5GzlTvz1TPFmUxYZ5Yn1UeZtEcu4ZiyzNW2HhbX9qKwdYM0ZnWzDY7dP1tNqIbbmNts4FuoQRTWKBhoNKGqbXAHs4aYuwRJuzGro/k3SulpH3CaJfMpjBEOSa3tPfKiuC9vbiCto9IY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ak+Dibr1; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=am3dEsel1rtRy8a6+UNlY8dfpXNX1ORlF34ZPdlESEiGEor+C+cwbXIWHjN7JYT/nzdZIRFLYg7WGZFThlr0eGe28ZHHG4FmvTKFifIaKbaJicMcPJPd0eIoOERAhjWDiWTDwRY7nGJY3M8lPbbCMOdSk+1+92YBlo3yvqPgyEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QauSL30y; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ak+Dibr1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705802139;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bn2lkxxGrsi3E9Vcx5NFx8RtBRe4v7W5psgsNCHmDng=;
-	b=Ak+Dibr1FCJBwu59M+szqYrFMurngkYybSCz40DgcaN/FN0foN3qHK03OeTfzPJF6t8FzY
-	ll36sUY5ZsY2GvQgruA6/8fbe2plhiQhbPoe+EwYeSeUXuE9sM6mM4vDjrwUciFP73NYAY
-	sn8bbpEW39QIFr7Iw6eN9Bg4ECWDRZ0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-471-1HnnZH15OaydAjxT0WE9tA-1; Sat, 20 Jan 2024 20:55:35 -0500
-X-MC-Unique: 1HnnZH15OaydAjxT0WE9tA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A53885A588;
-	Sun, 21 Jan 2024 01:55:35 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.12])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B83D651D5;
-	Sun, 21 Jan 2024 01:55:33 +0000 (UTC)
-Date: Sun, 21 Jan 2024 09:55:29 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, kexec@lists.infradead.org,
-	x86@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org, loongarch@lists.linux.dev,
-	akpm@linux-foundation.org, ebiederm@xmission.com,
-	hbathini@linux.ibm.com, piliu@redhat.com, viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v2 11/14] arm, crash: wrap crash dumping code into crash
- related ifdefs
-Message-ID: <Zax5kXfiREk2bDbu@MiWiFi-R3L-srv>
-References: <20240119145241.769622-12-bhe@redhat.com>
- <202401202057.aPg08Eh8-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QauSL30y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705802824; x=1737338824;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SYFDB18YSASADrg7kQUk2ZYfq0PEGYsVZP7Xd6Nm+3s=;
+  b=QauSL30yLYcKxEAMUR7n5YsiVGxmCsd7mdHHCr779ThhMYo7CX9Guq2L
+   ihkgIKa2uLy+MB7rs5rSUdSqoe51cB4T9dxJkO1jQamfBGjMGnHctvOSA
+   DhtwUSDaakiYBDuNMWCjK/qX9jezgdygHKRUAr0xfme1Pj9unTbFW/MJ6
+   mz0QSg2Y7hXfE01hKQtJKVAL3YhW9FlD37JUl+hJRAMgAeuF7F4gFd4Oq
+   g9HalXhkXlVsn/nFjFX8Ih1xMCc4PBLlfK1ARjEwRmisj9L2lTlfg8MdU
+   wK+UzEehzuaLz0/tQFl50++S0ppM+pYQf+gVKPRz+vMyR5QaPBXXlNZDt
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="863138"
+X-IronPort-AV: E=Sophos;i="6.05,209,1701158400"; 
+   d="scan'208";a="863138"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 18:07:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="958419171"
+X-IronPort-AV: E=Sophos;i="6.05,209,1701158400"; 
+   d="scan'208";a="958419171"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 20 Jan 2024 18:06:58 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rRNEe-0005bG-1u;
+	Sun, 21 Jan 2024 02:06:56 +0000
+Date: Sun, 21 Jan 2024 10:05:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amrit Anand <quic_amrianan@quicinc.com>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	kernel@quicinc.com, Amrit Anand <quic_amrianan@quicinc.com>,
+	Elliot Berman <quic_eberman@quicinc.com>
+Subject: Re: [PATCH 2/2] dt-bindings: hwinfo: Add Qualcomm's board-id types
+Message-ID: <202401210920.aPy2DJwj-lkp@intel.com>
+References: <1705749649-4708-3-git-send-email-quic_amrianan@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +64,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202401202057.aPg08Eh8-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+In-Reply-To: <1705749649-4708-3-git-send-email-quic_amrianan@quicinc.com>
 
-On 01/20/24 at 08:13pm, kernel test robot wrote:
-> Hi Baoquan,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on linus/master]
-> [cannot apply to tip/x86/core arm64/for-next/core powerpc/next powerpc/fixes v6.7 next-20240119]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec-split-crashkernel-reservation-code-out-from-crash_core-c/20240119-225820
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20240119145241.769622-12-bhe%40redhat.com
-> patch subject: [PATCH v2 11/14] arm, crash: wrap crash dumping code into crash related ifdefs
-> config: arm-randconfig-001-20240120 (https://download.01.org/0day-ci/archive/20240120/202401202057.aPg08Eh8-lkp@intel.com/config)
-> compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d92ce344bf641e6bb025b41b3f1a77dd25e2b3e9)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240120/202401202057.aPg08Eh8-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401202057.aPg08Eh8-lkp@intel.com/
+Hi Amrit,
 
-Thanks for reporting this, I can reproduce it.
+kernel test robot noticed the following build warnings:
 
-In the provided config, it has:
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.7 next-20240119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-# CONFIG_MMU is not set
-and all kexec/kdump related config items are unset. 
+url:    https://github.com/intel-lab-lkp/linux/commits/Amrit-Anand/dt-bindings-hwinfo-Introduce-board-id/20240120-192358
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/1705749649-4708-3-git-send-email-quic_amrianan%40quicinc.com
+patch subject: [PATCH 2/2] dt-bindings: hwinfo: Add Qualcomm's board-id types
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240121/202401210920.aPy2DJwj-lkp@intel.com/reproduce)
 
-The if (!IS_ENABLED(CONFIG_CRASH_RESERVE)) checking will cause funciton
-reserve_crashkernel() is compiled, but not built in. With CONFIG_MMU=no,
-SECTION_SIZE is undefined on arm. So fix it by wrapping up
-reserve_crashkernel() inside CONFIG_CRASH_RESERVE ifdeffery scope.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401210920.aPy2DJwj-lkp@intel.com/
 
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/hwinfo/board-id.yaml:23:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/hwinfo/board-id.yaml:25:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
+>> Documentation/devicetree/bindings/hwinfo/qcom,board-id.yaml:70:4: [warning] wrong indentation: expected 2 but found 3 (indentation)
 
-From d580b65f6aa042233e228aab45609c3de88ab29e Mon Sep 17 00:00:00 2001
-From: Baoquan He <bhe@redhat.com>
-Date: Mon, 15 Jan 2024 22:32:19 -0500
-Subject: [PATCH] arm, crash: wrap crash dumping code into crash related ifdefs
-Content-type: text/plain
+vim +70 Documentation/devicetree/bindings/hwinfo/qcom,board-id.yaml
 
-Now crash codes under kernel/ folder has been split out from kexec
-code, crash dumping can be separated from kexec reboot in config
-items on arm with some adjustments.
+    68	
+    69	examples:
+  > 70	   - |
 
-Here use CONFIG_CRASH_RESERVE ifdef to replace CONFIG_KEXEC ifdef.
-
-Signed-off-by: Baoquan He <bhe@redhat.com>
----
- arch/arm/kernel/setup.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm/kernel/setup.c b/arch/arm/kernel/setup.c
-index ff2299ce1ad7..7b33b157fca0 100644
---- a/arch/arm/kernel/setup.c
-+++ b/arch/arm/kernel/setup.c
-@@ -979,7 +979,7 @@ static int __init init_machine_late(void)
- }
- late_initcall(init_machine_late);
- 
--#ifdef CONFIG_KEXEC
-+#ifdef CONFIG_CRASH_RESERVE
- /*
-  * The crash region must be aligned to 128MB to avoid
-  * zImage relocating below the reserved region.
-@@ -1066,7 +1066,7 @@ static void __init reserve_crashkernel(void)
- }
- #else
- static inline void reserve_crashkernel(void) {}
--#endif /* CONFIG_KEXEC */
-+#endif /* CONFIG_CRASH_RESERVE*/
- 
- void __init hyp_mode_check(void)
- {
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
