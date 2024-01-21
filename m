@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193B4364B5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jan 2024 18:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55ACD38383;
+	Sun, 21 Jan 2024 20:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705862268; cv=none; b=haN+mMWyL+PUAy8/OjyOKzWywQKGiYTvCPUl9BF6qWTrGI3yJW4mWS+Tv+qehn6Ht1TT1vAxPpoiQwF/brO26DnxaHYyX4vgTKVLrTA/xdN19cwiMfCtPdbbkcaCJvmF0q+dHI4RsVSq/Ty3xyoxM009E6OmAJwX7BEj4Hc8/94=
+	t=1705867712; cv=none; b=jBMns+/HpkjAKM3/8ObiY8S6/0FQ5wXuE9hHwUC6E1cgjsnfP/Q1ufLnJWyg7wGecLEOWH4xCRuDt/7H0LObM1h3oWoffEnuRXlXQ9zWo6w9XCcAhTHpc7FaAeB19n8OO3Np+tyVQbp2gaUmtmqgzux2b1rXvCVpq0lT3+gqhrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705862268; c=relaxed/simple;
-	bh=k7NlFDDEMD0/vhOgnlSniCKD9fNgrd0tHV4Ufsxzg5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rahe8yOo/VgsonN55RrjvXbDZkxWtJ5aT13f4UVAS84vaG/eyMV/lVel+sU0ZW3HjPfzIzleleq13m1jdZps3EZ12G7Pzf5nvn+wn2+UqQ455vEXc6BcSQ8nTkPe+IIsE8xJBG2IgrTxgJxxPvMxUQckECOUcS0YnJae90BJPcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkQhqBYz; arc=none smtp.client-ip=134.134.136.31
+	s=arc-20240116; t=1705867712; c=relaxed/simple;
+	bh=uv54BDJ2xx83Uk3+58/0LAFby63JWISeODEXR4MCmsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZvJY5vULRvs5ki66LsfITcSdAyEKATJo9FfAWijjjrGG3y90nsVr8i9C+aRLoOr/PAPAvgOAUr4b+O1au6i+CxyhOCJ5bWwVRcEq7NvX10WnFNSEgbz2kLY5Vwo4d5RE6P1yTaasD8EqQkiV/E6zCQaAWSBX2d2wWImh1UM2Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aUEzk/h7; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkQhqBYz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aUEzk/h7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705862264; x=1737398264;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k7NlFDDEMD0/vhOgnlSniCKD9fNgrd0tHV4Ufsxzg5I=;
-  b=mkQhqBYz0FI0VyvZi3ni0atcDwzB1W5clrgMoAUd0A5bw5i+Sz0nStjf
-   55cf3vJnyt6G6fx6yrUyH+foc2nVQ3fLRDbNvCfhMU7jCD9yKS/TDSZZ9
-   8lYRU5/gSneUhDPX8slfOsMxdUijiu0jBogPOA71JRdBmSBahlAELYRqI
-   rlrs+MKa4bMarzly7eVt2GwROOOzdsukuHdThEJnUS8BTV90QP3sc+92T
-   fWrJUCYz2AcqQAHysQFoujjZa2WO33TarnkWbPpXdS6IB0oBu7lO4Ifv3
-   3Zdtvn7xtdSjllohYedX5TBSt2IsnM4voLFAUZ76j7uIAGHtH3GZRPg1m
+  t=1705867709; x=1737403709;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uv54BDJ2xx83Uk3+58/0LAFby63JWISeODEXR4MCmsc=;
+  b=aUEzk/h7lS5orPUOwtFKZIPj5BG16HC9Vj+lewvCR9oUID9K9BlGxy7Y
+   HmQb3zi9oHhyEjhyAodRDWr4Ut2MmWSwAh5HsAXf5Hu8FCxf9WLD4gqWp
+   pjjle7s6daQFjXVfGNCj8wOqfKPW0PHEX0S3Egxbp7qXxfb8In9JiaYyw
+   0VN4GimCZRfDekessgaE174NWIGk6Nn5iJ3fWbguUKKR15upEkI1qgUS5
+   0EpdSj1rttL1fLdI2dDmI54w6S+3gFqaf03c1DdP/lqP+swc9cFZKNxBU
+   w4h+13A/6VsHyl19E7U9nuIc8vdcfL13QlzZuJ9+sDg/+BTwHuFPhvY9x
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="465318615"
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="14572432"
 X-IronPort-AV: E=Sophos;i="6.05,210,1701158400"; 
-   d="scan'208";a="465318615"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2024 10:35:22 -0800
+   d="scan'208";a="14572432"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2024 12:08:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="819474362"
 X-IronPort-AV: E=Sophos;i="6.05,210,1701158400"; 
-   d="scan'208";a="819474362"
+   d="scan'208";a="33848646"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 21 Jan 2024 10:35:22 -0800
+  by orviesa001.jf.intel.com with ESMTP; 21 Jan 2024 12:08:25 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRcf9-000688-1w;
-	Sun, 21 Jan 2024 18:35:19 +0000
-Date: Mon, 22 Jan 2024 02:34:29 +0800
+	id 1rRe7C-0006AC-2M;
+	Sun, 21 Jan 2024 20:08:22 +0000
+Date: Mon, 22 Jan 2024 04:07:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
-Subject: [intel-lts:6.6/linux 294/333]
- drivers/gpu/drm/i915/i915_driver.c:1255:31: error: 'struct pci_dev' has no
- member named 'physfn'; did you mean 'is_physfn'?
-Message-ID: <202401220223.vHDTERVe-lkp@intel.com>
+To: Pranav Prasad <pranavpp@google.com>, tglx@linutronix.de,
+	jstultz@google.com, sboyd@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Pranav Prasad <pranavpp@google.com>,
+	Kelly Rossmoyer <krossmo@google.com>
+Subject: Re: [PATCH] alarmtimer: Expose information about next alarm to
+ userspace via sysfs
+Message-ID: <202401220311.aQMd6KFE-lkp@intel.com>
+References: <20240118181459.1663313-1-pranavpp@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,133 +62,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240118181459.1663313-1-pranavpp@google.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/linux
-head:   9fe58986e8674d72a73d6e5c010afea625409635
-commit: fc2406184d313c432b02b6d16a031b4bfc8a0483 [294/333] drm/i915: SR-IOV Enabling and Support
-config: i386-randconfig-054-20240121 (https://download.01.org/0day-ci/archive/20240122/202401220223.vHDTERVe-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240122/202401220223.vHDTERVe-lkp@intel.com/reproduce)
+Hi Pranav,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/timers/core]
+[also build test WARNING on linus/master v6.7 next-20240119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pranav-Prasad/alarmtimer-Expose-information-about-next-alarm-to-userspace-via-sysfs/20240119-021809
+base:   tip/timers/core
+patch link:    https://lore.kernel.org/r/20240118181459.1663313-1-pranavpp%40google.com
+patch subject: [PATCH] alarmtimer: Expose information about next alarm to userspace via sysfs
+config: um-randconfig-001-20240120 (https://download.01.org/0day-ci/archive/20240122/202401220311.aQMd6KFE-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d92ce344bf641e6bb025b41b3f1a77dd25e2b3e9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240122/202401220311.aQMd6KFE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401220223.vHDTERVe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401220311.aQMd6KFE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/i915_driver.c: In function 'i915_drm_resume':
->> drivers/gpu/drm/i915/i915_driver.c:1255:31: error: 'struct pci_dev' has no member named 'physfn'; did you mean 'is_physfn'?
-    1255 |  if (pdev->is_virtfn && pdev->physfn)
-         |                               ^~~~~~
-         |                               is_physfn
-   drivers/gpu/drm/i915/i915_driver.c:1256:45: error: 'struct pci_dev' has no member named 'physfn'; did you mean 'is_physfn'?
-    1256 |   device_pm_wait_for_dev(&pdev->dev, &pdev->physfn->dev);
-         |                                             ^~~~~~
-         |                                             is_physfn
+   In file included from kernel/time/alarmtimer.c:18:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from kernel/time/alarmtimer.c:18:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from kernel/time/alarmtimer.c:18:
+   In file included from include/linux/rtc.h:17:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> kernel/time/alarmtimer.c:37:19: warning: unused variable 'alarmtimer_group_name' [-Wunused-const-variable]
+      37 | static const char alarmtimer_group_name[] = "alarmtimer";
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+   13 warnings generated.
 
 
-vim +1255 drivers/gpu/drm/i915/i915_driver.c
+vim +/alarmtimer_group_name +37 kernel/time/alarmtimer.c
 
-  1243	
-  1244	static int i915_drm_resume(struct drm_device *dev)
-  1245	{
-  1246		struct drm_i915_private *dev_priv = to_i915(dev);
-  1247		struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
-  1248		struct intel_gt *gt;
-  1249		int ret, i;
-  1250	
-  1251		/*
-  1252		 * In case the VF and the PF are both probed on the same kernel,
-  1253		 * let the VF wait until the PF finish resume first.
-  1254		 */
-> 1255		if (pdev->is_virtfn && pdev->physfn)
-  1256			device_pm_wait_for_dev(&pdev->dev, &pdev->physfn->dev);
-  1257	
-  1258		disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
-  1259	
-  1260		ret = i915_pcode_init(dev_priv);
-  1261		if (ret)
-  1262			return ret;
-  1263	
-  1264		sanitize_gpu(dev_priv);
-  1265	
-  1266		ret = i915_ggtt_enable_hw(dev_priv);
-  1267		if (ret)
-  1268			drm_err(&dev_priv->drm, "failed to re-enable GGTT\n");
-  1269		 /*
-  1270		 * Wa_22018453856:
-  1271		 * We need to establish communication with GuC to be able to
-  1272		 * update GGTT via PF.
-  1273		 */
-  1274		if (IS_SRIOV_VF(dev_priv) && i915_ggtt_require_binder(dev_priv))
-  1275			intel_iov_query_bootstrap(&to_gt(dev_priv)->iov);
-  1276	
-  1277		i915_ggtt_resume(to_gt(dev_priv)->ggtt);
-  1278	
-  1279		for_each_gt(gt, dev_priv, i)
-  1280			if (GRAPHICS_VER(gt->i915) >= 8)
-  1281				setup_private_pat(gt);
-  1282	
-  1283		/* Must be called after GGTT is resumed. */
-  1284		intel_dpt_resume(dev_priv);
-  1285	
-  1286		intel_dmc_resume(dev_priv);
-  1287	
-  1288		i915_restore_display(dev_priv);
-  1289		intel_pps_unlock_regs_wa(dev_priv);
-  1290	
-  1291		intel_init_pch_refclk(dev_priv);
-  1292	
-  1293		/*
-  1294		 * Interrupts have to be enabled before any batches are run. If not the
-  1295		 * GPU will hang. i915_gem_init_hw() will initiate batches to
-  1296		 * update/restore the context.
-  1297		 *
-  1298		 * drm_mode_config_reset() needs AUX interrupts.
-  1299		 *
-  1300		 * Modeset enabling in intel_display_driver_init_hw() also needs working
-  1301		 * interrupts.
-  1302		 */
-  1303		intel_runtime_pm_enable_interrupts(dev_priv);
-  1304	
-  1305		if (HAS_DISPLAY(dev_priv))
-  1306			drm_mode_config_reset(dev);
-  1307	
-  1308		i915_gem_resume(dev_priv);
-  1309	
-  1310		intel_display_driver_init_hw(dev_priv);
-  1311	
-  1312		intel_clock_gating_init(dev_priv);
-  1313		intel_hpd_init(dev_priv);
-  1314	
-  1315		/* MST sideband requires HPD interrupts enabled */
-  1316		intel_dp_mst_resume(dev_priv);
-  1317		intel_display_driver_resume(dev_priv);
-  1318	
-  1319		intel_hpd_poll_disable(dev_priv);
-  1320		if (HAS_DISPLAY(dev_priv))
-  1321			drm_kms_helper_poll_enable(dev);
-  1322	
-  1323		intel_opregion_resume(dev_priv);
-  1324	
-  1325		intel_fbdev_set_suspend(dev, FBINFO_STATE_RUNNING, false);
-  1326	
-  1327		intel_power_domains_enable(dev_priv);
-  1328	
-  1329		intel_gvt_resume(dev_priv);
-  1330	
-  1331		for_each_gt(gt, dev_priv, i) {
-  1332			intel_guc_invalidate_tlb_full(&gt->uc.guc);
-  1333			intel_guc_invalidate_tlb(&gt->uc.guc);
-  1334		}
-  1335	
-  1336		enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
-  1337		intel_gt_bind_context_set_ready(to_gt(dev_priv), true);
-  1338	
-  1339		return 0;
-  1340	}
-  1341	
+    36	
+  > 37	static const char alarmtimer_group_name[] = "alarmtimer";
+    38	
 
 -- 
 0-DAY CI Kernel Test Service
