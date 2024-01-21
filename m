@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AB6381B4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jan 2024 17:00:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193B4364B5
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jan 2024 18:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705856425; cv=none; b=WsAJN/rxFcxWgnlNtGbjUOVHR65h5GIy6klznByftybVjqoLWgYOIcRAFGlGpMqgRr3vxpTkdMFP2oL2e8mlDiMp4h87/jokLkewlys9saHqO1RyntHaHO1KhOTFv1hTuPi4xI9WecV6AxtIq5dJfXzEdi/LBALc7E98lg+FalY=
+	t=1705862268; cv=none; b=haN+mMWyL+PUAy8/OjyOKzWywQKGiYTvCPUl9BF6qWTrGI3yJW4mWS+Tv+qehn6Ht1TT1vAxPpoiQwF/brO26DnxaHYyX4vgTKVLrTA/xdN19cwiMfCtPdbbkcaCJvmF0q+dHI4RsVSq/Ty3xyoxM009E6OmAJwX7BEj4Hc8/94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705856425; c=relaxed/simple;
-	bh=4kifNtFhbsVdvI7NAAIcRll4FeCxSZCMyaQQywPhX6s=;
+	s=arc-20240116; t=1705862268; c=relaxed/simple;
+	bh=k7NlFDDEMD0/vhOgnlSniCKD9fNgrd0tHV4Ufsxzg5I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=okK3hjZxJI17fKsehOJgxb0t+EnpXoYt0Q5+v1vJlNFz+q6RhktSdJUfm5eNT2y8t5VMRNPeuA4pdmkqYdeybm9FS+oOEpwP1W3ARCseuOu0oSOweM6a/FjEGwaIva+cCCiseC0mV6tFvzaEVDmxvLor1X4H7gueLn10oVaU0vI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kHeftqjM; arc=none smtp.client-ip=192.55.52.93
+	 Content-Disposition; b=rahe8yOo/VgsonN55RrjvXbDZkxWtJ5aT13f4UVAS84vaG/eyMV/lVel+sU0ZW3HjPfzIzleleq13m1jdZps3EZ12G7Pzf5nvn+wn2+UqQ455vEXc6BcSQ8nTkPe+IIsE8xJBG2IgrTxgJxxPvMxUQckECOUcS0YnJae90BJPcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkQhqBYz; arc=none smtp.client-ip=134.134.136.31
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHeftqjM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkQhqBYz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705856423; x=1737392423;
+  t=1705862264; x=1737398264;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4kifNtFhbsVdvI7NAAIcRll4FeCxSZCMyaQQywPhX6s=;
-  b=kHeftqjMK9n7n7+uVfjdm3rndJ8C1HoxpW1VkwpdkQ6Y8Xtcd345qC//
-   UOhWwBPlKbNdJqRQcEmEbPF2gwkngFDBzVeLwx3grRu3lTzt2CWqY4nSz
-   3URqbAoYca517thp1KTwnAoPeTnBPFXw5TIqk+BGhxGNzxp1VhNGjTuTG
-   qRuywT59iB6YLLV4koM6JK3T0i/KJDJCNOsS0eo8Yxlrs5e8HPiRLePqM
-   JB4OuuHULSwURgfiP3TNhhj7VcF9UswF11XXkK9OcfooSod1WM1rNGurK
-   1o4o9iA1Nya5xygjhbcMGg/IcMXF0gsPZVaLhnfJLJdeQ3f+qsMi1xYJj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="398206699"
+  bh=k7NlFDDEMD0/vhOgnlSniCKD9fNgrd0tHV4Ufsxzg5I=;
+  b=mkQhqBYz0FI0VyvZi3ni0atcDwzB1W5clrgMoAUd0A5bw5i+Sz0nStjf
+   55cf3vJnyt6G6fx6yrUyH+foc2nVQ3fLRDbNvCfhMU7jCD9yKS/TDSZZ9
+   8lYRU5/gSneUhDPX8slfOsMxdUijiu0jBogPOA71JRdBmSBahlAELYRqI
+   rlrs+MKa4bMarzly7eVt2GwROOOzdsukuHdThEJnUS8BTV90QP3sc+92T
+   fWrJUCYz2AcqQAHysQFoujjZa2WO33TarnkWbPpXdS6IB0oBu7lO4Ifv3
+   3Zdtvn7xtdSjllohYedX5TBSt2IsnM4voLFAUZ76j7uIAGHtH3GZRPg1m
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="465318615"
 X-IronPort-AV: E=Sophos;i="6.05,210,1701158400"; 
-   d="scan'208";a="398206699"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2024 09:00:22 -0800
+   d="scan'208";a="465318615"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2024 10:35:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="761536763"
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="819474362"
 X-IronPort-AV: E=Sophos;i="6.05,210,1701158400"; 
-   d="scan'208";a="761536763"
+   d="scan'208";a="819474362"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 21 Jan 2024 09:00:20 -0800
+  by orsmga001.jf.intel.com with ESMTP; 21 Jan 2024 10:35:22 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRbBB-000658-2E;
-	Sun, 21 Jan 2024 17:00:17 +0000
-Date: Mon, 22 Jan 2024 00:59:37 +0800
+	id 1rRcf9-000688-1w;
+	Sun, 21 Jan 2024 18:35:19 +0000
+Date: Mon, 22 Jan 2024 02:34:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21358/21561]
- drivers/rtc/rtc-phytium.c:65:23: warning: variable 'tmp' set but not used
-Message-ID: <202401220030.RR66GHaX-lkp@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
+Subject: [intel-lts:6.6/linux 294/333]
+ drivers/gpu/drm/i915/i915_driver.c:1255:31: error: 'struct pci_dev' has no
+ member named 'physfn'; did you mean 'is_physfn'?
+Message-ID: <202401220223.vHDTERVe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,133 +60,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   0d29fbb6f9321a629cbf0ca30f15ce6f333ed7b9
-commit: 1ce24a39db64afc5041e3a32893f3e5f1f5d4b9d [21358/21561] rtc: add rtc drivers for Phytium SOCs
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240122/202401220030.RR66GHaX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240122/202401220030.RR66GHaX-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.6/linux
+head:   9fe58986e8674d72a73d6e5c010afea625409635
+commit: fc2406184d313c432b02b6d16a031b4bfc8a0483 [294/333] drm/i915: SR-IOV Enabling and Support
+config: i386-randconfig-054-20240121 (https://download.01.org/0day-ci/archive/20240122/202401220223.vHDTERVe-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240122/202401220223.vHDTERVe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401220030.RR66GHaX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401220223.vHDTERVe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/rtc/rtc-phytium.c: In function 'phytium_rtc_read_time':
->> drivers/rtc/rtc-phytium.c:65:23: warning: variable 'tmp' set but not used [-Wunused-but-set-variable]
-      65 |         unsigned long tmp = 0;
-         |                       ^~~
-   drivers/rtc/rtc-phytium.c: In function 'phytium_rtc_set_mmss':
-   drivers/rtc/rtc-phytium.c:85:23: warning: variable 'tmp' set but not used [-Wunused-but-set-variable]
-      85 |         unsigned long tmp = 0;
-         |                       ^~~
->> drivers/rtc/rtc-phytium.c:84:23: warning: variable 'counter' set but not used [-Wunused-but-set-variable]
-      84 |         unsigned long counter = 0;
-         |                       ^~~~~~~
-   drivers/rtc/rtc-phytium.c: In function 'phytium_rtc_set_alarm':
->> drivers/rtc/rtc-phytium.c:139:23: warning: variable 'rtc_time' set but not used [-Wunused-but-set-variable]
-     139 |         unsigned long rtc_time;
-         |                       ^~~~~~~~
+   drivers/gpu/drm/i915/i915_driver.c: In function 'i915_drm_resume':
+>> drivers/gpu/drm/i915/i915_driver.c:1255:31: error: 'struct pci_dev' has no member named 'physfn'; did you mean 'is_physfn'?
+    1255 |  if (pdev->is_virtfn && pdev->physfn)
+         |                               ^~~~~~
+         |                               is_physfn
+   drivers/gpu/drm/i915/i915_driver.c:1256:45: error: 'struct pci_dev' has no member named 'physfn'; did you mean 'is_physfn'?
+    1256 |   device_pm_wait_for_dev(&pdev->dev, &pdev->physfn->dev);
+         |                                             ^~~~~~
+         |                                             is_physfn
 
 
-vim +/tmp +65 drivers/rtc/rtc-phytium.c
+vim +1255 drivers/gpu/drm/i915/i915_driver.c
 
-    59	
-    60	static int phytium_rtc_read_time(struct device *dev, struct rtc_time *tm)
-    61	{
-    62		struct phytium_rtc_dev *pdata = dev_get_drvdata(dev);
-    63	
-    64		unsigned long counter = 0;
-  > 65		unsigned long tmp = 0;
-    66	
-    67		spin_lock(&spinlock_phytium_rtc);
-    68		writel(RTC_AES_SEL_COUNTER, pdata->csr_base + RTC_AES_SEL);
-    69		counter = readl(pdata->csr_base + RTC_CCVR);
-    70		tmp = readl(pdata->csr_base + RTC_CDR_LOW);
-    71	
-    72		dev_info(dev, "%s_%d : counter : 0x%lx\n",
-    73		__func__, __LINE__, counter);
-    74	
-    75		spin_unlock(&spinlock_phytium_rtc);
-    76	
-    77		rtc_time_to_tm(counter, tm);
-    78		return rtc_valid_tm(tm);
-    79	}
-    80	
-    81	static int phytium_rtc_set_mmss(struct device *dev, unsigned long secs)
-    82	{
-    83		struct phytium_rtc_dev *pdata = dev_get_drvdata(dev);
-  > 84		unsigned long counter = 0;
-    85		unsigned long tmp = 0;
-    86	
-    87		spin_lock(&spinlock_phytium_rtc);
-    88	
-    89		writel(RTC_AES_SEL_COUNTER, pdata->csr_base + RTC_AES_SEL);
-    90		writel(0x00000000, pdata->csr_base + RTC_CLR_LOW);
-    91		writel((u32)secs, pdata->csr_base + RTC_CLR);
-    92		writel(RTC_AES_SEL_COUNTER, pdata->csr_base + RTC_AES_SEL);
-    93		counter = readl(pdata->csr_base + RTC_CLR);
-    94		tmp = readl(pdata->csr_base + RTC_CLR_LOW);
-    95	
-    96		spin_unlock(&spinlock_phytium_rtc);
-    97	
-    98		return 0;
-    99	}
-   100	
-   101	static int phytium_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alrm)
-   102	{
-   103		struct phytium_rtc_dev *pdata = dev_get_drvdata(dev);
-   104	
-   105		rtc_time_to_tm(pdata->alarm_time, &alrm->time);
-   106		alrm->enabled = readl(pdata->csr_base + RTC_CCR) & RTC_CCR_IE;
-   107	
-   108		return 0;
-   109	}
-   110	
-   111	static int phytium_rtc_alarm_irq_enable(struct device *dev, u32 enabled)
-   112	{
-   113		struct phytium_rtc_dev *pdata = dev_get_drvdata(dev);
-   114		u32 ccr;
-   115	
-   116		ccr = readl(pdata->csr_base + RTC_CCR);
-   117		if (enabled) {
-   118			ccr &= ~RTC_CCR_MASK;
-   119			ccr |= RTC_CCR_IE;
-   120		} else {
-   121			ccr &= ~RTC_CCR_IE;
-   122			ccr |= RTC_CCR_MASK;
-   123		}
-   124		writel(ccr, pdata->csr_base + RTC_CCR);
-   125	
-   126		return 0;
-   127	}
-   128	
-   129	static int phytium_rtc_alarm_irq_enabled(struct device *dev)
-   130	{
-   131		struct phytium_rtc_dev *pdata = dev_get_drvdata(dev);
-   132	
-   133		return readl(pdata->csr_base + RTC_CCR) & RTC_CCR_IE ? 1 : 0;
-   134	}
-   135	
-   136	static int phytium_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
-   137	{
-   138		struct phytium_rtc_dev *pdata = dev_get_drvdata(dev);
- > 139		unsigned long rtc_time;
-   140		unsigned long alarm_time;
-   141	
-   142		rtc_time = readl(pdata->csr_base + RTC_CCVR);
-   143		rtc_tm_to_time(&alrm->time, &alarm_time);
-   144	
-   145		pdata->alarm_time = alarm_time;
-   146		writel((u32) pdata->alarm_time, pdata->csr_base + RTC_CMR);
-   147	
-   148		phytium_rtc_alarm_irq_enable(dev, alrm->enabled);
-   149	
-   150		return 0;
-   151	}
-   152	
+  1243	
+  1244	static int i915_drm_resume(struct drm_device *dev)
+  1245	{
+  1246		struct drm_i915_private *dev_priv = to_i915(dev);
+  1247		struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+  1248		struct intel_gt *gt;
+  1249		int ret, i;
+  1250	
+  1251		/*
+  1252		 * In case the VF and the PF are both probed on the same kernel,
+  1253		 * let the VF wait until the PF finish resume first.
+  1254		 */
+> 1255		if (pdev->is_virtfn && pdev->physfn)
+  1256			device_pm_wait_for_dev(&pdev->dev, &pdev->physfn->dev);
+  1257	
+  1258		disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
+  1259	
+  1260		ret = i915_pcode_init(dev_priv);
+  1261		if (ret)
+  1262			return ret;
+  1263	
+  1264		sanitize_gpu(dev_priv);
+  1265	
+  1266		ret = i915_ggtt_enable_hw(dev_priv);
+  1267		if (ret)
+  1268			drm_err(&dev_priv->drm, "failed to re-enable GGTT\n");
+  1269		 /*
+  1270		 * Wa_22018453856:
+  1271		 * We need to establish communication with GuC to be able to
+  1272		 * update GGTT via PF.
+  1273		 */
+  1274		if (IS_SRIOV_VF(dev_priv) && i915_ggtt_require_binder(dev_priv))
+  1275			intel_iov_query_bootstrap(&to_gt(dev_priv)->iov);
+  1276	
+  1277		i915_ggtt_resume(to_gt(dev_priv)->ggtt);
+  1278	
+  1279		for_each_gt(gt, dev_priv, i)
+  1280			if (GRAPHICS_VER(gt->i915) >= 8)
+  1281				setup_private_pat(gt);
+  1282	
+  1283		/* Must be called after GGTT is resumed. */
+  1284		intel_dpt_resume(dev_priv);
+  1285	
+  1286		intel_dmc_resume(dev_priv);
+  1287	
+  1288		i915_restore_display(dev_priv);
+  1289		intel_pps_unlock_regs_wa(dev_priv);
+  1290	
+  1291		intel_init_pch_refclk(dev_priv);
+  1292	
+  1293		/*
+  1294		 * Interrupts have to be enabled before any batches are run. If not the
+  1295		 * GPU will hang. i915_gem_init_hw() will initiate batches to
+  1296		 * update/restore the context.
+  1297		 *
+  1298		 * drm_mode_config_reset() needs AUX interrupts.
+  1299		 *
+  1300		 * Modeset enabling in intel_display_driver_init_hw() also needs working
+  1301		 * interrupts.
+  1302		 */
+  1303		intel_runtime_pm_enable_interrupts(dev_priv);
+  1304	
+  1305		if (HAS_DISPLAY(dev_priv))
+  1306			drm_mode_config_reset(dev);
+  1307	
+  1308		i915_gem_resume(dev_priv);
+  1309	
+  1310		intel_display_driver_init_hw(dev_priv);
+  1311	
+  1312		intel_clock_gating_init(dev_priv);
+  1313		intel_hpd_init(dev_priv);
+  1314	
+  1315		/* MST sideband requires HPD interrupts enabled */
+  1316		intel_dp_mst_resume(dev_priv);
+  1317		intel_display_driver_resume(dev_priv);
+  1318	
+  1319		intel_hpd_poll_disable(dev_priv);
+  1320		if (HAS_DISPLAY(dev_priv))
+  1321			drm_kms_helper_poll_enable(dev);
+  1322	
+  1323		intel_opregion_resume(dev_priv);
+  1324	
+  1325		intel_fbdev_set_suspend(dev, FBINFO_STATE_RUNNING, false);
+  1326	
+  1327		intel_power_domains_enable(dev_priv);
+  1328	
+  1329		intel_gvt_resume(dev_priv);
+  1330	
+  1331		for_each_gt(gt, dev_priv, i) {
+  1332			intel_guc_invalidate_tlb_full(&gt->uc.guc);
+  1333			intel_guc_invalidate_tlb(&gt->uc.guc);
+  1334		}
+  1335	
+  1336		enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
+  1337		intel_gt_bind_context_set_ready(to_gt(dev_priv), true);
+  1338	
+  1339		return 0;
+  1340	}
+  1341	
 
 -- 
 0-DAY CI Kernel Test Service
