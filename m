@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617623A1D8;
-	Mon, 22 Jan 2024 10:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A6B3D961
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 11:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705919335; cv=none; b=g22GgglfRztWkVcUdvpVDGUQg6frSLslV4AZF5Co3ErUP3Rum3QYo0O+azIr8sULvLc1mCM3KZHpSLyKyHpTh9ZBilTGJ7SAS/mfpbxvXU4IwP5WZHeLHzyBTxREKYhZlaVVTGP5HglbiPCZIZzmmsFV9/kuHk9f01FOKLLzm44=
+	t=1705924196; cv=none; b=LrfOKbToedsi1JtCWEewHIqjLgfXRoWRkM1XYiNLjSeDGTmCBxpLfApqZ97+yYmxl6fRNo84wtz/TUKlBNAlVRtELN4zCscnmF5EIVJ/1Y6e9LQWIXyz8netQXRKcALms1+kaS1otvHCYA90Sy2kaGEDbuUu5Iak6lRKWKwbJt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705919335; c=relaxed/simple;
-	bh=ZK2QXdNGVm8zYK/Rkf8qUNK2IKt4V/PZYWGcJC8n774=;
+	s=arc-20240116; t=1705924196; c=relaxed/simple;
+	bh=BmYc/P9Xb682ld27CH4EWSXn4AjXihCCqYTfqHvsN0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hn0CjnCKqNQGldKZ1AeJjRrqD43UAvidX0VY6iDHPBLg16QFaQ1FLWNbBCo/AjCGyV1la7qfySzVc0tHl80l7WdGP3aCEQ1m/5obWhNFOq/vF7gm14z8Jl96MDhbNOm+g75cfIB/AUSitNcsGuAedEX2KGzkFGMTdRfMwXPF4I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h4o2IOtn; arc=none smtp.client-ip=134.134.136.31
+	 Content-Disposition; b=XioEkQFn5/8PtBlQ2aNl5lPumiIkkWzVsk9M3KPMUj3lGPddJ32WOFnI8lVMBaZrsmLuUGkp7co6aO/TRLSMoCrZMJClvGLd0DGdAo0Tz/jMyYXdt/XEUaKIDeqPPTlfnKeKfweBmFB9jd0fhZd6aFfuZeCBcH9nhXOGbGjXPzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHzA6n5l; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h4o2IOtn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHzA6n5l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705919333; x=1737455333;
+  t=1705924193; x=1737460193;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZK2QXdNGVm8zYK/Rkf8qUNK2IKt4V/PZYWGcJC8n774=;
-  b=h4o2IOtnx/9zgUWhuS2OyNnA/K31Hlas/0uDCwusZPx24OWMKXL/Y7+P
-   t5ie2DTMjpmX8eX8fY6rxXd5jFo7Wzx6Ki40rLCVmd4Ijc/7TJJ6iCRkn
-   6MLw4NGZFr56QGLinxVg6SqVqH7q11gm5XvFdXR63p66GS6t2rpoD19nu
-   7tIzZV93ARBrINPDXMnwtWvlMpHYX7c9M9JSchOiuUWMBqPygPSWT3YmV
-   YkSVF7CZv/evB6JP++LZRneDvtnWeDwL2U9kMposwy/dd8X99nJyZd1Km
-   AnLXJXmDOMOvbiz+9O89LUb1DgYHH9qs4mZXDXnuILYo7SpiHqiTxFlIM
+  bh=BmYc/P9Xb682ld27CH4EWSXn4AjXihCCqYTfqHvsN0c=;
+  b=nHzA6n5l0jI8ZfaN6pehbcoTrcY9iFWMktAxEKhKxuZVnVO38eFDxucH
+   k8Fyu2LaCohQbH9rs7JMPaKBxeKGPmlQDU/Jqtj1X4nLGpDQDAGKJ7xa7
+   jQt69gqMbpX1GJeTX5CFUbgwOfiO0KSrnJ+TA4lxcAxYaKMkRpCHrMLxG
+   5Tpnxe8Aekt8KLLkU5MlwtBcNELoc+q9ACX8oER9Cu3Ih1RylOxipiIC0
+   R7uY3YnU3bvnQzWQalB7YmF4PGhgCLOxOeT7TUQX0O2MtDLL0pUXxBVo3
+   e3cILAuCgHxdLpj3ZbwAzu1TfBCqkv9tFTblV59jt/uQScfao0vOavz/+
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="465431776"
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="432348930"
 X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="465431776"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 02:28:52 -0800
+   d="scan'208";a="432348930"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 03:49:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="785633996"
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="958716484"
 X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="785633996"
+   d="scan'208";a="958716484"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 22 Jan 2024 02:28:46 -0800
+  by orsmga005.jf.intel.com with ESMTP; 22 Jan 2024 03:49:51 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRrXn-0006Yi-2M;
-	Mon, 22 Jan 2024 10:28:43 +0000
-Date: Mon, 22 Jan 2024 18:27:50 +0800
+	id 1rRsoG-0006aq-2b;
+	Mon, 22 Jan 2024 11:49:48 +0000
+Date: Mon, 22 Jan 2024 19:49:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 6/6] fs/bcachefs/dirent.c:436:2: error:
- expected expression
-Message-ID: <202401221837.UYmBMEZ7-lkp@intel.com>
+Subject: [bcachefs:bcachefs-testing 6/6] fs/bcachefs/dirent.c:436:2: error: a
+ label can only be part of a statement and a declaration is not a statement
+Message-ID: <202401221931.LiA3136x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,35 +63,29 @@ Content-Disposition: inline
 tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
 head:   05b33431c0012466dd40e9949d475adfd45dfc9b
 commit: 05b33431c0012466dd40e9949d475adfd45dfc9b [6/6] bcachefs: Subvolumes may now be renamed
-config: i386-buildonly-randconfig-001-20240122 (https://download.01.org/0day-ci/archive/20240122/202401221837.UYmBMEZ7-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240122/202401221837.UYmBMEZ7-lkp@intel.com/reproduce)
+config: i386-randconfig-012-20240122 (https://download.01.org/0day-ci/archive/20240122/202401221931.LiA3136x-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240122/202401221931.LiA3136x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401221837.UYmBMEZ7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401221931.LiA3136x-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/bcachefs/dirent.c:436:2: error: expected expression
-     436 |         bool delete_src = bkey_s_c_to_dirent(old_src).v->d_type == DT_SUBVOL &&
-         |         ^
->> fs/bcachefs/dirent.c:443:7: error: use of undeclared identifier 'delete_src'; did you mean 'delete_dst'?
-     443 |         if (!delete_src || !bkey_deleted(&new_src->k)) {
-         |              ^~~~~~~~~~
-         |              delete_dst
-   fs/bcachefs/dirent.c:439:7: note: 'delete_dst' declared here
-     439 |         bool delete_dst = old_dst.k &&
-         |              ^
-   fs/bcachefs/dirent.c:449:6: error: use of undeclared identifier 'delete_src'; did you mean 'delete_dst'?
-     449 |         if (delete_src) {
-         |             ^~~~~~~~~~
-         |             delete_dst
-   fs/bcachefs/dirent.c:439:7: note: 'delete_dst' declared here
-     439 |         bool delete_dst = old_dst.k &&
-         |              ^
-   3 errors generated.
+   fs/bcachefs/dirent.c: In function 'bch2_dirent_rename':
+>> fs/bcachefs/dirent.c:436:2: error: a label can only be part of a statement and a declaration is not a statement
+     436 |  bool delete_src = bkey_s_c_to_dirent(old_src).v->d_type == DT_SUBVOL &&
+         |  ^~~~
+>> fs/bcachefs/dirent.c:439:2: error: expected expression before 'bool'
+     439 |  bool delete_dst = old_dst.k &&
+         |  ^~~~
+>> fs/bcachefs/dirent.c:457:6: error: 'delete_dst' undeclared (first use in this function); did you mean 'delete_src'?
+     457 |  if (delete_dst) {
+         |      ^~~~~~~~~~
+         |      delete_src
+   fs/bcachefs/dirent.c:457:6: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +436 fs/bcachefs/dirent.c
@@ -253,11 +247,11 @@ vim +436 fs/bcachefs/dirent.c
  > 436		bool delete_src = bkey_s_c_to_dirent(old_src).v->d_type == DT_SUBVOL &&
    437			new_src->k.p.snapshot != old_src.k->p.snapshot;
    438	
-   439		bool delete_dst = old_dst.k &&
+ > 439		bool delete_dst = old_dst.k &&
    440			bkey_s_c_to_dirent(old_dst).v->d_type == DT_SUBVOL &&
    441			new_dst->k.p.snapshot != old_dst.k->p.snapshot;
    442	
- > 443		if (!delete_src || !bkey_deleted(&new_src->k)) {
+   443		if (!delete_src || !bkey_deleted(&new_src->k)) {
    444			ret = bch2_trans_update(trans, &src_iter, &new_src->k_i, src_update_flags);
    445			if (ret)
    446				goto out;
@@ -271,7 +265,7 @@ vim +436 fs/bcachefs/dirent.c
    454				goto out;
    455		}
    456	
-   457		if (delete_dst) {
+ > 457		if (delete_dst) {
    458			bch2_btree_iter_set_snapshot(&dst_iter, old_dst.k->p.snapshot);
    459			ret =   bch2_btree_iter_traverse(&dst_iter) ?:
    460				bch2_btree_delete_at(trans, &dst_iter, BTREE_UPDATE_INTERNAL_SNAPSHOT_NODE);
