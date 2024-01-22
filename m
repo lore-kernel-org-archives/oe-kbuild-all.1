@@ -1,446 +1,294 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3233938DED
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 08:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617623A1D8;
+	Mon, 22 Jan 2024 10:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705912974; cv=none; b=Lsd3lnz9GXlQhPzvVmmo7waNnUqd9HBvKRha4eUwxUzgOVs7ZRDqauJel4hwQXel50BDfWNRY2X5tpLJqoFsrfeInBh3x0hqvB7l8nLybJW14o582cyon2YelkKvXijt6m2L+IW2JCOxW9jPbVLtKwy8ErnxBXRyTTZowWkmuO0=
+	t=1705919335; cv=none; b=g22GgglfRztWkVcUdvpVDGUQg6frSLslV4AZF5Co3ErUP3Rum3QYo0O+azIr8sULvLc1mCM3KZHpSLyKyHpTh9ZBilTGJ7SAS/mfpbxvXU4IwP5WZHeLHzyBTxREKYhZlaVVTGP5HglbiPCZIZzmmsFV9/kuHk9f01FOKLLzm44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705912974; c=relaxed/simple;
-	bh=53AcOeGD0p7nbe5TjajfohEKjEBXxQ84zejXF9ZzjXQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bi3EXV10iwz5Kw7BxS5+9BQblZf3u0fUU7TgCS1ee+0chAmyOXToPbvu1fOlp6nWC4JZfoesfMTWBwNvVYQzCsyatUfKPL/sNob4jrjAjxqhiWf4btEPSYvLKJSiXTJX/W/QZq7RBc2chqngudtGlhxlyDae7IM5tw3ABCE3x5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5ff7a8b5e61so22679717b3.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 00:42:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705912971; x=1706517771;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wzva1Y3egJkJwaa7xDcetdIkG2yn3nRK1Yg5xorbkj4=;
-        b=qzX9hIpHHbrjWfB9lKPgoJ5I8cv1hDFkfVKbd6v//HsReYT9id9pAS/DHvichxNOhd
-         MKL5fTkH9eoSJbbWqaSAU3umCQfsaKfTSS60UXl9dTt3i4KkYIDtkMmQLFxsGd1Qrh83
-         8hhsQgFEHF/Na+5Ad2chfHnrXHOti6S1GesVlSVI+FpWsJmGPtPn58j0ILBOCXD7Iqbh
-         40i3KlWFQBey7JFrVAin7aIXOXZ+8Ot19KDbH3vP3Ecq7cFIG+xaDLll+floLa2QaFpp
-         FbA3WMt0Nwb1h5ztOiOdz4XYCDLrKZglFGV/hU3j1+gYpS8xNVn7qUvQqtDnSkv56cgR
-         TUXg==
-X-Gm-Message-State: AOJu0YwHMCte3BUeBC2RjsQ87pizI/3uHfBNjiCalmi9Ti22rZJtwJd/
-	kJSujIN/UNLQAclSW1Aq4KNNJfZtWQTkNBL0lcNdTnw22NCXD5oxO5q8Ycu9tiA=
-X-Google-Smtp-Source: AGHT+IHB3C3LIaGrcAC49Ac+8V0uWRuGh4HaiDpANZ9V0uy8P/rH9ySI/EX8HbIjMkTJgZQjNPi7ig==
-X-Received: by 2002:a81:8352:0:b0:5ff:6056:35cf with SMTP id t79-20020a818352000000b005ff605635cfmr3060810ywf.89.1705912970832;
-        Mon, 22 Jan 2024 00:42:50 -0800 (PST)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id c63-20020a0dda42000000b005ffde38415dsm824917ywe.15.2024.01.22.00.42.50
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 00:42:50 -0800 (PST)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5ff7a8b5e61so22679607b3.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 00:42:50 -0800 (PST)
-X-Received: by 2002:a81:c24c:0:b0:5ff:a51a:8db3 with SMTP id
- t12-20020a81c24c000000b005ffa51a8db3mr3037461ywg.26.1705912970152; Mon, 22
- Jan 2024 00:42:50 -0800 (PST)
+	s=arc-20240116; t=1705919335; c=relaxed/simple;
+	bh=ZK2QXdNGVm8zYK/Rkf8qUNK2IKt4V/PZYWGcJC8n774=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Hn0CjnCKqNQGldKZ1AeJjRrqD43UAvidX0VY6iDHPBLg16QFaQ1FLWNbBCo/AjCGyV1la7qfySzVc0tHl80l7WdGP3aCEQ1m/5obWhNFOq/vF7gm14z8Jl96MDhbNOm+g75cfIB/AUSitNcsGuAedEX2KGzkFGMTdRfMwXPF4I4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h4o2IOtn; arc=none smtp.client-ip=134.134.136.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h4o2IOtn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705919333; x=1737455333;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZK2QXdNGVm8zYK/Rkf8qUNK2IKt4V/PZYWGcJC8n774=;
+  b=h4o2IOtnx/9zgUWhuS2OyNnA/K31Hlas/0uDCwusZPx24OWMKXL/Y7+P
+   t5ie2DTMjpmX8eX8fY6rxXd5jFo7Wzx6Ki40rLCVmd4Ijc/7TJJ6iCRkn
+   6MLw4NGZFr56QGLinxVg6SqVqH7q11gm5XvFdXR63p66GS6t2rpoD19nu
+   7tIzZV93ARBrINPDXMnwtWvlMpHYX7c9M9JSchOiuUWMBqPygPSWT3YmV
+   YkSVF7CZv/evB6JP++LZRneDvtnWeDwL2U9kMposwy/dd8X99nJyZd1Km
+   AnLXJXmDOMOvbiz+9O89LUb1DgYHH9qs4mZXDXnuILYo7SpiHqiTxFlIM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="465431776"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="465431776"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 02:28:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10960"; a="785633996"
+X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
+   d="scan'208";a="785633996"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 22 Jan 2024 02:28:46 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rRrXn-0006Yi-2M;
+	Mon, 22 Jan 2024 10:28:43 +0000
+Date: Mon, 22 Jan 2024 18:27:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 6/6] fs/bcachefs/dirent.c:436:2: error:
+ expected expression
+Message-ID: <202401221837.UYmBMEZ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Za4nzDtwGVA+U1OL@rli9-mobl>
-In-Reply-To: <Za4nzDtwGVA+U1OL@rli9-mobl>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 22 Jan 2024 09:42:38 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWvX-sUaXc=WMOU_yCQWwkTkCb3i+swHKpHQAz1BKUOJg@mail.gmail.com>
-Message-ID: <CAMuHMdWvX-sUaXc=WMOU_yCQWwkTkCb3i+swHKpHQAz1BKUOJg@mail.gmail.com>
-Subject: Re: sound/ac97/bus.c:192: warning: Function parameter or member 'drv'
- not described in 'snd_ac97_codec_driver_register'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Mark Brown <broonie@kernel.org>, Robert Jarzmik <robert.jarzmik@free.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Kernel Test Robot,
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   05b33431c0012466dd40e9949d475adfd45dfc9b
+commit: 05b33431c0012466dd40e9949d475adfd45dfc9b [6/6] bcachefs: Subvolumes may now be renamed
+config: i386-buildonly-randconfig-001-20240122 (https://download.01.org/0day-ci/archive/20240122/202401221837.UYmBMEZ7-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240122/202401221837.UYmBMEZ7-lkp@intel.com/reproduce)
 
-On Mon, Jan 22, 2024 at 9:31=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
-> First bad commit (maybe !=3D root cause):
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   ac865f00af293d081356bec56eea90815094a60e
-> commit: ea00d95200d02ece71f5814d41b14f2eb16d598b ASoC: Use imply for SND_=
-SOC_ALL_CODECS
-> date:   3 years, 11 months ago
-> :::::: branch date: 16 hours ago
-> :::::: commit date: 3 years, 11 months ago
-> config: x86_64-buildonly-randconfig-003-20231102 (https://download.01.org=
-/0day-ci/archive/20240104/202401042239.2zkHgzki-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240104/202401042239.2zkHgzki-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/r/202401042239.2zkHgzki-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> sound/ac97/bus.c:192: warning: Function parameter or member 'drv' not =
-described in 'snd_ac97_codec_driver_register'
-> >> sound/ac97/bus.c:192: warning: Excess function parameter 'dev' descrip=
-tion in 'snd_ac97_codec_driver_register'
-> >> sound/ac97/bus.c:205: warning: Function parameter or member 'drv' not =
-described in 'snd_ac97_codec_driver_unregister'
-> >> sound/ac97/bus.c:205: warning: Excess function parameter 'dev' descrip=
-tion in 'snd_ac97_codec_driver_unregister'
-> >> sound/ac97/bus.c:351: warning: Function parameter or member 'codecs_pd=
-ata' not described in 'snd_ac97_controller_register'
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401221837.UYmBMEZ7-lkp@intel.com/
 
-Definitely not introduced by my commit.
-Origin is commit 74426fbff66eea8e ("ALSA: ac97: add an ac97 bus") in v4.15.
+All errors (new ones prefixed by >>):
+
+>> fs/bcachefs/dirent.c:436:2: error: expected expression
+     436 |         bool delete_src = bkey_s_c_to_dirent(old_src).v->d_type == DT_SUBVOL &&
+         |         ^
+>> fs/bcachefs/dirent.c:443:7: error: use of undeclared identifier 'delete_src'; did you mean 'delete_dst'?
+     443 |         if (!delete_src || !bkey_deleted(&new_src->k)) {
+         |              ^~~~~~~~~~
+         |              delete_dst
+   fs/bcachefs/dirent.c:439:7: note: 'delete_dst' declared here
+     439 |         bool delete_dst = old_dst.k &&
+         |              ^
+   fs/bcachefs/dirent.c:449:6: error: use of undeclared identifier 'delete_src'; did you mean 'delete_dst'?
+     449 |         if (delete_src) {
+         |             ^~~~~~~~~~
+         |             delete_dst
+   fs/bcachefs/dirent.c:439:7: note: 'delete_dst' declared here
+     439 |         bool delete_dst = old_dst.k &&
+         |              ^
+   3 errors generated.
 
 
->
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for REGMAP_SPI
->    Depends on [n]: SPI [=3Dn]
->    Selected by [m]:
->    - SND_SOC_ADAU1781_SPI [=3Dm] && SOUND [=3Dy] && !UML && SND [=3Dm] &&=
- SND_SOC [=3Dm]
->    - SND_SOC_ADAU1977_SPI [=3Dm] && SOUND [=3Dy] && !UML && SND [=3Dm] &&=
- SND_SOC [=3Dm]
->
->
-> vim +192 sound/ac97/bus.c
->
-> 74426fbff66eea Robert Jarzmik 2017-09-02  181
-> 74426fbff66eea Robert Jarzmik 2017-09-02  182  /**
-> 74426fbff66eea Robert Jarzmik 2017-09-02  183   * snd_ac97_codec_driver_r=
-egister - register an AC97 codec driver
-> 74426fbff66eea Robert Jarzmik 2017-09-02  184   * @dev: AC97 driver codec=
- to register
-> 74426fbff66eea Robert Jarzmik 2017-09-02  185   *
-> 74426fbff66eea Robert Jarzmik 2017-09-02  186   * Register an AC97 codec =
-driver to the ac97 bus driver, aka. the AC97 digital
-> 74426fbff66eea Robert Jarzmik 2017-09-02  187   * controller.
-> 74426fbff66eea Robert Jarzmik 2017-09-02  188   *
-> 74426fbff66eea Robert Jarzmik 2017-09-02  189   * Returns 0 on success or=
- error code
-> 74426fbff66eea Robert Jarzmik 2017-09-02  190   */
-> 74426fbff66eea Robert Jarzmik 2017-09-02  191  int snd_ac97_codec_driver_=
-register(struct ac97_codec_driver *drv)
-> 74426fbff66eea Robert Jarzmik 2017-09-02 @192  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  193   drv->driver.bus =3D &ac97=
-_bus_type;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  194   return driver_register(&d=
-rv->driver);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  195  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  196  EXPORT_SYMBOL_GPL(snd_ac97=
-_codec_driver_register);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  197
-> 74426fbff66eea Robert Jarzmik 2017-09-02  198  /**
-> 74426fbff66eea Robert Jarzmik 2017-09-02  199   * snd_ac97_codec_driver_u=
-nregister - unregister an AC97 codec driver
-> 74426fbff66eea Robert Jarzmik 2017-09-02  200   * @dev: AC97 codec driver=
- to unregister
-> 74426fbff66eea Robert Jarzmik 2017-09-02  201   *
-> 74426fbff66eea Robert Jarzmik 2017-09-02  202   * Unregister a previously=
- registered ac97 codec driver.
-> 74426fbff66eea Robert Jarzmik 2017-09-02  203   */
-> 74426fbff66eea Robert Jarzmik 2017-09-02  204  void snd_ac97_codec_driver=
-_unregister(struct ac97_codec_driver *drv)
-> 74426fbff66eea Robert Jarzmik 2017-09-02 @205  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  206   driver_unregister(&drv->d=
-river);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  207  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  208  EXPORT_SYMBOL_GPL(snd_ac97=
-_codec_driver_unregister);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  209
-> 74426fbff66eea Robert Jarzmik 2017-09-02  210  /**
-> 74426fbff66eea Robert Jarzmik 2017-09-02  211   * snd_ac97_codec_get_plat=
-data - get platform_data
-> 74426fbff66eea Robert Jarzmik 2017-09-02  212   * @adev: the ac97 codec d=
-evice
-> 74426fbff66eea Robert Jarzmik 2017-09-02  213   *
-> 74426fbff66eea Robert Jarzmik 2017-09-02  214   * For legacy platforms, i=
-n order to have platform_data in codec drivers
-> 74426fbff66eea Robert Jarzmik 2017-09-02  215   * available, while ac97 d=
-evice are auto-created upon probe, this retrieves the
-> 74426fbff66eea Robert Jarzmik 2017-09-02  216   * platdata which was setu=
-p on ac97 controller registration.
-> 74426fbff66eea Robert Jarzmik 2017-09-02  217   *
-> 74426fbff66eea Robert Jarzmik 2017-09-02  218   * Returns the platform da=
-ta pointer
-> 74426fbff66eea Robert Jarzmik 2017-09-02  219   */
-> 74426fbff66eea Robert Jarzmik 2017-09-02  220  void *snd_ac97_codec_get_p=
-latdata(const struct ac97_codec_device *adev)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  221  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  222   struct ac97_controller *a=
-c97_ctrl =3D adev->ac97_ctrl;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  223
-> 74426fbff66eea Robert Jarzmik 2017-09-02  224   return ac97_ctrl->codecs_=
-pdata[adev->num];
-> 74426fbff66eea Robert Jarzmik 2017-09-02  225  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  226  EXPORT_SYMBOL_GPL(snd_ac97=
-_codec_get_platdata);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  227
-> 74426fbff66eea Robert Jarzmik 2017-09-02  228  static void ac97_ctrl_code=
-cs_unregister(struct ac97_controller *ac97_ctrl)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  229  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  230   int i;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  231
-> 74426fbff66eea Robert Jarzmik 2017-09-02  232   for (i =3D 0; i < AC97_BU=
-S_MAX_CODECS; i++)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  233           if (ac97_ctrl->co=
-decs[i]) {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  234                   ac97_ctrl=
-->codecs[i]->ac97_ctrl =3D &ac97_unbound_ctrl;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  235                   device_un=
-register(&ac97_ctrl->codecs[i]->dev);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  236           }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  237  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  238
-> 74426fbff66eea Robert Jarzmik 2017-09-02  239  static ssize_t cold_reset_=
-store(struct device *dev,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  240                           s=
-truct device_attribute *attr, const char *buf,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  241                           s=
-ize_t len)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  242  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  243   struct ac97_controller *a=
-c97_ctrl;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  244
-> 74426fbff66eea Robert Jarzmik 2017-09-02  245   mutex_lock(&ac97_controll=
-ers_mutex);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  246   ac97_ctrl =3D to_ac97_con=
-troller(dev);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  247   ac97_ctrl->ops->reset(ac9=
-7_ctrl);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  248   mutex_unlock(&ac97_contro=
-llers_mutex);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  249   return len;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  250  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  251  static DEVICE_ATTR_WO(cold=
-_reset);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  252
-> 74426fbff66eea Robert Jarzmik 2017-09-02  253  static ssize_t warm_reset_=
-store(struct device *dev,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  254                           s=
-truct device_attribute *attr, const char *buf,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  255                           s=
-ize_t len)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  256  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  257   struct ac97_controller *a=
-c97_ctrl;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  258
-> 74426fbff66eea Robert Jarzmik 2017-09-02  259   if (!dev)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  260           return -ENODEV;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  261
-> 74426fbff66eea Robert Jarzmik 2017-09-02  262   mutex_lock(&ac97_controll=
-ers_mutex);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  263   ac97_ctrl =3D to_ac97_con=
-troller(dev);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  264   ac97_ctrl->ops->warm_rese=
-t(ac97_ctrl);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  265   mutex_unlock(&ac97_contro=
-llers_mutex);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  266   return len;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  267  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  268  static DEVICE_ATTR_WO(warm=
-_reset);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  269
-> 74426fbff66eea Robert Jarzmik 2017-09-02  270  static struct attribute *a=
-c97_controller_device_attrs[] =3D {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  271   &dev_attr_cold_reset.attr=
-,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  272   &dev_attr_warm_reset.attr=
-,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  273   NULL
-> 74426fbff66eea Robert Jarzmik 2017-09-02  274  };
-> 74426fbff66eea Robert Jarzmik 2017-09-02  275
-> 74426fbff66eea Robert Jarzmik 2017-09-02  276  static struct attribute_gr=
-oup ac97_adapter_attr_group =3D {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  277   .name   =3D "ac97_operati=
-ons",
-> 74426fbff66eea Robert Jarzmik 2017-09-02  278   .attrs  =3D ac97_controll=
-er_device_attrs,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  279  };
-> 74426fbff66eea Robert Jarzmik 2017-09-02  280
-> 74426fbff66eea Robert Jarzmik 2017-09-02  281  static const struct attrib=
-ute_group *ac97_adapter_groups[] =3D {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  282   &ac97_adapter_attr_group,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  283   NULL,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  284  };
-> 74426fbff66eea Robert Jarzmik 2017-09-02  285
-> 74426fbff66eea Robert Jarzmik 2017-09-02  286  static void ac97_del_adapt=
-er(struct ac97_controller *ac97_ctrl)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  287  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  288   mutex_lock(&ac97_controll=
-ers_mutex);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  289   ac97_ctrl_codecs_unregist=
-er(ac97_ctrl);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  290   list_del(&ac97_ctrl->cont=
-rollers);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  291   mutex_unlock(&ac97_contro=
-llers_mutex);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  292
-> 74426fbff66eea Robert Jarzmik 2017-09-02  293   device_unregister(&ac97_c=
-trl->adap);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  294  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  295
-> 74426fbff66eea Robert Jarzmik 2017-09-02  296  static void ac97_adapter_r=
-elease(struct device *dev)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  297  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  298   struct ac97_controller *a=
-c97_ctrl;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  299
-> 74426fbff66eea Robert Jarzmik 2017-09-02  300   ac97_ctrl =3D to_ac97_con=
-troller(dev);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  301   idr_remove(&ac97_adapter_=
-idr, ac97_ctrl->nr);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  302   dev_dbg(&ac97_ctrl->adap,=
- "adapter unregistered by %s\n",
-> 74426fbff66eea Robert Jarzmik 2017-09-02  303           dev_name(ac97_ctr=
-l->parent));
-> 74426fbff66eea Robert Jarzmik 2017-09-02  304  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  305
-> 74426fbff66eea Robert Jarzmik 2017-09-02  306  static const struct device=
-_type ac97_adapter_type =3D {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  307   .groups         =3D ac97_=
-adapter_groups,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  308   .release        =3D ac97_=
-adapter_release,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  309  };
-> 74426fbff66eea Robert Jarzmik 2017-09-02  310
-> 74426fbff66eea Robert Jarzmik 2017-09-02  311  static int ac97_add_adapte=
-r(struct ac97_controller *ac97_ctrl)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  312  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  313   int ret;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  314
-> 74426fbff66eea Robert Jarzmik 2017-09-02  315   mutex_lock(&ac97_controll=
-ers_mutex);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  316   ret =3D idr_alloc(&ac97_a=
-dapter_idr, ac97_ctrl, 0, 0, GFP_KERNEL);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  317   ac97_ctrl->nr =3D ret;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  318   if (ret >=3D 0) {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  319           dev_set_name(&ac9=
-7_ctrl->adap, "ac97-%d", ret);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  320           ac97_ctrl->adap.t=
-ype =3D &ac97_adapter_type;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  321           ac97_ctrl->adap.p=
-arent =3D ac97_ctrl->parent;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  322           ret =3D device_re=
-gister(&ac97_ctrl->adap);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  323           if (ret)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  324                   put_devic=
-e(&ac97_ctrl->adap);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  325   }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  326   if (!ret)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  327           list_add(&ac97_ct=
-rl->controllers, &ac97_controllers);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  328   mutex_unlock(&ac97_contro=
-llers_mutex);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  329
-> 74426fbff66eea Robert Jarzmik 2017-09-02  330   if (!ret)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  331           dev_dbg(&ac97_ctr=
-l->adap, "adapter registered by %s\n",
-> 74426fbff66eea Robert Jarzmik 2017-09-02  332                   dev_name(=
-ac97_ctrl->parent));
-> 74426fbff66eea Robert Jarzmik 2017-09-02  333   return ret;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  334  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  335
-> 74426fbff66eea Robert Jarzmik 2017-09-02  336  /**
-> 74426fbff66eea Robert Jarzmik 2017-09-02  337   * snd_ac97_controller_reg=
-ister - register an ac97 controller
-> 74426fbff66eea Robert Jarzmik 2017-09-02  338   * @ops: the ac97 bus oper=
-ations
-> 74426fbff66eea Robert Jarzmik 2017-09-02  339   * @dev: the device provid=
-ing the ac97 DC function
-> 74426fbff66eea Robert Jarzmik 2017-09-02  340   * @slots_available: mask =
-of the ac97 codecs that can be scanned and probed
-> 74426fbff66eea Robert Jarzmik 2017-09-02  341   *                   bit0 =
-=3D> codec 0, bit1 =3D> codec 1 ... bit 3 =3D> codec 3
-> 74426fbff66eea Robert Jarzmik 2017-09-02  342   *
-> 74426fbff66eea Robert Jarzmik 2017-09-02  343   * Register a digital cont=
-roller which can control up to 4 ac97 codecs. This is
-> 74426fbff66eea Robert Jarzmik 2017-09-02  344   * the controller side of =
-the AC97 AC-link, while the slave side are the codecs.
-> 74426fbff66eea Robert Jarzmik 2017-09-02  345   *
-> 74426fbff66eea Robert Jarzmik 2017-09-02  346   * Returns a valid control=
-ler upon success, negative pointer value upon error
-> 74426fbff66eea Robert Jarzmik 2017-09-02  347   */
-> 74426fbff66eea Robert Jarzmik 2017-09-02  348  struct ac97_controller *sn=
-d_ac97_controller_register(
-> 74426fbff66eea Robert Jarzmik 2017-09-02  349   const struct ac97_control=
-ler_ops *ops, struct device *dev,
-> 74426fbff66eea Robert Jarzmik 2017-09-02  350   unsigned short slots_avai=
-lable, void **codecs_pdata)
-> 74426fbff66eea Robert Jarzmik 2017-09-02 @351  {
-> 74426fbff66eea Robert Jarzmik 2017-09-02  352   struct ac97_controller *a=
-c97_ctrl;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  353   int ret, i;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  354
-> 74426fbff66eea Robert Jarzmik 2017-09-02  355   ac97_ctrl =3D kzalloc(siz=
-eof(*ac97_ctrl), GFP_KERNEL);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  356   if (!ac97_ctrl)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  357           return ERR_PTR(-E=
-NOMEM);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  358
-> 74426fbff66eea Robert Jarzmik 2017-09-02  359   for (i =3D 0; i < AC97_BU=
-S_MAX_CODECS && codecs_pdata; i++)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  360           ac97_ctrl->codecs=
-_pdata[i] =3D codecs_pdata[i];
-> 74426fbff66eea Robert Jarzmik 2017-09-02  361
-> 74426fbff66eea Robert Jarzmik 2017-09-02  362   ac97_ctrl->ops =3D ops;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  363   ac97_ctrl->slots_availabl=
-e =3D slots_available;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  364   ac97_ctrl->parent =3D dev=
-;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  365   ret =3D ac97_add_adapter(=
-ac97_ctrl);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  366
-> 74426fbff66eea Robert Jarzmik 2017-09-02  367   if (ret)
-> 74426fbff66eea Robert Jarzmik 2017-09-02  368           goto err;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  369   ac97_bus_reset(ac97_ctrl)=
-;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  370   ac97_bus_scan(ac97_ctrl);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  371
-> 74426fbff66eea Robert Jarzmik 2017-09-02  372   return ac97_ctrl;
-> 74426fbff66eea Robert Jarzmik 2017-09-02  373  err:
-> 74426fbff66eea Robert Jarzmik 2017-09-02  374   kfree(ac97_ctrl);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  375   return ERR_PTR(ret);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  376  }
-> 74426fbff66eea Robert Jarzmik 2017-09-02  377  EXPORT_SYMBOL_GPL(snd_ac97=
-_controller_register);
-> 74426fbff66eea Robert Jarzmik 2017-09-02  378
->
-> :::::: The code at line 192 was first introduced by commit
-> :::::: 74426fbff66eea8e8d1f42c8238c268d1e63a832 ALSA: ac97: add an ac97 b=
-us
->
-> :::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
-> :::::: CC: Mark Brown <broonie@kernel.org>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +436 fs/bcachefs/dirent.c
 
-Gr{oetje,eeting}s,
+   282	
+   283	int bch2_dirent_rename(struct btree_trans *trans,
+   284			subvol_inum src_dir, struct bch_hash_info *src_hash,
+   285			subvol_inum dst_dir, struct bch_hash_info *dst_hash,
+   286			const struct qstr *src_name, subvol_inum *src_inum, u64 *src_offset,
+   287			const struct qstr *dst_name, subvol_inum *dst_inum, u64 *dst_offset,
+   288			enum bch_rename_mode mode)
+   289	{
+   290		struct btree_iter src_iter = { NULL };
+   291		struct btree_iter dst_iter = { NULL };
+   292		struct bkey_s_c old_src, old_dst = bkey_s_c_null;
+   293		struct bkey_i_dirent *new_src = NULL, *new_dst = NULL;
+   294		struct bpos dst_pos =
+   295			POS(dst_dir.inum, bch2_dirent_hash(dst_hash, dst_name));
+   296		unsigned src_update_flags = 0;
+   297		int ret = 0;
+   298	
+   299		memset(src_inum, 0, sizeof(*src_inum));
+   300		memset(dst_inum, 0, sizeof(*dst_inum));
+   301	
+   302		/* Lookup src: */
+   303		ret = bch2_hash_lookup(trans, &src_iter, bch2_dirent_hash_desc,
+   304				       src_hash, src_dir, src_name,
+   305				       BTREE_ITER_INTENT);
+   306		if (ret)
+   307			goto out;
+   308	
+   309		old_src = bch2_btree_iter_peek_slot(&src_iter);
+   310		ret = bkey_err(old_src);
+   311		if (ret)
+   312			goto out;
+   313	
+   314		ret = bch2_dirent_read_target(trans, src_dir,
+   315				bkey_s_c_to_dirent(old_src), src_inum);
+   316		if (ret)
+   317			goto out;
+   318	
+   319		/* Lookup dst: */
+   320		if (mode == BCH_RENAME) {
+   321			/*
+   322			 * Note that we're _not_ checking if the target already exists -
+   323			 * we're relying on the VFS to do that check for us for
+   324			 * correctness:
+   325			 */
+   326			ret = bch2_hash_hole(trans, &dst_iter, bch2_dirent_hash_desc,
+   327					     dst_hash, dst_dir, dst_name);
+   328			if (ret)
+   329				goto out;
+   330		} else {
+   331			ret = bch2_hash_lookup(trans, &dst_iter, bch2_dirent_hash_desc,
+   332					       dst_hash, dst_dir, dst_name,
+   333					       BTREE_ITER_INTENT);
+   334			if (ret)
+   335				goto out;
+   336	
+   337			old_dst = bch2_btree_iter_peek_slot(&dst_iter);
+   338			ret = bkey_err(old_dst);
+   339			if (ret)
+   340				goto out;
+   341	
+   342			ret = bch2_dirent_read_target(trans, dst_dir,
+   343					bkey_s_c_to_dirent(old_dst), dst_inum);
+   344			if (ret)
+   345				goto out;
+   346		}
+   347	
+   348		if (mode != BCH_RENAME_EXCHANGE)
+   349			*src_offset = dst_iter.pos.offset;
+   350	
+   351		/* Create new dst key: */
+   352		new_dst = dirent_create_key(trans, dst_dir, 0, dst_name, 0);
+   353		ret = PTR_ERR_OR_ZERO(new_dst);
+   354		if (ret)
+   355			goto out;
+   356	
+   357		dirent_copy_target(new_dst, bkey_s_c_to_dirent(old_src));
+   358		new_dst->k.p = dst_iter.pos;
+   359	
+   360		/* Create new src key: */
+   361		if (mode == BCH_RENAME_EXCHANGE) {
+   362			new_src = dirent_create_key(trans, src_dir, 0, src_name, 0);
+   363			ret = PTR_ERR_OR_ZERO(new_src);
+   364			if (ret)
+   365				goto out;
+   366	
+   367			dirent_copy_target(new_src, bkey_s_c_to_dirent(old_dst));
+   368			new_src->k.p = src_iter.pos;
+   369		} else {
+   370			new_src = bch2_trans_kmalloc(trans, sizeof(struct bkey_i));
+   371			ret = PTR_ERR_OR_ZERO(new_src);
+   372			if (ret)
+   373				goto out;
+   374	
+   375			bkey_init(&new_src->k);
+   376			new_src->k.p = src_iter.pos;
+   377	
+   378			if (bkey_le(dst_pos, src_iter.pos) &&
+   379			    bkey_lt(src_iter.pos, dst_iter.pos)) {
+   380				/*
+   381				 * We have a hash collision for the new dst key,
+   382				 * and new_src - the key we're deleting - is between
+   383				 * new_dst's hashed slot and the slot we're going to be
+   384				 * inserting it into - oops.  This will break the hash
+   385				 * table if we don't deal with it:
+   386				 */
+   387				if (mode == BCH_RENAME) {
+   388					/*
+   389					 * If we're not overwriting, we can just insert
+   390					 * new_dst at the src position:
+   391					 */
+   392					new_src = new_dst;
+   393					new_src->k.p = src_iter.pos;
+   394					goto out_set_src;
+   395				} else {
+   396					/* If we're overwriting, we can't insert new_dst
+   397					 * at a different slot because it has to
+   398					 * overwrite old_dst - just make sure to use a
+   399					 * whiteout when deleting src:
+   400					 */
+   401					new_src->k.type = KEY_TYPE_hash_whiteout;
+   402				}
+   403			} else {
+   404				/* Check if we need a whiteout to delete src: */
+   405				ret = bch2_hash_needs_whiteout(trans, bch2_dirent_hash_desc,
+   406							       src_hash, &src_iter);
+   407				if (ret < 0)
+   408					goto out;
+   409	
+   410				if (ret)
+   411					new_src->k.type = KEY_TYPE_hash_whiteout;
+   412			}
+   413		}
+   414	
+   415		if (new_dst->v.d_type == DT_SUBVOL)
+   416			new_dst->v.d_parent_subvol = cpu_to_le32(dst_dir.subvol);
+   417	
+   418		if ((mode == BCH_RENAME_EXCHANGE) &&
+   419		    new_src->v.d_type == DT_SUBVOL)
+   420			new_src->v.d_parent_subvol = cpu_to_le32(src_dir.subvol);
+   421	
+   422		ret = bch2_trans_update(trans, &dst_iter, &new_dst->k_i, 0);
+   423		if (ret)
+   424			goto out;
+   425	out_set_src:
+   426		/*
+   427		 * If we're deleting a subvolume we need to really delete the dirent,
+   428		 * not just emit a whiteout in the current snapshot - there can only be
+   429		 * single dirent that points to a given subvolume.
+   430		 *
+   431		 * IOW, we don't maintain multiple versions in different snapshots of
+   432		 * dirents that point to subvolumes - dirents that point to subvolumes
+   433		 * are only visible in one particular subvolume so it's not necessary,
+   434		 * and it would be particularly confusing for fsck to have to deal with.
+   435		 */
+ > 436		bool delete_src = bkey_s_c_to_dirent(old_src).v->d_type == DT_SUBVOL &&
+   437			new_src->k.p.snapshot != old_src.k->p.snapshot;
+   438	
+   439		bool delete_dst = old_dst.k &&
+   440			bkey_s_c_to_dirent(old_dst).v->d_type == DT_SUBVOL &&
+   441			new_dst->k.p.snapshot != old_dst.k->p.snapshot;
+   442	
+ > 443		if (!delete_src || !bkey_deleted(&new_src->k)) {
+   444			ret = bch2_trans_update(trans, &src_iter, &new_src->k_i, src_update_flags);
+   445			if (ret)
+   446				goto out;
+   447		}
+   448	
+   449		if (delete_src) {
+   450			bch2_btree_iter_set_snapshot(&src_iter, old_src.k->p.snapshot);
+   451			ret =   bch2_btree_iter_traverse(&src_iter) ?:
+   452				bch2_btree_delete_at(trans, &src_iter, BTREE_UPDATE_INTERNAL_SNAPSHOT_NODE);
+   453			if (ret)
+   454				goto out;
+   455		}
+   456	
+   457		if (delete_dst) {
+   458			bch2_btree_iter_set_snapshot(&dst_iter, old_dst.k->p.snapshot);
+   459			ret =   bch2_btree_iter_traverse(&dst_iter) ?:
+   460				bch2_btree_delete_at(trans, &dst_iter, BTREE_UPDATE_INTERNAL_SNAPSHOT_NODE);
+   461			if (ret)
+   462				goto out;
+   463		}
+   464	
+   465		if (mode == BCH_RENAME_EXCHANGE)
+   466			*src_offset = new_src->k.p.offset;
+   467		*dst_offset = new_dst->k.p.offset;
+   468	out:
+   469		bch2_trans_iter_exit(trans, &src_iter);
+   470		bch2_trans_iter_exit(trans, &dst_iter);
+   471		return ret;
+   472	}
+   473	
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
