@@ -1,88 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CA63D540
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 14:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28743D392
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 14:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705933739; cv=fail; b=SG+mSDIxHW2UTt5F0G95M048EsS9YI/rfkFDsvwBi+FvjdSDOUS6EYk87kZB0gtJW4RDYUYMrujQXj0rorhW+5cO2xl3EjjvuoJT/6wPDlwmp654QV2ToHSkzY4uLuGW0HlHQqtDFnofvHKKf6M8SrcjcEtIvhazBbZDHxnyYyQ=
+	t=1705933790; cv=fail; b=cLJWD2HekDBWavXNbXaLXrn2i7XWgckHMoxDGHqkNLIlj5BdXmLQ9aVBztShsonn9SARxpr+phG6It3bvJyBI1SmT2qVwOmwroqxy4T7oN9+gxzEwVYtsKpMBDXoY5MUL+4JrqRzJD36RukemhvFKDBSEr9jABlIHfrGOhLbOUg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705933739; c=relaxed/simple;
-	bh=DPgex3bH+pUcWloHQ4p70aQYdjnpoNZVobVsTdolQ2g=;
+	s=arc-20240116; t=1705933790; c=relaxed/simple;
+	bh=/KWvzsHYO3+IoI+wdAfZeT2R3Fd/cKHWhkKoS2nhVOk=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=i4vrkaWHHNrMq+dGSFprITLwxeG2Li2269foe0MsDlN7d1uSGD3K5ihsQmLddYYYmWHYJCYJpbgftTFBtkh5FX5F7LXPcXRNhVw0nOtctM4pTpQehuTobLWexzMG648EXM0MdNBHKPO/4cJ/VuJsgh0HiCgeQcaX/XjZ0ZCgJ8E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTy3ZsLR; arc=fail smtp.client-ip=198.175.65.12
+	 Content-Disposition:MIME-Version; b=pKjyovFrRHvZRZxjWWuxHTfbhDUPEjg8wV2fRafdiFitjTPQoKsp3JAaU+t8n4gDPBPZFzzQctAbsAluEOr9cXF/vPH4aduUwOeGZJf2QErL/+eAekM3bny2wy348ME9MCPNl7F1lFyRmjzf2Ml6+Ng56QHpAgabLe+zQnYck3s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceMcoAAT; arc=fail smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTy3ZsLR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceMcoAAT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705933737; x=1737469737;
+  t=1705933787; x=1737469787;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DPgex3bH+pUcWloHQ4p70aQYdjnpoNZVobVsTdolQ2g=;
-  b=VTy3ZsLR1dn4jCzGGAeSByhfsq02Y9rqwZlEPxc4XnMCKEqOVLqtkC5G
-   7GOjU9LC06UllJmngYdcjhKkbgG2L+Ze3l1U+L9CW0OfCNGaTiHROERco
-   oeEX9oPymaAuAhnMNR3N/O8RjXzcXbOKOv8aXXT3X7OnSUwHi3yAg0v51
-   n3I8Fi7pSDLQZqJ2gn7+l8eOlXz84RpkhFpaIepxKE2ChoaulBqC60owr
-   RDnSEtk/1Eelh32HGw9G6P53M7s/lf27b6B7X433t0GPkVg3ZgunQFf4R
-   wtXQzTup5sYMVLiP9iLOw8ltfouNsulQRC3YK/SojGgzyaH0tiwgbOrgQ
+  bh=/KWvzsHYO3+IoI+wdAfZeT2R3Fd/cKHWhkKoS2nhVOk=;
+  b=ceMcoAATmR6ORb0I2aF64cSfg9GYQfFuQF8UBvztFcjxszC+gCjG3vNb
+   NOEYotvi7q/9RMr71hafzYUcDkhKiIxCo5IlIiNBpEJf3r5WyKICF6xTc
+   f1je6HApyLxqLEBTPljurWpKShFO3yELP+PMl52p5v/6+bTvXyMLur9hI
+   HgUCGVd/xdXmT33ig0W/WUQ+pMUEj1Ai50qFJmCxS54KK6iCw87xrV2l2
+   sa7J04OLgpGmYnVFPXRuv1KVqbWTxYMKt+ftHXFjbWaTjBQ08Vi1dUfvP
+   nN8Z317INBeD5Mshj+2q9gfm8P03UQKkEL/6LfEG99za7wjirqRSrgdbR
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="8591869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="1109168"
 X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="8591869"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 06:28:56 -0800
+   d="scan'208";a="1109168"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 06:29:46 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="904867477"
 X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="1202804"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Jan 2024 06:28:56 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+   d="scan'208";a="904867477"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Jan 2024 06:29:47 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 22 Jan 2024 06:28:55 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.35; Mon, 22 Jan 2024 06:29:47 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 22 Jan 2024 06:28:55 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.35; Mon, 22 Jan 2024 06:29:46 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 22 Jan 2024 06:29:46 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 22 Jan 2024 06:28:55 -0800
+ 15.1.2507.35; Mon, 22 Jan 2024 06:29:46 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZkfrjcdsXoAmQLNpnBv41D28oNwhZ/hABg8ldUTe2e+cTd4IxdhMRaQ+U79ZpwVKegrk8Zw1L13g/oqKTezQIzLL/kA9oxF/o3Pzf/0fyo6yQnYrTx+aSesKv0v20lhtBk5kkqyxFelLPtKDdkcCqPsbjX9qg6e7thWSkTku+tFmTFzw27xhM4VZvNSUqA/hS9J3/eei0T3d+GWRBGdhepK5CZAG9P4XLfI3yfHRRqv8wK7xOx/Lz1B5PLrfo9sNU2yL2MZ08BXbz38dcZZXMSULD+CfQpm6q0deZpzL6j9foj/8fNhPV2ZYqtomxPT3Er3JB4s5DA5/j7wjwTLptA==
+ b=g3nnfS7M3/+1cirym+vkKZHnh/rjTpgeQDxpQPfJSRcgDZD3X3PX1dQosXyvfSXToT9weMt+5N0+y4WGLLdxK4kO+Q8xCdpIjGwb5phHJByGSMWZdjmgX5eUy1WleZ9/klAzZ7we0p8qS6eyKBsvuHs2k3ffpg2QtkFCF6SgDq3rzeM6WD5kOr7PAU4W+KPjWImTEla/Sj0cY5hXCy2+e+GrX5SAHYgJPQLizXvc2m93AeGpxVVDa8sOgBAGg61v6GBN4r6/Wxeh/czbOD8cKlyf0x5WhXCOMILoVKH5yrOBjWxncPngVL8IXrRkuKt+SIEzd/8rj3jZ9TQOJ5tf+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HS1JV+heNKmZJnsqPwXNZHFKGVfkyBmgio1SpJNyCyI=;
- b=CUjuYBW6GuF+4ZnrvSYZhEVqjmDPt9f8H1KbotpM1oi/AcjxuTN5ZXO85lF+ssvztmVFH0NTVNngxPdXIhuxwf6j1ViNwKxvfm3MP+siHTuJm77fqpTs0Mj02LRHklKmtYNPrNw602Dz4i+uFm0zq/pkrVgPot/U0c9ilH5DoxYaVZg2xJoPnAmE/vrkekfo8UMFyiGwlC6Y77sj9MiObcE1uVpGptkk6nR+yneqPn6LshWPsQdUOBalu9zNv3O+BMD/zjf99TNiiG0yYase9GCqb7gvdvFXRb1WUoZZQy5fMBdx6N/hjS35u/1MoHQgxXVaVC0SBAi8Kzi9Y57lMg==
+ bh=SHi8M7WS0HSbHNFWQ822RyIq0/sKHr96pxhNZMr98m8=;
+ b=Z/wX0++pokXV+BMkIdHsriSU3rMguoq8+SLtPcJgg4ap5Ux0NQk59Wn6LtiEFMEI+A7Q4d1VreyDPtp75NR+7Gj/mvb33c/TWNmOFIYgcKtq12ZgYRlPNmwZhENE+SBA19ha8FazwniVj99KHT89Dnijm1Elm0gMu0X3YuKg0HI0v7KlYxSOVjfeFVHtTX57qHhbj1v/XOYgXMYUYY48Ibw977Rpye1g7bRhMNtICC7AxZQHK/qCZ3ObneDdFbk9Y6Mi1vgNwu8O+zRq35z+p+HugRLoTwbo+YzdFh+oezi46wONlaJUno2NSGxt01rh4ENMnePDuV2N/ilWSjRTGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
- by PH8PR11MB6564.namprd11.prod.outlook.com (2603:10b6:510:1c3::21) with
+ by CO6PR11MB5668.namprd11.prod.outlook.com (2603:10b6:5:355::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.32; Mon, 22 Jan
- 2024 14:28:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.34; Mon, 22 Jan
+ 2024 14:29:44 +0000
 Received: from CH3PR11MB8414.namprd11.prod.outlook.com
  ([fe80::ed34:4cf2:df58:f708]) by CH3PR11MB8414.namprd11.prod.outlook.com
  ([fe80::ed34:4cf2:df58:f708%4]) with mapi id 15.20.7202.034; Mon, 22 Jan 2024
- 14:28:51 +0000
-Date: Mon, 22 Jan 2024 22:28:44 +0800
+ 14:29:44 +0000
+Date: Mon, 22 Jan 2024 22:29:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: <cros-kernel-buildreports@googlegroups.com>, Guenter Roeck
-	<groeck@google.com>
+To: <cros-kernel-buildreports@googlegroups.com>
 CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [chrome-os:chromeos-5.4 4/26] dtbs_check:
- arch/arm64/boot/dts/mediatek/mt8183-evb.dt.yaml: Warning (pci_device_reg):
- Failed prerequisite 'reg_format'
-Message-ID: <Za57nPzEpITa13uF@rli9-mobl>
+Subject: [android-common:android14-5.15 1705/27545] aarch64-linux-ld:
+ v4l2-mem2mem.c:undefined reference to `v4l2_event_pending'
+Message-ID: <Za570dFBxf7qLJCg@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0166.apcprd04.prod.outlook.com (2603:1096:4::28)
+X-ClientProxiedBy: SG2PR04CA0151.apcprd04.prod.outlook.com (2603:1096:4::13)
  To CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -92,86 +95,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8414:EE_|PH8PR11MB6564:EE_
-X-MS-Office365-Filtering-Correlation-Id: d9257139-c658-4021-e2f1-08dc1b5673f2
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8414:EE_|CO6PR11MB5668:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17e6ad64-3468-44e5-788e-08dc1b569388
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zdw3Lb15zgaZ38QrkMnpNcPd0lozYuKsY8xgY2fdDDKyzTMYMMwKNBkCYlqat+Eyqx1Uv+VSUNX5tr9WtO6jdNQe8jRkkwEZSO/keI2x0VqPqNVKCZ55jfsVo//MY2d9yJevWuYL1y2diBbGmJSf/1zj2eBRuDyKkEGIAIlCqq6jhAb13ODhXyenLXwHQfyYXRTZUMgi3DfAEPIQxDA1Ah1Nm6eFOOSIycqVAT5pC1S1o9yCCWdR1TPDMNaLO4qvdaJtAIVP9mOn0DnVN9JGSK6qpOER8vh6hxBzyuQSZUuU4sLMSi/VMol6yBB9V4JzMw6hdeyRCooNFX0OxNfdYXCGu0WlRBQgdLcM6bfJ13D9V3yyIAuyryhEb/mav3FF+vXPps9uSQIYBGUbuaRlX+fbCj4chVa22HnSLqUUvofIjVEXs2PalvkJALebnihfmDh9I9UPHTiro2V/Msz96kacjwf8OgcnvrOWv18oQSNPzFzRjJV2l3cZkB+woDe2NA4/9GMcb3upb1fCZ+QGb8NNuSsdw9PPpg8HUDq00MuVOi5je/eeE6gY8NmnLLjenbgsCNhFh47c3SCt+n5GKYX6CCflo1YL/gBrhWNhVPRVUdGAq1m5hsz7Myqfj4ysB1aou1UQZaR+XUCvTof4zksdfM+E4kDjdJoXN14vzmw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8414.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(376002)(39860400002)(396003)(346002)(136003)(230922051799003)(230173577357003)(230273577357003)(1800799012)(451199024)(64100799003)(186009)(6512007)(6666004)(6506007)(5660300002)(9686003)(66556008)(66476007)(66946007)(38100700002)(8676002)(8936002)(4326008)(2906002)(316002)(966005)(6486002)(478600001)(6916009)(26005)(83380400001)(33716001)(41300700001)(86362001)(82960400001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: gACjL25E36WvTk/xHg0mfaILvmlQqPNGMj9COtVaToCtnybtIEFE3kkCeNnYbBlJG8imU6/gKNRGyjkk1WfpwNacr0+UtcxgU6g/otS7wCcvDz2j3AnwH+KOtloHfPdZyXu3D1O0UTu2Siz0t9SqFSc6ajSr+d9RWH2m9r56FEQw4vxV3I9Kpt88of1b6dfwWWAMg+nYN0OmJsgvmdEUsVdF6ZnheKfigQVtcNqVd4ILH5iMgBkzm2VsxdP7z4xd6L44zHBqS9tR3ePKrrG7VjaCRETVgBLSnt780FRIZZfxT9rA7SWrx2M3pi2kv/y3ki2xKB6H2NEUXZlbYUd7ygxlSVi2Xr9XQcfYvbYlNO0KwVfOicz86zXqN6rbkECdAfOTDqwnScAWsksjjIWOgA5fX1zFRfJfTDom2CfaWNU+Ls5T2ouc1fwd8PFkbeVX24m4ulaOkhGRME6JmJjDkfG+MLHeubowZQjD+Xm0CPALgvgo6AJVU2+R5td362B6jelDmcA8/BLyTM2Cpc8I/oFBz1u3fGnD/zXu2+LyX/Z6rxPqAYwCXCpkcb65VGtSf9M8B2Q/e/2P9xtL/nNlDjEqCSp6OjFFkYiCStY3kDVDSgXitskxz9wO8jbfe2bKWhnJFLiOQFy4uPdnEeT6Sf/qgv3tQXq92f8OGb44hG2KSg9PSFsqZeRvbZ9unICf
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8414.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(136003)(39860400002)(376002)(346002)(396003)(230173577357003)(230922051799003)(230273577357003)(451199024)(186009)(64100799003)(1800799012)(86362001)(6486002)(966005)(478600001)(26005)(33716001)(83380400001)(2906002)(6916009)(316002)(9686003)(5660300002)(82960400001)(6666004)(6506007)(6512007)(8676002)(8936002)(4326008)(38100700002)(41300700001)(66946007)(66556008)(66476007)(81973001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2DsEcdAraJ1uAYwJydOTWV0lBSif8SG2rvPvzx3iDHzCZkU8pgKjgO/LGoWH?=
- =?us-ascii?Q?TWmXBEup4xev/spCKjYfhMn3u+2tAp1VAgBnJc0GACO+E19eAPhhCdXu/xYT?=
- =?us-ascii?Q?leueaSvbFZg4+ZpZabB8IY90U0Ca/Ng9OudN2xkqlP8tRM9Kou5sd4cXhxwS?=
- =?us-ascii?Q?iD5jZEVFn6wP6S10B+TKb2Jj3jC6ktOG+HV20PJ4QDvGXp8SiE7Kih5VVrWq?=
- =?us-ascii?Q?Ny/cmOSl1hay/7OG9wflqNdNoHn0w37cl1T717QjFHS/OE7LtpWwg3ZC7ur5?=
- =?us-ascii?Q?aCic8J0MNbST2XPC4RpEOQl8OMpZJVEqKgPAziovK9fXTcgalxfjPKdU0aqE?=
- =?us-ascii?Q?zrrEcQrQub0lEcbyPSrETDTr9RwgedhEI9pCludsKBR2gJS7iF4OtdLbp/QO?=
- =?us-ascii?Q?h+wKeV4WwHiKb18I7hXYNmuRKSeoj1Nm4SqeXS7VH+LxBmcYZ5XpjzX3R9IM?=
- =?us-ascii?Q?Nv+zuhAsWp1Ib7qN7oJvvqYdW0Luv5FFsi++BR8eZBByu4n/QPWbK7dSHQ7C?=
- =?us-ascii?Q?eWLqUMuEhDnDtnMBE7BPI7aQtUpkDccwWR3csvkHcdVfnUMyk9S9P0WRqLru?=
- =?us-ascii?Q?PpS4WmEn+57OfYirq36Cz8B68w1bkihDTMY7N/Tq79D9BboeacQT90v4f3Mg?=
- =?us-ascii?Q?BDDye30MUpSSrBKdCI1RMUOXTWvHMvfPH5pz9NKwRtsWFLMX8ruxHXwE2lxQ?=
- =?us-ascii?Q?auY6Z4u3mPrNc25Z9YF1hdK7lIa7c+lWJMx9y0rXqReVaPYEZiDRYy7iBlkW?=
- =?us-ascii?Q?OphYXiF5qLN2Byj+lFTq+uMKDRvsMU8otzu6u+I6/8f7skRAoF7AODj/0xEy?=
- =?us-ascii?Q?XiU8H+snwX+SVtJH/yBNKlsohzmcIFGe/0fDjhmP4Fsy2Com0D0YtBNyPATb?=
- =?us-ascii?Q?IO0PW7DhV44eERTJEWIWcTc0/pWrCSIapgAALn89+rc///e0sbvYSlUn1HV7?=
- =?us-ascii?Q?Ui9Q9Au2UrkWF2S/H7aQAbmhpHo8sDXWljWYUkmDAyGU9OFb3NlqZlfEn4Y7?=
- =?us-ascii?Q?OOUYWbVSESj5F+jDwZg33ZcCYP8GMeTUyWeuLOD2+XZubHHGPdM4nf5zGXLy?=
- =?us-ascii?Q?0e+AiY4SL0trLBsgV1J3/RrNAH4AzAVUIt5Qs9WwpO48cYG554SwkCHpA2sa?=
- =?us-ascii?Q?tq1lp1MaRE6CSNGMq3L55+2zLX+vvAj3GArfhmijPKq43uPH7T+auZf518KL?=
- =?us-ascii?Q?WrocwcjlYMGhBwMbWzwr3pPjsiyb+0c3TfRJedCYaIJe2CfuSLhy1P1UB7Tb?=
- =?us-ascii?Q?1WgLkk50ygfS/1HINWHhfySS/W83mDsBuleeTaN6oUoEqOXAYfZdD7gfHN1m?=
- =?us-ascii?Q?XI+BbShB9oopzx0crQoceDc9SXwuwJQ/imRxoUPQhlj3peZqoJ3/G6oiD3yj?=
- =?us-ascii?Q?P1YZn+SI73U0CJsKfqhQ6kfAHHuWJl0VksPaxjzY69WCwtpWNuoe+AJI95FE?=
- =?us-ascii?Q?LOW7Eyb51CtOuCSvsu451mi8aC1DFS/YmnXS6NfgENTQFbq0VgvxSeX7Y5SB?=
- =?us-ascii?Q?jIpXexScNFk6DhJuMBpn4EsUrWc4238H4zXYfSUngRvON4wMUQtw/4g3iE8L?=
- =?us-ascii?Q?CtCOyPuYxFsbjomxQxbjg7+H33U64+YQ/PYUHi6C2JGqFT78Bw3uc0hXu2PR?=
- =?us-ascii?Q?xw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9257139-c658-4021-e2f1-08dc1b5673f2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DSquDb69ttdsBU0z57suCLixAmQBFPC9OrpTAmt/dt2imfWSOEeWM36mkpZ5?=
+ =?us-ascii?Q?miT79ajNiL6JhyIVsdv5cNc2620piVabc3sDEAeFXcmYsunDjCXBYHTT43tk?=
+ =?us-ascii?Q?IljzTMkurDINx2f0XZEHBTngKGc8512feJKrd3yCg/mWkMwQ7p2vUIOD113h?=
+ =?us-ascii?Q?tzWBz2A6pBQRBPrKy21CmAMUXGrtafAiuupmNPkICjT/c+3/0KNt2LrwDBuh?=
+ =?us-ascii?Q?BI/wayfvk7Tq1cpns5QXoL4Ng0ZDgQLJcdrKQkqnTQ7UWa++VrbqdQHkKXFb?=
+ =?us-ascii?Q?vU60JlclOMRCfCQAW8Ef/Fy9mBHkGCq1EMSq621HlK/d/OD1YtsN4lPgKnv+?=
+ =?us-ascii?Q?Jac6BqYSJJ39TRvV4xnCICOeiZIO/l0ei1HYVlisop+s4Kna94PA2zUwg7sJ?=
+ =?us-ascii?Q?KSk/Xx84GTm+ZAeW4efhxuQeNReDDxfw3MYYP7XibyqlrxUMi5qXWZsEs8eq?=
+ =?us-ascii?Q?iARFbpHhesy5U6j+TH4Y0MKjqDJFm3pnjxtaI4egrsU4c5y8i+a9AM84mc5m?=
+ =?us-ascii?Q?MfI0mn0yR+O5Mg3tHYQ9uBAaDmtdwv/3VDLrlG2ScQ9JBp2nH7tvWnBiLyAj?=
+ =?us-ascii?Q?dbxGEyMPZsFn8VmqPgC1l3uIYDc0YDXA+e7XBTLmOHhN3fpwDhsHI9ts4aRu?=
+ =?us-ascii?Q?7AUiZIUjNvaTrJZnJ4M32LaCF6QJ7t0wKYkb8SqWTw2raJX6uc0VLeS5PuA1?=
+ =?us-ascii?Q?XxRdu4outk5Z6o2OX5UjAgctqVMZbf/cy6Kb9RMOi8g7uS73jSoJPE5vGS3y?=
+ =?us-ascii?Q?/cH74f6jCjlPPqcWuEKOJpidOPWVHV6u5CLZgwLhp4CuD1Th46y7khfasheq?=
+ =?us-ascii?Q?Gg8y60w3trx/vBcQRRvEQWX6R/7g0jkzHYDcaTz7+pQoQ8dUEy3iDWcQkjzn?=
+ =?us-ascii?Q?xhGeKrgnnZb1uUtZcsi6Qd4dt25uW43i+5m83TVK9T7qSmI0noCcZoLLbmd5?=
+ =?us-ascii?Q?XfRbvEyFNO2nZyLFYLDAQpHjbFtU0yqEX2B3c1WXrN+6YgUhlW4w+WC02WQX?=
+ =?us-ascii?Q?FPLg47/X3dbLhBdqXf5iNudPlCXBaQizggsUG6hghkGcgUA9dz0VcBzGRoJf?=
+ =?us-ascii?Q?aqBO/7Ur/QMD1dbpRvQguDZgzlkyTMjqkTaSY7tKArWQUIHbQ1S0DqiaECW4?=
+ =?us-ascii?Q?VfqPjWOFhfFI6nccZRC99wNvkzVawiNFycEE407bJty6SnXJNPZop1o24RmE?=
+ =?us-ascii?Q?ar7zdu9Hy0H/gAWrY6dQOEd0d43RZhQ2+cNaZexz0lxelX/UAeVArOdhEdgB?=
+ =?us-ascii?Q?kI59DAJDyO8YpsQUCZnw63/f0OzyJJ8qXv+ZYh/wxykLp3ZppxD5uKnMtYgc?=
+ =?us-ascii?Q?A2FWjZE8V5gbl2Q/f9bB+5/nAa5t5X0aOS2roKDKkDJ7Z0z+Gg3yd/POHj82?=
+ =?us-ascii?Q?sjLty7chOlRCSo0LuIYBNKG/HlHu305HMKZxSjpY3GvahOMhYJL0zmPLUuAS?=
+ =?us-ascii?Q?fTAwNijQnwrmrZGwsMfLYbO0XUaptlSt8ZyNfCX1QA9jVos29cb6m4jdTKEB?=
+ =?us-ascii?Q?TWo5vkfbm65dc++adA6frV+Zx5y9ZhPLZT+mtpRzFFdy1AdFJ7r+TPc1LaL2?=
+ =?us-ascii?Q?uNpRahtEZLHkbu4vNKg69XK7FfTKbjt+Ixs+G7qERBo/XfFfaa7RVIlYA8wg?=
+ =?us-ascii?Q?mA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17e6ad64-3468-44e5-788e-08dc1b569388
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8414.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2024 14:28:50.9066
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2024 14:29:43.9048
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iG4tEOwHn6t4V5KrbiYy0eJwJx+K5azVwmTIJZ30/Dcq3aAJAdOKZ8lFJAlsV3pCVOJ6qu+zfb75NUYLVbOTRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6564
+X-MS-Exchange-CrossTenant-UserPrincipalName: kAFhHhD7LRDln/Ebw3I9XEGhTg3UspXpB+LmUH+kNjZvIjcPbJmmMWq07u7mzyO3f7rzQovI+yQGRq1Iow17Fw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5668
 X-OriginatorOrg: intel.com
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
-head:   d0f9d7ffac45b1b5471e3e8e1aee6b70c8be0cc6
-commit: ae731dda9a603073b32b2daaafdaea6d294acc45 [4/26] BACKPORT: FROMLIST: arm64: dts: mediatek: Add socinfo efuses to MT8173/83/96/92/95 SoCs
+Hi Maheshwar,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   57ddb1ecd70e0e064b8dc36d00140b131702f0ed
+commit: 1d74cced13c8a1bc8c2808697d4ffe73bdab9b19 [1705/27545] ANDROID: Kconfig.gki: Enable media controller configs
 :::::: branch date: 34 hours ago
-:::::: commit date: 8 days ago
+:::::: commit date: 3 years, 3 months ago
+config: arm64-randconfig-004-20240117 (https://download.01.org/0day-ci/archive/20240117/202401170835.Q3zpvP0y-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240118/202401181235.njZUy2u3-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401170835.Q3zpvP0y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202401181235.njZUy2u3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401170835.Q3zpvP0y-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:718.5-23: Warning (reg_format): /soc/efuse@11f10000/socinfo-data1@4c:reg: property has invalid length (8 bytes) (#address-cells == 2, #size-cells == 1)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:722.5-23: Warning (reg_format): /soc/efuse@11f10000/socinfo-data2@60:reg: property has invalid length (8 bytes) (#address-cells == 2, #size-cells == 1)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:172.36-179.6: Warning (unit_address_vs_reg): /cpus/idle-states/cluster-sleep@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:180.36-187.6: Warning (unit_address_vs_reg): /cpus/idle-states/cluster-sleep@1: node has a unit name, but no reg property
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dts:208.23-241.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/mmc0@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dts:267.23-285.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/mmc1@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:744.26-750.6: Warning (unit_address_format): /soc/usb-phy@11f40000/usb-phy@0700: unit name should not have leading 0s
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dt.yaml: Warning (pci_device_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dt.yaml: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dt.yaml: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dt.yaml: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dt.yaml: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:717.21-719.6: Warning (avoid_default_addr_size): /soc/efuse@11f10000/socinfo-data1@4c: Relying on default #address-cells value
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:717.21-719.6: Warning (avoid_default_addr_size): /soc/efuse@11f10000/socinfo-data1@4c: Relying on default #size-cells value
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:721.21-723.6: Warning (avoid_default_addr_size): /soc/efuse@11f10000/socinfo-data2@60: Relying on default #address-cells value
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:721.21-723.6: Warning (avoid_default_addr_size): /soc/efuse@11f10000/socinfo-data2@60: Relying on default #size-cells value
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dt.yaml: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dt.yaml: Warning (unique_unit_address): Failed prerequisite 'avoid_default_addr_size'
+All errors (new ones prefixed by >>):
+
+   aarch64-linux-ld: warning: -z norelro ignored
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_poll':
+   v4l2-mem2mem.c:(.text+0xe58): undefined reference to `video_devdata'
+>> aarch64-linux-ld: v4l2-mem2mem.c:(.text+0xeb0): undefined reference to `v4l2_event_pending'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0xfec): undefined reference to `v4l2_event_pending'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_ctx_release':
+   v4l2-mem2mem.c:(.text+0x1374): undefined reference to `vb2_queue_release'
+>> aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x137c): undefined reference to `vb2_queue_release'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_create_bufs':
+   v4l2-mem2mem.c:(.text+0x1884): undefined reference to `vb2_create_bufs'
+>> aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x1894): undefined reference to `vb2_create_bufs'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_expbuf':
+   v4l2-mem2mem.c:(.text+0x18d4): undefined reference to `vb2_expbuf'
+>> aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x18e4): undefined reference to `vb2_expbuf'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_ioctl_expbuf':
+   v4l2-mem2mem.c:(.text+0x1928): undefined reference to `vb2_expbuf'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x1938): undefined reference to `vb2_expbuf'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_ioctl_create_bufs':
+   v4l2-mem2mem.c:(.text+0x197c): undefined reference to `vb2_create_bufs'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x198c): undefined reference to `vb2_create_bufs'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_dqbuf':
+   v4l2-mem2mem.c:(.text+0x19dc): undefined reference to `vb2_dqbuf'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x19f8): undefined reference to `vb2_dqbuf'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_ioctl_dqbuf':
+   v4l2-mem2mem.c:(.text+0x1a48): undefined reference to `vb2_dqbuf'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x1a60): undefined reference to `vb2_dqbuf'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_prepare_buf':
+   v4l2-mem2mem.c:(.text+0x1a8c): undefined reference to `video_devdata'
+>> aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x1abc): undefined reference to `vb2_prepare_buf'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x1adc): undefined reference to `vb2_prepare_buf'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_reqbufs':
+   v4l2-mem2mem.c:(.text+0x1b34): undefined reference to `vb2_reqbufs'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_ioctl_reqbufs':
+   v4l2-mem2mem.c:(.text+0x1bbc): undefined reference to `vb2_reqbufs'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_ioctl_prepare_buf':
+   v4l2-mem2mem.c:(.text+0x1c14): undefined reference to `video_devdata'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x1c44): undefined reference to `vb2_prepare_buf'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x1c64): undefined reference to `vb2_prepare_buf'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_querybuf':
+   v4l2-mem2mem.c:(.text+0x1d70): undefined reference to `vb2_querybuf'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x1d98): undefined reference to `vb2_querybuf'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_streamoff':
+   v4l2-mem2mem.c:(.text+0x1e98): undefined reference to `vb2_streamoff'
+>> aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x1ec4): undefined reference to `vb2_streamoff'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_streamon':
+   v4l2-mem2mem.c:(.text+0x26a8): undefined reference to `vb2_streamon'
+>> aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x26cc): undefined reference to `vb2_streamon'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_ioctl_streamon':
+   v4l2-mem2mem.c:(.text+0x2748): undefined reference to `vb2_streamon'
+   aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x2768): undefined reference to `vb2_streamon'
+   aarch64-linux-ld: drivers/media/v4l2-core/v4l2-mem2mem.o: in function `v4l2_m2m_qbuf':
+   v4l2-mem2mem.c:(.text+0x28f0): undefined reference to `video_devdata'
+>> aarch64-linux-ld: v4l2-mem2mem.c:(.text+0x2944): undefined reference to `vb2_qbuf'
+   aarch64-linux-ld: drivers/media/common/videobuf2/videobuf2-core.o: in function `vb2_core_streamon':
+   videobuf2-core.c:(.text+0x4d08): undefined reference to `v4l_vb2q_enable_media_source'
 
 -- 
 0-DAY CI Kernel Test Service
