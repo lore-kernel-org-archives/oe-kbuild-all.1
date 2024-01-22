@@ -1,33 +1,33 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F1E1E49E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 13:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E803D0A9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 13:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705930734; cv=none; b=DZGPMWbgaAJ/EdOHa7iwH8PUBkQwhh97nv95TDX5flakouxYwtH6jO6qkfPbftSnEUXx9uReaehwkpVxHGyHNb4hKr8jL1cZ4owpQ4bCxSvFtYCQO3NmOU8Hr9qwwbXyhnz4zVza59ie+TuMX1c3GrU212I1LUCDBmNn5o1Fv0Y=
+	t=1705931403; cv=none; b=kQ4i28Laozy7b7XZfhYEoGdAhaL2dltoznhGrY/oBCHaH9v8QrlH2fZcM584wW0iZA0VKCdvkjduzTs/kfnmOerRH+aC+Rv8LmSqgEvvqb9kMQ6wCIOLYh0MLSXtDlZLjfDlpZGefCIpF2oBDZeCZ5Xb/eak66nC4OAs1+4wj3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705930734; c=relaxed/simple;
-	bh=DACgUB1Uom1ZgcvU2IhLE/aYHz5zpdsWAWKfHhFQiSE=;
+	s=arc-20240116; t=1705931403; c=relaxed/simple;
+	bh=AsR92Qul/kPzWl4F8IsTgCXXpCWXZzhpxlRkzUU9C5o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QruBANPVAKye5DDhmbU4LmwR4HSEJS9uuectJFba4YjNLx3hY2PElEM45tVBTUZNy/XdwCXNxfSQO7k3ulK4uTuHtj2w68h7nUZ5fOsGxr/lKU1bW02xeLVTILZWBAZQGHd2zN7CmzKIB8245bHGuzSkZp7i1RbedCOyNLH2vCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Zn111FzX; arc=none smtp.client-ip=95.215.58.188
+	 In-Reply-To:Content-Type; b=LNUiwEiml7hLu94YeuiNoBjKUG54bT/aIdKlXURPUctuVGaCBb8sbfc1GLe387n7Nv1T3E8XzIghcguvyZihFgdKY12y0d6mOvorPb4BTMFUyIbBk/KLRqgVKRgpw6e62XKGidYsxzw/G3C4M6ZChuqpWC3DWmOpI0h97eTYVaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iME5k7KA; arc=none smtp.client-ip=95.215.58.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Zn111FzX"
-Message-ID: <6d51b75b-dfb6-4eda-9f48-ee83d4969b23@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iME5k7KA"
+Message-ID: <8f844ac1-eecf-4ace-854e-6d7d7aad9ad6@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1705930729;
+	t=1705931398;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JmnrHKbXAO3TGd6Zu20JTundsEm2C5LjZ6ICvCGjlKk=;
-	b=Zn111FzXgVRxxERGxjEQ2yi7Kvq6L9uBqjXiJxfgBeF9DrIs8V4bknYIa3Tr+pd69D5wCz
-	YJV097d/tsfHV3Io7/QNG3Obzie+mZwQBQxFbCkpYh+vxOo4KJ89a4SJ7vehgcSlrS0OGI
-	ugprWV8IANaMI/SQHUAbFYHu5s7pN8M=
-Date: Mon, 22 Jan 2024 21:38:38 +0800
+	bh=RDkdMirtZyp8HbyqNelbeKkEckAGsYRT6v80Jg0SByQ=;
+	b=iME5k7KAW/imH7KHcDV3Z2xsVy9NAV+qsGCly68RrzMCyZnq9KmhI0lmjy/6nubBnzLDVp
+	tum9z0GnJgzJAzSnOlYHIjpFme1xtNFKACVR/NBDIbHVFkK2vkx9Tz84lv1YYY+AcOD3qQ
+	tLPQQxMiXb0UcmNN11i4L4r1VO5OpNc=
+Date: Mon, 22 Jan 2024 21:49:54 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -37,16 +37,16 @@ MIME-Version: 1.0
 Subject: Re: [linux-next:master 139/1036]
  drivers/gpu/drm/etnaviv/etnaviv_drv.c:614:3-14: ERROR: probable double put.
  (fwd)
+Content-Language: en-US
 To: Julia Lawall <julia.lawall@inria.fr>, Lucas Stach <l.stach@pengutronix.de>
 Cc: Linux Memory Management List <linux-mm@kvack.org>,
  oe-kbuild-all@lists.linux.dev
 References: <94afe420-f3b-5620-2380-82c9c62838f0@inria.fr>
-Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Sui JIngfeng <sui.jingfeng@linux.dev>
 In-Reply-To: <94afe420-f3b-5620-2380-82c9c62838f0@inria.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 Hi,
@@ -55,31 +55,9 @@ Hi,
 On 2024/1/22 20:33, Julia Lawall wrote:
 > The of_node_put on line 614 does not look useful.
 
-Yes, you are right. It seems that I introduce a problem. Sorry Lucas. 😭
-
-The following code snippet probably will helps to fix this warning:
-
-``` if(!dev->platform_data){
-structdevice_node*core_node = NULL;
-
-for_each_compatible_node(core_node, NULL, "vivante,gc"){
-if(!of_device_is_available(core_node))
-continue;
-
-drm_of_component_match_add(&pdev->dev, &match,
-component_compare_of, core_node);
-
-} if (core_node) of_node_put(core_node);
-}
-
-```
+Simply delete that line would solve this problem, what do you think?
 
 
-
-I think I should post a patch to fix this?
-
-
-> julia
 >
 > ---------- Forwarded message ----------
 > Date: Mon, 22 Jan 2024 19:18:22 +0800
