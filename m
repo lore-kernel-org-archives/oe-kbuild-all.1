@@ -1,63 +1,68 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC0CFC16
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 07:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C4F16416
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 07:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705907853; cv=none; b=uzoqCF0xoK8spD2fOy/yW+gnEw6NW3FzVuHX1j8OpQusDR5Vcoyka/xtWw3kMcRIi2N3VzpXBM5c2fWN3sJ3mdJBqN0zDHUFm097UJKQv1+aIBR3+Ih6xdJwFoYVPTwY4lYgMs00KlgDnzJtZsgkIWFEjUCLJF0PJrRrmalex70=
+	t=1705909179; cv=none; b=RTw0J3oouU18JAVULK7me8jvcG0UeEfWsGe3Q5w0bqF5TL0jMfcvpxlrKQmawPApBE8eJTKkgg3gt60Gip7uC+6AHGsDfj7jMU3xGTccOdNEmZXMrgNLhLiaUt1U70MJxWBaZ0FdQMxOfDm24UHu5cW44ZkQOZXPrwl7ehulWpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705907853; c=relaxed/simple;
-	bh=cuRhoD25kV5AtO2UPG+DNNvqeNk47kF0D6+CgaIKqg0=;
+	s=arc-20240116; t=1705909179; c=relaxed/simple;
+	bh=1YLwKg5BKYoqNToyVapYiHQayIoXv4396d7rUHJb7vU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aVMrsLoHEJfYnriHg1aiKMmg9zx2hgQTmJA3qfnYP/X5f1ME5Y0pgunLqjUvAlqr3hjIR1lKZeoTT1xENnTs97q/fLtYLGZ9c/Ucvn2p8zrlJhlmEE8coh/1Bg+mlfXJ2oz3fLCyIx3yL9bbYZWhnHKzSfisQXO68XPpMq33uEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S7Wmkuik; arc=none smtp.client-ip=209.85.221.44
+	 Content-Disposition:In-Reply-To; b=klugsco7VIxAu1H30E2D7HLtkD5XG6wzdcdqxIXKDue8Yh9ZsbcLv9oB4Y6fJqJhWI/YeZnTro13sBJLP7cuISEjWhMlRVxcteZUvKcM701i2q63iHHtEqvCewaK0IhJz1Mupl5dO8x3DQ9AvxQBgvRety3QkDTS40ZQzP1y5/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o1J8QSeP; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S7Wmkuik"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33934567777so869601f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jan 2024 23:17:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o1J8QSeP"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40e76109cdeso33276285e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Jan 2024 23:39:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705907849; x=1706512649; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qgtcM0W/h7dz9GnGdFCBPRNX03Z4V/NkqN0UrdV3BGc=;
-        b=S7WmkuikB0PeiQMC/dTuguQmBWjwoSMeieFTXCWertoys4nxWMmfGLozwL0IxWwV3x
-         0IJalBXYfIBLf9dEv5L6vdc9DZ+8lPN4TLAAXX33j4WRbE+yTR0dxXCZUg+GcIcEsLYv
-         cCTT8jGpKrpc3YdYM8ltBKLV/hhg87/yFh+/5+iLmh7MLEJ7pBPAHQAPT/AVSH2Ve/9l
-         zg+F6pnGCXMN6Gh/Ld2v8RoyR40SWtqZHydbsF8kFKRhkhTbSvrc+I94zC4RquS/vTTO
-         TcM8wRZ5PHkkMhfm9XSkGbt4eWJL/MqOg5LvBSUyncMHTY4baRC8lVMOFTY6MqrRFrQ+
-         WT+Q==
+        d=linaro.org; s=google; t=1705909176; x=1706513976; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4WWozvUtTyFqrcPplojVaddKZbkwJqSzUWQNGORnmds=;
+        b=o1J8QSePmnehKgvN1HS0rYlL02h9C2AydBNLvnVdTklv4yFs8Z4IgKPZNJwIBhd1cn
+         ux5lnKKBGHPGd5B/jJUDlVOdOT24ZvPwukYu6lGFghS4lEtio2n+8auphFUYpzyjfAP3
+         T1sH7PsL8x9hWImOzeFcJiavoZsQqnF1o03OMGChWzS1Ja0YkEAVeNRGMaiCFBTZeBeg
+         GE/HxU7rRFplytnpTLB3X0gMOow4F/VLdETU9NiYvheQz0FpKyblB8BlnqZgMX8jMfqs
+         h/iWT5XQLQIsiiOPTq/JySd5y4gyOTOPxff/VSDKf4CaJA4TyLdi4Nd14HLjL/pjo3Yg
+         Bw7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705907849; x=1706512649;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qgtcM0W/h7dz9GnGdFCBPRNX03Z4V/NkqN0UrdV3BGc=;
-        b=vKYElyCC7AQtrIDYHif09OSlzvf6+kRRjaLeXYxSjXFji9lFxI1aO/1/xY5XOAVnrF
-         J1Vp5qlKbjkSGiWqgeIGeTQ45ji82SXDXsIZyRBq5aPlspnHTgO8erQFPGtEmRJudbDj
-         Sg4neORL+KTZ0lWGxAyHbH+WOB3FQ6PTf6+tmrORo8gs64vut4uICWb5iGZcYFbIdt9P
-         kzIi5xcssS/rnE1FnZyolWyzXnRzoAG939HLm7wbMGXkUkmpJBQbsxPZp4B+jNalljSh
-         k07b2NBLRLs7sa4evvcM0sY+u6d4U1hP5z91yL6T2iKUjnzh9K50BpZG1x8qeXy0dAzn
-         kH2A==
-X-Gm-Message-State: AOJu0Ywi4MLGD3Yq4c4Fi4ikqr/3RRdzYTpZRpR/vJwR//u8Cz7pJuq7
-	Jmua/R7KZFiPt1HumEaLAP9tvodp6K6c8i8csEVs3MaPY82BYG3vZCuNRlL+Oyw=
-X-Google-Smtp-Source: AGHT+IFsPYePyh4MiR1Zs+B10Cs0JfvYc19AdlDGwYR24yPPdyHjYSD2i1XOCIX0PSyBS1BzXa7vbQ==
-X-Received: by 2002:a7b:c454:0:b0:40e:44ad:2e47 with SMTP id l20-20020a7bc454000000b0040e44ad2e47mr2087634wmi.185.1705907849606;
-        Sun, 21 Jan 2024 23:17:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705909176; x=1706513976;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4WWozvUtTyFqrcPplojVaddKZbkwJqSzUWQNGORnmds=;
+        b=WxM9O4Ta2MjCSU30AOed6laPEEzBS/57WxJtgNKK8Nck1i2AsL6S6+GLEuSEk+Qe5n
+         Y7zGO++r+C0vY5dC4rzqpQyo4Hjdns+pxb8II1sIFvufhS7Lgjr0TTc9q77wJLmNAMu5
+         Lll8ZkPY1beCu8hwp/MQuquX4er6EPBxC2Ngv+1JTpnV6fgfIjw+NsWauQKOrLaIu00z
+         APTgGvaXvFljWEZcIAhj+DtS7jGKIfoIaqWBsspmho1rqpcaW2l37tP4+akcp7zZp8UK
+         JaGZjc7zjwFS1mJNiW6p5WmjO/B0ZKWu7NJIoqtXonjOXQiPR5IgOMum6OQXfO5uVIDh
+         2JJQ==
+X-Gm-Message-State: AOJu0YzjG6k5tzG1JBVIUqFnGaJocpPAvwOPV2HkdBWMyDdAtxwyYeO6
+	uqIaYrtCh4v1A1wn9kNeJGBvkqpjefQv1gLmGzs1oqIRE4PX+DMjKO9oQMUrrRo=
+X-Google-Smtp-Source: AGHT+IF3f9HEyXHgZMkSmfxAJedCIp1k/7JyOqsL7kRQv+oTlau4JKHccMmhzoOsz3uboEZQdHAsIQ==
+X-Received: by 2002:a05:600c:4e13:b0:40e:b086:f007 with SMTP id b19-20020a05600c4e1300b0040eb086f007mr108892wmq.51.1705909176062;
+        Sun, 21 Jan 2024 23:39:36 -0800 (PST)
 Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id hn33-20020a05600ca3a100b0040e621feca9sm35726315wmb.17.2024.01.21.23.17.28
+        by smtp.gmail.com with ESMTPSA id p21-20020a05600c359500b0040e3488f16dsm37716986wmq.12.2024.01.21.23.39.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jan 2024 23:17:29 -0800 (PST)
-Date: Mon, 22 Jan 2024 10:17:26 +0300
+        Sun, 21 Jan 2024 23:39:35 -0800 (PST)
+Date: Mon, 22 Jan 2024 10:39:32 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Patrisious Haddad <phaddad@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Mark Bloch <mbloch@nvidia.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/lib/ipsec_fs_roce.c:170
- ipsec_fs_roce_rx_rule_setup() warn: missing error code 'err'
-Message-ID: <57817f40-9979-44d7-9f76-d1bf1e06cf39@moroto.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	dlemoal@kernel.org, cassel@kernel.org, richardcochran@gmail.com,
+	piyush.mehta@xilinx.com, axboe@kernel.dk, michal.simek@amd.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org, git@amd.com,
+	Piyush Mehta <piyush.mehta@amd.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: Re: [PATCH 1/2] ata: ahci_ceva: fix error handling for Xilinx GT PHY
+ support
+Message-ID: <7f18c22c-df5d-4eac-b67a-84c5802b8734@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,101 +71,193 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1705604904-471889-2-git-send-email-radhey.shyam.pandey@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   80fc600fafee8ba981da6ed41a572800c8e11de6
-commit: f2f0231cfe8905af217e5bf1a08bfb8e4d3b74fb net/mlx5: Configure IPsec steering for ingress RoCEv2 MPV traffic
-config: x86_64-randconfig-161-20240120 (https://download.01.org/0day-ci/archive/20240121/202401210739.xiykyqPN-lkp@intel.com/config)
+Hi Radhey,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Radhey-Shyam-Pandey/ata-ahci_ceva-fix-error-handling-for-Xilinx-GT-PHY-support/20240119-031129
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1705604904-471889-2-git-send-email-radhey.shyam.pandey%40amd.com
+patch subject: [PATCH 1/2] ata: ahci_ceva: fix error handling for Xilinx GT PHY support
+config: i386-randconfig-141-20240120 (https://download.01.org/0day-ci/archive/20240122/202401220603.dgjTZ08O-lkp@intel.com/config)
 compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401210739.xiykyqPN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202401220603.dgjTZ08O-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/ipsec_fs_roce.c:170 ipsec_fs_roce_rx_rule_setup() warn: missing error code 'err'
+drivers/ata/ahci_ceva.c:335 ceva_ahci_probe() error: uninitialized symbol 'i'.
 
-vim +/err +170 drivers/net/ethernet/mellanox/mlx5/core/lib/ipsec_fs_roce.c
+vim +/i +335 drivers/ata/ahci_ceva.c
 
-899577600b25b3 Mark Zhang        2023-01-04  122  static int
-899577600b25b3 Mark Zhang        2023-01-04  123  ipsec_fs_roce_rx_rule_setup(struct mlx5_core_dev *mdev,
-899577600b25b3 Mark Zhang        2023-01-04  124  			    struct mlx5_flow_destination *default_dst,
-899577600b25b3 Mark Zhang        2023-01-04  125  			    struct mlx5_ipsec_rx_roce *roce)
-899577600b25b3 Mark Zhang        2023-01-04  126  {
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  127  	bool is_mpv_slave = mlx5_core_is_mp_slave(mdev);
-899577600b25b3 Mark Zhang        2023-01-04  128  	struct mlx5_flow_destination dst = {};
-899577600b25b3 Mark Zhang        2023-01-04  129  	MLX5_DECLARE_FLOW_ACT(flow_act);
-899577600b25b3 Mark Zhang        2023-01-04  130  	struct mlx5_flow_handle *rule;
-899577600b25b3 Mark Zhang        2023-01-04  131  	struct mlx5_flow_spec *spec;
-899577600b25b3 Mark Zhang        2023-01-04  132  	int err = 0;
-899577600b25b3 Mark Zhang        2023-01-04  133  
-899577600b25b3 Mark Zhang        2023-01-04  134  	spec = kvzalloc(sizeof(*spec), GFP_KERNEL);
-899577600b25b3 Mark Zhang        2023-01-04  135  	if (!spec)
-899577600b25b3 Mark Zhang        2023-01-04  136  		return -ENOMEM;
-899577600b25b3 Mark Zhang        2023-01-04  137  
-899577600b25b3 Mark Zhang        2023-01-04  138  	ipsec_fs_roce_setup_udp_dport(spec, ROCE_V2_UDP_DPORT);
-899577600b25b3 Mark Zhang        2023-01-04  139  
-899577600b25b3 Mark Zhang        2023-01-04  140  	flow_act.action = MLX5_FLOW_CONTEXT_ACTION_FWD_DEST;
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  141  	if (is_mpv_slave) {
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  142  		dst.type = MLX5_FLOW_DESTINATION_TYPE_FLOW_TABLE;
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  143  		dst.ft = roce->goto_alias_ft;
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  144  	} else {
-899577600b25b3 Mark Zhang        2023-01-04  145  		dst.type = MLX5_FLOW_DESTINATION_TYPE_TABLE_TYPE;
-899577600b25b3 Mark Zhang        2023-01-04  146  		dst.ft = roce->ft_rdma;
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  147  	}
-899577600b25b3 Mark Zhang        2023-01-04  148  	rule = mlx5_add_flow_rules(roce->ft, spec, &flow_act, &dst, 1);
-899577600b25b3 Mark Zhang        2023-01-04  149  	if (IS_ERR(rule)) {
-899577600b25b3 Mark Zhang        2023-01-04  150  		err = PTR_ERR(rule);
-899577600b25b3 Mark Zhang        2023-01-04  151  		mlx5_core_err(mdev, "Fail to add RX RoCE IPsec rule err=%d\n",
-899577600b25b3 Mark Zhang        2023-01-04  152  			      err);
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  153  		goto out;
-899577600b25b3 Mark Zhang        2023-01-04  154  	}
-899577600b25b3 Mark Zhang        2023-01-04  155  
-899577600b25b3 Mark Zhang        2023-01-04  156  	roce->rule = rule;
-899577600b25b3 Mark Zhang        2023-01-04  157  
-899577600b25b3 Mark Zhang        2023-01-04  158  	memset(spec, 0, sizeof(*spec));
-899577600b25b3 Mark Zhang        2023-01-04  159  	rule = mlx5_add_flow_rules(roce->ft, spec, &flow_act, default_dst, 1);
-899577600b25b3 Mark Zhang        2023-01-04  160  	if (IS_ERR(rule)) {
-899577600b25b3 Mark Zhang        2023-01-04  161  		err = PTR_ERR(rule);
-899577600b25b3 Mark Zhang        2023-01-04  162  		mlx5_core_err(mdev, "Fail to add RX RoCE IPsec miss rule err=%d\n",
-899577600b25b3 Mark Zhang        2023-01-04  163  			      err);
-899577600b25b3 Mark Zhang        2023-01-04  164  		goto fail_add_default_rule;
-899577600b25b3 Mark Zhang        2023-01-04  165  	}
-899577600b25b3 Mark Zhang        2023-01-04  166  
-899577600b25b3 Mark Zhang        2023-01-04  167  	roce->roce_miss.rule = rule;
-899577600b25b3 Mark Zhang        2023-01-04  168  
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  169  	if (!is_mpv_slave)
-f2f0231cfe8905 Patrisious Haddad 2023-09-21 @170  		goto out;
+a73ed35052ca85 Suneel Garapati      2015-06-09  192  static int ceva_ahci_probe(struct platform_device *pdev)
+a73ed35052ca85 Suneel Garapati      2015-06-09  193  {
+a73ed35052ca85 Suneel Garapati      2015-06-09  194  	struct device_node *np = pdev->dev.of_node;
+a73ed35052ca85 Suneel Garapati      2015-06-09  195  	struct device *dev = &pdev->dev;
+a73ed35052ca85 Suneel Garapati      2015-06-09  196  	struct ahci_host_priv *hpriv;
+a73ed35052ca85 Suneel Garapati      2015-06-09  197  	struct ceva_ahci_priv *cevapriv;
+3bc867de85b5bf Anurag Kumar Vulisha 2017-08-21  198  	enum dev_dma_attr attr;
+b1600f5880a13f Piyush Mehta         2024-01-19  199  	int rc, i;
 
-error code here?  Or perhaps if not an error code, then a comment?
+i needs to be initialized to zero here.
 
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  171  
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  172  	flow_act.action = MLX5_FLOW_CONTEXT_ACTION_FWD_DEST;
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  173  	dst.type = MLX5_FLOW_DESTINATION_TYPE_TABLE_TYPE;
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  174  	dst.ft = roce->ft_rdma;
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  175  	rule = mlx5_add_flow_rules(roce->nic_master_ft, NULL, &flow_act, &dst,
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  176  				   1);
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  177  	if (IS_ERR(rule)) {
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  178  		err = PTR_ERR(rule);
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  179  		mlx5_core_err(mdev, "Fail to add RX RoCE IPsec rule for alias err=%d\n",
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  180  			      err);
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  181  		goto fail_add_nic_master_rule;
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  182  	}
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  183  	roce->nic_master_rule = rule;
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  184  
-899577600b25b3 Mark Zhang        2023-01-04  185  	kvfree(spec);
-899577600b25b3 Mark Zhang        2023-01-04  186  	return 0;
-899577600b25b3 Mark Zhang        2023-01-04  187  
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  188  fail_add_nic_master_rule:
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  189  	mlx5_del_flow_rules(roce->roce_miss.rule);
-899577600b25b3 Mark Zhang        2023-01-04  190  fail_add_default_rule:
-899577600b25b3 Mark Zhang        2023-01-04  191  	mlx5_del_flow_rules(roce->rule);
-f2f0231cfe8905 Patrisious Haddad 2023-09-21  192  out:
-899577600b25b3 Mark Zhang        2023-01-04  193  	kvfree(spec);
-899577600b25b3 Mark Zhang        2023-01-04  194  	return err;
-899577600b25b3 Mark Zhang        2023-01-04  195  }
+a73ed35052ca85 Suneel Garapati      2015-06-09  200  
+a73ed35052ca85 Suneel Garapati      2015-06-09  201  	cevapriv = devm_kzalloc(dev, sizeof(*cevapriv), GFP_KERNEL);
+a73ed35052ca85 Suneel Garapati      2015-06-09  202  	if (!cevapriv)
+a73ed35052ca85 Suneel Garapati      2015-06-09  203  		return -ENOMEM;
+a73ed35052ca85 Suneel Garapati      2015-06-09  204  
+a73ed35052ca85 Suneel Garapati      2015-06-09  205  	cevapriv->ahci_pdev = pdev;
+a73ed35052ca85 Suneel Garapati      2015-06-09  206  
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  207  	cevapriv->rst = devm_reset_control_get_optional_exclusive(&pdev->dev,
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  208  								  NULL);
+fa4b42b2a968dc Piyush Mehta         2021-03-05  209  	if (IS_ERR(cevapriv->rst))
+fa4b42b2a968dc Piyush Mehta         2021-03-05  210  		dev_err_probe(&pdev->dev, PTR_ERR(cevapriv->rst),
+fa4b42b2a968dc Piyush Mehta         2021-03-05  211  			      "failed to get reset\n");
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  212  
+16af2d65842d34 Kunihiko Hayashi     2018-08-22  213  	hpriv = ahci_platform_get_resources(pdev, 0);
+a73ed35052ca85 Suneel Garapati      2015-06-09  214  	if (IS_ERR(hpriv))
+a73ed35052ca85 Suneel Garapati      2015-06-09  215  		return PTR_ERR(hpriv);
+a73ed35052ca85 Suneel Garapati      2015-06-09  216  
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  217  	if (!cevapriv->rst) {
+a73ed35052ca85 Suneel Garapati      2015-06-09  218  		rc = ahci_platform_enable_resources(hpriv);
+a73ed35052ca85 Suneel Garapati      2015-06-09  219  		if (rc)
+a73ed35052ca85 Suneel Garapati      2015-06-09  220  			return rc;
+
+i is uninitialized on this path.
+
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  221  	} else {
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  222  		rc = ahci_platform_enable_clks(hpriv);
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  223  		if (rc)
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  224  			return rc;
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  225  		/* Assert the controller reset */
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  226  		reset_control_assert(cevapriv->rst);
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  227  
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  228  		for (i = 0; i < hpriv->nports; i++) {
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  229  			rc = phy_init(hpriv->phys[i]);
+b1600f5880a13f Piyush Mehta         2024-01-19  230  			if (rc) {
+b1600f5880a13f Piyush Mehta         2024-01-19  231  				while (--i >= 0)
+b1600f5880a13f Piyush Mehta         2024-01-19  232  					phy_exit(hpriv->phys[i]);
+b1600f5880a13f Piyush Mehta         2024-01-19  233  				goto disable_clks;
+b1600f5880a13f Piyush Mehta         2024-01-19  234  			}
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  235  		}
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  236  
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  237  		/* De-assert the controller reset */
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  238  		reset_control_deassert(cevapriv->rst);
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  239  
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  240  		for (i = 0; i < hpriv->nports; i++) {
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  241  			rc = phy_power_on(hpriv->phys[i]);
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  242  			if (rc) {
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  243  				phy_exit(hpriv->phys[i]);
+b1600f5880a13f Piyush Mehta         2024-01-19  244  				goto disable_phys;
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  245  			}
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  246  		}
+9a9d3abe24bb6b Piyush Mehta         2021-02-08  247  	}
+a73ed35052ca85 Suneel Garapati      2015-06-09  248  
+a73ed35052ca85 Suneel Garapati      2015-06-09  249  	if (of_property_read_bool(np, "ceva,broken-gen2"))
+a73ed35052ca85 Suneel Garapati      2015-06-09  250  		cevapriv->flags = CEVA_FLAG_BROKEN_GEN2;
+a73ed35052ca85 Suneel Garapati      2015-06-09  251  
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  252  	/* Read OOB timing value for COMINIT from device-tree */
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  253  	if (of_property_read_u8_array(np, "ceva,p0-cominit-params",
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  254  					(u8 *)&cevapriv->pp2c[0], 4) < 0) {
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  255  		dev_warn(dev, "ceva,p0-cominit-params property not defined\n");
+b1600f5880a13f Piyush Mehta         2024-01-19  256  		rc = -EINVAL;
+b1600f5880a13f Piyush Mehta         2024-01-19  257  		goto disable_phys;
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  258  	}
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  259  
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  260  	if (of_property_read_u8_array(np, "ceva,p1-cominit-params",
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  261  					(u8 *)&cevapriv->pp2c[1], 4) < 0) {
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  262  		dev_warn(dev, "ceva,p1-cominit-params property not defined\n");
+b1600f5880a13f Piyush Mehta         2024-01-19  263  		rc = -EINVAL;
+b1600f5880a13f Piyush Mehta         2024-01-19  264  		goto disable_phys;
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  265  	}
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  266  
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  267  	/* Read OOB timing value for COMWAKE from device-tree*/
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  268  	if (of_property_read_u8_array(np, "ceva,p0-comwake-params",
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  269  					(u8 *)&cevapriv->pp3c[0], 4) < 0) {
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  270  		dev_warn(dev, "ceva,p0-comwake-params property not defined\n");
+b1600f5880a13f Piyush Mehta         2024-01-19  271  		rc = -EINVAL;
+b1600f5880a13f Piyush Mehta         2024-01-19  272  		goto disable_phys;
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  273  	}
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  274  
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  275  	if (of_property_read_u8_array(np, "ceva,p1-comwake-params",
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  276  					(u8 *)&cevapriv->pp3c[1], 4) < 0) {
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  277  		dev_warn(dev, "ceva,p1-comwake-params property not defined\n");
+b1600f5880a13f Piyush Mehta         2024-01-19  278  		rc = -EINVAL;
+b1600f5880a13f Piyush Mehta         2024-01-19  279  		goto disable_phys;
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  280  	}
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  281  
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  282  	/* Read phy BURST timing value from device-tree */
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  283  	if (of_property_read_u8_array(np, "ceva,p0-burst-params",
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  284  					(u8 *)&cevapriv->pp4c[0], 4) < 0) {
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  285  		dev_warn(dev, "ceva,p0-burst-params property not defined\n");
+b1600f5880a13f Piyush Mehta         2024-01-19  286  		rc = -EINVAL;
+b1600f5880a13f Piyush Mehta         2024-01-19  287  		goto disable_phys;
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  288  	}
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  289  
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  290  	if (of_property_read_u8_array(np, "ceva,p1-burst-params",
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  291  					(u8 *)&cevapriv->pp4c[1], 4) < 0) {
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  292  		dev_warn(dev, "ceva,p1-burst-params property not defined\n");
+b1600f5880a13f Piyush Mehta         2024-01-19  293  		rc = -EINVAL;
+b1600f5880a13f Piyush Mehta         2024-01-19  294  		goto disable_phys;
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  295  	}
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  296  
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  297  	/* Read phy RETRY interval timing value from device-tree */
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  298  	if (of_property_read_u16_array(np, "ceva,p0-retry-params",
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  299  					(u16 *)&cevapriv->pp5c[0], 2) < 0) {
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  300  		dev_warn(dev, "ceva,p0-retry-params property not defined\n");
+b1600f5880a13f Piyush Mehta         2024-01-19  301  		rc = -EINVAL;
+b1600f5880a13f Piyush Mehta         2024-01-19  302  		goto disable_phys;
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  303  	}
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  304  
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  305  	if (of_property_read_u16_array(np, "ceva,p1-retry-params",
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  306  					(u16 *)&cevapriv->pp5c[1], 2) < 0) {
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  307  		dev_warn(dev, "ceva,p1-retry-params property not defined\n");
+b1600f5880a13f Piyush Mehta         2024-01-19  308  		rc = -EINVAL;
+b1600f5880a13f Piyush Mehta         2024-01-19  309  		goto disable_phys;
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  310  	}
+fe8365bbf8ac58 Anurag Kumar Vulisha 2017-08-21  311  
+3bc867de85b5bf Anurag Kumar Vulisha 2017-08-21  312  	/*
+3bc867de85b5bf Anurag Kumar Vulisha 2017-08-21  313  	 * Check if CCI is enabled for SATA. The DEV_DMA_COHERENT is returned
+3bc867de85b5bf Anurag Kumar Vulisha 2017-08-21  314  	 * if CCI is enabled, so check for DEV_DMA_COHERENT.
+3bc867de85b5bf Anurag Kumar Vulisha 2017-08-21  315  	 */
+3bc867de85b5bf Anurag Kumar Vulisha 2017-08-21  316  	attr = device_get_dma_attr(dev);
+3bc867de85b5bf Anurag Kumar Vulisha 2017-08-21  317  	cevapriv->is_cci_enabled = (attr == DEV_DMA_COHERENT);
+3bc867de85b5bf Anurag Kumar Vulisha 2017-08-21  318  
+a73ed35052ca85 Suneel Garapati      2015-06-09  319  	hpriv->plat_data = cevapriv;
+a73ed35052ca85 Suneel Garapati      2015-06-09  320  
+a73ed35052ca85 Suneel Garapati      2015-06-09  321  	/* CEVA specific initialization */
+a73ed35052ca85 Suneel Garapati      2015-06-09  322  	ahci_ceva_setup(hpriv);
+a73ed35052ca85 Suneel Garapati      2015-06-09  323  
+a73ed35052ca85 Suneel Garapati      2015-06-09  324  	rc = ahci_platform_init_host(pdev, hpriv, &ahci_ceva_port_info,
+a73ed35052ca85 Suneel Garapati      2015-06-09  325  					&ahci_platform_sht);
+a73ed35052ca85 Suneel Garapati      2015-06-09  326  	if (rc)
+a73ed35052ca85 Suneel Garapati      2015-06-09  327  		goto disable_resources;
+a73ed35052ca85 Suneel Garapati      2015-06-09  328  
+a73ed35052ca85 Suneel Garapati      2015-06-09  329  	return 0;
+a73ed35052ca85 Suneel Garapati      2015-06-09  330  
+a73ed35052ca85 Suneel Garapati      2015-06-09  331  disable_resources:
+a73ed35052ca85 Suneel Garapati      2015-06-09  332  	ahci_platform_disable_resources(hpriv);
+b1600f5880a13f Piyush Mehta         2024-01-19  333  
+b1600f5880a13f Piyush Mehta         2024-01-19  334  disable_phys:
+b1600f5880a13f Piyush Mehta         2024-01-19 @335  	while (--i >= 0) {
+                                                               ^^^
+
+b1600f5880a13f Piyush Mehta         2024-01-19  336  		phy_power_off(hpriv->phys[i]);
+b1600f5880a13f Piyush Mehta         2024-01-19  337  		phy_exit(hpriv->phys[i]);
+b1600f5880a13f Piyush Mehta         2024-01-19  338  	}
+b1600f5880a13f Piyush Mehta         2024-01-19  339  
+b1600f5880a13f Piyush Mehta         2024-01-19  340  disable_clks:
+b1600f5880a13f Piyush Mehta         2024-01-19  341  	ahci_platform_disable_clks(hpriv);
+b1600f5880a13f Piyush Mehta         2024-01-19  342  
+a73ed35052ca85 Suneel Garapati      2015-06-09  343  	return rc;
+a73ed35052ca85 Suneel Garapati      2015-06-09  344  }
 
 -- 
 0-DAY CI Kernel Test Service
