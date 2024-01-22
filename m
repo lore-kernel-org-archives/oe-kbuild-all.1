@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C5263A6;
-	Mon, 22 Jan 2024 19:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72713DBB7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Jan 2024 19:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705950372; cv=none; b=HUztlmCbAlNMR2zBOc3fu+Q5BD8JXhRw5yMVIftesFCThrAYfvSgMrSyr04kdFjcdpIxJHYQQCqH8+a0cUfT6THyh3HxfQ94BZyZ2YTivEG7AIOla2RMeiKU1nxt7TvYrLCiRmxEyr28DIaCj21XJAajWga7DUPRhK3zbZzdiys=
+	t=1705951573; cv=none; b=NDxIGqzNjYC9kFz0kWK2zTN1rNG8yk0GICYFyyiDQunvqzpvmCXXeeL4+7J4055OZjC8wrn8VUFepjnXuppkLvMBiSwykeioMBqlF1gBBa97iRPfNO+gkqAeVMJoETA3wpbIBTiIgSy5o+ftGFoWybeRKlGKHeFwQqW7Np8MSk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705950372; c=relaxed/simple;
-	bh=kbE8Q5vqODHAjMyaVxUSnMUE04oYW7Jp6oMvQE471gs=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bLLgOIi+DCeQooh0IEztP2jWalCMJNPwpORL5INE7paoMZH6xuzbUSdr1RVDiFVgDeyhGHmIoWv1X6j/WxkiKYMzc5z9puCu7Zt3mF7N0fP/+NIpIBjHNO1gYpuetqe3vKR662pQuj9zZrcw5vXRTO5/2WT5IhnzwqYfBGfHqmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bjNBVKg/; arc=none smtp.client-ip=192.55.52.120
+	s=arc-20240116; t=1705951573; c=relaxed/simple;
+	bh=XXV31XDy3HMagGO+pOYS7AFQc+8HB9J3XUobctrB0Iw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mS+Dkfno9mhybDU0Ere4e9vJfD+jLNZkYTv0FAI4Xpkdrp/huJ2ruXsJeQTgrqFllADMWu2rh764Ka5wa6HaQHkUzrbuZAB3M0kF1q5RMfiCE+SyVSD1e0TVDK07DPPVWVybT/zpHiQdGfnihoo9V8FsA4YcwpPi/HDseaJtKbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+RAsrJC; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bjNBVKg/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+RAsrJC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705950368; x=1737486368;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=kbE8Q5vqODHAjMyaVxUSnMUE04oYW7Jp6oMvQE471gs=;
-  b=bjNBVKg/4dcCVBeKO/Xn7Ts0zGw37q8Ba5DythggQUJn4Dn875baUjak
-   ADIlQrC2QyJKhgwFFKCdu+vs9KKoj7uBUrm9rbq6JI+ZrUzLP6poqgtGA
-   LcxZwqrmdampPKfKvgdIBXWTanGnD+ANtUwv+nm+z+HZ1NJm3jCYNbsLy
-   K/7DCuTDel/mf92snUqyxxUIlGbIJaVGk/iTOTnvaEBvs/zw0Kr8qLWFV
-   gccsplGko6b86H7dwNu4eBDUxxckmQbGHdlHJvsO0ZJa5l+FViFR2Vy0c
-   gONWK3dfhyprMW7lMziHbu4fQ++7KVuIOSnp1hsZ6UqBBO5fLj0uwLSom
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="400158886"
+  t=1705951571; x=1737487571;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XXV31XDy3HMagGO+pOYS7AFQc+8HB9J3XUobctrB0Iw=;
+  b=V+RAsrJCltHkWNTwMq5HVxHuJh0Q2JSWDza84df85tvPVxQFfPmYsJkz
+   a6uelYSCbiPttyI2AhvLtWtqkw626tgFRjtiNnaX4/I3JyIAtDcjqxYwg
+   EXAD+nCBIYbX52ccqlSrN20FBPcu2CMIV8sjSpyCt/4sWDBsBCVALMbXQ
+   F9sf+F60MhVqb4SEFbK9/3tpMEzobYCQfHC4OJypWqC84scIKo7+lgUmf
+   mA2YSywySkzVFs7r8IHLT1JrU1xZaMOu4a9Ptw9GuAiNxl2QGcYyfF2mD
+   xWf09bxmWp9s8bWsCqAi+GzHLkQ+nOy440YNNSrC+m/rKVWSBbfGV/wrp
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="14813303"
 X-IronPort-AV: E=Sophos;i="6.05,212,1701158400"; 
-   d="scan'208";a="400158886"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 11:06:07 -0800
+   d="scan'208";a="14813303"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 11:26:09 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,212,1701158400"; 
-   d="scan'208";a="1389312"
+   d="scan'208";a="20082929"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 Jan 2024 11:06:06 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 22 Jan 2024 11:26:07 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rRzcS-0006oZ-0H;
-	Mon, 22 Jan 2024 19:06:04 +0000
-Date: Tue, 23 Jan 2024 03:05:10 +0800
+	id 1rRzvo-0006p2-2i;
+	Mon, 22 Jan 2024 19:26:04 +0000
+Date: Tue, 23 Jan 2024 03:25:28 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [jsarha:topic/chromeos-4.19-s0ix 9206/9999]
- kernel/gcov/clang.c:221:9: error: implicit declaration of function
- 'within_module'
-Message-ID: <202401230353.Rzf6chZz-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-fixes 12/12] fs/cachefiles/namei.c:476:12: error:
+ 'struct cachefiles_object' has no member named 'ondemand'
+Message-ID: <202401230324.Mlnj1ZfR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,88 +58,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-
-tree:   https://github.com/jsarha/linux topic/chromeos-4.19-s0ix
-head:   430bdaa0a8c38697780f45a148964d71951df11f
-commit: 35be48648a6552869bd5d6c9a0d278102d23d46c [9206/9999] UPSTREAM: gcov: clang support
-config: x86_64-buildonly-randconfig-004-20240122 (https://download.01.org/0day-ci/archive/20240123/202401230353.Rzf6chZz-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240123/202401230353.Rzf6chZz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-fixes
+head:   15853a1a999d0d0417dedf8f26bbd1c39f803d0e
+commit: b969b49ec1d1d04097e578e94ef4cfa31aa47593 [12/12] cachefiles, erofs: Fix NULL deref in when cachefiles is not doing ondemand-mode
+config: i386-randconfig-013-20240122 (https://download.01.org/0day-ci/archive/20240123/202401230324.Mlnj1ZfR-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240123/202401230324.Mlnj1ZfR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401230353.Rzf6chZz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401230324.Mlnj1ZfR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/gcov/clang.c:85:6: warning: no previous prototype for function 'llvm_gcov_init' [-Wmissing-prototypes]
-      85 | void llvm_gcov_init(llvm_gcov_callback writeout, llvm_gcov_callback flush)
-         |      ^
-   kernel/gcov/clang.c:85:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      85 | void llvm_gcov_init(llvm_gcov_callback writeout, llvm_gcov_callback flush)
-         | ^
-         | static 
-   kernel/gcov/clang.c:108:6: warning: no previous prototype for function 'llvm_gcda_start_file' [-Wmissing-prototypes]
-     108 | void llvm_gcda_start_file(const char *orig_filename, const char version[4],
-         |      ^
-   kernel/gcov/clang.c:108:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     108 | void llvm_gcda_start_file(const char *orig_filename, const char version[4],
-         | ^
-         | static 
-   kernel/gcov/clang.c:117:6: warning: no previous prototype for function 'llvm_gcda_emit_function' [-Wmissing-prototypes]
-     117 | void llvm_gcda_emit_function(u32 ident, const char *function_name,
-         |      ^
-   kernel/gcov/clang.c:117:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     117 | void llvm_gcda_emit_function(u32 ident, const char *function_name,
-         | ^
-         | static 
-   kernel/gcov/clang.c:137:6: warning: no previous prototype for function 'llvm_gcda_emit_arcs' [-Wmissing-prototypes]
-     137 | void llvm_gcda_emit_arcs(u32 num_counters, u64 *counters)
-         |      ^
-   kernel/gcov/clang.c:137:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     137 | void llvm_gcda_emit_arcs(u32 num_counters, u64 *counters)
-         | ^
-         | static 
-   kernel/gcov/clang.c:147:6: warning: no previous prototype for function 'llvm_gcda_summary_info' [-Wmissing-prototypes]
-     147 | void llvm_gcda_summary_info(void)
-         |      ^
-   kernel/gcov/clang.c:147:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     147 | void llvm_gcda_summary_info(void)
-         | ^
-         | static 
-   kernel/gcov/clang.c:152:6: warning: no previous prototype for function 'llvm_gcda_end_file' [-Wmissing-prototypes]
-     152 | void llvm_gcda_end_file(void)
-         |      ^
-   kernel/gcov/clang.c:152:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     152 | void llvm_gcda_end_file(void)
-         | ^
-         | static 
->> kernel/gcov/clang.c:221:9: error: implicit declaration of function 'within_module' [-Werror,-Wimplicit-function-declaration]
-     221 |         return within_module((unsigned long)info->filename, mod);
-         |                ^
-   kernel/gcov/clang.c:221:9: note: did you mean 'init_module'?
-   include/linux/module.h:75:12: note: 'init_module' declared here
-      75 | extern int init_module(void);
-         |            ^
-   6 warnings and 1 error generated.
+   fs/cachefiles/namei.c: In function 'cachefiles_create_tmpfile':
+>> fs/cachefiles/namei.c:476:12: error: 'struct cachefiles_object' has no member named 'ondemand'
+     if (object->ondemand) {
+               ^~
+   fs/cachefiles/namei.c: In function 'cachefiles_open_file':
+   fs/cachefiles/namei.c:584:12: error: 'struct cachefiles_object' has no member named 'ondemand'
+     if (object->ondemand) {
+               ^~
 
 
-vim +/within_module +221 kernel/gcov/clang.c
+vim +476 fs/cachefiles/namei.c
 
-   211	
-   212	/**
-   213	 * gcov_info_within_module - check if a profiling data set belongs to a module
-   214	 * @info: profiling data set
-   215	 * @mod: module
-   216	 *
-   217	 * Returns true if profiling data belongs module, false otherwise.
-   218	 */
-   219	bool gcov_info_within_module(struct gcov_info *info, struct module *mod)
-   220	{
- > 221		return within_module((unsigned long)info->filename, mod);
-   222	}
-   223	
+   435	
+   436	/*
+   437	 * Create a temporary file and leave it unattached and un-xattr'd until the
+   438	 * time comes to discard the object from memory.
+   439	 */
+   440	struct file *cachefiles_create_tmpfile(struct cachefiles_object *object)
+   441	{
+   442		struct cachefiles_volume *volume = object->volume;
+   443		struct cachefiles_cache *cache = volume->cache;
+   444		const struct cred *saved_cred;
+   445		struct dentry *fan = volume->fanout[(u8)object->cookie->key_hash];
+   446		struct file *file;
+   447		const struct path parentpath = { .mnt = cache->mnt, .dentry = fan };
+   448		uint64_t ni_size;
+   449		long ret;
+   450	
+   451	
+   452		cachefiles_begin_secure(cache, &saved_cred);
+   453	
+   454		ret = cachefiles_inject_write_error();
+   455		if (ret == 0) {
+   456			file = kernel_tmpfile_open(&nop_mnt_idmap, &parentpath,
+   457						   S_IFREG | 0600,
+   458						   O_RDWR | O_LARGEFILE | O_DIRECT,
+   459						   cache->cache_cred);
+   460			ret = PTR_ERR_OR_ZERO(file);
+   461		}
+   462		if (ret) {
+   463			trace_cachefiles_vfs_error(object, d_inode(fan), ret,
+   464						   cachefiles_trace_tmpfile_error);
+   465			if (ret == -EIO)
+   466				cachefiles_io_error_obj(object, "Failed to create tmpfile");
+   467			goto err;
+   468		}
+   469	
+   470		trace_cachefiles_tmpfile(object, file_inode(file));
+   471	
+   472		/* This is a newly created file with no other possible user */
+   473		if (!cachefiles_mark_inode_in_use(object, file_inode(file)))
+   474			WARN_ON(1);
+   475	
+ > 476		if (object->ondemand) {
+   477			ret = cachefiles_ondemand_init_object(object);
+   478			if (ret < 0)
+   479				goto err_unuse;
+   480		}
+   481	
+   482		ni_size = object->cookie->object_size;
+   483		ni_size = round_up(ni_size, CACHEFILES_DIO_BLOCK_SIZE);
+   484	
+   485		if (ni_size > 0) {
+   486			trace_cachefiles_trunc(object, file_inode(file), 0, ni_size,
+   487					       cachefiles_trunc_expand_tmpfile);
+   488			ret = cachefiles_inject_write_error();
+   489			if (ret == 0)
+   490				ret = vfs_truncate(&file->f_path, ni_size);
+   491			if (ret < 0) {
+   492				trace_cachefiles_vfs_error(
+   493					object, file_inode(file), ret,
+   494					cachefiles_trace_trunc_error);
+   495				goto err_unuse;
+   496			}
+   497		}
+   498	
+   499		ret = -EINVAL;
+   500		if (unlikely(!file->f_op->read_iter) ||
+   501		    unlikely(!file->f_op->write_iter)) {
+   502			fput(file);
+   503			pr_notice("Cache does not support read_iter and write_iter\n");
+   504			goto err_unuse;
+   505		}
+   506	out:
+   507		cachefiles_end_secure(cache, saved_cred);
+   508		return file;
+   509	
+   510	err_unuse:
+   511		cachefiles_do_unmark_inode_in_use(object, file_inode(file));
+   512		fput(file);
+   513	err:
+   514		file = ERR_PTR(ret);
+   515		goto out;
+   516	}
+   517	
 
 -- 
 0-DAY CI Kernel Test Service
