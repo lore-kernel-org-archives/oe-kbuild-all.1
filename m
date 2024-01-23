@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956AB85C68
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 18:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D53D128378
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 19:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706035596; cv=none; b=MICD5/JO32yeKw3bSSt9z2iDMkZHML73usMKbcHQJXLALSprZSgOkEejjNEI9sHmW+0lJChsgjyQ1udZb8T90NoGkecxi6utqIRmqMKUgTtPdf73wIEFV6sOCqeabJSnaylMGOsi5u4ZEajHFmPhmWkAL4/bt4uD7kUYvKCMKA4=
+	t=1706036797; cv=none; b=RyygzHwQVFAi30AsLnuIp+rVjVhfHP6Bjtc2lZPX3ayEV0ImglKqu1w1Tbi6GgdU1CvII6rHmUtrFNo+wT8CjWhlsWP4Vr1uUbB0wJl7axAOvbENk7llzvQ12e4VuzhUH8YTNGG6c77UGHf3o56sfUWI5SJHUel+QM5W22Y+OWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706035596; c=relaxed/simple;
-	bh=n28Ln+/x2ea0OMkeW4AV4fhxF0cv6+x4Q8B/idBEcRY=;
+	s=arc-20240116; t=1706036797; c=relaxed/simple;
+	bh=HFBOk57knuG9E482LtyFXQ+V7FLL0URyc6c0kSzGLxg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JVMt10RPrZODZlwvxwSydLhcml59MtoSIzMXJ7+krP7A265DDoT1QLvVJBjQG2hKESRVuq9gSrIYZOflGy63de6BF2Tz9PbC+5OkMGH0jTsW3scZ72LbBArWSQrNyo711bBOFV8WfAe8kkEEnCLEbpKUuPRCasGIlaG8UqWSoI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMkqonBJ; arc=none smtp.client-ip=192.55.52.115
+	 Content-Disposition; b=UC+2sc0QOVkQ82RP8Z7OPNk0lAJF4POWiOU8+noKRozY4oP5kuCElqVWgb1GJdzkkFAh6XA06DoULHwdMlwNCreL8JL7Y0nV13FvNZwCejStrylKSi87Ckm6V7FUZpC0dOG1UHnCUEXb7VDRxSSTBFoPZLOQLGbQN935Hx4Ln0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BT8ktji9; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMkqonBJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BT8ktji9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706035594; x=1737571594;
+  t=1706036796; x=1737572796;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n28Ln+/x2ea0OMkeW4AV4fhxF0cv6+x4Q8B/idBEcRY=;
-  b=TMkqonBJWUKG/iO1EeqfxrN2MijGCSOSk0wYmVm7fhWUPexq2w76FyVH
-   JtVD8P/h3T6iPALO2Am6Zlqu50FwHwplVe/sIEXmwU9pU4jSfLFf3qv9L
-   pjoT9bBDlW8HdzwRI2SlH/xV40QbgjV8DW99LaPCejrfu9C9fKrlloobc
-   hfqu1ZzxxVASiDI89J7EVtpRMqVeHKqvjS+VHTPpCbn0z4KWV7PRZ4FJ4
-   WJ0OxENdJf6V4iS9u4Dc4AlTtbwHvHIRyloVO70Nk3FfjrdMROezt96zf
-   hh5tScNdcNAQmKNm7SRTSexeREdJmEIQWGrXoKCspsTRQhLWDne144kjH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="401274171"
+  bh=HFBOk57knuG9E482LtyFXQ+V7FLL0URyc6c0kSzGLxg=;
+  b=BT8ktji9UIzkYUoxiB1SeeZfil2dYyVvZHgRhzvJjxCFEUuZZCOQX4iN
+   TPWkYw2zRTAdzkjjaUVC4RKecN0qLiDF8Kn4/GT3H0SsS77Nt3za2celw
+   WB0+Ye7lPJCQfBjIBaSWq2EU0N5MIkUEl+qQ8waqoXCxtVFlxWWzCppup
+   UrSlhLHFXjspwmPbn9GU/01LDmgBpsvDAyxRj/xrlybL+VkpPMfNKd167
+   nnCi3XNep1Wb89YossG9BbHjiLFIHHynySlk07lSk3oiGFcYp4poFRBk/
+   QDl+YNOdnyJwrZI4xKAdIw7KV8kV7QxZ+6PPmNgq/tju619haDVuIr8zC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1507569"
 X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="401274171"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 10:46:33 -0800
+   d="scan'208";a="1507569"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 11:06:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="905339034"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="735670335"
 X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="905339034"
+   d="scan'208";a="735670335"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Jan 2024 10:46:32 -0800
+  by orsmga003.jf.intel.com with ESMTP; 23 Jan 2024 11:06:33 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSLn4-0007bv-1T;
-	Tue, 23 Jan 2024 18:46:30 +0000
-Date: Wed, 24 Jan 2024 02:45:39 +0800
+	id 1rSM6Q-0007c3-1k;
+	Tue, 23 Jan 2024 19:06:30 +0000
+Date: Wed, 24 Jan 2024 03:05:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:media-ref 38/39]
- drivers/media/pci/intel/ipu3/ipu3-cio2.c:1686:13: warning:
- 'cio2_media_release' defined but not used
-Message-ID: <202401240244.gFeVPHsb-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-zoned 73/73] xfs_super.c:undefined reference to
+ `xfs_zone_gc_stop'
+Message-ID: <202401240343.niLLN9YA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,49 +59,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git media-ref
-head:   a31f71a73822ffd82d3595f199a57894097bc98e
-commit: e41a37177548289f04defb2d473b62392bae0d42 [38/39] test
-config: i386-buildonly-randconfig-004-20240123 (https://download.01.org/0day-ci/archive/20240124/202401240244.gFeVPHsb-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401240244.gFeVPHsb-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
+head:   a636d92a908d42463557fd856bc52ddf62c5693c
+commit: a636d92a908d42463557fd856bc52ddf62c5693c [73/73] xfs: add proactive gc and write throtteling
+config: loongarch-randconfig-002-20240123 (https://download.01.org/0day-ci/archive/20240124/202401240343.niLLN9YA-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401240343.niLLN9YA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401240244.gFeVPHsb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401240343.niLLN9YA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/pci/intel/ipu3/ipu3-cio2.c:1686:13: warning: 'cio2_media_release' defined but not used [-Wunused-function]
-    1686 | static void cio2_media_release(struct media_device *mdev)
-         |             ^~~~~~~~~~~~~~~~~~
-
-
-vim +/cio2_media_release +1686 drivers/media/pci/intel/ipu3/ipu3-cio2.c
-
-803abec64ef9d3 drivers/media/pci/intel/ipu3/ipu3-cio2-main.c Daniel Scally 2021-01-07  1685  
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20 @1686  static void cio2_media_release(struct media_device *mdev)
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1687  {
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1688  	struct cio2_device *cio2 =
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1689  		container_of(mdev, struct cio2_device, media_dev);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1690  
-ccf99d37ece499 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2023-10-05  1691  	printk("cio2 media release\n");
-ccf99d37ece499 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2023-10-05  1692  
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1693  	v4l2_async_nf_cleanup(&cio2->notifier);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1694  	cio2_queues_exit(cio2);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1695  	cio2_fbpt_exit_dummy(cio2);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1696  	mutex_destroy(&cio2->lock);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1697  
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1698  	kfree(cio2);
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1699  }
-a42031c1c78258 drivers/media/pci/intel/ipu3/ipu3-cio2.c      Sakari Ailus  2022-12-20  1700  
-
-:::::: The code at line 1686 was first introduced by commit
-:::::: a42031c1c782585594774333337fd9dd73a6014b media: ipu3-cio2: Release the cio2 device context by media device callback
-
-:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+   loongarch64-linux-ld: fs/xfs/xfs_mount.o: in function `xfs_unmountfs':
+   xfs_mount.c:(.text+0xd7c): undefined reference to `xfs_zone_gc_stop'
+   loongarch64-linux-ld: fs/xfs/xfs_mount.o: in function `.L267':
+   xfs_mount.c:(.text+0x161c): undefined reference to `xfs_zone_gc_start'
+   loongarch64-linux-ld: fs/xfs/xfs_super.o: in function `.L805':
+>> xfs_super.c:(.text+0x2bcc): undefined reference to `xfs_zone_gc_stop'
+   loongarch64-linux-ld: fs/xfs/xfs_super.o: in function `.L803':
+   xfs_super.c:(.text+0x2c9c): undefined reference to `xfs_zone_gc_start'
 
 -- 
 0-DAY CI Kernel Test Service
