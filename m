@@ -1,201 +1,139 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5513058ABB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 09:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6048F48CD0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 09:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706001939; cv=none; b=FF0VV7GR0hj3+7P06WAoXlfGpTPLoSA4xXkEfB7LSawmS9F1G3gIzjEJY4HTmWFf9Z6GAmYA4a+Tjvp6onEiTButfmIp7yYGC5P6IOCmhB7Zvhfi7hrk9Cxa2jVVJ65wZkLzTf8uNwfL5ckXDr7cVpEg4ZB7UA6qdcGyet5HoGs=
+	t=1706002648; cv=none; b=UpHoNQdqWcVS9GjJvPqHQugC5MhHdS+ePwTq5UplyjsxdVyiKbMfx0yOeVstuCzddtrUEkDK6iCyKiS+YWgm8UOQY10faaNkgBftqXLzbN9Ef0anTk7MuwCqNRMyk4FNdD+rOiV0sJWJfE5oXxACb2gT5Q5W5Lzt4BPnewEvKKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706001939; c=relaxed/simple;
-	bh=r4YRhZLeSLaO0uN9+71zEwgu+kYHeWqL9fe4m98ZZYM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Ef0W428O4mK/fLnxWvtomrmoY7NCdg9p20ZPupd7l7M6C3xAvK7zrYdfs/wJ0Kw/kw4FYPPB24LJnbiveQiwFw1raLH9Yjk7KLot/8q7EZ6Br58k0IziJvamVrYB0PwoXgslTLvatV7kxCZ3tSiXCglC5Qxa+DSTPmMjckXZCvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1rSD26-0001ky-SV; Tue, 23 Jan 2024 10:25:26 +0100
-Message-ID: <387720feac4593ac66fac594950975a6a317da46.camel@pengutronix.de>
-Subject: Re: [linux-next:master 139/1036]
- drivers/gpu/drm/etnaviv/etnaviv_drv.c:614:3-14: ERROR: probable double put.
- (fwd)
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui JIngfeng <sui.jingfeng@linux.dev>, Julia Lawall
- <julia.lawall@inria.fr>
-Cc: Linux Memory Management List <linux-mm@kvack.org>, 
-	oe-kbuild-all@lists.linux.dev
-Date: Tue, 23 Jan 2024 10:25:25 +0100
-In-Reply-To: <8f844ac1-eecf-4ace-854e-6d7d7aad9ad6@linux.dev>
-References: <94afe420-f3b-5620-2380-82c9c62838f0@inria.fr>
-	 <8f844ac1-eecf-4ace-854e-6d7d7aad9ad6@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	s=arc-20240116; t=1706002648; c=relaxed/simple;
+	bh=iRTPa9ekwgK9ZKeDBEa/aiPsJbuxqT8J9aScWpKdvpw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=t4CKsqh/RZ5GGw4yMQThDR68aNvDrG2ljNymvG9YGMnnmraTQ2g+rwpv2Qd7CTYKvOxp2oN9iHLzGrUePiNIXQTJZIBauE7GHQIL4HMeElZzQDGg+jC0asp/PYPPc5BTIudrNM8vGQ/8ictH6M70FWgdaA7GmzybD7MPI6PsADI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YUcQ+6Xy; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YUcQ+6Xy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706002646; x=1737538646;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iRTPa9ekwgK9ZKeDBEa/aiPsJbuxqT8J9aScWpKdvpw=;
+  b=YUcQ+6XytxEgLCerpHrq9DkLBhdSIP39QPJb3wAeOggXOtNWl5ejyfXp
+   mp+cye//4gkEZL9b3yZYgAbnpuws0aU8h26UyNzjFEM1PqBnnzqcBWqv4
+   kOOOVGUYvzFLjWTVllBSl2IcZgVUa/2jPJyJGv9DWZktNvLVD+H+tQk8u
+   fafeq5jKIwBYI1NYOB1/k4PVeFeGNtGTZcaXj7yKlGdrqGOX3yoFxbP6c
+   I3Kt5MqF3onDZ6MX4UXFGQCkujAgxSxO9cG6TDn1t/u7hbQB1VzPMVHzU
+   X+/8fARkgz8FF9sIAa5dY/7tae2I1eKv5iXG6K41REuWmL3CEHOrZWEFr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="361347"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="361347"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 01:37:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="27959994"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 23 Jan 2024 01:37:09 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rSDDP-0007Jn-0S;
+	Tue, 23 Jan 2024 09:37:07 +0000
+Date: Tue, 23 Jan 2024 17:36:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/namespace.c:5026:1: warning: the frame size of 1040 bytes is
+ larger than 1024 bytes
+Message-ID: <202401231743.amoJ86dc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Jingfeng, hi Julia,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7ed2632ec7d72e926b9e8bcc9ad1bb0cd37274bf
+commit: 35e27a5744131996061e6e323f1bcb4c827ae867 fs: keep struct mnt_id_req extensible
+date:   6 weeks ago
+config: x86_64-dcg_x86_64_defconfig-func (https://download.01.org/0day-ci/archive/20240123/202401231743.amoJ86dc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240123/202401231743.amoJ86dc-lkp@intel.com/reproduce)
 
-Am Montag, dem 22.01.2024 um 21:49 +0800 schrieb Sui JIngfeng:
-> Hi,
->=20
->=20
-> On 2024/1/22 20:33, Julia Lawall wrote:
-> > The of_node_put on line 614 does not look useful.
->=20
-> Simply delete that line would solve this problem, what do you think?
->=20
-Yes, that looks right. As the patch was only in etnaviv/next, which is
-not a stable branch I amended the patch, dropping this line.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401231743.amoJ86dc-lkp@intel.com/
 
-Regards,
-Lucas
+All warnings (new ones prefixed by >>):
 
->=20
-> >=20
-> > ---------- Forwarded message ----------
-> > Date: Mon, 22 Jan 2024 19:18:22 +0800
-> > From: kernel test robot <lkp@intel.com>
-> > To: oe-kbuild@lists.linux.dev
-> > Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> > Subject: [linux-next:master 139/1036]
-> >      drivers/gpu/drm/etnaviv/etnaviv_drv.c:614:3-14: ERROR: probable do=
-uble put.
-> >=20
-> > BCC: lkp@intel.com
-> > CC: oe-kbuild-all@lists.linux.dev
-> > CC: Linux Memory Management List <linux-mm@kvack.org>
-> > TO: Sui Jingfeng <suijingfeng@loongson.cn>
-> > CC: Lucas Stach <l.stach@pengutronix.de>
-> >=20
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
-.git master
-> > head:   319fbd8fc6d339e0a1c7b067eed870c518a13a02
-> > commit: 56df40c804fa40712239478355abe265aeda2197 [139/1036] drm/etnaviv=
-: Add a helper to get the first available GPU device node
-> > :::::: branch date: 10 hours ago
-> > :::::: commit date: 3 months ago
-> > config: x86_64-randconfig-102-20240122 (https://download.01.org/0day-ci=
-/archive/20240122/202401221903.GjEKVu8R-lkp@intel.com/config)
-> > compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm=
-/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> > > Closes: https://lore.kernel.org/r/202401221903.GjEKVu8R-lkp@intel.com=
-/
-> >=20
-> > cocci warnings: (new ones prefixed by >>)
-> > > > drivers/gpu/drm/etnaviv/etnaviv_drv.c:614:3-14: ERROR: probable dou=
-ble put.
-> > vim +614 drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> >=20
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  597
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  598  static int etnaviv_=
-pdev_probe(struct platform_device *pdev)
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  599  {
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  600  	struct device *dev=
- =3D &pdev->dev;
-> > 0ea057a9cb2be4 Michael Walle       2021-09-07  601  	struct device_node=
- *first_node =3D NULL;
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  602  	struct component_m=
-atch *match =3D NULL;
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  603
-> > 246774d17fc05a Lucas Stach         2018-01-24  604  	if (!dev->platform=
-_data) {
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  605  		struct device_nod=
-e *core_node;
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  606
-> > 246774d17fc05a Lucas Stach         2018-01-24  607  		for_each_compatib=
-le_node(core_node, NULL, "vivante,gc") {
-> > 246774d17fc05a Lucas Stach         2018-01-24  608  			if (!of_device_i=
-s_available(core_node))
-> > 246774d17fc05a Lucas Stach         2018-01-24  609  				continue;
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  610
-> > 97ac0e47aed5f6 Russell King        2016-10-19  611  			drm_of_component=
-_match_add(&pdev->dev, &match,
-> > 0a522394202f1f Yong Wu             2022-02-14  612  						   component_=
-compare_of, core_node);
-> > 56df40c804fa40 Sui Jingfeng        2023-10-02  613
-> > 56df40c804fa40 Sui Jingfeng        2023-10-02 @614  			of_node_put(core=
-_node);
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  615  		}
-> > 246774d17fc05a Lucas Stach         2018-01-24  616  	} else {
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  617  		char **names =3D =
-dev->platform_data;
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  618  		unsigned i;
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  619
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  620  		for (i =3D 0; nam=
-es[i]; i++)
-> > 0a522394202f1f Yong Wu             2022-02-14  621  			component_match_=
-add(dev, &match, component_compare_dev_name, names[i]);
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  622  	}
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  623
-> > f5be833dc86f49 Michael Walle       2021-09-07  624  	/*
-> > f5be833dc86f49 Michael Walle       2021-09-07  625  	 * PTA and MTLB ca=
-n have 40 bit base addresses, but
-> > f5be833dc86f49 Michael Walle       2021-09-07  626  	 * unfortunately, =
-an entry in the MTLB can only point to a
-> > f5be833dc86f49 Michael Walle       2021-09-07  627  	 * 32 bit base add=
-ress of a STLB. Moreover, to initialize the
-> > f5be833dc86f49 Michael Walle       2021-09-07  628  	 * MMU we need a c=
-ommand buffer with a 32 bit address because
-> > f5be833dc86f49 Michael Walle       2021-09-07  629  	 * without an MMU =
-there is only an indentity mapping between
-> > f5be833dc86f49 Michael Walle       2021-09-07  630  	 * the internal 32=
- bit addresses and the bus addresses.
-> > f5be833dc86f49 Michael Walle       2021-09-07  631  	 *
-> > f5be833dc86f49 Michael Walle       2021-09-07  632  	 * To make things =
-easy, we set the dma_coherent_mask to 32
-> > f5be833dc86f49 Michael Walle       2021-09-07  633  	 * bit to make sur=
-e we are allocating the command buffers and
-> > f5be833dc86f49 Michael Walle       2021-09-07  634  	 * TLBs in the low=
-er 4 GiB address space.
-> > f5be833dc86f49 Michael Walle       2021-09-07  635  	 */
-> > f5be833dc86f49 Michael Walle       2021-09-07  636  	if (dma_set_mask(&=
-pdev->dev, DMA_BIT_MASK(40)) ||
-> > f5be833dc86f49 Michael Walle       2021-09-07  637  	    dma_set_cohere=
-nt_mask(&pdev->dev, DMA_BIT_MASK(32))) {
-> > f5be833dc86f49 Michael Walle       2021-09-07  638  		dev_dbg(&pdev->de=
-v, "No suitable DMA available\n");
-> > f5be833dc86f49 Michael Walle       2021-09-07  639  		return -ENODEV;
-> > f5be833dc86f49 Michael Walle       2021-09-07  640  	}
-> > f5be833dc86f49 Michael Walle       2021-09-07  641
-> > 0ea057a9cb2be4 Michael Walle       2021-09-07  642  	/*
-> > 0ea057a9cb2be4 Michael Walle       2021-09-07  643  	 * Apply the same =
-DMA configuration to the virtual etnaviv
-> > 0ea057a9cb2be4 Michael Walle       2021-09-07  644  	 * device as the G=
-PU we found. This assumes that all Vivante
-> > 0ea057a9cb2be4 Michael Walle       2021-09-07  645  	 * GPUs in the sys=
-tem share the same DMA constraints.
-> > 0ea057a9cb2be4 Michael Walle       2021-09-07  646  	 */
-> > 56df40c804fa40 Sui Jingfeng        2023-10-02  647  	first_node =3D etn=
-aviv_of_first_available_node();
-> > 56df40c804fa40 Sui Jingfeng        2023-10-02  648  	if (first_node) {
-> > 0ea057a9cb2be4 Michael Walle       2021-09-07  649  		of_dma_configure(=
-&pdev->dev, first_node, true);
-> > 56df40c804fa40 Sui Jingfeng        2023-10-02  650  		of_node_put(first=
-_node);
-> > 56df40c804fa40 Sui Jingfeng        2023-10-02  651  	}
-> > 0ea057a9cb2be4 Michael Walle       2021-09-07  652
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  653  	return component_m=
-aster_add_with_match(dev, &etnaviv_master_ops, match);
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  654  }
-> > a8c21a5451d831 The etnaviv authors 2015-12-03  655
-> >=20
+   fs/namespace.c: In function '__do_sys_statmount':
+>> fs/namespace.c:5026:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    5026 | }
+         | ^
 
+
+vim +5026 fs/namespace.c
+
+35e27a57441319 Christian Brauner 2023-11-29  4982  
+46eae99ef73302 Miklos Szeredi    2023-10-25  4983  SYSCALL_DEFINE4(statmount, const struct mnt_id_req __user *, req,
+46eae99ef73302 Miklos Szeredi    2023-10-25  4984  		struct statmount __user *, buf, size_t, bufsize,
+46eae99ef73302 Miklos Szeredi    2023-10-25  4985  		unsigned int, flags)
+46eae99ef73302 Miklos Szeredi    2023-10-25  4986  {
+46eae99ef73302 Miklos Szeredi    2023-10-25  4987  	struct vfsmount *mnt;
+46eae99ef73302 Miklos Szeredi    2023-10-25  4988  	struct mnt_id_req kreq;
+68385d77c05b40 Christian Brauner 2023-11-19  4989  	struct kstatmount ks;
+68385d77c05b40 Christian Brauner 2023-11-19  4990  	/* We currently support retrieval of 3 strings. */
+68385d77c05b40 Christian Brauner 2023-11-19  4991  	size_t seq_size = 3 * PATH_MAX;
+46eae99ef73302 Miklos Szeredi    2023-10-25  4992  	int ret;
+46eae99ef73302 Miklos Szeredi    2023-10-25  4993  
+46eae99ef73302 Miklos Szeredi    2023-10-25  4994  	if (flags)
+46eae99ef73302 Miklos Szeredi    2023-10-25  4995  		return -EINVAL;
+46eae99ef73302 Miklos Szeredi    2023-10-25  4996  
+35e27a57441319 Christian Brauner 2023-11-29  4997  	ret = copy_mnt_id_req(req, &kreq);
+35e27a57441319 Christian Brauner 2023-11-29  4998  	if (ret)
+35e27a57441319 Christian Brauner 2023-11-29  4999  		return ret;
+46eae99ef73302 Miklos Szeredi    2023-10-25  5000  
+68385d77c05b40 Christian Brauner 2023-11-19  5001  retry:
+68385d77c05b40 Christian Brauner 2023-11-19  5002  	ret = prepare_kstatmount(&ks, &kreq, buf, bufsize, seq_size);
+68385d77c05b40 Christian Brauner 2023-11-19  5003  	if (ret)
+68385d77c05b40 Christian Brauner 2023-11-19  5004  		return ret;
+68385d77c05b40 Christian Brauner 2023-11-19  5005  
+46eae99ef73302 Miklos Szeredi    2023-10-25  5006  	down_read(&namespace_sem);
+46eae99ef73302 Miklos Szeredi    2023-10-25  5007  	mnt = lookup_mnt_in_ns(kreq.mnt_id, current->nsproxy->mnt_ns);
+68385d77c05b40 Christian Brauner 2023-11-19  5008  	if (!mnt) {
+68385d77c05b40 Christian Brauner 2023-11-19  5009  		up_read(&namespace_sem);
+68385d77c05b40 Christian Brauner 2023-11-19  5010  		kvfree(ks.seq.buf);
+68385d77c05b40 Christian Brauner 2023-11-19  5011  		return -ENOENT;
+46eae99ef73302 Miklos Szeredi    2023-10-25  5012  	}
+68385d77c05b40 Christian Brauner 2023-11-19  5013  
+68385d77c05b40 Christian Brauner 2023-11-19  5014  	ks.mnt = mnt;
+68385d77c05b40 Christian Brauner 2023-11-19  5015  	get_fs_root(current->fs, &ks.root);
+68385d77c05b40 Christian Brauner 2023-11-19  5016  	ret = do_statmount(&ks);
+68385d77c05b40 Christian Brauner 2023-11-19  5017  	path_put(&ks.root);
+46eae99ef73302 Miklos Szeredi    2023-10-25  5018  	up_read(&namespace_sem);
+46eae99ef73302 Miklos Szeredi    2023-10-25  5019  
+68385d77c05b40 Christian Brauner 2023-11-19  5020  	if (!ret)
+68385d77c05b40 Christian Brauner 2023-11-19  5021  		ret = copy_statmount_to_user(&ks);
+68385d77c05b40 Christian Brauner 2023-11-19  5022  	kvfree(ks.seq.buf);
+68385d77c05b40 Christian Brauner 2023-11-19  5023  	if (retry_statmount(ret, &seq_size))
+68385d77c05b40 Christian Brauner 2023-11-19  5024  		goto retry;
+46eae99ef73302 Miklos Szeredi    2023-10-25  5025  	return ret;
+46eae99ef73302 Miklos Szeredi    2023-10-25 @5026  }
+46eae99ef73302 Miklos Szeredi    2023-10-25  5027  
+
+:::::: The code at line 5026 was first introduced by commit
+:::::: 46eae99ef73302f9fb3dddcd67c374b3dffe8fd6 add statmount(2) syscall
+
+:::::: TO: Miklos Szeredi <mszeredi@redhat.com>
+:::::: CC: Christian Brauner <brauner@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
