@@ -1,55 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BAE3811E5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 17:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6916D81AB4;
+	Tue, 23 Jan 2024 18:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706032416; cv=none; b=Bi+/roNt7n53tf1jVdJnoj/D24n5usoFvQaFUb3MDnzu5JOAGNCYbmjHcDMAlZf7izr1MfrKMWIK8FFarSc0NbygOq0VqcVHsUGiI+ExCH2gucjA0m0e6ZvX1VYPjhl9Gy7+JFtz/ExKR5lYpFCBwzv1P+wFKHDKwiON96OFc8Y=
+	t=1706035540; cv=none; b=hBK0ebAOzTm4WvGLzwp0+cepKE+SmXT5X565lKcMNiOcy0PudSHlsIQQJ3mIECHZZG/jUnmseOztNB6m2C01v7B6IPDGdoj9k+fBbzl2xpFLeHq0DSqRi2wRi1bicDt6Nghe1MSgg+kwA5g4FBfYGYZPPKN5dqP/f8acVEFTZQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706032416; c=relaxed/simple;
-	bh=y21pFYnFd9fzFS1puP0+UCRI29YxSeRSB9ByXEjJr0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W4YtPnKLLhlUZV05AbQ8YO3xlGyRlLO1EWl3heFPIIthcFiJH1cf3kLOkE6Kq6iaYhsOBYg4t1VJ3kg0URXKDIwtPmeBnGFoRUxR5w6n3UB4wdZf97lZqqD+UPlsuQHAzQ7Rb+r4RqTp0TcYXFsnztDkL4oJjQtteuMZLal8fFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvIDqypb; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1706035540; c=relaxed/simple;
+	bh=9Y3gZLMDAO/ZiqXH+H2JOVRgL+9SRPuL/r8AXWwdHSA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FXUaE1+WufMoDvCotG/h2rTwbCarGP8541YcULF643KPWIhuKs0cZnlv1SbyIhabPn+BqsMvRJO8ogfCUeM77RZr7Lkf0tJ4hMkS7wKI+BcvUkvwnJbET9wovDuz2SIHeWSHe1NFSxYlY9NLyDd6CIsAhaCKvIpOnOIcE3TPasE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kPO3habK; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvIDqypb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kPO3habK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706032414; x=1737568414;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y21pFYnFd9fzFS1puP0+UCRI29YxSeRSB9ByXEjJr0Q=;
-  b=RvIDqypbIXjPcz7jEBoA2mX3e158P5Oq7PWItsbw1/Jzt0eKXdurmhcx
-   mmZTCtVaDMRyIXTW7/8coLP8xcv6EJkEEbvvi1Wr0WLFtZOOPxD3OTbEx
-   usJjW1nA222YFktwuUpZxYzOiCTPRN93wT1jjZusXwT15GCZ+LBy7XpHi
-   mS8f+GWeXqtru44840UffV10PdetkiCEu/LfXDa4vBIk3KFARrGMvjRFf
-   7DQbH9OSp1uNMZ9nR/xZEqs/QqhMbJXxlqeeY4/dfWS9a4lHH9NcfJoTJ
-   sfeww0aE3V3PV/4VlfiUw+U3/Mc3lIuu+mOx+AmsW8mxLiJhKMcPPE4zE
+  t=1706035536; x=1737571536;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9Y3gZLMDAO/ZiqXH+H2JOVRgL+9SRPuL/r8AXWwdHSA=;
+  b=kPO3habKBzMdMCf8Zm2r1qPT11+SEXqSP/CFeKn7QRsMUM6ooQWn5/uZ
+   W1xCNLj+tQDsPJ1gsDCRh5YKijVyeVkiosc0lISuTslaL0v/DctUZfUKI
+   G3utlacW8hs6zjy9lSQY58B4yosuxkCtAu2JjTPo17MuG6+TF3D/T3a6v
+   76fP4Tk9EdhNwc/uEuHuWesJb2U2KKVvi3nSRiTtHDJCwMQSe9Eku9xFw
+   ouXcaI71g9sUwErF44eYqI93e43wi1eqqlGXJ/rlwvXxzdQzTzG6sNSKO
+   YdVnu6bwnNandf6ItRgV2Z7Ifc4FPWgpPtwh/98X5nC4q/LRYcEzlRkDV
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1483876"
-X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
-   d="scan'208";a="1483876"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 09:53:33 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8980486"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
+   d="scan'208";a="8980486"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 10:45:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
-   d="scan'208";a="20418436"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="929419840"
+X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
+   d="scan'208";a="929419840"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Jan 2024 09:53:31 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 23 Jan 2024 10:45:32 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSKxl-0007ah-1C;
-	Tue, 23 Jan 2024 17:53:29 +0000
-Date: Wed, 24 Jan 2024 01:53:10 +0800
+	id 1rSLm6-0007br-1O;
+	Tue, 23 Jan 2024 18:45:30 +0000
+Date: Wed, 24 Jan 2024 02:45:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 13535/21565] versioncheck:
- ./drivers/net/ethernet/huawei/hinic/ossl_knl_linux.h: 22 linux/version.h not
- needed.
-Message-ID: <202401240125.Z7PTVEEr-lkp@intel.com>
+To: Yi Sun <yi.sun@unisoc.com>, axboe@kernel.dk, mst@redhat.com,
+	jasowang@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, xuanzhuo@linux.alibaba.com,
+	pbonzini@redhat.com, stefanha@redhat.com,
+	virtualization@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yi.sun@unisoc.com,
+	zhiguo.niu@unisoc.com, hongyu.jin@unisoc.com, sunyibuaa@gmail.com
+Subject: Re: [PATCH 1/2] blk-mq: introduce
+ blk_mq_tagset_wait_request_completed()
+Message-ID: <202401240242.k3K7SkiZ-lkp@intel.com>
+References: <20240122110722.690223-2-yi.sun@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,86 +65,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240122110722.690223-2-yi.sun@unisoc.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   fb3a7131883be36037affebc26a6597087cbd012
-commit: 1f15bf7613a9e2ad479486dbfbd6ea47c1176306 [13535/21565] net/hinic: Delete the remaining old linux kernel adaptation interface
-reproduce: (https://download.01.org/0day-ci/archive/20240124/202401240125.Z7PTVEEr-lkp@intel.com/reproduce)
+Hi Yi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.8-rc1 next-20240123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yi-Sun/blk-mq-introduce-blk_mq_tagset_wait_request_completed/20240122-192222
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20240122110722.690223-2-yi.sun%40unisoc.com
+patch subject: [PATCH 1/2] blk-mq: introduce blk_mq_tagset_wait_request_completed()
+config: i386-buildonly-randconfig-002-20240123 (https://download.01.org/0day-ci/archive/20240124/202401240242.k3K7SkiZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401240242.k3K7SkiZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401240125.Z7PTVEEr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401240242.k3K7SkiZ-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/hisilicon/hns3/hns-customer/hns3_enet_it.c: 84: need linux/version.h
-   ./drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_init.c: 536: need linux/version.h
-   ./drivers/net/ethernet/hisilicon/hns3/kcompat.c: 82: need linux/version.h
->> ./drivers/net/ethernet/huawei/hinic/ossl_knl_linux.h: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+>> block/blk-mq-tag.c:498: warning: Function parameter or struct member 'tagset' not described in 'blk_mq_tagset_wait_request_completed'
+
+
+vim +498 block/blk-mq-tag.c
+
+   490	
+   491	/**
+   492	 * blk_mq_tagset_wait_request_completed - Wait for all inflight requests
+   493	 * to become completed.
+   494	 *
+   495	 * Note: This function has to be run after all IO queues are shutdown.
+   496	 */
+   497	void blk_mq_tagset_wait_request_completed(struct blk_mq_tag_set *tagset)
+ > 498	{
+   499		while (true) {
+   500			unsigned int count = 0;
+   501	
+   502			blk_mq_tagset_busy_iter(tagset,
+   503					blk_mq_tagset_count_inflight_rqs, &count);
+   504			if (!count)
+   505				break;
+   506			msleep(20);
+   507		}
+   508	}
+   509	EXPORT_SYMBOL(blk_mq_tagset_wait_request_completed);
+   510	
 
 -- 
 0-DAY CI Kernel Test Service
