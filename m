@@ -1,180 +1,144 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2514581211
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 17:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BAE3811E5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 17:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706031995; cv=none; b=BqMfhXl1kpR45V49axXog90mVrRsL2wEx7qIooZEW6byQNZ85xklgmcv2vFUMjCyH2ni3i75VMgQP2k3b8EWEaITRJXFRwi4TDdMmZKQMruOBoQXrn9gWSyzgJGp4oBcTTf2Bmsaa3Ega3OAeh3Vt+oqYnfsYmuvepOsfilBN7w=
+	t=1706032416; cv=none; b=Bi+/roNt7n53tf1jVdJnoj/D24n5usoFvQaFUb3MDnzu5JOAGNCYbmjHcDMAlZf7izr1MfrKMWIK8FFarSc0NbygOq0VqcVHsUGiI+ExCH2gucjA0m0e6ZvX1VYPjhl9Gy7+JFtz/ExKR5lYpFCBwzv1P+wFKHDKwiON96OFc8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706031995; c=relaxed/simple;
-	bh=6lPJkqR20CZJ7JDcaUr9pIS1wTvhBq5nmz9ehJDu/E0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pczcNoZZlExL9QZYfEoaCE2GzRYlzw7OAsnK4/tJ0pecBtmv7gYvQcL/buF2V+fdf8Mehn7H8tgYcLVPVje9g6JgTBqXBqoZ9n8oAdLrGwtLbgld7CrKBkfCjMwbSFa9vE/nEWv3pvk0FPE0sdK4xNqDFzN8m78aBJq+tRl7LsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PfOuIfNA; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1706032416; c=relaxed/simple;
+	bh=y21pFYnFd9fzFS1puP0+UCRI29YxSeRSB9ByXEjJr0Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W4YtPnKLLhlUZV05AbQ8YO3xlGyRlLO1EWl3heFPIIthcFiJH1cf3kLOkE6Kq6iaYhsOBYg4t1VJ3kg0URXKDIwtPmeBnGFoRUxR5w6n3UB4wdZf97lZqqD+UPlsuQHAzQ7Rb+r4RqTp0TcYXFsnztDkL4oJjQtteuMZLal8fFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvIDqypb; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PfOuIfNA"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2cf19f65271so6945891fa.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 09:46:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1706031990; x=1706636790; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9k+udVHCQij9ZyhLL/CP/wWBU5q55R/Zc/OGcMOiAAo=;
-        b=PfOuIfNA1Ykn58aZksB+QnyS7dsFTWSmw1p3tAHPwPrbubXRdwYqnKURn6EtkZS5wX
-         d2MBeTk26jQ49pxIX/t77Rhp4xuQQkxfStmvA27ScMkDpVfh4HYWzX2oHvY2Qa1V9BTW
-         XqG19AlHOJj0W02e9L3ujJgIvi336vyC0TypY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706031990; x=1706636790;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9k+udVHCQij9ZyhLL/CP/wWBU5q55R/Zc/OGcMOiAAo=;
-        b=qnpoKnxK9c3poo+wDNQ+51gk3gSADz/0ZhRMhC+QCI2aN/DWQnPjiQUleJ0J+vVv9+
-         UrBOqr7Ig9Xp5CKF5hFS3JQjwx9wI8kNA3mTQA90DsqxIMmjL0idr8bEwJFz/8iT9eO0
-         Tj6cSk0zqHt6LjRrCjeA0wroUT63cefs21FtzbRzxJlGoLcjd692jr1DrbF7x7GB/QSR
-         EYUSKMCQAgGMdBzTqCQXXVr8HOp6K9c4WEQ+6DozJuy9ZRTldXV1e3rK75Utm2hFxLHf
-         vyN/iTP4fTkQkkjiA500cgIkYuaJd9EGwg4CumW7Te3cViCNVLFv7ivd0BxB0m9D2x4v
-         6ImA==
-X-Gm-Message-State: AOJu0YxOOuJw5CF4e/47A6QzZtohLO/odaRAJrRDw/4QU1Ca88gyRDvt
-	97rM6pyYv+lRidYJZZ2DyMeUQKKZABD5Cfjnw5fFB4nMuCsrMavIUhs/efB7QNgHgRWfRXRxdbX
-	CdbYS9Q==
-X-Google-Smtp-Source: AGHT+IH4y1ui7awIIDLMAs9oAviUGwf4FHLL+rIXy2ppTefk3MgFbomwRrF5HD+/LwvgiWVjfr/OJg==
-X-Received: by 2002:a2e:b5b7:0:b0:2cc:c093:a328 with SMTP id f23-20020a2eb5b7000000b002ccc093a328mr71856ljn.25.1706031990015;
-        Tue, 23 Jan 2024 09:46:30 -0800 (PST)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
-        by smtp.gmail.com with ESMTPSA id c18-20020a05651c015200b002cce6095241sm3609488ljd.62.2024.01.23.09.46.27
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jan 2024 09:46:27 -0800 (PST)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2cf19f65271so6945011fa.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 09:46:27 -0800 (PST)
-X-Received: by 2002:a2e:be90:0:b0:2cc:a638:56b1 with SMTP id
- a16-20020a2ebe90000000b002cca63856b1mr91949ljr.96.1706031986757; Tue, 23 Jan
- 2024 09:46:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvIDqypb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706032414; x=1737568414;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y21pFYnFd9fzFS1puP0+UCRI29YxSeRSB9ByXEjJr0Q=;
+  b=RvIDqypbIXjPcz7jEBoA2mX3e158P5Oq7PWItsbw1/Jzt0eKXdurmhcx
+   mmZTCtVaDMRyIXTW7/8coLP8xcv6EJkEEbvvi1Wr0WLFtZOOPxD3OTbEx
+   usJjW1nA222YFktwuUpZxYzOiCTPRN93wT1jjZusXwT15GCZ+LBy7XpHi
+   mS8f+GWeXqtru44840UffV10PdetkiCEu/LfXDa4vBIk3KFARrGMvjRFf
+   7DQbH9OSp1uNMZ9nR/xZEqs/QqhMbJXxlqeeY4/dfWS9a4lHH9NcfJoTJ
+   sfeww0aE3V3PV/4VlfiUw+U3/Mc3lIuu+mOx+AmsW8mxLiJhKMcPPE4zE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1483876"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="1483876"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 09:53:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208";a="20418436"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 23 Jan 2024 09:53:31 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rSKxl-0007ah-1C;
+	Tue, 23 Jan 2024 17:53:29 +0000
+Date: Wed, 24 Jan 2024 01:53:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 13535/21565] versioncheck:
+ ./drivers/net/ethernet/huawei/hinic/ossl_knl_linux.h: 22 linux/version.h not
+ needed.
+Message-ID: <202401240125.Z7PTVEEr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202401230837.TXro0PHi-lkp@intel.com> <59fae3eb-a125-cd5f-224e-b89d122ecb46@huawei.com>
-In-Reply-To: <59fae3eb-a125-cd5f-224e-b89d122ecb46@huawei.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 23 Jan 2024 09:46:10 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whoNcNpojRUjg65ixWDOJS-D1kvSHQvtNFtEq7aJw=5Fw@mail.gmail.com>
-Message-ID: <CAHk-=whoNcNpojRUjg65ixWDOJS-D1kvSHQvtNFtEq7aJw=5Fw@mail.gmail.com>
-Subject: Re: [brauner-vfs:vfs.misc 12/13] include/linux/fs.h:911:9: error:
- call to '__compiletime_assert_207' declared with 'error' attribute: Need
- native word sized stores/loads for atomicity.
-To: Baokun Li <libaokun1@huawei.com>
-Cc: kernel test robot <lkp@intel.com>, sfr@canb.auug.org.au, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, 
-	Christian Brauner <christianvanbrauner@gmail.com>, Christian Brauner <brauner@kernel.org>, 
-	yangerkun <yangerkun@huawei.com>, "zhangyi (F)" <yi.zhang@huawei.com>, linux-next@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 22 Jan 2024 at 23:08, Baokun Li <libaokun1@huawei.com> wrote:
->
-> >>> include/linux/fs.h:911:9: error: call to '__compiletime_assert_207' declared with 'error' attribute: Need native word sized stores/loads for atomicity.
-> >       911 |         return smp_load_acquire(&inode->i_size);
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   fb3a7131883be36037affebc26a6597087cbd012
+commit: 1f15bf7613a9e2ad479486dbfbd6ea47c1176306 [13535/21565] net/hinic: Delete the remaining old linux kernel adaptation interface
+reproduce: (https://download.01.org/0day-ci/archive/20240124/202401240125.Z7PTVEEr-lkp@intel.com/reproduce)
 
-Ahh, yes. We used to allow READ_ONCE() on non-atomic data structures
-(we still do, but we used to too), but with truly atomic cases it's
-wrong, since reading a 64-bit value with two 32-bit instructions is
-clearly ever atomic.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401240125.Z7PTVEEr-lkp@intel.com/
 
-So your patch is hitting the "these atomic and/or ordered accesses
-need to be able to actually be done as *one* access" sanity check.
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/hisilicon/hns3/hns-customer/hns3_enet_it.c: 84: need linux/version.h
+   ./drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_init.c: 536: need linux/version.h
+   ./drivers/net/ethernet/hisilicon/hns3/kcompat.c: 82: need linux/version.h
+>> ./drivers/net/ethernet/huawei/hinic/ossl_knl_linux.h: 22 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
-And the reason is that while we have special-cases 32-bit AMP and
-preemption code to avoid this:
-
-> >     891       static inline loff_t i_size_read(const struct inode *inode)
-> >     892       {
-> >     893       #if BITS_PER_LONG==32 && defined(CONFIG_SMP)
-> >     894               loff_t i_size;
-> >     895               unsigned int seq;
-> >     896
-> >     897               do {
-> >     898                       seq = read_seqcount_begin(&inode->i_size_seqcount);
-> >     899                       i_size = inode->i_size;
-> >     900               } while (read_seqcount_retry(&inode->i_size_seqcount, seq));
-> >     901               return i_size;
-> >     902       #elif BITS_PER_LONG==32 && defined(CONFIG_PREEMPTION)
-> >     903               loff_t i_size;
-> >     904
-> >     905               preempt_disable();
-> >     906               i_size = inode->i_size;
-> >     907               preempt_enable();
-> >     908               return i_size;
-
-We have *not* special-cased the UP and non-preempt code, because in
-that case doing a 64-bit load with two 32-bit accesses is obviously
-fine (modulo interrupts, which *really* shouldn't be changing i_size.
-
-So this last case:
-
-> >     909       #else
-> >     910               /* Pairs with smp_store_release() in i_size_write() */
-> >   > 911               return smp_load_acquire(&inode->i_size);
-> >     912       #endif
-
-used to be just a simple
-
-        return inode->i_size;
-
-but now that you changed it to smp_load_acquire(), our "native size"
-sanity checks kick in.
-
-The solution is either to add a new case here (saying "if we're not
-SMP, the smp_load_acquire() is pointless"), or to just remove the size
-check from the non-SMP version of smp_load_acquire().
-
-Honestly, that sounds like the right thing to do anyway. Our non-SMP
-case looks like this:
-
-#ifndef smp_load_acquire
-#define smp_load_acquire(p)                                             \
-({                                                                      \
-        __unqual_scalar_typeof(*p) ___p1 = READ_ONCE(*p);               \
-        compiletime_assert_atomic_type(*p);                             \
-        barrier();                                                      \
-        (typeof(*p))___p1;                                              \
-})
-#endif
-
-and that compiletime_assert_atomic_type() might as well go away. Yes,
-it removes some type-checking coverage, but honestly, the non-SMP case
-simply isn't relevant. No developer uses a UP build for testing
-anyway, so the "less coverage" is pretty much completely theoretical.
-
-So I *think* the fix is as trivial as something like this:
-
-  --- a/include/asm-generic/barrier.h
-  +++ b/include/asm-generic/barrier.h
-  @@ -193,7 +193,6 @@ do {                                      \
-   #ifndef smp_store_release
-   #define smp_store_release(p, v)                              \
-   do {                                                         \
-  -     compiletime_assert_atomic_type(*p);                     \
-        barrier();                                              \
-        WRITE_ONCE(*p, v);                                      \
-   } while (0)
-  @@ -203,7 +202,6 @@ do {                                      \
-   #define smp_load_acquire(p)                                  \
-   ({                                                           \
-        __unqual_scalar_typeof(*p) ___p1 = READ_ONCE(*p);       \
-  -     compiletime_assert_atomic_type(*p);                     \
-        barrier();                                              \
-        (typeof(*p))___p1;                                      \
-   })
-
-because the extra type checking here only makes for extra work, not
-for extra safety.
-
-Hmm?
-
-                Linus
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
