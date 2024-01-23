@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E154403
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 20:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37B7524B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Jan 2024 21:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706042978; cv=none; b=fo27cs8j10ki5MoHs+hBGia5dTI5sb4Nhbue36OadavieOHkuPH3/1eacN9AXi87YOKp/WHjGT2w25skNXJlN1er5HQk5dYqnWSOdV3+guzMhcqBV1a4/axICsd6L69JeeoxvmSlpnBNi5X9TFt3V9vIFTrFqBChbdvtuZaRKwY=
+	t=1706043638; cv=none; b=k3yIdxGmcNh2MKqFenZEeEw/xZJyofVerdmyj3u0dw4JuelLFFaIYmz6nDOaN11BXdotsqhXFzvmPbXOdyfso02w+7Dv7lvGHFsd3NBUbA797M2CeHbErDY1QyUgwyz1YM3fxtFcQkJJjiv2CllJkIud7E7JcS5dwSnoxXm9jIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706042978; c=relaxed/simple;
-	bh=keKgec9Ngvy2VH9Xts4CzTLuR3bxIqIbx7OjZJlyb7s=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C0AyO7J16ydlU4S8KkEiisai3CjzJDql2dcgrTew3AlSdQ8tEz3LNhsjejOxRBEgiklxyaIsddJT+JkrpOyqI4i4XZQJYRXAYzOYCc/858qSdaY/DtEcHScFeoNYOiL+fi1EejeeG/Mc13iqodV4akj6RYXBPEujvmiybP+PwSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GK2F6wQB; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1706043638; c=relaxed/simple;
+	bh=5GyF0Fl3uIf8x5h6fvaYD4EvHDga+Sgo1Pi8fudNPXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KYkmFUNf5YiG7IjdcpfzA0Ft85zCitEt5MDxj8LXXaBMn8EQAup6CJKNxPIg0E6eqeDmms0Z6NRAEMxQU4TebMcwXy97r1IsZkmjqM9J+Nx+qBqKSa8xeHxYGw4Y6dDCYftQD9U7PyjSwojolY1X/XSWk3E4HmNr7hnt3oXwrM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=awcRK/yI; arc=none smtp.client-ip=192.55.52.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GK2F6wQB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awcRK/yI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706042977; x=1737578977;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=keKgec9Ngvy2VH9Xts4CzTLuR3bxIqIbx7OjZJlyb7s=;
-  b=GK2F6wQBg53mPDyjQg3ga9EMCg+ZWMm5oRFhPyyModVxz/30t5GA64MP
-   HTsuNGMYsXMmVcCAfw0DKlDHeOLqS+xu42Oeq2NIIxarPGbNpFnkimP+P
-   zDufW6P4BxC0tkLV5TF3DSjLWT1i6oiXVA/S43gFM4HC4et8xNh6gfnr6
-   +QZeWYrJ+5O9C0azqvlSaIto02xeTNLZ8BcVKfKVKLMpHJFehg0HmHUTD
-   l3VNj5C6p4tBKcVWE52TKQ7yj4guetlv9Lrd+RzytRZDchrV4SvQFXJrQ
-   T8UDHJwg219GL5oaqSqmJwcTJ5UYvkM8lu0g9o5Z6poA9D/Ch1EqPkZse
+  t=1706043635; x=1737579635;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5GyF0Fl3uIf8x5h6fvaYD4EvHDga+Sgo1Pi8fudNPXM=;
+  b=awcRK/yIBvxto72urSTBrjW0MjQImf+yNRoNxHsoi0g7T81Q2C9QoWsj
+   p18TfcfC0KzjMUE5veql55ArwFh+tXfJtWX1KgPdehjuiZShec57eDy90
+   0p4cOtm0cViQhMYXjuH1OyB5aL4kuHjADn8xpJ5sPfw7DXj82XpmgdOJ2
+   Sqk52NwvW1OJJC+ZhVK8oJBof0jZH2Ndofo44WWrjxjhRTFwG+3gzgwuV
+   qJnDjDtXVUqnd9pUdG1ZHuMPjvye39V1uVAGZcqKTrikO5pb3zsDYSGUK
+   sNvpEKT3e+4nylgF4N5QeyMpkjAhrFj58P+EeeuQrpwbywCJkVTC6Wkmq
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8762023"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="398805753"
 X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="8762023"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 12:49:36 -0800
+   d="scan'208";a="398805753"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 13:00:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="735698438"
 X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="735698438"
+   d="scan'208";a="1744476"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 23 Jan 2024 12:49:34 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 23 Jan 2024 13:00:34 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSNi7-0007eb-30;
-	Tue, 23 Jan 2024 20:49:31 +0000
-Date: Wed, 24 Jan 2024 04:48:52 +0800
+	id 1rSNsm-0007et-0E;
+	Tue, 23 Jan 2024 21:00:32 +0000
+Date: Wed, 24 Jan 2024 04:59:34 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Jai Luthra <j-luthra@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y 47/107]
- drivers/media/i2c/ds90ub953.c:1390:3-8: No need to set .owner here. The core
- will do it.
-Message-ID: <202401240417.elQ7TKaZ-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 20638/21565] versioncheck:
+ ./drivers/i2c/busses/i2c-zhaoxin.c: 16 linux/version.h not needed.
+Message-ID: <202401240409.RgTXCuyf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,35 +58,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
-head:   95b5a09669edc6d3a5216ab8155a621ac28dd6ca
-commit: d1a221d48b45bc73a80c3e86a028dfe60f8a34b2 [47/107] media: i2c: add DS90UB953 driver
-config: i386-randconfig-052-20240123 (https://download.01.org/0day-ci/archive/20240124/202401240417.elQ7TKaZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   fb3a7131883be36037affebc26a6597087cbd012
+commit: 735c81b4d33c46ea097f6437f63ea624ccf6dee1 [20638/21565] i2c: Add Zhaoxin I2C driver
+reproduce: (https://download.01.org/0day-ci/archive/20240124/202401240409.RgTXCuyf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401240417.elQ7TKaZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401240409.RgTXCuyf-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/media/i2c/ds90ub953.c:1390:3-8: No need to set .owner here. The core will do it.
-
-vim +1390 drivers/media/i2c/ds90ub953.c
-
-  1383	
-  1384	static struct i2c_driver ds90ub953_driver = {
-  1385		.probe_new	= ub953_probe,
-  1386		.remove		= ub953_remove,
-  1387		.id_table	= ub953_id,
-  1388		.driver = {
-  1389			.name	= "ds90ub953",
-> 1390			.owner = THIS_MODULE,
-  1391			.of_match_table = ub953_dt_ids,
-  1392		},
-  1393	};
-  1394	module_i2c_driver(ds90ub953_driver);
-  1395	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+>> ./drivers/i2c/busses/i2c-zhaoxin.c: 16 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_init.c: 536: need linux/version.h
+   ./drivers/net/ethernet/hisilicon/hns3/hns3_extension/hns3_enet_it.c: 84: need linux/version.h
+   ./drivers/net/ethernet/hisilicon/hns3/kcompat.c: 82: need linux/version.h
+   ./drivers/net/ethernet/huawei/bma/edma_drv/bma_include.h: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/edma_drv/bma_pci.c: 17 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_include.h: 20 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_main.c: 22 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_mce.c: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c: 16 linux/version.h not needed.
+   ./drivers/net/ethernet/huawei/hinic/ossl_knl_linux.h: 22 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/huawei/hifc/hifc_knl_adp.h: 23 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/scsi/spraid/spraid_main.c: 9 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 31 linux/version.h not needed.
+   ./fs/proc/etmem_scan.c: 13 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
