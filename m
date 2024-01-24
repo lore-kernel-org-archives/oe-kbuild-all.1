@@ -1,63 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FFEC2D3;
-	Wed, 24 Jan 2024 05:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E6AC8E1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 06:26:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706075704; cv=none; b=pqZQ52PdUC+RmTUT0q7sm/prqpDT1VI+tewhlKlZX1h354pC9Q4cxjNXWNi2gdxW+PBIbnhevwlc94fOQfmwwIBhw6jey2aq//ujaI10JJq2evWLDe9h/afSEQMg3DTtlKlgH9FjX1TAAkMYH6wOe/+o3aLHei7dyomE+eH/2yA=
+	t=1706077619; cv=none; b=Y3ldj4ybyB8spzYrVDEG1ncSiiIgR96xG3t2NwvNz5mKOy8aLwVvswAusGJozEeB28ANe4c+WXdluU2f7RryNQyWcMa3P45WhnHkcR8I+hsaIefHcrMJWQXsVFsINo70R9/MKuCQgkLTGsm/hZttSmzOloHLKoKreX+eiK/8DVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706075704; c=relaxed/simple;
-	bh=npa1m/eGWO2TJ3lJA4sggzZkOD1geiwAWdqHkEt5kO0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KfO83Iwk6Orb9NZ3GyydLi/vK+FP/Hv3W1b90UaWi5yLOHwddL+2GeC6qWCIXoz1XkNP8q1G7Veu9mxUyoSdlfOWJFT8RYbTbMav0xVyvmCvuGvP7PCWUMWUQT5Ko/svUDHOxYPRbz0XT2BRYakHvQOcnA0HHpT7BaatmcKCPZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gL0Yh38I; arc=none smtp.client-ip=134.134.136.31
+	s=arc-20240116; t=1706077619; c=relaxed/simple;
+	bh=IWeNWoQZI6E2YyPkpvicy8ml/pBLpTjt6OX1IT2P/SY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pWHgNGfWrRkQAYfyAwjlTcKB0vzyXbmLHv0IQ9pDOqCk3nVo9YY7niJLjJOgQkQl7H3kQYXcb3j+QRpNbV2VsptewlvqR8ip6JC4Te808FuHSyZ/7yL17CZKBB9+GU0yusXiXmykv46vI9aNLvnSbF95v3P4qTIOkY4QCpQ0cQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U7hVlpzu; arc=none smtp.client-ip=192.55.52.120
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gL0Yh38I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U7hVlpzu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706075702; x=1737611702;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=npa1m/eGWO2TJ3lJA4sggzZkOD1geiwAWdqHkEt5kO0=;
-  b=gL0Yh38I/p4C5vX5/mmPXBRw5QCe9vu+v4hZ08kbAj01+4i12S6CXBeo
-   7TMod8MXkjiRUrVkc8UjpE1frbueUeFFYx1D5rB5lDxgJnzQX+nywB9E/
-   pdpgBotCY+9bt3tr09q1MOhSstwJJXY9Lj9IrHd4M0keCGLVbSEBJsqFB
-   +yLuQjZdveAbPwKp+N4ABCqJlfpioiqwDmvA1bQ2F0JA3q4x96t5fjep/
-   pwofQ8QdglFZjnVnNEUIMpijeihtEKj55y5WFxBBPYz/R2cntRZUWNO2o
-   B2nKo2Ve1ZR4xgninMYyu+hfVzW/tU/3iI4sN6DPFzePpU0mvFggUzien
+  t=1706077617; x=1737613617;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IWeNWoQZI6E2YyPkpvicy8ml/pBLpTjt6OX1IT2P/SY=;
+  b=U7hVlpzuPKTOgxfAASiJwiP070hj6Ww105A7fFz77mrsVhm7M6oF0LxW
+   5Z6UNi2htlN6vCTap2CUIxtHF4mUyBnqLhAJbxy0xwl1jsGRwngPM7vvN
+   WC0dOU1R/cQkOtfYCD9ASr9HbpxUQ+IWCfpRVUF8v8et8+d+P4wT8bQy+
+   ZZ31XhaqD72GStJjvugNbliQ1geDnvqgj6dg3gyy/QqSIcxzC1Q0wjlGW
+   6CJQIiUDRkWvH6E3u6dGmFDYBhQrIkNOBFmohDaiHBpB4HRbd2ki8wPNZ
+   rySuPdJ0evxOn1tZFpFu/mormTSzmbhlYSJmEOCpLVUS8frQLgG01kEhE
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="466023632"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="400617118"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="466023632"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 21:55:00 -0800
+   d="scan'208";a="400617118"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 22:26:56 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="876584573"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="20610990"
+   d="scan'208";a="876584573"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Jan 2024 21:54:54 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Jan 2024 22:26:55 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSWDr-0007ub-37;
-	Wed, 24 Jan 2024 05:54:51 +0000
-Date: Wed, 24 Jan 2024 13:54:41 +0800
+	id 1rSWir-0007wL-0h;
+	Wed, 24 Jan 2024 06:26:53 +0000
+Date: Wed, 24 Jan 2024 14:26:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ziyang Huang <hzyitc@outlook.com>, mcoquelin.stm32@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alexandre.torgue@foss.st.com, richardcochran@gmail.com,
-	p.zabel@pengutronix.de, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Ziyang Huang <hzyitc@outlook.com>
-Subject: Re: [PATCH 3/8] net: stmmac: Introduce Qualcomm IPQ50xx DWMAC driver
-Message-ID: <202401241342.SL4CiC8m-lkp@intel.com>
-References: <TYZPR01MB5556B8833322A83632709631C9762@TYZPR01MB5556.apcprd01.prod.exchangelabs.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:kasan/dev 3/4] arch/sparc/include/asm/string.h:15:25:
+ warning: '__builtin_memcpy' specified bound 18446744073709551615 exceeds
+ maximum object size 9223372036854775807
+Message-ID: <202401241433.vy9UEJkV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,108 +59,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TYZPR01MB5556B8833322A83632709631C9762@TYZPR01MB5556.apcprd01.prod.exchangelabs.com>
 
-Hi Ziyang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on clk/clk-next pza/reset/next linus/master v6.8-rc1 next-20240123]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ziyang-Huang/net-phy-Introduce-Qualcomm-IPQ5018-internal-PHY-driver/20240121-204840
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/TYZPR01MB5556B8833322A83632709631C9762%40TYZPR01MB5556.apcprd01.prod.exchangelabs.com
-patch subject: [PATCH 3/8] net: stmmac: Introduce Qualcomm IPQ50xx DWMAC driver
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240124/202401241342.SL4CiC8m-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a31a60074717fc40887cfe132b77eec93bedd307)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401241342.SL4CiC8m-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git kasan/dev
+head:   22932cc8492a23ace6b45731717767b3cad35a2b
+commit: 2467f2e4963fe6816b3549ffd5da27e749108b21 [3/4] stackdepot: use variable size records for non-evictable entries
+config: sparc-randconfig-001-20240124 (https://download.01.org/0day-ci/archive/20240124/202401241433.vy9UEJkV-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401241433.vy9UEJkV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401241342.SL4CiC8m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401241433.vy9UEJkV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/dwmac-ipq50xx.c:94:13: error: call to undeclared function 'stmmac_probe_config_dt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      94 |         plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
-         |                    ^
-   drivers/net/ethernet/stmicro/stmmac/dwmac-ipq50xx.c:94:13: note: did you mean 'devm_stmmac_probe_config_dt'?
-   drivers/net/ethernet/stmicro/stmmac/stmmac_platform.h:15:1: note: 'devm_stmmac_probe_config_dt' declared here
-      15 | devm_stmmac_probe_config_dt(struct platform_device *pdev, u8 *mac);
-         | ^
->> drivers/net/ethernet/stmicro/stmmac/dwmac-ipq50xx.c:94:11: error: incompatible integer to pointer conversion assigning to 'struct plat_stmmacenet_data *' from 'int' [-Wint-conversion]
-      94 |         plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
-         |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   In file included from include/linux/string.h:61,
+                    from include/linux/bitmap.h:12,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/debugfs.h:15,
+                    from lib/stackdepot.c:17:
+   lib/stackdepot.c: In function 'depot_alloc_stack':
+>> arch/sparc/include/asm/string.h:15:25: warning: '__builtin_memcpy' specified bound 18446744073709551615 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]
+      15 | #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackdepot.c:465:9: note: in expansion of macro 'memcpy'
+     465 |         memcpy(stack->entries, entries, flex_array_size(stack, entries, nr_entries));
+         |         ^~~~~~
 
 
-vim +/stmmac_probe_config_dt +94 drivers/net/ethernet/stmicro/stmmac/dwmac-ipq50xx.c
+vim +/__builtin_memcpy +15 arch/sparc/include/asm/string.h
 
-    80	
-    81	static int ipq50xx_gmac_probe(struct platform_device *pdev)
-    82	{
-    83		struct device *dev = &pdev->dev;
-    84		struct stmmac_resources stmmac_res;
-    85		struct plat_stmmacenet_data *plat_dat;
-    86		struct ipq50xx_gmac *gmac;
-    87		int ret;
-    88	
-    89		ret = stmmac_get_platform_resources(pdev, &stmmac_res);
-    90		if (ret)
-    91			return dev_err_probe(dev, ret,
-    92					     "failed to get stmmac platform resources\n");
-    93	
-  > 94		plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
-    95		if (IS_ERR_OR_NULL(plat_dat))
-    96			return dev_err_probe(dev, PTR_ERR(plat_dat),
-    97					     "failed to parse stmmac dt parameters\n");
-    98	
-    99		gmac = devm_kzalloc(dev, sizeof(*gmac), GFP_KERNEL);
-   100		if (!gmac)
-   101			return dev_err_probe(dev, -ENOMEM,
-   102					     "failed to allocate priv\n");
-   103	
-   104		gmac->dev = dev;
-   105	
-   106		memcpy(gmac->clks, ipq50xx_gmac_clks, sizeof(gmac->clks));
-   107		ret = devm_clk_bulk_get_optional(dev, ARRAY_SIZE(gmac->clks), gmac->clks);
-   108		if (ret)
-   109			return dev_err_probe(dev, ret,
-   110					     "failed to acquire clocks\n");
-   111	
-   112		ret = clk_bulk_prepare_enable(ARRAY_SIZE(gmac->clks), gmac->clks);
-   113		if (ret)
-   114			return dev_err_probe(dev, ret,
-   115					     "failed to enable clocks\n");
-   116	
-   117		gmac->rst = devm_reset_control_array_get_exclusive(dev);
-   118		if (IS_ERR_OR_NULL(gmac->rst))
-   119			return dev_err_probe(dev, PTR_ERR(gmac->rst),
-   120					     "failed to acquire reset\n");
-   121	
-   122		ret = reset_control_reset(gmac->rst);
-   123		if (ret)
-   124			return dev_err_probe(dev, ret,
-   125					     "failed to reset\n");
-   126	
-   127		gmac->uniphy = devm_phy_optional_get(dev, "uniphy");
-   128		if (IS_ERR(gmac->uniphy))
-   129			return dev_err_probe(dev, PTR_ERR(gmac->uniphy),
-   130					     "failed to acquire uniphy\n");
-   131	
-   132		plat_dat->bsp_priv = gmac;
-   133		plat_dat->serdes_powerup = ipq50xx_gmac_powerup;
-   134		plat_dat->fix_mac_speed = ipq50xx_gmac_fix_speed;
-   135	
-   136		return stmmac_dvr_probe(dev, plat_dat, &stmmac_res);
-   137	}
-   138	
+70a6fcf3283a0a Al Viro 2016-01-17  13  
+70a6fcf3283a0a Al Viro 2016-01-17  14  #define __HAVE_ARCH_MEMCPY
+70a6fcf3283a0a Al Viro 2016-01-17 @15  #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+70a6fcf3283a0a Al Viro 2016-01-17  16  
+
+:::::: The code at line 15 was first introduced by commit
+:::::: 70a6fcf3283a0ac1e11737c6d90c0753f9824e9d [sparc] unify 32bit and 64bit string.h
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
