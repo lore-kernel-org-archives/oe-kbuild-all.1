@@ -1,89 +1,105 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2A47C0BE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 16:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3AF12AADA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 19:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706112069; cv=none; b=Uep/y5JwoBZRblWS7b4+7NBdXvL4olr8OmLg7Y9Uh44iRLmHT+FC8aokIHgbhYkv2oSd5MZXA8MSGBEaDAlmevYHp857s72gFnbFmb8KgvJsK7AewI5pzuEXMMUz/pkhr2nKm07RUQXGi8OgFoAyyjpxTqQCVigtFZYILWA7BZg=
+	t=1706122833; cv=none; b=akuwKuDg363JvjoF4d+YT2gOKC6BjW7z6HnUC56CMlwJb/DuDwD5mKgWDFyYtJCE8xBDH65mpHFAYSnwcn5Z/yVg77KlNUUhmh9YYHS6QrTCL/JByk623+Rcw3D0qGG7lce8QcGu4iyp1sjS3LyMtLNFvixUaV2rzqCPyLTaBcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706112069; c=relaxed/simple;
-	bh=39iyj2JdQ9w0MtrsAND0HiyJapfr9hcRNh+jzlPp8SI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gzDNJd67XRVkmkEm8+RCJPmHa/CrTN2MOUM1EgosZ9EvlVjD2kWlGTzJrTlMJ9872Jvf1iQWyJ3pkFJgypYrAilf1Bt06fJOV84FkC8F9eEtWY7TllUgLnodPWPO42xA7/XCjAbdb1c/f60z/BESTAnntXG4MPNf+lXp0cTKNog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=e4bZFius; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1706122833; c=relaxed/simple;
+	bh=EVdbz57zGwXfDQgCW1I6zKm+MMbNZoTZhRRu3juhvwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ccoh0NUdDl/8C1cJizZp980FjFM4a6Vqtf75gy0LQSbSPoW07uBLMhCEMMvkEY6+95bB7EH9nUngAYhtKIUbsP6UDgNsNIDKVK9YmZyKUIG4X6d7T+CBR/ql4dSkiHR4AQocHoGYguA+X8C4uRFsLACIEy8Xd2drdLjG+EVHseA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kz6XOm2P; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="e4bZFius"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4E6F740E01AE;
-	Wed, 24 Jan 2024 16:00:59 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id EGu_OVX8qWon; Wed, 24 Jan 2024 16:00:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1706112056; bh=3bBYh+GwfglWvi3037W1jLdF84shQepN/efeZnJUuRg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e4bZFiusLlNyiFM5hEN8lE8JSy8ihxa62ofjuBrOtnhyq8sM7szd0qORSF3H7k7Vj
-	 tehdYXObVAZ6am4LVDH2AeyvZy5G8uGf4zHwIUYAJEWphpbdMDVN59jxmk/aT+DBup
-	 TJpoQGSPTAR/qIecdiLaiQIzQhUZ757l2JCWee3/1eFa9MSSkpjmCw3yYaSBtkSeBr
-	 OyEdkJ9ZRcxijwEPVnky/+64vHm3QtKk1pWmi9ZChIfm8IXdiBiDk3I4EiSDCNWLK/
-	 EKAj7w+34GtAssGnsuzDXZHUCyvWseaQwGJMwXmwtODDdnS2PVeo6Ed5c1MTbS9wl7
-	 shcPqIFjCjRh+5dxh1Xzau76qXN6YwD1XirogZsniy+MQHl9aOSkZ8MZnfMWoXlo9w
-	 S77/uzLUTTLqXB2VTpmpnH7G/SEBmOz1LFhOh9f/XbcE1AVL61yS3h3hDiK4MQzkFU
-	 AdjmRx5ijjUTPEa0IOPSiq5Tpogjged3d/Kr1IMcN5bk6YJnOcSfe7kv2i67VTCGrh
-	 cNP0kvoQu/RVBYQFj8gPW6WCXZrRCjrJZNYHZERpnK62jHPk/kvplxvz15Xand95mb
-	 2nNWwGRcS7K63/XjRNGISLCLJn2xb3cnp5gtm/U/cV6Q723ycxepE2EmOQv2cm/H0N
-	 iEK6TU6BcdhTFqKyDE9mCvjo=
-Received: from zn.tnic (pd953033e.dip0.t-ipconnect.de [217.83.3.62])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B2DE040E01A9;
-	Wed, 24 Jan 2024 16:00:47 +0000 (UTC)
-Date: Wed, 24 Jan 2024 17:00:40 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: "Moger, Babu" <babu.moger@amd.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Nicolas Palix <nicolas.palix@imag.fr>, cocci@inria.fr
-Subject: Re: [tip:x86/cache 3/3]
- arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8: Unneeded variable: "ret".
- Return " 0" on line 1655
-Message-ID: <20240124160040.GEZbE0KEUwGMdhVi_x@fat_crate.local>
-References: <202401241810.jbd8Ipa1-lkp@intel.com>
- <20240124105555.GBZbDsu-zsQ8YTgXjS@fat_crate.local>
- <0578da80-db4c-4c0b-8677-2875a65afd68@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kz6XOm2P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706122816; x=1737658816;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EVdbz57zGwXfDQgCW1I6zKm+MMbNZoTZhRRu3juhvwA=;
+  b=Kz6XOm2POX1A1GPRF1LjARvjgSGfsXyAiECHfaB89g6DIpbNMZBnc0nB
+   SaZ3j/rq8L5b1CuLVnECvfSqmvL9Psu838smtfgcWkTqhI10nw3KvDSQG
+   yTz4J2ZHs5Ks5mSdNqZGCwzjClt4Cv9jtaKW2GJWhKFEXmcAzU+zE+hkh
+   H1AaPQZo3+Etk7HzS3CE9ulaN48cIRe9pz66InTQLAukYl2Ri2csxjSD0
+   B1XsJFekF9xRiVn0HKdvoZYwjeFSfJfkZbdf3gxxR3wv5PqyNdDkCzt9O
+   XJNS7UFNRpbj1Pet/IDzsXfhFD1gdcyzwhROxOZJQ4i1LiGvdQIlLsMoE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="9045068"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="9045068"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 11:00:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="876783901"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="876783901"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Jan 2024 11:00:12 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rSiTp-0008NJ-31;
+	Wed, 24 Jan 2024 19:00:09 +0000
+Date: Thu, 25 Jan 2024 02:59:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.1 155/175]
+ arch/arm64/kvm/hyp_trace.c:709:37: warning: 'hyp_trace_raw_fops' defined but
+ not used
+Message-ID: <202401250227.mzj1nM59-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0578da80-db4c-4c0b-8677-2875a65afd68@amd.com>
 
-On Wed, Jan 24, 2024 at 08:58:27AM -0600, Moger, Babu wrote:
-> The following patch should fix the problem.
+tree:   https://android.googlesource.com/kernel/common android15-6.1
+head:   faf8e92b3bdd8457b68cf85e37cdcd4a4ed867e9
+commit: f833c4c66599d064f5f9b29f0d78e13d63cfb29f [155/175] ANDROID: KVM: arm64: Add raw interface to nVHE hyp tracing
+config: arm64-randconfig-002-20240123 (https://download.01.org/0day-ci/archive/20240125/202401250227.mzj1nM59-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401250227.mzj1nM59-lkp@intel.com/reproduce)
 
-Obviously.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401250227.mzj1nM59-lkp@intel.com/
 
-> Let me know if you want me to send the patch officially.
+All warnings (new ones prefixed by >>):
 
-Yes, please send a proper patch and add the Reported-by: and the Closes:
-tags from the robot.
+>> arch/arm64/kvm/hyp_trace.c:709:37: warning: 'hyp_trace_raw_fops' defined but not used [-Wunused-const-variable=]
+     709 | static const struct file_operations hyp_trace_raw_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_trace.c: In function 'hyp_trace_init_tracefs':
+   arch/arm64/kvm/hyp_trace.c:778:66: warning: '%ld' directive output may be truncated writing between 1 and 20 bytes into a region of size 13 [-Wformat-truncation=]
+     778 |                 snprintf(per_cpu_name, sizeof(per_cpu_name), "cpu%ld", cpu);
+         |                                                                  ^~~
+   arch/arm64/kvm/hyp_trace.c:778:62: note: directive argument in the range [-9223372036854775808, 4294967294]
+     778 |                 snprintf(per_cpu_name, sizeof(per_cpu_name), "cpu%ld", cpu);
+         |                                                              ^~~~~~~~
+   arch/arm64/kvm/hyp_trace.c:778:17: note: 'snprintf' output between 5 and 24 bytes into a destination of size 16
+     778 |                 snprintf(per_cpu_name, sizeof(per_cpu_name), "cpu%ld", cpu);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Thx.
+
+vim +/hyp_trace_raw_fops +709 arch/arm64/kvm/hyp_trace.c
+
+   708	
+ > 709	static const struct file_operations hyp_trace_raw_fops = {
+   710		.open           = hyp_trace_raw_open,
+   711		.read           = hyp_trace_raw_read,
+   712		.release        = hyp_trace_raw_release,
+   713		.llseek         = no_llseek,
+   714	};
+   715	
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
