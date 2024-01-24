@@ -1,160 +1,131 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2579D1AAAE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 10:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4182250A8A;
+	Wed, 24 Jan 2024 11:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706093781; cv=none; b=PUgtHpQ4X9RkcflWWgJHdGp4JJ7nUqntQfGCZy/r5eeVq7QG2WsNpQirVgyAidvlrHpGnXJfDPt7AJu8WPj6mtKWBvg1Qsicfcq2cSM+kZYTYKHhyJFXDR6YaJoE0f3LuN0rzFkA8kQYT4X6ir6G+jd9OBdkcZ4ZESkswNHPhbk=
+	t=1706096922; cv=none; b=KzDlMLNjM3/z3bch/oL+ikNm2RCU6Yi5+kWKrRBNcNT4EAAOoEoa+LFJEmy1O9NchnFtP8KyGSLAuF9qTcDCFBECwaoipB4y8vF2D++ybtp/vASUrUusxNBt0hzSEyIDbZ2bETTRh98Sv0Jk9rQRJ4AZ6UTuKjWqR3b8e67keFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706093781; c=relaxed/simple;
-	bh=K+EXX6KBa5jIlxDzNlMzdasEsnVxhCngOASeGfqDXHs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cJI2OKiaEsEVJ7OST1/xP7COzhoJXDGUi/wsRVGpF915LlB0V48OFA7jykxjo+zoQV1bHxJJVHJR+FfWO7E5JekY72ASpWQtJ2zBEDInVZHPOnAeAOyjrxDyA8iPST7blh67yE/4t1+Yj63pY9XsaPf5pteE951ya37qAfaYrKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UTWutB/+; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1706096922; c=relaxed/simple;
+	bh=MBGq51n4k5tu2zEso/Kfv3zeWxFZhKEtwDi8kZYYhgA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LK2x5j6tUkIJmuFSl3hnni6tGfFDhJUHv0helYerPVu3zdgveyjUcjDz5pliUzlBxY7HkvIaLxzFV7A2E2hT6zh2AnEX3KQhaSQRjkLJDKKBvFwRmsQm1jVCGS5XKSXdqW4lHVe9epFGjDnYMx4rI7uZZWdM0yootkVlPeRXSaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=m/eYrZ3J; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UTWutB/+"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C5C7640E01A9;
-	Wed, 24 Jan 2024 10:56:14 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id vD12-3enQolI; Wed, 24 Jan 2024 10:56:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1706093771; bh=VtfkV0cpR7DWjUDpJgezGMyP/R/1YxhanWpTAND8jb4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UTWutB/+j4i/lSdesqXcAxZkHQ+IqntkB4U5oEKIOBdEtmlZZWv4/ucCFNu+qeCk2
-	 /cca579Y6S1Vttdb/ReTdVNIVOua5FXt82D3hx+KUMJWtGtQzkHGWujAkjkt3fE309
-	 aFyBLtOZado5mWJSPPpfLJEWruafJ872Vvbbl9CvOkDL45QzxMefUFEzl28TVLR1Mf
-	 FdLXYB2wA4PtX8LYe5fdPUIHaES/KkgfzQcQY69yjoukAc8qf92W1P0QILmq77SvEp
-	 tAZd9goLUGU3b3HhOwS+BqGIfaegpQ0vI3FGQ8LXJV1Uo1OrMAHLo6iiK84vCEoJMe
-	 7pgG6VoowCLos7Q0eCOoVDBB7k0Q8EAl5LGHgj/M7ELGjJTpw2aKsh1TM2M/xVyymV
-	 xviBTSJ8HHEwYOaVUlRW5WSBMj4fQPfHQpLWzX2zzkJ67QQyeTjvpTVU+MxNJAvFsB
-	 GGhBwo8/boWuFd62iJ1eqXWR7Nax0okB0lItAEXtmbP9tIib7piVwzZx9xsQNg8PlW
-	 vR25FQ/ySk+a4tZNUsx4F4bGrkPEjKjdKqSacqWEDjMzHNWUnYKU9r8iG3posphXeC
-	 LVnadZDADAY/ZB7YVMYyMq6yw7CSujtdket0lfol0vEXMLAusMdnoTiV7wZ/3V5Wij
-	 Luwl1STLu1jhr5PkzxqHLLkg=
-Received: from zn.tnic (pd953033e.dip0.t-ipconnect.de [217.83.3.62])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D62A740E00C5;
-	Wed, 24 Jan 2024 10:56:01 +0000 (UTC)
-Date: Wed, 24 Jan 2024 11:55:55 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Babu Moger <babu.moger@amd.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Nicolas Palix <nicolas.palix@imag.fr>, cocci@inria.fr
-Subject: Re: [tip:x86/cache 3/3]
- arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8: Unneeded variable: "ret".
- Return "  0" on line 1655
-Message-ID: <20240124105555.GBZbDsu-zsQ8YTgXjS@fat_crate.local>
-References: <202401241810.jbd8Ipa1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="m/eYrZ3J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1706096902; x=1706701702; i=wahrenst@gmx.net;
+	bh=MBGq51n4k5tu2zEso/Kfv3zeWxFZhKEtwDi8kZYYhgA=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=m/eYrZ3JQYCDHbdHp5EU37fzcvr7dqLkeOx+WMCRFn14Nrbwb9S0mhTMgSt+EkW6
+	 fZDZl+6tZNohK/F4S809YHlree85LtK6h1GY6sFiwcn57adxE/iJJ5X5UaIhnkXrE
+	 +28zQIzrzmqcnFzW0rAZfISMuo1hTBBnIFFKP/4M260520u1RE0HaC1ysfUDkGxAx
+	 FT7d3qj3RaFQnwvE0urMLBqBG5YWlI+7188RneOWlIL34Cspl0RWLrA8H829zF7xr
+	 r+TGyNcxxbLpshinTEYPPfzV6ZhQf68Q5r8ABvck73E8oqNuMP+wWtoLCyK2SVmpP
+	 lumrOrcHYgV+T5O6tA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N6siz-1r1fsP2i1X-018Mfh; Wed, 24
+ Jan 2024 12:48:22 +0100
+Message-ID: <71426744-7223-448c-bd5b-ff786c5f8e65@gmx.net>
+Date: Wed, 24 Jan 2024 12:48:21 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202401241810.jbd8Ipa1-lkp@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] pwm: imx27: workaround of the pwm output bug
+Content-Language: en-US
+To: Francesco Dolcini <francesco@dolcini.it>, pratikmanvar09@gmail.com,
+ u.kleine-koenig@pengutronix.de
+Cc: festevam@gmail.com, jun.li@nxp.com, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, pratik.manvar@ifm.com,
+ s.hauer@pengutronix.de, shawnguo@kernel.org, thierry.reding@gmail.com,
+ xiaoning.wang@nxp.com
+References: <20240103103421.GA3758@francesco-nb>
+ <20240103110200.1018-1-pratikmanvar09@gmail.com>
+ <20240103122005.GA3347@francesco-nb>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240103122005.GA3347@francesco-nb>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:rwJl8DHAumo4SDx3Jesd/2R8eqWN2kGR0ljliIKNuWvjhijl3Pd
+ k5LxJeQZdrrRrV7BFQL1oddhIxKGqKTir+8OWK1aSOsFfylZJ+IZBfrPaQNSLyRS7Djp6sj
+ FzQrCEb94+9vnGjq5SLlYZKeUviDG0jRPBBvOGzz2fb4H1xM5zNWEQYOdKnbRFj4Vuwh02k
+ bD3ktbFoHsg8cuAc1ksFQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:FpBdyYjUWIo=;jFb/N0V408yet10BGR49UXehfay
+ FudKxEWyxwbw3NNEzeMb1N/TVWJUmQV4dZfffaXO76sdWA8FvJZSB+0d4L5TSRbEccHRpmyWo
+ viIrbtGCxK3Sutk1uEdYWsoIqDNP+tfTNAuPvySvUn7nWuQpzgBdQNPXVfi9KnfaiUswvpNdJ
+ zuzy/AeEi9gfWidRmizzULC/keCwxb2Bd+2DYWnwxv7q3xueD2D4OVV7lkC49HA3wiwMnPqhP
+ BtkEsaXw6aJAgGYeQ2qS45B8OOi8p7f+uEb/5dmPPrNfWLvJd6tzyISnFVT4NjMxJq0rw/5Bp
+ cneQYp73tFiX6WbDGWU2RLR7nmX3MDLUWTn3Xd7tCIILDWsMvFKIdy6E8LHv1FOsOqq+P+A1O
+ U0Iitj5isxkf71y+T87PMfNgU/loe7Z8tmdXcUGqRLUevKW3oo8eZEm46TpgIMYbi/WJ4Y3dv
+ OLQ6hiB7Vx8bfBQq+IjqhF+idw67whxd31jtj4EGtZa/PYcDDLi0jP9YIF18ZPq+Py5wqDyYW
+ T6VZYoyj3KojJLRn0vJMXEkvdoXpEp80HklJ/eS79G1OQ5XyyIjUzDd+rPGo6HbTLXwy9Hl2k
+ TW+jfBKiOJSmeuculO+DIREzlPAxKy5mZN+jkqJ3MQNcfSihqVQyYsTaZ46z7mu6bOtfZEUux
+ 0jLiO4epT4OTMtEgokXfRlXd15eAnlVQJ4sHXJwKV5AZqtH10HmwPUsol+0rm91MAYSD4f2Qe
+ LVxgfWBMkWj+eLaEBHCoxO+s5wmbZ4WG/QN8KXBzDq3lTkc2nGueDKv3KT0MbedBMbepu26be
+ Dr0KLkcpUlLVHs4Y8E2fLPhkM8KyNE5vCLGGJW5uyEw7km0pX/7XZCsz3l0xo7bqtutIcwD1u
+ /GEGbmZN8TBGe5R3+68ENQkQgvTTPv6qfjttVVg5G2SnfrpwGJ8ewG2FAlsBG43/+X4zpHkaE
+ MX9p91fmephZdWeHAL3vT/G+Q0A=
 
-On Wed, Jan 24, 2024 at 06:31:41PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
-> head:   54e35eb8611cce5550d3d7689679b1a91c864f28
-> commit: 54e35eb8611cce5550d3d7689679b1a91c864f28 [3/3] x86/resctrl: Read supported bandwidth sources from CPUID
-> config: x86_64-randconfig-102-20240124 (https://download.01.org/0day-ci/archive/20240124/202401241810.jbd8Ipa1-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401241810.jbd8Ipa1-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
-> >> arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8: Unneeded variable: "ret". Return "  0" on line 1655
+Hi,
 
-Well, AFAICT, even with the tree checked out at
+Am 03.01.24 um 13:20 schrieb Francesco Dolcini:
+> Hello Pratik,
+>
+> On Wed, Jan 03, 2024 at 04:32:00PM +0530, pratikmanvar09@gmail.com wrote=
+:
+>> From: Clark Wang <xiaoning.wang@nxp.com>
+>>
+>> This fixes the pwm output bug when decrease the duty cycle.
+>> This is a limited workaround for the PWM IP issue TKT0577206.
+>>
+>> Root cause:
+>> When the SAR FIFO is empty, the new write value will be directly applie=
+d
+>> to SAR even the current period is not over.
+>> If the new SAR value is less than the old one, and the counter is
+>> greater than the new SAR value, the current period will not filp the
+>> level. This will result in a pulse with a duty cycle of 100%.
+>>
+>> Workaround:
+>> Add an old value SAR write before updating the new duty cycle to SAR.
+>> This will keep the new value is always in a not empty fifo, and can be
+>> wait to update after a period finished.
+>>
+>> Limitation:
+>> This workaround can only solve this issue when the PWM period is longer
+>> than 2us(or <500KHz).
+>>
+>> Reviewed-by: Jun Li <jun.li@nxp.com>
+>> Signed-off-by: Clark Wang <xiaoning.wang@nxp.com>
+>> Link: https://github.com/nxp-imx/linux-imx/commit/16181cc4eee61d87cbaba=
+0e5a479990507816317
+>> Tested-by: Pratik Manvar <pratik.manvar@ifm.com>
+>> Signed-off-by: Pratik Manvar <pratik.manvar@ifm.com>
+> A very similar patch was already send in 2021 [1], did it had review
+> comments not addressed? Please have a look.
+>
+> In general please refrain from sending a new patch version every other
+> day, while every Linux kernel subsystem has different rules and a
+> difference pace of development, in this specific case sending a v3 just
+> adding your signed-off-by without allowing a little bit of time to wait
+> for more feedback is just not sane.
+>
+> [1] https://lore.kernel.org/all/?q=3Ddfn%3Adrivers%2Fpwm%2Fpwm-imx27.c+A=
+ND+b%3A%22Clark+Wang%22
+thank you, this is very helpful. Unfortunately i don't have the
+knowledge and resources to continue this work.
 
-92bd5a139033 ("x86/resctrl: Add interface to write mbm_total_bytes_config")
-
-which is the first patch that added this function, ret is unneeded.
-
-But scripts/coccinelle/misc/returnvar.cocci doesn't warn about it then,
-only now that that hunk with the "return -EINVAL;" is removed in the
-patch you're reporting this against.
-
-Lemme add some cocci people to Cc for comment and leave the rest for
-reference.
-
-Thx.
-
-> vim +1621 arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> 
-> 92bd5a1390335b Babu Moger 2023-01-13  1616  
-> 92bd5a1390335b Babu Moger 2023-01-13  1617  static int mbm_config_write_domain(struct rdt_resource *r,
-> 92bd5a1390335b Babu Moger 2023-01-13  1618  				   struct rdt_domain *d, u32 evtid, u32 val)
-> 92bd5a1390335b Babu Moger 2023-01-13  1619  {
-> 92bd5a1390335b Babu Moger 2023-01-13  1620  	struct mon_config_info mon_info = {0};
-> 92bd5a1390335b Babu Moger 2023-01-13 @1621  	int ret = 0;
-> 92bd5a1390335b Babu Moger 2023-01-13  1622  
-> 92bd5a1390335b Babu Moger 2023-01-13  1623  	/*
-> 92bd5a1390335b Babu Moger 2023-01-13  1624  	 * Read the current config value first. If both are the same then
-> 92bd5a1390335b Babu Moger 2023-01-13  1625  	 * no need to write it again.
-> 92bd5a1390335b Babu Moger 2023-01-13  1626  	 */
-> 92bd5a1390335b Babu Moger 2023-01-13  1627  	mon_info.evtid = evtid;
-> 92bd5a1390335b Babu Moger 2023-01-13  1628  	mondata_config_read(d, &mon_info);
-> 92bd5a1390335b Babu Moger 2023-01-13  1629  	if (mon_info.mon_config == val)
-> 92bd5a1390335b Babu Moger 2023-01-13  1630  		goto out;
-> 92bd5a1390335b Babu Moger 2023-01-13  1631  
-> 92bd5a1390335b Babu Moger 2023-01-13  1632  	mon_info.mon_config = val;
-> 92bd5a1390335b Babu Moger 2023-01-13  1633  
-> 92bd5a1390335b Babu Moger 2023-01-13  1634  	/*
-> 92bd5a1390335b Babu Moger 2023-01-13  1635  	 * Update MSR_IA32_EVT_CFG_BASE MSR on one of the CPUs in the
-> 92bd5a1390335b Babu Moger 2023-01-13  1636  	 * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
-> 92bd5a1390335b Babu Moger 2023-01-13  1637  	 * are scoped at the domain level. Writing any of these MSRs
-> 92bd5a1390335b Babu Moger 2023-01-13  1638  	 * on one CPU is observed by all the CPUs in the domain.
-> 92bd5a1390335b Babu Moger 2023-01-13  1639  	 */
-> 92bd5a1390335b Babu Moger 2023-01-13  1640  	smp_call_function_any(&d->cpu_mask, mon_event_config_write,
-> 92bd5a1390335b Babu Moger 2023-01-13  1641  			      &mon_info, 1);
-> 92bd5a1390335b Babu Moger 2023-01-13  1642  
-> 92bd5a1390335b Babu Moger 2023-01-13  1643  	/*
-> 92bd5a1390335b Babu Moger 2023-01-13  1644  	 * When an Event Configuration is changed, the bandwidth counters
-> 92bd5a1390335b Babu Moger 2023-01-13  1645  	 * for all RMIDs and Events will be cleared by the hardware. The
-> 92bd5a1390335b Babu Moger 2023-01-13  1646  	 * hardware also sets MSR_IA32_QM_CTR.Unavailable (bit 62) for
-> 92bd5a1390335b Babu Moger 2023-01-13  1647  	 * every RMID on the next read to any event for every RMID.
-> 92bd5a1390335b Babu Moger 2023-01-13  1648  	 * Subsequent reads will have MSR_IA32_QM_CTR.Unavailable (bit 62)
-> 92bd5a1390335b Babu Moger 2023-01-13  1649  	 * cleared while it is tracked by the hardware. Clear the
-> 92bd5a1390335b Babu Moger 2023-01-13  1650  	 * mbm_local and mbm_total counts for all the RMIDs.
-> 92bd5a1390335b Babu Moger 2023-01-13  1651  	 */
-> 92bd5a1390335b Babu Moger 2023-01-13  1652  	resctrl_arch_reset_rmid_all(r, d);
-> 92bd5a1390335b Babu Moger 2023-01-13  1653  
-> 92bd5a1390335b Babu Moger 2023-01-13  1654  out:
-> 92bd5a1390335b Babu Moger 2023-01-13 @1655  	return ret;
-> 92bd5a1390335b Babu Moger 2023-01-13  1656  }
-> 92bd5a1390335b Babu Moger 2023-01-13  1657  
-> 
-> :::::: The code at line 1621 was first introduced by commit
-> :::::: 92bd5a1390335bb3cc76bdf1b4356edbc94d408d x86/resctrl: Add interface to write mbm_total_bytes_config
-> 
-> :::::: TO: Babu Moger <babu.moger@amd.com>
-> :::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+@Uwe It seems that you were able to reproduce this issue. Is it possible
+to trigger this via sysfs and some kind of script?
