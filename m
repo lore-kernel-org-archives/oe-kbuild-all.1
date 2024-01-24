@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259FB15D2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 02:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5723D17CD;
+	Wed, 24 Jan 2024 02:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706062013; cv=none; b=CupLo1bNF9a09JeADXHEcQ7sx3CEo+8WN431zTCfmGh739JGQyo35yr+gG+uA4GX0UsHsqFU9QmJV2Uvzd9OrXlm3GMPZFG1zwmGhwcDcjDe47ZJzyI9HspvIXWyyeOBRGElbN3o/GGUC0HTGalpIhvKdBPayLXoQ/DN0XxnhKg=
+	t=1706062611; cv=none; b=G5UboP0MpQX3fFLDEPmEVmGb2Ug23jb2MnCZKmTa/yITS8Jz7i4KTZueI4reDN3TaHjyEwpZxhb4O4IcW0XwiMMSxNIPoqxB2cbGqjmjDuIpWiuOxdz5oHOP1e4sFSJdOX9bn1LV/U2KNphR0Nr+7ndzPeB9zI530Lla33w2E7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706062013; c=relaxed/simple;
-	bh=Vp6sncswL2EJZzS/cC74iB5X3osTf1vfUjb1+p8X+cY=;
+	s=arc-20240116; t=1706062611; c=relaxed/simple;
+	bh=tqmVwmFx3j0FgUPnmri76pAgvPwoIiNDEUZOXNf/BNc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hZmv54m1ZSmZGeRcBJdIXF1IRzz8+V1D1VKtBosiED3VO9JA5Z0rMNPIxBj4GF08r+EgRlyRvDY2AxhapAuiRP3WpukLikzhxLfntldK5vRKH/Bvo8pvkR21Mp2SMm/MGY5tW+ssiXKKcRESlbgTxngdFYR6rf8TTR7LZnuUBWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7QRqrDq; arc=none smtp.client-ip=134.134.136.65
+	 Content-Disposition; b=FNiAavWaxKXvHzWCT5EjKzw73py4CXZfviYMx4uesRuGhDlD4rcO18umcoprbWnp7w8VglDtztnsSsBdjHEupPvnPGavS4nP3naQ1tgkpEERjqzj/j6jhgrhy799nSt2bF26eo2zJgbEj2/lFc3FAnyYWCabA/wFH0ya+BANG/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EW8TKHO7; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7QRqrDq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EW8TKHO7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706062011; x=1737598011;
+  t=1706062609; x=1737598609;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vp6sncswL2EJZzS/cC74iB5X3osTf1vfUjb1+p8X+cY=;
-  b=J7QRqrDqAZfgJ2h46CJ4Z9gSpRj6nSDKEh26rzizjdcVF6mWCKtnd8Jq
-   jAe88E9bY+OERnM74WVrOiJhm3kiE9kykkinufNvRHfZs8Ei1zqJOiRK4
-   eYXIKwOhjpvI6J0IDU+5rI1Azq97XeSJK+xRB7RVAc1RwsXLKqxd8vXo0
-   G0raBNnHFTR7SJGyE7ebpuKCgEAz/KAbrMxccnqJUHr6eJY2CtA1ugfWa
-   2h7tn+q55Q3EdTJseeZorV1Ep/yrwSjZjEKtcufmcW7F4AdHA1AHSJc0t
-   43TVdSGdnempnt/h7sW1TEXFNTnncTnefT9bzWtT25QIZzeNjurk2r98f
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="405467849"
+  bh=tqmVwmFx3j0FgUPnmri76pAgvPwoIiNDEUZOXNf/BNc=;
+  b=EW8TKHO7wiHy7HYSE/M/nu7Ab6O3CqsUToKJSYyQeCqb3yWbwkNXEkgn
+   5B1O8Nmkfna+BEBKhmgmmRbhri1wIJVi4GJDl+W8lb7Yx8Zp2ZvAO70O7
+   c3inhClY2dlJOc0b3WwtKnkXRfFx8SsvQFG55Cm84JRHbUwJBhxYe15jm
+   QMoVQ1i7VCoTXl+Z+LuF5Rx0vF8vYlfxCyxn1ZT6iIKSsj9MvG4x/Rkf9
+   Jap2I9DVgdL/JS3Wb1Gqe/0OH8M+MkU4kgykXvieR8DCVFv8bdtorNzjg
+   7iZsI8RimN1LnWZSI/rUK03SIYAJMgO3k3UmT3/rfx0QQoELNGXFDWkra
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8474537"
 X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="405467849"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 18:06:48 -0800
+   d="scan'208";a="8474537"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 18:16:48 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="1820354"
+   d="scan'208";a="27950651"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Jan 2024 18:06:48 -0800
+  by orviesa002.jf.intel.com with ESMTP; 23 Jan 2024 18:16:47 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSSf6-0007nD-1G;
-	Wed, 24 Jan 2024 02:06:44 +0000
-Date: Wed, 24 Jan 2024 10:05:54 +0800
+	id 1rSSom-0007nd-1y;
+	Wed, 24 Jan 2024 02:16:44 +0000
+Date: Wed, 24 Jan 2024 10:16:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2490/2572] kernel/sched/core.c:9719:2: error:
- call to undeclared function 'tg_update_affinity_domains'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <202401241028.WtP2GPxu-lkp@intel.com>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:guest-rtmr 5/6] arch/x86/coco/tdx/tdx.c:91: warning:
+ expecting prototype for tdg_vm_td(). Prototype was for tdg_vm_rd() instead
+Message-ID: <202401241058.BAepzLFx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,96 +58,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   a662a03b9d1d5b93551f9c0f9c2875373b223115
-commit: 6eb07f9925a906d81f328c808ba25f7800888dce [2490/2572] sched: Introduce smart grid scheduling strategy for cfs
-config: arm64-randconfig-004-20240124 (https://download.01.org/0day-ci/archive/20240124/202401241028.WtP2GPxu-lkp@intel.com/config)
+tree:   https://github.com/intel/tdx.git guest-rtmr
+head:   69224edf428babfd955487a0de70c537098e040e
+commit: 9fb6a741dc8e5c42c78c97b9762686526aa1e04c [5/6] x86/tdx: Add RTMR read/update interfaces
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240124/202401241058.BAepzLFx-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401241028.WtP2GPxu-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401241058.BAepzLFx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401241028.WtP2GPxu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401241058.BAepzLFx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/sched/core.c:9719:2: error: call to undeclared function 'tg_update_affinity_domains'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    9719 |         tg_update_affinity_domains(cpu, 1);
-         |         ^
-   kernel/sched/core.c:9719:2: note: did you mean 'irq_update_affinity_hint'?
-   include/linux/interrupt.h:325:1: note: 'irq_update_affinity_hint' declared here
-     325 | irq_update_affinity_hint(unsigned int irq, const struct cpumask *m)
-         | ^
-   kernel/sched/core.c:9809:2: error: call to undeclared function 'tg_update_affinity_domains'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    9809 |         tg_update_affinity_domains(cpu, 0);
-         |         ^
->> kernel/sched/core.c:9931:2: error: call to undeclared function 'init_auto_affinity'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    9931 |         init_auto_affinity(&root_task_group);
-         |         ^
-   kernel/sched/core.c:9931:2: note: did you mean 'irq_set_affinity'?
-   include/linux/interrupt.h:308:12: note: 'irq_set_affinity' declared here
-     308 | extern int irq_set_affinity(unsigned int irq, const struct cpumask *cpumask);
-         |            ^
-   kernel/sched/core.c:9931:22: error: use of undeclared identifier 'root_task_group'; did you mean 'task_group'?
-    9931 |         init_auto_affinity(&root_task_group);
-         |                             ^~~~~~~~~~~~~~~
-         |                             task_group
-   kernel/sched/sched.h:2140:34: note: 'task_group' declared here
-    2140 | static inline struct task_group *task_group(struct task_struct *p)
-         |                                  ^
-   4 errors generated.
+>> arch/x86/coco/tdx/tdx.c:91: warning: expecting prototype for tdg_vm_td(). Prototype was for tdg_vm_rd() instead
 
 
-vim +/tg_update_affinity_domains +9719 kernel/sched/core.c
+vim +91 arch/x86/coco/tdx/tdx.c
 
-  9699	
-  9700	int sched_cpu_activate(unsigned int cpu)
-  9701	{
-  9702		struct rq *rq = cpu_rq(cpu);
-  9703		struct rq_flags rf;
-  9704	
-  9705		/*
-  9706		 * Clear the balance_push callback and prepare to schedule
-  9707		 * regular tasks.
-  9708		 */
-  9709		balance_push_set(cpu, false);
-  9710	
-  9711	#ifdef CONFIG_SCHED_SMT
-  9712		/*
-  9713		 * When going up, increment the number of cores with SMT present.
-  9714		 */
-  9715		if (cpumask_weight(cpu_smt_mask(cpu)) == 2)
-  9716			static_branch_inc_cpuslocked(&sched_smt_present);
-  9717	#endif
-  9718		set_cpu_active(cpu, true);
-> 9719		tg_update_affinity_domains(cpu, 1);
-  9720	
-  9721		if (sched_smp_initialized) {
-  9722			sched_update_numa(cpu, true);
-  9723			sched_domains_numa_masks_set(cpu);
-  9724			cpuset_cpu_active();
-  9725		}
-  9726	
-  9727		/*
-  9728		 * Put the rq online, if not already. This happens:
-  9729		 *
-  9730		 * 1) In the early boot process, because we build the real domains
-  9731		 *    after all CPUs have been brought up.
-  9732		 *
-  9733		 * 2) At runtime, if cpuset_cpu_active() fails to rebuild the
-  9734		 *    domains.
-  9735		 */
-  9736		rq_lock_irqsave(rq, &rf);
-  9737		if (rq->rd) {
-  9738			BUG_ON(!cpumask_test_cpu(cpu, rq->rd->span));
-  9739			set_rq_online(rq);
-  9740		}
-  9741		rq_unlock_irqrestore(rq, &rf);
-  9742	
-  9743		return 0;
-  9744	}
-  9745	
+    79	
+    80	/**
+    81	 * tdg_vm_td() - Wrapper to read a TD-scope metadata field.
+    82	 * @field: Metadata identifier ID
+    83	 * @data: Buffer pointer to store the field value.
+    84	 *
+    85	 * Refer to section titled "TDG.VM.RD Leaf" in the TDX Module
+    86	 * v1.0 specification for more information on TDG.VM.RD TDCALL.
+    87	 *
+    88	 * Return 0 on success or errno on failure.
+    89	 */
+    90	static int tdg_vm_rd(u64 field, u64 *data)
+  > 91	{
+    92		struct tdx_module_args args = {
+    93			.rcx = 0,
+    94			.rdx = field,
+    95		};
+    96		u64 ret;
+    97	
+    98		ret = __tdcall(TDG_VM_RD, &args);
+    99		if (ret)
+   100			return -EIO;
+   101	
+   102		*data = args.r8;
+   103	
+   104		return 0;
+   105	}
+   106	
 
 -- 
 0-DAY CI Kernel Test Service
