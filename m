@@ -1,56 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E6AC8E1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 06:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E6F101C8;
+	Wed, 24 Jan 2024 06:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706077619; cv=none; b=Y3ldj4ybyB8spzYrVDEG1ncSiiIgR96xG3t2NwvNz5mKOy8aLwVvswAusGJozEeB28ANe4c+WXdluU2f7RryNQyWcMa3P45WhnHkcR8I+hsaIefHcrMJWQXsVFsINo70R9/MKuCQgkLTGsm/hZttSmzOloHLKoKreX+eiK/8DVU=
+	t=1706078830; cv=none; b=YflEH4A1NXhb4SQZ9v2ro50jYCoApwilSIoz0C3DEhsk4WWJWOIfTVq7J/ABrewo1vFsbrkB4MTRjfTJFKQ4P5GKSlrd+ATrcOCQ3vqRqWMJEOr4TSRc2pvTxM0IUIuvwDBYl83nOruU+mvc4hraWlVf+HJasN7j8xNejsAZe1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706077619; c=relaxed/simple;
-	bh=IWeNWoQZI6E2YyPkpvicy8ml/pBLpTjt6OX1IT2P/SY=;
+	s=arc-20240116; t=1706078830; c=relaxed/simple;
+	bh=q6AjqT4kGsOs1zQNcv9Xft9ggAMOF9ly776lLLXfoK4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pWHgNGfWrRkQAYfyAwjlTcKB0vzyXbmLHv0IQ9pDOqCk3nVo9YY7niJLjJOgQkQl7H3kQYXcb3j+QRpNbV2VsptewlvqR8ip6JC4Te808FuHSyZ/7yL17CZKBB9+GU0yusXiXmykv46vI9aNLvnSbF95v3P4qTIOkY4QCpQ0cQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U7hVlpzu; arc=none smtp.client-ip=192.55.52.120
+	 Content-Disposition; b=kT7EInRIzZIExQHc2zHSJje1Bu4kiWbmtK39sjjRJ0K+h4xsb1kjlBMDZqAyb02OX6DST7DJIMWShveFLUwsHLRaMyUKaZNWY98ywgd+Jzu5eff4gcS9v6C8fiGufkFLzmIe89YkutLvPxXHz56r475uosgdPuygapeu3KtIU9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOCQWeoa; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U7hVlpzu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOCQWeoa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706077617; x=1737613617;
+  t=1706078828; x=1737614828;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IWeNWoQZI6E2YyPkpvicy8ml/pBLpTjt6OX1IT2P/SY=;
-  b=U7hVlpzuPKTOgxfAASiJwiP070hj6Ww105A7fFz77mrsVhm7M6oF0LxW
-   5Z6UNi2htlN6vCTap2CUIxtHF4mUyBnqLhAJbxy0xwl1jsGRwngPM7vvN
-   WC0dOU1R/cQkOtfYCD9ASr9HbpxUQ+IWCfpRVUF8v8et8+d+P4wT8bQy+
-   ZZ31XhaqD72GStJjvugNbliQ1geDnvqgj6dg3gyy/QqSIcxzC1Q0wjlGW
-   6CJQIiUDRkWvH6E3u6dGmFDYBhQrIkNOBFmohDaiHBpB4HRbd2ki8wPNZ
-   rySuPdJ0evxOn1tZFpFu/mormTSzmbhlYSJmEOCpLVUS8frQLgG01kEhE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="400617118"
+  bh=q6AjqT4kGsOs1zQNcv9Xft9ggAMOF9ly776lLLXfoK4=;
+  b=UOCQWeoaOSNXkvDuQ0x/mL4WmJcKOuqSkwkqD0GTPRHgZg5d1hlUKEu6
+   drW9ssIuVDg2W4a0mpEaEhb2lwff/9kncSbMMoh8s6FcYTu0d/9+sWCnm
+   kvXIKLWgnxA0vGqz8dW7DVRt2t77H/hZ7jwFRT6VMz1OgQ8nnUU5tlEpK
+   4PLbL2Kx6Tf1PWUuyc6fwWD9q2h07fBTE3IhK5G+om+u4KO5mleXh6WX9
+   FGU5K/uY1h8+83BrH5TlyKCMNhIX0aNgH9H7EsJm5CJNQ4wGrMsMv1Rx8
+   44dMAk+6NDRoh9dhDrSZfDTV7b2VkMf0Ka2fgvDf/636gbG+w+FVx6dFA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="15276900"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="400617118"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 22:26:56 -0800
+   d="scan'208";a="15276900"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 22:46:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="876584573"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="905505429"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="876584573"
+   d="scan'208";a="905505429"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 23 Jan 2024 22:26:55 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 23 Jan 2024 22:46:55 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSWir-0007wL-0h;
-	Wed, 24 Jan 2024 06:26:53 +0000
-Date: Wed, 24 Jan 2024 14:26:31 +0800
+	id 1rSX2D-0007wj-1i;
+	Wed, 24 Jan 2024 06:46:53 +0000
+Date: Wed, 24 Jan 2024 14:46:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: elver@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:kasan/dev 3/4] arch/sparc/include/asm/string.h:15:25:
- warning: '__builtin_memcpy' specified bound 18446744073709551615 exceeds
- maximum object size 9223372036854775807
-Message-ID: <202401241433.vy9UEJkV-lkp@intel.com>
+To: Vishal Verma <vishal.l.verma@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	David Hildenbrand <david@redhat.com>,
+	"Huang, Ying" <ying.huang@intel.com>
+Subject: [vishal:vv/dax_abi 6/6] drivers/dax/bus.c:1372:22: error: call to
+ undeclared function 'mhp_supports_memmap_on_memory'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202401241453.4WP5ruGd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,52 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git kasan/dev
-head:   22932cc8492a23ace6b45731717767b3cad35a2b
-commit: 2467f2e4963fe6816b3549ffd5da27e749108b21 [3/4] stackdepot: use variable size records for non-evictable entries
-config: sparc-randconfig-001-20240124 (https://download.01.org/0day-ci/archive/20240124/202401241433.vy9UEJkV-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401241433.vy9UEJkV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vishal/linux.git vv/dax_abi
+head:   6a9c721fafa6903e6a18ace2c5401ad674b1367b
+commit: 6a9c721fafa6903e6a18ace2c5401ad674b1367b [6/6] dax: add a sysfs knob to control memmap_on_memory behavior
+config: i386-buildonly-randconfig-002-20240124 (https://download.01.org/0day-ci/archive/20240124/202401241453.4WP5ruGd-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401241453.4WP5ruGd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401241433.vy9UEJkV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401241453.4WP5ruGd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:61,
-                    from include/linux/bitmap.h:12,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/debugfs.h:15,
-                    from lib/stackdepot.c:17:
-   lib/stackdepot.c: In function 'depot_alloc_stack':
->> arch/sparc/include/asm/string.h:15:25: warning: '__builtin_memcpy' specified bound 18446744073709551615 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]
-      15 | #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/stackdepot.c:465:9: note: in expansion of macro 'memcpy'
-     465 |         memcpy(stack->entries, entries, flex_array_size(stack, entries, nr_entries));
-         |         ^~~~~~
+>> drivers/dax/bus.c:1372:22: error: call to undeclared function 'mhp_supports_memmap_on_memory'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1372 |         if (val == true && !mhp_supports_memmap_on_memory()) {
+         |                             ^
+   1 error generated.
 
 
-vim +/__builtin_memcpy +15 arch/sparc/include/asm/string.h
+vim +/mhp_supports_memmap_on_memory +1372 drivers/dax/bus.c
 
-70a6fcf3283a0a Al Viro 2016-01-17  13  
-70a6fcf3283a0a Al Viro 2016-01-17  14  #define __HAVE_ARCH_MEMCPY
-70a6fcf3283a0a Al Viro 2016-01-17 @15  #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-70a6fcf3283a0a Al Viro 2016-01-17  16  
-
-:::::: The code at line 15 was first introduced by commit
-:::::: 70a6fcf3283a0ac1e11737c6d90c0753f9824e9d [sparc] unify 32bit and 64bit string.h
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+  1359	
+  1360	static ssize_t memmap_on_memory_store(struct device *dev,
+  1361					      struct device_attribute *attr,
+  1362					      const char *buf, size_t len)
+  1363	{
+  1364		struct dev_dax *dev_dax = to_dev_dax(dev);
+  1365		bool val;
+  1366		int rc;
+  1367	
+  1368		rc = kstrtobool(buf, &val);
+  1369		if (rc)
+  1370			return rc;
+  1371	
+> 1372		if (val == true && !mhp_supports_memmap_on_memory()) {
+  1373			dev_dbg(dev, "memmap_on_memory is not available\n");
+  1374			return -EOPNOTSUPP;
+  1375		}
+  1376	
+  1377		rc = down_write_killable(&dax_dev_rwsem);
+  1378		if (rc)
+  1379			return rc;
+  1380	
+  1381		if (dev_dax->memmap_on_memory != val && dev->driver &&
+  1382		    to_dax_drv(dev->driver)->type == DAXDRV_KMEM_TYPE) {
+  1383			up_write(&dax_dev_rwsem);
+  1384			return -EBUSY;
+  1385		}
+  1386	
+  1387		dev_dax->memmap_on_memory = val;
+  1388		up_write(&dax_dev_rwsem);
+  1389	
+  1390		return len;
+  1391	}
+  1392	static DEVICE_ATTR_RW(memmap_on_memory);
+  1393	
 
 -- 
 0-DAY CI Kernel Test Service
