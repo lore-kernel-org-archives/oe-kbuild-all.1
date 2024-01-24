@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A92DF5D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 10:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1691AACC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 10:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706092325; cv=none; b=IocKqCpRkAt76tSAPabLf8OXeXqTFLfumleVSJOc7BqptGFQuO3Vp8LA8KeucTMEJsC7iPak8/ZFVZYoSe60N+AKUz7Fe9NzFCJfXvUknfY7oH8aXm6qMSgLe4facmW718mrojn3GMDp41NjR8/BoFd20J5FxDJovi5wVPVw/BM=
+	t=1706093584; cv=none; b=L/jnqUMOJPEkP1yzUhfIL6JeWR8QWlGHXgY0g2KLm0FHYXOB7XzZ99WXOAB2ybuuAVER9vp50bh2eDQguJ8AU8MlNYyogKRahLLh69WgZ0sVAHmQkEQ8W/ijK4QWzx4SPS+1B2peEjfAi01ZwZNqatqbmPel9kjio+SQEVQuZ1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706092325; c=relaxed/simple;
-	bh=KYCb3LqD6tfjAM7lgE/WGEoMo5rePEzuJxNBnqVyeAw=;
+	s=arc-20240116; t=1706093584; c=relaxed/simple;
+	bh=EUA5NWRvCc7C81SfhZFnLiKt8jW4z3I9Hfz2aonFqMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G1j/Zj/4MBwhHciOzLL2K5Wpugxyu0mXZhdcBTyCSLJHcp2HsBc88Hbjm2tIBue1kDTntPy6VgRoh1JYyvzFdginmBUzSdUBFJ4D88JslzmzND0laUmYom6OBh9xvlBeLqTWsmRAl3Oocqc6Cdx8EePe0VeX+A7XwNqqPaHKCyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MJ/1OJgf; arc=none smtp.client-ip=192.55.52.93
+	 Content-Disposition; b=LE3xSoxTcw14J1Ei4cbCbdTc0XLcIlEkfr9cvSok5bfGCB1KtkSVkJSmjEzoayWttN69nUucQ0IeqJLCF40nc4hH2B8kEBWApR0seo+ye0CxjnMbadJrP56OFKEhdGeyoqz4nvlb1aqnQHmd2Jk5McKRNFfCkh7hUZz78xiRKM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CmTDUXNO; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MJ/1OJgf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CmTDUXNO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706092323; x=1737628323;
+  t=1706093582; x=1737629582;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KYCb3LqD6tfjAM7lgE/WGEoMo5rePEzuJxNBnqVyeAw=;
-  b=MJ/1OJgfFuKC4zQlkhWcQLTYjYjKVg+qskCwk17ohjJQKQF1wgey0d8H
-   U7S05XspxoKEA9IoNGUhQjkdhlXe4dNGnuBTtguxEanMuMiN2pR62Rj/I
-   wjbmIvGNu+YPRKRRq7Ssmtr5PmJlCC1FkmXfhvEftgRs5A/gKKmUa87o9
-   SbAvV6v6/WT+QDUM5hxyqIcvTftuvExLn03sRU6PPd4VpfFi5lTw7sfuE
-   gOp+QiL7p11Pc3cO4J+TE/dXtqMv2pMoyMVQJt307VSMEKQJz/zfh3fpn
-   z9CQlYlwejlxUv4+1WQXndfYP3hlqhudaWX+xJZwyC19sY8sipch1PSTT
+  bh=EUA5NWRvCc7C81SfhZFnLiKt8jW4z3I9Hfz2aonFqMM=;
+  b=CmTDUXNOxsHLXwGTNz0bXqs/0Tr7pZLmKJ3zarYGquS8P2XhppnmtK2P
+   J9MWcb26MrUIJ+RDE629rG4vP9B4dlHoR/cEqguQ4VwDxF34FqZjDBLIm
+   2JgZAoYWSaWcqUJ9+t3NxNWEW7tMoi8oRCP6FiGx7XcHNxr/EKpn/aeUW
+   uSj8DUbVmyQzPRClqLxwcqQVfp+Jz0ympVVdFjfSzmzON1t8/BrJdm+Ca
+   f+gR6vNUwJ6yrbCLCr+Q16OoEMb2Yg8wispek9TIKAQGYFKn3CpCOVn5/
+   6skYaIezXFTDKd+MrtkJXk0Anh83gMQwhONUAzvOYflYxDYg5ToHIsbgT
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="398961971"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="20363064"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="398961971"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 02:32:02 -0800
+   d="scan'208";a="20363064"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 02:53:01 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="1834246"
+   d="scan'208";a="1977320"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Jan 2024 02:32:00 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 24 Jan 2024 02:52:59 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSaY1-00083t-1L;
-	Wed, 24 Jan 2024 10:31:57 +0000
-Date: Wed, 24 Jan 2024 18:31:41 +0800
+	id 1rSasL-00084H-1t;
+	Wed, 24 Jan 2024 10:52:57 +0000
+Date: Wed, 24 Jan 2024 18:52:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Babu Moger <babu.moger@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
-	Reinette Chatre <reinette.chatre@intel.com>
-Subject: [tip:x86/cache 3/3] arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8:
- Unneeded variable: "ret". Return "  0" on line 1655
-Message-ID: <202401241810.jbd8Ipa1-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.1 72/175]
+ arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:22: error: expected string
+ literal before '__LSE_PREAMBLE'
+Message-ID: <202401241842.FGvArGJa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,70 +59,184 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
-head:   54e35eb8611cce5550d3d7689679b1a91c864f28
-commit: 54e35eb8611cce5550d3d7689679b1a91c864f28 [3/3] x86/resctrl: Read supported bandwidth sources from CPUID
-config: x86_64-randconfig-102-20240124 (https://download.01.org/0day-ci/archive/20240124/202401241810.jbd8Ipa1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://android.googlesource.com/kernel/common android15-6.1
+head:   faf8e92b3bdd8457b68cf85e37cdcd4a4ed867e9
+commit: 6b29a1afdbebcc81e940e5c0f648aa1c32d3325d [72/175] ANDROID: KVM: arm64: Use atomic refcount helpers for 'struct hyp_page::refcount'
+config: arm64-randconfig-004-20240123 (https://download.01.org/0day-ci/archive/20240124/202401241842.FGvArGJa-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401241842.FGvArGJa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401241810.jbd8Ipa1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401241842.FGvArGJa-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8: Unneeded variable: "ret". Return "  0" on line 1655
+All errors (new ones prefixed by >>):
 
-vim +1621 arch/x86/kernel/cpu/resctrl/rdtgroup.c
+   In file included from arch/arm64/kvm/hyp/include/nvhe/memory.h:9,
+                    from arch/arm64/kvm/hyp/hyp-constants.c:4:
+   arch/arm64/kvm/hyp/include/nvhe/refcount.h: In function '__lse_refcount_fetch_add_16':
+>> arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:22: error: expected string literal before '__LSE_PREAMBLE'
+      35 |         asm volatile(__LSE_PREAMBLE
+         |                      ^~~~~~~~~~~~~~
+--
+   In file included from arch/arm64/kvm/hyp/include/nvhe/memory.h:9,
+                    from arch/arm64/kvm/hyp/include/nvhe/gfp.h:7,
+                    from arch/arm64/kvm/hyp/include/nvhe/pkvm.h:12,
+                    from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:14,
+                    from arch/arm64/kvm/hyp/nvhe/hyp-main.c:19:
+   arch/arm64/kvm/hyp/include/nvhe/refcount.h: In function '__lse_refcount_fetch_add_16':
+>> arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:22: error: expected string literal before '__LSE_PREAMBLE'
+      35 |         asm volatile(__LSE_PREAMBLE
+         |                      ^~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c: At top level:
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:362:43: warning: initialized field overwritten [-Woverride-init]
+     362 |         [ESR_ELx_EC_WFx]                = handle_pvm_entry_wfx,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:362:43: note: (near initialization for 'entry_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:363:43: warning: initialized field overwritten [-Woverride-init]
+     363 |         [ESR_ELx_EC_HVC64]              = handle_pvm_entry_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:363:43: note: (near initialization for 'entry_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:364:43: warning: initialized field overwritten [-Woverride-init]
+     364 |         [ESR_ELx_EC_SYS64]              = handle_pvm_entry_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:364:43: note: (near initialization for 'entry_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:365:43: warning: initialized field overwritten [-Woverride-init]
+     365 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_entry_iabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:365:43: note: (near initialization for 'entry_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:366:43: warning: initialized field overwritten [-Woverride-init]
+     366 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_entry_dabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:366:43: note: (near initialization for 'entry_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:371:43: warning: initialized field overwritten [-Woverride-init]
+     371 |         [ESR_ELx_EC_WFx]                = handle_pvm_exit_wfx,
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:371:43: note: (near initialization for 'exit_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:372:43: warning: initialized field overwritten [-Woverride-init]
+     372 |         [ESR_ELx_EC_HVC64]              = handle_pvm_exit_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:372:43: note: (near initialization for 'exit_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:373:43: warning: initialized field overwritten [-Woverride-init]
+     373 |         [ESR_ELx_EC_SYS64]              = handle_pvm_exit_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:373:43: note: (near initialization for 'exit_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:374:43: warning: initialized field overwritten [-Woverride-init]
+     374 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_exit_iabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:374:43: note: (near initialization for 'exit_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:375:43: warning: initialized field overwritten [-Woverride-init]
+     375 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_exit_dabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:375:43: note: (near initialization for 'exit_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:384:43: warning: initialized field overwritten [-Woverride-init]
+     384 |         [ESR_ELx_EC_IABT_LOW]           = handle_vm_exit_abt,
+         |                                           ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:384:43: note: (near initialization for 'exit_hyp_vm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:385:43: warning: initialized field overwritten [-Woverride-init]
+     385 |         [ESR_ELx_EC_DABT_LOW]           = handle_vm_exit_abt,
+         |                                           ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:385:43: note: (near initialization for 'exit_hyp_vm_handlers[36]')
+--
+   In file included from arch/arm64/kvm/hyp/include/nvhe/memory.h:9,
+                    from arch/arm64/kvm/hyp/include/nvhe/gfp.h:7,
+                    from arch/arm64/kvm/hyp/include/nvhe/pkvm.h:12,
+                    from arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:14,
+                    from arch/arm64/kvm/hyp/nvhe/switch.c:29:
+   arch/arm64/kvm/hyp/include/nvhe/refcount.h: In function '__lse_refcount_fetch_add_16':
+>> arch/arm64/kvm/hyp/include/nvhe/refcount.h:35:22: error: expected string literal before '__LSE_PREAMBLE'
+      35 |         asm volatile(__LSE_PREAMBLE
+         |                      ^~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c: At top level:
+   arch/arm64/kvm/hyp/nvhe/switch.c:187:43: warning: initialized field overwritten [-Woverride-init]
+     187 |         [ESR_ELx_EC_CP15_32]            = kvm_hyp_handle_cp15_32,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:187:43: note: (near initialization for 'hyp_exit_handlers[3]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:188:43: warning: initialized field overwritten [-Woverride-init]
+     188 |         [ESR_ELx_EC_SYS64]              = kvm_hyp_handle_sysreg,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:188:43: note: (near initialization for 'hyp_exit_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:189:43: warning: initialized field overwritten [-Woverride-init]
+     189 |         [ESR_ELx_EC_SVE]                = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:189:43: note: (near initialization for 'hyp_exit_handlers[25]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:190:43: warning: initialized field overwritten [-Woverride-init]
+     190 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:190:43: note: (near initialization for 'hyp_exit_handlers[7]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:191:43: warning: initialized field overwritten [-Woverride-init]
+     191 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:191:43: note: (near initialization for 'hyp_exit_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:192:43: warning: initialized field overwritten [-Woverride-init]
+     192 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:192:43: note: (near initialization for 'hyp_exit_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:193:43: warning: initialized field overwritten [-Woverride-init]
+     193 |         [ESR_ELx_EC_WATCHPT_LOW]        = kvm_hyp_handle_watchpt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:193:43: note: (near initialization for 'hyp_exit_handlers[52]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:194:43: warning: initialized field overwritten [-Woverride-init]
+     194 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:194:43: note: (near initialization for 'hyp_exit_handlers[9]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:199:43: warning: initialized field overwritten [-Woverride-init]
+     199 |         [ESR_ELx_EC_HVC64]              = kvm_handle_pvm_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:199:43: note: (near initialization for 'pvm_exit_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:200:43: warning: initialized field overwritten [-Woverride-init]
+     200 |         [ESR_ELx_EC_SYS64]              = kvm_handle_pvm_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:200:43: note: (near initialization for 'pvm_exit_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:201:43: warning: initialized field overwritten [-Woverride-init]
+     201 |         [ESR_ELx_EC_SVE]                = kvm_handle_pvm_restricted,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:201:43: note: (near initialization for 'pvm_exit_handlers[25]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:202:43: warning: initialized field overwritten [-Woverride-init]
+     202 |         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:202:43: note: (near initialization for 'pvm_exit_handlers[7]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:203:43: warning: initialized field overwritten [-Woverride-init]
+     203 |         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:203:43: note: (near initialization for 'pvm_exit_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:204:43: warning: initialized field overwritten [-Woverride-init]
+     204 |         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:204:43: note: (near initialization for 'pvm_exit_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:205:43: warning: initialized field overwritten [-Woverride-init]
+     205 |         [ESR_ELx_EC_WATCHPT_LOW]        = kvm_hyp_handle_watchpt_low,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:205:43: note: (near initialization for 'pvm_exit_handlers[52]')
+   arch/arm64/kvm/hyp/nvhe/switch.c:206:43: warning: initialized field overwritten [-Woverride-init]
+     206 |         [ESR_ELx_EC_PAC]                = kvm_hyp_handle_ptrauth,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/switch.c:206:43: note: (near initialization for 'pvm_exit_handlers[9]')
 
-92bd5a1390335b Babu Moger 2023-01-13  1616  
-92bd5a1390335b Babu Moger 2023-01-13  1617  static int mbm_config_write_domain(struct rdt_resource *r,
-92bd5a1390335b Babu Moger 2023-01-13  1618  				   struct rdt_domain *d, u32 evtid, u32 val)
-92bd5a1390335b Babu Moger 2023-01-13  1619  {
-92bd5a1390335b Babu Moger 2023-01-13  1620  	struct mon_config_info mon_info = {0};
-92bd5a1390335b Babu Moger 2023-01-13 @1621  	int ret = 0;
-92bd5a1390335b Babu Moger 2023-01-13  1622  
-92bd5a1390335b Babu Moger 2023-01-13  1623  	/*
-92bd5a1390335b Babu Moger 2023-01-13  1624  	 * Read the current config value first. If both are the same then
-92bd5a1390335b Babu Moger 2023-01-13  1625  	 * no need to write it again.
-92bd5a1390335b Babu Moger 2023-01-13  1626  	 */
-92bd5a1390335b Babu Moger 2023-01-13  1627  	mon_info.evtid = evtid;
-92bd5a1390335b Babu Moger 2023-01-13  1628  	mondata_config_read(d, &mon_info);
-92bd5a1390335b Babu Moger 2023-01-13  1629  	if (mon_info.mon_config == val)
-92bd5a1390335b Babu Moger 2023-01-13  1630  		goto out;
-92bd5a1390335b Babu Moger 2023-01-13  1631  
-92bd5a1390335b Babu Moger 2023-01-13  1632  	mon_info.mon_config = val;
-92bd5a1390335b Babu Moger 2023-01-13  1633  
-92bd5a1390335b Babu Moger 2023-01-13  1634  	/*
-92bd5a1390335b Babu Moger 2023-01-13  1635  	 * Update MSR_IA32_EVT_CFG_BASE MSR on one of the CPUs in the
-92bd5a1390335b Babu Moger 2023-01-13  1636  	 * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
-92bd5a1390335b Babu Moger 2023-01-13  1637  	 * are scoped at the domain level. Writing any of these MSRs
-92bd5a1390335b Babu Moger 2023-01-13  1638  	 * on one CPU is observed by all the CPUs in the domain.
-92bd5a1390335b Babu Moger 2023-01-13  1639  	 */
-92bd5a1390335b Babu Moger 2023-01-13  1640  	smp_call_function_any(&d->cpu_mask, mon_event_config_write,
-92bd5a1390335b Babu Moger 2023-01-13  1641  			      &mon_info, 1);
-92bd5a1390335b Babu Moger 2023-01-13  1642  
-92bd5a1390335b Babu Moger 2023-01-13  1643  	/*
-92bd5a1390335b Babu Moger 2023-01-13  1644  	 * When an Event Configuration is changed, the bandwidth counters
-92bd5a1390335b Babu Moger 2023-01-13  1645  	 * for all RMIDs and Events will be cleared by the hardware. The
-92bd5a1390335b Babu Moger 2023-01-13  1646  	 * hardware also sets MSR_IA32_QM_CTR.Unavailable (bit 62) for
-92bd5a1390335b Babu Moger 2023-01-13  1647  	 * every RMID on the next read to any event for every RMID.
-92bd5a1390335b Babu Moger 2023-01-13  1648  	 * Subsequent reads will have MSR_IA32_QM_CTR.Unavailable (bit 62)
-92bd5a1390335b Babu Moger 2023-01-13  1649  	 * cleared while it is tracked by the hardware. Clear the
-92bd5a1390335b Babu Moger 2023-01-13  1650  	 * mbm_local and mbm_total counts for all the RMIDs.
-92bd5a1390335b Babu Moger 2023-01-13  1651  	 */
-92bd5a1390335b Babu Moger 2023-01-13  1652  	resctrl_arch_reset_rmid_all(r, d);
-92bd5a1390335b Babu Moger 2023-01-13  1653  
-92bd5a1390335b Babu Moger 2023-01-13  1654  out:
-92bd5a1390335b Babu Moger 2023-01-13 @1655  	return ret;
-92bd5a1390335b Babu Moger 2023-01-13  1656  }
-92bd5a1390335b Babu Moger 2023-01-13  1657  
 
-:::::: The code at line 1621 was first introduced by commit
-:::::: 92bd5a1390335bb3cc76bdf1b4356edbc94d408d x86/resctrl: Add interface to write mbm_total_bytes_config
+vim +/__LSE_PREAMBLE +35 arch/arm64/kvm/hyp/include/nvhe/refcount.h
 
-:::::: TO: Babu Moger <babu.moger@amd.com>
-:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  30  
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  31  static inline s16 __lse_refcount_fetch_add_16(u16 *refcount, s16 addend)
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  32  {
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  33  	s16 old;
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  34  
+bb06ac6eeaa7e6 Will Deacon 2023-06-30 @35  	asm volatile(__LSE_PREAMBLE
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  36  	"	ldaddh	%w[addend], %w[old], %[refcount]"
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  37  	: [refcount] "+Q" (*refcount),
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  38  	  [old] "=r" (old)
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  39  	: [addend] "r" (addend));
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  40  
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  41  	return old + addend;
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  42  }
+bb06ac6eeaa7e6 Will Deacon 2023-06-30  43  
+
+:::::: The code at line 35 was first introduced by commit
+:::::: bb06ac6eeaa7e68e1c532bda6814d1d2108f44d8 ANDROID: KVM: arm64: Add atomics-based checking refcount implementation at EL2
+
+:::::: TO: Will Deacon <willdeacon@google.com>
+:::::: CC: Fuad Tabba <tabba@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
