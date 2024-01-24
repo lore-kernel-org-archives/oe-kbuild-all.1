@@ -1,95 +1,181 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F489CA69;
-	Wed, 24 Jan 2024 13:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17108199D9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 13:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706103535; cv=none; b=BpC/lKyDbkix8qIZfJcsU13PdJ+BtRJnVAnxyaBadd+m1uxLNyqirTQSwBngAMibckKNixGgBbi9bTDaQEGwZTeMHwkczJ1ay382m63dBNsTFU6TWQGfD+fP1scm5S3K/GzbWQO05pU21V2fMjrcuQw9p9IxinPJ+uiyeL12Ktg=
+	t=1706103972; cv=none; b=Grmq2iAAToD7qVwgkF28rZzZFNBV5V3YB1EMcFoSuwR0Wj8UjgnEOXNDu9k+hj3bgNLv9ZYrJ1CbmvjkjfRhip/fmrdYnH09UE1SkAN9G1/HA/RuAQd3uWT42gp389Ap1AbWaEOcbjB3Ty8n9pRD5VfGOpYtWddZ4X8U3J7vxtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706103535; c=relaxed/simple;
-	bh=h18dF1XWNpNzYO06Da4D5AMzQ2A4VrPat2l+QQOyc80=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Jcb+/wYRtLjrtprqnVebKY+b4qu4NA7tPJAFVopgm2eYkTOPu9iyIShkJTs5irzAGObzuIctNdStZbKH2l8nlWbec3HOmGaBd241HryzoIzQa2VvKKEhABLnUqutTFppo75u/pZuph8EZL40nT3cSxPCq9JaBvqQVl7ugEMm6CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4TKlQF1npKzNlVc;
-	Wed, 24 Jan 2024 21:37:57 +0800 (CST)
-Received: from dggpeml500021.china.huawei.com (unknown [7.185.36.21])
-	by mail.maildlp.com (Postfix) with ESMTPS id 411B0180073;
-	Wed, 24 Jan 2024 21:38:50 +0800 (CST)
-Received: from [10.174.177.174] (10.174.177.174) by
- dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 24 Jan 2024 21:38:49 +0800
-Message-ID: <098f69f5-524b-9ddd-3d07-5e5c04135fcb@huawei.com>
-Date: Wed, 24 Jan 2024 21:38:49 +0800
+	s=arc-20240116; t=1706103972; c=relaxed/simple;
+	bh=ryjkmByxSJ3YLZgphVCiklhjP7VzblkUpFIBA919fPg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nRyGNHk2T3lHAajsnPNk+JkvfHeY+p9ZNaPR4f+0vQuO5jJBTTeAb5S2BEn7LTI9/X/fqn6DNgYzeuGPt6se5u+181C5OGV0ehT+onsYW4Wb/QqraoKsMFp1N6DyxhHzkiupr9PAzz6dKoNjvAWMVSqg7rRz9YydsSfrKlJ9NB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jit4fDB9; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jit4fDB9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706103971; x=1737639971;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ryjkmByxSJ3YLZgphVCiklhjP7VzblkUpFIBA919fPg=;
+  b=jit4fDB9/SVaJZhktZunaxP9chsekHfdmi3OnCEVXz6AMC5ApznY8P3V
+   aCrvwbvdlH4IckIppMXwbF3/bU/y4dlUD2TXSmvdkg1cJhWnEWSHcKZAH
+   hunq+Dds6TrvWy0Hkjo/0z6NHQ7+E8IpY13A/WO7qjoXQXhqlrF4Gk70q
+   U+pMXfDbZV02kYBgpwlHfQtS0KGH52YiP3rISk0lrtXLT5mjD4lzyrNsi
+   GhpMyN1K9ycMsJqsfiIWHS5Knfj6/S356I3SzM/XpZbZPvGs+BV0cTnRt
+   LUmj/ChkycLYxEJfAOHu1VDXKeyUzobnx/EZSXRyl8Tz52brbIIT8s+L2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="741547"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="741547"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 05:46:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="909664472"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="909664472"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 24 Jan 2024 05:46:02 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rSdZo-000881-0S;
+	Wed, 24 Jan 2024 13:46:00 +0000
+Date: Wed, 24 Jan 2024 21:45:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ambarus:gs101-spi 57/60] drivers/spi/spi-s3c64xx.c:457:41: error:
+ implicit declaration of function 'iowrite16_32_rep'; did you mean
+ 'iowrite32_rep'?
+Message-ID: <202401242109.vGwtsIdP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [brauner-vfs:vfs.misc 12/13] include/linux/fs.h:911:9: error:
- call to '__compiletime_assert_207' declared with 'error' attribute: Need
- native word sized stores/loads for atomicity.
-Content-Language: en-US
-To: Christian Brauner <brauner@kernel.org>
-CC: Linus Torvalds <torvalds@linux-foundation.org>, kernel test robot
-	<lkp@intel.com>, <sfr@canb.auug.org.au>, <llvm@lists.linux.dev>,
-	<oe-kbuild-all@lists.linux.dev>, Christian Brauner
-	<christianvanbrauner@gmail.com>, yangerkun <yangerkun@huawei.com>, "zhangyi
- (F)" <yi.zhang@huawei.com>, <linux-next@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, Baokun Li <libaokun1@huawei.com>
-References: <202401230837.TXro0PHi-lkp@intel.com>
- <59fae3eb-a125-cd5f-224e-b89d122ecb46@huawei.com>
- <20240123-glatt-langgehegter-a239e588ae2c@brauner>
- <2abc7cc4-72eb-33c9-864a-9f527c0273d3@huawei.com>
- <20240124-abbaggern-oblag-67346f8dee9f@brauner>
- <bf9b8a90-7ace-5f14-e585-8cc467f4d611@huawei.com>
- <20240124-warnhinweis-servolenkung-e482feb8fc43@brauner>
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <20240124-warnhinweis-servolenkung-e482feb8fc43@brauner>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500021.china.huawei.com (7.185.36.21)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2024/1/24 21:27, Christian Brauner wrote:
->> If CONFIG_SMP is not enabled in include/asm-generic/barrier.h,
->> then smp_load_acquire/smp_store_release is implemented as
->> READ_ONCE/READ_ONCE and barrier() and type checking.
->> READ_ONCE/READ_ONCE already checks the pointer type,
->> but then checks it more stringently outside, but here the
->> more stringent checking seems unnecessary, so it is removed
->> and only the type checking in READ_ONCE/READ_ONCE is kept
->> to avoid compilation errors.
-> Maha, brainfart on my end, I missed the !CONFIG_SMP case.
-> Sorry about that.
-Never mind. 😊
->> When CONFIG_SMP is enabled on 32-bit architectures,
->> smp_load_acquire/smp_store_release is not called in i_size_read/write,
->> so there is no compilation problem. On 64-bit architectures, there
->> is no compilation problem because sizeof(long long) == sizeof(long),
->> regardless of whether CONFIG_SMP is enabled or not.
-> Yes, of course.
->
->> Yes, using smp_rmb()/smp_wmb() would also solve the problem, but
->> the initial purpose of this patch was to replace smp_rmb() in filemap_read()
->> with the clearer smp_load_acquire/smp_store_release, and that's where
->> the community is going with this evolution. Later on, buffer and page/folio
->> will also switch to acquire/release, which is why I think Linus' suggestion
->> is better.
-> Ah ok, thanks for the context. Can you send an updated series then, please?
->
-No problem, I'll send a new version soon!
+tree:   https://github.com/ambarus/linux-0day gs101-spi
+head:   8edbaa8e7635d31a991657eaa4f2692f9d3dbe82
+commit: 6e802b2866d27c8c88eb68bbcc9d94d26674d3b6 [57/60] spi: s3c64xx: add support for google,gs101-spi
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240124/202401242109.vGwtsIdP-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401242109.vGwtsIdP-lkp@intel.com/reproduce)
 
-Cheers!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401242109.vGwtsIdP-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/spi/spi-s3c64xx.c: In function 's3c64xx_enable_datapath':
+>> drivers/spi/spi-s3c64xx.c:457:41: error: implicit declaration of function 'iowrite16_32_rep'; did you mean 'iowrite32_rep'? [-Werror=implicit-function-declaration]
+     457 |                                         iowrite16_32_rep(regs + S3C64XX_SPI_TX_DATA,
+         |                                         ^~~~~~~~~~~~~~~~
+         |                                         iowrite32_rep
+>> drivers/spi/spi-s3c64xx.c:466:41: error: implicit declaration of function 'iowrite8_32_rep'; did you mean 'iowrite32_rep'? [-Werror=implicit-function-declaration]
+     466 |                                         iowrite8_32_rep(regs + S3C64XX_SPI_TX_DATA,
+         |                                         ^~~~~~~~~~~~~~~
+         |                                         iowrite32_rep
+   cc1: some warnings being treated as errors
+
+
+vim +457 drivers/spi/spi-s3c64xx.c
+
+   415	
+   416	static int s3c64xx_enable_datapath(struct s3c64xx_spi_driver_data *sdd,
+   417					    struct spi_transfer *xfer, int dma_mode)
+   418	{
+   419		void __iomem *regs = sdd->regs;
+   420		u32 modecfg, chcfg;
+   421		int ret = 0;
+   422	
+   423		modecfg = readl(regs + S3C64XX_SPI_MODE_CFG);
+   424		modecfg &= ~(S3C64XX_SPI_MODE_TXDMA_ON | S3C64XX_SPI_MODE_RXDMA_ON);
+   425	
+   426		chcfg = readl(regs + S3C64XX_SPI_CH_CFG);
+   427		chcfg &= ~S3C64XX_SPI_CH_TXCH_ON;
+   428	
+   429		if (dma_mode) {
+   430			chcfg &= ~S3C64XX_SPI_CH_RXCH_ON;
+   431		} else {
+   432			/* Always shift in data in FIFO, even if xfer is Tx only,
+   433			 * this helps setting PCKT_CNT value for generating clocks
+   434			 * as exactly needed.
+   435			 */
+   436			chcfg |= S3C64XX_SPI_CH_RXCH_ON;
+   437			writel(((xfer->len * 8 / sdd->cur_bpw) & 0xffff)
+   438						| S3C64XX_SPI_PACKET_CNT_EN,
+   439						regs + S3C64XX_SPI_PACKET_CNT);
+   440		}
+   441	
+   442		if (xfer->tx_buf != NULL) {
+   443			sdd->state |= TXBUSY;
+   444			chcfg |= S3C64XX_SPI_CH_TXCH_ON;
+   445			if (dma_mode) {
+   446				modecfg |= S3C64XX_SPI_MODE_TXDMA_ON;
+   447				ret = s3c64xx_prepare_dma(&sdd->tx_dma, &xfer->tx_sg);
+   448			} else {
+   449				switch (sdd->cur_bpw) {
+   450				case 32:
+   451					iowrite32_rep(regs + S3C64XX_SPI_TX_DATA,
+   452						xfer->tx_buf, xfer->len / 4);
+   453					break;
+   454				case 16:
+   455					if (sdd->port_conf->quirks &
+   456					    S3C64XX_SPI_GS1O1_32BIT_REG_IO_WIDTH)
+ > 457						iowrite16_32_rep(regs + S3C64XX_SPI_TX_DATA,
+   458								 xfer->tx_buf, xfer->len / 2);
+   459					else
+   460						iowrite16_rep(regs + S3C64XX_SPI_TX_DATA,
+   461							      xfer->tx_buf, xfer->len / 2);
+   462					break;
+   463				default:
+   464					if (sdd->port_conf->quirks &
+   465					    S3C64XX_SPI_GS1O1_32BIT_REG_IO_WIDTH)
+ > 466						iowrite8_32_rep(regs + S3C64XX_SPI_TX_DATA,
+   467								xfer->tx_buf, xfer->len);
+   468					else
+   469						iowrite8_rep(regs + S3C64XX_SPI_TX_DATA,
+   470							     xfer->tx_buf, xfer->len);
+   471					break;
+   472				}
+   473			}
+   474		}
+   475	
+   476		if (xfer->rx_buf != NULL) {
+   477			sdd->state |= RXBUSY;
+   478	
+   479			if (sdd->port_conf->high_speed && sdd->cur_speed >= 30000000UL
+   480						&& !(sdd->cur_mode & SPI_CPHA))
+   481				chcfg |= S3C64XX_SPI_CH_HS_EN;
+   482	
+   483			if (dma_mode) {
+   484				modecfg |= S3C64XX_SPI_MODE_RXDMA_ON;
+   485				chcfg |= S3C64XX_SPI_CH_RXCH_ON;
+   486				writel(((xfer->len * 8 / sdd->cur_bpw) & 0xffff)
+   487						| S3C64XX_SPI_PACKET_CNT_EN,
+   488						regs + S3C64XX_SPI_PACKET_CNT);
+   489				ret = s3c64xx_prepare_dma(&sdd->rx_dma, &xfer->rx_sg);
+   490			}
+   491		}
+   492	
+   493		if (ret)
+   494			return ret;
+   495	
+   496		writel(modecfg, regs + S3C64XX_SPI_MODE_CFG);
+   497		writel(chcfg, regs + S3C64XX_SPI_CH_CFG);
+   498	
+   499		return 0;
+   500	}
+   501	
+
 -- 
-With Best Regards,
-Baokun Li
-.
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
