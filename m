@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064F263C3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 10:32:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A92DF5D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 10:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706092324; cv=none; b=VeuTNXzsKFqDL0dqnhM3AwaQBMCxNBm5x9LmMdqjgWdLWMwAxcOFg70zqGHTrpRoZqtWfHupe+/M3lznKYjTdvFTgzvqxJb1eCa+uY+127YwfBjsM7eKfrQsBfXB5WP0TP6u9sTp/J8exGgvFY5KOmXZ86qAjKP4KjcpXPhnmus=
+	t=1706092325; cv=none; b=IocKqCpRkAt76tSAPabLf8OXeXqTFLfumleVSJOc7BqptGFQuO3Vp8LA8KeucTMEJsC7iPak8/ZFVZYoSe60N+AKUz7Fe9NzFCJfXvUknfY7oH8aXm6qMSgLe4facmW718mrojn3GMDp41NjR8/BoFd20J5FxDJovi5wVPVw/BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706092324; c=relaxed/simple;
-	bh=PRreogJJku2cdQywmx5EKPtF1IU7sg2jEJDp9cRsXcg=;
+	s=arc-20240116; t=1706092325; c=relaxed/simple;
+	bh=KYCb3LqD6tfjAM7lgE/WGEoMo5rePEzuJxNBnqVyeAw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SJTvRnMJ/OEfS8H20P2Xfu/gBaROkCl1ISEkQBmjnfoRgusAywKh+XhwSbLgovfKSAP8Eidrq/eJpg8UhoiPmYng84Y6JyF7X9xz3L58uThinMXUHdG3897XsI78ThNaTJquMwT4fyZ5VfiaBQHX4Gr6T87+u87TQ2rDEaz+SGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cR8gFxx5; arc=none smtp.client-ip=192.55.52.115
+	 Content-Disposition; b=G1j/Zj/4MBwhHciOzLL2K5Wpugxyu0mXZhdcBTyCSLJHcp2HsBc88Hbjm2tIBue1kDTntPy6VgRoh1JYyvzFdginmBUzSdUBFJ4D88JslzmzND0laUmYom6OBh9xvlBeLqTWsmRAl3Oocqc6Cdx8EePe0VeX+A7XwNqqPaHKCyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MJ/1OJgf; arc=none smtp.client-ip=192.55.52.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cR8gFxx5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MJ/1OJgf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706092322; x=1737628322;
+  t=1706092323; x=1737628323;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PRreogJJku2cdQywmx5EKPtF1IU7sg2jEJDp9cRsXcg=;
-  b=cR8gFxx53aIWycRDCJkhmw9CSQ6bsndMPHWmpGC5m1CQPfnCo6euWkKY
-   2NkNFdwlEKjjfTDaQAbzBzTD2tbrbS4vByafC7OifyYQe8d+Rjh6uDHPD
-   QlL9aVAjz5NQMMbrTS1IIqIuQuXknTqYrxKbnHfOn1YqLqOloXsEAma5t
-   bd4VTICnJUvLfl+4lwQHo+/thhSnh3SKA/8jo5ggr3TGbJ7rUIJTW3gQb
-   PnFIHe4KiuQlugt3cSp49Q2RMQLrCscwP08kGo2YOhB6XIIB35i0kivFr
-   0N1Yw0s5IACBXSyBBLGS1DhPnEC5geolJU2TbisOl13oEqar0IArXhZAX
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="401465840"
+  bh=KYCb3LqD6tfjAM7lgE/WGEoMo5rePEzuJxNBnqVyeAw=;
+  b=MJ/1OJgfFuKC4zQlkhWcQLTYjYjKVg+qskCwk17ohjJQKQF1wgey0d8H
+   U7S05XspxoKEA9IoNGUhQjkdhlXe4dNGnuBTtguxEanMuMiN2pR62Rj/I
+   wjbmIvGNu+YPRKRRq7Ssmtr5PmJlCC1FkmXfhvEftgRs5A/gKKmUa87o9
+   SbAvV6v6/WT+QDUM5hxyqIcvTftuvExLn03sRU6PPd4VpfFi5lTw7sfuE
+   gOp+QiL7p11Pc3cO4J+TE/dXtqMv2pMoyMVQJt307VSMEKQJz/zfh3fpn
+   z9CQlYlwejlxUv4+1WQXndfYP3hlqhudaWX+xJZwyC19sY8sipch1PSTT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="398961971"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="401465840"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 02:32:00 -0800
+   d="scan'208";a="398961971"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 02:32:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="735889372"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="735889372"
+   d="scan'208";a="1834246"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 24 Jan 2024 02:31:59 -0800
+  by orviesa005.jf.intel.com with ESMTP; 24 Jan 2024 02:32:00 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSaY1-00083v-1P;
+	id 1rSaY1-00083t-1L;
 	Wed, 24 Jan 2024 10:31:57 +0000
-Date: Wed, 24 Jan 2024 18:31:40 +0800
+Date: Wed, 24 Jan 2024 18:31:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 154/175]
- arch/arm64/kvm/hyp_trace.c:702:66: warning: '%ld' directive output may be
- truncated writing between 1 and 20 bytes into a region of size 13
-Message-ID: <202401241831.A5CoWPdM-lkp@intel.com>
+To: Babu Moger <babu.moger@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
+	Reinette Chatre <reinette.chatre@intel.com>
+Subject: [tip:x86/cache 3/3] arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8:
+ Unneeded variable: "ret". Return "  0" on line 1655
+Message-ID: <202401241810.jbd8Ipa1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,72 +60,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   faf8e92b3bdd8457b68cf85e37cdcd4a4ed867e9
-commit: c24ca55000da3492aacf4e383634f060faeb5050 [154/175] ANDROID: KVM: arm64: Add nVHE hyp tracing to tracefs
-config: arm64-randconfig-002-20240123 (https://download.01.org/0day-ci/archive/20240124/202401241831.A5CoWPdM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401241831.A5CoWPdM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
+head:   54e35eb8611cce5550d3d7689679b1a91c864f28
+commit: 54e35eb8611cce5550d3d7689679b1a91c864f28 [3/3] x86/resctrl: Read supported bandwidth sources from CPUID
+config: x86_64-randconfig-102-20240124 (https://download.01.org/0day-ci/archive/20240124/202401241810.jbd8Ipa1-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401241831.A5CoWPdM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401241810.jbd8Ipa1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8: Unneeded variable: "ret". Return "  0" on line 1655
 
-   arch/arm64/kvm/hyp_trace.c: In function 'hyp_trace_init_tracefs':
->> arch/arm64/kvm/hyp_trace.c:702:66: warning: '%ld' directive output may be truncated writing between 1 and 20 bytes into a region of size 13 [-Wformat-truncation=]
-     702 |                 snprintf(per_cpu_name, sizeof(per_cpu_name), "cpu%ld", cpu);
-         |                                                                  ^~~
-   arch/arm64/kvm/hyp_trace.c:702:62: note: directive argument in the range [-9223372036854775808, 4294967294]
-     702 |                 snprintf(per_cpu_name, sizeof(per_cpu_name), "cpu%ld", cpu);
-         |                                                              ^~~~~~~~
-   arch/arm64/kvm/hyp_trace.c:702:17: note: 'snprintf' output between 5 and 24 bytes into a destination of size 16
-     702 |                 snprintf(per_cpu_name, sizeof(per_cpu_name), "cpu%ld", cpu);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +1621 arch/x86/kernel/cpu/resctrl/rdtgroup.c
 
+92bd5a1390335b Babu Moger 2023-01-13  1616  
+92bd5a1390335b Babu Moger 2023-01-13  1617  static int mbm_config_write_domain(struct rdt_resource *r,
+92bd5a1390335b Babu Moger 2023-01-13  1618  				   struct rdt_domain *d, u32 evtid, u32 val)
+92bd5a1390335b Babu Moger 2023-01-13  1619  {
+92bd5a1390335b Babu Moger 2023-01-13  1620  	struct mon_config_info mon_info = {0};
+92bd5a1390335b Babu Moger 2023-01-13 @1621  	int ret = 0;
+92bd5a1390335b Babu Moger 2023-01-13  1622  
+92bd5a1390335b Babu Moger 2023-01-13  1623  	/*
+92bd5a1390335b Babu Moger 2023-01-13  1624  	 * Read the current config value first. If both are the same then
+92bd5a1390335b Babu Moger 2023-01-13  1625  	 * no need to write it again.
+92bd5a1390335b Babu Moger 2023-01-13  1626  	 */
+92bd5a1390335b Babu Moger 2023-01-13  1627  	mon_info.evtid = evtid;
+92bd5a1390335b Babu Moger 2023-01-13  1628  	mondata_config_read(d, &mon_info);
+92bd5a1390335b Babu Moger 2023-01-13  1629  	if (mon_info.mon_config == val)
+92bd5a1390335b Babu Moger 2023-01-13  1630  		goto out;
+92bd5a1390335b Babu Moger 2023-01-13  1631  
+92bd5a1390335b Babu Moger 2023-01-13  1632  	mon_info.mon_config = val;
+92bd5a1390335b Babu Moger 2023-01-13  1633  
+92bd5a1390335b Babu Moger 2023-01-13  1634  	/*
+92bd5a1390335b Babu Moger 2023-01-13  1635  	 * Update MSR_IA32_EVT_CFG_BASE MSR on one of the CPUs in the
+92bd5a1390335b Babu Moger 2023-01-13  1636  	 * domain. The MSRs offset from MSR MSR_IA32_EVT_CFG_BASE
+92bd5a1390335b Babu Moger 2023-01-13  1637  	 * are scoped at the domain level. Writing any of these MSRs
+92bd5a1390335b Babu Moger 2023-01-13  1638  	 * on one CPU is observed by all the CPUs in the domain.
+92bd5a1390335b Babu Moger 2023-01-13  1639  	 */
+92bd5a1390335b Babu Moger 2023-01-13  1640  	smp_call_function_any(&d->cpu_mask, mon_event_config_write,
+92bd5a1390335b Babu Moger 2023-01-13  1641  			      &mon_info, 1);
+92bd5a1390335b Babu Moger 2023-01-13  1642  
+92bd5a1390335b Babu Moger 2023-01-13  1643  	/*
+92bd5a1390335b Babu Moger 2023-01-13  1644  	 * When an Event Configuration is changed, the bandwidth counters
+92bd5a1390335b Babu Moger 2023-01-13  1645  	 * for all RMIDs and Events will be cleared by the hardware. The
+92bd5a1390335b Babu Moger 2023-01-13  1646  	 * hardware also sets MSR_IA32_QM_CTR.Unavailable (bit 62) for
+92bd5a1390335b Babu Moger 2023-01-13  1647  	 * every RMID on the next read to any event for every RMID.
+92bd5a1390335b Babu Moger 2023-01-13  1648  	 * Subsequent reads will have MSR_IA32_QM_CTR.Unavailable (bit 62)
+92bd5a1390335b Babu Moger 2023-01-13  1649  	 * cleared while it is tracked by the hardware. Clear the
+92bd5a1390335b Babu Moger 2023-01-13  1650  	 * mbm_local and mbm_total counts for all the RMIDs.
+92bd5a1390335b Babu Moger 2023-01-13  1651  	 */
+92bd5a1390335b Babu Moger 2023-01-13  1652  	resctrl_arch_reset_rmid_all(r, d);
+92bd5a1390335b Babu Moger 2023-01-13  1653  
+92bd5a1390335b Babu Moger 2023-01-13  1654  out:
+92bd5a1390335b Babu Moger 2023-01-13 @1655  	return ret;
+92bd5a1390335b Babu Moger 2023-01-13  1656  }
+92bd5a1390335b Babu Moger 2023-01-13  1657  
 
-vim +702 arch/arm64/kvm/hyp_trace.c
+:::::: The code at line 1621 was first introduced by commit
+:::::: 92bd5a1390335bb3cc76bdf1b4356edbc94d408d x86/resctrl: Add interface to write mbm_total_bytes_config
 
-   665	
-   666	int hyp_trace_init_tracefs(void)
-   667	{
-   668		struct dentry *root, *per_cpu_root;
-   669		char per_cpu_name[16];
-   670		long cpu;
-   671	
-   672		if (!is_protected_kvm_enabled())
-   673			return 0;
-   674	
-   675		root = tracefs_create_dir(TRACEFS_DIR, NULL);
-   676		if (!root) {
-   677			pr_err("Failed to create tracefs "TRACEFS_DIR"/\n");
-   678			return -ENODEV;
-   679		}
-   680	
-   681		tracefs_create_file("tracing_on", TRACEFS_MODE_WRITE, root, NULL,
-   682				    &hyp_tracing_on_fops);
-   683	
-   684		tracefs_create_file("buffer_size_kb", TRACEFS_MODE_WRITE, root, NULL,
-   685				    &hyp_buffer_size_fops);
-   686	
-   687		tracefs_create_file("trace", TRACEFS_MODE_WRITE, root,
-   688				    (void *)RING_BUFFER_ALL_CPUS, &hyp_trace_fops);
-   689	
-   690		tracefs_create_file("trace_pipe", TRACEFS_MODE_WRITE, root,
-   691				    (void *)RING_BUFFER_ALL_CPUS, &hyp_trace_pipe_fops);
-   692	
-   693		per_cpu_root = tracefs_create_dir("per_cpu", root);
-   694		if (!per_cpu_root) {
-   695			pr_err("Failed to create tracefs folder "TRACEFS_DIR"/per_cpu/\n");
-   696			return -ENODEV;
-   697		}
-   698	
-   699		for_each_possible_cpu(cpu) {
-   700			struct dentry *per_cpu_dir;
-   701	
- > 702			snprintf(per_cpu_name, sizeof(per_cpu_name), "cpu%ld", cpu);
+:::::: TO: Babu Moger <babu.moger@amd.com>
+:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
 
 -- 
 0-DAY CI Kernel Test Service
