@@ -1,56 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17108199D9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 13:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCC777F22
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 13:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706103972; cv=none; b=Grmq2iAAToD7qVwgkF28rZzZFNBV5V3YB1EMcFoSuwR0Wj8UjgnEOXNDu9k+hj3bgNLv9ZYrJ1CbmvjkjfRhip/fmrdYnH09UE1SkAN9G1/HA/RuAQd3uWT42gp389Ap1AbWaEOcbjB3Ty8n9pRD5VfGOpYtWddZ4X8U3J7vxtw=
+	t=1706104244; cv=none; b=gVJasB4cHK0nUMxu27StH0fyZiM87M5ciS3D0noIGJkE2mBfjMMse7sWDkQwtE4RNheVcqozQQJoFRKiiMK6t3RTUSAjKKBuuu0vFVT6+z1jRD0TuM0RIyqXw+DbmiupYbR61ogLT6QRTtQXps8AXhRbajA+p8pgh0PhwlcxAK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706103972; c=relaxed/simple;
-	bh=ryjkmByxSJ3YLZgphVCiklhjP7VzblkUpFIBA919fPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nRyGNHk2T3lHAajsnPNk+JkvfHeY+p9ZNaPR4f+0vQuO5jJBTTeAb5S2BEn7LTI9/X/fqn6DNgYzeuGPt6se5u+181C5OGV0ehT+onsYW4Wb/QqraoKsMFp1N6DyxhHzkiupr9PAzz6dKoNjvAWMVSqg7rRz9YydsSfrKlJ9NB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jit4fDB9; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706104244; c=relaxed/simple;
+	bh=WWOr42HUJFVpGitdwC+c5hweoSeLOebdW5dDIq8nBhY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LbZ67xbRh2W8CTpTIZZbRNI99jDfgvOnQju0E6rgL44aQT8Q3eIff/59KL4hpeIWWuLyKqG4dHJKfZpy7Z3vk9vhrGQPne3y7J22t2Lv1lvsbJjPHF/ZtRXNtTwu43ss8PY/DEWQxfjEB1MqNmICRyCaJM4pFFy6AwWSWcfMTwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=LvSf3Roc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=k67KqZny; arc=none smtp.client-ip=66.111.4.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jit4fDB9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706103971; x=1737639971;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ryjkmByxSJ3YLZgphVCiklhjP7VzblkUpFIBA919fPg=;
-  b=jit4fDB9/SVaJZhktZunaxP9chsekHfdmi3OnCEVXz6AMC5ApznY8P3V
-   aCrvwbvdlH4IckIppMXwbF3/bU/y4dlUD2TXSmvdkg1cJhWnEWSHcKZAH
-   hunq+Dds6TrvWy0Hkjo/0z6NHQ7+E8IpY13A/WO7qjoXQXhqlrF4Gk70q
-   U+pMXfDbZV02kYBgpwlHfQtS0KGH52YiP3rISk0lrtXLT5mjD4lzyrNsi
-   GhpMyN1K9ycMsJqsfiIWHS5Knfj6/S356I3SzM/XpZbZPvGs+BV0cTnRt
-   LUmj/ChkycLYxEJfAOHu1VDXKeyUzobnx/EZSXRyl8Tz52brbIIT8s+L2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="741547"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="741547"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 05:46:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="909664472"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="909664472"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 24 Jan 2024 05:46:02 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rSdZo-000881-0S;
-	Wed, 24 Jan 2024 13:46:00 +0000
-Date: Wed, 24 Jan 2024 21:45:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ambarus:gs101-spi 57/60] drivers/spi/spi-s3c64xx.c:457:41: error:
- implicit declaration of function 'iowrite16_32_rep'; did you mean
- 'iowrite32_rep'?
-Message-ID: <202401242109.vGwtsIdP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="LvSf3Roc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="k67KqZny"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id E08675C0108;
+	Wed, 24 Jan 2024 08:50:41 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 24 Jan 2024 08:50:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1706104241; x=1706190641; bh=SnjodOxOpa
+	oV0YLeIgILlE7GrANxq2sZbRCPm9RYo6c=; b=LvSf3RocCQls8AkrG3Geyf28gm
+	cdP+e2qe/FQn1EGq9tJpucyUYTokMwVzwTY03ikfrIl60cff85fp69dulq6+gQy/
+	Avl+WzcUQ6tC9VIJ6YGTezHqVOCypi8Wc5++MS6emiSSRbDDzWjzE4Dli039sTPD
+	DfJ5akHo1A+SASPzckQK7REA8PN2cEJkPtATTQewpX2FeMfe0h6vMpTMK6VBQZ8i
+	5qmCzknU08jow09y6yYxQYe973yJFmNZ27LX8ztwDLwlt51vvLgA8QXhQvwlpAe3
+	wHAfPVhH0oB2zTaiN/uY4M3ozlmDrPZs1f6qDPUquLVirxwc+ISo2SC3RUPw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706104241; x=1706190641; bh=SnjodOxOpaoV0YLeIgILlE7GrANx
+	q2sZbRCPm9RYo6c=; b=k67KqZnyZ2Cx2+639P0k3wY+smXZqaoc4Ko6c6zK0Kdc
+	15c0d1k9U6zFIlSH6DIB/85LLCjp2IqWp2614p2uUoVPFnMgxBldXZ48xny2Nw5Z
+	85FDtcJ9M2nHj1Ji6JNZlNnIOAIAfS2Emk/U2YIMgRBredcJ9Thn8so58QanP3WD
+	4Ps8BqQes1QdAuy5IfcXGezVAcMnMeGrIDdt93/rF7M3s9obJZY8zNUya8QFTtCQ
+	79tFec3W9Qlo845Z6sIs6Wn4Y2GUY2IKTxz/mLiS+5RIR+taJsLTycvn69fwnQQU
+	70sgW/rtpfhRc/FX7tkJ5z8xG8OnSu/+iHAIp/lpUQ==
+X-ME-Sender: <xms:sRWxZcVt_kxrdpQ3FqhIGq9pYKYQvKo1l4LM4eG2fpJ_exgZizptpw>
+    <xme:sRWxZQnXha4MM4MTfPOlzjp5qvtedRFptjjNjxu_39PEs95wPjyIoXEiL5ehh4XAH
+    _RAsD54Trj78g>
+X-ME-Received: <xmr:sRWxZQb92o9dsp9VSWp1NVac4CYiqbIgz326jtCGw7H6xOatKSH0AZIMFkekRY0wuA_sElKqcZYkZ30>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeluddgheegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepgeehue
+    ehgfdtledutdelkeefgeejteegieekheefudeiffdvudeffeelvedttddvnecuffhomhgr
+    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:sRWxZbWL_LlHQQr-TSfmjQ1JX1QWnNGPbVrvpXCWm1OQU3A3jAN7yA>
+    <xmx:sRWxZWneKxOdNQn5vP7tmt9z5a3n0r8mby-Ab0zMXCT0-2OiYBrfZw>
+    <xmx:sRWxZQelMitLZS9J6QmEvFfn3ZPBV9S9wJk9D9ICBGUBZKfDsnSpeQ>
+    <xmx:sRWxZUbOJtIIBUef8neWT_wWPSlAtG7OabTIgQ0vg9GnJv-wZQMugg>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 Jan 2024 08:50:40 -0500 (EST)
+Date: Wed, 24 Jan 2024 05:50:39 -0800
+From: Greg KH <greg@kroah.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Mahmoud Adam <mngyadam@amazon.com>, stable@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] fs: move S_ISGID stripping into the vfs_*() helpers
+Message-ID: <2024012432-approach-expedited-bbfc@gregkh>
+References: <20240124130025.2292-3-mngyadam@amazon.com>
+ <ZbEKpvaVHrsXzISK@6c5a10f2f1e6>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,123 +80,19 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZbEKpvaVHrsXzISK@6c5a10f2f1e6>
 
-tree:   https://github.com/ambarus/linux-0day gs101-spi
-head:   8edbaa8e7635d31a991657eaa4f2692f9d3dbe82
-commit: 6e802b2866d27c8c88eb68bbcc9d94d26674d3b6 [57/60] spi: s3c64xx: add support for google,gs101-spi
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240124/202401242109.vGwtsIdP-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240124/202401242109.vGwtsIdP-lkp@intel.com/reproduce)
+On Wed, Jan 24, 2024 at 09:03:34PM +0800, kernel test robot wrote:
+> Hi,
+> 
+> Thanks for your patch.
+> 
+> FYI: kernel test robot notices the stable kernel rule is not satisfied.
+> 
+> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+> 
+> Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+> Subject: [PATCH 2/2] fs: move S_ISGID stripping into the vfs_*() helpers
+> Link: https://lore.kernel.org/stable/20240124130025.2292-3-mngyadam%40amazon.com
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401242109.vGwtsIdP-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/spi/spi-s3c64xx.c: In function 's3c64xx_enable_datapath':
->> drivers/spi/spi-s3c64xx.c:457:41: error: implicit declaration of function 'iowrite16_32_rep'; did you mean 'iowrite32_rep'? [-Werror=implicit-function-declaration]
-     457 |                                         iowrite16_32_rep(regs + S3C64XX_SPI_TX_DATA,
-         |                                         ^~~~~~~~~~~~~~~~
-         |                                         iowrite32_rep
->> drivers/spi/spi-s3c64xx.c:466:41: error: implicit declaration of function 'iowrite8_32_rep'; did you mean 'iowrite32_rep'? [-Werror=implicit-function-declaration]
-     466 |                                         iowrite8_32_rep(regs + S3C64XX_SPI_TX_DATA,
-         |                                         ^~~~~~~~~~~~~~~
-         |                                         iowrite32_rep
-   cc1: some warnings being treated as errors
-
-
-vim +457 drivers/spi/spi-s3c64xx.c
-
-   415	
-   416	static int s3c64xx_enable_datapath(struct s3c64xx_spi_driver_data *sdd,
-   417					    struct spi_transfer *xfer, int dma_mode)
-   418	{
-   419		void __iomem *regs = sdd->regs;
-   420		u32 modecfg, chcfg;
-   421		int ret = 0;
-   422	
-   423		modecfg = readl(regs + S3C64XX_SPI_MODE_CFG);
-   424		modecfg &= ~(S3C64XX_SPI_MODE_TXDMA_ON | S3C64XX_SPI_MODE_RXDMA_ON);
-   425	
-   426		chcfg = readl(regs + S3C64XX_SPI_CH_CFG);
-   427		chcfg &= ~S3C64XX_SPI_CH_TXCH_ON;
-   428	
-   429		if (dma_mode) {
-   430			chcfg &= ~S3C64XX_SPI_CH_RXCH_ON;
-   431		} else {
-   432			/* Always shift in data in FIFO, even if xfer is Tx only,
-   433			 * this helps setting PCKT_CNT value for generating clocks
-   434			 * as exactly needed.
-   435			 */
-   436			chcfg |= S3C64XX_SPI_CH_RXCH_ON;
-   437			writel(((xfer->len * 8 / sdd->cur_bpw) & 0xffff)
-   438						| S3C64XX_SPI_PACKET_CNT_EN,
-   439						regs + S3C64XX_SPI_PACKET_CNT);
-   440		}
-   441	
-   442		if (xfer->tx_buf != NULL) {
-   443			sdd->state |= TXBUSY;
-   444			chcfg |= S3C64XX_SPI_CH_TXCH_ON;
-   445			if (dma_mode) {
-   446				modecfg |= S3C64XX_SPI_MODE_TXDMA_ON;
-   447				ret = s3c64xx_prepare_dma(&sdd->tx_dma, &xfer->tx_sg);
-   448			} else {
-   449				switch (sdd->cur_bpw) {
-   450				case 32:
-   451					iowrite32_rep(regs + S3C64XX_SPI_TX_DATA,
-   452						xfer->tx_buf, xfer->len / 4);
-   453					break;
-   454				case 16:
-   455					if (sdd->port_conf->quirks &
-   456					    S3C64XX_SPI_GS1O1_32BIT_REG_IO_WIDTH)
- > 457						iowrite16_32_rep(regs + S3C64XX_SPI_TX_DATA,
-   458								 xfer->tx_buf, xfer->len / 2);
-   459					else
-   460						iowrite16_rep(regs + S3C64XX_SPI_TX_DATA,
-   461							      xfer->tx_buf, xfer->len / 2);
-   462					break;
-   463				default:
-   464					if (sdd->port_conf->quirks &
-   465					    S3C64XX_SPI_GS1O1_32BIT_REG_IO_WIDTH)
- > 466						iowrite8_32_rep(regs + S3C64XX_SPI_TX_DATA,
-   467								xfer->tx_buf, xfer->len);
-   468					else
-   469						iowrite8_rep(regs + S3C64XX_SPI_TX_DATA,
-   470							     xfer->tx_buf, xfer->len);
-   471					break;
-   472				}
-   473			}
-   474		}
-   475	
-   476		if (xfer->rx_buf != NULL) {
-   477			sdd->state |= RXBUSY;
-   478	
-   479			if (sdd->port_conf->high_speed && sdd->cur_speed >= 30000000UL
-   480						&& !(sdd->cur_mode & SPI_CPHA))
-   481				chcfg |= S3C64XX_SPI_CH_HS_EN;
-   482	
-   483			if (dma_mode) {
-   484				modecfg |= S3C64XX_SPI_MODE_RXDMA_ON;
-   485				chcfg |= S3C64XX_SPI_CH_RXCH_ON;
-   486				writel(((xfer->len * 8 / sdd->cur_bpw) & 0xffff)
-   487						| S3C64XX_SPI_PACKET_CNT_EN,
-   488						regs + S3C64XX_SPI_PACKET_CNT);
-   489				ret = s3c64xx_prepare_dma(&sdd->rx_dma, &xfer->rx_sg);
-   490			}
-   491		}
-   492	
-   493		if (ret)
-   494			return ret;
-   495	
-   496		writel(modecfg, regs + S3C64XX_SPI_MODE_CFG);
-   497		writel(chcfg, regs + S3C64XX_SPI_CH_CFG);
-   498	
-   499		return 0;
-   500	}
-   501	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+False positive :(
