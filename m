@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF44132C1D;
-	Wed, 24 Jan 2024 19:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B72E1350DB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Jan 2024 21:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706124681; cv=none; b=QBZg7ZcRC8fOCudE+U3mF2Nm6hLKL1yHX6DTV/gtOtgrTvzQpWnOWwZgx/Ci1dpNbs3qhTnXUfKml90vnGLLoySEoZV7AO4zQWchDrA7f6kjFTl22uthBTkc3FMaEmibZT2WuDuPbqqu/3ZJ+Dyjn2rOHypAxs4vobH3oAJQPtQ=
+	t=1706130260; cv=none; b=DEGSTCX4JneGxNmROsDgdxvqR7P8TxdqILPqMNV0Y7rxwZsVfm3Y8lmtIwT9kZW/+EvxzZICWXWT1xt2Q6OHl1rsrnRdUAo+RicvBjT46sa5R6h7+BkPga2Gi0BuGZFLe3PLAJvmkbwwYcs85cDUqn6IyUWKis4107FSbRjLKEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706124681; c=relaxed/simple;
-	bh=73XVtEBs39drxusx/8gMJe4qsiK1ShG56vNRdf+yKP0=;
+	s=arc-20240116; t=1706130260; c=relaxed/simple;
+	bh=1E1Hz8O3op5RKwGbxyRaRO5oRwByRaoRFqs04ebDiUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UppThfBL7++r089d3qa3dEPJDDxWJt8qT6IU9ac8XtBmrlJ90kXUkxECCv5oFxus0hKHOoBMAGiK9iDhRp/VXsKkQxCuE/hH2q/kMHxuIe0ktpL0KphmjdfuVjTzIr8iFYtw/8MJgb7qgXxhF0FFBOF8jjkfzu/zRM99vmeV884=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LNP3UBdM; arc=none smtp.client-ip=134.134.136.31
+	 Content-Disposition; b=JiOOIOHOqdU6ShrKVKgcsABBOvZjCBeDWUa10qvt0C4NbxifYgHFVTnKEBgZcchOoJ0h7TfoUH2e1ynGLDWkneC8vkuY43ZexMQOmcG5/l+mKl/IH3xbaigo0mGXU/WI/Fbsp5EEJRL5FHb+DOWymxZGIgForjnm7riSsh4CUSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvZ694qF; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LNP3UBdM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvZ694qF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706124675; x=1737660675;
+  t=1706130259; x=1737666259;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=73XVtEBs39drxusx/8gMJe4qsiK1ShG56vNRdf+yKP0=;
-  b=LNP3UBdMUd88dHCQ8vUxktG2q9XfIitN+QNpRjG/DU6vydBJtm+GyKOC
-   sEKPYpK2wUnIdfE52Nu1POYAX0cnhkmjHhkvmU+2mp9cD5B1IasTfER3R
-   9DnNmsTM206U4ZP7MnM0C4qW3UgVBMgj02QVNfs5TaexMCSgc2QA4THje
-   2Gh/qjj1ESddll0pNZuwEcO0AITzUV97fmogGGavbDrdbEpDLGyKE3Uf9
-   657GRSYMM5u2oaYPXCJESoBs7RXPrPx6KcRtg3ZVtIxdeCtTxucEVp+oK
-   EN6T+qDAY0pKoHV5DEMgWDHrZeE0LIiIWuDukz2yXjEJHwneLa+OHf7l5
+  bh=1E1Hz8O3op5RKwGbxyRaRO5oRwByRaoRFqs04ebDiUs=;
+  b=RvZ694qFkXexjChGyfHP6LokSKd/mwFHbK2iaxx9+VjKHaJVFM4m+APR
+   OskaYvPnQ5mDJkrBiRSiRtg6R7Um3wpPv0F01so9wEBpZtNgF8kR+a/zk
+   TwJCk6gdKmq/XIldPTUSeXw0u1C9294H9nRta21qH2IXeGOAFD2hF7FX+
+   2TY9ljDfK6a4B2Q3ivRed+FKkjtzjziRHkePoLedo0yYiSQX0zzT3Quqg
+   VjBOi7ly2+C0gEmtMRh/rvq07ILY5UIG//Jvh64I/dBahxQunMa10rFH5
+   Y4DErGOK2rGaK35jyK8Bhza56b9zvu2Pu84R2hdAaksRfo1IsplQkpja3
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="466229285"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="20526950"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="466229285"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 11:31:14 -0800
+   d="scan'208";a="20526950"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 13:04:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="905724627"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="905724627"
+   d="scan'208";a="2189535"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2024 11:31:13 -0800
+  by orviesa004.jf.intel.com with ESMTP; 24 Jan 2024 13:04:16 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSixq-0008Oj-2W;
-	Wed, 24 Jan 2024 19:31:10 +0000
-Date: Thu, 25 Jan 2024 03:31:08 +0800
+	id 1rSkPu-0008Sl-0u;
+	Wed, 24 Jan 2024 21:04:14 +0000
+Date: Thu, 25 Jan 2024 05:04:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:kvm-arm64/nv-6.9-sr-enforcement 1/74]
- drivers/pmdomain/core.c:701: warning: Function parameter or struct member
- 'one_dev_probing' not described in 'genpd_power_off'
-Message-ID: <202401250346.T6Prn9Im-lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: drivers/gpu/drm/xe/xe_vm.c:169:47-49: WARNING !A || A && B is
+ equivalent to !A || B
+Message-ID: <202401250436.AnRJp9EQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,140 +59,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Marc,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/nv-6.9-sr-enforcement
-head:   e0c44a4a7ce737f32e94c93b6b3466edef6ecfb1
-commit: 4ed2cc4904f237890b53d2fa10c40ff6b49dc593 [1/74] Merge branch 'kvm-arm64/asahi-base-6.7' into kvm-arm64/asahi-base-6.8
-config: i386-buildonly-randconfig-001-20240124 (https://download.01.org/0day-ci/archive/20240125/202401250346.T6Prn9Im-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401250346.T6Prn9Im-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   615d300648869c774bd1fe54b4627bb0c20faed4
+commit: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM driver for Intel GPUs
+date:   6 weeks ago
+config: riscv-randconfig-r064-20240124 (https://download.01.org/0day-ci/archive/20240125/202401250436.AnRJp9EQ-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a31a60074717fc40887cfe132b77eec93bedd307)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401250346.T6Prn9Im-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401250436.AnRJp9EQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_vm.c:169:47-49: WARNING !A || A && B is equivalent to !A || B
+--
+>> drivers/gpu/drm/xe/xe_vm.c:158:12-13: WARNING opportunity for min()
 
->> drivers/pmdomain/core.c:701: warning: Function parameter or struct member 'one_dev_probing' not described in 'genpd_power_off'
+vim +169 drivers/gpu/drm/xe/xe_vm.c
 
-
-vim +701 drivers/pmdomain/core.c
-
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  686  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  687  /**
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  688   * genpd_power_off - Remove power from a given PM domain.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  689   * @genpd: PM domain to power down.
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  690   * @one_dev_on: If invoked from genpd's ->runtime_suspend|resume() callback, the
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  691   * RPM status of the releated device is in an intermediate state, not yet turned
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  692   * into RPM_SUSPENDED. This means genpd_power_off() must allow one device to not
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  693   * be RPM_SUSPENDED, while it tries to power off the PM domain.
-763663c9715f5f drivers/base/power/domain.c Yang Yingliang  2021-05-12  694   * @depth: nesting count for lockdep.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  695   *
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  696   * If all of the @genpd's devices have been suspended and all of its subdomains
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  697   * have been powered down, remove power from @genpd.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  698   */
-2da835452a0875 drivers/base/power/domain.c Ulf Hansson     2017-02-17  699  static int genpd_power_off(struct generic_pm_domain *genpd, bool one_dev_on,
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  700  			   bool one_dev_probing, unsigned int depth)
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17 @701  {
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  702  	struct pm_domain_data *pdd;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  703  	struct gpd_link *link;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  704  	unsigned int not_suspended = 0;
-f63816e43d9044 drivers/base/power/domain.c Ulf Hansson     2020-09-24  705  	int ret;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  706  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  707  	/*
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  708  	 * Do not try to power off the domain in the following situations:
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  709  	 * (1) The domain is already in the "power off" state.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  710  	 * (2) System suspend is in progress.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  711  	 */
-41e2c8e0060db2 drivers/base/power/domain.c Ulf Hansson     2017-03-20  712  	if (!genpd_status_on(genpd) || genpd->prepared_count > 0)
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  713  		return 0;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  714  
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  715  	/*
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  716  	 * Abort power off for the PM domain in the following situations:
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  717  	 * (1) The domain is configured as always on.
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  718  	 * (2) When the domain has a subdomain being powered on.
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  719  	 */
-ed61e18a4b4e44 drivers/base/power/domain.c Leonard Crestez 2019-04-30  720  	if (genpd_is_always_on(genpd) ||
-ed61e18a4b4e44 drivers/base/power/domain.c Leonard Crestez 2019-04-30  721  			genpd_is_rpm_always_on(genpd) ||
-ed61e18a4b4e44 drivers/base/power/domain.c Leonard Crestez 2019-04-30  722  			atomic_read(&genpd->sd_count) > 0)
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  723  		return -EBUSY;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  724  
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  725  	/*
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  726  	 * The children must be in their deepest (powered-off) states to allow
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  727  	 * the parent to be powered off. Note that, there's no need for
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  728  	 * additional locking, as powering on a child, requires the parent's
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  729  	 * lock to be acquired first.
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  730  	 */
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  731  	list_for_each_entry(link, &genpd->parent_links, parent_node) {
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  732  		struct generic_pm_domain *child = link->child;
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  733  		if (child->state_idx < child->state_count - 1)
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  734  			return -EBUSY;
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  735  	}
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  736  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  737  	list_for_each_entry(pdd, &genpd->dev_list, list_node) {
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  738  		/*
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  739  		 * Do not allow PM domain to be powered off, when an IRQ safe
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  740  		 * device is part of a non-IRQ safe domain.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  741  		 */
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  742  		if (!pm_runtime_suspended(pdd->dev) ||
-7a02444b8fc25a drivers/base/power/domain.c Ulf Hansson     2022-05-11  743  			irq_safe_dev_in_sleep_domain(pdd->dev, genpd))
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  744  			not_suspended++;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  745  	}
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  746  
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  747  	if (not_suspended > 1 || (not_suspended == 1 && !one_dev_on))
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  748  		return -EBUSY;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  749  
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  750  	/*
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  751  	 * Do not allow PM domain to be powered off if it is marked
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  752  	 * as GENPD_FLAG_DEFER_OFF and there are consumer devices
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  753  	 * which have not probed yet.
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  754  	 */
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  755  	if (genpd_must_defer(genpd, one_dev_probing))
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  756  		return -EBUSY;
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  757  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  758  	if (genpd->gov && genpd->gov->power_down_ok) {
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  759  		if (!genpd->gov->power_down_ok(&genpd->domain))
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  760  			return -EAGAIN;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  761  	}
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  762  
-2c9b7f8772033c drivers/base/power/domain.c Ulf Hansson     2018-10-03  763  	/* Default to shallowest state. */
-2c9b7f8772033c drivers/base/power/domain.c Ulf Hansson     2018-10-03  764  	if (!genpd->gov)
-2c9b7f8772033c drivers/base/power/domain.c Ulf Hansson     2018-10-03  765  		genpd->state_idx = 0;
-2c9b7f8772033c drivers/base/power/domain.c Ulf Hansson     2018-10-03  766  
-f63816e43d9044 drivers/base/power/domain.c Ulf Hansson     2020-09-24  767  	/* Don't power off, if a child domain is waiting to power on. */
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  768  	if (atomic_read(&genpd->sd_count) > 0)
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  769  		return -EBUSY;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  770  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  771  	ret = _genpd_power_off(genpd, true);
-c6a113b52302ad drivers/base/power/domain.c Lina Iyer       2020-10-15  772  	if (ret) {
-c6a113b52302ad drivers/base/power/domain.c Lina Iyer       2020-10-15  773  		genpd->states[genpd->state_idx].rejected++;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  774  		return ret;
-c6a113b52302ad drivers/base/power/domain.c Lina Iyer       2020-10-15  775  	}
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  776  
-49f618e1b669ef drivers/base/power/domain.c Ulf Hansson     2020-09-24  777  	genpd->status = GENPD_STATE_OFF;
-afece3ab9a3640 drivers/base/power/domain.c Thara Gopinath  2017-07-14  778  	genpd_update_accounting(genpd);
-c6a113b52302ad drivers/base/power/domain.c Lina Iyer       2020-10-15  779  	genpd->states[genpd->state_idx].usage++;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  780  
-8d87ae48ced2df drivers/base/power/domain.c Kees Cook       2020-07-08  781  	list_for_each_entry(link, &genpd->child_links, child_node) {
-8d87ae48ced2df drivers/base/power/domain.c Kees Cook       2020-07-08  782  		genpd_sd_counter_dec(link->parent);
-8d87ae48ced2df drivers/base/power/domain.c Kees Cook       2020-07-08  783  		genpd_lock_nested(link->parent, depth + 1);
-e3d58ff0b21577 drivers/base/power/domain.c Hector Martin   2023-04-24  784  		genpd_power_off(link->parent, false, false, depth + 1);
-8d87ae48ced2df drivers/base/power/domain.c Kees Cook       2020-07-08  785  		genpd_unlock(link->parent);
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  786  	}
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  787  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  788  	return 0;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  789  }
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  790  
-
-:::::: The code at line 701 was first introduced by commit
-:::::: 1f8728b7adc4c2b351cda886a6916087595c9125 PM / Domains: Move genpd_power_off() above genpd_power_on()
-
-:::::: TO: Ulf Hansson <ulf.hansson@linaro.org>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+    50	
+    51	int xe_vma_userptr_pin_pages(struct xe_vma *vma)
+    52	{
+    53		struct xe_vm *vm = vma->vm;
+    54		struct xe_device *xe = vm->xe;
+    55		const unsigned long num_pages =
+    56			(vma->end - vma->start + 1) >> PAGE_SHIFT;
+    57		struct page **pages;
+    58		bool in_kthread = !current->mm;
+    59		unsigned long notifier_seq;
+    60		int pinned, ret, i;
+    61		bool read_only = vma->pte_flags & PTE_READ_ONLY;
+    62	
+    63		lockdep_assert_held(&vm->lock);
+    64		XE_BUG_ON(!xe_vma_is_userptr(vma));
+    65	retry:
+    66		if (vma->destroyed)
+    67			return 0;
+    68	
+    69		notifier_seq = mmu_interval_read_begin(&vma->userptr.notifier);
+    70		if (notifier_seq == vma->userptr.notifier_seq)
+    71			return 0;
+    72	
+    73		pages = kvmalloc_array(num_pages, sizeof(*pages), GFP_KERNEL);
+    74		if (!pages)
+    75			return -ENOMEM;
+    76	
+    77		if (vma->userptr.sg) {
+    78			dma_unmap_sgtable(xe->drm.dev,
+    79					  vma->userptr.sg,
+    80					  read_only ? DMA_TO_DEVICE :
+    81					  DMA_BIDIRECTIONAL, 0);
+    82			sg_free_table(vma->userptr.sg);
+    83			vma->userptr.sg = NULL;
+    84		}
+    85	
+    86		pinned = ret = 0;
+    87		if (in_kthread) {
+    88			if (!mmget_not_zero(vma->userptr.notifier.mm)) {
+    89				ret = -EFAULT;
+    90				goto mm_closed;
+    91			}
+    92			kthread_use_mm(vma->userptr.notifier.mm);
+    93		}
+    94	
+    95		while (pinned < num_pages) {
+    96			ret = get_user_pages_fast(vma->userptr.ptr + pinned * PAGE_SIZE,
+    97						  num_pages - pinned,
+    98						  read_only ? 0 : FOLL_WRITE,
+    99						  &pages[pinned]);
+   100			if (ret < 0) {
+   101				if (in_kthread)
+   102					ret = 0;
+   103				break;
+   104			}
+   105	
+   106			pinned += ret;
+   107			ret = 0;
+   108		}
+   109	
+   110		if (in_kthread) {
+   111			kthread_unuse_mm(vma->userptr.notifier.mm);
+   112			mmput(vma->userptr.notifier.mm);
+   113		}
+   114	mm_closed:
+   115		if (ret)
+   116			goto out;
+   117	
+   118		ret = sg_alloc_table_from_pages(&vma->userptr.sgt, pages, pinned,
+   119						0, (u64)pinned << PAGE_SHIFT,
+   120						GFP_KERNEL);
+   121		if (ret) {
+   122			vma->userptr.sg = NULL;
+   123			goto out;
+   124		}
+   125		vma->userptr.sg = &vma->userptr.sgt;
+   126	
+   127		ret = dma_map_sgtable(xe->drm.dev, vma->userptr.sg,
+   128				      read_only ? DMA_TO_DEVICE :
+   129				      DMA_BIDIRECTIONAL,
+   130				      DMA_ATTR_SKIP_CPU_SYNC |
+   131				      DMA_ATTR_NO_KERNEL_MAPPING);
+   132		if (ret) {
+   133			sg_free_table(vma->userptr.sg);
+   134			vma->userptr.sg = NULL;
+   135			goto out;
+   136		}
+   137	
+   138		for (i = 0; i < pinned; ++i) {
+   139			if (!read_only) {
+   140				lock_page(pages[i]);
+   141				set_page_dirty(pages[i]);
+   142				unlock_page(pages[i]);
+   143			}
+   144	
+   145			mark_page_accessed(pages[i]);
+   146		}
+   147	
+   148	out:
+   149		release_pages(pages, pinned);
+   150		kvfree(pages);
+   151	
+   152		if (!(ret < 0)) {
+   153			vma->userptr.notifier_seq = notifier_seq;
+   154			if (xe_vma_userptr_check_repin(vma) == -EAGAIN)
+   155				goto retry;
+   156		}
+   157	
+ > 158		return ret < 0 ? ret : 0;
+   159	}
+   160	
+   161	static bool preempt_fences_waiting(struct xe_vm *vm)
+   162	{
+   163		struct xe_engine *e;
+   164	
+   165		lockdep_assert_held(&vm->lock);
+   166		xe_vm_assert_held(vm);
+   167	
+   168		list_for_each_entry(e, &vm->preempt.engines, compute.link) {
+ > 169			if (!e->compute.pfence || (e->compute.pfence &&
+   170			    test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+   171				     &e->compute.pfence->flags))) {
+   172				return true;
+   173			}
+   174		}
+   175	
+   176		return false;
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
