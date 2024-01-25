@@ -1,61 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC0160DF0;
-	Thu, 25 Jan 2024 14:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB04774E04;
+	Thu, 25 Jan 2024 15:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706191620; cv=none; b=GqIU5M7PosP4o1KF2rsY10KOSqFukkyFCWxP+LDkNuLGCMhdXKvf0w3NtGlvumpF46NeJVXZLfZUY1pSKJ3AtykO1tJl1B332TluK1ev4zEkBPm37Ipu8ltHYZ32zrtn+q5+kxub7vRlWZErWJzNrOLpL+xFA7JegiQ9eQhEgvo=
+	t=1706195523; cv=none; b=mylgumNS1eSyGnjAH2uU8lTxAV2UgUpI0kVz4SC0W/01cahoMSvwyAPa76QJ8loVIviPkAnb8JA+s8jHOwH/nyNF+y2HiwqawjgrWhS/vugc6wtOZduc1bxc0t2m+rANhDMzcATSdCpaOdM+l1Zxqd/gcA3zUqkSvDISeTEvqeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706191620; c=relaxed/simple;
-	bh=Bnf9zh9MGENs+PV4j2hnfu2O+KyAlO2ynzyKnkhPhuo=;
+	s=arc-20240116; t=1706195523; c=relaxed/simple;
+	bh=bNbqsHGby+g+eJR/aOu+ryrg5Zcjann7tj+5NoeF4DY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qn/T4/CVJ0dOQYdxf+pu/ut+Ov9bxgfcjtT0U9v2TlHEuYx4C48URK0hBbHpwD70i3xaSX8CdpMcHAMbwa4F/TEp+ND6t0eH7Pj4525Va3a1L4w/LOBQzFZNYvdo0ReJ7sQR3vaIBBiAnWUblDNf6kIz1s7TpsuzIX2W7TqXVfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AsxQtRhq; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=MkEgDWj1dRx5EkIT8F/4TK5qKgP0OAiKfaVqc6fI4/DZPDqkfxhIL2ADEP1M7IoHc2DozSp4nA+0WDJ0KmQqipgZbhKg6CoIRThTHdBSNhyLkEu+7ABqTYgaxFwyxtKkjyWawIbBsCuYtvXdBRNY/W+1qG2t2yCj3TBu7tock5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RP1bxRNz; arc=none smtp.client-ip=192.55.52.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AsxQtRhq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RP1bxRNz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706191616; x=1737727616;
+  t=1706195521; x=1737731521;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Bnf9zh9MGENs+PV4j2hnfu2O+KyAlO2ynzyKnkhPhuo=;
-  b=AsxQtRhq7l4MUZ7HVKIXCe2B6euJQQffoLyZgqre8AeUosRvp2Pc4jwn
-   xLinco8HP2BGLrnYsB6hGMS0P2wa/VxRIf+pnhF3SXslPymexK1QV71SR
-   USXhk6cOis/lPbXjfiZZAPTdbjnfLvyYsKc1aOk6JHa7RzdT4SiyB8TNc
-   TvEN/+RzjIZxMGrBFa+Z7Aea4GQSHyVoT2F8yPNITCIrNWThEURz7kBWp
-   Mi9iZSKxH/Om5JsZTcQeYQTw8j15EqSlXch7/VNEdw62HGFU7ekU436ky
-   n+Gh9XXRum/sgNXUyG1IJOp5AOENE9rHLWL8DDI14Lay4VmihwBMjvfec
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="9547437"
+  bh=bNbqsHGby+g+eJR/aOu+ryrg5Zcjann7tj+5NoeF4DY=;
+  b=RP1bxRNzK30qYE3B2ENia92M29ivsJz8tQTdChScbf+L9ysEfnpL2xpD
+   X5yRiBYW8Ua3mMGsaRiuj1/qdI0uTZyFcuHiEHuAhgaxhwvR27E7V+w8E
+   UjPDQNjNLNtkuKtj7KP6CT11sdF0aK2mps/7zhXsG5IIiexZvV/XpzOJo
+   FgEHnvQ5X8+uGRlWfNEt7i86DybHZZO3uH5tGiLQ00LuVXve6fm6a4M31
+   /wz8+aC3rUOw/F0uHkY2BHZizOmJbEFiMlKIbGViGGmIlFIO1En/yI3Xn
+   x0MbnlMrks4tensrsQwe+FRJP38IWL6sIQnvAjJ2pAfcEnfKJ2qmwfQb9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="399354245"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9547437"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 06:06:54 -0800
+   d="scan'208";a="399354245"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 07:12:00 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2254523"
+   d="scan'208";a="2291110"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Jan 2024 06:06:51 -0800
+  by orviesa003.jf.intel.com with ESMTP; 25 Jan 2024 07:11:54 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rT0NU-000032-2k;
-	Thu, 25 Jan 2024 14:06:48 +0000
-Date: Thu, 25 Jan 2024 22:06:31 +0800
+	id 1rT1OR-00006q-1Y;
+	Thu, 25 Jan 2024 15:11:51 +0000
+Date: Thu, 25 Jan 2024 23:11:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gowthami Thiagarajan <gthiagarajan@marvell.com>, will@kernel.org,
-	mark.rutland@arm.com, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	sgoutham@marvell.com, bbhushan2@marvell.com,
-	george.cherian@marvell.com,
-	Gowthami Thiagarajan <gthiagarajan@marvell.com>
-Subject: Re: [PATCH v3 1/2] perf/marvell: Odyssey DDR Performance monitor
+To: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Aleksandr Shubin <privatesub2@gmail.com>,
+	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
+	John Watts <contact@jookia.org>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v7 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
  support
-Message-ID: <202401252104.CFnKSeTe-lkp@intel.com>
-References: <20240122124933.1311925-2-gthiagarajan@marvell.com>
+Message-ID: <202401252250.TYU33FhT-lkp@intel.com>
+References: <20240125072032.1151383-3-privatesub2@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,134 +76,254 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240122124933.1311925-2-gthiagarajan@marvell.com>
+In-Reply-To: <20240125072032.1151383-3-privatesub2@gmail.com>
 
-Hi Gowthami,
+Hi Aleksandr,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v6.8-rc1 next-20240125]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on sunxi/sunxi/for-next linus/master v6.8-rc1 next-20240125]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gowthami-Thiagarajan/perf-marvell-Odyssey-DDR-Performance-monitor-support/20240122-205209
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20240122124933.1311925-2-gthiagarajan%40marvell.com
-patch subject: [PATCH v3 1/2] perf/marvell: Odyssey DDR Performance monitor support
-config: s390-randconfig-001-20240125 (https://download.01.org/0day-ci/archive/20240125/202401252104.CFnKSeTe-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a31a60074717fc40887cfe132b77eec93bedd307)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401252104.CFnKSeTe-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandr-Shubin/dt-bindings-pwm-Add-binding-for-Allwinner-D1-T113-S3-R329-PWM-controller/20240125-152445
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240125072032.1151383-3-privatesub2%40gmail.com
+patch subject: [PATCH v7 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240125/202401252250.TYU33FhT-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401252250.TYU33FhT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401252104.CFnKSeTe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401252250.TYU33FhT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/perf/marvell_cn10k_ddr_pmu.c:9:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/perf/marvell_cn10k_ddr_pmu.c:9:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/perf/marvell_cn10k_ddr_pmu.c:9:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/perf/marvell_cn10k_ddr_pmu.c:179:43: warning: unused variable 'cn10k_ddr_pmu_pdata' [-Wunused-const-variable]
-     179 | static const struct ddr_pmu_platform_data cn10k_ddr_pmu_pdata = {
-         |                                           ^~~~~~~~~~~~~~~~~~~
->> drivers/perf/marvell_cn10k_ddr_pmu.c:195:43: warning: unused variable 'odyssey_ddr_pmu_pdata' [-Wunused-const-variable]
-     195 | static const struct ddr_pmu_platform_data odyssey_ddr_pmu_pdata = {
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   14 warnings generated.
+   drivers/pwm/pwm-sun20i.c:288:10: error: 'const struct pwm_ops' has no member named 'owner'
+     288 |         .owner = THIS_MODULE,
+         |          ^~~~~
+   In file included from include/linux/printk.h:6,
+                    from include/linux/kernel.h:31,
+                    from include/linux/clk.h:13,
+                    from drivers/pwm/pwm-sun20i.c:14:
+   include/linux/init.h:186:21: error: initialization of 'int (*)(struct pwm_chip *, struct pwm_device *, struct pwm_state *)' from incompatible pointer type 'struct module *' [-Werror=incompatible-pointer-types]
+     186 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   drivers/pwm/pwm-sun20i.c:288:18: note: in expansion of macro 'THIS_MODULE'
+     288 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:186:21: note: (near initialization for 'sun20i_pwm_ops.get_state')
+     186 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   drivers/pwm/pwm-sun20i.c:288:18: note: in expansion of macro 'THIS_MODULE'
+     288 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:186:21: warning: initialized field overwritten [-Woverride-init]
+     186 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   drivers/pwm/pwm-sun20i.c:288:18: note: in expansion of macro 'THIS_MODULE'
+     288 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:186:21: note: (near initialization for 'sun20i_pwm_ops.get_state')
+     186 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   drivers/pwm/pwm-sun20i.c:288:18: note: in expansion of macro 'THIS_MODULE'
+     288 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+>> drivers/pwm/pwm-sun20i.c:297:36: warning: 'struct platform_device' declared inside parameter list will not be visible outside of this definition or declaration
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^~~~~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c: In function 'sun20i_pwm_probe':
+   drivers/pwm/pwm-sun20i.c:302:23: error: implicit declaration of function 'devm_kzalloc' [-Werror=implicit-function-declaration]
+     302 |         sun20i_chip = devm_kzalloc(&pdev->dev, sizeof(*sun20i_chip), GFP_KERNEL);
+         |                       ^~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c:302:41: error: invalid use of undefined type 'struct platform_device'
+     302 |         sun20i_chip = devm_kzalloc(&pdev->dev, sizeof(*sun20i_chip), GFP_KERNEL);
+         |                                         ^~
+   drivers/pwm/pwm-sun20i.c:306:29: error: implicit declaration of function 'devm_platform_ioremap_resource' [-Werror=implicit-function-declaration]
+     306 |         sun20i_chip->base = devm_platform_ioremap_resource(pdev, 0);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pwm/pwm-sun20i.c:306:27: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     306 |         sun20i_chip->base = devm_platform_ioremap_resource(pdev, 0);
+         |                           ^
+   drivers/pwm/pwm-sun20i.c:310:58: error: invalid use of undefined type 'struct platform_device'
+     310 |         sun20i_chip->clk_bus = devm_clk_get_enabled(&pdev->dev, "bus");
+         |                                                          ^~
+   drivers/pwm/pwm-sun20i.c:312:24: error: implicit declaration of function 'dev_err_probe' [-Werror=implicit-function-declaration]
+     312 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_bus),
+         |                        ^~~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c:312:43: error: invalid use of undefined type 'struct platform_device'
+     312 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_bus),
+         |                                           ^~
+   drivers/pwm/pwm-sun20i.c:315:59: error: invalid use of undefined type 'struct platform_device'
+     315 |         sun20i_chip->clk_hosc = devm_clk_get_enabled(&pdev->dev, "hosc");
+         |                                                           ^~
+   drivers/pwm/pwm-sun20i.c:317:43: error: invalid use of undefined type 'struct platform_device'
+     317 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_hosc),
+         |                                           ^~
+   drivers/pwm/pwm-sun20i.c:320:59: error: invalid use of undefined type 'struct platform_device'
+     320 |         sun20i_chip->clk_apb0 = devm_clk_get_enabled(&pdev->dev, "apb0");
+         |                                                           ^~
+   drivers/pwm/pwm-sun20i.c:322:43: error: invalid use of undefined type 'struct platform_device'
+     322 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_apb0),
+         |                                           ^~
+   drivers/pwm/pwm-sun20i.c:325:66: error: invalid use of undefined type 'struct platform_device'
+     325 |         sun20i_chip->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+         |                                                                  ^~
+   drivers/pwm/pwm-sun20i.c:327:43: error: invalid use of undefined type 'struct platform_device'
+     327 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->rst),
+         |                                           ^~
+   drivers/pwm/pwm-sun20i.c:330:40: error: invalid use of undefined type 'struct platform_device'
+     330 |         ret = of_property_read_u32(pdev->dev.of_node, "allwinner,pwm-channels",
+         |                                        ^~
+   drivers/pwm/pwm-sun20i.c:341:43: error: invalid use of undefined type 'struct platform_device'
+     341 |                 return dev_err_probe(&pdev->dev, ret, "failed to deassert reset\n");
+         |                                           ^~
+   drivers/pwm/pwm-sun20i.c:343:38: error: invalid use of undefined type 'struct platform_device'
+     343 |         sun20i_chip->chip.dev = &pdev->dev;
+         |                                      ^~
+   drivers/pwm/pwm-sun20i.c:351:43: error: invalid use of undefined type 'struct platform_device'
+     351 |                 return dev_err_probe(&pdev->dev, ret, "failed to add PWM chip\n");
+         |                                           ^~
+   drivers/pwm/pwm-sun20i.c:354:9: error: implicit declaration of function 'platform_set_drvdata' [-Werror=implicit-function-declaration]
+     354 |         platform_set_drvdata(pdev, sun20i_chip);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c: At top level:
+   drivers/pwm/pwm-sun20i.c:359:38: warning: 'struct platform_device' declared inside parameter list will not be visible outside of this definition or declaration
+     359 | static void sun20i_pwm_remove(struct platform_device *pdev)
+         |                                      ^~~~~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c: In function 'sun20i_pwm_remove':
+   drivers/pwm/pwm-sun20i.c:361:47: error: implicit declaration of function 'platform_get_drvdata' [-Werror=implicit-function-declaration]
+     361 |         struct sun20i_pwm_chip *sun20i_chip = platform_get_drvdata(pdev);
+         |                                               ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pwm/pwm-sun20i.c:361:47: warning: initialization of 'struct sun20i_pwm_chip *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/pwm/pwm-sun20i.c: At top level:
+   drivers/pwm/pwm-sun20i.c:368:15: error: variable 'sun20i_pwm_driver' has initializer but incomplete type
+     368 | static struct platform_driver sun20i_pwm_driver = {
+         |               ^~~~~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c:369:10: error: 'struct platform_driver' has no member named 'driver'
+     369 |         .driver = {
+         |          ^~~~~~
+   drivers/pwm/pwm-sun20i.c:369:19: error: extra brace group at end of initializer
+     369 |         .driver = {
+         |                   ^
+   drivers/pwm/pwm-sun20i.c:369:19: note: (near initialization for 'sun20i_pwm_driver')
+>> drivers/pwm/pwm-sun20i.c:369:19: warning: excess elements in struct initializer
+   drivers/pwm/pwm-sun20i.c:369:19: note: (near initialization for 'sun20i_pwm_driver')
+   drivers/pwm/pwm-sun20i.c:373:10: error: 'struct platform_driver' has no member named 'probe'
+     373 |         .probe = sun20i_pwm_probe,
+         |          ^~~~~
+   drivers/pwm/pwm-sun20i.c:373:18: warning: excess elements in struct initializer
+     373 |         .probe = sun20i_pwm_probe,
+         |                  ^~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c:373:18: note: (near initialization for 'sun20i_pwm_driver')
+   drivers/pwm/pwm-sun20i.c:374:10: error: 'struct platform_driver' has no member named 'remove_new'
+     374 |         .remove_new = sun20i_pwm_remove,
+         |          ^~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c:374:23: warning: excess elements in struct initializer
+     374 |         .remove_new = sun20i_pwm_remove,
+         |                       ^~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c:374:23: note: (near initialization for 'sun20i_pwm_driver')
+>> drivers/pwm/pwm-sun20i.c:376:1: warning: data definition has no type or storage class
+     376 | module_platform_driver(sun20i_pwm_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c:376:1: error: type defaults to 'int' in declaration of 'module_platform_driver' [-Werror=implicit-int]
+>> drivers/pwm/pwm-sun20i.c:376:1: warning: parameter names (without types) in function declaration
+   drivers/pwm/pwm-sun20i.c:368:31: error: storage size of 'sun20i_pwm_driver' isn't known
+     368 | static struct platform_driver sun20i_pwm_driver = {
+         |                               ^~~~~~~~~~~~~~~~~
+>> drivers/pwm/pwm-sun20i.c:368:31: warning: 'sun20i_pwm_driver' defined but not used [-Wunused-variable]
+   cc1: some warnings being treated as errors
 
 
-vim +/cn10k_ddr_pmu_pdata +179 drivers/perf/marvell_cn10k_ddr_pmu.c
+vim +297 drivers/pwm/pwm-sun20i.c
 
-   178	
- > 179	static const struct ddr_pmu_platform_data cn10k_ddr_pmu_pdata = {
-   180		.counter_overflow_val =  BIT_ULL(48),
-   181		.counter_max_val = GENMASK_ULL(48, 0),
-   182		.ddrc_perf_cnt_base = CN10K_DDRC_PERF_CNT_VALUE_BASE,
-   183		.ddrc_perf_cfg_base = CN10K_DDRC_PERF_CFG_BASE,
-   184		.ddrc_perf_cnt_op_mode_ctrl = CN10K_DDRC_PERF_CNT_OP_MODE_CTRL,
-   185		.ddrc_perf_cnt_start_op_ctrl = CN10K_DDRC_PERF_CNT_START_OP_CTRL,
-   186		.ddrc_perf_cnt_end_op_ctrl = CN10K_DDRC_PERF_CNT_END_OP_CTRL,
-   187		.ddrc_perf_cnt_end_status = CN10K_DDRC_PERF_CNT_END_STATUS,
-   188		.ddrc_perf_cnt_freerun_en = CN10K_DDRC_PERF_CNT_FREERUN_EN,
-   189		.ddrc_perf_cnt_freerun_ctrl = CN10K_DDRC_PERF_CNT_FREERUN_CTRL,
-   190		.ddrc_perf_cnt_freerun_clr = 0,
-   191		.ddrc_perf_cnt_value_wr_op = CN10K_DDRC_PERF_CNT_VALUE_WR_OP,
-   192		.ddrc_perf_cnt_value_rd_op = CN10K_DDRC_PERF_CNT_VALUE_RD_OP,
-   193	};
-   194	
- > 195	static const struct ddr_pmu_platform_data odyssey_ddr_pmu_pdata = {
-   196		.counter_overflow_val = 0,
-   197		.counter_max_val = GENMASK_ULL(63, 0),
-   198		.ddrc_perf_cnt_base = ODY_DDRC_PERF_CNT_VALUE_BASE,
-   199		.ddrc_perf_cfg_base = ODY_DDRC_PERF_CFG_BASE,
-   200		.ddrc_perf_cnt_op_mode_ctrl = ODY_DDRC_PERF_CNT_OP_MODE_CTRL,
-   201		.ddrc_perf_cnt_start_op_ctrl = ODY_DDRC_PERF_CNT_START_OP_CTRL,
-   202		.ddrc_perf_cnt_end_op_ctrl = ODY_DDRC_PERF_CNT_END_OP_CTRL,
-   203		.ddrc_perf_cnt_end_status = ODY_DDRC_PERF_CNT_END_STATUS,
-   204		.ddrc_perf_cnt_freerun_en = 0,
-   205		.ddrc_perf_cnt_freerun_ctrl = ODY_DDRC_PERF_CNT_FREERUN_CTRL,
-   206		.ddrc_perf_cnt_freerun_clr = ODY_DDRC_PERF_CNT_FREERUN_CLR,
-   207		.ddrc_perf_cnt_value_wr_op = ODY_DDRC_PERF_CNT_VALUE_WR_OP,
-   208		.ddrc_perf_cnt_value_rd_op = ODY_DDRC_PERF_CNT_VALUE_RD_OP,
-   209	};
-   210	
+   296	
+ > 297	static int sun20i_pwm_probe(struct platform_device *pdev)
+   298	{
+   299		struct sun20i_pwm_chip *sun20i_chip;
+   300		int ret;
+   301	
+   302		sun20i_chip = devm_kzalloc(&pdev->dev, sizeof(*sun20i_chip), GFP_KERNEL);
+   303		if (!sun20i_chip)
+   304			return -ENOMEM;
+   305	
+ > 306		sun20i_chip->base = devm_platform_ioremap_resource(pdev, 0);
+   307		if (IS_ERR(sun20i_chip->base))
+   308			return PTR_ERR(sun20i_chip->base);
+   309	
+   310		sun20i_chip->clk_bus = devm_clk_get_enabled(&pdev->dev, "bus");
+   311		if (IS_ERR(sun20i_chip->clk_bus))
+   312			return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_bus),
+   313					     "failed to get bus clock\n");
+   314	
+   315		sun20i_chip->clk_hosc = devm_clk_get_enabled(&pdev->dev, "hosc");
+   316		if (IS_ERR(sun20i_chip->clk_hosc))
+   317			return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_hosc),
+   318					     "failed to get hosc clock\n");
+   319	
+   320		sun20i_chip->clk_apb0 = devm_clk_get_enabled(&pdev->dev, "apb0");
+   321		if (IS_ERR(sun20i_chip->clk_apb0))
+   322			return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_apb0),
+   323					     "failed to get apb0 clock\n");
+   324	
+   325		sun20i_chip->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+   326		if (IS_ERR(sun20i_chip->rst))
+   327			return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->rst),
+   328					     "failed to get bus reset\n");
+   329	
+   330		ret = of_property_read_u32(pdev->dev.of_node, "allwinner,pwm-channels",
+   331					   &sun20i_chip->chip.npwm);
+   332		if (ret)
+   333			sun20i_chip->chip.npwm = 8;
+   334	
+   335		if (sun20i_chip->chip.npwm > 16)
+   336			sun20i_chip->chip.npwm = 16;
+   337	
+   338		/* Deassert reset */
+   339		ret = reset_control_deassert(sun20i_chip->rst);
+   340		if (ret)
+   341			return dev_err_probe(&pdev->dev, ret, "failed to deassert reset\n");
+   342	
+   343		sun20i_chip->chip.dev = &pdev->dev;
+   344		sun20i_chip->chip.ops = &sun20i_pwm_ops;
+   345	
+   346		mutex_init(&sun20i_chip->mutex);
+   347	
+   348		ret = pwmchip_add(&sun20i_chip->chip);
+   349		if (ret < 0) {
+   350			reset_control_assert(sun20i_chip->rst);
+   351			return dev_err_probe(&pdev->dev, ret, "failed to add PWM chip\n");
+   352		}
+   353	
+   354		platform_set_drvdata(pdev, sun20i_chip);
+   355	
+   356		return 0;
+   357	}
+   358	
+   359	static void sun20i_pwm_remove(struct platform_device *pdev)
+   360	{
+ > 361		struct sun20i_pwm_chip *sun20i_chip = platform_get_drvdata(pdev);
+   362	
+   363		pwmchip_remove(&sun20i_chip->chip);
+   364	
+   365		reset_control_assert(sun20i_chip->rst);
+   366	}
+   367	
+ > 368	static struct platform_driver sun20i_pwm_driver = {
+ > 369		.driver = {
+   370			.name = "sun20i-pwm",
+   371			.of_match_table = sun20i_pwm_dt_ids,
+   372		},
+   373		.probe = sun20i_pwm_probe,
+   374		.remove_new = sun20i_pwm_remove,
+   375	};
+ > 376	module_platform_driver(sun20i_pwm_driver);
+   377	
 
 -- 
 0-DAY CI Kernel Test Service
