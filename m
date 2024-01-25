@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB18C7E1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 01:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A2C7464
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 01:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706145863; cv=none; b=eGCfwFuLUqwl2rBBC8WarKVsZ5vPmYDVSLTAD6zim/cCiBhTxDIhs1gHPXseVAuqgQkRa5TRztwWkwnn6tx9FTN+fjAc55il9QdujXF04at0WGNYua7N8rWfWHGPPLd8hs0aQGJUjedGTIq9WHBkeggnYd9mGbzzOUrL/xOGPKA=
+	t=1706147785; cv=none; b=qWv6bB7PTxMaa1O1dhkjIwcyY4qoUBRDVBiIoVRlAemGMq6DLBjZedVr8kVJkxtflK6dPh2Q+7Ukj65Srcb6tjdJJIO2Qd2vm2UJanqKlDRRjW8gS0n0jBOqGAq3R2TiXdzXrmikWYdzFFn4tVBAWiDmk9MX6xm/y5RRwRNji7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706145863; c=relaxed/simple;
-	bh=FQ1nB7rpxsXdB0XJ3QlOn5ePWo7JiIbvqnck1455Klg=;
+	s=arc-20240116; t=1706147785; c=relaxed/simple;
+	bh=leR+puY5kj2l/XER5HEY5FTe1UKSNJ3g8Oey/H4SGck=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r0AeJWTonGhMl9Kltgex0ivw3AdUqJI7VtFtw9La5pj4O2lchvXAkRDZlmS6BPOHMZYfBcG+6QiBNDMJi8o5Psb7w0UE1BiJz5OgNIUuCk6b/jdV9UJeMJ0fD3HlzkQLB/OyZd82fQmZYIQOdrOo9KGwsMSOWhHMu4UCyUXiYNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayu1ve3S; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=oZ0MD13zlgP4KDU4BLhjUvCyUPAH4FCs4vTvs8dcgbFu1dSXKSevog991xeyOyscuW/wGeUHCBMSKdnpYyOSp6MNrL0DAw+j4LoZ3v63UL0jmjfl1NjHL77DqkamqrpuX+JSj3cCETXopGus70S+ueZoRgcpgyKGph+7ZoATPQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OqWo/ats; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayu1ve3S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OqWo/ats"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706145862; x=1737681862;
+  t=1706147784; x=1737683784;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FQ1nB7rpxsXdB0XJ3QlOn5ePWo7JiIbvqnck1455Klg=;
-  b=ayu1ve3SNoWPyxxKODXRCVtoDUQHgcqzleX83q18MpRl/XK2NqHiXOQh
-   jLoasOzy3gORnkc7jZ1fMJXJkAVyoQ0P8ZxSGk6j1/U3JXqEYrIz77SPZ
-   8057jYTb6qNAgfYhHJBYzQjbqA4fTkg6691u4yxhVuw96rV5Ts0gpIFPT
-   35IsuvbI6qjLfTERDO2yRmu7+/v6R6PBXGemfAt7hUy2eWlg50Ck4SXCE
-   kzBDiV/kcbZARNgrDGe7VkUXfMQOZSIiZb1DUb3vl2Gf04Zh9xPEhgChE
-   eXLAfsNC2iavfeZUwz8RvefhxejKEJFBi1Hd5bG1SMSEQE2YFQQ70X4sB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="9136545"
+  bh=leR+puY5kj2l/XER5HEY5FTe1UKSNJ3g8Oey/H4SGck=;
+  b=OqWo/ats6OW69pWILvjpHaoD3zdpBufa5zf+PVvG5d7IgvUfVBhdvqBw
+   i8rEtzSZWvCzGnMKDiTAOHhJkUw9py8OokkobXK6DSndoDIt3oHg2f4Rc
+   kk+5B0TLxpougPv4S/59UAefjBT79OOt4CkAA2LLt/0mfTnlZVmmVvkjp
+   9lbnuLGqikfGok5J/ahcbyS5d1nsguHLlMGPpkmZCQQkFe/QVYr5aM2Xx
+   6+AZY51J1eaoJq3rYGOvxG8scYcvaD0jTZXJUHKMRK8ICaBWrLjUvqSFe
+   BBY8eOsCL3ZjKW6K8IZdRKs3mURtU7x3Lfo/0T5I00A0gKBjAElMIvrod
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="20584505"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9136545"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 17:24:21 -0800
+   d="scan'208";a="20584505"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 17:56:22 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="856921772"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2237561"
+   d="scan'208";a="856921772"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Jan 2024 17:24:19 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 24 Jan 2024 17:56:20 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSoTZ-0008Yz-1l;
-	Thu, 25 Jan 2024 01:24:17 +0000
-Date: Thu, 25 Jan 2024 09:23:17 +0800
+	id 1rSoyX-0008Zd-31;
+	Thu, 25 Jan 2024 01:56:17 +0000
+Date: Thu, 25 Jan 2024 09:55:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/gpio-reset-controller-shared-v5 11/13]
- drivers/reset/core.c:865:21: error: implicit declaration of function
- 'gpio_device_get_label'; did you mean 'gpio_device_get_chip'?
-Message-ID: <202401250958.YksQmnWj-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1359/2707] mm/share_pool.c:1226:21: error:
+ implicit declaration of function 'huge_ptep_get'
+Message-ID: <202401250925.wptU5r3b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,86 +59,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux n/gpio-reset-controller-shared-v5
-head:   67c4a68a4ab782b98c8ad267675d9ef98efd21d2
-commit: d220c91423ca627a5573e2d645ddf7a6715828b2 [11/13] reset: Instantiate reset GPIO controller for shared reset-gpios
-config: um-randconfig-001-20240125 (https://download.01.org/0day-ci/archive/20240125/202401250958.YksQmnWj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401250958.YksQmnWj-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   e076c150c75c29fb99c2e7d8ae567b7ed6cce8b3
+commit: 549b1f40b56511536196f7522ffa4d7b3da42337 [1359/2707] mm/sharepool: Implement mg_sp_make_share_u2k()
+config: arm64-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240125/202401250925.wptU5r3b-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401250925.wptU5r3b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401250958.YksQmnWj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401250925.wptU5r3b-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/reset/core.c: In function '__reset_add_reset_gpio_lookup':
->> drivers/reset/core.c:865:21: error: implicit declaration of function 'gpio_device_get_label'; did you mean 'gpio_device_get_chip'? [-Werror=implicit-function-declaration]
-     865 |         label_tmp = gpio_device_get_label(gdev);
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-         |                     gpio_device_get_chip
->> drivers/reset/core.c:865:19: warning: assignment to 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     865 |         label_tmp = gpio_device_get_label(gdev);
-         |                   ^
+   mm/share_pool.c: In function 'sp_hugetlb_entry':
+>> mm/share_pool.c:1226:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
+    1226 |         pte_t pte = huge_ptep_get(ptep);
+         |                     ^~~~~~~~~~~~~
+>> mm/share_pool.c:1226:21: error: invalid initializer
+   mm/share_pool.c: At top level:
+   mm/share_pool.c:1005:13: warning: 'sp_area_put_locked' defined but not used [-Wunused-function]
+    1005 | static void sp_area_put_locked(struct sp_area *spa)
+         |             ^~~~~~~~~~~~~~~~~~
+   mm/share_pool.c:944:24: warning: 'sp_area_get' defined but not used [-Wunused-function]
+     944 | static struct sp_area *sp_area_get(struct sp_group *spg,
+         |                        ^~~~~~~~~~~
+   mm/share_pool.c:791:24: warning: 'sp_area_alloc' defined but not used [-Wunused-function]
+     791 | static struct sp_area *sp_area_alloc(unsigned long size, unsigned long flags,
+         |                        ^~~~~~~~~~~~~
+   mm/share_pool.c:587:21: warning: 'spa_file' defined but not used [-Wunused-function]
+     587 | static struct file *spa_file(struct sp_area *spa)
+         |                     ^~~~~~~~
+   mm/share_pool.c:582:22: warning: 'spa_size' defined but not used [-Wunused-function]
+     582 | static unsigned long spa_size(struct sp_area *spa)
+         |                      ^~~~~~~~
+   mm/share_pool.c:497:13: warning: 'update_mem_usage_k2u' defined but not used [-Wunused-function]
+     497 | static void update_mem_usage_k2u(unsigned long size, bool inc,
+         |             ^~~~~~~~~~~~~~~~~~~~
+   mm/share_pool.c:485:13: warning: 'update_mem_usage_alloc' defined but not used [-Wunused-function]
+     485 | static void update_mem_usage_alloc(unsigned long size, bool inc,
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   mm/share_pool.c:438:12: warning: 'sp_group_setup_mapping_normal' defined but not used [-Wunused-function]
+     438 | static int sp_group_setup_mapping_normal(struct mm_struct *mm, struct sp_group *spg)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/share_pool.c:380:13: warning: 'sp_mapping_detach' defined but not used [-Wunused-function]
+     380 | static void sp_mapping_detach(struct sp_group *spg, struct sp_mapping *spm)
+         |             ^~~~~~~~~~~~~~~~~
+   mm/share_pool.c:237:13: warning: 'meminfo_init' defined but not used [-Wunused-function]
+     237 | static void meminfo_init(struct sp_meminfo *meminfo)
+         |             ^~~~~~~~~~~~
+   In file included from mm/share_pool.c:26:
+   mm/share_pool.c:76:19: warning: 'sp_group_idr' defined but not used [-Wunused-variable]
+      76 | static DEFINE_IDR(sp_group_idr);
+         |                   ^~~~~~~~~~~~
+   include/linux/idr.h:56:44: note: in definition of macro 'DEFINE_IDR'
+      56 | #define DEFINE_IDR(name)        struct idr name = IDR_INIT(name)
+         |                                            ^~~~
+   mm/share_pool.c:73:12: warning: 'system_group_count' defined but not used [-Wunused-variable]
+      73 | static int system_group_count;
+         |            ^~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +865 drivers/reset/core.c
+vim +/huge_ptep_get +1226 mm/share_pool.c
 
-   841	
-   842	static int __reset_add_reset_gpio_lookup(int id, struct device_node *np,
-   843						 unsigned int gpio,
-   844						 unsigned int of_flags)
-   845	{
-   846		const struct fwnode_handle *fwnode = of_fwnode_handle(np);
-   847		unsigned int lookup_flags;
-   848		const char *label_tmp;
-   849	
-   850		/*
-   851		 * Later we map GPIO flags between OF and Linux, however not all
-   852		 * constants from include/dt-bindings/gpio/gpio.h and
-   853		 * include/linux/gpio/machine.h match each other.
-   854		 */
-   855		if (of_flags > GPIO_ACTIVE_LOW) {
-   856			pr_err("reset-gpio code does not support GPIO flags %u for GPIO %u\n",
-   857			       of_flags, gpio);
-   858			return -EINVAL;
-   859		}
-   860	
-   861		struct gpio_device *gdev __free(gpio_device_put) = gpio_device_find_by_fwnode(fwnode);
-   862		if (!gdev)
-   863			return -EPROBE_DEFER;
-   864	
- > 865		label_tmp = gpio_device_get_label(gdev);
-   866		if (!label_tmp)
-   867			return -EINVAL;
-   868	
-   869		char *label __free(kfree) = kstrdup(label_tmp, GFP_KERNEL);
-   870		if (!label)
-   871			return -ENOMEM;
-   872	
-   873		/* Size: one lookup entry plus sentinel */
-   874		struct gpiod_lookup_table *lookup __free(kfree) = kzalloc(struct_size(lookup, table, 2),
-   875									  GFP_KERNEL);
-   876		if (!lookup)
-   877			return -ENOMEM;
-   878	
-   879		lookup->dev_id = kasprintf(GFP_KERNEL, "reset-gpio.%d", id);
-   880		if (!lookup->dev_id)
-   881			return -ENOMEM;
-   882	
-   883		lookup_flags = GPIO_PERSISTENT;
-   884		lookup_flags |= of_flags & GPIO_ACTIVE_LOW;
-   885		lookup->table[0] = GPIO_LOOKUP(no_free_ptr(label), gpio, "reset",
-   886					       lookup_flags);
-   887	
-   888		/* Not freed on success, because it is persisent subsystem data. */
-   889		gpiod_add_lookup_table(no_free_ptr(lookup));
-   890	
-   891		return 0;
-   892	}
-   893	
+  1221	
+  1222	static int sp_hugetlb_entry(pte_t *ptep, unsigned long hmask,
+  1223				    unsigned long addr, unsigned long next,
+  1224				    struct mm_walk *walk)
+  1225	{
+> 1226		pte_t pte = huge_ptep_get(ptep);
+  1227		struct page *page = pte_page(pte);
+  1228		struct sp_walk_data *sp_walk_data;
+  1229	
+  1230		if (unlikely(!pte_present(pte))) {
+  1231			pr_debug("the page of addr %lx unexpectedly not in RAM\n", (unsigned long)addr);
+  1232			return -EFAULT;
+  1233		}
+  1234	
+  1235		sp_walk_data = walk->private;
+  1236		get_page(page);
+  1237		sp_walk_data->pages[sp_walk_data->page_count++] = page;
+  1238		return 0;
+  1239	}
+  1240	
 
 -- 
 0-DAY CI Kernel Test Service
