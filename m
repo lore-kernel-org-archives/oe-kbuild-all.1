@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36CD79F6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 03:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F517462
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 03:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706154206; cv=none; b=fnWhaXUd2z3dV4NjC5yCTLsTvjAlkcDZpNdVK7Yf0lO4iYRk++QYOEuMTCf7zx3mk1RG1esHCw0LlQL7R7ezX3rMzsiIZ8Sx3Tpzr1A/jQ8OoW6rVz5fi0A+VB/e2nAT3KGUup6P+I64dqWyUybUbY5vJO2p0khKcK1bse/yK+4=
+	t=1706154807; cv=none; b=YXM5PGZhuiGB3t9/PfYdb9z5zlzEcZ0vUvs6A/c0kvDn/xrvC7hJ5BEfUODunapc+ZP0sQYAMHnWIJU1TLyR+GaZaaSgSdAh9QvC36Y2Q3tk1xhSE8xWSMxVACemlFQ2hQFp+cIyaP/YuDOV3zod0HPolHCd33J+8s/xLC2rO9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706154206; c=relaxed/simple;
-	bh=vo+dQ3MXOMynfI6o8tSh8pK8LttO8qo4xB15VuM9f9U=;
+	s=arc-20240116; t=1706154807; c=relaxed/simple;
+	bh=I9ja1IXAiRS6A2rpBSIyKS80ljGj7wfMl4Jaq5XLijc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jk48ZUYmJiZBf02hk+5wMP1hqqoP1HCiKGKUNZzMoOoDmHXyI9YraOiAV+FI2eLCA+8ZKD0jx2PEopEu7duWx9A/RAZL6Eh0FxwLPmgTAAy4p6UkAwdINwGdTU3q+HpfSwkUjRXGuH/9ZMncJKXN1xxPgd51699sJWDHZ9QXYDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caxtHgky; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=UjcHKPY4facjnOT6vH8j5OFQoL/UCHRjJgty7y2xiujSdpuJNtyPPU6dC/PACobC0URCv+3sD8ZNftBxlf3Rh9MIDnWohfthoQ4xUO4/rTnmeDSCJKh490Cp1BwPSjxGU1DxRlYCYymGfzYK7uEFjm2bCwdiy49UFetWeLxKcVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/Nfc4i6; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caxtHgky"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/Nfc4i6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706154205; x=1737690205;
+  t=1706154805; x=1737690805;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vo+dQ3MXOMynfI6o8tSh8pK8LttO8qo4xB15VuM9f9U=;
-  b=caxtHgkyAWL6myVYvyyujtUckblJ9L5EPWzeaYzOEO1G6S7EKCjFl0fO
-   2PkItvdYaXjP7mWY3JgoxHnCrIjsZ+1+k4Cco/M4OzZRwNGh9PdZISB2d
-   SX77RG/7hsTh2/FjhVsIt9fcLILEAjKHcAlj5//zADoQ21AIZc5ZET4qu
-   uJHAzfHWns23n3IdopqarZb48fAIfnvAmCe+JvhEAFd0bWww93Cedc/Bx
-   OkQN8n57aY5sF3iUlPlKpaYaNSMU2fpKsQTUiYND4BN+2E0o81dDwL//a
-   A04CbgowgeVYCk0G9F6k+J9hRKPvDha+A0K4nXMmbGVv/+DZVsw6r5JHL
+  bh=I9ja1IXAiRS6A2rpBSIyKS80ljGj7wfMl4Jaq5XLijc=;
+  b=U/Nfc4i64OpCt8c90tyITqlXL6Y8djXN/JS1/82elvGo+ZXuIPfo4hTQ
+   dsw27UTukKlZ5MjEp1GIZBFbeb8WN712OirGf+YWhHgDHGzLkSJtFpyjj
+   nfI0dFj0OnLPcERLL+88YGcu03ku2HTMagxSMqpb4tIVmwosziZEq8+G5
+   bqG8Mu4qAOo88ICr5QqOO28BgVYpadrLYBp3QLwBZ69mYebiP+hv9r6sG
+   rmwrqdacyYISlKvt3xxLC2tp/d+RderoJCbOLCNowzSqyKGuicpRPwrZd
+   oz1rt++x3EsmT188vYH9Dwi1yjuvk/ZdqULewYVFrKv31r1MTTY+OBe6A
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="20599648"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="9163016"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="20599648"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 19:43:24 -0800
+   d="scan'208";a="9163016"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 19:53:24 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="959731348"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="34980859"
+   d="scan'208";a="959731348"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 24 Jan 2024 19:43:24 -0800
+  by orsmga005.jf.intel.com with ESMTP; 24 Jan 2024 19:53:22 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSqe8-0008dR-1A;
-	Thu, 25 Jan 2024 03:43:20 +0000
-Date: Thu, 25 Jan 2024 11:42:27 +0800
+	id 1rSqno-0008dd-1S;
+	Thu, 25 Jan 2024 03:53:20 +0000
+Date: Thu, 25 Jan 2024 11:52:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.1 156/175]
- arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous
- prototype for 'hyp_event_trace_hyp_enter'
-Message-ID: <202401251151.dWbVxNK1-lkp@intel.com>
+To: Eddie James <eajames@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: drivers/hwmon/pmbus/ibm-cffps.c:184:60: warning: '%04X' directive
+ output may be truncated writing between 4 and 8 bytes into a region of size
+ 5
+Message-ID: <202401251132.8DpJ7Stv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,61 +61,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.1
-head:   faf8e92b3bdd8457b68cf85e37cdcd4a4ed867e9
-commit: 92831dd9422c1f5f813254c9a1595e611e847b97 [156/175] ANDROID: KVM: arm64: Add support for nVHE hyp events
-config: arm64-randconfig-002-20240123 (https://download.01.org/0day-ci/archive/20240125/202401251151.dWbVxNK1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251151.dWbVxNK1-lkp@intel.com/reproduce)
+Hi Eddie,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6098d87eaf31f48153c984e2adadf14762520a87
+commit: 2f8a855efe8a6faf962c53af406e5ea4791b3877 pmbus: (ibm-cffps) Add support for version 2 of the PSU
+date:   4 years, 5 months ago
+config: x86_64-randconfig-006-20240105 (https://download.01.org/0day-ci/archive/20240125/202401251132.8DpJ7Stv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251132.8DpJ7Stv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401251151.dWbVxNK1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401251132.8DpJ7Stv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp_events.c:9:
->> arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
-      14 | HYP_EVENT(hyp_enter,
-         | ^~~~~~~~~
->> arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
-      23 | HYP_EVENT(hyp_exit,
-         | ^~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:100:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
-     100 | void hyp_trace_init_event_tracefs(struct dentry *parent)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:130:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
-     130 | struct hyp_event *hyp_trace_find_event(int id)
-         |                   ^~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:143:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
-     143 | int hyp_trace_init_events(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/pmbus/ibm-cffps.c: In function 'ibm_cffps_debugfs_op':
+   drivers/hwmon/pmbus/ibm-cffps.c:171:60: warning: '%02X' directive output may be truncated writing between 2 and 8 bytes into a region of size 3 [-Wformat-truncation=]
+     171 |                                 snprintf(&data[i * 2], 3, "%02X", rc);
+         |                                                            ^~~~
+   drivers/hwmon/pmbus/ibm-cffps.c:171:59: note: directive argument in the range [0, 2147483647]
+     171 |                                 snprintf(&data[i * 2], 3, "%02X", rc);
+         |                                                           ^~~~~~
+   drivers/hwmon/pmbus/ibm-cffps.c:171:33: note: 'snprintf' output between 3 and 9 bytes into a destination of size 3
+     171 |                                 snprintf(&data[i * 2], 3, "%02X", rc);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hwmon/pmbus/ibm-cffps.c:184:60: warning: '%04X' directive output may be truncated writing between 4 and 8 bytes into a region of size 5 [-Wformat-truncation=]
+     184 |                                 snprintf(&data[i * 4], 5, "%04X", rc);
+         |                                                            ^~~~
+   drivers/hwmon/pmbus/ibm-cffps.c:184:59: note: directive argument in the range [0, 2147483647]
+     184 |                                 snprintf(&data[i * 4], 5, "%04X", rc);
+         |                                                           ^~~~~~
+   drivers/hwmon/pmbus/ibm-cffps.c:184:33: note: 'snprintf' output between 5 and 9 bytes into a destination of size 5
+     184 |                                 snprintf(&data[i * 4], 5, "%04X", rc);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/hyp_event_trace_hyp_enter +17 arch/arm64/include/asm/kvm_define_hypevents.h
+vim +184 drivers/hwmon/pmbus/ibm-cffps.c
 
-    14	
-    15	#define HYP_EVENT(__name, __proto, __struct, __assign, __printk)		\
-    16		HYP_EVENT_FORMAT(__name, __struct);					\
-  > 17		void hyp_event_trace_##__name(struct ht_iterator *iter)			\
-    18		{									\
-    19			struct trace_hyp_format_##__name __maybe_unused *__entry =	\
-    20				(struct trace_hyp_format_##__name *)iter->ent;		\
-    21			trace_seq_puts(&iter->seq, #__name);				\
-    22			trace_seq_putc(&iter->seq, ' ');				\
-    23			trace_seq_printf(&iter->seq, __printk);				\
-    24			trace_seq_putc(&iter->seq, '\n');				\
-    25		}
-    26	#define HYP_EVENT_MULTI_READ
-    27	#include __HYP_EVENT_FILE
-    28	
+   129	
+   130	static ssize_t ibm_cffps_debugfs_op(struct file *file, char __user *buf,
+   131					    size_t count, loff_t *ppos)
+   132	{
+   133		u8 cmd;
+   134		int i, rc;
+   135		int *idxp = file->private_data;
+   136		int idx = *idxp;
+   137		struct ibm_cffps *psu = to_psu(idxp, idx);
+   138		char data[I2C_SMBUS_BLOCK_MAX] = { 0 };
+   139	
+   140		pmbus_set_page(psu->client, 0);
+   141	
+   142		switch (idx) {
+   143		case CFFPS_DEBUGFS_INPUT_HISTORY:
+   144			return ibm_cffps_read_input_history(psu, buf, count, ppos);
+   145		case CFFPS_DEBUGFS_FRU:
+   146			cmd = CFFPS_FRU_CMD;
+   147			break;
+   148		case CFFPS_DEBUGFS_PN:
+   149			cmd = CFFPS_PN_CMD;
+   150			break;
+   151		case CFFPS_DEBUGFS_SN:
+   152			cmd = CFFPS_SN_CMD;
+   153			break;
+   154		case CFFPS_DEBUGFS_CCIN:
+   155			rc = i2c_smbus_read_word_swapped(psu->client, CFFPS_CCIN_CMD);
+   156			if (rc < 0)
+   157				return rc;
+   158	
+   159			rc = snprintf(data, 5, "%04X", rc);
+   160			goto done;
+   161		case CFFPS_DEBUGFS_FW:
+   162			switch (psu->version) {
+   163			case cffps1:
+   164				for (i = 0; i < CFFPS1_FW_NUM_BYTES; ++i) {
+   165					rc = i2c_smbus_read_byte_data(psu->client,
+   166								      CFFPS_FW_CMD +
+   167									i);
+   168					if (rc < 0)
+   169						return rc;
+   170	
+   171					snprintf(&data[i * 2], 3, "%02X", rc);
+   172				}
+   173	
+   174				rc = i * 2;
+   175				break;
+   176			case cffps2:
+   177				for (i = 0; i < CFFPS2_FW_NUM_WORDS; ++i) {
+   178					rc = i2c_smbus_read_word_data(psu->client,
+   179								      CFFPS_FW_CMD +
+   180									i);
+   181					if (rc < 0)
+   182						return rc;
+   183	
+ > 184					snprintf(&data[i * 4], 5, "%04X", rc);
+   185				}
+   186	
+   187				rc = i * 4;
+   188				break;
+   189			default:
+   190				return -EOPNOTSUPP;
+   191			}
+   192			goto done;
+   193		default:
+   194			return -EINVAL;
+   195		}
+   196	
+   197		rc = i2c_smbus_read_block_data(psu->client, cmd, data);
+   198		if (rc < 0)
+   199			return rc;
+   200	
+   201	done:
+   202		data[rc] = '\n';
+   203		rc += 2;
+   204	
+   205		return simple_read_from_buffer(buf, count, ppos, data, rc);
+   206	}
+   207	
 
 -- 
 0-DAY CI Kernel Test Service
