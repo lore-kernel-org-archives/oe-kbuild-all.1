@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB983D2E8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 03:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36CD79F6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 03:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706153545; cv=none; b=UOOYTiT9Q1qthII6VrFak0/Wbxu8F/dlpl84sO5ZPWDmDTnn3SjGCHmAaaYweZGcgXokrcjuv52EOp25bPTaG3hKHNkTPxw4o5/rvoKUOY7hRqC/oCJrbm2KdUVFP03SafXwcU5uKDFi2/8A3Dk0yY+q+4lJvNahOSkHRBVLgVA=
+	t=1706154206; cv=none; b=fnWhaXUd2z3dV4NjC5yCTLsTvjAlkcDZpNdVK7Yf0lO4iYRk++QYOEuMTCf7zx3mk1RG1esHCw0LlQL7R7ezX3rMzsiIZ8Sx3Tpzr1A/jQ8OoW6rVz5fi0A+VB/e2nAT3KGUup6P+I64dqWyUybUbY5vJO2p0khKcK1bse/yK+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706153545; c=relaxed/simple;
-	bh=x67XSPF3+WY6FQ8QjEABrQI+43WBdFkP36pmFn/pbJs=;
+	s=arc-20240116; t=1706154206; c=relaxed/simple;
+	bh=vo+dQ3MXOMynfI6o8tSh8pK8LttO8qo4xB15VuM9f9U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KVmc52c6EqWIMyIDskrcE/xFXB+oC3iVZ/5RtrzrFxMjMWMF52nz722Rd9FvN7IZRPr9k2aArC3bXiEeiJWGEOM7gC5Iwdg2+RPEwiQrwx3dFFE1ZgNHNws1BCURGtMVkTquzZDWHi77cClpm8R56FH1t2+88oentZGQrpotcqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IIiXfbHR; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=Jk48ZUYmJiZBf02hk+5wMP1hqqoP1HCiKGKUNZzMoOoDmHXyI9YraOiAV+FI2eLCA+8ZKD0jx2PEopEu7duWx9A/RAZL6Eh0FxwLPmgTAAy4p6UkAwdINwGdTU3q+HpfSwkUjRXGuH/9ZMncJKXN1xxPgd51699sJWDHZ9QXYDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caxtHgky; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIiXfbHR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caxtHgky"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706153544; x=1737689544;
+  t=1706154205; x=1737690205;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x67XSPF3+WY6FQ8QjEABrQI+43WBdFkP36pmFn/pbJs=;
-  b=IIiXfbHR3vQEUyCLuWGL2oyPcNIFSjUP03G41Wo/QKo/3Bb/lakmMolE
-   ObFMbU8uGSUNrGbi94XfO0G+O8BFfZcOHpkdr58rlcuo3aOl0mjxGCkij
-   CC6igG6w7jY2wKs0nJFoi2FmSyvNw8wNo9M6o6BP6XhXx2g0KQbm6Fd7g
-   M05WYMuMHGXQkgJf0lNjXQvyWr2auD6HJlNbTNCsAG1mskusYak3Q0ysC
-   CNPLbK3EinF9Jl2BmHcqicsFDLm8Xtk0kcnoPlwLSTO1RCgrGYZZHrWtk
-   ewZiJPSDy2Dn+OTxnl0kw0MbOb3YEhIoxr5HPnfvpaxtySPLj8j9tlKii
+  bh=vo+dQ3MXOMynfI6o8tSh8pK8LttO8qo4xB15VuM9f9U=;
+  b=caxtHgkyAWL6myVYvyyujtUckblJ9L5EPWzeaYzOEO1G6S7EKCjFl0fO
+   2PkItvdYaXjP7mWY3JgoxHnCrIjsZ+1+k4Cco/M4OzZRwNGh9PdZISB2d
+   SX77RG/7hsTh2/FjhVsIt9fcLILEAjKHcAlj5//zADoQ21AIZc5ZET4qu
+   uJHAzfHWns23n3IdopqarZb48fAIfnvAmCe+JvhEAFd0bWww93Cedc/Bx
+   OkQN8n57aY5sF3iUlPlKpaYaNSMU2fpKsQTUiYND4BN+2E0o81dDwL//a
+   A04CbgowgeVYCk0G9F6k+J9hRKPvDha+A0K4nXMmbGVv/+DZVsw6r5JHL
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8701809"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="20599648"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="8701809"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 19:32:23 -0800
+   d="scan'208";a="20599648"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 19:43:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="856936639"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="856936639"
+   d="scan'208";a="34980859"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 24 Jan 2024 19:32:22 -0800
+  by orviesa001.jf.intel.com with ESMTP; 24 Jan 2024 19:43:24 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSqTT-0008cn-2p;
-	Thu, 25 Jan 2024 03:32:19 +0000
-Date: Thu, 25 Jan 2024 11:31:51 +0800
+	id 1rSqe8-0008dR-1A;
+	Thu, 25 Jan 2024 03:43:20 +0000
+Date: Thu, 25 Jan 2024 11:42:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-pic 5/5] fs/fcntl.o: warning: objtool: do_fcntl+0x52:
- can't find switch jump table
-Message-ID: <202401251126.u6Ztaovm-lkp@intel.com>
+Subject: [android-common:android15-6.1 156/175]
+ arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous
+ prototype for 'hyp_event_trace_hyp_enter'
+Message-ID: <202401251151.dWbVxNK1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,42 +59,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pic
-head:   019a7844cc2a63d08a2b5f396f68e2c547224ae7
-commit: 019a7844cc2a63d08a2b5f396f68e2c547224ae7 [5/5] x86: Build the core kernel with position independent codegen
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240125/202401251126.u6Ztaovm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251126.u6Ztaovm-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.1
+head:   faf8e92b3bdd8457b68cf85e37cdcd4a4ed867e9
+commit: 92831dd9422c1f5f813254c9a1595e611e847b97 [156/175] ANDROID: KVM: arm64: Add support for nVHE hyp events
+config: arm64-randconfig-002-20240123 (https://download.01.org/0day-ci/archive/20240125/202401251151.dWbVxNK1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251151.dWbVxNK1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401251126.u6Ztaovm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401251151.dWbVxNK1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/fcntl.o: warning: objtool: do_fcntl+0x52: can't find switch jump table
---
->> fs/ioctl.o: warning: objtool: do_vfs_ioctl+0x778: can't find switch jump table
---
->> fs/fsopen.o: warning: objtool: __do_sys_fsconfig+0x65: can't find switch jump table
---
->> fs/signalfd.o: warning: objtool: signalfd_copyinfo+0x57: can't find switch jump table
---
->> io_uring/register.o: warning: objtool: __io_uring_register+0x4f: can't find switch jump table
---
->> kernel/ptrace.o: warning: objtool: ptrace_request+0x64: can't find switch jump table
---
->> kernel/reboot.o: warning: objtool: reboot_setup+0x64: can't find switch jump table
---
->> lib/cmdline.o: warning: objtool: memparse+0x3a: can't find switch jump table
---
->> lib/maple_tree.o: warning: objtool: mas_find_rev_setup.constprop.0+0x21: can't find switch jump table
---
->> lib/parser.o: warning: objtool: match_one+0xbe: can't find switch jump table
---
->> lib/refcount.o: warning: objtool: refcount_warn_saturate+0x1f: can't find switch jump table
-..
+   In file included from arch/arm64/kvm/hyp_events.c:9:
+>> arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
+      14 | HYP_EVENT(hyp_enter,
+         | ^~~~~~~~~
+>> arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
+      23 | HYP_EVENT(hyp_exit,
+         | ^~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:100:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
+     100 | void hyp_trace_init_event_tracefs(struct dentry *parent)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:130:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
+     130 | struct hyp_event *hyp_trace_find_event(int id)
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:143:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
+     143 | int hyp_trace_init_events(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/hyp_event_trace_hyp_enter +17 arch/arm64/include/asm/kvm_define_hypevents.h
+
+    14	
+    15	#define HYP_EVENT(__name, __proto, __struct, __assign, __printk)		\
+    16		HYP_EVENT_FORMAT(__name, __struct);					\
+  > 17		void hyp_event_trace_##__name(struct ht_iterator *iter)			\
+    18		{									\
+    19			struct trace_hyp_format_##__name __maybe_unused *__entry =	\
+    20				(struct trace_hyp_format_##__name *)iter->ent;		\
+    21			trace_seq_puts(&iter->seq, #__name);				\
+    22			trace_seq_putc(&iter->seq, ' ');				\
+    23			trace_seq_printf(&iter->seq, __printk);				\
+    24			trace_seq_putc(&iter->seq, '\n');				\
+    25		}
+    26	#define HYP_EVENT_MULTI_READ
+    27	#include __HYP_EVENT_FILE
+    28	
 
 -- 
 0-DAY CI Kernel Test Service
