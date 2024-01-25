@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888C074E25
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 16:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1155674E06
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 16:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706198826; cv=none; b=OBXZVRBqq2EuqN8WXU49lND3ztjBfXyftU3oCElTA0QxsOWFySxsHEzxBTz4FdKl2i13DkKL9xKXVmMm95PTscCkz3bMZ3JDeEVULKJEeqm2xeAtcc5KAbInV2IpwyTNBn3swckmwoHQQkiK5QwKHTxEpEQWTTCasMOrlRC53A0=
+	t=1706200093; cv=none; b=CEyw7T9zkjnPweBXTSjRfsYsaPEZ2G2laoC92LF4m+fNbmrtmXZr6g+z6prZJe3cvsjv2TBmPJM4ip5gkcNXSIrlfsmshg3MGzBRtu100yIHAVzJwSPo4Ptswm8rhCVb6WdwSDTW9go+CFtY5oq4gTh45rJKPtgJ4yVTTl3iHYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706198826; c=relaxed/simple;
-	bh=/w8wwSZoWuBYYbXDOiHmN090Ze/yHsIMoxSgw/168yk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rQPZhoVbA5EmMfFhbtPhr2wd/dW5m3wZMUiAYGGkYEuBjcMXnPVXYzluId49uRlkEjCMSflztGjhuqON2Dt/FeLp4FuNoOCGmK3mGbDIz1reXdfkzrmZU+qJdU2odnsDQ/qBpwOQBxytjjr7Vom+cCIhjpl7+kKLxA6SvRCgvOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jav8nJmw; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1706200093; c=relaxed/simple;
+	bh=CKkmBUyrGKT7WEXHgCcuZ9+Ns5iuzV63djC+5Ja6ZoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WkPcgISW6EB5HKvrC1cAIolublq7roXTkl1miF0ag83IZA/UJxuAbmqN3VglLhok8WGb5gO9NSZ8AuIMpmPA65DdHLOJvyF+2IVjRP5SiJjZE+Jy7tFzHhHPDhaSEsF+oquOvoR4Ay5Xe75T/dWYyDRj8mHf+ztZ1mS3sbeCIP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NX0Ln+Iq; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jav8nJmw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NX0Ln+Iq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706198825; x=1737734825;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/w8wwSZoWuBYYbXDOiHmN090Ze/yHsIMoxSgw/168yk=;
-  b=jav8nJmwuAWbwr4mgot4NFTZHZCVC3tEYbliAFBIR68Lb6EhgEF4GI5b
-   Yf8LNTyg8oJgWDN6JZyuQ3YtXDy1LtskNE7Zlo3SHjZVkOEhPTUOnv717
-   VJFQZGk9AGwL6cC6TClMtyvEkOp4hc1/pOLaKYNdFXATvyTHJwzp17FKD
-   wBXQhVBqEI3p/UIPWMrumfVeAuBWIVgl0DfkK3d4spweTDotybdfevuSb
-   bSOQgwVUA4RHyk+IrUBM+2ot1a+4nsyrjWVLaIt4c+1ls3n8LQF33ZTDq
-   GBDm5VtJ0aImfRFsgnPRLaPU2Ybtj4+JZFzhmUimROJas7eFwTr1WyWw4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9585302"
+  t=1706200091; x=1737736091;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CKkmBUyrGKT7WEXHgCcuZ9+Ns5iuzV63djC+5Ja6ZoU=;
+  b=NX0Ln+Iq1G5NEoJnmsVe0a7fJqwiHYyzPsA+aKna/BT0ckYrbSbuiWeJ
+   OLS7gDofbqu2BAckRBUws7djT5N32wITcegpuds5z1vq+5aV0mcfXN6kS
+   sIBHJxbETvO16wgmevL6rVbwyVHb0SzcaJ4eH6+3W31mWTzyMNlZ/qOvg
+   603VFiyG0J2f1P6a2vfaqRup2oPhp5+XMTs5OdnpNJN9M6qFAS3acmel9
+   jGGfi/om69n0+lJ9tWsave3NhN7Kd0DDEHsOcQ8vPsKKZuM2bSWmoHhGv
+   G+9AqFNiSrHkdoQyZ5CBGyiiTnPe4Tpyhxq82r795A+Xq6KN0ibhDF/39
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="15575271"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9585302"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 08:07:04 -0800
+   d="scan'208";a="15575271"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 08:28:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="28521957"
+   d="scan'208";a="2309411"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Jan 2024 08:07:02 -0800
+  by orviesa003.jf.intel.com with ESMTP; 25 Jan 2024 08:28:04 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rT2Fn-0000Aq-20;
-	Thu, 25 Jan 2024 16:06:59 +0000
-Date: Fri, 26 Jan 2024 00:06:16 +0800
+	id 1rT2a9-0000C0-0i;
+	Thu, 25 Jan 2024 16:28:01 +0000
+Date: Fri, 26 Jan 2024 00:27:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Guillaume Nault <gnault@redhat.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Willem de Bruijn <willemb@google.com>
-Subject: [linux-next:master 1200/1892] net/core/sock_diag.c:210:17: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <202401252355.PhD9im8z-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
+	Rob Herring <robh+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 03/13] of: property: add of_graph_get_next_endpoint_raw()
+Message-ID: <202401260024.txulvo50-lkp@intel.com>
+References: <87fryoud8t.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +75,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <87fryoud8t.wl-kuninori.morimoto.gx@renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
-commit: 1d55a6974756cf3979efd2cc68bcece611a44053 [1200/1892] sock_diag: allow concurrent operations
-config: hexagon-randconfig-r121-20240125 (https://download.01.org/0day-ci/archive/20240125/202401252355.PhD9im8z-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce: (https://download.01.org/0day-ci/archive/20240125/202401252355.PhD9im8z-lkp@intel.com/reproduce)
+Hi Kuninori,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on drm-misc/drm-misc-next linus/master v6.8-rc1 next-20240125]
+[cannot apply to robh/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240123-081427
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/87fryoud8t.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH 03/13] of: property: add of_graph_get_next_endpoint_raw()
+config: i386-buildonly-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240126/202401260024.txulvo50-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401260024.txulvo50-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401252355.PhD9im8z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401260024.txulvo50-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/core/sock_diag.c:210:17: sparse: sparse: Using plain integer as NULL pointer
+All warnings (new ones prefixed by >>):
 
-vim +210 net/core/sock_diag.c
+>> drivers/of/property.c:681: warning: Function parameter or struct member 'port' not described in 'of_graph_get_next_endpoint_raw'
+>> drivers/of/property.c:681: warning: Excess function parameter 'parent' description in 'of_graph_get_next_endpoint_raw'
 
-   202	
-   203	int sock_diag_register(const struct sock_diag_handler *hndl)
-   204	{
-   205		int family = hndl->family;
-   206	
-   207		if (family >= AF_MAX)
-   208			return -EINVAL;
-   209	
- > 210		return !cmpxchg((const struct sock_diag_handler **)
-   211					&sock_diag_handlers[family],
-   212				NULL, hndl) ? 0 : -EBUSY;
-   213	}
-   214	EXPORT_SYMBOL_GPL(sock_diag_register);
-   215	
+
+vim +681 drivers/of/property.c
+
+   670	
+   671	/**
+   672	 * of_graph_get_next_endpoint_raw() - get next endpoint node
+   673	 * @parent: pointer to the target port node
+   674	 * @endpoint: current endpoint node, or NULL to get first
+   675	 *
+   676	 * Return: An 'endpoint' node pointer with refcount incremented. Refcount
+   677	 * of the passed @prev node is decremented.
+   678	 */
+   679	struct device_node *of_graph_get_next_endpoint_raw(const struct device_node *port,
+   680							   struct device_node *endpoint)
+ > 681	{
+   682		if (!port)
+   683			return NULL;
+   684	
+   685		do {
+   686			endpoint = of_get_next_child(port, endpoint);
+   687			if (!endpoint)
+   688				break;
+   689		} while (!of_node_name_eq(endpoint, "endpoint"));
+   690	
+   691		return endpoint;
+   692	}
+   693	EXPORT_SYMBOL(of_graph_get_next_endpoint_raw);
+   694	
 
 -- 
 0-DAY CI Kernel Test Service
