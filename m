@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24C27489
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 06:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7CE10A05
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 06:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706162431; cv=none; b=Xn8b47Lhj+RWIyoANDLH+jHSiDWE0J6fnnyOEHlt0KBfePb2VBNqof3LYxNfy+Ar2OEdhD9eH6yWOfcmxoswsktncxHAUBVpmAMSiLVfbV/uWFrYlpFA2VRT4ZSz/GsuokHPdQnzRiqftiAfzLTWWoo4XnicoVdgNdr0jW6YkyA=
+	t=1706163152; cv=none; b=oSxLpQy/sPjk3j88KYzhDRgYMFDsq87NZqDSDII2dULMwCYZRcwn1xTjl84oNgr4qE3EDZ5Fm1Z6pmmmJKE4aYi287FqsYQeBoU5ev/D5H85k+R6jhYkwtgo0D+O+Wg1V8c2ZcgRb3J+SL43qAxAI+oV6Vn4VYGZzWFfaYrvX1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706162431; c=relaxed/simple;
-	bh=3lodQRCPmp7mKyG56AS3ewvIJIEBZ4t8IlIjCbIpl3M=;
+	s=arc-20240116; t=1706163152; c=relaxed/simple;
+	bh=1uNANVS94SIc6sNZqRyrnvo7AAGE0efemorxGwSlWVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pEXLLX8WBKSVhUljJxlZjKGD7+ViQ3RJbgSiXQgnAj4/owXSuiLVmV0PEa4sOJ/zITvBF8scMowIPodQaUK7SMSGloOWbZ5/POxjA9GDqiSmlgRBRH58g0S+Hvulk8Xbi88RB8p/nVm6WikdnOtM6zcRvccAeHit0yq5kF03UOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3UCW1q/; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=hgt5TqPa4oAClf7a3X5yZs0tPH+enc9BcF+ze9tzPwwU1lapm8UYQIOLqS7CJEJiJSnBZIu7NLeZqlMaHbTarrsdgviAV3P7Ch2X/b35Y9wr5rxOBNLvZqWqhAreYoSa8TxzpgsGeqQCTJkVMmjX/PQZvBI0mY5+JHmoyQ+fyeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nf3oi7KX; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W3UCW1q/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nf3oi7KX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706162430; x=1737698430;
+  t=1706163149; x=1737699149;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3lodQRCPmp7mKyG56AS3ewvIJIEBZ4t8IlIjCbIpl3M=;
-  b=W3UCW1q/df8aBI0bUaGyBt6CZZs897RXPLs1yBxRVokZRp39MzqFqVwo
-   uaO/J5W8znoUYLLX8wDGeL5UAxI7ktzcRo35paeBl/RW/xoL8BuKx7ZfQ
-   mZLLGPSy42ACagsTkNSvtV3+dy/PUkPyGfNT9jYUUcEJIODnPMMYWfSxo
-   357RdHlu9W9RydO8aAyh9IV+8UX18EKqdAvS+luxbIMD8MrBzca3AmjT6
-   EAtQEYVUwH9mo0JIVIY2NxfOJi2BldUlB6VZVaDCXOfw8aoxyqf1lGUgs
-   H1rkKtwN9LjgH4d6oZswCPysPsLkJkQfpnrdNnolohgTGXsifHwnL2b4r
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1913838"
+  bh=1uNANVS94SIc6sNZqRyrnvo7AAGE0efemorxGwSlWVM=;
+  b=nf3oi7KX6UMZ8a5BeABYRl80gQv4pT23Z/MXJ9OE1tyWGHt75GRwuncU
+   r57ZsBxo7hWJC6cKa+kX4beA1XYP3GmHXta6FXgBV6cU9lMaWW6FysPht
+   6UYfL6yh50nSN3XueE8yFH3stFlXPFSNx3J2mANI6ca7ca4KGU6hOTrD3
+   LmuiU9beAawawZsyEcH2Kfj0aeB1D8vy8BMfaWL+AGoVVP/dkRCj2a3lk
+   ECZ0hMnUhd7lcSm1nX1/D6N9pJTdzdsuf7Q0IRKyDZDByATM3dpgEFxvK
+   90NJjhw5/EvQPAhyK83c+CsB6FOKvg/coLxXneI4wxZ/KzX4EIix3+ipi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="433224085"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="1913838"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 22:00:29 -0800
+   d="scan'208";a="433224085"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 22:12:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="820693470"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="786660042"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="820693470"
+   d="scan'208";a="786660042"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 24 Jan 2024 22:00:26 -0800
+  by orsmga002.jf.intel.com with ESMTP; 24 Jan 2024 22:12:27 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSsmm-0008l7-1W;
-	Thu, 25 Jan 2024 06:00:24 +0000
-Date: Thu, 25 Jan 2024 14:00:09 +0800
+	id 1rSsyO-0008lN-28;
+	Thu, 25 Jan 2024 06:12:24 +0000
+Date: Thu, 25 Jan 2024 14:12:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ping-Ke Shih <pkshih@realtek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kalle Valo <kvalo@kernel.org>
-Subject: drivers/net/wireless/realtek/rtw89/pci.c:211:5-8: Unneeded variable:
- "cnt". Return "  1" on line 273
-Message-ID: <202401251333.zQQf7lDL-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1369/2731] mm/share_pool.c:3305:12: warning:
+ 'proc_usage_show' defined but not used
+Message-ID: <202401251418.DXCkpV5X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,116 +59,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6098d87eaf31f48153c984e2adadf14762520a87
-commit: 7ba49f4c6896d83b3841c0b046a0a7b1e97cc0dd rtw89: 8852c: add 8852ce to Makefile and Kconfig
-date:   1 year, 9 months ago
-config: parisc-randconfig-r053-20240114 (https://download.01.org/0day-ci/archive/20240125/202401251333.zQQf7lDL-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   901db4752b1cced0e23423a24a60e47b42e4b96b
+commit: df165ba49e6e4ce8b4f6076aded3b92e19918b03 [1369/2731] mm/sharepool: Add proc interfaces to show sp info
+config: arm64-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240125/202401251418.DXCkpV5X-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251418.DXCkpV5X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401251333.zQQf7lDL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401251418.DXCkpV5X-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/wireless/realtek/rtw89/pci.c:211:5-8: Unneeded variable: "cnt". Return "  1" on line 273
+All warnings (new ones prefixed by >>):
 
-vim +211 drivers/net/wireless/realtek/rtw89/pci.c
+   mm/share_pool.c: In function 'sp_hugetlb_entry':
+   mm/share_pool.c:2584:21: error: implicit declaration of function 'huge_ptep_get' [-Werror=implicit-function-declaration]
+    2584 |         pte_t pte = huge_ptep_get(ptep);
+         |                     ^~~~~~~~~~~~~
+   mm/share_pool.c:2584:21: error: invalid initializer
+   mm/share_pool.c: In function 'sp_unshare_kva':
+   mm/share_pool.c:2796:14: warning: variable 'is_hugepage' set but not used [-Wunused-but-set-variable]
+    2796 |         bool is_hugepage = true;
+         |              ^~~~~~~~~~~
+   mm/share_pool.c: At top level:
+>> mm/share_pool.c:3305:12: warning: 'proc_usage_show' defined but not used [-Wunused-function]
+    3305 | static int proc_usage_show(struct seq_file *seq, void *offset)
+         |            ^~~~~~~~~~~~~~~
+>> mm/share_pool.c:3285:12: warning: 'proc_group_usage_show' defined but not used [-Wunused-function]
+    3285 | static int proc_group_usage_show(struct seq_file *seq, void *offset)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> mm/share_pool.c:3234:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
+    3234 | static int spa_stat_show(struct seq_file *seq, void *offset)
+         |            ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  200  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  201  static u32 rtw89_pci_rxbd_deliver_skbs(struct rtw89_dev *rtwdev,
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  202  				       struct rtw89_pci_rx_ring *rx_ring)
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  203  {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  204  	struct rtw89_pci_dma_ring *bd_ring = &rx_ring->bd_ring;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  205  	struct rtw89_pci_rx_info *rx_info;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  206  	struct rtw89_rx_desc_info *desc_info = &rx_ring->diliver_desc;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  207  	struct sk_buff *new = rx_ring->diliver_skb;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  208  	struct sk_buff *skb;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  209  	u32 rxinfo_size = sizeof(struct rtw89_pci_rxbd_info);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  210  	u32 offset;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11 @211  	u32 cnt = 1;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  212  	bool fs, ls;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  213  	int ret;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  214  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  215  	skb = rx_ring->buf[bd_ring->wp];
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  216  	rtw89_pci_sync_skb_for_cpu(rtwdev, skb);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  217  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  218  	ret = rtw89_pci_rxbd_info_update(rtwdev, skb);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  219  	if (ret) {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  220  		rtw89_err(rtwdev, "failed to update %d RXBD info: %d\n",
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  221  			  bd_ring->wp, ret);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  222  		goto err_sync_device;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  223  	}
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  224  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  225  	rx_info = RTW89_PCI_RX_SKB_CB(skb);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  226  	fs = rx_info->fs;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  227  	ls = rx_info->ls;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  228  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  229  	if (fs) {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  230  		if (new) {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  231  			rtw89_err(rtwdev, "skb should not be ready before first segment start\n");
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  232  			goto err_sync_device;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  233  		}
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  234  		if (desc_info->ready) {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  235  			rtw89_warn(rtwdev, "desc info should not be ready before first segment start\n");
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  236  			goto err_sync_device;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  237  		}
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  238  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  239  		rtw89_core_query_rxdesc(rtwdev, desc_info, skb->data, rxinfo_size);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  240  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  241  		new = dev_alloc_skb(desc_info->pkt_size);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  242  		if (!new)
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  243  			goto err_sync_device;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  244  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  245  		rx_ring->diliver_skb = new;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  246  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  247  		/* first segment has RX desc */
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  248  		offset = desc_info->offset;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  249  		offset += desc_info->long_rxdesc ? sizeof(struct rtw89_rxdesc_long) :
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  250  			  sizeof(struct rtw89_rxdesc_short);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  251  	} else {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  252  		offset = sizeof(struct rtw89_pci_rxbd_info);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  253  		if (!new) {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  254  			rtw89_warn(rtwdev, "no last skb\n");
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  255  			goto err_sync_device;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  256  		}
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  257  	}
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  258  	if (!rtw89_skb_put_rx_data(rtwdev, fs, ls, new, skb, offset, rx_info, desc_info))
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  259  		goto err_sync_device;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  260  	rtw89_pci_sync_skb_for_device(rtwdev, skb);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  261  	rtw89_pci_rxbd_increase(rx_ring, 1);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  262  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  263  	if (!desc_info->ready) {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  264  		rtw89_warn(rtwdev, "no rx desc information\n");
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  265  		goto err_free_resource;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  266  	}
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  267  	if (ls) {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  268  		rtw89_core_rx(rtwdev, desc_info, new);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  269  		rx_ring->diliver_skb = NULL;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  270  		desc_info->ready = false;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  271  	}
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  272  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11 @273  	return cnt;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  274  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  275  err_sync_device:
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  276  	rtw89_pci_sync_skb_for_device(rtwdev, skb);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  277  	rtw89_pci_rxbd_increase(rx_ring, 1);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  278  err_free_resource:
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  279  	if (new)
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  280  		dev_kfree_skb_any(new);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  281  	rx_ring->diliver_skb = NULL;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  282  	desc_info->ready = false;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  283  
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  284  	return cnt;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  285  }
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  286  
 
-:::::: The code at line 211 was first introduced by commit
-:::::: e3ec7017f6a20d12ddd9fe23d345ebb7b8c104dd rtw89: add Realtek 802.11ax driver
+vim +/proc_usage_show +3305 mm/share_pool.c
 
-:::::: TO: Ping-Ke Shih <pkshih@realtek.com>
-:::::: CC: Kalle Valo <kvalo@codeaurora.org>
+  3233	
+> 3234	static int spa_stat_show(struct seq_file *seq, void *offset)
+  3235	{
+  3236		if (!should_show_statistics())
+  3237			return -EPERM;
+  3238	
+  3239		spg_overview_show(seq);
+  3240		spa_overview_show(seq);
+  3241		/* print the file header */
+  3242		seq_printf(seq, "%-10s %-16s %-16s %-10s %-7s %-5s %-8s %-8s\n",
+  3243				"Group ID", "va_start", "va_end", "Size(KB)", "Type", "Huge", "PID", "Ref");
+  3244		spa_ro_stat_show(seq);
+  3245		spa_normal_stat_show(seq);
+  3246		spa_dvpp_stat_show(seq);
+  3247		return 0;
+  3248	}
+  3249	
+  3250	static int proc_usage_by_group(int id, void *p, void *data)
+  3251	{
+  3252		struct sp_group *spg = p;
+  3253		struct seq_file *seq = data;
+  3254		struct sp_group_node *spg_node;
+  3255		struct mm_struct *mm;
+  3256		struct sp_group_master *master;
+  3257		int tgid;
+  3258		unsigned long anon, file, shmem, total_rss;
+  3259	
+  3260		down_read(&spg->rw_lock);
+  3261		list_for_each_entry(spg_node, &spg->proc_head, proc_node) {
+  3262			master = spg_node->master;
+  3263			mm = master->mm;
+  3264			tgid = master->tgid;
+  3265	
+  3266			get_mm_rss_info(mm, &anon, &file, &shmem, &total_rss);
+  3267	
+  3268			seq_printf(seq, "%-8d ", tgid);
+  3269			seq_printf(seq, "%-8d ", id);
+  3270			seq_printf(seq, "%-9ld %-9ld %-9ld %-8ld %-7ld %-7ld ",
+  3271					meminfo_alloc_sum_byKB(&spg_node->meminfo),
+  3272					meminfo_k2u_size(&spg_node->meminfo),
+  3273					meminfo_alloc_sum_byKB(&spg_node->spg->meminfo),
+  3274					page2kb(mm->total_vm), page2kb(total_rss),
+  3275					page2kb(shmem));
+  3276			print_process_prot(seq, spg_node->prot);
+  3277			seq_putc(seq, '\n');
+  3278		}
+  3279		up_read(&spg->rw_lock);
+  3280		cond_resched();
+  3281	
+  3282		return 0;
+  3283	}
+  3284	
+> 3285	static int proc_group_usage_show(struct seq_file *seq, void *offset)
+  3286	{
+  3287		if (!should_show_statistics())
+  3288			return -EPERM;
+  3289	
+  3290		spg_overview_show(seq);
+  3291		spa_overview_show(seq);
+  3292	
+  3293		/* print the file header */
+  3294		seq_printf(seq, "%-8s %-8s %-9s %-9s %-9s %-8s %-7s %-7s %-4s\n",
+  3295				"PID", "Group_ID", "SP_ALLOC", "SP_K2U", "SP_RES",
+  3296				"VIRT", "RES", "Shm", "PROT");
+  3297	
+  3298		down_read(&sp_global_sem);
+  3299		idr_for_each(&sp_group_idr, proc_usage_by_group, seq);
+  3300		up_read(&sp_global_sem);
+  3301	
+  3302		return 0;
+  3303	}
+  3304	
+> 3305	static int proc_usage_show(struct seq_file *seq, void *offset)
+  3306	{
+  3307		struct sp_group_master *master = NULL;
+  3308		unsigned long anon, file, shmem, total_rss;
+  3309		long sp_res, sp_res_nsize, non_sp_res, non_sp_shm;
+  3310		struct sp_meminfo *meminfo;
+  3311	
+  3312		if (!should_show_statistics())
+  3313			return -EPERM;
+  3314	
+  3315		seq_printf(seq, "%-8s %-16s %-9s %-9s %-9s %-10s %-10s %-8s\n",
+  3316				"PID", "COMM", "SP_ALLOC", "SP_K2U", "SP_RES", "Non-SP_RES",
+  3317				"Non-SP_Shm", "VIRT");
+  3318	
+  3319		down_read(&sp_global_sem);
+  3320		mutex_lock(&master_list_lock);
+  3321		list_for_each_entry(master, &master_list, list_node) {
+  3322			meminfo = &master->meminfo;
+  3323			get_mm_rss_info(master->mm, &anon, &file, &shmem, &total_rss);
+  3324			get_process_sp_res(master, &sp_res, &sp_res_nsize);
+  3325			get_process_non_sp_res(total_rss, shmem, sp_res_nsize,
+  3326					&non_sp_res, &non_sp_shm);
+  3327			seq_printf(seq, "%-8d %-16s %-9ld %-9ld %-9ld %-10ld %-10ld %-8ld\n",
+  3328					master->tgid, master->comm,
+  3329					meminfo_alloc_sum_byKB(meminfo),
+  3330					meminfo_k2u_size(meminfo),
+  3331					sp_res, non_sp_res, non_sp_shm,
+  3332					page2kb(master->mm->total_vm));
+  3333		}
+  3334		mutex_unlock(&master_list_lock);
+  3335		up_read(&sp_global_sem);
+  3336	
+  3337		return 0;
+  3338	}
+  3339	
 
 -- 
 0-DAY CI Kernel Test Service
