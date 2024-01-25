@@ -1,55 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF62967C40
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 02:48:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C0A1842;
+	Thu, 25 Jan 2024 02:48:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706150904; cv=none; b=rir+YkM3+Dprj5Ce1kgU4IfjDKcylw56mFN8gQlBol5UKBn/IvWdekPOMFSDgJ6Y6Eg0npQQOHVawcEkVemFPaokNJ2X+ou1sCB0FO+G3/vNABN/vTE1qhSd1aRSNz1wIXfhIBt2/7PCNp8z1fgdxSP9bCqwTtlbE96+7SAbsoE=
+	t=1706150906; cv=none; b=lVBwUdL9funfF6n/l3/pu39XlplglJDQNX0bUy+YIJkjO2IKmPnnKYpOqcQTEI/RDqddK6wQlOtjf3IRWCKlJhIKqySN6Qz6cAtLOM3IXvj+GIUf1CbjFKoqMfzMQqNPqz4MU9KMDPSJMIc7m6niAzUAxBlgK68Qzulsip3gMoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706150904; c=relaxed/simple;
-	bh=M6rArGNYSJX5Xyh7SnVQ/I92T4vlIn4dQmvTtZG09j8=;
+	s=arc-20240116; t=1706150906; c=relaxed/simple;
+	bh=P8tOXuR1MNz93eFimLGqZBU7GD2HIgXxuTweehk6uFk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D2AE+9UqdCeIBXbT6MqaqJWfqBnBtH7hKw9l3bZwUirx1I7uA02OS/N79uAg7j3q5BnTFGthFQJ3uadyatr9pmhSAKNz1cXic7zHHLVsGKOnRtbLvwt+sUARgWGsPUmBAaZyMuRD3mTlZaC1Dc/z9J6JENFLQgIk2rjn7KyilOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GvVjf/lg; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=XcVxY4tFlChjadCmnXFgO5h/MzDsMw50RzGWlcAEI9LR6fWiJCqQbysvkHuJ2EWcFyXufPcYD6mrkNwZvHD24fMm+88CS+lrxFa1Lk/+S8LlKjXzKGxtPKghaDaAkjjNEV660KKUV58t9Wz7YeqLXrzDZaBrnwnsj51fFC9lCwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YVzSgTOj; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GvVjf/lg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YVzSgTOj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706150903; x=1737686903;
+  t=1706150904; x=1737686904;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M6rArGNYSJX5Xyh7SnVQ/I92T4vlIn4dQmvTtZG09j8=;
-  b=GvVjf/lgVEoSeDG5Ns1IEniz/YZslDnhMth/LcX+bNuvjWodcRrpERKP
-   F2cMZWWAz5wNY0yFTfLd8MEjP7xj4gNUZu2lI7YczKujWqIwA0QTjJ8fK
-   XI2mSbzBn9/dEiCCRRap+b8NJ0o3Ci2HyjaIIRXLXVhQN1bhVdFWY3f+s
-   pahVk1XixfR+mpBGrFL8MGDLc8yvPC2Bkg/Ye8B/YGawSg9ZWmCePYAYK
-   DFTci8s9UXwCroKJxzMAO5beeJIYDrqc7mVZ+bNo4HcIcxgOo7sMkDEbu
-   jOJd0MoQ/OcKUVh1iS8aI3YqJHRr8HXPiGhXpiMlS733C8WJF4f24wa8v
+  bh=P8tOXuR1MNz93eFimLGqZBU7GD2HIgXxuTweehk6uFk=;
+  b=YVzSgTOjAUvc03fleIbeNp9dTDJd8KMNDnYT8h9Ti+q9CRBTbQASGUFy
+   1cusksWehY+ma+4NWeqV1HID0V/QhkwI3DPZh4m7C3zn2KnHZNWPIcbY8
+   gFGX/z6QV9uGQIgPPNl/aDhY/LPjuMbszCxryQ9ZxoNqBUcbOIW1BEzTM
+   /XdNZo/vg4J211bQKvkk6/La5cQWgvpayS4jdOC71dsUawbtRF/0wEabP
+   k1CUnuvcwpmZc0w0JsqqzNUpxZu+S03SNk9OW/wRf+ahGZMPWDsHzIiRV
+   AzcS+/T8tbmUr6xVXTPTu3xjnE0z0hTB6NcjRy5KGS/Im7LjMQ2v/XEo7
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="15570952"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="15570953"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="15570952"
+   d="scan'208";a="15570953"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 18:48:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="905822579"
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="905822574"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="905822579"
+   d="scan'208";a="905822574"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
   by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2024 18:48:20 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSpms-0008au-2r;
-	Thu, 25 Jan 2024 02:48:18 +0000
-Date: Thu, 25 Jan 2024 10:47:43 +0800
+	id 1rSpmt-0008b5-03;
+	Thu, 25 Jan 2024 02:48:19 +0000
+Date: Thu, 25 Jan 2024 10:47:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vishal Verma <vishal.l.verma@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vishal:vv/dax_abi 5/6] include/linux/memory_hotplug.h:266:13:
- error: 'mhp_supports_memmap_on_memory' defined but not used
-Message-ID: <202401251054.6miWMRlA-lkp@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org
+Subject: [driver-core:debugfs_cleanup 6/7] drivers/nvmem/core.c:480:8: error:
+ call to undeclared function 'devm_device_add_groups'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202401251023.4INLLZvR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,40 +61,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vishal/linux.git vv/dax_abi
-head:   7b18b50e5778a1abc835957102c45b1140bbc2b5
-commit: 82a0cdb33619455fb73bd3f54ae580e2ddc7dcb1 [5/6] mm/memory_hotplug: export mhp_supports_memmap_on_memory()
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240125/202401251054.6miWMRlA-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251054.6miWMRlA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git debugfs_cleanup
+head:   dfca47ec5332bac3ee306ae2ba95a89765a801b7
+commit: 2f0ece8a0f81650915d6252d146d32fe8162f112 [6/7] driver core: remove devm_device_add_groups()
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240125/202401251023.4INLLZvR-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251023.4INLLZvR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401251054.6miWMRlA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401251023.4INLLZvR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:1425,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from lib/test_bitops.c:9:
->> include/linux/memory_hotplug.h:266:13: error: 'mhp_supports_memmap_on_memory' defined but not used [-Werror=unused-function]
-     266 | static bool mhp_supports_memmap_on_memory(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/nvmem/core.c:480:8: error: call to undeclared function 'devm_device_add_groups'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     480 |         ret = devm_device_add_groups(&nvmem->dev, nvmem_cells_groups);
+         |               ^
+   drivers/nvmem/core.c:480:8: note: did you mean 'devm_device_add_group'?
+   include/linux/device.h:1204:18: note: 'devm_device_add_group' declared here
+    1204 | int __must_check devm_device_add_group(struct device *dev,
+         |                  ^
+   1 error generated.
 
 
-vim +/mhp_supports_memmap_on_memory +266 include/linux/memory_hotplug.h
+vim +/devm_device_add_groups +480 drivers/nvmem/core.c
 
-   265	
- > 266	static bool mhp_supports_memmap_on_memory(void)
-   267	{
-   268		return false;
-   269	}
-   270	
+84400305271937 Srinivas Kandagatla 2020-03-25  429  
+0331c611949fff Miquel Raynal       2023-12-15  430  static int nvmem_populate_sysfs_cells(struct nvmem_device *nvmem)
+0331c611949fff Miquel Raynal       2023-12-15  431  {
+0331c611949fff Miquel Raynal       2023-12-15  432  	struct bin_attribute **cells_attrs, *attrs;
+0331c611949fff Miquel Raynal       2023-12-15  433  	struct nvmem_cell_entry *entry;
+0331c611949fff Miquel Raynal       2023-12-15  434  	unsigned int ncells = 0, i = 0;
+0331c611949fff Miquel Raynal       2023-12-15  435  	int ret = 0;
+0331c611949fff Miquel Raynal       2023-12-15  436  
+0331c611949fff Miquel Raynal       2023-12-15  437  	mutex_lock(&nvmem_mutex);
+0331c611949fff Miquel Raynal       2023-12-15  438  
+0331c611949fff Miquel Raynal       2023-12-15  439  	if (list_empty(&nvmem->cells) || nvmem->sysfs_cells_populated) {
+0331c611949fff Miquel Raynal       2023-12-15  440  		nvmem_cells_group.bin_attrs = NULL;
+0331c611949fff Miquel Raynal       2023-12-15  441  		goto unlock_mutex;
+0331c611949fff Miquel Raynal       2023-12-15  442  	}
+0331c611949fff Miquel Raynal       2023-12-15  443  
+0331c611949fff Miquel Raynal       2023-12-15  444  	/* Allocate an array of attributes with a sentinel */
+0331c611949fff Miquel Raynal       2023-12-15  445  	ncells = list_count_nodes(&nvmem->cells);
+0331c611949fff Miquel Raynal       2023-12-15  446  	cells_attrs = devm_kcalloc(&nvmem->dev, ncells + 1,
+0331c611949fff Miquel Raynal       2023-12-15  447  				   sizeof(struct bin_attribute *), GFP_KERNEL);
+0331c611949fff Miquel Raynal       2023-12-15  448  	if (!cells_attrs) {
+0331c611949fff Miquel Raynal       2023-12-15  449  		ret = -ENOMEM;
+0331c611949fff Miquel Raynal       2023-12-15  450  		goto unlock_mutex;
+0331c611949fff Miquel Raynal       2023-12-15  451  	}
+0331c611949fff Miquel Raynal       2023-12-15  452  
+0331c611949fff Miquel Raynal       2023-12-15  453  	attrs = devm_kcalloc(&nvmem->dev, ncells, sizeof(struct bin_attribute), GFP_KERNEL);
+0331c611949fff Miquel Raynal       2023-12-15  454  	if (!attrs) {
+0331c611949fff Miquel Raynal       2023-12-15  455  		ret = -ENOMEM;
+0331c611949fff Miquel Raynal       2023-12-15  456  		goto unlock_mutex;
+0331c611949fff Miquel Raynal       2023-12-15  457  	}
+0331c611949fff Miquel Raynal       2023-12-15  458  
+0331c611949fff Miquel Raynal       2023-12-15  459  	/* Initialize each attribute to take the name and size of the cell */
+0331c611949fff Miquel Raynal       2023-12-15  460  	list_for_each_entry(entry, &nvmem->cells, node) {
+0331c611949fff Miquel Raynal       2023-12-15  461  		sysfs_bin_attr_init(&attrs[i]);
+0331c611949fff Miquel Raynal       2023-12-15  462  		attrs[i].attr.name = devm_kasprintf(&nvmem->dev, GFP_KERNEL,
+0331c611949fff Miquel Raynal       2023-12-15  463  						    "%s@%x", entry->name,
+0331c611949fff Miquel Raynal       2023-12-15  464  						    entry->offset);
+0331c611949fff Miquel Raynal       2023-12-15  465  		attrs[i].attr.mode = 0444;
+0331c611949fff Miquel Raynal       2023-12-15  466  		attrs[i].size = entry->bytes;
+0331c611949fff Miquel Raynal       2023-12-15  467  		attrs[i].read = &nvmem_cell_attr_read;
+0331c611949fff Miquel Raynal       2023-12-15  468  		attrs[i].private = entry;
+0331c611949fff Miquel Raynal       2023-12-15  469  		if (!attrs[i].attr.name) {
+0331c611949fff Miquel Raynal       2023-12-15  470  			ret = -ENOMEM;
+0331c611949fff Miquel Raynal       2023-12-15  471  			goto unlock_mutex;
+0331c611949fff Miquel Raynal       2023-12-15  472  		}
+0331c611949fff Miquel Raynal       2023-12-15  473  
+0331c611949fff Miquel Raynal       2023-12-15  474  		cells_attrs[i] = &attrs[i];
+0331c611949fff Miquel Raynal       2023-12-15  475  		i++;
+0331c611949fff Miquel Raynal       2023-12-15  476  	}
+0331c611949fff Miquel Raynal       2023-12-15  477  
+0331c611949fff Miquel Raynal       2023-12-15  478  	nvmem_cells_group.bin_attrs = cells_attrs;
+0331c611949fff Miquel Raynal       2023-12-15  479  
+0331c611949fff Miquel Raynal       2023-12-15 @480  	ret = devm_device_add_groups(&nvmem->dev, nvmem_cells_groups);
+0331c611949fff Miquel Raynal       2023-12-15  481  	if (ret)
+0331c611949fff Miquel Raynal       2023-12-15  482  		goto unlock_mutex;
+0331c611949fff Miquel Raynal       2023-12-15  483  
+0331c611949fff Miquel Raynal       2023-12-15  484  	nvmem->sysfs_cells_populated = true;
+0331c611949fff Miquel Raynal       2023-12-15  485  
+0331c611949fff Miquel Raynal       2023-12-15  486  unlock_mutex:
+0331c611949fff Miquel Raynal       2023-12-15  487  	mutex_unlock(&nvmem_mutex);
+0331c611949fff Miquel Raynal       2023-12-15  488  
+0331c611949fff Miquel Raynal       2023-12-15  489  	return ret;
+0331c611949fff Miquel Raynal       2023-12-15  490  }
+0331c611949fff Miquel Raynal       2023-12-15  491  
+
+:::::: The code at line 480 was first introduced by commit
+:::::: 0331c611949fffdf486652450901a4dc52bc5cca nvmem: core: Expose cells through sysfs
+
+:::::: TO: Miquel Raynal <miquel.raynal@bootlin.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
