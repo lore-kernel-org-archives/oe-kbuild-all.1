@@ -1,181 +1,156 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E6C1386BB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 21:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB2B13AA3E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 21:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706218070; cv=none; b=pO0Dmsanaa9bawz2Sb7sx1BhyRSJtrOpSvr5VvKJmigwBmIm/2bSjRrbxX1EZxAO6agpUIrIqBQoErIavGB1d7FP56zq7y0bVK9fU9r2bsxS6TdF1GaF0j1OY6zfrg+PH2y3u95qwhDDvIMXCkRLJ+WmasfOwj1CpDnxKh5nRdc=
+	t=1706218113; cv=none; b=YrQD4hBMpQ4EVO1nvgoSvAHjslZ+ANrsNzdt9IoWGJObFAVeVsjQ7jwcW5/boS6/Gci+ezThzrLBeqB839RziednzLlASQHf6j9BWfBRSWRN7DZh+xLR3X1MZf5qkdGMKSywLE4yEDVWPODdaiwepjequiwUAA1b9pfTzepMVq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706218070; c=relaxed/simple;
-	bh=qif+74dsRh8x1JmdOZHmI+Er/cQeMYAPnSDAnmdk9+s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FBCJ3vjFpFR55z39gcXeOeTlGZpuvYyltXtcdcrm5Ja43XUlO0/7fReQy2agQMKEZqKibxqbiXR3IXWKylh8N/FFG6Q3+dfs9LWM5uGMquL+Zoku1cTl1fidY6uTeosRA7mky0OPjKhjQQDPL3C7i0Gn2dCDLlj12Ww7iZkYMNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rAAfXPo/; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rAAfXPo/"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5ff84214fc7so70626217b3.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 13:27:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706218068; x=1706822868; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cZctJ95roOKUuWfU+NSbWQYCqifmeEOmcfFL1+Y6gjI=;
-        b=rAAfXPo/S+pUCj4DOK3nsMci2x/fXAYmfemkvFUzL8ZWFaL4aDH4l11LBUy/2UUa1N
-         61ihtKaXDb8adDtFbfCCJXKqEckjjqM1KuqOUklo9l2ti8cPedqbDBZSlUsiHuLNQdRK
-         5rfVGA/7Qop/KvWlfogPbAFU1+y5p8TsnSOW3xzLKawrT39WuGXOKft4WqxWGI9ilkkU
-         rAALY5sSfqXDAdtI6SNEkm9UXPXsCsW+XWZ6epy6wLypn6WKw8K8olPQTZmtpCmP4hWp
-         AkTMgIvlEftfyfc9ASnWKUHUcCeVl2wvTn0k0mAu003ZlP1yBmOuzXiTBhYQaQ3S9xL9
-         8z9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706218068; x=1706822868;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cZctJ95roOKUuWfU+NSbWQYCqifmeEOmcfFL1+Y6gjI=;
-        b=vnT4CL211mUQStH4OJwY4oABkfmZaAcLUI+Ds5P2BbG8qlBLjkA3OVOcKtI/sCCACi
-         fqvGJw6yGfOEKHLSYxsxUVOWQlAhLMk5rbUThuVZigSiD3TraWJUvdSGpBTIPW42tIkN
-         Vpd9oYcvkDNiIfiXZ3PGv9mxFmMp5V8tCx9BqbFPH6maQx9hp6U4WvFqQ+0mR9RMLDEx
-         CJHJKVD7KwZt5OzRoqLrrorJIcst1bV2s7e1tqkTpzD54g5b+4TjMT0hbR03cy4ooPJp
-         uj8iSAzRvRgbWK4kwLALsD3hlcQGgVt1djBI7IaaV4drDaoDI0Dy4Z5zqcLix1Ovaaa2
-         lYyQ==
-X-Gm-Message-State: AOJu0YyIczMXJb7JE+QDQ+BCrV/46TAG4DTA9ymT4IH+OLRcl/j1/by4
-	qlG+L9pLjP77Yh7bRgChlmepQvU+uc5P8rvDELlRoOF9jv6RWSGINxDGT7dCg0A4elrBEL4FFnt
-	YuE5IPOQV1ljvCiJ/SnsaaPi83XR/IAwjYQb59q9RM2z1wr4ek2BS
-X-Google-Smtp-Source: AGHT+IEmXticjPa3FlG2Dh2lBl+AYHgKS+ho3uKdSCnB1DWm+1E3AGTlt0wqECyf2xPiOu8a/A8HBbfQHTi7c+RZpTg=
-X-Received: by 2002:a81:af19:0:b0:5d7:1941:2c29 with SMTP id
- n25-20020a81af19000000b005d719412c29mr448275ywh.86.1706218067540; Thu, 25 Jan
- 2024 13:27:47 -0800 (PST)
+	s=arc-20240116; t=1706218113; c=relaxed/simple;
+	bh=Aq9BEwj5Ou4QsJAljREwqkwq4jjfU8buVLcEkODYpac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZ36Vgr8/a7H3W3sWTZbFAeJNHS7j6Oa4rJifkJ96QErBm2JJFAkTDitm25aJiwwDTxbLiBAR0CU8SfYGSOl2RoXxp58wQSwvcE/cmVkrJZpIiYzDlbh/FAVBNLC2ZIyeFmpCSrFGkXKAyfEI6gRyghccO1RBkG+se5c9l9aJWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rT7Gn-0003Mo-SR; Thu, 25 Jan 2024 22:28:21 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rT7Gm-002N4M-Ou; Thu, 25 Jan 2024 22:28:20 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rT7Gm-0089pQ-28;
+	Thu, 25 Jan 2024 22:28:20 +0100
+Date: Thu, 25 Jan 2024 22:28:20 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Francesco Dolcini <francesco@dolcini.it>, pratikmanvar09@gmail.com, 
+	linux-pwm@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	pratik.manvar@ifm.com, linux-kernel@vger.kernel.org, thierry.reding@gmail.com, 
+	xiaoning.wang@nxp.com, linux-imx@nxp.com, kernel@pengutronix.de, 
+	oe-kbuild-all@lists.linux.dev, festevam@gmail.com, linux-arm-kernel@lists.infradead.org, 
+	jun.li@nxp.com
+Subject: Re: [PATCH v3] pwm: imx27: workaround of the pwm output bug
+Message-ID: <w34gpyikqc6oz5zjoan3ws4ckw5dlzjytddfw4df26dyflx3uk@itw6b34z5luv>
+References: <20240103103421.GA3758@francesco-nb>
+ <20240103110200.1018-1-pratikmanvar09@gmail.com>
+ <20240103122005.GA3347@francesco-nb>
+ <71426744-7223-448c-bd5b-ff786c5f8e65@gmx.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202401251829.0m6Eo4LI-lkp@intel.com>
-In-Reply-To: <202401251829.0m6Eo4LI-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 25 Jan 2024 13:27:34 -0800
-Message-ID: <CAJuCfpHW2=Zu+CHXL+5fjWxGk=CVix=C66ra+DmXgn6r3+fsXg@mail.gmail.com>
-Subject: Re: [linux-next:master 1589/1892] fs/proc/task_mmu.c:143:45: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-To: kernel test robot <lkp@intel.com>, Matthew Wilcox <willy@infradead.org>, 
-	"Paul E . McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aqzalxdjxdebfp4u"
+Content-Disposition: inline
+In-Reply-To: <71426744-7223-448c-bd5b-ff786c5f8e65@gmx.net>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+
+
+--aqzalxdjxdebfp4u
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 25, 2024 at 2:23=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
-> commit: 0c30c4cd953025979b7689e49844837f762303ec [1589/1892] mm/maps: rea=
-d proc/pid/maps under RCU
-> config: x86_64-randconfig-121-20240125 (https://download.01.org/0day-ci/a=
-rchive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
-708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240125/202401251829.0m6Eo4LI-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401251829.0m6Eo4LI-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> fs/proc/task_mmu.c:143:45: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected struct file [noderef] __rcu **=
-f @@     got struct file ** @@
+Hello Stefan,
 
-Uh, this is a problem.
-I missed that get_file_rcu() is used only with mm->exe_file and
-vma->vm_file is not really RCU-safe. It's freed via a call to fput()
-which schedules its freeing using schedule_delayed_work(..., 1) but I
-don't think that constitutes RCU grace period. Paul, Matthew, could
-you please confirm? In the meantime I'm going to ask Andrew to remove
-my patchset from mm-unstable to be safe.
+On Wed, Jan 24, 2024 at 12:48:21PM +0100, Stefan Wahren wrote:
+> Am 03.01.24 um 13:20 schrieb Francesco Dolcini:
+> > Hello Pratik,
+> >=20
+> > On Wed, Jan 03, 2024 at 04:32:00PM +0530, pratikmanvar09@gmail.com wrot=
+e:
+> > > From: Clark Wang <xiaoning.wang@nxp.com>
+> > >=20
+> > > This fixes the pwm output bug when decrease the duty cycle.
+> > > This is a limited workaround for the PWM IP issue TKT0577206.
+> > >=20
+> > > Root cause:
+> > > When the SAR FIFO is empty, the new write value will be directly appl=
+ied
+> > > to SAR even the current period is not over.
+> > > If the new SAR value is less than the old one, and the counter is
+> > > greater than the new SAR value, the current period will not filp the
+> > > level. This will result in a pulse with a duty cycle of 100%.
+> > >=20
+> > > Workaround:
+> > > Add an old value SAR write before updating the new duty cycle to SAR.
+> > > This will keep the new value is always in a not empty fifo, and can be
+> > > wait to update after a period finished.
+> > >=20
+> > > Limitation:
+> > > This workaround can only solve this issue when the PWM period is long=
+er
+> > > than 2us(or <500KHz).
+> > >=20
+> > > Reviewed-by: Jun Li <jun.li@nxp.com>
+> > > Signed-off-by: Clark Wang <xiaoning.wang@nxp.com>
+> > > Link: https://github.com/nxp-imx/linux-imx/commit/16181cc4eee61d87cba=
+ba0e5a479990507816317
+> > > Tested-by: Pratik Manvar <pratik.manvar@ifm.com>
+> > > Signed-off-by: Pratik Manvar <pratik.manvar@ifm.com>
+> > A very similar patch was already send in 2021 [1], did it had review
+> > comments not addressed? Please have a look.
+> >=20
+> > In general please refrain from sending a new patch version every other
+> > day, while every Linux kernel subsystem has different rules and a
+> > difference pace of development, in this specific case sending a v3 just
+> > adding your signed-off-by without allowing a little bit of time to wait
+> > for more feedback is just not sane.
+> >=20
+> > [1] https://lore.kernel.org/all/?q=3Ddfn%3Adrivers%2Fpwm%2Fpwm-imx27.c+=
+AND+b%3A%22Clark+Wang%22
+> thank you, this is very helpful. Unfortunately i don't have the
+> knowledge and resources to continue this work.
+>=20
+> @Uwe It seems that you were able to reproduce this issue. Is it possible
+> to trigger this via sysfs and some kind of script?
 
+When I read through the linked thread I was surprised to read that I
+could reproduce it. My best guess is that I did that using a long period
+and an LED connected to the PWM's output to make the effect easily visible.
+Something like: Configure for
 
->    fs/proc/task_mmu.c:143:45: sparse:     expected struct file [noderef] =
-__rcu **f
->    fs/proc/task_mmu.c:143:45: sparse:     got struct file **
->    fs/proc/task_mmu.c: note: in included file (through include/linux/rbtr=
-ee.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
->    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in '=
-get_vma_snapshot' - unexpected unlock
->    fs/proc/task_mmu.c:264:22: sparse: sparse: context imbalance in 'm_sta=
-rt' - different lock contexts for basic block
->    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in '=
-m_stop' - unexpected unlock
->    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in '=
-smaps_pte_range' - unexpected unlock
->    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in '=
-clear_refs_pte_range' - unexpected unlock
->    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in '=
-pagemap_pmd_range' - unexpected unlock
->    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in '=
-pagemap_scan_pmd_entry' - unexpected unlock
->    fs/proc/task_mmu.c: note: in included file (through arch/x86/include/a=
-sm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
->    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes =
-address space '__user' of expression
->    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes =
-address space '__user' of expression
->
-> vim +143 fs/proc/task_mmu.c
->
->    132
->    133  /*
->    134   * Take VMA snapshot and pin vm_file and anon_name as they are us=
-ed by
->    135   * show_map_vma.
->    136   */
->    137  static int get_vma_snapshot(struct proc_maps_private *priv, struc=
-t vm_area_struct *vma)
->    138  {
->    139          struct vm_area_struct *copy =3D &priv->vma_copy;
->    140          int ret =3D -EAGAIN;
->    141
->    142          memcpy(copy, vma, sizeof(*vma));
->  > 143          if (copy->vm_file && !get_file_rcu(&copy->vm_file))
->    144                  goto out;
->    145
->    146          if (!anon_vma_name_get_if_valid(copy))
->    147                  goto put_file;
->    148
->    149          if (priv->mm_wr_seq =3D=3D mmap_write_seq_read(priv->mm))
->    150                  return 0;
->    151
->    152          /* Address space got modified, vma might be stale. Wait a=
-nd retry. */
->    153          rcu_read_unlock();
->    154          ret =3D mmap_read_lock_killable(priv->mm);
->    155          mmap_write_seq_record(priv->mm, &priv->mm_wr_seq);
->    156          mmap_read_unlock(priv->mm);
->    157          rcu_read_lock();
->    158
->    159          if (!ret)
->    160                  ret =3D -EAGAIN; /* no other errors, ok to retry =
-*/
->    161
->    162          anon_vma_name_put_if_valid(copy);
->    163  put_file:
->    164          if (copy->vm_file)
->    165                  fput(copy->vm_file);
->    166  out:
->    167          return ret;
->    168  }
->    169
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+	.duty_cycle =3D 1s, .period =3D 5s
+
+and change that to
+
+	.duty_cycle =3D 0s, .period =3D 5s
+
+(e.g. using sysfs) when the output got high.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--aqzalxdjxdebfp4u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWy0nMACgkQj4D7WH0S
+/k568QgAl9kR2hZ1RP9qsAlpFKv1pbgAqj8Cm2Q2SnZ6jmVmw6pEQHAiJ+kjKr7u
+XtaA2sUd05WCawm4997HKGx7KRoJAdjzyiLB6MIsvWGjP2IV8rVNMXejmXPRZ92h
+VyRGn1U6OeExVQnm+MkVCpDzQEZlHuMVzBUojTvzxip69IylIZ23QmUOWFJfYVFT
+LcA/fNE0MjoYqYdqw9Me87u8fuN5wHyGTIGGKjRdKWP0YV/6NeJKM1fRuYMqXXEw
+7+FFg7NwQ7mh5PyloJ1Phjh0ZsTiwbBIJHD35Sdogj6tIrGoNv9DQpG7cHUo8jSI
+/GzzhiotZlzTOU7JfVKxg2nEnwYPJA==
+=Tkun
+-----END PGP SIGNATURE-----
+
+--aqzalxdjxdebfp4u--
