@@ -1,54 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA74D287;
-	Thu, 25 Jan 2024 05:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24C27489
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 06:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706161772; cv=none; b=V5bQJspCWNPn+djfo6yEXBKF+9qsfjND15HsOjZr9VH6TSc0b91CqMQkQAhO22llGBz1vtaUqGGKSLEN+uK+0vaGaxrBSox0K0x6E3ifZndU9jdFkb1SR0rupCDLDJQrR3l/i8yP1oUb03YExRA93GwcqhvRy9geWffm+jhbqes=
+	t=1706162431; cv=none; b=Xn8b47Lhj+RWIyoANDLH+jHSiDWE0J6fnnyOEHlt0KBfePb2VBNqof3LYxNfy+Ar2OEdhD9eH6yWOfcmxoswsktncxHAUBVpmAMSiLVfbV/uWFrYlpFA2VRT4ZSz/GsuokHPdQnzRiqftiAfzLTWWoo4XnicoVdgNdr0jW6YkyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706161772; c=relaxed/simple;
-	bh=9nqP8U2FAvfBDhRxGvzjTT067AHdn1rB9S9ofcZE6KE=;
+	s=arc-20240116; t=1706162431; c=relaxed/simple;
+	bh=3lodQRCPmp7mKyG56AS3ewvIJIEBZ4t8IlIjCbIpl3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YfO0vSWeaoSTfjulFOaoKynCJmNma6BjtfbmhYKg34BCFZywqhULvDsLtaHg5GXAL3idZTH6UMuJb34WiNWWpF8oxQgL+ntBzImvk/nRRz1No/IZjUthZFI7ec4ifXjaS6V95948+U9/dAzYhNcyI69calU2hdxUlYj9o5CSNCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bPu84B1L; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=pEXLLX8WBKSVhUljJxlZjKGD7+ViQ3RJbgSiXQgnAj4/owXSuiLVmV0PEa4sOJ/zITvBF8scMowIPodQaUK7SMSGloOWbZ5/POxjA9GDqiSmlgRBRH58g0S+Hvulk8Xbi88RB8p/nVm6WikdnOtM6zcRvccAeHit0yq5kF03UOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3UCW1q/; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPu84B1L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W3UCW1q/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706161770; x=1737697770;
+  t=1706162430; x=1737698430;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9nqP8U2FAvfBDhRxGvzjTT067AHdn1rB9S9ofcZE6KE=;
-  b=bPu84B1LUj/7uPCAlgrmaOlnLNwydvg6mtyUXN0A6E/vgeUX2GpUhrXA
-   X8mYbl1FwuoI63aacAWATnZGzbTTLH7ocgeyVaFXD1qcjn5MyTmsBCykQ
-   SNnX8yU5dkdY8Jd8Nc4j08IFL5JuuxSFyuscfBLngfhvSxTP3I806EJs9
-   jiEyw10IkpfANJvvWaQK8Aeyvvfk07BRU22Zd3m4xQ8wXnw6bUms+RxSe
-   mwY/wNBtLh2ZktB1BH2PCAf8N2YgCqQQOmTYclyyDHJvoATPB4t2GfAIE
-   mIMXm2kanlsd9nF+q4jr1fVRYct73UvGgfnsSzwaOFFbf810MDsFr5SIZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8742314"
+  bh=3lodQRCPmp7mKyG56AS3ewvIJIEBZ4t8IlIjCbIpl3M=;
+  b=W3UCW1q/df8aBI0bUaGyBt6CZZs897RXPLs1yBxRVokZRp39MzqFqVwo
+   uaO/J5W8znoUYLLX8wDGeL5UAxI7ktzcRo35paeBl/RW/xoL8BuKx7ZfQ
+   mZLLGPSy42ACagsTkNSvtV3+dy/PUkPyGfNT9jYUUcEJIODnPMMYWfSxo
+   357RdHlu9W9RydO8aAyh9IV+8UX18EKqdAvS+luxbIMD8MrBzca3AmjT6
+   EAtQEYVUwH9mo0JIVIY2NxfOJi2BldUlB6VZVaDCXOfw8aoxyqf1lGUgs
+   H1rkKtwN9LjgH4d6oZswCPysPsLkJkQfpnrdNnolohgTGXsifHwnL2b4r
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1913838"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="8742314"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 21:49:28 -0800
+   d="scan'208";a="1913838"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 22:00:29 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="820693470"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="20949759"
+   d="scan'208";a="820693470"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Jan 2024 21:49:26 -0800
+  by orsmga001.jf.intel.com with ESMTP; 24 Jan 2024 22:00:26 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rSsc8-0008kV-0c;
-	Thu, 25 Jan 2024 05:49:24 +0000
-Date: Thu, 25 Jan 2024 13:48:55 +0800
+	id 1rSsmm-0008l7-1W;
+	Thu, 25 Jan 2024 06:00:24 +0000
+Date: Thu, 25 Jan 2024 14:00:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ardb:for-kernelci 4/4] error[E0425]: cannot find function `_printk`
- in crate `bindings`
-Message-ID: <202401251312.nsg1mLWn-lkp@intel.com>
+To: Ping-Ke Shih <pkshih@realtek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kalle Valo <kvalo@kernel.org>
+Subject: drivers/net/wireless/realtek/rtw89/pci.c:211:5-8: Unneeded variable:
+ "cnt". Return "  1" on line 273
+Message-ID: <202401251333.zQQf7lDL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,103 +60,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git for-kernelci
-head:   1e140a96e8ce220d86926c91c3985f13ac88d816
-commit: 1e140a96e8ce220d86926c91c3985f13ac88d816 [4/4] x86: Build the core kernel with position independent codegen
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240125/202401251312.nsg1mLWn-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251312.nsg1mLWn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6098d87eaf31f48153c984e2adadf14762520a87
+commit: 7ba49f4c6896d83b3841c0b046a0a7b1e97cc0dd rtw89: 8852c: add 8852ce to Makefile and Kconfig
+date:   1 year, 9 months ago
+config: parisc-randconfig-r053-20240114 (https://download.01.org/0day-ci/archive/20240125/202401251333.zQQf7lDL-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401251312.nsg1mLWn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401251333.zQQf7lDL-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/realtek/rtw89/pci.c:211:5-8: Unneeded variable: "cnt". Return "  1" on line 273
 
->> warning: unused import: `super::bindings_raw::*`
-   --> rust/bindings/lib.rs:43:9
-   |
-   43 |     use super::bindings_raw::*;
-   |         ^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: `#[warn(unused_imports)]` on by default
---
->> error[E0425]: cannot find function `_printk` in crate `bindings`
-   --> rust/kernel/print.rs:111:19
-   |
-   111 |         bindings::_printk(
-   |                   ^^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `_printk` in crate `bindings`
-   --> rust/kernel/print.rs:132:19
-   |
-   132 |         bindings::_printk(
-   |                   ^^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `strlen` in crate `bindings`
-   --> rust/kernel/str.rs:101:38
-   |
-   101 |         let len = unsafe { bindings::strlen(ptr) } + 1;
-   |                                      ^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `memchr` in crate `bindings`
-   --> rust/kernel/str.rs:575:38
-   |
-   575 |         let ptr = unsafe { bindings::memchr(buf.as_ptr().cast(), 0, (f.bytes_written() - 1) as _) };
-   |                                      ^^^^^^ not found in `bindings`
-   |
-   help: consider importing this function
-   |
-   5   + use core::slice::memchr::memchr;
-   |
-   help: if you import `memchr`, refer to it directly
-   |
-   575 -         let ptr = unsafe { bindings::memchr(buf.as_ptr().cast(), 0, (f.bytes_written() - 1) as _) };
-   575 +         let ptr = unsafe { memchr(buf.as_ptr().cast(), 0, (f.bytes_written() - 1) as _) };
-   |
---
->> error[E0425]: cannot find function, tuple struct or tuple variant `REFCOUNT_INIT` in crate `bindings`
-   --> rust/kernel/sync/arc.rs:169:54
-   |
-   169 |             refcount: Opaque::new(unsafe { bindings::REFCOUNT_INIT(1) }),
-   |                                                      ^^^^^^^^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `refcount_inc` in crate `bindings`
-   --> rust/kernel/sync/arc.rs:324:28
-   |
-   324 |         unsafe { bindings::refcount_inc(self.ptr.as_ref().refcount.get()) };
-   |                            ^^^^^^^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `refcount_dec_and_test` in crate `bindings`
-   --> rust/kernel/sync/arc.rs:342:42
-   |
-   342 |         let is_zero = unsafe { bindings::refcount_dec_and_test(refcount) };
-   |                                          ^^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function, tuple struct or tuple variant `REFCOUNT_INIT` in crate `bindings`
-   --> rust/kernel/sync/arc.rs:573:54
-   |
-   573 |             refcount: Opaque::new(unsafe { bindings::REFCOUNT_INIT(1) }),
-   |                                                      ^^^^^^^^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `__init_waitqueue_head` in crate `bindings`
-   --> rust/kernel/sync/condvar.rs:100:27
-   |
-   100 |                 bindings::__init_waitqueue_head(slot, name.as_char_ptr(), key.as_ptr())
-   |                           ^^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
---
->> error[E0425]: cannot find function `init_wait` in crate `bindings`
-   --> rust/kernel/sync/condvar.rs:109:28
-   |
-   109   |         unsafe { bindings::init_wait(wait.get()) };
-   |                            ^^^^^^^^^ help: a static with a similar name exists: `init_task`
-   |
-   ::: rust/bindings/bindings_generated.rs:24737:5
-   |
-   24737 |     pub static mut init_task: task_struct;
-   |     ------------------------------------- similarly named static `init_task` defined here
-..
+vim +211 drivers/net/wireless/realtek/rtw89/pci.c
+
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  200  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  201  static u32 rtw89_pci_rxbd_deliver_skbs(struct rtw89_dev *rtwdev,
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  202  				       struct rtw89_pci_rx_ring *rx_ring)
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  203  {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  204  	struct rtw89_pci_dma_ring *bd_ring = &rx_ring->bd_ring;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  205  	struct rtw89_pci_rx_info *rx_info;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  206  	struct rtw89_rx_desc_info *desc_info = &rx_ring->diliver_desc;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  207  	struct sk_buff *new = rx_ring->diliver_skb;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  208  	struct sk_buff *skb;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  209  	u32 rxinfo_size = sizeof(struct rtw89_pci_rxbd_info);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  210  	u32 offset;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11 @211  	u32 cnt = 1;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  212  	bool fs, ls;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  213  	int ret;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  214  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  215  	skb = rx_ring->buf[bd_ring->wp];
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  216  	rtw89_pci_sync_skb_for_cpu(rtwdev, skb);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  217  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  218  	ret = rtw89_pci_rxbd_info_update(rtwdev, skb);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  219  	if (ret) {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  220  		rtw89_err(rtwdev, "failed to update %d RXBD info: %d\n",
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  221  			  bd_ring->wp, ret);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  222  		goto err_sync_device;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  223  	}
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  224  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  225  	rx_info = RTW89_PCI_RX_SKB_CB(skb);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  226  	fs = rx_info->fs;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  227  	ls = rx_info->ls;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  228  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  229  	if (fs) {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  230  		if (new) {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  231  			rtw89_err(rtwdev, "skb should not be ready before first segment start\n");
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  232  			goto err_sync_device;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  233  		}
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  234  		if (desc_info->ready) {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  235  			rtw89_warn(rtwdev, "desc info should not be ready before first segment start\n");
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  236  			goto err_sync_device;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  237  		}
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  238  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  239  		rtw89_core_query_rxdesc(rtwdev, desc_info, skb->data, rxinfo_size);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  240  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  241  		new = dev_alloc_skb(desc_info->pkt_size);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  242  		if (!new)
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  243  			goto err_sync_device;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  244  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  245  		rx_ring->diliver_skb = new;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  246  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  247  		/* first segment has RX desc */
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  248  		offset = desc_info->offset;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  249  		offset += desc_info->long_rxdesc ? sizeof(struct rtw89_rxdesc_long) :
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  250  			  sizeof(struct rtw89_rxdesc_short);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  251  	} else {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  252  		offset = sizeof(struct rtw89_pci_rxbd_info);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  253  		if (!new) {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  254  			rtw89_warn(rtwdev, "no last skb\n");
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  255  			goto err_sync_device;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  256  		}
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  257  	}
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  258  	if (!rtw89_skb_put_rx_data(rtwdev, fs, ls, new, skb, offset, rx_info, desc_info))
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  259  		goto err_sync_device;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  260  	rtw89_pci_sync_skb_for_device(rtwdev, skb);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  261  	rtw89_pci_rxbd_increase(rx_ring, 1);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  262  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  263  	if (!desc_info->ready) {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  264  		rtw89_warn(rtwdev, "no rx desc information\n");
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  265  		goto err_free_resource;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  266  	}
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  267  	if (ls) {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  268  		rtw89_core_rx(rtwdev, desc_info, new);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  269  		rx_ring->diliver_skb = NULL;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  270  		desc_info->ready = false;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  271  	}
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  272  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11 @273  	return cnt;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  274  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  275  err_sync_device:
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  276  	rtw89_pci_sync_skb_for_device(rtwdev, skb);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  277  	rtw89_pci_rxbd_increase(rx_ring, 1);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  278  err_free_resource:
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  279  	if (new)
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  280  		dev_kfree_skb_any(new);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  281  	rx_ring->diliver_skb = NULL;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  282  	desc_info->ready = false;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  283  
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  284  	return cnt;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  285  }
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  286  
+
+:::::: The code at line 211 was first introduced by commit
+:::::: e3ec7017f6a20d12ddd9fe23d345ebb7b8c104dd rtw89: add Realtek 802.11ax driver
+
+:::::: TO: Ping-Ke Shih <pkshih@realtek.com>
+:::::: CC: Kalle Valo <kvalo@codeaurora.org>
 
 -- 
 0-DAY CI Kernel Test Service
