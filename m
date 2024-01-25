@@ -1,146 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB83811CB7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 07:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9935012B9F;
+	Thu, 25 Jan 2024 07:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706167053; cv=none; b=JlqZyy0tC/3UMDq+5YAmg4OTcP8Mi5eG5RK/PhbsZnLtR3d6FsTtMn73NSCnaCK5txNU6m0v97/BneuggKIsfWWdduyhjoLyXWusfnt9UiSnAF9nrFeHM8gZCfljT7si4lSCyc8/4o7mTaujuRZKC/xpCVnvJhv/FxQUOX9Y+eQ=
+	t=1706168977; cv=none; b=J9GVRzOpXsFVKG2sA1cx2M1dNnZU5l4Bz3eP5D31CjlK3xthlb2ybx7Lob4daEjkVw3NgE3T8JvBZ/2xKxZREkbvEc5a52KkboUxRcxhMyenFAl8yZRp4ZNV20c69k0X3k86NU/hf/XsQ3Rw6+jk4QBSiG/BeJpyhqia17z69A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706167053; c=relaxed/simple;
-	bh=f/RMkRVOptc28qyMX9OnEMVoIj3pdYTxR/+lGtFf9Zk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dmq870V7Rb7zjH29wu2XCoytIk4yAOm34VSOdQ6coh3i56ry10nlSB3fijNsw606ZL09MRONJ8FxpOPSKvG5GbKE0wZkx2Oj6BfqTxOb3zC3Lkc1yh4OSYk1BYZxCpQyh+OapEY3NWKeJHJva2TDmHXWoKDwlufNhr4WA+ECjIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LF2NmCT9; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1706168977; c=relaxed/simple;
+	bh=tvVQC6bKbRYwoc6zCi3NNb3YQNwhsbnkjv3FCGZzQOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BjNaahFAcXOl/PLiFewB3fnSgAMSlfPToO1hB0gOuSXdcxaMIRocn6borc321Ak5giXG5Mlql7pZ1CGIwhpgm3Wkl0nNF0oSzAhsXZah2DSDN/EEYsyqH9BMECEfdEyyKOFdn+LNL3oRO2IN0qQmLNjv/TQPxUa12/TiYskCXYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OVMXGRmy; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LF2NmCT9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OVMXGRmy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706167052; x=1737703052;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f/RMkRVOptc28qyMX9OnEMVoIj3pdYTxR/+lGtFf9Zk=;
-  b=LF2NmCT9JjMsBp1D20H68i88CZDEtcsz1w2udX7YzunCFK1GnFSr3gIv
-   bYp7bYiqtr8HafAZVeBII5iJvBRo8i4X/dSmSQSd7Xg3jcNqZ/0uas3ya
-   ejv2kYTf2t9TWz+idhLN14BKRpUfWjUc2VMLaDcAHPpCm9JCuL/fY7TSG
-   pfcKpMupPwMuoZDX/ZJPkeJPXg9nft4RQYu+1odCiwUz8Xh8Hbd4Md3Au
-   x3ic3IfglRLVnvSztMFUHxazEpn82ozCfoah+/ecOTnhKw/zHngplf1No
-   G4uPKIENjTJ4hLYDhXPBXbfQK/8ma+qeiA6sToQjAeQ3l+Ms4P8x8nM4X
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="9196153"
+  t=1706168976; x=1737704976;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tvVQC6bKbRYwoc6zCi3NNb3YQNwhsbnkjv3FCGZzQOA=;
+  b=OVMXGRmy1KQsG/LzCsklUdfWUcwmFjaLM7rqKJtvMwvAKaCosIW0KEUF
+   Ri5tOBsurOUH4dqzso8Gh5xrO/uNzPut2MHg0Vb2+USp4uL7s4h7jjI8M
+   BbcYt+CCdetiU1EWK2IoQmDIsE7yu4Ap5XDw/07uJNSr45mKwmErWD1z1
+   q0I7vrT5MyJl7BHrJJ9t46SxkCpRW4UUUujsoRzXC3PoCs1/oJYlqiox8
+   IlBzG60o0pJUlxejODkyJMP2Z/VUWO9Hejr7qjSM1mwZGavbbddAXBhF4
+   eNlArEn60f4lfWcEMeJkjqfWtrNo9gwuml3azCh8ZAcuzI8Jkbfj1kfiq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="1931037"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9196153"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 23:17:32 -0800
+   d="scan'208";a="1931037"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 23:49:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="736230442"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="736230442"
+   d="scan'208";a="2190726"
 Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 24 Jan 2024 23:17:29 -0800
+  by orviesa003.jf.intel.com with ESMTP; 24 Jan 2024 23:49:31 -0800
 Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rStzL-0008pR-28;
-	Thu, 25 Jan 2024 07:17:27 +0000
-Date: Thu, 25 Jan 2024 15:17:14 +0800
+	id 1rSuUK-0008qj-0t;
+	Thu, 25 Jan 2024 07:49:28 +0000
+Date: Thu, 25 Jan 2024 15:49:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukasz Plachno <lukasz.plachno@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH iwl-next v4 2/2] ice: Implement 'flow-type ether' rules
-Message-ID: <202401251536.jUjE8Acc-lkp@intel.com>
-References: <20240124152141.15077-3-lukasz.plachno@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/090-spi-hid 7/21] drivers/hid/hid-magicmouse.c:157:
+ warning: Function parameter or struct member 'input_ops' not described in
+ 'magicmouse_sc'
+Message-ID: <202401251544.xpxFx8Dj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240124152141.15077-3-lukasz.plachno@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Lukasz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tnguy-next-queue/dev-queue]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Plachno/ice-Remove-unnecessary-argument-from-ice_fdir_comp_rules/20240125-054019
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20240124152141.15077-3-lukasz.plachno%40intel.com
-patch subject: [PATCH iwl-next v4 2/2] ice: Implement 'flow-type ether' rules
-config: i386-randconfig-001-20240125 (https://download.01.org/0day-ci/archive/20240125/202401251536.jUjE8Acc-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251536.jUjE8Acc-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
+head:   253645613d55bc9e62bb0b1811d009cd987f301f
+commit: 991d9692ce457f94c749787fbf2d2f2bd8bb7bf1 [7/21] HID: magicmouse: use ops function pointers for input functionality
+config: i386-buildonly-randconfig-005-20240124 (https://download.01.org/0day-ci/archive/20240125/202401251544.xpxFx8Dj-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251544.xpxFx8Dj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401251536.jUjE8Acc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401251544.xpxFx8Dj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/ice/ice_ethtool_fdir.c:1237: warning: Function parameter or struct member 'dev' not described in 'ice_set_ether_flow_seg'
+   drivers/hid/hid-magicmouse.c:157: warning: Function parameter or struct member 'pos' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:157: warning: Function parameter or struct member 'hdev' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:157: warning: Function parameter or struct member 'work' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:157: warning: Function parameter or struct member 'battery_timer' not described in 'magicmouse_sc'
+>> drivers/hid/hid-magicmouse.c:157: warning: Function parameter or struct member 'input_ops' not described in 'magicmouse_sc'
 
 
-vim +1237 drivers/net/ethernet/intel/ice/ice_ethtool_fdir.c
+vim +157 drivers/hid/hid-magicmouse.c
 
-  1226	
-  1227	/**
-  1228	 * ice_set_ether_flow_seg
-  1229	 * @seg: flow segment for programming
-  1230	 * @eth_spec: mask data from ethtool
-  1231	 *
-  1232	 * Return: 0 on success and errno in case of error.
-  1233	 */
-  1234	static int ice_set_ether_flow_seg(struct device *dev,
-  1235					  struct ice_flow_seg_info *seg,
-  1236					  struct ethhdr *eth_spec)
-> 1237	{
-  1238		ICE_FLOW_SET_HDRS(seg, ICE_FLOW_SEG_HDR_ETH);
-  1239	
-  1240		/* empty rules are not valid */
-  1241		if (is_zero_ether_addr(eth_spec->h_source) &&
-  1242		    is_zero_ether_addr(eth_spec->h_dest) &&
-  1243		    !eth_spec->h_proto)
-  1244			return -EINVAL;
-  1245	
-  1246		/* Ethertype */
-  1247		if (eth_spec->h_proto == htons(0xFFFF)) {
-  1248			ice_flow_set_fld(seg, ICE_FLOW_FIELD_IDX_ETH_TYPE,
-  1249					 ICE_FLOW_FLD_OFF_INVAL,
-  1250					 ICE_FLOW_FLD_OFF_INVAL,
-  1251					 ICE_FLOW_FLD_OFF_INVAL, false);
-  1252		} else if (eth_spec->h_proto) {
-  1253			dev_warn(dev, "Only 0x0000 or 0xffff proto mask is allowed for flow-type ether");
-  1254			return -EOPNOTSUPP;
-  1255		}
-  1256	
-  1257		/* Source MAC address */
-  1258		if (is_broadcast_ether_addr(eth_spec->h_source))
-  1259			ice_flow_set_fld(seg, ICE_FLOW_FIELD_IDX_ETH_SA,
-  1260					 ICE_FLOW_FLD_OFF_INVAL, ICE_FLOW_FLD_OFF_INVAL,
-  1261					 ICE_FLOW_FLD_OFF_INVAL, false);
-  1262		else if (!is_zero_ether_addr(eth_spec->h_source))
-  1263			goto err_mask;
-  1264	
-  1265		/* Destination MAC address */
-  1266		if (is_broadcast_ether_addr(eth_spec->h_dest))
-  1267			ice_flow_set_fld(seg, ICE_FLOW_FIELD_IDX_ETH_DA,
-  1268					 ICE_FLOW_FLD_OFF_INVAL, ICE_FLOW_FLD_OFF_INVAL,
-  1269					 ICE_FLOW_FLD_OFF_INVAL, false);
-  1270		else if (!is_zero_ether_addr(eth_spec->h_dest))
-  1271			goto err_mask;
-  1272	
-  1273		return 0;
-  1274	
-  1275	err_mask:
-  1276		dev_warn(dev, "Only 00:00:00:00:00:00 or ff:ff:ff:ff:ff:ff MAC address mask is allowed for flow-type ether");
-  1277		return -EOPNOTSUPP;
-  1278	}
-  1279	
+991d9692ce457f Janne Grunau  2021-12-16  122  
+128537cea464d9 Michael Poole 2010-02-06  123  /**
+128537cea464d9 Michael Poole 2010-02-06  124   * struct magicmouse_sc - Tracks Magic Mouse-specific data.
+128537cea464d9 Michael Poole 2010-02-06  125   * @input: Input device through which we report events.
+128537cea464d9 Michael Poole 2010-02-06  126   * @quirks: Currently unused.
+128537cea464d9 Michael Poole 2010-02-06  127   * @ntouches: Number of touches in most recent touch report.
+128537cea464d9 Michael Poole 2010-02-06  128   * @scroll_accel: Number of consecutive scroll motions.
+128537cea464d9 Michael Poole 2010-02-06  129   * @scroll_jiffies: Time of last scroll motion.
+128537cea464d9 Michael Poole 2010-02-06  130   * @touches: Most recent data for a touch, indexed by tracking ID.
+128537cea464d9 Michael Poole 2010-02-06  131   * @tracking_ids: Mapping of current touch input data to @touches.
+128537cea464d9 Michael Poole 2010-02-06  132   */
+128537cea464d9 Michael Poole 2010-02-06  133  struct magicmouse_sc {
+128537cea464d9 Michael Poole 2010-02-06  134  	struct input_dev *input;
+128537cea464d9 Michael Poole 2010-02-06  135  	unsigned long quirks;
+128537cea464d9 Michael Poole 2010-02-06  136  
+128537cea464d9 Michael Poole 2010-02-06  137  	int ntouches;
+128537cea464d9 Michael Poole 2010-02-06  138  	int scroll_accel;
+128537cea464d9 Michael Poole 2010-02-06  139  	unsigned long scroll_jiffies;
+128537cea464d9 Michael Poole 2010-02-06  140  
+089b2bcdbc5e12 Janne Grunau  2021-12-16  141  	struct input_mt_pos pos[MAX_CONTACTS];
+128537cea464d9 Michael Poole 2010-02-06  142  	struct {
+c04266889b5911 Chase Douglas 2010-06-20  143  		short scroll_x;
+128537cea464d9 Michael Poole 2010-02-06  144  		short scroll_y;
+d4b9f10a0eb64c José Expósito 2021-07-07  145  		short scroll_x_hr;
+d4b9f10a0eb64c José Expósito 2021-07-07  146  		short scroll_y_hr;
+128537cea464d9 Michael Poole 2010-02-06  147  		u8 size;
+9d60648c607a2b José Expósito 2021-07-07  148  		bool scroll_x_active;
+9d60648c607a2b José Expósito 2021-07-07  149  		bool scroll_y_active;
+8aff5a2106ccfe Janne Grunau  2021-12-16  150  	} touches[MAX_CONTACTS];
+8aff5a2106ccfe Janne Grunau  2021-12-16  151  	int tracking_ids[MAX_CONTACTS];
+c0dc5582812dfa John Chen     2021-03-30  152  
+c0dc5582812dfa John Chen     2021-03-30  153  	struct hid_device *hdev;
+c0dc5582812dfa John Chen     2021-03-30  154  	struct delayed_work work;
+0b91b4e4dae63c José Expósito 2021-11-18  155  	struct timer_list battery_timer;
+991d9692ce457f Janne Grunau  2021-12-16  156  	struct magicmouse_input_ops input_ops;
+128537cea464d9 Michael Poole 2010-02-06 @157  };
+128537cea464d9 Michael Poole 2010-02-06  158  
+
+:::::: The code at line 157 was first introduced by commit
+:::::: 128537cea464d919febeaea2000e256749f317eb HID: add a device driver for the Apple Magic Mouse.
+
+:::::: TO: Michael Poole <mdpoole@troilus.org>
+:::::: CC: Jiri Kosina <jkosina@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
