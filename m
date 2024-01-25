@@ -1,133 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CAF7EC;
-	Thu, 25 Jan 2024 22:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C1211185
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Jan 2024 22:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706221827; cv=none; b=RNh9VdbxJpwOekQee3phf3JOfPH2mfQGsjqM0xMIX9LnVDCVBazuZQ0hvboAX9UnQcBbemQEmyAso+rRbZsHP93cPcJaY6SielVfjkg2AuQwMNJY15wTz5is2Ezchh5cerT8NoN/6wMh/8M6ehd4oqUJiL+ZWt7fLAmh0XBQKmc=
+	t=1706222681; cv=none; b=gwYfdD+kSYbQyf0TKTzdpuugsabbEeVCAbeqlaqOIdJ3SuQ4mYIjm8LAJXcl1UDC2vESTZbsCO+iPPmG0KGpZiu2+GE+Hcf8Q3VRsk8Lm+FZfZB3bdw6SHDxq9IvoOHMHIctVh46NasqXh8thi2AFnLCoSrOwzPH44/R6PtorF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706221827; c=relaxed/simple;
-	bh=o+K8/I7KsjMILeiYonhcP/n00EIdVaQPmHILADXMNQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WzVdlwGD5n0AGkEt2Zh6H/0Ns4riZmrEHyNa7GrJzRQfEqf5PbQyx9y5ouXdf4S1fIaj8FZALty3QzP9buCya5moCwlYGo74mXQV2KucU4xVzJ68YKSlH6Pt9csoYsSE7XjJGH01g90QaNmTJWpKnLI8kJ+IJQTrWOo4jOaZwsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxDXOHQl; arc=none smtp.client-ip=192.55.52.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706222681; c=relaxed/simple;
+	bh=MbmZRw0OoSK2TGYnDAOcAF9sDnLSYTNnOeQxAbc5tX0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k4Vlb2wUTL6hTrboPOTarzwRIuPcoOakK7TA3yA4NXBF0VkLF9sB5eDH9C11cBFuNMVdMZEAx6MDvOmDPPwp5tfQJ+nsMTYnJ8HpSj5Un/tXUS7kW2o+/MI4HOEkM6vxfAyBTivwkR1XYJQqdN3jTpAy7CONPxVY/Ln3wm4wamo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aNAsNh3a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxDXOHQl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706221825; x=1737757825;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o+K8/I7KsjMILeiYonhcP/n00EIdVaQPmHILADXMNQo=;
-  b=DxDXOHQl77tLmgYJOyRiXw0szpeGb6+rpNv8x8HhBZDQq3NZSTUZr3zZ
-   wbPu17DJcUxEQUGQAmMi9Rcnoo17Wzwyggn08kjPUGtNnIpvWjHNkzynn
-   3Y/k4//mgUTu1QQDsyjsr8uL36tscJ9hT7MQYZZzxWkytNN9/GKQUz8ZQ
-   +sPG7C2Z2m5uGgOF6oB4IgU6/ch8ItwrXRfZRsr310mFpaY8AvWk2h21N
-   VshNkaKlLZdjSCnThGKJjEWGSageWWIvy64tZPMR+JwKYnaKln0EvEjdQ
-   LSXFoeGnvt+arQvA4ZAT/BVqY/TD6JDGn0hdNzLEBTAJ2Sd3qvGH22x1w
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="401977592"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="401977592"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 14:30:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="820941674"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="820941674"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 25 Jan 2024 14:30:21 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rT8El-0000Sa-1D;
-	Thu, 25 Jan 2024 22:30:19 +0000
-Date: Fri, 26 Jan 2024 06:30:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org
-Subject: [tiwai-sound:topic/pm-ops 7/31] sound/pci/als4000.c:947:2: error:
- call to undeclared function 'snd_sbmixer_suspend'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202401260641.blzmb4QO-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aNAsNh3a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B0EAC433C7;
+	Thu, 25 Jan 2024 22:44:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706222680;
+	bh=MbmZRw0OoSK2TGYnDAOcAF9sDnLSYTNnOeQxAbc5tX0=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=aNAsNh3aq3UXXZTVNK/WN01R8HjMwcQxPEhkNU3+HBV1nxdXp68KEbNXo+hszfB+k
+	 TQpD34QjTKAMxUN1I+eHzCcrssskfea1bKkRn/cxS+dIzuagybRRYYsYIOnj0/dkiY
+	 DkMKiSlsWDCZOBW+5VZ9wZcliNT0ykMHnJv8I83aqRVOe07nSyVS44zBQa0Na2HUHT
+	 ymsNg/UHXHQGLUZ/8rFlzxvym1R0uTjtfKIqf5KSoPOesC6IzUMb+9O6N6UZTax3JF
+	 k0rFjCfV/CFRaiHN2ODgGRbKw6DM3fqce2+Coo+WEXg8lcFqpLYSlYmQjH8n2BS5kr
+	 uXrJKVOt0BtZg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 07FC7CE1473; Thu, 25 Jan 2024 14:44:40 -0800 (PST)
+Date: Thu, 25 Jan 2024 14:44:40 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: kernel test robot <lkp@intel.com>, Matthew Wilcox <willy@infradead.org>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [linux-next:master 1589/1892] fs/proc/task_mmu.c:143:45: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <b82c9479-9331-4b31-9fca-3fa963901fe9@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202401251829.0m6Eo4LI-lkp@intel.com>
+ <CAJuCfpHW2=Zu+CHXL+5fjWxGk=CVix=C66ra+DmXgn6r3+fsXg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpHW2=Zu+CHXL+5fjWxGk=CVix=C66ra+DmXgn6r3+fsXg@mail.gmail.com>
 
-Hi Takashi,
+On Thu, Jan 25, 2024 at 01:27:34PM -0800, Suren Baghdasaryan wrote:
+> On Thu, Jan 25, 2024 at 2:23 AM kernel test robot <lkp@intel.com> wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
+> > commit: 0c30c4cd953025979b7689e49844837f762303ec [1589/1892] mm/maps: read proc/pid/maps under RCU
+> > config: x86_64-randconfig-121-20240125 (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/config)
+> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202401251829.0m6Eo4LI-lkp@intel.com/
+> >
+> > sparse warnings: (new ones prefixed by >>)
+> > >> fs/proc/task_mmu.c:143:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
+> 
+> Uh, this is a problem.
+> I missed that get_file_rcu() is used only with mm->exe_file and
+> vma->vm_file is not really RCU-safe. It's freed via a call to fput()
+> which schedules its freeing using schedule_delayed_work(..., 1) but I
+> don't think that constitutes RCU grace period. Paul, Matthew, could
+> you please confirm? In the meantime I'm going to ask Andrew to remove
+> my patchset from mm-unstable to be safe.
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+Sadly, no, schedule_delayed_work() does not imply an RCU grace period.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git topic/pm-ops
-head:   623b2f6110ff118b84628595d53e4947f2883329
-commit: 6dae83b64fac25af472e718bf086b43a1f209674 [7/31] ALSA: als4000: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
-config: i386-randconfig-012-20240125 (https://download.01.org/0day-ci/archive/20240126/202401260641.blzmb4QO-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401260641.blzmb4QO-lkp@intel.com/reproduce)
+There is a queue_rcu_work() that schedules work after a grace period,
+which could be combined with a timer to get the delay.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401260641.blzmb4QO-lkp@intel.com/
+Another approach would be to use get_state_synchronize_rcu() before
+the schedule_delayed_work() in fput(), then do cond_synchronize_rcu()
+in delayed_fput().  This would require adding an unsigned long to
+struct file to keep track of which grace period a given struct file
+needed to wait for.
 
-All errors (new ones prefixed by >>):
+Perhaps something like this:
 
->> sound/pci/als4000.c:947:2: error: call to undeclared function 'snd_sbmixer_suspend'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     947 |         snd_sbmixer_suspend(chip);
-         |         ^
-   sound/pci/als4000.c:947:2: note: did you mean 'snd_sbmixer_read'?
-   include/sound/sb.h:288:15: note: 'snd_sbmixer_read' declared here
-     288 | unsigned char snd_sbmixer_read(struct snd_sb *chip, unsigned char reg);
-         |               ^
->> sound/pci/als4000.c:959:2: error: call to undeclared function 'snd_sbmixer_resume'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     959 |         snd_sbmixer_resume(chip);
-         |         ^
-   sound/pci/als4000.c:959:2: note: did you mean 'snd_sbmixer_read'?
-   include/sound/sb.h:288:15: note: 'snd_sbmixer_read' declared here
-     288 | unsigned char snd_sbmixer_read(struct snd_sb *chip, unsigned char reg);
-         |               ^
-   2 errors generated.
+------------------------------------------------------------------------
 
+void fput(struct file *file)
+{
+	if (atomic_long_dec_and_test(&file->f_count)) {
+		struct task_struct *task = current;
 
-vim +/snd_sbmixer_suspend +947 sound/pci/als4000.c
+		if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
+			init_task_work(&file->f_rcuhead, ____fput);
+			if (!task_work_add(task, &file->f_rcuhead, TWA_RESUME))
+				return;
+			/*
+			 * After this task has run exit_task_work(),
+			 * task_work_add() will fail.  Fall through to delayed
+			 * fput to avoid leaking *file.
+			 */
+		}
 
-d616a0246da88d Takashi Iwai 2022-04-12  938  
-68cb2b55927885 Takashi Iwai 2012-07-02  939  static int snd_als4000_suspend(struct device *dev)
-703529140cfb77 Takashi Iwai 2005-11-17  940  {
-68cb2b55927885 Takashi Iwai 2012-07-02  941  	struct snd_card *card = dev_get_drvdata(dev);
-703529140cfb77 Takashi Iwai 2005-11-17  942  	struct snd_card_als4000 *acard = card->private_data;
-703529140cfb77 Takashi Iwai 2005-11-17  943  	struct snd_sb *chip = acard->chip;
-703529140cfb77 Takashi Iwai 2005-11-17  944  
-703529140cfb77 Takashi Iwai 2005-11-17  945  	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
-703529140cfb77 Takashi Iwai 2005-11-17  946  	
-703529140cfb77 Takashi Iwai 2005-11-17 @947  	snd_sbmixer_suspend(chip);
-703529140cfb77 Takashi Iwai 2005-11-17  948  	return 0;
-703529140cfb77 Takashi Iwai 2005-11-17  949  }
-703529140cfb77 Takashi Iwai 2005-11-17  950  
-68cb2b55927885 Takashi Iwai 2012-07-02  951  static int snd_als4000_resume(struct device *dev)
-703529140cfb77 Takashi Iwai 2005-11-17  952  {
-68cb2b55927885 Takashi Iwai 2012-07-02  953  	struct snd_card *card = dev_get_drvdata(dev);
-703529140cfb77 Takashi Iwai 2005-11-17  954  	struct snd_card_als4000 *acard = card->private_data;
-703529140cfb77 Takashi Iwai 2005-11-17  955  	struct snd_sb *chip = acard->chip;
-703529140cfb77 Takashi Iwai 2005-11-17  956  
-703529140cfb77 Takashi Iwai 2005-11-17  957  	snd_als4000_configure(chip);
-703529140cfb77 Takashi Iwai 2005-11-17  958  	snd_sbdsp_reset(chip);
-703529140cfb77 Takashi Iwai 2005-11-17 @959  	snd_sbmixer_resume(chip);
-703529140cfb77 Takashi Iwai 2005-11-17  960  
+		file->f_rcu_seq = get_state_synchronize_rcu();
+		if (llist_add(&file->f_llist, &delayed_fput_list))
+			schedule_delayed_work(&delayed_fput_work, 1);
+	}
+}
 
-:::::: The code at line 947 was first introduced by commit
-:::::: 703529140cfb774366b839f38f027f283cb948b4 [ALSA] als4000 - Add PM support
+------------------------------------------------------------------------
 
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Jaroslav Kysela <perex@suse.cz>
+And this:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+------------------------------------------------------------------------
+
+static void delayed_fput(struct work_struct *unused)
+{
+	struct llist_node *node = llist_del_all(&delayed_fput_list);
+	struct file *f, *t;
+
+	llist_for_each_entry_safe(f, t, node, f_llist) {
+		cond_synchronize_rcu(f->f_rcu_seq);
+		__fput(f);
+	}
+}
+
+------------------------------------------------------------------------
+
+Note that if you called fput() on a long sequence of struct file
+structures, the cond_synchronize_rcu() would be a near-noop almost all the
+time, actually blocking at most about every once per every few jiffies.
+After all, once a grace period has been waited for, it covers all of
+the struct file structures that were passed to fput() during a given
+RCU grace period.
+
+Still, it would add the occasional delay.  And it would increase the
+size of struct file, though there are workarounds for that, if size
+is an issue.
+
+Thoughts?
+
+							Thanx, Paul
+
+> >    fs/proc/task_mmu.c:143:45: sparse:     expected struct file [noderef] __rcu **f
+> >    fs/proc/task_mmu.c:143:45: sparse:     got struct file **
+> >    fs/proc/task_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+> >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'get_vma_snapshot' - unexpected unlock
+> >    fs/proc/task_mmu.c:264:22: sparse: sparse: context imbalance in 'm_start' - different lock contexts for basic block
+> >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'm_stop' - unexpected unlock
+> >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'smaps_pte_range' - unexpected unlock
+> >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'clear_refs_pte_range' - unexpected unlock
+> >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_pmd_range' - unexpected unlock
+> >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_scan_pmd_entry' - unexpected unlock
+> >    fs/proc/task_mmu.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
+> >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+> >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+> >
+> > vim +143 fs/proc/task_mmu.c
+> >
+> >    132
+> >    133  /*
+> >    134   * Take VMA snapshot and pin vm_file and anon_name as they are used by
+> >    135   * show_map_vma.
+> >    136   */
+> >    137  static int get_vma_snapshot(struct proc_maps_private *priv, struct vm_area_struct *vma)
+> >    138  {
+> >    139          struct vm_area_struct *copy = &priv->vma_copy;
+> >    140          int ret = -EAGAIN;
+> >    141
+> >    142          memcpy(copy, vma, sizeof(*vma));
+> >  > 143          if (copy->vm_file && !get_file_rcu(&copy->vm_file))
+> >    144                  goto out;
+> >    145
+> >    146          if (!anon_vma_name_get_if_valid(copy))
+> >    147                  goto put_file;
+> >    148
+> >    149          if (priv->mm_wr_seq == mmap_write_seq_read(priv->mm))
+> >    150                  return 0;
+> >    151
+> >    152          /* Address space got modified, vma might be stale. Wait and retry. */
+> >    153          rcu_read_unlock();
+> >    154          ret = mmap_read_lock_killable(priv->mm);
+> >    155          mmap_write_seq_record(priv->mm, &priv->mm_wr_seq);
+> >    156          mmap_read_unlock(priv->mm);
+> >    157          rcu_read_lock();
+> >    158
+> >    159          if (!ret)
+> >    160                  ret = -EAGAIN; /* no other errors, ok to retry */
+> >    161
+> >    162          anon_vma_name_put_if_valid(copy);
+> >    163  put_file:
+> >    164          if (copy->vm_file)
+> >    165                  fput(copy->vm_file);
+> >    166  out:
+> >    167          return ret;
+> >    168  }
+> >    169
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
