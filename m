@@ -1,124 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBC620335;
-	Fri, 26 Jan 2024 17:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2642219E0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 18:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706291951; cv=none; b=ZnOBhc6st0QmsTpHPijkZAw8ccMAnm4+BS2xKL/DGNysARyhly8w+6XVzh8bwbFEJmr6z44PbEEBRzY0O4KZ5vWB3qTVf6Z6WxE3eqOmQevmGqqnRfc5Vqd+v35ZABP28wu+HeEEMLWWAIvXGW/XrMcTY8fPH6m2UFXuOvcCVhM=
+	t=1706293955; cv=none; b=PWbGTR7XM37EpXM2KrDo3gg9DXaReuJy2wMtMo2HhHoik3dWxPUnEk54odwuocAx1PKtggCODMxyGTlDk5aq4rtsBw98TuZNSzkRz2s2Ud/6zg6oG2AiuiKXsjSwcocYzoLRUxvyzWH5mKFU4R3fPJUeLJmcU78xIvblRO3vqHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706291951; c=relaxed/simple;
-	bh=4sDsNArP+DbxlQg3IFbkQzmVRN0Zs38ei5gJJdV43Uc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fAOYdXmS4M0wTEwgGsQ6FJvylrf3Kf3TnV6p3ToH8BpTNY9uKTr322gwxfsy+F1wezIIDWSGGvoXPgSkTCb+le4Uf3X9v9ZtRKkt3TNE3LbpBv6jho/4Ushi+s3qShmoPfJqlkGleeBBBn8k6rqoPCUJ2fQlAJeCX5nO0GA695s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RpkoSZIW; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706293955; c=relaxed/simple;
+	bh=/ynplVXB9D0lQMrwvL0RYA2GAwgK3HJc6DTbfKf3ZOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Etf4H5g6lFk8u5kufh7VJckb1JBzc8fz0WqRDCQKJm5WjiWM32GJLaklu2EAoaF3fxjbD0lcTXTOWnJsd1oXcDM7M2OMgS2Li/7+LNw5BaccdqH8n/6FcurLQafzlr5BeC9RdhN3VjfevQE+7s6HfFMBnpffP8IZdFyDeCTq8oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CoF25UR1; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpkoSZIW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706291949; x=1737827949;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4sDsNArP+DbxlQg3IFbkQzmVRN0Zs38ei5gJJdV43Uc=;
-  b=RpkoSZIW1z1asYo8YLAwwb2QTHp0Dtn3wbe9bUTUMdrLrE2iqrWhzT8G
-   d1oD1ka8Hu2Kf4eaK0eSNyVfNlChULgXv8dzdrhNqlHJKkuaLRN05/USs
-   8Sv/YwyyW5pYGAyndZ4orXGNsgayIRxPAtqQWwi9gPugsvW9UdtjNx/RN
-   es3wT33pTyfIjsqooIFHxvWSlaQriNiaCsEyoGnEmms67uAZsNu47M/sv
-   sDsRwFawAJFWm10SUhjf959GuehKuEhUEuoxXYiGY2CTSUeNpzc2IU5aX
-   zsz5S3jab/h+JjSXOmvETgXrWL8EQGOCj5OUOaaRb+nSljiQTDzhfMHXB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="21075845"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="21075845"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 09:59:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2798072"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Jan 2024 09:59:05 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rTQTn-0001Fs-0P;
-	Fri, 26 Jan 2024 17:59:03 +0000
-Date: Sat, 27 Jan 2024 01:58:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:guest-tpm 5/6] drivers/char/tpm/tpm_tdx.c:175: warning:
- Function parameter or struct member 'tdvmcall_status' not described in
- 'tdx_tpm_msg_resp'
-Message-ID: <202401270147.6zANIFto-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CoF25UR1"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5d3907ff128so614358a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 10:32:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1706293953; x=1706898753; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MsKZ2dis8esREWVtzGB6O1bHoRc80ZxuQCGL9DFhV1A=;
+        b=CoF25UR1f03J3ZBeWxrndvv3aM6025in5dkNCuTru+NKja5ZRhvwNWAIZZXQd+DOhy
+         uxIaZpvDL5mi4yAmAu7BPC1HutPkoKpQdEoUV7gX9Znh2JzgbxrFGjtNeHlYnVuC1XuC
+         2I8JFFlVyOGINFR8KxGZm3uekCwwpY6Nz3a9M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706293953; x=1706898753;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MsKZ2dis8esREWVtzGB6O1bHoRc80ZxuQCGL9DFhV1A=;
+        b=nAhbOjeUv+FvdluuivJwzjApk/9xvg42yvvRaKRWwV3BRS8sELjjr+jzaeXxZM7eWO
+         KCecrX3aBD/p4JcWD0DLx3nY837dZ4NxsZ4XwwSDrvbnw0LXOI7syCu8NUMB/LIUhXT2
+         CPzdJoQ7j9oTnrn/FrajiZjudAt2brlvqgObK/MQ3+5wtPOfDS0BGZgEHvEBexXoYxnd
+         eKFJ4JbORT+U297OoBqMELd9F1lmNwKvvoAaSMG9p6JNO0TG4Tl5x9rsboeeQ3ENY+K0
+         Fct8wLJlQ+cqZMRq6IU2Q4n/ALT6h4WwD4rqgj06IkpgvSifEcHRQkrGaeIOjf0XQYfX
+         Lqnw==
+X-Gm-Message-State: AOJu0YzgvP4Kb9mmR5MtD+v2bQEm0c3s0aWjlo0gkNIN0XfqifyDIdNV
+	Mr6pEkmxFpIaB/BM55wozjo8BiSXfrSNp5P7MlKVDIBSvlcnM1OaKIuqlbQ+iA==
+X-Google-Smtp-Source: AGHT+IExgcr4m0TzXBmfFWqyUOb/swwx7h0U0yqAEpY5BnVZRnHIBiQJtLKfdkzs1jRJv+NNMInnVw==
+X-Received: by 2002:a05:6a20:4028:b0:19c:863a:acc6 with SMTP id z40-20020a056a20402800b0019c863aacc6mr119399pze.82.1706293953315;
+        Fri, 26 Jan 2024 10:32:33 -0800 (PST)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id o15-20020a63e34f000000b005c2420fb198sm1423576pgj.37.2024.01.26.10.32.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jan 2024 10:32:32 -0800 (PST)
+Date: Fri, 26 Jan 2024 10:32:32 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [kees:for-next/hardening 2/2] drivers/misc/lkdtm/bugs.c:302:1:
+ warning: 'noreturn' function does return
+Message-ID: <202401261032.562F4D7@keescook>
+References: <202401262204.wUFKRYZF-lkp@intel.com>
+ <CAD=FV=Uc8dPrc++jC=toV+7Tg1VtpFMxBfmTKmg9TEzif1z1CQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=Uc8dPrc++jC=toV+7Tg1VtpFMxBfmTKmg9TEzif1z1CQ@mail.gmail.com>
 
-tree:   https://github.com/intel/tdx.git guest-tpm
-head:   479fce1c3eaa87d98d94d78c485d9a6f0c8dd1fa
-commit: 7c617d6ef79632221c7130359d05912e2405216a [5/6] tpm: Add vTPM TDX support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240127/202401270147.6zANIFto-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270147.6zANIFto-lkp@intel.com/reproduce)
+On Fri, Jan 26, 2024 at 07:58:46AM -0800, Doug Anderson wrote:
+> Hi,
+> 
+> On Fri, Jan 26, 2024 at 6:56 AM kernel test robot <lkp@intel.com> wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
+> > head:   edb6538da3df83806fffcfc1b873d0895c81b9e8
+> > commit: edb6538da3df83806fffcfc1b873d0895c81b9e8 [2/2] lkdtm/bugs: Adjust lkdtm_HUNG_TASK() to avoid tail call optimization
+> > config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240126/202401262204.wUFKRYZF-lkp@intel.com/config)
+> > compiler: mips-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401262204.wUFKRYZF-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202401262204.wUFKRYZF-lkp@intel.com/
+> >
+> > All error/warnings (new ones prefixed by >>):
+> >
+> >    arch/mips/kernel/head.o: in function `__kernel_entry':
+> > >> (.text+0x0): relocation truncated to fit: R_MIPS_26 against `kernel_entry'
+> >    arch/mips/kernel/head.o: in function `smp_bootstrap':
+> > >> (.ref.text+0xd8): relocation truncated to fit: R_MIPS_26 against `start_secondary'
+> >    init/main.o: in function `set_reset_devices':
+> >    main.c:(.init.text+0x10): relocation truncated to fit: R_MIPS_26 against `_mcount'
+> >    main.c:(.init.text+0x18): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+> >    init/main.o: in function `debug_kernel':
+> >    main.c:(.init.text+0x50): relocation truncated to fit: R_MIPS_26 against `_mcount'
+> >    main.c:(.init.text+0x58): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+> >    init/main.o: in function `quiet_kernel':
+> >    main.c:(.init.text+0x90): relocation truncated to fit: R_MIPS_26 against `_mcount'
+> >    main.c:(.init.text+0x98): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+> >    init/main.o: in function `warn_bootconfig':
+> >    main.c:(.init.text+0xd0): relocation truncated to fit: R_MIPS_26 against `_mcount'
+> >    main.c:(.init.text+0xd8): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+> >    init/main.o: in function `init_setup':
+> >    main.c:(.init.text+0x108): additional relocation overflows omitted from the output
+> > --
+> >    drivers/misc/lkdtm/bugs.c: In function 'lkdtm_HUNG_TASK':
+> > >> drivers/misc/lkdtm/bugs.c:302:1: warning: 'noreturn' function does return
+> >      302 | }
+> >          | ^
+> >
+> >
+> > vim +/noreturn +302 drivers/misc/lkdtm/bugs.c
+> >
+> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26  296
+> > edb6538da3df83 drivers/misc/lkdtm/bugs.c Douglas Anderson 2024-01-22  297  static void __noreturn lkdtm_HUNG_TASK(void)
+> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26  298  {
+> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26  299       set_current_state(TASK_UNINTERRUPTIBLE);
+> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26  300       schedule();
+> > edb6538da3df83 drivers/misc/lkdtm/bugs.c Douglas Anderson 2024-01-22  301       BUG_ON(1);
+> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26 @302  }
+> 
+> Ah, I see the problem. MIPS has its own BUG_ON that's an inline
+> function instead of a macro and that means that the compiler can't
+> figure out that my constant condition will always call BUG(). ...this
+> should just be changed to BUG().
+> 
+> Patch fixing this at:
+> 
+> https://lore.kernel.org/r/20240126072852.1.Ib065e528a8620474a72f15baa2feead1f3d89865@changeid
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401270147.6zANIFto-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/char/tpm/tpm_tdx.c:175: warning: Function parameter or struct member 'tdvmcall_status' not described in 'tdx_tpm_msg_resp'
->> drivers/char/tpm/tpm_tdx.c:175: warning: Function parameter or struct member 'service_cmd_status' not described in 'tdx_tpm_msg_resp'
->> drivers/char/tpm/tpm_tdx.c:175: warning: Function parameter or struct member 'rsvd' not described in 'tdx_tpm_msg_resp'
->> drivers/char/tpm/tpm_tdx.c:175: warning: Excess struct member 'rsvd1' description in 'tdx_tpm_msg_resp'
->> drivers/char/tpm/tpm_tdx.c:175: warning: Excess struct member 'rsvd2' description in 'tdx_tpm_msg_resp'
-
-
-vim +175 drivers/char/tpm/tpm_tdx.c
-
-   141	
-   142	/**
-   143	 * struct tdx_tpm_msg_resp - TDX TPM message response format.
-   144	 * @guid: A unique GUID to identify the TDVMCALL service.
-   145	 * @buf_len: Length of the response buffer.
-   146	 * @rsvd1: Reserved for future use.
-   147	 * @service_ver: Version of TPM TDVMCALL command.
-   148	 * @service_cmd: TPM TDVMCALL command
-   149	 * 		 TDVMCALL_TPM_SEND_MSG - 0x01
-   150	 * 		 TDVMCALL_TPM_RECV_MSG - 0x02
-   151	 * @rsvd2: Reserved for future use.
-   152	 * @spdm: SPDM Message header.
-   153	 * @aad: SPDM AAD data.
-   154	 * @app_data: SPDM application data.
-   155	 *
-   156	 * For more details, refer to TDX vTPM specification, r1.0, section titled
-   157	 * "SPDM Secure Session Message Format".
-   158	 */
-   159	struct tdx_tpm_msg_resp {
-   160		/* TDVMCALL service response header */
-   161		u8 guid[16];
-   162		u32 buf_len;
-   163		u32 tdvmcall_status;
-   164	
-   165		/* TDVMCALL TPM Command Buffer response */
-   166		u8 service_ver;
-   167		u8 service_cmd;
-   168		u8 service_cmd_status;
-   169		u8 rsvd;
-   170	
-   171		/* SPDM Message */
-   172		struct spdm_msg_hdr spdm;
-   173		struct spdm_aad aad;
-   174		struct spdm_data app_data;
- > 175	} __packed;
-   176	
+Thanks for tracking this down! :)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
