@@ -1,137 +1,148 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2642219E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 18:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B124320321
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 18:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706293955; cv=none; b=PWbGTR7XM37EpXM2KrDo3gg9DXaReuJy2wMtMo2HhHoik3dWxPUnEk54odwuocAx1PKtggCODMxyGTlDk5aq4rtsBw98TuZNSzkRz2s2Ud/6zg6oG2AiuiKXsjSwcocYzoLRUxvyzWH5mKFU4R3fPJUeLJmcU78xIvblRO3vqHM=
+	t=1706295077; cv=none; b=jPDQrGNFzgaKO1gSJsP1BUbceCTYwbyOHA31Z69mphA1A+IH5UZk0RyFPu+9peKdpaKV3gK3lmYBZbD3+04TkKdJj56rxeAOmpDjgqZgSnn79bb4ccrPuOaXCuUxCbuGzNBoxmZUtSG/PVcjxKddPuawuR8zCFrMy/a7QGHkYtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706293955; c=relaxed/simple;
-	bh=/ynplVXB9D0lQMrwvL0RYA2GAwgK3HJc6DTbfKf3ZOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Etf4H5g6lFk8u5kufh7VJckb1JBzc8fz0WqRDCQKJm5WjiWM32GJLaklu2EAoaF3fxjbD0lcTXTOWnJsd1oXcDM7M2OMgS2Li/7+LNw5BaccdqH8n/6FcurLQafzlr5BeC9RdhN3VjfevQE+7s6HfFMBnpffP8IZdFyDeCTq8oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CoF25UR1; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1706295077; c=relaxed/simple;
+	bh=sqeiRmsrbRz91nKO1WL1iuNMfJY4Fsjraw03xPDQlyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LrkARkfKEUo3zK1xTzIwsMgs3Flc64dEyRGNEoybXfNy5XDIikg4zF6g3O/iVQwJ0bO2psGOf2UPukaHKjRoGO0/jj5qMGb+m9kaQcEPHNWMLseldpgXMaGhmVk4PjzAJCirlkRc9kwDblXUjSYd6+CM+vJ5sTNjLwjnUqps1FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtQHeRle; arc=none smtp.client-ip=192.55.52.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CoF25UR1"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5d3907ff128so614358a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 10:32:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706293953; x=1706898753; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MsKZ2dis8esREWVtzGB6O1bHoRc80ZxuQCGL9DFhV1A=;
-        b=CoF25UR1f03J3ZBeWxrndvv3aM6025in5dkNCuTru+NKja5ZRhvwNWAIZZXQd+DOhy
-         uxIaZpvDL5mi4yAmAu7BPC1HutPkoKpQdEoUV7gX9Znh2JzgbxrFGjtNeHlYnVuC1XuC
-         2I8JFFlVyOGINFR8KxGZm3uekCwwpY6Nz3a9M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706293953; x=1706898753;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MsKZ2dis8esREWVtzGB6O1bHoRc80ZxuQCGL9DFhV1A=;
-        b=nAhbOjeUv+FvdluuivJwzjApk/9xvg42yvvRaKRWwV3BRS8sELjjr+jzaeXxZM7eWO
-         KCecrX3aBD/p4JcWD0DLx3nY837dZ4NxsZ4XwwSDrvbnw0LXOI7syCu8NUMB/LIUhXT2
-         CPzdJoQ7j9oTnrn/FrajiZjudAt2brlvqgObK/MQ3+5wtPOfDS0BGZgEHvEBexXoYxnd
-         eKFJ4JbORT+U297OoBqMELd9F1lmNwKvvoAaSMG9p6JNO0TG4Tl5x9rsboeeQ3ENY+K0
-         Fct8wLJlQ+cqZMRq6IU2Q4n/ALT6h4WwD4rqgj06IkpgvSifEcHRQkrGaeIOjf0XQYfX
-         Lqnw==
-X-Gm-Message-State: AOJu0YzgvP4Kb9mmR5MtD+v2bQEm0c3s0aWjlo0gkNIN0XfqifyDIdNV
-	Mr6pEkmxFpIaB/BM55wozjo8BiSXfrSNp5P7MlKVDIBSvlcnM1OaKIuqlbQ+iA==
-X-Google-Smtp-Source: AGHT+IExgcr4m0TzXBmfFWqyUOb/swwx7h0U0yqAEpY5BnVZRnHIBiQJtLKfdkzs1jRJv+NNMInnVw==
-X-Received: by 2002:a05:6a20:4028:b0:19c:863a:acc6 with SMTP id z40-20020a056a20402800b0019c863aacc6mr119399pze.82.1706293953315;
-        Fri, 26 Jan 2024 10:32:33 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id o15-20020a63e34f000000b005c2420fb198sm1423576pgj.37.2024.01.26.10.32.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 10:32:32 -0800 (PST)
-Date: Fri, 26 Jan 2024 10:32:32 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [kees:for-next/hardening 2/2] drivers/misc/lkdtm/bugs.c:302:1:
- warning: 'noreturn' function does return
-Message-ID: <202401261032.562F4D7@keescook>
-References: <202401262204.wUFKRYZF-lkp@intel.com>
- <CAD=FV=Uc8dPrc++jC=toV+7Tg1VtpFMxBfmTKmg9TEzif1z1CQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtQHeRle"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706295075; x=1737831075;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sqeiRmsrbRz91nKO1WL1iuNMfJY4Fsjraw03xPDQlyE=;
+  b=QtQHeRlepXizc0hKA4hiz7yPVcl2YNO6jZa98VMfeVR8/TPDhCh2KDcQ
+   druxAt6bFc9NnCbUs01OxgMU0WjAIvq5GZHszUJ96JgVg+YLoxDhoszQp
+   +rwCWhyh5s+hsSM9o8gdjv/iUm2eu+KE+htqXjBYeQ56xLYSh62q7DiAH
+   RKKVAWTgbwag2c9giVd6MxrHo3C1AB2qbK33lxlRL/UJ+T///dx1dWgY0
+   Y5vhqmqvN1EiKjzCp4er/Y9yMR08dJHNun7Uf3SenLosLYW8X/92bP5yV
+   e4cwY0hj6gAy5XdPdV+uv/mF/Z/xztDEbR1Xp5vDUZltmduWEiNccAVIq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="399703665"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="399703665"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 10:51:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="910411045"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="910411045"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 26 Jan 2024 10:51:13 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rTRIE-0001HE-1y;
+	Fri, 26 Jan 2024 18:51:10 +0000
+Date: Sat, 27 Jan 2024 02:51:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Shi <alexs@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:master 1/1] include/linux/compiler_types.h:435:45: error:
+ call to '__compiletime_assert_297' declared with attribute error:
+ BUILD_BUG_ON failed: offsetof(struct pt_regs, r15) != 0
+Message-ID: <202401270214.aOHwZfe0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=Uc8dPrc++jC=toV+7Tg1VtpFMxBfmTKmg9TEzif1z1CQ@mail.gmail.com>
 
-On Fri, Jan 26, 2024 at 07:58:46AM -0800, Doug Anderson wrote:
-> Hi,
-> 
-> On Fri, Jan 26, 2024 at 6:56 AM kernel test robot <lkp@intel.com> wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
-> > head:   edb6538da3df83806fffcfc1b873d0895c81b9e8
-> > commit: edb6538da3df83806fffcfc1b873d0895c81b9e8 [2/2] lkdtm/bugs: Adjust lkdtm_HUNG_TASK() to avoid tail call optimization
-> > config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240126/202401262204.wUFKRYZF-lkp@intel.com/config)
-> > compiler: mips-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401262204.wUFKRYZF-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202401262204.wUFKRYZF-lkp@intel.com/
-> >
-> > All error/warnings (new ones prefixed by >>):
-> >
-> >    arch/mips/kernel/head.o: in function `__kernel_entry':
-> > >> (.text+0x0): relocation truncated to fit: R_MIPS_26 against `kernel_entry'
-> >    arch/mips/kernel/head.o: in function `smp_bootstrap':
-> > >> (.ref.text+0xd8): relocation truncated to fit: R_MIPS_26 against `start_secondary'
-> >    init/main.o: in function `set_reset_devices':
-> >    main.c:(.init.text+0x10): relocation truncated to fit: R_MIPS_26 against `_mcount'
-> >    main.c:(.init.text+0x18): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-> >    init/main.o: in function `debug_kernel':
-> >    main.c:(.init.text+0x50): relocation truncated to fit: R_MIPS_26 against `_mcount'
-> >    main.c:(.init.text+0x58): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-> >    init/main.o: in function `quiet_kernel':
-> >    main.c:(.init.text+0x90): relocation truncated to fit: R_MIPS_26 against `_mcount'
-> >    main.c:(.init.text+0x98): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-> >    init/main.o: in function `warn_bootconfig':
-> >    main.c:(.init.text+0xd0): relocation truncated to fit: R_MIPS_26 against `_mcount'
-> >    main.c:(.init.text+0xd8): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-> >    init/main.o: in function `init_setup':
-> >    main.c:(.init.text+0x108): additional relocation overflows omitted from the output
-> > --
-> >    drivers/misc/lkdtm/bugs.c: In function 'lkdtm_HUNG_TASK':
-> > >> drivers/misc/lkdtm/bugs.c:302:1: warning: 'noreturn' function does return
-> >      302 | }
-> >          | ^
-> >
-> >
-> > vim +/noreturn +302 drivers/misc/lkdtm/bugs.c
-> >
-> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26  296
-> > edb6538da3df83 drivers/misc/lkdtm/bugs.c Douglas Anderson 2024-01-22  297  static void __noreturn lkdtm_HUNG_TASK(void)
-> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26  298  {
-> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26  299       set_current_state(TASK_UNINTERRUPTIBLE);
-> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26  300       schedule();
-> > edb6538da3df83 drivers/misc/lkdtm/bugs.c Douglas Anderson 2024-01-22  301       BUG_ON(1);
-> > 00f496c416122e drivers/misc/lkdtm_bugs.c Kees Cook        2016-06-26 @302  }
-> 
-> Ah, I see the problem. MIPS has its own BUG_ON that's an inline
-> function instead of a macro and that means that the compiler can't
-> figure out that my constant condition will always call BUG(). ...this
-> should just be changed to BUG().
-> 
-> Patch fixing this at:
-> 
-> https://lore.kernel.org/r/20240126072852.1.Ib065e528a8620474a72f15baa2feead1f3d89865@changeid
+tree:   https://github.com/alexshi/linux.git master
+head:   80997c8b66fd8d73a96cd681a473bacaf75b7d98
+commit: 80997c8b66fd8d73a96cd681a473bacaf75b7d98 [1/1] x86/ptrace: move down unused registers
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240127/202401270214.aOHwZfe0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270214.aOHwZfe0-lkp@intel.com/reproduce)
 
-Thanks for tracking this down! :)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401270214.aOHwZfe0-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+   In function 'pt_regs_access',
+       inlined from 'putreg' at arch/x86/kernel/ptrace.c:403:3:
+>> include/linux/compiler_types.h:435:45: error: call to '__compiletime_assert_297' declared with attribute error: BUILD_BUG_ON failed: offsetof(struct pt_regs, r15) != 0
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:416:25: note: in definition of macro '__compiletime_assert'
+     416 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kernel/ptrace.c:245:9: note: in expansion of macro 'BUILD_BUG_ON'
+     245 |         BUILD_BUG_ON(offsetof(struct pt_regs, r15) != 0);
+         |         ^~~~~~~~~~~~
+   In function 'pt_regs_access',
+       inlined from 'get_segment_reg' at arch/x86/kernel/ptrace.c:287:10,
+       inlined from 'getreg' at arch/x86/kernel/ptrace.c:416:10:
+>> include/linux/compiler_types.h:435:45: error: call to '__compiletime_assert_297' declared with attribute error: BUILD_BUG_ON failed: offsetof(struct pt_regs, r15) != 0
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:416:25: note: in definition of macro '__compiletime_assert'
+     416 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kernel/ptrace.c:245:9: note: in expansion of macro 'BUILD_BUG_ON'
+     245 |         BUILD_BUG_ON(offsetof(struct pt_regs, r15) != 0);
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_297 +435 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  421  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  422  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  423  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  425  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  426   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  427   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  428   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  429   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  430   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  431   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  432   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  433   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  434  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @435  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  436  
+
+:::::: The code at line 435 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
