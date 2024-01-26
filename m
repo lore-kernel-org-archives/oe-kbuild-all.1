@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39C31C0F;
-	Fri, 26 Jan 2024 02:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E8F8C1B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 02:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706234554; cv=none; b=KXshCThKQk6IY+WGYuo0DBtGpNSHm6cu+dnd2mhG8L0s3gDBcrIkOWhva+O5MIgRWwTG5IHldH3YtN0shOcFB/jTySGKXVADXyakqYhc9iPrdEgyMIKQCVfoJ61kh62yRF276Ldfy4EaeDbHxI/tO0aCGQHDN8rq+fvaHaPV4I4=
+	t=1706235754; cv=none; b=I5PASvswNoYmO37fCAGD/6tJy3doAUkDkIwK/6pAK1S9nhJgYQQSanxvZjJkkKAwRxBBZt5OsgT0GsqgFEZJlpIKPLOcN5CPI45bN7XYBrqZWFDr2u7rVDuRgnYV4ki1zrJaRXuBim48r+Ao0UyewKSovKAwfWt+JjScEoY5cZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706234554; c=relaxed/simple;
-	bh=+Zdo0Izf+my/Kvw5W3qSfaE7Aob5TU032RmJ02/Ryes=;
+	s=arc-20240116; t=1706235754; c=relaxed/simple;
+	bh=2MTXUGWkSU7bPTzmjrQqIqpDoQjBk+IySgrbW3tQLzw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IMrBSOnLoPgNy9emRRoP8p+tTXQOU1o9NVEP8kNNxqrN7Mon24BfWcZp84fKsiI+3QHIJPd+5VveNVICMSZ55WCNpQC+36X/iT86IlHJVn3O64EgRdmxhioO9bSVC60GFRSg4ITP06C3rwF3KMXUvGqIEXT/Yku2BijupaEbzI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=madE+Ek9; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=I5GTnW4ylUp6PHiDwqGOMqNpDa1wqsGjD+60r5yLO7dbhetx+FxfOEzuPWUPaJQsY1j10f7Nr8CiYgtx/yQR7LWGUBUfRrtC48qJq5vSG3C2MiGBZYA15jv8/LiMz6omT4GIpWVqanBZJ09YkXf8Rf3D1iQsDg8yLvPX2CLVv7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OLb1KxXB; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="madE+Ek9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OLb1KxXB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706234552; x=1737770552;
+  t=1706235751; x=1737771751;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+Zdo0Izf+my/Kvw5W3qSfaE7Aob5TU032RmJ02/Ryes=;
-  b=madE+Ek95cTzGWVF9izO7GIGi7H3snlWWHYLi2GnCw1+yacYCS+ibBC5
-   P20URFL+OXVRwyXnncEAjcH1tbcPtiW7J+0NaTiHtRoN9TZOBDK4q9mRj
-   uxZx4UzgWAl0SQ4QrxePgp/x7Mr4PUOxhnZBzvywIc6pjJBJbi2BHi05o
-   lvJdWPXuBU7ZRdvubKB+YT9mvGccDP6ShVaIIxC0getk5p+dZL3/0LGgR
-   qj63FxugoVaboEDsRfiE90oeCwcx5pgdWv4UtR+9vShg8vqUgLcX9mlbg
-   AGgdNJ3COwmbgz2tTn0zTTMRv2MF2Z2sRo6Z9n4G5nsO/e8bTFV4AEcVP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="2204527"
+  bh=2MTXUGWkSU7bPTzmjrQqIqpDoQjBk+IySgrbW3tQLzw=;
+  b=OLb1KxXBggrZ/0F2w2bvjvhhoOJ1bTcecXimAyk2gqd9VYoRwvb9VOKR
+   UU1EY2EIRWRbe4hol2RexOLdluZfo8O93zP8hEKXWd6HDjwAk8XpGA78F
+   aH2tW9CP9ETPvrjTWxPf4zvSAyvv0TKo7SCvufZW3BsBWIjMKOhfaWzR5
+   2isdIv+XTs4PdV7XcmaA7WJja6a24KFHeYOZikRFU5VZHdf+6NHGz6L8y
+   XJb/zG32CvD4JuRelK/cY3wEovrF9lK1fapAuze4Lu+I5D151Dyq7j11S
+   q/noZndyBfcsS0mKAKRlImsuYgM+VAQPay4oSuo6obmj4fvuF2uljpY/O
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="23823714"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2204527"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 18:02:31 -0800
+   d="scan'208";a="23823714"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 18:22:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="960078317"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="960078317"
+   d="scan'208";a="28988191"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 25 Jan 2024 18:02:28 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 25 Jan 2024 18:22:28 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTBY1-0000aS-2j;
-	Fri, 26 Jan 2024 02:02:25 +0000
-Date: Fri, 26 Jan 2024 10:01:31 +0800
+	id 1rTBrO-0000bC-1z;
+	Fri, 26 Jan 2024 02:22:26 +0000
+Date: Fri, 26 Jan 2024 10:21:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vincent Donnefort <vdonnefort@google.com>, rostedt@goodmis.org,
 	mhiramat@kernel.org, linux-kernel@vger.kernel.org,
 	linux-trace-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	mathieu.desnoyers@efficios.com, kernel-team@android.com,
-	Vincent Donnefort <vdonnefort@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
+	kernel-team@android.com, Vincent Donnefort <vdonnefort@google.com>
 Subject: Re: [PATCH v12 3/6] tracing: Add snapshot refcount
-Message-ID: <202401260918.sn23MDek-lkp@intel.com>
+Message-ID: <202401261026.Cc8uBwxf-lkp@intel.com>
 References: <20240123110757.3657908-4-vdonnefort@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -75,28 +73,26 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Donnefort/ring-bu
 base:   4f1991a92cfe89096b2d1f5583a2e093bdd55c37
 patch link:    https://lore.kernel.org/r/20240123110757.3657908-4-vdonnefort%40google.com
 patch subject: [PATCH v12 3/6] tracing: Add snapshot refcount
-config: i386-buildonly-randconfig-005-20240126 (https://download.01.org/0day-ci/archive/20240126/202401260918.sn23MDek-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401260918.sn23MDek-lkp@intel.com/reproduce)
+config: i386-randconfig-012-20240126 (https://download.01.org/0day-ci/archive/20240126/202401261026.Cc8uBwxf-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401261026.Cc8uBwxf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401260918.sn23MDek-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401261026.Cc8uBwxf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/trace/trace.c:6645:11: error: no member named 'use_max_tr' in 'struct tracer'
-    6645 |                         if (t->use_max_tr)
-         |                             ~  ^
->> kernel/trace/trace.c:6646:5: error: call to undeclared function 'tracing_disarm_snapshot_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    6646 |                                 tracing_disarm_snapshot_locked(tr);
-         |                                 ^
-   kernel/trace/trace.c:6646:5: note: did you mean 'tracing_disarm_snapshot'?
-   kernel/trace/trace.h:1986:20: note: 'tracing_disarm_snapshot' declared here
-    1986 | static inline void tracing_disarm_snapshot(struct trace_array *tr) { }
-         |                    ^
-   2 errors generated.
+   kernel/trace/trace.c: In function 'tracing_set_tracer':
+>> kernel/trace/trace.c:6645:9: error: 'struct tracer' has no member named 'use_max_tr'
+    6645 |    if (t->use_max_tr)
+         |         ^~
+>> kernel/trace/trace.c:6646:5: error: implicit declaration of function 'tracing_disarm_snapshot_locked'; did you mean 'tracing_disarm_snapshot'? [-Werror=implicit-function-declaration]
+    6646 |     tracing_disarm_snapshot_locked(tr);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |     tracing_disarm_snapshot
+   cc1: some warnings being treated as errors
 
 
 vim +6645 kernel/trace/trace.c
