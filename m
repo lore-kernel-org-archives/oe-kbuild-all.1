@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F4A14285;
-	Fri, 26 Jan 2024 08:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC8E1AAD1;
+	Fri, 26 Jan 2024 08:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706256942; cv=none; b=NOvuYc0q3JE6Vryu0wL4dKLNUuc/dM0CHlCs6hkWMrVWec+JRtT5c2oRbJe25zGOYHGPuBD5e2LwaE2sVZ47GU/6HpJMoMCn9pG7F8zB82d/UFH7TmuUAFSRZIcQXs3+fg2Jy+yV5HDsfx/GUIjBg4KSDYr6AyVP/ojZ3gpDTSo=
+	t=1706258863; cv=none; b=Uo0oXbF+2N6pLP9uHecAgcJCIWn1RnfLpj1I99UsDE4caNWNMSiaWb0kJhTFIPMnTuMzbXyIy5EJz/7P5Fs6mjBUhmSwiVMJJXCJv0vKihLucJ5bpMnjpRJ1xq0wFZR6PeXg25RcH8tOpHK1dIbx4YaU6VL8RMsYdO3EhA05b2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706256942; c=relaxed/simple;
-	bh=HGv9MFuipz7qlfRad5Kn9QJpzNtljsHTLz2asR69Sbs=;
+	s=arc-20240116; t=1706258863; c=relaxed/simple;
+	bh=GwRZaaw3NyWFd5uN+V2xFfKA+ax5+ZRg2Cx/yrStlJY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RWPg5kzE2n2CZQ1/rUXinDA+L4R83JQvAdyzW6cZivbQ8vwjzq0aJ4i29UaDe8YaAO+TKgA2adXML6CDkqKDOL37XMYhdECvZOP7YJaF3kYFqi2Mb8dZKA/vYiJNZe/Pu7It8UNzz096/HWILdNqJl+DJw/03i+fItNvT6F6UDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ix9GQ10p; arc=none smtp.client-ip=192.55.52.120
+	 Content-Disposition; b=dlg0Ir5ehpJDhX+9XHiHLRiry74M4vb/6Fw6X9YiwKmdRhvk5sxzLhRYRutuknD911hl9EqE2Z/nHRIF90NHNUqoPwh++mblO3v1Bn2fluO2jfEdP6LMB1MPsL6bckvzRMgJ1envGaSgZIwGQnaZYpFEmsAGwG7AKt+2vB3LIZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KCdjqrgs; arc=none smtp.client-ip=134.134.136.31
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ix9GQ10p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KCdjqrgs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706256940; x=1737792940;
+  t=1706258861; x=1737794861;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HGv9MFuipz7qlfRad5Kn9QJpzNtljsHTLz2asR69Sbs=;
-  b=ix9GQ10pUaz0ATkz2cH9MQcEcmzjV8QNAXFtKKNd6tCJZBJh3xI5yrqM
-   MNsyLWv7lBSO03+HShpBsurDbVeysXb9bGph/WdkYrzXDESY9MsS+QHCO
-   7WJYBUInVMEL0CTQJi4Ai7sAweRDn8IYZgqaKG48tRxpZZjgEu23Fp/0y
-   tObaJh1RemL3pTmu6yxOPrbuLJZrTO5a0BuboC30KM9LxwqsmRmMBR19n
-   Iq9GlM8pia7MyR4apHXn2D9J8k7bkmpaJ4DqX73Ff5FFJIpIzq6KwUOOP
-   9tD7sXiStONnGmNgv2st8f8YZG3mFfDJeLKi2/EfUZVd99lkoM13QcPAX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="401266492"
+  bh=GwRZaaw3NyWFd5uN+V2xFfKA+ax5+ZRg2Cx/yrStlJY=;
+  b=KCdjqrgs/dqY0pIWUlYTT5vtM43q+Zs7vpGE6fboiJ56u0uFeM99QBBQ
+   45wQO5IsIuBR29TMQnuu1y3nDrx+smDXRvlht9upTlsuGVqdkEKcgJEt6
+   fpw1tXiI6ZwEJBCmRbro2p8yhR/lBK12Igt8vPI0VPuxO+ghVsC2WLBBw
+   9W9Io8F8y4x9armwJRl621ufPs6NqZ+GUDs3knqIh8D34ystCCEOc0ITi
+   L+Zox2odM4mVlDwSV82J+i31wH2YtsiDGRdBylWNS5Gfog9qvu05Go1Sl
+   U+gn8yMn4Q9GBpwXrBlGh8v50209a5SSvKoMkrZ9v/83DMMs6RbKL6uXM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="466698486"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="401266492"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 00:15:39 -0800
+   d="scan'208";a="466698486"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 00:47:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="910265733"
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="960153671"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="910265733"
+   d="scan'208";a="960153671"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 26 Jan 2024 00:15:37 -0800
+  by orsmga005.jf.intel.com with ESMTP; 26 Jan 2024 00:47:39 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTHN9-0000po-2a;
-	Fri, 26 Jan 2024 08:15:35 +0000
-Date: Fri, 26 Jan 2024 16:14:38 +0800
+	id 1rTHs9-0000rg-0b;
+	Fri, 26 Jan 2024 08:47:37 +0000
+Date: Fri, 26 Jan 2024 16:47:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nava kishore Manne <nava.manne@xilinx.com>
+To: Jason Chen <jason.z.chen@intel.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Moritz Fischer <mdf@kernel.org>,
-	Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>
-Subject: drivers/fpga/versal-fpga.c:78:34: warning: unused variable
- 'versal_fpga_of_match'
-Message-ID: <202401261611.Ee3FjLdD-lkp@intel.com>
+	linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [sailus-media-tree:master 18/18]
+ drivers/media/i2c/ov08x40.c:1783:23: error: no member named 'exposure_shift'
+ in 'struct ov08x40_mode'
+Message-ID: <202401261628.dWEtdXLE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,36 +63,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ecb1b8288dc7ccbdcb3b9df005fa1c0e0c0388a7
-commit: 01c54e628932c655e4cd2c6ed0cc688ec6e6f96b fpga: versal-fpga: Add versal fpga manager driver
-date:   2 years, 6 months ago
-config: x86_64-buildonly-randconfig-003-20240107 (https://download.01.org/0day-ci/archive/20240126/202401261611.Ee3FjLdD-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401261611.Ee3FjLdD-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   f76be7216c3df5f563353bd7a6aaf5076b118943
+commit: f76be7216c3df5f563353bd7a6aaf5076b118943 [18/18] media: ov08x40: Reduce start streaming time
+config: i386-randconfig-003-20240126 (https://download.01.org/0day-ci/archive/20240126/202401261628.dWEtdXLE-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401261628.dWEtdXLE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401261611.Ee3FjLdD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401261628.dWEtdXLE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/fpga/versal-fpga.c:78:34: warning: unused variable 'versal_fpga_of_match' [-Wunused-const-variable]
-      78 | static const struct of_device_id versal_fpga_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> drivers/media/i2c/ov08x40.c:1783:23: error: no member named 'exposure_shift' in 'struct ov08x40_mode'
+    1783 |         if (ov08x->cur_mode->exposure_shift == 1) {
+         |             ~~~~~~~~~~~~~~~  ^
+   1 error generated.
 
 
-vim +/versal_fpga_of_match +78 drivers/fpga/versal-fpga.c
+vim +1783 drivers/media/i2c/ov08x40.c
 
-    77	
-  > 78	static const struct of_device_id versal_fpga_of_match[] = {
-    79		{ .compatible = "xlnx,versal-fpga", },
-    80		{},
-    81	};
-    82	MODULE_DEVICE_TABLE(of, versal_fpga_of_match);
-    83	
+  1749	
+  1750	static int ov08x40_start_streaming(struct ov08x40 *ov08x)
+  1751	{
+  1752		struct i2c_client *client = v4l2_get_subdevdata(&ov08x->sd);
+  1753		const struct ov08x40_reg_list *reg_list;
+  1754		int ret, link_freq_index;
+  1755	
+  1756		/* Get out of from software reset */
+  1757		ret = ov08x40_write_reg(ov08x, OV08X40_REG_SOFTWARE_RST,
+  1758					OV08X40_REG_VALUE_08BIT, OV08X40_SOFTWARE_RST);
+  1759		if (ret) {
+  1760			dev_err(&client->dev, "%s failed to set powerup registers\n",
+  1761				__func__);
+  1762			return ret;
+  1763		}
+  1764	
+  1765		link_freq_index = ov08x->cur_mode->link_freq_index;
+  1766		reg_list = &link_freq_configs[link_freq_index].reg_list;
+  1767	
+  1768		ret = ov08x40_write_reg_list(ov08x, reg_list);
+  1769		if (ret) {
+  1770			dev_err(&client->dev, "%s failed to set plls\n", __func__);
+  1771			return ret;
+  1772		}
+  1773	
+  1774		/* Apply default values of current mode */
+  1775		reg_list = &ov08x->cur_mode->reg_list;
+  1776		ret = ov08x40_write_reg_list(ov08x, reg_list);
+  1777		if (ret) {
+  1778			dev_err(&client->dev, "%s failed to set mode\n", __func__);
+  1779			return ret;
+  1780		}
+  1781	
+  1782		/* Use i2c burst to write register on full size registers */
+> 1783		if (ov08x->cur_mode->exposure_shift == 1) {
+  1784			ret = ov08x40_burst_fill_regs(ov08x, OV08X40_REG_XTALK_FIRST_A,
+  1785						      OV08X40_REG_XTALK_LAST_A, 0x75);
+  1786			if (ret == 0)
+  1787				ret = ov08x40_burst_fill_regs(ov08x,
+  1788							      OV08X40_REG_XTALK_FIRST_B,
+  1789							      OV08X40_REG_XTALK_LAST_B,
+  1790							      0x75);
+  1791		}
+  1792	
+  1793		if (ret) {
+  1794			dev_err(&client->dev, "%s failed to set regs\n", __func__);
+  1795			return ret;
+  1796		}
+  1797	
+  1798		/* Apply customized values from user */
+  1799		ret =  __v4l2_ctrl_handler_setup(ov08x->sd.ctrl_handler);
+  1800		if (ret)
+  1801			return ret;
+  1802	
+  1803		return ov08x40_write_reg(ov08x, OV08X40_REG_MODE_SELECT,
+  1804					 OV08X40_REG_VALUE_08BIT,
+  1805					 OV08X40_MODE_STREAMING);
+  1806	}
+  1807	
 
 -- 
 0-DAY CI Kernel Test Service
