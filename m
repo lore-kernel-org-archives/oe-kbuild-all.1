@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DF2BE5D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0375AC133
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 04:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706242416; cv=none; b=q8SDeDlS6vZYX2myQcXuXj+qrbw1s+7jVlu+ybW2zktu2qARXfOZSubHhFnpdcgEbGBrkDMfaBa5z/iZjgzbBzgAL7Is8GyaKz4zGeMAc2mmsdwEm+P9yu229TzkfIg92KaDlZKYnCRmzcqrkdR7HlXJQCH2KE6nIVcaRVrnWzE=
+	t=1706242418; cv=none; b=Cb0gT0PP2f/Z1kWEMwzMFVVQNtAarcnT6Fssps7l9RPk0tdKvosliNX483zce/i4fRvekFbKHyTZG/ndgUZgo9fEMlvlBUK6QnOa5y/X+vQhm+UlwK8vcuRq6l1krO20iR/7MWvXOb1JwANP2tR+9K/ev7zAlI6VGZl9OLlXVEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706242416; c=relaxed/simple;
-	bh=9caLQ3WlADIVDuXt/h6qAJlc9B/7XINbwIUSHi9JXJo=;
+	s=arc-20240116; t=1706242418; c=relaxed/simple;
+	bh=72aQfR45fYmxRG0c4MzxIIhX6YN236McT6hETaon2QI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qE7Q0HcHl3Obl5+Ih0BRYayG6OpcOuYQat4Y3o0BhsYa0RQQWExsaL4V0NmOjXq5MJae/TFi0mnJB3huZ8TRvfovyK4lLNtQb7Vw2iHLhzn44chexq0GoUJHv/UCet+nigv+yZwxp5pkbgcTcBSRsKd4HUboj1/7xCknlOUwoM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HVZ4/ncm; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=Xp3UMsPBbFaCFGMPAgA4iZUY8Ykk/5VZfZOffYKQ1bi78I/WgfwDWn+BdwgQ3OcV5XGz0MiXUlA7YCdohM9BCdKX/oIzLxsOnLqbNZmUofMlYbsVgZLuHrFDesHWqVj1UhITvjP4Dc3O4Y9wEbrc/fo5gebnfl2kUjqtn2N57t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2M0gT4J; arc=none smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HVZ4/ncm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2M0gT4J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1706242415; x=1737778415;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9caLQ3WlADIVDuXt/h6qAJlc9B/7XINbwIUSHi9JXJo=;
-  b=HVZ4/ncmE5+Kr8Gu4/AWmEpywIh/HOZP1E0UNJ8+5Z3m80XkYkcMtip/
-   xGFgibIYadfkBrnWX8vWI5fkvmvoZuLrC0oOBvYGTvU3aJyO6xMAIjMk0
-   jFKP9Zydl/4SFrX47lF9SLToFTwG7nh2cdgDwbj1LVpyi2TijiL8LlHS6
-   ATSwo6VthladtVqr8M5N/zX17Ktfv3avmbsBOGI+jyxafMtn3T6ey2UqC
-   AUHY+KGKtrUhBOB1qKwCE+2MZcVMqzBXcVl4zAnsWtwjMkFtD53G3aWcX
-   qnD2zlDPZEE31LnbyQey2LyMZ06+7esIe07WVAHh0WvwGSKTyVm4Q2FiX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9768661"
+  bh=72aQfR45fYmxRG0c4MzxIIhX6YN236McT6hETaon2QI=;
+  b=O2M0gT4Jjwmmt3TpvoHbHSsUD54pP7ORs9Uh33T6wA/+zsT/n7aHzgJ9
+   oN4EdaChymDbTP82yXl1DoAVCe/ZJiGcs2ZFSwgRNriHomerfMuibFCWm
+   nvZCm+ypWjrr6VjoXdOgGCOEPaKuUNqxGyzTu4fr5ldmpZs7QZ3dWpPWc
+   N3urCI9pLlshWGbrmehRdrbKEOdviu6xd1Vwk1McNeqQF0/z0+amrnr3/
+   9KIGOnncLDY5HbHOzoLPgrrIcDw0YHta0c0ZgZBBahuE7bNfvxNzj/ErN
+   93lrOXQP7jkWj78yHJppbw5HV77J1VhQ915VoSqNVSFtXjHc388b6tEBm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="402038614"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9768661"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 20:13:34 -0800
+   d="scan'208";a="402038614"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 20:13:33 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="960097654"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2645440"
+   d="scan'208";a="960097654"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 25 Jan 2024 20:13:32 -0800
+  by orsmga005.jf.intel.com with ESMTP; 25 Jan 2024 20:13:31 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTDar-0000fw-1V;
+	id 1rTDar-0000fy-1Y;
 	Fri, 26 Jan 2024 04:13:29 +0000
-Date: Fri, 26 Jan 2024 12:13:20 +0800
+Date: Fri, 26 Jan 2024 12:13:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chenyi Qiang <chenyi.qiang@intel.com>
-Subject: [intel-tdx:kvm-upstream-workaround 327/376]
- arch/x86/kvm/../../../virt/kvm/kvm_main.c:6515:6: error: implicit
- declaration of function 'kvm_gmem_fs_init'; did you mean 'kvm_gmem_init'?
-Message-ID: <202401261246.6HYW7Y5c-lkp@intel.com>
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/misc/eeprom/idt_89hpesx.c:599:31: sparse: sparse: incorrect
+ type in assignment (different base types)
+Message-ID: <202401261250.b07Yt30Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,120 +59,299 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   e7a7b1f2a1c28403511e71538d30888c9e1425ef
-commit: 935629ed9b34ef93513bf21707ab88c84ded03e4 [327/376] Revert "kvm: guestmem: do not use a file system"
-config: i386-buildonly-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240126/202401261246.6HYW7Y5c-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401261246.6HYW7Y5c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ecb1b8288dc7ccbdcb3b9df005fa1c0e0c0388a7
+commit: cfad6425382ec81acd073fdf24361e1c30b4cb36 eeprom: Add IDT 89HPESx EEPROM/CSR driver
+date:   7 years ago
+config: openrisc-randconfig-s041-20230115 (https://download.01.org/0day-ci/archive/20240126/202401261250.b07Yt30Z-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240126/202401261250.b07Yt30Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401261246.6HYW7Y5c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401261250.b07Yt30Z-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/misc/eeprom/idt_89hpesx.c:599:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] memaddr @@     got restricted __le16 [usertype] @@
+   drivers/misc/eeprom/idt_89hpesx.c:599:31: sparse:     expected unsigned short [addressable] [assigned] [usertype] memaddr
+   drivers/misc/eeprom/idt_89hpesx.c:599:31: sparse:     got restricted __le16 [usertype]
+   drivers/misc/eeprom/idt_89hpesx.c:671:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] memaddr @@     got restricted __le16 [usertype] @@
+   drivers/misc/eeprom/idt_89hpesx.c:671:31: sparse:     expected unsigned short [addressable] [assigned] [usertype] memaddr
+   drivers/misc/eeprom/idt_89hpesx.c:671:31: sparse:     got restricted __le16 [usertype]
+>> drivers/misc/eeprom/idt_89hpesx.c:769:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] csraddr @@     got restricted __le16 [usertype] @@
+   drivers/misc/eeprom/idt_89hpesx.c:769:24: sparse:     expected unsigned short [addressable] [assigned] [usertype] csraddr
+   drivers/misc/eeprom/idt_89hpesx.c:769:24: sparse:     got restricted __le16 [usertype]
+>> drivers/misc/eeprom/idt_89hpesx.c:770:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] [usertype] data @@     got restricted __le32 [usertype] @@
+   drivers/misc/eeprom/idt_89hpesx.c:770:21: sparse:     expected unsigned int [addressable] [assigned] [usertype] data
+   drivers/misc/eeprom/idt_89hpesx.c:770:21: sparse:     got restricted __le32 [usertype]
+   drivers/misc/eeprom/idt_89hpesx.c:834:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] csraddr @@     got restricted __le16 [usertype] @@
+   drivers/misc/eeprom/idt_89hpesx.c:834:24: sparse:     expected unsigned short [addressable] [assigned] [usertype] csraddr
+   drivers/misc/eeprom/idt_89hpesx.c:834:24: sparse:     got restricted __le16 [usertype]
+>> drivers/misc/eeprom/idt_89hpesx.c:859:17: sparse: sparse: cast to restricted __le32
+>> drivers/misc/eeprom/idt_89hpesx.c:859:17: sparse: sparse: cast to restricted __le32
+>> drivers/misc/eeprom/idt_89hpesx.c:859:17: sparse: sparse: cast to restricted __le32
+>> drivers/misc/eeprom/idt_89hpesx.c:859:17: sparse: sparse: cast to restricted __le32
+>> drivers/misc/eeprom/idt_89hpesx.c:859:17: sparse: sparse: cast to restricted __le32
+>> drivers/misc/eeprom/idt_89hpesx.c:859:17: sparse: sparse: cast to restricted __le32
+   In file included from include/linux/kernel.h:11,
+                    from drivers/misc/eeprom/idt_89hpesx.c:70:
+   include/linux/log2.h:22:1: warning: ignoring attribute 'noreturn' because it conflicts with attribute 'const' [-Wattributes]
+      22 | int ____ilog2_NaN(void);
+         | ^~~
+   drivers/misc/eeprom/idt_89hpesx.c: In function 'idt_dbgfs_csr_write':
+   drivers/misc/eeprom/idt_89hpesx.c:941:31: warning: variable 'csrval_len' set but not used [-Wunused-but-set-variable]
+     941 |         int ret, csraddr_len, csrval_len;
+         |                               ^~~~~~~~~~
 
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_init':
->> arch/x86/kvm/../../../virt/kvm/kvm_main.c:6515:6: error: implicit declaration of function 'kvm_gmem_fs_init'; did you mean 'kvm_gmem_init'? [-Werror=implicit-function-declaration]
-     r = kvm_gmem_fs_init();
-         ^~~~~~~~~~~~~~~~
-         kvm_gmem_init
->> arch/x86/kvm/../../../virt/kvm/kvm_main.c:6550:2: error: implicit declaration of function 'kvm_gmem_fs_exit'; did you mean 'kvm_gmem_init'? [-Werror=implicit-function-declaration]
-     kvm_gmem_fs_exit();
-     ^~~~~~~~~~~~~~~~
-     kvm_gmem_init
-   cc1: some warnings being treated as errors
+vim +599 drivers/misc/eeprom/idt_89hpesx.c
 
-
-vim +6515 arch/x86/kvm/../../../virt/kvm/kvm_main.c
-
-  6483	
-  6484		/* A kmem cache lets us meet the alignment requirements of fx_save. */
-  6485		if (!vcpu_align)
-  6486			vcpu_align = __alignof__(struct kvm_vcpu);
-  6487		kvm_vcpu_cache =
-  6488			kmem_cache_create_usercopy("kvm_vcpu", vcpu_size, vcpu_align,
-  6489						   SLAB_ACCOUNT,
-  6490						   offsetof(struct kvm_vcpu, arch),
-  6491						   offsetofend(struct kvm_vcpu, stats_id)
-  6492						   - offsetof(struct kvm_vcpu, arch),
-  6493						   NULL);
-  6494		if (!kvm_vcpu_cache) {
-  6495			r = -ENOMEM;
-  6496			goto err_vcpu_cache;
-  6497		}
-  6498	
-  6499		for_each_possible_cpu(cpu) {
-  6500			if (!alloc_cpumask_var_node(&per_cpu(cpu_kick_mask, cpu),
-  6501						    GFP_KERNEL, cpu_to_node(cpu))) {
-  6502				r = -ENOMEM;
-  6503				goto err_cpu_kick_mask;
-  6504			}
-  6505		}
-  6506	
-  6507		r = kvm_irqfd_init();
-  6508		if (r)
-  6509			goto err_irqfd;
-  6510	
-  6511		r = kvm_async_pf_init();
-  6512		if (r)
-  6513			goto err_async_pf;
-  6514	
-> 6515		r = kvm_gmem_fs_init();
-  6516		if (r)
-  6517			goto err_gmem;
-  6518	
-  6519		kvm_chardev_ops.owner = module;
-  6520		kvm_vm_fops.owner = module;
-  6521		kvm_vcpu_fops.owner = module;
-  6522		kvm_device_fops.owner = module;
-  6523	
-  6524		kvm_preempt_ops.sched_in = kvm_sched_in;
-  6525		kvm_preempt_ops.sched_out = kvm_sched_out;
-  6526	
-  6527		kvm_init_debug();
-  6528	
-  6529		r = kvm_vfio_ops_init();
-  6530		if (WARN_ON_ONCE(r))
-  6531			goto err_vfio;
-  6532	
-  6533		kvm_gmem_init(module);
-  6534	
-  6535		/*
-  6536		 * Registration _must_ be the very last thing done, as this exposes
-  6537		 * /dev/kvm to userspace, i.e. all infrastructure must be setup!
-  6538		 */
-  6539		r = misc_register(&kvm_dev);
-  6540		if (r) {
-  6541			pr_err("kvm: misc device register failed\n");
-  6542			goto err_register;
-  6543		}
-  6544	
-  6545		return 0;
-  6546	
-  6547	err_register:
-  6548		kvm_vfio_ops_exit();
-  6549	err_vfio:
-> 6550		kvm_gmem_fs_exit();
-  6551	err_gmem:
-  6552		kvm_async_pf_deinit();
-  6553	err_async_pf:
-  6554		kvm_irqfd_exit();
-  6555	err_irqfd:
-  6556	err_cpu_kick_mask:
-  6557		for_each_possible_cpu(cpu)
-  6558			free_cpumask_var(per_cpu(cpu_kick_mask, cpu));
-  6559		kmem_cache_destroy(kvm_vcpu_cache);
-  6560	err_vcpu_cache:
-  6561	#ifdef CONFIG_KVM_GENERIC_HARDWARE_ENABLING
-  6562		unregister_syscore_ops(&kvm_syscore_ops);
-  6563		cpuhp_remove_state_nocalls(CPUHP_AP_KVM_ONLINE);
-  6564	#endif
-  6565		return r;
-  6566	}
-  6567	EXPORT_SYMBOL_GPL(kvm_init);
-  6568	
+   565	
+   566	/*===========================================================================
+   567	 *                          EEPROM IO-operations
+   568	 *===========================================================================
+   569	 */
+   570	
+   571	/*
+   572	 * idt_eeprom_read_byte() - read just one byte from EEPROM
+   573	 * @pdev:	Pointer to the driver data
+   574	 * @memaddr:	Start EEPROM memory address
+   575	 * @data:	Data to be written to EEPROM
+   576	 */
+   577	static int idt_eeprom_read_byte(struct idt_89hpesx_dev *pdev, u16 memaddr,
+   578					u8 *data)
+   579	{
+   580		struct device *dev = &pdev->client->dev;
+   581		struct idt_eeprom_seq eeseq;
+   582		struct idt_smb_seq smbseq;
+   583		int ret, retry;
+   584	
+   585		/* Initialize SMBus sequence fields */
+   586		smbseq.ccode = pdev->iniccode | CCODE_EEPROM;
+   587		smbseq.data = (u8 *)&eeseq;
+   588	
+   589		/*
+   590		 * Sometimes EEPROM may respond with NACK if it's busy with previous
+   591		 * operation, so we need to perform a few attempts of read cycle
+   592		 */
+   593		retry = RETRY_CNT;
+   594		do {
+   595			/* Send EEPROM memory address to read data from */
+   596			smbseq.bytecnt = EEPROM_WRRD_CNT;
+   597			eeseq.cmd = pdev->inieecmd | EEPROM_OP_READ;
+   598			eeseq.eeaddr = pdev->eeaddr;
+ > 599			eeseq.memaddr = cpu_to_le16(memaddr);
+   600			ret = pdev->smb_write(pdev, &smbseq);
+   601			if (ret != 0) {
+   602				dev_err(dev, "Failed to init eeprom addr 0x%02hhx",
+   603					memaddr);
+   604				break;
+   605			}
+   606	
+   607			/* Perform read operation */
+   608			smbseq.bytecnt = EEPROM_RD_CNT;
+   609			ret = pdev->smb_read(pdev, &smbseq);
+   610			if (ret != 0) {
+   611				dev_err(dev, "Failed to read eeprom data 0x%02hhx",
+   612					memaddr);
+   613				break;
+   614			}
+   615	
+   616			/* Restart read operation if the device is busy */
+   617			if (retry && (eeseq.cmd & EEPROM_NAERR)) {
+   618				dev_dbg(dev, "EEPROM busy, retry reading after %d ms",
+   619					EEPROM_TOUT);
+   620				msleep(EEPROM_TOUT);
+   621				continue;
+   622			}
+   623	
+   624			/* Check whether IDT successfully read data from EEPROM */
+   625			if (eeseq.cmd & (EEPROM_NAERR | EEPROM_LAERR | EEPROM_MSS)) {
+   626				dev_err(dev,
+   627					"Communication with eeprom failed, cmd 0x%hhx",
+   628					eeseq.cmd);
+   629				ret = -EREMOTEIO;
+   630				break;
+   631			}
+   632	
+   633			/* Save retrieved data and exit the loop */
+   634			*data = eeseq.data;
+   635			break;
+   636		} while (retry--);
+   637	
+   638		/* Return the status of operation */
+   639		return ret;
+   640	}
+   641	
+   642	/*
+   643	 * idt_eeprom_write() - EEPROM write operation
+   644	 * @pdev:	Pointer to the driver data
+   645	 * @memaddr:	Start EEPROM memory address
+   646	 * @len:	Length of data to be written
+   647	 * @data:	Data to be written to EEPROM
+   648	 */
+   649	static int idt_eeprom_write(struct idt_89hpesx_dev *pdev, u16 memaddr, u16 len,
+   650				    const u8 *data)
+   651	{
+   652		struct device *dev = &pdev->client->dev;
+   653		struct idt_eeprom_seq eeseq;
+   654		struct idt_smb_seq smbseq;
+   655		int ret;
+   656		u16 idx;
+   657	
+   658		/* Initialize SMBus sequence fields */
+   659		smbseq.ccode = pdev->iniccode | CCODE_EEPROM;
+   660		smbseq.data = (u8 *)&eeseq;
+   661	
+   662		/* Send data byte-by-byte, checking if it is successfully written */
+   663		for (idx = 0; idx < len; idx++, memaddr++) {
+   664			/* Lock IDT SMBus device */
+   665			mutex_lock(&pdev->smb_mtx);
+   666	
+   667			/* Perform write operation */
+   668			smbseq.bytecnt = EEPROM_WR_CNT;
+   669			eeseq.cmd = pdev->inieecmd | EEPROM_OP_WRITE;
+   670			eeseq.eeaddr = pdev->eeaddr;
+   671			eeseq.memaddr = cpu_to_le16(memaddr);
+   672			eeseq.data = data[idx];
+   673			ret = pdev->smb_write(pdev, &smbseq);
+   674			if (ret != 0) {
+   675				dev_err(dev,
+   676					"Failed to write 0x%04hx:0x%02hhx to eeprom",
+   677					memaddr, data[idx]);
+   678				goto err_mutex_unlock;
+   679			}
+   680	
+   681			/*
+   682			 * Check whether the data is successfully written by reading
+   683			 * from the same EEPROM memory address.
+   684			 */
+   685			eeseq.data = ~data[idx];
+   686			ret = idt_eeprom_read_byte(pdev, memaddr, &eeseq.data);
+   687			if (ret != 0)
+   688				goto err_mutex_unlock;
+   689	
+   690			/* Check whether the read byte is the same as written one */
+   691			if (eeseq.data != data[idx]) {
+   692				dev_err(dev, "Values don't match 0x%02hhx != 0x%02hhx",
+   693					eeseq.data, data[idx]);
+   694				ret = -EREMOTEIO;
+   695				goto err_mutex_unlock;
+   696			}
+   697	
+   698			/* Unlock IDT SMBus device */
+   699	err_mutex_unlock:
+   700			mutex_unlock(&pdev->smb_mtx);
+   701			if (ret != 0)
+   702				return ret;
+   703		}
+   704	
+   705		return 0;
+   706	}
+   707	
+   708	/*
+   709	 * idt_eeprom_read() - EEPROM read operation
+   710	 * @pdev:	Pointer to the driver data
+   711	 * @memaddr:	Start EEPROM memory address
+   712	 * @len:	Length of data to read
+   713	 * @buf:	Buffer to read data to
+   714	 */
+   715	static int idt_eeprom_read(struct idt_89hpesx_dev *pdev, u16 memaddr, u16 len,
+   716				   u8 *buf)
+   717	{
+   718		int ret;
+   719		u16 idx;
+   720	
+   721		/* Read data byte-by-byte, retrying if it wasn't successful */
+   722		for (idx = 0; idx < len; idx++, memaddr++) {
+   723			/* Lock IDT SMBus device */
+   724			mutex_lock(&pdev->smb_mtx);
+   725	
+   726			/* Just read the byte to the buffer */
+   727			ret = idt_eeprom_read_byte(pdev, memaddr, &buf[idx]);
+   728	
+   729			/* Unlock IDT SMBus device */
+   730			mutex_unlock(&pdev->smb_mtx);
+   731	
+   732			/* Return error if read operation failed */
+   733			if (ret != 0)
+   734				return ret;
+   735		}
+   736	
+   737		return 0;
+   738	}
+   739	
+   740	/*===========================================================================
+   741	 *                          CSR IO-operations
+   742	 *===========================================================================
+   743	 */
+   744	
+   745	/*
+   746	 * idt_csr_write() - CSR write operation
+   747	 * @pdev:	Pointer to the driver data
+   748	 * @csraddr:	CSR address (with no two LS bits)
+   749	 * @data:	Data to be written to CSR
+   750	 */
+   751	static int idt_csr_write(struct idt_89hpesx_dev *pdev, u16 csraddr,
+   752				 const u32 data)
+   753	{
+   754		struct device *dev = &pdev->client->dev;
+   755		struct idt_csr_seq csrseq;
+   756		struct idt_smb_seq smbseq;
+   757		int ret;
+   758	
+   759		/* Initialize SMBus sequence fields */
+   760		smbseq.ccode = pdev->iniccode | CCODE_CSR;
+   761		smbseq.data = (u8 *)&csrseq;
+   762	
+   763		/* Lock IDT SMBus device */
+   764		mutex_lock(&pdev->smb_mtx);
+   765	
+   766		/* Perform write operation */
+   767		smbseq.bytecnt = CSR_WR_CNT;
+   768		csrseq.cmd = pdev->inicsrcmd | CSR_OP_WRITE;
+ > 769		csrseq.csraddr = cpu_to_le16(csraddr);
+ > 770		csrseq.data = cpu_to_le32(data);
+   771		ret = pdev->smb_write(pdev, &smbseq);
+   772		if (ret != 0) {
+   773			dev_err(dev, "Failed to write 0x%04x: 0x%04x to csr",
+   774				CSR_REAL_ADDR(csraddr), data);
+   775			goto err_mutex_unlock;
+   776		}
+   777	
+   778		/* Send CSR address to read data from */
+   779		smbseq.bytecnt = CSR_WRRD_CNT;
+   780		csrseq.cmd = pdev->inicsrcmd | CSR_OP_READ;
+   781		ret = pdev->smb_write(pdev, &smbseq);
+   782		if (ret != 0) {
+   783			dev_err(dev, "Failed to init csr address 0x%04x",
+   784				CSR_REAL_ADDR(csraddr));
+   785			goto err_mutex_unlock;
+   786		}
+   787	
+   788		/* Perform read operation */
+   789		smbseq.bytecnt = CSR_RD_CNT;
+   790		ret = pdev->smb_read(pdev, &smbseq);
+   791		if (ret != 0) {
+   792			dev_err(dev, "Failed to read csr 0x%04x",
+   793				CSR_REAL_ADDR(csraddr));
+   794			goto err_mutex_unlock;
+   795		}
+   796	
+   797		/* Check whether IDT successfully retrieved CSR data */
+   798		if (csrseq.cmd & (CSR_RERR | CSR_WERR)) {
+   799			dev_err(dev, "IDT failed to perform CSR r/w");
+   800			ret = -EREMOTEIO;
+   801			goto err_mutex_unlock;
+   802		}
+   803	
+   804		/* Unlock IDT SMBus device */
+   805	err_mutex_unlock:
+   806		mutex_unlock(&pdev->smb_mtx);
+   807	
+   808		return ret;
+   809	}
+   810	
 
 -- 
 0-DAY CI Kernel Test Service
