@@ -1,250 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC86134AC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 10:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1202904;
+	Fri, 26 Jan 2024 10:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706264568; cv=none; b=f0V7vUxDDGKeyb4VZs1B1e9eHu7VkHbc1kkUFuxk5DT8UTdSEX5g8qpIQ0BECJjqdxU/LpPia0M4Q2NVQyZyH4f6OTJknj0PalYqt6AU05K321AmxLTNAE7XzLXR38nxkOoQT49gmp4t7iWexpp599V7Hq/U0yNBg44PNbEsMnM=
+	t=1706265778; cv=none; b=A2/u5pXZJFyVQy8QY6L3PnG8EJJqw3rQFKJyg8o7Tqcxd1Da8vQd/MPWslj+ImOPzk8CmiGeXM5Iubnq1gBEIa9zpkzAm71A1T5ZEeto4iW3G+kLKHm4N4iRBliUBucuwHEsFFduHvchJMYm2WT9vrLfC253dx/zZykiziobMs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706264568; c=relaxed/simple;
-	bh=2yHvncHSVJo2fldrlH58Avr7g4fyvv+ZyNJ9oKYuJBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OVrB7YcEfFYeW8DZZXxCUDg5jklekRxYn5Cnw8wNJ/ZpAM2ElpsbQ5H0t7ck8+Xk752yDZ+kw5gwOR70qAeOV0e13BE+cZQFjzX+OFxpPFqtkg6qjCGCS7zKZzUs3Pn13sJjLpT0cpyyeoBZUdpxJ2nzctNlS9ps1ZK0UhIwgqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rr8jM/xB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706265778; c=relaxed/simple;
+	bh=iTRmVcaQdapINCCxgbykdtcbm7oTAo3IWNoWd+USyYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g7cpBAwefGsA43KZ/kq3CN8Gx7TT5muZ8Sh6j1lyQh1iPazC2o/dgpPb7Mn6P0TY2co4YbL3FvhuttKaMVyVAepL7fmzvZ9+Vycem7HBOp/ikg2eioBv7tch2ti3/A2+UzOm7N0ih/Rjg9hOwTwt4v2IA8BbqBtWx2aNbUOvHng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMMn8Msh; arc=none smtp.client-ip=134.134.136.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rr8jM/xB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E9DC433C7;
-	Fri, 26 Jan 2024 10:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706264568;
-	bh=2yHvncHSVJo2fldrlH58Avr7g4fyvv+ZyNJ9oKYuJBI=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=Rr8jM/xBgj710Y8VtRhuliF9EHa23otdr9J8UgjKzWLvHcKfyT3uY/V6cL7V1g7fR
-	 xeJKrXjnaYDZ0anF1MIX16yoyGtv25RUfeuDFNvsUqzLJCsSbfopa+mfAqCujJWgcG
-	 y0TOBNetFB+0vMhkBleNhYx99DiYQMXWZmn/89/giQWAULk1vExrw8Bv801OL9sHXc
-	 sZX8sCmcH2FFDB1fq6yzW92ugbO3g3VhXOMsBIR+T4DsGt1wnQ1tXRiuGFSMRxty+Q
-	 2izbLAh4gnMCacvXiYT/sN9zC/U1G8g94x1DdZ6mbH5eQbcr+iw1/QE0hfMhzfPrJR
-	 R9DMK+isV3I+A==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id A3F81CE1408; Fri, 26 Jan 2024 02:22:47 -0800 (PST)
-Date: Fri, 26 Jan 2024 02:22:47 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: kernel test robot <lkp@intel.com>, Matthew Wilcox <willy@infradead.org>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 1589/1892] fs/proc/task_mmu.c:143:45: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <68dc8592-6a5d-4cbe-bb8c-e0f4b5517684@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202401251829.0m6Eo4LI-lkp@intel.com>
- <CAJuCfpHW2=Zu+CHXL+5fjWxGk=CVix=C66ra+DmXgn6r3+fsXg@mail.gmail.com>
- <b82c9479-9331-4b31-9fca-3fa963901fe9@paulmck-laptop>
- <CAJuCfpGA7ScozuAL71idCRbfgxPaz+zY5jEYZ-FQmikQfXrD5A@mail.gmail.com>
- <ca479a8e-a8f5-48d7-96f9-27692091d2e9@paulmck-laptop>
- <CAJuCfpHYTjmjtZTAAREy1LBzapekvTk-7BiNQyypTcEypsje2A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMMn8Msh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706265776; x=1737801776;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iTRmVcaQdapINCCxgbykdtcbm7oTAo3IWNoWd+USyYg=;
+  b=mMMn8MshI99erTGTmZH6T0JkBVNHH3M5oE9mE9aTGN6RM2BzOGr4IjB4
+   jyn3SItDDqx60R5FqTFzHBH5ESYQGythinBR7b96L4zuFhDO8ObOPZYGF
+   QyKPZi6w/kxzeJ/JoVXf3yagB0ZyD84sDkCAUQN+/y74/AVrwY2vF0IvB
+   hVzeNFj9TBcBLIx4Ky2/hvvz6GKf5DcrsjFjWzWVTp6tZB8Rh8c02qliW
+   AGAaxdCjIlpWRHaQl3xUdGz0fpyfth62GDmMbWL3vzAl6udewnL7hETVw
+   XcNh0jfCZfWH/BAPCUCUXEqCraZzmt8of/xPKPXEse6MOi77RnR0sRDZF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="392871037"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="392871037"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 02:42:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787062630"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="787062630"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 26 Jan 2024 02:42:54 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rTJfg-0000w2-0P;
+	Fri, 26 Jan 2024 10:42:52 +0000
+Date: Fri, 26 Jan 2024 18:42:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sebastian Reichel <sre@kernel.org>
+Subject: [sre-misc:rk3588 33/46] ld.lld: error: undefined symbol:
+ devm_clk_register
+Message-ID: <202401261842.E4ci98Jz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpHYTjmjtZTAAREy1LBzapekvTk-7BiNQyypTcEypsje2A@mail.gmail.com>
 
-On Thu, Jan 25, 2024 at 06:24:05PM -0800, Suren Baghdasaryan wrote:
-> On Thu, Jan 25, 2024 at 4:35 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Thu, Jan 25, 2024 at 03:17:17PM -0800, Suren Baghdasaryan wrote:
-> > > On Thu, Jan 25, 2024 at 2:44 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > >
-> > > > On Thu, Jan 25, 2024 at 01:27:34PM -0800, Suren Baghdasaryan wrote:
-> > > > > On Thu, Jan 25, 2024 at 2:23 AM kernel test robot <lkp@intel.com> wrote:
-> > > > > >
-> > > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > > > > head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
-> > > > > > commit: 0c30c4cd953025979b7689e49844837f762303ec [1589/1892] mm/maps: read proc/pid/maps under RCU
-> > > > > > config: x86_64-randconfig-121-20240125 (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/config)
-> > > > > > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/reproduce)
-> > > > > >
-> > > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > > the same patch/commit), kindly add following tags
-> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202401251829.0m6Eo4LI-lkp@intel.com/
-> > > > > >
-> > > > > > sparse warnings: (new ones prefixed by >>)
-> > > > > > >> fs/proc/task_mmu.c:143:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
-> > > > >
-> > > > > Uh, this is a problem.
-> > > > > I missed that get_file_rcu() is used only with mm->exe_file and
-> > > > > vma->vm_file is not really RCU-safe. It's freed via a call to fput()
-> > > > > which schedules its freeing using schedule_delayed_work(..., 1) but I
-> > > > > don't think that constitutes RCU grace period. Paul, Matthew, could
-> > > > > you please confirm? In the meantime I'm going to ask Andrew to remove
-> > > > > my patchset from mm-unstable to be safe.
-> > > >
-> > > > Sadly, no, schedule_delayed_work() does not imply an RCU grace period.
-> > > >
-> > > > There is a queue_rcu_work() that schedules work after a grace period,
-> > > > which could be combined with a timer to get the delay.
-> > > >
-> > > > Another approach would be to use get_state_synchronize_rcu() before
-> > > > the schedule_delayed_work() in fput(), then do cond_synchronize_rcu()
-> > > > in delayed_fput().  This would require adding an unsigned long to
-> > > > struct file to keep track of which grace period a given struct file
-> > > > needed to wait for.
-> > > >
-> > > > Perhaps something like this:
-> > > >
-> > > > ------------------------------------------------------------------------
-> > > >
-> > > > void fput(struct file *file)
-> > > > {
-> > > >         if (atomic_long_dec_and_test(&file->f_count)) {
-> > > >                 struct task_struct *task = current;
-> > > >
-> > > >                 if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
-> > > >                         init_task_work(&file->f_rcuhead, ____fput);
-> > > >                         if (!task_work_add(task, &file->f_rcuhead, TWA_RESUME))
-> > > >                                 return;
-> > > >                         /*
-> > > >                          * After this task has run exit_task_work(),
-> > > >                          * task_work_add() will fail.  Fall through to delayed
-> > > >                          * fput to avoid leaking *file.
-> > > >                          */
-> > > >                 }
-> > > >
-> > > >                 file->f_rcu_seq = get_state_synchronize_rcu();
-> > > >                 if (llist_add(&file->f_llist, &delayed_fput_list))
-> > > >                         schedule_delayed_work(&delayed_fput_work, 1);
-> > > >         }
-> > > > }
-> > > >
-> > > > ------------------------------------------------------------------------
-> > > >
-> > > > And this:
-> > > >
-> > > > ------------------------------------------------------------------------
-> > > >
-> > > > static void delayed_fput(struct work_struct *unused)
-> > > > {
-> > > >         struct llist_node *node = llist_del_all(&delayed_fput_list);
-> > > >         struct file *f, *t;
-> > > >
-> > > >         llist_for_each_entry_safe(f, t, node, f_llist) {
-> > > >                 cond_synchronize_rcu(f->f_rcu_seq);
-> > > >                 __fput(f);
-> > > >         }
-> > > > }
-> > > >
-> > > > ------------------------------------------------------------------------
-> > > >
-> > > > Note that if you called fput() on a long sequence of struct file
-> > > > structures, the cond_synchronize_rcu() would be a near-noop almost all the
-> > > > time, actually blocking at most about every once per every few jiffies.
-> > > > After all, once a grace period has been waited for, it covers all of
-> > > > the struct file structures that were passed to fput() during a given
-> > > > RCU grace period.
-> > > >
-> > > > Still, it would add the occasional delay.  And it would increase the
-> > > > size of struct file, though there are workarounds for that, if size
-> > > > is an issue.
-> > > >
-> > > > Thoughts?
-> > >
-> > > Thanks for the suggestion, Paul. I'm worried about this occasional
-> > > delay but otherwise this seems like a nice and simple approach.
-> >
-> > One potential saving grace is that the more heavily loaded the mechanism,
-> > the smaller a fraction of the cond_synchronize_rcu() calls will do
-> > a delay.
-> >
-> > >                                                                 Do you
-> > > guys think that making *all* files RCU-safe with this approach is
-> > > warranted? For my particular case I need only vma->vm_file to be
-> > > RCU-safe but maybe there are other cases which would benefit from
-> > > this?
-> >
-> > To this, I can only give an unqualified "I don't know".  :-(
-> >
-> > But if there is some condition that can be sampled on a per-file-structure
-> > basis, you could use that to invoke cond_synchronize_rcu() only when
-> > needed.  Or send only those file structures that need the extra delay
-> > through queue_rcu_work(), perhaps by accumulating a list of them.
-> 
-> Thanks Paul! You gave me enough food for thought. Let me see if I can
-> come up with something usable.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git rk3588
+head:   ccfac401eae6ce8187bbb09d1674c26f51d055f4
+commit: fd161b846e32fb6702d8bea93b39f768aeb6c576 [33/46] [WIP] drm/rockchip: vop2: Improve display modes handling on rk3588
+config: i386-buildonly-randconfig-002-20240126 (https://download.01.org/0day-ci/archive/20240126/202401261842.E4ci98Jz-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401261842.E4ci98Jz-lkp@intel.com/reproduce)
 
-Do we have the same problem with the task_work_add() path in fput()?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401261842.E4ci98Jz-lkp@intel.com/
 
-							Thanx, Paul
+All errors (new ones prefixed by >>):
 
-> Cheers,
-> Suren.
-> 
-> >
-> >                                                         Thanx, Paul
-> >
-> > > > > >    fs/proc/task_mmu.c:143:45: sparse:     expected struct file [noderef] __rcu **f
-> > > > > >    fs/proc/task_mmu.c:143:45: sparse:     got struct file **
-> > > > > >    fs/proc/task_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-> > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'get_vma_snapshot' - unexpected unlock
-> > > > > >    fs/proc/task_mmu.c:264:22: sparse: sparse: context imbalance in 'm_start' - different lock contexts for basic block
-> > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'm_stop' - unexpected unlock
-> > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'smaps_pte_range' - unexpected unlock
-> > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'clear_refs_pte_range' - unexpected unlock
-> > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_pmd_range' - unexpected unlock
-> > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_scan_pmd_entry' - unexpected unlock
-> > > > > >    fs/proc/task_mmu.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
-> > > > > >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-> > > > > >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-> > > > > >
-> > > > > > vim +143 fs/proc/task_mmu.c
-> > > > > >
-> > > > > >    132
-> > > > > >    133  /*
-> > > > > >    134   * Take VMA snapshot and pin vm_file and anon_name as they are used by
-> > > > > >    135   * show_map_vma.
-> > > > > >    136   */
-> > > > > >    137  static int get_vma_snapshot(struct proc_maps_private *priv, struct vm_area_struct *vma)
-> > > > > >    138  {
-> > > > > >    139          struct vm_area_struct *copy = &priv->vma_copy;
-> > > > > >    140          int ret = -EAGAIN;
-> > > > > >    141
-> > > > > >    142          memcpy(copy, vma, sizeof(*vma));
-> > > > > >  > 143          if (copy->vm_file && !get_file_rcu(&copy->vm_file))
-> > > > > >    144                  goto out;
-> > > > > >    145
-> > > > > >    146          if (!anon_vma_name_get_if_valid(copy))
-> > > > > >    147                  goto put_file;
-> > > > > >    148
-> > > > > >    149          if (priv->mm_wr_seq == mmap_write_seq_read(priv->mm))
-> > > > > >    150                  return 0;
-> > > > > >    151
-> > > > > >    152          /* Address space got modified, vma might be stale. Wait and retry. */
-> > > > > >    153          rcu_read_unlock();
-> > > > > >    154          ret = mmap_read_lock_killable(priv->mm);
-> > > > > >    155          mmap_write_seq_record(priv->mm, &priv->mm_wr_seq);
-> > > > > >    156          mmap_read_unlock(priv->mm);
-> > > > > >    157          rcu_read_lock();
-> > > > > >    158
-> > > > > >    159          if (!ret)
-> > > > > >    160                  ret = -EAGAIN; /* no other errors, ok to retry */
-> > > > > >    161
-> > > > > >    162          anon_vma_name_put_if_valid(copy);
-> > > > > >    163  put_file:
-> > > > > >    164          if (copy->vm_file)
-> > > > > >    165                  fput(copy->vm_file);
-> > > > > >    166  out:
-> > > > > >    167          return ret;
-> > > > > >    168  }
-> > > > > >    169
-> > > > > >
-> > > > > > --
-> > > > > > 0-DAY CI Kernel Test Service
-> > > > > > https://github.com/intel/lkp-tests/wiki
+>> ld.lld: error: undefined symbol: devm_clk_register
+   >>> referenced by rockchip_drm_vop2.c
+   >>>               drivers/gpu/drm/rockchip/rockchip_drm_vop2.o:(vop2_clk_init) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: clk_hw_get_name
+   >>> referenced by rockchip_drm_vop2.c
+   >>>               drivers/gpu/drm/rockchip/rockchip_drm_vop2.o:(vop2_crtc_atomic_enable) in archive vmlinux.a
+   >>> referenced by rockchip_drm_vop2.c
+   >>>               drivers/gpu/drm/rockchip/rockchip_drm_vop2.o:(vop2_crtc_atomic_enable) in archive vmlinux.a
+   >>> referenced by rockchip_drm_vop2.c
+   >>>               drivers/gpu/drm/rockchip/rockchip_drm_vop2.o:(vop2_crtc_atomic_enable) in archive vmlinux.a
+   >>> referenced 5 more times
+--
+>> ld.lld: error: undefined symbol: clk_hw_get_flags
+   >>> referenced by rockchip_drm_vop2.c
+   >>>               drivers/gpu/drm/rockchip/rockchip_drm_vop2.o:(vop2_clk_div_round_rate) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: __clk_mux_determine_rate
+   >>> referenced by rockchip_drm_vop2.c
+   >>>               drivers/gpu/drm/rockchip/rockchip_drm_vop2.o:(vop2_clk_mux_determine_rate) in archive vmlinux.a
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
