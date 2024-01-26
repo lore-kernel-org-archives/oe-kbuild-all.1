@@ -1,119 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7731E86F;
-	Fri, 26 Jan 2024 17:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A340D1E86F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 17:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706288711; cv=none; b=aP64nYi6COeJldGhi6DVyqe2ZFbrrQ6ZNtnAYIiPPJP/ftqVy2PE44+p9FobqaAi1m+mGCc265v6xra/TYCMN3dtRXdtuuIOUyv2Ujju/HA5euJiVgKSwhITlyq9MUSyG83r/jDBuY/L72bvLi2aHBQufwMNN/mMx9PfSAApBe4=
+	t=1706289943; cv=none; b=m634ZwOp3kqtWaKK+TwBCflFC7PIe+IgHQx6slGrLc169l65NWTqVRNO/e903wNedc7+PLqJJKsrLx98q9OjXr7tdGyM6nWYdruSKE4l4N8x9BgMn3av3OCVAVh0UidyeEQgGqTBI2rxoPJ4wZdBJ1wJExcjKZjkcpyy66ZF88U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706288711; c=relaxed/simple;
-	bh=B2eTgBCFVQKRYm7Y4FhNIecDMa1S3RJPllkOTJs5j3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ls42hD7vyJ56axJNXbNFyYmZwwEiLpgsagA0faFWvowAsjYaf97hK0S/ElCInr7eGJZ+1ztvK1E1rVC/Klme1em44Yju7Lgt3i/vVXyQ/l5HTxNPkJC8Nz3h+xljTEFJCI2a0TUmmra3JbkSeuUtnPy5Er4cwgPDYtdFXY3s8qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=An4ezcik; arc=none smtp.client-ip=134.134.136.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706289943; c=relaxed/simple;
+	bh=xPjbeHM+/HDx6jxzmLz9AOl/bNVzYYu0ALYtamVcz+w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jZYsxlLefdkyNduRd5+ZLWMgTrBg406LajV+kvyp1Dk5LudY+GF0gY1CUlfmD3JNvR4CpmTxJvEnqv4sYjECOlhAuszkK6isIRAsevIOxHniIFsNYMHXwznAsHHDt4s8T2TP+fce9LzdAvMKn2cV8roiUawn3FuYss3FonGGhjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RdFJQU/J; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="An4ezcik"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706288709; x=1737824709;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B2eTgBCFVQKRYm7Y4FhNIecDMa1S3RJPllkOTJs5j3E=;
-  b=An4ezcikvMXYQbN5MQWuLr+t6fu80AA3MZFlnxhoiegDkebB84/+FN82
-   L0kIf9eBPvdj9HLw8whejN6Vojgb9M+yZrOkrDDBCTP8QSrJFsjkaeNT5
-   9UlCTGYvJfbZ+5NGZC96mI9oWJhA19FAiXpBVZt1n5Jvl6uS8nBsW/q4y
-   FwUFvAYos66P59vxpYOvL0ebyA2ImbsIltxVtArL8dd1OYVoP4Kq13Un9
-   +zp9iOggZoYd3p3nRJgIbcA6hEeOrr+s1BA5pkbziGg3U6uRT1e74FvnC
-   nakF6Kb0fDfYzZZnZbmqcPXZ0izKl0LEfWcXEJ2GepB7abmuj0/wmfxcc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="392954083"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="392954083"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 09:05:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="21432338"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Jan 2024 09:05:01 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rTPdT-0001Dy-0X;
-	Fri, 26 Jan 2024 17:04:59 +0000
-Date: Sat, 27 Jan 2024 01:04:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peter Griffin <peter.griffin@linaro.org>, arnd@arndb.de,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	linux@roeck-us.net, wim@linux-watchdog.org, conor+dt@kernel.org,
-	alim.akhtar@samsung.com, jaewon02.kim@samsung.com,
-	chanho61.park@samsung.com, semen.protsenko@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel-team@android.com, peter.griffin@linaro.org,
-	tudor.ambarus@linaro.org, andre.draszik@linaro.org,
-	saravanak@google.com, willmcvicker@google.com, linux-fsd@tesla.com,
-	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 3/9] watchdog: s3c2410_wdt: update to use new
- exynos_pmu_*() apis
-Message-ID: <202401270001.630IWRta-lkp@intel.com>
-References: <20240122225710.1952066-4-peter.griffin@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RdFJQU/J"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a271a28aeb4so58088466b.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 09:25:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706289940; x=1706894740; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kFbZbkLrOwRZ5J3+sJIG4KgFkS5YNa71i5ZmLkZajBw=;
+        b=RdFJQU/J6W/NPgQ4+dK73m4NXVV7PDjW12FJubvgSWJ2w0W//NPg8G3D5WsjmGBnuH
+         QN6Dctbuo0vZ7ezPOOghQJX3qTwBlUBuJQN9CBMPmWpjpzH6xWkxif4Y175X7Hx5gYub
+         2NYV0DSM2xFB/JUC75nnwzeW1RfRtfJ+bTMSCeIDPLz1YVVNmaAidU8wlrFgWIUtOeIT
+         dqhwEWHzHojf9ojyYE7njr0G4rW17oG4UrdOjUiHrpDbgyzTXHOBsgcMx4ujJNC3aIzu
+         HebFCl12A0pmMVV/y3QFm9hbvQEkrWBmcfknQ2y+OSppVhVHuUDTluK61A/EQXjaygMo
+         eUuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706289940; x=1706894740;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kFbZbkLrOwRZ5J3+sJIG4KgFkS5YNa71i5ZmLkZajBw=;
+        b=mvcunDTTICZe+9QqaK26h1EHwPdcM8jeL28l6Wk6/Vwj34iUQ5ovPUKeEVK3IlqO5s
+         IOHNvoxURBs0QYR7UNO0B2eVro2enEbQgd3nEEjo3/u/Hox5JSBtXLCwUT2UgAHc5SfJ
+         f20ONZAlVgRH0B6d/s/U8TxXjH/+Hsda8QoCAyRqDlAHqEXOpO2fJ16XmO38BuBQwjTh
+         BwWuiQr+D782BL2EfxJPQDdcZmya8IYvrLfC5JG7TPmoT0N4RI7u4zwmA1ZrewR2ZsC/
+         TPWFde67pP/loURAI46EjAHIRAgBdDcpkAX3v1IMKVEYEwYFExFbGB/Pm/pYcDyNW2sD
+         XQew==
+X-Gm-Message-State: AOJu0YzASfeDHW1qkeA3agM/BD46Dy4NPWPc4ilAv14+0pWWrjzDsqTM
+	8HT6X1fsgaXftM8lnzxaccV6TuxBac6rpZw2CQOXcypU33k14qtxfoRE2w+O+yeLno7A8Sk4JkD
+	a2BEh30a5pDjhXff3vgeE4VyRgMo=
+X-Google-Smtp-Source: AGHT+IEgTwvsqU6ZxyJilkEVxiWKWu4BRSw+FjFGu3xyrnVnI9q6JSKu7vmLiKKd/JlPJwiMzQP7l+6LkgrCLM2StXo=
+X-Received: by 2002:a17:906:cec7:b0:a28:ab53:eda1 with SMTP id
+ si7-20020a170906cec700b00a28ab53eda1mr1074405ejb.34.1706289939576; Fri, 26
+ Jan 2024 09:25:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240122225710.1952066-4-peter.griffin@linaro.org>
+References: <202401260626.nE6j5ZwR-lkp@intel.com>
+In-Reply-To: <202401260626.nE6j5ZwR-lkp@intel.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 26 Jan 2024 19:25:27 +0200
+Message-ID: <CAOQ4uxg0a64FBhKbDiEfDvAqgCR-5bMo+Cq9bDAAtFRs7BQT4g@mail.gmail.com>
+Subject: Re: WARNING: modpost: vmlinux: section mismatch in reference:
+ vega20_enable_dpm_tasks.part.0+0x2cc (section: .text) -> (unknown) (section: .init.text)
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Peter,
+On Fri, Jan 26, 2024 at 12:52=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   ecb1b8288dc7ccbdcb3b9df005fa1c0e0c0388a7
+> commit: dff745c1221a402b4921d54f292288373cff500c fs: move cleanup from in=
+it_file() into its callers
+> date:   7 months ago
+> config: riscv-randconfig-r026-20230716 (https://download.01.org/0day-ci/a=
+rchive/20240126/202401260626.nE6j5ZwR-lkp@intel.com/config)
+> compiler: riscv32-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240126/202401260626.nE6j5ZwR-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401260626.nE6j5ZwR-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+>
+> WARNING: modpost: vmlinux: section mismatch in reference: vega10_populate=
+_single_gfx_level+0x164 (section: .text) -> set_reset_devices (section: .in=
+it.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vega10_populate=
+_single_gfx_level+0x168 (section: .text) -> set_reset_devices (section: .in=
+it.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vega10_populate=
+_single_gfx_level+0x170 (section: .text) -> set_reset_devices (section: .in=
+it.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vega10_populate=
+_single_soc_level+0x4e (section: .text) -> set_reset_devices (section: .ini=
+t.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: vega10_populate=
+_single_soc_level+0x5a (section: .text) -> set_reset_devices (section: .ini=
+t.text)
 
-kernel test robot noticed the following build errors:
+Sorry, I have no idea what these warnings are and why they are related to t=
+he
+mentioned commit.
 
-[auto build test ERROR on krzk/for-next]
-[also build test ERROR on robh/for-next soc/for-next linus/master v6.8-rc1 next-20240125]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Maybe someone cares to explain?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Griffin/dt-bindings-watchdog-samsung-wdt-deprecate-samsung-syscon-phandle/20240123-070052
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240122225710.1952066-4-peter.griffin%40linaro.org
-patch subject: [PATCH 3/9] watchdog: s3c2410_wdt: update to use new exynos_pmu_*() apis
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240127/202401270001.630IWRta-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270001.630IWRta-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401270001.630IWRta-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/soc/samsung/exynos5420-pmu.c:12:10: fatal error: 'asm/cputype.h' file not found
-      12 | #include <asm/cputype.h>
-         |          ^~~~~~~~~~~~~~~
-   1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for EXYNOS_PMU
-   Depends on [n]: SOC_SAMSUNG [=y] && (ARCH_EXYNOS || (ARM || ARM64) && COMPILE_TEST [=y])
-   Selected by [y]:
-   - S3C2410_WATCHDOG [=y] && WATCHDOG [=y] && (ARCH_S3C64XX || ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST [=y])
-
-
-vim +12 drivers/soc/samsung/exynos5420-pmu.c
-
-92c4bf04735130 arch/arm/mach-exynos/exynos5420-pmu.c Pankaj Dubey 2015-12-18  11  
-92c4bf04735130 arch/arm/mach-exynos/exynos5420-pmu.c Pankaj Dubey 2015-12-18 @12  #include <asm/cputype.h>
-92c4bf04735130 arch/arm/mach-exynos/exynos5420-pmu.c Pankaj Dubey 2015-12-18  13  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Amir.
