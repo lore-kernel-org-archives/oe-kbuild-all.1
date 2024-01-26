@@ -1,55 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F3E2031C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 17:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBC620335;
+	Fri, 26 Jan 2024 17:59:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706291949; cv=none; b=pd8B1vCjI7v4FH93H6wFnnvOczgkJGBHtgbVn5OQOntExUcOx1XXCkjEP8KtNAwrYeAGOmqWc/Y9RnBDAKjeLyx1QC3Gqf0qPny3OOCVJa77u6T0CeK7QZG4ACUoliUdcbW2ytIw9+4sPwlPEyIc6/l0UrbjytN6IDnl0JdhwjE=
+	t=1706291951; cv=none; b=ZnOBhc6st0QmsTpHPijkZAw8ccMAnm4+BS2xKL/DGNysARyhly8w+6XVzh8bwbFEJmr6z44PbEEBRzY0O4KZ5vWB3qTVf6Z6WxE3eqOmQevmGqqnRfc5Vqd+v35ZABP28wu+HeEEMLWWAIvXGW/XrMcTY8fPH6m2UFXuOvcCVhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706291949; c=relaxed/simple;
-	bh=T+CyxAcOarZEoQCKuEjEIIApqrzcaGr6TmcdYd6knoM=;
+	s=arc-20240116; t=1706291951; c=relaxed/simple;
+	bh=4sDsNArP+DbxlQg3IFbkQzmVRN0Zs38ei5gJJdV43Uc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fLqDXd/gKhQzgb8R5Be5eLKIMzpd0N4rhijuAOQMZ6ZLkoQJ3/5+Y4u+JJnVepu1SnOAqtufeASmcnGL82OxRmWJmUABOuqmz2NW/On8cs+ioSf7TFQ08l5eZV78mKB6OsIy9XqepbTSy3JcdPMioGvmTuPtl3iQhf2hmi91E7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQsx/HxC; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=fAOYdXmS4M0wTEwgGsQ6FJvylrf3Kf3TnV6p3ToH8BpTNY9uKTr322gwxfsy+F1wezIIDWSGGvoXPgSkTCb+le4Uf3X9v9ZtRKkt3TNE3LbpBv6jho/4Ushi+s3qShmoPfJqlkGleeBBBn8k6rqoPCUJ2fQlAJeCX5nO0GA695s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RpkoSZIW; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQsx/HxC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpkoSZIW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706291947; x=1737827947;
+  t=1706291949; x=1737827949;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T+CyxAcOarZEoQCKuEjEIIApqrzcaGr6TmcdYd6knoM=;
-  b=RQsx/HxC98cJyDF/tYNWO7vc3b/CTqAf7nP/u7qwUAvmWlj50A9h/WfL
-   Lr6S8zgTWJVJYXc4oGm/KyqS8vW4iSTX9pQEqcv1l+8F3lDwfAUvxcnXL
-   ep3ew9+RnebtyPl51yVVUCrGbIJfniG7zbkXWw9HjABMecr+pdevckcsa
-   taRZ44gu3k5+meXF9tcfxf4BS5mmM4GLGhP5OIy6kq7hAffNSxVpa2LyF
-   7Jh4b6KE6/vi/wEeX/y3R6GVnFHgd9oGBhrQ5BKqpY1kPxzMoOG7Ojdyr
-   LbW74x6d7h6UOYtdscHmZJ6uBkFGXfHVPCmL9eDVT/7PECjT2UWCxsAmT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="21075844"
+  bh=4sDsNArP+DbxlQg3IFbkQzmVRN0Zs38ei5gJJdV43Uc=;
+  b=RpkoSZIW1z1asYo8YLAwwb2QTHp0Dtn3wbe9bUTUMdrLrE2iqrWhzT8G
+   d1oD1ka8Hu2Kf4eaK0eSNyVfNlChULgXv8dzdrhNqlHJKkuaLRN05/USs
+   8Sv/YwyyW5pYGAyndZ4orXGNsgayIRxPAtqQWwi9gPugsvW9UdtjNx/RN
+   es3wT33pTyfIjsqooIFHxvWSlaQriNiaCsEyoGnEmms67uAZsNu47M/sv
+   sDsRwFawAJFWm10SUhjf959GuehKuEhUEuoxXYiGY2CTSUeNpzc2IU5aX
+   zsz5S3jab/h+JjSXOmvETgXrWL8EQGOCj5OUOaaRb+nSljiQTDzhfMHXB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="21075845"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="21075844"
+   d="scan'208";a="21075845"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 09:59:07 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2798071"
+   d="scan'208";a="2798072"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 26 Jan 2024 09:59:05 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTQTn-0001Fq-0L;
+	id 1rTQTn-0001Fs-0P;
 	Fri, 26 Jan 2024 17:59:03 +0000
-Date: Sat, 27 Jan 2024 01:58:37 +0800
+Date: Sat, 27 Jan 2024 01:58:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ambarus:gs101-spi-vv2 36/46] include/asm-generic/io.h:990:25:
- error: conflicting types for 'iowrite8_32_rep'; have 'void(volatile void *,
- const void *, unsigned int)'
-Message-ID: <202401270153.qAwqrjon-lkp@intel.com>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:guest-tpm 5/6] drivers/char/tpm/tpm_tdx.c:175: warning:
+ Function parameter or struct member 'tdvmcall_status' not described in
+ 'tdx_tpm_msg_resp'
+Message-ID: <202401270147.6zANIFto-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,88 +59,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ambarus/linux-0day gs101-spi-vv2
-head:   b148a8ab25375c3d984c42954bdb06e98a91ec8f
-commit: 94c8c2611723d740346429150d721f7991cbaa42 [36/46] asm-generic/io.h: add iowrite{8,16}_32 accessors
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240127/202401270153.qAwqrjon-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270153.qAwqrjon-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git guest-tpm
+head:   479fce1c3eaa87d98d94d78c485d9a6f0c8dd1fa
+commit: 7c617d6ef79632221c7130359d05912e2405216a [5/6] tpm: Add vTPM TDX support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240127/202401270147.6zANIFto-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270147.6zANIFto-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401270153.qAwqrjon-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401270147.6zANIFto-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/parisc/include/asm/io.h:270,
-                    from include/linux/io.h:13,
-                    from include/linux/irq.h:20,
-                    from arch/parisc/include/asm/hardirq.h:13,
-                    from include/linux/hardirq.h:11,
-                    from arch/parisc/kernel/asm-offsets.c:21:
->> include/asm-generic/io.h:990:25: error: conflicting types for 'iowrite8_32_rep'; have 'void(volatile void *, const void *, unsigned int)'
-     990 | #define iowrite8_32_rep iowrite8_32_rep
-         |                         ^~~~~~~~~~~~~~~
-   include/asm-generic/io.h:991:20: note: in expansion of macro 'iowrite8_32_rep'
-     991 | static inline void iowrite8_32_rep(volatile void __iomem *addr,
-         |                    ^~~~~~~~~~~~~~~
-   In file included from arch/parisc/include/asm/io.h:244:
-   include/asm-generic/iomap.h:87:13: note: previous declaration of 'iowrite8_32_rep' with type 'void(void *, const void *, long unsigned int)'
-      87 | extern void iowrite8_32_rep(void __iomem *port, const void *buf, unsigned long count);
-         |             ^~~~~~~~~~~~~~~
->> include/asm-generic/io.h:1010:26: error: conflicting types for 'iowrite16_32_rep'; have 'void(volatile void *, const void *, unsigned int)'
-    1010 | #define iowrite16_32_rep iowrite16_32_rep
-         |                          ^~~~~~~~~~~~~~~~
-   include/asm-generic/io.h:1011:20: note: in expansion of macro 'iowrite16_32_rep'
-    1011 | static inline void iowrite16_32_rep(volatile void __iomem *addr,
-         |                    ^~~~~~~~~~~~~~~~
-   include/asm-generic/iomap.h:89:13: note: previous declaration of 'iowrite16_32_rep' with type 'void(void *, const void *, long unsigned int)'
-      89 | extern void iowrite16_32_rep(void __iomem *port, const void *buf, unsigned long count);
-         |             ^~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/parisc/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1195: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/char/tpm/tpm_tdx.c:175: warning: Function parameter or struct member 'tdvmcall_status' not described in 'tdx_tpm_msg_resp'
+>> drivers/char/tpm/tpm_tdx.c:175: warning: Function parameter or struct member 'service_cmd_status' not described in 'tdx_tpm_msg_resp'
+>> drivers/char/tpm/tpm_tdx.c:175: warning: Function parameter or struct member 'rsvd' not described in 'tdx_tpm_msg_resp'
+>> drivers/char/tpm/tpm_tdx.c:175: warning: Excess struct member 'rsvd1' description in 'tdx_tpm_msg_resp'
+>> drivers/char/tpm/tpm_tdx.c:175: warning: Excess struct member 'rsvd2' description in 'tdx_tpm_msg_resp'
 
 
-vim +990 include/asm-generic/io.h
+vim +175 drivers/char/tpm/tpm_tdx.c
 
-   988	
-   989	#ifndef iowrite8_32_rep
- > 990	#define iowrite8_32_rep iowrite8_32_rep
-   991	static inline void iowrite8_32_rep(volatile void __iomem *addr,
-   992					   const void *buffer,
-   993					   unsigned int count)
-   994	{
-   995		writesb_l(addr, buffer, count);
-   996	}
-   997	#endif
-   998	
-   999	#ifndef iowrite16_rep
-  1000	#define iowrite16_rep iowrite16_rep
-  1001	static inline void iowrite16_rep(volatile void __iomem *addr,
-  1002					 const void *buffer,
-  1003					 unsigned int count)
-  1004	{
-  1005		writesw(addr, buffer, count);
-  1006	}
-  1007	#endif
-  1008	
-  1009	#ifndef iowrite16_32_rep
-> 1010	#define iowrite16_32_rep iowrite16_32_rep
-  1011	static inline void iowrite16_32_rep(volatile void __iomem *addr,
-  1012					    const void *buffer,
-  1013					    unsigned int count)
-  1014	{
-  1015		writesw_l(addr, buffer, count);
-  1016	}
-  1017	#endif
-  1018	
+   141	
+   142	/**
+   143	 * struct tdx_tpm_msg_resp - TDX TPM message response format.
+   144	 * @guid: A unique GUID to identify the TDVMCALL service.
+   145	 * @buf_len: Length of the response buffer.
+   146	 * @rsvd1: Reserved for future use.
+   147	 * @service_ver: Version of TPM TDVMCALL command.
+   148	 * @service_cmd: TPM TDVMCALL command
+   149	 * 		 TDVMCALL_TPM_SEND_MSG - 0x01
+   150	 * 		 TDVMCALL_TPM_RECV_MSG - 0x02
+   151	 * @rsvd2: Reserved for future use.
+   152	 * @spdm: SPDM Message header.
+   153	 * @aad: SPDM AAD data.
+   154	 * @app_data: SPDM application data.
+   155	 *
+   156	 * For more details, refer to TDX vTPM specification, r1.0, section titled
+   157	 * "SPDM Secure Session Message Format".
+   158	 */
+   159	struct tdx_tpm_msg_resp {
+   160		/* TDVMCALL service response header */
+   161		u8 guid[16];
+   162		u32 buf_len;
+   163		u32 tdvmcall_status;
+   164	
+   165		/* TDVMCALL TPM Command Buffer response */
+   166		u8 service_ver;
+   167		u8 service_cmd;
+   168		u8 service_cmd_status;
+   169		u8 rsvd;
+   170	
+   171		/* SPDM Message */
+   172		struct spdm_msg_hdr spdm;
+   173		struct spdm_aad aad;
+   174		struct spdm_data app_data;
+ > 175	} __packed;
+   176	
 
 -- 
 0-DAY CI Kernel Test Service
