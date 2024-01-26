@@ -1,91 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D094917582
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 11:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E02B134AF;
+	Fri, 26 Jan 2024 11:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706269582; cv=none; b=p3NFdDOsueQqgw1KiuNJBr5YAw0cLZiDkgd5bUiW+fZq1dGlf3MaDok/eYDQOQQMH/CHkNx+2QLCj8TdUzBQF5iTSEfbjVQ4ia9OlYo3MYlPY1p4ui5ilZ7zt3nde+5A4/ZoEoPsfDeWKFU8QmrV4GyoMJiDvHR44zplzUsEhE8=
+	t=1706270241; cv=none; b=QNl+N+Nr5tDMJfnrUWtpX1BYzzE/Qmx+gLC3kWgPhCF8igh+vKCI72qH8avYAXCqjfBEUuXQzXLRP11ZfGOjp7l/QUlPBZsI/qtxHVfOtlsiZnKhiiQdgztdGTqdQFEutbHO0eQ6qWBM4WlPXWtiRzypsirPOWrw1SxSZzvQ3fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706269582; c=relaxed/simple;
-	bh=en9JVOKHR6iMCx7KWhQ3jXUrT+r7RRyjl7oNxREIXmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cPrtOpLXwz1YgAzctnH3BxT9mw6BYuA0Jfx4rm+/zaBdB+NVGXt292ZTU7DyJIS/qQZLnVEpIms5bFKMcAunu9iKA639dloZNRmodq2gc7wpnyG73L6z5kXpgkyC6YHDPw4IOpaKZ/a+TGp58xfPDHLq8R1hSWELDlwYSbNXjyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lTsSGTbY; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1706270241; c=relaxed/simple;
+	bh=tN3dkWpIc3gME9QQTNhlZjc9wz+9nnvN5lcfplh8yV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JbScXEXx4TE0MGuQH2OeATlrKK9hD+oCGn6+9PUPds+K2bAaARBCUtO8HOVaEiG18BPPwr3I0YxLilEzXnCEGWB/52iUz3VWUiT5sx3n/Vji0LibBuBWxnYhPRUWObYg+YsFcQ1j1hjtR48/3rQhkhoQH2TzfGAGf9uTemYVK1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LFjWPSH5; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lTsSGTbY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LFjWPSH5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706269582; x=1737805582;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=en9JVOKHR6iMCx7KWhQ3jXUrT+r7RRyjl7oNxREIXmE=;
-  b=lTsSGTbYuyB/aODeH1sJczANW8NjKsWpfPP4tZMxRS6ZHwbSq6e9U1/h
-   wsbRIGaa3KmVKfaneBumNDG6msGThNk8DYJ2Vl2v1BXb5AhXCLLXcGbII
-   OTJUFW89cfU0mzcQKJAy32YU8LVQW9hJBPonPUZrvYlsTixU7pfitBB4p
-   owu9LtNt9wZdgA5HSHmI0U96A/ItKxCe88sVutdhlqxnTuPNsztviiNk7
-   GOB7E9vraNfxjwpcYRAyb0LjS8/CKr0J9KB9szkrWA7kH+HIlVrEi9ml6
-   9gFYfNwSRqmoh/1v4UuiKzBiHYOjepuNUPD3IFWrempRnDIimK66NPNws
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9106383"
+  t=1706270239; x=1737806239;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=tN3dkWpIc3gME9QQTNhlZjc9wz+9nnvN5lcfplh8yV8=;
+  b=LFjWPSH5EnLAJLph/YxhjeTKHLuLsQUt9amaxImTlLxylyUco1/2awkZ
+   OpgoKAiQBeBO67eOpJnXWEqC+24SLqnFEdMT21ijPm14wNiLIltStEgvu
+   auBKz3SkBTtHvH+ljjMbWBqRPue5zbe5cYSFcTKr8lM3nN5j6pnvYRpiy
+   xLZPcdm4dho6IkbzR580Yih1hlFJsycFWkbien29CVFHQiCaqsohSA3Ry
+   540rFnJELVpPs+w/LuGSMQUo65P6BPN+Zisy63ST3e4yN3s9fizFHfLhH
+   AZgHoI3QswtPLDlejnKzW+Jw/fN2kRXrF0uVo9ip6LLEcK7u9pv/MbKHS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9131835"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="9106383"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 03:46:19 -0800
+   d="scan'208";a="9131835"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 03:57:19 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="930348517"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2569110"
+   d="scan'208";a="930348517"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Jan 2024 03:46:17 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 26 Jan 2024 03:57:16 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTKf0-0000zg-0J;
-	Fri, 26 Jan 2024 11:46:14 +0000
-Date: Fri, 26 Jan 2024 19:45:19 +0800
+	id 1rTKpe-0000zs-0c;
+	Fri, 26 Jan 2024 11:57:14 +0000
+Date: Fri, 26 Jan 2024 19:56:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 1576/1892] s390-linux-ld: kexec.c:undefined
- reference to `crashk_low_res'
-Message-ID: <202401261933.gyy8YHnT-lkp@intel.com>
+To: Andrew Davis <afd@ti.com>, Sebastian Reichel <sre@kernel.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Davis <afd@ti.com>
+Subject: Re: [PATCH 08/21] power: supply: max77693: Use
+ devm_power_supply_register() helper
+Message-ID: <202401261917.tA05PFDO-lkp@intel.com>
+References: <20240123163653.384385-9-afd@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240123163653.384385-9-afd@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
-commit: ad82e944d12ca472df041acb4c732bd630a81b90 [1576/1892] s390, crash: wrap crash dumping code into crash related ifdefs
-config: s390-randconfig-r131-20230823 (https://download.01.org/0day-ci/archive/20240126/202401261933.gyy8YHnT-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401261933.gyy8YHnT-lkp@intel.com/reproduce)
+Hi Andrew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sre-power-supply/for-next]
+[also build test WARNING on linus/master v6.8-rc1 next-20240125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/power-supply-da9030-Use-devm_power_supply_register-helper/20240124-004253
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20240123163653.384385-9-afd%40ti.com
+patch subject: [PATCH 08/21] power: supply: max77693: Use devm_power_supply_register() helper
+config: i386-buildonly-randconfig-006-20240126 (https://download.01.org/0day-ci/archive/20240126/202401261917.tA05PFDO-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401261917.tA05PFDO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401261933.gyy8YHnT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401261917.tA05PFDO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390-linux-ld: arch/s390/kernel/machine_kexec.o: in function `arch_crash_save_vmcoreinfo':
-   machine_kexec.c:(.text+0x274): undefined reference to `vmcoreinfo_append_str'
-   s390-linux-ld: machine_kexec.c:(.text+0x28c): undefined reference to `vmcoreinfo_append_str'
-   s390-linux-ld: machine_kexec.c:(.text+0x2a2): undefined reference to `vmcoreinfo_append_str'
-   s390-linux-ld: machine_kexec.c:(.text+0x2c4): undefined reference to `vmcoreinfo_append_str'
-   s390-linux-ld: machine_kexec.c:(.text+0x2e6): undefined reference to `vmcoreinfo_append_str'
-   s390-linux-ld: arch/s390/kernel/machine_kexec.o:machine_kexec.c:(.text+0x308): more undefined references to `vmcoreinfo_append_str' follow
-   s390-linux-ld: arch/s390/kernel/machine_kexec.o: in function `arch_crash_save_vmcoreinfo':
-   machine_kexec.c:(.text+0x340): undefined reference to `paddr_vmcoreinfo_note'
-   s390-linux-ld: drivers/of/kexec.o: in function `of_kexec_alloc_and_setup_fdt':
-   kexec.c:(.text+0x60c): undefined reference to `crashk_res'
->> s390-linux-ld: kexec.c:(.text+0x660): undefined reference to `crashk_low_res'
+>> drivers/power/supply/max77693_charger.c:733:27: warning: unused variable 'chg' [-Wunused-variable]
+     733 |         struct max77693_charger *chg = platform_get_drvdata(pdev);
+         |                                  ^~~
+   1 warning generated.
+
+
+vim +/chg +733 drivers/power/supply/max77693_charger.c
+
+87c2d9067893cd drivers/power/max77693_charger.c        Krzysztof Kozlowski 2015-01-20  730  
+1d138270d2963b drivers/power/supply/max77693_charger.c Uwe Kleine-König    2023-09-18  731  static void max77693_charger_remove(struct platform_device *pdev)
+87c2d9067893cd drivers/power/max77693_charger.c        Krzysztof Kozlowski 2015-01-20  732  {
+87c2d9067893cd drivers/power/max77693_charger.c        Krzysztof Kozlowski 2015-01-20 @733  	struct max77693_charger *chg = platform_get_drvdata(pdev);
+87c2d9067893cd drivers/power/max77693_charger.c        Krzysztof Kozlowski 2015-01-20  734  
+87c2d9067893cd drivers/power/max77693_charger.c        Krzysztof Kozlowski 2015-01-20  735  	device_remove_file(&pdev->dev, &dev_attr_top_off_timer);
+87c2d9067893cd drivers/power/max77693_charger.c        Krzysztof Kozlowski 2015-01-20  736  	device_remove_file(&pdev->dev, &dev_attr_top_off_threshold_current);
+87c2d9067893cd drivers/power/max77693_charger.c        Krzysztof Kozlowski 2015-01-20  737  	device_remove_file(&pdev->dev, &dev_attr_fast_charge_timer);
+87c2d9067893cd drivers/power/max77693_charger.c        Krzysztof Kozlowski 2015-01-20  738  }
+87c2d9067893cd drivers/power/max77693_charger.c        Krzysztof Kozlowski 2015-01-20  739  
 
 -- 
 0-DAY CI Kernel Test Service
