@@ -1,234 +1,327 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455E24404
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 00:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E8F385;
+	Fri, 26 Jan 2024 00:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706229337; cv=none; b=YHE8lYx5vNXhniP1zAmpYRpVngnIGMkly7BVQ+QY8CQcdG2oLAqmf1akRWaFiPTNMaS16gVhKNMYgoCLdZZmQVfgbZXfcGBqLQIhtxccg/XDWmk+J+BUQrfLEYTNcOXzktQkpe13HB3gx3jvYRD2HMvEz2a1LwaOJk5HU7CxYGQ=
+	t=1706229516; cv=none; b=QDEf40SDIL8WgX+3pFUJ2q/9sxOU8dGuxxfkayTSt3s6BQwIEOqYfcrou0bAcv1Z6GpadVZEGZSwEX4kPHkAlHKLKfjDh+8u9DfGfmfg6li6nqbvdHRnzRB8TOg5rWubYhDj/g5rcZ51woXM4XOXXIaqqzxSFjeCZqbR18exBYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706229337; c=relaxed/simple;
-	bh=aiwzMlQcwKusi2WD5mp/I9f4iHR1B+oJpqL8BoebmQ8=;
+	s=arc-20240116; t=1706229516; c=relaxed/simple;
+	bh=rOEX1bgvfa5pZYrTf4/IA0sPQBNBW81LFwqj7o3ESTU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GT834bgwdvBhA71HO3iguhm5tRaWdxJluRXGE77GsHrepJhDYqrHvdvTJMYcGpRzUb/apVMrKjO+r7p+K1RUom7w/AGVj4zsbowLj407XHiHAqSqaZl33rbm7JERULjFD67rnPVCOQYtM2L5RCoarNhZCcjRDZWE8eaLtrMus5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R5yN7LCd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=feYvK6n1PZn56BeVOAkFZIuRg4RkfwrT6TSW5ze4T7OyG+SMFPTTs9hjNUkLyrLPjiUZUpX2eKuYSbMKHs0xYrES76oXfMU+/p7/vjuLLuESpQIEmmV7AQeum/OJzFeW+5iS92usxN5hY7tWmACk/9+cdW4EpwGjF8n+2iWu0Bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YrA1jvxB; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R5yN7LCd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCDF2C433F1;
-	Fri, 26 Jan 2024 00:35:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706229336;
-	bh=aiwzMlQcwKusi2WD5mp/I9f4iHR1B+oJpqL8BoebmQ8=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=R5yN7LCdE6du4H1Lv+od9LQxc2y/qNm/Xk1SF1yM0M/fo/STgxQ7qNJhirectSr5Q
-	 PEp38quC/2Ufabd8xTE4J7bTrIf5oL9E5RRanPI3aoLQ7yqrFCjrZo0wo8QTdyEQaz
-	 g7b/QXMaRNPeKvE8hWPqbcztAjpH79i7r4dLcJNeeCZ1YyU7gJWhfoc6ab/bFkzxGr
-	 zfzPbm5f7lgsgKmFp+uQ+WITPIRFvmVgb668yAM+jlWQOPxB1MbELzhWAk5i1xVyJO
-	 SqehbQAtHdkt7Ib5Cztdcm+ESwaTC7/T4HZCaGTt48o0VE/5W4/M10jLPAbLw8aNaZ
-	 VumfjyTPiISPg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 5F702CE1473; Thu, 25 Jan 2024 16:35:36 -0800 (PST)
-Date: Thu, 25 Jan 2024 16:35:36 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: kernel test robot <lkp@intel.com>, Matthew Wilcox <willy@infradead.org>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 1589/1892] fs/proc/task_mmu.c:143:45: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <ca479a8e-a8f5-48d7-96f9-27692091d2e9@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202401251829.0m6Eo4LI-lkp@intel.com>
- <CAJuCfpHW2=Zu+CHXL+5fjWxGk=CVix=C66ra+DmXgn6r3+fsXg@mail.gmail.com>
- <b82c9479-9331-4b31-9fca-3fa963901fe9@paulmck-laptop>
- <CAJuCfpGA7ScozuAL71idCRbfgxPaz+zY5jEYZ-FQmikQfXrD5A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YrA1jvxB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706229514; x=1737765514;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rOEX1bgvfa5pZYrTf4/IA0sPQBNBW81LFwqj7o3ESTU=;
+  b=YrA1jvxBD1LfwjpoWJ2+qs1/H2HMPFgm4DFEm39CRrxAYqyDWIjvQ6Z0
+   HJ+jkyvf9GbWIV0r3zqXWMzg3dCZdWHPMjSdoRlvRy/o1gYaaJYDTp5Nd
+   8kl+i/C2sy5wYGKRw5RPCic6TDTzdaVhdIQBo+SwHSQEGEO3HVhw88FKC
+   WbdLEkrhYvM3SGSVD9wZWp0se10XN8Pt29ylsM55cgf+UnwD4K9gtOEDR
+   D2rpKi86CabgqfHtXSq+83hmqaeDDQafDbJ1GABiMk/eT2tpt5T3Wy3qL
+   K1dlmEsXJ0WkezQo5XXSpJ3Di2M4H8wkI50jtBneb0l1uhvvpmaAiNEWg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9462220"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="9462220"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 16:38:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="857252586"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="857252586"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 25 Jan 2024 16:38:25 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rTAEh-0000Wq-2P;
+	Fri, 26 Jan 2024 00:38:23 +0000
+Date: Fri, 26 Jan 2024 08:38:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Aleksandr Shubin <privatesub2@gmail.com>,
+	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Maksim Kiselev <bigunclemax@gmail.com>,
+	John Watts <contact@jookia.org>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v7 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
+ support
+Message-ID: <202401260832.fN2PCI3u-lkp@intel.com>
+References: <20240125072032.1151383-3-privatesub2@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpGA7ScozuAL71idCRbfgxPaz+zY5jEYZ-FQmikQfXrD5A@mail.gmail.com>
+In-Reply-To: <20240125072032.1151383-3-privatesub2@gmail.com>
 
-On Thu, Jan 25, 2024 at 03:17:17PM -0800, Suren Baghdasaryan wrote:
-> On Thu, Jan 25, 2024 at 2:44 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Thu, Jan 25, 2024 at 01:27:34PM -0800, Suren Baghdasaryan wrote:
-> > > On Thu, Jan 25, 2024 at 2:23 AM kernel test robot <lkp@intel.com> wrote:
-> > > >
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > > head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
-> > > > commit: 0c30c4cd953025979b7689e49844837f762303ec [1589/1892] mm/maps: read proc/pid/maps under RCU
-> > > > config: x86_64-randconfig-121-20240125 (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/config)
-> > > > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/reproduce)
-> > > >
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202401251829.0m6Eo4LI-lkp@intel.com/
-> > > >
-> > > > sparse warnings: (new ones prefixed by >>)
-> > > > >> fs/proc/task_mmu.c:143:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
-> > >
-> > > Uh, this is a problem.
-> > > I missed that get_file_rcu() is used only with mm->exe_file and
-> > > vma->vm_file is not really RCU-safe. It's freed via a call to fput()
-> > > which schedules its freeing using schedule_delayed_work(..., 1) but I
-> > > don't think that constitutes RCU grace period. Paul, Matthew, could
-> > > you please confirm? In the meantime I'm going to ask Andrew to remove
-> > > my patchset from mm-unstable to be safe.
-> >
-> > Sadly, no, schedule_delayed_work() does not imply an RCU grace period.
-> >
-> > There is a queue_rcu_work() that schedules work after a grace period,
-> > which could be combined with a timer to get the delay.
-> >
-> > Another approach would be to use get_state_synchronize_rcu() before
-> > the schedule_delayed_work() in fput(), then do cond_synchronize_rcu()
-> > in delayed_fput().  This would require adding an unsigned long to
-> > struct file to keep track of which grace period a given struct file
-> > needed to wait for.
-> >
-> > Perhaps something like this:
-> >
-> > ------------------------------------------------------------------------
-> >
-> > void fput(struct file *file)
-> > {
-> >         if (atomic_long_dec_and_test(&file->f_count)) {
-> >                 struct task_struct *task = current;
-> >
-> >                 if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
-> >                         init_task_work(&file->f_rcuhead, ____fput);
-> >                         if (!task_work_add(task, &file->f_rcuhead, TWA_RESUME))
-> >                                 return;
-> >                         /*
-> >                          * After this task has run exit_task_work(),
-> >                          * task_work_add() will fail.  Fall through to delayed
-> >                          * fput to avoid leaking *file.
-> >                          */
-> >                 }
-> >
-> >                 file->f_rcu_seq = get_state_synchronize_rcu();
-> >                 if (llist_add(&file->f_llist, &delayed_fput_list))
-> >                         schedule_delayed_work(&delayed_fput_work, 1);
-> >         }
-> > }
-> >
-> > ------------------------------------------------------------------------
-> >
-> > And this:
-> >
-> > ------------------------------------------------------------------------
-> >
-> > static void delayed_fput(struct work_struct *unused)
-> > {
-> >         struct llist_node *node = llist_del_all(&delayed_fput_list);
-> >         struct file *f, *t;
-> >
-> >         llist_for_each_entry_safe(f, t, node, f_llist) {
-> >                 cond_synchronize_rcu(f->f_rcu_seq);
-> >                 __fput(f);
-> >         }
-> > }
-> >
-> > ------------------------------------------------------------------------
-> >
-> > Note that if you called fput() on a long sequence of struct file
-> > structures, the cond_synchronize_rcu() would be a near-noop almost all the
-> > time, actually blocking at most about every once per every few jiffies.
-> > After all, once a grace period has been waited for, it covers all of
-> > the struct file structures that were passed to fput() during a given
-> > RCU grace period.
-> >
-> > Still, it would add the occasional delay.  And it would increase the
-> > size of struct file, though there are workarounds for that, if size
-> > is an issue.
-> >
-> > Thoughts?
-> 
-> Thanks for the suggestion, Paul. I'm worried about this occasional
-> delay but otherwise this seems like a nice and simple approach.
+Hi Aleksandr,
 
-One potential saving grace is that the more heavily loaded the mechanism,
-the smaller a fraction of the cond_synchronize_rcu() calls will do
-a delay.
+kernel test robot noticed the following build errors:
 
->                                                                 Do you
-> guys think that making *all* files RCU-safe with this approach is
-> warranted? For my particular case I need only vma->vm_file to be
-> RCU-safe but maybe there are other cases which would benefit from
-> this?
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on sunxi/sunxi/for-next linus/master v6.8-rc1 next-20240125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-To this, I can only give an unqualified "I don't know".  :-(
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandr-Shubin/dt-bindings-pwm-Add-binding-for-Allwinner-D1-T113-S3-R329-PWM-controller/20240125-152445
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240125072032.1151383-3-privatesub2%40gmail.com
+patch subject: [PATCH v7 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240126/202401260832.fN2PCI3u-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a31a60074717fc40887cfe132b77eec93bedd307)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401260832.fN2PCI3u-lkp@intel.com/reproduce)
 
-But if there is some condition that can be sampled on a per-file-structure
-basis, you could use that to invoke cond_synchronize_rcu() only when
-needed.  Or send only those file structures that need the extra delay
-through queue_rcu_work(), perhaps by accumulating a list of them.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401260832.fN2PCI3u-lkp@intel.com/
 
-                                                        Thanx, Paul
+All error/warnings (new ones prefixed by >>):
 
-> > > >    fs/proc/task_mmu.c:143:45: sparse:     expected struct file [noderef] __rcu **f
-> > > >    fs/proc/task_mmu.c:143:45: sparse:     got struct file **
-> > > >    fs/proc/task_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-> > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'get_vma_snapshot' - unexpected unlock
-> > > >    fs/proc/task_mmu.c:264:22: sparse: sparse: context imbalance in 'm_start' - different lock contexts for basic block
-> > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'm_stop' - unexpected unlock
-> > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'smaps_pte_range' - unexpected unlock
-> > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'clear_refs_pte_range' - unexpected unlock
-> > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_pmd_range' - unexpected unlock
-> > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_scan_pmd_entry' - unexpected unlock
-> > > >    fs/proc/task_mmu.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
-> > > >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-> > > >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-> > > >
-> > > > vim +143 fs/proc/task_mmu.c
-> > > >
-> > > >    132
-> > > >    133  /*
-> > > >    134   * Take VMA snapshot and pin vm_file and anon_name as they are used by
-> > > >    135   * show_map_vma.
-> > > >    136   */
-> > > >    137  static int get_vma_snapshot(struct proc_maps_private *priv, struct vm_area_struct *vma)
-> > > >    138  {
-> > > >    139          struct vm_area_struct *copy = &priv->vma_copy;
-> > > >    140          int ret = -EAGAIN;
-> > > >    141
-> > > >    142          memcpy(copy, vma, sizeof(*vma));
-> > > >  > 143          if (copy->vm_file && !get_file_rcu(&copy->vm_file))
-> > > >    144                  goto out;
-> > > >    145
-> > > >    146          if (!anon_vma_name_get_if_valid(copy))
-> > > >    147                  goto put_file;
-> > > >    148
-> > > >    149          if (priv->mm_wr_seq == mmap_write_seq_read(priv->mm))
-> > > >    150                  return 0;
-> > > >    151
-> > > >    152          /* Address space got modified, vma might be stale. Wait and retry. */
-> > > >    153          rcu_read_unlock();
-> > > >    154          ret = mmap_read_lock_killable(priv->mm);
-> > > >    155          mmap_write_seq_record(priv->mm, &priv->mm_wr_seq);
-> > > >    156          mmap_read_unlock(priv->mm);
-> > > >    157          rcu_read_lock();
-> > > >    158
-> > > >    159          if (!ret)
-> > > >    160                  ret = -EAGAIN; /* no other errors, ok to retry */
-> > > >    161
-> > > >    162          anon_vma_name_put_if_valid(copy);
-> > > >    163  put_file:
-> > > >    164          if (copy->vm_file)
-> > > >    165                  fput(copy->vm_file);
-> > > >    166  out:
-> > > >    167          return ret;
-> > > >    168  }
-> > > >    169
-> > > >
-> > > > --
-> > > > 0-DAY CI Kernel Test Service
-> > > > https://github.com/intel/lkp-tests/wiki
+   In file included from drivers/pwm/pwm-sun20i.c:16:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/pwm/pwm-sun20i.c:16:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/pwm/pwm-sun20i.c:16:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/pwm/pwm-sun20i.c:288:3: error: field designator 'owner' does not refer to any field in type 'const struct pwm_ops'
+     288 |         .owner = THIS_MODULE,
+         |         ~^~~~~~~~~~~~~~~~~~~
+>> drivers/pwm/pwm-sun20i.c:297:36: warning: declaration of 'struct platform_device' will not be visible outside of this function [-Wvisibility]
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+>> drivers/pwm/pwm-sun20i.c:302:16: error: call to undeclared function 'devm_kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     302 |         sun20i_chip = devm_kzalloc(&pdev->dev, sizeof(*sun20i_chip), GFP_KERNEL);
+         |                       ^
+>> drivers/pwm/pwm-sun20i.c:302:34: error: incomplete definition of type 'struct platform_device'
+     302 |         sun20i_chip = devm_kzalloc(&pdev->dev, sizeof(*sun20i_chip), GFP_KERNEL);
+         |                                     ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+>> drivers/pwm/pwm-sun20i.c:306:22: error: call to undeclared function 'devm_platform_ioremap_resource'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     306 |         sun20i_chip->base = devm_platform_ioremap_resource(pdev, 0);
+         |                             ^
+>> drivers/pwm/pwm-sun20i.c:306:20: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+     306 |         sun20i_chip->base = devm_platform_ioremap_resource(pdev, 0);
+         |                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-sun20i.c:310:51: error: incomplete definition of type 'struct platform_device'
+     310 |         sun20i_chip->clk_bus = devm_clk_get_enabled(&pdev->dev, "bus");
+         |                                                      ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+>> drivers/pwm/pwm-sun20i.c:312:10: error: call to undeclared function 'dev_err_probe'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     312 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_bus),
+         |                        ^
+   drivers/pwm/pwm-sun20i.c:312:29: error: incomplete definition of type 'struct platform_device'
+     312 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_bus),
+         |                                       ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:315:52: error: incomplete definition of type 'struct platform_device'
+     315 |         sun20i_chip->clk_hosc = devm_clk_get_enabled(&pdev->dev, "hosc");
+         |                                                       ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:317:29: error: incomplete definition of type 'struct platform_device'
+     317 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_hosc),
+         |                                       ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:320:52: error: incomplete definition of type 'struct platform_device'
+     320 |         sun20i_chip->clk_apb0 = devm_clk_get_enabled(&pdev->dev, "apb0");
+         |                                                       ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:322:29: error: incomplete definition of type 'struct platform_device'
+     322 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_apb0),
+         |                                       ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:325:59: error: incomplete definition of type 'struct platform_device'
+     325 |         sun20i_chip->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+         |                                                              ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:327:29: error: incomplete definition of type 'struct platform_device'
+     327 |                 return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->rst),
+         |                                       ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:330:33: error: incomplete definition of type 'struct platform_device'
+     330 |         ret = of_property_read_u32(pdev->dev.of_node, "allwinner,pwm-channels",
+         |                                    ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:341:29: error: incomplete definition of type 'struct platform_device'
+     341 |                 return dev_err_probe(&pdev->dev, ret, "failed to deassert reset\n");
+         |                                       ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:343:31: error: incomplete definition of type 'struct platform_device'
+     343 |         sun20i_chip->chip.dev = &pdev->dev;
+         |                                  ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+   drivers/pwm/pwm-sun20i.c:351:29: error: incomplete definition of type 'struct platform_device'
+     351 |                 return dev_err_probe(&pdev->dev, ret, "failed to add PWM chip\n");
+         |                                       ~~~~^
+   drivers/pwm/pwm-sun20i.c:297:36: note: forward declaration of 'struct platform_device'
+     297 | static int sun20i_pwm_probe(struct platform_device *pdev)
+         |                                    ^
+>> drivers/pwm/pwm-sun20i.c:354:2: error: call to undeclared function 'platform_set_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     354 |         platform_set_drvdata(pdev, sun20i_chip);
+         |         ^
+   drivers/pwm/pwm-sun20i.c:359:38: warning: declaration of 'struct platform_device' will not be visible outside of this function [-Wvisibility]
+     359 | static void sun20i_pwm_remove(struct platform_device *pdev)
+         |                                      ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   8 warnings and 20 errors generated.
+
+
+vim +288 drivers/pwm/pwm-sun20i.c
+
+   284	
+   285	static const struct pwm_ops sun20i_pwm_ops = {
+   286		.get_state = sun20i_pwm_get_state,
+   287		.apply = sun20i_pwm_apply,
+ > 288		.owner = THIS_MODULE,
+   289	};
+   290	
+   291	static const struct of_device_id sun20i_pwm_dt_ids[] = {
+   292		{ .compatible = "allwinner,sun20i-d1-pwm" },
+   293		{ },
+   294	};
+   295	MODULE_DEVICE_TABLE(of, sun20i_pwm_dt_ids);
+   296	
+ > 297	static int sun20i_pwm_probe(struct platform_device *pdev)
+   298	{
+   299		struct sun20i_pwm_chip *sun20i_chip;
+   300		int ret;
+   301	
+ > 302		sun20i_chip = devm_kzalloc(&pdev->dev, sizeof(*sun20i_chip), GFP_KERNEL);
+   303		if (!sun20i_chip)
+   304			return -ENOMEM;
+   305	
+ > 306		sun20i_chip->base = devm_platform_ioremap_resource(pdev, 0);
+   307		if (IS_ERR(sun20i_chip->base))
+   308			return PTR_ERR(sun20i_chip->base);
+   309	
+   310		sun20i_chip->clk_bus = devm_clk_get_enabled(&pdev->dev, "bus");
+   311		if (IS_ERR(sun20i_chip->clk_bus))
+ > 312			return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_bus),
+   313					     "failed to get bus clock\n");
+   314	
+   315		sun20i_chip->clk_hosc = devm_clk_get_enabled(&pdev->dev, "hosc");
+   316		if (IS_ERR(sun20i_chip->clk_hosc))
+   317			return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_hosc),
+   318					     "failed to get hosc clock\n");
+   319	
+   320		sun20i_chip->clk_apb0 = devm_clk_get_enabled(&pdev->dev, "apb0");
+   321		if (IS_ERR(sun20i_chip->clk_apb0))
+   322			return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->clk_apb0),
+   323					     "failed to get apb0 clock\n");
+   324	
+   325		sun20i_chip->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+   326		if (IS_ERR(sun20i_chip->rst))
+   327			return dev_err_probe(&pdev->dev, PTR_ERR(sun20i_chip->rst),
+   328					     "failed to get bus reset\n");
+   329	
+   330		ret = of_property_read_u32(pdev->dev.of_node, "allwinner,pwm-channels",
+   331					   &sun20i_chip->chip.npwm);
+   332		if (ret)
+   333			sun20i_chip->chip.npwm = 8;
+   334	
+   335		if (sun20i_chip->chip.npwm > 16)
+   336			sun20i_chip->chip.npwm = 16;
+   337	
+   338		/* Deassert reset */
+   339		ret = reset_control_deassert(sun20i_chip->rst);
+   340		if (ret)
+   341			return dev_err_probe(&pdev->dev, ret, "failed to deassert reset\n");
+   342	
+   343		sun20i_chip->chip.dev = &pdev->dev;
+   344		sun20i_chip->chip.ops = &sun20i_pwm_ops;
+   345	
+   346		mutex_init(&sun20i_chip->mutex);
+   347	
+   348		ret = pwmchip_add(&sun20i_chip->chip);
+   349		if (ret < 0) {
+   350			reset_control_assert(sun20i_chip->rst);
+   351			return dev_err_probe(&pdev->dev, ret, "failed to add PWM chip\n");
+   352		}
+   353	
+ > 354		platform_set_drvdata(pdev, sun20i_chip);
+   355	
+   356		return 0;
+   357	}
+   358	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
