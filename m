@@ -1,67 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0725520313;
-	Fri, 26 Jan 2024 17:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F3E2031C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 17:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706290032; cv=none; b=pTEjhHOVG5CqOONNDpBMIfyiXyyryjY34hoCjqGGNPTUV7JYAXV0OleFlvtX4w+D7nVt7MRUqVjUANbmhNUGQJid7bPAfp0cRak3dU2CZhggjZ4ZRGCG3wk/mD9hfYNBzv5CPwo9OmyOuOSl6XiL2zmA9L34hepfCBJJ1vBMfIE=
+	t=1706291949; cv=none; b=pd8B1vCjI7v4FH93H6wFnnvOczgkJGBHtgbVn5OQOntExUcOx1XXCkjEP8KtNAwrYeAGOmqWc/Y9RnBDAKjeLyx1QC3Gqf0qPny3OOCVJa77u6T0CeK7QZG4ACUoliUdcbW2ytIw9+4sPwlPEyIc6/l0UrbjytN6IDnl0JdhwjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706290032; c=relaxed/simple;
-	bh=ExosIx/Tv+HMtpYZXXx/Nr7K+HPt5okvEH3K8cRZO8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KBWMmtrvZcVu2wNkHUbRpMVKGgJxneZ9+cD9nUJayK6+W41j+bMurjURALXx679V1WpVvbm3iHchJKlZJYRlpCc3tk5aEeblT9mFaUHKI/fReVgtAHw7suah522aSBMg0INZPAOId9T57Y/QV4NewVMyD/EJKooYay9AiIX4hSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fgsaCKwE; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1706291949; c=relaxed/simple;
+	bh=T+CyxAcOarZEoQCKuEjEIIApqrzcaGr6TmcdYd6knoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fLqDXd/gKhQzgb8R5Be5eLKIMzpd0N4rhijuAOQMZ6ZLkoQJ3/5+Y4u+JJnVepu1SnOAqtufeASmcnGL82OxRmWJmUABOuqmz2NW/On8cs+ioSf7TFQ08l5eZV78mKB6OsIy9XqepbTSy3JcdPMioGvmTuPtl3iQhf2hmi91E7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQsx/HxC; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fgsaCKwE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQsx/HxC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706290030; x=1737826030;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ExosIx/Tv+HMtpYZXXx/Nr7K+HPt5okvEH3K8cRZO8M=;
-  b=fgsaCKwEBtdt4hmubdpzvo99h8ndm7j0lT2SER30rNvFK6YN5qWL4HRw
-   CdBIVkXe//2Y9ADbuJe6YMGBuCKBaVPpw/alzLTGNA0LolIK96Maupk2B
-   pbdgsya/v3T08pgiSzs/3BR2JTyfZBfwDdKApK3Jk6uXxGrSgKZ3a8ggi
-   6vMMVXfZZsLPM4h5yOyLV5JB4hXBqo8FWLZXX+euMuz6BrLym7YSMA+yS
-   RVeLhmeceHxV+o5VZkqq4M581Gx6ifhXXgbCPgMj80x4opTCA/grjL44G
-   d95B2e7JpncSM9ymuG27HIDtMYFHOd0I5pI3gk5ZHQwIOopRnQPdTsUzj
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="23989053"
+  t=1706291947; x=1737827947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T+CyxAcOarZEoQCKuEjEIIApqrzcaGr6TmcdYd6knoM=;
+  b=RQsx/HxC98cJyDF/tYNWO7vc3b/CTqAf7nP/u7qwUAvmWlj50A9h/WfL
+   Lr6S8zgTWJVJYXc4oGm/KyqS8vW4iSTX9pQEqcv1l+8F3lDwfAUvxcnXL
+   ep3ew9+RnebtyPl51yVVUCrGbIJfniG7zbkXWw9HjABMecr+pdevckcsa
+   taRZ44gu3k5+meXF9tcfxf4BS5mmM4GLGhP5OIy6kq7hAffNSxVpa2LyF
+   7Jh4b6KE6/vi/wEeX/y3R6GVnFHgd9oGBhrQ5BKqpY1kPxzMoOG7Ojdyr
+   LbW74x6d7h6UOYtdscHmZJ6uBkFGXfHVPCmL9eDVT/7PECjT2UWCxsAmT
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="21075844"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="23989053"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 09:27:09 -0800
+   d="scan'208";a="21075844"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 09:59:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787172240"
 X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="787172240"
+   d="scan'208";a="2798071"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 26 Jan 2024 09:27:04 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 26 Jan 2024 09:59:05 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTPyo-0001Ew-1L;
-	Fri, 26 Jan 2024 17:27:02 +0000
-Date: Sat, 27 Jan 2024 01:26:21 +0800
+	id 1rTQTn-0001Fq-0L;
+	Fri, 26 Jan 2024 17:59:03 +0000
+Date: Sat, 27 Jan 2024 01:58:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Griffin <peter.griffin@linaro.org>, arnd@arndb.de,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	linux@roeck-us.net, wim@linux-watchdog.org, conor+dt@kernel.org,
-	alim.akhtar@samsung.com, jaewon02.kim@samsung.com,
-	chanho61.park@samsung.com, semen.protsenko@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel-team@android.com, peter.griffin@linaro.org,
-	tudor.ambarus@linaro.org, andre.draszik@linaro.org,
-	saravanak@google.com, willmcvicker@google.com, linux-fsd@tesla.com,
-	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 2/9] soc: samsung: exynos-pmu: Add
- exynos_pmu_update/read/write APIs and SoC quirks
-Message-ID: <202401270110.YlAvkNYL-lkp@intel.com>
-References: <20240122225710.1952066-3-peter.griffin@linaro.org>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ambarus:gs101-spi-vv2 36/46] include/asm-generic/io.h:990:25:
+ error: conflicting types for 'iowrite8_32_rep'; have 'void(volatile void *,
+ const void *, unsigned int)'
+Message-ID: <202401270153.qAwqrjon-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,41 +58,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240122225710.1952066-3-peter.griffin@linaro.org>
 
-Hi Peter,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on krzk/for-next]
-[also build test ERROR on robh/for-next soc/for-next linus/master v6.8-rc1 next-20240125]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Griffin/dt-bindings-watchdog-samsung-wdt-deprecate-samsung-syscon-phandle/20240123-070052
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240122225710.1952066-3-peter.griffin%40linaro.org
-patch subject: [PATCH 2/9] soc: samsung: exynos-pmu: Add exynos_pmu_update/read/write APIs and SoC quirks
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240127/202401270110.YlAvkNYL-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270110.YlAvkNYL-lkp@intel.com/reproduce)
+tree:   https://github.com/ambarus/linux-0day gs101-spi-vv2
+head:   b148a8ab25375c3d984c42954bdb06e98a91ec8f
+commit: 94c8c2611723d740346429150d721f7991cbaa42 [36/46] asm-generic/io.h: add iowrite{8,16}_32 accessors
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240127/202401270153.qAwqrjon-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270153.qAwqrjon-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401270110.YlAvkNYL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401270153.qAwqrjon-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: pmu_base_addr
-   >>> referenced by exynos.c
-   >>>               arch/arm/mach-exynos/exynos.o:(exynos_set_delayed_reset_assertion) in archive vmlinux.a
-   >>> referenced by exynos.c
-   >>>               arch/arm/mach-exynos/exynos.o:(exynos_set_delayed_reset_assertion) in archive vmlinux.a
-   >>> referenced by exynos.c
-   >>>               arch/arm/mach-exynos/exynos.o:(exynos_init_irq) in archive vmlinux.a
-   >>> referenced 75 more times
+   In file included from arch/parisc/include/asm/io.h:270,
+                    from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from arch/parisc/include/asm/hardirq.h:13,
+                    from include/linux/hardirq.h:11,
+                    from arch/parisc/kernel/asm-offsets.c:21:
+>> include/asm-generic/io.h:990:25: error: conflicting types for 'iowrite8_32_rep'; have 'void(volatile void *, const void *, unsigned int)'
+     990 | #define iowrite8_32_rep iowrite8_32_rep
+         |                         ^~~~~~~~~~~~~~~
+   include/asm-generic/io.h:991:20: note: in expansion of macro 'iowrite8_32_rep'
+     991 | static inline void iowrite8_32_rep(volatile void __iomem *addr,
+         |                    ^~~~~~~~~~~~~~~
+   In file included from arch/parisc/include/asm/io.h:244:
+   include/asm-generic/iomap.h:87:13: note: previous declaration of 'iowrite8_32_rep' with type 'void(void *, const void *, long unsigned int)'
+      87 | extern void iowrite8_32_rep(void __iomem *port, const void *buf, unsigned long count);
+         |             ^~~~~~~~~~~~~~~
+>> include/asm-generic/io.h:1010:26: error: conflicting types for 'iowrite16_32_rep'; have 'void(volatile void *, const void *, unsigned int)'
+    1010 | #define iowrite16_32_rep iowrite16_32_rep
+         |                          ^~~~~~~~~~~~~~~~
+   include/asm-generic/io.h:1011:20: note: in expansion of macro 'iowrite16_32_rep'
+    1011 | static inline void iowrite16_32_rep(volatile void __iomem *addr,
+         |                    ^~~~~~~~~~~~~~~~
+   include/asm-generic/iomap.h:89:13: note: previous declaration of 'iowrite16_32_rep' with type 'void(void *, const void *, long unsigned int)'
+      89 | extern void iowrite16_32_rep(void __iomem *port, const void *buf, unsigned long count);
+         |             ^~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:116: arch/parisc/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1195: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +990 include/asm-generic/io.h
+
+   988	
+   989	#ifndef iowrite8_32_rep
+ > 990	#define iowrite8_32_rep iowrite8_32_rep
+   991	static inline void iowrite8_32_rep(volatile void __iomem *addr,
+   992					   const void *buffer,
+   993					   unsigned int count)
+   994	{
+   995		writesb_l(addr, buffer, count);
+   996	}
+   997	#endif
+   998	
+   999	#ifndef iowrite16_rep
+  1000	#define iowrite16_rep iowrite16_rep
+  1001	static inline void iowrite16_rep(volatile void __iomem *addr,
+  1002					 const void *buffer,
+  1003					 unsigned int count)
+  1004	{
+  1005		writesw(addr, buffer, count);
+  1006	}
+  1007	#endif
+  1008	
+  1009	#ifndef iowrite16_32_rep
+> 1010	#define iowrite16_32_rep iowrite16_32_rep
+  1011	static inline void iowrite16_32_rep(volatile void __iomem *addr,
+  1012					    const void *buffer,
+  1013					    unsigned int count)
+  1014	{
+  1015		writesw_l(addr, buffer, count);
+  1016	}
+  1017	#endif
+  1018	
 
 -- 
 0-DAY CI Kernel Test Service
