@@ -1,255 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E8A208BE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 18:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26898224D6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Jan 2024 19:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706295077; cv=none; b=e1VazjLZRyZklmzCrW1AE9quqHsZqCVklRKK2NFx1DctpuibOG2lmFRhn3lncMjGFNQMweAa22pFa/fco1LF/IclT+1hLoYcMI5EdzOg5KCUK7HvKNhBR5AOX5V+EFpoyiOEfO3sF9erkOTIAvstJvA3724GCMa4gA0bYHdi3ws=
+	t=1706297257; cv=none; b=V6+4+eLkheB0aaEjaPYqmqdg5F/MATrDLwvWnuk9fg0HrFg1FwKef4MqfUig+qL2LSZ0Ol5gvxr1gbgUePz5HJhuhRC1jh2T74g9oi7DJh9XkulEOttOLvUmDFAOM44h25xy2OZ5I/ehsFWKUuF4ANuwH6pH9XcS9g19GGPjlrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706295077; c=relaxed/simple;
-	bh=jCzGa1UYZBugtHn/37mxH6G8bS1RA1tRmAH6ecUQPfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JAdD5BXKfxX0VX0BeMeJKd8gc5rasEDlff8MjfL6bYzseShHNNWJ7WOSUgUlsaGzaairqqObsGmdfqbFgleOXWHdrhUoPCw3nqQY/lf6ekHYpKj5P7/2Z/IhCl+ytcUsP/Mop193R0lkSyRgnnayblNELDjL+YNRFUjJE1MQaXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aHFyoHRY; arc=none smtp.client-ip=134.134.136.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706297257; c=relaxed/simple;
+	bh=Brcoq3u1u6FjSbFdR28vkViQhVtyTTDP8moYCJxVZO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=trH/E7Ij7vgBZ+k07jy0k8CDGPq/OYW4f0rrUaxm9F1iYRD+ce75WwSD9cPA8+uz1X7jgSOW7ujWbPN7DkYstfU01kJtlVdUWJIkbXkmWrlYDlZjthzkR4GdpW5K6dNNP2Jy2H9qgOVPncuUV02fSxgkzXXaZxAfMo/mGBQzrBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QOY3h8Ks; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aHFyoHRY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706295075; x=1737831075;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jCzGa1UYZBugtHn/37mxH6G8bS1RA1tRmAH6ecUQPfg=;
-  b=aHFyoHRYVDQ0LgypYuxDoBXAFQQJdGS0lq2c7JHDNwrPycV6XldvUaK7
-   dX2t+KjwaujgMuSmZPXiR8eSeKIREiFUSteTA14xP7t8Du6chsld0Dc8R
-   AvblgZFsreyT9CRRrqNSZ5QNpAreRzSQ0ofKaT+RmqWwiO4IC0Pbk6jZN
-   1WorV17xACxsVhffoonsPM3Rp1KQSF3aJ1ThglyowlG7D2ASqyWw6pEYX
-   ta0MMwa9n6lM/5aFAO+Y5PlAuPTLmFUOULlj/JcYULa3wrtGX+xhJ+rZa
-   8s3//n4JxNdp2xqrSgpsaBTZiiDHznF7PFQv5tXQpVE/BiN99LhcvrXU5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="392979889"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="392979889"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 10:51:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="960282690"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="960282690"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 26 Jan 2024 10:51:13 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rTRIE-0001HC-1u;
-	Fri, 26 Jan 2024 18:51:10 +0000
-Date: Sat, 27 Jan 2024 02:51:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 80/80] fs/xfs/xfs_zone_alloc.c:920:34: warning:
- unused variable 'mp'
-Message-ID: <202401270217.Y1tjo75q-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QOY3h8Ks"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB10CC433C7;
+	Fri, 26 Jan 2024 19:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706297256;
+	bh=Brcoq3u1u6FjSbFdR28vkViQhVtyTTDP8moYCJxVZO4=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=QOY3h8Ksikuxb5AaqYWa4TnNSjnKWy0i18CJfgZ4SKlh0lnb+lcE0C+Y+lvV1XMXS
+	 RgDfGgrmgasjOn4DHIvHh9Z9Sy1/ndVzfn/vDTrjE8q1agvHVCSmXfpxWkRoI17C+W
+	 rdDTN469f9JuTGdT4YHJw2+CQi74dk7CiRuN9Qe3bj06FrNk39Bnmackb5IkX/NNzI
+	 CG4qvUCjahlr68RSG7Xdx6/FZSc12cKHawDfkK58WeorOprUdQYIOy8HY6eF4k/bSW
+	 fvHfyOQNBHYaZv6XbhtTd8Cba+eR7k1VTYmlITkukES7n9/Ptw6UWLWZnuWv+h2j4D
+	 i5YieLcZg0YhQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 4A6A6CE12D9; Fri, 26 Jan 2024 11:27:36 -0800 (PST)
+Date: Fri, 26 Jan 2024 11:27:36 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: kernel test robot <lkp@intel.com>, Matthew Wilcox <willy@infradead.org>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [linux-next:master 1589/1892] fs/proc/task_mmu.c:143:45: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <d8eb2dbe-0608-46a7-9e56-30e89c775515@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202401251829.0m6Eo4LI-lkp@intel.com>
+ <CAJuCfpHW2=Zu+CHXL+5fjWxGk=CVix=C66ra+DmXgn6r3+fsXg@mail.gmail.com>
+ <b82c9479-9331-4b31-9fca-3fa963901fe9@paulmck-laptop>
+ <CAJuCfpGA7ScozuAL71idCRbfgxPaz+zY5jEYZ-FQmikQfXrD5A@mail.gmail.com>
+ <ca479a8e-a8f5-48d7-96f9-27692091d2e9@paulmck-laptop>
+ <CAJuCfpHYTjmjtZTAAREy1LBzapekvTk-7BiNQyypTcEypsje2A@mail.gmail.com>
+ <68dc8592-6a5d-4cbe-bb8c-e0f4b5517684@paulmck-laptop>
+ <CAJuCfpE8eAiP9QEquwFbBdtxVrBQiktadXe40H_Xfn+82Waa6Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpE8eAiP9QEquwFbBdtxVrBQiktadXe40H_Xfn+82Waa6Q@mail.gmail.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   9fc0addd2e44d48f96a00113084dfcab9b9df8f8
-commit: 9fc0addd2e44d48f96a00113084dfcab9b9df8f8 [80/80] xfs: implement a new low-level GC mechanism
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240127/202401270217.Y1tjo75q-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270217.Y1tjo75q-lkp@intel.com/reproduce)
+On Fri, Jan 26, 2024 at 08:55:38AM -0800, Suren Baghdasaryan wrote:
+> On Fri, Jan 26, 2024 at 2:22 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> >
+> > On Thu, Jan 25, 2024 at 06:24:05PM -0800, Suren Baghdasaryan wrote:
+> > > On Thu, Jan 25, 2024 at 4:35 PM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > >
+> > > > On Thu, Jan 25, 2024 at 03:17:17PM -0800, Suren Baghdasaryan wrote:
+> > > > > On Thu, Jan 25, 2024 at 2:44 PM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > > > >
+> > > > > > On Thu, Jan 25, 2024 at 01:27:34PM -0800, Suren Baghdasaryan wrote:
+> > > > > > > On Thu, Jan 25, 2024 at 2:23 AM kernel test robot <lkp@intel.com> wrote:
+> > > > > > > >
+> > > > > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > > > > > > head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
+> > > > > > > > commit: 0c30c4cd953025979b7689e49844837f762303ec [1589/1892] mm/maps: read proc/pid/maps under RCU
+> > > > > > > > config: x86_64-randconfig-121-20240125 (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/config)
+> > > > > > > > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> > > > > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/reproduce)
+> > > > > > > >
+> > > > > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > > > > > the same patch/commit), kindly add following tags
+> > > > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202401251829.0m6Eo4LI-lkp@intel.com/
+> > > > > > > >
+> > > > > > > > sparse warnings: (new ones prefixed by >>)
+> > > > > > > > >> fs/proc/task_mmu.c:143:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
+> > > > > > >
+> > > > > > > Uh, this is a problem.
+> > > > > > > I missed that get_file_rcu() is used only with mm->exe_file and
+> > > > > > > vma->vm_file is not really RCU-safe. It's freed via a call to fput()
+> > > > > > > which schedules its freeing using schedule_delayed_work(..., 1) but I
+> > > > > > > don't think that constitutes RCU grace period. Paul, Matthew, could
+> > > > > > > you please confirm? In the meantime I'm going to ask Andrew to remove
+> > > > > > > my patchset from mm-unstable to be safe.
+> > > > > >
+> > > > > > Sadly, no, schedule_delayed_work() does not imply an RCU grace period.
+> > > > > >
+> > > > > > There is a queue_rcu_work() that schedules work after a grace period,
+> > > > > > which could be combined with a timer to get the delay.
+> > > > > >
+> > > > > > Another approach would be to use get_state_synchronize_rcu() before
+> > > > > > the schedule_delayed_work() in fput(), then do cond_synchronize_rcu()
+> > > > > > in delayed_fput().  This would require adding an unsigned long to
+> > > > > > struct file to keep track of which grace period a given struct file
+> > > > > > needed to wait for.
+> > > > > >
+> > > > > > Perhaps something like this:
+> > > > > >
+> > > > > > ------------------------------------------------------------------------
+> > > > > >
+> > > > > > void fput(struct file *file)
+> > > > > > {
+> > > > > >         if (atomic_long_dec_and_test(&file->f_count)) {
+> > > > > >                 struct task_struct *task = current;
+> > > > > >
+> > > > > >                 if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
+> > > > > >                         init_task_work(&file->f_rcuhead, ____fput);
+> > > > > >                         if (!task_work_add(task, &file->f_rcuhead, TWA_RESUME))
+> > > > > >                                 return;
+> > > > > >                         /*
+> > > > > >                          * After this task has run exit_task_work(),
+> > > > > >                          * task_work_add() will fail.  Fall through to delayed
+> > > > > >                          * fput to avoid leaking *file.
+> > > > > >                          */
+> > > > > >                 }
+> > > > > >
+> > > > > >                 file->f_rcu_seq = get_state_synchronize_rcu();
+> > > > > >                 if (llist_add(&file->f_llist, &delayed_fput_list))
+> > > > > >                         schedule_delayed_work(&delayed_fput_work, 1);
+> > > > > >         }
+> > > > > > }
+> > > > > >
+> > > > > > ------------------------------------------------------------------------
+> > > > > >
+> > > > > > And this:
+> > > > > >
+> > > > > > ------------------------------------------------------------------------
+> > > > > >
+> > > > > > static void delayed_fput(struct work_struct *unused)
+> > > > > > {
+> > > > > >         struct llist_node *node = llist_del_all(&delayed_fput_list);
+> > > > > >         struct file *f, *t;
+> > > > > >
+> > > > > >         llist_for_each_entry_safe(f, t, node, f_llist) {
+> > > > > >                 cond_synchronize_rcu(f->f_rcu_seq);
+> > > > > >                 __fput(f);
+> > > > > >         }
+> > > > > > }
+> > > > > >
+> > > > > > ------------------------------------------------------------------------
+> > > > > >
+> > > > > > Note that if you called fput() on a long sequence of struct file
+> > > > > > structures, the cond_synchronize_rcu() would be a near-noop almost all the
+> > > > > > time, actually blocking at most about every once per every few jiffies.
+> > > > > > After all, once a grace period has been waited for, it covers all of
+> > > > > > the struct file structures that were passed to fput() during a given
+> > > > > > RCU grace period.
+> > > > > >
+> > > > > > Still, it would add the occasional delay.  And it would increase the
+> > > > > > size of struct file, though there are workarounds for that, if size
+> > > > > > is an issue.
+> > > > > >
+> > > > > > Thoughts?
+> > > > >
+> > > > > Thanks for the suggestion, Paul. I'm worried about this occasional
+> > > > > delay but otherwise this seems like a nice and simple approach.
+> > > >
+> > > > One potential saving grace is that the more heavily loaded the mechanism,
+> > > > the smaller a fraction of the cond_synchronize_rcu() calls will do
+> > > > a delay.
+> > > >
+> > > > >                                                                 Do you
+> > > > > guys think that making *all* files RCU-safe with this approach is
+> > > > > warranted? For my particular case I need only vma->vm_file to be
+> > > > > RCU-safe but maybe there are other cases which would benefit from
+> > > > > this?
+> > > >
+> > > > To this, I can only give an unqualified "I don't know".  :-(
+> > > >
+> > > > But if there is some condition that can be sampled on a per-file-structure
+> > > > basis, you could use that to invoke cond_synchronize_rcu() only when
+> > > > needed.  Or send only those file structures that need the extra delay
+> > > > through queue_rcu_work(), perhaps by accumulating a list of them.
+> > >
+> > > Thanks Paul! You gave me enough food for thought. Let me see if I can
+> > > come up with something usable.
+> >
+> > Do we have the same problem with the task_work_add() path in fput()?
+> 
+> Yes, I think so. It's called with TWA_RESUME, so the file will be
+> freed when the task returns to user mode, but that again does not
+> guarantee that RCU grace period is over.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401270217.Y1tjo75q-lkp@intel.com/
+That one is going to be annoying, as there doesn't seem to be a nice place
+to hide grace-period latency.  The fget() function and friends want an
+FD, so I am not seeing an obvious way of grabbing an explicit reference.
 
-All warnings (new ones prefixed by >>):
+Now the fget() code path is protected by RCU.  But maybe that does not
+apply in the case where the file is closed but still mapped?
 
-   fs/xfs/xfs_zone_alloc.c: In function 'xfs_zone_gc_query_cb':
->> fs/xfs/xfs_zone_alloc.c:920:34: warning: unused variable 'mp' [-Wunused-variable]
-     920 |         struct xfs_mount        *mp = cur->bc_mp;
-         |                                  ^~
-   fs/xfs/xfs_zone_alloc.c: In function 'xfs_zone_gc_allocate':
->> fs/xfs/xfs_zone_alloc.c:1044:33: warning: variable 'error' set but not used [-Wunused-but-set-variable]
-    1044 |         int                     error;
-         |                                 ^~~~~
-   fs/xfs/xfs_zone_alloc.c: In function 'xfs_zone_gc_write_chunk':
->> fs/xfs/xfs_zone_alloc.c:1192:33: warning: variable 'added' set but not used [-Wunused-but-set-variable]
-    1192 |         unsigned int            added;
-         |                                 ^~~~~
+                                                        Thanx, Paul
 
-
-vim +/mp +920 fs/xfs/xfs_zone_alloc.c
-
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   913  
-171a28db673ea7b Christoph Hellwig 2023-12-07   914  static int
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   915  xfs_zone_gc_query_cb(
-171a28db673ea7b Christoph Hellwig 2023-12-07   916  	struct xfs_btree_cur	*cur,
-171a28db673ea7b Christoph Hellwig 2023-12-07   917  	const struct xfs_rmap_irec *irec,
-171a28db673ea7b Christoph Hellwig 2023-12-07   918  	void			*private)
-171a28db673ea7b Christoph Hellwig 2023-12-07   919  {
-6bffaa3a8300cad Hans Holmberg     2023-12-20  @920  	struct xfs_mount	*mp = cur->bc_mp;
-171a28db673ea7b Christoph Hellwig 2023-12-07   921  	struct xfs_zone_gc_data	*data = private;
-171a28db673ea7b Christoph Hellwig 2023-12-07   922  
-171a28db673ea7b Christoph Hellwig 2023-12-07   923  	ASSERT(!XFS_RMAP_NON_INODE_OWNER(irec->rm_owner));
-6bffaa3a8300cad Hans Holmberg     2023-12-20   924  	ASSERT(!xfs_internal_inum(mp, irec->rm_owner));
-171a28db673ea7b Christoph Hellwig 2023-12-07   925  	ASSERT(!(irec->rm_flags & (XFS_RMAP_ATTR_FORK | XFS_RMAP_BMBT_BLOCK)));
-171a28db673ea7b Christoph Hellwig 2023-12-07   926  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   927  	data->recs[data->rec_count] = *irec;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   928  	if (++data->rec_count == XFS_ZONE_GC_RECS) {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   929  		data->next_startblock =
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   930  			irec->rm_startblock + irec->rm_blockcount;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   931  		return 1;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   932  	}
-171a28db673ea7b Christoph Hellwig 2023-12-07   933  	return 0;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   934  }
-171a28db673ea7b Christoph Hellwig 2023-12-07   935  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   936  static int
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   937  xfs_zone_gc_query(
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   938  	struct xfs_rtgroup	*rtg,
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   939  	struct xfs_zone_gc_data	*data)
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   940  {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   941  	struct xfs_mount	*mp = rtg->rtg_mount;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   942  	struct xfs_rmap_irec	ri_low = { };
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   943  	struct xfs_rmap_irec	ri_high;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   944  	struct xfs_btree_cur	*cur;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   945  	struct xfs_trans	*tp;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   946  	int			error;
-ea09e168e2d08d2 Christoph Hellwig 2024-01-16   947  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   948  	ASSERT(data->next_startblock <= rtg->rtg_blockcount);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   949  	if (data->next_startblock == rtg->rtg_blockcount) {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   950  		data->done = true;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   951  		return 0;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   952  	}
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   953  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   954  	ASSERT(data->next_startblock < rtg->rtg_blockcount);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   955  	ri_low.rm_startblock = data->next_startblock;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   956  	memset(&ri_high, 0xFF, sizeof(ri_high));
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   957  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   958  	data->rec_idx = 0;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   959  	data->rec_count = 0;
-6bffaa3a8300cad Hans Holmberg     2023-12-20   960  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   961  	error = xfs_trans_alloc_empty(mp, &tp);
-171a28db673ea7b Christoph Hellwig 2023-12-07   962  	if (error)
-171a28db673ea7b Christoph Hellwig 2023-12-07   963  		return error;
-171a28db673ea7b Christoph Hellwig 2023-12-07   964  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   965  	xfs_rtgroup_lock(tp, rtg, XFS_RTGLOCK_RMAP);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   966  	cur = xfs_rtrmapbt_init_cursor(mp, tp, rtg, rtg->rtg_rmapip);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   967  	cur->bc_ino.flags = 0;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   968  	error = xfs_rmap_query_range(cur, &ri_low, &ri_high,
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   969  			xfs_zone_gc_query_cb, data);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   970  	xfs_btree_del_cursor(cur, error < 0 ? error : 0);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   971  	xfs_trans_cancel(tp);
-171a28db673ea7b Christoph Hellwig 2023-12-07   972  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   973  	if (error < 0)
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   974  		return error;
-6bffaa3a8300cad Hans Holmberg     2023-12-20   975  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   976  	if (error == 0) {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   977  		/*
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   978  		 * We finished iterating through the zone.
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   979  		 */
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   980  		data->next_startblock = rtg->rtg_blockcount;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   981  		if (data->rec_count == 0)
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   982  			data->done = true;
-6bffaa3a8300cad Hans Holmberg     2023-12-20   983  	}
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   984  
-171a28db673ea7b Christoph Hellwig 2023-12-07   985  	return 0;
-171a28db673ea7b Christoph Hellwig 2023-12-07   986  }
-171a28db673ea7b Christoph Hellwig 2023-12-07   987  
-171a28db673ea7b Christoph Hellwig 2023-12-07   988  static int
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   989  xfs_zone_gc_iter(
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   990  	struct xfs_rtgroup	*rtg,
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   991  	struct xfs_zone_gc_data	*data,
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   992  	struct xfs_rmap_irec	*chunk_rec,
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   993  	struct xfs_inode	**ipp,
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   994  	xfs_extlen_t		maxlen_fsb)
-171a28db673ea7b Christoph Hellwig 2023-12-07   995  {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   996  	struct xfs_mount	*mp = rtg->rtg_mount;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   997  	struct xfs_rmap_irec	*irec;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21   998  	int			error;
-171a28db673ea7b Christoph Hellwig 2023-12-07   999  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1000  	if (data->rec_idx == data->rec_count) {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1001  retry:
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1002  		error = xfs_zone_gc_query(rtg, data);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1003  		if (error || data->done)
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1004  			return error;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1005  	}
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1006  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1007  	irec = &data->recs[data->rec_idx];
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1008  	error = xfs_iget(mp, NULL, irec->rm_owner, XFS_IGET_NORETRY |
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1009  			XFS_IGET_UNTRUSTED | XFS_IGET_DONTCACHE, 0, ipp);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1010  	if (error == -EAGAIN || error == -ENOENT) {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1011  		data->next_startblock = irec->rm_startblock;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1012  		goto retry;
-171a28db673ea7b Christoph Hellwig 2023-12-07  1013  	}
-171a28db673ea7b Christoph Hellwig 2023-12-07  1014  
-171a28db673ea7b Christoph Hellwig 2023-12-07  1015  	if (error)
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1016  		return error;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1017  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1018  	if (!S_ISREG(VFS_I(*ipp)->i_mode)) {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1019  		data->next_startblock = irec->rm_startblock;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1020  		xfs_irele(*ipp);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1021  		goto retry;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1022  	}
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1023  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1024  	*chunk_rec = *irec;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1025  	chunk_rec->rm_blockcount = min(irec->rm_blockcount, maxlen_fsb);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1026  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1027  	irec->rm_offset += chunk_rec->rm_blockcount;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1028  	irec->rm_startblock += chunk_rec->rm_blockcount;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1029  	irec->rm_blockcount -= chunk_rec->rm_blockcount;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1030  	if (!irec->rm_blockcount)
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1031  		data->rec_idx++;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1032  	return 0;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1033  }
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1034  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1035  static xfs_fsblock_t
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1036  xfs_zone_gc_allocate(
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1037  	struct xfs_zone_gc_data	*data,
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1038  	xfs_extlen_t		count_fsb,
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1039  	bool			*is_seq)
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1040  {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1041  	struct xfs_rtgroup	*rtg = data->target_rtg;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1042  	struct xfs_mount	*mp = rtg->rtg_mount;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1043  	xfs_rgblock_t		rgbno = 0;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21 @1044  	int			error;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1045  	xfs_fsblock_t		bno;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1046  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1047  	/* the caller must have ensured there is enough space */
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1048  	ASSERT(rtg->rtg_blockcount - rtg->rtg_write_pointer >= count_fsb);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1049  	error = xfs_mod_freecounter(mp, FREE_RTEXTENTS,
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1050  			-((long)xfs_rtb_to_rtx(mp, count_fsb)), true);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1051  	ASSERT(!error);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1052  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1053  	*is_seq = test_bit(RTG_F_SEQUENTIAL, &rtg->rtg_flags);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1054  	if (!*is_seq)
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1055  		rgbno = rtg->rtg_write_pointer;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1056  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1057  	bno = xfs_rgbno_to_rtb(mp, rtg->rtg_rgno, rgbno);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1058  	rtg->rtg_write_pointer += count_fsb;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1059  	if (rtg->rtg_write_pointer == rtg->rtg_blockcount) {
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1060  		xfs_rtgroup_rele(rtg);
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1061  		data->target_rtg = NULL;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1062  	}
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1063  
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1064  	return bno;
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1065  }
-9fc0addd2e44d48 Christoph Hellwig 2024-01-21  1066  
-
-:::::: The code at line 920 was first introduced by commit
-:::::: 6bffaa3a8300cada23fe468a6436bd7743faa37d xfs: chunk up gc rewrites in smaller bits
-
-:::::: TO: Hans Holmberg <Hans.Holmberg@wdc.com>
-:::::: CC: Christoph Hellwig <hch@lst.de>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > > Cheers,
+> > > Suren.
+> > >
+> > > >
+> > > >                                                         Thanx, Paul
+> > > >
+> > > > > > > >    fs/proc/task_mmu.c:143:45: sparse:     expected struct file [noderef] __rcu **f
+> > > > > > > >    fs/proc/task_mmu.c:143:45: sparse:     got struct file **
+> > > > > > > >    fs/proc/task_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+> > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'get_vma_snapshot' - unexpected unlock
+> > > > > > > >    fs/proc/task_mmu.c:264:22: sparse: sparse: context imbalance in 'm_start' - different lock contexts for basic block
+> > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'm_stop' - unexpected unlock
+> > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'smaps_pte_range' - unexpected unlock
+> > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'clear_refs_pte_range' - unexpected unlock
+> > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_pmd_range' - unexpected unlock
+> > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_scan_pmd_entry' - unexpected unlock
+> > > > > > > >    fs/proc/task_mmu.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
+> > > > > > > >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+> > > > > > > >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+> > > > > > > >
+> > > > > > > > vim +143 fs/proc/task_mmu.c
+> > > > > > > >
+> > > > > > > >    132
+> > > > > > > >    133  /*
+> > > > > > > >    134   * Take VMA snapshot and pin vm_file and anon_name as they are used by
+> > > > > > > >    135   * show_map_vma.
+> > > > > > > >    136   */
+> > > > > > > >    137  static int get_vma_snapshot(struct proc_maps_private *priv, struct vm_area_struct *vma)
+> > > > > > > >    138  {
+> > > > > > > >    139          struct vm_area_struct *copy = &priv->vma_copy;
+> > > > > > > >    140          int ret = -EAGAIN;
+> > > > > > > >    141
+> > > > > > > >    142          memcpy(copy, vma, sizeof(*vma));
+> > > > > > > >  > 143          if (copy->vm_file && !get_file_rcu(&copy->vm_file))
+> > > > > > > >    144                  goto out;
+> > > > > > > >    145
+> > > > > > > >    146          if (!anon_vma_name_get_if_valid(copy))
+> > > > > > > >    147                  goto put_file;
+> > > > > > > >    148
+> > > > > > > >    149          if (priv->mm_wr_seq == mmap_write_seq_read(priv->mm))
+> > > > > > > >    150                  return 0;
+> > > > > > > >    151
+> > > > > > > >    152          /* Address space got modified, vma might be stale. Wait and retry. */
+> > > > > > > >    153          rcu_read_unlock();
+> > > > > > > >    154          ret = mmap_read_lock_killable(priv->mm);
+> > > > > > > >    155          mmap_write_seq_record(priv->mm, &priv->mm_wr_seq);
+> > > > > > > >    156          mmap_read_unlock(priv->mm);
+> > > > > > > >    157          rcu_read_lock();
+> > > > > > > >    158
+> > > > > > > >    159          if (!ret)
+> > > > > > > >    160                  ret = -EAGAIN; /* no other errors, ok to retry */
+> > > > > > > >    161
+> > > > > > > >    162          anon_vma_name_put_if_valid(copy);
+> > > > > > > >    163  put_file:
+> > > > > > > >    164          if (copy->vm_file)
+> > > > > > > >    165                  fput(copy->vm_file);
+> > > > > > > >    166  out:
+> > > > > > > >    167          return ret;
+> > > > > > > >    168  }
+> > > > > > > >    169
+> > > > > > > >
+> > > > > > > > --
+> > > > > > > > 0-DAY CI Kernel Test Service
+> > > > > > > > https://github.com/intel/lkp-tests/wiki
