@@ -1,69 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDBA25115;
-	Fri, 26 Jan 2024 22:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90DF1C294;
+	Fri, 26 Jan 2024 23:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706306681; cv=none; b=iJxhkvn0oBCU9qOuvITUXDWtGENL37qj5pLQkmqxLio1Bz0p07FaWe4uQ3KUcq/91SWEGgdrNsDb0JHywtw80PNtT/yHG7AW579erZuosHqFSRgpMADSq0FmDLC1EuxPKTfCJXuwnu3ozcSv3T5yxzaI7NpPpnaMysYsFTUIKzQ=
+	t=1706310464; cv=none; b=LWJZEbvSZF1eGZ6pGPrzTXM5WtB1ynEwoM8DYUA3g6hjn2cEVtXAFwQZjxjziNU/D6ReN/x99yNlG92Ff81vgPsuaDisQiyfV1F67EJj/dZknqiRmBQ2pNeZ7Zsb+MGh3UW3QgVBhAUhbvOPM/PvFhnEEyR4U9y3F1NlrJTPr1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706306681; c=relaxed/simple;
-	bh=PgTmG/yzGVqUhuwJ1i6jbTUkm8ADJwrhKbzlIpQ+M9M=;
+	s=arc-20240116; t=1706310464; c=relaxed/simple;
+	bh=CCBlNiRHutaSOIy4eCuqmtmhS4a3fOQYcAmNjzl5BgY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kaDXUV7rD1hpbzaLvi4LjfxwPOtVdAli57OFvo2BjUa+PQ5WprwWxwWf5nZhnLarewwQueGuAnFgkPBcHW2sCl2SgqY1XQALAaDCJQNSfshv4pPcPTamv6xOe/WEz56HTLbTcpSJ66xYIC78+roU0d0qmzMqgTfNrSrn6YebMe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nPpU/QPk; arc=none smtp.client-ip=134.134.136.65
+	 Content-Type:Content-Disposition:In-Reply-To; b=hl9Rg7v6YINaPvTTaLHVkvJU9PDokWj12wbjALT25ZBhO9ZJbYY+j73DIUFTEPgWeladA4x+mhXZIFM0w8xtjGNHTVzVRyIdJSUcXaePsRRXcOYKnXe8XFrSdN2A4bx5RBzokS4j07CGfmA1yrlVbou14ebj46+BwOiZRHQPMtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K2wz7WX2; arc=none smtp.client-ip=192.55.52.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPpU/QPk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2wz7WX2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706306679; x=1737842679;
+  t=1706310462; x=1737846462;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PgTmG/yzGVqUhuwJ1i6jbTUkm8ADJwrhKbzlIpQ+M9M=;
-  b=nPpU/QPkyxw/o5eiMsb3YXl6z8u0ciuOUMG0pQu9t3k5rGKg2A2/+4Er
-   VDdOyjGVRbfJZKSaiGGhSYlDsfRI1IM3THnmKdVLIEpEVeZq6F0vD16lN
-   KY8JxjApB1X5uew6BZc2GJOR1tqyYRZNinkgZHjlFydJrwpBgaYHc8Dgz
-   Fa9zwfp7eSfstOqhvGdRCDWjzBr9z1DIbkzrGGJpzVf/CADNbD+bSRIq/
-   7EGFo+MugUuTDMkCtrUXBaEoHW+wG7QgDXOiDdGiZWTlNfkxUzgrrigUJ
-   rNb+coVcUvxXaVlYjaX8/C3D7gHIRo/+msyFFQs2gXMQxoDj1iBcByIVj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="406317863"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="406317863"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 14:04:38 -0800
+  bh=CCBlNiRHutaSOIy4eCuqmtmhS4a3fOQYcAmNjzl5BgY=;
+  b=K2wz7WX2a69IRzJFOaANDD2mv0IPNXiEyg2n+uDOeK3mtCMV53dkW3yy
+   D63VgC5WlCxkHIsvz7rq/GLGru9ZSomi2RJExK8oAT3ERZUYGw34zGxYp
+   UPpKS6KGxbLDBkYJzNZWbOJfpLdDpDcNlXAtO31eGr7GQJWb//d1MunCB
+   qlt7G6aPNUYn71DT9udD2Ya5uLGZ3YbbHQYkK+Wd9f2xbw29dIvpxKqaR
+   NrbMYB/GE+kWmrWypA644mGAiQfXlM9vp1ms5RcSp5UwoV8cFqJ8OrPoP
+   9b9dPm2h7quHt70BNkNtTHvYM8PQ75DVC27CUl96W6JHdKU7+qzWXAOg0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="399760659"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="399760659"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 15:07:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2716758"
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="930501808"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="930501808"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Jan 2024 14:04:33 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 26 Jan 2024 15:07:36 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTUJL-0001NK-01;
-	Fri, 26 Jan 2024 22:04:31 +0000
-Date: Sat, 27 Jan 2024 06:03:58 +0800
+	id 1rTVIM-0001R4-1N;
+	Fri, 26 Jan 2024 23:07:34 +0000
+Date: Sat, 27 Jan 2024 07:07:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev,
-	Chris Mason <chris.mason@fusionio.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
+To: Peter Griffin <peter.griffin@linaro.org>, arnd@arndb.de,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	linux@roeck-us.net, wim@linux-watchdog.org, conor+dt@kernel.org,
+	alim.akhtar@samsung.com, jaewon02.kim@samsung.com,
+	chanho61.park@samsung.com, semen.protsenko@linaro.org
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>
-Subject: Re: [PATCH 5/5] block: remove gfp_flags from blkdev_zone_mgmt
-Message-ID: <202401270524.3SWUUYR8-lkp@intel.com>
-References: <20240123-zonefs_nofs-v1-5-cc0b0308ef25@wdc.com>
+	kernel-team@android.com, peter.griffin@linaro.org,
+	tudor.ambarus@linaro.org, andre.draszik@linaro.org,
+	saravanak@google.com, willmcvicker@google.com, linux-fsd@tesla.com,
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 2/9] soc: samsung: exynos-pmu: Add
+ exynos_pmu_update/read/write APIs and SoC quirks
+Message-ID: <202401270633.VorEna6q-lkp@intel.com>
+References: <20240122225710.1952066-3-peter.griffin@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,145 +70,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240123-zonefs_nofs-v1-5-cc0b0308ef25@wdc.com>
+In-Reply-To: <20240122225710.1952066-3-peter.griffin@linaro.org>
 
-Hi Johannes,
+Hi Peter,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 7ed2632ec7d72e926b9e8bcc9ad1bb0cd37274bf]
+[auto build test ERROR on krzk/for-next]
+[also build test ERROR on robh/for-next soc/for-next linus/master v6.8-rc1 next-20240125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/zonefs-pass-GFP_KERNEL-to-blkdev_zone_mgmt-call/20240123-174911
-base:   7ed2632ec7d72e926b9e8bcc9ad1bb0cd37274bf
-patch link:    https://lore.kernel.org/r/20240123-zonefs_nofs-v1-5-cc0b0308ef25%40wdc.com
-patch subject: [PATCH 5/5] block: remove gfp_flags from blkdev_zone_mgmt
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240127/202401270524.3SWUUYR8-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a31a60074717fc40887cfe132b77eec93bedd307)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270524.3SWUUYR8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Griffin/dt-bindings-watchdog-samsung-wdt-deprecate-samsung-syscon-phandle/20240123-070052
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240122225710.1952066-3-peter.griffin%40linaro.org
+patch subject: [PATCH 2/9] soc: samsung: exynos-pmu: Add exynos_pmu_update/read/write APIs and SoC quirks
+config: x86_64-buildonly-randconfig-006-20240126 (https://download.01.org/0day-ci/archive/20240127/202401270633.VorEna6q-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401270633.VorEna6q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401270524.3SWUUYR8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401270633.VorEna6q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/md/dm-zoned-metadata.c:8:
-   In file included from drivers/md/dm-zoned.h:12:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/md/dm-zoned-metadata.c:8:
-   In file included from drivers/md/dm-zoned.h:12:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/md/dm-zoned-metadata.c:8:
-   In file included from drivers/md/dm-zoned.h:12:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/md/dm-zoned-metadata.c:1661:34: error: too many arguments to function call, expected 4, have 5
-    1659 |                 ret = blkdev_zone_mgmt(dev->bdev, REQ_OP_ZONE_RESET,
-         |                       ~~~~~~~~~~~~~~~~
-    1660 |                                        dmz_start_sect(zmd, zone),
-    1661 |                                        zmd->zone_nr_sectors, GFP_KERNEL);
-         |                                                              ^~~~~~~~~~
-   include/linux/gfp_types.h:327:20: note: expanded from macro 'GFP_KERNEL'
-     327 | #define GFP_KERNEL      (__GFP_RECLAIM | __GFP_IO | __GFP_FS)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/blkdev.h:327:5: note: 'blkdev_zone_mgmt' declared here
-     327 | int blkdev_zone_mgmt(struct block_device *bdev, enum req_op op,
-         |     ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     328 |                 sector_t sectors, sector_t nr_sectors);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   6 warnings and 1 error generated.
+   In file included from drivers/pinctrl/samsung/pinctrl-exynos.c:27:
+>> include/linux/soc/samsung/exynos-pmu.h:38:1: error: expected identifier or '('
+      38 | {
+         | ^
+   include/linux/soc/samsung/exynos-pmu.h:44:1: error: expected identifier or '('
+      44 | {
+         | ^
+>> include/linux/soc/samsung/exynos-pmu.h:50:9: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
+      50 |         return ERR_PTR(-ENODEV);
+         |                ^~~~~~~~~~~~~~~~
+   include/linux/soc/samsung/exynos-pmu.h:55:9: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
+      55 |         return ERR_PTR(-ENODEV);
+         |                ^~~~~~~~~~~~~~~~
+   4 errors generated.
 
 
-vim +1661 drivers/md/dm-zoned-metadata.c
+vim +38 include/linux/soc/samsung/exynos-pmu.h
 
-3b1a94c88b798d Damien Le Moal     2017-06-07  1639  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1640  /*
-3b1a94c88b798d Damien Le Moal     2017-06-07  1641   * Reset a zone write pointer.
-3b1a94c88b798d Damien Le Moal     2017-06-07  1642   */
-3b1a94c88b798d Damien Le Moal     2017-06-07  1643  static int dmz_reset_zone(struct dmz_metadata *zmd, struct dm_zone *zone)
-3b1a94c88b798d Damien Le Moal     2017-06-07  1644  {
-3b1a94c88b798d Damien Le Moal     2017-06-07  1645  	int ret;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1646  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1647  	/*
-3b1a94c88b798d Damien Le Moal     2017-06-07  1648  	 * Ignore offline zones, read only zones,
-3b1a94c88b798d Damien Le Moal     2017-06-07  1649  	 * and conventional zones.
-3b1a94c88b798d Damien Le Moal     2017-06-07  1650  	 */
-3b1a94c88b798d Damien Le Moal     2017-06-07  1651  	if (dmz_is_offline(zone) ||
-3b1a94c88b798d Damien Le Moal     2017-06-07  1652  	    dmz_is_readonly(zone) ||
-3b1a94c88b798d Damien Le Moal     2017-06-07  1653  	    dmz_is_rnd(zone))
-3b1a94c88b798d Damien Le Moal     2017-06-07  1654  		return 0;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1655  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1656  	if (!dmz_is_empty(zone) || dmz_seq_write_err(zone)) {
-8f22272af7a727 Hannes Reinecke    2020-06-02  1657  		struct dmz_dev *dev = zone->dev;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1658  
-6c1b1da58f8c7a Ajay Joshi         2019-10-27  1659  		ret = blkdev_zone_mgmt(dev->bdev, REQ_OP_ZONE_RESET,
-3b1a94c88b798d Damien Le Moal     2017-06-07  1660  				       dmz_start_sect(zmd, zone),
-c4d4977392621f Johannes Thumshirn 2024-01-23 @1661  				       zmd->zone_nr_sectors, GFP_KERNEL);
-3b1a94c88b798d Damien Le Moal     2017-06-07  1662  		if (ret) {
-3b1a94c88b798d Damien Le Moal     2017-06-07  1663  			dmz_dev_err(dev, "Reset zone %u failed %d",
-b71228739851a9 Hannes Reinecke    2020-05-11  1664  				    zone->id, ret);
-3b1a94c88b798d Damien Le Moal     2017-06-07  1665  			return ret;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1666  		}
-3b1a94c88b798d Damien Le Moal     2017-06-07  1667  	}
-3b1a94c88b798d Damien Le Moal     2017-06-07  1668  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1669  	/* Clear write error bit and rewind write pointer position */
-3b1a94c88b798d Damien Le Moal     2017-06-07  1670  	clear_bit(DMZ_SEQ_WRITE_ERR, &zone->flags);
-3b1a94c88b798d Damien Le Moal     2017-06-07  1671  	zone->wp_block = 0;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1672  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1673  	return 0;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1674  }
-3b1a94c88b798d Damien Le Moal     2017-06-07  1675  
+    35	
+    36	static inline int exynos_pmu_update_bits(unsigned int offset, unsigned int mask,
+    37						 unsigned int val);
+  > 38	{
+    39		return ERR_PTR(-ENODEV);
+    40	}
+    41	
+    42	static inline int exynos_pmu_update(unsigned int offset, unsigned int mask,
+    43					    unsigned int val);
+    44	{
+    45		return ERR_PTR(-ENODEV);
+    46	}
+    47	
+    48	static inline int exynos_pmu_write(unsigned int offset, unsigned int val)
+    49	{
+  > 50		return ERR_PTR(-ENODEV);
+    51	}
+    52	
 
 -- 
 0-DAY CI Kernel Test Service
