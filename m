@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F8B125A4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 04:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF531125B1;
+	Sat, 27 Jan 2024 04:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706329047; cv=none; b=TqbqHm1i4+esx0WmiqSnxzAfqEb7JK35H4x3ikSy84hndzG0dyDdh8gKFYnZNgmKqDhf0GVsuAChuTqKm9fqCz3mLcPRZsVvi4Jv9UunjlVF/DU1yL3GQIVPEJ9//I3BdZ1MpjBEmAViEJQCqRKTEqw8KaOz8baqtiP8USLyTVo=
+	t=1706329109; cv=none; b=eOX+eXASpwitXqLCgxhgEnEJq8mfmf0i7Y3jg35x4owUGT3+QPaGqUKFE0yrwWZEEBQfMMOD7BafZ3uJtFjvpLEUuvySW+1POca2EbpAglIc8S4Bam4M61+lggtFjnLp+cL/2EHPtPsqxxGpcGn8LNCmgLea1HnbCqxQ34bRo+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706329047; c=relaxed/simple;
-	bh=bJ+IV6bu0dH9Pky51V8nhF1j67paFMwhO4nSfy10Oy8=;
+	s=arc-20240116; t=1706329109; c=relaxed/simple;
+	bh=tBIsmy5hJ3eN9hrKJBBo7iz2CzbuYxcIm+/zu1iNYIc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iDyKhYEvWqBQ/HdxFu/y6kXzbjWZe3Cy3X9eO5QjHtplA1+7DiuklE0bKzm/T0OatgTEpZrwmY583wF8EYVzN6hm4K4B0fszcurYAQNXx5NsxkJSjLEwHoNu5Q++upJWNp3fUNETDZlZ2PkDgYRJ5MxDbq/otYVqSVB3ql0yl4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjE4DuFI; arc=none smtp.client-ip=134.134.136.20
+	 Content-Disposition; b=UtV3IZot9eOWoHGouTYlnrAFgsawqhHtKQ4kS3cM8IQqvG6WkmYhREoMdoDfhPYDR5voaVqnr3L7y9nvAYdTIjrHjlCptvVMl7it3S88f6l1lDB522k9Al2d+ld8PlcFYy/lco56gkFv4f3BBNNIT7/TUs+sgjMafwqVLw8Beww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SgwlBOwG; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjE4DuFI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SgwlBOwG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706329045; x=1737865045;
+  t=1706329108; x=1737865108;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bJ+IV6bu0dH9Pky51V8nhF1j67paFMwhO4nSfy10Oy8=;
-  b=WjE4DuFIIpzoMZ8jkyGQx063a54mQDElC0/pofesTWbi9kHt+6cfzVBI
-   wb8EeD/33bAfE3pV5GidTyyPfO4DVUXgFNcE7E7CD9slNcamDil0LXb1P
-   FX1eXsWLoioTg8UVKpU4x3A74sjh9FIClCpsToNqcViBV57IjvIJJEN4S
-   3z+FlYzse8de3+HoDtCTZEFAWxHBfGnDsD7mLvUwzTdRzO4tYX5X2YuJY
-   PxBY7Loh4MyrqYwkg6Qyfr4F9jb+BwLkIaV8/g/lbP9Q7TXyiqbl2B/9r
-   6u89m59vw4Q2QiGysFhFsYoszo0EhGtKe6KTxjK2veFu7XgULSawkMFBm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="393076389"
+  bh=tBIsmy5hJ3eN9hrKJBBo7iz2CzbuYxcIm+/zu1iNYIc=;
+  b=SgwlBOwGRBDkjdlhDw4DUFzu6Fv0hijS0caRXmrbQyny7bzgffID3rit
+   EDU4pl3fzAE95/uHgZduZ1t+4LiB/xCWsv2LrMm8ODPRIv6lrj1/+V5sk
+   K9f9bvGeg45DVIXhKlu0pwoUGvxjGlvsSH80NS/hWhZc1mOLTCD/+Z4+K
+   sDfO/uohlo6uqSffpQ7WpAc/NGhYyW7FyIoVKkWDxr0Z16TJiL+cxZHYL
+   zxwPW6MLX7oYxQ7ZUsZLyoP4TXiUyUXVdveDegeN4BizWATXCxsVUmP58
+   klkt8DjlvyuwBsSeRVQVq5hBvWe7bzTc6JfL7d0rCEQ2lqwrrizf8kU6Z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="16168035"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="393076389"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 20:17:24 -0800
+   d="scan'208";a="16168035"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 20:18:26 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="910539092"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="29283711"
+   d="scan'208";a="910539092"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Jan 2024 20:17:23 -0800
+  by orsmga004.jf.intel.com with ESMTP; 26 Jan 2024 20:18:23 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTa89-0001da-1Z;
-	Sat, 27 Jan 2024 04:17:21 +0000
-Date: Sat, 27 Jan 2024 12:17:11 +0800
+	id 1rTa97-0001di-1t;
+	Sat, 27 Jan 2024 04:18:21 +0000
+Date: Sat, 27 Jan 2024 12:17:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 17239/21577]
- drivers/nvme/host/core.c:1163:27: error: 'compat_uptr_t' undeclared; did you
- mean 'compat_time_t'?
-Message-ID: <202401271204.lWrJHpqI-lkp@intel.com>
+To: Nicholas Piggin <npiggin@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>
+Subject: <instantiation>:18:15: error: invalid operand for instruction
+Message-ID: <202401271242.9fQxbKH3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,47 +59,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   992b5fc139d3aa14b25613b06adee4bb9c110b28
-commit: b8ba22a604e4d0a3ad8e23af22f432e12b6f1a65 [17239/21577] nvme: fix compat address handling in several ioctls
-config: arm64-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240127/202401271204.lWrJHpqI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401271204.lWrJHpqI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3a5879d495b226d0404098e3564462d5f1daa33b
+commit: afc6386815a88d067d9f567dcc6266800286f626 powerpc: merge 32-bit and 64-bit _switch implementation
+date:   8 months ago
+config: powerpc64-randconfig-001-20240126 (https://download.01.org/0day-ci/archive/20240127/202401271242.9fQxbKH3-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a31a60074717fc40887cfe132b77eec93bedd307)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401271242.9fQxbKH3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401271204.lWrJHpqI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401271242.9fQxbKH3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/nvme/host/core.c: In function 'nvme_to_user_ptr':
->> drivers/nvme/host/core.c:1163:27: error: 'compat_uptr_t' undeclared (first use in this function); did you mean 'compat_time_t'?
-    1163 |                 ptrval = (compat_uptr_t)ptrval;
-         |                           ^~~~~~~~~~~~~
-         |                           compat_time_t
-   drivers/nvme/host/core.c:1163:27: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/nvme/host/core.c:1163:41: error: expected ';' before 'ptrval'
-    1163 |                 ptrval = (compat_uptr_t)ptrval;
-         |                                         ^~~~~~
-         |                                         ;
-
-
-vim +1163 drivers/nvme/host/core.c
-
-  1154	
-  1155	/*
-  1156	 * Convert integer values from ioctl structures to user pointers, silently
-  1157	 * ignoring the upper bits in the compat case to match behaviour of 32-bit
-  1158	 * kernels.
-  1159	 */
-  1160	static void __user *nvme_to_user_ptr(uintptr_t ptrval)
-  1161	{
-  1162		if (in_compat_syscall())
-> 1163			ptrval = (compat_uptr_t)ptrval;
-  1164		return (void __user *)ptrval;
-  1165	}
-  1166	
+>> <instantiation>:18:15: error: invalid operand for instruction
+    addi %r7,%r7,(1 << (15 + 1))-432
+                 ^
+   arch/powerpc/kernel/switch.S:249:2: note: while in macro instantiation
+    do_switch_64
+    ^
 
 -- 
 0-DAY CI Kernel Test Service
