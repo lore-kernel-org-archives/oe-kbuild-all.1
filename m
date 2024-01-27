@@ -1,61 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8173D11C86;
-	Sat, 27 Jan 2024 03:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F8B125A4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 04:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706327729; cv=none; b=TibgpiOOn29CxAohOFVNjGD2JfYtIrJ1d8gyn84braCTUChCSq0VFAxbqYd56baEEQhY18MEhVAsz/3IIOKd6xvX2qAwCd5cJDrHzmH/abBW3FhOLXDvVOpCvuHa499EquGWzMGHxy0qIEiMrND7o0G1CbX8/Ge4mLNa+NM8RX0=
+	t=1706329047; cv=none; b=TqbqHm1i4+esx0WmiqSnxzAfqEb7JK35H4x3ikSy84hndzG0dyDdh8gKFYnZNgmKqDhf0GVsuAChuTqKm9fqCz3mLcPRZsVvi4Jv9UunjlVF/DU1yL3GQIVPEJ9//I3BdZ1MpjBEmAViEJQCqRKTEqw8KaOz8baqtiP8USLyTVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706327729; c=relaxed/simple;
-	bh=2YlrNsvY5YZx4tzdNL1t9wV1F+wTN43iqnuvGWOALuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WB8IsMvYbvVXTtUzeD8CKsnByWD8mu7lvt8vvfUt7LhAq0G9gPxUcSWtts+gxPOTdDZhaeBqBYVwrnnRE0vljowLuGF7hb3Qq9v2Tsbx9XjS5I+/zHSfzrizjF3oL1wYhGTVh677ZdCrT1D92paK5nCxLe3A0ou3T1Wsnt79r48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzj2cAyX; arc=none smtp.client-ip=134.134.136.31
+	s=arc-20240116; t=1706329047; c=relaxed/simple;
+	bh=bJ+IV6bu0dH9Pky51V8nhF1j67paFMwhO4nSfy10Oy8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iDyKhYEvWqBQ/HdxFu/y6kXzbjWZe3Cy3X9eO5QjHtplA1+7DiuklE0bKzm/T0OatgTEpZrwmY583wF8EYVzN6hm4K4B0fszcurYAQNXx5NsxkJSjLEwHoNu5Q++upJWNp3fUNETDZlZ2PkDgYRJ5MxDbq/otYVqSVB3ql0yl4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjE4DuFI; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzj2cAyX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjE4DuFI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706327726; x=1737863726;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2YlrNsvY5YZx4tzdNL1t9wV1F+wTN43iqnuvGWOALuI=;
-  b=mzj2cAyX5vh6OuuISaGqkkA5leUdepStDnG0wYBM0fq+axoqObDIMkoz
-   I5mL/A0ICPsSmUdLKPn5xusAT3fVQSwTIlDqWElF9PkqQy/Nu03XTex81
-   C/Vtqch78hxxLzfiTWR7q80O7ad+yAFohtrVYfbjK5tdU92HHa7E7ACre
-   XQ380N7JmPQdHIETQeMEvW6eqd7xKeHzZrBoZorZ/6thc09VhoR6ZUiG2
-   gNnxy4Hk5sI6DbLcVcaBoL7nmm3P+rZZuWp4iMhiUsezvllEFygUYaO2t
-   sUNGupLYmi6OsZ7/gXFhGqH8wmf4ALcyzQ4fD7W2NMb6/iGL6E5BXM8ls
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="466917308"
+  t=1706329045; x=1737865045;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bJ+IV6bu0dH9Pky51V8nhF1j67paFMwhO4nSfy10Oy8=;
+  b=WjE4DuFIIpzoMZ8jkyGQx063a54mQDElC0/pofesTWbi9kHt+6cfzVBI
+   wb8EeD/33bAfE3pV5GidTyyPfO4DVUXgFNcE7E7CD9slNcamDil0LXb1P
+   FX1eXsWLoioTg8UVKpU4x3A74sjh9FIClCpsToNqcViBV57IjvIJJEN4S
+   3z+FlYzse8de3+HoDtCTZEFAWxHBfGnDsD7mLvUwzTdRzO4tYX5X2YuJY
+   PxBY7Loh4MyrqYwkg6Qyfr4F9jb+BwLkIaV8/g/lbP9Q7TXyiqbl2B/9r
+   6u89m59vw4Q2QiGysFhFsYoszo0EhGtKe6KTxjK2veFu7XgULSawkMFBm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="393076389"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="466917308"
+   d="scan'208";a="393076389"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 19:55:26 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 20:17:24 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="29280502"
+   d="scan'208";a="29283711"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Jan 2024 19:55:23 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 26 Jan 2024 20:17:23 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTZmq-0001ck-31;
-	Sat, 27 Jan 2024 03:55:20 +0000
-Date: Sat, 27 Jan 2024 11:55:09 +0800
+	id 1rTa89-0001da-1Z;
+	Sat, 27 Jan 2024 04:17:21 +0000
+Date: Sat, 27 Jan 2024 12:17:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ethan Zhao <haifeng.zhao@linux.intel.com>, baolu.lu@linux.intel.com,
-	bhelgaas@google.com, robin.murphy@arm.com, jgg@ziepe.ca
-Cc: oe-kbuild-all@lists.linux.dev, kevin.tian@intel.com,
-	dwmw2@infradead.org, will@kernel.org, lukas@wunner.de,
-	yi.l.liu@intel.com, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	Ethan Zhao <haifeng.zhao@linux.intel.com>
-Subject: Re: [PATCH v11 3/5] iommu/vt-d: simplify parameters of
- qi_submit_sync() ATS invalidation callers
-Message-ID: <202401271122.0kJRQe33-lkp@intel.com>
-References: <20240126014002.481294-4-haifeng.zhao@linux.intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 17239/21577]
+ drivers/nvme/host/core.c:1163:27: error: 'compat_uptr_t' undeclared; did you
+ mean 'compat_time_t'?
+Message-ID: <202401271204.lWrJHpqI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,85 +58,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240126014002.481294-4-haifeng.zhao@linux.intel.com>
 
-Hi Ethan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.8-rc1 next-20240125]
-[cannot apply to joro-iommu/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Zhao/PCI-make-pci_dev_is_disconnected-helper-public-for-other-drivers/20240126-094305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240126014002.481294-4-haifeng.zhao%40linux.intel.com
-patch subject: [PATCH v11 3/5] iommu/vt-d: simplify parameters of qi_submit_sync() ATS invalidation callers
-config: i386-buildonly-randconfig-001-20240127 (https://download.01.org/0day-ci/archive/20240127/202401271122.0kJRQe33-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401271122.0kJRQe33-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   992b5fc139d3aa14b25613b06adee4bb9c110b28
+commit: b8ba22a604e4d0a3ad8e23af22f432e12b6f1a65 [17239/21577] nvme: fix compat address handling in several ioctls
+config: arm64-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240127/202401271204.lWrJHpqI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401271204.lWrJHpqI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401271122.0kJRQe33-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401271204.lWrJHpqI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/iommu/intel/iommu.c: In function 'quirk_extra_dev_tlb_flush':
->> drivers/iommu/intel/iommu.c:4987:6: warning: variable 'sid' set but not used [-Wunused-but-set-variable]
-     u16 sid;
-         ^~~
+   drivers/nvme/host/core.c: In function 'nvme_to_user_ptr':
+>> drivers/nvme/host/core.c:1163:27: error: 'compat_uptr_t' undeclared (first use in this function); did you mean 'compat_time_t'?
+    1163 |                 ptrval = (compat_uptr_t)ptrval;
+         |                           ^~~~~~~~~~~~~
+         |                           compat_time_t
+   drivers/nvme/host/core.c:1163:27: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/nvme/host/core.c:1163:41: error: expected ';' before 'ptrval'
+    1163 |                 ptrval = (compat_uptr_t)ptrval;
+         |                                         ^~~~~~
+         |                                         ;
 
 
-vim +/sid +4987 drivers/iommu/intel/iommu.c
+vim +1163 drivers/nvme/host/core.c
 
-e65a6897be5e49 Jacob Pan  2022-12-01  4957  
-e65a6897be5e49 Jacob Pan  2022-12-01  4958  /*
-e65a6897be5e49 Jacob Pan  2022-12-01  4959   * Here we deal with a device TLB defect where device may inadvertently issue ATS
-e65a6897be5e49 Jacob Pan  2022-12-01  4960   * invalidation completion before posted writes initiated with translated address
-e65a6897be5e49 Jacob Pan  2022-12-01  4961   * that utilized translations matching the invalidation address range, violating
-e65a6897be5e49 Jacob Pan  2022-12-01  4962   * the invalidation completion ordering.
-e65a6897be5e49 Jacob Pan  2022-12-01  4963   * Therefore, any use cases that cannot guarantee DMA is stopped before unmap is
-e65a6897be5e49 Jacob Pan  2022-12-01  4964   * vulnerable to this defect. In other words, any dTLB invalidation initiated not
-e65a6897be5e49 Jacob Pan  2022-12-01  4965   * under the control of the trusted/privileged host device driver must use this
-e65a6897be5e49 Jacob Pan  2022-12-01  4966   * quirk.
-e65a6897be5e49 Jacob Pan  2022-12-01  4967   * Device TLBs are invalidated under the following six conditions:
-e65a6897be5e49 Jacob Pan  2022-12-01  4968   * 1. Device driver does DMA API unmap IOVA
-e65a6897be5e49 Jacob Pan  2022-12-01  4969   * 2. Device driver unbind a PASID from a process, sva_unbind_device()
-e65a6897be5e49 Jacob Pan  2022-12-01  4970   * 3. PASID is torn down, after PASID cache is flushed. e.g. process
-e65a6897be5e49 Jacob Pan  2022-12-01  4971   *    exit_mmap() due to crash
-e65a6897be5e49 Jacob Pan  2022-12-01  4972   * 4. Under SVA usage, called by mmu_notifier.invalidate_range() where
-e65a6897be5e49 Jacob Pan  2022-12-01  4973   *    VM has to free pages that were unmapped
-e65a6897be5e49 Jacob Pan  2022-12-01  4974   * 5. Userspace driver unmaps a DMA buffer
-e65a6897be5e49 Jacob Pan  2022-12-01  4975   * 6. Cache invalidation in vSVA usage (upcoming)
-e65a6897be5e49 Jacob Pan  2022-12-01  4976   *
-e65a6897be5e49 Jacob Pan  2022-12-01  4977   * For #1 and #2, device drivers are responsible for stopping DMA traffic
-e65a6897be5e49 Jacob Pan  2022-12-01  4978   * before unmap/unbind. For #3, iommu driver gets mmu_notifier to
-e65a6897be5e49 Jacob Pan  2022-12-01  4979   * invalidate TLB the same way as normal user unmap which will use this quirk.
-e65a6897be5e49 Jacob Pan  2022-12-01  4980   * The dTLB invalidation after PASID cache flush does not need this quirk.
-e65a6897be5e49 Jacob Pan  2022-12-01  4981   *
-e65a6897be5e49 Jacob Pan  2022-12-01  4982   * As a reminder, #6 will *NEED* this quirk as we enable nested translation.
-e65a6897be5e49 Jacob Pan  2022-12-01  4983   */
-e2fcf16ac26679 Ethan Zhao 2024-01-25  4984  void quirk_extra_dev_tlb_flush(struct device_domain_info *info, u32 pasid,
-e2fcf16ac26679 Ethan Zhao 2024-01-25  4985  			       unsigned long address, unsigned long mask)
-e65a6897be5e49 Jacob Pan  2022-12-01  4986  {
-e65a6897be5e49 Jacob Pan  2022-12-01 @4987  	u16 sid;
-e65a6897be5e49 Jacob Pan  2022-12-01  4988  
-e65a6897be5e49 Jacob Pan  2022-12-01  4989  	if (likely(!info->dtlb_extra_inval))
-e65a6897be5e49 Jacob Pan  2022-12-01  4990  		return;
-e65a6897be5e49 Jacob Pan  2022-12-01  4991  
-e65a6897be5e49 Jacob Pan  2022-12-01  4992  	sid = PCI_DEVID(info->bus, info->devfn);
-4298780126c298 Jacob Pan  2023-08-09  4993  	if (pasid == IOMMU_NO_PASID) {
-e2fcf16ac26679 Ethan Zhao 2024-01-25  4994  		qi_flush_dev_iotlb(info->iommu, info, address, mask);
-e65a6897be5e49 Jacob Pan  2022-12-01  4995  	} else {
-e2fcf16ac26679 Ethan Zhao 2024-01-25  4996  		qi_flush_dev_iotlb_pasid(info->iommu, info, address, pasid, mask);
-e65a6897be5e49 Jacob Pan  2022-12-01  4997  	}
-e65a6897be5e49 Jacob Pan  2022-12-01  4998  }
-dc57875866ab9f Kan Liang  2023-01-31  4999  
+  1154	
+  1155	/*
+  1156	 * Convert integer values from ioctl structures to user pointers, silently
+  1157	 * ignoring the upper bits in the compat case to match behaviour of 32-bit
+  1158	 * kernels.
+  1159	 */
+  1160	static void __user *nvme_to_user_ptr(uintptr_t ptrval)
+  1161	{
+  1162		if (in_compat_syscall())
+> 1163			ptrval = (compat_uptr_t)ptrval;
+  1164		return (void __user *)ptrval;
+  1165	}
+  1166	
 
 -- 
 0-DAY CI Kernel Test Service
