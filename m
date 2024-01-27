@@ -1,54 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D462200A4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 23:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9391820306
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 23:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706397008; cv=none; b=sg0+KMKmov69knQewiaYuATUVmZabiHQbDoin9kxlhGSnLvbZqSm68KOO8Fj3SyAW2DLv6iEr4m2wkA9FldvvMP7dMopYjpNu6DlW12UWymYfY4dkPX8+824vWrufxLn+C36LkELBnW1RPvCZQob9vvuo64Wij3+/0YePC1YZs8=
+	t=1706397010; cv=none; b=gO4e5Xw7YiWZ7bhIn+acFWbNLraRyByLZIuGVkrMTd0J/FJOKjVOEQfQur7hk4aVzUPT4zgHKM/ZADEQpDiM49xs+oqwDo9anUFhIl7QMnkpi2xSTgUnx+7JJQrFd4dm2gk32gmC74fcQ61mLnfDQAZAPeTV/TJHWDl7HMSq7VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706397008; c=relaxed/simple;
-	bh=BY84zmG2LG0fqTQghZlXCQwTl1kvgKCv/JdfLS21AhQ=;
+	s=arc-20240116; t=1706397010; c=relaxed/simple;
+	bh=DiVGZc3ZOutw2IpvC5MEFF4a0Ynfk7QK29IKAN4/ufY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i72rBSwQRsssJMnTm0K6oDyooRgqmTh6Mf/wBPW7G6Nck1VG7tKGDJNPrqPkolp6kZ9ggdZ32SD8Ypf+dwvOTchZnyD4FszUBccIJ1ux6qdQODzWv+LXmVY0idOZ4LtjSco6UtNBB9NXbweEcXCpb25YlSe5vbogesQkSdKuNZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aD5jes03; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=Mcy4GELsiYnNhJaX/EsI7WoQotIMr3bboHkC5MUKTQejhm60s7gqhYZ5P6f80ZXh6gJTsWKkPEZXSw2ZmojGbBR1rQVJMl4iDNMOWecp2T9P8izPI0a3F0F+BZu9+zFKtklmXBCplTGcccXMCpFJOtNJp8Jsaps1ejX9RwW/NNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIYFCMSJ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aD5jes03"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIYFCMSJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706397006; x=1737933006;
+  t=1706397008; x=1737933008;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BY84zmG2LG0fqTQghZlXCQwTl1kvgKCv/JdfLS21AhQ=;
-  b=aD5jes03bUP3S25GeWk6SuxrG4X8GjooJoqhwBdNfqu4mDpoyk/vvEH0
-   89YnSxxq66I/ZoYfDv/V3OekIBErRoy+VFnCHr+fat8UGjTU+GJULGFNE
-   kokSfkc4uHvzIHCo71MyIiVPRPmPs65iePQRcqedXvzikYIAM/6DlKIbq
-   bxRndhsL14DT8Gc+lOT2MYGY74r1I4Ji0BXOdwj4opFtBt9gkSdtb4Fzt
-   TEZyKng8+wZOEDNHClCMMk1FZaPUEkmUXKupUETbm9aYTvymsZcJaJ8lx
-   l+CwdCmWMysSuEKLn0iV7GHKIrRV+Qg7C8nLgTY5uIHcy+/k7vaa/cRu8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="10102947"
+  bh=DiVGZc3ZOutw2IpvC5MEFF4a0Ynfk7QK29IKAN4/ufY=;
+  b=ZIYFCMSJxmpV/xJTLN6BHjKdec2XDK5h2dUIfEjG0ZrZqlvSPsqIXp8Q
+   2vTzGHcW93lWpAcuqUp0oSgcJ+ueck4LD2D4nNHP2cPcpAvzVEuEzKN+C
+   qAaINFRjSCIYS3AEbzLD017UrKkUcGjgga9ZpQpGqhKoD35iMKlOBM2bX
+   kZ/MgYvSSR2J/qFHbUpQfMBrdOYNgIVaPRLaisJz+n5uCZxkDRM/2aZB+
+   Kqnq1jER6KEzO2M0WDiGOxUypbbmeT1cy+MUoljxz2wuIvFx/TlzUMCcK
+   gYvs8Tvipu5PhFoajzTOLukG0Z+oq6kOyrKUFB2cd5g4XWXWhgyOXcwTO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="10102950"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="10102947"
+   d="scan'208";a="10102950"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 15:10:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="21711412"
+   d="scan'208";a="21711413"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 27 Jan 2024 15:10:04 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTroI-0002q0-1M;
+	id 1rTroI-0002py-1I;
 	Sat, 27 Jan 2024 23:10:02 +0000
-Date: Sun, 28 Jan 2024 07:09:25 +0800
+Date: Sun, 28 Jan 2024 07:09:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Goldwyn Rodrigues <rgoldwyn@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [goldwynr:buffered.46 19/90] block/fops.c:477:1: warning: control
- reaches end of non-void function
-Message-ID: <202401280757.M98xzccp-lkp@intel.com>
+To: Mike Galbraith <umgwanakikbuti@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: [rt-devel:linux-6.8.y-rt 63/96]
+ drivers/gpu/drm/i915/display/intel_vblank.c:284:16: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202401280702.PNbQLDGH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,72 +61,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/goldwynr/linux buffered.46
-head:   9b93fddebc916105169c8a82d8f3f20fb30ff277
-commit: a6554d1f87d5da065aa8aaedaca6b46e2c474e19 [19/90] iomap: Introduce iomap_read_folio_ops
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240128/202401280757.M98xzccp-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280757.M98xzccp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.8.y-rt
+head:   ff2361c71bd48a300cf147f5ffa6cd0f67135879
+commit: 722e48bb3059ead4fcf48804b314d165a7609029 [63/96] drm/i915: Use preempt_disable/enable_rt() where recommended
+config: riscv-randconfig-r121-20240127 (https://download.01.org/0day-ci/archive/20240128/202401280702.PNbQLDGH-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240128/202401280702.PNbQLDGH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401280757.M98xzccp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401280702.PNbQLDGH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_vblank.c:284:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got void * @@
+   drivers/gpu/drm/i915/display/intel_vblank.c:284:16: sparse:     expected unsigned long
+   drivers/gpu/drm/i915/display/intel_vblank.c:284:16: sparse:     got void *
+   drivers/gpu/drm/i915/display/intel_vblank.c:278:13: sparse: sparse: context imbalance in 'intel_vblank_section_enter_irqsave' - wrong count at exit
+   drivers/gpu/drm/i915/display/intel_vblank.c:288:13: sparse: sparse: context imbalance in 'intel_vblank_section_exit_irqrestore' - wrong count at exit
+   drivers/gpu/drm/i915/display/intel_vblank.c:298:13: sparse: sparse: context imbalance in 'intel_vblank_section_enter' - wrong count at exit
+   drivers/gpu/drm/i915/display/intel_vblank.c:306:13: sparse: sparse: context imbalance in 'intel_vblank_section_exit' - wrong count at exit
 
-   block/fops.c: In function 'blkdev_read_folio':
-   block/fops.c:476:16: error: too few arguments to function 'iomap_read_folio'
-     476 |         return iomap_read_folio(folio, &blkdev_iomap_ops);
-         |                ^~~~~~~~~~~~~~~~
-   In file included from block/fops.c:18:
-   include/linux/iomap.h:273:5: note: declared here
-     273 | int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops,
-         |     ^~~~~~~~~~~~~~~~
-   block/fops.c: In function 'blkdev_readahead':
-   block/fops.c:481:9: error: too few arguments to function 'iomap_readahead'
-     481 |         iomap_readahead(rac, &blkdev_iomap_ops);
-         |         ^~~~~~~~~~~~~~~
-   include/linux/iomap.h:275:6: note: declared here
-     275 | void iomap_readahead(struct readahead_control *, const struct iomap_ops *ops,
-         |      ^~~~~~~~~~~~~~~
-   block/fops.c: In function 'blkdev_read_folio':
->> block/fops.c:477:1: warning: control reaches end of non-void function [-Wreturn-type]
-     477 | }
-         | ^
+vim +284 drivers/gpu/drm/i915/display/intel_vblank.c
 
-
-vim +477 block/fops.c
-
-cd82cca7ebfe9c Christoph Hellwig       2021-09-07  461  
-cd82cca7ebfe9c Christoph Hellwig       2021-09-07  462  const struct address_space_operations def_blk_aops = {
-e621900ad28b74 Matthew Wilcox (Oracle  2022-02-09  463) 	.dirty_folio	= block_dirty_folio,
-7ba13abbd31ee9 Matthew Wilcox (Oracle  2022-02-09  464) 	.invalidate_folio = block_invalidate_folio,
-2c69e2057962b6 Matthew Wilcox (Oracle  2022-04-29  465) 	.read_folio	= blkdev_read_folio,
-cd82cca7ebfe9c Christoph Hellwig       2021-09-07  466  	.readahead	= blkdev_readahead,
-17bf23a981be9c Matthew Wilcox (Oracle  2023-12-15  467) 	.writepages	= blkdev_writepages,
-cd82cca7ebfe9c Christoph Hellwig       2021-09-07  468  	.write_begin	= blkdev_write_begin,
-cd82cca7ebfe9c Christoph Hellwig       2021-09-07  469  	.write_end	= blkdev_write_end,
-67235182a41c1b Matthew Wilcox (Oracle  2022-06-06  470) 	.migrate_folio	= buffer_migrate_folio_norefs,
-cd82cca7ebfe9c Christoph Hellwig       2021-09-07  471  	.is_dirty_writeback = buffer_check_dirty_writeback,
-cd82cca7ebfe9c Christoph Hellwig       2021-09-07  472  };
-925c86a19bacf8 Christoph Hellwig       2023-08-01  473  #else /* CONFIG_BUFFER_HEAD */
-925c86a19bacf8 Christoph Hellwig       2023-08-01  474  static int blkdev_read_folio(struct file *file, struct folio *folio)
-925c86a19bacf8 Christoph Hellwig       2023-08-01  475  {
-925c86a19bacf8 Christoph Hellwig       2023-08-01  476  	return iomap_read_folio(folio, &blkdev_iomap_ops);
-925c86a19bacf8 Christoph Hellwig       2023-08-01 @477  }
-925c86a19bacf8 Christoph Hellwig       2023-08-01  478  
-925c86a19bacf8 Christoph Hellwig       2023-08-01  479  static void blkdev_readahead(struct readahead_control *rac)
-925c86a19bacf8 Christoph Hellwig       2023-08-01  480  {
-925c86a19bacf8 Christoph Hellwig       2023-08-01 @481  	iomap_readahead(rac, &blkdev_iomap_ops);
-925c86a19bacf8 Christoph Hellwig       2023-08-01  482  }
-925c86a19bacf8 Christoph Hellwig       2023-08-01  483  
-
-:::::: The code at line 477 was first introduced by commit
-:::::: 925c86a19bacf8ce10eb666328fb3fa5aff7b951 fs: add CONFIG_BUFFER_HEAD
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+   267	
+   268	/*
+   269	 * The uncore version of the spin lock functions is used to decide
+   270	 * whether we need to lock the uncore lock or not.  This is only
+   271	 * needed in i915, not in Xe.
+   272	 *
+   273	 * This lock in i915 is needed because some old platforms (at least
+   274	 * IVB and possibly HSW as well), which are not supported in Xe, need
+   275	 * all register accesses to the same cacheline to be serialized,
+   276	 * otherwise they may hang.
+   277	 */
+   278	static void intel_vblank_section_enter_irqsave(struct drm_i915_private *i915, unsigned long *flags)
+   279		__acquires(i915->uncore.lock)
+   280	{
+   281	#ifdef I915
+   282		spin_lock_irqsave(&i915->uncore.lock, *flags);
+   283	#else
+ > 284		*flags = NULL;
+   285	#endif
+   286	}
+   287	
 
 -- 
 0-DAY CI Kernel Test Service
