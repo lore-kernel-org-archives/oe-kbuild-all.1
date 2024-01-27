@@ -1,123 +1,83 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D704E208B2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 15:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC52282FE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 15:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706368533; cv=none; b=i6+BzS0STE5vUEO+4KH440XHoFIhuPwgj2xNifaUJ2Lj/JvT2lngqEZQTvt14wsx/FIGCXX7PoIBCTR5ZqLj3tEBzjsJyl5W7Lrjwktu2DPUubdzsADBcFVgMPCC/laTMdjDaXrNNa38XcJaIolfqXXlhkNwTu9GobVWiWeJU+c=
+	t=1706368590; cv=none; b=QH/tMYsEVkAEPl54yp/Wx5mMLItwzxS8zNzv4Ve22sMcGUeMsMTrFDQ2LGra+87PklgDkU98595Lurzfhvgvn45qy29ZvYrt3jmOc5boMK9YxfwYPDu8/erTDOpPbNSjovOwc/NQCz2X4aF2pGAXcVTalPnp1JFnNliUnI7esHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706368533; c=relaxed/simple;
-	bh=2RfS1NTT3mAlcDXd2NzAnrdw/nl+hu+8H48V1Vrv/O0=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=jTjFUwZd+OLW66quNG1WKti7dD5XQybX2BFsRhOIMGtliGXHWE1zEpT+YrJKK03GMvZZZM94YDFmUfTw+5vhairk1/TGY8kN4OU7n352sSCch29lyZ7J6OqF24ZqLnafvFx/HNVodmXIymwsmuqBiCc7BT8OcItL8gC0E/EEsmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=erE/6TGz; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1706368590; c=relaxed/simple;
+	bh=xLUsrfGH9IBafZIGuz5txGUspaxunwsnXWoJKEzLQR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V8UQGypx+Fsi5Lq8GM/X2ezJYnN3YMG4J8U+uufbljljIgQJFde0CvICEsVjrqVpx1o+WEQmn2cJ6keVHFzYZ4YarRh5EOfxZ0SvZ6bFJjq08Zsn3RYM+N8YgDRvrLmzAX3rTPb1pc+5vJtl+mV14hNKoak3L6nmItzbMILkSK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4Wyk3fI; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="erE/6TGz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4Wyk3fI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706368589; x=1737904589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OjuS/6K6iRxZGOHXIL2Nqip206PzuqRpaVhiwnYs3cg=;
-  b=erE/6TGzN6U+cfWe8YK843Vki2FRvQiLTowC17xPIVW+WmOFNvmAZH0H
-   7sGMbMowQo4NGCI0BNsb5OJviwdCNMzTN0s0fnyMk55JkpyI/9CwFURek
-   cEmZdh83EVRfWPlOsKCqcbfVdqP7Z5PTB4/eQX2FvTYHLRp5GkSMKkIZl
-   A=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.05,220,1701126000"; 
-   d="scan'208";a="77995086"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 16:15:27 +0100
-Date: Sat, 27 Jan 2024 16:15:26 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Walker Chen <walker.chen@starfivetech.com>
-cc: Mark Brown <broonie@kernel.org>, 
-    Claudiu Beznea <claudiu.beznea@microchip.com>, 
-    linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: sound/soc/starfive/jh7110_tdm.c:198:16-18: WARNING opportunity for
- max() (fwd)
-Message-ID: <alpine.DEB.2.22.394.2401271614550.3247@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+  bh=xLUsrfGH9IBafZIGuz5txGUspaxunwsnXWoJKEzLQR8=;
+  b=L4Wyk3fIv+4s3G8TLBzDbz/30ndOqYJIOdzcfKhpjeqiZZlp4oGSJhNp
+   z9wgn0rgnPf0xJT9x2l4id1Zuu0E6yssHxESImcb13y16YTaDJRLCuLA4
+   jsjPAwQOZyNiiEotk3s8Atc/od28MEx4s4x5swQF5s+uYOdbkk/ZG5zZ5
+   2rgVYUml0ClqO83UpeGmWTGuEy9QLVUzb8nF9/nhXENTYiTbX3fbwGqkC
+   DV6HTRf1yKwe2zQbhnes9semK9DcdF1XbKXwXAmyp7KjAGJ92Rl6WHHkm
+   SVhMIQagthn4Tomicd8NZHzrOrwmxFozK+0sV+d1i4wYYBklNnnAH8Gav
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9342681"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="9342681"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 07:16:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="2993847"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jan 2024 07:16:25 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rTkPv-0002S6-1C;
+	Sat, 27 Jan 2024 15:16:23 +0000
+Date: Sat, 27 Jan 2024 23:15:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Florian Westphal <fw@strlen.de>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [netfilter-nf-next:testing 8/9] kismet: WARNING: unmet direct
+ dependencies detected for IP6_NF_IPTABLES_LEGACY when selected by IP_NF_NAT
+Message-ID: <202401272357.BmlNMzk9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-
-
----------- Forwarded message ----------
-Date: Sat, 27 Jan 2024 22:30:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: sound/soc/starfive/jh7110_tdm.c:198:16-18: WARNING opportunity for
-    max()
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Walker Chen <walker.chen@starfivetech.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Claudiu Beznea <claudiu.beznea@microchip.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3a5879d495b226d0404098e3564462d5f1daa33b
-commit: fd4762b6b5cfa27bf44f5d624ce74b7dce4a479c ASoC: starfive: Add JH7110 TDM driver
-date:   8 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 8 months ago
-config: openrisc-randconfig-r053-20240127 (https://download.01.org/0day-ci/archive/20240127/202401272205.TWGHvmpR-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git testing
+head:   bce197d1b01d778a734ee15b19a48ebc2b41390a
+commit: 3076d3576759db157092ee7db5a9087d2ef01b00 [8/9] netfilter: xtables: allow xtables-nft only builds
+config: alpha-kismet-CONFIG_IP6_NF_IPTABLES_LEGACY-CONFIG_IP_NF_NAT-0-0 (https://download.01.org/0day-ci/archive/20240127/202401272357.BmlNMzk9-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240127/202401272357.BmlNMzk9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401272205.TWGHvmpR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401272357.BmlNMzk9-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> sound/soc/starfive/jh7110_tdm.c:198:16-18: WARNING opportunity for max()
-   sound/soc/starfive/jh7110_tdm.c:203:20-22: WARNING opportunity for max()
-
-vim +198 sound/soc/starfive/jh7110_tdm.c
-
-fd4762b6b5cfa2 Walker Chen 2023-05-26  193
-fd4762b6b5cfa2 Walker Chen 2023-05-26  194  static int jh7110_tdm_syncdiv(struct jh7110_tdm_dev *tdm)
-fd4762b6b5cfa2 Walker Chen 2023-05-26  195  {
-fd4762b6b5cfa2 Walker Chen 2023-05-26  196  	u32 sl, sscale, syncdiv;
-fd4762b6b5cfa2 Walker Chen 2023-05-26  197
-fd4762b6b5cfa2 Walker Chen 2023-05-26 @198  	if (tdm->rx.sl >= tdm->tx.sl)
-fd4762b6b5cfa2 Walker Chen 2023-05-26  199  		sl = tdm->rx.sl;
-fd4762b6b5cfa2 Walker Chen 2023-05-26  200  	else
-fd4762b6b5cfa2 Walker Chen 2023-05-26  201  		sl = tdm->tx.sl;
-fd4762b6b5cfa2 Walker Chen 2023-05-26  202
-fd4762b6b5cfa2 Walker Chen 2023-05-26  203  	if (tdm->rx.sscale >= tdm->tx.sscale)
-fd4762b6b5cfa2 Walker Chen 2023-05-26  204  		sscale = tdm->rx.sscale;
-fd4762b6b5cfa2 Walker Chen 2023-05-26  205  	else
-fd4762b6b5cfa2 Walker Chen 2023-05-26  206  		sscale = tdm->tx.sscale;
-fd4762b6b5cfa2 Walker Chen 2023-05-26  207
-fd4762b6b5cfa2 Walker Chen 2023-05-26  208  	syncdiv = tdm->pcmclk / tdm->samplerate - 1;
-fd4762b6b5cfa2 Walker Chen 2023-05-26  209
-fd4762b6b5cfa2 Walker Chen 2023-05-26  210  	if ((syncdiv + 1) < (sl * sscale)) {
-fd4762b6b5cfa2 Walker Chen 2023-05-26  211  		dev_err(tdm->dev, "Failed to set syncdiv!\n");
-fd4762b6b5cfa2 Walker Chen 2023-05-26  212  		return -EINVAL;
-fd4762b6b5cfa2 Walker Chen 2023-05-26  213  	}
-fd4762b6b5cfa2 Walker Chen 2023-05-26  214
-fd4762b6b5cfa2 Walker Chen 2023-05-26  215  	if (tdm->syncm == TDM_SYNCM_LONG &&
-fd4762b6b5cfa2 Walker Chen 2023-05-26  216  	    (tdm->rx.sscale <= 1 || tdm->tx.sscale <= 1) &&
-fd4762b6b5cfa2 Walker Chen 2023-05-26  217  	    ((syncdiv + 1) <= sl)) {
-fd4762b6b5cfa2 Walker Chen 2023-05-26  218  		dev_err(tdm->dev, "Wrong syncdiv! It must be (syncdiv+1) > max[tx.sl, rx.sl]\n");
-fd4762b6b5cfa2 Walker Chen 2023-05-26  219  		return -EINVAL;
-fd4762b6b5cfa2 Walker Chen 2023-05-26  220  	}
-fd4762b6b5cfa2 Walker Chen 2023-05-26  221
-fd4762b6b5cfa2 Walker Chen 2023-05-26  222  	jh7110_tdm_writel(tdm, TDM_PCMDIV, syncdiv);
-fd4762b6b5cfa2 Walker Chen 2023-05-26  223  	return 0;
-fd4762b6b5cfa2 Walker Chen 2023-05-26  224  }
-fd4762b6b5cfa2 Walker Chen 2023-05-26  225
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for IP6_NF_IPTABLES_LEGACY when selected by IP_NF_NAT
+   
+   WARNING: unmet direct dependencies detected for IP6_NF_IPTABLES_LEGACY
+     Depends on [n]: NET [=y] && INET [=y] && IPV6 [=n] && NETFILTER [=y]
+     Selected by [y]:
+     - IP_NF_NAT [=y] && NET [=y] && INET [=y] && NETFILTER [=y] && IP_NF_IPTABLES [=y] && NF_CONNTRACK [=y]
 
 -- 
 0-DAY CI Kernel Test Service
