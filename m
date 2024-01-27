@@ -1,57 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9391820306
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 23:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E81200AC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 23:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706397010; cv=none; b=gO4e5Xw7YiWZ7bhIn+acFWbNLraRyByLZIuGVkrMTd0J/FJOKjVOEQfQur7hk4aVzUPT4zgHKM/ZADEQpDiM49xs+oqwDo9anUFhIl7QMnkpi2xSTgUnx+7JJQrFd4dm2gk32gmC74fcQ61mLnfDQAZAPeTV/TJHWDl7HMSq7VY=
+	t=1706397732; cv=none; b=QqyI/1Puk7x6Np58MWvUynf1qyOi3btS+k9hI/5+PQw/HCxoUURC2vQdiOIMsO8QGpp+JL9DcoeMaXYKj6hZM1dIALYNmQEFgAWpmPgkhYMv9S/Epa1vDxpZJOBsaPr5T1NiVzJZsg5p+6b6FoBMY0iyQpn/vWKv16Y4T3WOSVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706397010; c=relaxed/simple;
-	bh=DiVGZc3ZOutw2IpvC5MEFF4a0Ynfk7QK29IKAN4/ufY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mcy4GELsiYnNhJaX/EsI7WoQotIMr3bboHkC5MUKTQejhm60s7gqhYZ5P6f80ZXh6gJTsWKkPEZXSw2ZmojGbBR1rQVJMl4iDNMOWecp2T9P8izPI0a3F0F+BZu9+zFKtklmXBCplTGcccXMCpFJOtNJp8Jsaps1ejX9RwW/NNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIYFCMSJ; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1706397732; c=relaxed/simple;
+	bh=20qSAAIqanWUeEOfYpQXU7bnnPuWMMlDWr5ybRYLvzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A62mHobVdHtEGmEBWycpp31ewPHnMaLJn3DRP8fPS4ufdxhQpy5NF/LF384vZ/sWesy96Ro7zPtv8lf6K3uobCzAaDfAo0MRlONBiI24PD09cA/v9Lq1bKxnboJLV+H1aV/iScUEIfS3EEqcbcYd/akCXxziQ5Qo8GebM9Peqsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PECYXxUK; arc=none smtp.client-ip=134.134.136.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIYFCMSJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PECYXxUK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706397008; x=1737933008;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DiVGZc3ZOutw2IpvC5MEFF4a0Ynfk7QK29IKAN4/ufY=;
-  b=ZIYFCMSJxmpV/xJTLN6BHjKdec2XDK5h2dUIfEjG0ZrZqlvSPsqIXp8Q
-   2vTzGHcW93lWpAcuqUp0oSgcJ+ueck4LD2D4nNHP2cPcpAvzVEuEzKN+C
-   qAaINFRjSCIYS3AEbzLD017UrKkUcGjgga9ZpQpGqhKoD35iMKlOBM2bX
-   kZ/MgYvSSR2J/qFHbUpQfMBrdOYNgIVaPRLaisJz+n5uCZxkDRM/2aZB+
-   Kqnq1jER6KEzO2M0WDiGOxUypbbmeT1cy+MUoljxz2wuIvFx/TlzUMCcK
-   gYvs8Tvipu5PhFoajzTOLukG0Z+oq6kOyrKUFB2cd5g4XWXWhgyOXcwTO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="10102950"
+  t=1706397729; x=1737933729;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=20qSAAIqanWUeEOfYpQXU7bnnPuWMMlDWr5ybRYLvzo=;
+  b=PECYXxUKimwctJMUSxn2oNaTsDaFQnryeJf3nSE1+SWx8OmXk95JiicM
+   QO6fbNdXayDjxi0sDYVPH055L0t2zRVU0ORBu73/rO/SoQSOBY2RNqUPY
+   2xf9TRUqbpEgB85zbaTY9kITm8qaiSZoJUCFrrJ+/aEFfi1zjTEk1sb9X
+   F4E5EYO27+J67ivbNpy02uOy3epSoDs5x1e6zH5ABVuTRgUGdopqfPgtj
+   CVKOrukBqnzVg21aw9+aEBn+XDunrMrIWEhuVuVXvCmK66k5xtFKw6cCP
+   qrEzeNU0kh4eoFUb41WKdlLhPY9mB9I0sAjcuM1OQkcADnLx1oxtCvFdI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="406440986"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="10102950"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 15:10:05 -0800
+   d="scan'208";a="406440986"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 15:22:08 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="21711413"
+   d="scan'208";a="35779710"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Jan 2024 15:10:04 -0800
+  by orviesa001.jf.intel.com with ESMTP; 27 Jan 2024 15:22:05 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTroI-0002py-1I;
-	Sat, 27 Jan 2024 23:10:02 +0000
-Date: Sun, 28 Jan 2024 07:09:26 +0800
+	id 1rTrzu-0002rC-3C;
+	Sat, 27 Jan 2024 23:22:02 +0000
+Date: Sun, 28 Jan 2024 07:21:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Galbraith <umgwanakikbuti@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [rt-devel:linux-6.8.y-rt 63/96]
- drivers/gpu/drm/i915/display/intel_vblank.c:284:16: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202401280702.PNbQLDGH-lkp@intel.com>
+To: Jacky Huang <ychuang570808@gmail.com>, linus.walleij@linaro.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, p.zabel@pengutronix.de, j.neuschaefer@gmx.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ychuang3@nuvoton.com,
+	schung@nuvoton.com
+Subject: Re: [PATCH v3 4/4] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO
+ driver
+Message-ID: <202401280700.5ewaEUFG-lkp@intel.com>
+References: <20240123080637.1902578-5-ychuang570808@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,51 +64,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240123080637.1902578-5-ychuang570808@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.8.y-rt
-head:   ff2361c71bd48a300cf147f5ffa6cd0f67135879
-commit: 722e48bb3059ead4fcf48804b314d165a7609029 [63/96] drm/i915: Use preempt_disable/enable_rt() where recommended
-config: riscv-randconfig-r121-20240127 (https://download.01.org/0day-ci/archive/20240128/202401280702.PNbQLDGH-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240128/202401280702.PNbQLDGH-lkp@intel.com/reproduce)
+Hi Jacky,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next robh/for-next pza/reset/next linus/master v6.8-rc1 next-20240125]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Huang/dt-bindings-reset-Add-syscon-to-nuvoton-ma35d1-system-management-node/20240123-161939
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20240123080637.1902578-5-ychuang570808%40gmail.com
+patch subject: [PATCH v3 4/4] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO driver
+config: x86_64-randconfig-122-20240128 (https://download.01.org/0day-ci/archive/20240128/202401280700.5ewaEUFG-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280700.5ewaEUFG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401280702.PNbQLDGH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401280700.5ewaEUFG-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_vblank.c:284:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got void * @@
-   drivers/gpu/drm/i915/display/intel_vblank.c:284:16: sparse:     expected unsigned long
-   drivers/gpu/drm/i915/display/intel_vblank.c:284:16: sparse:     got void *
-   drivers/gpu/drm/i915/display/intel_vblank.c:278:13: sparse: sparse: context imbalance in 'intel_vblank_section_enter_irqsave' - wrong count at exit
-   drivers/gpu/drm/i915/display/intel_vblank.c:288:13: sparse: sparse: context imbalance in 'intel_vblank_section_exit_irqrestore' - wrong count at exit
-   drivers/gpu/drm/i915/display/intel_vblank.c:298:13: sparse: sparse: context imbalance in 'intel_vblank_section_enter' - wrong count at exit
-   drivers/gpu/drm/i915/display/intel_vblank.c:306:13: sparse: sparse: context imbalance in 'intel_vblank_section_exit' - wrong count at exit
+>> drivers/pinctrl/nuvoton/pinctrl-ma35.c:287:25: sparse: sparse: symbol 'ma35_pmx_ops' was not declared. Should it be static?
+   drivers/pinctrl/nuvoton/pinctrl-ma35.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +284 drivers/gpu/drm/i915/display/intel_vblank.c
+vim +/ma35_pmx_ops +287 drivers/pinctrl/nuvoton/pinctrl-ma35.c
 
-   267	
-   268	/*
-   269	 * The uncore version of the spin lock functions is used to decide
-   270	 * whether we need to lock the uncore lock or not.  This is only
-   271	 * needed in i915, not in Xe.
-   272	 *
-   273	 * This lock in i915 is needed because some old platforms (at least
-   274	 * IVB and possibly HSW as well), which are not supported in Xe, need
-   275	 * all register accesses to the same cacheline to be serialized,
-   276	 * otherwise they may hang.
-   277	 */
-   278	static void intel_vblank_section_enter_irqsave(struct drm_i915_private *i915, unsigned long *flags)
-   279		__acquires(i915->uncore.lock)
-   280	{
-   281	#ifdef I915
-   282		spin_lock_irqsave(&i915->uncore.lock, *flags);
-   283	#else
- > 284		*flags = NULL;
-   285	#endif
-   286	}
-   287	
+   286	
+ > 287	const struct pinmux_ops ma35_pmx_ops = {
+   288		.get_functions_count = ma35_pinmux_get_func_count,
+   289		.get_function_name = ma35_pinmux_get_func_name,
+   290		.get_function_groups = ma35_pinmux_get_func_groups,
+   291		.set_mux = ma35_pinmux_set_mux,
+   292		.strict = true,
+   293	};
+   294	
 
 -- 
 0-DAY CI Kernel Test Service
