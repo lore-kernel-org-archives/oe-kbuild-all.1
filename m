@@ -1,296 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5462D60C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 19:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4A12E62E;
+	Sat, 27 Jan 2024 20:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706383073; cv=none; b=SQhK9tIcCnNxcTyicnxQTqkATH+AYlKm2CguW80k6QO6hKkCpTCHFYGQ6kTdEoe/WErokNtE9GzNRRvpRcZypy+0RWZURmVf2bW5sex+Q5ZLtFaZzyClwbvtK2Vj6g1ej8ht1xVGp0Qse+dRDiFpOX3Dr4YH9qFTHs4EHG3Qvgk=
+	t=1706386443; cv=none; b=MbBa+ioBWj8JpTQzTj6bMBjiKmFGf7Gt8O827Jc20lVgvocQFJr3CfaG9sIQtKdfBDLCBsQrMmxT/1Vsh/uQD+qyt2YDFL8gxhC6zLG2Pvb1V/sshngXjFVtvYrXd/tsfPdOh5LNSy8mfb4kkJmPB01Q8S4U9PkG2xRJ6TIB+IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706383073; c=relaxed/simple;
-	bh=WHBDWS7G6EGpmHHfNwLaSoC0P5l6sdrXyU4h5nLDZeg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZL3YPv+n0sN6mtVX/Mw8C+zFH6ecTMYunRwrr0Vz4rT2gzBbEtChFSOx74GkEhT3GxEs8FQYvlPDdn2BhozuFnxawTOZXegTg3usNj9E/xo07k5+YZzJ/sgHWyXj+jLHCHJYtD19GpEXGgLzA1z3hl1T6n4Ow6PTPT3AxzsB99A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMd08MPA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706386443; c=relaxed/simple;
+	bh=fiFLc1EElfSaAtTJgTayQ3vzNHq5YRGbmWAbNYwTowg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X41DaDkmS+elEYq3H952d43Mb4sosJqwfaQqvneD4X4XZPWswhqS+pwItgkEd4ORbiAk5HK81IM1aQ6Q+Aj823hJ9ZY/pIN25KCDUREGXU8yMoUOEx14WgfB6+7owbK5tXCzn4ateU3FXAnnpungEgARWaD2Clz9kmHkbOMlAjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DzgYE+Rm; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMd08MPA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AA28C433C7;
-	Sat, 27 Jan 2024 19:17:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706383072;
-	bh=WHBDWS7G6EGpmHHfNwLaSoC0P5l6sdrXyU4h5nLDZeg=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=hMd08MPAZSyhbKOOQQEfgCtvJ/1hDy2BjIH7FCFXt33xZQLIXVsLwBBPhAD9g6xbR
-	 vnqcyujjF6u80T5lqFLkC8mbLhlT2O4PpGc94KMdpmfH+EC9FIrAdFQv/8arQAmlsS
-	 AKfNOi8zCBNcqz1ExzifPRLvv0kNtHsV3GSHMcFrx8suDOLHhUl2MwpyQGdVHBQPpx
-	 8oWqxSwXZ4cDGlKAD5HrHaMlIG0Vs/q0GxJLwbD1Kmvb+JHTG09GMk4eYQYXdLUZTv
-	 dsqSHqTuPLdlEuAd1iS+QQS21BUnvAh/5o9CxgnYilp8GZj3e2hpEeAx//3XZbts9h
-	 GNJznP/Rpw3HQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 121D3CE0898; Sat, 27 Jan 2024 11:17:52 -0800 (PST)
-Date: Sat, 27 Jan 2024 11:17:52 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: kernel test robot <lkp@intel.com>, Matthew Wilcox <willy@infradead.org>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 1589/1892] fs/proc/task_mmu.c:143:45: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <d1f190fb-841e-481f-b64f-f90c4fefc875@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202401251829.0m6Eo4LI-lkp@intel.com>
- <CAJuCfpHW2=Zu+CHXL+5fjWxGk=CVix=C66ra+DmXgn6r3+fsXg@mail.gmail.com>
- <b82c9479-9331-4b31-9fca-3fa963901fe9@paulmck-laptop>
- <CAJuCfpGA7ScozuAL71idCRbfgxPaz+zY5jEYZ-FQmikQfXrD5A@mail.gmail.com>
- <ca479a8e-a8f5-48d7-96f9-27692091d2e9@paulmck-laptop>
- <CAJuCfpHYTjmjtZTAAREy1LBzapekvTk-7BiNQyypTcEypsje2A@mail.gmail.com>
- <68dc8592-6a5d-4cbe-bb8c-e0f4b5517684@paulmck-laptop>
- <CAJuCfpE8eAiP9QEquwFbBdtxVrBQiktadXe40H_Xfn+82Waa6Q@mail.gmail.com>
- <d8eb2dbe-0608-46a7-9e56-30e89c775515@paulmck-laptop>
- <CAJuCfpEabbNre4rsA+VHCfXOszHTUzg48xpDApzpBWfomMU_kQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DzgYE+Rm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706386441; x=1737922441;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fiFLc1EElfSaAtTJgTayQ3vzNHq5YRGbmWAbNYwTowg=;
+  b=DzgYE+RmfriWORs5Og6sVMu7U9lcoLn3kp9MQmClHNMVv1sNqvKveGvj
+   M4JKt2nIjCDJMrTUrtkZwHZfK9iyyTFKkt0Dwkm2QsRH8RaZPFP7QUFdq
+   LA37Bg5MR3c3okATYBbX+f7AkIBeQUNRgX0pUwnqCy+Ao0sjxu3BFMqWH
+   v4nHKmt+TSYz/nnM6dMtJ+IB4h2c//ZXXTF4SWnYOzylw5Dx6/F3Up0Hr
+   ZHhVUrYQCs2ccgv09hZs4UXlmucQqROh0y28M9W0pSlkFh7RgldGzO7Q4
+   QSNxB9L9XPrIevcTPox9AFm/gL6CN7yGUrCjBmH3EcNWIad5fO09zaLkm
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="16236058"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="16236058"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 12:14:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="1118558780"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="1118558780"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 27 Jan 2024 12:13:59 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rTp3s-0002gq-35;
+	Sat, 27 Jan 2024 20:13:56 +0000
+Date: Sun, 28 Jan 2024 04:13:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Goldwyn Rodrigues <rgoldwyn@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [goldwynr:buffered.46 24/90] block/fops.c:507:46: error: too many
+ arguments to function call, expected 3, have 4
+Message-ID: <202401280414.wu2Y9tAX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpEabbNre4rsA+VHCfXOszHTUzg48xpDApzpBWfomMU_kQ@mail.gmail.com>
 
-On Sat, Jan 27, 2024 at 10:02:29AM -0800, Suren Baghdasaryan wrote:
-> On Fri, Jan 26, 2024 at 11:27 AM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Fri, Jan 26, 2024 at 08:55:38AM -0800, Suren Baghdasaryan wrote:
-> > > On Fri, Jan 26, 2024 at 2:22 AM Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > >
-> > > > On Thu, Jan 25, 2024 at 06:24:05PM -0800, Suren Baghdasaryan wrote:
-> > > > > On Thu, Jan 25, 2024 at 4:35 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > > >
-> > > > > > On Thu, Jan 25, 2024 at 03:17:17PM -0800, Suren Baghdasaryan wrote:
-> > > > > > > On Thu, Jan 25, 2024 at 2:44 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > > > > >
-> > > > > > > > On Thu, Jan 25, 2024 at 01:27:34PM -0800, Suren Baghdasaryan wrote:
-> > > > > > > > > On Thu, Jan 25, 2024 at 2:23 AM kernel test robot <lkp@intel.com> wrote:
-> > > > > > > > > >
-> > > > > > > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > > > > > > > > head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
-> > > > > > > > > > commit: 0c30c4cd953025979b7689e49844837f762303ec [1589/1892] mm/maps: read proc/pid/maps under RCU
-> > > > > > > > > > config: x86_64-randconfig-121-20240125 (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/config)
-> > > > > > > > > > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > > > > > > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240125/202401251829.0m6Eo4LI-lkp@intel.com/reproduce)
-> > > > > > > > > >
-> > > > > > > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > > > > > > the same patch/commit), kindly add following tags
-> > > > > > > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202401251829.0m6Eo4LI-lkp@intel.com/
-> > > > > > > > > >
-> > > > > > > > > > sparse warnings: (new ones prefixed by >>)
-> > > > > > > > > > >> fs/proc/task_mmu.c:143:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
-> > > > > > > > >
-> > > > > > > > > Uh, this is a problem.
-> > > > > > > > > I missed that get_file_rcu() is used only with mm->exe_file and
-> > > > > > > > > vma->vm_file is not really RCU-safe. It's freed via a call to fput()
-> > > > > > > > > which schedules its freeing using schedule_delayed_work(..., 1) but I
-> > > > > > > > > don't think that constitutes RCU grace period. Paul, Matthew, could
-> > > > > > > > > you please confirm? In the meantime I'm going to ask Andrew to remove
-> > > > > > > > > my patchset from mm-unstable to be safe.
-> > > > > > > >
-> > > > > > > > Sadly, no, schedule_delayed_work() does not imply an RCU grace period.
-> > > > > > > >
-> > > > > > > > There is a queue_rcu_work() that schedules work after a grace period,
-> > > > > > > > which could be combined with a timer to get the delay.
-> > > > > > > >
-> > > > > > > > Another approach would be to use get_state_synchronize_rcu() before
-> > > > > > > > the schedule_delayed_work() in fput(), then do cond_synchronize_rcu()
-> > > > > > > > in delayed_fput().  This would require adding an unsigned long to
-> > > > > > > > struct file to keep track of which grace period a given struct file
-> > > > > > > > needed to wait for.
-> > > > > > > >
-> > > > > > > > Perhaps something like this:
-> > > > > > > >
-> > > > > > > > ------------------------------------------------------------------------
-> > > > > > > >
-> > > > > > > > void fput(struct file *file)
-> > > > > > > > {
-> > > > > > > >         if (atomic_long_dec_and_test(&file->f_count)) {
-> > > > > > > >                 struct task_struct *task = current;
-> > > > > > > >
-> > > > > > > >                 if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
-> > > > > > > >                         init_task_work(&file->f_rcuhead, ____fput);
-> > > > > > > >                         if (!task_work_add(task, &file->f_rcuhead, TWA_RESUME))
-> > > > > > > >                                 return;
-> > > > > > > >                         /*
-> > > > > > > >                          * After this task has run exit_task_work(),
-> > > > > > > >                          * task_work_add() will fail.  Fall through to delayed
-> > > > > > > >                          * fput to avoid leaking *file.
-> > > > > > > >                          */
-> > > > > > > >                 }
-> > > > > > > >
-> > > > > > > >                 file->f_rcu_seq = get_state_synchronize_rcu();
-> > > > > > > >                 if (llist_add(&file->f_llist, &delayed_fput_list))
-> > > > > > > >                         schedule_delayed_work(&delayed_fput_work, 1);
-> > > > > > > >         }
-> > > > > > > > }
-> > > > > > > >
-> > > > > > > > ------------------------------------------------------------------------
-> > > > > > > >
-> > > > > > > > And this:
-> > > > > > > >
-> > > > > > > > ------------------------------------------------------------------------
-> > > > > > > >
-> > > > > > > > static void delayed_fput(struct work_struct *unused)
-> > > > > > > > {
-> > > > > > > >         struct llist_node *node = llist_del_all(&delayed_fput_list);
-> > > > > > > >         struct file *f, *t;
-> > > > > > > >
-> > > > > > > >         llist_for_each_entry_safe(f, t, node, f_llist) {
-> > > > > > > >                 cond_synchronize_rcu(f->f_rcu_seq);
-> > > > > > > >                 __fput(f);
-> > > > > > > >         }
-> > > > > > > > }
-> > > > > > > >
-> > > > > > > > ------------------------------------------------------------------------
-> > > > > > > >
-> > > > > > > > Note that if you called fput() on a long sequence of struct file
-> > > > > > > > structures, the cond_synchronize_rcu() would be a near-noop almost all the
-> > > > > > > > time, actually blocking at most about every once per every few jiffies.
-> > > > > > > > After all, once a grace period has been waited for, it covers all of
-> > > > > > > > the struct file structures that were passed to fput() during a given
-> > > > > > > > RCU grace period.
-> > > > > > > >
-> > > > > > > > Still, it would add the occasional delay.  And it would increase the
-> > > > > > > > size of struct file, though there are workarounds for that, if size
-> > > > > > > > is an issue.
-> > > > > > > >
-> > > > > > > > Thoughts?
-> > > > > > >
-> > > > > > > Thanks for the suggestion, Paul. I'm worried about this occasional
-> > > > > > > delay but otherwise this seems like a nice and simple approach.
-> > > > > >
-> > > > > > One potential saving grace is that the more heavily loaded the mechanism,
-> > > > > > the smaller a fraction of the cond_synchronize_rcu() calls will do
-> > > > > > a delay.
-> > > > > >
-> > > > > > >                                                                 Do you
-> > > > > > > guys think that making *all* files RCU-safe with this approach is
-> > > > > > > warranted? For my particular case I need only vma->vm_file to be
-> > > > > > > RCU-safe but maybe there are other cases which would benefit from
-> > > > > > > this?
-> > > > > >
-> > > > > > To this, I can only give an unqualified "I don't know".  :-(
-> > > > > >
-> > > > > > But if there is some condition that can be sampled on a per-file-structure
-> > > > > > basis, you could use that to invoke cond_synchronize_rcu() only when
-> > > > > > needed.  Or send only those file structures that need the extra delay
-> > > > > > through queue_rcu_work(), perhaps by accumulating a list of them.
-> > > > >
-> > > > > Thanks Paul! You gave me enough food for thought. Let me see if I can
-> > > > > come up with something usable.
-> > > >
-> > > > Do we have the same problem with the task_work_add() path in fput()?
-> > >
-> > > Yes, I think so. It's called with TWA_RESUME, so the file will be
-> > > freed when the task returns to user mode, but that again does not
-> > > guarantee that RCU grace period is over.
-> >
-> > That one is going to be annoying, as there doesn't seem to be a nice place
-> > to hide grace-period latency.  The fget() function and friends want an
-> > FD, so I am not seeing an obvious way of grabbing an explicit reference.
-> 
-> Yeah, the more I'm thinking about this, the more I'm leaning towards
-> simply write-locking the VMA to stabilize it for the duration of
-> outputting its data. This would make the code much simpler, we don't
-> need to make any VMA members RCU-safe, we don't need to take a VMA
-> snapshot, we don't introduce any regressions in potentially more
-> important areas and it solves the problem we want to solve. The
-> problem is: /proc/pid/maps reader blocking a more important writer.
-> With the VMA locking approach, the only time this can happen is if the
-> writer tries to modify a VMA while we are printing its information.
-> And even then it will be blocked only for a short duration because
-> once we are done printing that VMA's info, we unlock it. I think it's
-> worth at least trying. WDYT?
+tree:   https://github.com/goldwynr/linux buffered.46
+head:   9b93fddebc916105169c8a82d8f3f20fb30ff277
+commit: 8f39bf920bebe813810c1d0d392e77dabb415006 [24/90] iomap: Make writeback_control a part of iomap_writepage_ctx
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240128/202401280414.wu2Y9tAX-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a31a60074717fc40887cfe132b77eec93bedd307)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280414.wu2Y9tAX-lkp@intel.com/reproduce)
 
-The only other thing that comes immediately to mind is to cache the
-needed struct file information in the VMA.  Except that this information
-includes ->f_path.  I also looked into using a dentry or inode, both
-of which are RCU-protected, but I don't see a reasonable way to get the
-needed information.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401280414.wu2Y9tAX-lkp@intel.com/
 
-So I cannot argue against doing this VMA by VMA, as that will at least
-make the problem less frequent, especially for applications having
-large numbers of VMAs.
+All errors (new ones prefixed by >>):
 
-							Thanx, Paul
+   block/fops.c:476:50: error: too few arguments to function call, expected 3, have 2
+     476 |         return iomap_read_folio(folio, &blkdev_iomap_ops);
+         |                ~~~~~~~~~~~~~~~~                         ^
+   include/linux/iomap.h:280:5: note: 'iomap_read_folio' declared here
+     280 | int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops,
+         |     ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     281 |                 const struct iomap_read_folio_ops *);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/fops.c:481:40: error: too few arguments to function call, expected 3, have 2
+     481 |         iomap_readahead(rac, &blkdev_iomap_ops);
+         |         ~~~~~~~~~~~~~~~                       ^
+   include/linux/iomap.h:282:6: note: 'iomap_readahead' declared here
+     282 | void iomap_readahead(struct readahead_control *, const struct iomap_ops *ops,
+         |      ^               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     283 |                 const struct iomap_read_folio_ops *);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> block/fops.c:507:46: error: too many arguments to function call, expected 3, have 4
+     507 |         return iomap_writepages(mapping, wbc, &wpc, &blkdev_writeback_ops);
+         |                ~~~~~~~~~~~~~~~~                     ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/iomap.h:357:5: note: 'iomap_writepages' declared here
+     357 | int iomap_writepages(struct address_space *mapping,
+         |     ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     358 |                 struct iomap_writepage_ctx *wpc,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     359 |                 const struct iomap_writeback_ops *ops);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
-> > Now the fget() code path is protected by RCU.  But maybe that does not
-> > apply in the case where the file is closed but still mapped?
-> >
-> >                                                         Thanx, Paul
-> >
-> > > > > Cheers,
-> > > > > Suren.
-> > > > >
-> > > > > >
-> > > > > >                                                         Thanx, Paul
-> > > > > >
-> > > > > > > > > >    fs/proc/task_mmu.c:143:45: sparse:     expected struct file [noderef] __rcu **f
-> > > > > > > > > >    fs/proc/task_mmu.c:143:45: sparse:     got struct file **
-> > > > > > > > > >    fs/proc/task_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-> > > > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'get_vma_snapshot' - unexpected unlock
-> > > > > > > > > >    fs/proc/task_mmu.c:264:22: sparse: sparse: context imbalance in 'm_start' - different lock contexts for basic block
-> > > > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'm_stop' - unexpected unlock
-> > > > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'smaps_pte_range' - unexpected unlock
-> > > > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'clear_refs_pte_range' - unexpected unlock
-> > > > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_pmd_range' - unexpected unlock
-> > > > > > > > > >    include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'pagemap_scan_pmd_entry' - unexpected unlock
-> > > > > > > > > >    fs/proc/task_mmu.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
-> > > > > > > > > >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-> > > > > > > > > >    arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-> > > > > > > > > >
-> > > > > > > > > > vim +143 fs/proc/task_mmu.c
-> > > > > > > > > >
-> > > > > > > > > >    132
-> > > > > > > > > >    133  /*
-> > > > > > > > > >    134   * Take VMA snapshot and pin vm_file and anon_name as they are used by
-> > > > > > > > > >    135   * show_map_vma.
-> > > > > > > > > >    136   */
-> > > > > > > > > >    137  static int get_vma_snapshot(struct proc_maps_private *priv, struct vm_area_struct *vma)
-> > > > > > > > > >    138  {
-> > > > > > > > > >    139          struct vm_area_struct *copy = &priv->vma_copy;
-> > > > > > > > > >    140          int ret = -EAGAIN;
-> > > > > > > > > >    141
-> > > > > > > > > >    142          memcpy(copy, vma, sizeof(*vma));
-> > > > > > > > > >  > 143          if (copy->vm_file && !get_file_rcu(&copy->vm_file))
-> > > > > > > > > >    144                  goto out;
-> > > > > > > > > >    145
-> > > > > > > > > >    146          if (!anon_vma_name_get_if_valid(copy))
-> > > > > > > > > >    147                  goto put_file;
-> > > > > > > > > >    148
-> > > > > > > > > >    149          if (priv->mm_wr_seq == mmap_write_seq_read(priv->mm))
-> > > > > > > > > >    150                  return 0;
-> > > > > > > > > >    151
-> > > > > > > > > >    152          /* Address space got modified, vma might be stale. Wait and retry. */
-> > > > > > > > > >    153          rcu_read_unlock();
-> > > > > > > > > >    154          ret = mmap_read_lock_killable(priv->mm);
-> > > > > > > > > >    155          mmap_write_seq_record(priv->mm, &priv->mm_wr_seq);
-> > > > > > > > > >    156          mmap_read_unlock(priv->mm);
-> > > > > > > > > >    157          rcu_read_lock();
-> > > > > > > > > >    158
-> > > > > > > > > >    159          if (!ret)
-> > > > > > > > > >    160                  ret = -EAGAIN; /* no other errors, ok to retry */
-> > > > > > > > > >    161
-> > > > > > > > > >    162          anon_vma_name_put_if_valid(copy);
-> > > > > > > > > >    163  put_file:
-> > > > > > > > > >    164          if (copy->vm_file)
-> > > > > > > > > >    165                  fput(copy->vm_file);
-> > > > > > > > > >    166  out:
-> > > > > > > > > >    167          return ret;
-> > > > > > > > > >    168  }
-> > > > > > > > > >    169
-> > > > > > > > > >
-> > > > > > > > > > --
-> > > > > > > > > > 0-DAY CI Kernel Test Service
-> > > > > > > > > > https://github.com/intel/lkp-tests/wiki
+
+vim +507 block/fops.c
+
+925c86a19bacf8 Christoph Hellwig 2023-08-01  501  
+925c86a19bacf8 Christoph Hellwig 2023-08-01  502  static int blkdev_writepages(struct address_space *mapping,
+925c86a19bacf8 Christoph Hellwig 2023-08-01  503  		struct writeback_control *wbc)
+925c86a19bacf8 Christoph Hellwig 2023-08-01  504  {
+925c86a19bacf8 Christoph Hellwig 2023-08-01  505  	struct iomap_writepage_ctx wpc = { };
+925c86a19bacf8 Christoph Hellwig 2023-08-01  506  
+925c86a19bacf8 Christoph Hellwig 2023-08-01 @507  	return iomap_writepages(mapping, wbc, &wpc, &blkdev_writeback_ops);
+925c86a19bacf8 Christoph Hellwig 2023-08-01  508  }
+925c86a19bacf8 Christoph Hellwig 2023-08-01  509  
+
+:::::: The code at line 507 was first introduced by commit
+:::::: 925c86a19bacf8ce10eb666328fb3fa5aff7b951 fs: add CONFIG_BUFFER_HEAD
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
