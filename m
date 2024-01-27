@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617DA1F94D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 23:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D462200A4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 23:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706396408; cv=none; b=q9U9uZpQHqShSjcEOn2VnNf92JD/PzT3aes/+4avcJMbIQmrpHKd+/g94NZIstFALvSTkth4Lv0/YH2C/bVlfEdA/Ew/dqQCsbDM0S3nU6l+TSZL/qW2/wMaEaOas3hBF08ZsS4MPX0FtEdnOoaLGEQYdYGZJ1KB02NtNloRuek=
+	t=1706397008; cv=none; b=sg0+KMKmov69knQewiaYuATUVmZabiHQbDoin9kxlhGSnLvbZqSm68KOO8Fj3SyAW2DLv6iEr4m2wkA9FldvvMP7dMopYjpNu6DlW12UWymYfY4dkPX8+824vWrufxLn+C36LkELBnW1RPvCZQob9vvuo64Wij3+/0YePC1YZs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706396408; c=relaxed/simple;
-	bh=lkPngZIXwGFpYH6hbUtp4ELeCarFHaY6ZnN3Le4kYCk=;
+	s=arc-20240116; t=1706397008; c=relaxed/simple;
+	bh=BY84zmG2LG0fqTQghZlXCQwTl1kvgKCv/JdfLS21AhQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ObdKtgNkX2XX56gWHchdiWEJ6fMY8vq2poWzaeNVYQsOZ0k8H/88IMqGFlLumPzbbzymGdVer209lwJqBJOJiRH34kR/zTR/8o3LiZ9CnppSWRqN70e7Gd3W2Mq3A9ZAt4urZPtGHilKBMBfCtm8W6dkYxqvafB9SegiIBhBjHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kV5khqQX; arc=none smtp.client-ip=134.134.136.31
+	 Content-Disposition; b=i72rBSwQRsssJMnTm0K6oDyooRgqmTh6Mf/wBPW7G6Nck1VG7tKGDJNPrqPkolp6kZ9ggdZ32SD8Ypf+dwvOTchZnyD4FszUBccIJ1ux6qdQODzWv+LXmVY0idOZ4LtjSco6UtNBB9NXbweEcXCpb25YlSe5vbogesQkSdKuNZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aD5jes03; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kV5khqQX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aD5jes03"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706396406; x=1737932406;
+  t=1706397006; x=1737933006;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lkPngZIXwGFpYH6hbUtp4ELeCarFHaY6ZnN3Le4kYCk=;
-  b=kV5khqQX10K3o4S3GCYi3ZPDbzbG7t46IH0dHYLNOxXfAztyJERtOZ8Y
-   gM5uhyFmFhG2l19HqW8KY8HsdnHza/SCyRSkL4kFR+yQ6jdTX7wDHyuJQ
-   sCXAYAaA3euWudE8fvc4h2ruEnZZ393ekNVViq98g/JVlzlUTvk8YLYvu
-   +Uu6L462zfPmgtVxhVG0doXvyzTdxF/f9SrIVnuKjMuBSROQR+DvuH/5H
-   Vhhgj3dxxxUi6v1A6sIp129+R0ys9K46Ck65vN7vCYxWPw4+J6LYVvwjB
-   dVcoUYdyHC1q9FxU2bfbzKy0GSKZdJ9Q9xTBWE//oUOTmBtKtK2cOIGhj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="466989420"
+  bh=BY84zmG2LG0fqTQghZlXCQwTl1kvgKCv/JdfLS21AhQ=;
+  b=aD5jes03bUP3S25GeWk6SuxrG4X8GjooJoqhwBdNfqu4mDpoyk/vvEH0
+   89YnSxxq66I/ZoYfDv/V3OekIBErRoy+VFnCHr+fat8UGjTU+GJULGFNE
+   kokSfkc4uHvzIHCo71MyIiVPRPmPs65iePQRcqedXvzikYIAM/6DlKIbq
+   bxRndhsL14DT8Gc+lOT2MYGY74r1I4Ji0BXOdwj4opFtBt9gkSdtb4Fzt
+   TEZyKng8+wZOEDNHClCMMk1FZaPUEkmUXKupUETbm9aYTvymsZcJaJ8lx
+   l+CwdCmWMysSuEKLn0iV7GHKIrRV+Qg7C8nLgTY5uIHcy+/k7vaa/cRu8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="10102947"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="466989420"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 15:00:05 -0800
+   d="scan'208";a="10102947"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 15:10:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="737018513"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="737018513"
+   d="scan'208";a="21711412"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 Jan 2024 15:00:04 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 27 Jan 2024 15:10:04 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTrec-0002pi-0w;
-	Sat, 27 Jan 2024 23:00:02 +0000
-Date: Sun, 28 Jan 2024 06:59:08 +0800
+	id 1rTroI-0002q0-1M;
+	Sat, 27 Jan 2024 23:10:02 +0000
+Date: Sun, 28 Jan 2024 07:09:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.alpha 5/8] arch/alpha/kernel/io.c:655:1: error:
- redefinition of 'scr_memcpyw'
-Message-ID: <202401280650.Us2Lrkgl-lkp@intel.com>
+To: Goldwyn Rodrigues <rgoldwyn@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [goldwynr:buffered.46 19/90] block/fops.c:477:1: warning: control
+ reaches end of non-void function
+Message-ID: <202401280757.M98xzccp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,70 +58,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.alpha
-head:   267674e3b4fd1ff6cedf9b22cd304daa75297966
-commit: 1fb71c4d2bcacd6510fbe411016475ccc15b1a03 [5/8] alpha: missing includes
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240128/202401280650.Us2Lrkgl-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280650.Us2Lrkgl-lkp@intel.com/reproduce)
+tree:   https://github.com/goldwynr/linux buffered.46
+head:   9b93fddebc916105169c8a82d8f3f20fb30ff277
+commit: a6554d1f87d5da065aa8aaedaca6b46e2c474e19 [19/90] iomap: Introduce iomap_read_folio_ops
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240128/202401280757.M98xzccp-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280757.M98xzccp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401280650.Us2Lrkgl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401280757.M98xzccp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/alpha/kernel/io.c:655:1: error: redefinition of 'scr_memcpyw'
-     655 | scr_memcpyw(u16 *d, const u16 *s, unsigned int count)
-         | ^~~~~~~~~~~
-   In file included from arch/alpha/kernel/io.c:10:
-   include/linux/vt_buffer.h:42:20: note: previous definition of 'scr_memcpyw' with type 'void(u16 *, const u16 *, unsigned int)' {aka 'void(short unsigned int *, const short unsigned int *, unsigned int)'}
-      42 | static inline void scr_memcpyw(u16 *d, const u16 *s, unsigned int count)
-         |                    ^~~~~~~~~~~
+   block/fops.c: In function 'blkdev_read_folio':
+   block/fops.c:476:16: error: too few arguments to function 'iomap_read_folio'
+     476 |         return iomap_read_folio(folio, &blkdev_iomap_ops);
+         |                ^~~~~~~~~~~~~~~~
+   In file included from block/fops.c:18:
+   include/linux/iomap.h:273:5: note: declared here
+     273 | int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops,
+         |     ^~~~~~~~~~~~~~~~
+   block/fops.c: In function 'blkdev_readahead':
+   block/fops.c:481:9: error: too few arguments to function 'iomap_readahead'
+     481 |         iomap_readahead(rac, &blkdev_iomap_ops);
+         |         ^~~~~~~~~~~~~~~
+   include/linux/iomap.h:275:6: note: declared here
+     275 | void iomap_readahead(struct readahead_control *, const struct iomap_ops *ops,
+         |      ^~~~~~~~~~~~~~~
+   block/fops.c: In function 'blkdev_read_folio':
+>> block/fops.c:477:1: warning: control reaches end of non-void function [-Wreturn-type]
+     477 | }
+         | ^
 
 
-vim +/scr_memcpyw +655 arch/alpha/kernel/io.c
+vim +477 block/fops.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  650  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  651  /* A version of memcpy used by the vga console routines to move data around
-^1da177e4c3f41 Linus Torvalds 2005-04-16  652     arbitrarily between screen and main memory.  */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  653  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  654  void
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @655  scr_memcpyw(u16 *d, const u16 *s, unsigned int count)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  656  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  657  	const u16 __iomem *ios = (const u16 __iomem *) s;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  658  	u16 __iomem *iod = (u16 __iomem *) d;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  659  	int s_isio = __is_ioaddr(s);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  660  	int d_isio = __is_ioaddr(d);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  661  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  662  	if (s_isio) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  663  		if (d_isio) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  664  			/* FIXME: Should handle unaligned ops and
-^1da177e4c3f41 Linus Torvalds 2005-04-16  665  			   operation widening.  */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  666  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  667  			count /= 2;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  668  			while (count--) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  669  				u16 tmp = __raw_readw(ios++);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  670  				__raw_writew(tmp, iod++);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  671  			}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  672  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  673  		else
-^1da177e4c3f41 Linus Torvalds 2005-04-16  674  			memcpy_fromio(d, ios, count);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  675  	} else {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  676  		if (d_isio)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  677  			memcpy_toio(iod, s, count);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  678  		else
-^1da177e4c3f41 Linus Torvalds 2005-04-16  679  			memcpy(d, s, count);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  680  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  681  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  682  
+cd82cca7ebfe9c Christoph Hellwig       2021-09-07  461  
+cd82cca7ebfe9c Christoph Hellwig       2021-09-07  462  const struct address_space_operations def_blk_aops = {
+e621900ad28b74 Matthew Wilcox (Oracle  2022-02-09  463) 	.dirty_folio	= block_dirty_folio,
+7ba13abbd31ee9 Matthew Wilcox (Oracle  2022-02-09  464) 	.invalidate_folio = block_invalidate_folio,
+2c69e2057962b6 Matthew Wilcox (Oracle  2022-04-29  465) 	.read_folio	= blkdev_read_folio,
+cd82cca7ebfe9c Christoph Hellwig       2021-09-07  466  	.readahead	= blkdev_readahead,
+17bf23a981be9c Matthew Wilcox (Oracle  2023-12-15  467) 	.writepages	= blkdev_writepages,
+cd82cca7ebfe9c Christoph Hellwig       2021-09-07  468  	.write_begin	= blkdev_write_begin,
+cd82cca7ebfe9c Christoph Hellwig       2021-09-07  469  	.write_end	= blkdev_write_end,
+67235182a41c1b Matthew Wilcox (Oracle  2022-06-06  470) 	.migrate_folio	= buffer_migrate_folio_norefs,
+cd82cca7ebfe9c Christoph Hellwig       2021-09-07  471  	.is_dirty_writeback = buffer_check_dirty_writeback,
+cd82cca7ebfe9c Christoph Hellwig       2021-09-07  472  };
+925c86a19bacf8 Christoph Hellwig       2023-08-01  473  #else /* CONFIG_BUFFER_HEAD */
+925c86a19bacf8 Christoph Hellwig       2023-08-01  474  static int blkdev_read_folio(struct file *file, struct folio *folio)
+925c86a19bacf8 Christoph Hellwig       2023-08-01  475  {
+925c86a19bacf8 Christoph Hellwig       2023-08-01  476  	return iomap_read_folio(folio, &blkdev_iomap_ops);
+925c86a19bacf8 Christoph Hellwig       2023-08-01 @477  }
+925c86a19bacf8 Christoph Hellwig       2023-08-01  478  
+925c86a19bacf8 Christoph Hellwig       2023-08-01  479  static void blkdev_readahead(struct readahead_control *rac)
+925c86a19bacf8 Christoph Hellwig       2023-08-01  480  {
+925c86a19bacf8 Christoph Hellwig       2023-08-01 @481  	iomap_readahead(rac, &blkdev_iomap_ops);
+925c86a19bacf8 Christoph Hellwig       2023-08-01  482  }
+925c86a19bacf8 Christoph Hellwig       2023-08-01  483  
 
-:::::: The code at line 655 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 477 was first introduced by commit
+:::::: 925c86a19bacf8ce10eb666328fb3fa5aff7b951 fs: add CONFIG_BUFFER_HEAD
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
