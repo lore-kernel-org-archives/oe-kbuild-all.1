@@ -1,57 +1,73 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706EB2942F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 15:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CB6200A8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Jan 2024 15:58:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706369851; cv=none; b=aTGjEIMUuR5fVv/cNYU7TsCR4vGqUYaem+32xd0GJ8Kq5mkB90ajun/VVu1TJereTcovoENgRc/Zx84CT5FQuwACPOs5Vb40FrGN9l1qEGkwEugnTPk0u8XNS+AnfOOj2k5a0lKUM/Va4UJ+SgV6cf0bFHTJlpgZcIL+xSSygtI=
+	t=1706371117; cv=none; b=R67YaUOsWHuDWd57lOE13OpSTcMMqUZ2AsEz+ekaerbOAlmhMNJXbZD5DEjT/Cog7bHcrwuRuYt1XsUJ/BRmSyk/O/ieirQq7W5rA9DDX9AgX7uORHxv9Mm8OcjWlPLmmXdGX5o5W3JOua82n+Lrm36xhYbV6gH9YzBpYdVVxnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706369851; c=relaxed/simple;
-	bh=ACaEdmrohF9rM37kFnowj/e/MwFZcw+zRqKLO7ud6M4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cKMSdiP6ptkKIGpLC/Ucx1F5NQkA0WwNoSpDwJa6YV1mRKRUq0uj9u4vpSk67J+41rSGtTAsCNta4U5VPtdDzXP/68C8bIwx+L6n6p3RHADq6nbW68FK/Dv9TubVjMF1PHpHRiam2pCIDUPI8mrCTXcw8ShaXKtHVw1L4tA6psM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DKnk9GEO; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1706371117; c=relaxed/simple;
+	bh=hBtf6FLBv/lirHB/qFxQDOfC3/JrgO9F5zuWntBY3Bo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cYwMWw2XS4eLllBD3UKX4EdcSKKkRaAcUTspBrWQPi3cOG+b2QOFxoO2oxNXXxBbHe5lkVgR3p6HJus3yAPqlzSEX+75gjQW1dsnfPmLrI/WpnaARD+2S5qk5/ZT1KGrrK4N84IgJ2w4cbALR9W6UkN5G/nHxo7KqfS/yCa+WR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fa5J9WQd; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DKnk9GEO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fa5J9WQd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706369848; x=1737905848;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ACaEdmrohF9rM37kFnowj/e/MwFZcw+zRqKLO7ud6M4=;
-  b=DKnk9GEOExvFBjljIcOlNiYYJ6/AOV/Plp3/uwSizCt+wG8JELd7RsNg
-   KEea4NcIhD2YZWITM3tdRC6wk2yx3gV0p44MRpkX7EsLvRiKzO8LylvJ3
-   2s7JQG8zqn7KUSYGvQL23trrOOqrJncJ8rMBIGZTKMN/ve4IzqReE8r/a
-   wIQW3IYC16ya77QunK5sRafQObL7eSBV4hc9aCj7DCmGJbQxxIyuNGMZf
-   WcUcscvbaexqaf6p+Q0hELjAXZa3WMudyjCeC1d+gCvyNcjHYbBX/f8r3
-   LEyUsNO0gZNQNFPwpLyvlhD0kpKZ6T0O30pqZz7YbpVfaXJterAoieZQi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="10073024"
+  t=1706371116; x=1737907116;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hBtf6FLBv/lirHB/qFxQDOfC3/JrgO9F5zuWntBY3Bo=;
+  b=fa5J9WQddtmcDXUGFz4Q66JK4ZipyxZBWTiROxl6qXEzrPzMIRTKdQqK
+   DP6y99H5WsPBYlzMsPVe3kK8PA7is+hxytcLLW8i/zb3hj4JVsM2RcB8A
+   Z8pWho1bBi8XGmpw3QD+j4O2jiJdFHc3xGQsOhCyDeJ84D54oAKufNNeQ
+   Zb7Z/9hoGiLLBtb5SYx6swh/Xl8G1hq7TSn8jtBNg7XgMw83dhknjX0yU
+   VxmvtpeP/Tp0+HwJVZMaRLaxP16EnNrvHBV+yuGV+dNVe8I1Er8cNp6Id
+   2hQ7HfBJ8dRMC3r/5XrRV/YsdR4fqrMx3n5BzP2+/1Uv7ewAUAqFJWQ0I
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="10074286"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="10073024"
+   d="scan'208";a="10074286"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 07:37:27 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 07:58:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787401895"
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787406022"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="787401895"
+   d="scan'208";a="787406022"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2024 07:37:26 -0800
+  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2024 07:58:29 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTkkG-0002TO-02;
-	Sat, 27 Jan 2024 15:37:24 +0000
-Date: Sat, 27 Jan 2024 23:36:44 +0800
+	id 1rTl4c-0002UU-1g;
+	Sat, 27 Jan 2024 15:58:26 +0000
+Date: Sat, 27 Jan 2024 23:57:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:rmap_batching 135/136]
- arch/powerpc/include/asm/tlb.h:22:33: warning: conflicting types for
- '__tlb_remove_tlb_entry'; have 'void(struct mmu_gather *, pte_t *, long
- unsigned int)'
-Message-ID: <202401272321.NIu6aFIv-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
+	Rob Herring <robh+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 11/13] fbdev: omapfb: use of_graph_get_next_port()
+Message-ID: <202401272336.CCkvpjde-lkp@intel.com>
+References: <874jf4ud77.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,128 +76,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <874jf4ud77.wl-kuninori.morimoto.gx@renesas.com>
 
-tree:   https://github.com/davidhildenbrand/linux rmap_batching
-head:   865e6d6a176a1f50bcbb7dd1d6a57b803e398039
-commit: 4779a2a486fbf2d3850b6256cd4c51f2d617c714 [135/136] mm/mmu_gather: add tlb_remove_tlb_entries()
-config: powerpc64-randconfig-001-20240127 (https://download.01.org/0day-ci/archive/20240127/202401272321.NIu6aFIv-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401272321.NIu6aFIv-lkp@intel.com/reproduce)
+Hi Kuninori,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.8-rc1 next-20240125]
+[cannot apply to robh/for-next drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240123-081427
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/874jf4ud77.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH 11/13] fbdev: omapfb: use of_graph_get_next_port()
+config: i386-buildonly-randconfig-003-20240127 (https://download.01.org/0day-ci/archive/20240127/202401272336.CCkvpjde-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401272336.CCkvpjde-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401272321.NIu6aFIv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401272336.CCkvpjde-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/powerpc/mm/book3s64/hash_tlb.c:25:
-   include/asm-generic/tlb.h: In function 'tlb_remove_tlb_entries':
-   arch/powerpc/include/asm/tlb.h:22:33: error: implicit declaration of function '__tlb_remove_tlb_entry'; did you mean 'tlb_remove_tlb_entry'? [-Werror=implicit-function-declaration]
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/tlb.h:631:17: note: in expansion of macro '__tlb_remove_tlb_entry'
-     631 |                 __tlb_remove_tlb_entry(tlb, ptep, address);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h: At top level:
->> arch/powerpc/include/asm/tlb.h:22:33: warning: conflicting types for '__tlb_remove_tlb_entry'; have 'void(struct mmu_gather *, pte_t *, long unsigned int)'
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:41:20: note: in expansion of macro '__tlb_remove_tlb_entry'
-      41 | static inline void __tlb_remove_tlb_entry(struct mmu_gather *tlb, pte_t *ptep,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:22:33: error: static declaration of '__tlb_remove_tlb_entry' follows non-static declaration
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:41:20: note: in expansion of macro '__tlb_remove_tlb_entry'
-      41 | static inline void __tlb_remove_tlb_entry(struct mmu_gather *tlb, pte_t *ptep,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:22:33: note: previous implicit declaration of '__tlb_remove_tlb_entry' with type 'void(struct mmu_gather *, pte_t *, long unsigned int)'
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/tlb.h:631:17: note: in expansion of macro '__tlb_remove_tlb_entry'
-     631 |                 __tlb_remove_tlb_entry(tlb, ptep, address);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/mm/book3s64/hash_tlb.c: In function 'hpte_need_flush':
-   arch/powerpc/mm/book3s64/hash_tlb.c:49:16: warning: variable 'offset' set but not used [-Wunused-but-set-variable]
-      49 |         int i, offset;
-         |                ^~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/powerpc/mm/book3s64/pgtable.c:16:
-   include/asm-generic/tlb.h: In function 'tlb_remove_tlb_entries':
-   arch/powerpc/include/asm/tlb.h:22:33: error: implicit declaration of function '__tlb_remove_tlb_entry'; did you mean 'tlb_remove_tlb_entry'? [-Werror=implicit-function-declaration]
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/tlb.h:631:17: note: in expansion of macro '__tlb_remove_tlb_entry'
-     631 |                 __tlb_remove_tlb_entry(tlb, ptep, address);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h: At top level:
->> arch/powerpc/include/asm/tlb.h:22:33: warning: conflicting types for '__tlb_remove_tlb_entry'; have 'void(struct mmu_gather *, pte_t *, long unsigned int)'
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:41:20: note: in expansion of macro '__tlb_remove_tlb_entry'
-      41 | static inline void __tlb_remove_tlb_entry(struct mmu_gather *tlb, pte_t *ptep,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:22:33: error: static declaration of '__tlb_remove_tlb_entry' follows non-static declaration
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:41:20: note: in expansion of macro '__tlb_remove_tlb_entry'
-      41 | static inline void __tlb_remove_tlb_entry(struct mmu_gather *tlb, pte_t *ptep,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:22:33: note: previous implicit declaration of '__tlb_remove_tlb_entry' with type 'void(struct mmu_gather *, pte_t *, long unsigned int)'
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/tlb.h:631:17: note: in expansion of macro '__tlb_remove_tlb_entry'
-     631 |                 __tlb_remove_tlb_entry(tlb, ptep, address);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/powerpc/mm/book3s64/hash_native.c:23:
-   include/asm-generic/tlb.h: In function 'tlb_remove_tlb_entries':
-   arch/powerpc/include/asm/tlb.h:22:33: error: implicit declaration of function '__tlb_remove_tlb_entry'; did you mean 'tlb_remove_tlb_entry'? [-Werror=implicit-function-declaration]
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/tlb.h:631:17: note: in expansion of macro '__tlb_remove_tlb_entry'
-     631 |                 __tlb_remove_tlb_entry(tlb, ptep, address);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h: At top level:
->> arch/powerpc/include/asm/tlb.h:22:33: warning: conflicting types for '__tlb_remove_tlb_entry'; have 'void(struct mmu_gather *, pte_t *, long unsigned int)'
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:41:20: note: in expansion of macro '__tlb_remove_tlb_entry'
-      41 | static inline void __tlb_remove_tlb_entry(struct mmu_gather *tlb, pte_t *ptep,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:22:33: error: static declaration of '__tlb_remove_tlb_entry' follows non-static declaration
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:41:20: note: in expansion of macro '__tlb_remove_tlb_entry'
-      41 | static inline void __tlb_remove_tlb_entry(struct mmu_gather *tlb, pte_t *ptep,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/tlb.h:22:33: note: previous implicit declaration of '__tlb_remove_tlb_entry' with type 'void(struct mmu_gather *, pte_t *, long unsigned int)'
-      22 | #define __tlb_remove_tlb_entry  __tlb_remove_tlb_entry
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/tlb.h:631:17: note: in expansion of macro '__tlb_remove_tlb_entry'
-     631 |                 __tlb_remove_tlb_entry(tlb, ptep, address);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/mm/book3s64/hash_native.c: In function 'native_flush_hash_range':
-   arch/powerpc/mm/book3s64/hash_native.c:782:29: warning: variable 'index' set but not used [-Wunused-but-set-variable]
-     782 |         unsigned long hash, index, hidx, shift, slot;
-         |                             ^~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dss.c: In function 'dss_init_ports':
+   drivers/video/fbdev/omap2/omapfb/dss/dss.c:925:9: error: implicit declaration of function 'of_graph_get_next_port'; did you mean 'of_get_next_parent'? [-Werror=implicit-function-declaration]
+     port = of_graph_get_next_port(parent, NULL);
+            ^~~~~~~~~~~~~~~~~~~~~~
+            of_get_next_parent
+>> drivers/video/fbdev/omap2/omapfb/dss/dss.c:925:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     port = of_graph_get_next_port(parent, NULL);
+          ^
+   drivers/video/fbdev/omap2/omapfb/dss/dss.c:956:10: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+       (port = of_graph_get_next_port(parent, port)) != NULL);
+             ^
+   drivers/video/fbdev/omap2/omapfb/dss/dss.c: In function 'dss_uninit_ports':
+   drivers/video/fbdev/omap2/omapfb/dss/dss.c:972:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     port = of_graph_get_next_port(parent, NULL);
+          ^
+   drivers/video/fbdev/omap2/omapfb/dss/dss.c:1003:17: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     } while ((port = of_graph_get_next_port(parent, port)) != NULL);
+                    ^
    cc1: some warnings being treated as errors
 
 
-vim +22 arch/powerpc/include/asm/tlb.h
+vim +925 drivers/video/fbdev/omap2/omapfb/dss/dss.c
 
-d4243c175f127b include/asm-powerpc/tlb.h      Mathieu Desnoyers 2007-10-02  21  
-fb7332a9fedfd6 arch/powerpc/include/asm/tlb.h Will Deacon       2014-10-29 @22  #define __tlb_remove_tlb_entry	__tlb_remove_tlb_entry
-9a0f78f63bc05d include/asm-powerpc/tlb.h      Stephen Rothwell  2005-11-04  23  
-
-:::::: The code at line 22 was first introduced by commit
-:::::: fb7332a9fedfd62b1ba6530c86f39f0fa38afd49 mmu_gather: move minimal range calculations into generic code
-
-:::::: TO: Will Deacon <will.deacon@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+   915	
+   916	static int dss_init_ports(struct platform_device *pdev)
+   917	{
+   918		struct device_node *parent = pdev->dev.of_node;
+   919		struct device_node *port;
+   920		int r, ret = 0;
+   921	
+   922		if (parent == NULL)
+   923			return 0;
+   924	
+ > 925		port = of_graph_get_next_port(parent, NULL);
+   926		if (!port)
+   927			return 0;
+   928	
+   929		if (dss.feat->num_ports == 0)
+   930			return 0;
+   931	
+   932		do {
+   933			enum omap_display_type port_type;
+   934			u32 reg;
+   935	
+   936			r = of_property_read_u32(port, "reg", &reg);
+   937			if (r)
+   938				reg = 0;
+   939	
+   940			if (reg >= dss.feat->num_ports)
+   941				continue;
+   942	
+   943			port_type = dss.feat->ports[reg];
+   944	
+   945			switch (port_type) {
+   946			case OMAP_DISPLAY_TYPE_DPI:
+   947				ret = dpi_init_port(pdev, port);
+   948				break;
+   949			case OMAP_DISPLAY_TYPE_SDI:
+   950				ret = sdi_init_port(pdev, port);
+   951				break;
+   952			default:
+   953				break;
+   954			}
+   955		} while (!ret &&
+   956			 (port = of_graph_get_next_port(parent, port)) != NULL);
+   957	
+   958		if (ret)
+   959			dss_uninit_ports(pdev);
+   960	
+   961		return ret;
+   962	}
+   963	
 
 -- 
 0-DAY CI Kernel Test Service
