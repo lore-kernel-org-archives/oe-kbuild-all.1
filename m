@@ -1,100 +1,309 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5EE23748
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 13:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0122523761;
+	Sun, 28 Jan 2024 13:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706447068; cv=none; b=N/n9CAW8oXDoPfImA962XxIGSA+gWZWooyWb9qgNgqyAq6qK2AnriVnzY1Lmx4+aTwYIYuy9U2a1OdQjBU6dXb6u5/fIEnVUKGBykD2BwmiDJHWg7Ty4rws1Jf6W5StzuJARcXlv+W4PhoS+IrWvIizSd41cStm4nrXnyWooDdQ=
+	t=1706447440; cv=none; b=PatsmLlWWG507o8vvlMWMP5xyjBw+YVH4j8eq4HQp8B86d0Djw4vIXBy64rqrqG1+NHGXq8zywnz0KQ37x7s42REdPmVmD/AXcYJshVimRAgtrtQ5FoFxH2zsQHyKXZZwvUOSoJrHicTkZHzEvfHcvDw1SP95rydJY4Q8XjgO50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706447068; c=relaxed/simple;
-	bh=HS70Zj0p9y7eeOlbmDLmOq/JjDgmA6myGgCcmfp7IV8=;
+	s=arc-20240116; t=1706447440; c=relaxed/simple;
+	bh=RQCFKqCSZ8PKHaLcxG5XoPIii7CJX96qAZHOGC0dsIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=Pfp9FvsxIsmQlZ2PgyzmFzO3ERso5J6nCMCtfVKTXhoY6pvIRVb7riVI+UgZCzzCDo9TUlw/3qC+zndPhPwOtUHX6zKXBNRpTWJI+QcqqfUz9YD+IpmSE+1c25GBzF86ii8xQjFbwAZifuEfUqxntIewpYyDyw6BqqqMmP+ROYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PXJzBvVI; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=o8Gd87s9ZWVQA3eQp/jDb+CixfPaiTDyVXX6rClAJDMsvUGtpHSsKQv9CYaopixyV/Urb1egDF+uxvM3C8yjD5BdFacNAAwR6sqkBItQh7PZLaO6YRzvy3TuLejmL4/taAKyKjEa5vgLFxvI+NckkXGMjHv1niyGH94iY4vI828=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbJPl05M; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PXJzBvVI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706447064;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8M4zGjdotGe3espZL9fInieuIhFPjXXLt93UeiOvGvk=;
-	b=PXJzBvVIkJDAmhsX4cfeJ0SkO0gP38L32dYvlJWMk+1582VkC+SaZmKFfTZBh1ZrIrainv
-	O5oUpS2+6eMNOPM694Z1V9i5z5gMgCtfWBqFzXdbiBiGAg5reXRoeFXSExr/daPLMIe+23
-	oYBl3Xb2/l5BRJwYELBz4bjtJWTx2H4=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-657-cTGXe2kQOHWDPDAOt1FUyg-1; Sun,
- 28 Jan 2024 08:04:23 -0500
-X-MC-Unique: cTGXe2kQOHWDPDAOt1FUyg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCE0D29AC014;
-	Sun, 28 Jan 2024 13:04:22 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D7902400D5CD;
-	Sun, 28 Jan 2024 13:04:21 +0000 (UTC)
-Date: Sun, 28 Jan 2024 21:04:12 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 1570/1892] make[4]: *** No rule to make
- target 'kernel/elfcorehdr.o', needed by 'kernel/built-in.a'.
-Message-ID: <ZbZQzE58IaM/qzj1@MiWiFi-R3L-srv>
-References: <202401280724.R6lQ6tyY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbJPl05M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706447437; x=1737983437;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RQCFKqCSZ8PKHaLcxG5XoPIii7CJX96qAZHOGC0dsIU=;
+  b=lbJPl05MNARseqTBWvMPQCaq2Aypocsc4DdvMkGjNlp1zDkLNqNX750A
+   esM50O+Awjqrdq0myrkfhuZqcKObR3+4YoKvuUivZMXTBrUDTSn4K1Gwx
+   c7SsJzCLi+MjIG0BBVpAd91RCbMjr4eK696H+OfW4e+T1JF6Qy+cpCB5i
+   5HHaLRZYOloEESMhLYNgQ7YUPhjHD3hR+NN8sIqtKyMx2N86ElngK/EyW
+   eBheMfkGByQgSUGN0mc6x2E8rLAdi6MnYIgoqgw6j5PBj7Rhi/9G+TqBk
+   e5h0ZWL6cFgYvWYS2YjNLWnHSZn7dMH1ZgZ8QkwrDmXDPtTSwIunBj9Ry
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="10156791"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="10156791"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 05:10:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="960658944"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="960658944"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 28 Jan 2024 05:10:27 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rU4vZ-0003P7-0k;
+	Sun, 28 Jan 2024 13:10:25 +0000
+Date: Sun, 28 Jan 2024 21:10:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kernel_team@skhynix.com, torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
+	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
+	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
+	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+	hannes@cmpxchg.org, vdavydov.dev@gmail.com
+Subject: Re: [PATCH v11 05/26] dept: Tie to Lockdep and IRQ tracing
+Message-ID: <202401282019.lvlmRwlL-lkp@intel.com>
+References: <20240124115938.80132-6-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202401280724.R6lQ6tyY-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240124115938.80132-6-byungchul@sk.com>
 
-On 01/28/24 at 07:53am, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
-> commit: 1777bfb42f560d0f1d4f8c31ba86423ac4166f43 [1570/1892] crash: remove dependency of FA_DUMP on CRASH_DUMP
-> config: i386-buildonly-randconfig-004-20240127 (https://download.01.org/0day-ci/archive/20240128/202401280724.R6lQ6tyY-lkp@intel.com/config)
-> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280724.R6lQ6tyY-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401280724.R6lQ6tyY-lkp@intel.com/
-> 
-> Note: the linux-next/master HEAD 01af33cc9894b4489fb68fa35c40e9fe85df63dc builds fine.
->       It may have been fixed somewhere.
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> make[4]: *** No rule to make target 'kernel/elfcorehdr.o', needed by 'kernel/built-in.a'.
->    make[4]: Target 'kernel/' not remade because of errors.
+Hi Byungchul,
 
-This has been fixed by Stephen with below commit in next tree.
+kernel test robot noticed the following build warnings:
 
-commit 02002068055e2172e49d14f9fb11ab277b8d8094
-Author: Stephen Rothwell <sfr@canb.auug.org.au>
-Date:   Thu Jan 25 09:58:54 2024 +1100
+[auto build test WARNING on 0dd3ee31125508cd67f7e7172247f05b7fd1753a]
 
-    fix up for "crash: remove dependency of FA_DUMP on CRASH_DUMP"
-    
-    Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20240124-200243
+base:   0dd3ee31125508cd67f7e7172247f05b7fd1753a
+patch link:    https://lore.kernel.org/r/20240124115938.80132-6-byungchul%40sk.com
+patch subject: [PATCH v11 05/26] dept: Tie to Lockdep and IRQ tracing
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240128/202401282019.lvlmRwlL-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a31a60074717fc40887cfe132b77eec93bedd307)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401282019.lvlmRwlL-lkp@intel.com/reproduce)
 
-diff --git a/kernel/crash_dump.c b/kernel/elfcorehdr.c
-similarity index 100%
-rename from kernel/crash_dump.c
-rename to kernel/elfcorehdr.c
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401282019.lvlmRwlL-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   In file included from fs/ext4/mballoc.c:12:
+   In file included from fs/ext4/ext4_jbd2.h:16:
+   In file included from include/linux/jbd2.h:23:
+   In file included from include/linux/buffer_head.h:12:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:12:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from fs/ext4/mballoc.c:12:
+   In file included from fs/ext4/ext4_jbd2.h:16:
+   In file included from include/linux/jbd2.h:23:
+   In file included from include/linux/buffer_head.h:12:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:12:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from fs/ext4/mballoc.c:12:
+   In file included from fs/ext4/ext4_jbd2.h:16:
+   In file included from include/linux/jbd2.h:23:
+   In file included from include/linux/buffer_head.h:12:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:12:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from fs/ext4/mballoc.c:7000:
+>> fs/ext4/mballoc-test.c:246:13: warning: stack frame size (1288) exceeds limit (1024) in 'test_new_blocks_simple' [-Wframe-larger-than]
+     246 | static void test_new_blocks_simple(struct kunit *test)
+         |             ^
+   7 warnings generated.
+--
+>> drivers/gpu/drm/tests/drm_exec_test.c:150:13: warning: stack frame size (1064) exceeds limit (1024) in 'test_prepare_array' [-Wframe-larger-than]
+     150 | static void test_prepare_array(struct kunit *test)
+         |             ^
+   1 warning generated.
+--
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.c:9:
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api_private.h:11:
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.h:11:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:12:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.c:9:
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api_private.h:11:
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.h:11:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:12:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.c:9:
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api_private.h:11:
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.h:11:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:12:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.c:3598:
+>> drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:1926:13: warning: stack frame size (1296) exceeds limit (1024) in 'vcap_api_next_lookup_advanced_test' [-Wframe-larger-than]
+    1926 | static void vcap_api_next_lookup_advanced_test(struct kunit *test)
+         |             ^
+   7 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FRAME_POINTER
+   Depends on [n]: DEBUG_KERNEL [=y] && (M68K || UML || SUPERH) || ARCH_WANT_FRAME_POINTERS [=n]
+   Selected by [y]:
+   - DEPT [=y] && DEBUG_KERNEL [=y] && LOCK_DEBUGGING_SUPPORT [=y] && !MIPS && !PPC && !ARM && !S390 && !MICROBLAZE && !ARC && !X86
+
+
+vim +/test_new_blocks_simple +246 fs/ext4/mballoc-test.c
+
+7c9fa399a36954 Kemeng Shi 2023-09-29  245  
+7c9fa399a36954 Kemeng Shi 2023-09-29 @246  static void test_new_blocks_simple(struct kunit *test)
+7c9fa399a36954 Kemeng Shi 2023-09-29  247  {
+7c9fa399a36954 Kemeng Shi 2023-09-29  248  	struct super_block *sb = (struct super_block *)test->priv;
+7c9fa399a36954 Kemeng Shi 2023-09-29  249  	struct inode inode = { .i_sb = sb, };
+7c9fa399a36954 Kemeng Shi 2023-09-29  250  	struct ext4_allocation_request ar;
+7c9fa399a36954 Kemeng Shi 2023-09-29  251  	ext4_group_t i, goal_group = TEST_GOAL_GROUP;
+7c9fa399a36954 Kemeng Shi 2023-09-29  252  	int err = 0;
+7c9fa399a36954 Kemeng Shi 2023-09-29  253  	ext4_fsblk_t found;
+7c9fa399a36954 Kemeng Shi 2023-09-29  254  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+7c9fa399a36954 Kemeng Shi 2023-09-29  255  
+7c9fa399a36954 Kemeng Shi 2023-09-29  256  	ar.inode = &inode;
+7c9fa399a36954 Kemeng Shi 2023-09-29  257  
+7c9fa399a36954 Kemeng Shi 2023-09-29  258  	/* get block at goal */
+7c9fa399a36954 Kemeng Shi 2023-09-29  259  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  260  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  261  	KUNIT_ASSERT_EQ_MSG(test, ar.goal, found,
+7c9fa399a36954 Kemeng Shi 2023-09-29  262  		"failed to alloc block at goal, expected %llu found %llu",
+7c9fa399a36954 Kemeng Shi 2023-09-29  263  		ar.goal, found);
+7c9fa399a36954 Kemeng Shi 2023-09-29  264  
+7c9fa399a36954 Kemeng Shi 2023-09-29  265  	/* get block after goal in goal group */
+7c9fa399a36954 Kemeng Shi 2023-09-29  266  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  267  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  268  	KUNIT_ASSERT_EQ_MSG(test, ar.goal + EXT4_C2B(sbi, 1), found,
+7c9fa399a36954 Kemeng Shi 2023-09-29  269  		"failed to alloc block after goal in goal group, expected %llu found %llu",
+7c9fa399a36954 Kemeng Shi 2023-09-29  270  		ar.goal + 1, found);
+7c9fa399a36954 Kemeng Shi 2023-09-29  271  
+7c9fa399a36954 Kemeng Shi 2023-09-29  272  	/* get block after goal group */
+7c9fa399a36954 Kemeng Shi 2023-09-29  273  	mbt_ctx_mark_used(sb, goal_group, 0, EXT4_CLUSTERS_PER_GROUP(sb));
+7c9fa399a36954 Kemeng Shi 2023-09-29  274  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  275  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  276  	KUNIT_ASSERT_EQ_MSG(test,
+7c9fa399a36954 Kemeng Shi 2023-09-29  277  		ext4_group_first_block_no(sb, goal_group + 1), found,
+7c9fa399a36954 Kemeng Shi 2023-09-29  278  		"failed to alloc block after goal group, expected %llu found %llu",
+7c9fa399a36954 Kemeng Shi 2023-09-29  279  		ext4_group_first_block_no(sb, goal_group + 1), found);
+7c9fa399a36954 Kemeng Shi 2023-09-29  280  
+7c9fa399a36954 Kemeng Shi 2023-09-29  281  	/* get block before goal group */
+7c9fa399a36954 Kemeng Shi 2023-09-29  282  	for (i = goal_group; i < ext4_get_groups_count(sb); i++)
+7c9fa399a36954 Kemeng Shi 2023-09-29  283  		mbt_ctx_mark_used(sb, i, 0, EXT4_CLUSTERS_PER_GROUP(sb));
+7c9fa399a36954 Kemeng Shi 2023-09-29  284  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  285  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  286  	KUNIT_ASSERT_EQ_MSG(test,
+7c9fa399a36954 Kemeng Shi 2023-09-29  287  		ext4_group_first_block_no(sb, 0) + EXT4_C2B(sbi, 1), found,
+7c9fa399a36954 Kemeng Shi 2023-09-29  288  		"failed to alloc block before goal group, expected %llu found %llu",
+7c9fa399a36954 Kemeng Shi 2023-09-29  289  		ext4_group_first_block_no(sb, 0 + EXT4_C2B(sbi, 1)), found);
+7c9fa399a36954 Kemeng Shi 2023-09-29  290  
+7c9fa399a36954 Kemeng Shi 2023-09-29  291  	/* no block available, fail to allocate block */
+7c9fa399a36954 Kemeng Shi 2023-09-29  292  	for (i = 0; i < ext4_get_groups_count(sb); i++)
+7c9fa399a36954 Kemeng Shi 2023-09-29  293  		mbt_ctx_mark_used(sb, i, 0, EXT4_CLUSTERS_PER_GROUP(sb));
+7c9fa399a36954 Kemeng Shi 2023-09-29  294  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  295  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  296  	KUNIT_ASSERT_NE_MSG(test, err, 0,
+7c9fa399a36954 Kemeng Shi 2023-09-29  297  		"unexpectedly get block when no block is available");
+7c9fa399a36954 Kemeng Shi 2023-09-29  298  }
+7c9fa399a36954 Kemeng Shi 2023-09-29  299  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
