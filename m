@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6441BDF44;
-	Sun, 28 Jan 2024 06:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A534BE4D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 06:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706423242; cv=none; b=YX5kdc+yWYP8EyGxaSBLok23KMzXcU0TS+rr9vhz8WE/AQGgisBgWv78x0u5g/TQBnLU+O4NV8ktIne0BuT98FoK/8CJMq4Qr6h/jpBugOSpbRmmU240DEAiagZhZeLVJ5dKLIXw+9yJfyiOtqscWZrKVM70F9phsaK2W+HCLsU=
+	t=1706423963; cv=none; b=lAEQ2N8JJWRNmotVKp25w3hKMiXViySUTnW9TJZBI+hSdvmEK7nN0LHWB8n/Ms+C7XnTXR3zZxJtQTkenXbJbzFD3kgTUs/ApPCO97l8ZH6I3rYR9mUB28LQUyrX9YDqZEmaGvd+WnQ1GIRDOM8dRIJfwcP74AhMkBsDPX0Ws2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706423242; c=relaxed/simple;
-	bh=/4cBnVToVLQ8927Gyogc9jU9/eVrtAK9hYpYQq21uAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h8B07ZqzmsT8Haa/rfBn7FjpowRKLi/UbaaVDJViMXOHgRq802U1u5Q0UYq2eMjbb4NgxRj90uvG9Xj9kSt6fpQlo9ZioTHGm4B2NmqEkQaqXnS5Ndwmahk8Qht2704huD85kTbjcpSAAKvcOPZjti38ufr2gOVAKEjl18aG53s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JuB0P9YU; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1706423963; c=relaxed/simple;
+	bh=4lijp4ucfB/6jErrAcwvyyricA31fH+Gjfga3LbNXWw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DbJdeA79uLWtYAvp44yibSCgZnZ2Osf+PQ0whp5VU3z45xOfXs0oKHRbpzXaXHbz4JBZPbEV1fdsd9TTF90eEQvbvkDiXGMPC/mjoNdN/pnRzK+V4L6ettPV+/a+tEuZpi0Sn8VJLeJ678Rf+so0XOVlHbSTjhmW5N9v5GnwpjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hLYAR48w; arc=none smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuB0P9YU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hLYAR48w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706423239; x=1737959239;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/4cBnVToVLQ8927Gyogc9jU9/eVrtAK9hYpYQq21uAM=;
-  b=JuB0P9YUegCseWTUpUSnTktsOs38dQFMGy+xAsnBg4Lvk4pyxLb7d1PU
-   N27fjoVZLHNHR86RtquSpNqlI31PvZ015TlhBiyxsZ9az+h9RJZOQHdCk
-   iK5nrYlmC3u+2Ij73jLaQvglJ8Cn16NfTni3F04xG+VYmc3BEy4Vwrg6R
-   GFQokAqUdrO0iTxJhG0R4odDjnmUajJYAzbOe8VnhQRkzDlWLuDIQEGq7
-   vEu9NzMMIbsLGSLqfRrSOEjR/ihnKlr9IhzXF78CpCvv5Dc+lZgpO9ZtD
-   vkBuSE9nhyDIjXKk316JZhwyvWoB/7eG9JygxzYYWQBwUZ1vB9hcOodSc
+  t=1706423962; x=1737959962;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4lijp4ucfB/6jErrAcwvyyricA31fH+Gjfga3LbNXWw=;
+  b=hLYAR48wKtsOPTqM0VtMhSuMYPwbR3yg/TU9wkjOgimU0zzujT08zyrc
+   R7cl2OVbNfps0nitsoXvKUgga1JuVZbq5u6hdrxj/OehMPFzuj37HqWRM
+   EjD/oDLbq3FXgbVfDdvibWhi3aRvMVVYvpR019Sn6Q0UuYwZsj3Sylygb
+   5E8+G1mUa2m2BwFtc0givUeO6X8qwjPUgSX56s0Q5ZIKJ1y5sVBgDKl6h
+   uLxbIt7bXkYzQtLc8nKJhjtDvJp3TeX0lepBL0qrsKQ+v9nmpz4lIe4e4
+   PShQoKYrf/mp5y8eejGXZh93egyKHJRewvS+378EMwCnOJwog85fyox2G
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="9398459"
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="402391081"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="9398459"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 22:27:18 -0800
+   d="scan'208";a="402391081"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 22:39:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="737071251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="910733513"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="737071251"
+   d="scan'208";a="910733513"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 Jan 2024 22:27:16 -0800
+  by orsmga004.jf.intel.com with ESMTP; 27 Jan 2024 22:39:17 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTydO-00039y-0t;
-	Sun, 28 Jan 2024 06:27:14 +0000
-Date: Sun, 28 Jan 2024 14:26:40 +0800
+	id 1rTyp0-0003AW-1e;
+	Sun, 28 Jan 2024 06:39:14 +0000
+Date: Sun, 28 Jan 2024 14:38:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suma Hegde <suma.hegde@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Naveen Krishna Chatradhi <nchatrad@amd.com>
-Subject: [pdx86-platform-drivers-x86:review-ilpo 13/17]
- drivers/platform/x86/amd/hsmp.c:405:8: error: call to undeclared function
- 'acpi_device_uid'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202401281437.aus91srb-lkp@intel.com>
+To: Jacky Huang <ychuang570808@gmail.com>, linus.walleij@linaro.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, p.zabel@pengutronix.de, j.neuschaefer@gmx.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ychuang3@nuvoton.com,
+	schung@nuvoton.com
+Subject: Re: [PATCH v3 4/4] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO
+ driver
+Message-ID: <202401281459.4OP8NSLy-lkp@intel.com>
+References: <20240123080637.1902578-5-ychuang570808@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,84 +65,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240123080637.1902578-5-ychuang570808@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo
-head:   d04e52b47ab62cf36fddaa0feb1c5508e420e48d
-commit: d6200c4e95eecd59fedb7c64a4ad7a201191b0b6 [13/17] platform/x86/amd/hsmp: Add support for ACPI based probing
-config: x86_64-buildonly-randconfig-003-20240128 (https://download.01.org/0day-ci/archive/20240128/202401281437.aus91srb-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281437.aus91srb-lkp@intel.com/reproduce)
+Hi Jacky,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next robh/for-next linus/master v6.8-rc1 next-20240125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Huang/dt-bindings-reset-Add-syscon-to-nuvoton-ma35d1-system-management-node/20240123-161939
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20240123080637.1902578-5-ychuang570808%40gmail.com
+patch subject: [PATCH v3 4/4] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO driver
+config: x86_64-randconfig-121-20240128 (https://download.01.org/0day-ci/archive/20240128/202401281459.4OP8NSLy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281459.4OP8NSLy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401281437.aus91srb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401281459.4OP8NSLy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/amd/hsmp.c:405:8: error: call to undeclared function 'acpi_device_uid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     405 |         uid = acpi_device_uid(ACPI_COMPANION(dev));
-         |               ^
-   drivers/platform/x86/amd/hsmp.c:405:8: note: did you mean 'pci_device_add'?
-   include/linux/pci.h:1163:6: note: 'pci_device_add' declared here
-    1163 | void pci_device_add(struct pci_dev *dev, struct pci_bus *bus);
-         |      ^
->> drivers/platform/x86/amd/hsmp.c:405:6: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
-     405 |         uid = acpi_device_uid(ACPI_COMPANION(dev));
-         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/platform/x86/amd/hsmp.c:417:8: error: call to undeclared function 'acpi_dev_resource_memory'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     417 |                 if (!acpi_dev_resource_memory(res, &r))
-         |                      ^
->> drivers/platform/x86/amd/hsmp.c:797:15: error: call to undeclared function 'acpi_match_device_ids'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     797 |         if (adev && !acpi_match_device_ids(adev, amd_hsmp_acpi_ids)) {
-         |                      ^
-   drivers/platform/x86/amd/hsmp.c:797:15: note: did you mean 'acpi_match_device'?
-   include/linux/acpi.h:933:44: note: 'acpi_match_device' declared here
-     933 | static inline const struct acpi_device_id *acpi_match_device(
-         |                                            ^
-   4 errors generated.
+   drivers/pinctrl/nuvoton/pinctrl-ma35.c: In function 'ma35_gpiolib_register':
+   drivers/pinctrl/nuvoton/pinctrl-ma35.c:523:27: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     523 |                 bank->chip.of_gpio_n_cells = 2;
+         |                           ^
+   drivers/pinctrl/nuvoton/pinctrl-ma35.c: At top level:
+   drivers/pinctrl/nuvoton/pinctrl-ma35.c:1008:10: error: 'const struct pinconf_ops' has no member named 'is_generic'
+    1008 |         .is_generic = true,
+         |          ^~~~~~~~~~
+>> drivers/pinctrl/nuvoton/pinctrl-ma35.c:1008:23: warning: initialization of 'int (*)(struct pinctrl_dev *, unsigned int,  long unsigned int *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1008 |         .is_generic = true,
+         |                       ^~~~
+   drivers/pinctrl/nuvoton/pinctrl-ma35.c:1008:23: note: (near initialization for 'ma35_pinconf_ops.pin_config_group_get')
+   drivers/pinctrl/nuvoton/pinctrl-ma35.c: In function 'ma35_pinctrl_parse_groups':
+   drivers/pinctrl/nuvoton/pinctrl-ma35.c:1024:15: error: implicit declaration of function 'pinconf_generic_parse_dt_config'; did you mean 'pinconf_generic_dump_config'? [-Werror=implicit-function-declaration]
+    1024 |         ret = pinconf_generic_parse_dt_config(np, NULL, &configs, &nconfigs);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               pinconf_generic_dump_config
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PINCTRL_MA35
+   Depends on [n]: PINCTRL [=y] && (ARCH_MA35 || COMPILE_TEST [=n]) && OF [=n]
+   Selected by [y]:
+   - PINCTRL_MA35D1 [=y] && PINCTRL [=y]
 
 
-vim +/acpi_device_uid +405 drivers/platform/x86/amd/hsmp.c
+vim +1008 drivers/pinctrl/nuvoton/pinctrl-ma35.c
 
-   395	
-   396	static inline int hsmp_get_uid(struct device *dev, u16 *sock_ind)
-   397	{
-   398		char *uid;
-   399	
-   400		/*
-   401		 * UID (ID00, ID01..IDXX) is used for differentiating sockets,
-   402		 * read it and strip the "ID" part of it and convert the remaining
-   403		 * bytes to integer.
-   404		 */
- > 405		uid = acpi_device_uid(ACPI_COMPANION(dev));
-   406	
-   407		return kstrtou16(uid + 2, 10, sock_ind);
-   408	}
-   409	
-   410	static acpi_status hsmp_resource(struct acpi_resource *res, void *data)
-   411	{
-   412		struct hsmp_socket *sock = data;
-   413		struct resource r;
-   414	
-   415		switch (res->type) {
-   416		case ACPI_RESOURCE_TYPE_FIXED_MEMORY32:
- > 417			if (!acpi_dev_resource_memory(res, &r))
-   418				return AE_ERROR;
-   419			if (!r.start || r.end < r.start || !(r.flags & IORESOURCE_MEM_WRITEABLE))
-   420				return AE_ERROR;
-   421			sock->mbinfo.base_addr = r.start;
-   422			sock->mbinfo.size = resource_size(&r);
-   423			break;
-   424		case ACPI_RESOURCE_TYPE_END_TAG:
-   425			break;
-   426		default:
-   427			return AE_ERROR;
-   428		}
-   429	
-   430		return AE_OK;
-   431	}
-   432	
+  1004	
+  1005	static const struct pinconf_ops ma35_pinconf_ops = {
+  1006		.pin_config_get = ma35_pinconf_get,
+  1007		.pin_config_set = ma35_pinconf_set,
+> 1008		.is_generic = true,
+  1009	};
+  1010	
 
 -- 
 0-DAY CI Kernel Test Service
