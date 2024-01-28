@@ -1,70 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088E0C142;
-	Sun, 28 Jan 2024 06:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73A88BF8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 06:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706423965; cv=none; b=Bnl4BM7DCLKaXY2MhRA1IePmEMdWq8IPrbemQbUEAXRiDUzVGQh72D10nylfDln07wVK+zkt5Xiv+XRX1qi+MLvu+W7U5w1qkAyImEcTz9xLK9AN+ZrVJSDbUi7Umw5EuNrhOdys0iXUHDq5H2vp9plLSIF1Ex9t+4VxDNPdRfs=
+	t=1706424561; cv=none; b=Gh0JZ+uhIH+YvPYWLxqB5p4E5kU/l7HsVMcZkyul28VW7lhgTCI16PoqWwCqZUE7sDQ+9Pv5F6hIo2wLGCS3wZ7XkSN30kTR50uX0Urkxv8ZYEHE8EHRZ3FxU0R6R+JfJC9mFJ6uIlM++noHBpYkAeh2AkGHDxUgoyR96P5nTOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706423965; c=relaxed/simple;
-	bh=H1uD8Tfwa5qhv4YaJZekukVZDfIZ6McIsLHA44r7WaQ=;
+	s=arc-20240116; t=1706424561; c=relaxed/simple;
+	bh=Y0KyCo+35BWc8oGfVah4O/KZ+KcNek3uewoK+eI1Tos=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AVIbpjnZvuu9lW0amaLp+rov1SrHJnNzdlqTHF+kQ6Z6DcExRc0G5RrPS7hKJ9Luw2chgkefk2IriSV/EjdTuFbSBg6EeROyl1bYhU8pI0bwEsc50Pq4vYLDIo7Gz61udjS29r2K0rz+M6PQajBYqO4xzxKiSVnf/kte0w63LR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Aiuyh86g; arc=none smtp.client-ip=192.55.52.115
+	 Content-Type:Content-Disposition:In-Reply-To; b=fs3RGDzbvqQ7lav/OlFwF7Sno/4XHSoB9fdMTmu+D/HHQE4vWZvcny8q2d6f5WZmt6C3dvQ6o8LKUD2kFfRhcD5tU9xr3arjiJRCHFyZRqL88n5K3IoA7937SvERkCfqTfzcX/T1Rm/5dlbi60u5ew1v1Hfnlnr6R921BvTbWw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CypHp5od; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aiuyh86g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CypHp5od"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706423964; x=1737959964;
+  t=1706424560; x=1737960560;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=H1uD8Tfwa5qhv4YaJZekukVZDfIZ6McIsLHA44r7WaQ=;
-  b=Aiuyh86gI+c00BwP2DW+AlQ0ZsyJTz6eYRsU/aqtTHHCHQi8UDFmB5LL
-   2lTiQItxohTAMzXgHS/8EShffG1bxVHSsz8OyELxHZtwNDkqiBrqn7yyU
-   N1ARcmy6vB8ToZdzhWQ87pObKchj1uXFykaQVs+6/ePktNguTJ5AZswTi
-   v8Y7tYPUf7Mq5ZjxD8ruMp/UBH6RiREe/w1zjM7juVNXQhkU2vj6qy3Ib
-   qd9burMCfLdEDArgUX7CVpa9S4v78ZHqDJVTKH9xEQrNpnXDWZ9t4W+Nw
-   X8u52HAlYV9uwAA4nc0os+S2PdSzoZMeirfSPGRepmWfHh29bVperVvO+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="402391090"
+  bh=Y0KyCo+35BWc8oGfVah4O/KZ+KcNek3uewoK+eI1Tos=;
+  b=CypHp5odxgSGE289FkK/p8UOvEiteY8cMhqg/Qkf6bBiA/XezHzr8wP+
+   ib0QwE8Ynaz2KvRo0wi4Y5O78Xfw2rMV0VucOd3caD7xTHzfHs5Zq6cHf
+   BZF6n35hGHMAX4sFk5YJYQswztjXfDALpDV5yE5g5CINr4MhXUNVXKGcT
+   vxK1+kHCgXhGpXkvAkp6z/Zpbd0xHw/Zr2cfULXwaVv+dBxdFHMYYTwUw
+   oePMXr6Mr1EqapjdH5+wt0NWlTA+gh+kDtQWaN8HtTnIMLDJaOgIC5npc
+   0ztRuOxSjcQf3UEiGNSWi471m7hU7m1fQv6nLQY01dzfrviKyXMJ2kgIq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2612199"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="402391090"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 22:39:21 -0800
+   d="scan'208";a="2612199"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 22:49:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="910733518"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="910733518"
+   d="scan'208";a="3045776"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 27 Jan 2024 22:39:16 -0800
+  by orviesa003.jf.intel.com with ESMTP; 27 Jan 2024 22:49:17 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTyp0-0003AU-1Z;
-	Sun, 28 Jan 2024 06:39:14 +0000
-Date: Sun, 28 Jan 2024 14:38:23 +0800
+	id 1rTyyg-0003Ak-1t;
+	Sun, 28 Jan 2024 06:49:14 +0000
+Date: Sun, 28 Jan 2024 14:48:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
-	Sebastian Reichel <sre@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>
-Subject: Re: [PATCH v2 6/8] power: reset: add PSCR NVMEM Driver for Recording
- Power State Change Reasons
-Message-ID: <202401281442.zKlRfljS-lkp@intel.com>
-References: <20240124122204.730370-7-o.rempel@pengutronix.de>
+To: Kent Overstreet <kent.overstreet@linux.dev>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>, peterz@infradead.org,
+	boqun.feng@gmail.com, linux-block@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH 2/4] pktcdvd: kill mutex_lock_nested() usage
+Message-ID: <202401281405.72SjSYnP-lkp@intel.com>
+References: <20240127020833.487907-3-kent.overstreet@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,61 +63,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240124122204.730370-7-o.rempel@pengutronix.de>
+In-Reply-To: <20240127020833.487907-3-kent.overstreet@linux.dev>
 
-Hi Oleksij,
+Hi Kent,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on broonie-regulator/for-next rafael-pm/thermal linus/master v6.8-rc1 next-20240125]
-[cannot apply to sre-power-supply/for-next]
+[auto build test ERROR on tip/locking/core]
+[also build test ERROR on net/main net-next/main linus/master v6.8-rc1 next-20240125]
+[cannot apply to horms-ipvs/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/power-Extend-power_on_reason-h-for-upcoming-PSCRR-framework/20240124-202833
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240124122204.730370-7-o.rempel%40pengutronix.de
-patch subject: [PATCH v2 6/8] power: reset: add PSCR NVMEM Driver for Recording Power State Change Reasons
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240128/202401281442.zKlRfljS-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281442.zKlRfljS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kent-Overstreet/fs-pipe-Convert-to-lockdep_cmp_fn/20240127-101832
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20240127020833.487907-3-kent.overstreet%40linux.dev
+patch subject: [PATCH 2/4] pktcdvd: kill mutex_lock_nested() usage
+config: x86_64-randconfig-161-20240127 (https://download.01.org/0day-ci/archive/20240128/202401281405.72SjSYnP-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281405.72SjSYnP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401281442.zKlRfljS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401281405.72SjSYnP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/power/reset/pscrr-nvmem.c:53:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      53 |         kfree(buf);
-         |         ^
-   1 error generated.
+   kernel/locking/lockdep.c: In function 'lockdep_ptr_order_cmp_fn':
+>> kernel/locking/lockdep.c:4925:9: error: implicit declaration of function 'cmp_int'; did you mean 'smp_init'? [-Werror=implicit-function-declaration]
+    4925 |  return cmp_int((unsigned long) a, (unsigned long) b);
+         |         ^~~~~~~
+         |         smp_init
+   cc1: some warnings being treated as errors
 
 
-vim +/kfree +53 drivers/power/reset/pscrr-nvmem.c
+vim +4925 kernel/locking/lockdep.c
 
-    39	
-    40	static int pscrr_nvmem_read(struct pscrr_device *pscrr_dev, u32 *magic)
-    41	{
-    42		struct pscrr_nvmem *priv = container_of(pscrr_dev, struct pscrr_nvmem,
-    43							pscrr_dev);
-    44		size_t len;
-    45		void *buf;
-    46	
-    47		buf = nvmem_cell_read(priv->cell, &len);
-    48		if (IS_ERR(buf))
-    49			return PTR_ERR(buf);
-    50	
-    51		*magic = 0;
-    52		memcpy(magic, buf, min(len, sizeof(*magic)));
-  > 53		kfree(buf);
-    54	
-    55		return 0;
-    56	}
-    57	
+  4920	
+  4921	#ifdef CONFIG_PROVE_LOCKING
+  4922	int lockdep_ptr_order_cmp_fn(const struct lockdep_map *a,
+  4923				     const struct lockdep_map *b)
+  4924	{
+> 4925		return cmp_int((unsigned long) a, (unsigned long) b);
+  4926	}
+  4927	
 
 -- 
 0-DAY CI Kernel Test Service
