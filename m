@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DD82375A;
-	Sun, 28 Jan 2024 13:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFCE2376A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 14:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706449954; cv=none; b=IwlxgEtuoKnkoTZ2pM7SSjAzBH2R6jxc6hsmmxZC56YyM3VY1orz0smzeFzBSXbGP5mu8tZKER2IL/OnNv+4BCNU6EpL6Jzqp3L5GXDu1HDlxA7MBw6jtVZJ5kEqQFiYbrbz1iiCQ6O6cjgxHTA7xMwRPMpdxPNyuHSEJN5y8sQ=
+	t=1706450614; cv=none; b=YKmzFb8W+tFm5CHIU1fZMH07olQ763193OI38tOJpG1njqkGx0m7/k9+375hFl+9wDCXOwmaBluVzD46f3mHncUCQXwMpDaDT6Z46iCdhu+/AZQwQSg3yOuQmSN5AI21jd4CE+t1JW+orkcDO13sx65sXemYTh/Z1Xl5Hh5NUQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706449954; c=relaxed/simple;
-	bh=nhYuGtXnAaux4ynleUMyAtLpgnH96e3BLASb8XhVvhs=;
+	s=arc-20240116; t=1706450614; c=relaxed/simple;
+	bh=QPKARJhphJTFFYHrEyYFlYgl8/7ZAhez9TimfUCJ8Ek=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lWM38jD83sLtnK+l5sMpAsf1xmii5o83JTDKQ8ncrWJxTqMdEhBtdc7ZicjG+83LoP7gl1eiTyrK3h+ZF8/gvchhp6G9iGoJRL1fIQaYt2uoMVg9uWV78H2mGumnFFokXW6nTVR3DcH7Xefs2e+9Eg+kj5oPfsZsSUc9xU7vIPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIS7DMfX; arc=none smtp.client-ip=192.55.52.88
+	 Content-Type:Content-Disposition:In-Reply-To; b=No/UhxktnpgnpKvc1OaMvnEEuDH9zdmzj6PFWgwAvEr5wvDSkmrvop59iCxzvY7XHB/Hf+eYfvmiJjZDBVkm++psOjpUIDW8yY9+iYpQzIfsyiBiOTyJ2vpbABTuBU+dzD6EMCRJWk1f/sol/20UpB1KaLpNfjB0LTgX9AFSXok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iGh6cRJi; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIS7DMfX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iGh6cRJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706449952; x=1737985952;
+  t=1706450613; x=1737986613;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nhYuGtXnAaux4ynleUMyAtLpgnH96e3BLASb8XhVvhs=;
-  b=OIS7DMfXjcnOTHT/WpP4Hvkau9tTj0THpARi3gZC8Eu4ZH1p/nsniPBu
-   fuEqiEBu9WfqGQSJHyy5dkOZUc27zYmXfJM9yReBmgwJfjRvMXARqVvMQ
-   CQxIkz7+iK8g4AWWw+uull5IwguPN83+HCc8T3FYQ6cy28Nbw7U2b+OkX
-   FEfW7W8sktWacwJdcXC+g7Qls+qJsY5PlhiY0u0IDnCJ7XFDCrFsPorsj
-   5NbdtB4Xl0tujvLe7M2JsrLkqWosYllg1Z1pMkLo6kGkKiE/Rdv0MQ+8h
-   0MUkI9HtiMtj6NMKfFthvoOkQEvzpCJpPOAXZjinGYgDbMIKu11gpUHQf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="433937187"
+  bh=QPKARJhphJTFFYHrEyYFlYgl8/7ZAhez9TimfUCJ8Ek=;
+  b=iGh6cRJi5fgxXcm9vMbMj4o5NfexjV5ytxoho8NQKptLcdskey3VoNM5
+   pfx6zaBNXgV/Dxl6bfUhh5diaReOCvpngQMDBBvm34ZvKpOEj9Fgbvb38
+   7qGXKq2oYTo2BHHhN1o8w/pMU/8gBNk4i5J1dv+IxPT705h27hvMcjYDv
+   FKjoR9MumEd4eB/Wm8ukLJYwyI6CszFT8wz9gU/CTBokIjcKry5f6k2MS
+   AqSyxtR+l07/yM3axBv5X03Htk6XFMyiVMynktSC66avBecgM0TnKtz9W
+   vrlIrlC9Zn3M+t0HQOTtBg2tkBf6AdG+5QfFyk9Ip/I/XHsl0juUYh3Ba
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2604465"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="433937187"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 05:52:31 -0800
+   d="scan'208";a="2604465"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 06:03:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="21848575"
+   d="scan'208";a="29273411"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Jan 2024 05:52:28 -0800
+  by orviesa002.jf.intel.com with ESMTP; 28 Jan 2024 06:03:29 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rU5aE-0003Qo-0X;
-	Sun, 28 Jan 2024 13:52:26 +0000
-Date: Sun, 28 Jan 2024 21:52:14 +0800
+	id 1rU5ks-0003RI-1M;
+	Sun, 28 Jan 2024 14:03:26 +0000
+Date: Sun, 28 Jan 2024 22:02:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ethan Zhao <haifeng.zhao@linux.intel.com>, baolu.lu@linux.intel.com,
-	bhelgaas@google.com, robin.murphy@arm.com, jgg@ziepe.ca
-Cc: oe-kbuild-all@lists.linux.dev, kevin.tian@intel.com,
-	dwmw2@infradead.org, will@kernel.org, lukas@wunner.de,
-	yi.l.liu@intel.com, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	Ethan Zhao <haifeng.zhao@linux.intel.com>
-Subject: Re: [PATCH v11 3/5] iommu/vt-d: simplify parameters of
- qi_submit_sync() ATS invalidation callers
-Message-ID: <202401282130.cXuwGvQq-lkp@intel.com>
-References: <20240126014002.481294-4-haifeng.zhao@linux.intel.com>
+To: "Jason J. Herne" <jjherne@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	pasic@linux.ibm.com, akrowiak@linux.ibm.com
+Subject: Re: [PATCH 3/3] s390/vfio-ap: Add write support to sysfs attr
+ ap_config
+Message-ID: <202401282141.A8V47yFI-lkp@intel.com>
+References: <20240126143533.14043-4-jjherne@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,82 +60,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240126014002.481294-4-haifeng.zhao@linux.intel.com>
+In-Reply-To: <20240126143533.14043-4-jjherne@linux.ibm.com>
 
-Hi Ethan,
+Hi Jason,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.8-rc1 next-20240125]
-[cannot apply to joro-iommu/next]
+[auto build test WARNING on kvms390/next]
+[cannot apply to s390/features linus/master v6.8-rc1 next-20240125]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Zhao/PCI-make-pci_dev_is_disconnected-helper-public-for-other-drivers/20240126-094305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240126014002.481294-4-haifeng.zhao%40linux.intel.com
-patch subject: [PATCH v11 3/5] iommu/vt-d: simplify parameters of qi_submit_sync() ATS invalidation callers
-config: x86_64-randconfig-005-20240128 (https://download.01.org/0day-ci/archive/20240128/202401282130.cXuwGvQq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401282130.cXuwGvQq-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-J-Herne/s390-ap-Externalize-AP-bus-specific-bitmap-reading-function/20240126-223952
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git next
+patch link:    https://lore.kernel.org/r/20240126143533.14043-4-jjherne%40linux.ibm.com
+patch subject: [PATCH 3/3] s390/vfio-ap: Add write support to sysfs attr ap_config
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240128/202401282141.A8V47yFI-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401282141.A8V47yFI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401282130.cXuwGvQq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401282141.A8V47yFI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iommu/intel/svm.c: In function 'intel_flush_svm_all':
-   drivers/iommu/intel/svm.c:229:67: warning: passing argument 2 of 'qi_flush_dev_iotlb_pasid' makes pointer from integer without a cast [-Wint-conversion]
-     229 |                         qi_flush_dev_iotlb_pasid(sdev->iommu, sdev->sid, info->pfsid,
-         |                                                               ~~~~^~~~~
-         |                                                                   |
-         |                                                                   u16 {aka short unsigned int}
-   In file included from drivers/iommu/intel/svm.c:22:
-   drivers/iommu/intel/iommu.h:1047:58: note: expected 'struct device_domain_info *' but argument is of type 'u16' {aka 'short unsigned int'}
-    1047 |                               struct device_domain_info *info, u64 addr,
-         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
->> drivers/iommu/intel/svm.c:229:25: error: too many arguments to function 'qi_flush_dev_iotlb_pasid'
-     229 |                         qi_flush_dev_iotlb_pasid(sdev->iommu, sdev->sid, info->pfsid,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu.h:1046:6: note: declared here
-    1046 | void qi_flush_dev_iotlb_pasid(struct intel_iommu *iommu,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/intel/svm.c:232:25: error: too many arguments to function 'quirk_extra_dev_tlb_flush'
-     232 |                         quirk_extra_dev_tlb_flush(info, 0, 64 - VTD_PAGE_SHIFT,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu.h:1049:6: note: declared here
-    1049 | void quirk_extra_dev_tlb_flush(struct device_domain_info *info, u32 pasid,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/iommu.h:10,
+                    from include/linux/vfio.h:12,
+                    from drivers/s390/crypto/vfio_ap_ops.c:12:
+   In function 'bitmap_copy',
+       inlined from 'ap_matrix_copy' at drivers/s390/crypto/vfio_ap_ops.c:1593:2,
+       inlined from 'ap_config_store' at drivers/s390/crypto/vfio_ap_ops.c:1616:2:
+>> include/linux/bitmap.h:245:17: warning: 'memcpy' reading 32 bytes from a region of size 0 [-Wstringop-overread]
+     245 |                 memcpy(dst, src, len);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   In function 'ap_config_store':
+   cc1: note: source object is likely at address zero
+   In function 'bitmap_copy',
+       inlined from 'ap_matrix_copy' at drivers/s390/crypto/vfio_ap_ops.c:1594:2,
+       inlined from 'ap_config_store' at drivers/s390/crypto/vfio_ap_ops.c:1616:2:
+>> include/linux/bitmap.h:245:17: warning: 'memcpy' reading 32 bytes from a region of size 0 [-Wstringop-overread]
+     245 |                 memcpy(dst, src, len);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   In function 'ap_config_store':
+   cc1: note: source object is likely at address zero
+   In function 'bitmap_copy',
+       inlined from 'ap_matrix_copy' at drivers/s390/crypto/vfio_ap_ops.c:1595:2,
+       inlined from 'ap_config_store' at drivers/s390/crypto/vfio_ap_ops.c:1616:2:
+>> include/linux/bitmap.h:245:17: warning: 'memcpy' reading 32 bytes from a region of size 0 [-Wstringop-overread]
+     245 |                 memcpy(dst, src, len);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   In function 'ap_config_store':
+   cc1: note: source object is likely at address zero
 
 
-vim +/qi_flush_dev_iotlb_pasid +229 drivers/iommu/intel/svm.c
+vim +/memcpy +245 include/linux/bitmap.h
 
-2f26e0a9c9860db drivers/iommu/intel-svm.c David Woodhouse 2015-09-09  217  
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  218  static void intel_flush_svm_all(struct intel_svm *svm)
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  219  {
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  220  	struct device_domain_info *info;
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  221  	struct intel_svm_dev *sdev;
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  222  
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  223  	rcu_read_lock();
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  224  	list_for_each_entry_rcu(sdev, &svm->devs, list) {
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  225  		info = dev_iommu_priv_get(sdev->dev);
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  226  
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  227  		qi_flush_piotlb(sdev->iommu, sdev->did, svm->pasid, 0, -1UL, 0);
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  228  		if (info->ats_enabled) {
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22 @229  			qi_flush_dev_iotlb_pasid(sdev->iommu, sdev->sid, info->pfsid,
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  230  						 svm->pasid, sdev->qdep,
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  231  						 0, 64 - VTD_PAGE_SHIFT);
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22 @232  			quirk_extra_dev_tlb_flush(info, 0, 64 - VTD_PAGE_SHIFT,
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  233  						  svm->pasid, sdev->qdep);
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  234  		}
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  235  	}
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  236  	rcu_read_unlock();
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  237  }
-e7ad6c2a4b1aa71 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  238  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  236  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  237  static inline void bitmap_copy(unsigned long *dst, const unsigned long *src,
+8b4daad52fee77 Rasmus Villemoes  2015-02-12  238  			unsigned int nbits)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  239  {
+8b4daad52fee77 Rasmus Villemoes  2015-02-12  240  	unsigned int len = BITS_TO_LONGS(nbits) * sizeof(unsigned long);
+3e7e5baaaba780 Alexander Lobakin 2022-06-24  241  
+3e7e5baaaba780 Alexander Lobakin 2022-06-24  242  	if (small_const_nbits(nbits))
+3e7e5baaaba780 Alexander Lobakin 2022-06-24  243  		*dst = *src;
+3e7e5baaaba780 Alexander Lobakin 2022-06-24  244  	else
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @245  		memcpy(dst, src, len);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  246  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  247  
 
 -- 
 0-DAY CI Kernel Test Service
