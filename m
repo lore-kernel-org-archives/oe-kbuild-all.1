@@ -1,44 +1,54 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741363C46E;
-	Sun, 28 Jan 2024 22:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381343C481
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 22:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706479750; cv=none; b=HPOI/mE7pPes4ehJ2SF609+7nGkjLi7q3UmNyoZwNU4utKoj4OlUKGtul6lwo6esTP/KwLcu5aMNm1QxCMI0U9zfJSiXePFnltti5NikeXQTbKiE8gz6gIuAYnG1DX0ErBMe15hC9QjZUWsE9jWE2cDm6RESJvRvrh1jeALbSEs=
+	t=1706480929; cv=none; b=IsYFJc4oQBBfoFcM9dmEPuXTP15BgnZ17zDRQWaDqjU4H/5KMcc+X3IjYc9zfa6RC6hupl2r4RSnikXhgCgE7gWqAv+8CSfI/Rgp5hUa2S1kqHQiAJGph9khjFv35sc5UvO8FXf0k9as+LiYMhK2g7k5v1HPjOXxQD5u/2bM5F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706479750; c=relaxed/simple;
-	bh=Svj/uhQONH0YYoalS5BYgSyJ5wJIVTOZ3/QMOCcx2c8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EXiL8B0EZfl8takHRel2QpDGW4tYnbIz/LqwzdPRZPKHr/rK/n2elyQTBaEXedGzAA3nHXtR4IclYf46Rbiw0cTyXjgKfAL14AST+IXwAsSDF0vTbdBY6kxjbXeHSQ4E3gxqYxsvrLoRal85OUh+5AfqA6puTatTQJ0GVEi2WAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=WKVV4JzG; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1706480929; c=relaxed/simple;
+	bh=o5IQ6LGrQMNNbcENFnqeAddvFgSwxyhwo6IOUQc4tjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iI7skzEJvDx9mQr5xL1zhVX8ypYCWzWG9FjBxlOKJfv8oT3xDZG2kTCAVW/gUiZQ2AY9I52YzK4skSkZOzsHkekFsBMsbEJZ+kmWFJAKIQ88CZb93xtziz1kQPcfA5rUq8a6B5fcsc1rKbkIcjzjHssVeW0bqve/4WpmouvVn9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lBd9X/aG; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="WKVV4JzG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=JvGaNpyrRzuacPHK+3LyFnGQ5PrV8OggoB/YP2zjJfs=; b=WKVV4JzGVnI7xh8qZV2d4f7Qsb
-	bINwjPFJy7pOqnaC/VzO+9Ct+HlzskD7L9V20kifRSETP+/1Gi5ZyixOPWwB0yYsavS0FvG2CRqcC
-	3dK6z3brtu8XsBIx5WX2lW3IPc7pVcnsZ0XWv7RlsVnOrHBjt++UJUA2kFeI/Saz3i0MSQECZVO3S
-	kw/IZdDbcNxeYAi8IaPQncFKV1xlMxYYzzff/xH5UsdbfF9TGsybM0DxRY6SMQLwaonttkGHdFqlc
-	61SQ/lYfZAVf6LWF4zkJbKxmeV+P9hMbUhZbSXPzAoqOnSBIwaZzPdaEBxV0E8gq6ZLMBoxVwEG2T
-	6Swf2u6Q==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1rUDKr-00HYsi-01;
-	Sun, 28 Jan 2024 22:09:05 +0000
-Date: Sun, 28 Jan 2024 22:09:04 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [viro-vfs:work.alpha 5/8] arch/alpha/kernel/io.c:655:1: error:
- redefinition of 'scr_memcpyw'
-Message-ID: <20240128220904.GF2087318@ZenIV>
-References: <202401280650.Us2Lrkgl-lkp@intel.com>
- <20240128211544.GD2087318@ZenIV>
- <CAHk-=wj8LUAX_rwM4=N9kNGeg=E+KoxY6uQfyqf=k7MOrb4+aA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lBd9X/aG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706480927; x=1738016927;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o5IQ6LGrQMNNbcENFnqeAddvFgSwxyhwo6IOUQc4tjs=;
+  b=lBd9X/aGrXCkMS/VtIKjPTQQZwb1tGOaEYESQbqowE5cliAthNwII1E+
+   r1WQj78lLJbRzQVeJ1t+9hIuQpbmZiVkMOEEV+vspuG72rIURNOE2nvhK
+   FSF5geRRSyZQQch6SL+gOZobK/DBLrF1q/0OAnKL8vWRNCk9/3vGnE701
+   IIOuT+K2oVGNLSw3HjSHoISCqutzaUO8kfgfQ545VhW3TB/wysBV33csW
+   t/jLH3N3CERLk0m1xdLBIhGmtSk16aVXD7Ofx49zlwqABShoYDWg7rqFo
+   bY5tVukPi07FlQ5IWQNSxC0V2Gn7yDf5xG7FEi/FzhpyuDl/11IR68+aU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="10195558"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="10195558"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 14:28:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="3171889"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 28 Jan 2024 14:28:46 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rUDdr-0003oc-0P;
+	Sun, 28 Jan 2024 22:28:43 +0000
+Date: Mon, 29 Jan 2024 06:28:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-for-sev-v2 9/15] arch/x86/kernel/head_64.o: warning:
+ objtool: bad .discard.noendbr entry
+Message-ID: <202401290652.D4Nm0AR3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,54 +57,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wj8LUAX_rwM4=N9kNGeg=E+KoxY6uQfyqf=k7MOrb4+aA@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Sun, Jan 28, 2024 at 01:55:31PM -0800, Linus Torvalds wrote:
-> On Sun, 28 Jan 2024 at 13:15, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> > The thing is, VT_BUF_HAVE_... are defined in asm/vga.h, so if you don't
-> > have VGA_CONSOLE or MDA_CONSOLE you are going to get the default ones.
-> > In case of scr_memcpyw() it's going to end up with memcpy(); on alpha
-> > that does *not* match the native scr_memcpyw() instance.
-> >
-> > Since we have vga.h in mandatory-y, with asm-generic fallback being
-> > reasonable enough...  Should that include of asm/vga.h be conditional
-> > in the first place?
-> 
-> It should be conditional, because that's the only case you want to
-> actually have that special scr_memsetw() etc.
-> 
-> I think the problem is that you added the vtbuf include to <asm/io.h>,
-> which gets included from VGA_H early, before vga.h has even had time
-> to tell people that it overrides those helper functions.
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-for-sev-v2
+head:   b8b16573b6d0090db2f530fb9c5f049650806e61
+commit: ccb7a988aadbe95d51e15fdefc2cab46dbff199b [9/15] x86/head64: Move early startup code into __pitext
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240129/202401290652.D4Nm0AR3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401290652.D4Nm0AR3-lkp@intel.com/reproduce)
 
-Nope.  It's arch/alpha/kernel/io.c growing an include of linux/vt_buffer.h
-and blowing up on allnoconfig.  The reason for that include was the
-"missing prototype" on scr_memcpyw() definition in there...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401290652.D4Nm0AR3-lkp@intel.com/
 
-> I assume that moving the
-> 
->     #define VT_BUF_HAVE_RW
->     #define VT_BUF_HAVE_MEMSETW
->     #define VT_BUF_HAVE_MEMCPYW
-> 
-> to above the
-> 
->     #include <asm/io.h>
-> 
-> fixes the build?
+All warnings (new ones prefixed by >>):
 
-No such thing...  I can add an explicit extern in io.c, but that's
-really obnoxious ;-/
+>> arch/x86/kernel/head_64.o: warning: objtool: bad .discard.noendbr entry
 
-> That said, a good alternative might be to just stop using 'inline' for
-> the default scr_memsetw() and scr_memcpyw() functions, make them real
-> functions, and mark them __weak.
-> 
-> Then architectures can override them much more easily, and inlining
-> them seems a bit pointless.
-> 
-> But I doubt it's even worth cleaning things up in this area.
-
-Do we ever use that thing on iomem in non-VGA setups?
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
