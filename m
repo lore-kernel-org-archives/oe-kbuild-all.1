@@ -1,54 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C954D50F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 08:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5432EDDCB;
+	Sun, 28 Jan 2024 09:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706429544; cv=none; b=g6q3iOO5+ZWz/goIFEPW6sh4+heaw4+i8fBwk5ma/vz/TfzHOaTVQarn4HXrG2nJklxTDkeHAjvgDRo3QdSzN23ZIrx+Eb/mt9Qjg5cXWMKnBsJy4v1/nf/JbOWyKGS2V3vtXi123Hp9l2Nn4ze1hTH7jy0z3QEuyl8OnwRgEEQ=
+	t=1706432788; cv=none; b=rhtDs29gqZB31MmnwU1BDxzjR8eiDf+CpiFm/hCV+kAIVf0UXxUUAjvS2dKWhiaoU0L0o7dKlurbNOIXVYsa6KglvFxarD6OdEsSVkAa4tPo2ksT18rBwi5ziT5OyCU+i7vHLh7UO0YRsBHapE/6tZDwel+LgE92UJqJfmQPC7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706429544; c=relaxed/simple;
-	bh=tGELzaHmhka77syXYmDsQkPGSueLjDMHrTJ9PNOiZbk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R+wQ3j2d/GRPnTzgt0O8+Zl6GbX3DjDVlVf56uy2Qw9J5l7JWSNAp9tT7Z9Y3vBX8fJSPiTGP70qHskqR2edMVcnxgdq+8XWo33QFwZGxdhCe7nlSxuZRZeLQ2IIqHlC74FdEcR+b7ZgOw5lhy3leL/95h9967YadzNnsYGpffM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G/SOvgzQ; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1706432788; c=relaxed/simple;
+	bh=YAWRcL+76J78dm5IBZqJe3yaGnvEhoK8TSf93uvaj/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N43hBWKWi1ap+qDTK4gUxTkVOOTLMMlOeq0baYxgURen/s0sIRrMsq9WkZdn4naQURyOHLo4bRrKQFxuBqLSgSN284ZbE/LNfFQv0JjBin3zuRakFoUqa0+0Y17gHIlGjEhPEpsnhLXBl1hVwPDU13n4u78N2EGFzkTVwLFGj4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AkcVwVM1; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G/SOvgzQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AkcVwVM1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706429543; x=1737965543;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tGELzaHmhka77syXYmDsQkPGSueLjDMHrTJ9PNOiZbk=;
-  b=G/SOvgzQ0H+wGI6RaTph1JvXNtYX/VYE4+TLSk7C8koBnnUKJgZ5a77e
-   M2yQrF/ZvJfy+H5BUpAOEv9J1WEtPeMM/aPzsgIH16IWul0dPqmLfeTB1
-   Vc1r+znEv3eFu/vnveaw8HWzWsyHRNfPKRXNN1eWMAPR4JOiRviuUWecS
-   0YVOm9a9IA9Us/GQnCMfXB+xzD/uMb1iGdSVb7qXkDAW/6Wj7FzZsjSPj
-   j1bWPjv4LckINzcwyoLvmgCuJrbGTsJJVgbfHGQqko5UkpDuR9sgqRXuw
-   6dDnaHFPJs9rDU7x2Q3HEMf77DIN2yCS5TjdaVzXjovjdCCjRi9r4VKNe
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2617084"
+  t=1706432787; x=1737968787;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YAWRcL+76J78dm5IBZqJe3yaGnvEhoK8TSf93uvaj/A=;
+  b=AkcVwVM1IYf3lI5/vc76QUXOtxGOjEAURemyEqjZEKgtBkBowosAVzqG
+   +tV41u6q8VowpPpl2LC2G+kDJeETBqm/i4Bzi/eNf1dI/lTu6hpF4z3dq
+   lfDdh/hCF0U+ZgbtrSkJvNS4Dw0guDW1Oh+kdeEVey4cD2H+ewTL3gQBq
+   /vLOnoKNFFD1fkvO6BWeIUnlPEOQoxh+PY/SBMFvoDMIJW5O0ZBBuzpFp
+   6wD4kLDq0WracxC9UcqINq1/bDhiEYFkhoJ3GoqZ6fhByf34JTvkVDmT8
+   pVGxa1TpuH6BOBH+JLhCE45Bi3vOjYY4wrxgtVqSuKsnoUaGosUXb88TP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="10139149"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="2617084"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 00:12:22 -0800
+   d="scan'208";a="10139149"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 01:06:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="3159740"
+   d="scan'208";a="3016775"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Jan 2024 00:12:20 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 28 Jan 2024 01:06:22 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rU0H4-0003Ek-06;
-	Sun, 28 Jan 2024 08:12:18 +0000
-Date: Sun, 28 Jan 2024 16:11:30 +0800
+	id 1rU17L-0003GS-1R;
+	Sun, 28 Jan 2024 09:06:19 +0000
+Date: Sun, 28 Jan 2024 17:05:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:uptr_v3 2/10] ld: kernel/bpf/syscall.o:undefined reference
- to `arena_map_ops'
-Message-ID: <202401281652.xxQorBuq-lkp@intel.com>
+To: Yunjian Wang <wangyunjian@huawei.com>, mst@redhat.com,
+	willemdebruijn.kernel@gmail.com, jasowang@redhat.com,
+	kuba@kernel.org, davem@davemloft.net, magnus.karlsson@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, xudingke@huawei.com,
+	Yunjian Wang <wangyunjian@huawei.com>
+Subject: Re: [PATCH net-next 2/2] tun: AF_XDP Rx zero-copy support
+Message-ID: <202401281639.yBaJZ4Sh-lkp@intel.com>
+References: <1706089075-16084-1-git-send-email-wangyunjian@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,22 +63,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1706089075-16084-1-git-send-email-wangyunjian@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git uptr_v3
-head:   7ec22ac2adbc15f8ea20c1189b2dd95558ae3bcf
-commit: d206ce01ebb5f2a692aeb44b109a625c9d8ac0a8 [2/10] bpf: Introduce bpf arena.
-config: i386-randconfig-012-20240128 (https://download.01.org/0day-ci/archive/20240128/202401281652.xxQorBuq-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281652.xxQorBuq-lkp@intel.com/reproduce)
+Hi Yunjian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunjian-Wang/xsk-Remove-non-zero-dma_page-check-in-xp_assign_dev/20240124-174011
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/1706089075-16084-1-git-send-email-wangyunjian%40huawei.com
+patch subject: [PATCH net-next 2/2] tun: AF_XDP Rx zero-copy support
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20240128/202401281639.yBaJZ4Sh-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281639.yBaJZ4Sh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401281652.xxQorBuq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401281639.yBaJZ4Sh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld: kernel/bpf/syscall.o:(.rodata+0x624): undefined reference to `arena_map_ops'
+>> drivers/net/tun.c:1298:5: warning: no previous prototype for 'tun_xsk_pool_setup' [-Wmissing-prototypes]
+    1298 | int tun_xsk_pool_setup(struct net_device *dev, struct xsk_buff_pool *pool,
+         |     ^~~~~~~~~~~~~~~~~~
+
+
+vim +/tun_xsk_pool_setup +1298 drivers/net/tun.c
+
+  1297	
+> 1298	int tun_xsk_pool_setup(struct net_device *dev, struct xsk_buff_pool *pool,
+  1299			       u16 qid)
+  1300	{
+  1301		return pool ? tun_xsk_pool_enable(dev, pool, qid) :
+  1302			tun_xsk_pool_disable(dev, qid);
+  1303	}
+  1304	
 
 -- 
 0-DAY CI Kernel Test Service
