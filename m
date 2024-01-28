@@ -1,56 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3704F3D71;
-	Sun, 28 Jan 2024 04:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5D86117;
+	Sun, 28 Jan 2024 05:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706417419; cv=none; b=aeQGGhetwtdSkjAbvSVWXN6S1XPYu8Hol4gcQVWZuqT7C3TSm7u32WR6ctNIi+msbM39Qs1R0m8eXSHKdaqILy4arFI8rwtUWyk8M/dYNbEE5jVviUxe+su9vpkmEB8ZUl/gnMx6WQ/vtixODIxiC0s+nSZaITAepUXLlUOsPDI=
+	t=1706418140; cv=none; b=LysV2g5Qu7Z6dQmgjxPxVRPzVry19AIpq7/g2nlcYKey9vckc+dKugzGHqwKVnJ1fy+aupE7wkN8i5Rv2tfXKr3JyCl91/JT2OrhFnvLzNIQpO/carNfZUmNYlXOrB/RLZjW6x7VcAJT3qUrbfrmBxoZ9ibUk2KYnpoTeNCMnys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706417419; c=relaxed/simple;
-	bh=WWMTdDCo/ZFyxKJbvW5goSUgmmbNlhQXiF8IA36CLT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e1Js2H4LEgP2bwQucyf1owNuGJRk1qq5vjJd+FMc6bvfx+4eaEDCHcqfXt8HHpgMKXwE+fqtdSsNcfvi4OMqULzEk03yAIqvgoEACZx7NUdarrKE4e+dPZEIqGShKdoEqBORjg33ghvnHTOzdFGAxDJQ6yVNs/sSyjSLnv9dRnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z4r7M/aX; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1706418140; c=relaxed/simple;
+	bh=EqmmZIu81GWPbHbee6X4MmpvxWOYMvGa84unotv6/pM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mo3he8J3hL5xTcxO3O8gs88/7cPHR89qnBVeRkCT6RETT+AD1NJ7+Og0dEh7gGasYL0kaNKDsHZ3HeAbmM9UZBoAuAsM8oIFWewkqjqcxihtyqO2yRvH6lu/eaEd2rVI/KM2qztctwRgNVsBDxVybBBFtx/D1ehKiG7moJs8Nxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+1cLkCS; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4r7M/aX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+1cLkCS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706417417; x=1737953417;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WWMTdDCo/ZFyxKJbvW5goSUgmmbNlhQXiF8IA36CLT4=;
-  b=Z4r7M/aXz3oolzg+G6WEpSchmrD1VFopb6MdLxjP0gDEk5SfdKKGQTeB
-   ewCWWrt/6A/P/gTMsME2M0XCAfZ36u1XNiu93KmH/s4v/1wttKTS8xF3G
-   fOR/EQSzlDWJJ37R8orAJsO6EYSPLmh+thE4xZakIGEu9Qw2F8B9ym6MG
-   I5toSc7PtFK/DynCFDyUZQ2hDIjl5azHEpv7gePanAa06xs3RTP4y74VK
-   oghfFDNKE7CAA3yV41ccurUKk8927WIJ5ldFpCr+T6xPAWYg9b0aUy2jD
-   w/DJDQ5Wf4MFpVTczEnmELC9KRUBVciNDQYl27DkrJp2JHO2u5Q5OxAq6
+  t=1706418139; x=1737954139;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EqmmZIu81GWPbHbee6X4MmpvxWOYMvGa84unotv6/pM=;
+  b=Y+1cLkCSDPpFrIp0ZgbuG2MudjtS/froZdtJLahSsqdD2rucdlLfUoLu
+   tJSbcsol52g4ZIK5u/qJvol+1n1NTC7BK90XFz5F/wCXqIHauE1Hyq5aK
+   Fm9nbU/4Th1CaEYI5fi0FWZIBh66W3AQDPHa8tKe2buvtx1ZgL2FC02t6
+   QjFQDUQnzuAWZ1GrlHkD3x2NtJ/jov52xzN5SXYjAmf7ahSp7IS2tqNIG
+   DGCEBKa8aPrEfsDAxFsWaE/GfL90GjMB3A8JfgzHoH4eX2XAyicbRh8Zq
+   aEkaTuTfd3m+IZiR1BxcNbt8YwQA1Ft0XyGWOz9azzevs/p2kLGPvUFEk
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2606032"
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="9394992"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="2606032"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 20:50:16 -0800
+   d="scan'208";a="9394992"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 21:02:18 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="821532394"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="29196988"
+   d="scan'208";a="821532394"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Jan 2024 20:50:15 -0800
+  by orsmga001.jf.intel.com with ESMTP; 27 Jan 2024 21:02:14 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTx7T-00035O-2f;
-	Sun, 28 Jan 2024 04:50:11 +0000
-Date: Sun, 28 Jan 2024 12:50:10 +0800
+	id 1rTxJ6-00035q-08;
+	Sun, 28 Jan 2024 05:02:12 +0000
+Date: Sun, 28 Jan 2024 13:01:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [tip:irq/core 9/9] kernel/irq/irq_sim.c:173:12: error: expected
- expression
-Message-ID: <202401281222.T75XK3kV-lkp@intel.com>
+To: Ethan Zhao <haifeng.zhao@linux.intel.com>, baolu.lu@linux.intel.com,
+	bhelgaas@google.com, robin.murphy@arm.com, jgg@ziepe.ca
+Cc: oe-kbuild-all@lists.linux.dev, kevin.tian@intel.com,
+	dwmw2@infradead.org, will@kernel.org, lukas@wunner.de,
+	yi.l.liu@intel.com, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	Ethan Zhao <haifeng.zhao@linux.intel.com>
+Subject: Re: [PATCH v11 3/5] iommu/vt-d: simplify parameters of
+ qi_submit_sync() ATS invalidation callers
+Message-ID: <202401281203.zNQINNbM-lkp@intel.com>
+References: <20240126014002.481294-4-haifeng.zhao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,76 +65,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240126014002.481294-4-haifeng.zhao@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-head:   590610d72a790458431cbbebc71ee24521533b5e
-commit: 590610d72a790458431cbbebc71ee24521533b5e [9/9] genirq/irq_sim: Shrink code by using cleanup helpers
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240128/202401281222.T75XK3kV-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281222.T75XK3kV-lkp@intel.com/reproduce)
+Hi Ethan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.8-rc1 next-20240125]
+[cannot apply to joro-iommu/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Zhao/PCI-make-pci_dev_is_disconnected-helper-public-for-other-drivers/20240126-094305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240126014002.481294-4-haifeng.zhao%40linux.intel.com
+patch subject: [PATCH v11 3/5] iommu/vt-d: simplify parameters of qi_submit_sync() ATS invalidation callers
+config: x86_64-randconfig-005-20240128 (https://download.01.org/0day-ci/archive/20240128/202401281203.zNQINNbM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281203.zNQINNbM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401281222.T75XK3kV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401281203.zNQINNbM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/irq/irq_sim.c:173:12: error: expected expression
-     173 |         pending = __free(bitmap) = bitmap_zalloc(num_irqs, GFP_KERNEL);
-         |                   ^
-   include/linux/cleanup.h:64:23: note: expanded from macro '__free'
-      64 | #define __free(_name)   __cleanup(__free_##_name)
-         |                         ^
-   include/linux/compiler-clang.h:15:25: note: expanded from macro '__cleanup'
-      15 | #define __cleanup(func) __maybe_unused __attribute__((__cleanup__(func)))
-         |                         ^
-   include/linux/compiler_attributes.h:344:41: note: expanded from macro '__maybe_unused'
-     344 | #define __maybe_unused                  __attribute__((__unused__))
-         |                                         ^
-   1 error generated.
+   drivers/iommu/intel/svm.c: In function 'intel_flush_svm_all':
+>> drivers/iommu/intel/svm.c:229:67: warning: passing argument 2 of 'qi_flush_dev_iotlb_pasid' makes pointer from integer without a cast [-Wint-conversion]
+     229 |                         qi_flush_dev_iotlb_pasid(sdev->iommu, sdev->sid, info->pfsid,
+         |                                                               ~~~~^~~~~
+         |                                                                   |
+         |                                                                   u16 {aka short unsigned int}
+   In file included from drivers/iommu/intel/svm.c:22:
+   drivers/iommu/intel/iommu.h:1047:58: note: expected 'struct device_domain_info *' but argument is of type 'u16' {aka 'short unsigned int'}
+    1047 |                               struct device_domain_info *info, u64 addr,
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/iommu/intel/svm.c:229:25: error: too many arguments to function 'qi_flush_dev_iotlb_pasid'
+     229 |                         qi_flush_dev_iotlb_pasid(sdev->iommu, sdev->sid, info->pfsid,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.h:1046:6: note: declared here
+    1046 | void qi_flush_dev_iotlb_pasid(struct intel_iommu *iommu,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/svm.c:232:25: error: too many arguments to function 'quirk_extra_dev_tlb_flush'
+     232 |                         quirk_extra_dev_tlb_flush(info, 0, 64 - VTD_PAGE_SHIFT,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu.h:1049:6: note: declared here
+    1049 | void quirk_extra_dev_tlb_flush(struct device_domain_info *info, u32 pasid,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +173 kernel/irq/irq_sim.c
+vim +/qi_flush_dev_iotlb_pasid +229 drivers/iommu/intel/svm.c
 
-   153	
-   154	/**
-   155	 * irq_domain_create_sim - Create a new interrupt simulator irq_domain and
-   156	 *                         allocate a range of dummy interrupts.
-   157	 *
-   158	 * @fwnode:     struct fwnode_handle to be associated with this domain.
-   159	 * @num_irqs:   Number of interrupts to allocate.
-   160	 *
-   161	 * On success: return a new irq_domain object.
-   162	 * On failure: a negative errno wrapped with ERR_PTR().
-   163	 */
-   164	struct irq_domain *irq_domain_create_sim(struct fwnode_handle *fwnode,
-   165						 unsigned int num_irqs)
-   166	{
-   167		struct irq_sim_work_ctx *work_ctx __free(kfree) = kmalloc(sizeof(*work_ctx), GFP_KERNEL);
-   168		unsigned long *pending;
-   169	
-   170		if (!work_ctx)
-   171			return ERR_PTR(-ENOMEM);
-   172	
- > 173		pending = __free(bitmap) = bitmap_zalloc(num_irqs, GFP_KERNEL);
-   174		if (!pending)
-   175			return ERR_PTR(-ENOMEM);
-   176	
-   177		work_ctx->domain = irq_domain_create_linear(fwnode, num_irqs,
-   178							    &irq_sim_domain_ops,
-   179							    work_ctx);
-   180		if (!work_ctx->domain)
-   181			return ERR_PTR(-ENOMEM);
-   182	
-   183		work_ctx->irq_count = num_irqs;
-   184		work_ctx->work = IRQ_WORK_INIT_HARD(irq_sim_handle_irq);
-   185		work_ctx->pending = no_free_ptr(pending);
-   186	
-   187		return no_free_ptr(work_ctx)->domain;
-   188	}
-   189	EXPORT_SYMBOL_GPL(irq_domain_create_sim);
-   190	
+2f26e0a9c9860d drivers/iommu/intel-svm.c David Woodhouse 2015-09-09  217  
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  218  static void intel_flush_svm_all(struct intel_svm *svm)
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  219  {
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  220  	struct device_domain_info *info;
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  221  	struct intel_svm_dev *sdev;
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  222  
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  223  	rcu_read_lock();
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  224  	list_for_each_entry_rcu(sdev, &svm->devs, list) {
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  225  		info = dev_iommu_priv_get(sdev->dev);
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  226  
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  227  		qi_flush_piotlb(sdev->iommu, sdev->did, svm->pasid, 0, -1UL, 0);
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  228  		if (info->ats_enabled) {
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22 @229  			qi_flush_dev_iotlb_pasid(sdev->iommu, sdev->sid, info->pfsid,
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  230  						 svm->pasid, sdev->qdep,
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  231  						 0, 64 - VTD_PAGE_SHIFT);
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  232  			quirk_extra_dev_tlb_flush(info, 0, 64 - VTD_PAGE_SHIFT,
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  233  						  svm->pasid, sdev->qdep);
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  234  		}
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  235  	}
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  236  	rcu_read_unlock();
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  237  }
+e7ad6c2a4b1aa7 drivers/iommu/intel/svm.c Lu Baolu        2023-11-22  238  
 
 -- 
 0-DAY CI Kernel Test Service
