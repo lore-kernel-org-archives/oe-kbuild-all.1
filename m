@@ -1,55 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7781F2EB14
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 19:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D95D3C068;
+	Sun, 28 Jan 2024 21:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706471684; cv=none; b=Haq9sOU9+cVyPAU3KfOuJGDAq3F0Djlfl2QYID5DtXi/EI2fYzB4NHHrHmeVCjzT5FD1GhKcsTllUOAnCxIC6iwEnqsmFXzPXll7nusPtC4kbX94CQlUBI54p0q1ya4cSqO0dxMx9aGSP37KoGq7+Y8tvY0x5k5bwWHzgdLgcro=
+	t=1706476550; cv=none; b=N0Q5i+7H9NiaKNqig/O1mFxlk/1RRbjs22fchC+z1GTwDvgk9MkXF70Y7lG7sD8CatCArfWeGsSLqMc1Q0YVGFrau5XKCgsF+AMqZ1Smp43FO9Rm9qJSPNuk6mnCb8L+kXG4LM6l1xQk/Wv+n9Anuoqh+vKe0IQU5CnBHnT2/LA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706471684; c=relaxed/simple;
-	bh=Abbh7y5lHQRqOPIe9zB59OzHUUaZCsBwZtJ7vnlUeKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m/nNEhxP28jePlZkljXxGhVb2rPMlPCv3baI33fHkPharhHU1y6N8sa4d69ot/2giZLQ/89OS4WUz18YkmPtnBF3+XSIdOKqOB9fCz9OEZrxTO94Sceh70VLs3edDDX25rBcYku2Pe5bwZy208v0fTw3jh24fwyonZnNOIUbOs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MIfDMU3E; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706476550; c=relaxed/simple;
+	bh=EXuSa4gGiCY0uqNYZiHpX9KNfSk9OgXnN3fhz5hen2M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rFi6wkjdWyzm5t/qBayZ0PvyiZTHJezE3PtA6Fpte6R9fYvktktlYNU4gnA71c2Y/ul5nX3RQ3st05hBGgTJq+hkI7zf4EPWi1OqXdLsGgbPzfP5gYYxeyXLOlYXtQmx0zwWs5Ybd3VisHm2ThVcVshQGDrurU6XvT1PfsHc2kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=W1o5H2JH; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MIfDMU3E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706471682; x=1738007682;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Abbh7y5lHQRqOPIe9zB59OzHUUaZCsBwZtJ7vnlUeKE=;
-  b=MIfDMU3EpAxSg0bmCh5tvR/tm6PNu3c+ADbXii3CCPbTXMLiL1JqwRrZ
-   dCQGSDMemwuZB96rbKgz36BpFFetsDZQAn2/7uE8xH9ynIijA29sUg0x2
-   AwCmfoB4DeG9E4QTTLnqLXla0ztbFSVwHQtQfMg1Vzb1kcc+CEEIrAINc
-   dRma/AhTCUr+Q2oVupyw2JDNwft079YfV9QbSuum0QCx9w4THJk5cLcip
-   6j1WzkHStvcpsvi6tQieAG5bE14uF7d3Y1JLA/SxeWUaBUwNywK9lFcoS
-   3ZfPMDSGaBvUMLDyFeDYT/Z3i59sEFxdJPj3OY6Eqg8gEGqBynms4fRc1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="16158912"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="16158912"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 11:54:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="3181776"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Jan 2024 11:54:40 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rUBEj-0003ic-25;
-	Sun, 28 Jan 2024 19:54:37 +0000
-Date: Mon, 29 Jan 2024 03:53:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:5.10-main 9/25133] drivers/pci/probe.c:929:39:
- error: 'struct device' has no member named 'msi_domain'; did you mean
- 'pm_domain'?
-Message-ID: <202401290309.reFWgZvI-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="W1o5H2JH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=/1z7epYXd7WwGTtA8Xhkd9FS4LrkVYNY9code3O2GwU=; b=W1o5H2JH+iy1jqASif+VOSnz75
+	8z9WRqC3L/hUjGmjMa8Yjw20OEzZT9zURQJVfg5znB4hKkjgP0QISAHQTpRJm6IpIo5pkuzRqTC+P
+	TpljrBS3GvwF63JiqbgOIXUpuTs4GJuNdohF5u5DJNO0QNdYLXjcqja1mDyFVEfMYATtBhvYeKLaW
+	gSecsnjcCisJmeERHx752xOdXkBBd+gGDa/vEWjxDyy1OoVUctuyqumQWllrqFBRJf7dNb7h/Q38q
+	+9GO1wM7iSXxDJ+7fV77cqVwZObd4K6qJtzOpZ6OdagXdZPjhEP8sxCJG7bf2w80ZXt3K4sQbOFBr
+	vFBrqa6w==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1rUCVE-00HXA6-2A;
+	Sun, 28 Jan 2024 21:15:44 +0000
+Date: Sun, 28 Jan 2024 21:15:44 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [viro-vfs:work.alpha 5/8] arch/alpha/kernel/io.c:655:1: error:
+ redefinition of 'scr_memcpyw'
+Message-ID: <20240128211544.GD2087318@ZenIV>
+References: <202401280650.Us2Lrkgl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,133 +45,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202401280650.Us2Lrkgl-lkp@intel.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.10-main
-head:   5dec1c9a6ec6bf420730bba9cc9baff4f5327361
-commit: aae45a226341c84a12b431abb7904bb39cac53c2 [9/25133] pci: fix MSI issue part 2
-config: i386-randconfig-012-20240128 (https://download.01.org/0day-ci/archive/20240129/202401290309.reFWgZvI-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401290309.reFWgZvI-lkp@intel.com/reproduce)
+On Sun, Jan 28, 2024 at 06:59:08AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.alpha
+> head:   267674e3b4fd1ff6cedf9b22cd304daa75297966
+> commit: 1fb71c4d2bcacd6510fbe411016475ccc15b1a03 [5/8] alpha: missing includes
+> config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240128/202401280650.Us2Lrkgl-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280650.Us2Lrkgl-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401280650.Us2Lrkgl-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> arch/alpha/kernel/io.c:655:1: error: redefinition of 'scr_memcpyw'
+>      655 | scr_memcpyw(u16 *d, const u16 *s, unsigned int count)
+>          | ^~~~~~~~~~~
+>    In file included from arch/alpha/kernel/io.c:10:
+>    include/linux/vt_buffer.h:42:20: note: previous definition of 'scr_memcpyw' with type 'void(u16 *, const u16 *, unsigned int)' {aka 'void(short unsigned int *, const short unsigned int *, unsigned int)'}
+>       42 | static inline void scr_memcpyw(u16 *d, const u16 *s, unsigned int count)
+>          |                    ^~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401290309.reFWgZvI-lkp@intel.com/
+_Very_ interesting.  First of all, there are 3 users of scr_memcpyw() -
+vt.c, vgacon.c and fbcon.c.  All of them are getting that thing via
+vt_buffer.h.  There we have
+* include of asm/vga.h, conditional upon VGA_CONSOLE | MDA_CONSOLE
+* fallback definitions of scr_...() stuff, conditional upon the
+corresponding VT_BUF_HAVE_... not being defined.
 
-All errors (new ones prefixed by >>):
+The thing is, VT_BUF_HAVE_... are defined in asm/vga.h, so if you don't
+have VGA_CONSOLE or MDA_CONSOLE you are going to get the default ones.
+In case of scr_memcpyw() it's going to end up with memcpy(); on alpha
+that does *not* match the native scr_memcpyw() instance.
 
-   drivers/pci/probe.c: In function 'pci_register_host_bridge':
->> drivers/pci/probe.c:929:39: error: 'struct device' has no member named 'msi_domain'; did you mean 'pm_domain'?
-         (bridge->msi_domain && !bus->dev.msi_domain))
-                                          ^~~~~~~~~~
-                                          pm_domain
+Since we have vga.h in mandatory-y, with asm-generic fallback being
+reasonable enough...  Should that include of asm/vga.h be conditional
+in the first place?
 
-
-vim +929 drivers/pci/probe.c
-
-   903	
-   904		b = pci_find_bus(pci_domain_nr(bus), bridge->busnr);
-   905		if (b) {
-   906			/* Ignore it if we already got here via a different bridge */
-   907			dev_dbg(&b->dev, "bus already known\n");
-   908			err = -EEXIST;
-   909			goto free;
-   910		}
-   911	
-   912		dev_set_name(&bridge->dev, "pci%04x:%02x", pci_domain_nr(bus),
-   913			     bridge->busnr);
-   914	
-   915		err = pcibios_root_bridge_prepare(bridge);
-   916		if (err)
-   917			goto free;
-   918	
-   919		err = device_add(&bridge->dev);
-   920		if (err) {
-   921			put_device(&bridge->dev);
-   922			goto free;
-   923		}
-   924		bus->bridge = get_device(&bridge->dev);
-   925		device_enable_async_suspend(bus->bridge);
-   926		pci_set_bus_of_node(bus);
-   927		pci_set_bus_msi_domain(bus);
-   928		if (bridge->no_msi ||
- > 929		    (bridge->msi_domain && !bus->dev.msi_domain))
-   930			bus->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
-   931	
-   932		if (!parent)
-   933			set_dev_node(bus->bridge, pcibus_to_node(bus));
-   934	
-   935		bus->dev.class = &pcibus_class;
-   936		bus->dev.parent = bus->bridge;
-   937	
-   938		dev_set_name(&bus->dev, "%04x:%02x", pci_domain_nr(bus), bus->number);
-   939		name = dev_name(&bus->dev);
-   940	
-   941		err = device_register(&bus->dev);
-   942		if (err)
-   943			goto unregister;
-   944	
-   945		pcibios_add_bus(bus);
-   946	
-   947		if (bus->ops->add_bus) {
-   948			err = bus->ops->add_bus(bus);
-   949			if (WARN_ON(err < 0))
-   950				dev_err(&bus->dev, "failed to add bus: %d\n", err);
-   951		}
-   952	
-   953		/* Create legacy_io and legacy_mem files for this bus */
-   954		pci_create_legacy_files(bus);
-   955	
-   956		if (parent)
-   957			dev_info(parent, "PCI host bridge to bus %s\n", name);
-   958		else
-   959			pr_info("PCI host bridge to bus %s\n", name);
-   960	
-   961		if (nr_node_ids > 1 && pcibus_to_node(bus) == NUMA_NO_NODE)
-   962			dev_warn(&bus->dev, "Unknown NUMA node; performance will be reduced\n");
-   963	
-   964		/* Add initial resources to the bus */
-   965		resource_list_for_each_entry_safe(window, n, &resources) {
-   966			list_move_tail(&window->node, &bridge->windows);
-   967			offset = window->offset;
-   968			res = window->res;
-   969	
-   970			if (res->flags & IORESOURCE_BUS)
-   971				pci_bus_insert_busn_res(bus, bus->number, res->end);
-   972			else
-   973				pci_bus_add_resource(bus, res, 0);
-   974	
-   975			if (offset) {
-   976				if (resource_type(res) == IORESOURCE_IO)
-   977					fmt = " (bus address [%#06llx-%#06llx])";
-   978				else
-   979					fmt = " (bus address [%#010llx-%#010llx])";
-   980	
-   981				snprintf(addr, sizeof(addr), fmt,
-   982					 (unsigned long long)(res->start - offset),
-   983					 (unsigned long long)(res->end - offset));
-   984			} else
-   985				addr[0] = '\0';
-   986	
-   987			dev_info(&bus->dev, "root bus resource %pR%s\n", res, addr);
-   988		}
-   989	
-   990		down_write(&pci_bus_sem);
-   991		list_add_tail(&bus->node, &pci_root_buses);
-   992		up_write(&pci_bus_sem);
-   993	
-   994		return 0;
-   995	
-   996	unregister:
-   997		put_device(&bridge->dev);
-   998		device_del(&bridge->dev);
-   999	
-  1000	free:
-  1001		kfree(bus);
-  1002		return err;
-  1003	}
-  1004	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'm really unfamiliar with that thing - the last time I'd looked at
+anything related to virtual console had been back in '99 or so...
