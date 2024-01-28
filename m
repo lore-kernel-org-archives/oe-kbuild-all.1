@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8AA446C4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 23:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16104446C7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 23:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706483393; cv=none; b=K2Tb4zxtFwvSmOSAYH0gDljDb4ZjOUNKPnInBRthydM+zC0g/897bcuFqi+tvNxvKMbQuboguqWNHixHZU6CY1hzvEV1kEwT8RsocS9Qs1avXckfGNSJ/1b7kxTuX3QCJlWm56bJer7MpoQwJxsnSoxbRgg3KLmMiVDqTXvZzFg=
+	t=1706485915; cv=none; b=F6IJ4QhSauhzXbxnMsuOz3Wf+Bog+yPLVjCrutBfdOtWlq6IgyX4eFd983e4VqC3OIXzWUBj4F4voavPXPnOQgacOCxBhpX5h5Jz2Oqdsaaoq4d204rkinloDEFd7JnlBL8ZhsmaKHe05+q92eW6Yt2nEA5QX7B88VENChCGXAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706483393; c=relaxed/simple;
-	bh=vVue83BBbLwzN5DZLCSFxgvdGP6HzD4HMl8YubNfi4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gwUzrKQDvGTbC1KnYcom+Uc4Qhudw5ThN1ZECjh8wcjacyLaQCmB9bw+axGH0s+KM9W8siK+v18MnFaV2Bjdqm1C815SaEMS3g4a1pp7d1DWjFd53KHP+cZ47eWsA16SoCyrJXOHRPkRXIsJ/MVigpaXednclLG2UXSq7YS0QpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gpnerfdk; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1706485915; c=relaxed/simple;
+	bh=KYyRSJNmkJjXA317lVGEfWHF6Kz9icWCrEbj0iKyVNY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLcy/VNRP9QEFgkXgplFI8fBu3T5LDcVy6tuOXKf28Qxc9A5Neq1oUfo265yt8krrEhBL6larlX7lnvzDtpZ0ABGrww5uje4qiOf8r5Dy5DwxXoCWvq9AbSSo8Timcl98mZmQWyERD/tkmDBWxXHpgYULX/PfVRH1vSM4vM5vdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NF7sQSeF; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpnerfdk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NF7sQSeF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706483391; x=1738019391;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vVue83BBbLwzN5DZLCSFxgvdGP6HzD4HMl8YubNfi4A=;
-  b=gpnerfdkA3CodIgXXGX9eIRNB8Nehxrp6a7Ri/023KZZlxZKjMZe8pDI
-   C9RsBkpaQcNc4PeooieHFAgbr9PjHjBc7d8ibxbvEHRp0u2eK9HKNgbf7
-   zecIvrjR7NdGoZlMX2vFRYstTwzucvwo+JFr9MRO1kuF/0V9MVWo884JG
-   0ah0R0elWE8dSezGU8ZZoU2ywxZN7R+EPhpMFzPoe+s8QHvasinI1t1nD
-   vtoHNPnaYpR3YMtAFDpdaTIxhP22MaFQqtGgkceQVQmpzCNQ+2sje4HIS
-   GpMjmYDC1DwTS7ZkMNH8IMAK/uKugztOeXFCRWcWgRhdlJqmcyWAULnqL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="2675437"
+  t=1706485913; x=1738021913;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KYyRSJNmkJjXA317lVGEfWHF6Kz9icWCrEbj0iKyVNY=;
+  b=NF7sQSeFf+Y4iG+jZA8/ip8IYJcl5tR4TXAfZvcU12lGKlpTzjEm+74W
+   RSMFkMIGwbDxgOXWwLN8yGeXXM0UM34iw/gjhBYRdJgSyVPMST/i+DBKV
+   Quvagzj+mV46K/DTLA3ViVifmi8MeWS1LXQaToKiZ9azY2A3fMciDsJdm
+   U8G/Vr7wKvdetHIQvjcC2LSbBykqavNrdPvkiW65DScDvDhrJk22iwyAa
+   mSX95SZMwU1+o9B4A8twMeev8dDM87nBvYjrlCmghaLuHBqtVD6MzZrCs
+   9JN3YMCT1jQC3gmKCgLLFBdNbI44/14BWrlF3sP7ZnW95+LDW4JJfVx1Q
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="9927342"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="2675437"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 15:09:50 -0800
+   d="scan'208";a="9927342"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 15:51:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="857919466"
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="906898598"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="857919466"
+   d="scan'208";a="906898598"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2024 15:09:48 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2024 15:51:50 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUEHa-0003ps-2y;
-	Sun, 28 Jan 2024 23:09:46 +0000
-Date: Mon, 29 Jan 2024 07:09:04 +0800
+	id 1rUEwG-0003rQ-23;
+	Sun, 28 Jan 2024 23:51:48 +0000
+Date: Mon, 29 Jan 2024 07:50:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:pr/50 7/9] drivers/watchdog/mtk_wdt.c:48:10:
- fatal error: asm/system_misc.h: No such file or directory
-Message-ID: <202401290705.6ONfR9oK-lkp@intel.com>
+To: Tony Solomonik <tony.solomonik@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, willy@infradead.org, axboe@kernel.dk,
+	linux-fsdevel@vger.kernel.org, brauner@kernel.org,
+	Tony Solomonik <tony.solomonik@gmail.com>
+Subject: Re: [PATCH v7 1/2] Add do_ftruncate that truncates a struct file
+Message-ID: <202401290716.JZDZbcf3-lkp@intel.com>
+References: <20240126155720.20385-2-tony.solomonik@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,35 +61,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240126155720.20385-2-tony.solomonik@gmail.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 pr/50
-head:   b3bf5911a5d9f6eb8112d294ffaf5f474dccc686
-commit: 83ffbaceffed1cd47a6f67fb20e39737dfb2d01a [7/9] [wifi] adding wifi-related changes outside driver-directory
-config: i386-buildonly-randconfig-004-20240128 (https://download.01.org/0day-ci/archive/20240129/202401290705.6ONfR9oK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401290705.6ONfR9oK-lkp@intel.com/reproduce)
+Hi Tony,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d3fa86b1a7b4cdc4367acacea16b72e0a200b3d7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Solomonik/Add-do_ftruncate-that-truncates-a-struct-file/20240126-235914
+base:   d3fa86b1a7b4cdc4367acacea16b72e0a200b3d7
+patch link:    https://lore.kernel.org/r/20240126155720.20385-2-tony.solomonik%40gmail.com
+patch subject: [PATCH v7 1/2] Add do_ftruncate that truncates a struct file
+config: i386-randconfig-141-20240129 (https://download.01.org/0day-ci/archive/20240129/202401290716.JZDZbcf3-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401290705.6ONfR9oK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401290716.JZDZbcf3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/open.c:178 do_ftruncate() warn: inconsistent indenting
 
->> drivers/watchdog/mtk_wdt.c:48:10: fatal error: asm/system_misc.h: No such file or directory
-      48 | #include <asm/system_misc.h>
-         |          ^~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+vim +178 fs/open.c
 
-
-vim +48 drivers/watchdog/mtk_wdt.c
-
-  > 48	#include <asm/system_misc.h>
-    49	#include <linux/seq_file.h>
-    50	#ifdef CONFIG_MT6397_MISC
-    51	#include <linux/mfd/mt6397/rtc_misc.h>
-    52	#endif
-    53	
+   156	
+   157	long do_ftruncate(struct file *file, loff_t length)
+   158	{
+   159		struct inode *inode;
+   160		struct dentry *dentry;
+   161		int error;
+   162	
+   163		dentry = file->f_path.dentry;
+   164		inode = dentry->d_inode;
+   165		if (!S_ISREG(inode->i_mode) || !(file->f_mode & FMODE_WRITE))
+   166			return -EINVAL;
+   167	
+   168		/* Check IS_APPEND on real upper inode */
+   169		if (IS_APPEND(file_inode(file)))
+   170			return -EPERM;
+   171		sb_start_write(inode->i_sb);
+   172		error = security_file_truncate(file);
+   173		if (!error)
+   174			error = do_truncate(file_mnt_idmap(file), dentry, length,
+   175					    ATTR_MTIME | ATTR_CTIME, file);
+   176		sb_end_write(inode->i_sb);
+   177	
+ > 178	  return error;
+   179	}
+   180	
 
 -- 
 0-DAY CI Kernel Test Service
