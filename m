@@ -1,91 +1,113 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D95D3C068;
-	Sun, 28 Jan 2024 21:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7874A3C461
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 21:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706476550; cv=none; b=N0Q5i+7H9NiaKNqig/O1mFxlk/1RRbjs22fchC+z1GTwDvgk9MkXF70Y7lG7sD8CatCArfWeGsSLqMc1Q0YVGFrau5XKCgsF+AMqZ1Smp43FO9Rm9qJSPNuk6mnCb8L+kXG4LM6l1xQk/Wv+n9Anuoqh+vKe0IQU5CnBHnT2/LA=
+	t=1706478953; cv=none; b=Qzoe6/V4T8FracJqPmt6IxMlFGaKVDlD+Pf7iOOY9rW1It5SOnRI++4cCqhV0evB+D9qNe+eH9a848NvxSzZSNL7jtrsOQjN24vUOQQXdcSShBipL8UiIcrgeH7Lf9T1bOu63fk5GPaSdYHA6A0lHoOiT924hWTLR8cKqiT8TBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706476550; c=relaxed/simple;
-	bh=EXuSa4gGiCY0uqNYZiHpX9KNfSk9OgXnN3fhz5hen2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rFi6wkjdWyzm5t/qBayZ0PvyiZTHJezE3PtA6Fpte6R9fYvktktlYNU4gnA71c2Y/ul5nX3RQ3st05hBGgTJq+hkI7zf4EPWi1OqXdLsGgbPzfP5gYYxeyXLOlYXtQmx0zwWs5Ybd3VisHm2ThVcVshQGDrurU6XvT1PfsHc2kM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=W1o5H2JH; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1706478953; c=relaxed/simple;
+	bh=9jSkYnuonGJybCKZEIMVw8ZfaI1LKdY3jyIXSfaWi08=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aS/vR4RgBJot2ERjkVXUQdHEm4V9z/PIzWjeKInpMkg66UD4fuVxLo9yUq2VFeuKowR+B005YQmZPvqHCdvWncdvHyey5lfzX0sR3VyJYbKFOuvHRaLy1VwxzETh+NP5QfOgI5xsDcCI4cpfTtydt069l0fextAfkYwAM6hrIcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PBXVMw1E; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="W1o5H2JH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/1z7epYXd7WwGTtA8Xhkd9FS4LrkVYNY9code3O2GwU=; b=W1o5H2JH+iy1jqASif+VOSnz75
-	8z9WRqC3L/hUjGmjMa8Yjw20OEzZT9zURQJVfg5znB4hKkjgP0QISAHQTpRJm6IpIo5pkuzRqTC+P
-	TpljrBS3GvwF63JiqbgOIXUpuTs4GJuNdohF5u5DJNO0QNdYLXjcqja1mDyFVEfMYATtBhvYeKLaW
-	gSecsnjcCisJmeERHx752xOdXkBBd+gGDa/vEWjxDyy1OoVUctuyqumQWllrqFBRJf7dNb7h/Q38q
-	+9GO1wM7iSXxDJ+7fV77cqVwZObd4K6qJtzOpZ6OdagXdZPjhEP8sxCJG7bf2w80ZXt3K4sQbOFBr
-	vFBrqa6w==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1rUCVE-00HXA6-2A;
-	Sun, 28 Jan 2024 21:15:44 +0000
-Date: Sun, 28 Jan 2024 21:15:44 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [viro-vfs:work.alpha 5/8] arch/alpha/kernel/io.c:655:1: error:
- redefinition of 'scr_memcpyw'
-Message-ID: <20240128211544.GD2087318@ZenIV>
-References: <202401280650.Us2Lrkgl-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PBXVMw1E"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2cf3ea86423so22561371fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 13:55:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1706478949; x=1707083749; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nLt6r4XtTa4SPYOVEEGfDF0wKF4MI0mrfWV0xt83Pcc=;
+        b=PBXVMw1EF1WtKEWzbnvI/DDwPZ2j2Ojo0+PYWGrvxdaQ0V+c7GNt4LKHf5U1MVLICl
+         an/aNSCcHd23/oECZuP02HU3HIzOY7GlYl0ksgLI/G+WB4jSTiECFuBuOxmxw0IKL5Co
+         rzXPwELXX/YXRPUcYPecOSHmqdXKk4L11BEb8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706478949; x=1707083749;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nLt6r4XtTa4SPYOVEEGfDF0wKF4MI0mrfWV0xt83Pcc=;
+        b=H+Su/7Qx6h4d7tWuvh44ReQurPUP7Bn8fqUvlO8EUUzvRER7+7y9TPJ3spsUBEwVQz
+         VPauQ28oOlt1u+1PR7JkMI2vLyLdZXCVCaHxvDvQWwqolcPtMPUyGqvvA6NtO+y3YdS+
+         /BaKaNF3A32Tf+XJlN9AsJNVPGbE4KUv14gMb+l+5AD5orZ19yTB1DSpd5aG8qHYBGlb
+         hokjr67F9lpNdS/14mAwyn+OZDc0/afeWV7IQjvAQXJq/JOXzm29ystrTrjOtpPc8+tZ
+         FQmQzrbf0mpOHIvD9faRjNC3yaFHSzwg346ocdgFD4ZkxoF7iJXkfPhAV5Qk7GBY+bKH
+         9Gog==
+X-Gm-Message-State: AOJu0YxEkLDreIS9SIiF8cWw4eeKH/0zs6Xz7HT5Yf46cjJw0v5JZH1v
+	xGDKy/045h1P14seOsmx3hQ4b2opTuavXyUtkMHKqSQqKVfFvxGVhcUAc2QLT9yEOV6v2SxR8/s
+	99cU=
+X-Google-Smtp-Source: AGHT+IHk+wayWVWhnzZdmumftkoUSW8w1ywBlKtssj8pUbgtHpzXs4otMf6d16gRCn0a90VCSGzqkg==
+X-Received: by 2002:a2e:b384:0:b0:2cd:8ee5:2d8c with SMTP id f4-20020a2eb384000000b002cd8ee52d8cmr3001356lje.33.1706478949192;
+        Sun, 28 Jan 2024 13:55:49 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
+        by smtp.gmail.com with ESMTPSA id v18-20020a2e9252000000b002ce00b2e429sm963134ljg.110.2024.01.28.13.55.48
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Jan 2024 13:55:48 -0800 (PST)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5100ed2b33dso3267013e87.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 13:55:48 -0800 (PST)
+X-Received: by 2002:ac2:4570:0:b0:510:c2e:e0e with SMTP id k16-20020ac24570000000b005100c2e0e0emr2432391lfm.13.1706478948313;
+ Sun, 28 Jan 2024 13:55:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202401280650.Us2Lrkgl-lkp@intel.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+References: <202401280650.Us2Lrkgl-lkp@intel.com> <20240128211544.GD2087318@ZenIV>
+In-Reply-To: <20240128211544.GD2087318@ZenIV>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 28 Jan 2024 13:55:31 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wj8LUAX_rwM4=N9kNGeg=E+KoxY6uQfyqf=k7MOrb4+aA@mail.gmail.com>
+Message-ID: <CAHk-=wj8LUAX_rwM4=N9kNGeg=E+KoxY6uQfyqf=k7MOrb4+aA@mail.gmail.com>
+Subject: Re: [viro-vfs:work.alpha 5/8] arch/alpha/kernel/io.c:655:1: error:
+ redefinition of 'scr_memcpyw'
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Jan 28, 2024 at 06:59:08AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.alpha
-> head:   267674e3b4fd1ff6cedf9b22cd304daa75297966
-> commit: 1fb71c4d2bcacd6510fbe411016475ccc15b1a03 [5/8] alpha: missing includes
-> config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240128/202401280650.Us2Lrkgl-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280650.Us2Lrkgl-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401280650.Us2Lrkgl-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> arch/alpha/kernel/io.c:655:1: error: redefinition of 'scr_memcpyw'
->      655 | scr_memcpyw(u16 *d, const u16 *s, unsigned int count)
->          | ^~~~~~~~~~~
->    In file included from arch/alpha/kernel/io.c:10:
->    include/linux/vt_buffer.h:42:20: note: previous definition of 'scr_memcpyw' with type 'void(u16 *, const u16 *, unsigned int)' {aka 'void(short unsigned int *, const short unsigned int *, unsigned int)'}
->       42 | static inline void scr_memcpyw(u16 *d, const u16 *s, unsigned int count)
->          |                    ^~~~~~~~~~~
+On Sun, 28 Jan 2024 at 13:15, Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> The thing is, VT_BUF_HAVE_... are defined in asm/vga.h, so if you don't
+> have VGA_CONSOLE or MDA_CONSOLE you are going to get the default ones.
+> In case of scr_memcpyw() it's going to end up with memcpy(); on alpha
+> that does *not* match the native scr_memcpyw() instance.
+>
+> Since we have vga.h in mandatory-y, with asm-generic fallback being
+> reasonable enough...  Should that include of asm/vga.h be conditional
+> in the first place?
 
-_Very_ interesting.  First of all, there are 3 users of scr_memcpyw() -
-vt.c, vgacon.c and fbcon.c.  All of them are getting that thing via
-vt_buffer.h.  There we have
-* include of asm/vga.h, conditional upon VGA_CONSOLE | MDA_CONSOLE
-* fallback definitions of scr_...() stuff, conditional upon the
-corresponding VT_BUF_HAVE_... not being defined.
+It should be conditional, because that's the only case you want to
+actually have that special scr_memsetw() etc.
 
-The thing is, VT_BUF_HAVE_... are defined in asm/vga.h, so if you don't
-have VGA_CONSOLE or MDA_CONSOLE you are going to get the default ones.
-In case of scr_memcpyw() it's going to end up with memcpy(); on alpha
-that does *not* match the native scr_memcpyw() instance.
+I think the problem is that you added the vtbuf include to <asm/io.h>,
+which gets included from VGA_H early, before vga.h has even had time
+to tell people that it overrides those helper functions.
 
-Since we have vga.h in mandatory-y, with asm-generic fallback being
-reasonable enough...  Should that include of asm/vga.h be conditional
-in the first place?
+I assume that moving the
 
-I'm really unfamiliar with that thing - the last time I'd looked at
-anything related to virtual console had been back in '99 or so...
+    #define VT_BUF_HAVE_RW
+    #define VT_BUF_HAVE_MEMSETW
+    #define VT_BUF_HAVE_MEMCPYW
+
+to above the
+
+    #include <asm/io.h>
+
+fixes the build?
+
+That said, a good alternative might be to just stop using 'inline' for
+the default scr_memsetw() and scr_memcpyw() functions, make them real
+functions, and mark them __weak.
+
+Then architectures can override them much more easily, and inlining
+them seems a bit pointless.
+
+But I doubt it's even worth cleaning things up in this area.
+
+             Linus
