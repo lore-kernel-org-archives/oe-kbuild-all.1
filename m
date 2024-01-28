@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FC41C06
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 03:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46D68BE0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 03:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706413516; cv=none; b=RrjHNAj0Fj3fYX+eqkGiyVrSZX/tm2nNoy8TAWH/aT6R6pvOU2Ay2t2p0lZ++YhiHWSAsj2mQEM0qF70ezV0D2Fb/QenJLw/5e/K2dC37YebriOfa0aKHHdR084RA2t7/ILhpkCjtVOgB98A5r4AiuR4MY9q6titisXfZcDawC0=
+	t=1706414237; cv=none; b=CFYqWTaVTQuHa3lmGH7TPEwtMs2OAXHXdH5e02TA3YuLT/1PPGsT2H3QVOcpF1C4+PImjHs8cOSrnwCWok3p7dcM4irOq/i8yR6A2n2xqR7XT7Rx7hi2VyoyQaRcfLeVzp68HFC5XGCSi31+9g7T9M1rkcVsZytbRWRVa5OGkTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706413516; c=relaxed/simple;
-	bh=CJsPpBd2sHTxvrKoru3H2Oe8OYYKLseFHnq2DvnnGso=;
+	s=arc-20240116; t=1706414237; c=relaxed/simple;
+	bh=9Pe7jDTaPTSoPw1fgI888EW5QXx6ZHUNCVth68MRQlc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pprBuyxT3PTXJYFBD5v5p75TYdVUHq8541Tl2dMCvzg6d0CkuHKaejamcONAiUDsPQj+VYU0gKmJGJPnNnpNb25VZwwPJU04AUigBghTIeXkHyBBI3D5Hh/UgM83NMMdM3tdBco6jJb+fUT+3LXRPlocQmWJKWUAPqCfg0JtdqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLtiHBnC; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Bg+96QEemL6lb9BQUO+moR/zj/H/q9uDF5gxBJcYZ7vhuyMXOD3rTZunLAgz4srDrQa72+gcU8mvLynboP1UbD1DuSPHNKThgqXJQuDew2u/qi7dLXQcUIqTd5qH/HCHegud/y4ap3RfjKwj+ra9pyxDytDvpfRpOb+l9S3hwT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WK9pmyz3; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLtiHBnC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WK9pmyz3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706413514; x=1737949514;
+  t=1706414235; x=1737950235;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CJsPpBd2sHTxvrKoru3H2Oe8OYYKLseFHnq2DvnnGso=;
-  b=YLtiHBnCyoG649FoQtT4ioP9727JTKO9BaSWrsN+8Yt+pzxH3HlCqQ88
-   rN5OzC+i5yuSVHB6UPcST/EN+xzU3x6n4MgVO4xptXQAkAo5MhoXt3vAn
-   SQMsgzV37cgZD06M12vPFcfslbYd0a0jSb4mLOG7nE2rG0UTxmL00oMpV
-   ibx/TChUJmQ6YwSe26pIdjY7ZRk49cAyq/47AroF/xeqAlOxw6wZFwTtU
-   7LxazPm9wPJsypNHL6yAbCUwrDqWuvAvzNV9BS848CvP4ytpgNqhkvggr
-   6rAuNiasASZ42qBI7EU7RTCoINbPG2RRzuuzoMf4FzqtZOar0J4IqcxNi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="16262849"
+  bh=9Pe7jDTaPTSoPw1fgI888EW5QXx6ZHUNCVth68MRQlc=;
+  b=WK9pmyz3q7d651rYewujsdZpc/Z0ICtgVv2g9/K70UZmMEGaZeS1wb5e
+   2G6mA2mwF0iCP8vnxN+7gg3FTRrExf6CqtFfsG9JYuYbmQrpOz/L6ogrq
+   +9U66coKCMk4lmf4kYEffWANvnFB3G5OOyXGHzsdMRJoMk6TPuyCxwVKp
+   LnHOOWbpjjpXK7USIx9k+EK48Md1Xy79L+c1/74jiXeDsTRG+9VExGMF/
+   apGVH2B4/MW93JFEdRGp4DZEocoA3dTZMnl210i305vl9tfcbtEU2Bf5k
+   oytPSPPTpapDf0Iwl34vg8y6FM9fKAp1SW/8fz3cjuy2eG3TQ5G8nUfsx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2603480"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="16262849"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 19:45:13 -0800
+   d="scan'208";a="2603480"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 19:57:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="930751000"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="930751000"
+   d="scan'208";a="29188807"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Jan 2024 19:45:12 -0800
+  by orviesa002.jf.intel.com with ESMTP; 27 Jan 2024 19:57:12 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTw6Y-00032Y-0t;
-	Sun, 28 Jan 2024 03:45:10 +0000
-Date: Sun, 28 Jan 2024 11:44:34 +0800
+	id 1rTwIA-00032k-1W;
+	Sun, 28 Jan 2024 03:57:10 +0000
+Date: Sun, 28 Jan 2024 11:56:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Goldwyn Rodrigues <rgoldwyn@suse.com>
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [goldwynr:buffered.46 88/90] fs/btrfs/inode.c:962:32: warning:
- unused variable 'io_tree'
-Message-ID: <202401281114.da6alX7u-lkp@intel.com>
+Subject: [jlayton:flsplit2 11/42] fs/fuse/file.c:2512:21: error: 'struct
+ file_lock' has no member named 'fl_pid'; did you mean 'fl_end'?
+Message-ID: <202401281132.tw8qrOR4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,128 +58,163 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/goldwynr/linux buffered.46
-head:   9b93fddebc916105169c8a82d8f3f20fb30ff277
-commit: e6b9791039c5d27a523c8e22f54cf744ce184301 [88/90] btrfs: Introduce btrfs_writeback to lock extents during writeback
-config: i386-buildonly-randconfig-002-20240127 (https://download.01.org/0day-ci/archive/20240128/202401281114.da6alX7u-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git flsplit2
+head:   43c094289e51b0d2e1b3a8b7a6cda14ddcaec4ba
+commit: 48df0dcdbded452c1d8cc84652f8705a574bb1fc [11/42] filelock: split common fields into struct file_lock_core
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240128/202401281132.tw8qrOR4-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281114.da6alX7u-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281132.tw8qrOR4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401281114.da6alX7u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401281132.tw8qrOR4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/btrfs/inode.c: In function 'submit_async_extent':
->> fs/btrfs/inode.c:962:32: warning: unused variable 'io_tree' [-Wunused-variable]
-     962 |         struct extent_io_tree *io_tree = &inode->io_tree;
-         |                                ^~~~~~~
+   fs/fuse/file.c: In function 'convert_fuse_file_lock':
+>> fs/fuse/file.c:2512:21: error: 'struct file_lock' has no member named 'fl_pid'; did you mean 'fl_end'?
+    2512 |                 fl->fl_pid = pid_nr_ns(find_pid_ns(ffl->pid, fc->pid_ns), &init_pid_ns);
+         |                     ^~~~~~
+         |                     fl_end
+>> fs/fuse/file.c:2519:11: error: 'struct file_lock' has no member named 'fl_type'
+    2519 |         fl->fl_type = ffl->type;
+         |           ^~
+   fs/fuse/file.c: In function 'fuse_lk_fill':
+>> fs/fuse/file.c:2533:49: error: 'const struct file_lock' has no member named 'fl_owner'
+    2533 |         inarg->owner = fuse_lock_owner_id(fc, fl->fl_owner);
+         |                                                 ^~
+>> fs/fuse/file.c:2536:28: error: 'const struct file_lock' has no member named 'fl_type'
+    2536 |         inarg->lk.type = fl->fl_type;
+         |                            ^~
+   fs/fuse/file.c: In function 'fuse_setlk':
+>> fs/fuse/file.c:2573:25: error: 'struct file_lock' has no member named 'fl_flags'
+    2573 |         int opcode = (fl->fl_flags & FL_SLEEP) ? FUSE_SETLKW : FUSE_SETLK;
+         |                         ^~
+   fs/fuse/file.c:2574:29: error: 'struct file_lock' has no member named 'fl_type'
+    2574 |         struct pid *pid = fl->fl_type != F_UNLCK ? task_tgid(current) : NULL;
+         |                             ^~
+   fs/fuse/file.c:2584:16: error: 'struct file_lock' has no member named 'fl_flags'
+    2584 |         if ((fl->fl_flags & FL_CLOSE_POSIX) == FL_CLOSE_POSIX)
+         |                ^~
 
 
-vim +/io_tree +962 fs/btrfs/inode.c
+vim +2512 fs/fuse/file.c
 
-2b83a0eea5a15d Qu Wenruo         2021-09-27   958  
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08   959  static int submit_async_extent(struct async_extent *async_extent)
-771ed689d2cd53 Chris Mason       2008-11-06   960  {
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08   961  	struct btrfs_inode *inode = async_extent->inode;
-b4ccace878f47f Qu Wenruo         2021-09-27  @962  	struct extent_io_tree *io_tree = &inode->io_tree;
-b4ccace878f47f Qu Wenruo         2021-09-27   963  	struct btrfs_root *root = inode->root;
-b4ccace878f47f Qu Wenruo         2021-09-27   964  	struct btrfs_fs_info *fs_info = root->fs_info;
-d611935b5d434a Christoph Hellwig 2023-05-31   965  	struct btrfs_ordered_extent *ordered;
-771ed689d2cd53 Chris Mason       2008-11-06   966  	struct btrfs_key ins;
-771ed689d2cd53 Chris Mason       2008-11-06   967  	struct extent_map *em;
-f5a84ee3cdd88d Josef Bacik       2009-11-10   968  	int ret = 0;
-b4ccace878f47f Qu Wenruo         2021-09-27   969  	u64 start = async_extent->start;
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08   970  	u64 end = async_extent->end;
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08   971  	ssize_t len = end - start + 1;
-771ed689d2cd53 Chris Mason       2008-11-06   972  
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08   973  	if (async_extent->blkcg_css)
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08   974  		kthread_associate_blkcg(async_extent->blkcg_css);
-896d7c1a90f33e Christoph Hellwig 2023-03-27   975  
-67583468086c2a Christoph Hellwig 2023-06-28   976  	if (async_extent->compress_type == BTRFS_COMPRESS_NONE) {
-ee01e32877d167 Goldwyn Rodrigues 2023-08-01   977  		submit_uncompressed_range(inode, async_extent);
-4b8d5187fafa03 Goldwyn Rodrigues 2023-05-02   978  		clear_extent_bits(&inode->io_tree, start, end,
-e6b9791039c5d2 Goldwyn Rodrigues 2023-12-18   979  				EXTENT_DELALLOC);
-e43a6210b79815 Christoph Hellwig 2023-03-27   980  		goto done;
-e43a6210b79815 Christoph Hellwig 2023-03-27   981  	}
-771ed689d2cd53 Chris Mason       2008-11-06   982  
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08   983  	ret = btrfs_reserve_extent(root, len,
-771ed689d2cd53 Chris Mason       2008-11-06   984  				   async_extent->compressed_size,
-771ed689d2cd53 Chris Mason       2008-11-06   985  				   async_extent->compressed_size,
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08   986  				   0, 0, &ins, 1, 1);
-f5a84ee3cdd88d Josef Bacik       2009-11-10   987  	if (ret) {
-ce62003f690dff Liu Bo            2014-07-24   988  		/*
-b4ccace878f47f Qu Wenruo         2021-09-27   989  		 * Here we used to try again by going back to non-compressed
-b4ccace878f47f Qu Wenruo         2021-09-27   990  		 * path for ENOSPC.  But we can't reserve space even for
-b4ccace878f47f Qu Wenruo         2021-09-27   991  		 * compressed size, how could it work for uncompressed size
-b4ccace878f47f Qu Wenruo         2021-09-27   992  		 * which requires larger size?  So here we directly go error
-b4ccace878f47f Qu Wenruo         2021-09-27   993  		 * path.
-ce62003f690dff Liu Bo            2014-07-24   994  		 */
-3e04e7f10b6899 Josef Bacik       2013-02-06   995  		goto out_free;
-f5a84ee3cdd88d Josef Bacik       2009-11-10   996  	}
-b4ccace878f47f Qu Wenruo         2021-09-27   997  
-b4ccace878f47f Qu Wenruo         2021-09-27   998  	/* Here we're doing allocation and writeback of the compressed pages */
-b4ccace878f47f Qu Wenruo         2021-09-27   999  	em = create_io_em(inode, start,
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08  1000  			  len,
-b4ccace878f47f Qu Wenruo         2021-09-27  1001  			  start,			/* orig_start */
-6f9994dbabe575 Liu Bo            2017-01-31  1002  			  ins.objectid,			/* block_start */
-6f9994dbabe575 Liu Bo            2017-01-31  1003  			  ins.offset,			/* block_len */
-6f9994dbabe575 Liu Bo            2017-01-31  1004  			  ins.offset,			/* orig_block_len */
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08  1005  			  len,				/* ram_bytes */
-6f9994dbabe575 Liu Bo            2017-01-31  1006  			  async_extent->compress_type,
-6f9994dbabe575 Liu Bo            2017-01-31  1007  			  BTRFS_ORDERED_COMPRESSED);
-b4ccace878f47f Qu Wenruo         2021-09-27  1008  	if (IS_ERR(em)) {
-b4ccace878f47f Qu Wenruo         2021-09-27  1009  		ret = PTR_ERR(em);
-3e04e7f10b6899 Josef Bacik       2013-02-06  1010  		goto out_free_reserve;
-b4ccace878f47f Qu Wenruo         2021-09-27  1011  	}
-771ed689d2cd53 Chris Mason       2008-11-06  1012  	free_extent_map(em);
-3e04e7f10b6899 Josef Bacik       2013-02-06  1013  
-d611935b5d434a Christoph Hellwig 2023-05-31  1014  	ordered = btrfs_alloc_ordered_extent(inode, start,	/* file_offset */
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08  1015  				       len,			/* num_bytes */
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08  1016  				       len,			/* ram_bytes */
-cb36a9bb17c4ab Omar Sandoval     2019-11-06  1017  				       ins.objectid,		/* disk_bytenr */
-b4ccace878f47f Qu Wenruo         2021-09-27  1018  				       ins.offset,		/* disk_num_bytes */
-cb36a9bb17c4ab Omar Sandoval     2019-11-06  1019  				       0,			/* offset */
-cb36a9bb17c4ab Omar Sandoval     2019-11-06  1020  				       1 << BTRFS_ORDERED_COMPRESSED,
-261507a02ccba9 Li Zefan          2010-12-17  1021  				       async_extent->compress_type);
-d611935b5d434a Christoph Hellwig 2023-05-31  1022  	if (IS_ERR(ordered)) {
-4c0c8cfc843345 Filipe Manana     2022-09-19  1023  		btrfs_drop_extent_map_range(inode, start, end, false);
-d611935b5d434a Christoph Hellwig 2023-05-31  1024  		ret = PTR_ERR(ordered);
-3e04e7f10b6899 Josef Bacik       2013-02-06  1025  		goto out_free_reserve;
-d9f85963e3f7f5 Filipe Manana     2014-08-25  1026  	}
-0b246afa62b0cf Jeff Mahoney      2016-06-22  1027  	btrfs_dec_block_group_reservations(fs_info, ins.objectid);
-771ed689d2cd53 Chris Mason       2008-11-06  1028  
-b4ccace878f47f Qu Wenruo         2021-09-27  1029  	/* Clear dirty, set writeback and unlock the pages. */
-e6b9791039c5d2 Goldwyn Rodrigues 2023-12-18  1030  	clear_extent_bits(&inode->io_tree, start, end, EXTENT_DELALLOC);
-d611935b5d434a Christoph Hellwig 2023-05-31  1031  	btrfs_submit_compressed_write(ordered,
-b3ccb4f1327abe Goldwyn Rodrigues 2023-04-20  1032  			    async_extent->bbio,
-b4ccace878f47f Qu Wenruo         2021-09-27  1033  			    async_extent->pages,	/* compressed_pages */
-f82b735936ffd5 Liu Bo            2017-10-23  1034  			    async_extent->nr_pages,
-b3ccb4f1327abe Goldwyn Rodrigues 2023-04-20  1035  			    async_extent->write_flags);
-e43a6210b79815 Christoph Hellwig 2023-03-27  1036  done:
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08  1037  	if (async_extent->blkcg_css)
-896d7c1a90f33e Christoph Hellwig 2023-03-27  1038  		kthread_associate_blkcg(NULL);
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08  1039  	return ret;
-b4ccace878f47f Qu Wenruo         2021-09-27  1040  
-3e04e7f10b6899 Josef Bacik       2013-02-06  1041  out_free_reserve:
-0b246afa62b0cf Jeff Mahoney      2016-06-22  1042  	btrfs_dec_block_group_reservations(fs_info, ins.objectid);
-2ff7e61e0d30ff Jeff Mahoney      2016-06-22  1043  	btrfs_free_reserved_extent(fs_info, ins.objectid, ins.offset, 1);
-79787eaab46121 Jeff Mahoney      2012-03-12  1044  out_free:
-a994310aa26fcb Christoph Hellwig 2023-05-31  1045  	mapping_set_error(inode->vfs_inode.i_mapping, -EIO);
-e6b9791039c5d2 Goldwyn Rodrigues 2023-12-18  1046  	clear_extent_bits(&inode->io_tree, start, end, EXTENT_DELALLOC | EXTENT_DELALLOC_NEW | EXTENT_DEFRAG | EXTENT_DO_ACCOUNTING);
-40ae837b43565c Filipe Manana     2014-10-06  1047  	free_async_extent_pages(async_extent);
-b3ccb4f1327abe Goldwyn Rodrigues 2023-04-20  1048  	btrfs_bio_end_io(async_extent->bbio, errno_to_blk_status(ret));
-0efcbe67b18c66 Goldwyn Rodrigues 2023-05-08  1049  	goto done;
-771ed689d2cd53 Chris Mason       2008-11-06  1050  }
-771ed689d2cd53 Chris Mason       2008-11-06  1051  
+55752a3aba1387 Miklos Szeredi      2019-01-24  2489  
+0b6e9ea041e6c9 Seth Forshee        2014-07-02  2490  static int convert_fuse_file_lock(struct fuse_conn *fc,
+0b6e9ea041e6c9 Seth Forshee        2014-07-02  2491  				  const struct fuse_file_lock *ffl,
+7142125937e148 Miklos Szeredi      2006-06-25  2492  				  struct file_lock *fl)
+7142125937e148 Miklos Szeredi      2006-06-25  2493  {
+7142125937e148 Miklos Szeredi      2006-06-25  2494  	switch (ffl->type) {
+7142125937e148 Miklos Szeredi      2006-06-25  2495  	case F_UNLCK:
+7142125937e148 Miklos Szeredi      2006-06-25  2496  		break;
+7142125937e148 Miklos Szeredi      2006-06-25  2497  
+7142125937e148 Miklos Szeredi      2006-06-25  2498  	case F_RDLCK:
+7142125937e148 Miklos Szeredi      2006-06-25  2499  	case F_WRLCK:
+7142125937e148 Miklos Szeredi      2006-06-25  2500  		if (ffl->start > OFFSET_MAX || ffl->end > OFFSET_MAX ||
+7142125937e148 Miklos Szeredi      2006-06-25  2501  		    ffl->end < ffl->start)
+7142125937e148 Miklos Szeredi      2006-06-25  2502  			return -EIO;
+7142125937e148 Miklos Szeredi      2006-06-25  2503  
+7142125937e148 Miklos Szeredi      2006-06-25  2504  		fl->fl_start = ffl->start;
+7142125937e148 Miklos Szeredi      2006-06-25  2505  		fl->fl_end = ffl->end;
+0b6e9ea041e6c9 Seth Forshee        2014-07-02  2506  
+0b6e9ea041e6c9 Seth Forshee        2014-07-02  2507  		/*
+9d5b86ac13c573 Benjamin Coddington 2017-07-16  2508  		 * Convert pid into init's pid namespace.  The locks API will
+9d5b86ac13c573 Benjamin Coddington 2017-07-16  2509  		 * translate it into the caller's pid namespace.
+0b6e9ea041e6c9 Seth Forshee        2014-07-02  2510  		 */
+0b6e9ea041e6c9 Seth Forshee        2014-07-02  2511  		rcu_read_lock();
+9d5b86ac13c573 Benjamin Coddington 2017-07-16 @2512  		fl->fl_pid = pid_nr_ns(find_pid_ns(ffl->pid, fc->pid_ns), &init_pid_ns);
+0b6e9ea041e6c9 Seth Forshee        2014-07-02  2513  		rcu_read_unlock();
+7142125937e148 Miklos Szeredi      2006-06-25  2514  		break;
+7142125937e148 Miklos Szeredi      2006-06-25  2515  
+7142125937e148 Miklos Szeredi      2006-06-25  2516  	default:
+7142125937e148 Miklos Szeredi      2006-06-25  2517  		return -EIO;
+7142125937e148 Miklos Szeredi      2006-06-25  2518  	}
+7142125937e148 Miklos Szeredi      2006-06-25 @2519  	fl->fl_type = ffl->type;
+7142125937e148 Miklos Szeredi      2006-06-25  2520  	return 0;
+7142125937e148 Miklos Szeredi      2006-06-25  2521  }
+7142125937e148 Miklos Szeredi      2006-06-25  2522  
+7078187a795f86 Miklos Szeredi      2014-12-12  2523  static void fuse_lk_fill(struct fuse_args *args, struct file *file,
+a9ff4f87056cd3 Miklos Szeredi      2007-10-18  2524  			 const struct file_lock *fl, int opcode, pid_t pid,
+7078187a795f86 Miklos Szeredi      2014-12-12  2525  			 int flock, struct fuse_lk_in *inarg)
+7142125937e148 Miklos Szeredi      2006-06-25  2526  {
+6131ffaa1f0914 Al Viro             2013-02-27  2527  	struct inode *inode = file_inode(file);
+9c8ef5614da226 Miklos Szeredi      2006-06-25  2528  	struct fuse_conn *fc = get_fuse_conn(inode);
+7142125937e148 Miklos Szeredi      2006-06-25  2529  	struct fuse_file *ff = file->private_data;
+7078187a795f86 Miklos Szeredi      2014-12-12  2530  
+7078187a795f86 Miklos Szeredi      2014-12-12  2531  	memset(inarg, 0, sizeof(*inarg));
+7078187a795f86 Miklos Szeredi      2014-12-12  2532  	inarg->fh = ff->fh;
+7078187a795f86 Miklos Szeredi      2014-12-12 @2533  	inarg->owner = fuse_lock_owner_id(fc, fl->fl_owner);
+7078187a795f86 Miklos Szeredi      2014-12-12  2534  	inarg->lk.start = fl->fl_start;
+7078187a795f86 Miklos Szeredi      2014-12-12  2535  	inarg->lk.end = fl->fl_end;
+7078187a795f86 Miklos Szeredi      2014-12-12 @2536  	inarg->lk.type = fl->fl_type;
+7078187a795f86 Miklos Szeredi      2014-12-12  2537  	inarg->lk.pid = pid;
+a9ff4f87056cd3 Miklos Szeredi      2007-10-18  2538  	if (flock)
+7078187a795f86 Miklos Szeredi      2014-12-12  2539  		inarg->lk_flags |= FUSE_LK_FLOCK;
+d5b4854357f478 Miklos Szeredi      2019-09-10  2540  	args->opcode = opcode;
+d5b4854357f478 Miklos Szeredi      2019-09-10  2541  	args->nodeid = get_node_id(inode);
+d5b4854357f478 Miklos Szeredi      2019-09-10  2542  	args->in_numargs = 1;
+d5b4854357f478 Miklos Szeredi      2019-09-10  2543  	args->in_args[0].size = sizeof(*inarg);
+d5b4854357f478 Miklos Szeredi      2019-09-10  2544  	args->in_args[0].value = inarg;
+7142125937e148 Miklos Szeredi      2006-06-25  2545  }
+7142125937e148 Miklos Szeredi      2006-06-25  2546  
+7142125937e148 Miklos Szeredi      2006-06-25  2547  static int fuse_getlk(struct file *file, struct file_lock *fl)
+7142125937e148 Miklos Szeredi      2006-06-25  2548  {
+6131ffaa1f0914 Al Viro             2013-02-27  2549  	struct inode *inode = file_inode(file);
+fcee216beb9c15 Max Reitz           2020-05-06  2550  	struct fuse_mount *fm = get_fuse_mount(inode);
+7078187a795f86 Miklos Szeredi      2014-12-12  2551  	FUSE_ARGS(args);
+7078187a795f86 Miklos Szeredi      2014-12-12  2552  	struct fuse_lk_in inarg;
+7142125937e148 Miklos Szeredi      2006-06-25  2553  	struct fuse_lk_out outarg;
+7142125937e148 Miklos Szeredi      2006-06-25  2554  	int err;
+7142125937e148 Miklos Szeredi      2006-06-25  2555  
+7078187a795f86 Miklos Szeredi      2014-12-12  2556  	fuse_lk_fill(&args, file, fl, FUSE_GETLK, 0, 0, &inarg);
+d5b4854357f478 Miklos Szeredi      2019-09-10  2557  	args.out_numargs = 1;
+d5b4854357f478 Miklos Szeredi      2019-09-10  2558  	args.out_args[0].size = sizeof(outarg);
+d5b4854357f478 Miklos Szeredi      2019-09-10  2559  	args.out_args[0].value = &outarg;
+fcee216beb9c15 Max Reitz           2020-05-06  2560  	err = fuse_simple_request(fm, &args);
+7142125937e148 Miklos Szeredi      2006-06-25  2561  	if (!err)
+fcee216beb9c15 Max Reitz           2020-05-06  2562  		err = convert_fuse_file_lock(fm->fc, &outarg.lk, fl);
+7142125937e148 Miklos Szeredi      2006-06-25  2563  
+7142125937e148 Miklos Szeredi      2006-06-25  2564  	return err;
+7142125937e148 Miklos Szeredi      2006-06-25  2565  }
+7142125937e148 Miklos Szeredi      2006-06-25  2566  
+a9ff4f87056cd3 Miklos Szeredi      2007-10-18  2567  static int fuse_setlk(struct file *file, struct file_lock *fl, int flock)
+7142125937e148 Miklos Szeredi      2006-06-25  2568  {
+6131ffaa1f0914 Al Viro             2013-02-27  2569  	struct inode *inode = file_inode(file);
+fcee216beb9c15 Max Reitz           2020-05-06  2570  	struct fuse_mount *fm = get_fuse_mount(inode);
+7078187a795f86 Miklos Szeredi      2014-12-12  2571  	FUSE_ARGS(args);
+7078187a795f86 Miklos Szeredi      2014-12-12  2572  	struct fuse_lk_in inarg;
+7142125937e148 Miklos Szeredi      2006-06-25 @2573  	int opcode = (fl->fl_flags & FL_SLEEP) ? FUSE_SETLKW : FUSE_SETLK;
+0b6e9ea041e6c9 Seth Forshee        2014-07-02  2574  	struct pid *pid = fl->fl_type != F_UNLCK ? task_tgid(current) : NULL;
+fcee216beb9c15 Max Reitz           2020-05-06  2575  	pid_t pid_nr = pid_nr_ns(pid, fm->fc->pid_ns);
+7142125937e148 Miklos Szeredi      2006-06-25  2576  	int err;
+7142125937e148 Miklos Szeredi      2006-06-25  2577  
+8fb47a4fbf858a J. Bruce Fields     2011-07-20  2578  	if (fl->fl_lmops && fl->fl_lmops->lm_grant) {
+48e90761b570ff Miklos Szeredi      2008-07-25  2579  		/* NLM needs asynchronous locks, which we don't support yet */
+48e90761b570ff Miklos Szeredi      2008-07-25  2580  		return -ENOLCK;
+48e90761b570ff Miklos Szeredi      2008-07-25  2581  	}
+48e90761b570ff Miklos Szeredi      2008-07-25  2582  
+7142125937e148 Miklos Szeredi      2006-06-25  2583  	/* Unlock on close is handled by the flush method */
+50f2112cf7a3e6 Benjamin Coddington 2017-04-11  2584  	if ((fl->fl_flags & FL_CLOSE_POSIX) == FL_CLOSE_POSIX)
+7142125937e148 Miklos Szeredi      2006-06-25  2585  		return 0;
+7142125937e148 Miklos Szeredi      2006-06-25  2586  
+0b6e9ea041e6c9 Seth Forshee        2014-07-02  2587  	fuse_lk_fill(&args, file, fl, opcode, pid_nr, flock, &inarg);
+fcee216beb9c15 Max Reitz           2020-05-06  2588  	err = fuse_simple_request(fm, &args);
+7142125937e148 Miklos Szeredi      2006-06-25  2589  
+a4d27e75ffb7b8 Miklos Szeredi      2006-06-25  2590  	/* locking is restartable */
+a4d27e75ffb7b8 Miklos Szeredi      2006-06-25  2591  	if (err == -EINTR)
+a4d27e75ffb7b8 Miklos Szeredi      2006-06-25  2592  		err = -ERESTARTSYS;
+7078187a795f86 Miklos Szeredi      2014-12-12  2593  
+7142125937e148 Miklos Szeredi      2006-06-25  2594  	return err;
+7142125937e148 Miklos Szeredi      2006-06-25  2595  }
+7142125937e148 Miklos Szeredi      2006-06-25  2596  
 
-:::::: The code at line 962 was first introduced by commit
-:::::: b4ccace878f47fd5008de41d45ec42f38d0e8c7d btrfs: refactor submit_compressed_extents()
+:::::: The code at line 2512 was first introduced by commit
+:::::: 9d5b86ac13c573795525ecac6ed2db39ab23e2a8 fs/locks: Remove fl_nspid and use fs-specific l_pid for remote locks
 
-:::::: TO: Qu Wenruo <wqu@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
+:::::: TO: Benjamin Coddington <bcodding@redhat.com>
+:::::: CC: Jeff Layton <jlayton@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
