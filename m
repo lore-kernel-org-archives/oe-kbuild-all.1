@@ -1,56 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738C42D60A;
-	Sun, 28 Jan 2024 15:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DFD20DFD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 15:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706457575; cv=none; b=dnsBfulbFcEpZxJzqYlcOPfzlGwn7dfzpGUkwKp0G29UbO8SI+JubXgcVoKXoKZQ7ygO9NouCneZUFEFqr50OYERtyvEysZaCFMS+TqS6CqBZ07/UECh13YC52HEN7B7TX5M0DjdN+1KGNB9Z7BV6x4tuQoOOxwHXUTJnq+mWYk=
+	t=1706457582; cv=none; b=n+6FbBSxR8TTOU11XeZb+PNh8gL5NI+UrSbuEHKOCUVW0zUdqZ9QyZqGQj57jGBkt5AHVei5726pHfTytTwCpszN9rBbXRs/DsWYJLr3KkyTmkem7eeWNro4G2VHVXSv7W8vTfuUwqSh9YVy7d+f7XpHk3Ij1EWnpzS9r/hlGzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706457575; c=relaxed/simple;
-	bh=jgxK5bxKkmEkuPP2q4pZVhdhe9oPQw4K/R0cQ3sYWPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nmurjEZ63WWig5/r1wGy+XGU70ZJPgxmMrO3G86c03k6Yt2d4u9g6QF+pFG7EYm39Uuz1IamAUPaM3fssBl+1/uRygtT42dJtGhF2E8JuDz02vwqQ/Rr4/IA20PIa8mC5T1B1mbwJvRHcM9+cH/EeExp2c06hJM6afKLeJzwAL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g9Q/oMQW; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1706457582; c=relaxed/simple;
+	bh=vt7QapGb0fiuypTY9c2VIltgIvC8yztVDtRDQjAAGLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jX/qmRLFKu+sNLh1FMuGq96IMlibuTSCy6lMzLTQ+gLMNCZpCT9EQETTPZVKaKzLjyFsDywYkmTBwynlvvdU8u4r9CzZUdczI+saLeiFe8aFUQ2Ht9Ft+i63Y1qtdUO0cxDUHdYqRjPpnhLp/JrDXhDVSMN2BRgcU3rfLE3pp1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTcnYayz; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g9Q/oMQW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTcnYayz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706457574; x=1737993574;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jgxK5bxKkmEkuPP2q4pZVhdhe9oPQw4K/R0cQ3sYWPw=;
-  b=g9Q/oMQWm+5xuPtS0MVlIYDm63eEVy59luazjrzpd6C1xCRLEnwYNRGF
-   qCPyHP0/r2yaRACkUClNi+YU76hnV6vHFoC0/6dQafkK56PMfZtPXb1rq
-   loJoNp8o+8XfihqzJ0YypsWkigi3oiuSz3drVh5SO2jV67uELt4RajuYf
-   bu6nFdnsQ8NRTsmCVh++NPleeZXWsasWp73ZBxGctpOTp9MDOMLqnwlmE
-   V43pF7AfLXDfAKLPOriDIyJG7Ir1lFEiVLsFMeBJpFZolPGiVF8Zey7wc
-   MGm7gskD63TmNB01eO7LkVYJakN50vX64tBmYo1rQqTmNMU2oL48ehOPz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="1719077"
+  t=1706457580; x=1737993580;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vt7QapGb0fiuypTY9c2VIltgIvC8yztVDtRDQjAAGLc=;
+  b=VTcnYayzRSqVf8EdXUdCYQ3omV5zbfgny6UikVYPC45EpskhrpfsUiJ9
+   6t4FOrKT3hD+pdIvOsIXAzhtRPgOzCtGxSVf6tRe/c545nEck7wJ1MNUb
+   qCUhQZElxswUQj8ZOjqUBac8+qI6QFe0Xx2bLREfrLtFdGjdtip8CLNyu
+   4RYzzQ8mbNpq55dt233qf2isL7MowRG3pS+YycVTgwJKx/ZYOLk2gsP/g
+   Yb8nkmhoQzT+fYc2y2Zx/Y9kPIHlFAuP0TMa6/6c7qRhZnUI8l0Kn/beH
+   t4Z7cxL7htPA1Gy4q6xaOeWlNUuwEYYCGxwkqSqVUTwpFIQ1EQH3ozUxM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="10170648"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="1719077"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 07:59:33 -0800
+   d="scan'208";a="10170648"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 07:59:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="857867604"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="857867604"
+   d="scan'208";a="3056368"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jan 2024 07:59:30 -0800
+  by orviesa005.jf.intel.com with ESMTP; 28 Jan 2024 07:59:31 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rU7ZB-0003W6-0H;
+	id 1rU7ZB-0003W9-0Q;
 	Sun, 28 Jan 2024 15:59:29 +0000
-Date: Sun, 28 Jan 2024 23:58:49 +0800
+Date: Sun, 28 Jan 2024 23:58:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jmondi:pispbe/media-staging/be-upstream 7/7]
- ./usr/include/linux/pisp_common.h:142:34: warning: // comments are not
- allowed in this language
-Message-ID: <202401282315.Tmjnw5Qr-lkp@intel.com>
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com
+Subject: Re: [PATCH v11 05/26] dept: Tie to Lockdep and IRQ tracing
+Message-ID: <202401282340.oDsdGzj2-lkp@intel.com>
+References: <20240124115938.80132-6-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,37 +68,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240124115938.80132-6-byungchul@sk.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git pispbe/media-staging/be-upstream
-head:   e1ae55c1c7105b10788c4b50c4185e82c309fdda
-commit: e1ae55c1c7105b10788c4b50c4185e82c309fdda [7/7] media: raspberrypi: Add support for PiSP BE
-config: i386-buildonly-randconfig-002-20240128 (https://download.01.org/0day-ci/archive/20240128/202401282315.Tmjnw5Qr-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401282315.Tmjnw5Qr-lkp@intel.com/reproduce)
+Hi Byungchul,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0dd3ee31125508cd67f7e7172247f05b7fd1753a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-Move-llist_-head-node-definition-to-types-h/20240124-200243
+base:   0dd3ee31125508cd67f7e7172247f05b7fd1753a
+patch link:    https://lore.kernel.org/r/20240124115938.80132-6-byungchul%40sk.com
+patch subject: [PATCH v11 05/26] dept: Tie to Lockdep and IRQ tracing
+config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20240128/202401282340.oDsdGzj2-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401282340.oDsdGzj2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401282315.Tmjnw5Qr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401282340.oDsdGzj2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:1:
->> ./usr/include/linux/pisp_common.h:142:34: warning: // comments are not allowed in this language [-Wcomment]
-     142 | #define PISP_WALLPAPER_WIDTH 128 // in bytes
-         |                                  ^
-   1 warning generated.
+   In file included from fs/ext4/mballoc.c:7000:
+   fs/ext4/mballoc-test.c: In function 'test_new_blocks_simple':
+>> fs/ext4/mballoc-test.c:298:1: warning: the frame size of 1120 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     298 | }
+         | ^
 --
-   In file included from <built-in>:1:
-   In file included from ./usr/include/linux/pisp_be_config.h:13:
->> ./usr/include/linux/pisp_common.h:142:34: warning: // comments are not allowed in this language [-Wcomment]
-     142 | #define PISP_WALLPAPER_WIDTH 128 // in bytes
-         |                                  ^
-   In file included from <built-in>:1:
->> ./usr/include/linux/pisp_be_config.h:476:13: warning: // comments are not allowed in this language [-Wcomment]
-     476 |         __u8 edge; // enum pisp_tile_edge
-         |                    ^
-   2 warnings generated.
+   In file included from drivers/net/ethernet/microchip/vcap/vcap_api.c:3598:
+   drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c: In function 'vcap_api_next_lookup_advanced_test':
+>> drivers/net/ethernet/microchip/vcap/vcap_api_kunit.c:2001:1: warning: the frame size of 1260 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    2001 | }
+         | ^
+
+
+vim +298 fs/ext4/mballoc-test.c
+
+7c9fa399a36954 Kemeng Shi 2023-09-29  245  
+7c9fa399a36954 Kemeng Shi 2023-09-29  246  static void test_new_blocks_simple(struct kunit *test)
+7c9fa399a36954 Kemeng Shi 2023-09-29  247  {
+7c9fa399a36954 Kemeng Shi 2023-09-29  248  	struct super_block *sb = (struct super_block *)test->priv;
+7c9fa399a36954 Kemeng Shi 2023-09-29  249  	struct inode inode = { .i_sb = sb, };
+7c9fa399a36954 Kemeng Shi 2023-09-29  250  	struct ext4_allocation_request ar;
+7c9fa399a36954 Kemeng Shi 2023-09-29  251  	ext4_group_t i, goal_group = TEST_GOAL_GROUP;
+7c9fa399a36954 Kemeng Shi 2023-09-29  252  	int err = 0;
+7c9fa399a36954 Kemeng Shi 2023-09-29  253  	ext4_fsblk_t found;
+7c9fa399a36954 Kemeng Shi 2023-09-29  254  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+7c9fa399a36954 Kemeng Shi 2023-09-29  255  
+7c9fa399a36954 Kemeng Shi 2023-09-29  256  	ar.inode = &inode;
+7c9fa399a36954 Kemeng Shi 2023-09-29  257  
+7c9fa399a36954 Kemeng Shi 2023-09-29  258  	/* get block at goal */
+7c9fa399a36954 Kemeng Shi 2023-09-29  259  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  260  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  261  	KUNIT_ASSERT_EQ_MSG(test, ar.goal, found,
+7c9fa399a36954 Kemeng Shi 2023-09-29  262  		"failed to alloc block at goal, expected %llu found %llu",
+7c9fa399a36954 Kemeng Shi 2023-09-29  263  		ar.goal, found);
+7c9fa399a36954 Kemeng Shi 2023-09-29  264  
+7c9fa399a36954 Kemeng Shi 2023-09-29  265  	/* get block after goal in goal group */
+7c9fa399a36954 Kemeng Shi 2023-09-29  266  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  267  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  268  	KUNIT_ASSERT_EQ_MSG(test, ar.goal + EXT4_C2B(sbi, 1), found,
+7c9fa399a36954 Kemeng Shi 2023-09-29  269  		"failed to alloc block after goal in goal group, expected %llu found %llu",
+7c9fa399a36954 Kemeng Shi 2023-09-29  270  		ar.goal + 1, found);
+7c9fa399a36954 Kemeng Shi 2023-09-29  271  
+7c9fa399a36954 Kemeng Shi 2023-09-29  272  	/* get block after goal group */
+7c9fa399a36954 Kemeng Shi 2023-09-29  273  	mbt_ctx_mark_used(sb, goal_group, 0, EXT4_CLUSTERS_PER_GROUP(sb));
+7c9fa399a36954 Kemeng Shi 2023-09-29  274  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  275  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  276  	KUNIT_ASSERT_EQ_MSG(test,
+7c9fa399a36954 Kemeng Shi 2023-09-29  277  		ext4_group_first_block_no(sb, goal_group + 1), found,
+7c9fa399a36954 Kemeng Shi 2023-09-29  278  		"failed to alloc block after goal group, expected %llu found %llu",
+7c9fa399a36954 Kemeng Shi 2023-09-29  279  		ext4_group_first_block_no(sb, goal_group + 1), found);
+7c9fa399a36954 Kemeng Shi 2023-09-29  280  
+7c9fa399a36954 Kemeng Shi 2023-09-29  281  	/* get block before goal group */
+7c9fa399a36954 Kemeng Shi 2023-09-29  282  	for (i = goal_group; i < ext4_get_groups_count(sb); i++)
+7c9fa399a36954 Kemeng Shi 2023-09-29  283  		mbt_ctx_mark_used(sb, i, 0, EXT4_CLUSTERS_PER_GROUP(sb));
+7c9fa399a36954 Kemeng Shi 2023-09-29  284  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  285  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  286  	KUNIT_ASSERT_EQ_MSG(test,
+7c9fa399a36954 Kemeng Shi 2023-09-29  287  		ext4_group_first_block_no(sb, 0) + EXT4_C2B(sbi, 1), found,
+7c9fa399a36954 Kemeng Shi 2023-09-29  288  		"failed to alloc block before goal group, expected %llu found %llu",
+7c9fa399a36954 Kemeng Shi 2023-09-29  289  		ext4_group_first_block_no(sb, 0 + EXT4_C2B(sbi, 1)), found);
+7c9fa399a36954 Kemeng Shi 2023-09-29  290  
+7c9fa399a36954 Kemeng Shi 2023-09-29  291  	/* no block available, fail to allocate block */
+7c9fa399a36954 Kemeng Shi 2023-09-29  292  	for (i = 0; i < ext4_get_groups_count(sb); i++)
+7c9fa399a36954 Kemeng Shi 2023-09-29  293  		mbt_ctx_mark_used(sb, i, 0, EXT4_CLUSTERS_PER_GROUP(sb));
+7c9fa399a36954 Kemeng Shi 2023-09-29  294  	ar.goal = ext4_group_first_block_no(sb, goal_group);
+7c9fa399a36954 Kemeng Shi 2023-09-29  295  	found = ext4_mb_new_blocks_simple(&ar, &err);
+7c9fa399a36954 Kemeng Shi 2023-09-29  296  	KUNIT_ASSERT_NE_MSG(test, err, 0,
+7c9fa399a36954 Kemeng Shi 2023-09-29  297  		"unexpectedly get block when no block is available");
+7c9fa399a36954 Kemeng Shi 2023-09-29 @298  }
+7c9fa399a36954 Kemeng Shi 2023-09-29  299  
 
 -- 
 0-DAY CI Kernel Test Service
