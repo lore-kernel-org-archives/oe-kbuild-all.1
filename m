@@ -1,58 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A6A10E4;
-	Sun, 28 Jan 2024 01:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABD51373
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 01:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706405356; cv=none; b=E2IELnToEtBaFhwe+dEO+WUIW0I3KLkDWDidkHzVBd7cYDpOCtU7xoMeHcsz6V9SKNIqX9zo7UA/iamzWUqd0jh9zKlK2az8l169F6LuhvJO92K1LWgJYNhxz8kL53/mdLfTUfBWdEmGLrNhy3Su9Z4Nauu4Ro0OPI9hhsq0Ucs=
+	t=1706406015; cv=none; b=QtfHzZ7dysQi2U2NZU1gaLBfvowcZELHlmuRrQ8x6DgD3fsbq6ZiYzmi/UALcCoavGWIX0Bgisrvk+t5oWzUFj3w4RXQVg7Dsv2r7P++7rclxDqgYP+EzL6B9BWuOkSux7UEIRE1syen4kV4KJvnFRBf/1SnDPh1aI5AWY/6zQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706405356; c=relaxed/simple;
-	bh=tG3KZpkmzEnoPewvoU1tDdnDLsXIb/NFenmlioDoIDw=;
+	s=arc-20240116; t=1706406015; c=relaxed/simple;
+	bh=08dPiRtzzLSCCatnrYfrnj2orslCPsY7FuVdcd3xhhU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nE6SdaXLPVOIEsJyki19ADZF0BwYVhvZPOfK6VxCWPmqrFvjYq/y8A6COX6njsQmjPFZwiVpPDjV5ThZhd0pFSfM8WCotd7/8V3MltD0BxQ0YtDUXJxzhqTa3fTAArnihRqQ7MwlXXs72NXHBq+CBmIloB6fL9iK+x0iLaQmzuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cis0MmOe; arc=none smtp.client-ip=134.134.136.20
+	 Content-Disposition; b=UZZ4U9wB43oL0H846rBEigdWPeBfcN/RZojetYXliGm9N7/FNl6dMv/XhouD+SQJduLJfSFdPLXAOtO8dMg59lvAHCbJfPNpfaPkG2m8EKKNoplCVE5D6nbDpyz53qxzGmyYNgXw1+coGc04IkfbgzQM7CgyxDmF84/EjI/LkUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a9RSnw1P; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cis0MmOe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a9RSnw1P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706405353; x=1737941353;
+  t=1706406012; x=1737942012;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tG3KZpkmzEnoPewvoU1tDdnDLsXIb/NFenmlioDoIDw=;
-  b=cis0MmOeK1peXshntSJEAhODAEA7lBvFXATc8lD0tJBHIEtAbB45MOzd
-   3WrVNp8LudCErd4q7W2iWeEBjPlmx74xfSGivxQmDVDixlNBxr86zA/Mi
-   zokfK1VtNBSvaHtC74MXkehAoAjQ0AZjHnv+qeP2Dsw9PhQsxgY+60hSn
-   qOcSFNr7DhK+0i96HjCsTuD4wcXg7gGPnjiJuSFs8Ql8jOaOdQXoTa3Qa
-   4qr8osG4lVIHzWe3pbZCs7RUwTHXIQD4LCINEQRJN3Nw4KWvk7ct9Go3K
-   VXW0fJpBQumSngyu3Zh46+l8fv3fp39faJKk73uE7xpInHkfHe0Zb15LB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="393159576"
+  bh=08dPiRtzzLSCCatnrYfrnj2orslCPsY7FuVdcd3xhhU=;
+  b=a9RSnw1P9siTdT4UufiJOtjJ6eNzkoY1VP8uD2cj8bcbJO61hnmaznRE
+   /BmHqeE/w0mMHW2NHTAwzf9kqPNx5nL5uvp/mnTSBwTqCLG+uoIGV3YTI
+   mtpHgNDoRAQNY9K55hzZcE/ZoXTOsDDOQqVHuEimEolZImepW9wIJ817a
+   OgClCugPafpiUCNFe07Bwh9DZDLAN65sqb8NWck6H9eOz47N/zLbi1Y7S
+   QmiPLQi4LKJLIDJOhRIEhEqKnTLZsT6smTW6qsFQ4oUyWB42y6hkwUUqz
+   5wQzg8tMgp5JL0YxR2tfWxypGRXwC4feqLVuvFSIlTNF2N7bY8Md5ufca
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2621272"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="393159576"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 17:29:12 -0800
+   d="scan'208";a="2621272"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 17:40:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="787468091"
 X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="787468091"
+   d="scan'208";a="35794850"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2024 17:29:09 -0800
+  by orviesa001.jf.intel.com with ESMTP; 27 Jan 2024 17:40:11 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rTtyt-0002xA-1e;
-	Sun, 28 Jan 2024 01:29:07 +0000
-Date: Sun, 28 Jan 2024 09:28:19 +0800
+	id 1rTu9X-0002xi-2K;
+	Sun, 28 Jan 2024 01:40:07 +0000
+Date: Sun, 28 Jan 2024 09:39:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Jonathan Bell <jonathan@raspberrypi.com>
-Subject: [jmondi:jmondi/rpi5-be-upstream/libcamera 5/131]
- include/linux/of.h:1556:34: error: use of undeclared identifier
- 'OF_RECONFIG_ATTACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-Message-ID: <202401280959.OxsMCRk7-lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: [tiwai-sound:topic/pm-ops 5/29] sound/isa/cmi8330.c:55:12: warning:
+ 'index' defined but not used
+Message-ID: <202401280946.VcZLwAbo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,347 +58,199 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git jmondi/rpi5-be-upstream/libcamera
-head:   a7bec0179c6915e1140ede4bd0ceae507b80112e
-commit: 56623a64942003da747bb9a624c9a3d0f83fabb7 [5/131] mmc: brcmstb: add support for BCM2712
-config: i386-buildonly-randconfig-005-20240128 (https://download.01.org/0day-ci/archive/20240128/202401280959.OxsMCRk7-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280959.OxsMCRk7-lkp@intel.com/reproduce)
+Hi Takashi,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git topic/pm-ops
+head:   2fe6ffd7c79f740b73533d44de3ae0e542674857
+commit: 9757c2b93cfed03065a14a6cd817474891eb55fe [5/29] ALSA: als4000: Replace with DEFINE_SIMPLE_DEV_PM_OPS()
+config: powerpc-randconfig-002-20240127 (https://download.01.org/0day-ci/archive/20240128/202401280946.VcZLwAbo-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401280946.VcZLwAbo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401280959.OxsMCRk7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401280946.VcZLwAbo-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/spi/spi-bcm2835.c:26:
->> include/linux/of.h:1556:34: error: use of undeclared identifier 'OF_RECONFIG_ATTACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1556 |         return of_changeset_action(ocs, OF_RECONFIG_ATTACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1562:34: error: use of undeclared identifier 'OF_RECONFIG_DETACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1562 |         return of_changeset_action(ocs, OF_RECONFIG_DETACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1568:34: error: use of undeclared identifier 'OF_RECONFIG_ADD_PROPERTY'
-    1568 |         return of_changeset_action(ocs, OF_RECONFIG_ADD_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1574:34: error: use of undeclared identifier 'OF_RECONFIG_REMOVE_PROPERTY'
-    1574 |         return of_changeset_action(ocs, OF_RECONFIG_REMOVE_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1580:34: error: use of undeclared identifier 'OF_RECONFIG_UPDATE_PROPERTY'
-    1580 |         return of_changeset_action(ocs, OF_RECONFIG_UPDATE_PROPERTY, np, prop);
-         |                                         ^
-   5 errors generated.
+   In file included from sound/isa/cmi8330.c:41:
+   include/sound/sb.h:294:20: error: two or more data types in declaration specifiers
+     294 | static inline void void snd_sbmixer_suspend(struct snd_sb *chip) {}
+         |                    ^~~~
+   include/sound/sb.h:295:20: error: two or more data types in declaration specifiers
+     295 | static inline void void snd_sbmixer_resume(struct snd_sb *chip) {}
+         |                    ^~~~
+   In file included from include/linux/init.h:5,
+                    from sound/isa/cmi8330.c:32:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:228:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     228 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
+     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
+     505 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/isa/cmi8330.c:72:1: note: in expansion of macro 'module_param_array'
+      72 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/isa/cmi8330.c:55:12: warning: 'index' defined but not used [-Wunused-variable]
+      55 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
 --
-   In file included from drivers/spi/spi-meson-spifc.c:14:
->> include/linux/of.h:1556:34: error: use of undeclared identifier 'OF_RECONFIG_ATTACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1556 |         return of_changeset_action(ocs, OF_RECONFIG_ATTACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1562:34: error: use of undeclared identifier 'OF_RECONFIG_DETACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1562 |         return of_changeset_action(ocs, OF_RECONFIG_DETACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1568:34: error: use of undeclared identifier 'OF_RECONFIG_ADD_PROPERTY'
-    1568 |         return of_changeset_action(ocs, OF_RECONFIG_ADD_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1574:34: error: use of undeclared identifier 'OF_RECONFIG_REMOVE_PROPERTY'
-    1574 |         return of_changeset_action(ocs, OF_RECONFIG_REMOVE_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1580:34: error: use of undeclared identifier 'OF_RECONFIG_UPDATE_PROPERTY'
-    1580 |         return of_changeset_action(ocs, OF_RECONFIG_UPDATE_PROPERTY, np, prop);
-         |                                         ^
-   In file included from drivers/spi/spi-meson-spifc.c:18:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/spi/spi-meson-spifc.c:18:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/spi/spi-meson-spifc.c:18:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/spi/spi-meson-spifc.c:18:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/spi/spi-meson-spifc.c:18:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/spi/spi-meson-spifc.c:18:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/spi/spi-meson-spifc.c:18:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1095:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
+   In file included from sound/pci/cs5530.c:35:
+   include/sound/sb.h:294:20: error: two or more data types in declaration specifiers
+     294 | static inline void void snd_sbmixer_suspend(struct snd_sb *chip) {}
+         |                    ^~~~
+   include/sound/sb.h:295:20: error: two or more data types in declaration specifiers
+     295 | static inline void void snd_sbmixer_resume(struct snd_sb *chip) {}
+         |                    ^~~~
+   In file included from include/linux/bits.h:21,
+                    from include/linux/bitops.h:6,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/powerpc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/delay.h:22,
+                    from sound/pci/cs5530.c:30:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:228:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     228 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
+     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
+     505 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/cs5530.c:46:1: note: in expansion of macro 'module_param_array'
+      46 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/cs5530.c:42:12: warning: 'index' defined but not used [-Wunused-variable]
+      42 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
 --
-   In file included from drivers/spi/spi.c:24:
-   In file included from include/linux/of_device.h:8:
->> include/linux/of.h:1556:34: error: use of undeclared identifier 'OF_RECONFIG_ATTACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1556 |         return of_changeset_action(ocs, OF_RECONFIG_ATTACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1562:34: error: use of undeclared identifier 'OF_RECONFIG_DETACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1562 |         return of_changeset_action(ocs, OF_RECONFIG_DETACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1568:34: error: use of undeclared identifier 'OF_RECONFIG_ADD_PROPERTY'
-    1568 |         return of_changeset_action(ocs, OF_RECONFIG_ADD_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1574:34: error: use of undeclared identifier 'OF_RECONFIG_REMOVE_PROPERTY'
-    1574 |         return of_changeset_action(ocs, OF_RECONFIG_REMOVE_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1580:34: error: use of undeclared identifier 'OF_RECONFIG_UPDATE_PROPERTY'
-    1580 |         return of_changeset_action(ocs, OF_RECONFIG_UPDATE_PROPERTY, np, prop);
-         |                                         ^
->> drivers/spi/spi.c:4675:9: error: call to undeclared function 'of_register_spi_device'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4675 |                 spi = of_register_spi_device(ctlr, rd->dn);
-         |                       ^
-   drivers/spi/spi.c:4675:9: note: did you mean 'of_register_spi_devices'?
-   drivers/spi/spi.c:2522:13: note: 'of_register_spi_devices' declared here
-    2522 | static void of_register_spi_devices(struct spi_controller *ctlr) { }
-         |             ^
->> drivers/spi/spi.c:4675:7: error: incompatible integer to pointer conversion assigning to 'struct spi_device *' from 'int' [-Wint-conversion]
-    4675 |                 spi = of_register_spi_device(ctlr, rd->dn);
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   7 errors generated.
+   In file included from sound/isa/sb/sb16.c:14,
+                    from sound/isa/sb/sbawe.c:2:
+   include/sound/sb.h:294:20: error: two or more data types in declaration specifiers
+     294 | static inline void void snd_sbmixer_suspend(struct snd_sb *chip) {}
+         |                    ^~~~
+   include/sound/sb.h:295:20: error: two or more data types in declaration specifiers
+     295 | static inline void void snd_sbmixer_resume(struct snd_sb *chip) {}
+         |                    ^~~~
+   In file included from include/linux/bits.h:21,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from arch/powerpc/include/asm/io.h:22,
+                    from arch/powerpc/include/asm/dma.h:22,
+                    from sound/isa/sb/sb16.c:7:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:228:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     228 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
+     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
+     505 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/isa/sb/sb16.c:69:1: note: in expansion of macro 'module_param_array'
+      69 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/isa/sb/sb16.c:46:12: warning: 'index' defined but not used [-Wunused-variable]
+      46 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
+         |            ^~~~~
 --
-   In file included from drivers/irqchip/irq-ingenic-tcu.c:9:
-   In file included from include/linux/irqchip.h:16:
->> include/linux/of.h:1556:34: error: use of undeclared identifier 'OF_RECONFIG_ATTACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1556 |         return of_changeset_action(ocs, OF_RECONFIG_ATTACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1562:34: error: use of undeclared identifier 'OF_RECONFIG_DETACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1562 |         return of_changeset_action(ocs, OF_RECONFIG_DETACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1568:34: error: use of undeclared identifier 'OF_RECONFIG_ADD_PROPERTY'
-    1568 |         return of_changeset_action(ocs, OF_RECONFIG_ADD_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1574:34: error: use of undeclared identifier 'OF_RECONFIG_REMOVE_PROPERTY'
-    1574 |         return of_changeset_action(ocs, OF_RECONFIG_REMOVE_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1580:34: error: use of undeclared identifier 'OF_RECONFIG_UPDATE_PROPERTY'
-    1580 |         return of_changeset_action(ocs, OF_RECONFIG_UPDATE_PROPERTY, np, prop);
-         |                                         ^
->> drivers/irqchip/irq-ingenic-tcu.c:135:21: warning: shift count >= width of type [-Wshift-count-overflow]
-     135 |         gc->wake_enabled = IRQ_MSK(32);
-         |                            ^~~~~~~~~~~
-   include/linux/irq.h:1188:41: note: expanded from macro 'IRQ_MSK'
-    1188 | #define IRQ_MSK(n) (u32)((n) < 32 ? ((1 << (n)) - 1) : UINT_MAX)
-         |                                         ^  ~~~
-   drivers/irqchip/irq-ingenic-tcu.c:147:39: warning: shift count >= width of type [-Wshift-count-overflow]
-     147 |         regmap_write(tcu->map, TCU_REG_TMSR, IRQ_MSK(32));
-         |                                              ^~~~~~~~~~~
-   include/linux/irq.h:1188:41: note: expanded from macro 'IRQ_MSK'
-    1188 | #define IRQ_MSK(n) (u32)((n) < 32 ? ((1 << (n)) - 1) : UINT_MAX)
-         |                                         ^  ~~~
-   2 warnings and 5 errors generated.
---
-   In file included from drivers/net/ethernet/apm/xgene/xgene_enet_main.c:11:
-   In file included from drivers/net/ethernet/apm/xgene/xgene_enet_main.h:18:
->> include/linux/of.h:1556:34: error: use of undeclared identifier 'OF_RECONFIG_ATTACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1556 |         return of_changeset_action(ocs, OF_RECONFIG_ATTACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1562:34: error: use of undeclared identifier 'OF_RECONFIG_DETACH_NODE'; did you mean 'OF_RECONFIG_NO_CHANGE'?
-    1562 |         return of_changeset_action(ocs, OF_RECONFIG_DETACH_NODE, np, NULL);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                         OF_RECONFIG_NO_CHANGE
-   include/linux/of.h:1531:2: note: 'OF_RECONFIG_NO_CHANGE' declared here
-    1531 |         OF_RECONFIG_NO_CHANGE = 0,
-         |         ^
->> include/linux/of.h:1568:34: error: use of undeclared identifier 'OF_RECONFIG_ADD_PROPERTY'
-    1568 |         return of_changeset_action(ocs, OF_RECONFIG_ADD_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1574:34: error: use of undeclared identifier 'OF_RECONFIG_REMOVE_PROPERTY'
-    1574 |         return of_changeset_action(ocs, OF_RECONFIG_REMOVE_PROPERTY, np, prop);
-         |                                         ^
->> include/linux/of.h:1580:34: error: use of undeclared identifier 'OF_RECONFIG_UPDATE_PROPERTY'
-    1580 |         return of_changeset_action(ocs, OF_RECONFIG_UPDATE_PROPERTY, np, prop);
-         |                                         ^
-   drivers/net/ethernet/apm/xgene/xgene_enet_main.c:2060:42: warning: shift count >= width of type [-Wshift-count-overflow]
-    2060 |         ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(64));
-         |                                                 ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   1 warning and 5 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_DYNAMIC
-   Depends on [n]: OF [=n]
-   Selected by [m]:
-   - MMC_SDHCI_BRCMSTB [=m] && MMC [=m] && (ARCH_BRCMSTB || BMIPS_GENERIC || COMPILE_TEST [=y]) && MMC_SDHCI_PLTFM [=m]
+   In file included from sound/isa/sb/jazz16.c:23:
+   include/sound/sb.h:294:20: error: two or more data types in declaration specifiers
+     294 | static inline void void snd_sbmixer_suspend(struct snd_sb *chip) {}
+         |                    ^~~~
+   include/sound/sb.h:295:20: error: two or more data types in declaration specifiers
+     295 | static inline void void snd_sbmixer_resume(struct snd_sb *chip) {}
+         |                    ^~~~
+   In file included from include/linux/init.h:5,
+                    from sound/isa/sb/jazz16.c:14:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:228:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     228 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
+     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
+     505 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/isa/sb/jazz16.c:44:1: note: in expansion of macro 'module_param_array'
+      44 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/isa/sb/jazz16.c:34:12: warning: 'index' defined but not used [-Wunused-variable]
+      34 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
+         |            ^~~~~
 
 
-vim +1556 include/linux/of.h
+vim +/index +55 sound/isa/cmi8330.c
 
-201c910bd6898d Pantelis Antoniou 2014-07-04  1529  
-b53a2340d0d304 Pantelis Antoniou 2014-10-28  1530  enum of_reconfig_change {
-b53a2340d0d304 Pantelis Antoniou 2014-10-28 @1531  	OF_RECONFIG_NO_CHANGE = 0,
-b53a2340d0d304 Pantelis Antoniou 2014-10-28  1532  	OF_RECONFIG_CHANGE_ADD,
-b53a2340d0d304 Pantelis Antoniou 2014-10-28  1533  	OF_RECONFIG_CHANGE_REMOVE,
-b53a2340d0d304 Pantelis Antoniou 2014-10-28  1534  };
-b53a2340d0d304 Pantelis Antoniou 2014-10-28  1535  
-2e8fff668dc14e Rob Herring       2023-03-29  1536  struct notifier_block;
-2e8fff668dc14e Rob Herring       2023-03-29  1537  
-201c910bd6898d Pantelis Antoniou 2014-07-04  1538  #ifdef CONFIG_OF_DYNAMIC
-f6892d193fb9d6 Grant Likely      2014-11-21  1539  extern int of_reconfig_notifier_register(struct notifier_block *);
-f6892d193fb9d6 Grant Likely      2014-11-21  1540  extern int of_reconfig_notifier_unregister(struct notifier_block *);
-f5242e5a883bf1 Grant Likely      2014-11-24  1541  extern int of_reconfig_notify(unsigned long, struct of_reconfig_data *rd);
-f5242e5a883bf1 Grant Likely      2014-11-24  1542  extern int of_reconfig_get_state_change(unsigned long action,
-f5242e5a883bf1 Grant Likely      2014-11-24  1543  					struct of_reconfig_data *arg);
-f6892d193fb9d6 Grant Likely      2014-11-21  1544  
-201c910bd6898d Pantelis Antoniou 2014-07-04  1545  extern void of_changeset_init(struct of_changeset *ocs);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1546  extern void of_changeset_destroy(struct of_changeset *ocs);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1547  extern int of_changeset_apply(struct of_changeset *ocs);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1548  extern int of_changeset_revert(struct of_changeset *ocs);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1549  extern int of_changeset_action(struct of_changeset *ocs,
-201c910bd6898d Pantelis Antoniou 2014-07-04  1550  		unsigned long action, struct device_node *np,
-201c910bd6898d Pantelis Antoniou 2014-07-04  1551  		struct property *prop);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1552  
-201c910bd6898d Pantelis Antoniou 2014-07-04  1553  static inline int of_changeset_attach_node(struct of_changeset *ocs,
-201c910bd6898d Pantelis Antoniou 2014-07-04  1554  		struct device_node *np)
-201c910bd6898d Pantelis Antoniou 2014-07-04  1555  {
-201c910bd6898d Pantelis Antoniou 2014-07-04 @1556  	return of_changeset_action(ocs, OF_RECONFIG_ATTACH_NODE, np, NULL);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1557  }
-201c910bd6898d Pantelis Antoniou 2014-07-04  1558  
-201c910bd6898d Pantelis Antoniou 2014-07-04  1559  static inline int of_changeset_detach_node(struct of_changeset *ocs,
-201c910bd6898d Pantelis Antoniou 2014-07-04  1560  		struct device_node *np)
-201c910bd6898d Pantelis Antoniou 2014-07-04  1561  {
-201c910bd6898d Pantelis Antoniou 2014-07-04 @1562  	return of_changeset_action(ocs, OF_RECONFIG_DETACH_NODE, np, NULL);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1563  }
-201c910bd6898d Pantelis Antoniou 2014-07-04  1564  
-201c910bd6898d Pantelis Antoniou 2014-07-04  1565  static inline int of_changeset_add_property(struct of_changeset *ocs,
-201c910bd6898d Pantelis Antoniou 2014-07-04  1566  		struct device_node *np, struct property *prop)
-201c910bd6898d Pantelis Antoniou 2014-07-04  1567  {
-201c910bd6898d Pantelis Antoniou 2014-07-04 @1568  	return of_changeset_action(ocs, OF_RECONFIG_ADD_PROPERTY, np, prop);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1569  }
-201c910bd6898d Pantelis Antoniou 2014-07-04  1570  
-201c910bd6898d Pantelis Antoniou 2014-07-04  1571  static inline int of_changeset_remove_property(struct of_changeset *ocs,
-201c910bd6898d Pantelis Antoniou 2014-07-04  1572  		struct device_node *np, struct property *prop)
-201c910bd6898d Pantelis Antoniou 2014-07-04  1573  {
-201c910bd6898d Pantelis Antoniou 2014-07-04 @1574  	return of_changeset_action(ocs, OF_RECONFIG_REMOVE_PROPERTY, np, prop);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1575  }
-201c910bd6898d Pantelis Antoniou 2014-07-04  1576  
-201c910bd6898d Pantelis Antoniou 2014-07-04  1577  static inline int of_changeset_update_property(struct of_changeset *ocs,
-201c910bd6898d Pantelis Antoniou 2014-07-04  1578  		struct device_node *np, struct property *prop)
-201c910bd6898d Pantelis Antoniou 2014-07-04  1579  {
-201c910bd6898d Pantelis Antoniou 2014-07-04 @1580  	return of_changeset_action(ocs, OF_RECONFIG_UPDATE_PROPERTY, np, prop);
-201c910bd6898d Pantelis Antoniou 2014-07-04  1581  }
-b544fc2b8606d7 Lizhi Hou         2023-08-15  1582  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  54  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @55  static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  56  static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;
+a67ff6a54095e2 Rusty Russell  2011-12-15  57  static bool enable[SNDRV_CARDS] = SNDRV_DEFAULT_ENABLE_ISAPNP;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  58  #ifdef CONFIG_PNP
+a67ff6a54095e2 Rusty Russell  2011-12-15  59  static bool isapnp[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS - 1)] = 1};
+^1da177e4c3f41 Linus Torvalds 2005-04-16  60  #endif
+^1da177e4c3f41 Linus Torvalds 2005-04-16  61  static long sbport[SNDRV_CARDS] = SNDRV_DEFAULT_PORT;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  62  static int sbirq[SNDRV_CARDS] = SNDRV_DEFAULT_IRQ;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  63  static int sbdma8[SNDRV_CARDS] = SNDRV_DEFAULT_DMA;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  64  static int sbdma16[SNDRV_CARDS] = SNDRV_DEFAULT_DMA;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  65  static long wssport[SNDRV_CARDS] = SNDRV_DEFAULT_PORT;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  66  static int wssirq[SNDRV_CARDS] = SNDRV_DEFAULT_IRQ;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  67  static int wssdma[SNDRV_CARDS] = SNDRV_DEFAULT_DMA;
+48972cc5101dee Krzysztof Helt 2009-01-21  68  static long fmport[SNDRV_CARDS] = SNDRV_DEFAULT_PORT;
+c97dff84e0d9a4 Krzysztof Helt 2009-01-29  69  static long mpuport[SNDRV_CARDS] = SNDRV_DEFAULT_PORT;
+c97dff84e0d9a4 Krzysztof Helt 2009-01-29  70  static int mpuirq[SNDRV_CARDS] = SNDRV_DEFAULT_IRQ;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  71  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @72  module_param_array(index, int, NULL, 0444);
+69eb88825a7a56 Ondrej Zary    2009-07-04  73  MODULE_PARM_DESC(index, "Index value for CMI8330/CMI8329 soundcard.");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  74  module_param_array(id, charp, NULL, 0444);
+69eb88825a7a56 Ondrej Zary    2009-07-04  75  MODULE_PARM_DESC(id, "ID string  for CMI8330/CMI8329 soundcard.");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  76  module_param_array(enable, bool, NULL, 0444);
+69eb88825a7a56 Ondrej Zary    2009-07-04  77  MODULE_PARM_DESC(enable, "Enable CMI8330/CMI8329 soundcard.");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  78  #ifdef CONFIG_PNP
+^1da177e4c3f41 Linus Torvalds 2005-04-16  79  module_param_array(isapnp, bool, NULL, 0444);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  80  MODULE_PARM_DESC(isapnp, "PnP detection for specified soundcard.");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  81  #endif
+^1da177e4c3f41 Linus Torvalds 2005-04-16  82  
 
-:::::: The code at line 1556 was first introduced by commit
-:::::: 201c910bd6898d81d4ac6685d0f421b7e10f3c5d of: Transactional DT support.
+:::::: The code at line 55 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Pantelis Antoniou <pantelis.antoniou@konsulko.com>
-:::::: CC: Grant Likely <grant.likely@linaro.org>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
