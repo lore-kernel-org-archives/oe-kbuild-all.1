@@ -1,100 +1,149 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882971534FB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 14:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7565A153BD2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 15:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706540157; cv=none; b=edrsZzI/6u8USsZ/+cIaFRCdWvnL4nxReKXAasL4x9eHWsy0PR/rY/NYkQLbhp8rufP5/y+HY39rYxWo8IuMgJAKJB2On0whLNbK7R07+G3SnS18/WteibjqN323ElZ5pQuqctmEoxtOFR+qth42QEPzVb68ssu8mzKDQkjOBFM=
+	t=1706541106; cv=none; b=gWY5Eo83BXkM4TYSC661j0SyoI2LCigxEdatNjuQ800/m8lvJaQCtDVwzuESqiSke0EygtT2zXrGaPWrO8UHSy0sgZr/2eFt/cgOzhsszaEcocnCVpaoVmkzV/ad/s7yZDCp+VX3gxKcnRnPZhij9ju0nyuNsdJBYg7GdRTScaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706540157; c=relaxed/simple;
-	bh=T+n4AyEp0DKBsaHGBR9vBhR7ZFiTHJ9ws4rkHXkXFxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=WiR6VYsXRha9ltx6qs8wwusDOvfYJ5QsCu0ZlnyahyLCwJjHODtRkmTz1TJELJrCHetz/FC2gfOiyMBQAAAyHI/UV0+baRkx0Lw+O8ITYkOXWauUZCU+9aA7N94TyVInA3kfWCr+wLoTW5dhJFaMsw3YgihXuETwJtHHzo3pU9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LEuA9STS; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1706541106; c=relaxed/simple;
+	bh=3wpAMbMCpkmTG+iqDBNnePJvjTBFPa+7/0jbZQ2921s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hzgGlRavH8oT4bsqBegN8IFSARrFveDnv+1HfPYuW5sQf/ko3+lJbpxlocqD0PHzJ4o9Tt/vNBX1iuv8xItWMRxAu+VGMr1IIKUUKU3GEAASMfqiT2w/fG09wTw1ggG03+UX5VTWFu12o2IDlhgGs1w4vDe/ACNUcBPozwmnNDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dMMTswSz; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LEuA9STS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706540154;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5huqWVBHs7IYwSCzw2YfcXSjBfKGTJfw5R7fGwb0dCw=;
-	b=LEuA9STSjmZgJ2YDXkpw/CBjoyUaNKq0KLLYfi9zmLDb52nPXoackYX2RJ/GpiF3qKJ9dB
-	+4WezHSV1QeIprfQefRUOopCWh+myTj3+skqrrm5C2BoM5qMMYaP7gXmp9Jb9NSaQ7HkYY
-	kJw8wuinbcXx/PCN0ZTNCrSvUjVcBQ8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-124-F9Ij3kN3MdmQ3JgeqUyAzA-1; Mon, 29 Jan 2024 09:55:50 -0500
-X-MC-Unique: F9Ij3kN3MdmQ3JgeqUyAzA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F27B83FC22;
-	Mon, 29 Jan 2024 14:55:50 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 95AA41121306;
-	Mon, 29 Jan 2024 14:55:49 +0000 (UTC)
-Date: Mon, 29 Jan 2024 22:55:35 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 1576/1892] s390-linux-ld: kexec.c:undefined
- reference to `crashk_low_res'
-Message-ID: <Zbe8Z/h1oKu/yncB@MiWiFi-R3L-srv>
-References: <202401261933.gyy8YHnT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dMMTswSz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706541104; x=1738077104;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3wpAMbMCpkmTG+iqDBNnePJvjTBFPa+7/0jbZQ2921s=;
+  b=dMMTswSzt4Rk0u3DyUBNbtAj4B7M96s/IsHBOzDkBVMyx98i5j4BokFB
+   ZP2sPMtnpfOwwyLEnJYctZfE9ipoN58uoKmRYawzDh6AbeTEnRDF6rH5a
+   L2lHONjaDm5O60/KYnswqimBY88R76VwrVp//AEN3+DYOeMxFJ5ceSE7P
+   DziZp8BStGBBtHtnayF+vn7FAJZ+9Iu0XP3rqpIhF0wdaT1pl2uY2R6O3
+   UMM1fV27EuyjMTEX0EIyiMsx3EH3oF2EFtr2LCV1so31jgwwhzURBlR4r
+   V34oyYAwjh3SpdoXApc4e073FKCSyxcAAGhQnNkfqlml3SGwYOjQiHGS2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="24452034"
+X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
+   d="scan'208";a="24452034"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 07:11:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="878093062"
+X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
+   d="scan'208";a="878093062"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Jan 2024 07:11:42 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rUTIS-0004Me-0v;
+	Mon, 29 Jan 2024 15:11:40 +0000
+Date: Mon, 29 Jan 2024 23:11:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sam Shih <sam.shih@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: drivers/pinctrl/mediatek/pinctrl-mt7986.c:68: warning: Enum value
+ 'GPIO_BASE' not described in enum '(anonymous)'
+Message-ID: <202401292335.f1aHbKjm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202401261933.gyy8YHnT-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 01/26/24 at 07:45pm, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   01af33cc9894b4489fb68fa35c40e9fe85df63dc
-> commit: ad82e944d12ca472df041acb4c732bd630a81b90 [1576/1892] s390, crash: wrap crash dumping code into crash related ifdefs
-> config: s390-randconfig-r131-20230823 (https://download.01.org/0day-ci/archive/20240126/202401261933.gyy8YHnT-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240126/202401261933.gyy8YHnT-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401261933.gyy8YHnT-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    s390-linux-ld: arch/s390/kernel/machine_kexec.o: in function `arch_crash_save_vmcoreinfo':
->    machine_kexec.c:(.text+0x274): undefined reference to `vmcoreinfo_append_str'
->    s390-linux-ld: machine_kexec.c:(.text+0x28c): undefined reference to `vmcoreinfo_append_str'
->    s390-linux-ld: machine_kexec.c:(.text+0x2a2): undefined reference to `vmcoreinfo_append_str'
->    s390-linux-ld: machine_kexec.c:(.text+0x2c4): undefined reference to `vmcoreinfo_append_str'
->    s390-linux-ld: machine_kexec.c:(.text+0x2e6): undefined reference to `vmcoreinfo_append_str'
->    s390-linux-ld: arch/s390/kernel/machine_kexec.o:machine_kexec.c:(.text+0x308): more undefined references to `vmcoreinfo_append_str' follow
->    s390-linux-ld: arch/s390/kernel/machine_kexec.o: in function `arch_crash_save_vmcoreinfo':
->    machine_kexec.c:(.text+0x340): undefined reference to `paddr_vmcoreinfo_note'
->    s390-linux-ld: drivers/of/kexec.o: in function `of_kexec_alloc_and_setup_fdt':
->    kexec.c:(.text+0x60c): undefined reference to `crashk_res'
-> >> s390-linux-ld: kexec.c:(.text+0x660): undefined reference to `crashk_low_res'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
+commit: 360de67280641e451bc944a06bab64ddbeaa7fb9 pinctrl: mediatek: add support for MT7986 SoC
+date:   2 years, 3 months ago
+config: i386-buildonly-randconfig-004-20240106 (https://download.01.org/0day-ci/archive/20240129/202401292335.f1aHbKjm-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401292335.f1aHbKjm-lkp@intel.com/reproduce)
 
-Sorry for late response. These have been fixed in below patches.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401292335.f1aHbKjm-lkp@intel.com/
 
-[PATCH linux-next 3/3] arch, crash: move arch_crash_save_vmcoreinfo() out to file vmcore_info.c
-https://lore.kernel.org/all/20240129135033.157195-3-bhe@redhat.com/T/#u
+All warnings (new ones prefixed by >>):
 
-[PATCH linux-next 2/3] crash: fix building error in generic codes
-https://lore.kernel.org/all/20240129135033.157195-2-bhe@redhat.com/T/#u
+>> drivers/pinctrl/mediatek/pinctrl-mt7986.c:68: warning: Enum value 'GPIO_BASE' not described in enum '(anonymous)'
+>> drivers/pinctrl/mediatek/pinctrl-mt7986.c:68: warning: Enum value 'IOCFG_RT_BASE' not described in enum '(anonymous)'
+>> drivers/pinctrl/mediatek/pinctrl-mt7986.c:68: warning: Enum value 'IOCFG_RB_BASE' not described in enum '(anonymous)'
+>> drivers/pinctrl/mediatek/pinctrl-mt7986.c:68: warning: Enum value 'IOCFG_LT_BASE' not described in enum '(anonymous)'
+>> drivers/pinctrl/mediatek/pinctrl-mt7986.c:68: warning: Enum value 'IOCFG_LB_BASE' not described in enum '(anonymous)'
+>> drivers/pinctrl/mediatek/pinctrl-mt7986.c:68: warning: Enum value 'IOCFG_TR_BASE' not described in enum '(anonymous)'
+>> drivers/pinctrl/mediatek/pinctrl-mt7986.c:68: warning: Enum value 'IOCFG_TL_BASE' not described in enum '(anonymous)'
 
+
+vim +68 drivers/pinctrl/mediatek/pinctrl-mt7986.c
+
+    13	
+    14	#define PIN_FIELD_BASE(_s_pin, _e_pin, _i_base, _s_addr, _x_addrs, _s_bit,	\
+    15				_x_bits)	\
+    16			PIN_FIELD_CALC(_s_pin, _e_pin, _i_base, _s_addr, _x_addrs, _s_bit,	\
+    17				_x_bits, 32, 0)
+    18	
+    19	/**
+    20	 * enum - Locking variants of the iocfg bases
+    21	 *
+    22	 * MT7986 have multiple bases to program pin configuration listed as the below:
+    23	 * iocfg_rt:0x11c30000, iocfg_rb:0x11c40000, iocfg_lt:0x11e20000,
+    24	 * iocfg_lb:0x11e30000, iocfg_tr:0x11f00000, iocfg_tl:0x11f10000,
+    25	 * _i_based could be used to indicate what base the pin should be mapped into.
+    26	 *
+    27	 * Each iocfg register base control different group of pads on the SoC
+    28	 *
+    29	 *
+    30	 *  chip carrier
+    31	 *
+    32	 *      A  B  C  D  E  F  G  H
+    33	 *    +------------------------+
+    34	 *  8 | o  o  o  o  o  o  o  o |
+    35	 *  7 | o  o  o  o  o  o  o  o |
+    36	 *  6 | o  o  o  o  o  o  o  o |
+    37	 *  5 | o  o  o  o  o  o  o  o |
+    38	 *  4 | o  o  o  o  o  o  o  o |
+    39	 *  3 | o  o  o  o  o  o  o  o |
+    40	 *  2 | o  o  o  o  o  o  o  o |
+    41	 *  1 | o  o  o  o  o  o  o  o |
+    42	 *    +------------------------+
+    43	 *
+    44	 *  inside Chip carrier
+    45	 *
+    46	 *      A  B  C  D  E  F  G  H
+    47	 *    +------------------------+
+    48	 *  8 |                        |
+    49	 *  7 |        TL  TR          |
+    50	 *  6 |      +---------+       |
+    51	 *  5 |   LT |         | RT    |
+    52	 *  4 |      |         |       |
+    53	 *  3 |   LB |         | RB    |
+    54	 *  2 |      +---------+       |
+    55	 *  1 |                        |
+    56	 *    +------------------------+
+    57	 *
+    58	 */
+    59	
+    60	enum {
+    61		GPIO_BASE,
+    62		IOCFG_RT_BASE,
+    63		IOCFG_RB_BASE,
+    64		IOCFG_LT_BASE,
+    65		IOCFG_LB_BASE,
+    66		IOCFG_TR_BASE,
+    67		IOCFG_TL_BASE,
+  > 68	};
+    69	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
