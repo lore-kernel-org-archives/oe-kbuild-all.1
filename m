@@ -1,55 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFDA154BEE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 15:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D5F15530E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 16:11:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706543567; cv=none; b=u1TuLCloNrVfOEDLWD43nlmtTTytX2DsE3cbHFUicRPRCsr/POWf7hrXrJaBJzqVbz2lXCLqnMzOgODBsdW+1tlsVPY+9DVg5v0pS4Ap2c5WBboGwua5gpk+3lxxhAVrtz/K1+wtmUzHjYpAmW+qiJfWGCjo2UaTQGxuQr4h0gc=
+	t=1706544718; cv=none; b=LN1qLFV9CHTBTOmpbWQqsTFuu285DtBQzF8XHgjZS7hShhhv0toAPGKhBt0m/jZPgkcqvTKqBLld4k1DEsjyyOrDkZTNbOaYNMXa+JTO3OFdbL26KECjBxF5Ygbd59PFDBULAyNWW0gLVH/66GZCmuzEsn1+da+3yk45/ohL/Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706543567; c=relaxed/simple;
-	bh=pJnaQH8JBIs9SY08twStZ2Y6XDyEGZfsk1yaNL5TXDc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BEl8H4BZejEoY/4rmtfKCOCwLoxiNkwRqIHhmgXei+X23tep19zGwBgAciPTNGlDNXr5AyAZ1n8koahSwVKqgK3hxlTTie61WQsjxTygxsei8QQakjd0sXdKkl3uqwhwWGfXmZqevXDmsE8ULKRiYqIbZl0Ua7hG8A2a9F/wMjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGKpAkWo; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1706544718; c=relaxed/simple;
+	bh=EJuKz+rDfnnrgz4jtF7KK8M8+lKo37WzgpZ8fWKe+go=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=odgVfYOLgNs9rTznaKHHXbHL6SMUjzaRh53Td854QReXQENjh0PJzKs2ipGgN7HvnGgoRPkgPbrdHB2Q2mDmIZbWrHSikJarCQ/43jxtUb5NO8p2gzdegJ3FkCqvFX/gDWMimNJB4gs6sSY6HwvXqJMSyILz+MttySwAl0e02Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dI8hXNpC; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGKpAkWo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dI8hXNpC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706543566; x=1738079566;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pJnaQH8JBIs9SY08twStZ2Y6XDyEGZfsk1yaNL5TXDc=;
-  b=fGKpAkWo/okGdEEKdP9zVAgYbTvEY88QQqCowVRYqXeOHZ+L73KssXje
-   3IgEXGT6xL0QSsdYUG+RMIktsBG0Mg7O9txZZ9o9htqgICJ0TLvZv3T2Z
-   i1aw0ZY288WHNWlyfL8guLhaE+IAlHKjaeA1PEBH85uKRalYG2ORTloD5
-   2ShaeckW4ix7FVEfAtkVa4CfI6iOGb1X0qcnPisrU95kMHEkrC9yeyFm8
-   DhBS6Tw+23kGJo1Hg7evwrrcXr9SyH8xu7VxgbV8fsFY1T7XHvwiONLmm
-   I9GPcp3KCtLRBEL9tP4j9Bgl9JV4XQ8QGjoNDOZC4oyOllztcyPKhK6E6
+  t=1706544716; x=1738080716;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EJuKz+rDfnnrgz4jtF7KK8M8+lKo37WzgpZ8fWKe+go=;
+  b=dI8hXNpC8AqDPEpIcrlMPd6m2mdA8aXLsteIerCWkd6hWTBYGHKCSNN7
+   imXZN2Ux/C7HsMUtRKfKjbLP9/Pdug+NIhCyfdTfMmig7JwIk52+SKOym
+   hoxl3TTh6hej2JUu3VszMnieO+ds6GejYflBfI993WPlRYVD6eaaKDqtv
+   g1ODTGyhotRyhK/TxCTomDdnNV1k60ojC2LISQv1g+xC7K924Fun4C0BI
+   WCr/16hzy3wCFmZE5xAKfgbx6Xj1AhAPltGW0An4dUzFyQyjHBJHQQep4
+   oF/s+Re4vJvjnyJzmGr2z6kAKV2zjd9Q6hRKq2H4/t9BgzTjFC8ZVQpTl
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="2874439"
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="16359752"
 X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="2874439"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 07:52:45 -0800
+   d="scan'208";a="16359752"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 08:02:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="3495734"
+   d="scan'208";a="3342415"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 29 Jan 2024 07:52:45 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 29 Jan 2024 08:02:44 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUTw9-0004O7-2J;
-	Mon, 29 Jan 2024 15:52:41 +0000
-Date: Mon, 29 Jan 2024 23:52:02 +0800
+	id 1rUU5q-0004Oq-0h;
+	Mon, 29 Jan 2024 16:02:42 +0000
+Date: Tue, 30 Jan 2024 00:02:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
+	linux@roeck-us.net, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	joel@jms.id.au, andrew@codeconstruct.com.au, corbet@lwn.net,
+	u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de,
+	naresh.solanki@9elements.com, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+	BMC-SW@aspeedtech.com, patrick@stwcx.xyz
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:5.4-spi 10/41] versioncheck:
- ./net/wireguard/compat/ptr_ring/include/linux/ptr_ring.h: 674: need
- linux/version.h
-Message-ID: <202401292354.OGVwbUqP-lkp@intel.com>
+Subject: Re: [PATCH v13 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED
+ g6 PWM/Fan tach
+Message-ID: <202401292303.6SVAncvn-lkp@intel.com>
+References: <20240124060705.1342461-4-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,109 +68,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240124060705.1342461-4-billy_tsai@aspeedtech.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-spi
-head:   f18d6b8720893df4172d217fd074ba23ac53a7a7
-commit: eb31f9fb1fa2612c9024fcd18b95e511df50a1e5 [10/41] net: wireguard: update wireguard compat
-reproduce: (https://download.01.org/0day-ci/archive/20240129/202401292354.OGVwbUqP-lkp@intel.com/reproduce)
+Hi Billy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.8-rc2 next-20240129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-hwmon-fan-Add-fan-binding-to-schema/20240124-141405
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240124060705.1342461-4-billy_tsai%40aspeedtech.com
+patch subject: [PATCH v13 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
+config: riscv-randconfig-r071-20240129 (https://download.01.org/0day-ci/archive/20240129/202401292303.6SVAncvn-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401292303.6SVAncvn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401292354.OGVwbUqP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401292303.6SVAncvn-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 177: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/misc/mediatek/btif/common/inc/mtk_btif.h: 17 linux/version.h not needed.
-   ./drivers/misc/mediatek/btif/common/plat_inc/plat_common.h: 18 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/common_detect/wmt_detect.h: 18 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/conn_soc/include/wmt_stp_exp.h: 17 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/conn_soc/linux/include/osal_typedef.h: 24 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/common/conn_soc/linux/pub/bgw_desense.c: 15 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/hif/ahb/mt8127/ahb_pdma.c: 33 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/include/gl_os.h: 527 linux/version.h not needed.
-   ./drivers/misc/mediatek/connectivity/wlan/gen2/os/linux/platform.c: 104 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 35 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./net/wireguard/compat/dst_cache/dst_cache.c: 175: need linux/version.h
->> ./net/wireguard/compat/ptr_ring/include/linux/ptr_ring.h: 674: need linux/version.h
-   ./net/wireguard/compat/siphash/siphash.c: 539: need linux/version.h
-   ./net/wireguard/compat/udp_tunnel/udp_tunnel.c: 394: need linux/version.h
-   ./net/wireguard/compat/udp_tunnel/udp_tunnel_partial_compat.h: 226: need linux/version.h
->> ./net/wireguard/compat/version/linux/version.h: 10: need linux/version.h
-   ./net/wireguard/tests/qemu/init.c: 27 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./utils/cryptodev/cryptodev-linux/authenc.c: 849: need linux/version.h
-   ./utils/cryptodev/cryptodev-linux/cryptlib.c: 489: need linux/version.h
-   ./utils/cryptodev/cryptodev-linux/ioctl.c: 1217: need linux/version.h
-   ./utils/cryptodev/cryptodev-linux/zc.c: 220: need linux/version.h
+All errors (new ones prefixed by >>):
+
+>> drivers/hwmon/aspeed-g6-pwm-tach.c:496:2: error: implicit declaration of function 'of_platform_populate' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           of_platform_populate(dev->of_node, NULL, NULL, dev);
+           ^
+   1 error generated.
+
+
+vim +/of_platform_populate +496 drivers/hwmon/aspeed-g6-pwm-tach.c
+
+   446	
+   447	static int aspeed_pwm_tach_probe(struct platform_device *pdev)
+   448	{
+   449		struct device *dev = &pdev->dev, *hwmon;
+   450		int ret;
+   451		struct device_node *child;
+   452		struct aspeed_pwm_tach_data *priv;
+   453	
+   454		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   455		if (!priv)
+   456			return -ENOMEM;
+   457		priv->dev = dev;
+   458		priv->base = devm_platform_ioremap_resource(pdev, 0);
+   459		if (IS_ERR(priv->base))
+   460			return PTR_ERR(priv->base);
+   461	
+   462		priv->clk = devm_clk_get_enabled(dev, NULL);
+   463		if (IS_ERR(priv->clk))
+   464			return dev_err_probe(dev, PTR_ERR(priv->clk),
+   465					     "Couldn't get clock\n");
+   466		priv->clk_rate = clk_get_rate(priv->clk);
+   467		priv->reset = devm_reset_control_get_exclusive(dev, NULL);
+   468		if (IS_ERR(priv->reset))
+   469			return dev_err_probe(dev, PTR_ERR(priv->reset),
+   470					     "Couldn't get reset control\n");
+   471	
+   472		ret = reset_control_deassert(priv->reset);
+   473		if (ret)
+   474			return dev_err_probe(dev, ret,
+   475					     "Couldn't deassert reset control\n");
+   476	
+   477		priv->chip.dev = dev;
+   478		priv->chip.ops = &aspeed_pwm_ops;
+   479		priv->chip.npwm = PWM_ASPEED_NR_PWMS;
+   480	
+   481		ret = devm_pwmchip_add(dev, &priv->chip);
+   482		if (ret < 0) {
+   483			reset_control_assert(priv->reset);
+   484			return dev_err_probe(dev, ret, "Failed to add PWM chip\n");
+   485		}
+   486	
+   487		for_each_child_of_node(dev->of_node, child) {
+   488			ret = aspeed_tach_create_fan(dev, child, priv);
+   489			if (ret < 0) {
+   490				of_node_put(child);
+   491				dev_warn(dev, "Failed to create fan %d", ret);
+   492				return 0;
+   493			}
+   494		}
+   495	
+ > 496		of_platform_populate(dev->of_node, NULL, NULL, dev);
+   497	
+   498		hwmon = devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv,
+   499							     &aspeed_tach_chip_info, NULL);
+   500		ret = PTR_ERR_OR_ZERO(hwmon);
+   501		if (ret) {
+   502			reset_control_assert(priv->reset);
+   503			return dev_err_probe(dev, ret,
+   504					     "Failed to register hwmon device\n");
+   505		}
+   506	
+   507		return 0;
+   508	}
+   509	
 
 -- 
 0-DAY CI Kernel Test Service
