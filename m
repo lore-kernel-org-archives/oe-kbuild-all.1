@@ -1,62 +1,56 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B9C51C29
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 08:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4782F537F6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 08:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706515303; cv=none; b=q+44afSJyijmKjjmaN981Z3i60iXo07mwh7RdH//VmQKIt+sc7QZteGcTa7mCb4LsgUW/bWj+D+99MFkImkmg360m4pT/T3XTsfUxnIb1x/+9jJf/xpaCeJ8ilkQ31TATV9CVDM/epU8s0FFC6wCbJPJAR7Y/XUgyz46hTPgIiE=
+	t=1706515783; cv=none; b=VAe6QwHrhKcebk0BPmcwCNYX7gN1WNLcAvHj5JWSAgHEqV5TRwV/5LsZNht7oBb8y4B7UO9v/X99BpeUTOg7mpKBgQue9hBG28XOTSHKSfA8NXHuS/NBqcxdV8p8ilKtHfL2ysnruuLTfJcq6Ar9M7kNanOH2UhB4gTXvN2AYu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706515303; c=relaxed/simple;
-	bh=7muE9C7zO3fYwtjSUNREWZzZWYto6ALbsxyPnssI/4U=;
+	s=arc-20240116; t=1706515783; c=relaxed/simple;
+	bh=b9e0wC/xizIDj1rM6K7i2rxJpcPnyqPbBvZ2CfqqWQU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ggg1D7BBFZKsK1JtG0UGvjLtfLFDqrO40WugmonH9IIleibT63FhTmvt0XERremqzj0+58JTsAU3c0WVMWcP1lZMQwXJeqTbjnHC2QqqY2fz1r1FVVFtH5Qc7pCl0uhMLeEWvVO8HrX5ebab2qQoBpCSXMdJ0HP5upElSX1vtUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dsQTItsW; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=PsI81u6tAoXL1HBa3PW3AkbAzqCHKcpAwX0BDgOBW0Cf7AY4QIUgNcC7Ko7IA+11xBhVY+gzisoYHG7z7aYKiDo14RDLayUvLPCh2DtCol8eyTvRd1sXfnuPa8CU0TsHnYEO4Hb6OowHrSIui3y+Q8cQzlXSZJj4Emsu45uuqeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KfX3r5Id; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dsQTItsW"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33ae7ae1c32so819346f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 00:01:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706515300; x=1707120100; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aC/surzpEkWEmGAOSpUqfGd5O1uFGSnK9SJH7koMapU=;
-        b=dsQTItsWhN0L7dsTweWbdpXY0U4ljgHfZPjXSBpamiP+/sIyExytA/4tk7lPIjs36n
-         Vx7Krgwb8A5+SRzmu6O1NZ8kRajjmXWfp/ijfPeHNEYFQHPEgvmtIKdnPM8RWPGVXCSa
-         boZuG9WdjMKIMTdk12W3vkMg8Eq7dG7BcaP1sv5khiVLBoKlXqXYtl9eX5eOt75t/lzk
-         Nt4U4sUEZ5witEZXnHxEtwpYS+q9yrIAid42JTMeasPrJrRkQS4r+9LNo+ATocCHCIWi
-         QVMyiP6RriaqKBxPkZQQfgVkotQc3RBXtDwOIZKxoWbhJBfARq54HGboVi9Zs3AewIX7
-         J95A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706515300; x=1707120100;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aC/surzpEkWEmGAOSpUqfGd5O1uFGSnK9SJH7koMapU=;
-        b=ghBf58wKxDmxPcWxUM3Pqm5P9d2iU7RX0fq8XreXQ1Vo+bo0KyXQGrJxUasLJFOdoa
-         +cNnRnzToJ/8gQIUciIpVUzQ6fCNFk/Vv8bwVzfIGAIwFQsywWXBWI7I1Hr9pHAoL45L
-         yj8dzJudSzXJSHGTiQsL9kYxZNVKvtu84jmSgdxpH+qCazDP1pCcvjAJqMwBE8Y2oija
-         1TKyxP+B2iMTiYiqymd3p23QwswJPWpRFie05MV4yHXfdgkWeWV5NzZZ7wI0FSJwA3Cu
-         5XZTeE04NDsCzfo3R+wbAkpx7aqJsTFdZA2AKGMfmC2C6FgAbc1+XnW7050U04veOqzG
-         5Qbg==
-X-Gm-Message-State: AOJu0YzORn6yf8LeUacyCgSzRAvCX2w6kh61IBK+UgmX7UVXnoU/ddok
-	DOAJLlmp4Ai7Vrh/Hx1o0Fs8T+bynA1slOYkmJg1e1FtG6Elnrr+xFjAcA+jLrU=
-X-Google-Smtp-Source: AGHT+IHUJKbuZFfd3FMiMJe41O2D1CnqiTJrXcd1bUjPcdwQR4oWGUt/OcX0EFfLc8AUwGQj9DRceg==
-X-Received: by 2002:a05:6000:402a:b0:33a:e525:b15 with SMTP id cp42-20020a056000402a00b0033ae5250b15mr3592681wrb.19.1706515299699;
-        Mon, 29 Jan 2024 00:01:39 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id m6-20020a056000008600b00337d2d1e0ecsm7336226wrx.104.2024.01.29.00.01.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 00:01:39 -0800 (PST)
-Date: Mon, 29 Jan 2024 11:01:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 27108/30000]
- arch/x86/events/zhaoxin/uncore.c:1608 uncore_pci_probe() warn: possible
- memory leak of 'boxes'
-Message-ID: <1f51776d-7a8e-486b-86c9-e18caaa35974@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KfX3r5Id"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706515783; x=1738051783;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=b9e0wC/xizIDj1rM6K7i2rxJpcPnyqPbBvZ2CfqqWQU=;
+  b=KfX3r5IdIVwkK8YhUWGsoB8afE8Zy5AxO3SNxBXF4Asm6r992VT7+rJV
+   uVWqR6104n9ha72+EVtIzzKrbP9qsP5XMT4+v+RNn+bNcgiH7A/llqtsI
+   SomyMvoy8t4Lr7rT1rQya1ffaLUY9b3R9sG9kJ+8YpG81MxV91dXbSyr+
+   V+1YE92aPDa0zFesTrT2o+ZNvh/LOD8hNEOVvNPWga7sHx6jmcR2JwnmH
+   /ZHJ45vDy0w2htf5c3Txc2yxfqxd0dkYvTEY9AvaArsXhDq2shR2KQI1h
+   sYog+1tcgmaOEJDH/NoliqbhBsqpJGqDM6GFU2Xx9BktlT6ebgh+gkTfx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="9528456"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="9528456"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 00:09:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="858012559"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="858012559"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 29 Jan 2024 00:09:38 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rUMi0-00049Y-00;
+	Mon, 29 Jan 2024 08:09:36 +0000
+Date: Mon, 29 Jan 2024 16:09:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:timers/hotplug 14/15]
+ kernel/time/tick-sched.c:1575:6: error: redefinition of
+ 'tick_sched_timer_dying'
+Message-ID: <202401291549.QU9vTGce-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,106 +60,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   bb2503a5fcdf7f51d403ab34440c497acef3b4e7
-commit: 2bb7fd043b4123c569fbbde1f18e98d7565a4997 [27108/30000] x86/perf: Update PMU support for more Zhaoxin CPU
-config: x86_64-randconfig-161-20240124 (https://download.01.org/0day-ci/archive/20240127/202401270704.T1EAEEJC-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/hotplug
+head:   378e195ce2fd96d90ed7c1cde9033cb7079a7274
+commit: 9cd2efa0d41453db9d7e6bc813bde58daa3f0449 [14/15] tick: Shut down low-res tick from dying CPU
+config: arm-randconfig-r052-20240128 (https://download.01.org/0day-ci/archive/20240129/202401291549.QU9vTGce-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401291549.QU9vTGce-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202401270704.T1EAEEJC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401291549.QU9vTGce-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/events/zhaoxin/uncore.c:1608 uncore_pci_probe() warn: possible memory leak of 'boxes'
+All errors (new ones prefixed by >>):
 
-vim +/boxes +1608 arch/x86/events/zhaoxin/uncore.c
+>> kernel/time/tick-sched.c:1575:6: error: redefinition of 'tick_sched_timer_dying'
+    1575 | void tick_sched_timer_dying(int cpu)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/time/tick-internal.h:9,
+                    from kernel/time/tick-sched.c:32:
+   kernel/time/tick-sched.h:111:20: note: previous definition of 'tick_sched_timer_dying' with type 'void(int)'
+     111 | static inline void tick_sched_timer_dying(int cpu) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
 
-2bb7fd043b4123 leoliu-oc 2023-10-26  1571  static int uncore_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1572  {
-2bb7fd043b4123 leoliu-oc 2023-10-26  1573  	struct zhaoxin_uncore_type *type;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1574  	struct zhaoxin_uncore_pmu *pmu;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1575  	struct zhaoxin_uncore_box *box;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1576  	struct zhaoxin_uncore_box **boxes;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1577  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1578  	int loop, i, j = 0;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1579  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1580  	int subnode_id, ret = 0;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1581  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1582  	subnode_id = uncore_pcibus_to_subnodeid(pdev->bus);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1583  	if (subnode_id < 0)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1584  		return -EINVAL;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1585  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1586  	type = uncore_pci_uncores[UNCORE_PCI_DEV_TYPE(id->driver_data)];
-2bb7fd043b4123 leoliu-oc 2023-10-26  1587  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1588  	if (!strcmp(type->name, "mc0"))
-2bb7fd043b4123 leoliu-oc 2023-10-26  1589  		loop = 2;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1590  	else
-2bb7fd043b4123 leoliu-oc 2023-10-26  1591  		loop = 1;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1592  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1593  	boxes = kzalloc(loop * sizeof(struct zhaoxin_uncore_box *), GFP_KERNEL);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1594  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1595  	for (i = 0; i < loop; i++) {
-2bb7fd043b4123 leoliu-oc 2023-10-26  1596  		type = uncore_pci_uncores[UNCORE_PCI_DEV_TYPE(id->driver_data) + j];
-2bb7fd043b4123 leoliu-oc 2023-10-26  1597  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1598  		if (!type)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1599  			continue;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1600  		/*
-2bb7fd043b4123 leoliu-oc 2023-10-26  1601  		 * for performance monitoring unit with multiple boxes,
-2bb7fd043b4123 leoliu-oc 2023-10-26  1602  		 * each box has a different function id.
-2bb7fd043b4123 leoliu-oc 2023-10-26  1603  		 */
-2bb7fd043b4123 leoliu-oc 2023-10-26  1604  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1605  		pmu = &type->pmus[UNCORE_PCI_DEV_IDX(id->driver_data)];
-2bb7fd043b4123 leoliu-oc 2023-10-26  1606  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1607  		if (WARN_ON_ONCE(pmu->boxes[subnode_id] != NULL))
-2bb7fd043b4123 leoliu-oc 2023-10-26 @1608  			return -EINVAL;
 
-Static checker wants some cleanup before returning.
+vim +/tick_sched_timer_dying +1575 kernel/time/tick-sched.c
 
-2bb7fd043b4123 leoliu-oc 2023-10-26  1609  		box = uncore_alloc_box(type, NUMA_NO_NODE);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1610  		if (!box)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1611  			return -ENOMEM;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1612  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1613  		if (pmu->func_id < 0)
-2bb7fd043b4123 leoliu-oc 2023-10-26  1614  			pmu->func_id = pdev->devfn;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1615  		else
-2bb7fd043b4123 leoliu-oc 2023-10-26  1616  			WARN_ON_ONCE(pmu->func_id != pdev->devfn);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1617  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1618  		atomic_inc(&box->refcnt);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1619  		box->subnode_id = subnode_id;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1620  		box->pci_dev = pdev;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1621  		box->pmu = pmu;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1622  		uncore_box_init(box);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1623  		boxes[i] = box;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1624  
-2bb7fd043b4123 leoliu-oc 2023-10-26  1625  		pci_set_drvdata(pdev, boxes);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1626  		pmu->boxes[subnode_id] = box;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1627  		if (atomic_inc_return(&pmu->activeboxes) > 1) {
-2bb7fd043b4123 leoliu-oc 2023-10-26  1628  			if (!strcmp(type->name, "mc0"))
-2bb7fd043b4123 leoliu-oc 2023-10-26  1629  				goto next_loop;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1630  			else
-2bb7fd043b4123 leoliu-oc 2023-10-26  1631  				return 0;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1632  		}
-2bb7fd043b4123 leoliu-oc 2023-10-26  1633  		/* First active box registers the pmu */
-2bb7fd043b4123 leoliu-oc 2023-10-26  1634  		ret = uncore_pmu_register(pmu);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1635  		if (ret) {
-2bb7fd043b4123 leoliu-oc 2023-10-26  1636  			pci_set_drvdata(pdev, NULL);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1637  			pmu->boxes[subnode_id] = NULL;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1638  			uncore_box_exit(box);
-2bb7fd043b4123 leoliu-oc 2023-10-26  1639  			kfree(box);
-
-The cleanup here looks nice.
-
-2bb7fd043b4123 leoliu-oc 2023-10-26  1640  		}
-2bb7fd043b4123 leoliu-oc 2023-10-26  1641  next_loop:
-2bb7fd043b4123 leoliu-oc 2023-10-26  1642  		j++;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1643  	}
-2bb7fd043b4123 leoliu-oc 2023-10-26  1644  	return ret;
-2bb7fd043b4123 leoliu-oc 2023-10-26  1645  }
+  1570	
+  1571	/*
+  1572	 * Shut down the tick and make sure the CPU won't try to retake the timekeeping
+  1573	 * duty before disabling IRQs in idle for the last time.
+  1574	 */
+> 1575	void tick_sched_timer_dying(int cpu)
+  1576	{
+  1577		struct tick_device *td = &per_cpu(tick_cpu_device, cpu);
+  1578		struct tick_sched *ts = &per_cpu(tick_cpu_sched, cpu);
+  1579		struct clock_event_device *dev = td->evtdev;
+  1580		ktime_t idle_sleeptime, iowait_sleeptime;
+  1581	
+  1582		/* This must happen before hrtimers are migrated! */
+  1583		tick_sched_timer_cancel(ts);
+  1584	
+  1585		/*
+  1586		 * If the clockevents doesn't support CLOCK_EVT_STATE_ONESHOT_STOPPED,
+  1587		 * make sure not to call low-res tick handler.
+  1588		 */
+  1589		if (tick_sched_flag_test(ts, TS_FLAG_NOHZ))
+  1590			dev->event_handler = clockevents_handle_noop;
+  1591	
+  1592		idle_sleeptime = ts->idle_sleeptime;
+  1593		iowait_sleeptime = ts->iowait_sleeptime;
+  1594		memset(ts, 0, sizeof(*ts));
+  1595		ts->idle_sleeptime = idle_sleeptime;
+  1596		ts->iowait_sleeptime = iowait_sleeptime;
+  1597	}
+  1598	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
