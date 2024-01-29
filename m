@@ -1,46 +1,67 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413FEDF57;
-	Mon, 29 Jan 2024 02:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB63EADC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 02:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706494395; cv=none; b=WL3npSFjmNt6WxGsRXb0bo27/mQAfCatRXPs1tPUEN95DdTJqt/3QE6Tx2+UFk4m5d2446fyolujPC3PDsLb/BfT/4L0rqFwGnstni9K3X1Z9aM1k+VRfeMpIAHGAgpQ2Nl146nUe6+Oip2fpDfmTSk8USR2aWdXpF1hLLRjGSQ=
+	t=1706494623; cv=none; b=UsuSvyTWqtMwikDvU1rMGGmlh+caTJekcuKWYbVQVeogMNjl6sPjCoQZLl+80Ax8THiCfbmfpt0zhpYNwYLB26C2fpz/HXN3yOELh1u/cXg1CnX2iiXJM29+rldxjQj0zL1HINLKTLafmHWACtvSt0CrsUN6SyCFmByasRsa72o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706494395; c=relaxed/simple;
-	bh=qKAZsTA5V1biK/wV673ngjjOBuUZbt/6b/iCDQTJULo=;
+	s=arc-20240116; t=1706494623; c=relaxed/simple;
+	bh=wPPloFGC7eRb/BPuoQd8XaVTHf6sLjRfp0fiTh87kWs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nB6+qMOsw2aZvIvprx2LO3K4uA4I/PdMhF7ZrhoRMMiYkaCjwMfJKXs1YFzPEkqajZCQBCc9cOSw47Gpq0Re8HKiJU0xuH5a68osjkW0WkZiz6ztEE5G7gniSMKjQtm1komu079vomXkm7Sy8muvGLf/cgU0AvVGdf3om/M8ISY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=X/2urYF1; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=k40/H2vav/FSRPmpxtUYq/cro0Cdqe4iFhnXAUoXFvDwcbQCLUTV7AHbzxN9iOh0BAGh7c63o4zZiDKGQgGBH87gsQSjM387/fXBk8Zxg7aJ+cXcB3TJ+OSTsswAe65SMtfuXJ5qQXbHwbgIVkO8Yc14FNBOwHU0BgMj10SnN5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ky39gwYF; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="X/2urYF1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=lAL3P084x7WQ6qVVeqeoAVBmL5c5NTI7cGrWGT3TUTU=; b=X/2urYF1jciDJ4IFOIHE34Fu58
-	KYG0+3C0mc+xkYSOy6zT+QQmg9QzPm/VdX0efqfz+r+iEqKnemMpev4lAKP8/i5gzrmnF2WUZt4bB
-	0l+QiZKVpWXv3Rv7ueuL9AdGLxT7n0XVPtojX85ZtyJXY8dPLL61V9JjHbOPTJADq+3OC8O4LZ2rk
-	Xe09HmXbmabhctvc0SYfmJsfFs2aq9KhQ6Q81mQjTUudoO6+CRXDpbGS1Fx/MmA7wUFBNKmEDRSwF
-	IkLvSyFRuVCWknk88kgvW2ptTejGwEiVW6uBI12faeL4vHg4G2uSu/WjOl0N4oCOQ7z4Gwok/VqTt
-	sQhznZFQ==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1rUH93-0006EJ-2c;
-	Mon, 29 Jan 2024 02:13:09 +0000
-Date: Mon, 29 Jan 2024 02:13:09 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [viro-vfs:work.alpha 5/8] arch/alpha/kernel/io.c:655:1: error:
- redefinition of 'scr_memcpyw'
-Message-ID: <20240129021309.GG2087318@ZenIV>
-References: <202401280650.Us2Lrkgl-lkp@intel.com>
- <20240128211544.GD2087318@ZenIV>
- <CAHk-=wj8LUAX_rwM4=N9kNGeg=E+KoxY6uQfyqf=k7MOrb4+aA@mail.gmail.com>
- <20240128220904.GF2087318@ZenIV>
- <CAHk-=wih5PvaVpdgjLrAof6cX0SP9kM-z-pWczDk8EaHscDGzg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ky39gwYF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706494622; x=1738030622;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wPPloFGC7eRb/BPuoQd8XaVTHf6sLjRfp0fiTh87kWs=;
+  b=ky39gwYFrTVIDH6sP9sJXLXjbzcTIYJujUtuldiRmQV/T9Kp/hVJQTPJ
+   IdqGqK5RVKRSwu8KrmQApTUvQ0aAH95oqe8j5PrJgFCcbthEtKoWpJ8jz
+   0qisoPotLM1VwbPZCqqyG4ggkRRL/ZjxP8ne4eP0MU2XWxoLMDVilMfrc
+   QiJGDO3qyRqWwPtuFGHxetg3CT0x1YiBGdd+RZgfedKDErKBBsIE2XVSv
+   KgIYWLAgruy3MPILUOHKRk/jsuHqzZLo/msF91Or3y02bfzS0ur8ltlP8
+   YEgS2ZzHNe0nqbIqzSmF8FFX+8L7z8GIuk5IPrjE90GbZkEepSR5V6n5Z
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="10216457"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="10216457"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 18:17:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="737240503"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="737240503"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 28 Jan 2024 18:16:55 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rUHCf-0003xe-1f;
+	Mon, 29 Jan 2024 02:16:53 +0000
+Date: Mon, 29 Jan 2024 10:16:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Davis <afd@ti.com>, Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Karol Gugala <kgugala@antmicro.com>,
+	Mateusz Holenko <mholenko@antmicro.com>,
+	Gabriel Somlo <gsomlo@gmail.com>, Joel Stanley <joel@jms.id.au>,
+	Mark Brown <broonie@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Lee Jones <lee@kernel.org>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-spi@vger.kernel.org, Andrew Davis <afd@ti.com>
+Subject: Re: [PATCH 4/4] firmware: ti_sci: Use devm_register_restart_handler()
+Message-ID: <202401291053.Bc9G6QTc-lkp@intel.com>
+References: <20240123164443.394642-5-afd@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,22 +70,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wih5PvaVpdgjLrAof6cX0SP9kM-z-pWczDk8EaHscDGzg@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20240123164443.394642-5-afd@ti.com>
 
-On Sun, Jan 28, 2024 at 02:39:35PM -0800, Linus Torvalds wrote:
-> On Sun, 28 Jan 2024 at 14:09, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> > Do we ever use that thing on iomem in non-VGA setups?
-> 
-> On iomem? No. But I think several of the routines just work on either
-> VGA screen memory directly (c->vc_origin = vga_vram_base), or normal
-> RAM (vc_allocate)
-> 
-> But who knows.. I *used* to know all this code, but happily no longer.
+Hi Andrew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on linus/master v6.8-rc1 next-20240125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/kernel-reboot-Deprecate-register_restart_handler/20240124-005424
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20240123164443.394642-5-afd%40ti.com
+patch subject: [PATCH 4/4] firmware: ti_sci: Use devm_register_restart_handler()
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240129/202401291053.Bc9G6QTc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401291053.Bc9G6QTc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401291053.Bc9G6QTc-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/firmware/ti_sci.c:120: warning: Excess struct member 'nb' description in 'ti_sci_info'
 
 
-I hadn't finished going through the callers, but AFAICS in !VGA && !MDA
-case alpha should be just fine with the fallbacks, so we could just
-put the instance in io.c under the same ifdef that pulls asm/vga.h into
-linux/vt_buffer.h
+vim +120 drivers/firmware/ti_sci.c
+
+aa276781a64a5f Nishanth Menon 2016-10-18   85  
+aa276781a64a5f Nishanth Menon 2016-10-18   86  /**
+aa276781a64a5f Nishanth Menon 2016-10-18   87   * struct ti_sci_info - Structure representing a TI SCI instance
+aa276781a64a5f Nishanth Menon 2016-10-18   88   * @dev:	Device pointer
+aa276781a64a5f Nishanth Menon 2016-10-18   89   * @desc:	SoC description for this instance
+912cffb4ed8612 Nishanth Menon 2016-10-18   90   * @nb:	Reboot Notifier block
+aa276781a64a5f Nishanth Menon 2016-10-18   91   * @d:		Debugfs file entry
+aa276781a64a5f Nishanth Menon 2016-10-18   92   * @debug_region: Memory region where the debug message are available
+aa276781a64a5f Nishanth Menon 2016-10-18   93   * @debug_region_size: Debug region size
+aa276781a64a5f Nishanth Menon 2016-10-18   94   * @debug_buffer: Buffer allocated to copy debug messages.
+aa276781a64a5f Nishanth Menon 2016-10-18   95   * @handle:	Instance of TI SCI handle to send to clients.
+aa276781a64a5f Nishanth Menon 2016-10-18   96   * @cl:		Mailbox Client
+aa276781a64a5f Nishanth Menon 2016-10-18   97   * @chan_tx:	Transmit mailbox channel
+aa276781a64a5f Nishanth Menon 2016-10-18   98   * @chan_rx:	Receive mailbox channel
+aa276781a64a5f Nishanth Menon 2016-10-18   99   * @minfo:	Message info
+aa276781a64a5f Nishanth Menon 2016-10-18  100   * @node:	list head
+e69a35531589a2 Nishanth Menon 2018-08-28  101   * @host_id:	Host ID
+aa276781a64a5f Nishanth Menon 2016-10-18  102   * @users:	Number of users of this instance
+aa276781a64a5f Nishanth Menon 2016-10-18  103   */
+aa276781a64a5f Nishanth Menon 2016-10-18  104  struct ti_sci_info {
+aa276781a64a5f Nishanth Menon 2016-10-18  105  	struct device *dev;
+aa276781a64a5f Nishanth Menon 2016-10-18  106  	const struct ti_sci_desc *desc;
+aa276781a64a5f Nishanth Menon 2016-10-18  107  	struct dentry *d;
+aa276781a64a5f Nishanth Menon 2016-10-18  108  	void __iomem *debug_region;
+aa276781a64a5f Nishanth Menon 2016-10-18  109  	char *debug_buffer;
+aa276781a64a5f Nishanth Menon 2016-10-18  110  	size_t debug_region_size;
+aa276781a64a5f Nishanth Menon 2016-10-18  111  	struct ti_sci_handle handle;
+aa276781a64a5f Nishanth Menon 2016-10-18  112  	struct mbox_client cl;
+aa276781a64a5f Nishanth Menon 2016-10-18  113  	struct mbox_chan *chan_tx;
+aa276781a64a5f Nishanth Menon 2016-10-18  114  	struct mbox_chan *chan_rx;
+aa276781a64a5f Nishanth Menon 2016-10-18  115  	struct ti_sci_xfers_info minfo;
+aa276781a64a5f Nishanth Menon 2016-10-18  116  	struct list_head node;
+e69a35531589a2 Nishanth Menon 2018-08-28  117  	u8 host_id;
+aa276781a64a5f Nishanth Menon 2016-10-18  118  	/* protected by ti_sci_list_mutex */
+aa276781a64a5f Nishanth Menon 2016-10-18  119  	int users;
+aa276781a64a5f Nishanth Menon 2016-10-18 @120  };
+aa276781a64a5f Nishanth Menon 2016-10-18  121  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
