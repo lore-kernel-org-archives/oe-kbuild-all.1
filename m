@@ -1,57 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D654D112
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 09:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB1C54FB8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 09:44:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706521458; cv=none; b=EGlO2vkcWiYqPK6oHI+y5NaqPtGtrE9nVX/raorBw5xJR16JXai976ufG/Ai9b7iGKhfbMW6p0Wa5LPH42MkstMsjJ6RtGs7I75UvQ8yBuL3If+FBruG06BFAGnmOz1UKS+FQC9tKfF/RAdHrQQa6qSjD/0gFQDKfkpm6vbmNgU=
+	t=1706521460; cv=none; b=BYJlU2wGODeQkOxuZkkWPcgAsFLNVeML8Y703PYj5WDa9aJCe4FkueDXliE+f36YJ7SFxRfj9BhuR2pm8KIT2tmbRxs6A3JIVoVTeMDVajMuDoFYvZQeLBiOtyi2rJ+gcqbykSnJJjYR36o/kWWY82Y11EhWSowFz+sgHs+ZCJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706521458; c=relaxed/simple;
-	bh=wcLX45ap6JhBH76WE2IP/GivS77N1OTn8dNrZ+0jdQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CY5kidTO7TleYsoWW5Gs1ykuUpX59K+DeNHeg7Yg+17ga35NpLwstCBLT/YMb1uzyVgWVZ8JLrCCMuV4wh3CmsBNBRy5nf4cE3MC84JPxSBvjDE6vA7GqShQCEa6gAS+4xW/WxJrb72r5oUGGc68g5VFhZeQNupN85TiazDxLnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8Y4bjJA; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1706521460; c=relaxed/simple;
+	bh=qDCHEW29ggobcosrJPkx3qZwMM1MmpCYr382y2sMQW4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZxPySDSY+o/dZKplaZ0BZ6y7oTtwtX1q0FxdGaVXeYC4lrxMaLjeg95gjW+QphhcCF1N8aefBD/lP6SvXiFBrBg4T2uy/zH5Us3evFqvOIp/2yUU+5qlB7nGyp2cTRL2r+TEroY+Zni9oT49r5CkXs3ovBvrlU9Cr7J5BZOinPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=np0/ADog; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8Y4bjJA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="np0/ADog"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706521457; x=1738057457;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wcLX45ap6JhBH76WE2IP/GivS77N1OTn8dNrZ+0jdQQ=;
-  b=D8Y4bjJAv98GGrP7DzxkzbWY7kXL/bl3iPTvKnI+gjXqJwlX8LYGp6o6
-   VtV5WEbWdpNztsaEX5P+4kpjETM7T/WydhYO4ocfA/LESBXs1RwFqoWQU
-   NWtez3MH1cUxjpXEwrVG8ANzegazjYy0j6timTqNxONZf7mnYk8jGiw7w
-   AGcgWZt1rm8j0wCyKOWwio+CJnQmMK7HPWROGjEWOQRnyHKDCfQAwXiNK
-   qMk/yYY92b89YcJPzmmHZLNJHWLiOrmyzSsrY4NcajcEd2LXQHvnxGXLK
-   FUteee84kycNVRj4/gtxjpFYxrHxN3pgLZNLr1gPRdasz6YjcaEuWKrij
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="2732986"
+  t=1706521459; x=1738057459;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qDCHEW29ggobcosrJPkx3qZwMM1MmpCYr382y2sMQW4=;
+  b=np0/ADogPN2MVN/f0XylrlWoLod1eFk9PmjDaVaW1APmrbBwCGtW59zs
+   fC+j09kq4P2Asnp6JV3CKQXyJo+BswkIkeZxWkXlUjLCStXPtz6hHiFJp
+   2fveeBY2e/KOsNYn7DGcURDp7W94A1oBW+ps7jfOkSKlHPDKZVo8QSAMS
+   krbw/A9F1ibJDWuf26bzeD/GVx9z8jSPG7+gYWHsIilZ7QET8ASzgIlWq
+   8CGd3EccWyvJxaBVWRHi5AabMF1KU8GJ3bBllB/ACTstXS3BXSLDbObEJ
+   Ql0aLneyq89LsjT1mObQeDCWENKoA1tALMI87fFDk1k++P4BXKf995dAk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="2732988"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="2732986"
+   d="scan'208";a="2732988"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 01:44:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="858043827"
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="858043828"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="858043827"
+   d="scan'208";a="858043828"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 29 Jan 2024 01:44:14 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUOBY-0004Cm-25;
+	id 1rUOBY-0004Cp-38;
 	Mon, 29 Jan 2024 09:44:12 +0000
-Date: Mon, 29 Jan 2024 17:43:35 +0800
+Date: Mon, 29 Jan 2024 17:43:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 06/13] nfsd: prepare for supporting admin-revocation of
- state
-Message-ID: <202401291701.KnnRi3sK-lkp@intel.com>
-References: <20240129033637.2133-7-neilb@suse.de>
+To: "Christian A. Ehrhardt" <lk@c--e.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rob Herring <robh@kernel.org>
+Subject: drivers/of/unittest.c:573:43: error: 'struct device_node' has no
+ member named 'kobj'
+Message-ID: <202401291740.VP219WIz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,84 +59,213 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240129033637.2133-7-neilb@suse.de>
 
-Hi NeilBrown,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.8-rc2]
-[cannot apply to hch-configfs/for-next next-20240129]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/nfsd-remove-stale-comment-in-nfs4_show_deleg/20240129-113847
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240129033637.2133-7-neilb%40suse.de
-patch subject: [PATCH 06/13] nfsd: prepare for supporting admin-revocation of state
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240129/202401291701.KnnRi3sK-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401291701.KnnRi3sK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
+commit: 4dde83569832f9377362e50f7748463340c5db6b of: Fix double free in of_parse_phandle_with_args_map
+date:   3 weeks ago
+config: arc-randconfig-r031-20230520 (https://download.01.org/0day-ci/archive/20240129/202401291740.VP219WIz-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401291740.VP219WIz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401291701.KnnRi3sK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401291740.VP219WIz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/nfsd/nfs4state.c:1715: warning: Function parameter or struct member 'net' not described in 'nfsd4_revoke_states'
->> fs/nfsd/nfs4state.c:1715: warning: Function parameter or struct member 'sb' not described in 'nfsd4_revoke_states'
+   drivers/of/unittest.c: In function 'of_unittest_parse_phandle_with_args_map':
+>> drivers/of/unittest.c:573:43: error: 'struct device_node' has no member named 'kobj'
+     573 |                 prefs[i] = kref_read(&p[i]->kobj.kref);
+         |                                           ^~
+   drivers/of/unittest.c:696:53: error: 'struct device_node' has no member named 'kobj'
+     696 |                 unittest(prefs[i] == kref_read(&p[i]->kobj.kref),
+         |                                                     ^~
+   drivers/of/unittest.c:42:25: note: in definition of macro 'unittest'
+      42 |         bool failed = !(result); \
+         |                         ^~~~~~
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arc/include/asm/bug.h:30,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from include/linux/memblock.h:12,
+                    from drivers/of/unittest.c:8:
+   drivers/of/unittest.c:698:54: error: 'struct device_node' has no member named 'kobj'
+     698 |                          i, prefs[i], kref_read(&p[i]->kobj.kref));
+         |                                                      ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/of/unittest.c:45:17: note: in expansion of macro 'pr_err'
+      45 |                 pr_err("FAIL %s():%i " fmt, __func__, __LINE__, ##__VA_ARGS__); \
+         |                 ^~~~~~
+   drivers/of/unittest.c:696:17: note: in expansion of macro 'unittest'
+     696 |                 unittest(prefs[i] == kref_read(&p[i]->kobj.kref),
+         |                 ^~~~~~~~
 
 
-vim +1715 fs/nfsd/nfs4state.c
+vim +573 drivers/of/unittest.c
 
-  1699	
-  1700	/**
-  1701	 * nfsd4_revoke_states - revoke all nfsv4 states associated with given filesystem
-  1702	 * @net - used to identify instance of nfsd (there is one per net namespace)
-  1703	 * @sb - super_block used to identify target filesystem
-  1704	 *
-  1705	 * All nfs4 states (open, lock, delegation, layout) held by the server instance
-  1706	 * and associated with a file on the given filesystem will be revoked resulting
-  1707	 * in any files being closed and so all references from nfsd to the filesystem
-  1708	 * being released.  Thus nfsd will no longer prevent the filesystem from being
-  1709	 * unmounted.
-  1710	 *
-  1711	 * The clients which own the states will subsequently being notified that the
-  1712	 * states have been "admin-revoked".
-  1713	 */
-  1714	void nfsd4_revoke_states(struct net *net, struct super_block *sb)
-> 1715	{
-  1716		struct nfsd_net *nn = net_generic(net, nfsd_net_id);
-  1717		unsigned int idhashval;
-  1718		unsigned int sc_types;
-  1719	
-  1720		sc_types = 0;
-  1721	
-  1722		spin_lock(&nn->client_lock);
-  1723		for (idhashval = 0; idhashval < CLIENT_HASH_MASK; idhashval++) {
-  1724			struct list_head *head = &nn->conf_id_hashtbl[idhashval];
-  1725			struct nfs4_client *clp;
-  1726		retry:
-  1727			list_for_each_entry(clp, head, cl_idhash) {
-  1728				struct nfs4_stid *stid = find_one_sb_stid(clp, sb,
-  1729									  sc_types);
-  1730				if (stid) {
-  1731					spin_unlock(&nn->client_lock);
-  1732					switch (stid->sc_type) {
-  1733					}
-  1734					nfs4_put_stid(stid);
-  1735					spin_lock(&nn->client_lock);
-  1736					goto retry;
-  1737				}
-  1738			}
-  1739		}
-  1740		spin_unlock(&nn->client_lock);
-  1741	}
-  1742	
+   548	
+   549	static void __init of_unittest_parse_phandle_with_args_map(void)
+   550	{
+   551		struct device_node *np, *p[6] = {};
+   552		struct of_phandle_args args;
+   553		unsigned int prefs[6];
+   554		int i, rc;
+   555	
+   556		np = of_find_node_by_path("/testcase-data/phandle-tests/consumer-b");
+   557		if (!np) {
+   558			pr_err("missing testcase data\n");
+   559			return;
+   560		}
+   561	
+   562		p[0] = of_find_node_by_path("/testcase-data/phandle-tests/provider0");
+   563		p[1] = of_find_node_by_path("/testcase-data/phandle-tests/provider1");
+   564		p[2] = of_find_node_by_path("/testcase-data/phandle-tests/provider2");
+   565		p[3] = of_find_node_by_path("/testcase-data/phandle-tests/provider3");
+   566		p[4] = of_find_node_by_path("/testcase-data/phandle-tests/provider4");
+   567		p[5] = of_find_node_by_path("/testcase-data/phandle-tests/provider5");
+   568		for (i = 0; i < ARRAY_SIZE(p); ++i) {
+   569			if (!p[i]) {
+   570				pr_err("missing testcase data\n");
+   571				return;
+   572			}
+ > 573			prefs[i] = kref_read(&p[i]->kobj.kref);
+   574		}
+   575	
+   576		rc = of_count_phandle_with_args(np, "phandle-list", "#phandle-cells");
+   577		unittest(rc == 8, "of_count_phandle_with_args() returned %i, expected 7\n", rc);
+   578	
+   579		for (i = 0; i < 9; i++) {
+   580			bool passed = true;
+   581	
+   582			memset(&args, 0, sizeof(args));
+   583			rc = of_parse_phandle_with_args_map(np, "phandle-list",
+   584							    "phandle", i, &args);
+   585	
+   586			/* Test the values from tests-phandle.dtsi */
+   587			switch (i) {
+   588			case 0:
+   589				passed &= !rc;
+   590				passed &= (args.np == p[1]);
+   591				passed &= (args.args_count == 1);
+   592				passed &= (args.args[0] == 1);
+   593				break;
+   594			case 1:
+   595				passed &= !rc;
+   596				passed &= (args.np == p[3]);
+   597				passed &= (args.args_count == 3);
+   598				passed &= (args.args[0] == 2);
+   599				passed &= (args.args[1] == 5);
+   600				passed &= (args.args[2] == 3);
+   601				break;
+   602			case 2:
+   603				passed &= (rc == -ENOENT);
+   604				break;
+   605			case 3:
+   606				passed &= !rc;
+   607				passed &= (args.np == p[0]);
+   608				passed &= (args.args_count == 0);
+   609				break;
+   610			case 4:
+   611				passed &= !rc;
+   612				passed &= (args.np == p[1]);
+   613				passed &= (args.args_count == 1);
+   614				passed &= (args.args[0] == 3);
+   615				break;
+   616			case 5:
+   617				passed &= !rc;
+   618				passed &= (args.np == p[0]);
+   619				passed &= (args.args_count == 0);
+   620				break;
+   621			case 6:
+   622				passed &= !rc;
+   623				passed &= (args.np == p[2]);
+   624				passed &= (args.args_count == 2);
+   625				passed &= (args.args[0] == 15);
+   626				passed &= (args.args[1] == 0x20);
+   627				break;
+   628			case 7:
+   629				passed &= !rc;
+   630				passed &= (args.np == p[3]);
+   631				passed &= (args.args_count == 3);
+   632				passed &= (args.args[0] == 2);
+   633				passed &= (args.args[1] == 5);
+   634				passed &= (args.args[2] == 3);
+   635				break;
+   636			case 8:
+   637				passed &= (rc == -ENOENT);
+   638				break;
+   639			default:
+   640				passed = false;
+   641			}
+   642	
+   643			unittest(passed, "index %i - data error on node %s rc=%i\n",
+   644				 i, args.np->full_name, rc);
+   645	
+   646			if (rc == 0)
+   647				of_node_put(args.np);
+   648		}
+   649	
+   650		/* Check for missing list property */
+   651		memset(&args, 0, sizeof(args));
+   652		rc = of_parse_phandle_with_args_map(np, "phandle-list-missing",
+   653						    "phandle", 0, &args);
+   654		unittest(rc == -ENOENT, "expected:%i got:%i\n", -ENOENT, rc);
+   655	
+   656		/* Check for missing cells,map,mask property */
+   657		memset(&args, 0, sizeof(args));
+   658	
+   659		EXPECT_BEGIN(KERN_INFO,
+   660			     "OF: /testcase-data/phandle-tests/consumer-b: could not get #phandle-missing-cells for /testcase-data/phandle-tests/provider1");
+   661	
+   662		rc = of_parse_phandle_with_args_map(np, "phandle-list",
+   663						    "phandle-missing", 0, &args);
+   664		EXPECT_END(KERN_INFO,
+   665			   "OF: /testcase-data/phandle-tests/consumer-b: could not get #phandle-missing-cells for /testcase-data/phandle-tests/provider1");
+   666	
+   667		unittest(rc == -EINVAL, "expected:%i got:%i\n", -EINVAL, rc);
+   668	
+   669		/* Check for bad phandle in list */
+   670		memset(&args, 0, sizeof(args));
+   671	
+   672		EXPECT_BEGIN(KERN_INFO,
+   673			     "OF: /testcase-data/phandle-tests/consumer-b: could not find phandle 12345678");
+   674	
+   675		rc = of_parse_phandle_with_args_map(np, "phandle-list-bad-phandle",
+   676						    "phandle", 0, &args);
+   677		EXPECT_END(KERN_INFO,
+   678			   "OF: /testcase-data/phandle-tests/consumer-b: could not find phandle 12345678");
+   679	
+   680		unittest(rc == -EINVAL, "expected:%i got:%i\n", -EINVAL, rc);
+   681	
+   682		/* Check for incorrectly formed argument list */
+   683		memset(&args, 0, sizeof(args));
+   684	
+   685		EXPECT_BEGIN(KERN_INFO,
+   686			     "OF: /testcase-data/phandle-tests/consumer-b: #phandle-cells = 2 found 1");
+   687	
+   688		rc = of_parse_phandle_with_args_map(np, "phandle-list-bad-args",
+   689						    "phandle", 1, &args);
+   690		EXPECT_END(KERN_INFO,
+   691			   "OF: /testcase-data/phandle-tests/consumer-b: #phandle-cells = 2 found 1");
+   692	
+   693		unittest(rc == -EINVAL, "expected:%i got:%i\n", -EINVAL, rc);
+   694	
+   695		for (i = 0; i < ARRAY_SIZE(p); ++i) {
+   696			unittest(prefs[i] == kref_read(&p[i]->kobj.kref),
+   697				 "provider%d: expected:%d got:%d\n",
+   698				 i, prefs[i], kref_read(&p[i]->kobj.kref));
+   699			of_node_put(p[i]);
+   700		}
+   701	}
+   702	
 
 -- 
 0-DAY CI Kernel Test Service
