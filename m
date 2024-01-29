@@ -1,47 +1,55 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501CE44C76;
-	Mon, 29 Jan 2024 05:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C24433C1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 05:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706504610; cv=none; b=Nbb382+yaLR1p64+UZ7qz9LI/yKGEMZVdILIL58QR+XUhTFEod+OsD6KexXPX8HapRY9k1O4o24GE0cpd0WMgxTdiEbXz4ASKgSWpDYsBsexFTQPPOdZWrUMCMXjWmNZRx7GvMwgmTt6vpEaqHW9zY9xMOo8lF5Y7N5yhyTtuBI=
+	t=1706505788; cv=none; b=EpY1fYTmvvND4I8ZJ0sL/fLR5hktu2MWbgj+3GyQVRiVV8Weqatg176sx8jM2GAqUW++Q4RlLcnZ/w14IuOrsJ8XNQHVY39CgFDI9aGIT9+NY2EiDv1zAilF8n77sOPYLTAzUK+L0BiebVRzZnrpaZz2WRUuMQ4kSbJPr2r3YgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706504610; c=relaxed/simple;
-	bh=bWo1LQtclt3DjACJak7KRjechmo9LRKN+dTIFaj9S+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uwgHSAiDsk51QJy7I7adAXBB0zHUQq3Qh7ZqhEf8cq/32eiY0nq4vozO/dBSrHwTVHseN2wItFzBhroeIOUFp/Hnas8Ez2QftF6KYp4Ab1hZZoM7/41g8z+JtG2SoxU0dxqmiBHvbS0DXYlEy+d7bv6nRis6kObEsJv1Xclu8Ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=vmeirx5L; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1706505788; c=relaxed/simple;
+	bh=cEBjhh4nST8yctmfA+qn5tzrPWcKqjSfSoQ/tGFn+fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tZbI7oiWAKiLm+d6T3nxx3x0+Ubn9IX709j08qEMyo8b7olRXu+eflzOxYSk8SxilsKj68+02V1Mgi5GE+Un7PhzTGzEmVr8JLtqkQJkiyIbNnUccIZBuzTH4Qa59yhIw+Q7aVZvrx7F+QYxfzrGIXKrhB1ts/953rEP5AeJ72w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZnq9VJx; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="vmeirx5L"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=QoqsiGmkzCZBurOQpTAzJeU0KMKVWVIax2I0KtXPowM=; b=vmeirx5Lp2/bwMkIhA5RtiTkoE
-	y/LIKSaUczI/t5R9SaNhwf0qbKF3Xwtr7IoiOtkpFIGwGrt4zXxoLPa7/5m+ymG9KqEWJsTRzUr0z
-	xfATWd2kpS5xg3FtVbnuz0Xw4zQWMK6Ph47AHUsZyvqOJ7uLVCnSKBBHii4zUBkG/+wpydDnpTyiH
-	9qDSbNRd+G4WivJrPXFhSTUpNv5iYdo/HzRXoU7BCUukEH9LWNFJm1kVbifn1qSac9pTMWVu6kOoh
-	ct+xk2zZ/OsYOfB8s9Z7iBfaJTrLbtwqDuRgonN1Lcz4LqSo2aIsCTIrdzO7DfVhssrFEEQVPKJ7U
-	GCMnd71w==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1rUJnn-000Axd-2u;
-	Mon, 29 Jan 2024 05:03:24 +0000
-Date: Mon, 29 Jan 2024 05:03:23 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [viro-vfs:work.alpha 5/8] arch/alpha/kernel/io.c:655:1: error:
- redefinition of 'scr_memcpyw'
-Message-ID: <20240129050323.GJ2087318@ZenIV>
-References: <202401280650.Us2Lrkgl-lkp@intel.com>
- <20240128211544.GD2087318@ZenIV>
- <CAHk-=wj8LUAX_rwM4=N9kNGeg=E+KoxY6uQfyqf=k7MOrb4+aA@mail.gmail.com>
- <20240128220904.GF2087318@ZenIV>
- <CAHk-=wih5PvaVpdgjLrAof6cX0SP9kM-z-pWczDk8EaHscDGzg@mail.gmail.com>
- <20240129021309.GG2087318@ZenIV>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZnq9VJx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706505787; x=1738041787;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cEBjhh4nST8yctmfA+qn5tzrPWcKqjSfSoQ/tGFn+fg=;
+  b=gZnq9VJxtupURZzQ+mLDtzsEPOV+vxzzfkGRg2T9sTrAhjFs/hrkMwVN
+   qaf18VdGUqZkqB9zzM6NOb66mlsZ6JUU0Xql8feKAveaafOMQdJPJO1yM
+   JUFor9VRTo8WzE1IkuNOjHBdbRiUVL7FlI3HrEFlTm9HiXKLvPi9gZHoD
+   /fBDonHBzpQ4wz1sEiWNbiSeQ0LuoQlswRTZPwA5VZUVN4ILis3z6hVPb
+   haMI053jEpNNfo0eZbsqlGe8K0Lhcwo2xjPAJr5Meje5SaMIe3dQNz2/d
+   w3cGqELttKaFIZ9nkFQfwfEDIMY3InfMeC/zhGfwtKF4pW18wivVY8iMV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="9598736"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="9598736"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 21:23:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="21989489"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 28 Jan 2024 21:23:05 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rUK6o-00044U-2s;
+	Mon, 29 Jan 2024 05:23:02 +0000
+Date: Mon, 29 Jan 2024 13:22:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-for-sev-v3 13/17] WARNING: modpost: vmlinux: section
+ mismatch in reference: cmdline_find_option+0x3b (section: .pi.text) ->
+ myisspace (section: .text)
+Message-ID: <202401291302.1JuF7mcr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,70 +58,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240129021309.GG2087318@ZenIV>
-Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Mon, Jan 29, 2024 at 02:13:09AM +0000, Al Viro wrote:
-> On Sun, Jan 28, 2024 at 02:39:35PM -0800, Linus Torvalds wrote:
-> > On Sun, 28 Jan 2024 at 14:09, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> > >
-> > > Do we ever use that thing on iomem in non-VGA setups?
-> > 
-> > On iomem? No. But I think several of the routines just work on either
-> > VGA screen memory directly (c->vc_origin = vga_vram_base), or normal
-> > RAM (vc_allocate)
-> > 
-> > But who knows.. I *used* to know all this code, but happily no longer.
-> 
-> 
-> I hadn't finished going through the callers, but AFAICS in !VGA && !MDA
-> case alpha should be just fine with the fallbacks, so we could just
-> put the instance in io.c under the same ifdef that pulls asm/vga.h into
-> linux/vt_buffer.h
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-for-sev-v3
+head:   76018d102c84ba52d1ee5747cf97577d60e299f7
+commit: 0fe954066fb5e85812b4dbe94bd26c3ed7c335d7 [13/17] x86/sev: Make all code reachable from 1:1 mapping __pitext
+config: x86_64-buildonly-randconfig-001-20240129 (https://download.01.org/0day-ci/archive/20240129/202401291302.1JuF7mcr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401291302.1JuF7mcr-lkp@intel.com/reproduce)
 
-BTW, fun observation:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401291302.1JuF7mcr-lkp@intel.com/
 
-#ifndef VT_BUF_HAVE_MEMCPYW
-static inline void scr_memcpyw(u16 *d, const u16 *s, unsigned int count)
-{
-#ifdef VT_BUF_HAVE_RW
-	count /= 2;
-	while (count--)
-		scr_writew(scr_readw(s++), d++);
-#else
-	memcpy(d, s, count);
-#endif
-}
-#endif
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-is... interesting.  VT_BUF_HAVE_MEMCPYW is defined in asm/vga.h on alpha,
-mips, powerpc and sparc.  VT_BUF_HAVE_RW is defined precisely in the
-same cases.  In other words, fallback is *always* memcpy().  Now, note
-that
-arch/mips/include/asm/vga.h:50:#define scr_memcpyw(d, s, c) memcpy(d, s, c)
-arch/powerpc/include/asm/vga.h:45:#define scr_memcpyw   memcpy
-and on sparc we have
-static inline void scr_memcpyw(u16 *d, u16 *s, unsigned int n)
-{
-        BUG_ON((long) d >= 0);
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: vmlinux: section mismatch in reference: cmdline_find_option_bool+0x1 (section: .pi.text) -> __cmdline_find_option_bool.constprop.0 (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cmdline_find_option+0x3b (section: .pi.text) -> myisspace (section: .text)
+WARNING: modpost: vmlinux: section mismatch in reference: cmdline_find_option+0x66 (section: .pi.text) -> myisspace (section: .text)
+WARNING: modpost: vmlinux: section mismatch in reference: cmdline_find_option+0x90 (section: .pi.text) -> myisspace (section: .text)
 
-        memcpy(d, s, n);
-}
-
-IOW, we might as well kill VT_BUF_HAVE_MEMCPYW on everything except
-alpha and turn the bit in vt_buffer.h into
-#ifndef VT_BUF_HAVE_MEMCPYW
-#define scr_memcpyw memcpyw
-#endif
-
-Furthermore, scr_memmovew() situation is not far from that - we
-have
-* architectures other than alpha/mips/powerpc/sparc - all end
-up with memmove(), since neither VT_BUF_HAVE_MEMMOVEW nor
-VT_BUF_HAVE_RW is defined
-* mips/powerpc/sparc - memmove(), since it's explicitly defined
-that way.
-* alpha - that weird shit.
-
-Incidentally, why do we play with asm/vga.h on sparc?  Had there ever
-been sparc boxen with VGA card in them that would be in text mode?
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
