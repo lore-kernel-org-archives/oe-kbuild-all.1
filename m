@@ -1,56 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B7D54FBD;
-	Mon, 29 Jan 2024 09:55:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785F955E41;
+	Mon, 29 Jan 2024 09:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706522131; cv=none; b=uG3ZYk8y4TM78LbVa17swm8FCI9TemPel6GaWROYyogq1oEY/oqiFIHGb4DljTyg+BhJjKVRYHbPtOz3vwBHs+XDNMzQq9WolyAVL19BEqE5cu3eWZL5nRbf+Wr7tD797gyvhbAXEZcHQIJadFq2buhuRwSONgv2MZzY/jA27qk=
+	t=1706522134; cv=none; b=lzFtVEpLFt1Qig6nbg9V31mkfKINwv+U+9Zs8meLMXIesypqpCYbwyQw9d3OEaFjA3zY57g11Y25Mynrn4nJy+WF5YRI4Fm5x2hDSGuF/fc5QECPJhq4GrSVe4wNds3xLVclIUY+bj1rtM/uclEYt94Ek8ApsoUiFTXXYsYJCU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706522131; c=relaxed/simple;
-	bh=gXwKlEO+xUBbTmc4b7AohfdeQ3LQ9vIuDRkPFZMXU1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sXwopMg7oKCesBqyZmVA53MzYuXdgB85rUFdJRPIdTJTcZ0QFGdyf8ECxMHK+4wVFvFFWTT3lk/Ji5FFfHC4wmUn3IvbP/uAfrTXnrO0KgZyfwqr/ahfIt7mqUKVMcaV+8LDBT8f526FqX22a+cjzm/NtBcZNyQ6ymUil454pvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zf14mLxs; arc=none smtp.client-ip=192.55.52.88
+	s=arc-20240116; t=1706522134; c=relaxed/simple;
+	bh=iuAyiJZBYTVcgyK759cFEjVlO4s0hgdkeOU3/ojuVYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PnR0MzgdCUybf7QwXgx8CRY2ujmd4LFEOnZXY0avNS06gGfxUJDyiBOCcJP1/kXSDjFGNYEOw/DuZ0ckjxd6sPMne1QhwBzm0QBTOF9YKb/61MfJXBhDzqIXlGJvAc7alYm9PPN5wrkJ77EBBS1+mEn+chxu3drOaClBQ3r4YZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEgk8P4w; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zf14mLxs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEgk8P4w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706522128; x=1738058128;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gXwKlEO+xUBbTmc4b7AohfdeQ3LQ9vIuDRkPFZMXU1U=;
-  b=Zf14mLxsdO6X55odd8Y0l6ktBIVdTIVjUmm93qMwcuz4h4yv/rwPlXeI
-   P8JzfgTEF+i0oeGMERIcGyjupF63CP7/qejrvCoNCFTUKlcPW4psn6M75
-   9kX4S+Nfq90wrtyKHr+5w5pXVWepp5EiRBXeOOWCiG3lV9U2Ea982AkwK
-   t4zWzJFwy6piyGflfkMWwkp3H8/QrLUNp9FzNMDIPCSVNxFwxQFLN2aNn
-   8b3iTGPJMhApZg/pN/uQcrlywhC6w/yNDD1MpUNY6z4ph8ABLHlWyYMXI
-   YRdKtT324PsXB0Ir8+/96gg1ybqJ2sqaBC4a6Id2ZFAj83A2zbfCLl1zf
+  t=1706522131; x=1738058131;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iuAyiJZBYTVcgyK759cFEjVlO4s0hgdkeOU3/ojuVYc=;
+  b=TEgk8P4wbY9TF4gR+8oLY/IYLQ1nDTGSp7nu2qb1H28TSOqEmwB7IdcA
+   rnq2K93nSupOe/FlzyJrByX0D2eBd1SKQIvJaLW7Zt8Jefoa0M9MxHrtW
+   7b47/8iSN0aXtddI7PbGLwf7bq5i+Cn+wwnT4hgjKY0lJzQ3w2jaB+uqc
+   7O4n+yOvIuy5QkW0zvPri+TeSXrM0dOp7j9Jiu5eDU6I9H7PkpJb+G/+T
+   NAXaTeoWAGO3KxfILAvVBiEeBjnVcNiMiwM+LaSVHSPap8iBg1nNY5Niz
+   oLZosNJw++P55CNBLUoo2Umr4fZvMs57+zwY/QczgbCg28/FHNXpIey89
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="434071897"
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="434071899"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="434071897"
+   d="scan'208";a="434071899"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 01:55:17 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="36079071"
+   d="scan'208";a="36079070"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 29 Jan 2024 01:55:15 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUOMD-0004D9-1P;
+	id 1rUOMD-0004D6-19;
 	Mon, 29 Jan 2024 09:55:13 +0000
-Date: Mon, 29 Jan 2024 17:54:17 +0800
+Date: Mon, 29 Jan 2024 17:54:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Melissa Wen <mwen@igalia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] drm/amd/display: switch amdgpu_dm_connector to
- use struct drm_edid
-Message-ID: <202401291732.o3PWNUUx-lkp@intel.com>
-References: <20240126163429.56714-3-mwen@igalia.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dm-devel@lists.linux.dev
+Subject: [device-mapper-dm:dm-vdo-wip 61/78]
+ drivers/md/dm-vdo/dm-vdo-target.c:1157: warning: Function parameter or
+ struct member 'vdo' not described in 'get_thread_id_for_phase'
+Message-ID: <202401291709.UFQrAnRO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,202 +58,285 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240126163429.56714-3-mwen@igalia.com>
 
-Hi Melissa,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v6.8-rc1]
-[also build test ERROR on linus/master next-20240129]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Melissa-Wen/drm-amd-display-fix-null-pointer-dereference-on-edid-reading/20240127-010342
-base:   v6.8-rc1
-patch link:    https://lore.kernel.org/r/20240126163429.56714-3-mwen%40igalia.com
-patch subject: [RFC PATCH 2/2] drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240129/202401291732.o3PWNUUx-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401291732.o3PWNUUx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git dm-vdo-wip
+head:   4047b38a6b9963fea70002e5547dae1cb02914f7
+commit: e64f626707d0a0b2908bf0d47705d755ada6fd2d [61/78] dm vdo: use a proper Makefile for dm-vdo
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240129/202401291709.UFQrAnRO-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401291709.UFQrAnRO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401291732.o3PWNUUx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401291709.UFQrAnRO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:11134:12: error: assigning to 'struct detailed_timing *' from 'const struct detailed_timing *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    11134 |                                 timing  = &edid->detailed_timings[i];
-          |                                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:11179:12: error: assigning to 'struct detailed_timing *' from 'const struct detailed_timing *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    11179 |                         timing  = &edid->detailed_timings[i];
-          |                                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+>> drivers/md/dm-vdo/action-manager.c:64: warning: Function parameter or struct member 'scheduler' not described in 'action_manager'
+   drivers/md/dm-vdo/action-manager.c:64: warning: Excess struct member 'Scheduler' description in 'action_manager'
+--
+>> drivers/md/dm-vdo/admin-state.c:159: warning: Function parameter or struct member 'state' not described in 'get_next_state'
+>> drivers/md/dm-vdo/admin-state.c:159: warning: Function parameter or struct member 'operation' not described in 'get_next_state'
+>> drivers/md/dm-vdo/admin-state.c:198: warning: Function parameter or struct member 'state' not described in 'vdo_finish_operation'
+>> drivers/md/dm-vdo/admin-state.c:198: warning: Function parameter or struct member 'result' not described in 'vdo_finish_operation'
+>> drivers/md/dm-vdo/admin-state.c:226: warning: Function parameter or struct member 'state' not described in 'begin_operation'
+>> drivers/md/dm-vdo/admin-state.c:226: warning: Function parameter or struct member 'operation' not described in 'begin_operation'
+>> drivers/md/dm-vdo/admin-state.c:226: warning: Function parameter or struct member 'waiter' not described in 'begin_operation'
+>> drivers/md/dm-vdo/admin-state.c:226: warning: Function parameter or struct member 'initiator' not described in 'begin_operation'
+>> drivers/md/dm-vdo/admin-state.c:271: warning: Function parameter or struct member 'state' not described in 'start_operation'
+>> drivers/md/dm-vdo/admin-state.c:271: warning: Function parameter or struct member 'operation' not described in 'start_operation'
+>> drivers/md/dm-vdo/admin-state.c:271: warning: Function parameter or struct member 'waiter' not described in 'start_operation'
+>> drivers/md/dm-vdo/admin-state.c:271: warning: Function parameter or struct member 'initiator' not described in 'start_operation'
+>> drivers/md/dm-vdo/admin-state.c:288: warning: Function parameter or struct member 'valid' not described in 'check_code'
+>> drivers/md/dm-vdo/admin-state.c:288: warning: Function parameter or struct member 'code' not described in 'check_code'
+>> drivers/md/dm-vdo/admin-state.c:288: warning: Function parameter or struct member 'what' not described in 'check_code'
+>> drivers/md/dm-vdo/admin-state.c:288: warning: Function parameter or struct member 'waiter' not described in 'check_code'
+>> drivers/md/dm-vdo/admin-state.c:310: warning: Function parameter or struct member 'operation' not described in 'assert_vdo_drain_operation'
+>> drivers/md/dm-vdo/admin-state.c:310: warning: Function parameter or struct member 'waiter' not described in 'assert_vdo_drain_operation'
+   drivers/md/dm-vdo/admin-state.c:310: warning: expecting prototype for vdo_drain_operation(). Prototype was for assert_vdo_drain_operation() instead
+>> drivers/md/dm-vdo/admin-state.c:325: warning: Function parameter or struct member 'state' not described in 'vdo_start_draining'
+>> drivers/md/dm-vdo/admin-state.c:325: warning: Function parameter or struct member 'operation' not described in 'vdo_start_draining'
+   drivers/md/dm-vdo/admin-state.c:325: warning: Function parameter or struct member 'waiter' not described in 'vdo_start_draining'
+   drivers/md/dm-vdo/admin-state.c:325: warning: Function parameter or struct member 'initiator' not described in 'vdo_start_draining'
+   drivers/md/dm-vdo/admin-state.c:352: warning: Function parameter or struct member 'state' not described in 'vdo_finish_draining'
+   drivers/md/dm-vdo/admin-state.c:362: warning: Function parameter or struct member 'state' not described in 'vdo_finish_draining_with_result'
+   drivers/md/dm-vdo/admin-state.c:362: warning: Function parameter or struct member 'result' not described in 'vdo_finish_draining_with_result'
+   drivers/md/dm-vdo/admin-state.c:374: warning: Function parameter or struct member 'operation' not described in 'vdo_assert_load_operation'
+   drivers/md/dm-vdo/admin-state.c:374: warning: Function parameter or struct member 'waiter' not described in 'vdo_assert_load_operation'
+   drivers/md/dm-vdo/admin-state.c:389: warning: Function parameter or struct member 'state' not described in 'vdo_start_loading'
+   drivers/md/dm-vdo/admin-state.c:389: warning: Function parameter or struct member 'operation' not described in 'vdo_start_loading'
+   drivers/md/dm-vdo/admin-state.c:389: warning: Function parameter or struct member 'waiter' not described in 'vdo_start_loading'
+   drivers/md/dm-vdo/admin-state.c:389: warning: Function parameter or struct member 'initiator' not described in 'vdo_start_loading'
+   drivers/md/dm-vdo/admin-state.c:400: warning: Function parameter or struct member 'state' not described in 'vdo_finish_loading'
+   drivers/md/dm-vdo/admin-state.c:411: warning: Function parameter or struct member 'state' not described in 'vdo_finish_loading_with_result'
+   drivers/md/dm-vdo/admin-state.c:411: warning: Function parameter or struct member 'result' not described in 'vdo_finish_loading_with_result'
+   drivers/md/dm-vdo/admin-state.c:423: warning: Function parameter or struct member 'operation' not described in 'assert_vdo_resume_operation'
+   drivers/md/dm-vdo/admin-state.c:423: warning: Function parameter or struct member 'waiter' not described in 'assert_vdo_resume_operation'
+   drivers/md/dm-vdo/admin-state.c:439: warning: Function parameter or struct member 'state' not described in 'vdo_start_resuming'
+   drivers/md/dm-vdo/admin-state.c:439: warning: Function parameter or struct member 'operation' not described in 'vdo_start_resuming'
+   drivers/md/dm-vdo/admin-state.c:439: warning: Function parameter or struct member 'waiter' not described in 'vdo_start_resuming'
+   drivers/md/dm-vdo/admin-state.c:439: warning: Function parameter or struct member 'initiator' not described in 'vdo_start_resuming'
+   drivers/md/dm-vdo/admin-state.c:450: warning: Function parameter or struct member 'state' not described in 'vdo_finish_resuming'
+   drivers/md/dm-vdo/admin-state.c:461: warning: Function parameter or struct member 'state' not described in 'vdo_finish_resuming_with_result'
+   drivers/md/dm-vdo/admin-state.c:461: warning: Function parameter or struct member 'result' not described in 'vdo_finish_resuming_with_result'
+   drivers/md/dm-vdo/admin-state.c:472: warning: Function parameter or struct member 'state' not described in 'vdo_resume_if_quiescent'
+   drivers/md/dm-vdo/admin-state.c:487: warning: Function parameter or struct member 'state' not described in 'vdo_start_operation'
+   drivers/md/dm-vdo/admin-state.c:487: warning: Function parameter or struct member 'operation' not described in 'vdo_start_operation'
+   drivers/md/dm-vdo/admin-state.c:502: warning: Function parameter or struct member 'state' not described in 'vdo_start_operation_with_waiter'
+   drivers/md/dm-vdo/admin-state.c:502: warning: Function parameter or struct member 'operation' not described in 'vdo_start_operation_with_waiter'
+   drivers/md/dm-vdo/admin-state.c:502: warning: Function parameter or struct member 'waiter' not described in 'vdo_start_operation_with_waiter'
+   drivers/md/dm-vdo/admin-state.c:502: warning: Function parameter or struct member 'initiator' not described in 'vdo_start_operation_with_waiter'
+--
+>> drivers/md/dm-vdo/completion.c:72: warning: Function parameter or struct member 'completion' not described in 'vdo_set_completion_result'
+>> drivers/md/dm-vdo/completion.c:72: warning: Function parameter or struct member 'result' not described in 'vdo_set_completion_result'
+>> drivers/md/dm-vdo/completion.c:88: warning: Function parameter or struct member 'completion' not described in 'vdo_launch_completion_with_priority'
+>> drivers/md/dm-vdo/completion.c:133: warning: Function parameter or struct member 'completion' not described in 'vdo_requeue_completion_if_needed'
+>> drivers/md/dm-vdo/completion.c:133: warning: Function parameter or struct member 'callback_thread_id' not described in 'vdo_requeue_completion_if_needed'
+--
+   drivers/md/dm-vdo/flush.c:97: warning: expecting prototype for waiter_as_flush(). Prototype was for vdo_waiter_as_flush() instead
+>> drivers/md/dm-vdo/flush.c:532: warning: Function parameter or struct member 'state' not described in 'initiate_drain'
+--
+>> drivers/md/dm-vdo/block-map.c:183: warning: Function parameter or struct member 'cache' not described in 'initialize_info'
+>> drivers/md/dm-vdo/block-map.c:222: warning: Function parameter or struct member 'cache' not described in 'allocate_cache_components'
+   drivers/md/dm-vdo/block-map.c:222: warning: Excess function parameter 'maximum_age' description in 'allocate_cache_components'
+>> drivers/md/dm-vdo/block-map.c:248: warning: Function parameter or struct member 'cache' not described in 'assert_on_cache_thread'
+>> drivers/md/dm-vdo/block-map.c:248: warning: Function parameter or struct member 'function_name' not described in 'assert_on_cache_thread'
+>> drivers/md/dm-vdo/block-map.c:284: warning: Function parameter or struct member 'state' not described in 'get_page_state_name'
+>> drivers/md/dm-vdo/block-map.c:351: warning: Function parameter or struct member 'info' not described in 'set_info_state'
+>> drivers/md/dm-vdo/block-map.c:351: warning: Function parameter or struct member 'new_state' not described in 'set_info_state'
+>> drivers/md/dm-vdo/block-map.c:427: warning: Function parameter or struct member 'cache' not described in 'find_free_page'
+>> drivers/md/dm-vdo/block-map.c:446: warning: Function parameter or struct member 'cache' not described in 'find_page'
+>> drivers/md/dm-vdo/block-map.c:465: warning: Function parameter or struct member 'cache' not described in 'select_lru_page'
+>> drivers/md/dm-vdo/block-map.c:537: warning: Function parameter or struct member 'info' not described in 'distribute_page_over_waitq'
+>> drivers/md/dm-vdo/block-map.c:537: warning: Function parameter or struct member 'waitq' not described in 'distribute_page_over_waitq'
+>> drivers/md/dm-vdo/block-map.c:562: warning: Function parameter or struct member 'cache' not described in 'set_persistent_error'
+>> drivers/md/dm-vdo/block-map.c:562: warning: Function parameter or struct member 'result' not described in 'set_persistent_error'
+>> drivers/md/dm-vdo/block-map.c:594: warning: Function parameter or struct member 'completion' not described in 'validate_completed_page'
+>> drivers/md/dm-vdo/block-map.c:770: warning: Function parameter or struct member 'info' not described in 'launch_page_load'
+>> drivers/md/dm-vdo/block-map.c:770: warning: Function parameter or struct member 'pbn' not described in 'launch_page_load'
+>> drivers/md/dm-vdo/block-map.c:847: warning: Function parameter or struct member 'info' not described in 'schedule_page_save'
+>> drivers/md/dm-vdo/block-map.c:863: warning: Function parameter or struct member 'info' not described in 'launch_page_save'
+>> drivers/md/dm-vdo/block-map.c:878: warning: Function parameter or struct member 'waiter' not described in 'completion_needs_page'
+   drivers/md/dm-vdo/block-map.c:889: warning: Function parameter or struct member 'info' not described in 'allocate_free_page'
+   drivers/md/dm-vdo/block-map.c:941: warning: Function parameter or struct member 'cache' not described in 'discard_a_page'
+   drivers/md/dm-vdo/block-map.c:967: warning: Function parameter or struct member 'vdo_page_comp' not described in 'discard_page_for_completion'
+   drivers/md/dm-vdo/block-map.c:1145: warning: Function parameter or struct member 'completion' not described in 'vdo_release_page_completion'
+   drivers/md/dm-vdo/block-map.c:1185: warning: Function parameter or struct member 'info' not described in 'load_page_for_completion'
+   drivers/md/dm-vdo/block-map.c:1185: warning: Function parameter or struct member 'vdo_page_comp' not described in 'load_page_for_completion'
+   drivers/md/dm-vdo/block-map.c:1332: warning: Function parameter or struct member 'cache' not described in 'vdo_invalidate_page_cache'
+   drivers/md/dm-vdo/block-map.c:1359: warning: Function parameter or struct member 'forest' not described in 'get_tree_page_by_index'
+   drivers/md/dm-vdo/block-map.c:1359: warning: Function parameter or struct member 'root_index' not described in 'get_tree_page_by_index'
+   drivers/md/dm-vdo/block-map.c:1359: warning: Function parameter or struct member 'height' not described in 'get_tree_page_by_index'
+   drivers/md/dm-vdo/block-map.c:1359: warning: Function parameter or struct member 'page_index' not described in 'get_tree_page_by_index'
+   drivers/md/dm-vdo/block-map.c:2223: warning: Function parameter or struct member 'data_vio' not described in 'vdo_find_block_map_slot'
+   drivers/md/dm-vdo/block-map.c:2448: warning: Function parameter or struct member 'map' not described in 'make_forest'
+   drivers/md/dm-vdo/block-map.c:2486: warning: Function parameter or struct member 'map' not described in 'replace_forest'
+   drivers/md/dm-vdo/block-map.c:2502: warning: Function parameter or struct member 'cursor' not described in 'finish_cursor'
+   drivers/md/dm-vdo/block-map.c:2561: warning: Function parameter or struct member 'cursor' not described in 'traverse'
+   drivers/md/dm-vdo/block-map.c:2634: warning: Function parameter or struct member 'waiter' not described in 'launch_cursor'
+   drivers/md/dm-vdo/block-map.c:2650: warning: Function parameter or struct member 'map' not described in 'compute_boundary'
+   drivers/md/dm-vdo/block-map.c:2650: warning: Function parameter or struct member 'root_index' not described in 'compute_boundary'
+   drivers/md/dm-vdo/block-map.c:2683: warning: Function parameter or struct member 'map' not described in 'vdo_traverse_forest'
+   drivers/md/dm-vdo/block-map.c:2724: warning: Function parameter or struct member 'map' not described in 'initialize_block_map_zone'
+   drivers/md/dm-vdo/block-map.c:2724: warning: Function parameter or struct member 'zone_number' not described in 'initialize_block_map_zone'
+   drivers/md/dm-vdo/block-map.c:2724: warning: Function parameter or struct member 'cache_size' not described in 'initialize_block_map_zone'
+   drivers/md/dm-vdo/block-map.c:3105: warning: Function parameter or struct member 'data_vio' not described in 'clear_mapped_location'
+   drivers/md/dm-vdo/block-map.c:3120: warning: Function parameter or struct member 'data_vio' not described in 'set_mapped_location'
+   drivers/md/dm-vdo/block-map.c:3120: warning: Function parameter or struct member 'entry' not described in 'set_mapped_location'
+--
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or struct member 'thread_name_prefix' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or struct member 'name' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or struct member 'owner' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or struct member 'type' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or struct member 'thread_count' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or struct member 'thread_privates' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or struct member 'queue_ptr' not described in 'vdo_make_work_queue'
+--
+>> drivers/md/dm-vdo/data-vio.c:233: warning: Function parameter or struct member 'pool' not described in 'check_for_drain_complete_locked'
+>> drivers/md/dm-vdo/data-vio.c:342: warning: Function parameter or struct member 'data_vio' not described in 'set_data_vio_compression_status'
+>> drivers/md/dm-vdo/data-vio.c:342: warning: Function parameter or struct member 'status' not described in 'set_data_vio_compression_status'
+>> drivers/md/dm-vdo/data-vio.c:342: warning: Function parameter or struct member 'new_status' not described in 'set_data_vio_compression_status'
+   drivers/md/dm-vdo/data-vio.c:342: warning: Excess function parameter 'state' description in 'set_data_vio_compression_status'
+   drivers/md/dm-vdo/data-vio.c:342: warning: Excess function parameter 'new_state' description in 'set_data_vio_compression_status'
+>> drivers/md/dm-vdo/data-vio.c:394: warning: Function parameter or struct member 'data_vio' not described in 'cancel_data_vio_compression'
+>> drivers/md/dm-vdo/data-vio.c:487: warning: Function parameter or struct member 'data_vio' not described in 'launch_data_vio'
+>> drivers/md/dm-vdo/data-vio.c:487: warning: Function parameter or struct member 'lbn' not described in 'launch_data_vio'
+>> drivers/md/dm-vdo/data-vio.c:660: warning: Function parameter or struct member 'pool' not described in 'schedule_releases'
+>> drivers/md/dm-vdo/data-vio.c:788: warning: Function parameter or struct member 'data_vio' not described in 'initialize_data_vio'
+>> drivers/md/dm-vdo/data-vio.c:788: warning: Function parameter or struct member 'vdo' not described in 'initialize_data_vio'
+>> drivers/md/dm-vdo/data-vio.c:844: warning: Function parameter or struct member 'pool_ptr' not described in 'make_data_vio_pool'
+   drivers/md/dm-vdo/data-vio.c:844: warning: Excess function parameter 'pool' description in 'make_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:898: warning: Function parameter or struct member 'pool' not described in 'free_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:959: warning: Function parameter or struct member 'pool' not described in 'vdo_launch_bio'
+>> drivers/md/dm-vdo/data-vio.c:959: warning: Function parameter or struct member 'bio' not described in 'vdo_launch_bio'
+>> drivers/md/dm-vdo/data-vio.c:1004: warning: Function parameter or struct member 'pool' not described in 'drain_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:1015: warning: Function parameter or struct member 'pool' not described in 'resume_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:1034: warning: Function parameter or struct member 'pool' not described in 'dump_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:1152: warning: Function parameter or struct member 'completion' not described in 'release_allocated_lock'
+>> drivers/md/dm-vdo/data-vio.c:1232: warning: Function parameter or struct member 'completion' not described in 'release_logical_lock'
+>> drivers/md/dm-vdo/data-vio.c:1269: warning: Function parameter or struct member 'data_vio' not described in 'finish_cleanup'
+   drivers/md/dm-vdo/data-vio.c:1378: warning: Function parameter or struct member 'data_vio' not described in 'get_data_vio_operation_name'
+   drivers/md/dm-vdo/data-vio.c:1398: warning: Function parameter or struct member 'data_vio' not described in 'data_vio_allocate_data_block'
+   drivers/md/dm-vdo/data-vio.c:1418: warning: Function parameter or struct member 'data_vio' not described in 'release_data_vio_allocation_lock'
+   drivers/md/dm-vdo/data-vio.c:1438: warning: Function parameter or struct member 'data_vio' not described in 'uncompress_data_vio'
+   drivers/md/dm-vdo/data-vio.c:1557: warning: Function parameter or struct member 'completion' not described in 'read_block'
+   drivers/md/dm-vdo/data-vio.c:1714: warning: Function parameter or struct member 'completion' not described in 'read_old_block_mapping'
+   drivers/md/dm-vdo/data-vio.c:1742: warning: Function parameter or struct member 'completion' not described in 'pack_compressed_data'
+   drivers/md/dm-vdo/data-vio.c:1763: warning: Function parameter or struct member 'completion' not described in 'compress_data_vio'
+   drivers/md/dm-vdo/data-vio.c:1792: warning: Function parameter or struct member 'data_vio' not described in 'launch_compress_data_vio'
+   drivers/md/dm-vdo/data-vio.c:1830: warning: bad line: 
+   drivers/md/dm-vdo/data-vio.c:1834: warning: Function parameter or struct member 'completion' not described in 'hash_data_vio'
+   drivers/md/dm-vdo/data-vio.c:1868: warning: Function parameter or struct member 'bio' not described in 'write_bio_finished'
+   drivers/md/dm-vdo/data-vio.c:1922: warning: Function parameter or struct member 'completion' not described in 'acknowledge_write_callback'
+   drivers/md/dm-vdo/data-vio.c:1947: warning: Function parameter or struct member 'completion' not described in 'allocate_block'
+   drivers/md/dm-vdo/data-vio.c:1978: warning: Function parameter or struct member 'completion' not described in 'handle_allocation_error'
+   drivers/md/dm-vdo/data-vio.c:2007: warning: Function parameter or struct member 'completion' not described in 'continue_data_vio_with_block_map_slot'
+--
+   drivers/md/dm-vdo/int-map.c:87: error: Cannot parse struct or union!
+>> drivers/md/dm-vdo/int-map.c:105: warning: Function parameter or struct member 'bucket_count' not described in 'int_map'
+>> drivers/md/dm-vdo/int-map.c:330: warning: Function parameter or struct member '__always_unused' not described in 'search_hop_list'
+   drivers/md/dm-vdo/int-map.c:330: warning: Excess function parameter 'map' description in 'search_hop_list'
+>> drivers/md/dm-vdo/int-map.c:461: warning: Function parameter or struct member '__always_unused' not described in 'move_empty_bucket'
+   drivers/md/dm-vdo/int-map.c:461: warning: Excess function parameter 'map' description in 'move_empty_bucket'
+--
+>> drivers/md/dm-vdo/dedupe.c:577: warning: Function parameter or struct member '__always_unused' not described in 'abort_waiter'
+   drivers/md/dm-vdo/dedupe.c:577: warning: Excess function parameter 'context' description in 'abort_waiter'
+>> drivers/md/dm-vdo/dedupe.c:932: warning: Function parameter or struct member 'waiter' not described in 'enter_forked_lock'
+>> drivers/md/dm-vdo/dedupe.c:932: warning: Function parameter or struct member 'context' not described in 'enter_forked_lock'
+>> drivers/md/dm-vdo/dedupe.c:1746: warning: Function parameter or struct member 'completion' not described in 'vdo_continue_hash_lock'
+   drivers/md/dm-vdo/dedupe.c:1746: warning: Excess function parameter 'data_vio' description in 'vdo_continue_hash_lock'
+>> drivers/md/dm-vdo/dedupe.c:1843: warning: Function parameter or struct member 'completion' not described in 'vdo_acquire_hash_lock'
+   drivers/md/dm-vdo/dedupe.c:1843: warning: Excess function parameter 'data_vio' description in 'vdo_acquire_hash_lock'
+>> drivers/md/dm-vdo/dedupe.c:2572: warning: Function parameter or struct member 'context' not described in 'suspend_index'
+>> drivers/md/dm-vdo/dedupe.c:2572: warning: Function parameter or struct member 'completion' not described in 'suspend_index'
+>> drivers/md/dm-vdo/dedupe.c:2586: warning: Function parameter or struct member 'state' not described in 'initiate_drain'
+>> drivers/md/dm-vdo/dedupe.c:2597: warning: Function parameter or struct member 'context' not described in 'drain_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2597: warning: Function parameter or struct member 'zone_number' not described in 'drain_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2597: warning: Function parameter or struct member 'parent' not described in 'drain_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2634: warning: Function parameter or struct member 'context' not described in 'resume_index'
+>> drivers/md/dm-vdo/dedupe.c:2634: warning: Function parameter or struct member 'parent' not described in 'resume_index'
+>> drivers/md/dm-vdo/dedupe.c:2667: warning: Function parameter or struct member 'context' not described in 'resume_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2667: warning: Function parameter or struct member 'zone_number' not described in 'resume_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2667: warning: Function parameter or struct member 'parent' not described in 'resume_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2745: warning: Function parameter or struct member 'zones' not described in 'vdo_get_dedupe_statistics'
+>> drivers/md/dm-vdo/dedupe.c:2745: warning: Function parameter or struct member 'stats' not described in 'vdo_get_dedupe_statistics'
+   drivers/md/dm-vdo/dedupe.c:2745: warning: Excess function parameter 'hash_zones' description in 'vdo_get_dedupe_statistics'
+   drivers/md/dm-vdo/dedupe.c:2837: warning: expecting prototype for vdo_dump_hash_zone(). Prototype was for dump_hash_zone() instead
+--
+>> drivers/md/dm-vdo/encodings.c:439: warning: Function parameter or struct member 'root_count' not described in 'vdo_compute_new_forest_pages'
+>> drivers/md/dm-vdo/encodings.c:439: warning: Function parameter or struct member 'old_sizes' not described in 'vdo_compute_new_forest_pages'
+>> drivers/md/dm-vdo/encodings.c:439: warning: Function parameter or struct member 'new_sizes' not described in 'vdo_compute_new_forest_pages'
+>> drivers/md/dm-vdo/encodings.c:466: warning: Function parameter or struct member 'buffer' not described in 'encode_recovery_journal_state_7_0'
+>> drivers/md/dm-vdo/encodings.c:466: warning: Function parameter or struct member 'offset' not described in 'encode_recovery_journal_state_7_0'
+>> drivers/md/dm-vdo/encodings.c:466: warning: Function parameter or struct member 'state' not described in 'encode_recovery_journal_state_7_0'
+>> drivers/md/dm-vdo/encodings.c:489: warning: Function parameter or struct member 'offset' not described in 'decode_recovery_journal_state_7_0'
+>> drivers/md/dm-vdo/encodings.c:548: warning: Function parameter or struct member 'buffer' not described in 'encode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:548: warning: Function parameter or struct member 'offset' not described in 'encode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:548: warning: Function parameter or struct member 'state' not described in 'encode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:576: warning: Function parameter or struct member 'buffer' not described in 'decode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:576: warning: Function parameter or struct member 'offset' not described in 'decode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:576: warning: Function parameter or struct member 'state' not described in 'decode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:870: warning: Function parameter or struct member 'offset' not described in 'vdo_initialize_layout'
+   drivers/md/dm-vdo/encodings.c:870: warning: Excess function parameter 'origin' description in 'vdo_initialize_layout'
+>> drivers/md/dm-vdo/encodings.c:1174: warning: Function parameter or struct member 'buffer' not described in 'decode_vdo_component'
+>> drivers/md/dm-vdo/encodings.c:1174: warning: Function parameter or struct member 'offset' not described in 'decode_vdo_component'
+>> drivers/md/dm-vdo/encodings.c:1174: warning: Function parameter or struct member 'component' not described in 'decode_vdo_component'
+   drivers/md/dm-vdo/encodings.c:1174: warning: expecting prototype for vdo_decode_component(). Prototype was for decode_vdo_component() instead
+>> drivers/md/dm-vdo/encodings.c:1405: warning: Function parameter or struct member 'buffer' not described in 'vdo_encode_component_states'
+>> drivers/md/dm-vdo/encodings.c:1405: warning: Function parameter or struct member 'offset' not described in 'vdo_encode_component_states'
+>> drivers/md/dm-vdo/encodings.c:1405: warning: Function parameter or struct member 'states' not described in 'vdo_encode_component_states'
+   drivers/md/dm-vdo/encodings.c:1423: warning: Function parameter or struct member 'buffer' not described in 'vdo_encode_super_block'
+   drivers/md/dm-vdo/encodings.c:1423: warning: Function parameter or struct member 'states' not described in 'vdo_encode_super_block'
+   drivers/md/dm-vdo/encodings.c:1447: warning: Function parameter or struct member 'buffer' not described in 'vdo_decode_super_block'
+--
+>> drivers/md/dm-vdo/logical-zone.c:170: warning: Function parameter or struct member 'state' not described in 'initiate_drain'
+>> drivers/md/dm-vdo/logical-zone.c:181: warning: Function parameter or struct member 'context' not described in 'drain_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:181: warning: Function parameter or struct member 'zone_number' not described in 'drain_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:181: warning: Function parameter or struct member 'parent' not described in 'drain_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:204: warning: Function parameter or struct member 'context' not described in 'resume_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:204: warning: Function parameter or struct member 'zone_number' not described in 'resume_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:204: warning: Function parameter or struct member 'parent' not described in 'resume_logical_zone'
+   drivers/md/dm-vdo/logical-zone.c:303: warning: expecting prototype for void attempt_generation_complete_notification()(). Prototype was for attempt_generation_complete_notification() instead
+..
 
 
-vim +11134 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+vim +1157 drivers/md/dm-vdo/dm-vdo-target.c
 
-f9b4f20c4777bd Stylon Wang          2020-12-04  11064  
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11065  /**
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11066   * amdgpu_dm_update_freesync_caps - Update Freesync capabilities
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11067   *
-41ee1f18ef5239 Alex Deucher         2022-08-30  11068   * @connector: Connector to query.
-41ee1f18ef5239 Alex Deucher         2022-08-30  11069   * @edid: EDID from monitor
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11070   *
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11071   * Amdgpu supports Freesync in DP and HDMI displays, and it is required to keep
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11072   * track of some of the display information in the internal data struct used by
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11073   * amdgpu_dm. This function checks which type of connector we need to set the
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11074   * FreeSync parameters.
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11075   */
-98e6436d3af5fe Anthony Koo          2018-08-21  11076  void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
-e5d89dbba370d6 Melissa Wen          2024-01-26  11077  				    const struct drm_edid *drm_edid)
-e7b07ceef2a650 Harry Wentland       2017-08-10  11078  {
-eb0709ba077a21 Souptick Joarder     2021-02-23  11079  	int i = 0;
-e7b07ceef2a650 Harry Wentland       2017-08-10  11080  	struct detailed_timing *timing;
-e7b07ceef2a650 Harry Wentland       2017-08-10  11081  	struct detailed_non_pixel *data;
-e7b07ceef2a650 Harry Wentland       2017-08-10  11082  	struct detailed_data_monitor_range *range;
-c84dec2fe8837f Harry Wentland       2017-09-05  11083  	struct amdgpu_dm_connector *amdgpu_dm_connector =
-c84dec2fe8837f Harry Wentland       2017-09-05  11084  			to_amdgpu_dm_connector(connector);
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11085  	struct dm_connector_state *dm_con_state = NULL;
-9ad544670514e2 Colin Ian King       2021-08-29  11086  	struct dc_sink *sink;
-534eee82356c22 Srinivasan Shanmugam 2023-11-12  11087  	struct amdgpu_device *adev = drm_to_adev(connector->dev);
-f9b4f20c4777bd Stylon Wang          2020-12-04  11088  	struct amdgpu_hdmi_vsdb_info vsdb_info = {0};
-e5d89dbba370d6 Melissa Wen          2024-01-26  11089  	const struct edid *edid = drm_edid_raw(drm_edid);
-c620e79bb695b8 Rodrigo Siqueira     2022-02-21  11090  	bool freesync_capable = false;
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11091  	enum adaptive_sync_type as_type = ADAPTIVE_SYNC_TYPE_NONE;
-b830ebc910f641 Harry Wentland       2017-07-26  11092  
-8218d7f1f70179 Harry Wentland       2017-10-17  11093  	if (!connector->state) {
-8218d7f1f70179 Harry Wentland       2017-10-17  11094  		DRM_ERROR("%s - Connector has no state", __func__);
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11095  		goto update;
-8218d7f1f70179 Harry Wentland       2017-10-17  11096  	}
-8218d7f1f70179 Harry Wentland       2017-10-17  11097  
-9b2fdc33218933 Aurabindo Pillai     2021-08-11  11098  	sink = amdgpu_dm_connector->dc_sink ?
-9b2fdc33218933 Aurabindo Pillai     2021-08-11  11099  		amdgpu_dm_connector->dc_sink :
-9b2fdc33218933 Aurabindo Pillai     2021-08-11  11100  		amdgpu_dm_connector->dc_em_sink;
-9b2fdc33218933 Aurabindo Pillai     2021-08-11  11101  
-e5d89dbba370d6 Melissa Wen          2024-01-26  11102  	if (!drm_edid || !sink) {
-98e6436d3af5fe Anthony Koo          2018-08-21  11103  		dm_con_state = to_dm_connector_state(connector->state);
-98e6436d3af5fe Anthony Koo          2018-08-21  11104  
-98e6436d3af5fe Anthony Koo          2018-08-21  11105  		amdgpu_dm_connector->min_vfreq = 0;
-98e6436d3af5fe Anthony Koo          2018-08-21  11106  		amdgpu_dm_connector->max_vfreq = 0;
-98e6436d3af5fe Anthony Koo          2018-08-21  11107  		amdgpu_dm_connector->pixel_clock_mhz = 0;
-9b2fdc33218933 Aurabindo Pillai     2021-08-11  11108  		connector->display_info.monitor_range.min_vfreq = 0;
-9b2fdc33218933 Aurabindo Pillai     2021-08-11  11109  		connector->display_info.monitor_range.max_vfreq = 0;
-9b2fdc33218933 Aurabindo Pillai     2021-08-11  11110  		freesync_capable = false;
-98e6436d3af5fe Anthony Koo          2018-08-21  11111  
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11112  		goto update;
-98e6436d3af5fe Anthony Koo          2018-08-21  11113  	}
-98e6436d3af5fe Anthony Koo          2018-08-21  11114  
-8218d7f1f70179 Harry Wentland       2017-10-17  11115  	dm_con_state = to_dm_connector_state(connector->state);
-8218d7f1f70179 Harry Wentland       2017-10-17  11116  
-e7b07ceef2a650 Harry Wentland       2017-08-10  11117  	if (!adev->dm.freesync_module)
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11118  		goto update;
-f9b4f20c4777bd Stylon Wang          2020-12-04  11119  
-9b2fdc33218933 Aurabindo Pillai     2021-08-11  11120  	if (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT
-9b2fdc33218933 Aurabindo Pillai     2021-08-11  11121  		|| sink->sink_signal == SIGNAL_TYPE_EDP) {
-f9b4f20c4777bd Stylon Wang          2020-12-04  11122  		bool edid_check_required = false;
-f9b4f20c4777bd Stylon Wang          2020-12-04  11123  
-e5d89dbba370d6 Melissa Wen          2024-01-26  11124  		if (drm_edid) {
-e7b07ceef2a650 Harry Wentland       2017-08-10  11125  			edid_check_required = is_dp_capable_without_timing_msa(
-e7b07ceef2a650 Harry Wentland       2017-08-10  11126  						adev->dm.dc,
-c84dec2fe8837f Harry Wentland       2017-09-05  11127  						amdgpu_dm_connector);
-e7b07ceef2a650 Harry Wentland       2017-08-10  11128  		}
-f9b4f20c4777bd Stylon Wang          2020-12-04  11129  
-e7b07ceef2a650 Harry Wentland       2017-08-10  11130  		if (edid_check_required == true && (edid->version > 1 ||
-e7b07ceef2a650 Harry Wentland       2017-08-10  11131  		   (edid->version == 1 && edid->revision > 1))) {
-e7b07ceef2a650 Harry Wentland       2017-08-10  11132  			for (i = 0; i < 4; i++) {
-e7b07ceef2a650 Harry Wentland       2017-08-10  11133  
-e7b07ceef2a650 Harry Wentland       2017-08-10 @11134  				timing	= &edid->detailed_timings[i];
-e7b07ceef2a650 Harry Wentland       2017-08-10  11135  				data	= &timing->data.other_data;
-e7b07ceef2a650 Harry Wentland       2017-08-10  11136  				range	= &data->data.range;
-e7b07ceef2a650 Harry Wentland       2017-08-10  11137  				/*
-e7b07ceef2a650 Harry Wentland       2017-08-10  11138  				 * Check if monitor has continuous frequency mode
-e7b07ceef2a650 Harry Wentland       2017-08-10  11139  				 */
-e7b07ceef2a650 Harry Wentland       2017-08-10  11140  				if (data->type != EDID_DETAIL_MONITOR_RANGE)
-e7b07ceef2a650 Harry Wentland       2017-08-10  11141  					continue;
-e7b07ceef2a650 Harry Wentland       2017-08-10  11142  				/*
-e7b07ceef2a650 Harry Wentland       2017-08-10  11143  				 * Check for flag range limits only. If flag == 1 then
-e7b07ceef2a650 Harry Wentland       2017-08-10  11144  				 * no additional timing information provided.
-e7b07ceef2a650 Harry Wentland       2017-08-10  11145  				 * Default GTF, GTF Secondary curve and CVT are not
-e7b07ceef2a650 Harry Wentland       2017-08-10  11146  				 * supported
-e7b07ceef2a650 Harry Wentland       2017-08-10  11147  				 */
-e7b07ceef2a650 Harry Wentland       2017-08-10  11148  				if (range->flags != 1)
-e7b07ceef2a650 Harry Wentland       2017-08-10  11149  					continue;
-e7b07ceef2a650 Harry Wentland       2017-08-10  11150  
-c84dec2fe8837f Harry Wentland       2017-09-05  11151  				amdgpu_dm_connector->min_vfreq = range->min_vfreq;
-c84dec2fe8837f Harry Wentland       2017-09-05  11152  				amdgpu_dm_connector->max_vfreq = range->max_vfreq;
-c84dec2fe8837f Harry Wentland       2017-09-05  11153  				amdgpu_dm_connector->pixel_clock_mhz =
-e7b07ceef2a650 Harry Wentland       2017-08-10  11154  					range->pixel_clock_mhz * 10;
-a0ffc3fd67e72b Stylon Wang          2021-01-05  11155  
-a0ffc3fd67e72b Stylon Wang          2021-01-05  11156  				connector->display_info.monitor_range.min_vfreq = range->min_vfreq;
-a0ffc3fd67e72b Stylon Wang          2021-01-05  11157  				connector->display_info.monitor_range.max_vfreq = range->max_vfreq;
-a0ffc3fd67e72b Stylon Wang          2021-01-05  11158  
-e7b07ceef2a650 Harry Wentland       2017-08-10  11159  				break;
-e7b07ceef2a650 Harry Wentland       2017-08-10  11160  			}
-e7b07ceef2a650 Harry Wentland       2017-08-10  11161  
-c84dec2fe8837f Harry Wentland       2017-09-05  11162  			if (amdgpu_dm_connector->max_vfreq -
-c84dec2fe8837f Harry Wentland       2017-09-05  11163  			    amdgpu_dm_connector->min_vfreq > 10) {
-98e6436d3af5fe Anthony Koo          2018-08-21  11164  
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11165  				freesync_capable = true;
-e7b07ceef2a650 Harry Wentland       2017-08-10  11166  			}
-e7b07ceef2a650 Harry Wentland       2017-08-10  11167  		}
-ec8e59cb4e0c1a Bhawanpreet Lakha    2023-06-12  11168  		parse_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
-ec8e59cb4e0c1a Bhawanpreet Lakha    2023-06-12  11169  
-ec8e59cb4e0c1a Bhawanpreet Lakha    2023-06-12  11170  		if (vsdb_info.replay_mode) {
-ec8e59cb4e0c1a Bhawanpreet Lakha    2023-06-12  11171  			amdgpu_dm_connector->vsdb_info.replay_mode = vsdb_info.replay_mode;
-ec8e59cb4e0c1a Bhawanpreet Lakha    2023-06-12  11172  			amdgpu_dm_connector->vsdb_info.amd_vsdb_version = vsdb_info.amd_vsdb_version;
-ec8e59cb4e0c1a Bhawanpreet Lakha    2023-06-12  11173  			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
-ec8e59cb4e0c1a Bhawanpreet Lakha    2023-06-12  11174  		}
-ec8e59cb4e0c1a Bhawanpreet Lakha    2023-06-12  11175  
-e5d89dbba370d6 Melissa Wen          2024-01-26  11176  	} else if (drm_edid && sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-7c7dd77489540d Arnd Bergmann        2021-02-25  11177  		i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
-7c7dd77489540d Arnd Bergmann        2021-02-25  11178  		if (i >= 0 && vsdb_info.freesync_supported) {
-f9b4f20c4777bd Stylon Wang          2020-12-04  11179  			timing  = &edid->detailed_timings[i];
-f9b4f20c4777bd Stylon Wang          2020-12-04  11180  			data    = &timing->data.other_data;
-f9b4f20c4777bd Stylon Wang          2020-12-04  11181  
-f9b4f20c4777bd Stylon Wang          2020-12-04  11182  			amdgpu_dm_connector->min_vfreq = vsdb_info.min_refresh_rate_hz;
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11183  			amdgpu_dm_connector->max_vfreq = vsdb_info.max_refresh_rate_hz;
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11184  			if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11185  				freesync_capable = true;
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11186  
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11187  			connector->display_info.monitor_range.min_vfreq = vsdb_info.min_refresh_rate_hz;
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11188  			connector->display_info.monitor_range.max_vfreq = vsdb_info.max_refresh_rate_hz;
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11189  		}
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11190  	}
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11191  
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11192  	as_type = dm_get_adaptive_sync_support_type(amdgpu_dm_connector->dc_link);
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11193  
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11194  	if (as_type == FREESYNC_TYPE_PCON_IN_WHITELIST) {
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11195  		i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11196  		if (i >= 0 && vsdb_info.freesync_supported && vsdb_info.amd_vsdb_version > 0) {
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11197  
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11198  			amdgpu_dm_connector->pack_sdp_v1_3 = true;
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11199  			amdgpu_dm_connector->as_type = as_type;
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11200  			amdgpu_dm_connector->vsdb_info = vsdb_info;
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11201  
-5b49da02ddbe1b Sung Joon Kim        2023-01-12  11202  			amdgpu_dm_connector->min_vfreq = vsdb_info.min_refresh_rate_hz;
-f9b4f20c4777bd Stylon Wang          2020-12-04  11203  			amdgpu_dm_connector->max_vfreq = vsdb_info.max_refresh_rate_hz;
-f9b4f20c4777bd Stylon Wang          2020-12-04  11204  			if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
-f9b4f20c4777bd Stylon Wang          2020-12-04  11205  				freesync_capable = true;
-f9b4f20c4777bd Stylon Wang          2020-12-04  11206  
-f9b4f20c4777bd Stylon Wang          2020-12-04  11207  			connector->display_info.monitor_range.min_vfreq = vsdb_info.min_refresh_rate_hz;
-f9b4f20c4777bd Stylon Wang          2020-12-04  11208  			connector->display_info.monitor_range.max_vfreq = vsdb_info.max_refresh_rate_hz;
-f9b4f20c4777bd Stylon Wang          2020-12-04  11209  		}
-f9b4f20c4777bd Stylon Wang          2020-12-04  11210  	}
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11211  
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11212  update:
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11213  	if (dm_con_state)
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11214  		dm_con_state->freesync_capable = freesync_capable;
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11215  
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11216  	if (connector->vrr_capable_property)
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11217  		drm_connector_set_vrr_capable_property(connector,
-bb47de73666188 Nicholas Kazlauskas  2018-10-04  11218  						       freesync_capable);
-e7b07ceef2a650 Harry Wentland       2017-08-10  11219  }
-e7b07ceef2a650 Harry Wentland       2017-08-10  11220  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1151  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1152  /**
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1153   * get_thread_id_for_phase() - Get the thread id for the current phase of the admin operation in
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1154   *                             progress.
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1155   */
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1156  static thread_id_t __must_check get_thread_id_for_phase(struct vdo *vdo)
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16 @1157  {
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1158  	switch (vdo->admin.phase) {
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1159  	case RESUME_PHASE_PACKER:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1160  	case RESUME_PHASE_FLUSHER:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1161  	case SUSPEND_PHASE_PACKER:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1162  	case SUSPEND_PHASE_FLUSHES:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1163  		return vdo->thread_config.packer_thread;
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1164  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1165  	case RESUME_PHASE_DATA_VIOS:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1166  	case SUSPEND_PHASE_DATA_VIOS:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1167  		return vdo->thread_config.cpu_thread;
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1168  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1169  	case LOAD_PHASE_DRAIN_JOURNAL:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1170  	case RESUME_PHASE_JOURNAL:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1171  	case SUSPEND_PHASE_JOURNAL:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1172  		return vdo->thread_config.journal_thread;
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1173  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1174  	default:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1175  		return vdo->thread_config.admin_thread;
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1176  	}
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1177  }
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1178  
+
+:::::: The code at line 1157 was first introduced by commit
+:::::: 57a3b0b0fc74143a59aabfaeac00d4dd64d28f73 dm vdo: add the top-level DM target
+
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
