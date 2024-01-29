@@ -1,68 +1,28 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C183B14290
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 18:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+Received: from cae.in-ulm.de (cae.in-ulm.de [217.10.14.231])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B4022E3E3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 18:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.10.14.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706554700; cv=none; b=pIHpqJApWQ+/KB753BiZIO/q4iSE/Tt6nbsSjXTMz+EzVOsEzLmU3q2IedGo0n11HQZacjo1lPbv9/oKEz7uTGP56zuGI3MDPrhwAmEaFKiGOPdbbw71aah1C8dTI92QnNC3z5kwJcr54wT04I0qV1Cglt7DJ04ShfUQc60Mty8=
+	t=1706554773; cv=none; b=JTWvDYr8JrWaj95vLZooTaBFWgSbUhXmL/dPmvq0PXLkhj/uN/3vgvzSuEUHGGLwaVD5B8iC5jkddmHHC3kOmbHDSYKuWygClqsHKoykZ6sE1vVMWowb6zV5mZw/MkQEF4rm2ug4s6ng2N3xWlzkozvLyVBhWCSfa4HEfQsTwv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706554700; c=relaxed/simple;
-	bh=8ch06nTcYc7s7BDv13zY6ZFLhFBoG0R9gezse2mcm2o=;
+	s=arc-20240116; t=1706554773; c=relaxed/simple;
+	bh=8YqREoLKPrWeWyGuy7TPpeeNb3ZPIZGchYantxFxeGE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NOSRm7iUJkoMFBiEhDKa6FV7uI4KVpKY4SfgSNXXJhTgyGdTaKps738gsswhz/5D0WNaPLoObdOmzF9DzpaJPlaRp/mb83TPeM/1ZsCQdcOdOG0VEPiomdegw0FIMFuIRcrOGg8Bvo5jxaQOWNMsz9IWEVAXMtYQL0V57c3QkYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDhUi7Gs; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDhUi7Gs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706554699; x=1738090699;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8ch06nTcYc7s7BDv13zY6ZFLhFBoG0R9gezse2mcm2o=;
-  b=XDhUi7GsLcs7YIRWMPxW0MKqF+g8g6SQhsYTyeYpcqytw3adGQe2QbIa
-   X3tdO/YBbWfCmk5usfI04kyGpCr992d6fja62PTQL26YfAd2KmIeqaG4+
-   zrJXKn0bbDsoLJoSNL25zoO7T8JrnoQULdT2m/bh/IGLSk8hZh3centw9
-   y/IlT7OvUvw2HVch2aNVB2ifhEXH6BLZexIk1TfYn5dAS6HrK3fXjaKQq
-   7Jz3UClbGYovfUmLeKbkk5o08ECE7OXm8Fbrhb4s+50BLIRsOkpFogom8
-   gni3YPcKtWOTbNsa6S+bZOVr/bcJBWKI+K6fNhRD+Gyyc4STOgDNZNGz0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="16590266"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="16590266"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 10:58:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="911172916"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="911172916"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 29 Jan 2024 10:58:08 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rUWpa-0004ZQ-16;
-	Mon, 29 Jan 2024 18:58:06 +0000
-Date: Tue, 30 Jan 2024 02:58:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oreoluwa Babatunde <quic_obabatun@quicinc.com>, catalin.marinas@arm.com,
-	will@kernel.org, robh+dt@kernel.org, frowand.list@gmail.com,
-	vgupta@kernel.org, arnd@arndb.de, olof@lixom.net, soc@kernel.org,
-	guoren@kernel.org, monstr@monstr.eu, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, dinguyen@kernel.org, chenhuacai@kernel.org,
-	tsbogend@alpha.franken.de, jonas@southpole.se,
-	stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
-	mpe@ellerman.id.au, ysato@users.sourceforge.jp, dalias@libc.org,
-	glaubitz@physik.fu-berlin.de, richard@nod.at,
-	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-	chris@zankel.net, jcmvbkbc@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 30/46] of: reserved_mem: Add code to use unflattened DT
- for reserved_mem nodes
-Message-ID: <202401300258.xkXVxP8C-lkp@intel.com>
-References: <20240126235425.12233-31-quic_obabatun@quicinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LOzb4W9xcg24mIPCSEFrnpB+y7G/SOvZu6aD6rEI8cyYpmivpJAazVoE6eUUJle57RkPExSztuaF8I5rW//ZaxGL2+Bi6p5Fh54vJeA3CMhnYPI9/vC+S9QBNbxiKL/JXN6ShrAYliblrvYOm1ZSvfSRiiRhl3GXSHvtMcaDpXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de; spf=pass smtp.mailfrom=c--e.de; arc=none smtp.client-ip=217.10.14.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=c--e.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=c--e.de
+Received: by cae.in-ulm.de (Postfix, from userid 1000)
+	id 3731E1402F9; Mon, 29 Jan 2024 19:59:21 +0100 (CET)
+Date: Mon, 29 Jan 2024 19:59:21 +0100
+From: "Christian A. Ehrhardt" <lk@c--e.de>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rob Herring <robh@kernel.org>
+Subject: Re: drivers/of/unittest.c:573:43: error: 'struct device_node' has no
+ member named 'kobj'
+Message-ID: <Zbf1iWjTTVcG21sj@cae.in-ulm.de>
+References: <202401291740.VP219WIz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,85 +31,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240126235425.12233-31-quic_obabatun@quicinc.com>
+In-Reply-To: <202401291740.VP219WIz-lkp@intel.com>
 
-Hi Oreoluwa,
 
-kernel test robot noticed the following build warnings:
+Hi,
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on arm64/for-next/core vgupta-arc/for-curr powerpc/next powerpc/fixes jcmvbkbc-xtensa/xtensa-for-next linus/master v6.8-rc2 next-20240129]
-[cannot apply to vgupta-arc/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Mon, Jan 29, 2024 at 05:43:34PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
+> commit: 4dde83569832f9377362e50f7748463340c5db6b of: Fix double free in of_parse_phandle_with_args_map
+> date:   3 weeks ago
+> config: arc-randconfig-r031-20230520 (https://download.01.org/0day-ci/archive/20240129/202401291740.VP219WIz-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401291740.VP219WIz-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401291740.VP219WIz-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/of/unittest.c: In function 'of_unittest_parse_phandle_with_args_map':
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oreoluwa-Babatunde/of-reserved_mem-Change-the-order-that-reserved_mem-regions-are-stored/20240127-081735
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240126235425.12233-31-quic_obabatun%40quicinc.com
-patch subject: [PATCH 30/46] of: reserved_mem: Add code to use unflattened DT for reserved_mem nodes
-config: i386-randconfig-141-20240128 (https://download.01.org/0day-ci/archive/20240130/202401300258.xkXVxP8C-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+My fault. Sorry. I will send a fix.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401300258.xkXVxP8C-lkp@intel.com/
+      regards   Christian
 
-smatch warnings:
-drivers/of/of_reserved_mem.c:111 dt_scan_reserved_mem_reg_nodes() warn: unsigned 'node' is never less than zero.
-
-vim +/node +111 drivers/of/of_reserved_mem.c
-
-    98	
-    99	/*
-   100	 * Save the reserved_mem reg nodes in the reserved_mem array
-   101	 */
-   102	static void __init dt_scan_reserved_mem_reg_nodes(void)
-   103	{
-   104		int t_len = (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32);
-   105		struct device_node *node, *child;
-   106		phys_addr_t base, size;
-   107		const __be32 *prop;
-   108		int len;
-   109	
-   110		node = of_find_node_by_path("/reserved-memory");
- > 111		if (node < 0) {
-   112			pr_err("Reserved memory: Did not find reserved-memory node\n");
-   113			return;
-   114		}
-   115	
-   116		for_each_child_of_node(node, child) {
-   117			const char *uname;
-   118			struct reserved_mem *rmem;
-   119	
-   120			if (!of_device_is_available(child))
-   121				continue;
-   122	
-   123			prop = of_get_property(child, "reg", &len);
-   124			if (!prop) {
-   125				rmem = of_reserved_mem_lookup(child);
-   126				if (rmem)
-   127					rmem->dev_node = child;
-   128				continue;
-   129			}
-   130	
-   131			uname = of_node_full_name(child);
-   132			if (len && len % t_len != 0) {
-   133				pr_err("Reserved memory: invalid reg property in '%s', skipping node.\n",
-   134				       uname);
-   135				continue;
-   136			}
-   137	
-   138			base = dt_mem_next_cell(dt_root_addr_cells, &prop);
-   139			size = dt_mem_next_cell(dt_root_size_cells, &prop);
-   140	
-   141			if (size)
-   142				fdt_reserved_mem_save_node(child, uname, base, size);
-   143		}
-   144	}
-   145	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
