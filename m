@@ -1,62 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E909ADDD5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 01:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ACDCDDD5;
+	Mon, 29 Jan 2024 01:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706492760; cv=none; b=kV0atJn326Hc2a03R0/k7CT+pvLwhaCrm+uA/Wl23cfFoyWXg1+puwkK84ymAU7KtAVn/8260MFKzvOMg4uDBg60aab7PVM1kISQ7HZKAZ/CeGWS04ZRJBAEd4nvISGH+igiWDo5Ir1cxeZYCbWYFUaYLRNvDUavzHbUVvOr2fY=
+	t=1706493360; cv=none; b=bdIjO7JvmsvM9jQlr6yRlp3jzWMobjTAOsV77BVLuU4K1DhNjAeTPjbtGY8SfwY0vWSuLth4XHi//fxgagbU9jfJJz5opLgzwtZYpZhh6QAI13zzT5DAJrwg0m+cs7+Z8ntHyJahf9ElPQDvHTBf8Wl8IcTZ81QXcAhavbxyyOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706492760; c=relaxed/simple;
-	bh=/X9maGrA+Lh7slthhc+oyBV/Kxlz/28CEirMyL/2Fhw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pD1+EACpGRp5YjpBrgCkPQIX1ekA0KSL4NGxPB/xmV0JUkqyEskFW0v9fqxgUD3ToIVmDZs8il2cQMb1bclqyCYlaPJuHHMDMtYJ8F+tF62AC8P+yEqoxkPsdVOwOXeO92g3HRaRgqoTk2atI0vWW0I3STp79/wCepqPKVFoZLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f5KrTmKc; arc=none smtp.client-ip=134.134.136.20
+	s=arc-20240116; t=1706493360; c=relaxed/simple;
+	bh=WgCDzX+wD8z5u/9dZgZuUVQQ7305VLG1YscOuuPMeiM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mtWf/x84YXDeTY3pjBqKLvm33RjI7fQdhr+Jxe/YbGvHygDzRshzFngImazE+Z15wRRo98SrjhNI38QsvZEnsBlxWOSbzwghiS6heaLA7x1W89lhTWGFha6ZtqDtwvcEwd4eQVcNedyT6nde0FtErnI6hQjV1abEXBCMJW1oLdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=giROpL8+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f5KrTmKc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="giROpL8+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706492758; x=1738028758;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/X9maGrA+Lh7slthhc+oyBV/Kxlz/28CEirMyL/2Fhw=;
-  b=f5KrTmKcX79r63o+Hi6yxy9EZoTLGM58ITGmCETHqs+KyNuTUKXkPGiC
-   Hgr6XAClijGMt2QXuZuS2ss9FCEapatb9szn2IRQfeVpILwgpd9SFRHTB
-   zCuvBfNA56gLHM1cI/3Z3EzxE+aL9ro5YgkjACjsACrj90d+2MlteakAs
-   A8FsTw5MumuS+Sf6pyQyIJqWZwYRmRu8pWRKR0VJ0nBZrZnj8smG070YV
-   H7UDHN/hV1sLy/Ng0QavxMOWfI4SdzxyXmRVCBMrUA1d5gkoKYX2NkJZi
-   MiS6o0OrlQ3iyJpAEeRj0B7ey5uf7EZIvTPhU8nsmQu2cHgESNGf/zB2O
+  t=1706493359; x=1738029359;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WgCDzX+wD8z5u/9dZgZuUVQQ7305VLG1YscOuuPMeiM=;
+  b=giROpL8+piM5DGutiaxXyIJ1WCt9d03KhKjD2+krpno9blKaXt/MKms2
+   A9zchm0Z0clnaelY4NAc+/+8sdevAFUx4ulr7BOcUPaO48jcye2DvloeO
+   2kPGXiSA/BF/VXy9XEbacznECrgr2ZJsSaUIUHWy8xNW3myex9HiL9HIG
+   s15uXJEwQjyj1y2tJOtCDjr/CwrbavoSP+YPeqsD9HfE7yR+MVrTY3BSJ
+   uxYeWUnD4VgViYpGsIAvTl5iA+4TlmnXjS0+gUHTnQ0NNI3zy64CTXPDO
+   +4xlsKyLJWXBg6PfJp2Wa8ajPMz2tpzDgnsBk7hYxWjMX3UEwIlEV2T0W
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="393262426"
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="10215288"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="393262426"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 17:45:57 -0800
+   d="scan'208";a="10215288"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 17:55:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="910898340"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="910898340"
+   d="scan'208";a="29361276"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Jan 2024 17:45:54 -0800
+  by orviesa002.jf.intel.com with ESMTP; 28 Jan 2024 17:55:55 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUGie-0003wC-1R;
-	Mon, 29 Jan 2024 01:45:52 +0000
-Date: Mon, 29 Jan 2024 09:45:33 +0800
+	id 1rUGsK-0003wm-2p;
+	Mon, 29 Jan 2024 01:55:52 +0000
+Date: Mon, 29 Jan 2024 09:55:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacky Huang <ychuang570808@gmail.com>, linus.walleij@linaro.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, p.zabel@pengutronix.de, j.neuschaefer@gmx.net
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ychuang3@nuvoton.com,
-	schung@nuvoton.com
-Subject: Re: [PATCH v3 4/4] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO
- driver
-Message-ID: <202401290933.pxXzpfAD-lkp@intel.com>
-References: <20240123080637.1902578-5-ychuang570808@gmail.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-for-sev-v2 12/15] WARNING: modpost: vmlinux: section
+ mismatch in reference: cmdline_find_option_bool+0x6 (section: .pi.text) ->
+ __cmdline_find_option_bool (section: .text)
+Message-ID: <202401290921.rFQUPRQt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,126 +58,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240123080637.1902578-5-ychuang570808@gmail.com>
 
-Hi Jacky,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next robh/for-next linus/master v6.8-rc1 next-20240125]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Huang/dt-bindings-reset-Add-syscon-to-nuvoton-ma35d1-system-management-node/20240123-161939
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20240123080637.1902578-5-ychuang570808%40gmail.com
-patch subject: [PATCH v3 4/4] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO driver
-config: x86_64-randconfig-121-20240128 (https://download.01.org/0day-ci/archive/20240129/202401290933.pxXzpfAD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401290933.pxXzpfAD-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-for-sev-v2
+head:   b8b16573b6d0090db2f530fb9c5f049650806e61
+commit: b6f5d2d6689a9c0874044526a4eb0ac83c0383e6 [12/15] x86/sev: Make all code reachable from 1:1 mapping __pitext
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20240129/202401290921.rFQUPRQt-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401290921.rFQUPRQt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401290933.pxXzpfAD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401290921.rFQUPRQt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/pinctrl/nuvoton/pinctrl-ma35.c: In function 'ma35_gpiolib_register':
->> drivers/pinctrl/nuvoton/pinctrl-ma35.c:523:27: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
-     523 |                 bank->chip.of_gpio_n_cells = 2;
-         |                           ^
-   drivers/pinctrl/nuvoton/pinctrl-ma35.c: At top level:
->> drivers/pinctrl/nuvoton/pinctrl-ma35.c:1008:10: error: 'const struct pinconf_ops' has no member named 'is_generic'
-    1008 |         .is_generic = true,
-         |          ^~~~~~~~~~
-   drivers/pinctrl/nuvoton/pinctrl-ma35.c:1008:23: warning: initialization of 'int (*)(struct pinctrl_dev *, unsigned int,  long unsigned int *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1008 |         .is_generic = true,
-         |                       ^~~~
-   drivers/pinctrl/nuvoton/pinctrl-ma35.c:1008:23: note: (near initialization for 'ma35_pinconf_ops.pin_config_group_get')
-   drivers/pinctrl/nuvoton/pinctrl-ma35.c: In function 'ma35_pinctrl_parse_groups':
->> drivers/pinctrl/nuvoton/pinctrl-ma35.c:1024:15: error: implicit declaration of function 'pinconf_generic_parse_dt_config'; did you mean 'pinconf_generic_dump_config'? [-Werror=implicit-function-declaration]
-    1024 |         ret = pinconf_generic_parse_dt_config(np, NULL, &configs, &nconfigs);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               pinconf_generic_dump_config
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PINCTRL_MA35
-   Depends on [n]: PINCTRL [=y] && (ARCH_MA35 || COMPILE_TEST [=n]) && OF [=n]
-   Selected by [y]:
-   - PINCTRL_MA35D1 [=y] && PINCTRL [=y]
-
-
-vim +523 drivers/pinctrl/nuvoton/pinctrl-ma35.c
-
-   506	
-   507	static int ma35_gpiolib_register(struct platform_device *pdev, struct ma35_pinctrl *npctl)
-   508	{
-   509		struct ma35_pin_ctrl *ctrl = npctl->ctrl;
-   510		struct ma35_pin_bank *bank = ctrl->pin_banks;
-   511		int ret;
-   512		int i;
-   513	
-   514		for (i = 0; i < ctrl->nr_banks; ++i, ++bank) {
-   515			if (!bank->valid) {
-   516				dev_warn(&pdev->dev, "bank %s is not valid\n",
-   517					 bank->np->name);
-   518				continue;
-   519			}
-   520			bank->irqtype = 0;
-   521			bank->irqinten = 0;
-   522			bank->chip.label = bank->name;
- > 523			bank->chip.of_gpio_n_cells = 2;
-   524			bank->chip.parent = &pdev->dev;
-   525			bank->chip.request = ma35_gpio_core_to_request;
-   526			bank->chip.direction_input = ma35_gpio_core_direction_in;
-   527			bank->chip.direction_output = ma35_gpio_core_direction_out;
-   528			bank->chip.get = ma35_gpio_core_get;
-   529			bank->chip.set = ma35_gpio_core_set;
-   530			bank->chip.base = -1;
-   531			bank->chip.ngpio = bank->nr_pins;
-   532			bank->chip.can_sleep = false;
-   533			spin_lock_init(&bank->lock);
-   534	
-   535			if (bank->irq > 0) {
-   536				struct gpio_irq_chip *girq;
-   537	
-   538				girq = &bank->chip.irq;
-   539				gpio_irq_chip_set_chip(girq, &ma35_gpio_irqchip);
-   540				girq->parent_handler = ma35_irq_demux_intgroup;
-   541				girq->num_parents = 1;
-   542	
-   543				girq->parents = devm_kcalloc(&pdev->dev, 1, sizeof(*girq->parents),
-   544							     GFP_KERNEL);
-   545				if (!girq->parents)
-   546					return -ENOMEM;
-   547	
-   548				girq->parents[0] = bank->irq;
-   549				girq->default_type = IRQ_TYPE_NONE;
-   550				girq->handler = handle_level_irq;
-   551			}
-   552	
-   553			ret = gpiochip_add_data(&bank->chip, bank);
-   554			if (ret) {
-   555				dev_err(&pdev->dev, "failed to register gpio_chip %s, error code: %d\n",
-   556					bank->chip.label, ret);
-   557				goto fail;
-   558			}
-   559		}
-   560		return 0;
-   561	
-   562	fail:
-   563		for (--i, --bank; i >= 0; --i, --bank) {
-   564			if (!bank->valid)
-   565				continue;
-   566			gpiochip_remove(&bank->chip);
-   567		}
-   568		return ret;
-   569	}
-   570	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+>> WARNING: modpost: vmlinux: section mismatch in reference: cmdline_find_option_bool+0x6 (section: .pi.text) -> __cmdline_find_option_bool (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: __cmdline_find_option+0x40 (section: .pi.text) -> myisspace (section: .text)
+WARNING: modpost: vmlinux: section mismatch in reference: __cmdline_find_option+0x7a (section: .pi.text) -> myisspace (section: .text)
+WARNING: modpost: vmlinux: section mismatch in reference: __cmdline_find_option+0xad (section: .pi.text) -> myisspace (section: .text)
 
 -- 
 0-DAY CI Kernel Test Service
