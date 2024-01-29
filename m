@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9904476C87
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 21:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A149B76054
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 21:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706562321; cv=none; b=HDlWJA3w635/R5PFdIAvGV1jYC8CgQs5mxbQHzV9TTc8xI6Np53OAwN2vAtLJDWNUu4Rqio/46/gPlGg/9KX754rMeEsUl06CksjBvj1wyBwk8WcnZu5QZ6Kzn94G6uWvgNH7hDoqkuA1q4QsiAv8R/KO5IFiL4N3Fa5ntrmOr0=
+	t=1706563519; cv=none; b=YXL+PZw3UcUBHGCKxJuR3POU3Mc686rwCZ1pSSiHZkOgAVrrrVd2PcD4WnhK3qj03/OmWxoLrmDsDB+cS+T/0IHLaPscvSQ6dQ4sU3J7FWZkCoCcPgSegGYUspTRTsQKnS0eKmM8rZnHhydtJpgVjewC0GKOHhsGtWQjpqW+LmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706562321; c=relaxed/simple;
-	bh=9WAlaeGYDu3+TFxx7l96Af93DcAryU2RQB1PeqvFl1k=;
+	s=arc-20240116; t=1706563519; c=relaxed/simple;
+	bh=yQZblZoiNoNI/cVLLFEYvDEmAAXtzw4Q4VmbnVk9CT4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n9hZRlFJjnjlyDlnpSgRz25wGbFlFBlSaHYFEkgmvEVqj9c8K27WMrO6djeGS53hVWdZydDKDUMEVJuZcS/3A9IwJxgcUjsSaA6krKFWIpJ9pw1/MULT2+dsatIBgCiuPatceQAASobetjwxQH7brmV6XbjRQu5VXoQSzjFo0Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jm91SrTU; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=YChWco/fPD1Lcz/GkdP3zUdZ6gxsKvHNz4Zq2oiZaKIyji6EAzuS5R3fetcT5verzS2qrhLJTADVr7KZ7wUIrmzHVLtGVyz/LPtrZLe5G/A4uqy0W3uXc+badRpKQxxfQf/jO4zzzW1CSSgN3xsJj8hX61pqSTUkrUUu2HRaUKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NMF3/U02; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jm91SrTU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NMF3/U02"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706562319; x=1738098319;
+  t=1706563518; x=1738099518;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9WAlaeGYDu3+TFxx7l96Af93DcAryU2RQB1PeqvFl1k=;
-  b=jm91SrTUVKnLGzYl3yoTOSKgw1L8URSdJfcTUAjLi/s6etE0+pGmesgj
-   dQfqfBy69h7M/hIO78B5/XZRUABeA02NlW68fOm9xaywjpXAuRIiMt4iu
-   q4G1SvHRwhiAR65Qd115UPQuwE94WS0kEJOD6sEA35BGWPkKdXJy+i0qG
-   9hE8ipHfH8DJsPd3wfr0kk7lZDL8Pxzwr0sg4wCoywbwB5k8iynfaBRDt
-   feTXEkPTs1QBIrEbARCbiWfc1JmRF6xPOdUs27eKrG7uCT7swnzLOeMAe
-   ga0WkSPGVGzeO3JLCLDlf1IEOyErWlWnUV60ivvopvFJphFohNTnG6m3S
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="9760136"
+  bh=yQZblZoiNoNI/cVLLFEYvDEmAAXtzw4Q4VmbnVk9CT4=;
+  b=NMF3/U026k3axTFT4MH43kzUZtyFYm6IK7v+HU88tWpOKvUjzByF1I0g
+   fL7X1xa+3nuJ3l6zhP8HzPCeyzf6h5tnKbvl+ST+hMXWpPUPjr3AXkgt5
+   wWQ9hs23bXPdlli0hcNd7ZnThbseRyPqLPKQnbGpLDTwc/6E/DZQjqdH2
+   3XK9+jkCAMLzGO+ZKsTM8rW24arxL+nL6Iryst4fOlq1XnTZFv/+snrqz
+   WYZKL/etpd2GkyT2YbKTUyzp1gGB4WSQEsqWfCjimMTS3N6Cojlsz2MLV
+   NSeQyD5i4aZpFH4M06ludVq9Q79/lVH584Qh+UhtI0Lsc686naWLzz5h4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="10201404"
 X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="9760136"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 13:05:18 -0800
+   d="scan'208";a="10201404"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 13:25:17 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="878219877"
 X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="3588131"
+   d="scan'208";a="878219877"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 29 Jan 2024 13:05:15 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Jan 2024 13:25:15 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUYob-0004dU-0C;
-	Mon, 29 Jan 2024 21:05:13 +0000
-Date: Tue, 30 Jan 2024 05:04:18 +0800
+	id 1rUZ7x-0004dk-0d;
+	Mon, 29 Jan 2024 21:25:13 +0000
+Date: Tue, 30 Jan 2024 05:24:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thierry Reding <treding@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 2734/2825] WARNING: modpost: vmlinux: section
- mismatch in reference: nand_has_exec_op+0x4 (section: .text) -> (unknown)
- (section: .init.text)
-Message-ID: <202401300440.9p6OwKw8-lkp@intel.com>
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2626/2805] core.c:undefined reference to
+ `lockdep_is_cpus_held'
+Message-ID: <202401300506.QWTWXFBL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,373 +59,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   596764183be8ebb13352b281a442a1f1151c9b06
-commit: fecc06edf78a2c866550f3d1791fc0186e3d5e0f [2734/2825] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git
-config: riscv-randconfig-r034-20230503 (https://download.01.org/0day-ci/archive/20240130/202401300440.9p6OwKw8-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240130/202401300440.9p6OwKw8-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   34a4a47388c7ce3c71c41c52d05326287f925789
+commit: 63d5f97c7fadc85b3944b421ce9759f17f9c0264 [2626/2805] x86/resctrl: Separate arch and fs resctrl locks
+config: x86_64-buildonly-randconfig-002-20240129 (https://download.01.org/0day-ci/archive/20240130/202401300506.QWTWXFBL-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240130/202401300506.QWTWXFBL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401300440.9p6OwKw8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401300506.QWTWXFBL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: section mismatch in reference: target_execute_cmd+0xb8 (section: .text) -> console_suspend_disable (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rd_free_device+0x6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rd_allocate_sgl_table.isra.0+0x5e (section: .text) -> early_irq_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rd_init_prot+0x48 (section: .text) -> early_irq_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rd_init_prot+0x50 (section: .text) -> set_handle_irq (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rd_configure_device+0x7c (section: .text) -> early_irq_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rd_execute_rw+0xac (section: .text) -> set_handle_irq (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rd_execute_rw+0x1ec (section: .text) -> set_handle_irq (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sm_init_zone+0x224 (section: .text) -> rcu_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sm_init_zone+0x258 (section: .text) -> early_cma (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sm_init_zone+0x25c (section: .text) -> early_cma (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: sm_init_zone+0x2b6 (section: .text) -> early_cma (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_buffer_wait+0x10c (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_resume+0x70 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_oneword_once+0x80 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_oneword_once+0x194 (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_panic_wait+0x36 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_panic_write_oneword+0x24 (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_panic_write_oneword+0xa8 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_panic_write_oneword+0xea (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_panic_write_oneword+0x10c (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_cmdset_0002+0x7e (section: .text) -> dma_debug_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: put_chip.isra.0+0x6c (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: put_chip.isra.0+0x7c (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: get_chip+0x14e (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_oneword+0x8c (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_oneword+0xb2 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_atmel_unlock+0x76 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_atmel_lock+0xd2 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: fwh_xxlock_oneblock+0xa4 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ppb_xxlock+0xea (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ppb_xxlock+0x106 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ppb_xxlock+0x166 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ppb_xxlock+0x182 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ppb_xxlock+0x1bc (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_ppb_xxlock+0x1e8 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_otp_lock+0xd0 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_otp_lock+0xf0 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_otp_lock+0x116 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_otp_lock+0x16c (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_otp_lock+0x188 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_read+0x110 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_otp_walk+0xe0 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_otp_walk+0x188 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_otp_walk+0x1a8 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_otp_walk+0x1c4 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_reset.isra.0+0x76 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_erase_oneblock+0x12c (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_erase_oneblock+0x212 (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_erase_oneblock+0x2ac (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_erase_chip+0x218 (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_erase_chip+0x2b2 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_panic_write+0x7a (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cfi_amdstd_panic_write+0x19c (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_buffer+0xdc (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_buffer+0x106 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_buffer+0x132 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_buffer+0x178 (section: .text) -> dma_debug_entries_cmdline (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: do_write_buffer+0x202 (section: .text) -> early_coherent_pool (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x92 (section: .text) -> ntp_tick_adj_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0xa2 (section: .text) -> ntp_tick_adj_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0xe2 (section: .text) -> ntp_tick_adj_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0xea (section: .text) -> ntp_tick_adj_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0xf0 (section: .text) -> ntp_tick_adj_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0xf2 (section: .text) -> ntp_tick_adj_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x114 (section: .text) -> ntp_tick_adj_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x118 (section: .text) -> ntp_tick_adj_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x11e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x124 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x12a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x12e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x132 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x140 (section: .text) -> ntp_tick_adj_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x146 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x14a (section: .text) -> ntp_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x152 (section: .text) -> ntp_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x15e (section: .text) -> ntp_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x162 (section: .text) -> ntp_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x166 (section: .text) -> clocksource_done_booting (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x170 (section: .text) -> ntp_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x184 (section: .text) -> clocksource_done_booting (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x1c0 (section: .text) -> clocksource_done_booting (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x1d6 (section: .text) -> clocksource_done_booting (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x1e8 (section: .text) -> clocksource_done_booting (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: dataflash_probe+0x1fa (section: .text) -> clocksource_done_booting (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: onenand_read_oob_nolock+0x174 (section: .text) -> posix_cputimers_init_work (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: flexonenand_set_boundary.isra.0+0x106 (section: .text) -> clockevents_init_sysfs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: onenand_scan+0x32 (section: .text) -> posix_cputimers_init_work (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: onenand_scan+0x44 (section: .text) -> clockevents_init_sysfs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: onenand_scan+0x388 (section: .text) -> posix_cputimers_init_work (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: onenand_scan+0x398 (section: .text) -> posix_cputimers_init_work (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: onenand_mlc_read_ops_nolock+0x1fc (section: .text) -> posix_cputimers_init_work (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: onenand_read_ops_nolock+0x216 (section: .text) -> posix_cputimers_init_work (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: onenand_read_oob+0xb6 (section: .text) -> clockevents_init_sysfs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: generic_onenand_probe+0x50 (section: .text) -> clockevents_init_sysfs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: generic_onenand_probe+0x5e (section: .text) -> tick_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: generic_onenand_probe+0x82 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: generic_onenand_probe+0x120 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: generic_onenand_probe+0x13a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: generic_onenand_probe+0x13e (section: .text) -> tick_init (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: nand_has_exec_op+0x4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nand_has_exec_op+0xa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_cleanup+0xc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nand_exec_op+0xa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nand_exec_op+0x12 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nand_exec_op+0x1c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nand_exec_op+0x4c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_reg_write_op+0x20 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_reg_write_op+0x2a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_reg_write_op+0x6a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_reg_write_op+0x9e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nand_is_slc+0xc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nand_is_slc+0xe (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: nand_is_slc+0x12 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x22 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x26 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x2a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x2e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x74 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x7e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x88 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x92 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x94 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x98 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xac (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xb6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xbc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xca (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xce (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xd8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xe4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xe6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xea (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xfa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0xfc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x100 (section: .text) -> setup_elfcorehdr (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x106 (section: .text) -> setup_elfcorehdr (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x110 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_extract_ecc_requirements+0x116 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_has_valid_jedecid+0x1a (section: .text) -> setup_elfcorehdr (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_cmd_op+0xa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_cmd_op+0x38 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_setup_read_retry+0x22 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_setup_read_retry+0x50 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_setup_read_retry+0x68 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_decode_id+0x26 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_decode_id+0x7e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_decode_id+0xda (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_mlc_1xnm_rr_value+0x42 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_init+0x8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_init+0x62 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_init+0x9a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_init+0xb2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hynix_nand_init+0xbe (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_init+0x11a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_init+0x122 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_remove+0x2c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_remove+0x36 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_remove+0x46 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: clk_prepare_enable+0x14 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: clk_prepare_enable+0x22 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x38 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x46 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xa2 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xa6 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xaa (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xbe (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xc2 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xc6 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xd8 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xdc (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xe0 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xf4 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xf8 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0xfc (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x110 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x114 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x118 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x12c (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x130 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x134 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x13a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x148 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x14c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x150 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x156 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x164 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x16c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x176 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x17e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x188 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x18e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x198 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x1c2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x1d2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x1f2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x214 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x21c (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x220 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x224 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x236 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x264 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x270 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x27c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x284 (section: .text) -> cgroup_init_subsys (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x290 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x298 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x2aa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x2ae (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x2c0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x2d2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x2e4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x2ea (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x2ee (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x2fe (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x30e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x312 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x316 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: denali_dt_probe+0x32a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x198 (section: .text) -> pid_namespaces_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x19a (section: .text) -> pid_namespaces_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x19e (section: .text) -> pid_namespaces_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x1b0 (section: .text) -> pid_namespaces_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x1b6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x1d4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x204 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x212 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x21e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x22a (section: .text) -> ikheaders_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x232 (section: .text) -> pid_namespaces_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user.part.0+0x238 (section: .text) -> pid_namespaces_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_create_user+0x14 (section: .text) -> ikheaders_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_wait_rdy+0x36 (section: .text) -> ikheaders_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_wait_rdy+0x56 (section: .text) -> ikheaders_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: atmel_pmecc_wait_rdy+0x9a (section: .text) -> pid_namespaces_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0xe2 (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0xe6 (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0xfa (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x116 (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x122 (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x12a (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x132 (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x13a (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x144 (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x14c (section: .text) -> audit_backlog_limit_set (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x192 (section: .text) -> audit_backlog_limit_set (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x19a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x1a2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x1aa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x1b2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x1ba (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x1c2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x1ca (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_hw_ecc_controller_init+0x1ce (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_wait_ndrun+0x32 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_wait_ndrun+0x3e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_wait_ndrun+0x42 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_wait_ndrun+0x46 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_wait_ndrun+0x52 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_wait_ndrun+0x72 (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_wait_ndrun+0x76 (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_wait_ndrun+0x7a (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_wait_ndrun+0x9e (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_suspend+0x1c (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_suspend+0x56 (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0x1a (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0x1e (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0x22 (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0x84 (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0x8e (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0x92 (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0x96 (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0xa2 (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0xa6 (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0xaa (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0xba (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0xc4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_prepare_cmd+0xce (section: .text) -> audit_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_send_cmd+0x40 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_send_cmd+0x4a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_send_cmd+0x56 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_chips_cleanup+0x30 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_chips_cleanup+0x56 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_chips_cleanup+0x6e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_chips_cleanup+0x8e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_isr+0x1c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_isr+0x32 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_isr+0x46 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_isr+0x66 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x3c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x40 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x50 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x8a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x9e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0xae (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0xb8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0xec (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0xf2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0xf6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x106 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x118 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x12a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x144 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x154 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x17e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x196 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x19c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nfc_parse_instructions+0x1a6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x1a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x22 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x3a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x48 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x4c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x54 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x58 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x78 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x88 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0xa6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0xb6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0xd0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0xd8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0xde (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0xe4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0xea (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0xfa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0xfe (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x106 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x112 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x11a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x122 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x128 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x12c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x138 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x150 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x156 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x15a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x170 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x174 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x17a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x18c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x194 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x198 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x1c4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x1d4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x1e0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x1e2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: marvell_nand_attach_chip+0x1e6 (section: .text) -> (unknown) (section: .init.text)
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PADATA
-   Depends on [n]: SMP [=n]
-   Selected by [y]:
-   - HUGETLBFS [=y] && (X86 || SPARC64 || ARCH_SUPPORTS_HUGETLBFS [=y] || BROKEN [=n]) && (SYSFS [=y] || SYSCTL [=y])
+   ld: arch/x86/kernel/cpu/resctrl/core.o: in function `get_domain_from_cpu':
+>> core.c:(.text+0x13b7): undefined reference to `lockdep_is_cpus_held'
+   ld: arch/x86/kernel/cpu/resctrl/core.o: in function `rdt_ctrl_update':
+   core.c:(.text+0x148f): undefined reference to `lockdep_is_cpus_held'
 
 -- 
 0-DAY CI Kernel Test Service
