@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16104446C7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Jan 2024 23:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DA7381
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 00:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706485915; cv=none; b=F6IJ4QhSauhzXbxnMsuOz3Wf+Bog+yPLVjCrutBfdOtWlq6IgyX4eFd983e4VqC3OIXzWUBj4F4voavPXPnOQgacOCxBhpX5h5Jz2Oqdsaaoq4d204rkinloDEFd7JnlBL8ZhsmaKHe05+q92eW6Yt2nEA5QX7B88VENChCGXAs=
+	t=1706487115; cv=none; b=Ncf4RhuUVDFQowwCLrUrlT++EPLNV9W4JhLvbRYRjYx9n4cJaVSP8J93EqZ0EfYW13TWSxfxEnV8JW/vSWC6zfqsP23q15+f8gztWRs18Is0PuJIxNiaKuZwuudmtdJW2hIfUHGVi+qHfNb1gObVNBLCXOAZWblrKqHpPdn7fDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706485915; c=relaxed/simple;
-	bh=KYyRSJNmkJjXA317lVGEfWHF6Kz9icWCrEbj0iKyVNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iLcy/VNRP9QEFgkXgplFI8fBu3T5LDcVy6tuOXKf28Qxc9A5Neq1oUfo265yt8krrEhBL6larlX7lnvzDtpZ0ABGrww5uje4qiOf8r5Dy5DwxXoCWvq9AbSSo8Timcl98mZmQWyERD/tkmDBWxXHpgYULX/PfVRH1vSM4vM5vdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NF7sQSeF; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1706487115; c=relaxed/simple;
+	bh=CAjKygnQiaU4SnyNg7ObuDxAVyxPTnOkTczjGvCYceU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FHtwBaZUGEip2q/o7EqaO4hgmEZOlU+lloXmSsPmQNeR5AkICgS8zv/3RSQIf7YUWHVhqRzyRRecOsGXtFYpSwqdq9OrFPK6+3lRktni0AF1NXEzVj9iCjwBiZFdHuLVUR0ilvIVjbDki9ob1LbYZixqYLA/boueQvQxZCK90T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceQS3RIv; arc=none smtp.client-ip=134.134.136.31
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NF7sQSeF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceQS3RIv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706485913; x=1738021913;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KYyRSJNmkJjXA317lVGEfWHF6Kz9icWCrEbj0iKyVNY=;
-  b=NF7sQSeFf+Y4iG+jZA8/ip8IYJcl5tR4TXAfZvcU12lGKlpTzjEm+74W
-   RSMFkMIGwbDxgOXWwLN8yGeXXM0UM34iw/gjhBYRdJgSyVPMST/i+DBKV
-   Quvagzj+mV46K/DTLA3ViVifmi8MeWS1LXQaToKiZ9azY2A3fMciDsJdm
-   U8G/Vr7wKvdetHIQvjcC2LSbBykqavNrdPvkiW65DScDvDhrJk22iwyAa
-   mSX95SZMwU1+o9B4A8twMeev8dDM87nBvYjrlCmghaLuHBqtVD6MzZrCs
-   9JN3YMCT1jQC3gmKCgLLFBdNbI44/14BWrlF3sP7ZnW95+LDW4JJfVx1Q
+  t=1706487113; x=1738023113;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CAjKygnQiaU4SnyNg7ObuDxAVyxPTnOkTczjGvCYceU=;
+  b=ceQS3RIvl7zcFN6TgAwEoTG9D4GBupRsZdSt/BCoRGcXx9M33v9VLkGz
+   J/zHCbX4JfUAfHTTvaZkc5dxa93FrfOj+WmhDuTACY3hT/S1q5j7O2Jrw
+   c/RYQj3ZC2J5QumEcMM1Hrwx5w0BmTgDDLZU8OxJ6aKdWYIvReugN2zI/
+   6XCiRbHUsbbXchpZyBT1yIBITxNd5UhfkaQVSsPcI9KUdCM6jHuhFb6wy
+   ZM4YKpTQEHNxcKjElepCQIq0h/yu3sblf7OdsjqfhAbIenDlRwppHoiFy
+   gwu2ueS2tGxdS+k/GeQ+Bm6y5lBioyP3i/1HF+t67FAMjDJocqYn1su8j
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="9927342"
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="467084445"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="9927342"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 15:51:53 -0800
+   d="scan'208";a="467084445"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 16:11:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="906898598"
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="910882654"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="906898598"
+   d="scan'208";a="910882654"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2024 15:51:50 -0800
+  by orsmga004.jf.intel.com with ESMTP; 28 Jan 2024 16:11:51 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUEwG-0003rQ-23;
-	Sun, 28 Jan 2024 23:51:48 +0000
-Date: Mon, 29 Jan 2024 07:50:58 +0800
+	id 1rUFFd-0003sI-1S;
+	Mon, 29 Jan 2024 00:11:49 +0000
+Date: Mon, 29 Jan 2024 08:11:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony Solomonik <tony.solomonik@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, willy@infradead.org, axboe@kernel.dk,
-	linux-fsdevel@vger.kernel.org, brauner@kernel.org,
-	Tony Solomonik <tony.solomonik@gmail.com>
-Subject: Re: [PATCH v7 1/2] Add do_ftruncate that truncates a struct file
-Message-ID: <202401290716.JZDZbcf3-lkp@intel.com>
-References: <20240126155720.20385-2-tony.solomonik@gmail.com>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chris Lew <quic_clew@quicinc.com>
+Subject: [qcom:drivers-for-6.9 5/9] drivers/soc/qcom/qcom_aoss.c:90: warning:
+ Function parameter or struct member 'debugfs_root' not described in 'qmp'
+Message-ID: <202401290805.IgHBQEEl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,56 +58,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240126155720.20385-2-tony.solomonik@gmail.com>
 
-Hi Tony,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d3fa86b1a7b4cdc4367acacea16b72e0a200b3d7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Solomonik/Add-do_ftruncate-that-truncates-a-struct-file/20240126-235914
-base:   d3fa86b1a7b4cdc4367acacea16b72e0a200b3d7
-patch link:    https://lore.kernel.org/r/20240126155720.20385-2-tony.solomonik%40gmail.com
-patch subject: [PATCH v7 1/2] Add do_ftruncate that truncates a struct file
-config: i386-randconfig-141-20240129 (https://download.01.org/0day-ci/archive/20240129/202401290716.JZDZbcf3-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux drivers-for-6.9
+head:   5155e48128826d0c5999dc9f47aa746df54da448
+commit: d51d984c5525aebac0f90356ab1d923541b5cc60 [5/9] soc: qcom: aoss: Add debugfs interface for sending messages
+config: i386-buildonly-randconfig-002-20240129 (https://download.01.org/0day-ci/archive/20240129/202401290805.IgHBQEEl-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401290805.IgHBQEEl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401290716.JZDZbcf3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401290805.IgHBQEEl-lkp@intel.com/
 
-smatch warnings:
-fs/open.c:178 do_ftruncate() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +178 fs/open.c
+>> drivers/soc/qcom/qcom_aoss.c:90: warning: Function parameter or struct member 'debugfs_root' not described in 'qmp'
+>> drivers/soc/qcom/qcom_aoss.c:90: warning: Function parameter or struct member 'debugfs_files' not described in 'qmp'
 
-   156	
-   157	long do_ftruncate(struct file *file, loff_t length)
-   158	{
-   159		struct inode *inode;
-   160		struct dentry *dentry;
-   161		int error;
-   162	
-   163		dentry = file->f_path.dentry;
-   164		inode = dentry->d_inode;
-   165		if (!S_ISREG(inode->i_mode) || !(file->f_mode & FMODE_WRITE))
-   166			return -EINVAL;
-   167	
-   168		/* Check IS_APPEND on real upper inode */
-   169		if (IS_APPEND(file_inode(file)))
-   170			return -EPERM;
-   171		sb_start_write(inode->i_sb);
-   172		error = security_file_truncate(file);
-   173		if (!error)
-   174			error = do_truncate(file_mnt_idmap(file), dentry, length,
-   175					    ATTR_MTIME | ATTR_CTIME, file);
-   176		sb_end_write(inode->i_sb);
-   177	
- > 178	  return error;
-   179	}
-   180	
+
+vim +90 drivers/soc/qcom/qcom_aoss.c
+
+05589b30b21ac0 Thara Gopinath  2019-07-30  58  
+2209481409b7ab Bjorn Andersson 2019-06-11  59  /**
+2209481409b7ab Bjorn Andersson 2019-06-11  60   * struct qmp - driver state for QMP implementation
+2209481409b7ab Bjorn Andersson 2019-06-11  61   * @msgram: iomem referencing the message RAM used for communication
+2209481409b7ab Bjorn Andersson 2019-06-11  62   * @dev: reference to QMP device
+2209481409b7ab Bjorn Andersson 2019-06-11  63   * @mbox_client: mailbox client used to ring the doorbell on transmit
+2209481409b7ab Bjorn Andersson 2019-06-11  64   * @mbox_chan: mailbox channel used to ring the doorbell on transmit
+2209481409b7ab Bjorn Andersson 2019-06-11  65   * @offset: offset within @msgram where messages should be written
+2209481409b7ab Bjorn Andersson 2019-06-11  66   * @size: maximum size of the messages to be transmitted
+2209481409b7ab Bjorn Andersson 2019-06-11  67   * @event: wait_queue for synchronization with the IRQ
+2209481409b7ab Bjorn Andersson 2019-06-11  68   * @tx_lock: provides synchronization between multiple callers of qmp_send()
+2209481409b7ab Bjorn Andersson 2019-06-11  69   * @qdss_clk: QDSS clock hw struct
+96ec310d5d9463 Lee Jones       2020-11-03  70   * @cooling_devs: thermal cooling devices
+2209481409b7ab Bjorn Andersson 2019-06-11  71   */
+2209481409b7ab Bjorn Andersson 2019-06-11  72  struct qmp {
+2209481409b7ab Bjorn Andersson 2019-06-11  73  	void __iomem *msgram;
+2209481409b7ab Bjorn Andersson 2019-06-11  74  	struct device *dev;
+2209481409b7ab Bjorn Andersson 2019-06-11  75  
+2209481409b7ab Bjorn Andersson 2019-06-11  76  	struct mbox_client mbox_client;
+2209481409b7ab Bjorn Andersson 2019-06-11  77  	struct mbox_chan *mbox_chan;
+2209481409b7ab Bjorn Andersson 2019-06-11  78  
+2209481409b7ab Bjorn Andersson 2019-06-11  79  	size_t offset;
+2209481409b7ab Bjorn Andersson 2019-06-11  80  	size_t size;
+2209481409b7ab Bjorn Andersson 2019-06-11  81  
+2209481409b7ab Bjorn Andersson 2019-06-11  82  	wait_queue_head_t event;
+2209481409b7ab Bjorn Andersson 2019-06-11  83  
+2209481409b7ab Bjorn Andersson 2019-06-11  84  	struct mutex tx_lock;
+2209481409b7ab Bjorn Andersson 2019-06-11  85  
+2209481409b7ab Bjorn Andersson 2019-06-11  86  	struct clk_hw qdss_clk;
+05589b30b21ac0 Thara Gopinath  2019-07-30  87  	struct qmp_cooling_device *cooling_devs;
+d51d984c5525ae Bjorn Andersson 2024-01-17  88  	struct dentry *debugfs_root;
+d51d984c5525ae Bjorn Andersson 2024-01-17  89  	struct dentry *debugfs_files[QMP_DEBUGFS_FILES];
+2209481409b7ab Bjorn Andersson 2019-06-11 @90  };
+2209481409b7ab Bjorn Andersson 2019-06-11  91  
+
+:::::: The code at line 90 was first introduced by commit
+:::::: 2209481409b7abada0e952f4c797e074f4bf3abb soc: qcom: Add AOSS QMP driver
+
+:::::: TO: Bjorn Andersson <bjorn.andersson@linaro.org>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
