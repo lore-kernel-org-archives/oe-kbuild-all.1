@@ -1,63 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5ADDDAD;
-	Mon, 29 Jan 2024 01:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3E3DDC6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Jan 2024 01:45:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706490238; cv=none; b=MmGl7v6SVOrp5IEOEpj3wQOMsMVIdgVKuDYtQAHMTfnRJ7XuNwqS4COsy1qWXPudv0lud4JnbIpS5nzsPhfSLt/MP8q6zfjOsXElS98fHErMcZv4bOyku+gwUvtenYb7U3dTUkF9uDcvWYut5z0rxnAiWJLGlLCS6Z+0jY0ZM5o=
+	t=1706492759; cv=none; b=t5SJx9SMm3EoMj6HjPRLAe4vVDEYnSlep/TzmHZF49eXPdgrEgMxp0xw/zbuAntUYKOv1VRw961f3w3N967hEwkNCGI6SGv1dAFnQRrE3gCid77FxTo8JC+9u9G3ZX6PN7Fy3wX1qLQpKZhETtGUOfgawQJH7n5UNvBnXRHyWpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706490238; c=relaxed/simple;
-	bh=7dCyYyC9HvsH0TC63mIxeQgXtZjfv1V7t2rD9NAJ8Jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d7epOqUOMbFtLjrDi20XtevXO9TZS1KC2I0B8do0/oMZGwcXdVfFHMCiQ/Nmu8jbCiCSGn0wh1QNm8+kAzmz5QnEU4jQa6Tcqj3NppDIqky/hZ2ixGWJiwd+L6VqkW7FYr+xD2HK6EqblIvVPWThNIpLBtF0UKL8no1rFsx7ziw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4/0uFcB; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1706492759; c=relaxed/simple;
+	bh=2uVZZkCu2mgBOC8C6J31sadzhS23iWOfy4G/SuepWIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z3L5SSeHKASKxCkKjvCQ5DJ/W+mVnkUHnDJBClQlSeeBu3bIZ5ZUwRkuy6gIKdqYizDwvk4Ken7agFzIt+Bd0+0c5372B9lKzsI7z5kmme5P6MrbVCnQp9r9UJoscW5tDUE4AB0afAupgT799tcKU/YEszKtYBfFLJD8YUiLKNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ns7V/dCO; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4/0uFcB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ns7V/dCO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706490237; x=1738026237;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7dCyYyC9HvsH0TC63mIxeQgXtZjfv1V7t2rD9NAJ8Jk=;
-  b=S4/0uFcB8Uljbg/BkszEOU3zfu+pUqqH2ruH97Jwrpf4T56Y2yAKjTDM
-   0zQEuPgKRdtyQSr9WcpK9aUxots4BtS55NLcQ5qwqXipCwpFt33f7x2fO
-   L0Q3taPTV52sw3/Tok1HVzRbjdZ+D0ZNwNKmXTj/6Nrj7kb706iP2RoG/
-   mXl9dktq3356bmomatL4ojw0OkZ4bXnurap22+K6+7orcwDHHz99k0Qne
-   zVKEJdigcJI3G5wK23nMFry1uNUFHRYwqS9L1U6mdBylnLU2ZQB+Ql7yK
-   cX4F1j3CsUtmukee8V5TfriUhzUyZFNXUvzeMrXI7wi/b52BIGT7w8lXZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="10207109"
+  t=1706492756; x=1738028756;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2uVZZkCu2mgBOC8C6J31sadzhS23iWOfy4G/SuepWIw=;
+  b=Ns7V/dCO3wR1pBDmHhg7ZqkNCjx9sJW0aGRTrUyYp9AD3u+RozvRJcNW
+   6GzViaUhfXyfUF6tQCIduCRoiJMMYgvvFFMnqB1748Aax6hBP08bG5zxw
+   e4aTcSmu+wazfMmv8gvv2lUPEl4dHw4HiJa32ORXR2ZmesB2J8dl5zVAJ
+   b/KzoP+7TDfnukRG8AtV7kxsV5y32N6bNtStJcYlAIFhQ+oGctzueBoiJ
+   RutudgBuSCZawZrjXdaoOG1EcPgRyKqo5Rb0CC3LKBXhLYp2iTU4MwPqE
+   Lg1bsjtYKb4bURQKK55QzwUdBWOuAIjenunnnx33PuU73NoxyKMCK3XLs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="393262423"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="10207109"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 17:03:56 -0800
+   d="scan'208";a="393262423"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 17:45:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="906910595"
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="910898341"
 X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="906910595"
+   d="scan'208";a="910898341"
 Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2024 17:03:53 -0800
+  by orsmga004.jf.intel.com with ESMTP; 28 Jan 2024 17:45:54 -0800
 Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUG3y-0003uW-2i;
-	Mon, 29 Jan 2024 01:03:50 +0000
-Date: Mon, 29 Jan 2024 09:03:25 +0800
+	id 1rUGie-0003wH-1j;
+	Mon, 29 Jan 2024 01:45:52 +0000
+Date: Mon, 29 Jan 2024 09:45:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>, James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Jing Zhang <jingzhangos@google.com>,
-	Oliver Upton <oliver.upton@linux.dev>
-Subject: Re: [PATCH 13/15] KVM: arm64: vgic-its: Protect cached vgic_irq
- pointers with RCU
-Message-ID: <202401290835.TjDnhUFI-lkp@intel.com>
-References: <20240124204909.105952-14-oliver.upton@linux.dev>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.7/prjc 294/431] kernel/sched/alt_core.c:4421:3: error: call
+ to undeclared function 'hrtick_start'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202401290939.dGYMLyML-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,135 +59,259 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240124204909.105952-14-oliver.upton@linux.dev>
 
-Hi Oliver,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6613476e225e090cc9aad49be7fa504e290dd33d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Upton/KVM-arm64-vgic-Store-LPIs-in-an-xarray/20240125-045255
-base:   6613476e225e090cc9aad49be7fa504e290dd33d
-patch link:    https://lore.kernel.org/r/20240124204909.105952-14-oliver.upton%40linux.dev
-patch subject: [PATCH 13/15] KVM: arm64: vgic-its: Protect cached vgic_irq pointers with RCU
-config: arm64-randconfig-r112-20240128 (https://download.01.org/0day-ci/archive/20240129/202401290835.TjDnhUFI-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a31a60074717fc40887cfe132b77eec93bedd307)
-reproduce: (https://download.01.org/0day-ci/archive/20240129/202401290835.TjDnhUFI-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.7/prjc
+head:   31561c8ccf8a088f0c1ccefa592b221423781ce2
+commit: 8ba0ab052a7464503f11589aa0248012e7c8ee16 [294/431] sched/alt: [Sync] 95c74abe404d io_uring: move to separate directory
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20240129/202401290939.dGYMLyML-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401290939.dGYMLyML-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401290835.TjDnhUFI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401290939.dGYMLyML-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/vgic/vgic-its.c:705:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct vgic_irq *irq @@     got struct vgic_irq [noderef] __rcu *irq @@
-   arch/arm64/kvm/vgic/vgic-its.c:705:41: sparse:     expected struct vgic_irq *irq
-   arch/arm64/kvm/vgic/vgic-its.c:705:41: sparse:     got struct vgic_irq [noderef] __rcu *irq
-   arch/arm64/kvm/vgic/vgic-its.c:727:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct vgic_irq *irq @@     got struct vgic_irq [noderef] __rcu *irq @@
-   arch/arm64/kvm/vgic/vgic-its.c:727:38: sparse:     expected struct vgic_irq *irq
-   arch/arm64/kvm/vgic/vgic-its.c:727:38: sparse:     got struct vgic_irq [noderef] __rcu *irq
-   arch/arm64/kvm/vgic/vgic-its.c:891:17: sparse: sparse: cast to restricted __le64
-   arch/arm64/kvm/vgic/vgic-its.c:1031:24: sparse: sparse: cast to restricted __le64
-   arch/arm64/kvm/vgic/vgic-its.c:2245:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [assigned] [usertype] val @@     got restricted __le64 [usertype] @@
-   arch/arm64/kvm/vgic/vgic-its.c:2245:13: sparse:     expected unsigned long long [assigned] [usertype] val
-   arch/arm64/kvm/vgic/vgic-its.c:2245:13: sparse:     got restricted __le64 [usertype]
-   arch/arm64/kvm/vgic/vgic-its.c:2271:15: sparse: sparse: cast to restricted __le64
-   arch/arm64/kvm/vgic/vgic-its.c:2397:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [assigned] [usertype] val @@     got restricted __le64 [usertype] @@
-   arch/arm64/kvm/vgic/vgic-its.c:2397:13: sparse:     expected unsigned long long [assigned] [usertype] val
-   arch/arm64/kvm/vgic/vgic-its.c:2397:13: sparse:     got restricted __le64 [usertype]
-   arch/arm64/kvm/vgic/vgic-its.c:2424:17: sparse: sparse: cast to restricted __le64
-   arch/arm64/kvm/vgic/vgic-its.c:2525:17: sparse: sparse: cast to restricted __le64
-   arch/arm64/kvm/vgic/vgic-its.c:2584:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [assigned] [usertype] val @@     got restricted __le64 [usertype] @@
-   arch/arm64/kvm/vgic/vgic-its.c:2584:13: sparse:     expected unsigned long long [assigned] [usertype] val
-   arch/arm64/kvm/vgic/vgic-its.c:2584:13: sparse:     got restricted __le64 [usertype]
-   arch/arm64/kvm/vgic/vgic-its.c:2605:15: sparse: sparse: cast to restricted __le64
-   arch/arm64/kvm/vgic/vgic-its.c:39:24: sparse: sparse: context imbalance in 'vgic_add_lpi' - different lock contexts for basic block
-   arch/arm64/kvm/vgic/vgic-its.c:284:12: sparse: sparse: context imbalance in 'update_lpi_config' - different lock contexts for basic block
-   arch/arm64/kvm/vgic/vgic-its.c:458:9: sparse: sparse: context imbalance in 'its_sync_lpi_pending_table' - different lock contexts for basic block
-   arch/arm64/kvm/vgic/vgic-its.c: note: in included file (through include/linux/random.h, arch/arm64/include/asm/pointer_auth.h, arch/arm64/include/asm/processor.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   arch/arm64/kvm/vgic/vgic-its.c:796:12: sparse: sparse: context imbalance in 'vgic_its_trigger_msi' - different lock contexts for basic block
-   arch/arm64/kvm/vgic/vgic-its.c:818:5: sparse: sparse: context imbalance in 'vgic_its_inject_cached_translation' - wrong count at exit
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All errors (new ones prefixed by >>):
 
-vim +705 arch/arm64/kvm/vgic/vgic-its.c
+   In file included from kernel/sched/alt_core.c:16:
+   In file included from include/linux/sched/isolation.h:6:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from kernel/sched/alt_core.c:16:
+   In file included from include/linux/sched/isolation.h:6:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from kernel/sched/alt_core.c:16:
+   In file included from include/linux/sched/isolation.h:6:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from kernel/sched/alt_core.c:42:
+   In file included from kernel/sched/sched.h:9:
+   kernel/sched/alt_sched.h:481:14: warning: declaration of 'struct cpuidle_state' will not be visible outside of this function [-Wvisibility]
+     481 |                                   struct cpuidle_state *idle_state)
+         |                                          ^
+   kernel/sched/alt_core.c:578:14: error: call to undeclared function 'sched_clock_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     578 |         s64 delta = sched_clock_cpu(cpu_of(rq)) - rq->clock;
+         |                     ^
+   kernel/sched/alt_core.c:966:6: warning: no previous prototype for function 'resched_curr' [-Wmissing-prototypes]
+     966 | void resched_curr(struct rq *rq)
+         |      ^
+   kernel/sched/alt_core.c:966:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     966 | void resched_curr(struct rq *rq)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:989:6: warning: no previous prototype for function 'resched_cpu' [-Wmissing-prototypes]
+     989 | void resched_cpu(int cpu)
+         |      ^
+   kernel/sched/alt_core.c:989:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     989 | void resched_cpu(int cpu)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:3894:2: error: call to undeclared function 'sched_clock_tick'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3894 |         sched_clock_tick();
+         |         ^
+   kernel/sched/alt_core.c:3894:2: note: did you mean 'scheduler_tick'?
+   kernel/sched/alt_core.c:3887:6: note: 'scheduler_tick' declared here
+    3887 | void scheduler_tick(void)
+         |      ^
+    3888 | {
+    3889 |         int cpu __maybe_unused = smp_processor_id();
+    3890 |         struct rq *rq = cpu_rq(cpu);
+    3891 |         u64 resched_latency;
+    3892 | 
+    3893 |         arch_scale_freq_tick();
+    3894 |         sched_clock_tick();
+         |         ~~~~~~~~~~~~~~~~
+         |         scheduler_tick
+>> kernel/sched/alt_core.c:4421:3: error: call to undeclared function 'hrtick_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4421 |                 hrtick_start(rq, next->time_slice);
+         |                 ^
+   kernel/sched/alt_core.c:4421:3: note: did you mean 'hrtimer_start'?
+   include/linux/hrtimer.h:415:20: note: 'hrtimer_start' declared here
+     415 | static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
+         |                    ^
+   kernel/sched/alt_core.c:4440:2: error: call to undeclared function 'hrtick_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4440 |         hrtick_start(rq, next->time_slice);
+         |         ^
+   kernel/sched/alt_core.c:4558:21: error: use of undeclared identifier 'PF_FROZEN'
+    4558 |                                 !(prev->flags & PF_FROZEN);
+         |                                                 ^
+   kernel/sched/alt_core.c:4674:6: error: call to undeclared function 'tsk_is_pi_blocked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4674 |         if (tsk_is_pi_blocked(tsk))
+         |             ^
+   kernel/sched/alt_core.c:5357:3: error: call to undeclared function 'cpuset_read_lock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5357 |                 cpuset_read_lock();
+         |                 ^
+   kernel/sched/alt_core.c:5357:3: note: did you mean 'cpus_read_lock'?
+   include/linux/cpu.h:148:20: note: 'cpus_read_lock' declared here
+     148 | static inline void cpus_read_lock(void) { }
+         |                    ^
+   kernel/sched/alt_core.c:5405:4: error: call to undeclared function 'cpuset_read_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5405 |                         cpuset_read_unlock();
+         |                         ^
+   kernel/sched/alt_core.c:5437:3: error: call to undeclared function 'cpuset_read_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5437 |                 cpuset_read_unlock();
+         |                 ^
+   kernel/sched/alt_core.c:5451:3: error: call to undeclared function 'cpuset_read_unlock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5451 |                 cpuset_read_unlock();
+         |                 ^
+   kernel/sched/alt_core.c:7238:13: warning: no previous prototype for function 'sched_init_smp' [-Wmissing-prototypes]
+    7238 | void __init sched_init_smp(void)
+         |             ^
+   kernel/sched/alt_core.c:7238:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7238 | void __init sched_init_smp(void)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7278:13: warning: no previous prototype for function 'sched_init' [-Wmissing-prototypes]
+    7278 | void __init sched_init(void)
+         |             ^
+   kernel/sched/alt_core.c:7278:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7278 | void __init sched_init(void)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7633:20: warning: no previous prototype for function 'sched_create_group' [-Wmissing-prototypes]
+    7633 | struct task_group *sched_create_group(struct task_group *parent)
+         |                    ^
+   kernel/sched/alt_core.c:7633:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7633 | struct task_group *sched_create_group(struct task_group *parent)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7644:6: warning: no previous prototype for function 'sched_online_group' [-Wmissing-prototypes]
+    7644 | void sched_online_group(struct task_group *tg, struct task_group *parent)
+         |      ^
+   kernel/sched/alt_core.c:7644:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7644 | void sched_online_group(struct task_group *tg, struct task_group *parent)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7655:6: warning: no previous prototype for function 'sched_destroy_group' [-Wmissing-prototypes]
+    7655 | void sched_destroy_group(struct task_group *tg)
+         |      ^
+   kernel/sched/alt_core.c:7655:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7655 | void sched_destroy_group(struct task_group *tg)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7661:6: warning: no previous prototype for function 'sched_release_group' [-Wmissing-prototypes]
+    7661 | void sched_release_group(struct task_group *tg)
+         |      ^
+   kernel/sched/alt_core.c:7661:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7661 | void sched_release_group(struct task_group *tg)
+         | ^
+         | static 
+   kernel/sched/alt_core.c:7731:5: warning: no previous prototype for function 'sched_group_set_shares' [-Wmissing-prototypes]
+    7731 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
+         |     ^
+   kernel/sched/alt_core.c:7731:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    7731 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
+         | ^
+         | static 
+   22 warnings and 10 errors generated.
 
-73dcc3dd6274b9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  637  
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  638  static void vgic_its_cache_translation(struct kvm *kvm, struct vgic_its *its,
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  639  				       u32 devid, u32 eventid,
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  640  				       struct vgic_irq *irq)
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  641  {
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  642  	struct vgic_translation_cache_entry *new, *victim;
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  643  	struct vgic_dist *dist = &kvm->arch.vgic;
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  644  	unsigned long flags;
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  645  	phys_addr_t db;
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  646  
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  647  	/* Do not cache a directly injected interrupt */
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  648  	if (irq->hw)
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  649  		return;
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  650  
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  651  	new = victim = kzalloc(sizeof(*new), GFP_KERNEL_ACCOUNT);
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  652  	if (!new)
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  653  		return;
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  654  
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  655  	raw_spin_lock_irqsave(&dist->lpi_list_lock, flags);
-131b61b5cd90e9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  656  	rcu_read_lock();
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  657  
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  658  	/*
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  659  	 * We could have raced with another CPU caching the same
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  660  	 * translation behind our back, so let's check it is not in
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  661  	 * already
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  662  	 */
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  663  	db = its->vgic_its_base + GITS_TRANSLATER;
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  664  	if (__vgic_its_check_cache(dist, db, devid, eventid))
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  665  		goto out;
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  666  
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  667  	if (dist->lpi_cache_count >= vgic_its_max_cache_size(kvm)) {
-73dcc3dd6274b9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  668  		victim = vgic_its_cache_victim(dist);
-73dcc3dd6274b9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  669  		if (WARN_ON_ONCE(!victim)) {
-73dcc3dd6274b9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  670  			victim = new;
-73dcc3dd6274b9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  671  			goto out;
-73dcc3dd6274b9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  672  		}
-73dcc3dd6274b9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  673  
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  674  		list_del(&victim->entry);
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  675  		dist->lpi_cache_count--;
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  676  	} else {
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  677  		victim = NULL;
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  678  	}
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  679  
-7f253bdb6144f3 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  680  	/*
-7f253bdb6144f3 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  681  	 * The irq refcount is guaranteed to be nonzero while holding the
-7f253bdb6144f3 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  682  	 * its_lock, as the ITE (and the reference it holds) cannot be freed.
-7f253bdb6144f3 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  683  	 */
-7f253bdb6144f3 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  684  	lockdep_assert_held(&its->its_lock);
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  685  	vgic_get_irq_kref(irq);
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  686  
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  687  	new->db		= db;
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  688  	new->devid	= devid;
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  689  	new->eventid	= eventid;
-131b61b5cd90e9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  690  	rcu_assign_pointer(new->irq, irq);
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  691  
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  692  	/* Move the new translation to the head of the list */
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  693  	list_add(&new->entry, &dist->lpi_translation_cache);
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  694  
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  695  out:
-131b61b5cd90e9 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  696  	rcu_read_unlock();
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  697  	raw_spin_unlock_irqrestore(&dist->lpi_list_lock, flags);
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  698  
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  699  	/*
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  700  	 * Caching the translation implies having an extra reference
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  701  	 * to the interrupt, so drop the potential reference on what
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  702  	 * was in the cache, and increment it on the new interrupt.
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  703  	 */
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  704  	if (victim && victim->irq)
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24 @705  		vgic_put_irq(kvm, victim->irq);
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  706  
-8fb2f0e370c963 arch/arm64/kvm/vgic/vgic-its.c Oliver Upton 2024-01-24  707  	kfree(victim);
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  708  }
-89489ee9ced892 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier 2019-03-18  709  
+
+vim +/hrtick_start +4421 kernel/sched/alt_core.c
+
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4399  
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4400  static inline struct task_struct *
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4401  choose_next_task(struct rq *rq, int cpu, struct task_struct *prev)
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4402  {
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4403  	struct task_struct *next;
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4404  
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4405  	if (unlikely(rq->skip)) {
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4406  		next = rq_runnable_task(rq);
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4407  		if (next == rq->idle) {
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4408  #ifdef	CONFIG_SMP
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4409  			if (!take_other_rq_tasks(rq, cpu)) {
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4410  #endif
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4411  				rq->skip = NULL;
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4412  				schedstat_inc(rq->sched_goidle);
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4413  				return next;
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4414  #ifdef	CONFIG_SMP
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4415  			}
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4416  			next = rq_runnable_task(rq);
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4417  #endif
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4418  		}
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4419  		rq->skip = NULL;
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4420  #ifdef CONFIG_HIGH_RES_TIMERS
+fbfe8ff6c6b93b Alfred Chen 2019-08-19 @4421  		hrtick_start(rq, next->time_slice);
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4422  #endif
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4423  		return next;
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4424  	}
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4425  
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4426  	next = sched_rq_first_task(rq);
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4427  	if (next == rq->idle) {
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4428  #ifdef	CONFIG_SMP
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4429  		if (!take_other_rq_tasks(rq, cpu)) {
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4430  #endif
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4431  			schedstat_inc(rq->sched_goidle);
+c05e232dfa21b5 Alfred Chen 2020-08-09  4432  			/*printk(KERN_INFO "sched: choose_next_task(%d) idle %px\n", cpu, next);*/
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4433  			return next;
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4434  #ifdef	CONFIG_SMP
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4435  		}
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4436  		next = sched_rq_first_task(rq);
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4437  #endif
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4438  	}
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4439  #ifdef CONFIG_HIGH_RES_TIMERS
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4440  	hrtick_start(rq, next->time_slice);
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4441  #endif
+c05e232dfa21b5 Alfred Chen 2020-08-09  4442  	/*printk(KERN_INFO "sched: choose_next_task(%d) next %px\n", cpu,
+c05e232dfa21b5 Alfred Chen 2020-08-09  4443  	 * next);*/
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4444  	return next;
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4445  }
+fbfe8ff6c6b93b Alfred Chen 2019-08-19  4446  
+
+:::::: The code at line 4421 was first introduced by commit
+:::::: fbfe8ff6c6b93b06975504d6aed3ebf3c0a6c25a Project C v5.7.5-r2
+
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
