@@ -1,64 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A083A6A02A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 21:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5D66D1D0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 21:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706648801; cv=none; b=C2Q1Jo4DPH8g7GI4Q9EcNt5oZnnMlugAe0geZ75YffnIFg4UGOH2WzPuqAY0zSIyd5i4Ly+fTs7Be7FY3RQInvLL3qk8V+bOmGf6LIzDFD4y9KfxTI1H1rL4d901Jubljon4yGvUVmbzyVn27Iv4EKtLRPEE+y14pU5Ho7GW8xQ=
+	t=1706649519; cv=none; b=rOnAqUPBBbsuR5l76CiCUPflTGo1fIIZjeprAPX002oG6IuGaWb4LMcMeDl5sLR9peVQ5ZCYXhfhTaKJ4rAblFCgAjS1rVqPnrAtGQZv1kVPBhQ6xl4r0QFDSAHTLUbDR9s0EuS8zLkv3PogXhBigrOZwiA0qi+nlwBQInyW4yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706648801; c=relaxed/simple;
-	bh=gM2k755jodQt1/XCCpHAG09gohkbqOUKelwFkZoypLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VbmYwcbkkXf18ahGBKVXnNRKMz85w3hhbrf2BKjQnujrchZi9hf8FcsVZKAfWJjQIADCe3kBTSOYTRctcbAdw5Ha8p7vzeEmvr87gmhi8Fa3T1BT2JEMRuNYZUoFFeAZubzAnHrI7ZOVxYEl8BKxyOH3sqH7rFxBGyEZ2rX9GuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W00wxUZ6; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1706649519; c=relaxed/simple;
+	bh=qaKZ7JZXSOF5piaybfyzgPM7Y1t5U9xo6NyBAwBmmUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sRVVfwrM+R3VdPwo5VEJv3vY3gA4fYEDYKmtD4+yMZuiLFqnbSgJUSImVl5wQjRiEBH5Iglh137jFXBZeAZHIjnKORRPYJzBqXr0yP8d2LIQ2j4DGuYG/a1zB1E9mhHMsQNw4BHL5N5NNC2/vAk6dyFC2ikt86JyiXVPMxDBCAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IGvtHoen; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W00wxUZ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGvtHoen"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706648800; x=1738184800;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gM2k755jodQt1/XCCpHAG09gohkbqOUKelwFkZoypLo=;
-  b=W00wxUZ6CDDbI7gZ+ySkygkrRg/MjygtQn+EZMQ7zCwQvWmL/rTDA6HF
-   kGlUYWXFRAti1QFdD/jSRcxUo3Cx7KxtlEqTZ+ju9Lh4pK2cvmLtFZbdN
-   dLCzY9B2vzk98YRkDLO9s1uZsta5YBOHfrZ6vS2U4bYzIgmN7ClgeYH+d
-   YfpX9UVLcqdw1wzAqZRCo2hhIQCix+RdvGm7Fjo2lV5qthLEA6D8ZYhhL
-   crDDxQSGxZ32q6PA8lnGF2JFc7U3LUUM+tR7oKGqyJQBdYpPdit8Oloqc
-   ezNjaAVGopwgE6eNkWSd35psxx9T00VGgg7nyLBUFKU+u9UDYIBi5Hi8p
+  t=1706649517; x=1738185517;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qaKZ7JZXSOF5piaybfyzgPM7Y1t5U9xo6NyBAwBmmUQ=;
+  b=IGvtHoenNEfqFDiZinj0fUCf0iqvi8Nga3fI2zNgDIZz3g5ThgSAekJr
+   M0Eevbg2e3hwsgVIHAa0Y9Zfx6U88ndYBM0Kuby8fD+Z7w4J/cVNl59rZ
+   zcs9SoEbl6/A268Mp1Lgl9KwOiggmazb627x4Vj4691BFDOt0W6eHM+5I
+   iJdYLHMm9iC3fObJ1J38gm2LnS50/xuxUbmmrhwQIEvQkEBYpkoVVBYdR
+   bj+iY74kECPinIld7BxAEoTb5L2qFk4TU8hNlEsdrYFk62HqNSuMbDM2c
+   SgBECYB3ahGeZfsEaf5fEHPz3yzb/ZuAEw5WPU9xOma6nhVuxyDwNAb49
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10788276"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10074040"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="10788276"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 13:06:39 -0800
+   d="scan'208";a="10074040"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 13:18:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="911559025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="907635676"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="911559025"
+   d="scan'208";a="907635676"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 30 Jan 2024 13:06:34 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jan 2024 13:18:35 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUvJQ-0000pY-1M;
-	Tue, 30 Jan 2024 21:06:32 +0000
-Date: Wed, 31 Jan 2024 05:05:35 +0800
+	id 1rUvV2-0000q6-38;
+	Tue, 30 Jan 2024 21:18:32 +0000
+Date: Wed, 31 Jan 2024 05:17:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charlie Jenkins <charlie@rivosinc.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Yangyu Chen <cyy@cyyself.name>
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>
-Subject: Re: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
-Message-ID: <202401310404.eNJvHoC9-lkp@intel.com>
-References: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:idpf-libie-new 20/30]
+ drivers/net/ethernet/intel/libeth/rx.c:39: warning: Excess function
+ parameter 'max_len' description in 'libeth_rx_page_pool_create'
+Message-ID: <202401310522.mNRVimvu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,94 +59,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
 
-Hi Charlie,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 556e2d17cae620d549c5474b1ece053430cd50bc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/riscv-mm-Use-hint-address-in-mmap-if-available/20240130-084208
-base:   556e2d17cae620d549c5474b1ece053430cd50bc
-patch link:    https://lore.kernel.org/r/20240129-use_mmap_hint_address-v1-1-4c74da813ba1%40rivosinc.com
-patch subject: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240131/202401310404.eNJvHoC9-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310404.eNJvHoC9-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux idpf-libie-new
+head:   30d7705c3b30a6e802712079c94daac42a3d41ab
+commit: ce037c17a195036ba2779c1969018ff1c5e3a818 [20/30] libie: add Rx buffer management (via Page Pool)
+config: arc-randconfig-001-20240130 (https://download.01.org/0day-ci/archive/20240131/202401310522.mNRVimvu-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310522.mNRVimvu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401310404.eNJvHoC9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401310522.mNRVimvu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/include/asm/irqflags.h:10,
-                    from include/linux/irqflags.h:18,
-                    from arch/riscv/include/asm/bitops.h:14,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from mm/mmap.c:12:
-   mm/mmap.c: In function 'generic_get_unmapped_area':
->> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
-      28 |         else                                                    \
-         |         ^~~~
-   mm/mmap.c:1703:40: note: in expansion of macro 'arch_get_mmap_end'
-    1703 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
-         |                                        ^~~~~~~~~~~~~~~~~
-   mm/mmap.c: In function 'generic_get_unmapped_area_topdown':
->> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
-      28 |         else                                                    \
-         |         ^~~~
-   mm/mmap.c:1751:40: note: in expansion of macro 'arch_get_mmap_end'
-    1751 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
-         |                                        ^~~~~~~~~~~~~~~~~
---
-   In file included from arch/riscv/include/asm/irqflags.h:10,
-                    from include/linux/irqflags.h:18,
-                    from arch/riscv/include/asm/bitops.h:14,
-                    from include/linux/bitops.h:68,
-                    from include/linux/thread_info.h:27,
-                    from fs/hugetlbfs/inode.c:12:
-   fs/hugetlbfs/inode.c: In function 'hugetlb_get_unmapped_area_bottomup':
->> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
-      28 |         else                                                    \
-         |         ^~~~
-   fs/hugetlbfs/inode.c:173:27: note: in expansion of macro 'arch_get_mmap_end'
-     173 |         info.high_limit = arch_get_mmap_end(addr, len, flags);
-         |                           ^~~~~~~~~~~~~~~~~
-   fs/hugetlbfs/inode.c: In function 'hugetlb_get_unmapped_area_topdown':
->> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
-      28 |         else                                                    \
-         |         ^~~~
-   fs/hugetlbfs/inode.c:204:35: note: in expansion of macro 'arch_get_mmap_end'
-     204 |                 info.high_limit = arch_get_mmap_end(addr, len, flags);
-         |                                   ^~~~~~~~~~~~~~~~~
-   fs/hugetlbfs/inode.c: In function 'generic_hugetlb_get_unmapped_area':
->> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
-      28 |         else                                                    \
-         |         ^~~~
-   fs/hugetlbfs/inode.c:219:40: note: in expansion of macro 'arch_get_mmap_end'
-     219 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
-         |                                        ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/libeth/rx.c:39: warning: Excess function parameter 'max_len' description in 'libeth_rx_page_pool_create'
 
 
-vim +/else +28 arch/riscv/include/asm/processor.h
+vim +39 drivers/net/ethernet/intel/libeth/rx.c
 
-add2cc6b6515f7 Charlie Jenkins 2023-08-09  20  
-add2cc6b6515f7 Charlie Jenkins 2023-08-09  21  #define arch_get_mmap_end(addr, len, flags)			\
-add2cc6b6515f7 Charlie Jenkins 2023-08-09  22  ({								\
-add2cc6b6515f7 Charlie Jenkins 2023-08-09  23  	unsigned long mmap_end;					\
-add2cc6b6515f7 Charlie Jenkins 2023-08-09  24  	typeof(addr) _addr = (addr);				\
-c5712238cfe3f5 Charlie Jenkins 2024-01-29  25  	if ((_addr) == 0 ||					\
-c5712238cfe3f5 Charlie Jenkins 2024-01-29  26  		(IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||	\
-c5712238cfe3f5 Charlie Jenkins 2024-01-29  27  		((_addr + len) > BIT(VA_BITS - 1)))		\
-add2cc6b6515f7 Charlie Jenkins 2023-08-09 @28  	else							\
-c5712238cfe3f5 Charlie Jenkins 2024-01-29  29  		mmap_end = (_addr + len);			\
-add2cc6b6515f7 Charlie Jenkins 2023-08-09  30  	mmap_end;						\
-add2cc6b6515f7 Charlie Jenkins 2023-08-09  31  })
-add2cc6b6515f7 Charlie Jenkins 2023-08-09  32  
+    28	
+    29	/**
+    30	 * libeth_rx_page_pool_create - create a PP with the default libeth settings
+    31	 * @bq: buffer queue struct to fill
+    32	 * @napi: &napi_struct covering this PP (no usage outside its poll loops)
+    33	 * @max_len: maximum buffer size for a single descriptor
+    34	 *
+    35	 * Return: 0 on success, -errno on failure.
+    36	 */
+    37	int libeth_rx_page_pool_create(struct libeth_buf_queue *bq,
+    38				       struct napi_struct *napi)
+  > 39	{
+    40		struct page_pool_params pp = {
+    41			.flags		= PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV,
+    42			.order		= LIBETH_RX_PAGE_ORDER,
+    43			.pool_size	= bq->count,
+    44			.nid		= NUMA_NO_NODE,
+    45			.dev		= napi->dev->dev.parent,
+    46			.netdev		= napi->dev,
+    47			.napi		= napi,
+    48			.dma_dir	= DMA_FROM_DEVICE,
+    49			.offset		= LIBETH_SKB_HEADROOM,
+    50		};
+    51	
+    52		/* HW-writeable / syncable length per one page */
+    53		pp.max_len = LIBETH_RX_PAGE_LEN(pp.offset);
+    54	
+    55		/* HW-writeable length per buffer */
+    56		bq->rx_buf_len = libeth_rx_hw_len(&pp, bq->rx_buf_len);
+    57		/* Buffer size to allocate */
+    58		bq->truesize = roundup_pow_of_two(SKB_HEAD_ALIGN(pp.offset +
+    59								 bq->rx_buf_len));
+    60	
+    61		bq->pp = page_pool_create(&pp);
+    62	
+    63		return PTR_ERR_OR_ZERO(bq->pp);
+    64	}
+    65	EXPORT_SYMBOL_NS_GPL(libeth_rx_page_pool_create, LIBETH);
+    66	
 
 -- 
 0-DAY CI Kernel Test Service
