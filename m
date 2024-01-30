@@ -1,60 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73546A33A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 12:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98626BB51
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 13:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706619186; cv=none; b=ZGe28FpgndZ53gHEmDn6V7B1tsOLyQP4Fg6N0oEZi7dEiIRk3jbi0UtiXDXd4tTqE1a00W9TSixABL5ybvG1PSNzbkLQtfbg4nkeA8IulMEgOhwQ0e55NGco59xNcL4Nr1OVs4i55TgdxuvhEtxBfd4RZRKQ0F/tMVB1tya4Jjg=
+	t=1706620460; cv=none; b=qQ7Npy1Jwd7AscOzAjJbs0qKCr6SrMVQPNgcLRdFfk/3NX9sgkhqfJvGtG/HWICHjwncRBE9Ef8Skxicf7Hlz83j249Xrg7/zod9C4tix8Wqwf3yyvfTDBFi7ibCLty7oJkWV3ChwsL0GqpgpSnwzaHAotzH18bIlnN/3qHXqPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706619186; c=relaxed/simple;
-	bh=SXbfYpnbZWS4l4+vwNo2gGsrHksFZ7yrEBVZIGgPVI0=;
+	s=arc-20240116; t=1706620460; c=relaxed/simple;
+	bh=6fcGMqKUIKBgg6HnsEwmsCThHEyUGKj7tQsDuM2eiPE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MK8ldXh+HiCvRpEvAaCrJ7hTLpk5YOqMRF46vtm80/S1tvvnjOkzikoQSsD4FtRb99xXoyWsuK+DD/EkkLpPoKHvzbzgpXQAOMob8i9wR9rr5QHPW5d277h5snkhPq12vmbdPt6wk0Kwhpw2qJUw8LcGSfrOidwo0615i38RipQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CNxRjL2x; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=ar3Fb8mECJcUiMi9FROpsVVGJ9mT+WaSahyaiWeXv3z/9DidYCS5oVgW+eIJOyddUHFIHlZrawJxbTO4v6/3tR8lsTp+WeQxQVkTYslUmxdd8tEyevCWUNttHbcc+TgyQ1s7WdlTTqbYcNhNu/QgHdjwvCdan7JMuHdC9pqjSa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KEHJQOvX; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CNxRjL2x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEHJQOvX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706619185; x=1738155185;
+  t=1706620459; x=1738156459;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SXbfYpnbZWS4l4+vwNo2gGsrHksFZ7yrEBVZIGgPVI0=;
-  b=CNxRjL2xXvKQguvofH242/ZVHactZ3m0uZmiBrBspYi35ccStK/vlibf
-   5sGELdE/NNJUbTJZPM/D6vUIxS1a2YMlkxojiRIQWf1Wd9f3GMKvTdou3
-   NCAln7h+/lYegKNkp1GK9ro/GU/S5oqkYqMfdUdyorvprIQLBoBxW1eKv
-   dRGzy+0gy5wfwGk+M9+hHDeH9pxe+YNkIXrX2arQi2BdSAcm3Xhw8JWaU
-   PhcH6+iSOUqziqCYTmxdCoifqAQMIVzFyjY1QcTxyJtLFtNmhvJfavVz5
-   jlyUKLONpwU2jkV0lgHsNbSsblmhgKpnzHDjH+u6ijQa8beEfL7iGYLxR
+  bh=6fcGMqKUIKBgg6HnsEwmsCThHEyUGKj7tQsDuM2eiPE=;
+  b=KEHJQOvXrMaUOg94x12TqG6V9Y0G1EibrLUIBEGkXrFcq7u09S5pjrUu
+   dB5tUCcO9HkvtLRvEcTFa/QJeKSAGwacWZvUo7/vlmsSwEGz0dEAlMSsd
+   M8AWsDAqkZU8QZsF9ya00lDZfytyNiz3OUk4wTJQpdpSym4WGBjEve//S
+   ICp95sSvqiG2fjj3PusbW3Ej/SGuYU5yq4OK/nAgcJYtXiambYZAsg3+j
+   8c6v7piucO/PSjIsMcze2pR7gLY26kG2101bfrnnvnJyv0mN0pi+Y2ioF
+   nkZLywL6Jdw8HkAgQMGrXscJRivqr8ObZdyGSxd3QmKo17OihXsC+XoZj
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="24745560"
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="16658203"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="24745560"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 04:53:04 -0800
+   d="scan'208";a="16658203"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 05:14:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="907482433"
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="911440867"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="907482433"
+   d="scan'208";a="911440867"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 30 Jan 2024 04:53:01 -0800
+  by orsmga004.jf.intel.com with ESMTP; 30 Jan 2024 05:14:16 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUnbn-0000I3-13;
-	Tue, 30 Jan 2024 12:52:59 +0000
-Date: Tue, 30 Jan 2024 20:51:35 +0800
+	id 1rUnwH-0000Jo-0i;
+	Tue, 30 Jan 2024 13:14:10 +0000
+Date: Tue, 30 Jan 2024 21:14:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rakie Kim <rakie.kim@sk.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Honggyu Kim <honggyu.kim@sk.com>,
-	Gregory Price <gregory.price@memverge.com>,
-	Hyeongtak Ji <hyeongtak.ji@sk.com>
-Subject: [linux-next:master 2547/2825] mm/mempolicy.c:3131:17: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202401302054.sXdwijhd-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 2431/2827] fs/ntfs3/frecord.c:2460:16: warning:
+ unused variable 'i_size'
+Message-ID: <202401302130.Zw501PI9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,93 +62,312 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   41d66f96d0f15a0a2ad6fa2208f6bac1a66cbd52
-commit: 25506bd0b31e4e9d89dc293aba8f4c6e2110dccf [2547/2825] mm/mempolicy: implement the sysfs-based weighted_interleave interface
-config: loongarch-randconfig-r113-20240129 (https://download.01.org/0day-ci/archive/20240130/202401302054.sXdwijhd-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240130/202401302054.sXdwijhd-lkp@intel.com/reproduce)
+commit: 4fd6c08a16d7f1ba10212c9ef7bc73218144b463 [2431/2827] fs/ntfs3: Use i_size_read and i_size_write
+config: sh-randconfig-r023-20220313 (https://download.01.org/0day-ci/archive/20240130/202401302130.Zw501PI9-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240130/202401302130.Zw501PI9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401302054.sXdwijhd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401302130.Zw501PI9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/mempolicy.c:3094:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *table @@     got unsigned char * @@
-   mm/mempolicy.c:3094:15: sparse:     expected unsigned char [noderef] [usertype] __rcu *table
-   mm/mempolicy.c:3094:15: sparse:     got unsigned char *
-   mm/mempolicy.c:3123:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *new @@     got void * @@
-   mm/mempolicy.c:3123:13: sparse:     expected unsigned char [noderef] [usertype] __rcu *new
-   mm/mempolicy.c:3123:13: sparse:     got void *
-   mm/mempolicy.c:3128:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *old @@     got unsigned char * @@
-   mm/mempolicy.c:3128:13: sparse:     expected unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:3128:13: sparse:     got unsigned char *
->> mm/mempolicy.c:3131:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *__to @@     got unsigned char [noderef] [usertype] __rcu *new @@
-   mm/mempolicy.c:3131:17: sparse:     expected void *__to
-   mm/mempolicy.c:3131:17: sparse:     got unsigned char [noderef] [usertype] __rcu *new
->> mm/mempolicy.c:3131:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *__from @@     got unsigned char [noderef] [usertype] __rcu *old @@
-   mm/mempolicy.c:3131:17: sparse:     expected void const *__from
-   mm/mempolicy.c:3131:17: sparse:     got unsigned char [noderef] [usertype] __rcu *old
->> mm/mempolicy.c:3133:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *__s @@     got unsigned char [noderef] [usertype] __rcu *new @@
-   mm/mempolicy.c:3133:17: sparse:     expected void *__s
-   mm/mempolicy.c:3133:17: sparse:     got unsigned char [noderef] [usertype] __rcu *new
-   mm/mempolicy.c:3138:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __rcu *old @@
-   mm/mempolicy.c:3138:15: sparse:     expected void const *objp
-   mm/mempolicy.c:3138:15: sparse:     got unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:3234:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *old @@     got unsigned char * @@
-   mm/mempolicy.c:3234:13: sparse:     expected unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:3234:13: sparse:     got unsigned char *
-   mm/mempolicy.c:3239:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __rcu *old @@
-   mm/mempolicy.c:3239:15: sparse:     expected void const *objp
-   mm/mempolicy.c:3239:15: sparse:     got unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'queue_folios_pte_range' - unexpected unlock
-   mm/mempolicy.c:3095:31: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:3134:12: sparse: sparse: dereference of noderef expression
+All warnings (new ones prefixed by >>):
 
-vim +3131 mm/mempolicy.c
+   fs/ntfs3/frecord.c: In function 'ni_read_frame':
+>> fs/ntfs3/frecord.c:2460:16: warning: unused variable 'i_size' [-Wunused-variable]
+    2460 |         loff_t i_size = i_size_read(&ni->vfs_inode);
+         |                ^~~~~~
 
-  3100	
-  3101	static ssize_t node_store(struct kobject *kobj, struct kobj_attribute *attr,
-  3102				  const char *buf, size_t count)
-  3103	{
-  3104		struct iw_node_attr *node_attr;
-  3105		u8 __rcu *new;
-  3106		u8 __rcu *old;
-  3107		u8 weight = 0;
-  3108	
-  3109		node_attr = container_of(attr, struct iw_node_attr, kobj_attr);
-  3110		if (count == 0 || sysfs_streq(buf, ""))
-  3111			weight = 0;
-  3112		else if (kstrtou8(buf, 0, &weight))
-  3113			return -EINVAL;
-  3114	
-  3115		/*
-  3116		 * The default weight is 1, for now. When the kernel-internal
-  3117		 * default weight array is implemented, 0 will be a directive to
-  3118		 * the allocators to use the system-default weight instead.
-  3119		 */
-  3120		if (!weight)
-  3121			weight = 1;
-  3122	
-  3123		new = kmalloc(nr_node_ids, GFP_KERNEL);
-  3124		if (!new)
-  3125			return -ENOMEM;
-  3126	
-  3127		mutex_lock(&iw_table_lock);
-  3128		old = rcu_dereference_protected(iw_table,
-  3129						lockdep_is_held(&iw_table_lock));
-  3130		if (old)
-> 3131			memcpy(new, old, nr_node_ids);
-  3132		else
-> 3133			memset(new, 1, nr_node_ids);
-  3134		new[node_attr->nid] = weight;
-  3135		rcu_assign_pointer(iw_table, new);
-  3136		mutex_unlock(&iw_table_lock);
-  3137		synchronize_rcu();
-  3138		kfree(old);
-  3139		return count;
-  3140	}
-  3141	
+
+vim +/i_size +2460 fs/ntfs3/frecord.c
+
+  2442	
+  2443	/*
+  2444	 * ni_read_frame
+  2445	 *
+  2446	 * Pages - Array of locked pages.
+  2447	 */
+  2448	int ni_read_frame(struct ntfs_inode *ni, u64 frame_vbo, struct page **pages,
+  2449			  u32 pages_per_frame)
+  2450	{
+  2451		int err;
+  2452		struct ntfs_sb_info *sbi = ni->mi.sbi;
+  2453		u8 cluster_bits = sbi->cluster_bits;
+  2454		char *frame_ondisk = NULL;
+  2455		char *frame_mem = NULL;
+  2456		struct page **pages_disk = NULL;
+  2457		struct ATTR_LIST_ENTRY *le = NULL;
+  2458		struct runs_tree *run = &ni->file.run;
+  2459		u64 valid_size = ni->i_valid;
+> 2460		loff_t i_size = i_size_read(&ni->vfs_inode);
+  2461		u64 vbo_disk;
+  2462		size_t unc_size;
+  2463		u32 frame_size, i, npages_disk, ondisk_size;
+  2464		struct page *pg;
+  2465		struct ATTRIB *attr;
+  2466		CLST frame, clst_data;
+  2467	
+  2468		/*
+  2469		 * To simplify decompress algorithm do vmap for source
+  2470		 * and target pages.
+  2471		 */
+  2472		for (i = 0; i < pages_per_frame; i++)
+  2473			kmap(pages[i]);
+  2474	
+  2475		frame_size = pages_per_frame << PAGE_SHIFT;
+  2476		frame_mem = vmap(pages, pages_per_frame, VM_MAP, PAGE_KERNEL);
+  2477		if (!frame_mem) {
+  2478			err = -ENOMEM;
+  2479			goto out;
+  2480		}
+  2481	
+  2482		attr = ni_find_attr(ni, NULL, &le, ATTR_DATA, NULL, 0, NULL, NULL);
+  2483		if (!attr) {
+  2484			err = -ENOENT;
+  2485			goto out1;
+  2486		}
+  2487	
+  2488		if (!attr->non_res) {
+  2489			u32 data_size = le32_to_cpu(attr->res.data_size);
+  2490	
+  2491			memset(frame_mem, 0, frame_size);
+  2492			if (frame_vbo < data_size) {
+  2493				ondisk_size = data_size - frame_vbo;
+  2494				memcpy(frame_mem, resident_data(attr) + frame_vbo,
+  2495				       min(ondisk_size, frame_size));
+  2496			}
+  2497			err = 0;
+  2498			goto out1;
+  2499		}
+  2500	
+  2501		if (frame_vbo >= valid_size) {
+  2502			memset(frame_mem, 0, frame_size);
+  2503			err = 0;
+  2504			goto out1;
+  2505		}
+  2506	
+  2507		if (ni->ni_flags & NI_FLAG_COMPRESSED_MASK) {
+  2508	#ifndef CONFIG_NTFS3_LZX_XPRESS
+  2509			err = -EOPNOTSUPP;
+  2510			goto out1;
+  2511	#else
+  2512			u32 frame_bits = ni_ext_compress_bits(ni);
+  2513			u64 frame64 = frame_vbo >> frame_bits;
+  2514			u64 frames, vbo_data;
+  2515	
+  2516			if (frame_size != (1u << frame_bits)) {
+  2517				err = -EINVAL;
+  2518				goto out1;
+  2519			}
+  2520			switch (frame_size) {
+  2521			case 0x1000:
+  2522			case 0x2000:
+  2523			case 0x4000:
+  2524			case 0x8000:
+  2525				break;
+  2526			default:
+  2527				/* Unknown compression. */
+  2528				err = -EOPNOTSUPP;
+  2529				goto out1;
+  2530			}
+  2531	
+  2532			attr = ni_find_attr(ni, attr, &le, ATTR_DATA, WOF_NAME,
+  2533					    ARRAY_SIZE(WOF_NAME), NULL, NULL);
+  2534			if (!attr) {
+  2535				ntfs_inode_err(
+  2536					&ni->vfs_inode,
+  2537					"external compressed file should contains data attribute \"WofCompressedData\"");
+  2538				err = -EINVAL;
+  2539				goto out1;
+  2540			}
+  2541	
+  2542			if (!attr->non_res) {
+  2543				run = NULL;
+  2544			} else {
+  2545				run = run_alloc();
+  2546				if (!run) {
+  2547					err = -ENOMEM;
+  2548					goto out1;
+  2549				}
+  2550			}
+  2551	
+  2552			frames = (i_size - 1) >> frame_bits;
+  2553	
+  2554			err = attr_wof_frame_info(ni, attr, run, frame64, frames,
+  2555						  frame_bits, &ondisk_size, &vbo_data);
+  2556			if (err)
+  2557				goto out2;
+  2558	
+  2559			if (frame64 == frames) {
+  2560				unc_size = 1 + ((i_size - 1) & (frame_size - 1));
+  2561				ondisk_size = attr_size(attr) - vbo_data;
+  2562			} else {
+  2563				unc_size = frame_size;
+  2564			}
+  2565	
+  2566			if (ondisk_size > frame_size) {
+  2567				err = -EINVAL;
+  2568				goto out2;
+  2569			}
+  2570	
+  2571			if (!attr->non_res) {
+  2572				if (vbo_data + ondisk_size >
+  2573				    le32_to_cpu(attr->res.data_size)) {
+  2574					err = -EINVAL;
+  2575					goto out1;
+  2576				}
+  2577	
+  2578				err = decompress_lzx_xpress(
+  2579					sbi, Add2Ptr(resident_data(attr), vbo_data),
+  2580					ondisk_size, frame_mem, unc_size, frame_size);
+  2581				goto out1;
+  2582			}
+  2583			vbo_disk = vbo_data;
+  2584			/* Load all runs to read [vbo_disk-vbo_to). */
+  2585			err = attr_load_runs_range(ni, ATTR_DATA, WOF_NAME,
+  2586						   ARRAY_SIZE(WOF_NAME), run, vbo_disk,
+  2587						   vbo_data + ondisk_size);
+  2588			if (err)
+  2589				goto out2;
+  2590			npages_disk = (ondisk_size + (vbo_disk & (PAGE_SIZE - 1)) +
+  2591				       PAGE_SIZE - 1) >>
+  2592				      PAGE_SHIFT;
+  2593	#endif
+  2594		} else if (is_attr_compressed(attr)) {
+  2595			/* LZNT compression. */
+  2596			if (sbi->cluster_size > NTFS_LZNT_MAX_CLUSTER) {
+  2597				err = -EOPNOTSUPP;
+  2598				goto out1;
+  2599			}
+  2600	
+  2601			if (attr->nres.c_unit != NTFS_LZNT_CUNIT) {
+  2602				err = -EOPNOTSUPP;
+  2603				goto out1;
+  2604			}
+  2605	
+  2606			down_write(&ni->file.run_lock);
+  2607			run_truncate_around(run, le64_to_cpu(attr->nres.svcn));
+  2608			frame = frame_vbo >> (cluster_bits + NTFS_LZNT_CUNIT);
+  2609			err = attr_is_frame_compressed(ni, attr, frame, &clst_data);
+  2610			up_write(&ni->file.run_lock);
+  2611			if (err)
+  2612				goto out1;
+  2613	
+  2614			if (!clst_data) {
+  2615				memset(frame_mem, 0, frame_size);
+  2616				goto out1;
+  2617			}
+  2618	
+  2619			frame_size = sbi->cluster_size << NTFS_LZNT_CUNIT;
+  2620			ondisk_size = clst_data << cluster_bits;
+  2621	
+  2622			if (clst_data >= NTFS_LZNT_CLUSTERS) {
+  2623				/* Frame is not compressed. */
+  2624				down_read(&ni->file.run_lock);
+  2625				err = ntfs_bio_pages(sbi, run, pages, pages_per_frame,
+  2626						     frame_vbo, ondisk_size,
+  2627						     REQ_OP_READ);
+  2628				up_read(&ni->file.run_lock);
+  2629				goto out1;
+  2630			}
+  2631			vbo_disk = frame_vbo;
+  2632			npages_disk = (ondisk_size + PAGE_SIZE - 1) >> PAGE_SHIFT;
+  2633		} else {
+  2634			__builtin_unreachable();
+  2635			err = -EINVAL;
+  2636			goto out1;
+  2637		}
+  2638	
+  2639		pages_disk = kzalloc(npages_disk * sizeof(struct page *), GFP_NOFS);
+  2640		if (!pages_disk) {
+  2641			err = -ENOMEM;
+  2642			goto out2;
+  2643		}
+  2644	
+  2645		for (i = 0; i < npages_disk; i++) {
+  2646			pg = alloc_page(GFP_KERNEL);
+  2647			if (!pg) {
+  2648				err = -ENOMEM;
+  2649				goto out3;
+  2650			}
+  2651			pages_disk[i] = pg;
+  2652			lock_page(pg);
+  2653			kmap(pg);
+  2654		}
+  2655	
+  2656		/* Read 'ondisk_size' bytes from disk. */
+  2657		down_read(&ni->file.run_lock);
+  2658		err = ntfs_bio_pages(sbi, run, pages_disk, npages_disk, vbo_disk,
+  2659				     ondisk_size, REQ_OP_READ);
+  2660		up_read(&ni->file.run_lock);
+  2661		if (err)
+  2662			goto out3;
+  2663	
+  2664		/*
+  2665		 * To simplify decompress algorithm do vmap for source and target pages.
+  2666		 */
+  2667		frame_ondisk = vmap(pages_disk, npages_disk, VM_MAP, PAGE_KERNEL_RO);
+  2668		if (!frame_ondisk) {
+  2669			err = -ENOMEM;
+  2670			goto out3;
+  2671		}
+  2672	
+  2673		/* Decompress: Frame_ondisk -> frame_mem. */
+  2674	#ifdef CONFIG_NTFS3_LZX_XPRESS
+  2675		if (run != &ni->file.run) {
+  2676			/* LZX or XPRESS */
+  2677			err = decompress_lzx_xpress(
+  2678				sbi, frame_ondisk + (vbo_disk & (PAGE_SIZE - 1)),
+  2679				ondisk_size, frame_mem, unc_size, frame_size);
+  2680		} else
+  2681	#endif
+  2682		{
+  2683			/* LZNT - Native NTFS compression. */
+  2684			unc_size = decompress_lznt(frame_ondisk, ondisk_size, frame_mem,
+  2685						   frame_size);
+  2686			if ((ssize_t)unc_size < 0)
+  2687				err = unc_size;
+  2688			else if (!unc_size || unc_size > frame_size)
+  2689				err = -EINVAL;
+  2690		}
+  2691		if (!err && valid_size < frame_vbo + frame_size) {
+  2692			size_t ok = valid_size - frame_vbo;
+  2693	
+  2694			memset(frame_mem + ok, 0, frame_size - ok);
+  2695		}
+  2696	
+  2697		vunmap(frame_ondisk);
+  2698	
+  2699	out3:
+  2700		for (i = 0; i < npages_disk; i++) {
+  2701			pg = pages_disk[i];
+  2702			if (pg) {
+  2703				kunmap(pg);
+  2704				unlock_page(pg);
+  2705				put_page(pg);
+  2706			}
+  2707		}
+  2708		kfree(pages_disk);
+  2709	
+  2710	out2:
+  2711	#ifdef CONFIG_NTFS3_LZX_XPRESS
+  2712		if (run != &ni->file.run)
+  2713			run_free(run);
+  2714	#endif
+  2715	out1:
+  2716		vunmap(frame_mem);
+  2717	out:
+  2718		for (i = 0; i < pages_per_frame; i++) {
+  2719			pg = pages[i];
+  2720			kunmap(pg);
+  2721			ClearPageError(pg);
+  2722			SetPageUptodate(pg);
+  2723		}
+  2724	
+  2725		return err;
+  2726	}
+  2727	
 
 -- 
 0-DAY CI Kernel Test Service
