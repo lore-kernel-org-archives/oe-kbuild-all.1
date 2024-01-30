@@ -1,73 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE00A6BB47
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 13:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38456BB3D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 13:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706621771; cv=none; b=kyik/6GXQ9heTJon6HzaghVXuHWjEWQ5CJzk/dQ2TZzAWjkkxJtJsgNZVkeSNt9bfgSoQBDqIkFL2mHZzE0sHJqUqLAUI00UggFLpob7i058X1AFcnX51GYzCbTb6n3AQ+cBjArxEi58D/n04gw6tcUat+ju64FGP/GN3yarX/A=
+	t=1706623041; cv=none; b=LyfgVnHBOkLngAY4lETnlH2U4/PrqRSKq1Co2KK6jYVvlJni+Q2Gip03tgGH10T0h2tEG1+gCY/q/ns+WcgmRuYX2aNF1XqdqLzQ4uiDod/uj1w1WLL0JphOXgcPKCQ9pyLr0lPMeESdurRmDh5snUisZc4/2SZmMmwO/oLRA+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706621771; c=relaxed/simple;
-	bh=8oAMdxYBFetttydjmWPCSo5s+7Jc7Mw7JFAbAL32jwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PNIcAAfZ6DSs93DTUqpIieUcV09qW5Qp8YcPnD+f/n7wM/YQreiuhg7xp8HpmSnA2H0IBPKhWtJGFeDgixVHvy3MlZv0xVjROsrlvjE83OvPlungjHvn5yvWrWNrFLW+T6sngRQJAhayFGnCk4QdqsljIz4rBdmOAqReHs85Afo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsvzF5G5; arc=none smtp.client-ip=192.55.52.115
+	s=arc-20240116; t=1706623041; c=relaxed/simple;
+	bh=vJZVVgqlZqw/VIwZy2zEXJCAinPH/puOSn0tsCIt+qk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WciOqcmaatTd1vlT76kzToBSsACnSaPvDYXKR8JZu3iXCKs7Qh0MP+O6JQkCmnrBa8JXouPVt5yCk/ANwKOWPGbLl3G1tGLLahY5wityHcgYFPdb86Dl1i7Ud6UDwU/V6qGSIiRFSGDWJBrApqNFMY7PBRtoANih+LrrALWCM+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1X5zQy2; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsvzF5G5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1X5zQy2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706621769; x=1738157769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8oAMdxYBFetttydjmWPCSo5s+7Jc7Mw7JFAbAL32jwk=;
-  b=nsvzF5G5lCtWy/TKKTJJZXudJbNB2ozp8bAx7INrcybL6zF6+TBxpIYN
-   yIH9l9U9GGPbhynozeyDiuKCywzgfguHc7UQvPBR9BIsyP1turjAqtlOW
-   /z2+atuj+PS1IoyIyWXLCcUowt/PAWguBn7M4W8nryhYc9txovfEmrX/H
-   N7wNz+YFTN7yOS5SWRArKm8jnBiDjEolfliNXHdSpCfMAapDwWqFFOn39
-   6PfgcSdAqkIVlWLz7TUvC/1spXUruBslesWLFoDetThyPT9PABU7rCujq
-   4bFFNL2k1wrRkZz5IDn8Dtn+m7BGGCKxo5boHUsRYplCpYB/M+Hz2hc13
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="402907066"
+  t=1706623039; x=1738159039;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vJZVVgqlZqw/VIwZy2zEXJCAinPH/puOSn0tsCIt+qk=;
+  b=U1X5zQy2n4xWGNJFb5Y8opLYjjAHfQvOUVz20Yh73AVKZw81ZZ7Xjo8O
+   zxh6JHsZiXCE6fa9uNJ6/Q3Lnkm1sIl5q12DnBd5gbsrZr2ZGlrfTUQz0
+   pDpctAWHD1kGJ6rkgituehzIV+i9Ms78/oujOcnnMf59aQ+weGQ63rZIV
+   34x/vF07BS+qHM81HI+OlIYRgkO53sOfpLxvED8rDq/t/phurMO1V5NzD
+   cYOhkhNayk55AC7ty1HUhtAxz7J6EPKPekBZvchyW626tYD3Xt78pqcNq
+   2YdgTGXcT/DcVONpWi44tDatSWiDSGlYY1byaftHubaAYqZ8AdpHeyG/e
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="16812948"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="402907066"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 05:36:08 -0800
+   d="scan'208";a="16812948"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 05:57:18 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="1119280716"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="3705399"
+   d="scan'208";a="1119280716"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2024 05:36:03 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 30 Jan 2024 05:57:16 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUoHN-0000L2-2t;
-	Tue, 30 Jan 2024 13:35:58 +0000
-Date: Tue, 30 Jan 2024 21:35:46 +0800
+	id 1rUobz-0000Lu-0F;
+	Tue, 30 Jan 2024 13:57:15 +0000
+Date: Tue, 30 Jan 2024 21:56:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Michal Simek <monstr@monstr.eu>,
-	Rob Herring <robh+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 05/13] media: xilinx-tpg: use
- of_graph_get_next_endpoint_raw()
-Message-ID: <202401302148.K0ZR110q-lkp@intel.com>
-References: <878r49klg1.wl-kuninori.morimoto.gx@renesas.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 2432/2827] fs/ntfs3/fslog.c:520:27: sparse:
+ sparse: restricted __le32 degrades to integer
+Message-ID: <202401302158.oKXhk0gV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,113 +59,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <878r49klg1.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi Kuninori,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on drm-misc/drm-misc-next linus/master v6.8-rc2 next-20240130]
-[cannot apply to robh/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/of-property-add-port-base-loop/20240129-085726
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/878r49klg1.wl-kuninori.morimoto.gx%40renesas.com
-patch subject: [PATCH v2 05/13] media: xilinx-tpg: use of_graph_get_next_endpoint_raw()
-config: mips-randconfig-r113-20240130 (https://download.01.org/0day-ci/archive/20240130/202401302148.K0ZR110q-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20240130/202401302148.K0ZR110q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   41d66f96d0f15a0a2ad6fa2208f6bac1a66cbd52
+commit: 1b7dd28e14c4728ae1a815605ca33ffb4ce1b309 [2432/2827] fs/ntfs3: Correct function is_rst_area_valid
+config: x86_64-randconfig-121-20240130 (https://download.01.org/0day-ci/archive/20240130/202401302158.oKXhk0gV-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240130/202401302158.oKXhk0gV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401302148.K0ZR110q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401302158.oKXhk0gV-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/ntfs3/fslog.c:520:27: sparse: sparse: restricted __le32 degrades to integer
 
->> drivers/media/platform/xilinx/xilinx-tpg.c:747:15: error: implicit declaration of function 'of_graph_get_next_endpoint_raw' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           endpoint = of_graph_get_next_endpoint_raw(port, NULL);
-                                      ^
-   drivers/media/platform/xilinx/xilinx-tpg.c:747:15: note: did you mean 'acpi_graph_get_next_endpoint'?
-   include/linux/acpi.h:1409:1: note: 'acpi_graph_get_next_endpoint' declared here
-   acpi_graph_get_next_endpoint(const struct fwnode_handle *fwnode,
-   ^
->> drivers/media/platform/xilinx/xilinx-tpg.c:747:13: warning: incompatible integer to pointer conversion assigning to 'struct device_node *' from 'int' [-Wint-conversion]
-                           endpoint = of_graph_get_next_endpoint_raw(port, NULL);
-                                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+vim +520 fs/ntfs3/fslog.c
 
-
-vim +/of_graph_get_next_endpoint_raw +747 drivers/media/platform/xilinx/xilinx-tpg.c
-
-   705	
-   706	/* -----------------------------------------------------------------------------
-   707	 * Platform Device Driver
-   708	 */
-   709	
-   710	static int xtpg_parse_of(struct xtpg_device *xtpg)
-   711	{
-   712		struct device *dev = xtpg->xvip.dev;
-   713		struct device_node *node = xtpg->xvip.dev->of_node;
-   714		struct device_node *ports;
-   715		struct device_node *port;
-   716		unsigned int nports = 0;
-   717		bool has_endpoint = false;
-   718	
-   719		ports = of_get_child_by_name(node, "ports");
-   720		if (ports == NULL)
-   721			ports = node;
-   722	
-   723		for_each_child_of_node(ports, port) {
-   724			const struct xvip_video_format *format;
-   725			struct device_node *endpoint;
-   726	
-   727			if (!of_node_name_eq(port, "port"))
-   728				continue;
-   729	
-   730			format = xvip_of_get_format(port);
-   731			if (IS_ERR(format)) {
-   732				dev_err(dev, "invalid format in DT");
-   733				of_node_put(port);
-   734				return PTR_ERR(format);
-   735			}
-   736	
-   737			/* Get and check the format description */
-   738			if (!xtpg->vip_format) {
-   739				xtpg->vip_format = format;
-   740			} else if (xtpg->vip_format != format) {
-   741				dev_err(dev, "in/out format mismatch in DT");
-   742				of_node_put(port);
-   743				return -EINVAL;
-   744			}
-   745	
-   746			if (nports == 0) {
- > 747				endpoint = of_graph_get_next_endpoint_raw(port, NULL);
-   748				if (endpoint)
-   749					has_endpoint = true;
-   750				of_node_put(endpoint);
-   751			}
-   752	
-   753			/* Count the number of ports. */
-   754			nports++;
-   755		}
-   756	
-   757		if (nports != 1 && nports != 2) {
-   758			dev_err(dev, "invalid number of ports %u\n", nports);
-   759			return -EINVAL;
-   760		}
-   761	
-   762		xtpg->npads = nports;
-   763		if (nports == 2 && has_endpoint)
-   764			xtpg->has_input = true;
-   765	
-   766		return 0;
-   767	}
-   768	
+   463	
+   464	static inline bool is_rst_area_valid(const struct RESTART_HDR *rhdr)
+   465	{
+   466		const struct RESTART_AREA *ra;
+   467		u16 cl, fl, ul;
+   468		u32 off, l_size, seq_bits;
+   469		u16 ro = le16_to_cpu(rhdr->ra_off);
+   470		u32 sys_page = le32_to_cpu(rhdr->sys_page_size);
+   471	
+   472		if (ro + offsetof(struct RESTART_AREA, l_size) >
+   473		    SECTOR_SIZE - sizeof(short))
+   474			return false;
+   475	
+   476		ra = Add2Ptr(rhdr, ro);
+   477		cl = le16_to_cpu(ra->log_clients);
+   478	
+   479		if (cl > 1)
+   480			return false;
+   481	
+   482		off = le16_to_cpu(ra->client_off);
+   483	
+   484		if (!IS_ALIGNED(off, 8) || ro + off > SECTOR_SIZE - sizeof(short))
+   485			return false;
+   486	
+   487		off += cl * sizeof(struct CLIENT_REC);
+   488	
+   489		if (off > sys_page)
+   490			return false;
+   491	
+   492		/*
+   493		 * Check the restart length field and whether the entire
+   494		 * restart area is contained that length.
+   495		 */
+   496		if (le16_to_cpu(rhdr->ra_off) + le16_to_cpu(ra->ra_len) > sys_page ||
+   497		    off > le16_to_cpu(ra->ra_len)) {
+   498			return false;
+   499		}
+   500	
+   501		/*
+   502		 * As a final check make sure that the use list and the free list
+   503		 * are either empty or point to a valid client.
+   504		 */
+   505		fl = le16_to_cpu(ra->client_idx[0]);
+   506		ul = le16_to_cpu(ra->client_idx[1]);
+   507		if ((fl != LFS_NO_CLIENT && fl >= cl) ||
+   508		    (ul != LFS_NO_CLIENT && ul >= cl))
+   509			return false;
+   510	
+   511		/* Make sure the sequence number bits match the log file size. */
+   512		l_size = le64_to_cpu(ra->l_size);
+   513	
+   514		seq_bits = sizeof(u64) * 8 + 3;
+   515		while (l_size) {
+   516			l_size >>= 1;
+   517			seq_bits -= 1;
+   518		}
+   519	
+ > 520		if (seq_bits != ra->seq_num_bits)
+   521			return false;
+   522	
+   523		/* The log page data offset and record header length must be quad-aligned. */
+   524		if (!IS_ALIGNED(le16_to_cpu(ra->data_off), 8) ||
+   525		    !IS_ALIGNED(le16_to_cpu(ra->rec_hdr_len), 8))
+   526			return false;
+   527	
+   528		return true;
+   529	}
+   530	
 
 -- 
 0-DAY CI Kernel Test Service
