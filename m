@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257117EEE7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 22:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A292278B71;
+	Tue, 30 Jan 2024 23:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706654684; cv=none; b=nyC9D6p7kpNd9EjzzVLkcVvvtCkc5rw5THokpALr6XT/c+nndTBvA3FlaBo9O/SzFrIQ0ydpQd6qirrx2UNChb/Mls7jIbnWTv5HslYudtqfc3z73x5fLtxNH8NAwLrrbhbrXuTnniF07B3uwTfqAKBWzmZVETzW1SfWATRe5F0=
+	t=1706656604; cv=none; b=RJ/GSMsDhft6lc9Eq7fVVha1AhTyf2zSRd2IRAnjtsjlqhpt3lnHwpVu26HUYI9Wp/NvvZAc2tpRgbOoYLZ8x/2T80cRvYTVjqKbGcz2qSIW1hqiCmBV3N7l1FPghT+a39nHlf4hbtGDYqShkDRXDDtIEBf4jhH8py29l6X9h9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706654684; c=relaxed/simple;
-	bh=/2unXQqBFF1/Mxk1m/rwStwzOUMpSAKjbpvyFW4CWd4=;
+	s=arc-20240116; t=1706656604; c=relaxed/simple;
+	bh=1X0HrQt6EpwaTegUwK9T+Rbbn8dS2jupjrnSD2jmzJs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oodOhtbHuDxaOP3aLx8OB3uKHorFeZHRCBXVNbDdqVeAZSuZjuxbEZsmVcYPKJQ/SMrhkrhU/EQlcm8yMK4bhYG3N7ckwaCU8sK1sIDxq094+E1sF0niixrPqT01bm1Z4Tyo4e6k7Ou4CTvOj8a4ULphkrnEs4O/iZefZEold3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X62YQjbx; arc=none smtp.client-ip=192.55.52.115
+	 Content-Disposition; b=JcrF/LDcJ4q0/xX/DqTd+ARiSQ90v+Jzb1SwDf7T0ZzKFDDyQztMPcrtC9DD78sqEqE453fO365ZKm72l/BdGAV7b+Yq9NGRe1FzwlOOJqqlV2ZYsCijN0AbvgvPYA4/wp7ToDHcNqR1mvlNPRQNyMXL7r1vAK7wkF7ALHJUkig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GjKBs5Ab; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X62YQjbx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GjKBs5Ab"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706654683; x=1738190683;
+  t=1706656603; x=1738192603;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/2unXQqBFF1/Mxk1m/rwStwzOUMpSAKjbpvyFW4CWd4=;
-  b=X62YQjbxFYd0GwvSnhgJh4/s28LJFD0XRgFFZ2Via2RQLq88fNjfDzAd
-   2fnnyKN1liAF7fvsK/bZrpsLUTlefEO2IrYaoVYPwjXuVtpyGUFEk88Ob
-   lk9jBSqacYkl0yioLDMGdvpjHQ9575/11+36uJxlf9OcffgvETL9k801k
-   YG7XWm5IE/4ElwOatdJoIl2ONzV5ZBUHGKd8bISswlZy2PAE/7wJrr1Up
-   IfQdFbGZoTsJIiJsnGYVoHxpvvX5PZZfL5T6YCZjASDu63wHIzcUIbeW6
-   xpUzAcn0oSS4br5nJufbfhj5ir3/RStkrX33WB0GXZlcMOv7yX2ljd2QP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="403045598"
+  bh=1X0HrQt6EpwaTegUwK9T+Rbbn8dS2jupjrnSD2jmzJs=;
+  b=GjKBs5AbIGyy5+lOotMrWxnuDxjUWF1kkDznIBX1E7xU9vuLFKzOOgJU
+   RmVlCNkDBpl5thm0PDoxQwLS+9/NvWkAZitUMwiz5GfRKtN3LC5T4yQMJ
+   Y/997UyTrgZjauj1w0S5/sUs76sfQwxEi4xUtVRXOWfcM+khqs0lnrBL4
+   wlC2iT2r79iIhrgZ/g6RbtMtyj2iS3PSjqz+/mwiK5V/tx6POqtxFvwke
+   w81E3OaHKgS2A4HmFu4GpAqmMDFJPsTdj6/0Q67/5PFjDZleoVUcuRnoj
+   mpZGNrU6GxsS0Cly7zrBPlT+5SkdjRoUeFsgXgyJVgDdog9dGMcOE6Ko3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10807117"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="403045598"
+   d="scan'208";a="10807117"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 14:44:39 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 15:16:42 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="3872821"
+   d="scan'208";a="3880849"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Jan 2024 14:44:39 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 30 Jan 2024 15:16:40 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUwqK-0000t2-1f;
-	Tue, 30 Jan 2024 22:44:36 +0000
-Date: Wed, 31 Jan 2024 06:44:26 +0800
+	id 1rUxLK-0000vU-0N;
+	Tue, 30 Jan 2024 23:16:38 +0000
+Date: Wed, 31 Jan 2024 07:16:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org
 Subject: [linusw-gpio:b4/descriptors-wireless 2/7]
- drivers/net/wireless/ath/ath9k/hw.c:2731:9: error: unknown type name
- 'gpio_desc'; use 'struct' keyword to refer to the type
-Message-ID: <202401310616.wpvZVBlf-lkp@intel.com>
+ drivers/net/wireless/ath/ath9k/hw.c:2731:2: error: must use 'struct' tag to
+ refer to type 'gpio_desc'
+Message-ID: <202401310721.pDBU6qLV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +63,40 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git b4/descriptors-wireless
 head:   99b6016595e9254167434ef82f4c2ed88d986452
 commit: 0dd7ce9e2be9a81dc04549e8e604931c19547531 [2/7] wifi: ath9k: Obtain system GPIOS from descriptors
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240131/202401310616.wpvZVBlf-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310616.wpvZVBlf-lkp@intel.com/reproduce)
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240131/202401310721.pDBU6qLV-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fdac7d0b6f74f919d319b31a0680c77f66732586)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310721.pDBU6qLV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401310616.wpvZVBlf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401310721.pDBU6qLV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/ath/ath9k/hw.c: In function 'ath9k_hw_gpio_cfg_soc':
->> drivers/net/wireless/ath/ath9k/hw.c:2731:9: error: unknown type name 'gpio_desc'; use 'struct' keyword to refer to the type
+>> drivers/net/wireless/ath/ath9k/hw.c:2731:2: error: must use 'struct' tag to refer to type 'gpio_desc'
     2731 |         gpio_desc *gpiod;
-         |         ^~~~~~~~~
+         |         ^
          |         struct 
->> drivers/net/wireless/ath/ath9k/hw.c:2734:15: error: 'struct ath_hw' has no member named 'gpiods'
+>> drivers/net/wireless/ath/ath9k/hw.c:2734:10: error: no member named 'gpiods' in 'struct ath_hw'
     2734 |         if (ah->gpiods[gpio])
-         |               ^~
->> drivers/net/wireless/ath/ath9k/hw.c:2738:15: error: assignment to 'int *' from incompatible pointer type 'struct gpio_desc *' [-Werror=incompatible-pointer-types]
-    2738 |         gpiod = devm_gpiod_get_index(ah->dev, NULL, gpio, flags);
-         |               ^
->> drivers/net/wireless/ath/ath9k/hw.c:2747:33: error: passing argument 1 of 'gpiod_set_consumer_name' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2747 |         gpiod_set_consumer_name(gpiod, label);
-         |                                 ^~~~~
-         |                                 |
-         |                                 int *
-   In file included from drivers/net/wireless/ath/ath9k/hw.c:23:
-   include/linux/gpio/consumer.h:168:47: note: expected 'struct gpio_desc *' but argument is of type 'int *'
-     168 | int gpiod_set_consumer_name(struct gpio_desc *desc, const char *name);
-         |                             ~~~~~~~~~~~~~~~~~~^~~~
-   drivers/net/wireless/ath/ath9k/hw.c:2748:11: error: 'struct ath_hw' has no member named 'gpiods'
+         |             ~~  ^
+   drivers/net/wireless/ath/ath9k/hw.c:2748:6: error: no member named 'gpiods' in 'struct ath_hw'
     2748 |         ah->gpiods[gpio] = gpiod;
-         |           ^~
-   drivers/net/wireless/ath/ath9k/hw.c: In function 'ath9k_hw_gpio_get':
-   drivers/net/wireless/ath/ath9k/hw.c:2836:22: error: 'struct ath_hw' has no member named 'gpiods'
+         |         ~~  ^
+   drivers/net/wireless/ath/ath9k/hw.c:2836:17: error: no member named 'gpiods' in 'struct ath_hw'
     2836 |         } else if (ah->gpiods[gpio]) {
-         |                      ^~
-   drivers/net/wireless/ath/ath9k/hw.c:2837:41: error: 'struct ath_hw' has no member named 'gpiods'
+         |                    ~~  ^
+   drivers/net/wireless/ath/ath9k/hw.c:2837:29: error: no member named 'gpiods' in 'struct ath_hw'
     2837 |                 val = gpiod_get_value(ah->gpiods[gpio]);
-         |                                         ^~
-   drivers/net/wireless/ath/ath9k/hw.c: In function 'ath9k_hw_set_gpio':
-   drivers/net/wireless/ath/ath9k/hw.c:2860:22: error: 'struct ath_hw' has no member named 'gpiods'
+         |                                       ~~  ^
+   drivers/net/wireless/ath/ath9k/hw.c:2860:17: error: no member named 'gpiods' in 'struct ath_hw'
     2860 |         } else if (ah->gpiods[gpio]) {
-         |                      ^~
-   drivers/net/wireless/ath/ath9k/hw.c:2861:35: error: 'struct ath_hw' has no member named 'gpiods'
+         |                    ~~  ^
+   drivers/net/wireless/ath/ath9k/hw.c:2861:23: error: no member named 'gpiods' in 'struct ath_hw'
     2861 |                 gpiod_set_value(ah->gpiods[gpio], val);
-         |                                   ^~
-   cc1: some warnings being treated as errors
+         |                                 ~~  ^
+   7 errors generated.
 
 
 vim +2731 drivers/net/wireless/ath/ath9k/hw.c
@@ -129,7 +115,7 @@ vim +2731 drivers/net/wireless/ath/ath9k/hw.c
   2735			return;
   2736	
   2737		/* Obtains a system specific GPIO descriptor from another GPIO controller */
-> 2738		gpiod = devm_gpiod_get_index(ah->dev, NULL, gpio, flags);
+  2738		gpiod = devm_gpiod_get_index(ah->dev, NULL, gpio, flags);
   2739	
   2740		if (IS_ERR(gpiod)) {
   2741			err = PTR_ERR(gpiod);
@@ -138,7 +124,7 @@ vim +2731 drivers/net/wireless/ath/ath9k/hw.c
   2744			return;
   2745		}
   2746	
-> 2747		gpiod_set_consumer_name(gpiod, label);
+  2747		gpiod_set_consumer_name(gpiod, label);
   2748		ah->gpiods[gpio] = gpiod;
   2749	}
   2750	
