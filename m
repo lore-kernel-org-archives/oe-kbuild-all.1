@@ -1,64 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3120E7D403;
-	Tue, 30 Jan 2024 22:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE3B7EEE8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 22:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706652764; cv=none; b=uJ/vn11O8Txto3Jo2pC4odixfYdJ5aI8K9mS51k4CUhiCR7AcqhL+I4pFlLakaG0cZm81MQzdFcgMfqEH9B7ZxQsBDMXcWb3lHgxenA2OGZsMGCf5YqaRtopAWjYwqOiF2IZAvZA+2fTrVjQyl8xlh6viJTFUN/FDW/GPvh7hQ4=
+	t=1706654682; cv=none; b=DK9VwLvcOumXAb7P1azadXeX0KtrqaI95l/4VEXOiob7g/GW4EObh+doBTh94PZCtReRbqgxS2ZVQeLk0jjYeYxRGQFhAy9yAddsGiE+vnpkmE/yTvX10OgIXr0J0Y/rUOEeEa0foGNwopnrz/boqIWJYlqjYZyFTXz8RD8UIhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706652764; c=relaxed/simple;
-	bh=SdLU3sGcmj4oZljBiGm2nYM+yKHs1TV50H1uosJASlU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s7jgMADJ+EyT3cspD8QPwIHkpHqeBS+DRDVFd99e5eaG+UTDgP/O0KiZuRMC4MowxWouIai9zRUQIjWCxw5B/su9Z8i34DyB1oBrNBjcv2De2kMkPi0Ot9rGlW0IVfIYD/EjxTKJN5WD5zWbXJ5BpGfc2CFCXZBrVihJlSNUfcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBWaUsRs; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1706654682; c=relaxed/simple;
+	bh=puvmnmQKwD+o5B8ITqQ4Wsnwbn/SYeduL8hWTc393yM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uIK1enek+Rs3yl/7i0YflkGOCbV1bfO+kVOceYeQuJprxv/HawGuK6eYkukIDR+ZxTW7yTry8dDmaDhtUYSeznQJmTYB8FfhkzOmIdoPN7XEWB3cL8QA1VNb/ycI0aI/SlvEUJbTpmvb5/+wnNMDx3YYkAxPUJtV4pTVz730bSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Keh1w6Ad; arc=none smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBWaUsRs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Keh1w6Ad"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706652763; x=1738188763;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SdLU3sGcmj4oZljBiGm2nYM+yKHs1TV50H1uosJASlU=;
-  b=mBWaUsRsIeJczFFsdSlxEzBj+cklkUgXoJ3WhX4rQW6AYJieU1xo9QsD
-   xMJgk/rZ+DlJgCajHIG2jADIUYXg1p+3UxeL2qdmKN5Bp5vdONHPy6W+p
-   VgBipJGmTV6Z4HutFCLv2BBiO+65mlwF0eiCbRa/5LVBsZEhCrcp4ihDw
-   41j8isoukHxKArQk1YhT2lxD4gaC8eekDsprxNWRXu0AyWMBUo1lqM/Db
-   TC6azlJDuJEHdTjIjTji5T7YbMrifOZDHLp9BySJ7jOJB6smI9nW2iXjD
-   M523pUa4DTsvdCfohExusi9pNxBdGwBWkPESCYztWm1ycxf7JYiHF0PIa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10802451"
+  t=1706654680; x=1738190680;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=puvmnmQKwD+o5B8ITqQ4Wsnwbn/SYeduL8hWTc393yM=;
+  b=Keh1w6AdXNn3jBtJspOG985o+yUzV6z4JzldiLaONX7IMN8ifjZMXV6e
+   YNPRe9IcnC0tS1XU6xVfZ8b/s8Wl2YhhPeZ7bBrJbwiDq3xx7+b1V8rG3
+   Ld9H4j33lehKxRC6j8qdE0J6V7hyeG6X1ZWnyRRz2hnkvEkKG/9b6Ko56
+   7e/iOowkqvWc9J8Sxs24mUXdnwixwr/rAPogROCB6VXsrONYqAZz+39vr
+   zs2hxFdoysp6wfUvZv9MNB9wQIUBxRzEey04l4YxuovOYKOJHWjy4G9Ke
+   kEmEZVrII0E4FtrIF0LtssRar9h3NlZl3Sywx4xWDZ6CT+3cMqje8VIgK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="403045593"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="10802451"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 14:12:42 -0800
+   d="scan'208";a="403045593"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 14:44:39 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="3848620"
+   d="scan'208";a="3872819"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2024 14:12:38 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 30 Jan 2024 14:44:39 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUwLL-0000s1-2r;
-	Tue, 30 Jan 2024 22:12:35 +0000
-Date: Wed, 31 Jan 2024 06:12:22 +0800
+	id 1rUwqK-0000t6-1q;
+	Tue, 30 Jan 2024 22:44:36 +0000
+Date: Wed, 31 Jan 2024 06:44:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charlie Jenkins <charlie@rivosinc.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Yangyu Chen <cyy@cyyself.name>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	Charlie Jenkins <charlie@rivosinc.com>
-Subject: Re: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
-Message-ID: <202401310513.lub8Ilwm-lkp@intel.com>
-References: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 7202/7390] warning: unresolved link to
+ `pr_info`
+Message-ID: <202401310618.DPVS8MQL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,92 +57,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
 
-Hi Charlie,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 556e2d17cae620d549c5474b1ece053430cd50bc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/riscv-mm-Use-hint-address-in-mmap-if-available/20240130-084208
-base:   556e2d17cae620d549c5474b1ece053430cd50bc
-patch link:    https://lore.kernel.org/r/20240129-use_mmap_hint_address-v1-1-4c74da813ba1%40rivosinc.com
-patch subject: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240131/202401310513.lub8Ilwm-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fdac7d0b6f74f919d319b31a0680c77f66732586)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310513.lub8Ilwm-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   c7ebed599b0045d5ab2a1dae86c429b06bb23309
+commit: 37481c8f5a5a018d37e32be081c3f6878b791546 [7202/7390] UPSTREAM: rust: upgrade to Rust 1.73.0
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240131/202401310618.DPVS8MQL-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310618.DPVS8MQL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401310513.lub8Ilwm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401310618.DPVS8MQL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/mmap.c:1703:33: error: expected expression
-    1703 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
-         |                                        ^
-   arch/riscv/include/asm/processor.h:28:2: note: expanded from macro 'arch_get_mmap_end'
-      28 |         else                                                    \
-         |         ^
-   mm/mmap.c:1751:33: error: expected expression
-    1751 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
-         |                                        ^
-   arch/riscv/include/asm/processor.h:28:2: note: expanded from macro 'arch_get_mmap_end'
-      28 |         else                                                    \
-         |         ^
-   2 errors generated.
-
-
-vim +1703 mm/mmap.c
-
-f6795053dac8d4d Steve Capper           2018-12-06  1683  
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1684  /* Get an address range which is currently unmapped.
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1685   * For shmat() with addr=0.
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1686   *
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1687   * Ugly calling convention alert:
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1688   * Return value with the low bits set means error value,
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1689   * ie
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1690   *	if (ret & ~PAGE_MASK)
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1691   *		error = ret;
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1692   *
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1693   * This function "knows" that -ENOMEM has the bits set.
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1694   */
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1695  unsigned long
-4b439e25e29ec33 Christophe Leroy       2022-04-09  1696  generic_get_unmapped_area(struct file *filp, unsigned long addr,
-4b439e25e29ec33 Christophe Leroy       2022-04-09  1697  			  unsigned long len, unsigned long pgoff,
-4b439e25e29ec33 Christophe Leroy       2022-04-09  1698  			  unsigned long flags)
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1699  {
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1700  	struct mm_struct *mm = current->mm;
-1be7107fbe18eed Hugh Dickins           2017-06-19  1701  	struct vm_area_struct *vma, *prev;
-db4fbfb9523c935 Michel Lespinasse      2012-12-11  1702  	struct vm_unmapped_area_info info;
-2cb4de085f383cb Christophe Leroy       2022-04-09 @1703  	const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1704  
-f6795053dac8d4d Steve Capper           2018-12-06  1705  	if (len > mmap_end - mmap_min_addr)
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1706  		return -ENOMEM;
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1707  
-06abdfb47ee745a Benjamin Herrenschmidt 2007-05-06  1708  	if (flags & MAP_FIXED)
-06abdfb47ee745a Benjamin Herrenschmidt 2007-05-06  1709  		return addr;
-06abdfb47ee745a Benjamin Herrenschmidt 2007-05-06  1710  
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1711  	if (addr) {
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1712  		addr = PAGE_ALIGN(addr);
-1be7107fbe18eed Hugh Dickins           2017-06-19  1713  		vma = find_vma_prev(mm, addr, &prev);
-f6795053dac8d4d Steve Capper           2018-12-06  1714  		if (mmap_end - len >= addr && addr >= mmap_min_addr &&
-1be7107fbe18eed Hugh Dickins           2017-06-19  1715  		    (!vma || addr + len <= vm_start_gap(vma)) &&
-1be7107fbe18eed Hugh Dickins           2017-06-19  1716  		    (!prev || addr >= vm_end_gap(prev)))
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1717  			return addr;
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1718  	}
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1719  
-db4fbfb9523c935 Michel Lespinasse      2012-12-11  1720  	info.flags = 0;
-db4fbfb9523c935 Michel Lespinasse      2012-12-11  1721  	info.length = len;
-4e99b02131b280b Heiko Carstens         2013-11-12  1722  	info.low_limit = mm->mmap_base;
-f6795053dac8d4d Steve Capper           2018-12-06  1723  	info.high_limit = mmap_end;
-db4fbfb9523c935 Michel Lespinasse      2012-12-11  1724  	info.align_mask = 0;
-09ef5283fd96ac4 Jaewon Kim             2020-04-10  1725  	info.align_offset = 0;
-db4fbfb9523c935 Michel Lespinasse      2012-12-11  1726  	return vm_unmapped_area(&info);
-^1da177e4c3f415 Linus Torvalds         2005-04-16  1727  }
-4b439e25e29ec33 Christophe Leroy       2022-04-09  1728  
+>> warning: unresolved link to `pr_info`
+   --> rust/kernel/print.rs:395:63
+   |
+   395 | /// Use only when continuing a previous `pr_*!` macro (e.g. [`pr_info!`]).
+   |                                                               ^^^^^^^^ no item named `pr_info` in scope
+   |
+   = note: `macro_rules` named `pr_info` exists in this crate, but it is not in scope at this link's location
+   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+--
+>> warning: redundant explicit link target
+   --> rust/kernel/task.rs:85:21
+   |
+   85 |     /// [`current`](crate::current) macro because it is safe.
+   |          ---------  ^^^^^^^^^^^^^^ explicit target is redundant
+   |          |
+   |          because label contains path that resolves to same destination
+   |
+   = note: when a link's destination is not specified,
+   the label is used to resolve intra-doc links
+   = note: `#[warn(rustdoc::redundant_explicit_links)]` on by default
+   help: remove explicit link target
+   |
+   85 |     /// [`current`] macro because it is safe.
+   |         ~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
