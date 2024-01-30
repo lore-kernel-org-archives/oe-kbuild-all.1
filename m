@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2BA57867
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 09:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC4159161
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 09:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706606791; cv=none; b=N+wWe0BiHzcOHTfPs071yvW6qjwIcFgEXUbGgqwkm6m37LVvV1TPWBe1T7WZJccTQzLFq6sVC2+vkaWY9CBgM2zcw7LGjDTw/nIe3h1CiHsq8/fHS2arzZ6JXwZUn7kZ5ZoKVztrXQC6d/k2hQ4jQfZY7P4SI7Upn/lt+GMeLZU=
+	t=1706607187; cv=none; b=WtmHu3xJH+sFWyWxq9AotwCs5YP02AhtTCt87Em7zf/7TudTqa2x+Yhp4XyymTpZKO5YctfB9xRX4qCVR2sl4QucthusYxUI635UKUbDo1MD/b/1BEL6uMhgj73jPj5LM/AWsoV+VD6cNMN/i77QSqnvbLwZS9XzsU1WaT99V38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706606791; c=relaxed/simple;
-	bh=+Wa+UewSUjQ+evNuV3fl9xdlJrL1UOY62kc5bL0+Gbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UZVYnBAn+XfeXmchGHLPjTCEN11WB2XRRT5qC8yfv6IkidYwrVt3rfNUWxW+TEULRXdc/DEDrgb0CUVmNPVk+dSpHRWHC+glp3xilg2PHqYSYrPwX/7UHvM0d87P9pT89U6q/9vEbN31q2zNYsklJNcByhUgqcuVTkE1x5uawms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZ+r2qHD; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1706607187; c=relaxed/simple;
+	bh=qDeRMvQdUfJcgUph7GolKPnOADCEdCP7zPIUislJRg4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EMViAH+APcg8vko//IQUlb8bea2MztD4Fqdgep9VSnDimg8RikswvtEq4vf0tphwTJHbdm6e2yYMxt7CmGPy8ywIblfwPZK9/UISnVVDdbwrEI4vy0xd64dF7Zw17Juai8A9Da4DY/GPVsbbE0bF2foL5lTyw14JEDzoA6eqFhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dyC4SSIM; arc=none smtp.client-ip=192.55.52.120
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZ+r2qHD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dyC4SSIM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706606789; x=1738142789;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Wa+UewSUjQ+evNuV3fl9xdlJrL1UOY62kc5bL0+Gbs=;
-  b=TZ+r2qHDzBT5lHdt4lZ5b2Un0+MmnwDz074BzN81/2sNGAdPzovtnVhf
-   VKmaRNumxbFQI4v0q7k7nHaVqxL/8TQOozqFucHsOq2TT84bm4U583FXO
-   1Smo8PRQwftdNFmsdmRS2oV2idUH0xrplwIhfWgGkn+svKRA49+zD91YG
-   wbUhhDuAaXQuEjCf2NaU/3nB2UyySyhihZrfYmGL6i1JoBXfBG3++rT9G
-   gCsMQbaLt+c8ptZGOIY/acCMqFYFL2DbkPl+fXEtkoMhDG5oF/xD1CKr+
-   rZEfikIuXfRavacx6gACss84n0qP9uJ4CB+9WD+PkFcbfs4KHBL9vLXx3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="16604725"
+  t=1706607185; x=1738143185;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qDeRMvQdUfJcgUph7GolKPnOADCEdCP7zPIUislJRg4=;
+  b=dyC4SSIMls/DXTj8jka0QL8Sntjw3mQ1G8VqU9wm1C664ygN9gMS/Gof
+   ldGPAOV6c3u5pAmw7kNa4DAR5xybWS+V9TTimSqMqPPN8PwtRU0Y47EtP
+   DgQmqylMX5flZ/lHZ+oqkiYtDCT5FSPux3+R3SN8V7Mag+5i0RvPVvXrd
+   KoMgFGejxRIfd42ApByRchS18cRfs7Bfhr4UL7EfMdUIg3EJOtiTw/N79
+   QCJmEa9Bz/sBfG2HDloFsTmqZ1iXq4fHmlgKT+RRpao5OBuCTPuooaq/m
+   P7MZcJ/04h1livQQA7wQjXoZyNLttKbPhhkdBeyIBDUus+lJbwEP65hpA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="402092270"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="16604725"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:26:29 -0800
+   d="scan'208";a="402092270"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:33:04 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="3612205"
+   d="scan'208";a="3680243"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 30 Jan 2024 01:26:28 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 30 Jan 2024 01:33:02 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUkNG-00009o-2a;
-	Tue, 30 Jan 2024 09:25:47 +0000
-Date: Tue, 30 Jan 2024 17:18:30 +0800
+	id 1rUkT7-00009y-0s;
+	Tue, 30 Jan 2024 09:32:07 +0000
+Date: Tue, 30 Jan 2024 17:30:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@rivosinc.com>
-Subject: arch/riscv/kernel/paravirt.c:44:1: sparse: sparse: symbol
- '__pcpu_scope_steal_time' was not declared. Should it be static?
-Message-ID: <202401301733.XLBqnyLY-lkp@intel.com>
+To: Vincent Donnefort <vdonnefort@google.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
+	kernel-team@android.com, Vincent Donnefort <vdonnefort@google.com>
+Subject: Re: [PATCH v13 3/6] tracing: Add snapshot refcount
+Message-ID: <202401301740.qzZlpcYV-lkp@intel.com>
+References: <20240129142802.2145305-4-vdonnefort@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,37 +61,159 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240129142802.2145305-4-vdonnefort@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   861c0981648f5b64c86fd028ee622096eb7af05a
-commit: fdf68acccfc6af9497c34ee411d89af13b6516ed RISC-V: paravirt: Implement steal-time support
-date:   4 weeks ago
-config: riscv-randconfig-r133-20240130 (https://download.01.org/0day-ci/archive/20240130/202401301733.XLBqnyLY-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4a39d08908942b2d415db405844cbe4af73e75d4)
-reproduce: (https://download.01.org/0day-ci/archive/20240130/202401301733.XLBqnyLY-lkp@intel.com/reproduce)
+Hi Vincent,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 29142dc92c37d3259a33aef15b03e6ee25b0d188]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Donnefort/ring-buffer-Zero-ring-buffer-sub-buffers/20240129-223025
+base:   29142dc92c37d3259a33aef15b03e6ee25b0d188
+patch link:    https://lore.kernel.org/r/20240129142802.2145305-4-vdonnefort%40google.com
+patch subject: [PATCH v13 3/6] tracing: Add snapshot refcount
+config: arc-randconfig-002-20240130 (https://download.01.org/0day-ci/archive/20240130/202401301740.qzZlpcYV-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240130/202401301740.qzZlpcYV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401301733.XLBqnyLY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401301740.qzZlpcYV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kernel/paravirt.c:44:1: sparse: sparse: symbol '__pcpu_scope_steal_time' was not declared. Should it be static?
-   arch/riscv/kernel/paravirt.c:106:19: sparse: sparse: cast to restricted __le32
-   arch/riscv/kernel/paravirt.c:107:30: sparse: sparse: restricted __le32 degrades to integer
-   arch/riscv/kernel/paravirt.c:102:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] sequence @@     got restricted __le32 @@
-   arch/riscv/kernel/paravirt.c:102:26: sparse:     expected unsigned int [usertype] sequence
-   arch/riscv/kernel/paravirt.c:102:26: sparse:     got restricted __le32
-   arch/riscv/kernel/paravirt.c:104:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] steal @@     got restricted __le64 @@
-   arch/riscv/kernel/paravirt.c:104:23: sparse:     expected unsigned long long [usertype] steal
-   arch/riscv/kernel/paravirt.c:104:23: sparse:     got restricted __le64
-   arch/riscv/kernel/paravirt.c:109:16: sparse: sparse: cast to restricted __le64
+All errors (new ones prefixed by >>):
 
-vim +/__pcpu_scope_steal_time +44 arch/riscv/kernel/paravirt.c
+   kernel/trace/trace.c: In function 'tracing_set_tracer':
+   kernel/trace/trace.c:6644:17: error: implicit declaration of function 'tracing_disarm_snapshot_locked'; did you mean 'tracing_disarm_snapshot'? [-Werror=implicit-function-declaration]
+    6644 |                 tracing_disarm_snapshot_locked(tr);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 tracing_disarm_snapshot
+>> kernel/trace/trace.c:6648:23: error: implicit declaration of function 'tracing_arm_snapshot_locked'; did you mean 'tracing_arm_snapshot'? [-Werror=implicit-function-declaration]
+    6648 |                 ret = tracing_arm_snapshot_locked(tr);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                       tracing_arm_snapshot
+   cc1: some warnings being treated as errors
 
-    43	
-  > 44	DEFINE_PER_CPU(struct sbi_sta_struct, steal_time) __aligned(64);
-    45	
+
+vim +6648 kernel/trace/trace.c
+
+  6560	
+  6561	int tracing_set_tracer(struct trace_array *tr, const char *buf)
+  6562	{
+  6563		struct tracer *t;
+  6564	#ifdef CONFIG_TRACER_MAX_TRACE
+  6565		bool had_max_tr;
+  6566	#endif
+  6567		int ret = 0;
+  6568	
+  6569		mutex_lock(&trace_types_lock);
+  6570	
+  6571		if (!tr->ring_buffer_expanded) {
+  6572			ret = __tracing_resize_ring_buffer(tr, trace_buf_size,
+  6573							RING_BUFFER_ALL_CPUS);
+  6574			if (ret < 0)
+  6575				goto out;
+  6576			ret = 0;
+  6577		}
+  6578	
+  6579		for (t = trace_types; t; t = t->next) {
+  6580			if (strcmp(t->name, buf) == 0)
+  6581				break;
+  6582		}
+  6583		if (!t) {
+  6584			ret = -EINVAL;
+  6585			goto out;
+  6586		}
+  6587		if (t == tr->current_trace)
+  6588			goto out;
+  6589	
+  6590	#ifdef CONFIG_TRACER_SNAPSHOT
+  6591		if (t->use_max_tr) {
+  6592			local_irq_disable();
+  6593			arch_spin_lock(&tr->max_lock);
+  6594			if (tr->cond_snapshot)
+  6595				ret = -EBUSY;
+  6596			arch_spin_unlock(&tr->max_lock);
+  6597			local_irq_enable();
+  6598			if (ret)
+  6599				goto out;
+  6600		}
+  6601	#endif
+  6602		/* Some tracers won't work on kernel command line */
+  6603		if (system_state < SYSTEM_RUNNING && t->noboot) {
+  6604			pr_warn("Tracer '%s' is not allowed on command line, ignored\n",
+  6605				t->name);
+  6606			goto out;
+  6607		}
+  6608	
+  6609		/* Some tracers are only allowed for the top level buffer */
+  6610		if (!trace_ok_for_array(t, tr)) {
+  6611			ret = -EINVAL;
+  6612			goto out;
+  6613		}
+  6614	
+  6615		/* If trace pipe files are being read, we can't change the tracer */
+  6616		if (tr->trace_ref) {
+  6617			ret = -EBUSY;
+  6618			goto out;
+  6619		}
+  6620	
+  6621		trace_branch_disable();
+  6622	
+  6623		tr->current_trace->enabled--;
+  6624	
+  6625		if (tr->current_trace->reset)
+  6626			tr->current_trace->reset(tr);
+  6627	
+  6628	#ifdef CONFIG_TRACER_MAX_TRACE
+  6629		had_max_tr = tr->current_trace->use_max_tr;
+  6630	
+  6631		/* Current trace needs to be nop_trace before synchronize_rcu */
+  6632		tr->current_trace = &nop_trace;
+  6633	
+  6634		if (had_max_tr && !t->use_max_tr) {
+  6635			/*
+  6636			 * We need to make sure that the update_max_tr sees that
+  6637			 * current_trace changed to nop_trace to keep it from
+  6638			 * swapping the buffers after we resize it.
+  6639			 * The update_max_tr is called from interrupts disabled
+  6640			 * so a synchronized_sched() is sufficient.
+  6641			 */
+  6642			synchronize_rcu();
+  6643			free_snapshot(tr);
+  6644			tracing_disarm_snapshot_locked(tr);
+  6645		}
+  6646	
+  6647		if (t->use_max_tr) {
+> 6648			ret = tracing_arm_snapshot_locked(tr);
+  6649			if (ret)
+  6650				goto out;
+  6651		}
+  6652	#else
+  6653		tr->current_trace = &nop_trace;
+  6654	#endif
+  6655	
+  6656		if (t->init) {
+  6657			ret = tracer_init(t, tr);
+  6658			if (ret) {
+  6659	#ifdef CONFIG_TRACER_MAX_TRACE
+  6660				if (t->use_max_tr)
+  6661					tracing_disarm_snapshot_locked(tr);
+  6662	#endif
+  6663				goto out;
+  6664			}
+  6665		}
+  6666	
+  6667		tr->current_trace = t;
+  6668		tr->current_trace->enabled++;
+  6669		trace_branch_enable(tr);
+  6670	 out:
+  6671		mutex_unlock(&trace_types_lock);
+  6672	
+  6673		return ret;
+  6674	}
+  6675	
 
 -- 
 0-DAY CI Kernel Test Service
