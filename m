@@ -1,85 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CD857864
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 08:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2BA57867
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 09:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706604756; cv=none; b=bD/EmtqHiEItGbw122ss8AwbTTiDjs23YE3dqXbMcFDvZRRDdCoUMqVpPU4e3KEriNRZrab0w8N7BVxdGVLOsVQ8oHNogGaVx5Rvn2GDU4NLfcjFMomaJmqa+EwwoCdMMxoi5IdOs87K+9UU7hk8fryAJHjKu1K7m8XwR8MSSSo=
+	t=1706606791; cv=none; b=N+wWe0BiHzcOHTfPs071yvW6qjwIcFgEXUbGgqwkm6m37LVvV1TPWBe1T7WZJccTQzLFq6sVC2+vkaWY9CBgM2zcw7LGjDTw/nIe3h1CiHsq8/fHS2arzZ6JXwZUn7kZ5ZoKVztrXQC6d/k2hQ4jQfZY7P4SI7Upn/lt+GMeLZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706604756; c=relaxed/simple;
-	bh=2h2lKDVDe0Qt6DafrcvNa34Fl+qhtWodrVVJ81QUTO0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Be16AEyTrFS4cPh9mATSqZ3oiGoK4oD9aUfaWeqrvAJ9SiRCfdXrAat0a3ESzvFIeIPNoYojwwnqDjRweMN7wndH3jWOGOgf81zBBzaachc03BvYHxjD12ahl84t+VJYfrjCLIFo2nSXnBFGIV0ThAlilf8RTBIAiYaz+Fn5gME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AhAJ79Ld; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1706606791; c=relaxed/simple;
+	bh=+Wa+UewSUjQ+evNuV3fl9xdlJrL1UOY62kc5bL0+Gbs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UZVYnBAn+XfeXmchGHLPjTCEN11WB2XRRT5qC8yfv6IkidYwrVt3rfNUWxW+TEULRXdc/DEDrgb0CUVmNPVk+dSpHRWHC+glp3xilg2PHqYSYrPwX/7UHvM0d87P9pT89U6q/9vEbN31q2zNYsklJNcByhUgqcuVTkE1x5uawms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZ+r2qHD; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhAJ79Ld"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZ+r2qHD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706604754; x=1738140754;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2h2lKDVDe0Qt6DafrcvNa34Fl+qhtWodrVVJ81QUTO0=;
-  b=AhAJ79LdFf6ZfRnWl5RZxjS/sEAauHD6ktHX10zQ4DhS3Ruvy++ZbdzE
-   h7yc8E4dr5V9owfHInxwLvNVt7stIUN0GXxyzI5ZCMTak9dSYckrt7frG
-   QwBUrz0i9DPwM4WOuCyWRMPhMgclPkJTy+MkZaeCqWj+f4NPJ9kHdJleh
-   /8Ib1QKVRT3idN1R7o9fCJR6oZz1mST3svFIdrWejT6R0BPg7TMsMaJGd
-   TkHgLj20RQIxsZa8X/YM4Sikn91n9fQOHHLCWE0aQapPSnGHSsrGYfXgd
-   Cl05RGkX1ZQgG4GXcmGmUInlaHNTSN6IBybZ+bBjK9fc8cwjAsipj98ik
+  t=1706606789; x=1738142789;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+Wa+UewSUjQ+evNuV3fl9xdlJrL1UOY62kc5bL0+Gbs=;
+  b=TZ+r2qHDzBT5lHdt4lZ5b2Un0+MmnwDz074BzN81/2sNGAdPzovtnVhf
+   VKmaRNumxbFQI4v0q7k7nHaVqxL/8TQOozqFucHsOq2TT84bm4U583FXO
+   1Smo8PRQwftdNFmsdmRS2oV2idUH0xrplwIhfWgGkn+svKRA49+zD91YG
+   wbUhhDuAaXQuEjCf2NaU/3nB2UyySyhihZrfYmGL6i1JoBXfBG3++rT9G
+   gCsMQbaLt+c8ptZGOIY/acCMqFYFL2DbkPl+fXEtkoMhDG5oF/xD1CKr+
+   rZEfikIuXfRavacx6gACss84n0qP9uJ4CB+9WD+PkFcbfs4KHBL9vLXx3
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="10602341"
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="16604725"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="10602341"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 00:52:32 -0800
+   d="scan'208";a="16604725"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:26:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="788126949"
 X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="788126949"
+   d="scan'208";a="3612205"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 30 Jan 2024 00:52:17 -0800
+  by orviesa005.jf.intel.com with ESMTP; 30 Jan 2024 01:26:28 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUjou-00009I-0m;
-	Tue, 30 Jan 2024 08:50:34 +0000
-Date: Tue, 30 Jan 2024 16:48:06 +0800
+	id 1rUkNG-00009o-2a;
+	Tue, 30 Jan 2024 09:25:47 +0000
+Date: Tue, 30 Jan 2024 17:18:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Choong Yong Liang <yong.liang.choong@linux.intel.com>,
-	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
-	David E Box <david.e.box@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mark Gross <markgross@kernel.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <Jose.Abreu@synopsys.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Andrew Halaney <ahalaney@redhat.com>,
-	Simon Horman <simon.horman@corigine.com>,
-	Serge Semin <fancer.lancer@gmail.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH net-next v4 08/11] stmmac: intel: configure SerDes
- according to the interface mode
-Message-ID: <202401301610.XVvNEdG4-lkp@intel.com>
-References: <20240129130253.1400707-9-yong.liang.choong@linux.intel.com>
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@rivosinc.com>
+Subject: arch/riscv/kernel/paravirt.c:44:1: sparse: sparse: symbol
+ '__pcpu_scope_steal_time' was not declared. Should it be static?
+Message-ID: <202401301733.XLBqnyLY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -88,128 +58,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240129130253.1400707-9-yong.liang.choong@linux.intel.com>
 
-Hi Choong,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Choong-Yong-Liang/net-phylink-publish-ethtool-link-modes-that-supported-and-advertised/20240129-211219
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240129130253.1400707-9-yong.liang.choong%40linux.intel.com
-patch subject: [PATCH net-next v4 08/11] stmmac: intel: configure SerDes according to the interface mode
-config: x86_64-kismet-CONFIG_INTEL_PMC_IPC-CONFIG_DWMAC_INTEL-0-0 (https://download.01.org/0day-ci/archive/20240130/202401301610.XVvNEdG4-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240130/202401301610.XVvNEdG4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   861c0981648f5b64c86fd028ee622096eb7af05a
+commit: fdf68acccfc6af9497c34ee411d89af13b6516ed RISC-V: paravirt: Implement steal-time support
+date:   4 weeks ago
+config: riscv-randconfig-r133-20240130 (https://download.01.org/0day-ci/archive/20240130/202401301733.XLBqnyLY-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4a39d08908942b2d415db405844cbe4af73e75d4)
+reproduce: (https://download.01.org/0day-ci/archive/20240130/202401301733.XLBqnyLY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401301610.XVvNEdG4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401301733.XLBqnyLY-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for INTEL_PMC_IPC when selected by DWMAC_INTEL
-   .config:21:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:51:warning: symbol value 'n' invalid for BLK_DEV_LOOP_MIN_COUNT
-   .config:114:warning: symbol value 'n' invalid for SQUASHFS_FRAGMENT_CACHE_SIZE
-   .config:205:warning: symbol value 'n' invalid for FB_OMAP2_NUM_FBS
-   .config:209:warning: symbol value 'n' invalid for CMA_SIZE_MBYTES
-   .config:254:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:337:warning: symbol value 'n' invalid for CFAG12864B_RATE
-   .config:351:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:355:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:437:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:459:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:574:warning: symbol value 'n' invalid for AIC7XXX_DEBUG_MASK
-   .config:646:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:653:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:690:warning: symbol value 'n' invalid for FAT_DEFAULT_CODEPAGE
-   .config:752:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:838:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:868:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:885:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:919:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:957:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:969:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:1154:warning: symbol value 'n' invalid for NODES_SHIFT
-   .config:1224:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1253:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1327:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1492:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
-   .config:1506:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1667:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1833:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:1883:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1951:warning: symbol value 'n' invalid for PANEL_PROFILE
-   .config:1967:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:2289:warning: symbol value 'n' invalid for SND_HDA_PREALLOC_SIZE
-   .config:2301:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:2336:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2339:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2443:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2500:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2763:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2773:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:2860:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2938:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3061:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:3171:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:3194:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:3216:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
-   .config:3223:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:3345:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3389:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3450:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:3538:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3574:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:3759:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3806:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3894:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3936:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3963:warning: symbol value 'n' invalid for X86_AMD_PSTATE_DEFAULT_MODE
-   .config:3985:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3993:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:4233:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:4347:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
-   .config:4385:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4492:warning: symbol value 'n' invalid for CMA_AREAS
-   .config:4493:warning: symbol value 'n' invalid for DUMMY_CONSOLE_ROWS
-   .config:4551:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4670:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4736:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4854:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:4899:warning: symbol value 'n' invalid for MTRR_SANITIZER_SPARE_REG_NR_DEFAULT
-   .config:5001:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:5148:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:5510:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5532:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5585:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:5701:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5772:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5796:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5816:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5933:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:6101:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:6131:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:6230:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:6236:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:6244:warning: symbol value 'n' invalid for EFI_MAX_FAKE_MEM
-   .config:6260:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:6358:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:6481:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
-   .config:6517:warning: symbol value 'n' invalid for KVM_MAX_NR_VCPUS
-   .config:6584:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6633:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6766:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6852:warning: symbol value 'n' invalid for SND_MAX_CARDS
-   .config:7006:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:7177:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:7180:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:7187:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:7213:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:7257:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
-   .config:7354:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/paravirt.c:44:1: sparse: sparse: symbol '__pcpu_scope_steal_time' was not declared. Should it be static?
+   arch/riscv/kernel/paravirt.c:106:19: sparse: sparse: cast to restricted __le32
+   arch/riscv/kernel/paravirt.c:107:30: sparse: sparse: restricted __le32 degrades to integer
+   arch/riscv/kernel/paravirt.c:102:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] sequence @@     got restricted __le32 @@
+   arch/riscv/kernel/paravirt.c:102:26: sparse:     expected unsigned int [usertype] sequence
+   arch/riscv/kernel/paravirt.c:102:26: sparse:     got restricted __le32
+   arch/riscv/kernel/paravirt.c:104:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] steal @@     got restricted __le64 @@
+   arch/riscv/kernel/paravirt.c:104:23: sparse:     expected unsigned long long [usertype] steal
+   arch/riscv/kernel/paravirt.c:104:23: sparse:     got restricted __le64
+   arch/riscv/kernel/paravirt.c:109:16: sparse: sparse: cast to restricted __le64
+
+vim +/__pcpu_scope_steal_time +44 arch/riscv/kernel/paravirt.c
+
+    43	
+  > 44	DEFINE_PER_CPU(struct sbi_sta_struct, steal_time) __aligned(64);
+    45	
 
 -- 
 0-DAY CI Kernel Test Service
