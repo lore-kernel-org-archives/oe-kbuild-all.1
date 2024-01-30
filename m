@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895E279DCA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 20:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9D371B3A;
+	Tue, 30 Jan 2024 20:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706646817; cv=none; b=JIqmk79NjbGttHc3trFGrLg/kCD7yXGZCFb0PnBkCajO1jLulWL9GTk4X1VZ9zR7LBE5ZRM0w/ioQ0PEwgNSCMmJXdGpKzozVEPBeQckD+48kZkbbqZSy/8e4B++sxIle8LRhHv4Vu8Bq2go7xZqtC3ZZZeBvoHztGhLHGrfuqE=
+	t=1706646878; cv=none; b=KSR4+jJwCiQ8Peu0iypZjFSrp7mFUpEVNHHskfRLP3f5K1wcPKFAJc8a5Rsdj50vwuugRIdDQqChQy7rXElkb73V1ofJ+LaoJj9UHanjPVetnDF7SUtGP+NqWWUOsjWvRy4drejWIe7OKqXgwzouAxPpfO49xKvZaKxI7Ekcto0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706646817; c=relaxed/simple;
-	bh=ZxUX/jXO2hBnq8qLs3h5u5OYNwbRLVSjBvQDtWPkH8g=;
+	s=arc-20240116; t=1706646878; c=relaxed/simple;
+	bh=2FgM1Oh7yRSt0mhRVWHo+HrhiQcikH+bVgK4NpSlRdI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TC9X8KySdWIx9PXDZfjixa29ul/FatKtyQ9dIL1YQ5GdNpvOYmNb/8Q5rBnk7eIWIf+U8Am3B0DSs5oz5ZloZotjwRHGP5/c4VCGdi8FTCu9tJbQy321Z4o3xwR+doq+Hy1QeP6hhh+7t0a+jXwRfwvWFcKnnmlRYKcSnv3raXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCgHlgEL; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=ic8ocpKWMLqpfh8/DXXvlA3nynGEObyO+5onIyqFdbP9Rl1MzO6vRCmoFBoskL76+igAhd+xeA5hoOsaupLvfF1V+xPT+KLpbk7kUDGOOIigsLZcnkQtcRaokqM7Acta9csIvDs0NuHtQbbktfXMtcZZBRe8dfen/S8yCWXhNyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RCEBhFmZ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCgHlgEL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCEBhFmZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706646815; x=1738182815;
+  t=1706646877; x=1738182877;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZxUX/jXO2hBnq8qLs3h5u5OYNwbRLVSjBvQDtWPkH8g=;
-  b=hCgHlgELh0nM7Q9N7oxNeNthJpHaQc3SNO6dxqEP1w5HUknMikPsT2xz
-   H7ByDrJB8GtzxUMUIOUhbWNq8kRC+LWll/CkPgj0jfKL8hLZSO+FV40Oc
-   6+j8sxHqWqIHKp7hVRjaqj/Bw+dZq6H+FeCfEpRH93I307o86DNIj4oJa
-   njnk+NC2DG3j3z6Q4YPOK/T2HXkErntJRPmv9rIZ5DQFN2cK3kScm+5NV
-   XigEUdYWPRORpDBh6I17gM6A/B/XYsymRkWrhz7cTqyTC99RIc4ytmgMa
-   kg9wqKYOBwKJCsJzqnSy4297yhJ75Raw9t8OxZHrKau8WjDqDiNJ3UHVo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="16782098"
+  bh=2FgM1Oh7yRSt0mhRVWHo+HrhiQcikH+bVgK4NpSlRdI=;
+  b=RCEBhFmZRciLEh30IytickgON3rqbS5HXT78uF65mKjGGiM3DRcftRGR
+   bGs41UJQ5+P9Xlmp/zPa5tw2lw9kpOipXau8EGwBcSW4reYX1DttEXcQ8
+   mo+WBthW1U9NLuAuxkhSU/ft33wRIZq4LAlehOm8axfBqXZwwRmNn8A7v
+   iXW3XMjNerc97WXHMUaHCdudnLAuigtCT2LMKq4n/+Hcy2Tqx0doKfwe/
+   o8NpodtHp2AwWe3K3DJ/OOvwSEk00U+WgfmBxuolYiEHFU/ibwSOoWdiC
+   rpXo6+Od6GzFyMU8aELtLI/ld5UgKuD6su0KKfuFtZUJtgAa10WJAvfbP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="2332293"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="16782098"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 12:33:35 -0800
+   d="scan'208";a="2332293"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 12:34:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="788319239"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="788319239"
+   d="scan'208";a="3821862"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 30 Jan 2024 12:33:33 -0800
+  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2024 12:34:34 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUunT-0000no-1u;
-	Tue, 30 Jan 2024 20:33:31 +0000
-Date: Wed, 31 Jan 2024 04:33:25 +0800
+	id 1rUuoR-0000o0-2C;
+	Tue, 30 Jan 2024 20:34:31 +0000
+Date: Wed, 31 Jan 2024 04:33:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 28676/30000] arch/arm64/kvm/reset.c:102:34:
- error: implicit declaration of function 'sve_max_virtualisable_vl'
-Message-ID: <202401310428.WDzXvKLP-lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [kees:devel/overflow/ubsan-only 3/6] lib/test_ubsan.c:61:17:
+ warning: variable 'top' set but not used
+Message-ID: <202401310423.XpCIk6KO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,56 +58,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   7b3b2702f031a1a8368468aef621f12b23241185
-commit: 68da302c8ae30331c8917f1dc7b0f1682f696d71 [28676/30000] arm64/sve: Put system wide vector length information into structs
-config: arm64-randconfig-002-20240130 (https://download.01.org/0day-ci/archive/20240131/202401310428.WDzXvKLP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310428.WDzXvKLP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git devel/overflow/ubsan-only
+head:   ec27d9baa678ce3b875e5784ba6ebbf759daabd6
+commit: f6f0addd75d22b67b88a390c6f900e83f138ba3e [3/6] ubsan: Introduce CONFIG_UBSAN_POINTER_WRAP
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240131/202401310423.XpCIk6KO-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310423.XpCIk6KO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401310428.WDzXvKLP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401310423.XpCIk6KO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/arm64/kvm/reset.c: In function 'kvm_arm_init_sve':
->> arch/arm64/kvm/reset.c:102:34: error: implicit declaration of function 'sve_max_virtualisable_vl' [-Werror=implicit-function-declaration]
-     102 |                 kvm_sve_max_vl = sve_max_virtualisable_vl();
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> lib/test_ubsan.c:61:17: warning: variable 'top' set but not used [-Wunused-but-set-variable]
+      61 |         volatile void *top = (void *)ULONG_MAX;
+         |                        ^
+>> lib/test_ubsan.c:69:17: warning: variable 'bottom' set but not used [-Wunused-but-set-variable]
+      69 |         volatile void *bottom = (void *)1;
+         |                        ^
+>> lib/test_ubsan.c:82:28: warning: variable 'half' set but not used [-Wunused-but-set-variable]
+      82 |         volatile struct ptr_wrap *half = (void *)(ULONG_MAX - 128);
+         |                                   ^
+   lib/test_ubsan.c:101:6: warning: variable 'val1' set but not used [-Wunused-but-set-variable]
+     101 |         int val1 = 10;
+         |             ^
+   lib/test_ubsan.c:102:6: warning: variable 'val2' set but not used [-Wunused-but-set-variable]
+     102 |         int val2 = INT_MAX;
+         |             ^
+   lib/test_ubsan.c:136:19: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
+     136 |         bool val, val2, *ptr;
+         |                          ^
+   lib/test_ubsan.c:137:37: warning: variable 'eptr' set but not used [-Wunused-but-set-variable]
+     137 |         enum ubsan_test_enum eval, eval2, *eptr;
+         |                                            ^
+   lib/test_ubsan.c:182:28: warning: unused variable 'skip_ubsan_array' [-Wunused-const-variable]
+     182 | static const test_ubsan_fp skip_ubsan_array[] = {
+         |                            ^~~~~~~~~~~~~~~~
+   8 warnings generated.
 
 
-vim +/sve_max_virtualisable_vl +102 arch/arm64/kvm/reset.c
+vim +/top +61 lib/test_ubsan.c
 
-    98	
-    99	int kvm_arm_init_sve(void)
-   100	{
-   101		if (system_supports_sve()) {
- > 102			kvm_sve_max_vl = sve_max_virtualisable_vl();
-   103	
-   104			/*
-   105			 * The get_sve_reg()/set_sve_reg() ioctl interface will need
-   106			 * to be extended with multiple register slice support in
-   107			 * order to support vector lengths greater than
-   108			 * SVE_VL_ARCH_MAX:
-   109			 */
-   110			if (WARN_ON(kvm_sve_max_vl > SVE_VL_ARCH_MAX))
-   111				kvm_sve_max_vl = SVE_VL_ARCH_MAX;
-   112	
-   113			/*
-   114			 * Don't even try to make use of vector lengths that
-   115			 * aren't available on all CPUs, for now:
-   116			 */
-   117			if (kvm_sve_max_vl < sve_max_vl())
-   118				pr_warn("KVM: SVE vector length for guests limited to %u bytes\n",
-   119					kvm_sve_max_vl);
-   120		}
-   121	
-   122		return 0;
-   123	}
-   124	
+    58	
+    59	static void test_ubsan_pointer_overflow_add(void)
+    60	{
+  > 61		volatile void *top = (void *)ULONG_MAX;
+    62	
+    63		UBSAN_TEST(CONFIG_UBSAN_POINTER_WRAP);
+    64		top += 2;
+    65	}
+    66	
+    67	static void test_ubsan_pointer_overflow_sub(void)
+    68	{
+  > 69		volatile void *bottom = (void *)1;
+    70	
+    71		UBSAN_TEST(CONFIG_UBSAN_POINTER_WRAP);
+    72		bottom -= 3;
+    73	}
+    74	
+    75	struct ptr_wrap {
+    76		int a;
+    77		int b;
+    78	};
+    79	
+    80	static void test_ubsan_pointer_overflow_mul(void)
+    81	{
+  > 82		volatile struct ptr_wrap *half = (void *)(ULONG_MAX - 128);
+    83		volatile int bump = 128;
+    84	
+    85		UBSAN_TEST(CONFIG_UBSAN_POINTER_WRAP);
+    86		half += bump;
+    87	}
+    88	
 
 -- 
 0-DAY CI Kernel Test Service
