@@ -1,201 +1,102 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197C97C0A5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 14:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AD77E571
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 15:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706625606; cv=none; b=GeWbkThZB+U0grDrAqQBbu7TjYOTSTGbjrUVXO2QkmoUO6YiawgFSmbt4AQ2mLJevc+2ibjwqt9Uffsb29o8PwbG6WW1/0bYANbPzqHhcdSOGsaDlEOrtrhdTPxM9cdF/CL7Sal17aRc5BZO2yxFFNIV6Q15E6qqRCgonx91ijI=
+	t=1706627276; cv=none; b=eCq8nkm17N3mmLUUlAEaJX5wV5RVMuYNT/LYqo5+APWQQdFn0xCPYhBkD7cWhoafaShxqoqP38U917NZ6jC4RMqWyUxlI4j1TatwLMsOG9XoMMvb3lKQrCrTgmgcI+F0ONuXWzRMXgZcE+gI2q7bqf83L7AhvIqDaS8zNHN1ba8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706625606; c=relaxed/simple;
-	bh=bWLUcFSXZ/29WBR4oma2KkNug1Ec0bsmqjUejaO3zcc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BaRD2Q7HfBEe9QkwyksHtOCUJ0RvbvYRuPahFAW9wprCfWVlqwHwJOwHPPrcODt3pb6DacPIfocQru1RkjIdK0nn3lfpWxofh/vUJ6WTuEYaJmQWugwNNB5lddV5oAqV3AnE5up9y8+fj+zgWvSR4n4CIxhPI9Rt7mOlwyS72Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Pgb7Furf; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1706627276; c=relaxed/simple;
+	bh=JJiOo311RcdoYE7BrZ8It5HAuw0/p57fY/s0jBalNuc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ViFbL91jfbugHOZgiNSzMgDE4R/qm6bHPDQOepXTVDgv8ksAlGJ2D1WGJuHpi/48lnkuvG/6tkixVg06VlGmK1fymEXbxd4bpzqdZhPs30P33BxjwKSYupMKzyOh0Mx/DTUMPtrZFST8rvF2AdTT68RMcs5cg9Ropu7kzlbiaSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PSjT+R/n; arc=none smtp.client-ip=134.134.136.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Pgb7Furf"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40fafced243so2655555e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 06:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1706625601; x=1707230401; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Xjg/+I63d+U5R7fMeF2LHmu1bxnHKSa/MzaASLqBPgk=;
-        b=Pgb7FurfrPEJLTNtCg5kijdYpf/7MXUa4P78g43jXWLnF2EyUl+UNXVNoM3QC0hpPi
-         8PCVKHweYWNz4cNupvvmOzfTVyfVDQ5KFrgDx0QLuuRRjENnnQMndBk+JIU+PjZn61rh
-         /1elCIqRw++/rp5012Tsa3XVjEUAkH9FY+rbeQpnXbnU3qbyhrNNOkyv8PSlzlk3EHag
-         8kpyzN+11vY3RYfb9PopkGMf5pe4kUCHbQnCBGG9txVzXzf6zZEzOr6ilsnR/IcMh5pu
-         nFeQeVwEKvcMA4iBtXvqRCu7kgyP8a2QYx/yFbF9gqpS2BxD6iWyVa6d3FR3bW3Au6r7
-         F0uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706625601; x=1707230401;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Xjg/+I63d+U5R7fMeF2LHmu1bxnHKSa/MzaASLqBPgk=;
-        b=mkrrBfF+/9fbs8y7+6z1QQSedITMN1icJFG6mEQ5lft/MS8kt0DhAO07zeI2gYVwmR
-         cSv1bUYeKon/N4lCBQ2nmOq921PH9u2B1+CCQy4MjrlOMN6eRmnb9pPXFQ6KrViO7wFY
-         6lyH0m3ISBk6uC67aN4HFbPchxkagVQCSqsQQuwELcl2zr+p/+esyFuvK03SbK+zUJG1
-         +PNqyIVa/RDX1mP9luHDouKfgwSdwEa9BcjpwG/+Hz3AxFKipwIfbd3YN5G6CrlFaO+Q
-         cHEkNhUsWf89hXUeBysB3yk4ex13xzztBnJNrawMoSkvRjjJ+AauANFTsjoBcpFkaYRa
-         12DA==
-X-Gm-Message-State: AOJu0Yw9qar36YsPoMvb7+HpOMO+sMmoyzzsx+ekZ1h3iuL4nTqzL5hd
-	1r9UydtMIdSvJZDLWKOfFz63UYzpjF9zzu7fmdNTKzSjkfl6RkfyOUj1O19wGWE=
-X-Google-Smtp-Source: AGHT+IF3+8yHkJs+n6cTUrF2xQwJyUGXBrbuO4QiL7evEkyyqnc3tEFHGlHjkGdaA1l38Tc6Xa0F3w==
-X-Received: by 2002:a5d:598f:0:b0:33a:e358:55c3 with SMTP id n15-20020a5d598f000000b0033ae35855c3mr8033763wri.4.1706625601320;
-        Tue, 30 Jan 2024 06:40:01 -0800 (PST)
-Received: from ?IPv6:2804:30c:1f49:9200:d29b:2478:179f:fbac? ([2804:30c:1f49:9200:d29b:2478:179f:fbac])
-        by smtp.gmail.com with ESMTPSA id c17-20020a5d5291000000b00337d980a68asm8575906wrv.106.2024.01.30.06.39.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 06:40:01 -0800 (PST)
-Message-ID: <ed54875555c282ad3b09503020a7aa978a80bd60.camel@suse.com>
-Subject: Re: [linux-next:master 1016/2825] make[2]: ***
- kselftest/livepatch/test_modules: No such file or directory.  Stop.
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Linux Memory Management List
-	 <linux-mm@kvack.org>, Shuah Khan <skhan@linuxfoundation.org>, Joe Lawrence
-	 <joe.lawrence@redhat.com>, Petr Mladek <pmladek@suse.com>
-Date: Tue, 30 Jan 2024 11:39:56 -0300
-In-Reply-To: <202401300736.GkSZoSrA-lkp@intel.com>
-References: <202401300736.GkSZoSrA-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (by Flathub.org) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PSjT+R/n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706627274; x=1738163274;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JJiOo311RcdoYE7BrZ8It5HAuw0/p57fY/s0jBalNuc=;
+  b=PSjT+R/nzUXQsQeb2GDFVGbQPmWqNZKmQPLWj2AeuG7lLMbSEwKwVHPN
+   N7MvLFDbAhDbqwyo9vBZTplVQvojYdQhQtF7a3aAIxVc6E7yeCu6zJOb5
+   VOJKQFbZdkIDk0gr4mfxsFGipOox1z5ZXizLhSQpP6KKKekHWhJ2M0cmM
+   qGn8ZGdEaoLWZ6aHtYRPxSbakG0IlMffFU15kC630Zj44hCEzwFN450Mp
+   U8k0PMpntJ58s8ZnyzWrl0FytgFp7oezlIjpZM7RTwSQIVabC3bY6aDIF
+   R947cgc8DTAVP7ZC1VzPh+1WyryVdIo3JcXBUmFCyPmalSakdLKwwqRjl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="393736313"
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="393736313"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 07:03:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="3698787"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 30 Jan 2024 07:03:51 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rUpc3-0000Q8-0M;
+	Tue, 30 Jan 2024 15:02:32 +0000
+Date: Tue, 30 Jan 2024 23:00:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Aubrey Li <aubrey.li@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 29933/30000] arch/x86/kernel/cpu/common.c:92:16:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202401302223.n5Bt3u0j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2024-01-30 at 07:08 +0800, kernel test robot wrote:
-> tree:=C2=A0=C2=A0
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=C2=A0=
-m
-> aster
-> head:=C2=A0=C2=A0 596764183be8ebb13352b281a442a1f1151c9b06
-> commit: c4bbe83d27c2446a033cc0381c3fb6be5e8c41c7 [1016/2825]
-> livepatch: Move tests from lib/livepatch to selftests/livepatch
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=3D1 build):
-> (https://download.01.org/0day-ci/archive/20240130/202401300736.GkSZoS
-> rA-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202401300736.GkSZoSrA-lkp@intel.c=
-om/
->=20
-> All errors (new ones prefixed by >>):
->=20
-> > > make[2]: *** kselftest/livepatch/test_modules: No such file or
-> > > directory.=C2=A0 Stop.
->=20
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   7b3b2702f031a1a8368468aef621f12b23241185
+commit: f4128ae8e6ff03b4c805707fe75d0345797f7f53 [29933/30000] sched: Add cluster scheduler level for x86
+config: x86_64-randconfig-123-20240130 (https://download.01.org/0day-ci/archive/20240130/202401302223.n5Bt3u0j-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240130/202401302223.n5Bt3u0j-lkp@intel.com/reproduce)
 
-I had problems to compile the bpf tests, usually resulting in errors
-like this:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401302223.n5Bt3u0j-lkp@intel.com/
 
-$ make W=3D1 O=3D/tmp/kselftest -C tools/testing/selftests/bpf           =
-=20
-make: Entering directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/bpf'
-  CLNG-BPF [test_maps] connect_unix_prog.bpf.o
-progs/connect_unix_prog.c:28:15: error: no member named 'uaddrlen' in
-'struct bpf_sock_addr_kern'
-        if (sa_kern->uaddrlen !=3D unaddrlen)
-            ~~~~~~~  ^
-1 error generated.
-make: *** [Makefile:619: /tmp/kselftest//connect_unix_prog.bpf.o] Error
-1
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/cpu/common.c:92:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned short * @@
+   arch/x86/kernel/cpu/common.c:92:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/kernel/cpu/common.c:92:16: sparse:     got unsigned short *
+   arch/x86/kernel/cpu/common.c:144:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
+   arch/x86/kernel/cpu/common.c:145:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
+   arch/x86/kernel/cpu/common.c:146:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
+   arch/x86/kernel/cpu/common.c:147:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
+   arch/x86/kernel/cpu/common.c:148:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
+   arch/x86/kernel/cpu/common.c:149:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
 
-But, if I simply feed the livepatch selftests as target I'm able to
-trigger the problem:
+vim +92 arch/x86/kernel/cpu/common.c
 
+f8b64d08dde271 Borislav Petkov 2018-04-27  89  
+6f01df96c462b7 Kim Phillips    2021-08-17  90  u16 get_llc_id(unsigned int cpu)
+6f01df96c462b7 Kim Phillips    2021-08-17  91  {
+6f01df96c462b7 Kim Phillips    2021-08-17 @92  	return per_cpu(cpu_llc_id, cpu);
+6f01df96c462b7 Kim Phillips    2021-08-17  93  }
+6f01df96c462b7 Kim Phillips    2021-08-17  94  EXPORT_SYMBOL_GPL(get_llc_id);
+6f01df96c462b7 Kim Phillips    2021-08-17  95  
 
-$ make W=3D1 O=3D/tmp/kselftest -C tools/testing/selftests/
-TARGETS=3Dlivepatch                =20
-make: Entering directory
-'/home/mpdesouza/git/linux/tools/testing/selftests'
-make[1]: Entering directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-make -C /tmp/kselftest/kselftest/livepatch/test_modules
-make[2]: Entering directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-make[2]: *** /tmp/kselftest/kselftest/livepatch/test_modules: No such
-file or directory.  Stop.
-make[2]: Leaving directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-make[1]: *** [../lib.mk:92: gen_mods_dir] Error 2
-make[1]: Leaving directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-make: *** [Makefile:180: all] Error 2
-make: Leaving directory
-'/home/mpdesouza/git/linux/tools/testing/selftests'
+:::::: The code at line 92 was first introduced by commit
+:::::: 6f01df96c462b77915b27d404152c47e75e879cf x86/cpu: Add get_llc_id() helper function
 
-When looking at the lib.mk, I just followed the other variables and did
-the same:
+:::::: TO: Kim Phillips <kim.phillips@amd.com>
+:::::: CC: Xie Haocheng <haocheng.xie@amd.com>
 
-TEST_GEN_MODS_DIR :=3D $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_MODS_DIR))
-
-But later on, I jump into $(TEST_GEN_MODS_DIR), which is invalid
-because of the O=3D that is used a prefix for the path:
-/tmp/kselftest/kselftest/livepatch/test_modules. My first idea was to
-just remove the patsubst and take TEST_GEN_MODS_DIR, which should be
-livepatch/test_modules in this case, but it then returns another
-problem:
-
-
-make: Entering directory
-'/home/mpdesouza/git/linux/tools/testing/selftests'
-make[1]: Entering directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-make -C test_modules
-make[2]: Entering directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test_modul
-
-es'
-make -C /lib/modules/6.5.9-1-default/build modules
-KBUILD_EXTMOD=3D/home/mpdesouza/git/linux/tools/testing/selftests/livepat
-
-ch/test_modules
-make[3]: Entering directory '/usr/src/linux-6.5.9-1-obj/x86_64/default'
-make[4]: Entering directory '/tmp/kselftest'
-/usr/src/linux-6.5.9-1/Makefile:754: include/config/auto.conf: No such
-file or directory
-make[4]: *** [/usr/src/linux-6.5.9-1/Makefile:234: __sub-make] Error 2
-make[4]: Leaving directory '/tmp/kselftest'
-make[3]: *** [../../../linux-6.5.9-1/Makefile:234: __sub-make] Error 2
-make[3]: Leaving directory '/usr/src/linux-6.5.9-1-obj/x86_64/default'
-make[2]: *** [Makefile:16: modules] Error 2
-make[2]: Leaving directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test_modul
-
-es'
-make[1]: *** [../lib.mk:92: gen_mods_dir] Error 2
-make[1]: Leaving directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-make: *** [Makefile:180: all] Error 2
-make: Leaving directory
-'/home/mpdesouza/git/linux/tools/testing/selftests'
-
-Joe, Petr, Shuah,
-
-Any ideas? I don't understand why we have that
-
-make[4]: Entering directory '/tmp/kselftest'
-
-I would expected that Kbuild would just spill the resulting module and
-object files into the O=3D dir, instead of "jumping there". What am I
-missing?
-
-Thanks in advance for the help,
-  Marcos
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
