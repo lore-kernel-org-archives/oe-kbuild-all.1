@@ -1,55 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701F07EEE9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257117EEE7
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 22:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706654684; cv=none; b=al8Zgx+k+gQGQkJIaKP0XcJYDb6k6BJ6r5pMN1HmYJtMiWAPUdAKNomiTSO6O8CqQCUdVJ2CnxiIQR6qIAk2UEtNtrKbuLFpkSra50tXba+sJnfNfoHETGf9CcT9D2Dj8V01ZwdQZszPzKRGQUa/EeohZ20q2Koflpn3nHNgja0=
+	t=1706654684; cv=none; b=nyC9D6p7kpNd9EjzzVLkcVvvtCkc5rw5THokpALr6XT/c+nndTBvA3FlaBo9O/SzFrIQ0ydpQd6qirrx2UNChb/Mls7jIbnWTv5HslYudtqfc3z73x5fLtxNH8NAwLrrbhbrXuTnniF07B3uwTfqAKBWzmZVETzW1SfWATRe5F0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1706654684; c=relaxed/simple;
-	bh=gk+spYwgLSc5O6rkmMVSYn9SxAJCXUGEKSAGTvPQIqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nI31Ph/okFfipReaVRisAzAWiJFOuBymsvE6rWTKci1wv0GTaCZtbXgwhTeTIY4lZ5RkcHNy47EM99tilaNufZ0Jde4Sar+4bAz4PjdEJVBUa+5IQAF+6GicbimIXy6rScZmXgqZZ8xcs9+GUkL8Aq4sWWb+Mb5AuySNHhti9bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EHWJWWI5; arc=none smtp.client-ip=192.55.52.115
+	bh=/2unXQqBFF1/Mxk1m/rwStwzOUMpSAKjbpvyFW4CWd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oodOhtbHuDxaOP3aLx8OB3uKHorFeZHRCBXVNbDdqVeAZSuZjuxbEZsmVcYPKJQ/SMrhkrhU/EQlcm8yMK4bhYG3N7ckwaCU8sK1sIDxq094+E1sF0niixrPqT01bm1Z4Tyo4e6k7Ou4CTvOj8a4ULphkrnEs4O/iZefZEold3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X62YQjbx; arc=none smtp.client-ip=192.55.52.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EHWJWWI5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X62YQjbx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706654682; x=1738190682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gk+spYwgLSc5O6rkmMVSYn9SxAJCXUGEKSAGTvPQIqI=;
-  b=EHWJWWI5G5S68E4DG4+WTBLlHvVYs3gNxupbZYUxc92YTsoLMc9M6+YD
-   XfchRp0Witce643uALfdcIR4uxFCqjfiYDUxWA7t6ZvlBoAl0HX73PJT8
-   9LaOKxlyzyb3LKG9l4R78RlXndejAdsKzumN1yBCXsmg+xjVgtgiylwoH
-   sCmBvX+ekmXyIByXckSajjdAz05DMzXOuWc8Xg+RbaWp3Gdy4wKGxUhRz
-   XEd57fnageuwM/+xwmTLZnKlD71QoO0aI4onD9Gb7lQaackwnKf0QT35F
-   9vFG6VmtbLm25U6PLP45Yvh/zhUwGMLkR2vpWV6nEM1nXwjDOccNom8wA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="403045594"
+  t=1706654683; x=1738190683;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/2unXQqBFF1/Mxk1m/rwStwzOUMpSAKjbpvyFW4CWd4=;
+  b=X62YQjbxFYd0GwvSnhgJh4/s28LJFD0XRgFFZ2Via2RQLq88fNjfDzAd
+   2fnnyKN1liAF7fvsK/bZrpsLUTlefEO2IrYaoVYPwjXuVtpyGUFEk88Ob
+   lk9jBSqacYkl0yioLDMGdvpjHQ9575/11+36uJxlf9OcffgvETL9k801k
+   YG7XWm5IE/4ElwOatdJoIl2ONzV5ZBUHGKd8bISswlZy2PAE/7wJrr1Up
+   IfQdFbGZoTsJIiJsnGYVoHxpvvX5PZZfL5T6YCZjASDu63wHIzcUIbeW6
+   xpUzAcn0oSS4br5nJufbfhj5ir3/RStkrX33WB0GXZlcMOv7yX2ljd2QP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="403045598"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="403045594"
+   d="scan'208";a="403045598"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 14:44:39 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="3872820"
+   d="scan'208";a="3872821"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
   by fmviesa003.fm.intel.com with ESMTP; 30 Jan 2024 14:44:39 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUwqK-0000t4-1l;
+	id 1rUwqK-0000t2-1f;
 	Tue, 30 Jan 2024 22:44:36 +0000
-Date: Wed, 31 Jan 2024 06:44:28 +0800
+Date: Wed, 31 Jan 2024 06:44:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/3] riscv: optimized memcpy
-Message-ID: <202401310644.bffdWJJb-lkp@intel.com>
-References: <20240128111013.2450-2-jszhang@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: [linusw-gpio:b4/descriptors-wireless 2/7]
+ drivers/net/wireless/ath/ath9k/hw.c:2731:9: error: unknown type name
+ 'gpio_desc'; use 'struct' keyword to refer to the type
+Message-ID: <202401310616.wpvZVBlf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,76 +58,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240128111013.2450-2-jszhang@kernel.org>
 
-Hi Jisheng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.8-rc2 next-20240130]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/riscv-optimized-memcpy/20240128-232523
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240128111013.2450-2-jszhang%40kernel.org
-patch subject: [PATCH 1/3] riscv: optimized memcpy
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240131/202401310644.bffdWJJb-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310644.bffdWJJb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git b4/descriptors-wireless
+head:   99b6016595e9254167434ef82f4c2ed88d986452
+commit: 0dd7ce9e2be9a81dc04549e8e604931c19547531 [2/7] wifi: ath9k: Obtain system GPIOS from descriptors
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240131/202401310616.wpvZVBlf-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310616.wpvZVBlf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401310644.bffdWJJb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401310616.wpvZVBlf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:292,
-                    from include/linux/bitmap.h:12,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from arch/riscv/lib/string.c:10:
->> include/linux/fortify-string.h:580:63: error: expected identifier or '(' before '{' token
-     580 |                              p_size_field, q_size_field, op) ({         \
-         |                                                               ^
-   include/linux/fortify-string.h:638:26: note: in expansion of macro '__fortify_memcpy_chk'
-     638 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   arch/riscv/lib/string.c:118:7: note: in expansion of macro 'memcpy'
-     118 | void *memcpy(void *dest, const void *src, size_t count) __weak __alias(__memcpy);
-         |       ^~~~~~
+   drivers/net/wireless/ath/ath9k/hw.c: In function 'ath9k_hw_gpio_cfg_soc':
+>> drivers/net/wireless/ath/ath9k/hw.c:2731:9: error: unknown type name 'gpio_desc'; use 'struct' keyword to refer to the type
+    2731 |         gpio_desc *gpiod;
+         |         ^~~~~~~~~
+         |         struct 
+>> drivers/net/wireless/ath/ath9k/hw.c:2734:15: error: 'struct ath_hw' has no member named 'gpiods'
+    2734 |         if (ah->gpiods[gpio])
+         |               ^~
+>> drivers/net/wireless/ath/ath9k/hw.c:2738:15: error: assignment to 'int *' from incompatible pointer type 'struct gpio_desc *' [-Werror=incompatible-pointer-types]
+    2738 |         gpiod = devm_gpiod_get_index(ah->dev, NULL, gpio, flags);
+         |               ^
+>> drivers/net/wireless/ath/ath9k/hw.c:2747:33: error: passing argument 1 of 'gpiod_set_consumer_name' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2747 |         gpiod_set_consumer_name(gpiod, label);
+         |                                 ^~~~~
+         |                                 |
+         |                                 int *
+   In file included from drivers/net/wireless/ath/ath9k/hw.c:23:
+   include/linux/gpio/consumer.h:168:47: note: expected 'struct gpio_desc *' but argument is of type 'int *'
+     168 | int gpiod_set_consumer_name(struct gpio_desc *desc, const char *name);
+         |                             ~~~~~~~~~~~~~~~~~~^~~~
+   drivers/net/wireless/ath/ath9k/hw.c:2748:11: error: 'struct ath_hw' has no member named 'gpiods'
+    2748 |         ah->gpiods[gpio] = gpiod;
+         |           ^~
+   drivers/net/wireless/ath/ath9k/hw.c: In function 'ath9k_hw_gpio_get':
+   drivers/net/wireless/ath/ath9k/hw.c:2836:22: error: 'struct ath_hw' has no member named 'gpiods'
+    2836 |         } else if (ah->gpiods[gpio]) {
+         |                      ^~
+   drivers/net/wireless/ath/ath9k/hw.c:2837:41: error: 'struct ath_hw' has no member named 'gpiods'
+    2837 |                 val = gpiod_get_value(ah->gpiods[gpio]);
+         |                                         ^~
+   drivers/net/wireless/ath/ath9k/hw.c: In function 'ath9k_hw_set_gpio':
+   drivers/net/wireless/ath/ath9k/hw.c:2860:22: error: 'struct ath_hw' has no member named 'gpiods'
+    2860 |         } else if (ah->gpiods[gpio]) {
+         |                      ^~
+   drivers/net/wireless/ath/ath9k/hw.c:2861:35: error: 'struct ath_hw' has no member named 'gpiods'
+    2861 |                 gpiod_set_value(ah->gpiods[gpio], val);
+         |                                   ^~
+   cc1: some warnings being treated as errors
 
 
-vim +580 include/linux/fortify-string.h
+vim +2731 drivers/net/wireless/ath/ath9k/hw.c
 
-a28a6e860c6cf2 Francis Laniel  2021-02-25  578  
-f68f2ff91512c1 Kees Cook       2021-04-20  579  #define __fortify_memcpy_chk(p, q, size, p_size, q_size,		\
-f68f2ff91512c1 Kees Cook       2021-04-20 @580  			     p_size_field, q_size_field, op) ({		\
-6f7630b1b5bc67 Kees Cook       2022-10-28  581  	const size_t __fortify_size = (size_t)(size);			\
-6f7630b1b5bc67 Kees Cook       2022-10-28  582  	const size_t __p_size = (p_size);				\
-6f7630b1b5bc67 Kees Cook       2022-10-28  583  	const size_t __q_size = (q_size);				\
-6f7630b1b5bc67 Kees Cook       2022-10-28  584  	const size_t __p_size_field = (p_size_field);			\
-6f7630b1b5bc67 Kees Cook       2022-10-28  585  	const size_t __q_size_field = (q_size_field);			\
-6f7630b1b5bc67 Kees Cook       2022-10-28  586  	WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,		\
-6f7630b1b5bc67 Kees Cook       2022-10-28  587  				     __q_size, __p_size_field,		\
-6f7630b1b5bc67 Kees Cook       2022-10-28  588  				     __q_size_field, #op),		\
-54d9469bc515dc Kees Cook       2021-06-24  589  		  #op ": detected field-spanning write (size %zu) of single %s (size %zu)\n", \
-54d9469bc515dc Kees Cook       2021-06-24  590  		  __fortify_size,					\
-5097a69d676f7e Alexey Dobriyan 2023-09-16  591  		  "field \"" #p "\" at " FILE_LINE,			\
-6f7630b1b5bc67 Kees Cook       2022-10-28  592  		  __p_size_field);					\
-f68f2ff91512c1 Kees Cook       2021-04-20  593  	__underlying_##op(p, q, __fortify_size);			\
-f68f2ff91512c1 Kees Cook       2021-04-20  594  })
-f68f2ff91512c1 Kees Cook       2021-04-20  595  
+  2724	
+  2725	/* BSP should set the corresponding MUX register correctly.
+  2726	 */
+  2727	static void ath9k_hw_gpio_cfg_soc(struct ath_hw *ah, u32 gpio, bool out,
+  2728					  const char *label)
+  2729	{
+  2730		enum gpiod_flags flags = out ? GPIOD_OUT_LOW : GPIOD_IN;
+> 2731		gpio_desc *gpiod;
+  2732		int err;
+  2733	
+> 2734		if (ah->gpiods[gpio])
+  2735			return;
+  2736	
+  2737		/* Obtains a system specific GPIO descriptor from another GPIO controller */
+> 2738		gpiod = devm_gpiod_get_index(ah->dev, NULL, gpio, flags);
+  2739	
+  2740		if (IS_ERR(gpiod)) {
+  2741			err = PTR_ERR(gpiod);
+  2742			ath_err(ath9k_hw_common(ah), "request GPIO%d failed:%d\n",
+  2743				gpio, err);
+  2744			return;
+  2745		}
+  2746	
+> 2747		gpiod_set_consumer_name(gpiod, label);
+  2748		ah->gpiods[gpio] = gpiod;
+  2749	}
+  2750	
 
 -- 
 0-DAY CI Kernel Test Service
