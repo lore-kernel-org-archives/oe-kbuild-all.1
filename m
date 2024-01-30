@@ -1,55 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E39378B4C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 21:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3120E7D403;
+	Tue, 30 Jan 2024 22:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706650842; cv=none; b=fD8+O3siQHX7gTX+K/CBmNtRvYeuDIK9NLgBYwR0NZqtpxsstgjFPIikppdf1xJJvMPkO1ezV7vywBg1xPQqXDToF86xBjZEX9JVWSEBrbF+NsUz16g4Qre8H86F0GrHncg0RFe6z85z3a0H8b01weNkCeNr6qEwVGzeE8PWSkc=
+	t=1706652764; cv=none; b=uJ/vn11O8Txto3Jo2pC4odixfYdJ5aI8K9mS51k4CUhiCR7AcqhL+I4pFlLakaG0cZm81MQzdFcgMfqEH9B7ZxQsBDMXcWb3lHgxenA2OGZsMGCf5YqaRtopAWjYwqOiF2IZAvZA+2fTrVjQyl8xlh6viJTFUN/FDW/GPvh7hQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706650842; c=relaxed/simple;
-	bh=q1RMk7IZvcdhmMtDsjI0+m5igo2kuufhQQcLJedShgc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TimzHeW/7Ynx0hC5kxYHWEKAUG9E2L/zDvjDj7a7zldQ+NXNcRC8xygZMxyU4GO+xImExt2MOGafh2e2o6GBZfIuVcjnQ19bube1m2xLk+eYHWin4MUFTD7l/89s1boeVQ3KZgUeVC9buS9XCfS1LDi3Mb4j7E3bFgn5u/dUcxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=imnZpn7E; arc=none smtp.client-ip=192.55.52.88
+	s=arc-20240116; t=1706652764; c=relaxed/simple;
+	bh=SdLU3sGcmj4oZljBiGm2nYM+yKHs1TV50H1uosJASlU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s7jgMADJ+EyT3cspD8QPwIHkpHqeBS+DRDVFd99e5eaG+UTDgP/O0KiZuRMC4MowxWouIai9zRUQIjWCxw5B/su9Z8i34DyB1oBrNBjcv2De2kMkPi0Ot9rGlW0IVfIYD/EjxTKJN5WD5zWbXJ5BpGfc2CFCXZBrVihJlSNUfcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBWaUsRs; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="imnZpn7E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBWaUsRs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706650840; x=1738186840;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q1RMk7IZvcdhmMtDsjI0+m5igo2kuufhQQcLJedShgc=;
-  b=imnZpn7EBYK8hI6vVrC/xYT78TTaBHeTlEvvqyjAbow8BLT9AHDYEGbz
-   ZEPwmE1S5il2QPSDMxTRr3LH9MSYdq8P/AlVhMTgB2Db1sMFbibR7c1fd
-   cwtHCauHYsc5trXvuMJ6ss/HKtPuX63RfJ8hYKq1kBQapqE26VW7RT5IP
-   wc40peCzzCis3UnW8zF7UGCn2uXVl1G3k0HHFU4ndbMGePCL49L1qljW1
-   UowLZG+aIlbNbLNQYlZU7shNW/UUNp5n768GOBscqT6iIibx0BpCltxEN
-   Ir0AJvfheR8DkPzHkV09+MuIpTdZQjmyzT6K68LtbRKmlyxZOD2WS0nQ+
+  t=1706652763; x=1738188763;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SdLU3sGcmj4oZljBiGm2nYM+yKHs1TV50H1uosJASlU=;
+  b=mBWaUsRsIeJczFFsdSlxEzBj+cklkUgXoJ3WhX4rQW6AYJieU1xo9QsD
+   xMJgk/rZ+DlJgCajHIG2jADIUYXg1p+3UxeL2qdmKN5Bp5vdONHPy6W+p
+   VgBipJGmTV6Z4HutFCLv2BBiO+65mlwF0eiCbRa/5LVBsZEhCrcp4ihDw
+   41j8isoukHxKArQk1YhT2lxD4gaC8eekDsprxNWRXu0AyWMBUo1lqM/Db
+   TC6azlJDuJEHdTjIjTji5T7YbMrifOZDHLp9BySJ7jOJB6smI9nW2iXjD
+   M523pUa4DTsvdCfohExusi9pNxBdGwBWkPESCYztWm1ycxf7JYiHF0PIa
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="434584461"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10802451"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="434584461"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 13:40:37 -0800
+   d="scan'208";a="10802451"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 14:12:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="931595247"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="931595247"
+   d="scan'208";a="3848620"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 30 Jan 2024 13:40:36 -0800
+  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2024 14:12:38 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUvqM-0000r8-0f;
-	Tue, 30 Jan 2024 21:40:34 +0000
-Date: Wed, 31 Jan 2024 05:39:39 +0800
+	id 1rUwLL-0000s1-2r;
+	Tue, 30 Jan 2024 22:12:35 +0000
+Date: Wed, 31 Jan 2024 06:12:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:5.4-main 1519/26476] cc1: error:
- drivers/misc/mediatek/include/mt-plat//include: No such file or directory
-Message-ID: <202401310558.3tQ0EnQW-lkp@intel.com>
+To: Charlie Jenkins <charlie@rivosinc.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Yangyu Chen <cyy@cyyself.name>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	Charlie Jenkins <charlie@rivosinc.com>
+Subject: Re: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
+Message-ID: <202401310513.lub8Ilwm-lkp@intel.com>
+References: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,106 +67,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.4-main
-head:   645dca86a686ddae272b209432af075ecc0185c5
-commit: 846b1dc5520ecb419469f5b97434328cc6f30b81 [1519/26476] mt6625l: include wifi-folder
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240131/202401310558.3tQ0EnQW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310558.3tQ0EnQW-lkp@intel.com/reproduce)
+Hi Charlie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 556e2d17cae620d549c5474b1ece053430cd50bc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/riscv-mm-Use-hint-address-in-mmap-if-available/20240130-084208
+base:   556e2d17cae620d549c5474b1ece053430cd50bc
+patch link:    https://lore.kernel.org/r/20240129-use_mmap_hint_address-v1-1-4c74da813ba1%40rivosinc.com
+patch subject: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240131/202401310513.lub8Ilwm-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fdac7d0b6f74f919d319b31a0680c77f66732586)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310513.lub8Ilwm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401310558.3tQ0EnQW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401310513.lub8Ilwm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> cc1: error: drivers/misc/mediatek/include/mt-plat//include: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/arm/mach-/include/mach: No such file or directory [-Werror=missing-include-dirs]
-   cc1: error: drivers/misc/mediatek/btif/common/inc: No such file or directory [-Werror=missing-include-dirs]
-   cc1: error: drivers/misc/mediatek/btif/common/plat_inc: No such file or directory [-Werror=missing-include-dirs]
-   drivers/misc/mediatek/btif/common/mtk_btif.c:37:10: fatal error: btif_pub.h: No such file or directory
-      37 | #include "btif_pub.h"
-         |          ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   compilation terminated.
---
->> cc1: error: drivers/misc/mediatek/include/mt-plat//include: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/arm/mach-/include/mach: No such file or directory [-Werror=missing-include-dirs]
-   cc1: error: drivers/misc/mediatek/btif/common/inc: No such file or directory [-Werror=missing-include-dirs]
-   cc1: error: drivers/misc/mediatek/btif/common/plat_inc: No such file or directory [-Werror=missing-include-dirs]
-   drivers/misc/mediatek/btif/common/mtk_btif_exp.c:20:10: fatal error: mtk_btif.h: No such file or directory
-      20 | #include "mtk_btif.h"
-         |          ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   compilation terminated.
---
->> cc1: error: drivers/misc/mediatek/include/mt-plat//include: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/arm/mach-/include/mach: No such file or directory [-Werror=missing-include-dirs]
-   cc1: error: drivers/misc/mediatek/btif/common/inc: No such file or directory [-Werror=missing-include-dirs]
-   cc1: error: drivers/misc/mediatek/btif/common/plat_inc: No such file or directory [-Werror=missing-include-dirs]
-   drivers/misc/mediatek/btif/common/btif_dma_plat.c:22:10: fatal error: btif_dma_priv.h: No such file or directory
-      22 | #include "btif_dma_priv.h"
-         |          ^~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   compilation terminated.
---
->> cc1: error: drivers/misc/mediatek/include/mt-plat//include: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/arm/mach-/include/mach: No such file or directory [-Werror=missing-include-dirs]
-   cc1: error: drivers/misc/mediatek/btif/common/inc: No such file or directory [-Werror=missing-include-dirs]
-   cc1: error: drivers/misc/mediatek/btif/common/plat_inc: No such file or directory [-Werror=missing-include-dirs]
-   drivers/misc/mediatek/btif/common/btif_plat.c:21:10: fatal error: btif_pub.h: No such file or directory
-      21 | #include "btif_pub.h"
-         |          ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   compilation terminated.
---
->> cc1: error: drivers/misc/mediatek/include/mt-plat//include: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/arm/mach-//dct/dct: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/slab.h:136,
-                    from include/linux/irq.h:21,
-                    from include/linux/of_irq.h:7,
-                    from drivers/misc/mediatek/connectivity/common/common_detect/mtk_wcn_stub_alps.c:62:
-   include/linux/kasan.h:14:10: fatal error: asm/kasan.h: No such file or directory
-      14 | #include <asm/kasan.h>
-         |          ^~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   compilation terminated.
---
->> cc1: error: drivers/misc/mediatek/include/mt-plat//include: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/arm/mach-//dct/dct: No such file or directory [-Werror=missing-include-dirs]
-   drivers/misc/mediatek/connectivity/common/common_detect/wmt_stp_exp.c:14:10: fatal error: osal_typedef.h: No such file or directory
-      14 | #include "osal_typedef.h"
-         |          ^~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   compilation terminated.
---
->> cc1: error: drivers/misc/mediatek/include/mt-plat//include: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/arm/mach-//dct/dct: No such file or directory [-Werror=missing-include-dirs]
-   In file included from drivers/misc/mediatek/connectivity/common/common_detect/sdio_detect.c:20:
-   drivers/misc/mediatek/connectivity/common/common_detect/sdio_detect.c: In function 'hif_sdio_is_chipid_valid':
->> drivers/misc/mediatek/connectivity/common/common_detect/wmt_detect.h:77:30: error: comparison of unsigned expression in '>= 0' is always true [-Werror=type-limits]
-      77 |         if (gWmtDetectDbgLvl >= WMT_DETECT_LOG_ERR) \
-         |                              ^~
-   drivers/misc/mediatek/connectivity/common/common_detect/sdio_detect.c:108:17: note: in expansion of macro 'WMT_DETECT_ERR_FUNC'
-     108 |                 WMT_DETECT_ERR_FUNC("no supported chipid found\n");
-         |                 ^~~~~~~~~~~~~~~~~~~
-   drivers/misc/mediatek/connectivity/common/common_detect/sdio_detect.c: In function 'hif_sdio_match_chipid_by_dev_id':
->> drivers/misc/mediatek/connectivity/common/common_detect/wmt_detect.h:77:30: error: comparison of unsigned expression in '>= 0' is always true [-Werror=type-limits]
-      77 |         if (gWmtDetectDbgLvl >= WMT_DETECT_LOG_ERR) \
-         |                              ^~
-   drivers/misc/mediatek/connectivity/common/common_detect/sdio_detect.c:135:17: note: in expansion of macro 'WMT_DETECT_ERR_FUNC'
-     135 |                 WMT_DETECT_ERR_FUNC("No valid chipId found, vendor id(0x%x), device id(0x%x)\n", id->vendor,
-         |                 ^~~~~~~~~~~~~~~~~~~
-   drivers/misc/mediatek/connectivity/common/common_detect/sdio_detect.c: In function 'sdio_detect_probe':
->> drivers/misc/mediatek/connectivity/common/common_detect/wmt_detect.h:77:30: error: comparison of unsigned expression in '>= 0' is always true [-Werror=type-limits]
-      77 |         if (gWmtDetectDbgLvl >= WMT_DETECT_LOG_ERR) \
-         |                              ^~
-   drivers/misc/mediatek/connectivity/common/common_detect/sdio_detect.c:236:25: note: in expansion of macro 'WMT_DETECT_ERR_FUNC'
-     236 |                         WMT_DETECT_ERR_FUNC("sdio_enable_func failed!\n");
-         |                         ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> mm/mmap.c:1703:33: error: expected expression
+    1703 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+         |                                        ^
+   arch/riscv/include/asm/processor.h:28:2: note: expanded from macro 'arch_get_mmap_end'
+      28 |         else                                                    \
+         |         ^
+   mm/mmap.c:1751:33: error: expected expression
+    1751 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+         |                                        ^
+   arch/riscv/include/asm/processor.h:28:2: note: expanded from macro 'arch_get_mmap_end'
+      28 |         else                                                    \
+         |         ^
+   2 errors generated.
+
+
+vim +1703 mm/mmap.c
+
+f6795053dac8d4d Steve Capper           2018-12-06  1683  
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1684  /* Get an address range which is currently unmapped.
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1685   * For shmat() with addr=0.
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1686   *
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1687   * Ugly calling convention alert:
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1688   * Return value with the low bits set means error value,
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1689   * ie
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1690   *	if (ret & ~PAGE_MASK)
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1691   *		error = ret;
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1692   *
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1693   * This function "knows" that -ENOMEM has the bits set.
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1694   */
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1695  unsigned long
+4b439e25e29ec33 Christophe Leroy       2022-04-09  1696  generic_get_unmapped_area(struct file *filp, unsigned long addr,
+4b439e25e29ec33 Christophe Leroy       2022-04-09  1697  			  unsigned long len, unsigned long pgoff,
+4b439e25e29ec33 Christophe Leroy       2022-04-09  1698  			  unsigned long flags)
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1699  {
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1700  	struct mm_struct *mm = current->mm;
+1be7107fbe18eed Hugh Dickins           2017-06-19  1701  	struct vm_area_struct *vma, *prev;
+db4fbfb9523c935 Michel Lespinasse      2012-12-11  1702  	struct vm_unmapped_area_info info;
+2cb4de085f383cb Christophe Leroy       2022-04-09 @1703  	const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1704  
+f6795053dac8d4d Steve Capper           2018-12-06  1705  	if (len > mmap_end - mmap_min_addr)
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1706  		return -ENOMEM;
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1707  
+06abdfb47ee745a Benjamin Herrenschmidt 2007-05-06  1708  	if (flags & MAP_FIXED)
+06abdfb47ee745a Benjamin Herrenschmidt 2007-05-06  1709  		return addr;
+06abdfb47ee745a Benjamin Herrenschmidt 2007-05-06  1710  
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1711  	if (addr) {
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1712  		addr = PAGE_ALIGN(addr);
+1be7107fbe18eed Hugh Dickins           2017-06-19  1713  		vma = find_vma_prev(mm, addr, &prev);
+f6795053dac8d4d Steve Capper           2018-12-06  1714  		if (mmap_end - len >= addr && addr >= mmap_min_addr &&
+1be7107fbe18eed Hugh Dickins           2017-06-19  1715  		    (!vma || addr + len <= vm_start_gap(vma)) &&
+1be7107fbe18eed Hugh Dickins           2017-06-19  1716  		    (!prev || addr >= vm_end_gap(prev)))
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1717  			return addr;
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1718  	}
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1719  
+db4fbfb9523c935 Michel Lespinasse      2012-12-11  1720  	info.flags = 0;
+db4fbfb9523c935 Michel Lespinasse      2012-12-11  1721  	info.length = len;
+4e99b02131b280b Heiko Carstens         2013-11-12  1722  	info.low_limit = mm->mmap_base;
+f6795053dac8d4d Steve Capper           2018-12-06  1723  	info.high_limit = mmap_end;
+db4fbfb9523c935 Michel Lespinasse      2012-12-11  1724  	info.align_mask = 0;
+09ef5283fd96ac4 Jaewon Kim             2020-04-10  1725  	info.align_offset = 0;
+db4fbfb9523c935 Michel Lespinasse      2012-12-11  1726  	return vm_unmapped_area(&info);
+^1da177e4c3f415 Linus Torvalds         2005-04-16  1727  }
+4b439e25e29ec33 Christophe Leroy       2022-04-09  1728  
 
 -- 
 0-DAY CI Kernel Test Service
