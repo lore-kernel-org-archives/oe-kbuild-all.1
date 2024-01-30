@@ -1,54 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BCE55E6B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 20:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A083A6A02A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 21:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706647477; cv=none; b=NgTGTIYm9MFBzFVhNB2CuaKBilwf2VjOiMAn0gcxSdzTlVMzAFTX2dR9KXg4cY75MH2kcVDICbCaLu7EyHsJnjcvMzAp4CALd8aP5VUhDFWCJfALD0htFAkiEN6w2yr9XPxLBRuFZUGIZA3Qbe/LpUlsbHOl0rZktfUEvZZM5Jk=
+	t=1706648801; cv=none; b=C2Q1Jo4DPH8g7GI4Q9EcNt5oZnnMlugAe0geZ75YffnIFg4UGOH2WzPuqAY0zSIyd5i4Ly+fTs7Be7FY3RQInvLL3qk8V+bOmGf6LIzDFD4y9KfxTI1H1rL4d901Jubljon4yGvUVmbzyVn27Iv4EKtLRPEE+y14pU5Ho7GW8xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706647477; c=relaxed/simple;
-	bh=7Lx1iA5Sq49DWl7tAO7b6f3QsB7nA0NWL2nrdqaKNzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rSNByC03Yf3/XldKVgp734n/aOTFyzAA4SIYD9BvVAHseWXMvGaY2nt87thMcXDUWvED4GXD+55gnFscZgspi+IQg/9j9YTwqsuJ6CnxnHiT7tPY5CV57eZqplNnxO42AMYPJ/OUUbhrlp6QofBgWhKI0ryB9nOmnAkP/lGsOG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3X/ILqb; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1706648801; c=relaxed/simple;
+	bh=gM2k755jodQt1/XCCpHAG09gohkbqOUKelwFkZoypLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VbmYwcbkkXf18ahGBKVXnNRKMz85w3hhbrf2BKjQnujrchZi9hf8FcsVZKAfWJjQIADCe3kBTSOYTRctcbAdw5Ha8p7vzeEmvr87gmhi8Fa3T1BT2JEMRuNYZUoFFeAZubzAnHrI7ZOVxYEl8BKxyOH3sqH7rFxBGyEZ2rX9GuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W00wxUZ6; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3X/ILqb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W00wxUZ6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706647476; x=1738183476;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7Lx1iA5Sq49DWl7tAO7b6f3QsB7nA0NWL2nrdqaKNzU=;
-  b=A3X/ILqbsHmd4K0kanJigEEypsfEJCLXJ+RW+fPOdWdrzlNXDJs7KRVV
-   RsOMz8pHEv832hy/WQMJSYghRtIPDapSIdZrS+t6S1DctIpxSrZZn1oYT
-   k7qo67Gh1QNO1bbea8JhhNP5260gQ5DT44zcQjEbzctnvVpqq/Lip2m5g
-   IQ3yKJDXoCMlxB8nHsnfmd4k0MEd20cwpbeQWIpeWQ/ExVYufWgYMx/xs
-   N8kcjjwDNLjPkeGcocsvfhdVkmvrhDXotE4QHyESWeOk/W8K0egSkmD0j
-   9VK4OOz7L+6RBdmaUODmF9mHBiSHb8+k+2KMbp1VX2V0beLCFTdXp9lSo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3251101"
+  t=1706648800; x=1738184800;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gM2k755jodQt1/XCCpHAG09gohkbqOUKelwFkZoypLo=;
+  b=W00wxUZ6CDDbI7gZ+ySkygkrRg/MjygtQn+EZMQ7zCwQvWmL/rTDA6HF
+   kGlUYWXFRAti1QFdD/jSRcxUo3Cx7KxtlEqTZ+ju9Lh4pK2cvmLtFZbdN
+   dLCzY9B2vzk98YRkDLO9s1uZsta5YBOHfrZ6vS2U4bYzIgmN7ClgeYH+d
+   YfpX9UVLcqdw1wzAqZRCo2hhIQCix+RdvGm7Fjo2lV5qthLEA6D8ZYhhL
+   crDDxQSGxZ32q6PA8lnGF2JFc7U3LUUM+tR7oKGqyJQBdYpPdit8Oloqc
+   ezNjaAVGopwgE6eNkWSd35psxx9T00VGgg7nyLBUFKU+u9UDYIBi5Hi8p
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10788276"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="3251101"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 12:44:35 -0800
+   d="scan'208";a="10788276"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 13:06:39 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="911559025"
 X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
-   d="scan'208";a="3813969"
+   d="scan'208";a="911559025"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 30 Jan 2024 12:44:35 -0800
+  by orsmga004.jf.intel.com with ESMTP; 30 Jan 2024 13:06:34 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rUuy7-0000oi-3B;
-	Tue, 30 Jan 2024 20:44:31 +0000
-Date: Wed, 31 Jan 2024 04:43:45 +0800
+	id 1rUvJQ-0000pY-1M;
+	Tue, 30 Jan 2024 21:06:32 +0000
+Date: Wed, 31 Jan 2024 05:05:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kees:devel/overflow/ubsan-only 4/6] misc.c:undefined reference to
- `__ubsan_handle_shift_out_of_bounds'
-Message-ID: <202401310416.s8HLiLnC-lkp@intel.com>
+To: Charlie Jenkins <charlie@rivosinc.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Yangyu Chen <cyy@cyyself.name>
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>
+Subject: Re: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
+Message-ID: <202401310404.eNJvHoC9-lkp@intel.com>
+References: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,31 +67,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git devel/overflow/ubsan-only
-head:   ec27d9baa678ce3b875e5784ba6ebbf759daabd6
-commit: c37e9d494f33891d3228e7941cba1158fe8a0e77 [4/6] ubsan: Remove CONFIG_UBSAN_SANITIZE_ALL
-config: sh-randconfig-001-20240130 (https://download.01.org/0day-ci/archive/20240131/202401310416.s8HLiLnC-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310416.s8HLiLnC-lkp@intel.com/reproduce)
+Hi Charlie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 556e2d17cae620d549c5474b1ece053430cd50bc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/riscv-mm-Use-hint-address-in-mmap-if-available/20240130-084208
+base:   556e2d17cae620d549c5474b1ece053430cd50bc
+patch link:    https://lore.kernel.org/r/20240129-use_mmap_hint_address-v1-1-4c74da813ba1%40rivosinc.com
+patch subject: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240131/202401310404.eNJvHoC9-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310404.eNJvHoC9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401310416.s8HLiLnC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401310404.eNJvHoC9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sh4-linux-ld: arch/sh/boot/compressed/misc.o: in function `zlib_inflate_table':
->> misc.c:(.text+0x670): undefined reference to `__ubsan_handle_shift_out_of_bounds'
-   sh4-linux-ld: arch/sh/boot/compressed/misc.o: in function `inflate_fast':
-   misc.c:(.text+0xc5c): undefined reference to `__ubsan_handle_shift_out_of_bounds'
-   sh4-linux-ld: arch/sh/boot/compressed/misc.o: in function `zlib_inflateReset':
-   misc.c:(.text+0xd00): undefined reference to `__ubsan_handle_shift_out_of_bounds'
-   sh4-linux-ld: arch/sh/boot/compressed/misc.o: in function `zlib_inflate':
-   misc.c:(.text+0x23fc): undefined reference to `__ubsan_handle_shift_out_of_bounds'
-   sh4-linux-ld: arch/sh/boot/compressed/ashldi3.o: in function `__ashldi3':
->> ashldi3.c:(.text+0xc8): undefined reference to `__ubsan_handle_shift_out_of_bounds'
+   In file included from arch/riscv/include/asm/irqflags.h:10,
+                    from include/linux/irqflags.h:18,
+                    from arch/riscv/include/asm/bitops.h:14,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from mm/mmap.c:12:
+   mm/mmap.c: In function 'generic_get_unmapped_area':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   mm/mmap.c:1703:40: note: in expansion of macro 'arch_get_mmap_end'
+    1703 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+         |                                        ^~~~~~~~~~~~~~~~~
+   mm/mmap.c: In function 'generic_get_unmapped_area_topdown':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   mm/mmap.c:1751:40: note: in expansion of macro 'arch_get_mmap_end'
+    1751 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+         |                                        ^~~~~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/irqflags.h:10,
+                    from include/linux/irqflags.h:18,
+                    from arch/riscv/include/asm/bitops.h:14,
+                    from include/linux/bitops.h:68,
+                    from include/linux/thread_info.h:27,
+                    from fs/hugetlbfs/inode.c:12:
+   fs/hugetlbfs/inode.c: In function 'hugetlb_get_unmapped_area_bottomup':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   fs/hugetlbfs/inode.c:173:27: note: in expansion of macro 'arch_get_mmap_end'
+     173 |         info.high_limit = arch_get_mmap_end(addr, len, flags);
+         |                           ^~~~~~~~~~~~~~~~~
+   fs/hugetlbfs/inode.c: In function 'hugetlb_get_unmapped_area_topdown':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   fs/hugetlbfs/inode.c:204:35: note: in expansion of macro 'arch_get_mmap_end'
+     204 |                 info.high_limit = arch_get_mmap_end(addr, len, flags);
+         |                                   ^~~~~~~~~~~~~~~~~
+   fs/hugetlbfs/inode.c: In function 'generic_hugetlb_get_unmapped_area':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   fs/hugetlbfs/inode.c:219:40: note: in expansion of macro 'arch_get_mmap_end'
+     219 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+         |                                        ^~~~~~~~~~~~~~~~~
+
+
+vim +/else +28 arch/riscv/include/asm/processor.h
+
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  20  
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  21  #define arch_get_mmap_end(addr, len, flags)			\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  22  ({								\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  23  	unsigned long mmap_end;					\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  24  	typeof(addr) _addr = (addr);				\
+c5712238cfe3f5 Charlie Jenkins 2024-01-29  25  	if ((_addr) == 0 ||					\
+c5712238cfe3f5 Charlie Jenkins 2024-01-29  26  		(IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||	\
+c5712238cfe3f5 Charlie Jenkins 2024-01-29  27  		((_addr + len) > BIT(VA_BITS - 1)))		\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09 @28  	else							\
+c5712238cfe3f5 Charlie Jenkins 2024-01-29  29  		mmap_end = (_addr + len);			\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  30  	mmap_end;						\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  31  })
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  32  
 
 -- 
 0-DAY CI Kernel Test Service
