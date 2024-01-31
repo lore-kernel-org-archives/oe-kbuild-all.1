@@ -1,169 +1,105 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642464C61
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 10:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8B669E0C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 10:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706697086; cv=none; b=EEkL3zBfolDR39x5Udo/v3em9EFCI/5gElRaqeh+oABhYRiqjuwxrXUW0rHhiRcCsZBCeOsIKwp51M7rRmiZ081o1OVtTU53hlVTDSlvYrQeNRT8MAA2mLVmW3TGzZ+etFVhrEHEHCfQFf1Hbw6Gb/Q5T4jxCdmfyyEnW7VwakA=
+	t=1706697512; cv=none; b=bmOOfdVL3sm8Ymk9ARiOsYvfnFr7HK7Gbz7RokIW1GXRoOOWbUQ5Wxb2BT1naefblN/d5jcIeePU4fDcui/cjb/tQRVGQ6+KhW/7o3RFLge1DqIZxY03cpT2JgOMlSnXlbeOVJ6cR2zcDu8gDAyL/qN2Phxw6WjZqHAqaO12hyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706697086; c=relaxed/simple;
-	bh=yJ/wZknYhDuWDo1qBFs2gPC4G8ZpdyOrsxg+JFKUZW0=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=fs8ZqnCrlKXjWoV798eISuWocVcBrdrSrzXZdyxFA3p28636Uz/OvrxRCPA0oM7oL1qDIriPoFL23pAR2XF1M/Axm1yG13whme22tPEG10fTAYIThKB09wUjzbyNmOEazuqbuujagez9A9YICS4kURGPoaAph5QU8Da9C8Rz4nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=G7PhyQr0; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1706697512; c=relaxed/simple;
+	bh=9qas5mNuhAhKNW2QQ+ffB4VVH71gFFIrEgnEzWf5wfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mQEG8a48onmVu5ffhLwpb2PHaaHVilr9Kg5B69VabaxdwO3gikbxkYTGl2Ci+bnTHCYO2SHN9ZzBM7Lc0+X+LRiUF08hbSDh5wbmFEotrpBXnw8HUxBuw3euwgk2WN6QXLrnNPU/8qLI7y3fPcY6O3VytnsJpk016ywYuL/ve5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeFJ0TEj; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="G7PhyQr0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeFJ0TEj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706697510; x=1738233510;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XTz7MaMuPLM1cq2rliOd+ts1745v/BEjnjd69pWc0Vk=;
-  b=G7PhyQr0zUZ22Xqvcu9FDeq1FHKx2pncvtdFyrCROQtxWMCTYW5orZ/L
-   l0DFZw6/U8uvAz664HElGt7kNtVu5Jd30e84UBCGq7Sf5GoZA9AtnS7QQ
-   4EiEcYLtuNfd1aDjkPQyAovWHrnUN6CCw1IdVrtbuhXUYMQliDxhd+Ipa
-   U=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.05,231,1701126000"; 
-   d="scan'208";a="78343153"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 11:31:19 +0100
-Date: Wed, 31 Jan 2024 11:31:18 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: leoliu-oc <leoliu-oc@zhaoxin.com>
-cc: kernel@openeuler.org, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2493/2888] arch/x86/events/zhaoxin/uncore.c:1593:1-6:
- alloc with no test, possible model on line 1609 (fwd)
-Message-ID: <alpine.DEB.2.22.394.2401311130220.3245@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+  bh=9qas5mNuhAhKNW2QQ+ffB4VVH71gFFIrEgnEzWf5wfY=;
+  b=TeFJ0TEjreyvoVEomEmncBiU0hsD+URFSptqVteZm8G6axk22W9MmDMq
+   skJXXQ40LdC+mgJx6cWIHSjRUf/ug4mq47L5txE6wneg9Xx12MZbTeclN
+   Wzydih8tXbNCfWiaWPdAHTi+n/yde/hWZ7Bb+6FAEiq04E72TAD8nN2f1
+   bfaD7fRWPuSTqiqn6hFKUas6z4UOyga5JQvVMChWNB9taT9xri3frX8pn
+   jgcGDIEm8O28Snu0Z3igghiZ2SJATsle87VhQepbZ5Te++aw7RRx/OKK9
+   7dAdAiPW8EUSvakNgPum3DO1E6+H62HKJEsEUuG0b0QnGGzWhB9mR27d9
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10315564"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="10315564"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 02:38:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="4120349"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 31 Jan 2024 02:38:28 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rV7z6-0001Su-2G;
+	Wed, 31 Jan 2024 10:38:25 +0000
+Date: Wed, 31 Jan 2024 18:37:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 1/54] drivers/tty/vt/vt.c:305:13: error:
+ redefinition of 'con_putc'
+Message-ID: <202401311801.BvcKi62N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
-
-There should be a NULL check after the kzalloc on line 1593.
-
-julia
-
----------- Forwarded message ----------
-Date: Wed, 31 Jan 2024 17:35:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:OLK-6.6 2493/2888]
-    arch/x86/events/zhaoxin/uncore.c:1593:1-6: alloc with no test,
-    possible model on line 1609
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: "leoliu-oc" <leoliu-oc@zhaoxin.com>
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   3fa3a33cab8bb921b3e1f6639855f4549009cd90
-commit: 5cbf647edcff3d5cda5cb172c6bf0e4c1b6e8ec6 [2493/2888] x86/perf: Add uncore performance events support for Zhaoxin CPU
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-104-20240131 (https://download.01.org/0day-ci/archive/20240131/202401311737.oD4LmLlz-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   ad48c5284035dd0818636f53e8320628c5142526
+commit: c8bb010c206d93500d9dc638dc3cf29b35e8edb6 [1/54] tty: vt: add con_putc() helper
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240131/202401311801.BvcKi62N-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311801.BvcKi62N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202401311737.oD4LmLlz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401311801.BvcKi62N-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/x86/events/zhaoxin/uncore.c:1593:1-6: alloc with no test, possible model on line 1609
+All error/warnings (new ones prefixed by >>):
 
-vim +1593 arch/x86/events/zhaoxin/uncore.c
+>> drivers/tty/vt/vt.c:305:13: error: redefinition of 'con_putc'
+     305 | static void con_putc(struct vc_data *vc, u16 ca, unsigned int y, unsigned int x)
+         |             ^~~~~~~~
+   drivers/tty/vt/vt.c:297:13: note: previous definition of 'con_putc' with type 'void(struct vc_data *, u16,  unsigned int,  unsigned int)' {aka 'void(struct vc_data *, short unsigned int,  unsigned int,  unsigned int)'}
+     297 | static void con_putc(struct vc_data *vc, u16 ca, unsigned int y, unsigned int x)
+         |             ^~~~~~~~
+>> drivers/tty/vt/vt.c:297:13: warning: 'con_putc' defined but not used [-Wunused-function]
 
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1567
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1568  /*
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1569   * add a pci uncore device
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1570   */
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1571  static int uncore_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1572  {
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1573  	struct zhaoxin_uncore_type *type;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1574  	struct zhaoxin_uncore_pmu *pmu;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1575  	struct zhaoxin_uncore_box *box;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1576  	struct zhaoxin_uncore_box **boxes;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1577
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1578  	int loop, i, j = 0;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1579
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1580  	int subnode_id, ret = 0;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1581
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1582  	subnode_id = uncore_pcibus_to_subnodeid(pdev->bus);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1583  	if (subnode_id < 0)
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1584  		return -EINVAL;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1585
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1586  	type = uncore_pci_uncores[UNCORE_PCI_DEV_TYPE(id->driver_data)];
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1587
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1588  	if (!strcmp(type->name, "mc0"))
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1589  		loop = 2;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1590  	else
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1591  		loop = 1;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1592
-5cbf647edcff3d5 leoliu-oc 2023-11-30 @1593  	boxes = kzalloc(loop * sizeof(struct zhaoxin_uncore_box *), GFP_KERNEL);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1594
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1595  	for (i = 0; i < loop; i++) {
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1596  		type = uncore_pci_uncores[UNCORE_PCI_DEV_TYPE(id->driver_data) + j];
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1597
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1598  		if (!type)
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1599  			continue;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1600  		/*
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1601  		 * for performance monitoring unit with multiple boxes,
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1602  		 * each box has a different function id.
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1603  		 */
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1604
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1605  		pmu = &type->pmus[UNCORE_PCI_DEV_IDX(id->driver_data)];
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1606
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1607  		if (WARN_ON_ONCE(pmu->boxes[subnode_id] != NULL))
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1608  			return -EINVAL;
-5cbf647edcff3d5 leoliu-oc 2023-11-30 @1609  		box = uncore_alloc_box(type, NUMA_NO_NODE);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1610  		if (!box)
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1611  			return -ENOMEM;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1612
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1613  		if (pmu->func_id < 0)
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1614  			pmu->func_id = pdev->devfn;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1615  		else
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1616  			WARN_ON_ONCE(pmu->func_id != pdev->devfn);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1617
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1618  		atomic_inc(&box->refcnt);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1619  		box->subnode_id = subnode_id;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1620  		box->pci_dev = pdev;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1621  		box->pmu = pmu;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1622  		uncore_box_init(box);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1623  		boxes[i] = box;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1624
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1625  		pci_set_drvdata(pdev, boxes);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1626  		pmu->boxes[subnode_id] = box;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1627  		if (atomic_inc_return(&pmu->activeboxes) > 1) {
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1628  			if (!strcmp(type->name, "mc0"))
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1629  				goto next_loop;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1630  			else
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1631  				return 0;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1632  		}
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1633  		/* First active box registers the pmu */
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1634  		ret = uncore_pmu_register(pmu);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1635  		if (ret) {
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1636  			pci_set_drvdata(pdev, NULL);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1637  			pmu->boxes[subnode_id] = NULL;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1638  			uncore_box_exit(box);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1639  			kfree(box);
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1640  		}
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1641  next_loop:
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1642  		j++;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1643  	}
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1644  	return ret;
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1645  }
-5cbf647edcff3d5 leoliu-oc 2023-11-30  1646
+
+vim +/con_putc +305 drivers/tty/vt/vt.c
+
+   296	
+ > 297	static void con_putc(struct vc_data *vc, u16 ca, unsigned int y, unsigned int x)
+   298	{
+   299		if (vc->vc_sw->con_putc)
+   300			vc->vc_sw->con_putc(vc, ca, y, x);
+   301		else
+   302			vc->vc_sw->con_putcs(vc, &ca, 1, y, x);
+   303	}
+   304	
+ > 305	static void con_putc(struct vc_data *vc, u16 ca, unsigned int y, unsigned int x)
+   306	{
+   307		if (vc->vc_sw->con_putc)
+   308			vc->vc_sw->con_putc(vc, ca, y, x);
+   309		else
+   310			vc->vc_sw->con_putcs(vc, &ca, 1, y, x);
+   311	}
+   312	
 
 -- 
 0-DAY CI Kernel Test Service
