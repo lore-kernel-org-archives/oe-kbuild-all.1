@@ -1,167 +1,217 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3EF1272C2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 15:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E151D78B7E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 15:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706715269; cv=none; b=PLmz7W1UDhWW5ZfGsaJ2UmWoCPwdIbfRcVOunwLpkNZE3feJQE8ApysirC9oq6OuDs2RVzuuZcZ1JGLbffS1xMXxA3EQoEztX7vlLBTDxhp3EwWmSfRe7HnJI6NQT/uwqD3Gr6TIcoLQmC1XDwB4LtfROjWWRI55vCRJtG1L+Dw=
+	t=1706715801; cv=none; b=e9iH/bF8EGfh7Ewplnl4ynoWy9IkSpj95591XxW0FgNZskDrGOJd7h+xJas6RiieDl129syjMkfoTX2VDimMqrKqRBacd/ozHSdo7UlhmCcK0/MwMEVhI1PHUm9kOmu/4YOMz9CVYvOUTSxhbDaG2mN8okVI/N+V1Wvx+hAxoK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706715269; c=relaxed/simple;
-	bh=QX9gbvGK6hXWnBBSpXjmdwxEUL2Bg34NOAOlxbZFWm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GGDVXPli25+yBQi/xUfjwosxw9lgQ+GE+72f5RAIgN8z0c+9tyl0doynntGaNYjlDvLS+TfEJ7Bs3FcSHJrUe5cj7pevrrUh/4xC45EejIL4uvABhwHhfcjsbSIizncmS/AWwcPNThT9PP3eoH9ZEhN/OeAzinbLOLulf0nYj0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=D3/t65Lr; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1706715801; c=relaxed/simple;
+	bh=colTzSGoGJIABDAEw1U2lpC2Xxa1RSJJuql/A30CHSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SDQlRCmob7z2nFodQovlD+freT3O/O7TGkvRh6oPpDUL4LsTDRsuB/P+XcXzJ9L44aSJl4GsWH2PRaLBEJZSry6gWM9xxFnElJIFxGFdyd8y1/UgqnHejCif10ptc3pV3RuhkvX+CWSGT9Epmhe0FAr6AKhyZca8OhBdmHMdbSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AiMgnYCX; arc=none smtp.client-ip=134.134.136.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="D3/t65Lr"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a349ed467d9so652106466b.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 07:34:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1706715264; x=1707320064; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ABk8vlRfFlADQTmCiiGTXNNYPhOsPE6AFru6pj0kjwI=;
-        b=D3/t65Lr7trZzSmqdIDF3YY9F/OEBCZs5Fep+ZjBqdI1jvF/AzgiONbKlmQVhUqR/A
-         Y1dNqIjvLGwkzo630tNkbjU5XUB3hb9xYCS169R5SDq2gGwJKu+iPcipH+aZP3mBOWGA
-         jdvx+cn2cptZpxY8r3bIrKphKJlm6XWxUMZfgscgowE3tbfVIb9kbXBefOwpSrgIRkSE
-         bui1yPWqzkCvnJ1OUveRN8NVu0ZOkuzM4l/fYto9pMmVNUdRHmuuEMowqfjqloaAC0Sh
-         CUQybbNJl18WtRB0ArSDNASmypqkAR9702nxy8fvq6cpEsUOA6S7Suawyma9WW5h7uSJ
-         11wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706715264; x=1707320064;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ABk8vlRfFlADQTmCiiGTXNNYPhOsPE6AFru6pj0kjwI=;
-        b=CNqGN1APZHxm4L2dtCDgZQvJDe61auso5bhm2YyQ6Q993FfA4Fjb7CK4uqYAYHyaGd
-         k72COajFVnqBOwwsbMHJq7NbI6yGq6bVVY/NDp6oIQHqpVeQxRIQJv3BPxl9G3RQXjJg
-         jVSrDyK65U/amhv0hFlKa4ZIgd85gXmVrLgKjQ0YOoKG+W/c6hRoQYUJhioNrnSk0xC7
-         Jd5FJUASAZA48ybacA+GSKhZVaxHYf7tpdfijpA3fp41R9wQHXj7WHIA2sq3OAB8l2il
-         eyl6tnNn43MjD8A3i4rR3/smMo6ULnCTcRlZ0CnnOA4Ojkt/G7aHSOvs+9siTdjhsKtT
-         e7BQ==
-X-Gm-Message-State: AOJu0YwcxiDjee4jKSF+n970kD58TSSPWA/AT0rt5JksTn2+C0fVL6dR
-	chB69AvV3ydVYpvDcAnXHQb5KHberWtWO0Iz65cp2oBU+oLtqo1RcpHdmzsXXlo=
-X-Google-Smtp-Source: AGHT+IEbth+XXdu0EsBGWxU1fBUxBHHvJXPY6n+YW4dCJhyP6fbLWRseyWdQkKV83AFzMvf6lbS+MQ==
-X-Received: by 2002:a17:906:260d:b0:a34:ba53:f582 with SMTP id h13-20020a170906260d00b00a34ba53f582mr1342688ejc.20.1706715264250;
-        Wed, 31 Jan 2024 07:34:24 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCU7pbVgnq/I+jolWeEpDRK4kB6cr7X+ZtImRtYvvLY0ukL4bue/UiDboIdBhSzoSs89wJI4FkQPWTNxNABG1+v67T91LtsIOiinYKAacUugN00TNYxDh24F0TIqHV4HJj/iYJ+QJprP62cRxfqCJtCNAFr0/OJjfgkCHcvHT9FkXIGkmJdM4fnnY0L5VN62KZSkfwFh5g==
-Received: from alley ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id hu19-20020a170907a09300b00a31c5caa750sm5499593ejc.177.2024.01.31.07.34.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 07:34:24 -0800 (PST)
-Date: Wed, 31 Jan 2024 16:34:22 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Marcos Paulo de Souza <mpdesouza@suse.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Joe Lawrence <joe.lawrence@redhat.com>
-Subject: Re: [linux-next:master 1016/2825] make[2]: ***
- kselftest/livepatch/test_modules: No such file or directory.  Stop.
-Message-ID: <ZbpnBqHUl3pE_3Te@alley>
-References: <202401300736.GkSZoSrA-lkp@intel.com>
- <ed54875555c282ad3b09503020a7aa978a80bd60.camel@suse.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AiMgnYCX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706715797; x=1738251797;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=colTzSGoGJIABDAEw1U2lpC2Xxa1RSJJuql/A30CHSc=;
+  b=AiMgnYCXNNVMXjlywkH/VQIcK/+iOGiuF1DynVL2yUxo5D8ytm6yPzF7
+   A5T2bBMRDAcu4ssd2CUAnJ7vJdxJYtlpg+wDHUYkr0qMkDryaSO8+QAAl
+   P569rww9oMYP8R+GvBlJv3kklwZYtrKiIyiM/oFGmtiLgKpx/PGEfKNP9
+   +bewAsqWGqlgEySrZSPvUclTbykL8qZ59JvpfXtQviXqWUer8T0Mm1Uaw
+   dubeoOUnW5io1G3pbI35mfsrEdcx2n9Vcz8pgKgK7jzpAt3MaIksxjPcD
+   D4GYbuI3HXglCK8GjIU0h8LCLZ9QhculmU8MzhyYhhoW+dVDA3TJuEC0M
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="407352902"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="407352902"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 07:43:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="907932163"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="907932163"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2024 07:43:15 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rVCk5-0001hU-1q;
+	Wed, 31 Jan 2024 15:43:13 +0000
+Date: Wed, 31 Jan 2024 23:42:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 2662/21599]
+ arch/arm64/include/asm/irqflags.h:88:9: warning: 'flags' may be used
+ uninitialized
+Message-ID: <202401312337.31e2xc48-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ed54875555c282ad3b09503020a7aa978a80bd60.camel@suse.com>
 
-On Tue 2024-01-30 11:39:56, Marcos Paulo de Souza wrote:
-> On Tue, 2024-01-30 at 07:08 +0800, kernel test robot wrote:
-> > tree:  
-> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git m
-> > aster
-> > head:   596764183be8ebb13352b281a442a1f1151c9b06
-> > commit: c4bbe83d27c2446a033cc0381c3fb6be5e8c41c7 [1016/2825]
-> > livepatch: Move tests from lib/livepatch to selftests/livepatch
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce (this is a W=1 build):
-> > (https://download.01.org/0day-ci/archive/20240130/202401300736.GkSZoS
-> > rA-lkp@intel.com/reproduce)
-> > 
-> When looking at the lib.mk, I just followed the other variables and did
-> the same:
-> 
-> TEST_GEN_MODS_DIR := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_MODS_DIR))
-> 
-> But later on, I jump into $(TEST_GEN_MODS_DIR), which is invalid
-> because of the O= that is used a prefix for the path:
-> /tmp/kselftest/kselftest/livepatch/test_modules. My first idea was to
-> just remove the patsubst and take TEST_GEN_MODS_DIR, which should be
-> livepatch/test_modules in this case, but it then returns another
-> problem:
-> 
-> 
-> make: Entering directory
-> '/home/mpdesouza/git/linux/tools/testing/selftests'
-> make[1]: Entering directory
-> '/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-> make -C test_modules
-> make[2]: Entering directory
-> '/home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test_modul
-> 
-> es'
-> make -C /lib/modules/6.5.9-1-default/build modules
-> KBUILD_EXTMOD=/home/mpdesouza/git/linux/tools/testing/selftests/livepat
-> 
-> ch/test_modules
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   0ec2c5ee4e0f8c1bdd76fa1b5f9eb0cf68d4d62d
+commit: 9dae7e237a64858407b7626260bad53aa13c9198 [2662/21599] serial: sh-sci: Fix locking in sci_submit_rx()
+config: arm64-randconfig-002-20240130 (https://download.01.org/0day-ci/archive/20240131/202401312337.31e2xc48-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401312337.31e2xc48-lkp@intel.com/reproduce)
 
-Nit: There are sometimes strange empty lines between split long
-     lines. It looks like somehow messed cut&paste.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401312337.31e2xc48-lkp@intel.com/
 
-> make[3]: Entering directory '/usr/src/linux-6.5.9-1-obj/x86_64/default'
-> make[4]: Entering directory '/tmp/kselftest'
-> /usr/src/linux-6.5.9-1/Makefile:754: include/config/auto.conf: No such
-> file or directory
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
-I see the same. It looks to me like a bug in kernel-devel package.
+All warnings (new ones prefixed by >>):
 
-/usr/src/linux-6.5.9-1/Makefile is from the kernel-devel package
-for the running kernel. It should try to include auto.conf used
-for building the running kernel:
+   In file included from include/linux/irqflags.h:16,
+                    from include/linux/spinlock.h:54,
+                    from include/linux/rwsem.h:16,
+                    from include/linux/notifier.h:15,
+                    from include/linux/clk.h:17,
+                    from drivers/tty/serial/sh-sci.c:24:
+   In function 'arch_local_irq_restore',
+       inlined from '__raw_spin_unlock_irqrestore' at include/linux/spinlock_api_smp.h:160:2,
+       inlined from 'spin_unlock_irqrestore' at include/linux/spinlock.h:384:2,
+       inlined from 'sci_submit_rx' at drivers/tty/serial/sh-sci.c:1376:3:
+>> arch/arm64/include/asm/irqflags.h:88:9: warning: 'flags' may be used uninitialized [-Wmaybe-uninitialized]
+      88 |         asm volatile(
+         |         ^~~
+   drivers/tty/serial/sh-sci.c: In function 'sci_submit_rx':
+   drivers/tty/serial/sh-sci.c:1338:23: note: 'flags' was declared here
+    1338 |         unsigned long flags;
+         |                       ^~~~~
+   In file included from drivers/tty/serial/sh-sci.c:53:
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_handle_errors' at drivers/tty/serial/sh-sci.c:940:7:
+   include/linux/tty_flip.h:27:53: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      27 |                         *flag_buf_ptr(tb, tb->used) = flag;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   In file included from include/linux/serial_core.h:29,
+                    from include/linux/serial_sci.h:6,
+                    from drivers/tty/serial/sh-sci.c:46:
+   include/linux/tty.h: In function 'sci_handle_errors':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_handle_errors' at drivers/tty/serial/sh-sci.c:940:7:
+   include/linux/tty_flip.h:28:47: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      28 |                 *char_buf_ptr(tb, tb->used++) = ch;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/tty.h: In function 'sci_handle_errors':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_handle_errors' at drivers/tty/serial/sh-sci.c:950:7:
+   include/linux/tty_flip.h:27:53: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      27 |                         *flag_buf_ptr(tb, tb->used) = flag;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/tty.h: In function 'sci_handle_errors':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_handle_errors' at drivers/tty/serial/sh-sci.c:950:7:
+   include/linux/tty_flip.h:28:47: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      28 |                 *char_buf_ptr(tb, tb->used++) = ch;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/tty.h: In function 'sci_handle_errors':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_handle_errors' at drivers/tty/serial/sh-sci.c:960:7:
+   include/linux/tty_flip.h:27:53: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      27 |                         *flag_buf_ptr(tb, tb->used) = flag;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/tty.h: In function 'sci_handle_errors':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_handle_errors' at drivers/tty/serial/sh-sci.c:960:7:
+   include/linux/tty_flip.h:28:47: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      28 |                 *char_buf_ptr(tb, tb->used++) = ch;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/tty.h: In function 'sci_handle_errors':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_receive_chars' at drivers/tty/serial/sh-sci.c:906:5:
+   include/linux/tty_flip.h:27:53: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      27 |                         *flag_buf_ptr(tb, tb->used) = flag;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/tty.h: In function 'sci_receive_chars':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_receive_chars' at drivers/tty/serial/sh-sci.c:906:5:
+   include/linux/tty_flip.h:28:47: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      28 |                 *char_buf_ptr(tb, tb->used++) = ch;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/tty.h: In function 'sci_receive_chars':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_receive_chars' at drivers/tty/serial/sh-sci.c:883:5:
+   include/linux/tty_flip.h:27:53: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      27 |                         *flag_buf_ptr(tb, tb->used) = flag;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/tty.h: In function 'sci_receive_chars':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'sci_receive_chars' at drivers/tty/serial/sh-sci.c:883:5:
+   include/linux/tty_flip.h:28:47: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      28 |                 *char_buf_ptr(tb, tb->used++) = ch;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/tty.h: In function 'sci_receive_chars':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
 
-  1. auto.conf should be packaged in kernel-devel.
 
-  2. The Makefile from the kernel-devel packages should be able
-     to find/use auto.conf from the kernel-devel package.
+vim +/flags +88 arch/arm64/include/asm/irqflags.h
 
-IMHO, this actually helped to find a bug that
-make -C tools/testing/selftests/livepatch used auto.conf from
-the git tree while the modules are built against headers
-for the running kernel.
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  82  
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  83  /*
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  84   * restore saved IRQ state
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  85   */
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  86  static inline void arch_local_irq_restore(unsigned long flags)
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  87  {
+fb9bd7d6df81dd Marc Zyngier 2012-03-05 @88  	asm volatile(
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  89  		"msr	daif, %0		// arch_local_irq_restore"
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  90  	:
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  91  	: "r" (flags)
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  92  	: "memory");
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  93  }
+fb9bd7d6df81dd Marc Zyngier 2012-03-05  94  
 
-That said, I wonder why this problem does not happen when building
-external modules (KMPs). I would expect that they are using
-the same Makefile from the kernel-devel package.
+:::::: The code at line 88 was first introduced by commit
+:::::: fb9bd7d6df81ddf1e7ab6648ac89ddbe0625b26b arm64: IRQ handling
 
-Maybe the external modules somehow manage to clear "need-config"
-used by /usr/src/linux-6.5.9-1/Makefile. Maybe we do not need
-to include it either.
+:::::: TO: Marc Zyngier <marc.zyngier@arm.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
-> make[4]: *** [/usr/src/linux-6.5.9-1/Makefile:234: __sub-make] Error 2
-> make[4]: Leaving directory '/tmp/kselftest'
-> make[3]: *** [../../../linux-6.5.9-1/Makefile:234: __sub-make] Error 2
-> make[3]: Leaving directory '/usr/src/linux-6.5.9-1-obj/x86_64/default'
-> make[2]: *** [Makefile:16: modules] Error 2
-> make[2]: Leaving directory
-> '/home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test_modul
-> 
-> es'
-> make[1]: *** [../lib.mk:92: gen_mods_dir] Error 2
-> make[1]: Leaving directory
-> '/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-> make: *** [Makefile:180: all] Error 2
-> make: Leaving directory
-> '/home/mpdesouza/git/linux/tools/testing/selftests'
-
-Best Regards,
-Petr
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
