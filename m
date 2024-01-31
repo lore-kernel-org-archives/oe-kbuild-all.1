@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7571BC49
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 04:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2192717BD1;
+	Wed, 31 Jan 2024 04:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706675430; cv=none; b=L39XtLxsb9PkDH1tbTlvkxiK1Snu1rbH/X+Llg51WojcA3H8DMePaesq5zxxPvDxdschf+IOlwMBhwkzFUOVlOb4UIOiTjzaYTJdLJSK5dRKx1s2fo+vqZCRlU3JLWdri0D1/w/jrT9v83yEdLA/U9pRzrka6FfISj0Ajiz5rgA=
+	t=1706676025; cv=none; b=Cis5tAnOuWo8dGRtvF+hPqVaJBzSnT4dbG2HP/M9s6qPckY7KV9Tmw9ep9/vOJ7mwC0e84ua0Sk3MNj3GKmOl9Eze77S0n/zaEwl+83s40FJBJM9VTBNeBY3gterOZeTiRW8oB3h5Eq1Y0LAVPRzztpbOxfBUDFNA/I5Mv2Ylfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706675430; c=relaxed/simple;
-	bh=4kXyWj1CMpKN3/ty97hbPcZMy2+wRzcK+Q+WqzZV3JQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N6/LyXIiDeaV9Fdoz+/f+qgR8f0FLYgZ4mtQfRclWZ5kne/ZrVSz6f5h+FZROr2z9gJ35FKgglI5TgaM6c65EFmtVLDaaT9ag3YGXoXsmQL24C0vHbYAg5Cf8x1glKkMOvqgZYTwigTlxldGzxA7gsTuKBZA7E06R73I2r5qSeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZoIs0JuV; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1706676025; c=relaxed/simple;
+	bh=EiXd/VelQ+3ENWSEAqwlyMx7RrnNmnwxZNt1ZUJz0PM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IKalsz4QxssR2cQA0TVKANvkWHPnNA4U/hFl8aFRQ/UNoPam+Xr4agpqwmDQwLEvO54R9SPfPDocK1RLEKpzwBL0YFzlnQ5DQTAvC6BUcKqKrrposf6ZaJPpwmY8E7H4ddiy8oToLPfECHvhjnmAvO7lupCYh1CKtWSM3xRUXKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e2YhoV5r; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZoIs0JuV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e2YhoV5r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706675429; x=1738211429;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4kXyWj1CMpKN3/ty97hbPcZMy2+wRzcK+Q+WqzZV3JQ=;
-  b=ZoIs0JuVUuG8mkSQ/H7HIV0cvS7LbHOy1Ikny3xcWkBTd0jGhiFPd8yu
-   dAYSZ/l8O4FciDqD+IHDTD6wG+1eyL3ELgaa1uFzuORqL+uryA18u3Bjp
-   Bxta6BhvMxF0wcK5YFyrVS/L8lxcHNS6Fw1Y6fr2cCl3/VwD3JqOHccJw
-   XYKsHCUsMp0HUTiTKZ0Yf0zMB2iMtMlDn0xifEIEupoTMo5rI7N4H/cDm
-   zHRCfHlb3nK77yQGDF+vZ/XpFi7xe5RMpf09RGmqjwsWYik/h2P6cZByB
-   rsXtn6TvX6aMtQJnB2vvG11MPtmI8kIj9h1JYUMSpNjNRhkAM1XBGwOaC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="16868410"
+  t=1706676023; x=1738212023;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EiXd/VelQ+3ENWSEAqwlyMx7RrnNmnwxZNt1ZUJz0PM=;
+  b=e2YhoV5rzG7PVMPfzt747WR9TTfHpNU3duzarvdX4gP4vqCqDdnnqY0t
+   /MjDnDI7vFTqIDTpHV3A5yFQa8L11B6BfAB74vUUD5CrOYcPSi2R/bMqS
+   JuA46ZzUx18ncBXWXjbVv6PQAtUL7gPJwR4ZixkcDOeEZYrnS/XqNZcb/
+   hzPaiOHEur4Bcobj/GRxP5lcpyMAmFsAGjy3AoTK0MYOKpnIfHJzsRLA7
+   7GAuQEmyiXDgFP6+Eg3mnaRkVuwX7QC8KOh8AeOvZ24Iqv4FiMFl19yI1
+   mguwlGnBsBU3BGAY50vyrGkb2/xu+xEuJOUlI/hXBSWWvVisGGc8dQYbZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="434657372"
 X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="16868410"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 20:30:28 -0800
+   d="scan'208";a="434657372"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 20:40:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="907747444"
 X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="907747444"
+   d="scan'208";a="36734820"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 30 Jan 2024 20:30:25 -0800
+  by orviesa001.jf.intel.com with ESMTP; 30 Jan 2024 20:40:16 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rV2Eq-00018a-1z;
-	Wed, 31 Jan 2024 04:30:20 +0000
-Date: Wed, 31 Jan 2024 12:28:49 +0800
+	id 1rV2OR-00018w-3A;
+	Wed, 31 Jan 2024 04:40:12 +0000
+Date: Wed, 31 Jan 2024 12:39:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bitao Hu <yaoma@linux.alibaba.com>, dianders@chromium.org,
-	akpm@linux-foundation.org, pmladek@suse.com,
-	lecopzer.chen@mediatek.com, kernelfans@gmail.com,
-	liusong@linux.alibaba.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	yaoma@linux.alibaba.com
-Subject: Re: [PATCHv2 1/2] watchdog/softlockup: low-overhead detection of
- interrupt storm
-Message-ID: <202401311206.nS3XM5Li-lkp@intel.com>
-References: <20240130074744.45759-2-yaoma@linux.alibaba.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Gregory Price <gourry.memverge@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>, Honggyu Kim <honggyu.kim@sk.com>,
+	Hyeongtak Ji <hyeongtak.ji@sk.com>,
+	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>,
+	Ravi Jonnalagadda <ravis.opensrc@micron.com>
+Subject: [gmprice:weighted_interleave-next 3/3] mm/mempolicy.c:2415:34:
+ warning: variable 'next_node' is uninitialized when used here
+Message-ID: <202401311232.MSZXYoFZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,68 +62,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240130074744.45759-2-yaoma@linux.alibaba.com>
 
-Hi Bitao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.8-rc2 next-20240131]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bitao-Hu/watchdog-softlockup-low-overhead-detection-of-interrupt-storm/20240130-155029
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240130074744.45759-2-yaoma%40linux.alibaba.com
-patch subject: [PATCHv2 1/2] watchdog/softlockup: low-overhead detection of interrupt storm
-config: x86_64-randconfig-122-20240130 (https://download.01.org/0day-ci/archive/20240131/202401311206.nS3XM5Li-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311206.nS3XM5Li-lkp@intel.com/reproduce)
+tree:   https://github.com/gmprice/linux weighted_interleave-next
+head:   8b894625fd0b7f702c0aa6e14bb673c59f42effc
+commit: 8b894625fd0b7f702c0aa6e14bb673c59f42effc [3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240131/202401311232.MSZXYoFZ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fdac7d0b6f74f919d319b31a0680c77f66732586)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311232.MSZXYoFZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401311206.nS3XM5Li-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401311232.MSZXYoFZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/watchdog.c:464:50: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected unsigned char [usertype] ( *utilization )[4] @@     got unsigned char [noderef] [usertype] ( * )[4] @@
-   kernel/watchdog.c:464:50: sparse:     expected unsigned char [usertype] ( *utilization )[4]
-   kernel/watchdog.c:464:50: sparse:     got unsigned char [noderef] [usertype] ( * )[4]
-   kernel/watchdog.c:489:50: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected unsigned char [usertype] ( *utilization )[4] @@     got unsigned char [noderef] [usertype] ( * )[4] @@
-   kernel/watchdog.c:489:50: sparse:     expected unsigned char [usertype] ( *utilization )[4]
-   kernel/watchdog.c:489:50: sparse:     got unsigned char [noderef] [usertype] ( * )[4]
+All warnings (new ones prefixed by >>):
 
-vim +464 kernel/watchdog.c
+>> mm/mempolicy.c:2415:34: warning: variable 'next_node' is uninitialized when used here [-Wuninitialized]
+    2415 |                         me->il_weight = get_il_weight(next_node);
+         |                                                       ^~~~~~~~~
+   mm/mempolicy.c:2385:29: note: initialize the variable 'next_node' to silence this warning
+    2385 |         int nnodes, node, next_node;
+         |                                    ^
+         |                                     = 0
+   1 warning generated.
 
-   459	
-   460	static void update_cpustat(void)
-   461	{
-   462		u8 i;
-   463		u16 *old = this_cpu_ptr(cpustat_old);
- > 464		u8 (*utilization)[NUM_STATS_PER_GROUP] = this_cpu_ptr(cpustat_utilization);
-   465		u8 tail = this_cpu_read(cpustat_tail);
-   466		struct kernel_cpustat kcpustat;
-   467		u64 *cpustat = kcpustat.cpustat;
-   468		u16 sample_period_ms = sample_period >> 24LL; /* 2^24ns ~= 16.8ms */
-   469	
-   470		kcpustat_cpu_fetch(&kcpustat, smp_processor_id());
-   471		for (i = STATS_SYSTEM; i < NUM_STATS_PER_GROUP; i++) {
-   472			/*
-   473			 * We don't need nanosecond resolution. A granularity of 16ms is
-   474			 * sufficient for our precision, allowing us to use u16 to store
-   475			 * cpustats, which will roll over roughly every ~1000 seconds.
-   476			 * 2^24 ~= 16 * 10^6
-   477			 */
-   478			cpustat[idx_to_stat[i]] = lower_16_bits(cpustat[idx_to_stat[i]] >> 24LL);
-   479			utilization[tail][i] = 100 * (u16)(cpustat[idx_to_stat[i]] - old[i])
-   480						/ sample_period_ms;
-   481			old[i] = cpustat[idx_to_stat[i]];
-   482		}
-   483		this_cpu_write(cpustat_tail, (tail + 1) % NUM_STATS_GROUPS);
-   484	}
-   485	
+
+vim +/next_node +2415 mm/mempolicy.c
+
+  2371	
+  2372	static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+  2373			struct mempolicy *pol, unsigned long nr_pages,
+  2374			struct page **page_array)
+  2375	{
+  2376		struct task_struct *me = current;
+  2377		unsigned long total_allocated = 0;
+  2378		unsigned long nr_allocated = 0;
+  2379		unsigned long rounds;
+  2380		unsigned long node_pages, delta;
+  2381		u8 __rcu *table, *weights, weight;
+  2382		unsigned int weight_total = 0;
+  2383		unsigned long rem_pages = nr_pages;
+  2384		nodemask_t nodes;
+  2385		int nnodes, node, next_node;
+  2386		int resume_node = MAX_NUMNODES - 1;
+  2387		u8 resume_weight = 0;
+  2388		int prev_node;
+  2389		int i;
+  2390	
+  2391		if (!nr_pages)
+  2392			return 0;
+  2393	
+  2394		nnodes = read_once_policy_nodemask(pol, &nodes);
+  2395		if (!nnodes)
+  2396			return 0;
+  2397	
+  2398		/* Continue allocating from most recent node and adjust the nr_pages */
+  2399		node = me->il_prev;
+  2400		weight = me->il_weight;
+  2401		if (weight && node_isset(node, nodes)) {
+  2402			node_pages = min(rem_pages, weight);
+  2403			nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
+  2404							  NULL, page_array);
+  2405			page_array += nr_allocated;
+  2406			total_allocated += nr_allocated;
+  2407			/* if that's all the pages, no need to interleave */
+  2408			if (rem_pages < weight) {
+  2409				/* stay on current node, adjust il_weight */
+  2410				me->il_weight -= rem_pages;
+  2411				return total_allocated;
+  2412			} else if (rem_pages == weight) {
+  2413				/* move to next node / weight */
+  2414				me->il_prev = next_node_in(node, nodes);
+> 2415				me->il_weight = get_il_weight(next_node);
+  2416				return total_allocated;
+  2417			}
+  2418			/* Otherwise we adjust remaining pages, continue from there */
+  2419			rem_pages -= weight;
+  2420		}
+  2421		/* clear active weight in case of an allocation failure */
+  2422		me->il_weight = 0;
+  2423		prev_node = node;
+  2424	
+  2425		/* create a local copy of node weights to operate on outside rcu */
+  2426		weights = kzalloc(nr_node_ids, GFP_KERNEL);
+  2427		if (!weights)
+  2428			return total_allocated;
+  2429	
+  2430		rcu_read_lock();
+  2431		table = rcu_dereference(iw_table);
+  2432		if (table)
+  2433			memcpy(weights, table, nr_node_ids);
+  2434		rcu_read_unlock();
+  2435	
+  2436		/* calculate total, detect system default usage */
+  2437		for_each_node_mask(node, nodes) {
+  2438			if (!weights[node])
+  2439				weights[node] = 1;
+  2440			weight_total += weights[node];
+  2441		}
+  2442	
+  2443		/*
+  2444		 * Calculate rounds/partial rounds to minimize __alloc_pages_bulk calls.
+  2445		 * Track which node weighted interleave should resume from.
+  2446		 *
+  2447		 * if (rounds > 0) and (delta == 0), resume_node will always be
+  2448		 * the node following prev_node and its weight.
+  2449		 */
+  2450		rounds = rem_pages / weight_total;
+  2451		delta = rem_pages % weight_total;
+  2452		resume_node = next_node_in(prev_node, nodes);
+  2453		resume_weight = weights[resume_node];
+  2454		for (i = 0; i < nnodes; i++) {
+  2455			node = next_node_in(prev_node, nodes);
+  2456			weight = weights[node];
+  2457			node_pages = weight * rounds;
+  2458			/* If a delta exists, add this node's portion of the delta */
+  2459			if (delta > weight) {
+  2460				node_pages += weight;
+  2461				delta -= weight;
+  2462			} else if (delta) {
+  2463				node_pages += delta;
+  2464				/* delta may deplete on a boundary or w/ a remainder */
+  2465				if (delta == weight) {
+  2466					/* boundary: resume from next node/weight */
+  2467					resume_node = next_node_in(node, nodes);
+  2468					resume_weight = weights[resume_node];
+  2469				} else {
+  2470					/* remainder: resume this node w/ remainder */
+  2471					resume_node = node;
+  2472					resume_weight = weight - delta;
+  2473				}
+  2474				delta = 0;
+  2475			}
+  2476			/* node_pages can be 0 if an allocation fails and rounds == 0 */
+  2477			if (!node_pages)
+  2478				break;
+  2479			nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
+  2480							  NULL, page_array);
+  2481			page_array += nr_allocated;
+  2482			total_allocated += nr_allocated;
+  2483			if (total_allocated == nr_pages)
+  2484				break;
+  2485			prev_node = node;
+  2486		}
+  2487		me->il_prev = resume_node;
+  2488		me->il_weight = resume_weight;
+  2489		kfree(weights);
+  2490		return total_allocated;
+  2491	}
+  2492	
 
 -- 
 0-DAY CI Kernel Test Service
