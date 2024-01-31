@@ -1,331 +1,299 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77FF6A353;
-	Wed, 31 Jan 2024 11:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D99D7603D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 11:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706698837; cv=none; b=aB1bkCAiVbwMakVR9domLZYh5kI6UhibCq0K6xk7H8UvrahWQPw41G9+yTNfArO25N+UtMwt2B3Tvi/QzqXnAQLM8wiG0NmQn30UkY9cg4c+/STmtsizFt8OEAygovpX6Ehpnz+bkiFWFMks34Qa89WD/2DrxqgIwRRGJC42nPI=
+	t=1706699412; cv=none; b=oHKixQ4iGQOQNsJW3+x/Kd3vMpotbK3ATSLWTbvpHMw9E8OgQQGXRpK92OWNDWXP/q2eMGOzIxXkMj+S8o/BjEyRUwQOAfam+TFl2Nnijid1iCIdUrZCcN5lAads8qQep0i+65HeyBlUgt0Ln8UZXFLW56O9bYajUNZl3QD8mzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706698837; c=relaxed/simple;
-	bh=M4FtRNaJRGX1hU6IbURFv7FbIXOuZSMJpHIp14hyZwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SBeypV0jF7ZJyAjVcpY9YuoV379AqVcJuPp1EZUv93vGJwkJfSBrMILu7c7JMNMk7C2EkHurhBVQn5VcUh2yzaZPl3BYqXvA0LwPQvg/oW9GRQZm6SRZzzabE6JoYzJmdIN4LGrTyADSchthrE72IZCgk5rVmy5+vSFu9W9BXKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y20puwzL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706699412; c=relaxed/simple;
+	bh=pw2WHo9Rys7CGi0vIdywPgvAf1pYrN6eNG4pNI96Uuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JX7YINHazMHtVKbJ8/p/pc9IzjyoOFBxyGpcfm3PpFN6JVT8GSBTU6+veY90LgJkdmveSTLYnRzyfp3uWy8ifxAfedIDCGnibJnC96ht2CgUVpIUhr/BeUiDhAyakZu62JKfZoImF5AyCOIlUmcNwCDuOwjiX5Y4TvK1vQCfIy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Md1v/GAM; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y20puwzL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DCF5C433F1;
-	Wed, 31 Jan 2024 11:00:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706698837;
-	bh=M4FtRNaJRGX1hU6IbURFv7FbIXOuZSMJpHIp14hyZwk=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=Y20puwzLdo/kirgWBFWjcmKYOlA/ZF4xNYVnC83MgAugYyoVJspVVkLreGJKZ3X4R
-	 0Y/BgCdGgtgtqjP3LksfVvY2tdD80blY9kS23yS2QCwO0KXg0aZl+Qk6Z8h4ead78R
-	 W7zU6hHIy7Tqq9NxR04pmdF5jWoXA96723OWR3ux3bAUDh3SITHVlmV/8ubepVm75s
-	 xmw5nE6l36S3o+Pmyfl/mVVAUHM4kcoQSnGZMrB6KC76OIZxH/dLFTZ5a5kPlCb3CL
-	 TkvEy3Qb3BCkxw011+VwoytVmb31DEsWpbT0oCm27YFWSIB+ORJ4Qfwnme4JlIpWvT
-	 /2TbbbZCKFgtg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id AB1D2CE04B6; Wed, 31 Jan 2024 03:00:36 -0800 (PST)
-Date: Wed, 31 Jan 2024 03:00:36 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: brgl@bgdev.pl
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Kent Gibson <warthog618@gmail.com>, Alex Elder <elder@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH 20/22] gpio: protect the pointer to gpio_chip in
- gpio_device with SRCU
-Message-ID: <d0636911-e15e-40fd-ac8f-200127fe433d@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20240130124828.14678-21-brgl@bgdev.pl>
- <202401311050.YNdm98Hv-lkp@intel.com>
- <CAMRc=Me0y-P4zTu_nCPpdF8hX_7rqri1AG1zCU6sO9tbJXbneQ@mail.gmail.com>
- <fa273f23-320a-465d-a403-523424d98e3d@paulmck-laptop>
- <CAMRc=MdoG1Ku-hbBWt7Jc+d4=ANfshPWwW3C_G-e2GdyggqG1w@mail.gmail.com>
- <26942a3c-efc9-4344-9fac-c5feea06639c@paulmck-laptop>
- <CAMRc=MdYbGH8Q0Wk_40RV=_HN86oYg146bz-TeYp1KKwSoEhGw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Md1v/GAM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706699409; x=1738235409;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pw2WHo9Rys7CGi0vIdywPgvAf1pYrN6eNG4pNI96Uuo=;
+  b=Md1v/GAMMfP4PEseOVxtINnKahZ4ywmC6v2eUbhVag6h1mH8ECmMg8to
+   DOR+5B0nz3EBGcknhRTAnPjDAMKKjxVpCLdcuY3v7exfoGjHzndogV8eT
+   ZjWQIeBt7lWAkFfN0ZeQ2WrS82BBKBHiW7i1k1ljLaL4/Wk4p/pCfG1Yp
+   huSfbUPaKXzu28Yf8aCQ5YQ03t7eclgr5MhunHxksY/F52Hebyl0OgNS0
+   RdzdFQWwZzH4Nau+C23N5wlHXNysHrZriSxsWTp3GUkeL1j1ScGcThFlZ
+   DehDDMwKDc9+4JxBpZODPr5fkzvDu1+WllpXY3VI8SMPINBLNf7/Kv431
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10205196"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="10205196"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 03:10:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="4034398"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 31 Jan 2024 03:10:05 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rV8Ti-0001Uc-0D;
+	Wed, 31 Jan 2024 11:10:02 +0000
+Date: Wed, 31 Jan 2024 19:09:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gregory Price <gourry.memverge@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>, Honggyu Kim <honggyu.kim@sk.com>,
+	Hyeongtak Ji <hyeongtak.ji@sk.com>,
+	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>,
+	Ravi Jonnalagadda <ravis.opensrc@micron.com>
+Subject: [gmprice:weighted_interleave-next 3/3] mm/mempolicy.c:2426:17:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202401311847.cQJ7VsI5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MdYbGH8Q0Wk_40RV=_HN86oYg146bz-TeYp1KKwSoEhGw@mail.gmail.com>
 
-On Wed, Jan 31, 2024 at 02:17:30AM -0800, brgl@bgdev.pl wrote:
-> On Wed, 31 Jan 2024 10:42:20 +0100, "Paul E. McKenney"
-> <paulmck@kernel.org> said:
-> > On Wed, Jan 31, 2024 at 10:28:19AM +0100, Bartosz Golaszewski wrote:
-> >> On Wed, Jan 31, 2024 at 10:24 AM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >> >
-> >> > On Wed, Jan 31, 2024 at 10:02:40AM +0100, Bartosz Golaszewski wrote:
-> >> > > On Wed, Jan 31, 2024 at 3:21 AM kernel test robot <lkp@intel.com> wrote:
-> >> > > >
-> >> > > > Hi Bartosz,
-> >> > > >
-> >> > > > kernel test robot noticed the following build warnings:
-> >> > > >
-> >> > > > [auto build test WARNING on brgl/gpio/for-next]
-> >> > > > [also build test WARNING on linus/master v6.8-rc2 next-20240130]
-> >> > > > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> >> > > > And when submitting patch, we suggest to use '--base' as documented in
-> >> > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >> > > >
-> >> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpio-protect-the-list-of-GPIO-devices-with-SRCU/20240130-205537
-> >> > > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-> >> > > > patch link:    https://lore.kernel.org/r/20240130124828.14678-21-brgl%40bgdev.pl
-> >> > > > patch subject: [PATCH 20/22] gpio: protect the pointer to gpio_chip in gpio_device with SRCU
-> >> > > > config: x86_64-randconfig-122-20240131 (https://download.01.org/0day-ci/archive/20240131/202401311050.YNdm98Hv-lkp@intel.com/config)
-> >> > > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> >> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311050.YNdm98Hv-lkp@intel.com/reproduce)
-> >> > > >
-> >> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> >> > > > the same patch/commit), kindly add following tags
-> >> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> >> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202401311050.YNdm98Hv-lkp@intel.com/
-> >> > > >
-> >> > > > sparse warnings: (new ones prefixed by >>)
-> >> > > > >> drivers/gpio/gpiolib.c:444:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.c:444:22: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.c:444:22: sparse:    struct gpio_chip *
-> >> > > >    drivers/gpio/gpiolib.c:1103:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.c:1103:9: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.c:1103:9: sparse:    struct gpio_chip *
-> >> > > >    drivers/gpio/gpiolib.c:1182:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.c:1182:22: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.c:1182:22: sparse:    struct gpio_chip *
-> >> > > >    drivers/gpio/gpiolib.c:2970:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.c:2970:14: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.c:2970:14: sparse:    struct gpio_chip *
-> >> > > >    drivers/gpio/gpiolib.c:3004:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.c:3004:22: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.c:3004:22: sparse:    struct gpio_chip *
-> >> > > >    drivers/gpio/gpiolib.c:3585:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.c:3585:14: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.c:3585:14: sparse:    struct gpio_chip *
-> >> > > >    drivers/gpio/gpiolib.c:4772:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.c:4772:14: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.c:4772:14: sparse:    struct gpio_chip *
-> >> > > >    drivers/gpio/gpiolib.c:4846:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.c:4846:14: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.c:4846:14: sparse:    struct gpio_chip *
-> >> > > >    drivers/gpio/gpiolib.c: note: in included file:
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
-> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
-> >> > > >
-> >> > > > vim +444 drivers/gpio/gpiolib.c
-> >> > > >
-> >> > > >    422
-> >> > > >    423  /*
-> >> > > >    424   * Convert a GPIO name to its descriptor
-> >> > > >    425   * Note that there is no guarantee that GPIO names are globally unique!
-> >> > > >    426   * Hence this function will return, if it exists, a reference to the first GPIO
-> >> > > >    427   * line found that matches the given name.
-> >> > > >    428   */
-> >> > > >    429  static struct gpio_desc *gpio_name_to_desc(const char * const name)
-> >> > > >    430  {
-> >> > > >    431          struct gpio_device *gdev;
-> >> > > >    432          struct gpio_desc *desc;
-> >> > > >    433          struct gpio_chip *gc;
-> >> > > >    434
-> >> > > >    435          if (!name)
-> >> > > >    436                  return NULL;
-> >> > > >    437
-> >> > > >    438          guard(srcu)(&gpio_devices_srcu);
-> >> > > >    439
-> >> > > >    440          list_for_each_entry_srcu(gdev, &gpio_devices, list,
-> >> > > >    441                                   srcu_read_lock_held(&gpio_devices_srcu)) {
-> >> > > >    442                  guard(srcu)(&gdev->srcu);
-> >> > > >    443
-> >> > > >  > 444                  gc = rcu_dereference(gdev->chip);
-> >> > > >    445                  if (!gc)
-> >> > > >    446                          continue;
-> >> > > >    447
-> >> > > >    448                  for_each_gpio_desc(gc, desc) {
-> >> > > >    449                          if (desc->name && !strcmp(desc->name, name))
-> >> > > >    450                                  return desc;
-> >> > > >    451                  }
-> >> > > >    452          }
-> >> > > >    453
-> >> > > >    454          return NULL;
-> >> > > >    455  }
-> >> > > >    456
-> >> > > >
-> >> > > > --
-> >> > > > 0-DAY CI Kernel Test Service
-> >> > > > https://github.com/intel/lkp-tests/wiki
-> >> > >
-> >> > > Paul,
-> >> > >
-> >> > > Should I care about these warnings? They seem to be emitted for a lot
-> >> > > of RCU code already upstream. I'm not even sure how I'd go about
-> >> > > addressing them honestly.
-> >> >
-> >> > This is maintainer's choice.
-> >> >
-> >> > The fix would be to apply __rcu to the definition of ->chip.  The benefit
-> >> > is that it finds bugs where rcu-protected pointers are used without RCU
-> >> > primitives and vice versa.
-> >>
-> >> Ah, good point. I marked the other RCU-protected fields like
-> >> descriptor label but forgot this one.
-> >>
-> >> It also seems like I need to use __rcu for all function arguments
-> >> taking an RCU-protected pointer as argument?
-> >
-> > Not if that argument gets its value from rcu_dereference(), which is
-> > the usual pattern.
-> >
-> > And if you are passing an RCU-protected pointer to a function *before*
-> > passing it through rcu_dereference(), I would have some questions for you.
-> >
-> > Or are you instead passing a pointer to an RCU-protected pointer as an
-> > argument to your functions?
-> 
-> No, I'm not. Thanks for making it clear. With the following changes to the
-> series, the warnings are now gone:
-> 
-> diff --git a/drivers/gpio/gpiolib-sysfs.c b/drivers/gpio/gpiolib-sysfs.c
-> index 6a421309319e..15349f92d0ec 100644
-> --- a/drivers/gpio/gpiolib-sysfs.c
-> +++ b/drivers/gpio/gpiolib-sysfs.c
-> @@ -762,7 +762,7 @@ EXPORT_SYMBOL_GPL(gpiod_unexport);
-> 
->  int gpiochip_sysfs_register(struct gpio_device *gdev)
->  {
-> -	struct gpio_chip *chip = gdev->chip;
-> +	struct gpio_chip *chip;
+tree:   https://github.com/gmprice/linux weighted_interleave-next
+head:   8b894625fd0b7f702c0aa6e14bb673c59f42effc
+commit: 8b894625fd0b7f702c0aa6e14bb673c59f42effc [3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
+config: x86_64-randconfig-121-20240131 (https://download.01.org/0day-ci/archive/20240131/202401311847.cQJ7VsI5-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311847.cQJ7VsI5-lkp@intel.com/reproduce)
 
-This is protected by an update-side lock, correct?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401311847.cQJ7VsI5-lkp@intel.com/
 
->  	struct device *parent;
->  	struct device *dev;
-> 
-> @@ -775,6 +775,12 @@ int gpiochip_sysfs_register(struct gpio_device *gdev)
->  	if (!class_is_registered(&gpio_class))
->  		return 0;
-> 
-> +	guard(srcu)(&gdev->srcu);
-> +
-> +	chip = rcu_dereference(gdev->chip);
+sparse warnings: (new ones prefixed by >>)
+   mm/mempolicy.c:158:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *table @@     got unsigned char * @@
+   mm/mempolicy.c:158:15: sparse:     expected unsigned char [noderef] [usertype] __rcu *table
+   mm/mempolicy.c:158:15: sparse:     got unsigned char *
+   mm/mempolicy.c:1984:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *table @@     got unsigned char * @@
+   mm/mempolicy.c:1984:15: sparse:     expected unsigned char [noderef] [usertype] __rcu *table
+   mm/mempolicy.c:1984:15: sparse:     got unsigned char *
+>> mm/mempolicy.c:2426:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *weights @@     got void * @@
+   mm/mempolicy.c:2426:17: sparse:     expected unsigned char [noderef] [usertype] __rcu *weights
+   mm/mempolicy.c:2426:17: sparse:     got void *
+   mm/mempolicy.c:2431:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *table @@     got unsigned char * @@
+   mm/mempolicy.c:2431:15: sparse:     expected unsigned char [noderef] [usertype] __rcu *table
+   mm/mempolicy.c:2431:15: sparse:     got unsigned char *
+>> mm/mempolicy.c:2433:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *weights @@
+   mm/mempolicy.c:2433:17: sparse:     expected void const *
+   mm/mempolicy.c:2433:17: sparse:     got unsigned char [noderef] [usertype] __rcu *weights
+>> mm/mempolicy.c:2433:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *table @@
+   mm/mempolicy.c:2433:17: sparse:     expected void const *
+   mm/mempolicy.c:2433:17: sparse:     got unsigned char [noderef] [usertype] __rcu *table
+>> mm/mempolicy.c:2433:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *weights @@
+   mm/mempolicy.c:2433:17: sparse:     expected void const *
+   mm/mempolicy.c:2433:17: sparse:     got unsigned char [noderef] [usertype] __rcu *weights
+>> mm/mempolicy.c:2433:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *table @@
+   mm/mempolicy.c:2433:17: sparse:     expected void const *
+   mm/mempolicy.c:2433:17: sparse:     got unsigned char [noderef] [usertype] __rcu *table
+>> mm/mempolicy.c:2433:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got unsigned char [noderef] [usertype] __rcu *weights @@
+   mm/mempolicy.c:2433:17: sparse:     expected void *p
+   mm/mempolicy.c:2433:17: sparse:     got unsigned char [noderef] [usertype] __rcu *weights
+>> mm/mempolicy.c:2433:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *q @@     got unsigned char [noderef] [usertype] __rcu *table @@
+   mm/mempolicy.c:2433:17: sparse:     expected void const *q
+   mm/mempolicy.c:2433:17: sparse:     got unsigned char [noderef] [usertype] __rcu *table
+>> mm/mempolicy.c:2489:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __rcu *weights @@
+   mm/mempolicy.c:2489:15: sparse:     expected void const *objp
+   mm/mempolicy.c:2489:15: sparse:     got unsigned char [noderef] [usertype] __rcu *weights
+   mm/mempolicy.c:3357:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *new @@     got void * @@
+   mm/mempolicy.c:3357:13: sparse:     expected unsigned char [noderef] [usertype] __rcu *new
+   mm/mempolicy.c:3357:13: sparse:     got void *
+   mm/mempolicy.c:3362:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *old @@     got unsigned char * @@
+   mm/mempolicy.c:3362:13: sparse:     expected unsigned char [noderef] [usertype] __rcu *old
+   mm/mempolicy.c:3362:13: sparse:     got unsigned char *
+   mm/mempolicy.c:3365:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *new @@
+   mm/mempolicy.c:3365:17: sparse:     expected void const *
+   mm/mempolicy.c:3365:17: sparse:     got unsigned char [noderef] [usertype] __rcu *new
+   mm/mempolicy.c:3365:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *old @@
+   mm/mempolicy.c:3365:17: sparse:     expected void const *
+   mm/mempolicy.c:3365:17: sparse:     got unsigned char [noderef] [usertype] __rcu *old
+   mm/mempolicy.c:3365:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *new @@
+   mm/mempolicy.c:3365:17: sparse:     expected void const *
+   mm/mempolicy.c:3365:17: sparse:     got unsigned char [noderef] [usertype] __rcu *new
+   mm/mempolicy.c:3365:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *old @@
+   mm/mempolicy.c:3365:17: sparse:     expected void const *
+   mm/mempolicy.c:3365:17: sparse:     got unsigned char [noderef] [usertype] __rcu *old
+   mm/mempolicy.c:3365:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got unsigned char [noderef] [usertype] __rcu *new @@
+   mm/mempolicy.c:3365:17: sparse:     expected void *p
+   mm/mempolicy.c:3365:17: sparse:     got unsigned char [noderef] [usertype] __rcu *new
+   mm/mempolicy.c:3365:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *q @@     got unsigned char [noderef] [usertype] __rcu *old @@
+   mm/mempolicy.c:3365:17: sparse:     expected void const *q
+   mm/mempolicy.c:3365:17: sparse:     got unsigned char [noderef] [usertype] __rcu *old
+   mm/mempolicy.c:3370:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __rcu *old @@
+   mm/mempolicy.c:3370:15: sparse:     expected void const *objp
+   mm/mempolicy.c:3370:15: sparse:     got unsigned char [noderef] [usertype] __rcu *old
+   mm/mempolicy.c:3466:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *old @@     got unsigned char * @@
+   mm/mempolicy.c:3466:13: sparse:     expected unsigned char [noderef] [usertype] __rcu *old
+   mm/mempolicy.c:3466:13: sparse:     got unsigned char *
+   mm/mempolicy.c:3471:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __rcu *old @@
+   mm/mempolicy.c:3471:15: sparse:     expected void const *objp
+   mm/mempolicy.c:3471:15: sparse:     got unsigned char [noderef] [usertype] __rcu *old
+   mm/mempolicy.c:160:31: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:548:17: sparse: sparse: context imbalance in 'queue_folios_pte_range' - unexpected unlock
+   mm/mempolicy.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
+   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+   mm/mempolicy.c:1988:39: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:1998:39: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2400:9: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2401:13: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2402:30: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2408:33: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2412:41: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2419:30: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2438:29: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2439:32: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2440:40: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2453:32: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2456:17: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2456:33: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2457:30: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2459:29: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2460:39: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2461:34: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2465:38: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2468:56: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:2472:49: sparse: sparse: dereference of noderef expression
+   mm/mempolicy.c:3366:12: sparse: sparse: dereference of noderef expression
 
-If so, you rely on that lock's protection by replacing the above
-two lines of code with something like this:
+vim +2426 mm/mempolicy.c
 
-	chip = rcu_dereference_protected(gdev->chip,
-					 lockdep_is_held(&my_lock));
+  2371	
+  2372	static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+  2373			struct mempolicy *pol, unsigned long nr_pages,
+  2374			struct page **page_array)
+  2375	{
+  2376		struct task_struct *me = current;
+  2377		unsigned long total_allocated = 0;
+  2378		unsigned long nr_allocated = 0;
+  2379		unsigned long rounds;
+  2380		unsigned long node_pages, delta;
+  2381		u8 __rcu *table, *weights, weight;
+  2382		unsigned int weight_total = 0;
+  2383		unsigned long rem_pages = nr_pages;
+  2384		nodemask_t nodes;
+  2385		int nnodes, node, next_node;
+  2386		int resume_node = MAX_NUMNODES - 1;
+  2387		u8 resume_weight = 0;
+  2388		int prev_node;
+  2389		int i;
+  2390	
+  2391		if (!nr_pages)
+  2392			return 0;
+  2393	
+  2394		nnodes = read_once_policy_nodemask(pol, &nodes);
+  2395		if (!nnodes)
+  2396			return 0;
+  2397	
+  2398		/* Continue allocating from most recent node and adjust the nr_pages */
+  2399		node = me->il_prev;
+  2400		weight = me->il_weight;
+  2401		if (weight && node_isset(node, nodes)) {
+  2402			node_pages = min(rem_pages, weight);
+  2403			nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
+  2404							  NULL, page_array);
+  2405			page_array += nr_allocated;
+  2406			total_allocated += nr_allocated;
+  2407			/* if that's all the pages, no need to interleave */
+  2408			if (rem_pages < weight) {
+  2409				/* stay on current node, adjust il_weight */
+  2410				me->il_weight -= rem_pages;
+  2411				return total_allocated;
+  2412			} else if (rem_pages == weight) {
+  2413				/* move to next node / weight */
+  2414				me->il_prev = next_node_in(node, nodes);
+  2415				me->il_weight = get_il_weight(next_node);
+  2416				return total_allocated;
+  2417			}
+  2418			/* Otherwise we adjust remaining pages, continue from there */
+  2419			rem_pages -= weight;
+  2420		}
+  2421		/* clear active weight in case of an allocation failure */
+  2422		me->il_weight = 0;
+  2423		prev_node = node;
+  2424	
+  2425		/* create a local copy of node weights to operate on outside rcu */
+> 2426		weights = kzalloc(nr_node_ids, GFP_KERNEL);
+  2427		if (!weights)
+  2428			return total_allocated;
+  2429	
+  2430		rcu_read_lock();
+  2431		table = rcu_dereference(iw_table);
+  2432		if (table)
+> 2433			memcpy(weights, table, nr_node_ids);
+  2434		rcu_read_unlock();
+  2435	
+  2436		/* calculate total, detect system default usage */
+  2437		for_each_node_mask(node, nodes) {
+  2438			if (!weights[node])
+  2439				weights[node] = 1;
+  2440			weight_total += weights[node];
+  2441		}
+  2442	
+  2443		/*
+  2444		 * Calculate rounds/partial rounds to minimize __alloc_pages_bulk calls.
+  2445		 * Track which node weighted interleave should resume from.
+  2446		 *
+  2447		 * if (rounds > 0) and (delta == 0), resume_node will always be
+  2448		 * the node following prev_node and its weight.
+  2449		 */
+  2450		rounds = rem_pages / weight_total;
+  2451		delta = rem_pages % weight_total;
+  2452		resume_node = next_node_in(prev_node, nodes);
+  2453		resume_weight = weights[resume_node];
+  2454		for (i = 0; i < nnodes; i++) {
+  2455			node = next_node_in(prev_node, nodes);
+  2456			weight = weights[node];
+  2457			node_pages = weight * rounds;
+  2458			/* If a delta exists, add this node's portion of the delta */
+  2459			if (delta > weight) {
+  2460				node_pages += weight;
+  2461				delta -= weight;
+  2462			} else if (delta) {
+  2463				node_pages += delta;
+  2464				/* delta may deplete on a boundary or w/ a remainder */
+  2465				if (delta == weight) {
+  2466					/* boundary: resume from next node/weight */
+  2467					resume_node = next_node_in(node, nodes);
+  2468					resume_weight = weights[resume_node];
+  2469				} else {
+  2470					/* remainder: resume this node w/ remainder */
+  2471					resume_node = node;
+  2472					resume_weight = weight - delta;
+  2473				}
+  2474				delta = 0;
+  2475			}
+  2476			/* node_pages can be 0 if an allocation fails and rounds == 0 */
+  2477			if (!node_pages)
+  2478				break;
+  2479			nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
+  2480							  NULL, page_array);
+  2481			page_array += nr_allocated;
+  2482			total_allocated += nr_allocated;
+  2483			if (total_allocated == nr_pages)
+  2484				break;
+  2485			prev_node = node;
+  2486		}
+  2487		me->il_prev = resume_node;
+  2488		me->il_weight = resume_weight;
+> 2489		kfree(weights);
+  2490		return total_allocated;
+  2491	}
+  2492	
 
-> +	if (!chip)
-> +		return -ENODEV;
-> +
->  	/*
->  	 * For sysfs backward compatibility we need to preserve this
->  	 * preferred parenting to the gpio_chip parent field, if set.
-> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> index 7ecdd8cc39c5..ea0675514891 100644
-> --- a/drivers/gpio/gpiolib.c
-> +++ b/drivers/gpio/gpiolib.c
-> @@ -221,7 +221,7 @@ struct gpio_chip *gpiod_to_chip(const struct
-> gpio_desc *desc)
->  {
->  	if (!desc)
->  		return NULL;
-> -	return desc->gdev->chip;
-> +	return rcu_dereference(desc->gdev->chip);
->  }
->  EXPORT_SYMBOL_GPL(gpiod_to_chip);
-> 
-> @@ -291,7 +291,7 @@ EXPORT_SYMBOL(gpio_device_get_label);
->   */
->  struct gpio_chip *gpio_device_get_chip(struct gpio_device *gdev)
->  {
-> -	return gdev->chip;
-> +	return rcu_dereference(gdev->chip);
->  }
->  EXPORT_SYMBOL_GPL(gpio_device_get_chip);
-> 
-> @@ -742,7 +742,7 @@ static int gpiochip_setup_dev(struct gpio_device *gdev)
->  		goto err_remove_device;
-> 
->  	dev_dbg(&gdev->dev, "registered GPIOs %d to %d on %s\n", gdev->base,
-> -		gdev->base + gdev->ngpio - 1, gdev->chip->label ? : "generic");
-> +		gdev->base + gdev->ngpio - 1, gdev->label);
-
-I don't know enough to comment here, but the rest of the look good to me.
-
->  	return 0;
-> 
-> @@ -866,7 +866,7 @@ int gpiochip_add_data_with_key(struct gpio_chip
-> *gc, void *data,
->  		return -ENOMEM;
->  	gdev->dev.bus = &gpio_bus_type;
->  	gdev->dev.parent = gc->parent;
-> -	WRITE_ONCE(gdev->chip, gc);
-> +	rcu_assign_pointer(gdev->chip, gc);
-> 
->  	gc->gpiodev = gdev;
->  	gpiochip_set_data(gc, data);
-> diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
-> index c76acb8f95c6..07443d26cbca 100644
-> --- a/drivers/gpio/gpiolib.h
-> +++ b/drivers/gpio/gpiolib.h
-> @@ -59,7 +59,7 @@ struct gpio_device {
->  	int			id;
->  	struct device		*mockdev;
->  	struct module		*owner;
-> -	struct gpio_chip	*chip;
-> +	struct gpio_chip __rcu	*chip;
->  	struct gpio_desc	*descs;
->  	int			base;
->  	u16			ngpio;
-> 
-> Bartosz
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
