@@ -1,141 +1,156 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9679C21362
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 18:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE2217C8B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 19:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706726859; cv=none; b=NTv5zRmkzeyUR+do9KKbgeTv7ZEmBaZfiCIAtTmCUDabp2r5pcLSZRKLfcTSc23e5K5LFuBMfJPNlYUXtsyhIhGg/rWnQ1+6IQbFiUrrf7X/EMC7WkdWLnFnTocSxCAth6QDqBI9yclc4nu4NsXWVNzxrKauAMcnPsbGiZhSHy0=
+	t=1706728074; cv=none; b=dNA2JtKB8jR3OuBtYsACTOaHZY/2mGvmZE4C+fLTJs04Ui48m4UdYw4Y0b3GgHFp/2mFyLQzAZwoT52yObLU0e365AUUmH7I06XxNX3gC7FLhfEhOTgvhgllpHXc8yDkXJyH65gm/WllFDyykH4kFuEYidNxirnrvR0eogbrBIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706726859; c=relaxed/simple;
-	bh=7wYXS/SlkJ8AOrdGvl0ZYXtpU339epgU9Os3p8q6l0o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nN9hPE0KAPDYjrpq+H40K0HWWDOIH8HlCV2CPel4TW90yDHtGfH/y6f0/cp5E2pr7HPt2mH2DjRPB1KU2L0gxCFHJG0q2DBqJkHWWzoOvubQZd1NA3M1OciUX4n8vms7n4liGtkC2r6YevNJ+nCUQrOzkgywT+HfVs+op5jQHIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VScw7qk4; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706728074; c=relaxed/simple;
+	bh=I5iZ2/I8gzIg+8tRfuEXRpjnuxIQ5+cTB3h6UO2d6VQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=btOWits9msV0dpIg4NPTeqCEfYE9jn1uasyQdQNwZKPrTL7oAnNQvZkjGeZ1+Rtks/rNUnSWceEoxR8UNJ6Spbqu82Aczw7rLL/ZaT8HYBqgByYK36dK6EGuTmxYC+Fe1Lgy7Wlue4y4AdbjBZulGElKwRu2zPPImrs6NEXv5ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lB2qbcdc; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VScw7qk4"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d944e8f367so799305ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 10:47:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706726857; x=1707331657; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wh3vBVgFANL09xItQULxD8UoFSKaimbGy2fWeN+Wyyc=;
-        b=VScw7qk4+iHEPNUnIWLZh/OZNOxJ0Wya9/UxipV+Czm7+0S5rkZ6nqZpylXIEZrMhs
-         Q7avj0gahWQKWgINGDfMLRijmo/fBSgz2i2MppSsWtogwnFb9Hs+AOEXvzGMJYXfbwf4
-         D7PrraS7ZZ9kyoCMyiVyzbgVrAC/LSxmci8r5l7WfymzjOMs9xyPmwtulLpwS6/sXwF6
-         eMkj/qP4IDM2TaXGQbJTSaV5jLQqzTYjWKsM2FfFLqT8Ka6nHMABawfUKt3TMGUeGm2K
-         Sng1P7m1FfWd+2P29SgNV7IIvPlWOQc8Ul4tVwSZxH1Mcj8r+5MoiDYxTUSjyXD+5cpc
-         xxkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706726857; x=1707331657;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wh3vBVgFANL09xItQULxD8UoFSKaimbGy2fWeN+Wyyc=;
-        b=ZgZ01s4y+u0f+kdo/ZbB9uWQMsrhtJcSueqDjopCMdR+2C0J5bxs0dBHWok9RIcb/5
-         fqVtEpQQNR7vFJd0ppNAlOA0TUi7GjLGwPIEKbcQKXJIFSrMt11Iq+wlIqVxdLHykzFV
-         mfZOz8azf9xoMuRlkbBWg/JLi4pDTTQ92LjX+UBqRZ4z30Y5cil/xtKYAlZGHpbRSghS
-         7X4aIDZmgyUB1sZQ45S7y+7hbQmH6S/KOXz42HYRj8RHGUPmkJ0lLehgjfvhxqiC3pTv
-         3ksqpnD7ySO3bfjEzlRymbYF+FNbWJeBJ4ICeiyFTiewuJUyVAwaSldBnz55t78+jl3Q
-         zBVw==
-X-Gm-Message-State: AOJu0Yx5jrvhhfBROhKQQSZiTiwo/+db4MaOka9WFNyLiWwEfFFtS6wi
-	p6UWV7LUIGpAq0cDIYSEnV42UXnzLBMs/KKxdC8MFYx7QMcm3KS7
-X-Google-Smtp-Source: AGHT+IFCRgqn6mXE5KCdEiY94CAv/G9LonZ1v8TYBKZyc09F5vR87OjIXYx+uM0DW7tavSF5iKRdRA==
-X-Received: by 2002:a17:902:e5c5:b0:1d9:36af:dd2a with SMTP id u5-20020a170902e5c500b001d936afdd2amr2043058plf.31.1706726856790;
-        Wed, 31 Jan 2024 10:47:36 -0800 (PST)
-Received: from ?IPV6:2001:df0:0:200c:444c:3f95:978c:b46e? ([2001:df0:0:200c:444c:3f95:978c:b46e])
-        by smtp.gmail.com with ESMTPSA id o4-20020a170902d4c400b001d8a5c08277sm9098693plg.260.2024.01.31.10.47.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Jan 2024 10:47:36 -0800 (PST)
-Message-ID: <17eb05e1-256d-d3da-5f3d-47af2fed0cf6@gmail.com>
-Date: Thu, 1 Feb 2024 07:47:32 +1300
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lB2qbcdc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706728073; x=1738264073;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I5iZ2/I8gzIg+8tRfuEXRpjnuxIQ5+cTB3h6UO2d6VQ=;
+  b=lB2qbcdcfIHgqNPNoGW/8PFsUyijQxAGHX4o7lOvSvYXyLLebLptdeij
+   2hF2qGfJFnDKrI5P0pwmodqVyRPeCexLiyZALrfkZTS5BBkKIup9xkz0y
+   vU5acM46/0HvmYJC5pWDefBjbQ56HGQFh5swmzDtesvijco4z2+uOJjrL
+   Cd05lYAP0ufV0JGz4AcWhTnRRWFoAty+ib9GkXp8Ro8EQrCe3qfj1tr1w
+   GGZyfg/DWvRdYkfzRmkoDt9D18Tnaarq1r1nGlvD/Il5EarwEDeAGlMXU
+   bDcpFfFuBPm6vxgOY1WAo2eSO9btkmt48zRil9ys59s9d77SzvNs6JBQ/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="17081536"
+X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
+   d="scan'208";a="17081536"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 11:07:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="878873430"
+X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
+   d="scan'208";a="878873430"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 31 Jan 2024 11:07:48 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rVFw1-0001vE-35;
+	Wed, 31 Jan 2024 19:07:45 +0000
+Date: Thu, 1 Feb 2024 03:06:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stefan Berger <stefanb@linux.ibm.com>, linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-unionfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+	zohar@linux.ibm.com, roberto.sassu@huawei.com, amir73il@gmail.com,
+	miklos@szeredi.hu, Stefan Berger <stefanb@linux.ibm.com>
+Subject: Re: [PATCH 1/5] security: allow finer granularity in permitting
+ copy-up of security xattrs
+Message-ID: <202402010225.BXp3LrvU-lkp@intel.com>
+References: <20240130214620.3155380-2-stefanb@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [cip:linux-4.4.y-st-rc 878/1809] arch/m68k/kernel/traps.c:32:10:
- fatal error: linux/extable.h: No such file or directory
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- Ulrich Hecht <uli+cip@fpond.eu>, Sasha Levin <sashal@kernel.org>
-References: <202401302324.d3o6tgup-lkp@intel.com>
- <CAMuHMdVTHrFdrJ4x7AcAJ7Y8sY9Z4ar9e_L8Sk701dBSgGraow@mail.gmail.com>
- <40ba1136-0505-acac-05cc-0a913398330a@gmail.com>
- <8cfa0192-769a-6ef0-4b59-bcfd0eb43453@gmail.com>
- <CAMuHMdVhjCJqOpLA1VYMCLDrXVkhV6qBJzUOMVA324-UyfUxSQ@mail.gmail.com>
-From: Michael Schmitz <schmitzmic@gmail.com>
-In-Reply-To: <CAMuHMdVhjCJqOpLA1VYMCLDrXVkhV6qBJzUOMVA324-UyfUxSQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240130214620.3155380-2-stefanb@linux.ibm.com>
 
-Hi Geert,
+Hi Stefan,
 
-On 31/01/24 21:27, Geert Uytterhoeven wrote:
-> Hi Michael,
->
-> On Tue, Jan 30, 2024 at 9:16 PM Michael Schmitz <schmitzmic@gmail.com> wrote:
->> On 31/01/24 09:10, Michael Schmitz wrote:
->>> On 31/01/24 04:26, Geert Uytterhoeven wrote:
->>>> On Tue, Jan 30, 2024 at 4:23 PM kernel test robot <lkp@intel.com> wrote:
->>>>> tree:
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git
->>>>> linux-4.4.y-st-rc
->>>>> head:   4daf8df4558b5aae717516f7e941014c463772c2
->>>>> commit: 193e83a8194fcb23b6fb4aea9518a67b786df1c5 [878/1809] m68k:
->>>>> Only force 030 bus error if PC not in exception table
->>>>> config: m68k-allnoconfig
->>>>> (https://download.01.org/0day-ci/archive/20240130/202401302324.d3o6tgup-lkp@intel.com/config)
->>>>> compiler: m68k-linux-gcc (GCC) 7.5.0
->>>>> reproduce (this is a W=1 build):
->>>>> (https://download.01.org/0day-ci/archive/20240130/202401302324.d3o6tgup-lkp@intel.com/reproduce)
->>>>>
->>>>> If you fix the issue in a separate patch/commit (i.e. not just a new
->>>>> version of
->>>>> the same patch/commit), kindly add following tags
->>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>> | Closes:
->>>>> https://lore.kernel.org/oe-kbuild-all/202401302324.d3o6tgup-lkp@intel.com/
->>>>>
->>>>> All errors (new ones prefixed by >>):
->>>>>
->>>>>>> arch/m68k/kernel/traps.c:32:10: fatal error: linux/extable.h: No
->>>>>>> such file or directory
->>>>>       #include <linux/extable.h>
->>>>>                ^~~~~~~~~~~~~~~~~
->>>>>      compilation terminated.
->>>> Either include <linux/module.h> instead, or backport commit
->>>> 0ef7653797addea8 ("exceptions: fork exception table content from
->>>> module.h into extable.h") in v4.8?
->>> The latter, for preference. Thanks for spotting that. Where would I
->>> send such a patch?
->> On second thought - backporting that commit would break anything in 4.4
->> that includes module.h for exception table stuff.
-> Why? <linux/module.h> still includes the new <linux/extable.h>, so
-> existing users of <linux/module.h.> should be fine.
+kernel test robot noticed the following build errors:
 
-You are correct, of course. I missed the inclusion of extable.h by that 
-commit.
+[auto build test ERROR on zohar-integrity/next-integrity]
+[also build test ERROR on pcmoore-selinux/next linus/master v6.8-rc2 next-20240131]
+[cannot apply to mszeredi-vfs/overlayfs-next mszeredi-vfs/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Would adding 0ef7653797addea8 to the list of v4.4 patches be acceptable, 
-Uli? No functional change as a result of that commit.
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Berger/security-allow-finer-granularity-in-permitting-copy-up-of-security-xattrs/20240131-054854
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
+patch link:    https://lore.kernel.org/r/20240130214620.3155380-2-stefanb%40linux.ibm.com
+patch subject: [PATCH 1/5] security: allow finer granularity in permitting copy-up of security xattrs
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240201/202402010225.BXp3LrvU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010225.BXp3LrvU-lkp@intel.com/reproduce)
 
-Cheers,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402010225.BXp3LrvU-lkp@intel.com/
 
-     Michael
+All errors (new ones prefixed by >>):
 
-> Plain v4.4 + these two commits seems to build fine for me (modulo
-> the issues due to my cross-compiler being too new for v4.4 ;-).
->
-> Gr{oetje,eeting}s,
->
->                          Geert
->
+   security/security.c: In function 'security_inode_copy_up_xattr':
+>> security/security.c:2627:40: error: passing argument 1 of 'evm_inode_copy_up_xattr' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2627 |         return evm_inode_copy_up_xattr(src, name);
+         |                                        ^~~
+         |                                        |
+         |                                        struct dentry *
+   In file included from security/security.c:24:
+   include/linux/evm.h:121:56: note: expected 'const char *' but argument is of type 'struct dentry *'
+     121 | static inline int  evm_inode_copy_up_xattr(const char *name)
+         |                                            ~~~~~~~~~~~~^~~~
+>> security/security.c:2627:16: error: too many arguments to function 'evm_inode_copy_up_xattr'
+    2627 |         return evm_inode_copy_up_xattr(src, name);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from security/security.c:24:
+   include/linux/evm.h:121:20: note: declared here
+     121 | static inline int  evm_inode_copy_up_xattr(const char *name)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/evm_inode_copy_up_xattr +2627 security/security.c
+
+  2596	
+  2597	/**
+  2598	 * security_inode_copy_up_xattr() - Filter xattrs in an overlayfs copy-up op
+  2599	 * @src: union dentry of copy-up file
+  2600	 * @name: xattr name
+  2601	 *
+  2602	 * Filter the xattrs being copied up when a unioned file is copied up from a
+  2603	 * lower layer to the union/overlay layer.   The caller is responsible for
+  2604	 * reading and writing the xattrs, this hook is merely a filter.
+  2605	 *
+  2606	 * Return: Returns 0 to accept the xattr, 1 to discard the xattr, -EOPNOTSUPP
+  2607	 *         if the security module does not know about attribute, or a negative
+  2608	 *         error code to abort the copy up.
+  2609	 */
+  2610	int security_inode_copy_up_xattr(struct dentry *src, const char *name)
+  2611	{
+  2612		struct security_hook_list *hp;
+  2613		int rc;
+  2614	
+  2615		/*
+  2616		 * The implementation can return 0 (accept the xattr), 1 (discard the
+  2617		 * xattr), -EOPNOTSUPP if it does not know anything about the xattr or
+  2618		 * any other error code in case of an error.
+  2619		 */
+  2620		hlist_for_each_entry(hp,
+  2621				     &security_hook_heads.inode_copy_up_xattr, list) {
+  2622			rc = hp->hook.inode_copy_up_xattr(src, name);
+  2623			if (rc != LSM_RET_DEFAULT(inode_copy_up_xattr))
+  2624				return rc;
+  2625		}
+  2626	
+> 2627		return evm_inode_copy_up_xattr(src, name);
+  2628	}
+  2629	EXPORT_SYMBOL(security_inode_copy_up_xattr);
+  2630	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
