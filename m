@@ -1,258 +1,331 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F666A026
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 10:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77FF6A353;
+	Wed, 31 Jan 2024 11:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706698149; cv=none; b=mOcl5hha/LyewYWgr8R0Y72RL3nl0xsXTDQTNkz3d+2fBQkaaG59/+BlKtK1s3oIt0vMZdGwY13bXL2gGvl2tRZ2fu/uMgGB7hNx37AHvXVsS04dgyyOpATT7G9AUFCpjEol7DPnl5psZGPvGRhTkG9CcnhKrY9RcF2u85a3NrA=
+	t=1706698837; cv=none; b=aB1bkCAiVbwMakVR9domLZYh5kI6UhibCq0K6xk7H8UvrahWQPw41G9+yTNfArO25N+UtMwt2B3Tvi/QzqXnAQLM8wiG0NmQn30UkY9cg4c+/STmtsizFt8OEAygovpX6Ehpnz+bkiFWFMks34Qa89WD/2DrxqgIwRRGJC42nPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706698149; c=relaxed/simple;
-	bh=/IL3PY7AIZYB1DhfncDDasX9oZgNyTFyXQSHRgfQ9So=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iejo4AO2T1N1jRV11IJvEWQ4yRVwAEYw1/y079iyDxCivU0o702IG8aVPlveJmO9FqSYAX7xgmU7SkV/nf7qWSUWbAzv1EvTDTLHH15tn4HL0qWG7YvINKAcFTW6uKdQ/THFUHBPZwpkJ3PkyDbPl9uQ/LR0duZ+JscMM/F9fxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LvMCe6pv; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706698837; c=relaxed/simple;
+	bh=M4FtRNaJRGX1hU6IbURFv7FbIXOuZSMJpHIp14hyZwk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SBeypV0jF7ZJyAjVcpY9YuoV379AqVcJuPp1EZUv93vGJwkJfSBrMILu7c7JMNMk7C2EkHurhBVQn5VcUh2yzaZPl3BYqXvA0LwPQvg/oW9GRQZm6SRZzzabE6JoYzJmdIN4LGrTyADSchthrE72IZCgk5rVmy5+vSFu9W9BXKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y20puwzL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LvMCe6pv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706698147; x=1738234147;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/IL3PY7AIZYB1DhfncDDasX9oZgNyTFyXQSHRgfQ9So=;
-  b=LvMCe6pvbZ0AeP2YuRVd8p1lTrYedBM54oh4sxerhG1IcTBZivoSQ4oz
-   6hE4yEi9f0nvZTbhxVijM4QvJWKYQ1cay+yAf8ZaP51P6pWcj3Oinm4P4
-   avL94SQ3GIwOWfSDUCK29XxnsyyF2ddFzWbNXOzHV+W/XykCzgDl31Jgt
-   hxc6oCHQPeGb3zsp5TALKSI0qRjYdRYYi7CExroxDjJ5Ss+o67QUy4rM8
-   1dREyeHpRgMxswFdEMVUCgI0QUOZzmB4//5Q/WAr+Prc4ETxAMMM9Bc96
-   drOGjqNVqaJeH13/sykTJbLZXm9NNRPsbrYTd2fix7E7okuoL6D/MG2z5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10947607"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="10947607"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 02:49:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="4045819"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 31 Jan 2024 02:49:03 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rV89N-0001Ts-19;
-	Wed, 31 Jan 2024 10:49:01 +0000
-Date: Wed, 31 Jan 2024 18:48:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vineeth Karumanchi <vineeth.karumanchi@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Harini Katakam <harini.katakam@amd.com>
-Subject: [xilinx-xlnx:lkp_test 3/3]
- drivers/net/ethernet/cadence/macb_main.c:5320:51: sparse: sparse: incorrect
- type in argument 1 (different base types)
-Message-ID: <202401311818.zGVVLPL4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y20puwzL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DCF5C433F1;
+	Wed, 31 Jan 2024 11:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706698837;
+	bh=M4FtRNaJRGX1hU6IbURFv7FbIXOuZSMJpHIp14hyZwk=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=Y20puwzLdo/kirgWBFWjcmKYOlA/ZF4xNYVnC83MgAugYyoVJspVVkLreGJKZ3X4R
+	 0Y/BgCdGgtgtqjP3LksfVvY2tdD80blY9kS23yS2QCwO0KXg0aZl+Qk6Z8h4ead78R
+	 W7zU6hHIy7Tqq9NxR04pmdF5jWoXA96723OWR3ux3bAUDh3SITHVlmV/8ubepVm75s
+	 xmw5nE6l36S3o+Pmyfl/mVVAUHM4kcoQSnGZMrB6KC76OIZxH/dLFTZ5a5kPlCb3CL
+	 TkvEy3Qb3BCkxw011+VwoytVmb31DEsWpbT0oCm27YFWSIB+ORJ4Qfwnme4JlIpWvT
+	 /2TbbbZCKFgtg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id AB1D2CE04B6; Wed, 31 Jan 2024 03:00:36 -0800 (PST)
+Date: Wed, 31 Jan 2024 03:00:36 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: brgl@bgdev.pl
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Kent Gibson <warthog618@gmail.com>, Alex Elder <elder@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH 20/22] gpio: protect the pointer to gpio_chip in
+ gpio_device with SRCU
+Message-ID: <d0636911-e15e-40fd-ac8f-200127fe433d@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20240130124828.14678-21-brgl@bgdev.pl>
+ <202401311050.YNdm98Hv-lkp@intel.com>
+ <CAMRc=Me0y-P4zTu_nCPpdF8hX_7rqri1AG1zCU6sO9tbJXbneQ@mail.gmail.com>
+ <fa273f23-320a-465d-a403-523424d98e3d@paulmck-laptop>
+ <CAMRc=MdoG1Ku-hbBWt7Jc+d4=ANfshPWwW3C_G-e2GdyggqG1w@mail.gmail.com>
+ <26942a3c-efc9-4344-9fac-c5feea06639c@paulmck-laptop>
+ <CAMRc=MdYbGH8Q0Wk_40RV=_HN86oYg146bz-TeYp1KKwSoEhGw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=MdYbGH8Q0Wk_40RV=_HN86oYg146bz-TeYp1KKwSoEhGw@mail.gmail.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx lkp_test
-head:   415577e072b30c152a07b0e89dc2c25bf659c671
-commit: 415577e072b30c152a07b0e89dc2c25bf659c671 [3/3] net: macb: Add ARP support to WOL
-config: mips-randconfig-r123-20240131 (https://download.01.org/0day-ci/archive/20240131/202401311818.zGVVLPL4-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240131/202401311818.zGVVLPL4-lkp@intel.com/reproduce)
+On Wed, Jan 31, 2024 at 02:17:30AM -0800, brgl@bgdev.pl wrote:
+> On Wed, 31 Jan 2024 10:42:20 +0100, "Paul E. McKenney"
+> <paulmck@kernel.org> said:
+> > On Wed, Jan 31, 2024 at 10:28:19AM +0100, Bartosz Golaszewski wrote:
+> >> On Wed, Jan 31, 2024 at 10:24 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> >> >
+> >> > On Wed, Jan 31, 2024 at 10:02:40AM +0100, Bartosz Golaszewski wrote:
+> >> > > On Wed, Jan 31, 2024 at 3:21 AM kernel test robot <lkp@intel.com> wrote:
+> >> > > >
+> >> > > > Hi Bartosz,
+> >> > > >
+> >> > > > kernel test robot noticed the following build warnings:
+> >> > > >
+> >> > > > [auto build test WARNING on brgl/gpio/for-next]
+> >> > > > [also build test WARNING on linus/master v6.8-rc2 next-20240130]
+> >> > > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> >> > > > And when submitting patch, we suggest to use '--base' as documented in
+> >> > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >> > > >
+> >> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpio-protect-the-list-of-GPIO-devices-with-SRCU/20240130-205537
+> >> > > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+> >> > > > patch link:    https://lore.kernel.org/r/20240130124828.14678-21-brgl%40bgdev.pl
+> >> > > > patch subject: [PATCH 20/22] gpio: protect the pointer to gpio_chip in gpio_device with SRCU
+> >> > > > config: x86_64-randconfig-122-20240131 (https://download.01.org/0day-ci/archive/20240131/202401311050.YNdm98Hv-lkp@intel.com/config)
+> >> > > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> >> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311050.YNdm98Hv-lkp@intel.com/reproduce)
+> >> > > >
+> >> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> >> > > > the same patch/commit), kindly add following tags
+> >> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> >> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202401311050.YNdm98Hv-lkp@intel.com/
+> >> > > >
+> >> > > > sparse warnings: (new ones prefixed by >>)
+> >> > > > >> drivers/gpio/gpiolib.c:444:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.c:444:22: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.c:444:22: sparse:    struct gpio_chip *
+> >> > > >    drivers/gpio/gpiolib.c:1103:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.c:1103:9: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.c:1103:9: sparse:    struct gpio_chip *
+> >> > > >    drivers/gpio/gpiolib.c:1182:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.c:1182:22: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.c:1182:22: sparse:    struct gpio_chip *
+> >> > > >    drivers/gpio/gpiolib.c:2970:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.c:2970:14: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.c:2970:14: sparse:    struct gpio_chip *
+> >> > > >    drivers/gpio/gpiolib.c:3004:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.c:3004:22: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.c:3004:22: sparse:    struct gpio_chip *
+> >> > > >    drivers/gpio/gpiolib.c:3585:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.c:3585:14: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.c:3585:14: sparse:    struct gpio_chip *
+> >> > > >    drivers/gpio/gpiolib.c:4772:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.c:4772:14: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.c:4772:14: sparse:    struct gpio_chip *
+> >> > > >    drivers/gpio/gpiolib.c:4846:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.c:4846:14: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.c:4846:14: sparse:    struct gpio_chip *
+> >> > > >    drivers/gpio/gpiolib.c: note: in included file:
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > > >> drivers/gpio/gpiolib.h:202:1: sparse: sparse: incompatible types in comparison expression (different address spaces):
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip [noderef] __rcu *
+> >> > > >    drivers/gpio/gpiolib.h:202:1: sparse:    struct gpio_chip *
+> >> > > >
+> >> > > > vim +444 drivers/gpio/gpiolib.c
+> >> > > >
+> >> > > >    422
+> >> > > >    423  /*
+> >> > > >    424   * Convert a GPIO name to its descriptor
+> >> > > >    425   * Note that there is no guarantee that GPIO names are globally unique!
+> >> > > >    426   * Hence this function will return, if it exists, a reference to the first GPIO
+> >> > > >    427   * line found that matches the given name.
+> >> > > >    428   */
+> >> > > >    429  static struct gpio_desc *gpio_name_to_desc(const char * const name)
+> >> > > >    430  {
+> >> > > >    431          struct gpio_device *gdev;
+> >> > > >    432          struct gpio_desc *desc;
+> >> > > >    433          struct gpio_chip *gc;
+> >> > > >    434
+> >> > > >    435          if (!name)
+> >> > > >    436                  return NULL;
+> >> > > >    437
+> >> > > >    438          guard(srcu)(&gpio_devices_srcu);
+> >> > > >    439
+> >> > > >    440          list_for_each_entry_srcu(gdev, &gpio_devices, list,
+> >> > > >    441                                   srcu_read_lock_held(&gpio_devices_srcu)) {
+> >> > > >    442                  guard(srcu)(&gdev->srcu);
+> >> > > >    443
+> >> > > >  > 444                  gc = rcu_dereference(gdev->chip);
+> >> > > >    445                  if (!gc)
+> >> > > >    446                          continue;
+> >> > > >    447
+> >> > > >    448                  for_each_gpio_desc(gc, desc) {
+> >> > > >    449                          if (desc->name && !strcmp(desc->name, name))
+> >> > > >    450                                  return desc;
+> >> > > >    451                  }
+> >> > > >    452          }
+> >> > > >    453
+> >> > > >    454          return NULL;
+> >> > > >    455  }
+> >> > > >    456
+> >> > > >
+> >> > > > --
+> >> > > > 0-DAY CI Kernel Test Service
+> >> > > > https://github.com/intel/lkp-tests/wiki
+> >> > >
+> >> > > Paul,
+> >> > >
+> >> > > Should I care about these warnings? They seem to be emitted for a lot
+> >> > > of RCU code already upstream. I'm not even sure how I'd go about
+> >> > > addressing them honestly.
+> >> >
+> >> > This is maintainer's choice.
+> >> >
+> >> > The fix would be to apply __rcu to the definition of ->chip.  The benefit
+> >> > is that it finds bugs where rcu-protected pointers are used without RCU
+> >> > primitives and vice versa.
+> >>
+> >> Ah, good point. I marked the other RCU-protected fields like
+> >> descriptor label but forgot this one.
+> >>
+> >> It also seems like I need to use __rcu for all function arguments
+> >> taking an RCU-protected pointer as argument?
+> >
+> > Not if that argument gets its value from rcu_dereference(), which is
+> > the usual pattern.
+> >
+> > And if you are passing an RCU-protected pointer to a function *before*
+> > passing it through rcu_dereference(), I would have some questions for you.
+> >
+> > Or are you instead passing a pointer to an RCU-protected pointer as an
+> > argument to your functions?
+> 
+> No, I'm not. Thanks for making it clear. With the following changes to the
+> series, the warnings are now gone:
+> 
+> diff --git a/drivers/gpio/gpiolib-sysfs.c b/drivers/gpio/gpiolib-sysfs.c
+> index 6a421309319e..15349f92d0ec 100644
+> --- a/drivers/gpio/gpiolib-sysfs.c
+> +++ b/drivers/gpio/gpiolib-sysfs.c
+> @@ -762,7 +762,7 @@ EXPORT_SYMBOL_GPL(gpiod_unexport);
+> 
+>  int gpiochip_sysfs_register(struct gpio_device *gdev)
+>  {
+> -	struct gpio_chip *chip = gdev->chip;
+> +	struct gpio_chip *chip;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401311818.zGVVLPL4-lkp@intel.com/
+This is protected by an update-side lock, correct?
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/cadence/macb_main.c:286:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bottom @@     got restricted __le32 [usertype] @@
-   drivers/net/ethernet/cadence/macb_main.c:286:16: sparse:     expected unsigned int [usertype] bottom
-   drivers/net/ethernet/cadence/macb_main.c:286:16: sparse:     got restricted __le32 [usertype]
-   drivers/net/ethernet/cadence/macb_main.c:288:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] top @@     got restricted __le16 [usertype] @@
-   drivers/net/ethernet/cadence/macb_main.c:288:13: sparse:     expected unsigned short [usertype] top
-   drivers/net/ethernet/cadence/macb_main.c:288:13: sparse:     got restricted __le16 [usertype]
-   drivers/net/ethernet/cadence/macb_main.c:3496:39: sparse: sparse: restricted __be32 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3501:39: sparse: sparse: restricted __be32 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3506:40: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3506:69: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3531:20: sparse: sparse: restricted __be32 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3535:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] w0 @@     got restricted __be32 [usertype] ip4src @@
-   drivers/net/ethernet/cadence/macb_main.c:3535:20: sparse:     expected unsigned int [assigned] [usertype] w0
-   drivers/net/ethernet/cadence/macb_main.c:3535:20: sparse:     got restricted __be32 [usertype] ip4src
-   drivers/net/ethernet/cadence/macb_main.c:3545:20: sparse: sparse: restricted __be32 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3549:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] w0 @@     got restricted __be32 [usertype] ip4dst @@
-   drivers/net/ethernet/cadence/macb_main.c:3549:20: sparse:     expected unsigned int [assigned] [usertype] w0
-   drivers/net/ethernet/cadence/macb_main.c:3549:20: sparse:     got restricted __be32 [usertype] ip4dst
-   drivers/net/ethernet/cadence/macb_main.c:3559:21: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3559:50: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3565:30: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3566:30: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3573:36: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3574:38: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3577:38: sparse: sparse: restricted __be16 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c:3613:9: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/cadence/macb_main.c:3613:9: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/cadence/macb_main.c:3667:25: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/cadence/macb_main.c:3667:25: sparse: sparse: cast from restricted __be32
->> drivers/net/ethernet/cadence/macb_main.c:5320:51: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const [usertype] *p @@     got restricted __be32 * @@
-   drivers/net/ethernet/cadence/macb_main.c:5320:51: sparse:     expected unsigned int const [usertype] *p
-   drivers/net/ethernet/cadence/macb_main.c:5320:51: sparse:     got restricted __be32 *
-   drivers/net/ethernet/cadence/macb_main.c:5320:49: sparse: sparse: restricted __be32 degrades to integer
-   drivers/net/ethernet/cadence/macb_main.c: note: in included file (through include/linux/mutex.h, include/linux/notifier.h, include/linux/clk.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   drivers/net/ethernet/cadence/macb_main.c:5272:23: sparse: sparse: dereference of noderef expression
-   drivers/net/ethernet/cadence/macb_main.c:5272:23: sparse: sparse: dereference of noderef expression
-   drivers/net/ethernet/cadence/macb_main.c:5272:23: sparse: sparse: dereference of noderef expression
+>  	struct device *parent;
+>  	struct device *dev;
+> 
+> @@ -775,6 +775,12 @@ int gpiochip_sysfs_register(struct gpio_device *gdev)
+>  	if (!class_is_registered(&gpio_class))
+>  		return 0;
+> 
+> +	guard(srcu)(&gdev->srcu);
+> +
+> +	chip = rcu_dereference(gdev->chip);
 
-vim +5320 drivers/net/ethernet/cadence/macb_main.c
+If so, you rely on that lock's protection by replacing the above
+two lines of code with something like this:
 
-  5252	
-  5253	static int __maybe_unused macb_suspend(struct device *dev)
-  5254	{
-  5255		struct net_device *netdev = dev_get_drvdata(dev);
-  5256		struct macb *bp = netdev_priv(netdev);
-  5257		struct macb_queue *queue;
-  5258		struct in_ifaddr *ifa;
-  5259		unsigned long flags;
-  5260		unsigned int q;
-  5261		u32 ctrlmask;
-  5262		int err;
-  5263	
-  5264		if (!device_may_wakeup(&bp->dev->dev))
-  5265			phy_exit(bp->sgmii_phy);
-  5266	
-  5267		if (!netif_running(netdev))
-  5268			return 0;
-  5269	
-  5270		if (bp->wol & MACB_WOL_ENABLED) {
-  5271			/* Check for IP address in WOL ARP mode */
-  5272			ifa = rtnl_dereference(bp->dev->ip_ptr->ifa_list);
-  5273			if ((bp->wolopts & WAKE_ARP) && !ifa) {
-  5274				netdev_err(netdev, "IP address not assigned\n");
-  5275				return -EOPNOTSUPP;
-  5276			}
-  5277			spin_lock_irqsave(&bp->lock, flags);
-  5278	
-  5279			/* Disable Tx and Rx engines before  disabling the queues,
-  5280			 * this is mandatory as per the IP spec sheet
-  5281			 */
-  5282			ctrlmask = macb_readl(bp, NCR);
-  5283			ctrlmask &= ~(MACB_BIT(TE) | MACB_BIT(RE));
-  5284			macb_writel(bp, NCR, ctrlmask);
-  5285			for (q = 0, queue = bp->queues; q < bp->num_queues;
-  5286			     ++q, ++queue) {
-  5287				/* Disable RX queues */
-  5288				if (bp->caps & MACB_CAPS_QUEUE_DISABLE) {
-  5289					queue_writel(queue, RBQP, GEM_RBQP_DISABLE);
-  5290				} else {
-  5291					/* Tie off RX queues */
-  5292					queue_writel(queue, RBQP,
-  5293						     lower_32_bits(bp->rx_ring_tieoff_dma));
-  5294					queue_writel(queue, RBQPH,
-  5295						     upper_32_bits(bp->rx_ring_tieoff_dma));
-  5296				}
-  5297			}
-  5298			/* Enable Receive engine */
-  5299			ctrlmask = macb_readl(bp, NCR);
-  5300			ctrlmask |= MACB_BIT(RE);
-  5301			macb_writel(bp, NCR, ctrlmask);
-  5302			/* Flush all status bits */
-  5303			macb_writel(bp, TSR, -1);
-  5304			macb_writel(bp, RSR, -1);
-  5305			for (q = 0, queue = bp->queues; q < bp->num_queues;
-  5306			     ++q, ++queue) {
-  5307				/* Disable all interrupts */
-  5308				queue_writel(queue, IDR, -1);
-  5309				queue_readl(queue, ISR);
-  5310				if (bp->caps & MACB_CAPS_ISR_CLEAR_ON_WRITE)
-  5311					queue_writel(queue, ISR, -1);
-  5312			}
-  5313	
-  5314			ctrlmask = 0;
-  5315			if (bp->wolopts & WAKE_MAGIC)
-  5316				ctrlmask = MACB_BIT(MAG);
-  5317			if (bp->wolopts & WAKE_ARP) {
-  5318				ctrlmask |= MACB_BIT(ARP);
-  5319				/* write IP address into register */
-> 5320				ctrlmask |= cpu_to_be32p(&ifa->ifa_local)
-  5321							& GENMASK(MACB_IP_SIZE - 1, 0);
-  5322			}
-  5323	
-  5324			/* Change interrupt handler and
-  5325			 * Enable WoL IRQ on queue 0
-  5326			 */
-  5327			devm_free_irq(dev, bp->queues[0].irq, bp->queues);
-  5328			if (macb_is_gem(bp)) {
-  5329				err = devm_request_irq(dev, bp->queues[0].irq, gem_wol_interrupt,
-  5330						       IRQF_SHARED, netdev->name, bp->queues);
-  5331				if (err) {
-  5332					dev_err(dev,
-  5333						"Unable to request IRQ %d (error %d)\n",
-  5334						bp->queues[0].irq, err);
-  5335					spin_unlock_irqrestore(&bp->lock, flags);
-  5336					return err;
-  5337				}
-  5338				queue_writel(bp->queues, IER, GEM_BIT(WOL));
-  5339				gem_writel(bp, WOL, ctrlmask);
-  5340			} else {
-  5341				err = devm_request_irq(dev, bp->queues[0].irq, macb_wol_interrupt,
-  5342						       IRQF_SHARED, netdev->name, bp->queues);
-  5343				if (err) {
-  5344					dev_err(dev,
-  5345						"Unable to request IRQ %d (error %d)\n",
-  5346						bp->queues[0].irq, err);
-  5347					spin_unlock_irqrestore(&bp->lock, flags);
-  5348					return err;
-  5349				}
-  5350				queue_writel(bp->queues, IER, MACB_BIT(WOL));
-  5351				macb_writel(bp, WOL, ctrlmask);
-  5352			}
-  5353			spin_unlock_irqrestore(&bp->lock, flags);
-  5354	
-  5355			enable_irq_wake(bp->queues[0].irq);
-  5356		}
-  5357	
-  5358		netif_device_detach(netdev);
-  5359		for (q = 0, queue = bp->queues; q < bp->num_queues;
-  5360		     ++q, ++queue) {
-  5361			napi_disable(&queue->napi_rx);
-  5362			napi_disable(&queue->napi_tx);
-  5363		}
-  5364	
-  5365		if (!(bp->wol & MACB_WOL_ENABLED)) {
-  5366			rtnl_lock();
-  5367			phylink_stop(bp->phylink);
-  5368			rtnl_unlock();
-  5369			spin_lock_irqsave(&bp->lock, flags);
-  5370			macb_reset_hw(bp);
-  5371			spin_unlock_irqrestore(&bp->lock, flags);
-  5372		}
-  5373	
-  5374		if (!(bp->caps & MACB_CAPS_USRIO_DISABLED))
-  5375			bp->pm_data.usrio = macb_or_gem_readl(bp, USRIO);
-  5376	
-  5377		if (netdev->hw_features & NETIF_F_NTUPLE)
-  5378			bp->pm_data.scrt2 = gem_readl_n(bp, ETHT, SCRT2_ETHT);
-  5379	
-  5380		if (bp->ptp_info)
-  5381			bp->ptp_info->ptp_remove(netdev);
-  5382		if (!device_may_wakeup(dev))
-  5383			pm_runtime_force_suspend(dev);
-  5384	
-  5385		return 0;
-  5386	}
-  5387	
+	chip = rcu_dereference_protected(gdev->chip,
+					 lockdep_is_held(&my_lock));
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +	if (!chip)
+> +		return -ENODEV;
+> +
+>  	/*
+>  	 * For sysfs backward compatibility we need to preserve this
+>  	 * preferred parenting to the gpio_chip parent field, if set.
+> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> index 7ecdd8cc39c5..ea0675514891 100644
+> --- a/drivers/gpio/gpiolib.c
+> +++ b/drivers/gpio/gpiolib.c
+> @@ -221,7 +221,7 @@ struct gpio_chip *gpiod_to_chip(const struct
+> gpio_desc *desc)
+>  {
+>  	if (!desc)
+>  		return NULL;
+> -	return desc->gdev->chip;
+> +	return rcu_dereference(desc->gdev->chip);
+>  }
+>  EXPORT_SYMBOL_GPL(gpiod_to_chip);
+> 
+> @@ -291,7 +291,7 @@ EXPORT_SYMBOL(gpio_device_get_label);
+>   */
+>  struct gpio_chip *gpio_device_get_chip(struct gpio_device *gdev)
+>  {
+> -	return gdev->chip;
+> +	return rcu_dereference(gdev->chip);
+>  }
+>  EXPORT_SYMBOL_GPL(gpio_device_get_chip);
+> 
+> @@ -742,7 +742,7 @@ static int gpiochip_setup_dev(struct gpio_device *gdev)
+>  		goto err_remove_device;
+> 
+>  	dev_dbg(&gdev->dev, "registered GPIOs %d to %d on %s\n", gdev->base,
+> -		gdev->base + gdev->ngpio - 1, gdev->chip->label ? : "generic");
+> +		gdev->base + gdev->ngpio - 1, gdev->label);
+
+I don't know enough to comment here, but the rest of the look good to me.
+
+>  	return 0;
+> 
+> @@ -866,7 +866,7 @@ int gpiochip_add_data_with_key(struct gpio_chip
+> *gc, void *data,
+>  		return -ENOMEM;
+>  	gdev->dev.bus = &gpio_bus_type;
+>  	gdev->dev.parent = gc->parent;
+> -	WRITE_ONCE(gdev->chip, gc);
+> +	rcu_assign_pointer(gdev->chip, gc);
+> 
+>  	gc->gpiodev = gdev;
+>  	gpiochip_set_data(gc, data);
+> diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
+> index c76acb8f95c6..07443d26cbca 100644
+> --- a/drivers/gpio/gpiolib.h
+> +++ b/drivers/gpio/gpiolib.h
+> @@ -59,7 +59,7 @@ struct gpio_device {
+>  	int			id;
+>  	struct device		*mockdev;
+>  	struct module		*owner;
+> -	struct gpio_chip	*chip;
+> +	struct gpio_chip __rcu	*chip;
+>  	struct gpio_desc	*descs;
+>  	int			base;
+>  	u16			ngpio;
+> 
+> Bartosz
