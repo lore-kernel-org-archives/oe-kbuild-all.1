@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90D63F8ED;
-	Wed, 31 Jan 2024 20:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A354E39FCF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 22:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706731936; cv=none; b=j44oclO4MyQl0ipUPWTiaF4jdRQeIttpiMaRLe+RlqefcG12O3lOyo7sOKbkS+TUqd11Gzj58vY1CNUw1ruelu00qoQvgbBQTxXBcHxIc6e1021hQ+r5gF6hoHI5/Y4onbWv6xT6DWEM2aaE1/unchp2XNAk0j6w1OM8Hl9zJZg=
+	t=1706739336; cv=none; b=I4DlrfHTRaSWC7oD59JCy0hT59SpcqDdIVVe4Jx9L3wC3PqK1KNMXt6MA1w6SfOXXnzAqIQu70j5uO3K5gq/hC4imGB8eWy8//BLMn4yndpc8Hs00Hxyp3Q+fRuQcmEp+YTQlhK6QnNaet0vThF7QCt2NW3tTkGMO3QRAdv568c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706731936; c=relaxed/simple;
-	bh=bN4LkZcF1y2okwhB3POx5zZ2IlT9co7VD74r3Icbq40=;
+	s=arc-20240116; t=1706739336; c=relaxed/simple;
+	bh=4ZgH4xgEhEfQGmE0oc7WTPE8nB+LOjjf1I8a+exp5T0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KqKQS49mWhQGvtuteSrKVpISxXhFDPbZG+FJ4oSOkrb/qDLJq9McDaeQjzlI/5gZvhZ5HV3rxeVD6TN3u7z5gPfAD1dLYNN+n3n+VnM3ahfeWfYUR+lvdiLfM8ISU4x1EVJ7xEdqIE0Nb64g1y44tWViYv2RC4CVgsalp7a0aFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1xmwKK/; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=eaUN5yR08E+xrB3l3+wJ/w55fc18tJugi6f3HsNKb6ecqdAundyWhL4O1Wk3OK/NqGU89BhwdgZwhqEwpq147B9r4h/6FyIGGDVzqklcftYNNTS4WyRqd3rcKs8/xy8Fzx4WH+XX0UqxZRvrR/bN4znnkGW+ngbvxjCB1NsP62w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eajnZdKg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1xmwKK/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eajnZdKg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706731934; x=1738267934;
+  t=1706739333; x=1738275333;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bN4LkZcF1y2okwhB3POx5zZ2IlT9co7VD74r3Icbq40=;
-  b=b1xmwKK/jVS0t+W2dBnwflMsz9jRg+gbS/dJ/g+VTm04zrUodwacLl+X
-   bk3+XVuwwd1CrC9dqHkVGXGs4VPkAME7VGyc2lZ8CsZabE6X/7T9Aq+Q/
-   erHjSP6cqyPUuzKgpt6QJBNbTvnx6Hx/ckYOPr9J636YC8jpRrqasGmww
-   tjdpqrOkh/7ty2MELkgsuVG4MoImONoXGL1+7Dg3kDSlMZd4Fg12Blo8o
-   pjXdJB+mn+lZ8aEVPEKyLEjh8mWfxrDoCET7f0Z+amIakt5AzFynC9R2J
-   f8VBdFGvIgB+Y4AV6el1bxeL2t7JQBVtYKYdxuXfjlouC6yljkqHFvXpM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="11082231"
+  bh=4ZgH4xgEhEfQGmE0oc7WTPE8nB+LOjjf1I8a+exp5T0=;
+  b=eajnZdKgGP7quzXyEsExKOVqtSNDrhTOte+loYNI+06phNNrK7vLvXul
+   H0yRb6YaC4gwxZCIph6homfeS0b7f1vGd0F7m4Xw9V2QfZMLwJloBcWKe
+   fFCbgVlcVlotZj5eehad84x7KQ2D6VGF7u30zxOsN6yR4jtA1s7afcV9u
+   G3iVrwi2R9YO/PLhPn8KaZldnytZXrYsubKotMaIC2D6fWGn366/vPjjJ
+   eZMn9dXZ//77kmt0pB3JsAKxgwq0YyOmJF2dUyi2wYo7c3jXdVdhFRvQq
+   KjwtrKxzY1wlMzd3I11+Y9+JXirVlODUGR1rPePK0Z0QxFqW3aNudCcU1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="17275688"
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="11082231"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 12:12:13 -0800
+   d="scan'208";a="17275688"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 14:15:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="931965592"
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="931965592"
+   d="scan'208";a="4177967"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2024 12:12:11 -0800
+  by orviesa003.jf.intel.com with ESMTP; 31 Jan 2024 14:15:30 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVGwI-0001yM-2U;
-	Wed, 31 Jan 2024 20:12:07 +0000
-Date: Thu, 1 Feb 2024 04:11:53 +0800
+	id 1rVIrc-00025O-36;
+	Wed, 31 Jan 2024 22:15:25 +0000
+Date: Thu, 1 Feb 2024 06:15:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Justin Stitt <justinstitt@google.com>
-Subject: [kees:devel/hardening/v6.8/2-arg-strscpy 1/2]
- include/linux/suspend.h:81:2: error: call to undeclared function
- 'COUNT_ARGS'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202402010432.vVJfVbUz-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [rafael-pm:bleeding-edge 8/30] drivers/char/apm-emulation.c:91:9:
+ error: redeclaration of enumerator 'SUSPEND_NONE'
+Message-ID: <202402010647.vqP6EYJu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,312 +61,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git devel/hardening/v6.8/2-arg-strscpy
-head:   52fcd0404512a41ebc6f406977ac04ffd86349fc
-commit: 8f94a332197dea2f8461b136697955624250671b [1/2] string: Allow 2-argument strscpy()
-config: arm-mmp2_defconfig (https://download.01.org/0day-ci/archive/20240201/202402010432.vVJfVbUz-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010432.vVJfVbUz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   bd0e3c391ff3c3c5c9b41227d6b7433fcf4d9c61
+commit: 0897a442fca735890658fe84ace34bdac0e7bcce [8/30] PM: sleep: stats: Use array of suspend step names
+config: arm-randconfig-002-20240201 (https://download.01.org/0day-ci/archive/20240201/202402010647.vqP6EYJu-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010647.vqP6EYJu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402010432.vVJfVbUz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402010647.vqP6EYJu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from init/do_mounts.c:7:
->> include/linux/suspend.h:81:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(suspend_stats.failed_devs[suspend_stats.last_failed_dev],
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
-   In file included from init/do_mounts.c:7:
->> include/linux/suspend.h:81:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   In file included from init/do_mounts.c:7:
-   include/linux/suspend.h:81:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
->> init/do_mounts.c:65:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(saved_root_name, line, sizeof(saved_root_name));
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> init/do_mounts.c:65:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   init/do_mounts.c:65:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   init/do_mounts.c:137:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(p, root_fs_names, size);
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
-   init/do_mounts.c:137:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   init/do_mounts.c:137:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   9 errors generated.
---
->> init/version.c:26:11: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           arglen = strscpy(init_uts_ns.name.nodename, arg, bufsize);
-                    ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> init/version.c:26:11: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   init/version.c:26:11: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   3 errors generated.
---
-   In file included from kernel/sys.c:30:
->> include/linux/suspend.h:81:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(suspend_stats.failed_devs[suspend_stats.last_failed_dev],
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
-   In file included from kernel/sys.c:30:
->> include/linux/suspend.h:81:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   In file included from kernel/sys.c:30:
-   include/linux/suspend.h:81:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   3 errors generated.
---
->> kernel/params.c:854:4: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           strscpy(modname, kp->name, name_len);
-                           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> kernel/params.c:854:4: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   kernel/params.c:854:4: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   3 errors generated.
---
->> kernel/kallsyms.c:664:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(iter->module_name, "bpf", MODULE_NAME_LEN);
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> kernel/kallsyms.c:664:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   kernel/kallsyms.c:664:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   kernel/kallsyms.c:684:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(iter->module_name, "__builtin__kprobes", MODULE_NAME_LEN);
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
-   kernel/kallsyms.c:684:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   kernel/kallsyms.c:684:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   6 errors generated.
---
->> kernel/seccomp.c:2285:10: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           ret = strscpy(names, sep, size);
-                                 ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> kernel/seccomp.c:2285:10: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   kernel/seccomp.c:2285:10: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   kernel/seccomp.c:2294:9: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   ret = strscpy(names, cur->name, size);
-                         ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
-   kernel/seccomp.c:2294:9: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   kernel/seccomp.c:2294:9: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   6 errors generated.
---
->> mm/dmapool.c:258:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(retval->name, name, sizeof(retval->name));
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> mm/dmapool.c:258:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   mm/dmapool.c:258:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   3 errors generated.
---
->> fs/super.c:770:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(s->s_id, s->s_type->name, sizeof(s->s_id));
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> fs/super.c:770:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   fs/super.c:770:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   fs/super.c:858:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(s->s_id, type->name, sizeof(s->s_id));
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
-   fs/super.c:858:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   fs/super.c:858:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   6 errors generated.
---
->> fs/char_dev.c:153:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(cd->name, name, sizeof(cd->name));
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> fs/char_dev.c:153:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   fs/char_dev.c:153:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   3 errors generated.
---
->> crypto/api.c:119:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(larval->alg.cra_name, name, CRYPTO_MAX_ALG_NAME);
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> crypto/api.c:119:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   crypto/api.c:119:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   3 errors generated.
---
->> crypto/aead.c:186:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(raead.type, "aead", sizeof(raead.type));
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
->> crypto/aead.c:186:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   crypto/aead.c:186:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   crypto/aead.c:187:2: error: use of undeclared identifier '__strscpy'
-           strscpy(raead.geniv, "<none>", sizeof(raead.geniv));
-           ^
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   crypto/aead.c:227:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           strscpy(raead.type, "aead", sizeof(raead.type));
-           ^
-   include/linux/string.h:105:2: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-           ^
-   crypto/aead.c:227:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-   include/linux/string.h:105:25: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                                  ^
-   crypto/aead.c:227:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:105:14: note: expanded from macro 'strscpy'
-           CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-                       ^
-   7 errors generated.
-..
+>> drivers/char/apm-emulation.c:91:9: error: redeclaration of enumerator 'SUSPEND_NONE'
+      91 |         SUSPEND_NONE,
+         |         ^~~~~~~~~~~~
+   In file included from drivers/char/apm-emulation.c:24:
+   include/linux/suspend.h:44:9: note: previous definition of 'SUSPEND_NONE' with type 'enum suspend_stat_step'
+      44 |         SUSPEND_NONE = 0,
+         |         ^~~~~~~~~~~~
 
 
-vim +/COUNT_ARGS +81 include/linux/suspend.h
+vim +/SUSPEND_NONE +91 drivers/char/apm-emulation.c
 
-2a77c46de1e3da ShuoX Liu    2011-08-10  78  
-2a77c46de1e3da ShuoX Liu    2011-08-10  79  static inline void dpm_save_failed_dev(const char *name)
-2a77c46de1e3da ShuoX Liu    2011-08-10  80  {
-bd8092def983f5 Wolfram Sang 2022-08-18 @81  	strscpy(suspend_stats.failed_devs[suspend_stats.last_failed_dev],
-2a77c46de1e3da ShuoX Liu    2011-08-10  82  		name,
-2a77c46de1e3da ShuoX Liu    2011-08-10  83  		sizeof(suspend_stats.failed_devs[0]));
-2a77c46de1e3da ShuoX Liu    2011-08-10  84  	suspend_stats.last_failed_dev++;
-2a77c46de1e3da ShuoX Liu    2011-08-10  85  	suspend_stats.last_failed_dev %= REC_FAILED_NUM;
-2a77c46de1e3da ShuoX Liu    2011-08-10  86  }
-2a77c46de1e3da ShuoX Liu    2011-08-10  87  
+7726942fb15edd Ralf Baechle  2007-02-09  50  
+d20a4dca47d2cd Johannes Berg 2008-06-11  51  /*
+d20a4dca47d2cd Johannes Berg 2008-06-11  52   * thread states (for threads using a writable /dev/apm_bios fd):
+d20a4dca47d2cd Johannes Berg 2008-06-11  53   *
+d20a4dca47d2cd Johannes Berg 2008-06-11  54   * SUSPEND_NONE:	nothing happening
+d20a4dca47d2cd Johannes Berg 2008-06-11  55   * SUSPEND_PENDING:	suspend event queued for thread and pending to be read
+d20a4dca47d2cd Johannes Berg 2008-06-11  56   * SUSPEND_READ:	suspend event read, pending acknowledgement
+d20a4dca47d2cd Johannes Berg 2008-06-11  57   * SUSPEND_ACKED:	acknowledgement received from thread (via ioctl),
+d20a4dca47d2cd Johannes Berg 2008-06-11  58   *			waiting for resume
+d20a4dca47d2cd Johannes Berg 2008-06-11  59   * SUSPEND_ACKTO:	acknowledgement timeout
+d20a4dca47d2cd Johannes Berg 2008-06-11  60   * SUSPEND_DONE:	thread had acked suspend and is now notified of
+d20a4dca47d2cd Johannes Berg 2008-06-11  61   *			resume
+d20a4dca47d2cd Johannes Berg 2008-06-11  62   *
+d20a4dca47d2cd Johannes Berg 2008-06-11  63   * SUSPEND_WAIT:	this thread invoked suspend and is waiting for resume
+d20a4dca47d2cd Johannes Berg 2008-06-11  64   *
+d20a4dca47d2cd Johannes Berg 2008-06-11  65   * A thread migrates in one of three paths:
+d20a4dca47d2cd Johannes Berg 2008-06-11  66   *	NONE -1-> PENDING -2-> READ -3-> ACKED -4-> DONE -5-> NONE
+d20a4dca47d2cd Johannes Berg 2008-06-11  67   *				    -6-> ACKTO -7-> NONE
+d20a4dca47d2cd Johannes Berg 2008-06-11  68   *	NONE -8-> WAIT -9-> NONE
+d20a4dca47d2cd Johannes Berg 2008-06-11  69   *
+d20a4dca47d2cd Johannes Berg 2008-06-11  70   * While in PENDING or READ, the thread is accounted for in the
+d20a4dca47d2cd Johannes Berg 2008-06-11  71   * suspend_acks_pending counter.
+d20a4dca47d2cd Johannes Berg 2008-06-11  72   *
+d20a4dca47d2cd Johannes Berg 2008-06-11  73   * The transitions are invoked as follows:
+d20a4dca47d2cd Johannes Berg 2008-06-11  74   *	1: suspend event is signalled from the core PM code
+d20a4dca47d2cd Johannes Berg 2008-06-11  75   *	2: the suspend event is read from the fd by the userspace thread
+d20a4dca47d2cd Johannes Berg 2008-06-11  76   *	3: userspace thread issues the APM_IOC_SUSPEND ioctl (as ack)
+d20a4dca47d2cd Johannes Berg 2008-06-11  77   *	4: core PM code signals that we have resumed
+d20a4dca47d2cd Johannes Berg 2008-06-11  78   *	5: APM_IOC_SUSPEND ioctl returns
+d20a4dca47d2cd Johannes Berg 2008-06-11  79   *
+d20a4dca47d2cd Johannes Berg 2008-06-11  80   *	6: the notifier invoked from the core PM code timed out waiting
+d20a4dca47d2cd Johannes Berg 2008-06-11  81   *	   for all relevant threds to enter ACKED state and puts those
+d20a4dca47d2cd Johannes Berg 2008-06-11  82   *	   that haven't into ACKTO
+d20a4dca47d2cd Johannes Berg 2008-06-11  83   *	7: those threads issue APM_IOC_SUSPEND ioctl too late,
+d20a4dca47d2cd Johannes Berg 2008-06-11  84   *	   get an error
+d20a4dca47d2cd Johannes Berg 2008-06-11  85   *
+d20a4dca47d2cd Johannes Berg 2008-06-11  86   *	8: userspace thread issues the APM_IOC_SUSPEND ioctl (to suspend),
+d20a4dca47d2cd Johannes Berg 2008-06-11  87   *	   ioctl code invokes pm_suspend()
+d20a4dca47d2cd Johannes Berg 2008-06-11  88   *	9: pm_suspend() returns indicating resume
+d20a4dca47d2cd Johannes Berg 2008-06-11  89   */
+d20a4dca47d2cd Johannes Berg 2008-06-11  90  enum apm_suspend_state {
+d20a4dca47d2cd Johannes Berg 2008-06-11 @91  	SUSPEND_NONE,
+d20a4dca47d2cd Johannes Berg 2008-06-11  92  	SUSPEND_PENDING,
+d20a4dca47d2cd Johannes Berg 2008-06-11  93  	SUSPEND_READ,
+d20a4dca47d2cd Johannes Berg 2008-06-11  94  	SUSPEND_ACKED,
+d20a4dca47d2cd Johannes Berg 2008-06-11  95  	SUSPEND_ACKTO,
+d20a4dca47d2cd Johannes Berg 2008-06-11  96  	SUSPEND_WAIT,
+d20a4dca47d2cd Johannes Berg 2008-06-11  97  	SUSPEND_DONE,
+d20a4dca47d2cd Johannes Berg 2008-06-11  98  };
+d20a4dca47d2cd Johannes Berg 2008-06-11  99  
 
-:::::: The code at line 81 was first introduced by commit
-:::::: bd8092def983f567800f764a5d23b2dca98f078c PM: suspend: move from strlcpy() with unused retval to strscpy()
+:::::: The code at line 91 was first introduced by commit
+:::::: d20a4dca47d2cd027ed58a13f91b424affd1f449 APM emulation: Notify about all suspend events, not just APM invoked ones (v2)
 
-:::::: TO: Wolfram Sang <wsa+renesas@sang-engineering.com>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: TO: Johannes Berg <johannes@sipsolutions.net>
+:::::: CC: Andi Kleen <andi@basil.nowhere.org>
 
 -- 
 0-DAY CI Kernel Test Service
