@@ -1,80 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642DD679E2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 09:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDCC664CE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 09:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706692238; cv=none; b=W0pp/+Y4oMdOzvOdEAOS+gJr6Q+qlLaB5AlngQMgaBi+k3/oOkK7Z291Sxw/whQSsHu6LCiubKL3eZjBYiCX1GMpQW36P+4xt0RIUwR1XeTbxoU84sUUtSV9IG0h7FM+nzmj7TcBPjp32XmJB5E4LJ6u+/7mZ31paTscGWg0C2I=
+	t=1706692257; cv=none; b=aRXTS5jFUg3PaLR9ie9ablabBhzBHo37gSik4CxMohm4ToJdzV+qL0WGSYNz6h4RK6MSGqmDTBHK0U2OJOQ3Bx5C9xFo/Xo4zDQzfAwjh3omKtD6ywwE6e4RIKIGY0BtYnb+qyvUUab4FuyVT8VOHA0oWT6yCMD50iAmKJ6Gjc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706692238; c=relaxed/simple;
-	bh=gBFHap0eiMcOMOEsQe36Qy86dublagrIx/fYGz58s/w=;
+	s=arc-20240116; t=1706692257; c=relaxed/simple;
+	bh=LX+IIDw7LAWxvzbdHRWfw0B+C+XVU5E1Yjznbf7sIWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=T5jAF6qXmnwyMyo0LTmmJcuSZrEQsz/+OWnCwOkDnY2K/XfEVH67dbHKp5FBn6WBGPpc0IHeGPdGcthWsGIKQwdRvdbA5+pYJrN5Jb9MKirz30pZEZVlM5sql4ZEWZ3B/rOA+J5gpDICrCFSwsw5s3280HRNM4SursvBc+Rj18U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VWr+3KPM; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=ROvf8JG7bqy42YdY6WE/iV17fCT6HS9VwJFpk6uJ+vOkMn6bwTV9FEUC5soUiLB2KpnsM09AC/rYwtnCm2i6J8sn1TjqRufYbP3etBK89INrp9NQfItOUaZs0Z8GieQEl9z0wMRZCbbf0TyO48ZbQYNSz6GoRuyp3pPoHpeLB2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FSzG71qI; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VWr+3KPM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706692238; x=1738228238;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=gBFHap0eiMcOMOEsQe36Qy86dublagrIx/fYGz58s/w=;
-  b=VWr+3KPM9q/Q2gNH3WSVkNNdZye6H4C9zLUrxOhqXmgBoR/RdX92EB/5
-   UXQeomjZA8cSXchgs7EWPs36SucxgZga9uSPBHbN7ard+U4ksugEiFBkE
-   tcrh+ZCyH3vX9K9SP7SSNoo9Ya8spJtmwgXt+EAymayeXN3bq8C6VXGZ2
-   0wgk3PTnN39SNicV+FNpizk1Lpsa+tC2+mSPcPJDCcQ3sMc2Kf2krHueT
-   kP5yjqNApRa6IJXNdzGNTmDcu95FdROusKLol8pHIFD8T1tUqv0NmPikK
-   e8Q7C+xPyovHAJ7O5O9srSZ7sXbao5NMCNdqQxXhq6pjhYF1BGwYvuMJG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="2478367"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="2478367"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 01:10:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="961554086"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="961554086"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 31 Jan 2024 01:10:35 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rV6bq-0001Ma-2g;
-	Wed, 31 Jan 2024 09:10:29 +0000
-Date: Wed, 31 Jan 2024 17:09:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 2/4] lib: move pci_iomap.c to drivers/pci/
-Message-ID: <ZboOW14CIrFN-rCA@ad1fec2ed832>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FSzG71qI"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2cf2fdd518bso47740631fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 01:10:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706692253; x=1707297053; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cgExCvRH14FXNOEX2q+ieKqRx3LRFYlOhTkoQIbaOMI=;
+        b=FSzG71qIxigkeD7NoDZIhVjuUi4uyebK41YCl8I9IppUlBUyTNESaMjAs9d8OzZxiU
+         1cZxjmoRO4CDPl9RNzb8aNfF5X8dTvgI9SEvWg0In+ChNPtOd17Mow1JasrHXbvBQXRc
+         d1+ZPsLRRDyrbDI350lNCjIm0Im9cEBARCO4UgJNm5W8l3q3FGNcPH3p8TsjcAY9d0Qe
+         INuFLjqj/SGVgx4jlILnJJKjOFKy/J7QWRyFGFn7+EVrLy+RLEXfTcopjPLCsqWbWpIj
+         fEfsxrKvL72cxV25Q/6U/zK3hCbA2vMJbxCI2nM3Lsf8Qe/oY+SZbgRpBJ5uNUEc0Mj/
+         OudA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706692253; x=1707297053;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cgExCvRH14FXNOEX2q+ieKqRx3LRFYlOhTkoQIbaOMI=;
+        b=pHOg+wHsgU04iqyH+QOAi7M9j6/TjaEku2GjhSTtOlluiFaHisTcK5VOiNHhXzgrIW
+         giOZ1IMN9esP9IPonlC1bH/ZhrY3Fxs77cEKb/wCO1OQwUL+MHLcEZoSRGcKEFaoCtVC
+         zylEMKUeF2chaVQQDBXYvlQIrrDpAELvQH3Zsy1wOwuOyt1lI/tzeh0gIQ3ZhrqmjQHp
+         HsRx6Yek1T4GG4shV/b7ya/9ZkxZnl4WFiBHvQpAjcgmaihpmRE+1AgoQsYcjqZ7Prs0
+         EPreZz6DNbgxfogS84DLU2L74NmHTBhlpWRg8wOveixTN/U5tJIU920KC4/v0SVkO7GL
+         bOEg==
+X-Gm-Message-State: AOJu0YxzhC9wdcHXnFOeiImUT9SXFKAwUK7Z0+/t4zWfmjXxWUm5pzQD
+	4Z0dP3ax9jvhKVyqsVapp5WJDJqN/Jda5GuUQp75q1Lul1jyJjraiR2paX+/OeI=
+X-Google-Smtp-Source: AGHT+IEKxu+DvVmX2V+Ho9agy9CO6Vfuk9+x4uHjd6xbnu8GyTrj4nTMdMO7EM1EZ0B6gV7SKSOWQg==
+X-Received: by 2002:a05:651c:b1e:b0:2d0:6c48:95af with SMTP id b30-20020a05651c0b1e00b002d06c4895afmr401928ljr.50.1706692252705;
+        Wed, 31 Jan 2024 01:10:52 -0800 (PST)
+Received: from localhost ([102.140.226.10])
+        by smtp.gmail.com with ESMTPSA id s9-20020a05600c45c900b0040ef718cf81sm978022wmo.28.2024.01.31.01.10.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jan 2024 01:10:52 -0800 (PST)
+Date: Wed, 31 Jan 2024 12:10:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+	intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/5] drm/xe: store bind time pat index to xe_bo
+Message-ID: <7ae75ca8-cc58-4baa-abf3-0caaa4513f34@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240131090023.12331-3-pstanner@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240126210807.320671-4-juhapekka.heikkila@gmail.com>
 
-Hi,
+Hi Juha-Pekka,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Juha-Pekka-Heikkila/drm-xe-pat-annotate-pat-index-table-with-compression-information/20240127-091231
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20240126210807.320671-4-juhapekka.heikkila%40gmail.com
+patch subject: [PATCH 3/5] drm/xe: store bind time pat index to xe_bo
+config: sparc-randconfig-r081-20240128 (https://download.01.org/0day-ci/archive/20240131/202401311604.1pLlAxeK-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v6 2/4] lib: move pci_iomap.c to drivers/pci/
-Link: https://lore.kernel.org/stable/20240131090023.12331-3-pstanner%40redhat.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202401311604.1pLlAxeK-lkp@intel.com/
+
+New smatch warnings:
+drivers/gpu/drm/xe/xe_pt.c:1265 __xe_pt_bind_vma() warn: possible memory leak of 'ifence'
+drivers/gpu/drm/xe/xe_pt.c:1265 __xe_pt_bind_vma() warn: possible memory leak of 'rfence'
+
+vim +/ifence +1265 drivers/gpu/drm/xe/xe_pt.c
+
+dd08ebf6c3525a Matthew Brost       2023-03-30  1192  struct dma_fence *
+9b9529ce379a08 Francois Dugast     2023-07-31  1193  __xe_pt_bind_vma(struct xe_tile *tile, struct xe_vma *vma, struct xe_exec_queue *q,
+dd08ebf6c3525a Matthew Brost       2023-03-30  1194  		 struct xe_sync_entry *syncs, u32 num_syncs,
+dd08ebf6c3525a Matthew Brost       2023-03-30  1195  		 bool rebind)
+dd08ebf6c3525a Matthew Brost       2023-03-30  1196  {
+dd08ebf6c3525a Matthew Brost       2023-03-30  1197  	struct xe_vm_pgtable_update entries[XE_VM_MAX_LEVEL * 2 + 1];
+dd08ebf6c3525a Matthew Brost       2023-03-30  1198  	struct xe_pt_migrate_pt_update bind_pt_update = {
+dd08ebf6c3525a Matthew Brost       2023-03-30  1199  		.base = {
+dd08ebf6c3525a Matthew Brost       2023-03-30  1200  			.ops = xe_vma_is_userptr(vma) ? &userptr_bind_ops : &bind_ops,
+dd08ebf6c3525a Matthew Brost       2023-03-30  1201  			.vma = vma,
+fd84041d094ce8 Matthew Brost       2023-07-19  1202  			.tile_id = tile->id,
+dd08ebf6c3525a Matthew Brost       2023-03-30  1203  		},
+dd08ebf6c3525a Matthew Brost       2023-03-30  1204  		.bind = true,
+dd08ebf6c3525a Matthew Brost       2023-03-30  1205  	};
+21ed3327e388c2 Matthew Brost       2023-06-22  1206  	struct xe_vm *vm = xe_vma_vm(vma);
+dd08ebf6c3525a Matthew Brost       2023-03-30  1207  	u32 num_entries;
+dd08ebf6c3525a Matthew Brost       2023-03-30  1208  	struct dma_fence *fence;
+5387e865d90e92 Matthew Brost       2023-01-27  1209  	struct invalidation_fence *ifence = NULL;
+fd84041d094ce8 Matthew Brost       2023-07-19  1210  	struct xe_range_fence *rfence;
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1211  	struct xe_bo *bo = xe_vma_bo(vma);
+dd08ebf6c3525a Matthew Brost       2023-03-30  1212  	int err;
+dd08ebf6c3525a Matthew Brost       2023-03-30  1213  
+dd08ebf6c3525a Matthew Brost       2023-03-30  1214  	bind_pt_update.locked = false;
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1215  	xe_bo_assert_held(bo);
+dd08ebf6c3525a Matthew Brost       2023-03-30  1216  	xe_vm_assert_held(vm);
+dd08ebf6c3525a Matthew Brost       2023-03-30  1217  
+21ed3327e388c2 Matthew Brost       2023-06-22  1218  	vm_dbg(&xe_vma_vm(vma)->xe->drm,
+dd08ebf6c3525a Matthew Brost       2023-03-30  1219  	       "Preparing bind, with range [%llx...%llx) engine %p.\n",
+0e1a234618a86c Paulo Zanoni        2023-09-29  1220  	       xe_vma_start(vma), xe_vma_end(vma), q);
+dd08ebf6c3525a Matthew Brost       2023-03-30  1221  
+876611c2b75689 Matt Roper          2023-06-01  1222  	err = xe_pt_prepare_bind(tile, vma, entries, &num_entries, rebind);
+dd08ebf6c3525a Matthew Brost       2023-03-30  1223  	if (err)
+dd08ebf6c3525a Matthew Brost       2023-03-30  1224  		goto err;
+c73acc1eeba5e3 Francois Dugast     2023-09-12  1225  	xe_tile_assert(tile, num_entries <= ARRAY_SIZE(entries));
+dd08ebf6c3525a Matthew Brost       2023-03-30  1226  
+876611c2b75689 Matt Roper          2023-06-01  1227  	xe_vm_dbg_print_entries(tile_to_xe(tile), entries, num_entries);
+fd84041d094ce8 Matthew Brost       2023-07-19  1228  	xe_pt_calc_rfence_interval(vma, &bind_pt_update, entries,
+fd84041d094ce8 Matthew Brost       2023-07-19  1229  				   num_entries);
+dd08ebf6c3525a Matthew Brost       2023-03-30  1230  
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1231  	/*
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1232  	 * If rebind, we have to invalidate TLB on !LR vms to invalidate
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1233  	 * cached PTEs point to freed memory. on LR vms this is done
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1234  	 * automatically when the context is re-enabled by the rebind worker,
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1235  	 * or in fault mode it was invalidated on PTE zapping.
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1236  	 *
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1237  	 * If !rebind, and scratch enabled VMs, there is a chance the scratch
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1238  	 * PTE is already cached in the TLB so it needs to be invalidated.
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1239  	 * on !LR VMs this is done in the ring ops preceding a batch, but on
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1240  	 * non-faulting LR, in particular on user-space batch buffer chaining,
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1241  	 * it needs to be done here.
+85dbfe47d07cdd Thomas Hellström    2023-06-05  1242  	 */
+fdb6a05383fab3 Thomas Hellström    2023-11-27  1243  	if ((rebind && !xe_vm_in_lr_mode(vm) && !vm->batch_invalidate_tlb) ||
+06951c2ee72df2 Thomas Hellström    2023-12-09  1244  	    (!rebind && xe_vm_has_scratch(vm) && xe_vm_in_preempt_fence_mode(vm))) {
+5387e865d90e92 Matthew Brost       2023-01-27  1245  		ifence = kzalloc(sizeof(*ifence), GFP_KERNEL);
+5387e865d90e92 Matthew Brost       2023-01-27  1246  		if (!ifence)
+5387e865d90e92 Matthew Brost       2023-01-27  1247  			return ERR_PTR(-ENOMEM);
+5387e865d90e92 Matthew Brost       2023-01-27  1248  	}
+5387e865d90e92 Matthew Brost       2023-01-27  1249  
+fd84041d094ce8 Matthew Brost       2023-07-19  1250  	rfence = kzalloc(sizeof(*rfence), GFP_KERNEL);
+fd84041d094ce8 Matthew Brost       2023-07-19  1251  	if (!rfence) {
+fd84041d094ce8 Matthew Brost       2023-07-19  1252  		kfree(ifence);
+fd84041d094ce8 Matthew Brost       2023-07-19  1253  		return ERR_PTR(-ENOMEM);
+fd84041d094ce8 Matthew Brost       2023-07-19  1254  	}
+fd84041d094ce8 Matthew Brost       2023-07-19  1255  
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1256  	/*
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1257  	 * BO which has XE_BO_SCANOUT_BIT set and was pinned as framebuffer
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1258  	 * before with different PAT index cannot be bound with different PAT
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1259  	 * index. This is to prevent switching CCS on/off from framebuffers
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1260  	 * on the fly.
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1261  	 */
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26 @1262  	if (bo) {
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1263  		if (bo->flags & XE_BO_SCANOUT_BIT && bo->pat_index_scanout &&
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1264  		    bo->pat_index_scanout != vma->pat_index)
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26 @1265  			return ERR_PTR(-EINVAL);
+
+Smatch wants a kfree(ifence) and kfree(rfence) before the return.
+
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1266  
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1267  		bo->pat_index = vma->pat_index;
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1268  	}
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1269  
+08dea7674533cf Matt Roper          2023-06-01  1270  	fence = xe_migrate_update_pgtables(tile->migrate,
+6fb884b76bd164 Juha-Pekka Heikkila 2024-01-26  1271  					   vm, bo, q,
+dd08ebf6c3525a Matthew Brost       2023-03-30  1272  					   entries, num_entries,
+dd08ebf6c3525a Matthew Brost       2023-03-30  1273  					   syncs, num_syncs,
+dd08ebf6c3525a Matthew Brost       2023-03-30  1274  					   &bind_pt_update.base);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
 
