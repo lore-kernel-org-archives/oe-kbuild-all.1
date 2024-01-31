@@ -1,148 +1,84 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E79F611E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 02:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27532FBF1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 03:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706668650; cv=none; b=HbAPmuSKd8AOkwxBOlynnMOAAlPcO/igJKjrgjq0W7iOIYXmJtowB7gKfZTsdJ8/uX3UahT/CD8Yz+T2CEE0//sSyymgkcrCU6IzqZwAIvb35C+RyYOJ8mD1h2X+b4xfh5j9lVOW9kB1uTpkiXxZM/p7ApdFu3NYWfEBKTwB7oY=
+	t=1706670329; cv=none; b=AtkAUtuFcOKiOZTy0pAezxORQ9yhKYS4zWdVKYM97zaE83s59eRe885Ll/XxVnftshZLpXEid4r3yHlcbY1oZCcYAHrxVStrzu8AUCj++esQNje9Ja9XI6cmnUBi1itA2w8Uz84ej+NYu2+h/j+OfDNdNSNputMMSemps+ZxBDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706668650; c=relaxed/simple;
-	bh=nZ4XNSmcSbdyCrid9JVdVBT0uPDRbopwRW1lY70TWwE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IPyr2ZwnqvKxqma9F/O9t1g5akjlGDEI5mCJlVS95TsLLLvCciud+7blRCcEfb8sQI6Xlc7xQwU1OpFQxWKnL/h6pPLNe6LS6FI2giHdAQZTyypxX6BMVY9ECvs944Iq1VhFbhBM8dTXTSe4Mk+7cN+N+UhQxmJ2BlTV3tEiSCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lKm9hJVJ; arc=none smtp.client-ip=209.85.219.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1706670329; c=relaxed/simple;
+	bh=oc00ogoGrM5XAVUTG7YuS/ba6FMJWntUwC7qVRVl1b4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lsyhWZIlYJstKPPyvHWrK2V5uGH5lYgydwpFcWxsR8WPKpAjwHOyfIV+EBedk8NCcN78rWrg7GbIWvm0vxDyCO2eLPi8tuEYuAGlpnj2RJSeZxHpXqbK8GMa53851wPogR8f1x9e7NI9ALRM7Pkka8RXfRH6ksV+DsNQvaIJ/zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gbj4lkhE; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lKm9hJVJ"
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dc2501ed348so378863276.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 18:37:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706668647; x=1707273447; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TFtM9M9RNSsCscdub7UbZbmrBPSDwKReEdWaEJLTDYQ=;
-        b=lKm9hJVJyW39lhNpQvk6hrr9MI5JeUYHKktYB0Fv4FCbEC5w/uLvQrS1IzoiJxl05R
-         h9pvt4B+I+RN/hV5E/fnvsUGq7NcLklls9p3osb5k+Q2Hdj02Kb7Qy2Q5dtcXeNT8P4Q
-         +lFHcdSMTjaozrS94Wk3x5Ap7X51eVdrvoP6M9EodgZC8dcfco7X+elW9DZmSXty+Y8a
-         PZLc+pwqzF0bRTcDVT2LDUYQak94K/HT80CnXC5GT9LR0AB62+AwPcSnwV3SnBTxcaai
-         mVzoPw3FWfjBXbPz0hM1yK7ldisibpBjl+TUrj371zR/foKj0hxHYUqzoDmvpsL3Hh+F
-         /1gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706668647; x=1707273447;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TFtM9M9RNSsCscdub7UbZbmrBPSDwKReEdWaEJLTDYQ=;
-        b=ps53wOeacxhGVCDtCwK4Ceoyn65B1HCvY+HCaKukKACxjqjhBr9FSBn1v+GXpBfFfL
-         J40AmcWe4tGo7JO8KEH4f8hoZTYEO2exbKC5+93oUsFVByDlmxs3m/ciygJAjEzr1EM3
-         fXLdTL9lRBjhtrD25sRKubNX3obi7j8R09gei8Okc3slRctFqAru2ix0BrbrO908jxxd
-         A20HUrg9CBnuk3gGAghKclx+Cfzz7BbtnnV8QbVdjLxCofa4zZPC+qJPkxw7tUOtqZ07
-         KCi7mybyExbuXbcHiuRXakW3NQ3qJXV50SY9Gq3WIghEMbA5FaE927htXaXnyRuJW1pG
-         4DAg==
-X-Gm-Message-State: AOJu0Yw35N6c3PgWWuXTH7TBM1POkcPTCFy6EmS0B1UhzhHjlS8jHPPR
-	w6B6WtgZf9CxZmdUyosJxZQzUs3bZFOcSj2I7vI1As/GAgDB56oubq2cWaAlZtGiy7NzkwCHTHI
-	TuQ3J5RSuTVoddk3dUtNyR3OqZ3hWUxiL6nrc
-X-Google-Smtp-Source: AGHT+IE77UGX6zv+fYOMSYQRTJt+PvgbckZGS4IXQT+4e4FP2JpLR8KrluHFwd7mJg3X2O21apLZ9k4ePAaltmt0Pps=
-X-Received: by 2002:a25:c3c7:0:b0:dc2:5044:70e with SMTP id
- t190-20020a25c3c7000000b00dc25044070emr1649328ybf.46.1706668646968; Tue, 30
- Jan 2024 18:37:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gbj4lkhE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706670327; x=1738206327;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oc00ogoGrM5XAVUTG7YuS/ba6FMJWntUwC7qVRVl1b4=;
+  b=Gbj4lkhERnbVh1heuuNNnqbF0RVrvtWK7A0fdRwzwjn4RjKTnMjsqpBm
+   Ub+WFWy3SH438/CwnwMuPSi/K9SjU564Ljo5kj+Ajq54gWeq3WvhQeksW
+   37zO183YpIHGEhZdK8hQDK1uD0rowTVgY1441gXvMDdk5JHkYP5U4GmKc
+   RxXLD8bD5jXO2kmACN8kbzLpQaMwAUn3uxfjzbD234U7pPDFwugz7NdYk
+   3hMTaUVYhJrp+QmmNuMzshUiP3Bd7MNC5jnmns30GI12yS5zmGEX6LG60
+   GyRtSS7MOC55t1obxhKHxziLIzMvcKUZWQN9EzBFHFUd3ujNFKKSlbXYH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="24947150"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="24947150"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 19:05:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="36718427"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 30 Jan 2024 19:05:24 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rV0uf-00015O-1f;
+	Wed, 31 Jan 2024 03:05:21 +0000
+Date: Wed, 31 Jan 2024 11:04:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2660/2881] rdtgroup.c:undefined reference to
+ `lockdep_is_cpus_held'
+Message-ID: <202401311012.3VXz4ppN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1a42e4fc-54a0-49f1-94ba-f075e0ef29a8@moroto.mountain>
-In-Reply-To: <1a42e4fc-54a0-49f1-94ba-f075e0ef29a8@moroto.mountain>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 30 Jan 2024 18:37:14 -0800
-Message-ID: <CAJuCfpHyTjB+HKEZn+ddkQOCdHZJMgG4bYOfJM=NOBcGBkYeew@mail.gmail.com>
-Subject: Re: [linux-next:master 2565/2825] mm/userfaultfd.c:983
- move_zeropage_pte() warn: inconsistent returns 'dst_ptl'.
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jan 29, 2024 at 9:13=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   596764183be8ebb13352b281a442a1f1151c9b06
-> commit: ea4df6a5ea81105879ca5549555e231c4596fbc4 [2565/2825] userfaultfd:=
- handle zeropage moves by UFFDIO_MOVE
-> config: x86_64-randconfig-161-20240129 (https://download.01.org/0day-ci/a=
-rchive/20240130/202401300107.U8iMAkTl-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202401300107.U8iMAkTl-lkp@intel.com/
->
-> smatch warnings:
-> mm/userfaultfd.c:983 move_zeropage_pte() warn: inconsistent returns 'dst_=
-ptl'.
->
-> vim +/dst_ptl +983 mm/userfaultfd.c
->
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  962  static int move_zeropa=
-ge_pte(struct mm_struct *mm,
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  963                        =
-    struct vm_area_struct *dst_vma,
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  964                        =
-    struct vm_area_struct *src_vma,
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  965                        =
-    unsigned long dst_addr, unsigned long src_addr,
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  966                        =
-    pte_t *dst_pte, pte_t *src_pte,
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  967                        =
-    pte_t orig_dst_pte, pte_t orig_src_pte,
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  968                        =
-    spinlock_t *dst_ptl, spinlock_t *src_ptl)
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  969  {
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  970       pte_t zero_pte;
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  971
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  972       double_pt_lock(ds=
-t_ptl, src_ptl);
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  973       if (!pte_same(pte=
-p_get(src_pte), orig_src_pte) ||
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  974           !pte_same(pte=
-p_get(dst_pte), orig_dst_pte))
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  975               return -E=
-AGAIN;
->
-> double_pt_unlock(dst_ptl, src_ptl) before returning?
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   370d9c06c9c2609f0c25810eb8f913fc9cdde776
+commit: c054efea286659a6504fdeafc0a611c6a3b124cc [2660/2881] x86/resctrl: Claim get_domain_from_cpu() for resctrl
+config: x86_64-buildonly-randconfig-002-20240129 (https://download.01.org/0day-ci/archive/20240131/202401311012.3VXz4ppN-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311012.3VXz4ppN-lkp@intel.com/reproduce)
 
-Thanks for reporting and sorry for the delay!
-Yes, this is definitely a bug. I'll post a fix tomorrow morning.
-Thanks,
-Suren.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401311012.3VXz4ppN-lkp@intel.com/
 
->
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  976
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  977       zero_pte =3D pte_=
-mkspecial(pfn_pte(my_zero_pfn(dst_addr),
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  978                        =
-                dst_vma->vm_page_prot));
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  979       ptep_clear_flush(=
-src_vma, src_addr, src_pte);
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  980       set_pte_at(mm, ds=
-t_addr, dst_pte, zero_pte);
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  981       double_pt_unlock(=
-dst_ptl, src_ptl);
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  982
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24 @983       return 0;
-> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  984  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+All errors (new ones prefixed by >>):
+
+   ld: arch/x86/kernel/cpu/resctrl/core.o: in function `rdt_ctrl_update':
+   core.c:(.text+0x14df): undefined reference to `lockdep_is_cpus_held'
+   ld: arch/x86/kernel/cpu/resctrl/rdtgroup.o: in function `resctrl_offline_cpu':
+>> rdtgroup.c:(.text+0xbd56): undefined reference to `lockdep_is_cpus_held'
+   ld: arch/x86/kernel/cpu/resctrl/monitor.o: in function `update_mba_bw':
+>> monitor.c:(.text+0x1e7): undefined reference to `lockdep_is_cpus_held'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
