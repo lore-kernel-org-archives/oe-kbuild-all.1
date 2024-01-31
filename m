@@ -1,153 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D601112BE8C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 17:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1ABF12FF95
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 17:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706723624; cv=none; b=eslt+VtydVvpEi46ReLLtbx+Yby0tf1ObPCHJIwwDvWWH5BXD32KsNL7GwU1jQawKiOUeinF2vQLQ4aWQaL67BHg+t53+0P1W7UtYs/fi2Ss3M3WXwvvRFxqkczaewMzTUwKCoubAGDvvf3lS3GQ/6eOHJUAUX2JAGRld2bMXaw=
+	t=1706723963; cv=none; b=hA7hOcx/MWn6ZiePCq2HZVPqlrxiqn0aoveGSjtFjD3EBcr9lwRrkPh7BUWLl29+eYdtRASuQ5fUyJRxp9fema+0hnDGtiezCG0Q24Q/CXvKPArM2Y/8oi5H9q4kLdq0SggeH/7Fa4QvDXn0u2w8gSq2jyl5f8sW/IhZXam47lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706723624; c=relaxed/simple;
-	bh=WwfiEaFylW6P3AB2GpoAp+jdKzKCLM6zIZV7F/QLI9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XvMPjF6lGxEHY9V7fgEKuPohS97iFntOeJhCbGMFzB3UWDbZUmY1W+GZVlSLVw1FRwclDVLAeOcxQpMx6lnetQ6K7yTsoZFEKB8Z+cmQ0wFzCU4vGtTnYYGPdHxeV2m1P47JJygSCl2JxFWU3e3vSJrf4nAERS4Y0kWGPHX8JXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsY8mUDN; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706723963; c=relaxed/simple;
+	bh=o/drh028hxRseq/169YHNdTw1dXDsvhsL6+FdkBEM6E=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=Xh+xjAP3+LRm2c4vE9eGt0VieR9vWjctbya7ek1+V+iU5jcWAgNI00p7hpBAPijHQ2XvmqTL7Uy2jvtf67YjwKjtqI8DP9TrIjFbLzkorY495g05rHxr1LAAcYhz4kJWAGY++Obc14TdvX5I/FklfYXgQCQPY5c7qCiIu+zvSJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=BBH47404; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsY8mUDN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706723622; x=1738259622;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WwfiEaFylW6P3AB2GpoAp+jdKzKCLM6zIZV7F/QLI9c=;
-  b=OsY8mUDNU/qLjpWi4i/w8Rb6YwpGWMebN9gE1WZvAF1zo+EwWBxIL+aW
-   uedJBT8W913dvTgWmR04J/F7nkiBvhhOf7X74iT0VEay1u4NV/Sc/bdgR
-   TLI7NgyVAJ4jmJYgJ7HBUa/osGTc9d2JYmYseYpADFLH7pml5FpXoCglR
-   c+FYiwhBQkEsml656nrV2PrJJYAm87oZ9ix2QkdoAayUD2Zw5ceAWQ3mX
-   62pfq3hl3ouyt2MWX2XYd7SjMVGL7vWxbq47d93IDHnoTrO8GBJ9nasHA
-   sLUVlTGD2PWdff0tCn7AReKKzhnieJReyrxAfqwae2pm+B2PWXZuDmJpd
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10313258"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="10313258"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 09:53:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="4167760"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Jan 2024 09:53:35 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rVEmC-0001ra-2t;
-	Wed, 31 Jan 2024 17:53:32 +0000
-Date: Thu, 1 Feb 2024 01:53:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oreoluwa Babatunde <quic_obabatun@quicinc.com>, catalin.marinas@arm.com,
-	will@kernel.org, robh+dt@kernel.org, frowand.list@gmail.com,
-	vgupta@kernel.org, arnd@arndb.de, olof@lixom.net, soc@kernel.org,
-	guoren@kernel.org, monstr@monstr.eu, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, dinguyen@kernel.org, chenhuacai@kernel.org,
-	tsbogend@alpha.franken.de, jonas@southpole.se,
-	stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
-	mpe@ellerman.id.au, ysato@users.sourceforge.jp, dalias@libc.org,
-	glaubitz@physik.fu-berlin.de, richard@nod.at,
-	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-	chris@zankel.net, jcmvbkbc@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 30/46] of: reserved_mem: Add code to use unflattened DT
- for reserved_mem nodes
-Message-ID: <202402010140.VrsPYn0W-lkp@intel.com>
-References: <20240126235425.12233-31-quic_obabatun@quicinc.com>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="BBH47404"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aYgKgDJnzHjlJRSaENEOht2saPzidvzB2sGFvo5VNtE=;
+  b=BBH47404DA+u4US8EMr9jJHZBwt8qLFBkwoKVwjb9ZMUmO/FqwrXjySM
+   JlUTdL4eCdRDo4ETW/ITm+d5+KwcBwOAg90JeZAdxDTevJk/fZjgxIu1U
+   q8CxHnRhMM/RDZjum00ZuF6f6MizZPwqgiZ/Ymi+Lii31liVA8D+zzDSC
+   k=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.05,231,1701126000"; 
+   d="scan'208";a="149651384"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 18:59:11 +0100
+Date: Wed, 31 Jan 2024 18:59:11 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Martin Kaistra <martin.kaistra@linutronix.de>
+cc: Kalle Valo <kvalo@kernel.org>, Ping-Ke Shih <pkshih@realtek.com>, 
+    Linux Memory Management List <linux-mm@kvack.org>, 
+    oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 432/3001] drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:6699:30-31:
+ WARNING opportunity for swap() (fwd)
+Message-ID: <alpine.DEB.2.22.394.2401311858320.3245@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240126235425.12233-31-quic_obabatun@quicinc.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Oreoluwa,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on arm64/for-next/core vgupta-arc/for-curr powerpc/next powerpc/fixes jcmvbkbc-xtensa/xtensa-for-next linus/master v6.8-rc2 next-20240131]
-[cannot apply to vgupta-arc/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+---------- Forwarded message ----------
+Date: Thu, 1 Feb 2024 01:09:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 432/3001]
+    drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:6699:30-31: WARNING
+    opportunity for swap()
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oreoluwa-Babatunde/of-reserved_mem-Change-the-order-that-reserved_mem-regions-are-stored/20240127-081735
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240126235425.12233-31-quic_obabatun%40quicinc.com
-patch subject: [PATCH 30/46] of: reserved_mem: Add code to use unflattened DT for reserved_mem nodes
-config: i386-randconfig-141-20240128 (https://download.01.org/0day-ci/archive/20240201/202402010140.VrsPYn0W-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Martin Kaistra <martin.kaistra@linutronix.de>
+CC: Kalle Valo <kvalo@kernel.org>
+CC: "Ping-Ke Shih" <pkshih@realtek.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   06f658aadff0e483ee4f807b0b46c9e5cba62bfa
+commit: 69abad618efd17e50bc6f880332ab36b660b0b34 [432/3001] wifi: rtl8xxxu: make supporting AP mode only on port 0 transparent
+:::::: branch date: 15 hours ago
+:::::: commit date: 3 weeks ago
+config: arm-randconfig-r054-20240131 (https://download.01.org/0day-ci/archive/20240201/202402010039.1v5WRSXr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402010140.VrsPYn0W-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202402010039.1v5WRSXr-lkp@intel.com/
 
-smatch warnings:
-drivers/of/of_reserved_mem.c:111 dt_scan_reserved_mem_reg_nodes() warn: unsigned 'node' is never less than zero.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c:6699:30-31: WARNING opportunity for swap()
 
-vim +/node +111 drivers/of/of_reserved_mem.c
+vim +6699 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 
-    98	
-    99	/*
-   100	 * Save the reserved_mem reg nodes in the reserved_mem array
-   101	 */
-   102	static void __init dt_scan_reserved_mem_reg_nodes(void)
-   103	{
-   104		int t_len = (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32);
-   105		struct device_node *node, *child;
-   106		phys_addr_t base, size;
-   107		const __be32 *prop;
-   108		int len;
-   109	
-   110		node = of_find_node_by_path("/reserved-memory");
- > 111		if (node < 0) {
-   112			pr_err("Reserved memory: Did not find reserved-memory node\n");
-   113			return;
-   114		}
-   115	
-   116		for_each_child_of_node(node, child) {
-   117			const char *uname;
-   118			struct reserved_mem *rmem;
-   119	
-   120			if (!of_device_is_available(child))
-   121				continue;
-   122	
-   123			prop = of_get_property(child, "reg", &len);
-   124			if (!prop) {
-   125				rmem = of_reserved_mem_lookup(child);
-   126				if (rmem)
-   127					rmem->dev_node = child;
-   128				continue;
-   129			}
-   130	
-   131			uname = of_node_full_name(child);
-   132			if (len && len % t_len != 0) {
-   133				pr_err("Reserved memory: invalid reg property in '%s', skipping node.\n",
-   134				       uname);
-   135				continue;
-   136			}
-   137	
-   138			base = dt_mem_next_cell(dt_root_addr_cells, &prop);
-   139			size = dt_mem_next_cell(dt_root_size_cells, &prop);
-   140	
-   141			if (size)
-   142				fdt_reserved_mem_save_node(child, uname, base, size);
-   143		}
-   144	}
-   145	
+26f1fad29ad973 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.c      Jes Sorensen   2015-10-14  6626
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6627  static void rtl8xxxu_switch_ports(struct rtl8xxxu_priv *priv)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6628  {
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6629  	u8 macid[ETH_ALEN], bssid[ETH_ALEN], macid_1[ETH_ALEN], bssid_1[ETH_ALEN];
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6630  	u8 msr, bcn_ctrl, bcn_ctrl_1, atimwnd[2], atimwnd_1[2];
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6631  	struct rtl8xxxu_vif *rtlvif;
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6632  	struct ieee80211_vif *vif;
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6633  	u8 tsftr[8], tsftr_1[8];
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6634  	int i;
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6635
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6636  	msr = rtl8xxxu_read8(priv, REG_MSR);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6637  	bcn_ctrl = rtl8xxxu_read8(priv, REG_BEACON_CTRL);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6638  	bcn_ctrl_1 = rtl8xxxu_read8(priv, REG_BEACON_CTRL_1);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6639
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6640  	for (i = 0; i < ARRAY_SIZE(atimwnd); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6641  		atimwnd[i] = rtl8xxxu_read8(priv, REG_ATIMWND + i);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6642  	for (i = 0; i < ARRAY_SIZE(atimwnd_1); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6643  		atimwnd_1[i] = rtl8xxxu_read8(priv, REG_ATIMWND_1 + i);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6644
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6645  	for (i = 0; i < ARRAY_SIZE(tsftr); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6646  		tsftr[i] = rtl8xxxu_read8(priv, REG_TSFTR + i);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6647  	for (i = 0; i < ARRAY_SIZE(tsftr); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6648  		tsftr_1[i] = rtl8xxxu_read8(priv, REG_TSFTR1 + i);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6649
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6650  	for (i = 0; i < ARRAY_SIZE(macid); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6651  		macid[i] = rtl8xxxu_read8(priv, REG_MACID + i);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6652
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6653  	for (i = 0; i < ARRAY_SIZE(bssid); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6654  		bssid[i] = rtl8xxxu_read8(priv, REG_BSSID + i);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6655
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6656  	for (i = 0; i < ARRAY_SIZE(macid_1); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6657  		macid_1[i] = rtl8xxxu_read8(priv, REG_MACID1 + i);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6658
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6659  	for (i = 0; i < ARRAY_SIZE(bssid_1); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6660  		bssid_1[i] = rtl8xxxu_read8(priv, REG_BSSID1 + i);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6661
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6662  	/* disable bcn function, disable update TSF */
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6663  	rtl8xxxu_write8(priv, REG_BEACON_CTRL, (bcn_ctrl &
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6664  			(~BEACON_FUNCTION_ENABLE)) | BEACON_DISABLE_TSF_UPDATE);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6665  	rtl8xxxu_write8(priv, REG_BEACON_CTRL_1, (bcn_ctrl_1 &
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6666  			(~BEACON_FUNCTION_ENABLE)) | BEACON_DISABLE_TSF_UPDATE);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6667
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6668  	/* switch msr */
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6669  	msr = (msr & 0xf0) | ((msr & 0x03) << 2) | ((msr & 0x0c) >> 2);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6670  	rtl8xxxu_write8(priv, REG_MSR, msr);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6671
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6672  	/* write port0 */
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6673  	rtl8xxxu_write8(priv, REG_BEACON_CTRL, bcn_ctrl_1 & ~BEACON_FUNCTION_ENABLE);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6674  	for (i = 0; i < ARRAY_SIZE(atimwnd_1); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6675  		rtl8xxxu_write8(priv, REG_ATIMWND + i, atimwnd_1[i]);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6676  	for (i = 0; i < ARRAY_SIZE(tsftr_1); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6677  		rtl8xxxu_write8(priv, REG_TSFTR + i, tsftr_1[i]);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6678  	for (i = 0; i < ARRAY_SIZE(macid_1); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6679  		rtl8xxxu_write8(priv, REG_MACID + i, macid_1[i]);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6680  	for (i = 0; i < ARRAY_SIZE(bssid_1); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6681  		rtl8xxxu_write8(priv, REG_BSSID + i, bssid_1[i]);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6682
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6683  	/* write port1 */
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6684  	rtl8xxxu_write8(priv, REG_BEACON_CTRL_1, bcn_ctrl & ~BEACON_FUNCTION_ENABLE);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6685  	for (i = 0; i < ARRAY_SIZE(atimwnd); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6686  		rtl8xxxu_write8(priv, REG_ATIMWND_1 + i, atimwnd[i]);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6687  	for (i = 0; i < ARRAY_SIZE(tsftr); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6688  		rtl8xxxu_write8(priv, REG_TSFTR1 + i, tsftr[i]);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6689  	for (i = 0; i < ARRAY_SIZE(macid); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6690  		rtl8xxxu_write8(priv, REG_MACID1 + i, macid[i]);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6691  	for (i = 0; i < ARRAY_SIZE(bssid); i++)
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6692  		rtl8xxxu_write8(priv, REG_BSSID1 + i, bssid[i]);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6693
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6694  	/* write bcn ctl */
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6695  	rtl8xxxu_write8(priv, REG_BEACON_CTRL, bcn_ctrl_1);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6696  	rtl8xxxu_write8(priv, REG_BEACON_CTRL_1, bcn_ctrl);
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6697
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6698  	vif = priv->vifs[0];
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22 @6699  	priv->vifs[0] = priv->vifs[1];
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6700  	priv->vifs[1] = vif;
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6701
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6702  	/* priv->vifs[0] is NULL here, based on how this function is currently
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6703  	 * called from rtl8xxxu_add_interface().
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6704  	 * When this function will be used in the future for a different
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6705  	 * scenario, please check whether vifs[0] or vifs[1] can be NULL and if
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6706  	 * necessary add code to set port_num = 1.
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6707  	 */
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6708  	rtlvif = (struct rtl8xxxu_vif *)priv->vifs[1]->drv_priv;
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6709  	rtlvif->port_num = 1;
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6710  }
+69abad618efd17 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c Martin Kaistra 2023-12-22  6711
 
 -- 
 0-DAY CI Kernel Test Service
