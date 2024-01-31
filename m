@@ -1,80 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD1D3A8D5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 23:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D36B3CF7E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 23:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706742885; cv=none; b=k1XBUiULKHbwaNJ1VjneuPFXCjAYEkwq7TAbEGs5FHmy4Io6Z66guqVJEL/iFtm5mczfVlj57iid7t86HJCENNyzahzWXGSrUvjOrQRUGbh41igZkFYk6+hNoAvYV/8zZEsG8BW9mwU6kw/XtBoMerPWjfxZs0rlvm/+NJUuDXU=
+	t=1706744133; cv=none; b=d1Hup0Xcns129xRV7iqiKZU1hB07zgQmfAJZ65Qn2mXTtD7EsTOAVfSyNaK2Zqir2LoHDN8EDvBC+7qE+q32uXOOEvAAZ+HknDYhlnnwZzJ2PJ2tTlA9CtKLv/woTk1iuxtGrgY6R0CDLjlvcRVeUyLorL3XDBdvZ9v67ZVTNIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706742885; c=relaxed/simple;
-	bh=YDcV1Cmi5bJEdHBzWK8e0YEggkl/TRz+YUAYBOkFfsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C5NkvI9Je/AoKAltiEAc3wkLNk9i7+l51IHoZyR3l891hyz34SqCfxdQorH/gc+RDYTHV8JncatigsazfitE346sFNYUAb556VzGRj9iDphnJGcflzu7j68VfU3jyu07E2MIST2qqUNEtIlFTK55SN8Dh4+q9iBcMYyJbJwQRFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SVJAINkM; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1706744133; c=relaxed/simple;
+	bh=KeXsDpSvJaXDAcNDvtu6FOE5sFV0+87eKEabJbXqCNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P4bSN9xRwyM2ZLFGzDORJmPngBxHbrKBhmmWTmWP/9c0h1dpCDpJ3g9UERIvqxYyYYVKH5lFcM9c3ADkkJMl1Y8tkSr/OdtpcoHqSS9QSaf8iJ86tBFlvdJwLNkukjSzP30h1GF2OUuK4vvZDg2KLyz0rJv79pSEkdibcj7v9OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BJGWQB9z; arc=none smtp.client-ip=192.55.52.120
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SVJAINkM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BJGWQB9z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706742883; x=1738278883;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YDcV1Cmi5bJEdHBzWK8e0YEggkl/TRz+YUAYBOkFfsw=;
-  b=SVJAINkM5r/Bo7vUy20bNl4vKX5YMQbd9G0moVQ/3T6Fd3g9FAMv1Ucz
-   GZrigkpa7Lc6IUtZHruPkTnzdt1ddtHfTeIzztEnL0gScYy8v0D+Qnkvo
-   ew3oribtw3BzH0MRCnIcGaoGB0aC5WV4WQQzSkyzKyNUEEcCsTL2R2IoD
-   GK7x6pKjcYfSP4C0WRjr2IUe3kPNuL9XsLUnOltZB06iipfFQ+mVWsOSX
-   E8ii+BIFuiZxGtSWd9hvV9FgspyKjGd7b+0pWAd3B6InzPxsUVAcYmboV
-   dpCkDB6MP6h63zO7IvzEvUzR9zwzZ375JWSZVs+TBa05uJU/x6xCLj6EI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3590389"
+  t=1706744131; x=1738280131;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KeXsDpSvJaXDAcNDvtu6FOE5sFV0+87eKEabJbXqCNk=;
+  b=BJGWQB9zvaZWdIvAd8U2JMLKDKL/HbK2Ucicd0v/ovKLWMmx0JP980I6
+   L6FbZuoNIH2CrIi8SMc5AqFBP5BhuZyFz4MHXManacpgt3aJ00cUpulT9
+   vXxBf7v4hTyCjA5Amrni6yop39iYfk5c3NSanEV6495/99R2b1SkTRFfD
+   g/kmsOqj7BK5fALkMawavL8MGg3F9DNd6vaNq76WVa5QZmPeGa1E+ThJ1
+   eBJ1t2FQ/c8XLzOa7dV+F4VoerN+gUGdo8OoQr+jQUna5llkoAOIqfFnB
+   VrK5+rtoOjkIjV95NZItExtCjKDIXXz/Nc9pfUBeGAdI4uCCl3QbUBm7I
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="402600543"
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="3590389"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 15:14:40 -0800
+   d="scan'208";a="402600543"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 15:35:30 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="4236973"
+   d="scan'208";a="30401363"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Jan 2024 15:14:33 -0800
+  by orviesa002.jf.intel.com with ESMTP; 31 Jan 2024 15:35:29 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVJmp-00029D-1S;
-	Wed, 31 Jan 2024 23:14:31 +0000
-Date: Thu, 1 Feb 2024 07:11:21 +0800
+	id 1rVK6p-0002AA-2z;
+	Wed, 31 Jan 2024 23:35:18 +0000
+Date: Thu, 1 Feb 2024 07:33:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] mm: ptdump: Have ptdump_check_wx() return bool
-Message-ID: <202402010649.MtBnf3u8-lkp@intel.com>
-References: <7943149fe955458cb7b57cd483bf41a3aad94684.1706610398.git.christophe.leroy@csgroup.eu>
+To: kernel@openeuler.org, Yu Zhang <yu.c.zhang@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 28292/30000] arch/x86/kvm/mmu/mmu.c:5812
+ kvm_mmu_slot_largepage_remove_write_access() error: uninitialized symbol
+ 'flush'.
+Message-ID: <202402010712.s76rk6os-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,82 +58,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7943149fe955458cb7b57cd483bf41a3aad94684.1706610398.git.christophe.leroy@csgroup.eu>
 
-Hi Christophe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/arm-ptdump-Rename-CONFIG_DEBUG_WX-to-CONFIG_ARM_DEBUG_WX/20240130-183913
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/7943149fe955458cb7b57cd483bf41a3aad94684.1706610398.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH v2 4/5] mm: ptdump: Have ptdump_check_wx() return bool
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240201/202402010649.MtBnf3u8-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010649.MtBnf3u8-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   260c7a5874066269671cc826d6c9ccd70dd001e5
+commit: 7eb46ab3d33ed664d9d4fe0e3cdf3232a9099e11 [28292/30000] KVM: x86/mmu: Skip rmap operations if rmaps not allocated
+config: x86_64-randconfig-161-20240129 (https://download.01.org/0day-ci/archive/20240201/202402010712.s76rk6os-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402010649.MtBnf3u8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402010712.s76rk6os-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+arch/x86/kvm/mmu/mmu.c:5812 kvm_mmu_slot_largepage_remove_write_access() error: uninitialized symbol 'flush'.
+arch/x86/kvm/mmu/mmu.c:5834 kvm_mmu_slot_set_dirty() error: uninitialized symbol 'flush'.
 
-   arch/x86/mm/dump_pagetables.c:365:6: error: two or more data types in declaration specifiers
-     365 | bool void ptdump_walk_pgd_level_core(struct seq_file *m,
-         |      ^~~~
->> arch/x86/mm/dump_pagetables.c:365:11: warning: no previous prototype for 'ptdump_walk_pgd_level_core' [-Wmissing-prototypes]
-     365 | bool void ptdump_walk_pgd_level_core(struct seq_file *m,
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+Old smatch warnings:
+arch/x86/kvm/mmu/mmu.c:3788 direct_page_fault() warn: missing error code? 'r'
+arch/x86/kvm/mmu/paging_tmpl.h:857 ept_page_fault() warn: missing error code? 'r'
+arch/x86/kvm/mmu/paging_tmpl.h:857 paging64_page_fault() warn: missing error code? 'r'
+arch/x86/kvm/mmu/paging_tmpl.h:857 paging32_page_fault() warn: missing error code? 'r'
+arch/x86/kvm/mmu/mmu.c:5743 kvm_mmu_zap_collapsible_sptes() error: uninitialized symbol 'flush'.
 
+vim +/flush +5812 arch/x86/kvm/mmu/mmu.c
 
-vim +/ptdump_walk_pgd_level_core +365 arch/x86/mm/dump_pagetables.c
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5793  
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5794  void kvm_mmu_slot_largepage_remove_write_access(struct kvm *kvm,
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5795  					struct kvm_memory_slot *memslot)
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5796  {
+d77aa73c7072c5 arch/x86/kvm/mmu.c     Xiao Guangrong      2015-05-13  5797  	bool flush;
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5798  
+7eb46ab3d33ed6 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-05-18  5799  	if (kvm_memslots_have_rmaps(kvm)) {
+91f65ea3582813 arch/x86/kvm/mmu/mmu.c Ben Gardon          2023-08-14  5800  		write_lock(&kvm->mmu_lock);
+d77aa73c7072c5 arch/x86/kvm/mmu.c     Xiao Guangrong      2015-05-13  5801  		flush = slot_handle_large_level(kvm, memslot, slot_rmap_write_protect,
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5802  						false);
+91f65ea3582813 arch/x86/kvm/mmu/mmu.c Ben Gardon          2023-08-14  5803  		write_unlock(&kvm->mmu_lock);
+7eb46ab3d33ed6 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-05-18  5804  	}
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5805  
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5806  	if (is_tdp_mmu_enabled(kvm)) {
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5807  		read_lock(&kvm->mmu_lock);
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5808  		flush |= kvm_tdp_mmu_wrprot_slot(kvm, memslot, PG_LEVEL_2M);
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5809  		read_unlock(&kvm->mmu_lock);
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5810  	}
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5811  
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28 @5812  	if (flush)
+7f42aa76d4a558 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-02-18  5813  		kvm_arch_flush_remote_tlbs_memslot(kvm, memslot);
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5814  }
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5815  EXPORT_SYMBOL_GPL(kvm_mmu_slot_largepage_remove_write_access);
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5816  
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5817  void kvm_mmu_slot_set_dirty(struct kvm *kvm,
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5818  			    struct kvm_memory_slot *memslot)
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5819  {
+d77aa73c7072c5 arch/x86/kvm/mmu.c     Xiao Guangrong      2015-05-13  5820  	bool flush;
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5821  
+7eb46ab3d33ed6 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-05-18  5822  	if (kvm_memslots_have_rmaps(kvm)) {
+91f65ea3582813 arch/x86/kvm/mmu/mmu.c Ben Gardon          2023-08-14  5823  		write_lock(&kvm->mmu_lock);
+d77aa73c7072c5 arch/x86/kvm/mmu.c     Xiao Guangrong      2015-05-13  5824  		flush = slot_handle_all_level(kvm, memslot, __rmap_set_dirty, false);
+91f65ea3582813 arch/x86/kvm/mmu/mmu.c Ben Gardon          2023-08-14  5825  		write_unlock(&kvm->mmu_lock);
+7eb46ab3d33ed6 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-05-18  5826  	}
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5827  
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5828  	if (is_tdp_mmu_enabled(kvm)) {
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5829  		read_lock(&kvm->mmu_lock);
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5830  		flush |= kvm_tdp_mmu_slot_set_dirty(kvm, memslot);
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5831  		read_unlock(&kvm->mmu_lock);
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5832  	}
+ac11ca5ab371f5 arch/x86/kvm/mmu/mmu.c Ben Gardon          2021-04-01  5833  
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28 @5834  	if (flush)
+7f42aa76d4a558 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-02-18  5835  		kvm_arch_flush_remote_tlbs_memslot(kvm, memslot);
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5836  }
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5837  EXPORT_SYMBOL_GPL(kvm_mmu_slot_set_dirty);
+f4b4b1808690c3 arch/x86/kvm/mmu.c     Kai Huang           2015-01-28  5838  
 
-   364	
- > 365	bool void ptdump_walk_pgd_level_core(struct seq_file *m,
-   366					       struct mm_struct *mm, pgd_t *pgd,
-   367					       bool checkwx, bool dmesg)
-   368	{
-   369		const struct ptdump_range ptdump_ranges[] = {
-   370	#ifdef CONFIG_X86_64
-   371		{0, PTRS_PER_PGD * PGD_LEVEL_MULT / 2},
-   372		{GUARD_HOLE_END_ADDR, ~0UL},
-   373	#else
-   374		{0, ~0UL},
-   375	#endif
-   376		{0, 0}
-   377	};
-   378	
-   379		struct pg_state st = {
-   380			.ptdump = {
-   381				.note_page	= note_page,
-   382				.effective_prot = effective_prot,
-   383				.range		= ptdump_ranges
-   384			},
-   385			.level = -1,
-   386			.to_dmesg	= dmesg,
-   387			.check_wx	= checkwx,
-   388			.seq		= m
-   389		};
-   390	
-   391		ptdump_walk_pgd(&st.ptdump, mm, pgd);
-   392	
-   393		if (!checkwx)
-   394			return true;
-   395		if (st.wx_pages) {
-   396			pr_info("x86/mm: Checked W+X mappings: FAILED, %lu W+X pages found.\n",
-   397				st.wx_pages);
-   398	
-   399			return false;
-   400		} else {
-   401			pr_info("x86/mm: Checked W+X mappings: passed, no W+X pages found.\n");
-   402	
-   403			return true;
-   404		}
-   405	}
-   406	
+:::::: The code at line 5812 was first introduced by commit
+:::::: f4b4b1808690c37c7c703d43789c1988c5e7fdeb KVM: MMU: Add mmu help functions to support PML
+
+:::::: TO: Kai Huang <kai.huang@linux.intel.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
