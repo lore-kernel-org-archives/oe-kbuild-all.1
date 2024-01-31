@@ -1,63 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA117BAEC;
-	Wed, 31 Jan 2024 16:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F81412CD84
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 17:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706719708; cv=none; b=MEyEW5RzzUSNt3cS/pnUxbgdD/oL90k1YUKKYtjNkpxJrNv9eaQG7nLx4loGf/EV1dXRUDTbUhseNL+GjCUbrDh2LzU71WExl64mxq6rGxrtFfx29Drl4x5/uTgUMvxsaP41S9iUVjJc7VqRS1NopMZD2grZ4vpndgMlOiatF+k=
+	t=1706722297; cv=none; b=Md7OpYbg36zxQsvRwOyjv2iz5zN9Gd9Qr6eKnM54SbtCzx7JTyv6Kqh2ACx1yiHMeFxwn7mAXPwhkzjPtXplJlC91NGSiBoqB0GOnrKlGwWkXKt9K9uApxIC6jifIG1Nq/YXuX0eEA/RTD30ZeNEEXDmgYo43beBZoQb32Oy32A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706719708; c=relaxed/simple;
-	bh=O+Ckqld21NseZzB5lCAj+EQ7OHd0wXrB13RwGOqBfic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ycu0Tm1JuV6Qf8vAZ/C9Mpj2AKWGBlTN0jIj/rTD9WgFF1Qh3H0HK+mjc/wd/vGHLVvroCoqy/PUHfPiiXj01Ej4j8TtkGKKjRgeefw47aJUX2mIuLwasSW/8J7ZzdhnrZXE7O2jm69XbpXsh4WPoWTvTN8yksgnJhAh2b2vSBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dem+Ob8S; arc=none smtp.client-ip=192.55.52.115
+	s=arc-20240116; t=1706722297; c=relaxed/simple;
+	bh=W1XH3ImoA3/lo5yiQNHZi9oZAwylgh9acpLEJ+868kA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c4cvWSjZ61n/EDzGZvc++jZF1TJT4nLMT7Dw7Kja/NnxL1Amv2wsJQCQkAwFz/OredUR4V0d64G3xAeCdahGC8A9r1xA5I1Ow8EpN6/FpJ+z2a4bgOTFRnQ852Zx/TAz5xZ8Ig3kwbC3bjW+X5tAG0+ewNwXPnSAv9FOVhIxjXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBXVjhah; arc=none smtp.client-ip=192.55.52.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dem+Ob8S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBXVjhah"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706719706; x=1738255706;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O+Ckqld21NseZzB5lCAj+EQ7OHd0wXrB13RwGOqBfic=;
-  b=dem+Ob8SxoCZs9nxa764/1aU9lSlw21ry8yb7Xf+cAXYtAgqB8gwrk9L
-   FPDktsiihAGsoirO2gmnk24DHLGte9g0yZGeW4rFjhFzyAqU5xz/yLlWU
-   rwkeItK9dyMAopb5Z98R/PpGEb02Nz6n8LIk0+jawne8QdaWD8EbSS+SD
-   YD7DxtRLhXqci2pJDWjKr/Sge7AeHKoKnAWWlbVnXRwP7+FNJrAbZHKr/
-   Bjr2Ca6o0nNgyRE4yrzMU1GG2kiD9ih5mkJeDi2o1fxMlqOrJ7I5kXdDM
-   0NOa4fC1W3pAqtkL77dktN8jxGmrcRoL24rEfWnOOoJm7cncyxZcQ/wIy
+  t=1706722295; x=1738258295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W1XH3ImoA3/lo5yiQNHZi9oZAwylgh9acpLEJ+868kA=;
+  b=PBXVjhahfku1a5LQT6c8nLtYkfm9UuEf0Ts4/sdjSOxxvf+wY7hSyIvp
+   KAJgAaISL8IndNkNf+vE4y334n13ONmEBFm6Z0ExutQRlypaweeLNNjGG
+   3Sbj7wK+M4KlAehJwgydmWNYT5GR8N+UQ9zOcYBTFJODGEYgIexRrZiVF
+   JLwH6+PhD4Gl/u6TXCzrh/HTvWpnZdDqezirdLu/kvil4BDYy3PiZqZql
+   o+/em/Uhyikxb11ZwOwbyxCj9QqTToI/P41stEhB5e+OGEMJxM6cy2ssC
+   nTeJ9Pn8wMZdbI4rFF8pc8jAs1Hj09A8dcVhuHUcv6FfjwFM9wO6K7kx4
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="403275511"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="400805096"
 X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="403275511"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 08:48:25 -0800
+   d="scan'208";a="400805096"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 09:31:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="788635713"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="738170927"
 X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="788635713"
+   d="scan'208";a="738170927"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 31 Jan 2024 08:48:21 -0800
+  by orsmga003.jf.intel.com with ESMTP; 31 Jan 2024 09:31:32 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVDl5-0001mG-0n;
-	Wed, 31 Jan 2024 16:48:19 +0000
-Date: Thu, 1 Feb 2024 00:47:34 +0800
+	id 1rVEQs-0001pu-2I;
+	Wed, 31 Jan 2024 17:31:30 +0000
+Date: Thu, 1 Feb 2024 01:31:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-unionfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com, zohar@linux.ibm.com,
-	roberto.sassu@huawei.com, amir73il@gmail.com, miklos@szeredi.hu,
-	Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH 1/5] security: allow finer granularity in permitting
- copy-up of security xattrs
-Message-ID: <202402010014.MArAf4UB-lkp@intel.com>
-References: <20240130214620.3155380-2-stefanb@linux.ibm.com>
+To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2855/2894] make[5]: *** No rule to make target
+ 'arch/x86/crypto/sm4-zhaoxin-gmi.o', needed by 'arch/x86/crypto/built-in.a'.
+Message-ID: <202402010116.2hQEcT2i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,80 +58,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240130214620.3155380-2-stefanb@linux.ibm.com>
 
-Hi Stefan,
+Hi leoliu-oc,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on zohar-integrity/next-integrity]
-[also build test ERROR on pcmoore-selinux/next linus/master v6.8-rc2 next-20240131]
-[cannot apply to mszeredi-vfs/overlayfs-next mszeredi-vfs/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Berger/security-allow-finer-granularity-in-permitting-copy-up-of-security-xattrs/20240131-054854
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
-patch link:    https://lore.kernel.org/r/20240130214620.3155380-2-stefanb%40linux.ibm.com
-patch subject: [PATCH 1/5] security: allow finer granularity in permitting copy-up of security xattrs
-config: i386-buildonly-randconfig-002-20240131 (https://download.01.org/0day-ci/archive/20240201/202402010014.MArAf4UB-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   f6f9abf1a5ef2fc559630c77b3570346dcd19d40
+commit: 3b77535a6245966041634eaabc6fe013f20688d8 [2855/2894] Add support for Zhaoxin GMI SM4 Block Cipher algorithm
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240201/202402010116.2hQEcT2i-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010014.MArAf4UB-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010116.2hQEcT2i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402010014.MArAf4UB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402010116.2hQEcT2i-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> security/security.c:2627:38: error: too many arguments to function call, expected single argument 'name', have 2 arguments
-    2627 |         return evm_inode_copy_up_xattr(src, name);
-         |                ~~~~~~~~~~~~~~~~~~~~~~~      ^~~~
-   include/linux/evm.h:121:20: note: 'evm_inode_copy_up_xattr' declared here
-     121 | static inline int  evm_inode_copy_up_xattr(const char *name)
-         |                    ^                       ~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +/name +2627 security/security.c
-
-  2596	
-  2597	/**
-  2598	 * security_inode_copy_up_xattr() - Filter xattrs in an overlayfs copy-up op
-  2599	 * @src: union dentry of copy-up file
-  2600	 * @name: xattr name
-  2601	 *
-  2602	 * Filter the xattrs being copied up when a unioned file is copied up from a
-  2603	 * lower layer to the union/overlay layer.   The caller is responsible for
-  2604	 * reading and writing the xattrs, this hook is merely a filter.
-  2605	 *
-  2606	 * Return: Returns 0 to accept the xattr, 1 to discard the xattr, -EOPNOTSUPP
-  2607	 *         if the security module does not know about attribute, or a negative
-  2608	 *         error code to abort the copy up.
-  2609	 */
-  2610	int security_inode_copy_up_xattr(struct dentry *src, const char *name)
-  2611	{
-  2612		struct security_hook_list *hp;
-  2613		int rc;
-  2614	
-  2615		/*
-  2616		 * The implementation can return 0 (accept the xattr), 1 (discard the
-  2617		 * xattr), -EOPNOTSUPP if it does not know anything about the xattr or
-  2618		 * any other error code in case of an error.
-  2619		 */
-  2620		hlist_for_each_entry(hp,
-  2621				     &security_hook_heads.inode_copy_up_xattr, list) {
-  2622			rc = hp->hook.inode_copy_up_xattr(src, name);
-  2623			if (rc != LSM_RET_DEFAULT(inode_copy_up_xattr))
-  2624				return rc;
-  2625		}
-  2626	
-> 2627		return evm_inode_copy_up_xattr(src, name);
-  2628	}
-  2629	EXPORT_SYMBOL(security_inode_copy_up_xattr);
-  2630	
+   make[5]: *** No rule to make target 'arch/x86/crypto/sm3-zhaoxin-gmi.o', needed by 'arch/x86/crypto/built-in.a'.
+>> make[5]: *** No rule to make target 'arch/x86/crypto/sm4-zhaoxin-gmi.o', needed by 'arch/x86/crypto/built-in.a'.
+   make[5]: Target 'arch/x86/crypto/' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
