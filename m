@@ -1,114 +1,132 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E11D1642A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 04:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706675347; cv=pass; b=aiTaQ9ecIN5TOVhA8WKaSMAENdGpZwB/cQBVPzVAlPPiPKZUihP4nHJGQa8U4g74HwUgrHCY0p6GvnGcV7DDZTPBiJi2v20TtQhqmGEqZL/YwBoA5jmXjBbnxNpbNGA6gu/Bu4hdKHPX+c1USgFBfnePWLteH73aUqyahyBGkSE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706675347; c=relaxed/simple;
-	bh=XNp11xUBPvESaLejSsEWCrl8QUEcVDzoZe44gbFiGww=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=N1JvrHyH+FW+kqIkcSO5PPSvjD4S+jpTtvOzD96j4jq8tFwK7mkDU7lMOzRMzS08uP4gd9KXC/oVP+3UHBkhIFg5AmlKeqt/XfUANXe4pKvZ687MZaV1eeizO+qwm/x/lHJ/dkb0a+mQNWtvKGXZjsGZLLd3Omls+5zdX2SBGkQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fpond.eu; spf=none smtp.mailfrom=fpond.eu; dkim=pass (2048-bit key) header.d=fpond.eu header.i=@fpond.eu header.b=PjKeRkGQ; dkim=permerror (0-bit key) header.d=fpond.eu header.i=@fpond.eu header.b=tlYqmkwH; arc=pass smtp.client-ip=85.215.255.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fpond.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fpond.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7571BC49
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 04:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706675430; cv=none; b=L39XtLxsb9PkDH1tbTlvkxiK1Snu1rbH/X+Llg51WojcA3H8DMePaesq5zxxPvDxdschf+IOlwMBhwkzFUOVlOb4UIOiTjzaYTJdLJSK5dRKx1s2fo+vqZCRlU3JLWdri0D1/w/jrT9v83yEdLA/U9pRzrka6FfISj0Ajiz5rgA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706675430; c=relaxed/simple;
+	bh=4kXyWj1CMpKN3/ty97hbPcZMy2+wRzcK+Q+WqzZV3JQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N6/LyXIiDeaV9Fdoz+/f+qgR8f0FLYgZ4mtQfRclWZ5kne/ZrVSz6f5h+FZROr2z9gJ35FKgglI5TgaM6c65EFmtVLDaaT9ag3YGXoXsmQL24C0vHbYAg5Cf8x1glKkMOvqgZYTwigTlxldGzxA7gsTuKBZA7E06R73I2r5qSeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZoIs0JuV; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fpond.eu header.i=@fpond.eu header.b="PjKeRkGQ";
-	dkim=permerror (0-bit key) header.d=fpond.eu header.i=@fpond.eu header.b="tlYqmkwH"
-ARC-Seal: i=1; a=rsa-sha256; t=1706675327; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=paUBZmSNny7aipQTHJ5MihIPjSysJ0Y30P5XVkJ4FpVzDR7/H2Or0ZDlkD1eDpYDvx
-    2TL06xpseBojW0fCWYlvsrgtSzDvY8YsgCarEizZmB4TjeElrK0OBhsnADwie3w+sL9k
-    XLp9ZxPO2l5ChmfW6ufhkYDDJOwHB96zPmWo7NgNp5bnzHLzX+K4NcpHCRE7DOUy0749
-    wUR0o9rnkM2Y40KbR04v44c3Vf8BaZSy1I4BGT6Jn6ZbfuKw0otdRn31AOxXCo/FOqJh
-    nqtGBf1+sp6Jrxc7z0MdKN0N2gR0/022opzBahJriW68TOAAa8S/SekSoBwrCNSKGy+C
-    fK7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1706675327;
-    s=strato-dkim-0002; d=strato.com;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=CWaoWt6yBYN4tFNZWrNluRakt/M4ddc54ZpdlpcpLFY=;
-    b=WYUsG+L0+jr535tsY5HgBi6V0Jlly21ZaNGgRAC+WEDqOiAxg6euZyWfhhBwrKGjhY
-    Qqd1EDzBU/9bk/XmJ69X1qfWS9rGOKZdXknhSDcS0zy1IScwEsRTagUY45OXmo4P3fy5
-    a+0rlrwpQxe/uv1YrvnX5NDEKrvsYUrJFHAnORnHok6Z+FygqB03WPlxoS/tF4DQQcz5
-    J83X9TUV/kwUn3P2vkNiHZnAhnJDL6GVLRxXAx/ny42KUDGY+jXzSEPKadEJX5KoH8k/
-    dTQ/sqNKP23Wn48RX1v2VnLFb4gYxOY1lXdb5HIYTZTM2cZKdfOh2f4oHcNT/KWPS7vn
-    zTSQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1706675327;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=CWaoWt6yBYN4tFNZWrNluRakt/M4ddc54ZpdlpcpLFY=;
-    b=PjKeRkGQpZLHznwyEjdsZc2EWKIsJvz5ikGaKA4dS02y1a35Xmjx7ZBqyiNm/KsERK
-    OMZCcAasC+ENPm3LuSHkJwcZbZg5D969ueCeTUZLMpAlQ167jY1ACxV5P9yCLG8aV88a
-    LYIziCHdbaWOPr/QgVJ3zSyW4PBRqOWf+pDNVkueKb21Xqc4v6abHS7CvhpCupyo3NqZ
-    /OjV/RYXhFcfc20xqxDQAmPlmS0kmbz2UPaoynetr1gVgn2RdIAi+yIh3YRFQBswYd9T
-    lATZNyCj+3A9dihCX6szhbdJj5u4OMzsN12B4uGIZE/DN6I61ibegDg2pAqw2PDyH5R9
-    osRg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1706675327;
-    s=strato-dkim-0003; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=CWaoWt6yBYN4tFNZWrNluRakt/M4ddc54ZpdlpcpLFY=;
-    b=tlYqmkwHF6nktmB/Z6AawEOKfPoUXNfvAOYU+feDYruzUKy6v1xNtd+g1tuhfYk1GA
-    XcL2C5QXk+ohBqAqn6CQ==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCv/x64jlM="
-Received: from ox-live-app405.back.ox.d0m.de
-    by smtp-ox.front (RZmta 49.11.2 AUTH)
-    with ESMTPSA id Z7ddde00V4SlNiX
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Wed, 31 Jan 2024 05:28:47 +0100 (CET)
-Date: Wed, 31 Jan 2024 05:28:47 +0100 (CET)
-From: Ulrich Hecht <uli@fpond.eu>
-To: Michael Schmitz <schmitzmic@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ulrich Hecht <uli+cip@fpond.eu>,
-	Sasha Levin <sashal@kernel.org>
-Message-ID: <1267978738.113878.1706675327287@webmail.strato.com>
-In-Reply-To: <571eaa40-e24b-1d6f-7150-d54e32c70100@gmail.com>
-References: <202401302324.d3o6tgup-lkp@intel.com>
- <CAMuHMdVTHrFdrJ4x7AcAJ7Y8sY9Z4ar9e_L8Sk701dBSgGraow@mail.gmail.com>
- <40ba1136-0505-acac-05cc-0a913398330a@gmail.com>
- <65931638.113348.1706667689205@webmail.strato.com>
- <571eaa40-e24b-1d6f-7150-d54e32c70100@gmail.com>
-Subject: Re: [cip:linux-4.4.y-st-rc 878/1809]
- arch/m68k/kernel/traps.c:32:10: fatal error: linux/extable.h: No such file
- or directory
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZoIs0JuV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706675429; x=1738211429;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4kXyWj1CMpKN3/ty97hbPcZMy2+wRzcK+Q+WqzZV3JQ=;
+  b=ZoIs0JuVUuG8mkSQ/H7HIV0cvS7LbHOy1Ikny3xcWkBTd0jGhiFPd8yu
+   dAYSZ/l8O4FciDqD+IHDTD6wG+1eyL3ELgaa1uFzuORqL+uryA18u3Bjp
+   Bxta6BhvMxF0wcK5YFyrVS/L8lxcHNS6Fw1Y6fr2cCl3/VwD3JqOHccJw
+   XYKsHCUsMp0HUTiTKZ0Yf0zMB2iMtMlDn0xifEIEupoTMo5rI7N4H/cDm
+   zHRCfHlb3nK77yQGDF+vZ/XpFi7xe5RMpf09RGmqjwsWYik/h2P6cZByB
+   rsXtn6TvX6aMtQJnB2vvG11MPtmI8kIj9h1JYUMSpNjNRhkAM1XBGwOaC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="16868410"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="16868410"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 20:30:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="907747444"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="907747444"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jan 2024 20:30:25 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rV2Eq-00018a-1z;
+	Wed, 31 Jan 2024 04:30:20 +0000
+Date: Wed, 31 Jan 2024 12:28:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bitao Hu <yaoma@linux.alibaba.com>, dianders@chromium.org,
+	akpm@linux-foundation.org, pmladek@suse.com,
+	lecopzer.chen@mediatek.com, kernelfans@gmail.com,
+	liusong@linux.alibaba.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	yaoma@linux.alibaba.com
+Subject: Re: [PATCHv2 1/2] watchdog/softlockup: low-overhead detection of
+ interrupt storm
+Message-ID: <202401311206.nS3XM5Li-lkp@intel.com>
+References: <20240130074744.45759-2-yaoma@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.6-Rev58
-X-Originating-Client: open-xchange-appsuite
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240130074744.45759-2-yaoma@linux.alibaba.com>
 
+Hi Bitao,
 
-> On 01/31/2024 4:54 AM CET Michael Schmitz <schmitzmic@gmail.com> wrote:
-> Am 31.01.2024 um 15:21 schrieb Ulrich Hecht:
-> >
-> >> On 01/30/2024 9:10 PM CET Michael Schmitz <schmitzmic@gmail.com> wrote:
-> >> The latter, for preference. Thanks for spotting that. Where would I send
-> >> such a patch?
-> >
-> > Please send patches for 4.4.y-st and 4.4.y-cip kernels to cip-dev@lists.cip-project.org. Thank you!
-> 
-> Just to make certain there is no misunderstanding: these patches will be 
-> applied to 4.4 kernels only? I.e., not applied to later upstream kernels?
+kernel test robot noticed the following build warnings:
 
-Correct.
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.8-rc2 next-20240131]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-CU
-Uli
+url:    https://github.com/intel-lab-lkp/linux/commits/Bitao-Hu/watchdog-softlockup-low-overhead-detection-of-interrupt-storm/20240130-155029
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240130074744.45759-2-yaoma%40linux.alibaba.com
+patch subject: [PATCHv2 1/2] watchdog/softlockup: low-overhead detection of interrupt storm
+config: x86_64-randconfig-122-20240130 (https://download.01.org/0day-ci/archive/20240131/202401311206.nS3XM5Li-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311206.nS3XM5Li-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401311206.nS3XM5Li-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> kernel/watchdog.c:464:50: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected unsigned char [usertype] ( *utilization )[4] @@     got unsigned char [noderef] [usertype] ( * )[4] @@
+   kernel/watchdog.c:464:50: sparse:     expected unsigned char [usertype] ( *utilization )[4]
+   kernel/watchdog.c:464:50: sparse:     got unsigned char [noderef] [usertype] ( * )[4]
+   kernel/watchdog.c:489:50: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected unsigned char [usertype] ( *utilization )[4] @@     got unsigned char [noderef] [usertype] ( * )[4] @@
+   kernel/watchdog.c:489:50: sparse:     expected unsigned char [usertype] ( *utilization )[4]
+   kernel/watchdog.c:489:50: sparse:     got unsigned char [noderef] [usertype] ( * )[4]
+
+vim +464 kernel/watchdog.c
+
+   459	
+   460	static void update_cpustat(void)
+   461	{
+   462		u8 i;
+   463		u16 *old = this_cpu_ptr(cpustat_old);
+ > 464		u8 (*utilization)[NUM_STATS_PER_GROUP] = this_cpu_ptr(cpustat_utilization);
+   465		u8 tail = this_cpu_read(cpustat_tail);
+   466		struct kernel_cpustat kcpustat;
+   467		u64 *cpustat = kcpustat.cpustat;
+   468		u16 sample_period_ms = sample_period >> 24LL; /* 2^24ns ~= 16.8ms */
+   469	
+   470		kcpustat_cpu_fetch(&kcpustat, smp_processor_id());
+   471		for (i = STATS_SYSTEM; i < NUM_STATS_PER_GROUP; i++) {
+   472			/*
+   473			 * We don't need nanosecond resolution. A granularity of 16ms is
+   474			 * sufficient for our precision, allowing us to use u16 to store
+   475			 * cpustats, which will roll over roughly every ~1000 seconds.
+   476			 * 2^24 ~= 16 * 10^6
+   477			 */
+   478			cpustat[idx_to_stat[i]] = lower_16_bits(cpustat[idx_to_stat[i]] >> 24LL);
+   479			utilization[tail][i] = 100 * (u16)(cpustat[idx_to_stat[i]] - old[i])
+   480						/ sample_period_ms;
+   481			old[i] = cpustat[idx_to_stat[i]];
+   482		}
+   483		this_cpu_write(cpustat_tail, (tail + 1) % NUM_STATS_GROUPS);
+   484	}
+   485	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
