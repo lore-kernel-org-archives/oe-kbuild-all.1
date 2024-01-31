@@ -1,126 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBB617BD2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 03:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7ED14AAA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 03:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706672913; cv=none; b=W5b2jh4JINk4PVv1YI2/G8QT6az4fWhUX6EuGevRs6pu0WFrqIwflBA7y6cviUrRrbF2dRuOTtSgHCehVrdkCkdNrNwKBLLdzaQfyCOkmXHYdt8yldBGcVgucRQO4s5HNykfyFI1cH6kp7LKMay/nJamjz2hCpVdUlpV0Nbzxmk=
+	t=1706673280; cv=none; b=cvkVRsVncsrrkrnT0gdeJMUctya9Db1JMYNQnG7m4/JMnsiX47E5kUctHPeiqS3zDcstNfx9NEQl55Uw9UklVDIe/mtQsLv1GyihTr+Qq2kODWp5VIX7P7ZM/KS5ycrJDl97V41KlZfOsReS9TJSIUgXAg9A9rgBjNfcl+hR5KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706672913; c=relaxed/simple;
-	bh=rkQhuc+0ypQV3yq7HbzBg1QaHZamxNqAVrnK2pYHaWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C5Dq9dJSZhyCz9N80xgU9fee9AC1YE+LQmIlSWPOYqs2HIKP7+E5BUSjjERSHoFpJKdJrmCxri6q7LkJfnS0fzekRLqy+7RdtYbSigLeFFXbG/0HG1BeT0em22O/OfrCbYaYq96M9jeSgAGK+ZJWbGusOYoLij76pizn98nhvfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VeUKnQz5; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706673280; c=relaxed/simple;
+	bh=bD676bUTRiB27+bJohAOrZy+mKQa7TG+3Uo/y23E1ZE=;
+	h=Subject:To:References:Cc:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=PB+FIqN8564sXond1fS9CXpFaC4gXPDEtYhxPCRPxsEskEnVXMxyLyX1ISxbWEE0pU8cEniFgG8bOs9fynuwGsk3DWiddtoPzxmG0kv25JP2p6tBGc8Z1T6aMSszvqT5xg9XPb13D2EJR7+412HpUhQvxZHnEopslG0P8O4/Ucs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X8difua+; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VeUKnQz5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706672911; x=1738208911;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rkQhuc+0ypQV3yq7HbzBg1QaHZamxNqAVrnK2pYHaWc=;
-  b=VeUKnQz5LahUWEBbP6MyY+dPTccMhXAK0z29pfjJlcTEWteiNtfgS6B9
-   Vi8cdbOdASV/sM41MbKSY1tnX5G1tTmDjrg2hon6z1Gy+yZ/vOw87fq78
-   iBDKNf2wdMKdxDamNmgWbd92E9S5sdFuM34CE0sfnwHwLKJ+OXHppRalQ
-   RZZNNA7/HoS44v1xaVOcqGwLEticPbAX1/4g1aM5JaXz+LeEjFqCfED7L
-   Q3zOFW4exT+2/P7/kktHN+LYBGr/bWT+UiMvUaeN85VoN+hyK3kGD5GuO
-   sQVAKKDjq2QVMQ0cE7jwFB5VovcEJAbzTBHSUneVkA/YUXbrgw94/5d4a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10228511"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="10228511"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 19:48:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="737967161"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="737967161"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 30 Jan 2024 19:48:28 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rV1Zx-00016y-1A;
-	Wed, 31 Jan 2024 03:48:13 +0000
-Date: Wed, 31 Jan 2024 11:46:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steve Jeong <how2soft@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-6.6.y 42/51] drivers/char/aml-gpiomem.c:128:20:
- error: incompatible types when assigning to type 'pgprot_t {aka struct
- <anonymous>}' from type 'int'
-Message-ID: <202401311106.nlgY1Xe3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X8difua+"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d8da50bfd9so16576195ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 19:54:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706673278; x=1707278078; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:from:cc:references:to:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ASE71pzmnohl3HQd9Mxam6Jh9nwv3ZWE+CF+YUdKSE4=;
+        b=X8difua+7ak3gL1NowD4PEBTDBOAVDLtve08Ppz03h7hCIEIDQ89qjeTUP7xnOEsvn
+         VjBdX+5R6ymAfdRj3S1G8aHKrD8O/AjXn5CFiEloQ/m362hV4aVy9Ob3i12wcKMRQJSS
+         fSwN3cPNNtC5mp2Ev99Hf5bS7AweYNOb+Th0VDTr89G2lAE3d/PXHrrb0nVGfH5zhveF
+         gik2Ze6udhY3FwuaMlX/FhDJyh6G5HrjHF++QVhPBMlOEkv0SfkJkOJvPkcFesU3lrub
+         sLk+I9Wqc6sPTfC4nz1u4B3wLgkjkSQ7192YRDCtFX+NL1abTsicYP1kin+c2YfXA9oA
+         NkQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706673278; x=1707278078;
+        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:from:cc:references:to:subject:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ASE71pzmnohl3HQd9Mxam6Jh9nwv3ZWE+CF+YUdKSE4=;
+        b=Ud+C7npt14rLLx29c3AVZA/Oqz9ya2q81ZGyuf26LFy4NDIVqIv0jtEqR0MuEp89kp
+         kZppJCWOtuelLxhGjpHIk5hVC9tbBqHAKsUmXIwowCW2mCGoyaCHhyXaUvwDmfiSF5Va
+         YuBrnfsPqAv1E6MpacZZJbqw37EFUPSH7mcJqQhfgQ9Dgf0+W7syCWYtSsIfiB/YnEw6
+         N2MxDW7Xd6mChg6hd1mBaNjbkffGxbaQwxumc2OS3H8D7Ai2rgwr+BLO3P8zfFjYKm7N
+         D7gLvarYFb8ZPc5c+wU4LzdFe42OlHFc0rH9mN1bSPtAmzx0fG8yiDv2pzNrmVHDbwJQ
+         XIBg==
+X-Gm-Message-State: AOJu0Yy+aWrVYWiu/eiGPGXuO3uYsOucKMvtGJu4a/eTdj254PmChheC
+	tl37kzthojvQJLt4oWMQkGTX4MSefd4oxZx+WsqNLD6TTctjB2zdwqtcyfuX
+X-Google-Smtp-Source: AGHT+IEeq8/9aTp5cCV8wqe0na5YcHPq9fK74epB9rdy43FX+uavPcd3oOIMOq+CptPzePt0W8+Dxg==
+X-Received: by 2002:a17:903:1d2:b0:1d8:fe1e:7cb9 with SMTP id e18-20020a17090301d200b001d8fe1e7cb9mr753740plh.19.1706673278138;
+        Tue, 30 Jan 2024 19:54:38 -0800 (PST)
+Received: from [10.1.1.24] (125-236-136-221-fibre.sparkbb.co.nz. [125.236.136.221])
+        by smtp.gmail.com with ESMTPSA id l17-20020a170902eb1100b001d8e4de7a44sm4325601plb.127.2024.01.30.19.54.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 30 Jan 2024 19:54:37 -0800 (PST)
+Subject: Re: [cip:linux-4.4.y-st-rc 878/1809] arch/m68k/kernel/traps.c:32:10:
+ fatal error: linux/extable.h: No such file or directory
+To: Ulrich Hecht <uli@fpond.eu>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ kernel test robot <lkp@intel.com>
+References: <202401302324.d3o6tgup-lkp@intel.com>
+ <CAMuHMdVTHrFdrJ4x7AcAJ7Y8sY9Z4ar9e_L8Sk701dBSgGraow@mail.gmail.com>
+ <40ba1136-0505-acac-05cc-0a913398330a@gmail.com>
+ <65931638.113348.1706667689205@webmail.strato.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ulrich Hecht <uli+cip@fpond.eu>,
+ Sasha Levin <sashal@kernel.org>
+From: Michael Schmitz <schmitzmic@gmail.com>
+Message-ID: <571eaa40-e24b-1d6f-7150-d54e32c70100@gmail.com>
+Date: Wed, 31 Jan 2024 16:54:29 +1300
+User-Agent: Mozilla/5.0 (X11; Linux ppc; rv:45.0) Gecko/20100101
+ Icedove/45.4.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <65931638.113348.1706667689205@webmail.strato.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/tobetter/linux odroid-6.6.y
-head:   613a1058dbc7451b001352f0199a9e3645f971bc
-commit: 5fa32be6d7ce558be554b60a740b8906fcc0e648 [42/51] ODROID-N2/C4: char: Add /dev/gpiomem device
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20240131/202401311106.nlgY1Xe3-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311106.nlgY1Xe3-lkp@intel.com/reproduce)
+Uli,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401311106.nlgY1Xe3-lkp@intel.com/
+Am 31.01.2024 um 15:21 schrieb Ulrich Hecht:
+>
+>> On 01/30/2024 9:10 PM CET Michael Schmitz <schmitzmic@gmail.com> wrote:
+>> The latter, for preference. Thanks for spotting that. Where would I send
+>> such a patch?
+>
+> Please send patches for 4.4.y-st and 4.4.y-cip kernels to cip-dev@lists.cip-project.org. Thank you!
 
-All errors (new ones prefixed by >>):
+Just to make certain there is no misunderstanding: these patches will be 
+applied to 4.4 kernels only? I.e., not applied to later upstream kernels?
 
-   drivers/char/aml-gpiomem.c: In function 'aml_gpiomem_mmap':
-   drivers/char/aml-gpiomem.c:128:22: error: implicit declaration of function 'phys_mem_access_prot'; did you mean 'phys_mem_access_prot_allowed'? [-Werror=implicit-function-declaration]
-     vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
-                         ^~~~~~~~~~~~~~~~~~~~
-                         phys_mem_access_prot_allowed
->> drivers/char/aml-gpiomem.c:128:20: error: incompatible types when assigning to type 'pgprot_t {aka struct <anonymous>}' from type 'int'
-     vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
-                       ^
-   cc1: some warnings being treated as errors
+Cheers,
 
+	Michael
 
-vim +128 drivers/char/aml-gpiomem.c
-
-   111	
-   112	static int aml_gpiomem_mmap(struct file *file, struct vm_area_struct *vma)
-   113	{
-   114		int gpio_area = 0;
-   115		unsigned long start = vma->vm_pgoff << PAGE_SHIFT;
-   116		unsigned long end   = start + vma->vm_end - vma->vm_start;
-   117	
-   118		while (gpio_area < inst->gpio_area_count) {
-   119			if ((inst->gpio_regs_phys[gpio_area].start >= start) &&
-   120			    (inst->gpio_regs_phys[gpio_area].end   <= end))
-   121				goto found;
-   122			gpio_area++;
-   123		}
-   124	
-   125		return -EACCES;
-   126	
-   127	found:
- > 128		vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
-   129				vma->vm_end - vma->vm_start,
-   130				vma->vm_page_prot);
-   131	
-   132		vma->vm_ops = &aml_gpiomem_vm_ops;
-   133	
-   134		if (remap_pfn_range(vma, vma->vm_start,
-   135					vma->vm_pgoff,
-   136					vma->vm_end - vma->vm_start,
-   137					vma->vm_page_prot)) {
-   138			return -EAGAIN;
-   139		}
-   140	
-   141		return 0;
-   142	}
-   143	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> CU
+> Uli
+>
