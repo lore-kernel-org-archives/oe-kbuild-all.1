@@ -1,54 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0FC7691D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 11:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E4076052
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 11:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706701878; cv=none; b=U9+mxz6ZqGrmZ5yQti7JNJ1x62BMoXy7XwAlTM3WrzEAuTGzVJbIUx3n+JCyd/6d6LaINvrChMfbTO8/MIM1+5q2VSeDJbgPLddx6VFlakTQSEpBrNJQR4rFbbJjUCMMaUU149VzTUtOkMytf7KWzbwauB98i5URt3R+OlznNeY=
+	t=1706701879; cv=none; b=qtj2rReAazAqMVQpnK133Aji9SXbOSNLXWbxSIHET1kEEHq0MoBKZqFldtP3ILJM/ctrp8XtiEn8QPt4JEe6y2APhhk+LlAkJ+GHlyCRdlUSfTPavtSnFLqyAHSksT42QOh3B2ZvNJqDR6aiweMAU9q+ScMAoBy8HpmoQiRzM/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706701878; c=relaxed/simple;
-	bh=h1vY2/WTv10tnbyA80PbnycPMc3gVO+bpKnxLorKtMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UYRazeo8o2KASSh0w0r6hant7KkuZxbM8Lq1EX/NG7c0T/lilkhyhzh56qyEVdSNrRl537tiqu9l2xmS6kBRSdvd5ZJVNcFS5GxNrquY0pzczw60K8hMcRuwrWK8ZFA5nwiepjhrPcz4fWbLWiYw8k20XJ3zReSduhi6ev0rRTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ykwu8bf2; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1706701879; c=relaxed/simple;
+	bh=CuCh2cxo9xnL4HtIF/woYQx9LoBHjPmfaYxw3p9oUIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gGa5UnJgAX9Yx5H5D2HTFkZNXs8TecuvdBsDH5QDPlOkwl/2Us2rHHT5F+S+A+de0n+kpN/u2Ee6C9mZAKoiwE8g4uUFv7jwnMzPZdM63y40KlgWuvU6xf0837fjuHIuSpG6vr3lfsh/APJRzrB525ySE3TndzQ+e6T8dnX2wJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUtOwy4D; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ykwu8bf2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUtOwy4D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706701876; x=1738237876;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h1vY2/WTv10tnbyA80PbnycPMc3gVO+bpKnxLorKtMY=;
-  b=Ykwu8bf2ZeuIxceBufnPVg/vmmFSZfFH4b7cv4/pKB88eQf8PD73ejni
-   DUyTC0FLtDYVA5xzCseWHmDNBh6eyAAE8NnCZuGeCdLD5noWJddS9PwBY
-   TelvfwLC2mbmgTTP5cz7m2c6tffdm/G6ES3jjxLNvmhJ/OsxfWLqZ7WDh
-   5GlYn5LEC/qJYCepd7T3QXh5BW/rWCJbMxR+XlbEklvvm+EH4b0hVg76d
-   NCRYPQPJkVmTUtL4YmX5OFB4g169+gAxn2WmWXOPnzYpEfX3QMYHp+D6M
-   NTdQ63qD2blw7oM/BFA3TkBb9rJJVqhpnyh4rMvXVm5z7x5MnD7IriY/i
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="17110207"
+  t=1706701878; x=1738237878;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CuCh2cxo9xnL4HtIF/woYQx9LoBHjPmfaYxw3p9oUIg=;
+  b=SUtOwy4DEbWBJg5RybyOyJ0XHfIM7BVy39BaVpORLfeK5pZLDJPVvRPP
+   9x/LvoEsGLr6Zh2RWhPrMzMne2xzzlGNzpAVe65Onq9k+R9K24KzHEruF
+   feLLL8BAo5jyqqzGnp06LFq7kQu9OXB0GOrv8CoNjGZT4KFS2R6ZJAsiw
+   A+G8Rvm8BeQifMqvM8+7j9ypJrx5iaFIl3CEWmiGXdGnQEKRPzm/jGfN5
+   2xme6PqNSdJmwaRCK3NSDSDhrw2uSCfWGPvsovlPdE59LOC0LsmLkctOK
+   lZJ0Q+GAMbA3AHJZSmd/6z2FBs05OepNTmhg0/LeMM/oZitdRZJfwD7wi
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="22086102"
 X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="17110207"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 03:51:16 -0800
+   d="scan'208";a="22086102"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 03:51:17 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="907861041"
 X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="4068834"
+   d="scan'208";a="907861041"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Jan 2024 03:51:14 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2024 03:51:14 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rV97Y-0001WS-0w;
+	id 1rV97Y-0001WW-14;
 	Wed, 31 Jan 2024 11:51:12 +0000
 Date: Wed, 31 Jan 2024 19:50:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhong Jinghua <zhongjinghua@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 21561/30000] mm/damon/core-test.h:284:9: sparse:
- sparse: incompatible types in comparison expression (different signedness):
-Message-ID: <202401311902.kmMXNYn1-lkp@intel.com>
+To: Lee Duncan <leeman.duncan@gmail.com>, linux-scsi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	hare@suse.de, Lee Duncan <lduncan@suse.com>
+Subject: Re: [PATCH 2/2] fnic: move fnic_fnic_flush_tx() to a work queue
+Message-ID: <202401311947.cPDhv2xa-lkp@intel.com>
+References: <9c51ef07a04413fb2f2bd20f1534f96e004e4e59.1706632031.git.lduncan@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,50 +60,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9c51ef07a04413fb2f2bd20f1534f96e004e4e59.1706632031.git.lduncan@suse.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   260c7a5874066269671cc826d6c9ccd70dd001e5
-commit: 83b931be40b2829e20f38356509d8706ea6b6238 [21561/30000] mm/damon/core-test: test damon_set_regions
-config: x86_64-randconfig-121-20240130 (https://download.01.org/0day-ci/archive/20240131/202401311902.kmMXNYn1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311902.kmMXNYn1-lkp@intel.com/reproduce)
+Hi Lee,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v6.8-rc2 next-20240131]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lee-Duncan/Revert-scsi-fcoe-Fix-potential-deadlock-on-fip-ctlr_lock/20240131-004656
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/9c51ef07a04413fb2f2bd20f1534f96e004e4e59.1706632031.git.lduncan%40suse.com
+patch subject: [PATCH 2/2] fnic: move fnic_fnic_flush_tx() to a work queue
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240131/202401311947.cPDhv2xa-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401311947.cPDhv2xa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401311902.kmMXNYn1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401311947.cPDhv2xa-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/damon/core.c: note: in included file:
->> mm/damon/core-test.h:284:9: sparse: sparse: incompatible types in comparison expression (different signedness):
-   mm/damon/core-test.h:284:9: sparse:    unsigned int *
-   mm/damon/core-test.h:284:9: sparse:    int *
+All warnings (new ones prefixed by >>):
 
-vim +284 mm/damon/core-test.h
+>> drivers/scsi/fnic/fnic_fcs.c:1194: warning: Function parameter or struct member 'work' not described in 'fnic_flush_tx'
+>> drivers/scsi/fnic/fnic_fcs.c:1194: warning: Excess function parameter 'fnic' description in 'fnic_flush_tx'
 
-   269	
-   270	static void damon_test_set_regions(struct kunit *test)
-   271	{
-   272		struct damon_target *t = damon_new_target();
-   273		struct damon_region *r1 = damon_new_region(4, 16);
-   274		struct damon_region *r2 = damon_new_region(24, 32);
-   275		struct damon_addr_range range = {.start = 8, .end = 28};
-   276		unsigned long expects[] = {8, 16, 16, 24, 24, 28};
-   277		int expect_idx = 0;
-   278		struct damon_region *r;
-   279	
-   280		damon_add_region(r1, t);
-   281		damon_add_region(r2, t);
-   282		damon_set_regions(t, &range, 1);
-   283	
- > 284		KUNIT_EXPECT_EQ(test, damon_nr_regions(t), 3);
-   285		damon_for_each_region(r, t) {
-   286			KUNIT_EXPECT_EQ(test, r->ar.start, expects[expect_idx++]);
-   287			KUNIT_EXPECT_EQ(test, r->ar.end, expects[expect_idx++]);
-   288		}
-   289		damon_destroy_target(t);
-   290	}
-   291	
+
+vim +1194 drivers/scsi/fnic/fnic_fcs.c
+
+5df6d737dd4b0fe Abhijeet Joglekar 2009-04-17  1182  
+78112e5558064cb Joe Eykholt       2009-11-03  1183  /**
+78112e5558064cb Joe Eykholt       2009-11-03  1184   * fnic_flush_tx() - send queued frames.
+78112e5558064cb Joe Eykholt       2009-11-03  1185   * @fnic: fnic device
+78112e5558064cb Joe Eykholt       2009-11-03  1186   *
+78112e5558064cb Joe Eykholt       2009-11-03  1187   * Send frames that were waiting to go out in FC or Ethernet mode.
+78112e5558064cb Joe Eykholt       2009-11-03  1188   * Whenever changing modes we purge queued frames, so these frames should
+78112e5558064cb Joe Eykholt       2009-11-03  1189   * be queued for the stable mode that we're in, either FC or Ethernet.
+78112e5558064cb Joe Eykholt       2009-11-03  1190   *
+78112e5558064cb Joe Eykholt       2009-11-03  1191   * Called without fnic_lock held.
+78112e5558064cb Joe Eykholt       2009-11-03  1192   */
+7ea34b1ffb4e1aa Hannes Reinecke   2024-01-30  1193  void fnic_flush_tx(struct work_struct *work)
+78112e5558064cb Joe Eykholt       2009-11-03 @1194  {
+7ea34b1ffb4e1aa Hannes Reinecke   2024-01-30  1195  	struct fnic *fnic = container_of(work, struct fnic, flush_work);
+78112e5558064cb Joe Eykholt       2009-11-03  1196  	struct sk_buff *skb;
+78112e5558064cb Joe Eykholt       2009-11-03  1197  	struct fc_frame *fp;
+5df6d737dd4b0fe Abhijeet Joglekar 2009-04-17  1198  
+d9e9ab56b687da0 Brian Uchino      2010-04-09  1199  	while ((skb = skb_dequeue(&fnic->tx_queue))) {
+78112e5558064cb Joe Eykholt       2009-11-03  1200  		fp = (struct fc_frame *)skb;
+78112e5558064cb Joe Eykholt       2009-11-03  1201  		fnic_send_frame(fnic, fp);
+78112e5558064cb Joe Eykholt       2009-11-03  1202  	}
+78112e5558064cb Joe Eykholt       2009-11-03  1203  }
+5df6d737dd4b0fe Abhijeet Joglekar 2009-04-17  1204  
 
 -- 
 0-DAY CI Kernel Test Service
