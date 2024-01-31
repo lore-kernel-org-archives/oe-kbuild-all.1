@@ -1,349 +1,141 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CF4182DC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 18:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9679C21362
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 18:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706726455; cv=none; b=AMr18IL0fDrBIN7L4PGageEyrgIpzuxxV8koKnye45Hqd5Jytm4DA9fPfiruF049srpwQABKsFvePGP+5w+1mNP+Rsj7XZJICGB/+p7HVg12skzJh3OpgyYUJZQ8cbvs1cE1dwjzXzBaxyZgxk1OWB1I9LxX+G4AwQVKLTto4jw=
+	t=1706726859; cv=none; b=NTv5zRmkzeyUR+do9KKbgeTv7ZEmBaZfiCIAtTmCUDabp2r5pcLSZRKLfcTSc23e5K5LFuBMfJPNlYUXtsyhIhGg/rWnQ1+6IQbFiUrrf7X/EMC7WkdWLnFnTocSxCAth6QDqBI9yclc4nu4NsXWVNzxrKauAMcnPsbGiZhSHy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706726455; c=relaxed/simple;
-	bh=cqMsWbzPXZHhHE9+WijuuPeI8hnT86cMX+KSewNWpUM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Wmj1zVYqR7CAbqXYWNz5CSV1kOLf049fzrupJ+o5+4v1xOHtQ3kXEyrxx/XrEryiDTRYRUIWFR0B1eif4DTuEQY8XA3q9Yq5Ei9KC1dofy7n2Thhs2bzrtaRiMOy46X5joVBV4ZwYh2LEhl7ojTucn/SDcXNYNk5xXOqKPZ2Mfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Hvd9Yygg; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1706726859; c=relaxed/simple;
+	bh=7wYXS/SlkJ8AOrdGvl0ZYXtpU339epgU9Os3p8q6l0o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nN9hPE0KAPDYjrpq+H40K0HWWDOIH8HlCV2CPel4TW90yDHtGfH/y6f0/cp5E2pr7HPt2mH2DjRPB1KU2L0gxCFHJG0q2DBqJkHWWzoOvubQZd1NA3M1OciUX4n8vms7n4liGtkC2r6YevNJ+nCUQrOzkgywT+HfVs+op5jQHIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VScw7qk4; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Hvd9Yygg"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e7e2e04f0so1146895e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 10:40:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VScw7qk4"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d944e8f367so799305ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 10:47:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1706726451; x=1707331251; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cqMsWbzPXZHhHE9+WijuuPeI8hnT86cMX+KSewNWpUM=;
-        b=Hvd9Yyggfsb9m1OdFoyFEJT+8YoqH39g9CiqTq9+7dsRKHfETGMOv5qt6iVqFHn+/B
-         Vs/jzHgao8HnlmHRGUIgl7j2hF2JWqrcSKnM6kzEjWTVqnHiaFr2N/LFq3wdr9qWUFwx
-         4RMCz+6WG35b/EdudttOffX6SY+j6h7RCJYVRefLYfqb2azIXZQDryDD0XnQQ7xeDQAu
-         9w8+HTZfgIrCY+TlGMks9i/ejeatoxPz0C+q0KpctYTCnno1ZstWhad4POeno1P1AuQC
-         hR2ylhoY88OvlQS5Gb1QAwgmly5MA6uIBXUBqBfHzcarnVGq7JIQ4iYX14wLd23khmZj
-         vSOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706726451; x=1707331251;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=gmail.com; s=20230601; t=1706726857; x=1707331657; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=cqMsWbzPXZHhHE9+WijuuPeI8hnT86cMX+KSewNWpUM=;
-        b=elpGNZvP+nyiZczqx7PPhwtuqIpXGTPfqs9DTKOw3RS11sasCAP9JDUiBDVPpbZ9bp
-         q1Fypnbu6SmupPDOwVknYw5OD0tihI+8NEdIlJ/8X8X+rKZZDngf+WdOLm3b02GcDm4s
-         j0GNpnq6jFfdMUmOKKc7pWmc0HMAD9rW+zpCr267HYFxoDHtTN5kwVqLuNhjUApXBRdo
-         8792S/IF/jMpgHq9dCrTu+dEPv8iWHiwsUFAKGnn3lGOZfwEsiDDUh9YcipJSUUFQg0h
-         T03u3+BANkJR5QCwvT6Kf/zvayQacDiDkgMYV9ZQCwY1LW59taEDqysAhxkk03E5s/sA
-         KfmQ==
-X-Gm-Message-State: AOJu0YyULMNZ9F+e3kdH2kSkez2Vdh9t2HG0oSKHa78OTWI1aDaLvoNs
-	8ItEz+fFAyJR1P4tbIn120lLXSqCX0Lq4suRxxX6cJCvVOtyPztn2Dlfo+iQxrg=
-X-Google-Smtp-Source: AGHT+IHkMI4CbQLndKczizhkIdUQ38azS2I+oNCtjaZjAH+UfiAdSvm1Xm3ZXafA50roYILLvz3KVQ==
-X-Received: by 2002:a05:6000:a07:b0:33b:fed:656f with SMTP id co7-20020a0560000a0700b0033b0fed656fmr617857wrb.53.1706726450923;
-        Wed, 31 Jan 2024 10:40:50 -0800 (PST)
-Received: from ?IPv6:2804:30c:1f49:9200:d29b:2478:179f:fbac? ([2804:30c:1f49:9200:d29b:2478:179f:fbac])
-        by smtp.gmail.com with ESMTPSA id j6-20020a5d6186000000b0033b12167a98sm53227wru.8.2024.01.31.10.40.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 10:40:50 -0800 (PST)
-Message-ID: <ebd29766a769dc3844df9d0946736f2c5e2048be.camel@suse.com>
-Subject: Re: [linux-next:master 1016/2825] make[2]: ***
- kselftest/livepatch/test_modules: No such file or directory.  Stop.
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Petr Mladek <pmladek@suse.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux
-	Memory Management List
-	 <linux-mm@kvack.org>, Shuah Khan <skhan@linuxfoundation.org>, Joe Lawrence
-	 <joe.lawrence@redhat.com>
-Date: Wed, 31 Jan 2024 15:40:46 -0300
-In-Reply-To: <fd027fa958a0bc65285a0c6c42e5921e7d28b0ad.camel@suse.com>
-References: <202401300736.GkSZoSrA-lkp@intel.com>
-	 <ed54875555c282ad3b09503020a7aa978a80bd60.camel@suse.com>
-	 <ZbpnBqHUl3pE_3Te@alley>
-	 <fd027fa958a0bc65285a0c6c42e5921e7d28b0ad.camel@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (by Flathub.org) 
+        bh=Wh3vBVgFANL09xItQULxD8UoFSKaimbGy2fWeN+Wyyc=;
+        b=VScw7qk4+iHEPNUnIWLZh/OZNOxJ0Wya9/UxipV+Czm7+0S5rkZ6nqZpylXIEZrMhs
+         Q7avj0gahWQKWgINGDfMLRijmo/fBSgz2i2MppSsWtogwnFb9Hs+AOEXvzGMJYXfbwf4
+         D7PrraS7ZZ9kyoCMyiVyzbgVrAC/LSxmci8r5l7WfymzjOMs9xyPmwtulLpwS6/sXwF6
+         eMkj/qP4IDM2TaXGQbJTSaV5jLQqzTYjWKsM2FfFLqT8Ka6nHMABawfUKt3TMGUeGm2K
+         Sng1P7m1FfWd+2P29SgNV7IIvPlWOQc8Ul4tVwSZxH1Mcj8r+5MoiDYxTUSjyXD+5cpc
+         xxkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706726857; x=1707331657;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wh3vBVgFANL09xItQULxD8UoFSKaimbGy2fWeN+Wyyc=;
+        b=ZgZ01s4y+u0f+kdo/ZbB9uWQMsrhtJcSueqDjopCMdR+2C0J5bxs0dBHWok9RIcb/5
+         fqVtEpQQNR7vFJd0ppNAlOA0TUi7GjLGwPIEKbcQKXJIFSrMt11Iq+wlIqVxdLHykzFV
+         mfZOz8azf9xoMuRlkbBWg/JLi4pDTTQ92LjX+UBqRZ4z30Y5cil/xtKYAlZGHpbRSghS
+         7X4aIDZmgyUB1sZQ45S7y+7hbQmH6S/KOXz42HYRj8RHGUPmkJ0lLehgjfvhxqiC3pTv
+         3ksqpnD7ySO3bfjEzlRymbYF+FNbWJeBJ4ICeiyFTiewuJUyVAwaSldBnz55t78+jl3Q
+         zBVw==
+X-Gm-Message-State: AOJu0Yx5jrvhhfBROhKQQSZiTiwo/+db4MaOka9WFNyLiWwEfFFtS6wi
+	p6UWV7LUIGpAq0cDIYSEnV42UXnzLBMs/KKxdC8MFYx7QMcm3KS7
+X-Google-Smtp-Source: AGHT+IFCRgqn6mXE5KCdEiY94CAv/G9LonZ1v8TYBKZyc09F5vR87OjIXYx+uM0DW7tavSF5iKRdRA==
+X-Received: by 2002:a17:902:e5c5:b0:1d9:36af:dd2a with SMTP id u5-20020a170902e5c500b001d936afdd2amr2043058plf.31.1706726856790;
+        Wed, 31 Jan 2024 10:47:36 -0800 (PST)
+Received: from ?IPV6:2001:df0:0:200c:444c:3f95:978c:b46e? ([2001:df0:0:200c:444c:3f95:978c:b46e])
+        by smtp.gmail.com with ESMTPSA id o4-20020a170902d4c400b001d8a5c08277sm9098693plg.260.2024.01.31.10.47.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Jan 2024 10:47:36 -0800 (PST)
+Message-ID: <17eb05e1-256d-d3da-5f3d-47af2fed0cf6@gmail.com>
+Date: Thu, 1 Feb 2024 07:47:32 +1300
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [cip:linux-4.4.y-st-rc 878/1809] arch/m68k/kernel/traps.c:32:10:
+ fatal error: linux/extable.h: No such file or directory
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ Ulrich Hecht <uli+cip@fpond.eu>, Sasha Levin <sashal@kernel.org>
+References: <202401302324.d3o6tgup-lkp@intel.com>
+ <CAMuHMdVTHrFdrJ4x7AcAJ7Y8sY9Z4ar9e_L8Sk701dBSgGraow@mail.gmail.com>
+ <40ba1136-0505-acac-05cc-0a913398330a@gmail.com>
+ <8cfa0192-769a-6ef0-4b59-bcfd0eb43453@gmail.com>
+ <CAMuHMdVhjCJqOpLA1VYMCLDrXVkhV6qBJzUOMVA324-UyfUxSQ@mail.gmail.com>
+From: Michael Schmitz <schmitzmic@gmail.com>
+In-Reply-To: <CAMuHMdVhjCJqOpLA1VYMCLDrXVkhV6qBJzUOMVA324-UyfUxSQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-CC'ing Miroslav, as he was also involved in the patchset and can have
-some ideas about how to fix this issue.
+Hi Geert,
 
-On Wed, 2024-01-31 at 15:39 -0300, Marcos Paulo de Souza wrote:
-> On Wed, 2024-01-31 at 16:34 +0100, Petr Mladek wrote:
-> > On Tue 2024-01-30 11:39:56, Marcos Paulo de Souza wrote:
-> > > On Tue, 2024-01-30 at 07:08 +0800, kernel test robot wrote:
-> > > > tree:=C2=A0=C2=A0
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> > > > =C2=A0m
-> > > > aster
-> > > > head:=C2=A0=C2=A0 596764183be8ebb13352b281a442a1f1151c9b06
-> > > > commit: c4bbe83d27c2446a033cc0381c3fb6be5e8c41c7 [1016/2825]
-> > > > livepatch: Move tests from lib/livepatch to selftests/livepatch
-> > > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > > reproduce (this is a W=3D1 build):
-> > > > (
-> > > > https://download.01.org/0day-ci/archive/20240130/202401300736.GkSZ
-> > > > oS
-> > > > rA-lkp@intel.com/reproduce)
-> > > >=20
-> > > When looking at the lib.mk, I just followed the other variables
-> > > and
-> > > did
-> > > the same:
-> > >=20
-> > > TEST_GEN_MODS_DIR :=3D $(patsubst
-> > > %,$(OUTPUT)/%,$(TEST_GEN_MODS_DIR))
-> > >=20
-> > > But later on, I jump into $(TEST_GEN_MODS_DIR), which is invalid
-> > > because of the O=3D that is used a prefix for the path:
-> > > /tmp/kselftest/kselftest/livepatch/test_modules. My first idea
-> > > was
-> > > to
-> > > just remove the patsubst and take TEST_GEN_MODS_DIR, which should
-> > > be
-> > > livepatch/test_modules in this case, but it then returns another
-> > > problem:
-> > >=20
-> > >=20
-> > > make: Entering directory
-> > > '/home/mpdesouza/git/linux/tools/testing/selftests'
-> > > make[1]: Entering directory
-> > > '/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-> > > make -C test_modules
-> > > make[2]: Entering directory
-> > > '/home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test
-> > > _m
-> > > odul
-> > >=20
-> > > es'
-> > > make -C /lib/modules/6.5.9-1-default/build modules
-> > > KBUILD_EXTMOD=3D/home/mpdesouza/git/linux/tools/testing/selftests/l
-> > > iv
-> > > epat
-> > >=20
-> > > ch/test_modules
-> >=20
-> > Nit: There are sometimes strange empty lines between split long
-> > =C2=A0=C2=A0=C2=A0=C2=A0 lines. It looks like somehow messed cut&paste.
->=20
-> Sorry about it. I'll double check the output next time I copy from my
-> terminal.
->=20
-> >=20
-> > > make[3]: Entering directory '/usr/src/linux-6.5.9-1-
-> > > obj/x86_64/default'
-> > > make[4]: Entering directory '/tmp/kselftest'
-> > > /usr/src/linux-6.5.9-1/Makefile:754: include/config/auto.conf: No
-> > > such
-> > > file or directory
-> >=20
-> > I see the same. It looks to me like a bug in kernel-devel package.
-> >=20
-> > /usr/src/linux-6.5.9-1/Makefile is from the kernel-devel package
-> > for the running kernel. It should try to include auto.conf used
-> > for building the running kernel:
-> >=20
-> > =C2=A0 1. auto.conf should be packaged in kernel-devel.
-> >=20
-> > =C2=A0 2. The Makefile from the kernel-devel packages should be able
-> > =C2=A0=C2=A0=C2=A0=C2=A0 to find/use auto.conf from the kernel-devel pa=
-ckage.
-> >=20
-> > IMHO, this actually helped to find a bug that
-> > make -C tools/testing/selftests/livepatch used auto.conf from
-> > the git tree while the modules are built against headers
-> > for the running kernel.
-> >=20
-> > That said, I wonder why this problem does not happen when building
-> > external modules (KMPs). I would expect that they are using
-> > the same Makefile from the kernel-devel package.
-> >=20
-> > Maybe the external modules somehow manage to clear "need-config"
-> > used by /usr/src/linux-6.5.9-1/Makefile. Maybe we do not need
-> > to include it either.
-> >=20
-> > > make[4]: *** [/usr/src/linux-6.5.9-1/Makefile:234: __sub-make]
-> > > Error 2
-> > > make[4]: Leaving directory '/tmp/kselftest'
-> > > make[3]: *** [../../../linux-6.5.9-1/Makefile:234: __sub-make]
-> > > Error 2
-> > > make[3]: Leaving directory '/usr/src/linux-6.5.9-1-
-> > > obj/x86_64/default'
-> > > make[2]: *** [Makefile:16: modules] Error 2
-> > > make[2]: Leaving directory
-> > > '/home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test
-> > > _m
-> > > odul
-> > >=20
-> > > es'
-> > > make[1]: *** [../lib.mk:92: gen_mods_dir] Error 2
-> > > make[1]: Leaving directory
-> > > '/home/mpdesouza/git/linux/tools/testing/selftests/livepatch'
-> > > make: *** [Makefile:180: all] Error 2
-> > > make: Leaving directory
-> > > '/home/mpdesouza/git/linux/tools/testing/selftests'
->=20
-> Well, this maybe be indeed a bug in kernel-devel. I added some debug
-> messages to make (-dd), and I believe that I understood what's going
-> wrong.
->=20
-> First of all, if we compile an out-of-tree module, like this:
->=20
-> make -C tools/testing/selftests/livepatch/test_modules
->=20
-> it goes to /usr/src/linux-6.5.9-1-obj/x86_64/default, and everything
-> works. I printed the abs_objtree and it's in fact where it should.
->=20
-> On like 234 of the toplevel Makefile, ion the __sub-make target, it
-> executed the make passed -C to $(abs_objtree), and -f to
-> $(abs_srctree). abs_objtree points to /usr/src/linux-6.5.9-1-
-> obj/x86_64/default while abs_srctree points to /usr/src/linux-6.5.9-
-> 1.
-> Everything works.
->=20
-> But things change whenever we use the O=3D argument. Its value is
-> passed
-> to abs_objtree, making the __sub-make to execute is a peculiar way:
-> while abs_objtree is /tmp/kselftest, abs_srctree continues to be
-> /usr/src/linux-6.5.9-1. That's why the include fails in this case:
->=20
-> ifdef need-config=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> include include/config/auto.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> endif
->=20
-> As we are calling the include from /tmp/kselftest, and Makefile
-> include
-> rules try to searching for the file in the directory of it's
-> execution[1], it fails. IIUC, all include paths on the toplevel
-> makefile should have $(abs_srctree) as prefix, so it could work. But
-> as
-> Petr said, we don't have the include/config directory packaged in
-> kernel-devel.
->=20
-> I would like to note that this is a problem with out-of-tree module
-> building, and not only kselftest related. If we pass O=3D when building
-> a
-> module, this will happen.
->=20
-> For testing purposes, I added the include/{generated,config}
-> directories into my /usr/src/linux/include, and added abs_srctree to
-> the include mentioned above, and now it's failing with:
->=20
-> # CC [M]=20
-> /home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test_modu
-> le
-> s/test_klp_atomic_replace.o
-> gcc -Wp,-
-> MMD,/home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test_
-> mo
-> dules/.test_klp_atomic_replace.o.d -nostdinc -I/usr/src/linux-6.5.9-
-> 1/arch/x86/include -I./arch/x86/include/generated -I/usr/src/linux-
-> 6.5.9-1/include -I./include -I/usr/src/linux-6.5.9-
-> 1/arch/x86/include/uapi -I./arch/x86/include/generated/uapi -
-> I/usr/src/linux-6.5.9-1/include/uapi -I./include/generated/uapi -
-> include /usr/src/linux-6.5.9-1/include/linux/compiler-version.h -
-> include /usr/src/linux-6.5.9-1/include/linux/kconfig.h -include
-> /usr/src/linux-6.5.9-1/include/linux/compiler_types.h -D__KERNEL__ -
-> Werror -fmacro-prefix-map=3D/usr/src/linux-6.5.9-1/=3D -std=3Dgnu11 -
-> fshort-
-> wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -Wall
-> -
-> Wundef -Werror=3Dimplicit-function-declaration -Werror=3Dimplicit-int -
-> Werror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-format-security -
-> Wno-
-> trigraphs -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -fcf-
-> protection=3Dbranch -fno-jump-tables -m64 -falign-jumps=3D1 -falign-
-> loops=3D1
-> -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3D3 -mskip-
-> rax-
-> setup -mtune=3Dgeneric -mno-red-zone -mcmodel=3Dkernel -Wno-sign-compare
-> -
-> fno-asynchronous-unwind-tables -mindirect-branch=3Dthunk-extern -
-> mindirect-branch-register -mindirect-branch-cs-prefix -mfunction-
-> return=3Dthunk-extern -fno-jump-tables -fpatchable-function-entry=3D16,16
-> -
-> fno-delete-null-pointer-checks -Wno-frame-address -Wno-format-
-> truncation -Wno-format-overflow -Wno-address-of-packed-member -O2 -
-> fno-
-> allow-store-data-races -Wframe-larger-than=3D2048 -fstack-protector-
-> strong -Wno-main -Wno-unused-but-set-variable -Wno-unused-const-
-> variable -Wno-dangling-pointer -ftrivial-auto-var-init=3Dzero -fno-
-> stack-
-> clash-protection -pg -mrecord-mcount -mfentry -DCC_USING_FENTRY -
-> falign-functions=3D16 -Wvla -Wno-pointer-sign -Wcast-function-type -
-> fstrict-flex-arrays=3D3 -Wno-stringop-truncation -Wno-stringop-overflow
-> -
-> Wno-restrict -Wno-maybe-uninitialized -Wno-array-bounds -Wno-alloc-
-> size-larger-than -Wimplicit-fallthrough=3D5 -fno-strict-overflow -fno-
-> stack-check -fconserve-stack -Werror=3Ddate-time -Werror=3Dincompatible-
-> pointer-types -Werror=3Ddesignated-init -Wno-packed-not-aligned -g=C2=A0 =
--
-> DMODULE=C2=A0 -DKBUILD_BASENAME=3D'"test_klp_atomic_replace"' -
-> DKBUILD_MODNAME=3D'"test_klp_atomic_replace"' -
-> D__KBUILD_MODNAME=3Dkmod_test_klp_atomic_replace -c -o
-> /home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test_modu
-> le
-> s/test_klp_atomic_replace.o
-> /home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test_modu
-> le
-> s/test_klp_atomic_replace.c=C2=A0=20
-> In file included from /usr/src/linux-6.5.9-
-> 1/include/linux/build_bug.h:5,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 from /usr/src/linux-6.5.9-
-> 1/include/linux/container_of.h:5,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 from /usr/src/linux-6.5.9-1/include/linux/list.h:5=
-,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 from /usr/src/linux-6.5.9-
-> 1/include/linux/module.h:12,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 from
-> /home/mpdesouza/git/linux/tools/testing/selftests/livepatch/test_modu
-> le
-> s/test_klp_atomic_replace.c:6:
-> /usr/src/linux-6.5.9-1/include/linux/compiler.h:246:10: fatal error:
-> asm/rwonce.h: No such file or directory
-> =C2=A0 246 | #include <asm/rwonce.h>
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~
-> compilation terminated.
->=20
-> Which seems to be missing the asm-generic targets (?). I'm not sure
-> what to think now, if this is indeed a bug or if we should adjust
-> other
-> configurations. As you can see, my lack of Kbuild/Makefile knowledge
-> is
-> big, but I'm doing my best to understand what's wrong and how I could
-> fix it :)
->=20
-> What do you think about it? Thanks in advance!
->=20
-> (I'm not sure if the output is messed up again...)
->=20
-> [1]: https://www.gnu.org/software/make/manual/html_node/Include.html
->=20
-> >=20
-> > Best Regards,
-> > Petr
->=20
+On 31/01/24 21:27, Geert Uytterhoeven wrote:
+> Hi Michael,
+>
+> On Tue, Jan 30, 2024 at 9:16 PM Michael Schmitz <schmitzmic@gmail.com> wrote:
+>> On 31/01/24 09:10, Michael Schmitz wrote:
+>>> On 31/01/24 04:26, Geert Uytterhoeven wrote:
+>>>> On Tue, Jan 30, 2024 at 4:23 PM kernel test robot <lkp@intel.com> wrote:
+>>>>> tree:
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git
+>>>>> linux-4.4.y-st-rc
+>>>>> head:   4daf8df4558b5aae717516f7e941014c463772c2
+>>>>> commit: 193e83a8194fcb23b6fb4aea9518a67b786df1c5 [878/1809] m68k:
+>>>>> Only force 030 bus error if PC not in exception table
+>>>>> config: m68k-allnoconfig
+>>>>> (https://download.01.org/0day-ci/archive/20240130/202401302324.d3o6tgup-lkp@intel.com/config)
+>>>>> compiler: m68k-linux-gcc (GCC) 7.5.0
+>>>>> reproduce (this is a W=1 build):
+>>>>> (https://download.01.org/0day-ci/archive/20240130/202401302324.d3o6tgup-lkp@intel.com/reproduce)
+>>>>>
+>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new
+>>>>> version of
+>>>>> the same patch/commit), kindly add following tags
+>>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>>> | Closes:
+>>>>> https://lore.kernel.org/oe-kbuild-all/202401302324.d3o6tgup-lkp@intel.com/
+>>>>>
+>>>>> All errors (new ones prefixed by >>):
+>>>>>
+>>>>>>> arch/m68k/kernel/traps.c:32:10: fatal error: linux/extable.h: No
+>>>>>>> such file or directory
+>>>>>       #include <linux/extable.h>
+>>>>>                ^~~~~~~~~~~~~~~~~
+>>>>>      compilation terminated.
+>>>> Either include <linux/module.h> instead, or backport commit
+>>>> 0ef7653797addea8 ("exceptions: fork exception table content from
+>>>> module.h into extable.h") in v4.8?
+>>> The latter, for preference. Thanks for spotting that. Where would I
+>>> send such a patch?
+>> On second thought - backporting that commit would break anything in 4.4
+>> that includes module.h for exception table stuff.
+> Why? <linux/module.h> still includes the new <linux/extable.h>, so
+> existing users of <linux/module.h.> should be fine.
 
+You are correct, of course. I missed the inclusion of extable.h by that 
+commit.
+
+Would adding 0ef7653797addea8 to the list of v4.4 patches be acceptable, 
+Uli? No functional change as a result of that commit.
+
+Cheers,
+
+     Michael
+
+> Plain v4.4 + these two commits seems to build fine for me (modulo
+> the issues due to my cross-compiler being too new for v4.4 ;-).
+>
+> Gr{oetje,eeting}s,
+>
+>                          Geert
+>
