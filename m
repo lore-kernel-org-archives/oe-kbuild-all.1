@@ -1,104 +1,148 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6F638F96
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 02:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.216
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706667709; cv=pass; b=h46wIxLhg47GHZjiWYEyc36ju6Nzer7STGxPb2Gj0vA/GCz/yXW43DfIsagZoGveNJ2isCTTNJ4SWqcuTvFCg1SfwcXuCUoh0TQKpcn62D6mCPSQiHjRF624yprH2NxofvCGLxr4CpUbJ0rOgzVhb4o2MkqQr/yeGg9fu/Eymzs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706667709; c=relaxed/simple;
-	bh=Bh7AtZg66NtTPKmo5Rhb7Dfj5BhPFhfHS6sFMP93+CU=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=Gy8jArTrUO90lf+0wWLmPTamZFic4CyjLq5U1sYXbxPzqxhVDdkcHiwPCITZCP5oXFb8YGuTy5RSDUkJArYL9fipH4sLd6U8MV7vb1pNU+ne/3DBscTFK0GDAPllz/+IwSoCPJaVtv8zG9L4YHuyQCe23DTLJAw6rbqGai7JnGg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fpond.eu; spf=none smtp.mailfrom=fpond.eu; dkim=pass (2048-bit key) header.d=fpond.eu header.i=@fpond.eu header.b=NBPRhcXJ; dkim=permerror (0-bit key) header.d=fpond.eu header.i=@fpond.eu header.b=gPEZvyo0; arc=pass smtp.client-ip=81.169.146.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fpond.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fpond.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E79F611E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 02:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706668650; cv=none; b=HbAPmuSKd8AOkwxBOlynnMOAAlPcO/igJKjrgjq0W7iOIYXmJtowB7gKfZTsdJ8/uX3UahT/CD8Yz+T2CEE0//sSyymgkcrCU6IzqZwAIvb35C+RyYOJ8mD1h2X+b4xfh5j9lVOW9kB1uTpkiXxZM/p7ApdFu3NYWfEBKTwB7oY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706668650; c=relaxed/simple;
+	bh=nZ4XNSmcSbdyCrid9JVdVBT0uPDRbopwRW1lY70TWwE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IPyr2ZwnqvKxqma9F/O9t1g5akjlGDEI5mCJlVS95TsLLLvCciud+7blRCcEfb8sQI6Xlc7xQwU1OpFQxWKnL/h6pPLNe6LS6FI2giHdAQZTyypxX6BMVY9ECvs944Iq1VhFbhBM8dTXTSe4Mk+7cN+N+UhQxmJ2BlTV3tEiSCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lKm9hJVJ; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fpond.eu header.i=@fpond.eu header.b="NBPRhcXJ";
-	dkim=permerror (0-bit key) header.d=fpond.eu header.i=@fpond.eu header.b="gPEZvyo0"
-ARC-Seal: i=1; a=rsa-sha256; t=1706667689; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=qHXtNEo/L7n2F/E7tvidInoAhelHZVJ0iov3uvbYGVfalvYeICAB5hKUMFqHXgsAtb
-    AwKO4X7ea3TgI1kx5O5O4ChI1x/b7V8jdNGiTI6bIr26my6IzEL8O30tXvQsba7QkHrN
-    5WgDujmYAj9hb7ihxoZLXsblTgPpUeN0ux1HBOsi3hYUG17dNqId5bNMB2VwFdRlZddj
-    pu56MX2x0+tJCS/bhgVVbMa62qfhJWV4ywQbdf3mSch94V1v/006OpKarCrlVBqjyBL8
-    KWSz9Y/GiouH5s9UkAGyFW9D/uaL9S7nXQ+Zw+J07GH9bFj0IfdzH/O6gQOxnFoSMIBq
-    4aBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1706667689;
-    s=strato-dkim-0002; d=strato.com;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=1RNcqkYTwoMTIdz3NS/dubKKwcOWK+yZcTlwD2dNaEg=;
-    b=KDeqx+GQw8NGQMPgBQPxsmtKsoYCjsFeUGCMJ37YeNrUGErNmTHUt+ZIdiX+Yyk/fE
-    plKH/NDSBI90BK/EN9ubK/IA5FrNMDkSIOX+Y1/Y3+gKiFHKfBBKnjPQIiEIelKN6W+u
-    M7xhaUghqQK+IOOTTOIjZRT179xHqkd3YVhbzhR1J+LXXzukpyee2cSrefoQg9hjDTW2
-    nNjFOwJCas0VtCyRoARkrqGcvjqoZyqeZeTGgB2OyVGFGLsBsn8rFNf6n5f/eQPiEHFp
-    PQroPLi/gnDMkF6ogPCRfmvAl85+Yu4TN/6lWuujRz/b6m0xKWngZSQJf3Sbt7zBn4jL
-    Jk+g==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1706667689;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=1RNcqkYTwoMTIdz3NS/dubKKwcOWK+yZcTlwD2dNaEg=;
-    b=NBPRhcXJY04hLDh9jmiGLHgCIMxbVLi0oJig3W2vP/uREWMSpVhYcXBl6QHmQvb0YY
-    MUdcw6UY6M7bRy6deJgeY3+mbq79P6EXbmdzQvjyLwNnMpLo16qXMzmBuLm24fBooF6i
-    em/0Vn6C61RgUqagziPLdBNRwEgQS3vWrXFlpeS6ITCh7v8uidqVriy9+IgV3hRZoccl
-    DzD6y8hUPm5ftiPb7cRuJKjp532Gf0J7aOuJA85fxyqBxFC4jZiV+jiArtBCXCvA3DM7
-    Jf23uHBvVzntnDj/0DmIvCLkgOcRi5ZTJISW6FIsLjNVXgGiFsi0dp/yX8bvDe7qiXhZ
-    kfrg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1706667689;
-    s=strato-dkim-0003; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=1RNcqkYTwoMTIdz3NS/dubKKwcOWK+yZcTlwD2dNaEg=;
-    b=gPEZvyo0vXuBTyggWeFS9/oUG4OyjWKfUTFoWOtoC8PUkai02/VpGgmAK+plxHMZbz
-    VNkv391U482tRNz4swBg==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCv/x64jlM="
-Received: from ox-live-app405.back.ox.d0m.de
-    by smtp-ox.front (RZmta 49.11.2 AUTH)
-    with ESMTPSA id Z7ddde00V2LTNbE
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Wed, 31 Jan 2024 03:21:29 +0100 (CET)
-Date: Wed, 31 Jan 2024 03:21:29 +0100 (CET)
-From: Ulrich Hecht <uli@fpond.eu>
-To: Michael Schmitz <schmitzmic@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ulrich Hecht <uli+cip@fpond.eu>,
-	Sasha Levin <sashal@kernel.org>
-Message-ID: <65931638.113348.1706667689205@webmail.strato.com>
-In-Reply-To: <40ba1136-0505-acac-05cc-0a913398330a@gmail.com>
-References: <202401302324.d3o6tgup-lkp@intel.com>
- <CAMuHMdVTHrFdrJ4x7AcAJ7Y8sY9Z4ar9e_L8Sk701dBSgGraow@mail.gmail.com>
- <40ba1136-0505-acac-05cc-0a913398330a@gmail.com>
-Subject: Re: [cip:linux-4.4.y-st-rc 878/1809]
- arch/m68k/kernel/traps.c:32:10: fatal error: linux/extable.h: No such file
- or directory
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lKm9hJVJ"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dc2501ed348so378863276.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Jan 2024 18:37:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1706668647; x=1707273447; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TFtM9M9RNSsCscdub7UbZbmrBPSDwKReEdWaEJLTDYQ=;
+        b=lKm9hJVJyW39lhNpQvk6hrr9MI5JeUYHKktYB0Fv4FCbEC5w/uLvQrS1IzoiJxl05R
+         h9pvt4B+I+RN/hV5E/fnvsUGq7NcLklls9p3osb5k+Q2Hdj02Kb7Qy2Q5dtcXeNT8P4Q
+         +lFHcdSMTjaozrS94Wk3x5Ap7X51eVdrvoP6M9EodgZC8dcfco7X+elW9DZmSXty+Y8a
+         PZLc+pwqzF0bRTcDVT2LDUYQak94K/HT80CnXC5GT9LR0AB62+AwPcSnwV3SnBTxcaai
+         mVzoPw3FWfjBXbPz0hM1yK7ldisibpBjl+TUrj371zR/foKj0hxHYUqzoDmvpsL3Hh+F
+         /1gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706668647; x=1707273447;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TFtM9M9RNSsCscdub7UbZbmrBPSDwKReEdWaEJLTDYQ=;
+        b=ps53wOeacxhGVCDtCwK4Ceoyn65B1HCvY+HCaKukKACxjqjhBr9FSBn1v+GXpBfFfL
+         J40AmcWe4tGo7JO8KEH4f8hoZTYEO2exbKC5+93oUsFVByDlmxs3m/ciygJAjEzr1EM3
+         fXLdTL9lRBjhtrD25sRKubNX3obi7j8R09gei8Okc3slRctFqAru2ix0BrbrO908jxxd
+         A20HUrg9CBnuk3gGAghKclx+Cfzz7BbtnnV8QbVdjLxCofa4zZPC+qJPkxw7tUOtqZ07
+         KCi7mybyExbuXbcHiuRXakW3NQ3qJXV50SY9Gq3WIghEMbA5FaE927htXaXnyRuJW1pG
+         4DAg==
+X-Gm-Message-State: AOJu0Yw35N6c3PgWWuXTH7TBM1POkcPTCFy6EmS0B1UhzhHjlS8jHPPR
+	w6B6WtgZf9CxZmdUyosJxZQzUs3bZFOcSj2I7vI1As/GAgDB56oubq2cWaAlZtGiy7NzkwCHTHI
+	TuQ3J5RSuTVoddk3dUtNyR3OqZ3hWUxiL6nrc
+X-Google-Smtp-Source: AGHT+IE77UGX6zv+fYOMSYQRTJt+PvgbckZGS4IXQT+4e4FP2JpLR8KrluHFwd7mJg3X2O21apLZ9k4ePAaltmt0Pps=
+X-Received: by 2002:a25:c3c7:0:b0:dc2:5044:70e with SMTP id
+ t190-20020a25c3c7000000b00dc25044070emr1649328ybf.46.1706668646968; Tue, 30
+ Jan 2024 18:37:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.6-Rev58
-X-Originating-Client: open-xchange-appsuite
+References: <1a42e4fc-54a0-49f1-94ba-f075e0ef29a8@moroto.mountain>
+In-Reply-To: <1a42e4fc-54a0-49f1-94ba-f075e0ef29a8@moroto.mountain>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 30 Jan 2024 18:37:14 -0800
+Message-ID: <CAJuCfpHyTjB+HKEZn+ddkQOCdHZJMgG4bYOfJM=NOBcGBkYeew@mail.gmail.com>
+Subject: Re: [linux-next:master 2565/2825] mm/userfaultfd.c:983
+ move_zeropage_pte() warn: inconsistent returns 'dst_ptl'.
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jan 29, 2024 at 9:13=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   596764183be8ebb13352b281a442a1f1151c9b06
+> commit: ea4df6a5ea81105879ca5549555e231c4596fbc4 [2565/2825] userfaultfd:=
+ handle zeropage moves by UFFDIO_MOVE
+> config: x86_64-randconfig-161-20240129 (https://download.01.org/0day-ci/a=
+rchive/20240130/202401300107.U8iMAkTl-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202401300107.U8iMAkTl-lkp@intel.com/
+>
+> smatch warnings:
+> mm/userfaultfd.c:983 move_zeropage_pte() warn: inconsistent returns 'dst_=
+ptl'.
+>
+> vim +/dst_ptl +983 mm/userfaultfd.c
+>
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  962  static int move_zeropa=
+ge_pte(struct mm_struct *mm,
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  963                        =
+    struct vm_area_struct *dst_vma,
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  964                        =
+    struct vm_area_struct *src_vma,
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  965                        =
+    unsigned long dst_addr, unsigned long src_addr,
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  966                        =
+    pte_t *dst_pte, pte_t *src_pte,
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  967                        =
+    pte_t orig_dst_pte, pte_t orig_src_pte,
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  968                        =
+    spinlock_t *dst_ptl, spinlock_t *src_ptl)
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  969  {
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  970       pte_t zero_pte;
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  971
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  972       double_pt_lock(ds=
+t_ptl, src_ptl);
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  973       if (!pte_same(pte=
+p_get(src_pte), orig_src_pte) ||
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  974           !pte_same(pte=
+p_get(dst_pte), orig_dst_pte))
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  975               return -E=
+AGAIN;
+>
+> double_pt_unlock(dst_ptl, src_ptl) before returning?
 
-> On 01/30/2024 9:10 PM CET Michael Schmitz <schmitzmic@gmail.com> wrote:
-> The latter, for preference. Thanks for spotting that. Where would I send 
-> such a patch?
+Thanks for reporting and sorry for the delay!
+Yes, this is definitely a bug. I'll post a fix tomorrow morning.
+Thanks,
+Suren.
 
-Please send patches for 4.4.y-st and 4.4.y-cip kernels to cip-dev@lists.cip-project.org. Thank you!
-
-CU
-Uli
+>
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  976
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  977       zero_pte =3D pte_=
+mkspecial(pfn_pte(my_zero_pfn(dst_addr),
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  978                        =
+                dst_vma->vm_page_prot));
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  979       ptep_clear_flush(=
+src_vma, src_addr, src_pte);
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  980       set_pte_at(mm, ds=
+t_addr, dst_pte, zero_pte);
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  981       double_pt_unlock(=
+dst_ptl, src_ptl);
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  982
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24 @983       return 0;
+> ea4df6a5ea8110 Suren Baghdasaryan 2024-01-24  984  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
