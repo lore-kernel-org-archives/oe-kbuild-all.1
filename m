@@ -1,58 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDC683CDC
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 06:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E8484A20
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 06:07:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706767656; cv=none; b=qBqzrelK53kkjxAeSAsrIRtdLlSLTu4+FkfMVl2PtPhuDKY7sw95CJ+aYQMq2BvjK8Eo2913av+eOTHii06AgsSNl1aYQ5RbQnEQoq2FqZOwQXPTcQXYJRTIMKTww0YN9H3N4jrA1GBaP4dwllWE4TDndZWLTzsZQWMo3iRrDf4=
+	t=1706767658; cv=none; b=t7sclttzO1IY6jGYGmBmVyan8NoWGaZtdwaNRPb+qY0XL1MsIJPUPLl5oTjD+D9S+6o9Gio0so2ro3Ii7Lu4kKj9KLabPJqT3wsnlAKW2DO/Wcdbe/zhdlWuVQdDSknt39r9jmj9Kcbukc1h/cQKwE/QLDn2PMGYgKvu37I2huw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706767656; c=relaxed/simple;
-	bh=btyoLan4DZL/fR6kCyTfmdeAIQy5NEIu/y+E4JnB20s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dXoef8+U7f3bvQh/edyEEVWh3QxId5WYVeD5zRvaP0faqxTSnt8vVYplOnLXVgt72wBNyx5tYQHCaWbOLTBQkLPGb/NpIhgWxdst2ZGUa9Qb3dP1FvRypygreHPpx9dLiR4gymUX3zmbnyyDXt7pJCzuupnxpbwfkQjFBajeXF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UexocF1d; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1706767658; c=relaxed/simple;
+	bh=D6bXdxqiDlPA/Gr9VoLm4TRLXPbuhZp5QeUAVwsb4/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S2PhkGnScSuFEgmi2XxQngGlUpZyNKjxLmr226aQNd6iiW5ffqHE7NUsgQPGeXIB2JwamBzF/nhpWhj1sMYJEPtJ9C4JNEihrW6ZtXY/y+ycHGa2apY6w2TTUvHPWfYsxkIRVJOSO3IV+k2I0Jj3olfjOrDMI6ynRE3/E80agVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EoLAaEx/; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UexocF1d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EoLAaEx/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706767654; x=1738303654;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=btyoLan4DZL/fR6kCyTfmdeAIQy5NEIu/y+E4JnB20s=;
-  b=UexocF1dYxAa4SStY0ITSS48Ebze/cs6eRuTuYxC6ipHcU/jKjDeaP2P
-   q05AASMB8SbUwhQzN0oGwdJ82gbRGlJEQXa2N/j2ecNMjH/8n6by/6t20
-   AlcFaUNWsDtCoWXNC6go54ujcoPIIbJs/AeT9O23lbn9rMdDDjN6674wz
-   GrcOpksM7z4yN5jZFvvmhf3lyHVmzZb1JQrC4PoXSbligE7rGZFU7Q+ey
-   D7N26f5/H5+fCcAuNSzQS8pFKhwOyzIenxXoZSHCjKstPDs14At5HZSGK
-   gffQbx7QB8EZiHCp9p3xjp9mZP2t38It1em4kC5huSAmfjGwKCNy3/qok
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3680493"
+  t=1706767656; x=1738303656;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D6bXdxqiDlPA/Gr9VoLm4TRLXPbuhZp5QeUAVwsb4/k=;
+  b=EoLAaEx/XFnakGZZEikM833nHlD04+9s35MdXV95Ul0MtS59W5NJ1iCJ
+   rrBxQx9CQzwVjj7UH1e+rjs+9n2TSWSvc/iC230MRu9ioQAXXqNguUg0z
+   emJl+UCvQ5nW9j/rm1AmBkBSTSf2FEGMe5yY/wyD0QXF8wW/4xSDoAPN0
+   HjohnDP4zYQVCIxuc4hsaR0kFLOUCUIeRclx7dwk73qTxyu8lBErHcFjd
+   7trsNlIP2WGjg08yx+VUNQyRH/G4/MHQiBFSmK3holl0yce4XMlKE4q2c
+   GlE8b0Bx/unYlsUIVvTG8/Uo+l1xgLNiptD1rzkcwVVWgqv0mqMoClslT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3680502"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="3680493"
+   d="scan'208";a="3680502"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 22:07:34 -0800
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 22:07:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="912032517"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="912032520"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="912032517"
+   d="scan'208";a="912032520"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 31 Jan 2024 22:07:31 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVQET-0002Qg-04;
+	id 1rVQET-0002Qj-11;
 	Thu, 01 Feb 2024 06:07:29 +0000
-Date: Thu, 1 Feb 2024 14:07:11 +0800
+Date: Thu, 1 Feb 2024 14:07:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Alexandru Ardelean <ardeleanalex@gmail.com>
-Subject: [nsa:dev/iio-backend-axi-dds-test 15/20]
- drivers/iio/buffer/industrialio-buffer-dmaengine.c:293: warning: Function
- parameter or member 'dir' not described in 'devm_iio_dmaengine_buffer_setup'
-Message-ID: <202402011453.TlJkCXcT-lkp@intel.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
+Message-ID: <202402011332.NzuDyrGr-lkp@intel.com>
+References: <20240131164709.810587-4-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,64 +66,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240131164709.810587-4-dan.scally@ideasonboard.com>
 
-tree:   https://github.com/nunojsa/linux dev/iio-backend-axi-dds-test
-head:   56a0faf5df7548936623a26c728ff3f0e970ef6a
-commit: e174cec7cad7fea60912ce9deeace5b3c7a052d9 [15/20] iio: buffer-dmaengine: Support specifying buffer direction
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240201/202402011453.TlJkCXcT-lkp@intel.com/config)
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master linus/master v6.8-rc2 next-20240131]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-uapi-Add-MEDIA_BUS_FMT_RGB202020_1X60-format-code/20240201-005029
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240131164709.810587-4-dan.scally%40ideasonboard.com
+patch subject: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240201/202402011332.NzuDyrGr-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011453.TlJkCXcT-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011332.NzuDyrGr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402011453.TlJkCXcT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402011332.NzuDyrGr-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/buffer/industrialio-buffer-dmaengine.c:293: warning: Function parameter or member 'dir' not described in 'devm_iio_dmaengine_buffer_setup'
+>> drivers/media/platform/arm/mali-c55/mali-c55-capture.c:286:8: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+     286 | static const char * const mali_c55_cap_dev_to_name(struct mali_c55_cap_dev *cap)
+         |        ^~~~~
+--
+   drivers/media/platform/arm/mali-c55/mali-c55-tpg.c: In function 'mali_c55_tpg_configure':
+>> drivers/media/platform/arm/mali-c55/mali-c55-tpg.c:125:36: warning: variable 'fmt' set but not used [-Wunused-but-set-variable]
+     125 |         struct v4l2_mbus_framefmt *fmt;
+         |                                    ^~~
 
 
-vim +293 drivers/iio/buffer/industrialio-buffer-dmaengine.c
+vim +286 drivers/media/platform/arm/mali-c55/mali-c55-capture.c
 
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  277  
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  278  /**
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  279   * devm_iio_dmaengine_buffer_setup() - Setup a DMA buffer for an IIO device
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  280   * @dev: Parent device for the buffer
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  281   * @indio_dev: IIO device to which to attach this buffer.
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  282   * @channel: DMA channel name, typically "rx".
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  283   *
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  284   * This allocates a new IIO buffer with devm_iio_dmaengine_buffer_alloc()
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  285   * and attaches it to an IIO device with iio_device_attach_buffer().
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  286   * It also appends the INDIO_BUFFER_HARDWARE mode to the supported modes of the
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  287   * IIO device.
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  288   */
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  289  int devm_iio_dmaengine_buffer_setup(struct device *dev,
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  290  				    struct iio_dev *indio_dev,
-e174cec7cad7fea Nuno Sa            2024-01-26  291  				    const char *channel,
-e174cec7cad7fea Nuno Sa            2024-01-26  292  				    enum iio_buffer_direction dir)
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15 @293  {
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  294  	struct iio_buffer *buffer;
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  295  
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  296  	buffer = devm_iio_dmaengine_buffer_alloc(indio_dev->dev.parent,
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  297  						 channel);
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  298  	if (IS_ERR(buffer))
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  299  		return PTR_ERR(buffer);
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  300  
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  301  	indio_dev->modes |= INDIO_BUFFER_HARDWARE;
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  302  
-e174cec7cad7fea Nuno Sa            2024-01-26  303  	buffer->direction = dir;
-e174cec7cad7fea Nuno Sa            2024-01-26  304  
-ee708e6baacd3af Alexandru Ardelean 2021-02-15  305  	return iio_device_attach_buffer(indio_dev, buffer);
-a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  306  }
-dc6184a0ea96934 Nuno Sa            2024-01-23  307  EXPORT_SYMBOL_NS_GPL(devm_iio_dmaengine_buffer_setup, IIO_DMAENGINE_BUFFER);
-e0fcca9fbd99e95 Alexandru Ardelean 2020-03-24  308  
-
-:::::: The code at line 293 was first introduced by commit
-:::::: a02c09e42b3ed6cefae671e302835f1f04bf474e iio: buffer-dma,adi-axi-adc: introduce devm_iio_dmaengine_buffer_setup()
-
-:::::: TO: Alexandru Ardelean <alexandru.ardelean@analog.com>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+   285	
+ > 286	static const char * const mali_c55_cap_dev_to_name(struct mali_c55_cap_dev *cap)
+   287	{
+   288		if (cap->reg_offset == MALI_C55_CAP_DEV_FR_REG_OFFSET)
+   289			return capture_device_names[0];
+   290		else if (cap->reg_offset == MALI_C55_CAP_DEV_DS_REG_OFFSET)
+   291			return capture_device_names[1];
+   292		else
+   293			return "params/stat not supported yet";
+   294	}
+   295	
 
 -- 
 0-DAY CI Kernel Test Service
