@@ -1,136 +1,240 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BD43A1A8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 03:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8003A8C5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 03:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706757002; cv=none; b=uV7COgLOD6hp8W3Ruj3MoXmC4nIvHxmO8thXEMgts+rpP8998IindYySv5mvSnIXHKX0gr3OYl5lQFdB6nOwPSJFAiueqpEbd8oE7mPv6S724nvivlpTcgOxfavIH8yCZq4UK5aGdWmVnFORdgVvcecXf5z9h9LHXPXnZ4FVCJ0=
+	t=1706758285; cv=none; b=Cx1ZpRF3h3lmKdD8IZCSWGXFFohKgFy5N7ASkZ25+FSEeh0Hg1kr0Cx3/2EzUZQD1820C+ehP1u6oPMaPz3plOYb/7aDU/zjsde+dv86KPWJTbSAByi9hdfadaWr5szaSp0vtxToM0WMwU0lHVkGEeDDFIkBcC6yJ1Igffpi+y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706757002; c=relaxed/simple;
-	bh=vOUXPahGNAVTaTDzE387IGL2+AvX6EtHqCWoZJcrtII=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n2C4sc6sRT2CcvG4z5l7z+pF82UGJmxCb9GzAZ1pBHS2eic0wWEGrlCw2XUr/yZl/5mf2im5r8GKP6dS41rcaKErOY6U7635ChY7ExsSQjFQkaDmUMVkGPYpWmXf2W9XgO/ZfmFiXgYK98hrH+O4Y3Kfp9AeHOgLw4xr6Xwi93g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=WRFPApIj; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1706758285; c=relaxed/simple;
+	bh=F+jUlRtNHrP0LewC79ckokmwI/v54HAeYJWfQyggfA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IpRE7ak7mCt7qifRPTMV5e9jAL++vBZi+97Jddr2xhSBYnvXLHhHK6IGjjZlj8mjfdr8u5nnDZObuJV+DlBfAxLOXAonHB7fhRR5sm4sjqghHU2R9Qq4XALWNHMKBQeXBuqFt5vE8ZYE71ap4wq2tRv6ueVnsrDjpBpLRqfVTv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QnUrcKvy; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="WRFPApIj"
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4b978e5e240so235425e0c.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 19:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1706756999; x=1707361799; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GnXXqSs2mVSlmNeDNc5RN8+jodeQKbLDet8uL7vKB3k=;
-        b=WRFPApIj6Cai6HCsqgH6+oU1PHx/sax6KsnbpiMBBGD97Zt0txPEN8ePnRj3/lVxjo
-         wuAjGK3IDub8oO9tPUu61DQ1PtAQq9GUEouPwwFez837GCdMqlmfLfXERq4aYIeqg9pj
-         NoE7HBGIw12oEI/4Wzz/CdQTqh+KWyhbdl8DrRyuUwcsGnSRT+i+O0534p965HVhiFB5
-         offaf5YfTBjaeFTw4Y7IRZ6g0QWY+r7+l275m+IO9HUOGIHVfQvZycKGaZNRdPVQ348m
-         cq2MkXilouq0I2NuD3t5WiGfjonOK1sTD9XhSVI2RdpaW4HhaX9IZZeqHCd3A2fwi+KQ
-         5v/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706756999; x=1707361799;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GnXXqSs2mVSlmNeDNc5RN8+jodeQKbLDet8uL7vKB3k=;
-        b=g6GoZ4Vz81mpkNB+/1fOvs7R7jp5HFPns3eqV9C068LE/U0aaBHIX0ywV0K+wgW7sQ
-         vgYsnR7N399zg8m8veC7iCOwWjQfOig/V9ex79AXrXgG2k/a4yre502ligxI3wjG+2dq
-         ESBuNyxCoEpV5MdxciA6Z1d7PQlT0qSxNZ7A7pw9ltDhCfXB39GMzRqZH6wffAJIxrFP
-         tpprqKr+RUmOJYWCLR3l0eByXunYTsXvPH71L2kuyNHYrviG0Y1L/GAPvtPXo19+UDt8
-         4Vd9yaolvuAKUFjQMZBcTJCflRrg/5xQ5caKGkT0BYP6BjJN37ku1mFpUVezGgyAnFM7
-         JWHw==
-X-Gm-Message-State: AOJu0YwxMd3ZLx1KxPtYbq6OJlF3Api7+Kvl7e0lm0JlVDGMl8oUb+WE
-	3c9HEikR/2/3BSowJlOYdW+ufdcbonPTAZ/w8DiN8yGpi3WqISzGMwBbReuTqsb1PDYO03j6+Lw
-	Ri4bS1deuNpf7a4X3WfFbExKic3VXD3m0hyb3qTTP6rzYPblDLSs=
-X-Google-Smtp-Source: AGHT+IGHoW3TeZ25nu33PKHk6GyjlEOOI7lvQERqAQcYT6EfVQceFF4nvsZwZj76g4IUZ7D7lzTQysCQdzQ3CtGYy5c=
-X-Received: by 2002:a05:6122:996:b0:4bd:76f3:9dff with SMTP id
- g22-20020a056122099600b004bd76f39dffmr3721284vkd.8.1706756999342; Wed, 31 Jan
- 2024 19:09:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QnUrcKvy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706758283; x=1738294283;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F+jUlRtNHrP0LewC79ckokmwI/v54HAeYJWfQyggfA8=;
+  b=QnUrcKvyLC+MjC01CDYA5TvDbl/YyqpprbsfNKiywVKU9WNt/63oq074
+   Ji3gnoqUuh5VTjQxza1kroUPT3lsXGyqhYmJeIeDyfYAgbA5D+32ALYQb
+   6Hp9Xdfy+Xw9f8MU1lxZl8oP9spbvjn9gVW6/SyRb7KfhePWd9FddTh+w
+   SmOag7B6Vhy2cLi195LMmI9OREg/KrRgb0GKci68kYXqGVLyw5BOzszz0
+   cFRkavgj+/qtxVenGIVSnruQOmr5RyOYEE2U/ff8IHRa0EPErd2755lW8
+   tnvGV6kfFXUM7uBY/UWepLdZxd3BGIbmQpZi+Ofjo6rfqY5ar2nFShrA2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10897729"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="10897729"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 19:31:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="788824084"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="788824084"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 31 Jan 2024 19:31:19 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rVNnI-0002KK-2D;
+	Thu, 01 Feb 2024 03:31:16 +0000
+Date: Thu, 1 Feb 2024 11:30:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Matthew Wilcox <willy@infradead.org>,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH DRAFT 3/4] : hwlat: port struct file_operations
+ thread_mode_fops to struct kernfs_ops
+Message-ID: <202402011108.V2Y9QaTk-lkp@intel.com>
+References: <20240131-tracefs-kernfs-v1-3-f20e2e9a8d61@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202401310055.wBrlZfRE-lkp@intel.com> <CAHVXubj8R-HeJb6joDD4mRLAeoF0Ky+2YKWRubqs1Gjd2qKYyw@mail.gmail.com>
-In-Reply-To: <CAHVXubj8R-HeJb6joDD4mRLAeoF0Ky+2YKWRubqs1Gjd2qKYyw@mail.gmail.com>
-From: Vincent Chen <vincent.chen@sifive.com>
-Date: Thu, 1 Feb 2024 11:09:48 +0800
-Message-ID: <CABvJ_xikJHznmC5FDQ6=z1Gg+FMs+28V7VWsY2V0wtj5T44SxQ@mail.gmail.com>
-Subject: Re: [palmer:fixes 1/1] arch/riscv/mm/tlbflush.c:207:6: error:
- redefinition of 'local_flush_tlb_kernel_range'
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240131-tracefs-kernfs-v1-3-f20e2e9a8d61@kernel.org>
 
-On Wed, Jan 31, 2024 at 4:28=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc=
-.com> wrote:
->
-> On Tue, Jan 30, 2024 at 6:07=E2=80=AFPM kernel test robot <lkp@intel.com>=
- wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.gi=
-t fixes
-> > head:   eb70c97995147c7febb0f3ad67ca6210d19f5724
-> > commit: eb70c97995147c7febb0f3ad67ca6210d19f5724 [1/1] riscv: mm: execu=
-te local TLB flush after populating vmemmap
-> > config: riscv-defconfig (https://download.01.org/0day-ci/archive/202401=
-31/202401310055.wBrlZfRE-lkp@intel.com/config)
-> > compiler: riscv64-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240131/202401310055.wBrlZfRE-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202401310055.wBrlZfRE-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> > >> arch/riscv/mm/tlbflush.c:207:6: error: redefinition of 'local_flush_=
-tlb_kernel_range'
-> >      207 | void local_flush_tlb_kernel_range(unsigned long start, unsig=
-ned long end)
-> >          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >    arch/riscv/mm/tlbflush.c:69:6: note: previous definition of 'local_f=
-lush_tlb_kernel_range' with type 'void(long unsigned int,  long unsigned in=
-t)'
-> >       69 | void local_flush_tlb_kernel_range(unsigned long start, unsig=
-ned long end)
-> >          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> >
-> > vim +/local_flush_tlb_kernel_range +207 arch/riscv/mm/tlbflush.c
-> >
-> >    205
-> >    206  /* Flush a range of kernel pages without broadcasting */
-> >  > 207  void local_flush_tlb_kernel_range(unsigned long start, unsigned=
- long end)
-> >    208  {
-> >    209          local_flush_tlb_range_asid(start, end - start, PAGE_SIZ=
-E, FLUSH_TLB_NO_ASID);
-> >    210  }
-> >    211
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
->
-> Yes, we introduced twice the same function in 6.8, you can find a
-> resolution for this error here:
-> https://github.com/AlexGhiti/linux-riscv/commit/756d1871f58edac455773db0b=
-b996f8d064a6b06
->
-> Unless Vincent should send a new version?
+Hi Christian,
 
-Thank Alex for providing the solution and thank Palmar for applying
-Alex's solution to the fixes branch. I discovered the code base v6.7+
-I used seems too old to have Alex's patch, so I didn't encounter this
-issue during the development. Apologies for any inconvenience.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 41bccc98fb7931d63d03f326a746ac4d429c1dd3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Brauner/tracefs-port-to-kernfs/20240131-214120
+base:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
+patch link:    https://lore.kernel.org/r/20240131-tracefs-kernfs-v1-3-f20e2e9a8d61%40kernel.org
+patch subject: [PATCH DRAFT 3/4] : hwlat: port struct file_operations thread_mode_fops to struct kernfs_ops
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240201/202402011108.V2Y9QaTk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011108.V2Y9QaTk-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402011108.V2Y9QaTk-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   kernel/trace/trace_hwlat.c: In function 'hwlat_mode_write':
+   kernel/trace/trace_hwlat.c:672:14: error: 'buf' redeclared as different kind of symbol
+     672 |         char buf[64];
+         |              ^~~
+   kernel/trace/trace_hwlat.c:667:68: note: previous definition of 'buf' with type 'char *'
+     667 | static ssize_t hwlat_mode_write(struct kernfs_open_file *of, char *buf,
+         |                                                              ~~~~~~^~~
+   kernel/trace/trace_hwlat.c:672:14: warning: unused variable 'buf' [-Wunused-variable]
+     672 |         char buf[64];
+         |              ^~~
+   kernel/trace/trace_hwlat.c: At top level:
+   kernel/trace/trace_hwlat.c:736:10: error: 'const struct kernfs_ops' has no member named 'start'
+     736 |         .start                  = s_mode_start,
+         |          ^~~~~
+   kernel/trace/trace_hwlat.c:736:9: warning: the address of 's_mode_start' will always evaluate as 'true' [-Waddress]
+     736 |         .start                  = s_mode_start,
+         |         ^
+   kernel/trace/trace_hwlat.c:737:10: error: 'const struct kernfs_ops' has no member named 'next'
+     737 |         .next                   = s_mode_next,
+         |          ^~~~
+>> kernel/trace/trace_hwlat.c:737:35: error: initialization of 'ssize_t (*)(struct kernfs_open_file *, char *, size_t,  loff_t)' {aka 'long int (*)(struct kernfs_open_file *, char *, long unsigned int,  long long int)'} from incompatible pointer type 'void * (*)(struct seq_file *, void *, loff_t *)' {aka 'void * (*)(struct seq_file *, void *, long long int *)'} [-Werror=incompatible-pointer-types]
+     737 |         .next                   = s_mode_next,
+         |                                   ^~~~~~~~~~~
+   kernel/trace/trace_hwlat.c:737:35: note: (near initialization for 'thread_mode_fops.write')
+   kernel/trace/trace_hwlat.c:738:10: error: 'const struct kernfs_ops' has no member named 'show'
+     738 |         .show                   = s_mode_show,
+         |          ^~~~
+   kernel/trace/trace_hwlat.c:738:35: error: initialization of '__poll_t (*)(struct kernfs_open_file *, struct poll_table_struct *)' {aka 'unsigned int (*)(struct kernfs_open_file *, struct poll_table_struct *)'} from incompatible pointer type 'int (*)(struct seq_file *, void *)' [-Werror=incompatible-pointer-types]
+     738 |         .show                   = s_mode_show,
+         |                                   ^~~~~~~~~~~
+   kernel/trace/trace_hwlat.c:738:35: note: (near initialization for 'thread_mode_fops.poll')
+   kernel/trace/trace_hwlat.c:739:10: error: 'const struct kernfs_ops' has no member named 'stop'
+     739 |         .stop                   = s_mode_stop,
+         |          ^~~~
+   kernel/trace/trace_hwlat.c:739:35: error: initialization of 'int (*)(struct kernfs_open_file *, struct vm_area_struct *)' from incompatible pointer type 'void (*)(struct seq_file *, void *)' [-Werror=incompatible-pointer-types]
+     739 |         .stop                   = s_mode_stop,
+         |                                   ^~~~~~~~~~~
+   kernel/trace/trace_hwlat.c:739:35: note: (near initialization for 'thread_mode_fops.mmap')
+   kernel/trace/trace_hwlat.c:740:35: warning: initialized field overwritten [-Woverride-init]
+     740 |         .write                  = hwlat_mode_write,
+         |                                   ^~~~~~~~~~~~~~~~
+   kernel/trace/trace_hwlat.c:740:35: note: (near initialization for 'thread_mode_fops.write')
+   kernel/trace/trace_hwlat.c: In function 'init_tracefs':
+   kernel/trace/trace_hwlat.c:766:51: error: passing argument 5 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     766 |                                                   &trace_min_max_fops);
+         |                                                   ^~~~~~~~~~~~~~~~~~~
+         |                                                   |
+         |                                                   const struct file_operations *
+   In file included from kernel/trace/trace_hwlat.c:41:
+   include/linux/tracefs.h:94:66: note: expected 'const struct kernfs_ops *' but argument is of type 'const struct file_operations *'
+      94 |                                         const struct kernfs_ops *ops);
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   kernel/trace/trace_hwlat.c:773:50: error: passing argument 5 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     773 |                                                  &trace_min_max_fops);
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+         |                                                  |
+         |                                                  const struct file_operations *
+   include/linux/tracefs.h:94:66: note: expected 'const struct kernfs_ops *' but argument is of type 'const struct file_operations *'
+      94 |                                         const struct kernfs_ops *ops);
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   kernel/trace/trace_hwlat.c:778:47: error: passing argument 3 of 'trace_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     778 |                                               top_dir,
+         |                                               ^~~~~~~
+         |                                               |
+         |                                               struct kernfs_node *
+   In file included from kernel/trace/trace_hwlat.c:46:
+   kernel/trace/trace.h:629:49: note: expected 'struct dentry *' but argument is of type 'struct kernfs_node *'
+     629 |                                  struct dentry *parent,
+         |                                  ~~~~~~~~~~~~~~~^~~~~~
+   kernel/trace/trace_hwlat.c:780:47: error: passing argument 5 of 'trace_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     780 |                                               &thread_mode_fops);
+         |                                               ^~~~~~~~~~~~~~~~~
+         |                                               |
+         |                                               const struct kernfs_ops *
+   kernel/trace/trace.h:631:64: note: expected 'const struct file_operations *' but argument is of type 'const struct kernfs_ops *'
+     631 |                                  const struct file_operations *fops);
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   kernel/trace/trace_hwlat.c:777:27: error: assignment to 'struct kernfs_node *' from incompatible pointer type 'struct dentry *' [-Werror=incompatible-pointer-types]
+     777 |         hwlat_thread_mode = trace_create_file("mode", TRACE_MODE_WRITE,
+         |                           ^
+   cc1: some warnings being treated as errors
+
+
+vim +737 kernel/trace/trace_hwlat.c
+
+   733	
+   734	static const struct kernfs_ops thread_mode_fops = {
+   735		.atomic_write_len	= PAGE_SIZE,
+   736		.start			= s_mode_start,
+ > 737		.next			= s_mode_next,
+   738		.show			= s_mode_show,
+   739		.stop			= s_mode_stop,
+   740		.write			= hwlat_mode_write,
+   741	};
+   742	/**
+   743	 * init_tracefs - A function to initialize the tracefs interface files
+   744	 *
+   745	 * This function creates entries in tracefs for "hwlat_detector".
+   746	 * It creates the hwlat_detector directory in the tracing directory,
+   747	 * and within that directory is the count, width and window files to
+   748	 * change and view those values.
+   749	 */
+   750	static int init_tracefs(void)
+   751	{
+   752		int ret;
+   753		struct kernfs_node *top_dir;
+   754	
+   755		ret = tracing_init_dentry();
+   756		if (ret)
+   757			return -ENOMEM;
+   758	
+   759		top_dir = tracefs_create_dir("hwlat_detector", NULL);
+   760		if (!top_dir)
+   761			return -ENOMEM;
+   762	
+   763		hwlat_sample_window = tracefs_create_file("window", TRACE_MODE_WRITE,
+   764							  top_dir,
+   765							  &hwlat_window,
+   766							  &trace_min_max_fops);
+   767		if (!hwlat_sample_window)
+   768			goto err;
+   769	
+   770		hwlat_sample_width = tracefs_create_file("width", TRACE_MODE_WRITE,
+   771							 top_dir,
+   772							 &hwlat_width,
+   773							 &trace_min_max_fops);
+   774		if (!hwlat_sample_width)
+   775			goto err;
+   776	
+   777		hwlat_thread_mode = trace_create_file("mode", TRACE_MODE_WRITE,
+   778						      top_dir,
+   779						      NULL,
+   780						      &thread_mode_fops);
+   781		if (!hwlat_thread_mode)
+   782			goto err;
+   783	
+   784		return 0;
+   785	
+   786	 err:
+   787		tracefs_remove(top_dir);
+   788		return -ENOMEM;
+   789	}
+   790	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
