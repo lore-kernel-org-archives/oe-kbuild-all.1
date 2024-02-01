@@ -1,139 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571D3157E9E;
-	Thu,  1 Feb 2024 07:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2578214C5A2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 07:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706772255; cv=none; b=b3/86/zecphkAAr5I8hqOVkjxXXGeG14lj288goFhhAIJEbk/bCGqZMPdnMCN8eePMXHu+D5bBiyFHpd7LDtAx+p2Le0Qbr68Y+gT0vjlE2TiTPoqOXZn/Pqa70YIJ730u5OFQKLAdMTbLpL7plARFPu5oCz3T5U41XB9RZ5IfQ=
+	t=1706774278; cv=none; b=poOzZm8ynnwlXUkfveSXa9NTMglU6tYic07pcbZVMDzQ/B+DtNXvOh2aGXGrGQLpZW6eKz/ACGJ3RebHfMoV7sRQIYub+Q5vMSEMXmhRa97gog7dGYkwgiRq5wtNSiUZf3BDSj5sxdC3UmRPzwkoNEfwz+8z7QQJPuOGh8RglEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706772255; c=relaxed/simple;
-	bh=4MYSNxlWjGVCdX3cX5Nt41TGbFxjWVCbR3U/g9kBrDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cSlr9fOkZ0Z0z0d5kk/P8VaF6nXovJb8vx5OWs/QRC3JMquQ8OQfz0y2WhPjCUuRkGgn88hKFpOfzoBUA47IPfqdjrv065QvfzEN+zcr29l9QRTilWvMCylp1VDcCgiLvPhysuJo/+FxiDe5u1ciV3wq6dCW1roW+2l2PVW3dTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DJOsA+TP; arc=none smtp.client-ip=134.134.136.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706774278; c=relaxed/simple;
+	bh=zHgx1yxPEtJn6I5ZMjqwRi/auLuBLlrirM0lCJZ4obU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AfRaym1Y5/ES776BKOog5c8liuocduo7plhMXHX1ZfBMHIzl7pXdP4LpO7kxig3C+qXKXk5KpnzB7xslsVsKBK/uTGvH9uMkzPzOwZ80PEEtrvMbjayYLiTVuH1x0r4Hvssb2m9aBgEhoGP5J6tmjCnr0DDcC/VK8F5T07CA7pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=t+lMhHtG; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJOsA+TP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706772253; x=1738308253;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4MYSNxlWjGVCdX3cX5Nt41TGbFxjWVCbR3U/g9kBrDo=;
-  b=DJOsA+TPX9LFduO+jnivuJQNdSXDJoIq2ceRVQ7xIBrtcHAsQzcYvVez
-   Y26f7aeHcG/EshblQS5Je0fT388YfzjbXItO6ZQSkgdwfctxjuloow/05
-   gHBMEhege86ngJZJT6Bf/ckUYhZCEw1lFyF6Gs3eB9CE4MmHgaDHvPKsk
-   pxBlGZYjlRCU0cppX3z0CsDXBQmvvCuEqeayOpISS5Dcac6sEKSKU7/zs
-   DokoSswy/hZNsg0T5oVgMGAAj6HM/PVFreldEBKd1EkqbxM2sSfmmt5VN
-   kzGPZiXJPGd93Lh1xAjdBXFYpEbh333WVHznWaQkjM8wHAUUDddmJQskO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="468065271"
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="468065271"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 23:24:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="4333852"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Jan 2024 23:24:10 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rVRQc-0002WK-1J;
-	Thu, 01 Feb 2024 07:24:06 +0000
-Date: Thu, 1 Feb 2024 15:23:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 1/1] pidfd: implement PIDFD_THREAD flag for
- pidfd_open()
-Message-ID: <202402011558.BUpYBZyG-lkp@intel.com>
-References: <20240131132602.GA23641@redhat.com>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="t+lMhHtG"
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-4bdc6141685so273029e0c.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 23:57:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1706774275; x=1707379075; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IOd+Adh4tMnpIBR501+yaSVTpr2C2rl5IPddMYlorWw=;
+        b=t+lMhHtGfUvOUskQNi2L6nf7puXqzXopOfhr92LzQFDR7cqXUwPt+NsM5Y+URsxPmX
+         WRRMnK3B20aIeeW8PgSbqr5psAQuJjEA8sBGJ/2JcB13DSO8+tbcDnM89bns5n5MLsta
+         wFMEEgiNC36lgyi2KD5DWXC3EHS9rspn8YCAs/VIKv97H3vk5jQIjW8/nIxarvtvomJ5
+         ufGk2cEyPmuviEed2sOZd2IsebYGyrt8WqvrElw8TpMoa7Hj6ihuanF4ODt+aSyC12Z7
+         9AHth78p+zJLB94CKFykS8n+K6EBhy2e7EYsGwWOiAmdmUpb/fWdmi+KOddSqo+44h9P
+         lBNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706774275; x=1707379075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IOd+Adh4tMnpIBR501+yaSVTpr2C2rl5IPddMYlorWw=;
+        b=hxQ5j/jX6AYwxxNb8aogVjy4+PA9IU6Bb/i0/gthTy8OUMp4KlQdrqx5ZoFaQ0OP8m
+         Qa7EYDLNFWObInYPeXnmb7iZ39VX3SsUfVXwMkbjE3GZy20r6kowOSMY3EZ79cDb+MI6
+         jIXYsP4Cr7aBMWpv59sPBQi4YE3jtRJUEvCgdSxbSi90611G/fwvu4sUYzrIDNhe6EMO
+         j4kYNzgaDtcQFrnwDwt8bIpB55f5yCfHvnHbQWB4yboFMihOFs2dLz5ponQVmMQdpmuY
+         5gWjJmRSNauJxc9gGrLXCggfSD+BvvRBjk5rz2tl7DYX4YRM1OG3uER/xkkohSz8YhH2
+         4fmQ==
+X-Gm-Message-State: AOJu0YyAxDvwS57WBdLERw/k4wz0OmjXYYcC8Dxk/Tv1qmIkS8VF0qeG
+	xNed8ZuQMiq5G6F1zLO/7yRc4YYCmjpsuDaH8a1F+cAmlp3tpyjqbk+dX8lMVA4KKzMEb+h+6po
+	nTBCFaHGmADJ3DTv+Y4g5ZCRo8EHaZ8PWfF+yQg==
+X-Google-Smtp-Source: AGHT+IHBEAlHhTj2gP6eGsaWQjwt4taQ94hYG+agdoXKRJW3+84Zo2FhNUORU0nJaxJzcAij0bWpM0hK7sfu3CDKYW4=
+X-Received: by 2002:a05:6122:280b:b0:4b6:bfae:3285 with SMTP id
+ en11-20020a056122280b00b004b6bfae3285mr3894123vkb.4.1706774274886; Wed, 31
+ Jan 2024 23:57:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240131132602.GA23641@redhat.com>
+References: <20240130124828.14678-21-brgl@bgdev.pl> <3ab71aad-757f-4d5e-ac09-fdad75238fa3@moroto.mountain>
+In-Reply-To: <3ab71aad-757f-4d5e-ac09-fdad75238fa3@moroto.mountain>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 1 Feb 2024 08:57:44 +0100
+Message-ID: <CAMRc=Mdi3DqHsri7Da3xPisC1FyOOwZoYra75qhAWvuneD16Vw@mail.gmail.com>
+Subject: Re: [PATCH 20/22] gpio: protect the pointer to gpio_chip in
+ gpio_device with SRCU
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>, 
+	Kent Gibson <warthog618@gmail.com>, Alex Elder <elder@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, "Paul E . McKenney" <paulmck@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Wolfram Sang <wsa-dev@sang-engineering.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Oleg,
+On Thu, Feb 1, 2024 at 6:03=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> Hi Bartosz,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewsk=
+i/gpio-protect-the-list-of-GPIO-devices-with-SRCU/20240130-205537
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gp=
+io/for-next
+> patch link:    https://lore.kernel.org/r/20240130124828.14678-21-brgl%40b=
+gdev.pl
+> patch subject: [PATCH 20/22] gpio: protect the pointer to gpio_chip in gp=
+io_device with SRCU
+> config: i386-randconfig-141-20240131 (https://download.01.org/0day-ci/arc=
+hive/20240201/202402010641.idtEaO24-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
+708b4367171ccdbf4b5905cb6a803753fe18)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202402010641.idtEaO24-lkp@intel.com/
+>
+> New smatch warnings:
+> drivers/gpio/gpiolib.c:4776 gpiolib_dbg_show() error: we previously assum=
+ed 'gc' could be null (see line 4773)
+>
+>
+> vim +/gc +4776 drivers/gpio/gpiolib.c
+>
+> fdeb8e1547cb9d Linus Walleij       2016-02-10  4762  static void gpiolib_=
+dbg_show(struct seq_file *s, struct gpio_device *gdev)
+> d2876d08d86f22 David Brownell      2008-02-04  4763  {
+> 0338f6a6fb659f Bartosz Golaszewski 2023-12-21  4764     bool active_low, =
+is_irq, is_out;
+> 0338f6a6fb659f Bartosz Golaszewski 2023-12-21  4765     unsigned int gpio=
+ =3D gdev->base;
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4766     struct gpio_desc =
+*desc;
+> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4767     struct gpio_chip =
+*gc;
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4768     int value;
+> d2876d08d86f22 David Brownell      2008-02-04  4769
+> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4770     guard(srcu)(&gdev=
+->srcu);
+> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4771
+> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4772     gc =3D rcu_derefe=
+rence(gdev->chip);
+> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30 @4773     if (!gc)
+>                                                             ^^^
+> The patch adds a NULL check
+>
+> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4774             seq_puts(=
+s, "Underlying GPIO chip is gone\n");
+> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4775
+> 3de69ae1c407da Andy Shevchenko     2022-04-08 @4776     for_each_gpio_des=
+c(gc, desc) {
+>                                                                          =
+  ^^
+> But this dereference isn't checked...  Probably it should return after
+> the seq_puts().
+>
 
-kernel test robot noticed the following build warnings:
+Of course it should. Thanks. I fixed it for v2.
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[cannot apply to kees/for-next/execve linus/master v6.8-rc2 next-20240201]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Bart
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleg-Nesterov/pidfd-implement-PIDFD_THREAD-flag-for-pidfd_open/20240131-213408
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20240131132602.GA23641%40redhat.com
-patch subject: [PATCH v3 1/1] pidfd: implement PIDFD_THREAD flag for pidfd_open()
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240201/202402011558.BUpYBZyG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011558.BUpYBZyG-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402011558.BUpYBZyG-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/fork.c:2201:70: warning: if statement has empty body [-Wempty-body]
-    2201 |         if (!pid || !pid_has_task(pid, thread ? PIDTYPE_PID : PIDTYPE_TGID));
-         |                                                                             ^
-   kernel/fork.c:2201:70: note: put the semicolon on a separate line to silence this warning
-   1 warning generated.
-
-
-vim +2201 kernel/fork.c
-
-  2169	
-  2170	/**
-  2171	 * pidfd_prepare - allocate a new pidfd_file and reserve a pidfd
-  2172	 * @pid:   the struct pid for which to create a pidfd
-  2173	 * @flags: flags of the new @pidfd
-  2174	 * @ret: Where to return the pidfd.
-  2175	 *
-  2176	 * Allocate a new file that stashes @pid and reserve a new pidfd number in the
-  2177	 * caller's file descriptor table. The pidfd is reserved but not installed yet.
-  2178	 *
-  2179	 * The helper verifies that @pid is still in use, without PIDFD_THREAD the
-  2180	 * task identified by @pid must be a thread-group leader.
-  2181	 *
-  2182	 * If this function returns successfully the caller is responsible to either
-  2183	 * call fd_install() passing the returned pidfd and pidfd file as arguments in
-  2184	 * order to install the pidfd into its file descriptor table or they must use
-  2185	 * put_unused_fd() and fput() on the returned pidfd and pidfd file
-  2186	 * respectively.
-  2187	 *
-  2188	 * This function is useful when a pidfd must already be reserved but there
-  2189	 * might still be points of failure afterwards and the caller wants to ensure
-  2190	 * that no pidfd is leaked into its file descriptor table.
-  2191	 *
-  2192	 * Return: On success, a reserved pidfd is returned from the function and a new
-  2193	 *         pidfd file is returned in the last argument to the function. On
-  2194	 *         error, a negative error code is returned from the function and the
-  2195	 *         last argument remains unchanged.
-  2196	 */
-  2197	int pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret)
-  2198	{
-  2199		bool thread = flags & PIDFD_THREAD;
-  2200	
-> 2201		if (!pid || !pid_has_task(pid, thread ? PIDTYPE_PID : PIDTYPE_TGID));
-  2202			return -EINVAL;
-  2203	
-  2204		return __pidfd_prepare(pid, flags, ret);
-  2205	}
-  2206	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> bedc56b1695b27 Bartosz Golaszewski 2024-01-30  4777             guard(src=
+u)(&desc->srcu);
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4778             if (test_=
+bit(FLAG_REQUESTED, &desc->flags)) {
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4779                     g=
+piod_get_direction(desc);
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4780                     i=
+s_out =3D test_bit(FLAG_IS_OUT, &desc->flags);
+> 234c52097ce416 Andy Shevchenko     2022-04-08  4781                     v=
+alue =3D gpio_chip_get_value(gc, desc);
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4782                     i=
+s_irq =3D test_bit(FLAG_USED_AS_IRQ, &desc->flags);
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4783                     a=
+ctive_low =3D test_bit(FLAG_ACTIVE_LOW, &desc->flags);
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4784                     s=
+eq_printf(s, " gpio-%-3d (%-20.20s|%-20.20s) %s %s %s%s\n",
+> 32648f473c7f46 Bartosz Golaszewski 2024-01-30  4785                      =
+          gpio, desc->name ?: "", gpiod_get_label(desc),
+> d2876d08d86f22 David Brownell      2008-02-04  4786                      =
+          is_out ? "out" : "in ",
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4787                      =
+          value >=3D 0 ? (value ? "hi" : "lo") : "?  ",
+> 90fd227029a25b Linus Walleij       2018-10-01  4788                      =
+          is_irq ? "IRQ " : "",
+> 90fd227029a25b Linus Walleij       2018-10-01  4789                      =
+          active_low ? "ACTIVE LOW" : "");
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4790             } else if=
+ (desc->name) {
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4791                     s=
+eq_printf(s, " gpio-%-3d (%-20.20s)\n", gpio, desc->name);
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4792             }
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4793
+> 3de69ae1c407da Andy Shevchenko     2022-04-08  4794             gpio++;
+> d2876d08d86f22 David Brownell      2008-02-04  4795     }
+> d2876d08d86f22 David Brownell      2008-02-04  4796  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
