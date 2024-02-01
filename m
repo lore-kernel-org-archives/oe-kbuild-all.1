@@ -1,63 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E8484A20
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 06:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068426519D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 06:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706767658; cv=none; b=t7sclttzO1IY6jGYGmBmVyan8NoWGaZtdwaNRPb+qY0XL1MsIJPUPLl5oTjD+D9S+6o9Gio0so2ro3Ii7Lu4kKj9KLabPJqT3wsnlAKW2DO/Wcdbe/zhdlWuVQdDSknt39r9jmj9Kcbukc1h/cQKwE/QLDn2PMGYgKvu37I2huw=
+	t=1706768382; cv=none; b=Q3PqY6C1y5lPKjGTyS51076+CLTsxJI42RA77YWjyeK1Bf4GyG1sbWaUQljsvl9KI/Deg9egVMXskxsMSA0bgl7J2kjjOnkCYb0IcuYVCD26UG+4VWXzbIRI+TfNs7xMu41HVKOkskq5Kv/UNfZwponmwfaw3MAQF9wpHtb3K9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706767658; c=relaxed/simple;
-	bh=D6bXdxqiDlPA/Gr9VoLm4TRLXPbuhZp5QeUAVwsb4/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S2PhkGnScSuFEgmi2XxQngGlUpZyNKjxLmr226aQNd6iiW5ffqHE7NUsgQPGeXIB2JwamBzF/nhpWhj1sMYJEPtJ9C4JNEihrW6ZtXY/y+ycHGa2apY6w2TTUvHPWfYsxkIRVJOSO3IV+k2I0Jj3olfjOrDMI6ynRE3/E80agVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EoLAaEx/; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1706768382; c=relaxed/simple;
+	bh=Ww7v/0MTZHy+Xp98ijQmjylvWOVoZsaNm2uNsYGZUk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IhWmEqDFyvD4IW4vdKN2xoFBMA26I/9Jv8VSgK/K8S+4JRksf6KNXCCVAGKC1N9Ft5DCbCYgAvZvrPwrbOBZbTUIeO9sSAnW2oJEAqIcsac2OSZqtQdyUOwOiM0GJfVHOr1uE7bV3vR/T/Asb/LbbQkNnQNJmo+y+JiWshEwqZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KOgTE+f8; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EoLAaEx/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KOgTE+f8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706767656; x=1738303656;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D6bXdxqiDlPA/Gr9VoLm4TRLXPbuhZp5QeUAVwsb4/k=;
-  b=EoLAaEx/XFnakGZZEikM833nHlD04+9s35MdXV95Ul0MtS59W5NJ1iCJ
-   rrBxQx9CQzwVjj7UH1e+rjs+9n2TSWSvc/iC230MRu9ioQAXXqNguUg0z
-   emJl+UCvQ5nW9j/rm1AmBkBSTSf2FEGMe5yY/wyD0QXF8wW/4xSDoAPN0
-   HjohnDP4zYQVCIxuc4hsaR0kFLOUCUIeRclx7dwk73qTxyu8lBErHcFjd
-   7trsNlIP2WGjg08yx+VUNQyRH/G4/MHQiBFSmK3holl0yce4XMlKE4q2c
-   GlE8b0Bx/unYlsUIVvTG8/Uo+l1xgLNiptD1rzkcwVVWgqv0mqMoClslT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3680502"
+  t=1706768381; x=1738304381;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ww7v/0MTZHy+Xp98ijQmjylvWOVoZsaNm2uNsYGZUk4=;
+  b=KOgTE+f8Me6+l5XPdXaBJfF1aFSLcI/6sw/yhZe1u5CwuUJ7UCcDfrlH
+   UgkeTPRSh2bCOrnGCMpxGTqhNG8L/O3n8Q3p+dQAsOtz6NJpDc8ME8xtX
+   OD9x9SdarijHJK22lIyPbgWAojvIpP/9SQ13VkdrDn8V8f9ACKEK5xTv+
+   BFOFbpmQ8lyYn1T5ar8mLXQjjbmcYc8T/b2m+H8Y8OJdd3bIVL8/y8g8P
+   yMa4tNmCWia/IrPGT+m3k2RuakdntX7KrlMuh39dQgdut2OHAJD8NVKf5
+   QM0dy/XFWUx7MGJM7jqr+CyQOpNnpW6XJ+3gTkZpMP4BQLxe4hHN7Unx6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="6784"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="3680502"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 22:07:36 -0800
+   d="scan'208";a="6784"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 22:19:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="912032520"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="822837399"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="912032520"
+   d="scan'208";a="822837399"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 31 Jan 2024 22:07:31 -0800
+  by orsmga001.jf.intel.com with ESMTP; 31 Jan 2024 22:19:36 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVQET-0002Qj-11;
-	Thu, 01 Feb 2024 06:07:29 +0000
-Date: Thu, 1 Feb 2024 14:07:10 +0800
+	id 1rVQQ8-0002Ru-38;
+	Thu, 01 Feb 2024 06:19:32 +0000
+Date: Thu, 1 Feb 2024 14:18:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
-Message-ID: <202402011332.NzuDyrGr-lkp@intel.com>
-References: <20240131164709.810587-4-dan.scally@ideasonboard.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommu_cache_flush_refactor 8/8]
+ drivers/iommu/intel/iommu.c:1463:12: warning: result of comparison of
+ constant 18446744073709551615 with expression of type 'unsigned long' is
+ always false
+Message-ID: <202402011453.ETdeubJl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,57 +60,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240131164709.810587-4-dan.scally@ideasonboard.com>
 
-Hi Daniel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linuxtv-media-stage/master linus/master v6.8-rc2 next-20240131]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-uapi-Add-MEDIA_BUS_FMT_RGB202020_1X60-format-code/20240201-005029
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240131164709.810587-4-dan.scally%40ideasonboard.com
-patch subject: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240201/202402011332.NzuDyrGr-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011332.NzuDyrGr-lkp@intel.com/reproduce)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommu_cache_flush_refactor
+head:   f2fec66c24236299f6cd347135ac7b39ee5cc555
+commit: f2fec66c24236299f6cd347135ac7b39ee5cc555 [8/8] iommu/vt-d: Wrap the cache flush for domain into a helper
+config: i386-randconfig-016-20240201 (https://download.01.org/0day-ci/archive/20240201/202402011453.ETdeubJl-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011453.ETdeubJl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402011332.NzuDyrGr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402011453.ETdeubJl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/arm/mali-c55/mali-c55-capture.c:286:8: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
-     286 | static const char * const mali_c55_cap_dev_to_name(struct mali_c55_cap_dev *cap)
-         |        ^~~~~
---
-   drivers/media/platform/arm/mali-c55/mali-c55-tpg.c: In function 'mali_c55_tpg_configure':
->> drivers/media/platform/arm/mali-c55/mali-c55-tpg.c:125:36: warning: variable 'fmt' set but not used [-Wunused-but-set-variable]
-     125 |         struct v4l2_mbus_framefmt *fmt;
-         |                                    ^~~
+>> drivers/iommu/intel/iommu.c:1463:12: warning: result of comparison of constant 18446744073709551615 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
+    1463 |         if (pages == U64_MAX)
+         |             ~~~~~ ^  ~~~~~~~
+   drivers/iommu/intel/iommu.c:1487:49: warning: implicit conversion from 'u64' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+    1487 |         domain_flush_caches(to_dmar_domain(domain), 0, U64_MAX, 0);
+         |         ~~~~~~~~~~~~~~~~~~~                            ^~~~~~~
+   include/linux/limits.h:25:19: note: expanded from macro 'U64_MAX'
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                          ^~~~~~~~~~
+>> drivers/iommu/intel/iommu.c:3394:27: warning: unused variable 'drhd' [-Wunused-variable]
+    3394 |                         struct dmar_drhd_unit *drhd;
+         |                                                ^~~~
+>> drivers/iommu/intel/iommu.c:3395:24: warning: unused variable 'iommu' [-Wunused-variable]
+    3395 |                         struct intel_iommu *iommu;
+         |                                             ^~~~~
+   4 warnings generated.
 
 
-vim +286 drivers/media/platform/arm/mali-c55/mali-c55-capture.c
+vim +1463 drivers/iommu/intel/iommu.c
 
-   285	
- > 286	static const char * const mali_c55_cap_dev_to_name(struct mali_c55_cap_dev *cap)
-   287	{
-   288		if (cap->reg_offset == MALI_C55_CAP_DEV_FR_REG_OFFSET)
-   289			return capture_device_names[0];
-   290		else if (cap->reg_offset == MALI_C55_CAP_DEV_DS_REG_OFFSET)
-   291			return capture_device_names[1];
-   292		else
-   293			return "params/stat not supported yet";
-   294	}
-   295	
+  1440	
+  1441	/*
+  1442	 * For a domain, when there is modification, needs to flush iotlb or piotlb
+  1443	 * and devTLB. Today, domain tracks attached devices, pasids and iommus. To
+  1444	 * invalidate iotlb, should loop all the attched iommus; To invalidate piotlb
+  1445	 * loops all the attached iommus, and also loop iommus to invalidate piotlb
+  1446	 * with RID_PASID (a.k.a. IOMMU_NO_PASID); To invalidate devTLB, loop all the
+  1447	 * attached devices and pasids.
+  1448	 */
+  1449	void domain_flush_caches(struct dmar_domain *domain, unsigned long pfn,
+  1450				 unsigned long pages, int ih)
+  1451	{
+  1452		struct iommu_domain_info *info;
+  1453		unsigned long idx;
+  1454		unsigned int mask;
+  1455	
+  1456		if (domain->use_first_level)
+  1457			domain_flush_pasid_iotlb(domain, pfn << VTD_PAGE_SHIFT,
+  1458						 pages, ih);
+  1459		else
+  1460			xa_for_each(&domain->iommu_array, idx, info)
+  1461				iommu_flush_iotlb_psi(info->iommu, domain,
+  1462						      pfn, pages, ih);
+> 1463		if (pages == U64_MAX)
+  1464			mask = MAX_AGAW_PFN_WIDTH;
+  1465		else
+  1466			mask = ilog2(__roundup_pow_of_two(pages));
+  1467	
+  1468		domain_flush_dev_iotlb(domain, pfn << VTD_PAGE_SHIFT, mask);
+  1469	}
+  1470	
 
 -- 
 0-DAY CI Kernel Test Service
