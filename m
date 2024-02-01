@@ -1,63 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F8F2107
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 00:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B624A26;
+	Thu,  1 Feb 2024 01:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706747928; cv=none; b=MPcx9yulRfX0PGfZBIUbfvihTbpgcPwNOjofQ3vR0XOTqlcNvXHE1XLI20WzGAmEB/575zG1+PP9NKO+4GmuerqF6EOY2M/LZRh1K+SL32R5S57VZXoB0T8hEWar07c1w+NOfSEvZKJAYWPz+vKuepOndHTHrUkZpWitiUJfH0Q=
+	t=1706750081; cv=none; b=abXwJQmEDWf9nVKSC/eVk8ByWLAmkbEuq1PxQEJ9fLI0jBlRXv3prdo8ui0bUWboCqwFE+GPWKYr1KOERr3ndtkXcGxERqixYKa56meOyLAhFlWax1CTQqKfkc0QKfRLJ9s3I0iM4rLZHumeRVof7CI0GkHjVApOy3St+yEe+Q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706747928; c=relaxed/simple;
-	bh=cD8xO3RrSExwk755OnTUoazVyYMJjvg2q3VAD5y/F/Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A+RtHsX02TOZ43c/xfE/v6WvxRyUqFLWqc2vgzXqybEDMweZCagQqwZRuZsRV86bW3B59LYI9jz1a4mSRrmMry/KodleE/87Qc3xtrXAHUsY+3+V1w2QJSWzFm0k1C/rDNY5beRFMUns5T2ETcfOPEKTww59Ai89dO6KTgtv+ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UF2n9Q1N; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1706750081; c=relaxed/simple;
+	bh=6laeycb1th2IJygbmeHP93pz1aZzymh9YP08lVd8zBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Rfcv8FJtPcWrCBBLmMnfUJgCY4XKu6u7H2/mbNenB79U4CU8j+6WHTrNcLHnCqCoCXTXa8BHZ9NQd5LhxU75Wd8yKVDqEMhlh8fA2aCbmgLt2o/jRiEk53NgmkHg2/vGI2CZVh+/noXxxLBUz5DSPt7xb3nIbxDpw12CaMklpwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LnnvRpOy; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UF2n9Q1N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LnnvRpOy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706747926; x=1738283926;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cD8xO3RrSExwk755OnTUoazVyYMJjvg2q3VAD5y/F/Y=;
-  b=UF2n9Q1NhrnD8WVds7/IyZ9ddFDlbjQhPSZ3M4Sg6H1matJak2MH5wI+
-   Tc5eDKrivJc3W9kwW7r/C5WpnlejY5q3LDUAe1ugrEaoevNbDMtU0vHY+
-   8RmHqBztyy2iwF42Qs9WiJ0XMw/fnBE3Zp9vrmOnR9ggXZ3C2loWBlXsW
-   n1KIj8fyfZO2k+tx9KSTZxO4yhx3Hs+Lt3Un8Yx682T3x/yMr8KuOmrcH
-   ZshJ9V4LPhFLp3dpXNz0qnOA5NX8UqezV+aTTOuBgQ+wMGnloF+Qsl7ZH
-   sUhl6PkxIESbtKlZ3ta3BVYg7ECEcOyoClBbOpvoVdYyWUka+S0mPZ3lY
+  t=1706750080; x=1738286080;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6laeycb1th2IJygbmeHP93pz1aZzymh9YP08lVd8zBA=;
+  b=LnnvRpOyvR9y7ogoB3fNDRELWDAkKTZ429l24VfS15CDtyeX9LhghVbd
+   +gIri/USF36ErtyLv1b/hpslsejGICMcr5VgtpVlUz7zDS8gkfi/yer26
+   7bvwNhp5dNCPYfh6zkJ4UenS6+mly+KncDkFKrUH4duY/Ag/n3aUfhuLe
+   xq4FmaIjay7qVM3EFNfctWfvGI5Dkl4NZsTvtmJJT7mM6kUPUbsClgEcV
+   //GSde7JTeqEJ2i3D4R7ucejyv9uwBY/34m3PqgkEL3i9FJDO6+6KZKbs
+   P2gDVq3ni7VHknJXqHmdMypA3sNczbToBLHXsWAJS/lz/i3Dajq8U1iBI
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3631151"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="17160647"
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="3631151"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 16:38:45 -0800
+   d="scan'208";a="17160647"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 17:14:39 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="932034925"
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="30697452"
+   d="scan'208";a="932034925"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Jan 2024 16:38:42 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2024 17:14:37 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVL5v-0002C4-2c;
-	Thu, 01 Feb 2024 00:38:27 +0000
-Date: Thu, 1 Feb 2024 08:37:28 +0800
+	id 1rVLf1-0002De-1z;
+	Thu, 01 Feb 2024 01:14:35 +0000
+Date: Thu, 1 Feb 2024 09:11:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Matthew Wilcox <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH DRAFT 1/4] : tracefs: port to kernfs
-Message-ID: <202402010834.J85Qu3eN-lkp@intel.com>
-References: <20240131-tracefs-kernfs-v1-1-f20e2e9a8d61@kernel.org>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:rdma-next 43/50] drivers/infiniband/hw/mlx5/odp.c:572:3:
+ warning: variable 'access_mask' is uninitialized when used here
+Message-ID: <202402010925.gklK6eFn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,266 +58,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240131-tracefs-kernfs-v1-1-f20e2e9a8d61@kernel.org>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 41bccc98fb7931d63d03f326a746ac4d429c1dd3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Brauner/tracefs-port-to-kernfs/20240131-214120
-base:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
-patch link:    https://lore.kernel.org/r/20240131-tracefs-kernfs-v1-1-f20e2e9a8d61%40kernel.org
-patch subject: [PATCH DRAFT 1/4] : tracefs: port to kernfs
-config: arc-randconfig-001-20240201 (https://download.01.org/0day-ci/archive/20240201/202402010834.J85Qu3eN-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010834.J85Qu3eN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   17282587cdc0f20c27d7404ac1caa5ebe4e9d87b
+commit: 0f8d73f33588b9e1db56ab89f2eb7d1cb7f30583 [43/50] RDMA/umem: Store ODP access mask information in PFN
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240201/202402010925.gklK6eFn-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fdac7d0b6f74f919d319b31a0680c77f66732586)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402010925.gklK6eFn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402010834.J85Qu3eN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402010925.gklK6eFn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/trace/trace_hwlat.c: In function 'init_tracefs':
-   kernel/trace/trace_hwlat.c:778:17: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-     778 |         top_dir = tracefs_create_dir("hwlat_detector", NULL);
-         |                 ^
->> kernel/trace/trace_hwlat.c:783:51: error: passing argument 3 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     783 |                                                   top_dir,
-         |                                                   ^~~~~~~
-         |                                                   |
-         |                                                   struct dentry *
-   In file included from kernel/trace/trace_hwlat.c:41:
-   include/linux/tracefs.h:93:61: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      93 |                                         struct kernfs_node *parent, void *data,
-         |                                         ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   kernel/trace/trace_hwlat.c:785:51: error: passing argument 5 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     785 |                                                   &trace_min_max_fops);
-         |                                                   ^~~~~~~~~~~~~~~~~~~
-         |                                                   |
-         |                                                   const struct file_operations *
-   include/linux/tracefs.h:94:66: note: expected 'const struct kernfs_ops *' but argument is of type 'const struct file_operations *'
-      94 |                                         const struct kernfs_ops *ops);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   kernel/trace/trace_hwlat.c:782:29: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-     782 |         hwlat_sample_window = tracefs_create_file("window", TRACE_MODE_WRITE,
-         |                             ^
-   kernel/trace/trace_hwlat.c:790:50: error: passing argument 3 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     790 |                                                  top_dir,
-         |                                                  ^~~~~~~
-         |                                                  |
-         |                                                  struct dentry *
-   include/linux/tracefs.h:93:61: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      93 |                                         struct kernfs_node *parent, void *data,
-         |                                         ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   kernel/trace/trace_hwlat.c:792:50: error: passing argument 5 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     792 |                                                  &trace_min_max_fops);
-         |                                                  ^~~~~~~~~~~~~~~~~~~
-         |                                                  |
-         |                                                  const struct file_operations *
-   include/linux/tracefs.h:94:66: note: expected 'const struct kernfs_ops *' but argument is of type 'const struct file_operations *'
-      94 |                                         const struct kernfs_ops *ops);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   kernel/trace/trace_hwlat.c:789:28: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-     789 |         hwlat_sample_width = tracefs_create_file("width", TRACE_MODE_WRITE,
-         |                            ^
-   kernel/trace/trace_hwlat.c:806:24: error: passing argument 1 of 'tracefs_remove' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     806 |         tracefs_remove(top_dir);
-         |                        ^~~~~~~
-         |                        |
-         |                        struct dentry *
-   include/linux/tracefs.h:99:41: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      99 | void tracefs_remove(struct kernfs_node *kn);
-         |                     ~~~~~~~~~~~~~~~~~~~~^~
-   cc1: some warnings being treated as errors
---
-   kernel/trace/trace_osnoise.c: In function 'init_timerlat_stack_tracefs':
-   kernel/trace/trace_osnoise.c:2695:68: error: passing argument 3 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2695 |         tmp = tracefs_create_file("print_stack", TRACE_MODE_WRITE, top_dir,
-         |                                                                    ^~~~~~~
-         |                                                                    |
-         |                                                                    struct dentry *
-   In file included from kernel/trace/trace_osnoise.c:20:
-   include/linux/tracefs.h:93:61: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      93 |                                         struct kernfs_node *parent, void *data,
-         |                                         ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   kernel/trace/trace_osnoise.c:2696:57: error: passing argument 5 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2696 |                                   &osnoise_print_stack, &trace_min_max_fops);
-         |                                                         ^~~~~~~~~~~~~~~~~~~
-         |                                                         |
-         |                                                         const struct file_operations *
-   include/linux/tracefs.h:94:66: note: expected 'const struct kernfs_ops *' but argument is of type 'const struct file_operations *'
-      94 |                                         const struct kernfs_ops *ops);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   kernel/trace/trace_osnoise.c:2695:13: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-    2695 |         tmp = tracefs_create_file("print_stack", TRACE_MODE_WRITE, top_dir,
-         |             ^
-   kernel/trace/trace_osnoise.c: In function 'osnoise_create_cpu_timerlat_fd':
->> kernel/trace/trace_osnoise.c:2723:49: error: passing argument 2 of 'tracefs_create_dir' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2723 |         per_cpu = tracefs_create_dir("per_cpu", top_dir);
-         |                                                 ^~~~~~~
-         |                                                 |
-         |                                                 struct dentry *
-   include/linux/tracefs.h:97:60: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      97 |                                        struct kernfs_node *parent);
-         |                                        ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   kernel/trace/trace_osnoise.c:2723:17: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-    2723 |         per_cpu = tracefs_create_dir("per_cpu", top_dir);
-         |                 ^
-   kernel/trace/trace_osnoise.c:2729:55: error: passing argument 2 of 'tracefs_create_dir' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2729 |                 cpu_dir = tracefs_create_dir(cpu_str, per_cpu);
-         |                                                       ^~~~~~~
-         |                                                       |
-         |                                                       struct dentry *
-   include/linux/tracefs.h:97:60: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      97 |                                        struct kernfs_node *parent);
-         |                                        ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   kernel/trace/trace_osnoise.c:2729:25: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-    2729 |                 cpu_dir = tracefs_create_dir(cpu_str, per_cpu);
-         |                         ^
-   kernel/trace/trace_osnoise.c:2745:24: error: passing argument 1 of 'tracefs_remove' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2745 |         tracefs_remove(per_cpu);
-         |                        ^~~~~~~
-         |                        |
-         |                        struct dentry *
-   include/linux/tracefs.h:99:41: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      99 | void tracefs_remove(struct kernfs_node *kn);
-         |                     ~~~~~~~~~~~~~~~~~~~~^~
-   kernel/trace/trace_osnoise.c: In function 'init_timerlat_tracefs':
-   kernel/trace/trace_osnoise.c:2757:75: error: passing argument 3 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2757 |         tmp = tracefs_create_file("timerlat_period_us", TRACE_MODE_WRITE, top_dir,
-         |                                                                           ^~~~~~~
-         |                                                                           |
-         |                                                                           struct dentry *
-   include/linux/tracefs.h:93:61: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      93 |                                         struct kernfs_node *parent, void *data,
-         |                                         ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   kernel/trace/trace_osnoise.c:2758:53: error: passing argument 5 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2758 |                                   &timerlat_period, &trace_min_max_fops);
-         |                                                     ^~~~~~~~~~~~~~~~~~~
-         |                                                     |
-         |                                                     const struct file_operations *
-   include/linux/tracefs.h:94:66: note: expected 'const struct kernfs_ops *' but argument is of type 'const struct file_operations *'
-      94 |                                         const struct kernfs_ops *ops);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   kernel/trace/trace_osnoise.c:2757:13: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-    2757 |         tmp = tracefs_create_file("timerlat_period_us", TRACE_MODE_WRITE, top_dir,
-         |             ^
-   kernel/trace/trace_osnoise.c: In function 'init_tracefs':
-   kernel/trace/trace_osnoise.c:2792:17: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-    2792 |         top_dir = tracefs_create_dir("osnoise", NULL);
-         |                 ^
-   kernel/trace/trace_osnoise.c:2796:66: error: passing argument 3 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2796 |         tmp = tracefs_create_file("period_us", TRACE_MODE_WRITE, top_dir,
-         |                                                                  ^~~~~~~
-         |                                                                  |
-         |                                                                  struct dentry *
-   include/linux/tracefs.h:93:61: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      93 |                                         struct kernfs_node *parent, void *data,
-         |                                         ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   kernel/trace/trace_osnoise.c:2797:52: error: passing argument 5 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2797 |                                   &osnoise_period, &trace_min_max_fops);
-         |                                                    ^~~~~~~~~~~~~~~~~~~
-         |                                                    |
-         |                                                    const struct file_operations *
-   include/linux/tracefs.h:94:66: note: expected 'const struct kernfs_ops *' but argument is of type 'const struct file_operations *'
-      94 |                                         const struct kernfs_ops *ops);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   kernel/trace/trace_osnoise.c:2796:13: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-    2796 |         tmp = tracefs_create_file("period_us", TRACE_MODE_WRITE, top_dir,
-         |             ^
-   kernel/trace/trace_osnoise.c:2801:67: error: passing argument 3 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2801 |         tmp = tracefs_create_file("runtime_us", TRACE_MODE_WRITE, top_dir,
-         |                                                                   ^~~~~~~
-         |                                                                   |
-         |                                                                   struct dentry *
-   include/linux/tracefs.h:93:61: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      93 |                                         struct kernfs_node *parent, void *data,
-         |                                         ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   kernel/trace/trace_osnoise.c:2802:53: error: passing argument 5 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2802 |                                   &osnoise_runtime, &trace_min_max_fops);
-         |                                                     ^~~~~~~~~~~~~~~~~~~
-         |                                                     |
-         |                                                     const struct file_operations *
-   include/linux/tracefs.h:94:66: note: expected 'const struct kernfs_ops *' but argument is of type 'const struct file_operations *'
-      94 |                                         const struct kernfs_ops *ops);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   kernel/trace/trace_osnoise.c:2801:13: error: assignment to 'struct dentry *' from incompatible pointer type 'struct kernfs_node *' [-Werror=incompatible-pointer-types]
-    2801 |         tmp = tracefs_create_file("runtime_us", TRACE_MODE_WRITE, top_dir,
-         |             ^
-   kernel/trace/trace_osnoise.c:2806:72: error: passing argument 3 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2806 |         tmp = tracefs_create_file("stop_tracing_us", TRACE_MODE_WRITE, top_dir,
-         |                                                                        ^~~~~~~
-         |                                                                        |
-         |                                                                        struct dentry *
-   include/linux/tracefs.h:93:61: note: expected 'struct kernfs_node *' but argument is of type 'struct dentry *'
-      93 |                                         struct kernfs_node *parent, void *data,
-         |                                         ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   kernel/trace/trace_osnoise.c:2807:61: error: passing argument 5 of 'tracefs_create_file' from incompatible pointer type [-Werror=incompatible-pointer-types]
+>> drivers/infiniband/hw/mlx5/odp.c:572:3: warning: variable 'access_mask' is uninitialized when used here [-Wuninitialized]
+     572 |                 access_mask |= HMM_PFN_WRITE;
+         |                 ^~~~~~~~~~~
+   drivers/infiniband/hw/mlx5/odp.c:557:17: note: initialize the variable 'access_mask' to silence this warning
+     557 |         u64 access_mask;
+         |                        ^
+         |                         = 0
+   1 warning generated.
 
 
-vim +/tracefs_create_file +783 kernel/trace/trace_hwlat.c
+vim +/access_mask +572 drivers/infiniband/hw/mlx5/odp.c
 
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  753) 
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  754  static const struct file_operations thread_mode_fops = {
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  755  	.open		= hwlat_mode_open,
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  756  	.read		= seq_read,
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  757  	.llseek		= seq_lseek,
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  758  	.release	= seq_release,
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  759  	.write		= hwlat_mode_write
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  760  };
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  761) /**
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  762)  * init_tracefs - A function to initialize the tracefs interface files
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  763)  *
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  764)  * This function creates entries in tracefs for "hwlat_detector".
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  765)  * It creates the hwlat_detector directory in the tracing directory,
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  766)  * and within that directory is the count, width and window files to
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  767)  * change and view those values.
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  768)  */
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  769) static int init_tracefs(void)
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  770) {
-22c36b18263426 Wei Yang                   2020-07-12  771  	int ret;
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  772) 	struct dentry *top_dir;
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  773) 
-22c36b18263426 Wei Yang                   2020-07-12  774  	ret = tracing_init_dentry();
-22c36b18263426 Wei Yang                   2020-07-12  775  	if (ret)
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  776) 		return -ENOMEM;
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  777) 
-22c36b18263426 Wei Yang                   2020-07-12  778  	top_dir = tracefs_create_dir("hwlat_detector", NULL);
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  779) 	if (!top_dir)
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  780) 		return -ENOMEM;
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  781) 
-21ccc9cd721162 Steven Rostedt (VMware     2021-08-18  782) 	hwlat_sample_window = tracefs_create_file("window", TRACE_MODE_WRITE,
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23 @783) 						  top_dir,
-f27a1c9e1ba1e4 Daniel Bristot de Oliveira 2021-06-22  784  						  &hwlat_window,
-f27a1c9e1ba1e4 Daniel Bristot de Oliveira 2021-06-22  785  						  &trace_min_max_fops);
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  786) 	if (!hwlat_sample_window)
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  787) 		goto err;
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  788) 
-21ccc9cd721162 Steven Rostedt (VMware     2021-08-18  789) 	hwlat_sample_width = tracefs_create_file("width", TRACE_MODE_WRITE,
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  790) 						 top_dir,
-f27a1c9e1ba1e4 Daniel Bristot de Oliveira 2021-06-22  791  						 &hwlat_width,
-f27a1c9e1ba1e4 Daniel Bristot de Oliveira 2021-06-22  792  						 &trace_min_max_fops);
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  793) 	if (!hwlat_sample_width)
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  794) 		goto err;
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  795) 
-21ccc9cd721162 Steven Rostedt (VMware     2021-08-18  796) 	hwlat_thread_mode = trace_create_file("mode", TRACE_MODE_WRITE,
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  797  					      top_dir,
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  798  					      NULL,
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  799  					      &thread_mode_fops);
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  800  	if (!hwlat_thread_mode)
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  801  		goto err;
-8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  802  
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  803) 	return 0;
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  804) 
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  805)  err:
-a3d1e7eb5abe3a Al Viro                    2019-11-18  806  	tracefs_remove(top_dir);
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  807) 	return -ENOMEM;
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  808) }
-e7c15cd8a11333 Steven Rostedt (Red Hat    2016-06-23  809) 
+   547	
+   548	#define MLX5_PF_FLAGS_DOWNGRADE BIT(1)
+   549	#define MLX5_PF_FLAGS_SNAPSHOT BIT(2)
+   550	#define MLX5_PF_FLAGS_ENABLE BIT(3)
+   551	static int pagefault_real_mr(struct mlx5_ib_mr *mr, struct ib_umem_odp *odp,
+   552				     u64 user_va, size_t bcnt, u32 *bytes_mapped,
+   553				     u32 flags)
+   554	{
+   555		int page_shift, ret, np;
+   556		bool downgrade = flags & MLX5_PF_FLAGS_DOWNGRADE;
+   557		u64 access_mask;
+   558		u64 start_idx;
+   559		bool fault = !(flags & MLX5_PF_FLAGS_SNAPSHOT);
+   560		u32 xlt_flags = MLX5_IB_UPD_XLT_ATOMIC;
+   561	
+   562		if (flags & MLX5_PF_FLAGS_ENABLE)
+   563			xlt_flags |= MLX5_IB_UPD_XLT_ENABLE;
+   564	
+   565		if (flags & MLX5_PF_FLAGS_DOWNGRADE)
+   566			xlt_flags |= MLX5_IB_UPD_XLT_DOWNGRADE;
+   567	
+   568		page_shift = odp->page_shift;
+   569		start_idx = (user_va - ib_umem_start(odp)) >> page_shift;
+   570	
+   571		if (odp->umem.writable && !downgrade)
+ > 572			access_mask |= HMM_PFN_WRITE;
+   573	
+   574		np = ib_umem_odp_map_dma_and_lock(odp, user_va, bcnt, access_mask, fault);
+   575		if (np < 0)
+   576			return np;
+   577	
+   578		/*
+   579		 * No need to check whether the MTTs really belong to this MR, since
+   580		 * ib_umem_odp_map_dma_and_lock already checks this.
+   581		 */
+   582		ret = mlx5r_umr_update_xlt(mr, start_idx, np, page_shift, xlt_flags);
+   583		mutex_unlock(&odp->umem_mutex);
+   584	
+   585		if (ret < 0) {
+   586			if (ret != -EAGAIN)
+   587				mlx5_ib_err(mr_to_mdev(mr),
+   588					    "Failed to update mkey page tables\n");
+   589			goto out;
+   590		}
+   591	
+   592		if (bytes_mapped) {
+   593			u32 new_mappings = (np << page_shift) -
+   594				(user_va - round_down(user_va, 1 << page_shift));
+   595	
+   596			*bytes_mapped += min_t(u32, new_mappings, bcnt);
+   597		}
+   598	
+   599		return np << (page_shift - PAGE_SHIFT);
+   600	
+   601	out:
+   602		return ret;
+   603	}
+   604	
 
 -- 
 0-DAY CI Kernel Test Service
