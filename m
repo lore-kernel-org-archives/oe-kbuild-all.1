@@ -1,188 +1,204 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2578214C5A2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 07:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4061D157E9E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 08:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706774278; cv=none; b=poOzZm8ynnwlXUkfveSXa9NTMglU6tYic07pcbZVMDzQ/B+DtNXvOh2aGXGrGQLpZW6eKz/ACGJ3RebHfMoV7sRQIYub+Q5vMSEMXmhRa97gog7dGYkwgiRq5wtNSiUZf3BDSj5sxdC3UmRPzwkoNEfwz+8z7QQJPuOGh8RglEI=
+	t=1706776108; cv=none; b=nFiY6cythoya97l/fn/yHodjRyag+Lq27XZueWCGmbodD04NpwI737NIEuey54LKgNQWhIuS5lUWW2Ej/VdPOxHLelu+q5rDv5tyheYIKAEAgmT1dc+JIAAZZkQ5cllslLjgO4JxuYr3zinGa+MopQH/ZUwFyIvkNbQ/It98PC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706774278; c=relaxed/simple;
-	bh=zHgx1yxPEtJn6I5ZMjqwRi/auLuBLlrirM0lCJZ4obU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AfRaym1Y5/ES776BKOog5c8liuocduo7plhMXHX1ZfBMHIzl7pXdP4LpO7kxig3C+qXKXk5KpnzB7xslsVsKBK/uTGvH9uMkzPzOwZ80PEEtrvMbjayYLiTVuH1x0r4Hvssb2m9aBgEhoGP5J6tmjCnr0DDcC/VK8F5T07CA7pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=t+lMhHtG; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1706776108; c=relaxed/simple;
+	bh=GYjSs0ehnuUTeW6X1fKYyfTxuB3/jGLEVPZT9eDsChM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mSw82FKHcCX8cFgTFaF7oHzUsemyE2g2KOSBIiUkXlgrIlrWWWUV046Gbx4z7+vFGEotZopox6xWCLHjzyAOlvVWEcFMyb59vYVt+YbPaiEq4jRJPylBMstlLyLnZHNQL45I60cjdnqKonXQznLDRzGkOW0W4UlgRUH8+aFT7ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ee9k6FW5; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="t+lMhHtG"
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-4bdc6141685so273029e0c.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Jan 2024 23:57:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1706774275; x=1707379075; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IOd+Adh4tMnpIBR501+yaSVTpr2C2rl5IPddMYlorWw=;
-        b=t+lMhHtGfUvOUskQNi2L6nf7puXqzXopOfhr92LzQFDR7cqXUwPt+NsM5Y+URsxPmX
-         WRRMnK3B20aIeeW8PgSbqr5psAQuJjEA8sBGJ/2JcB13DSO8+tbcDnM89bns5n5MLsta
-         wFMEEgiNC36lgyi2KD5DWXC3EHS9rspn8YCAs/VIKv97H3vk5jQIjW8/nIxarvtvomJ5
-         ufGk2cEyPmuviEed2sOZd2IsebYGyrt8WqvrElw8TpMoa7Hj6ihuanF4ODt+aSyC12Z7
-         9AHth78p+zJLB94CKFykS8n+K6EBhy2e7EYsGwWOiAmdmUpb/fWdmi+KOddSqo+44h9P
-         lBNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706774275; x=1707379075;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IOd+Adh4tMnpIBR501+yaSVTpr2C2rl5IPddMYlorWw=;
-        b=hxQ5j/jX6AYwxxNb8aogVjy4+PA9IU6Bb/i0/gthTy8OUMp4KlQdrqx5ZoFaQ0OP8m
-         Qa7EYDLNFWObInYPeXnmb7iZ39VX3SsUfVXwMkbjE3GZy20r6kowOSMY3EZ79cDb+MI6
-         jIXYsP4Cr7aBMWpv59sPBQi4YE3jtRJUEvCgdSxbSi90611G/fwvu4sUYzrIDNhe6EMO
-         j4kYNzgaDtcQFrnwDwt8bIpB55f5yCfHvnHbQWB4yboFMihOFs2dLz5ponQVmMQdpmuY
-         5gWjJmRSNauJxc9gGrLXCggfSD+BvvRBjk5rz2tl7DYX4YRM1OG3uER/xkkohSz8YhH2
-         4fmQ==
-X-Gm-Message-State: AOJu0YyAxDvwS57WBdLERw/k4wz0OmjXYYcC8Dxk/Tv1qmIkS8VF0qeG
-	xNed8ZuQMiq5G6F1zLO/7yRc4YYCmjpsuDaH8a1F+cAmlp3tpyjqbk+dX8lMVA4KKzMEb+h+6po
-	nTBCFaHGmADJ3DTv+Y4g5ZCRo8EHaZ8PWfF+yQg==
-X-Google-Smtp-Source: AGHT+IHBEAlHhTj2gP6eGsaWQjwt4taQ94hYG+agdoXKRJW3+84Zo2FhNUORU0nJaxJzcAij0bWpM0hK7sfu3CDKYW4=
-X-Received: by 2002:a05:6122:280b:b0:4b6:bfae:3285 with SMTP id
- en11-20020a056122280b00b004b6bfae3285mr3894123vkb.4.1706774274886; Wed, 31
- Jan 2024 23:57:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ee9k6FW5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706776106; x=1738312106;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GYjSs0ehnuUTeW6X1fKYyfTxuB3/jGLEVPZT9eDsChM=;
+  b=Ee9k6FW5SLvkdoeEUjh09zWy+oEyqsFTQ8WkurFBSegH5Bmkxb9O8y2Z
+   EinAoWIVhwVckM4TuyzZ7ld7emS3WaM25B6ppy/E4b5+n1kGI/mZNY3BT
+   l1ZNUX1bc9h8UDeOuAJPCKqg2n5On6YSCRPIXK60BUQMEWDZEg7gZCgbr
+   Me1OqTJfBLPO3obVuCgqPYH9mw69ulBSShr30OmQtChjidcvS+MECtHP2
+   +AvWgNaqz8PV+/QYcGBXJ8TO9qn1Br1Cjpd3pInsCCXIJ2uLSvdbR8UiU
+   8veqSHJIUTQb7laU46TuY5xMZX1h2i7QwPMf033SUoNwSGkhd2VXZ+lkK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="25302961"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="25302961"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 00:28:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="4453556"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 01 Feb 2024 00:28:24 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rVSQl-0002Zu-2a;
+	Thu, 01 Feb 2024 08:28:20 +0000
+Date: Thu, 1 Feb 2024 16:27:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:idpf-libie-new 44/54]
+ drivers/net/ethernet/intel/i40e/i40e_xsk.c:464:27: error: too many arguments
+ to function 'xsk_buff_add_frag'
+Message-ID: <202402011625.LiOSHHeJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240130124828.14678-21-brgl@bgdev.pl> <3ab71aad-757f-4d5e-ac09-fdad75238fa3@moroto.mountain>
-In-Reply-To: <3ab71aad-757f-4d5e-ac09-fdad75238fa3@moroto.mountain>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 1 Feb 2024 08:57:44 +0100
-Message-ID: <CAMRc=Mdi3DqHsri7Da3xPisC1FyOOwZoYra75qhAWvuneD16Vw@mail.gmail.com>
-Subject: Re: [PATCH 20/22] gpio: protect the pointer to gpio_chip in
- gpio_device with SRCU
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>, 
-	Kent Gibson <warthog618@gmail.com>, Alex Elder <elder@linaro.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, "Paul E . McKenney" <paulmck@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Wolfram Sang <wsa-dev@sang-engineering.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Feb 1, 2024 at 6:03=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
->
-> Hi Bartosz,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewsk=
-i/gpio-protect-the-list-of-GPIO-devices-with-SRCU/20240130-205537
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gp=
-io/for-next
-> patch link:    https://lore.kernel.org/r/20240130124828.14678-21-brgl%40b=
-gdev.pl
-> patch subject: [PATCH 20/22] gpio: protect the pointer to gpio_chip in gp=
-io_device with SRCU
-> config: i386-randconfig-141-20240131 (https://download.01.org/0day-ci/arc=
-hive/20240201/202402010641.idtEaO24-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
-708b4367171ccdbf4b5905cb6a803753fe18)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202402010641.idtEaO24-lkp@intel.com/
->
-> New smatch warnings:
-> drivers/gpio/gpiolib.c:4776 gpiolib_dbg_show() error: we previously assum=
-ed 'gc' could be null (see line 4773)
->
->
-> vim +/gc +4776 drivers/gpio/gpiolib.c
->
-> fdeb8e1547cb9d Linus Walleij       2016-02-10  4762  static void gpiolib_=
-dbg_show(struct seq_file *s, struct gpio_device *gdev)
-> d2876d08d86f22 David Brownell      2008-02-04  4763  {
-> 0338f6a6fb659f Bartosz Golaszewski 2023-12-21  4764     bool active_low, =
-is_irq, is_out;
-> 0338f6a6fb659f Bartosz Golaszewski 2023-12-21  4765     unsigned int gpio=
- =3D gdev->base;
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4766     struct gpio_desc =
-*desc;
-> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4767     struct gpio_chip =
-*gc;
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4768     int value;
-> d2876d08d86f22 David Brownell      2008-02-04  4769
-> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4770     guard(srcu)(&gdev=
-->srcu);
-> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4771
-> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4772     gc =3D rcu_derefe=
-rence(gdev->chip);
-> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30 @4773     if (!gc)
->                                                             ^^^
-> The patch adds a NULL check
->
-> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4774             seq_puts(=
-s, "Underlying GPIO chip is gone\n");
-> 2796d5332f8ac8 Bartosz Golaszewski 2024-01-30  4775
-> 3de69ae1c407da Andy Shevchenko     2022-04-08 @4776     for_each_gpio_des=
-c(gc, desc) {
->                                                                          =
-  ^^
-> But this dereference isn't checked...  Probably it should return after
-> the seq_puts().
->
+tree:   https://github.com/alobakin/linux idpf-libie-new
+head:   b38090ce4d01e31c9d0e23222b9176297e10ccdf
+commit: f060ea47534d68eac6b872953bd614962d76da90 [44/54] xsk: make xsk_buff_add_frag really add a frag via __xdp_buff_add_frag()
+config: arm64-randconfig-001-20240201 (https://download.01.org/0day-ci/archive/20240201/202402011625.LiOSHHeJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011625.LiOSHHeJ-lkp@intel.com/reproduce)
 
-Of course it should. Thanks. I fixed it for v2.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402011625.LiOSHHeJ-lkp@intel.com/
 
-Bart
+All errors (new ones prefixed by >>):
 
-> bedc56b1695b27 Bartosz Golaszewski 2024-01-30  4777             guard(src=
-u)(&desc->srcu);
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4778             if (test_=
-bit(FLAG_REQUESTED, &desc->flags)) {
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4779                     g=
-piod_get_direction(desc);
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4780                     i=
-s_out =3D test_bit(FLAG_IS_OUT, &desc->flags);
-> 234c52097ce416 Andy Shevchenko     2022-04-08  4781                     v=
-alue =3D gpio_chip_get_value(gc, desc);
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4782                     i=
-s_irq =3D test_bit(FLAG_USED_AS_IRQ, &desc->flags);
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4783                     a=
-ctive_low =3D test_bit(FLAG_ACTIVE_LOW, &desc->flags);
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4784                     s=
-eq_printf(s, " gpio-%-3d (%-20.20s|%-20.20s) %s %s %s%s\n",
-> 32648f473c7f46 Bartosz Golaszewski 2024-01-30  4785                      =
-          gpio, desc->name ?: "", gpiod_get_label(desc),
-> d2876d08d86f22 David Brownell      2008-02-04  4786                      =
-          is_out ? "out" : "in ",
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4787                      =
-          value >=3D 0 ? (value ? "hi" : "lo") : "?  ",
-> 90fd227029a25b Linus Walleij       2018-10-01  4788                      =
-          is_irq ? "IRQ " : "",
-> 90fd227029a25b Linus Walleij       2018-10-01  4789                      =
-          active_low ? "ACTIVE LOW" : "");
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4790             } else if=
- (desc->name) {
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4791                     s=
-eq_printf(s, " gpio-%-3d (%-20.20s)\n", gpio, desc->name);
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4792             }
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4793
-> 3de69ae1c407da Andy Shevchenko     2022-04-08  4794             gpio++;
-> d2876d08d86f22 David Brownell      2008-02-04  4795     }
-> d2876d08d86f22 David Brownell      2008-02-04  4796  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+   drivers/net/ethernet/intel/i40e/i40e_xsk.c: In function 'i40e_clean_rx_irq_zc':
+>> drivers/net/ethernet/intel/i40e/i40e_xsk.c:464:27: error: too many arguments to function 'xsk_buff_add_frag'
+     464 |                 else if (!xsk_buff_add_frag(first, bi)) {
+         |                           ^~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/intel/i40e/i40e_xsk.c:5:
+   include/net/xdp_sock_drv.h:369:20: note: declared here
+     369 | static inline void xsk_buff_add_frag(struct xdp_buff *xdp)
+         |                    ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_xsk.c:464:26: error: invalid use of void expression
+     464 |                 else if (!xsk_buff_add_frag(first, bi)) {
+         |                          ^
+
+
+vim +/xsk_buff_add_frag +464 drivers/net/ethernet/intel/i40e/i40e_xsk.c
+
+   398	
+   399	/**
+   400	 * i40e_clean_rx_irq_zc - Consumes Rx packets from the hardware ring
+   401	 * @rx_ring: Rx ring
+   402	 * @budget: NAPI budget
+   403	 *
+   404	 * Returns amount of work completed
+   405	 **/
+   406	int i40e_clean_rx_irq_zc(struct i40e_ring *rx_ring, int budget)
+   407	{
+   408		unsigned int total_rx_bytes = 0, total_rx_packets = 0;
+   409		u16 next_to_process = rx_ring->next_to_process;
+   410		u16 next_to_clean = rx_ring->next_to_clean;
+   411		unsigned int xdp_res, xdp_xmit = 0;
+   412		struct xdp_buff *first = NULL;
+   413		u32 count = rx_ring->count;
+   414		struct bpf_prog *xdp_prog;
+   415		u32 entries_to_alloc;
+   416		bool failure = false;
+   417	
+   418		if (next_to_process != next_to_clean)
+   419			first = *i40e_rx_bi(rx_ring, next_to_clean);
+   420	
+   421		/* NB! xdp_prog will always be !NULL, due to the fact that
+   422		 * this path is enabled by setting an XDP program.
+   423		 */
+   424		xdp_prog = READ_ONCE(rx_ring->xdp_prog);
+   425	
+   426		while (likely(total_rx_packets < (unsigned int)budget)) {
+   427			union i40e_rx_desc *rx_desc;
+   428			unsigned int rx_packets;
+   429			unsigned int rx_bytes;
+   430			struct xdp_buff *bi;
+   431			unsigned int size;
+   432			u64 qword;
+   433	
+   434			rx_desc = I40E_RX_DESC(rx_ring, next_to_process);
+   435			qword = le64_to_cpu(rx_desc->wb.qword1.status_error_len);
+   436	
+   437			/* This memory barrier is needed to keep us from reading
+   438			 * any other fields out of the rx_desc until we have
+   439			 * verified the descriptor has been written back.
+   440			 */
+   441			dma_rmb();
+   442	
+   443			if (i40e_rx_is_programming_status(qword)) {
+   444				i40e_clean_programming_status(rx_ring,
+   445							      rx_desc->raw.qword[0],
+   446							      qword);
+   447				bi = *i40e_rx_bi(rx_ring, next_to_process);
+   448				xsk_buff_free(bi);
+   449				if (++next_to_process == count)
+   450					next_to_process = 0;
+   451				continue;
+   452			}
+   453	
+   454			size = FIELD_GET(I40E_RXD_QW1_LENGTH_PBUF_MASK, qword);
+   455			if (!size)
+   456				break;
+   457	
+   458			bi = *i40e_rx_bi(rx_ring, next_to_process);
+   459			xsk_buff_set_size(bi, size);
+   460			xsk_buff_dma_sync_for_cpu(bi);
+   461	
+   462			if (!first)
+   463				first = bi;
+ > 464			else if (!xsk_buff_add_frag(first, bi)) {
+   465				xsk_buff_free(first);
+   466				break;
+   467			}
+   468	
+   469			if (++next_to_process == count)
+   470				next_to_process = 0;
+   471	
+   472			if (i40e_is_non_eop(rx_ring, rx_desc))
+   473				continue;
+   474	
+   475			xdp_res = i40e_run_xdp_zc(rx_ring, first, xdp_prog);
+   476			i40e_handle_xdp_result_zc(rx_ring, first, rx_desc, &rx_packets,
+   477						  &rx_bytes, xdp_res, &failure);
+   478			next_to_clean = next_to_process;
+   479			if (failure)
+   480				break;
+   481			total_rx_packets += rx_packets;
+   482			total_rx_bytes += rx_bytes;
+   483			xdp_xmit |= xdp_res & (I40E_XDP_TX | I40E_XDP_REDIR);
+   484			first = NULL;
+   485		}
+   486	
+   487		rx_ring->next_to_clean = next_to_clean;
+   488		rx_ring->next_to_process = next_to_process;
+   489	
+   490		entries_to_alloc = I40E_DESC_UNUSED(rx_ring);
+   491		if (entries_to_alloc >= I40E_RX_BUFFER_WRITE)
+   492			failure |= !i40e_alloc_rx_buffers_zc(rx_ring, entries_to_alloc);
+   493	
+   494		i40e_finalize_xdp_rx(rx_ring, xdp_xmit);
+   495		i40e_update_rx_stats(rx_ring, total_rx_bytes, total_rx_packets);
+   496	
+   497		if (xsk_uses_need_wakeup(rx_ring->xsk_pool)) {
+   498			if (failure || next_to_clean == rx_ring->next_to_use)
+   499				xsk_set_rx_need_wakeup(rx_ring->xsk_pool);
+   500			else
+   501				xsk_clear_rx_need_wakeup(rx_ring->xsk_pool);
+   502	
+   503			return (int)total_rx_packets;
+   504		}
+   505		return failure ? budget : (int)total_rx_packets;
+   506	}
+   507	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
