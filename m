@@ -1,106 +1,156 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD903B793
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 08:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706777607; cv=pass; b=gnLtSsuvHYD2UkkL5mHOOke7B5jIKQKL0VFpU50ZBfLoL/fGwsLnCvA6lT29X3lJeEJdg+9EedF0Rm7/iMXriSBG/nuw++YVUwl3Pk8V/FWBd3mismBcAjH0Eq78/uiz1LaftNPBBnh4TF0ZrinSMZMhHSIp9R7O/05yUsGYaew=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706777607; c=relaxed/simple;
-	bh=froKKrnVXDeXosDRbd7rxz1/oLIgEoFW657ZNgewkVc=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=qR7yc+mtRpODDZ/WQMoLfj9HA8+UrWUji7LYIqqQWEH3yUZijDtuMQq4yE/gVDvpMUdqlcou9m9Q4Be91VwxhMnYV99LvfAzK2dP0ibmjVS3QumE6DycRl1pGhrZBMIGcfso7DFQAW20p6Hj+dRI8sZC3RO5vDw1fmaHPYXE8mo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fpond.eu; spf=none smtp.mailfrom=fpond.eu; dkim=pass (2048-bit key) header.d=fpond.eu header.i=@fpond.eu header.b=A81QSQlo; dkim=permerror (0-bit key) header.d=fpond.eu header.i=@fpond.eu header.b=Y34JbuJf; arc=pass smtp.client-ip=85.215.255.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fpond.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fpond.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1C753371
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 13:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706795821; cv=none; b=nZDXsG8zMvXGDeXbIPTf+1gQLUuwFzJtxL1VzMxvJXB2AujjUB2ovrhRwNjiT/jy6pSgUy9A/LnA/xTBMLp1EfWF3nsf9db5avJ6LwQgn5KQhDaidaK9sGaae+p7UEi+T2qXLOqkm1DrDOGx7MAI1FLEzzSrUFGMsU9v+I0EAPY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706795821; c=relaxed/simple;
+	bh=MeIwhbU7RdeKNQ2I71iqVFsmHLqbf4g5xTYiB3md5f4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CyoVWsUtopORkOAYMM1bTqcX2bkI/BNI5ESKy71T7VdXQ1DLteLljKRR1MPWQ6j6X7MbPK/UWu19T5JPmoh5jwF35KmwNsK/VBLEB/ka/vaMLGEhNiFPZJhS9UBsg67T8B9icrgFxkT+Y2KVEpRyEwPlHmz0j0ycHCYTmuB/uv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lIIMSscv; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fpond.eu header.i=@fpond.eu header.b="A81QSQlo";
-	dkim=permerror (0-bit key) header.d=fpond.eu header.i=@fpond.eu header.b="Y34JbuJf"
-ARC-Seal: i=1; a=rsa-sha256; t=1706777587; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=aGqaClWDZ04YEZ0H7kEIwmAo8HXGT/W4jcnRTrhbOkFKFXrAlGJwNTe0z5Tru4E2Hs
-    uQvbZr20KSZ3zlRYjvDITrqpoedVfOvv+eveN1vygzcV+YisYH4fleD5pEH+n9McI6r4
-    01c5hBZmTXbAIUdiNNS24thlVbJ9LaMqtRAJomt43Orw1zNCrWoAhcEBMZIpIwmF9Acq
-    wQSN9xlAJ0cjSlu7oRxZizymeUxaJKZn/6RQwjZAIpyLkL6z8n+rkvUbPMymQOOhc5cr
-    e1tOGdh9uo+sVGkhoyqghN74oUn/n8FK2CjtV274KqrBXMzbjMVoZs++C3Q4sN8ov/oe
-    ATmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1706777587;
-    s=strato-dkim-0002; d=strato.com;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=XEWKbrJ4Ju5v5XkogFn/xqRh6pzfYxtWAXoYSf99EW0=;
-    b=eE+6nzHW6PObtgPh1IMptyJAKjqHTObVATPBIT9vlCTGEyYBfiu2a7M8mbK/2yy1xH
-    c8PEUlWXXMJ4Noj/cnRZJkHpanXcJUUVchK2pxsxzh1cjmJi+0j+inWq9S3wdsdPLUMu
-    8gQy1vQ0t685nfLg7pCj/qj/YRZ9yEtqRWpRQ/M4icwjpjLWYArDBfhUtqy7mJUlFaR5
-    KlpSv2XwAy/M33GqbmYBFzcdulIn4i5x/wlCzhaJJNgqG2MJ9E37bcxN7BX08czoC35V
-    hXRW93oX/Bkkn6Syjl9VGBHEjMenNrRdcak74RFCk5B67J7R6IuoJ5Xj+cCMaeW+voF9
-    LMtg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1706777587;
-    s=strato-dkim-0002; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=XEWKbrJ4Ju5v5XkogFn/xqRh6pzfYxtWAXoYSf99EW0=;
-    b=A81QSQloi05Gbz2YmMX9YhzrH+5XkTE3Mk46miOYn4jHfW4JJcf6I7fJ6yEVFvUKd9
-    HshVO4Sl6hCpiJdJq0+QZhDPmzr4w4XmzPGNmez0XE1nnvO6oMWJgvT9H5XeVJkD2p0I
-    gR8s0K06RI2piqu6gt1hN9s+TSYHOpSOcQg+lOPgtmxm5PlPSd2cM5yaZnY2tyyOA/ki
-    dlaHdN/In259nPE8hQB2zckfAMtkT1g+rlDAaR5F+LWHoDPyhFjKc+9iNKcL43B7cPUX
-    UyGheLiSqhr/m7UXky6x5ZCOUGDI4yLz5nB3J54lp/OjaeVhXmluyXE7wX7l83nOFUcB
-    dP5g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1706777587;
-    s=strato-dkim-0003; d=fpond.eu;
-    h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=XEWKbrJ4Ju5v5XkogFn/xqRh6pzfYxtWAXoYSf99EW0=;
-    b=Y34JbuJf3TmoevbFkPcK0Zh/Smjs8rUEhmhrJi5OloQqM4O7z6w3yPsrgXo+A73KDS
-    KaOsNspSHjJcAzatK4Dw==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvtmYHK6dxNAtycTo="
-Received: from ox-live-app304.back.ox.d0m.de
-    by smtp-ox.front (RZmta 49.11.2 AUTH)
-    with ESMTPSA id Z7ddde0118r7U6I
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Thu, 1 Feb 2024 09:53:07 +0100 (CET)
-Date: Thu, 1 Feb 2024 09:53:07 +0100 (CET)
-From: Ulrich Hecht <uli@fpond.eu>
-To: Michael Schmitz <schmitzmic@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Ulrich Hecht <uli+cip@fpond.eu>, Sasha Levin <sashal@kernel.org>
-Message-ID: <73999659.348550.1706777587689@webmail.strato.com>
-In-Reply-To: <17eb05e1-256d-d3da-5f3d-47af2fed0cf6@gmail.com>
-References: <202401302324.d3o6tgup-lkp@intel.com>
- <CAMuHMdVTHrFdrJ4x7AcAJ7Y8sY9Z4ar9e_L8Sk701dBSgGraow@mail.gmail.com>
- <40ba1136-0505-acac-05cc-0a913398330a@gmail.com>
- <8cfa0192-769a-6ef0-4b59-bcfd0eb43453@gmail.com>
- <CAMuHMdVhjCJqOpLA1VYMCLDrXVkhV6qBJzUOMVA324-UyfUxSQ@mail.gmail.com>
- <17eb05e1-256d-d3da-5f3d-47af2fed0cf6@gmail.com>
-Subject: Re: [cip:linux-4.4.y-st-rc 878/1809]
- arch/m68k/kernel/traps.c:32:10: fatal error: linux/extable.h: No such file
- or directory
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lIIMSscv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706795819; x=1738331819;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MeIwhbU7RdeKNQ2I71iqVFsmHLqbf4g5xTYiB3md5f4=;
+  b=lIIMSscvHO7O2SPAH6WH5B2wslXrdFdILh6O5L0aeoMEnkhFXnrDnPMP
+   oOdwzoMIEiqOR3MP99OvhXk7voObnn5K2r81mvEhHlnJ8/QKFkXfAXoak
+   L80ANGAsoyJkmwrSwpR4OWXsGy2ZH8fbGKVlS7k+vW354+H4g0jzxx187
+   GcO50re+vf423IwcEUiwdKfm0TyiT0P3lQLPEQHp+flAevFmRNJc2xGnq
+   tFB6USlDMXFw8MVSYsaNwhmMd2a4AF/APevsC4GfpRi3dN+/HUxYjhD/Y
+   hTgK2AdPv1mCJXA1h2uW/m1nWCJiT2EpdAX9/CR+aoF2LL4T9Kh3XTDE0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3763863"
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="3763863"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 05:56:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
+   d="scan'208";a="4388921"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 01 Feb 2024 05:56:56 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rVXYk-0002pW-1z;
+	Thu, 01 Feb 2024 13:56:54 +0000
+Date: Thu, 1 Feb 2024 21:55:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommu_cache_flush_refactor 5/8]
+ include/linux/limits.h:25:25: warning: conversion from 'long long unsigned
+ int' to 'long unsigned int' changes value from '18446744073709551615' to
+ '4294967295'
+Message-ID: <202402012159.JVcN8QDF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.6-Rev58
-X-Originating-Client: open-xchange-appsuite
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Yi,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommu_cache_flush_refactor
+head:   f2fec66c24236299f6cd347135ac7b39ee5cc555
+commit: 409be2dd13f01025d30d24b78287beaf85a02eed [5/8] iommu/vt-d: Use U64_MAX instead of -1
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240201/202402012159.JVcN8QDF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402012159.JVcN8QDF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402012159.JVcN8QDF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/overflow.h:6,
+                    from include/linux/string.h:11,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/user_32.h:5,
+                    from arch/x86/include/asm/user.h:6,
+                    from include/linux/user.h:1,
+                    from include/linux/elfcore.h:5,
+                    from include/linux/crash_core.h:6,
+                    from include/linux/kexec.h:18,
+                    from include/linux/crash_dump.h:5,
+                    from drivers/iommu/intel/iommu.c:16:
+   drivers/iommu/intel/iommu.c: In function 'intel_flush_iotlb_all':
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^~~~~~~~~~~~
+   drivers/iommu/intel/iommu.c:1450:73: note: in expansion of macro 'U64_MAX'
+    1450 |                         domain_flush_pasid_iotlb(iommu, dmar_domain, 0, U64_MAX, 0);
+         |                                                                         ^~~~~~~
+--
+   In file included from include/linux/overflow.h:6,
+                    from include/linux/string.h:11,
+                    from include/linux/uuid.h:11,
+                    from include/linux/mod_devicetable.h:14,
+                    from include/linux/cpufeature.h:12,
+                    from drivers/iommu/intel/pasid.c:13:
+   drivers/iommu/intel/pasid.c: In function 'intel_pasid_tear_down_entry':
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^~~~~~~~~~~~
+   drivers/iommu/intel/pasid.c:257:55: note: in expansion of macro 'U64_MAX'
+     257 |                 qi_flush_piotlb(iommu, did, pasid, 0, U64_MAX, 0);
+         |                                                       ^~~~~~~
+   drivers/iommu/intel/pasid.c: In function 'pasid_flush_caches':
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^~~~~~~~~~~~
+   drivers/iommu/intel/pasid.c:279:55: note: in expansion of macro 'U64_MAX'
+     279 |                 qi_flush_piotlb(iommu, did, pasid, 0, U64_MAX, 0);
+         |                                                       ^~~~~~~
+   drivers/iommu/intel/pasid.c: In function 'intel_pasid_setup_page_snoop_control':
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^~~~~~~~~~~~
+   drivers/iommu/intel/pasid.c:569:47: note: in expansion of macro 'U64_MAX'
+     569 |         qi_flush_piotlb(iommu, did, pasid, 0, U64_MAX, 0);
+         |                                               ^~~~~~~
 
 
-> On 01/31/2024 7:47 PM CET Michael Schmitz <schmitzmic@gmail.com> wrote:
-> Would adding 0ef7653797addea8 to the list of v4.4 patches be acceptable, 
-> Uli? No functional change as a result of that commit.
+vim +25 include/linux/limits.h
 
-If the issue can be fixed within arch/m68k, we would strongly prefer that, I think.
+3c9d017cc283df Andy Shevchenko 2023-08-04  14  
+54d50897d544c8 Masahiro Yamada 2019-03-07  15  #define U8_MAX		((u8)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  16  #define S8_MAX		((s8)(U8_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  17  #define S8_MIN		((s8)(-S8_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  18  #define U16_MAX		((u16)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  19  #define S16_MAX		((s16)(U16_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  20  #define S16_MIN		((s16)(-S16_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  21  #define U32_MAX		((u32)~0U)
+3f50f132d8400e John Fastabend  2020-03-30  22  #define U32_MIN		((u32)0)
+54d50897d544c8 Masahiro Yamada 2019-03-07  23  #define S32_MAX		((s32)(U32_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  24  #define S32_MIN		((s32)(-S32_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07 @25  #define U64_MAX		((u64)~0ULL)
+54d50897d544c8 Masahiro Yamada 2019-03-07  26  #define S64_MAX		((s64)(U64_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  27  #define S64_MIN		((s64)(-S64_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  28  
 
-CU
-Uli
+:::::: The code at line 25 was first introduced by commit
+:::::: 54d50897d544c874562253e2a8f70dfcad22afe8 linux/kernel.h: split *_MAX and *_MIN macros into <linux/limits.h>
+
+:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
