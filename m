@@ -1,54 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE036FBE7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 05:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDC683CDC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Feb 2024 06:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706764448; cv=none; b=QblK6lgRQDHc2a+DyKG2wh5ntpuHenmgDICP1XijqiPpP5KYYeK2/skW6rq1lKP6yYXJgzh1bdpBiPaqWke7bf/hUzzdj8fPPUnPNEePwCwe2EuSXjwcq0N1Guq+5x8Uj6+hDKAuiWRVk9kalomL4Rg2+Ids75/DhGV9JItGdmk=
+	t=1706767656; cv=none; b=qBqzrelK53kkjxAeSAsrIRtdLlSLTu4+FkfMVl2PtPhuDKY7sw95CJ+aYQMq2BvjK8Eo2913av+eOTHii06AgsSNl1aYQ5RbQnEQoq2FqZOwQXPTcQXYJRTIMKTww0YN9H3N4jrA1GBaP4dwllWE4TDndZWLTzsZQWMo3iRrDf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706764448; c=relaxed/simple;
-	bh=HCfjwX5puFC/gkXuVHpQkqUSf0tUlJ6ckQ2QRMkx1r4=;
+	s=arc-20240116; t=1706767656; c=relaxed/simple;
+	bh=btyoLan4DZL/fR6kCyTfmdeAIQy5NEIu/y+E4JnB20s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KLzpUM4aGAfF0EgE7cT5XFnpKZh+cHXHJwU+8EFbJ84jNYoNFwaCKXVPf9G3PFNGbGbmMpuew1czRCgW6FPX7bbzsINDFFAyYEgzkcfDxfZvc3CA+juXieKJRFeBipCilW8Uf8Ysr+4NnghTVzrqCQ6QMAkK0apk3U+xnT+aReA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H6dJ/iu2; arc=none smtp.client-ip=192.55.52.88
+	 Content-Disposition; b=dXoef8+U7f3bvQh/edyEEVWh3QxId5WYVeD5zRvaP0faqxTSnt8vVYplOnLXVgt72wBNyx5tYQHCaWbOLTBQkLPGb/NpIhgWxdst2ZGUa9Qb3dP1FvRypygreHPpx9dLiR4gymUX3zmbnyyDXt7pJCzuupnxpbwfkQjFBajeXF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UexocF1d; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H6dJ/iu2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UexocF1d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706764445; x=1738300445;
+  t=1706767654; x=1738303654;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HCfjwX5puFC/gkXuVHpQkqUSf0tUlJ6ckQ2QRMkx1r4=;
-  b=H6dJ/iu29WgKrM2TxXtDyciWcPw3u6Wt/+GubPs8iHwBJTjcDBaxIFRx
-   I3/d5swlRRG9RIArGyISxW49c52ouj5QHkzf3xdDvMoZmZJjk+a9fth4z
-   rNUwWzIV4uHYjyq420W2xA4/od+rQukUKCMEC7/Z97VOMzealE18urDEh
-   Jyt+a/r7MwzzfMR5HXV52pDoLdtY0Dop9bJv7GFfbG9uYZcXG7nTm7jNQ
-   Q12vmwje6ZckCBE7O0t5/HYGatrTLRheLqD+6gPQAUYo8fq2qfumb5owX
-   lNVwzxQKCz1e4avn4R+ohEDFwMm8gyJrGbrKBNgFCAU081hZjwFNL3E3b
+  bh=btyoLan4DZL/fR6kCyTfmdeAIQy5NEIu/y+E4JnB20s=;
+  b=UexocF1dYxAa4SStY0ITSS48Ebze/cs6eRuTuYxC6ipHcU/jKjDeaP2P
+   q05AASMB8SbUwhQzN0oGwdJ82gbRGlJEQXa2N/j2ecNMjH/8n6by/6t20
+   AlcFaUNWsDtCoWXNC6go54ujcoPIIbJs/AeT9O23lbn9rMdDDjN6674wz
+   GrcOpksM7z4yN5jZFvvmhf3lyHVmzZb1JQrC4PoXSbligE7rGZFU7Q+ey
+   D7N26f5/H5+fCcAuNSzQS8pFKhwOyzIenxXoZSHCjKstPDs14At5HZSGK
+   gffQbx7QB8EZiHCp9p3xjp9mZP2t38It1em4kC5huSAmfjGwKCNy3/qok
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="434975998"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="3680493"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="434975998"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 21:14:04 -0800
+   d="scan'208";a="3680493"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 22:07:34 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="912032517"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="4284631"
+   d="scan'208";a="912032517"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 31 Jan 2024 21:14:03 -0800
+  by orsmga004.jf.intel.com with ESMTP; 31 Jan 2024 22:07:31 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVPOi-0002OI-13;
-	Thu, 01 Feb 2024 05:14:00 +0000
-Date: Thu, 1 Feb 2024 13:13:55 +0800
+	id 1rVQET-0002Qg-04;
+	Thu, 01 Feb 2024 06:07:29 +0000
+Date: Thu, 1 Feb 2024 14:07:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kees:devel/overflow/helpers-only 4/5] lib/overflow_kunit.c:283:10:
- error: assignment of read-only variable '_a_orig'
-Message-ID: <202402011304.eUJzceQJ-lkp@intel.com>
+To: Nuno Sa <nuno.sa@analog.com>
+Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Alexandru Ardelean <ardeleanalex@gmail.com>
+Subject: [nsa:dev/iio-backend-axi-dds-test 15/20]
+ drivers/iio/buffer/industrialio-buffer-dmaengine.c:293: warning: Function
+ parameter or member 'dir' not described in 'devm_iio_dmaengine_buffer_setup'
+Message-ID: <202402011453.TlJkCXcT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,461 +62,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git devel/overflow/helpers-only
-head:   5cec0b3a613b7def5bea427f84c9a35aab90a141
-commit: b199023a5f46c5aca356dfa779f52384d4d22e07 [4/5] overflow: Introduce add_wrap(), sub_wrap(), and mul_wrap()
-config: i386-buildonly-randconfig-002-20240201 (https://download.01.org/0day-ci/archive/20240201/202402011304.eUJzceQJ-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011304.eUJzceQJ-lkp@intel.com/reproduce)
+tree:   https://github.com/nunojsa/linux dev/iio-backend-axi-dds-test
+head:   56a0faf5df7548936623a26c728ff3f0e970ef6a
+commit: e174cec7cad7fea60912ce9deeace5b3c7a052d9 [15/20] iio: buffer-dmaengine: Support specifying buffer direction
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240201/202402011453.TlJkCXcT-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240201/202402011453.TlJkCXcT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402011304.eUJzceQJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402011453.TlJkCXcT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   lib/overflow_kunit.c:274:41: error: increment of read-only variable '_a_orig'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |                                         ^~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:56:25: note: in expansion of macro '__is_ptr'
-      56 |  __builtin_choose_expr(!__is_ptr(x), (x), 0)
-         |                         ^~~~~~~~
-   include/linux/overflow.h:104:26: note: in expansion of macro '__filter_integral'
-     104 |   __builtin_add_overflow(__filter_integral(a), b,  \
-         |                          ^~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:377:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     377 | DEFINE_TEST_PTR_FUNC_TYPED(void_int__void, void *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:383:5: error: first argument to '__builtin_choose_expr' not a constant
-     383 |  (&*__builtin_choose_expr(__is_ptr_or_array(p), p, NULL))
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:56:25: note: in expansion of macro '__is_ptr'
-      56 |  __builtin_choose_expr(!__is_ptr(x), (x), 0)
-         |                         ^~~~~~~~
-   include/linux/overflow.h:104:26: note: in expansion of macro '__filter_integral'
-     104 |   __builtin_add_overflow(__filter_integral(a), b,  \
-         |                          ^~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:377:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     377 | DEFINE_TEST_PTR_FUNC_TYPED(void_int__void, void *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/string.h:11,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/thread_info.h:12,
-                    from include/linux/thread_info.h:60,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/kref.h:16,
-                    from include/kunit/test.h:22,
-                    from include/kunit/device.h:16,
-                    from lib/overflow_kunit.c:9:
-   lib/overflow_kunit.c:274:41: error: increment of read-only variable '_a_orig'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |                                         ^~
-   include/linux/overflow.h:56:39: note: in definition of macro '__filter_integral'
-      56 |  __builtin_choose_expr(!__is_ptr(x), (x), 0)
-         |                                       ^
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:377:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     377 | DEFINE_TEST_PTR_FUNC_TYPED(void_int__void, void *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:56:2: error: first argument to '__builtin_choose_expr' not a constant
-      56 |  __builtin_choose_expr(!__is_ptr(x), (x), 0)
-         |  ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:104:26: note: in expansion of macro '__filter_integral'
-     104 |   __builtin_add_overflow(__filter_integral(a), b,  \
-         |                          ^~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:377:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     377 | DEFINE_TEST_PTR_FUNC_TYPED(void_int__void, void *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:102:24: error: first argument to '__builtin_choose_expr' not a constant
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                        ^~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:377:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     377 | DEFINE_TEST_PTR_FUNC_TYPED(void_int__void, void *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/overflow_kunit.c:283:10: error: assignment of read-only variable '_a_orig'
-     283 |  _a_orig = a;       \
-         |          ^
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:377:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     377 | DEFINE_TEST_PTR_FUNC_TYPED(void_int__void, void *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   lib/overflow_kunit.c:285:29: error: increment of read-only variable '_a_orig'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |                             ^~
-   include/linux/compiler_types.h:376:63: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/overflow.h:102:46: note: in expansion of macro '__is_ptr'
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                                              ^~~~~~~~
-   include/linux/overflow.h:135:7: note: in expansion of macro 'check_add_overflow'
-     135 |   if (check_add_overflow(a, b, &__val)) { \
-         |       ^~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:7: note: in expansion of macro 'add_wrap'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |       ^~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:377:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     377 | DEFINE_TEST_PTR_FUNC_TYPED(void_int__void, void *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:29: error: increment of read-only variable '_a_orig'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |                             ^~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:383:27: note: in expansion of macro '__is_ptr_or_array'
-     383 |  (&*__builtin_choose_expr(__is_ptr_or_array(p), p, NULL))
-         |                           ^~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:102:46: note: in expansion of macro '__is_ptr'
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                                              ^~~~~~~~
-   include/linux/overflow.h:135:7: note: in expansion of macro 'check_add_overflow'
-     135 |   if (check_add_overflow(a, b, &__val)) { \
-         |       ^~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:7: note: in expansion of macro 'add_wrap'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |       ^~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:377:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     377 | DEFINE_TEST_PTR_FUNC_TYPED(void_int__void, void *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:29: error: increment of read-only variable '_a_orig'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |                             ^~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:102:46: note: in expansion of macro '__is_ptr'
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                                              ^~~~~~~~
-   include/linux/overflow.h:135:7: note: in expansion of macro 'check_add_overflow'
-     135 |   if (check_add_overflow(a, b, &__val)) { \
-         |       ^~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:7: note: in expansion of macro 'add_wrap'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |       ^~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:377:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     377 | DEFINE_TEST_PTR_FUNC_TYPED(void_int__void, void *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:383:5: error: first argument to '__builtin_choose_expr' not a constant
-     383 |  (&*__builtin_choose_expr(__is_ptr_or_array(p), p, NULL))
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:102:46: note: in expansion of macro '__is_ptr'
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                                              ^~~~~~~~
-   include/linux/overflow.h:135:7: note: in expansion of macro 'check_add_overflow'
-     135 |   if (check_add_overflow(a, b, &__val)) { \
-         |       ^~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:7: note: in expansion of macro 'add_wrap'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |       ^~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
---
-   lib/overflow_kunit.c:274:41: error: increment of read-only variable '_a_orig'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |                                         ^~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:56:25: note: in expansion of macro '__is_ptr'
-      56 |  __builtin_choose_expr(!__is_ptr(x), (x), 0)
-         |                         ^~~~~~~~
-   include/linux/overflow.h:104:26: note: in expansion of macro '__filter_integral'
-     104 |   __builtin_add_overflow(__filter_integral(a), b,  \
-         |                          ^~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:393:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     393 | DEFINE_TEST_PTR_FUNC_TYPED(sized_int__sized, struct _sized *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:383:5: error: first argument to '__builtin_choose_expr' not a constant
-     383 |  (&*__builtin_choose_expr(__is_ptr_or_array(p), p, NULL))
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:56:25: note: in expansion of macro '__is_ptr'
-      56 |  __builtin_choose_expr(!__is_ptr(x), (x), 0)
-         |                         ^~~~~~~~
-   include/linux/overflow.h:104:26: note: in expansion of macro '__filter_integral'
-     104 |   __builtin_add_overflow(__filter_integral(a), b,  \
-         |                          ^~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:393:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     393 | DEFINE_TEST_PTR_FUNC_TYPED(sized_int__sized, struct _sized *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/string.h:11,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/thread_info.h:12,
-                    from include/linux/thread_info.h:60,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/kref.h:16,
-                    from include/kunit/test.h:22,
-                    from include/kunit/device.h:16,
-                    from lib/overflow_kunit.c:9:
-   lib/overflow_kunit.c:274:41: error: increment of read-only variable '_a_orig'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |                                         ^~
-   include/linux/overflow.h:56:39: note: in definition of macro '__filter_integral'
-      56 |  __builtin_choose_expr(!__is_ptr(x), (x), 0)
-         |                                       ^
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:393:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     393 | DEFINE_TEST_PTR_FUNC_TYPED(sized_int__sized, struct _sized *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:56:2: error: first argument to '__builtin_choose_expr' not a constant
-      56 |  __builtin_choose_expr(!__is_ptr(x), (x), 0)
-         |  ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:104:26: note: in expansion of macro '__filter_integral'
-     104 |   __builtin_add_overflow(__filter_integral(a), b,  \
-         |                          ^~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:393:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     393 | DEFINE_TEST_PTR_FUNC_TYPED(sized_int__sized, struct _sized *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:102:24: error: first argument to '__builtin_choose_expr' not a constant
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                        ^~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:274:8: note: in expansion of macro 'check_add_overflow'
-     274 |  _of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r); \
-         |        ^~~~~~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:393:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     393 | DEFINE_TEST_PTR_FUNC_TYPED(sized_int__sized, struct _sized *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/overflow_kunit.c:283:10: error: assignment of read-only variable '_a_orig'
-     283 |  _a_orig = a;       \
-         |          ^
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:393:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     393 | DEFINE_TEST_PTR_FUNC_TYPED(sized_int__sized, struct _sized *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   lib/overflow_kunit.c:285:29: error: increment of read-only variable '_a_orig'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |                             ^~
-   include/linux/compiler_types.h:376:63: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                               ^
-   include/linux/overflow.h:102:46: note: in expansion of macro '__is_ptr'
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                                              ^~~~~~~~
-   include/linux/overflow.h:135:7: note: in expansion of macro 'check_add_overflow'
-     135 |   if (check_add_overflow(a, b, &__val)) { \
-         |       ^~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:7: note: in expansion of macro 'add_wrap'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |       ^~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:393:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     393 | DEFINE_TEST_PTR_FUNC_TYPED(sized_int__sized, struct _sized *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:29: error: increment of read-only variable '_a_orig'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |                             ^~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:383:27: note: in expansion of macro '__is_ptr_or_array'
-     383 |  (&*__builtin_choose_expr(__is_ptr_or_array(p), p, NULL))
-         |                           ^~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:102:46: note: in expansion of macro '__is_ptr'
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                                              ^~~~~~~~
-   include/linux/overflow.h:135:7: note: in expansion of macro 'check_add_overflow'
-     135 |   if (check_add_overflow(a, b, &__val)) { \
-         |       ^~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:7: note: in expansion of macro 'add_wrap'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |       ^~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:393:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     393 | DEFINE_TEST_PTR_FUNC_TYPED(sized_int__sized, struct _sized *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:29: error: increment of read-only variable '_a_orig'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |                             ^~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:102:46: note: in expansion of macro '__is_ptr'
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                                              ^~~~~~~~
-   include/linux/overflow.h:135:7: note: in expansion of macro 'check_add_overflow'
-     135 |   if (check_add_overflow(a, b, &__val)) { \
-         |       ^~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:7: note: in expansion of macro 'add_wrap'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |       ^~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-     358 |  check_one_op(t, fmt, add, "+", p->a, p->b, p->sum, p->s_of);\
-         |  ^~~~~~~~~~~~
-   lib/overflow_kunit.c:393:1: note: in expansion of macro 'DEFINE_TEST_PTR_FUNC_TYPED'
-     393 | DEFINE_TEST_PTR_FUNC_TYPED(sized_int__sized, struct _sized *, "%lx");
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:383:5: error: first argument to '__builtin_choose_expr' not a constant
-     383 |  (&*__builtin_choose_expr(__is_ptr_or_array(p), p, NULL))
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:74: note: in definition of macro '__same_type'
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler_types.h:386:37: note: in expansion of macro '__decay'
-     386 | #define __is_ptr(p)  __same_type(p, __decay(p))
-         |                                     ^~~~~~~
-   include/linux/overflow.h:102:46: note: in expansion of macro '__is_ptr'
-     102 |  __must_check_overflow(__builtin_choose_expr(__is_ptr(a), \
-         |                                              ^~~~~~~~
-   include/linux/overflow.h:135:7: note: in expansion of macro 'check_add_overflow'
-     135 |   if (check_add_overflow(a, b, &__val)) { \
-         |       ^~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:285:7: note: in expansion of macro 'add_wrap'
-     285 |  _r = op ## _wrap(t, _a_orig++, _b_orig++);   \
-         |       ^~
-   lib/overflow_kunit.c:358:2: note: in expansion of macro 'check_one_op'
-..
+>> drivers/iio/buffer/industrialio-buffer-dmaengine.c:293: warning: Function parameter or member 'dir' not described in 'devm_iio_dmaengine_buffer_setup'
 
 
-vim +/_a_orig +283 lib/overflow_kunit.c
+vim +293 drivers/iio/buffer/industrialio-buffer-dmaengine.c
 
-   257	
-   258	#define check_one_op(t, fmt, op, sym, a, b, r, of) do {			\
-   259		typeof(a + 0) _a_orig = a;					\
-   260		typeof(a + 0) _a_bump = a + 1;					\
-   261		typeof(b + 0) _b_orig = b;					\
-   262		typeof(b + 0) _b_bump = b + 1;					\
-   263		bool _of;							\
-   264		t _r;								\
-   265										\
-   266		_of = check_ ## op ## _overflow(a, b, &_r);			\
-   267		KUNIT_EXPECT_EQ_MSG(test, _of, of,				\
-   268			"expected "fmt" "sym" "fmt" to%s overflow (type %s)\n",	\
-   269			a, b, of ? "" : " not", #t);				\
-   270		KUNIT_EXPECT_TRUE_MSG(test, _r == r,				\
-   271			"expected "fmt" "sym" "fmt" == "fmt", got "fmt" (type %s)\n", \
-   272			a, b, r, _r, #t);					\
-   273		/* Check for internal macro side-effects. */			\
-   274		_of = check_ ## op ## _overflow(_a_orig++, _b_orig++, &_r);	\
-   275		KUNIT_EXPECT_TRUE_MSG(test, _a_orig == _a_bump, "Unexpected " #op " macro side-effect!\n"); \
-   276		KUNIT_EXPECT_TRUE_MSG(test, _b_orig == _b_bump, "Unexpected " #op " macro side-effect!\n"); \
-   277										\
-   278		_r = op ## _wrap(t, a, b);					\
-   279		KUNIT_EXPECT_TRUE_MSG(test, _r == r,				\
-   280			"expected "fmt" "sym" "fmt" == "fmt", got "fmt" (type %s)\n", \
-   281			a, b, r, _r, #t);					\
-   282		/* Check for internal macro side-effects. */			\
- > 283		_a_orig = a;							\
-   284		_b_orig = b;							\
-   285		_r = op ## _wrap(t, _a_orig++, _b_orig++);			\
-   286		KUNIT_EXPECT_TRUE_MSG(test, _a_orig == _a_bump, "Unexpected " #op " macro side-effect!\n"); \
-   287		KUNIT_EXPECT_TRUE_MSG(test, _b_orig == _b_bump, "Unexpected " #op " macro side-effect!\n"); \
-   288	} while (0)
-   289	
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  277  
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  278  /**
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  279   * devm_iio_dmaengine_buffer_setup() - Setup a DMA buffer for an IIO device
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  280   * @dev: Parent device for the buffer
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  281   * @indio_dev: IIO device to which to attach this buffer.
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  282   * @channel: DMA channel name, typically "rx".
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  283   *
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  284   * This allocates a new IIO buffer with devm_iio_dmaengine_buffer_alloc()
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  285   * and attaches it to an IIO device with iio_device_attach_buffer().
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  286   * It also appends the INDIO_BUFFER_HARDWARE mode to the supported modes of the
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  287   * IIO device.
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  288   */
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  289  int devm_iio_dmaengine_buffer_setup(struct device *dev,
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  290  				    struct iio_dev *indio_dev,
+e174cec7cad7fea Nuno Sa            2024-01-26  291  				    const char *channel,
+e174cec7cad7fea Nuno Sa            2024-01-26  292  				    enum iio_buffer_direction dir)
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15 @293  {
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  294  	struct iio_buffer *buffer;
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  295  
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  296  	buffer = devm_iio_dmaengine_buffer_alloc(indio_dev->dev.parent,
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  297  						 channel);
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  298  	if (IS_ERR(buffer))
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  299  		return PTR_ERR(buffer);
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  300  
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  301  	indio_dev->modes |= INDIO_BUFFER_HARDWARE;
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  302  
+e174cec7cad7fea Nuno Sa            2024-01-26  303  	buffer->direction = dir;
+e174cec7cad7fea Nuno Sa            2024-01-26  304  
+ee708e6baacd3af Alexandru Ardelean 2021-02-15  305  	return iio_device_attach_buffer(indio_dev, buffer);
+a02c09e42b3ed6c Alexandru Ardelean 2021-02-15  306  }
+dc6184a0ea96934 Nuno Sa            2024-01-23  307  EXPORT_SYMBOL_NS_GPL(devm_iio_dmaengine_buffer_setup, IIO_DMAENGINE_BUFFER);
+e0fcca9fbd99e95 Alexandru Ardelean 2020-03-24  308  
+
+:::::: The code at line 293 was first introduced by commit
+:::::: a02c09e42b3ed6cefae671e302835f1f04bf474e iio: buffer-dma,adi-axi-adc: introduce devm_iio_dmaengine_buffer_setup()
+
+:::::: TO: Alexandru Ardelean <alexandru.ardelean@analog.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
