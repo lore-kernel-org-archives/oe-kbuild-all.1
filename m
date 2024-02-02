@@ -1,62 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7085914A4E6;
-	Fri,  2 Feb 2024 17:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C65F14A4DA;
+	Fri,  2 Feb 2024 17:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706895032; cv=none; b=XR6DkHANx4gYO49L1rZZxechxS+1ClTe11H31PNVoAMCvU4fZKxCtLYvZMT5bKaAcuOsPgRYIoRzCSYfXrHd9h3//cvUUcL+qbcNjCqqb2W70R7j8F6d40pfb1aGdchYTApRXuTz7IcgW9s7DHmCFYujcYzYTnMvYt1mlZFla60=
+	t=1706895032; cv=none; b=ojKex3A43oF6nND7URAbFFmZrMkluY7vMOaU6rLjbJNdD+aAkrK8QowE3XAWSAQNGaV7Yh2dqXdVOfq3p1khXel6NR5HS+jS+05QUqkyVDTJ3fxJWEPYvXioQsLnqGekuT9666P6noGUPSBlpMTqIk4MT02EgiTuODLlxScOdgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1706895032; c=relaxed/simple;
-	bh=xVKQWBX8NhZBQTbsM4raS0q5/TbgyghNBv1ox3T5rSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jVSH+mKQ1/ipfyFaHba2vhS1650CfbZ2qM1BFCqkV8UUMFN4pWxdTe2AyHDoyedxG0O+qGpn66taWCgH9YA0RaHVXNTNv45yb7o+PKDuADzMPKcVUdlHadPqEaS2ZxxBMw9n4XHM9onj5UloT5C6yR0+jXROKRsozm/qkxc91Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VffX/ZRJ; arc=none smtp.client-ip=192.55.52.88
+	bh=hc4+mX/Qq785OMnsFXt5NC8kmZObcUqMz13vZkJzH80=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CiITVeIZ8mR8Lpf6ZycjjJoXLpa/NnZ8dPNnnqJTKiQrYyj/1lEt5F6kjO06kKD9z8zJ5Wq7jCCqSkOd00X1HDxZMuMgbH6jDHXMsxBQIIG0NDGCxHrCOlXswvwPdt94rTLe/euAZN1A51Z8tbYBL45D5dAlgXR9eegoGGVk4K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nR3UmXL1; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VffX/ZRJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nR3UmXL1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706895030; x=1738431030;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xVKQWBX8NhZBQTbsM4raS0q5/TbgyghNBv1ox3T5rSo=;
-  b=VffX/ZRJ5FlWbzsp/REWCMkceWNwhzyy4wpUUDjJnRsjykHrQaYG2/fh
-   TU+cR2NrV4Xzb1whQzv7QlNXfe30ADeQn/TPLNBkSqhxzStcaoBIuwNDd
-   k2+lTJkoZGm+MJ63NIOyRT18b+2n1HTmrjDwwul2GcaAFgdN7xlyCMKAT
-   BgnrczRNPXDYkCeF17Bv21YfF0vBldTn00X2+2Zego3lbTC7HDA9oivow
-   yAx/Rn5uwaO4uF1AhlhMQMBL87V3NDGX2id3Tn4Y11mod8/20vxX4G4kA
-   mWBK+5Gx4P8l7NYVNjpAky59vzeWQNbMeKWkWgITcpyC++1Iz27P89S7p
+  t=1706895029; x=1738431029;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=hc4+mX/Qq785OMnsFXt5NC8kmZObcUqMz13vZkJzH80=;
+  b=nR3UmXL1pFbMwvf+C9wGoF2ovakRONGC4F08zFJzIoyGNiVS5iw7Xvsg
+   RMs5yzrUBB42WULBVJ0/hRjUtwndpTnS8mERaERFs615uDsSq/pRjjm07
+   U1HbFXG3v3FQDC7/VyFffKQtpm4UYBbv00wTIrWvky/ER1XV/4jH6Krvb
+   dwY7fyy7Hrdlu8PyNtLVoCyGQPa1t4EESBFrUt6B5yWQyqJLyIG2UiEDw
+   i4wdDTZfBlbFc51Hdp0RaCLELkD732x20vGmF1pavxEIgVJbrpNh5ucYe
+   5ZjrKGvj8dqQfgtixI0WENJqVaRFgfxKxryJbRDywR0+N6lh43xr4w9fF
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="435341922"
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="11565240"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="435341922"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 09:30:29 -0800
+   d="scan'208";a="11565240"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 09:30:28 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="127617"
+   d="scan'208";a="118136"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 02 Feb 2024 09:30:24 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 02 Feb 2024 09:30:27 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVxMq-00046g-2c;
-	Fri, 02 Feb 2024 17:30:21 +0000
-Date: Sat, 3 Feb 2024 01:29:51 +0800
+	id 1rVxMs-00046j-1C;
+	Fri, 02 Feb 2024 17:30:23 +0000
+Date: Sat, 3 Feb 2024 01:29:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, ilpo.jarvinen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, Frank.Li@nxp.com,
-	alexandre.belloni@bootlin.com, conor.culhane@silvaco.com,
-	devicetree@vger.kernel.org, gregkh@linuxfoundation.org,
-	imx@lists.linux.dev, jirislaby@kernel.org, joe@perches.com,
-	krzysztof.kozlowski+dt@linaro.org, krzysztof.kozlowski@linaro.org,
-	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, miquel.raynal@bootlin.com,
-	robh@kernel.org, zbigniew.lukwinski@linux.intel.com
-Subject: Re: [PATCH v5 1/8] i3c: add target mode support
-Message-ID: <202402030100.hmViPmOK-lkp@intel.com>
-References: <20240129195321.229867-2-Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [ardb:x86-pie-for-sev-v4 12/21] vmlinux.o: warning: objtool:
+ cr4_init_shadow+0x0: stack state mismatch: cfa1=4+8 cfa2=-1+0
+Message-ID: <202402030124.2ATrwQC8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,128 +56,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240129195321.229867-2-Frank.Li@nxp.com>
 
-Hi Frank,
+TO: Ard Biesheuvel <ardb@kernel.org>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus robh/for-next linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/i3c-add-target-mode-support/20240130-035826
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20240129195321.229867-2-Frank.Li%40nxp.com
-patch subject: [PATCH v5 1/8] i3c: add target mode support
-config: x86_64-randconfig-104-20240202 (https://download.01.org/0day-ci/archive/20240203/202402030100.hmViPmOK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030100.hmViPmOK-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-for-sev-v4
+head:   a2c57e6c70798f62230ccdc90e6a5fd6799489ea
+commit: fd4f7a550c99eb7f5e414ab9bdbbba3d578f7f8b [12/21] x86/head64: Move early startup code into __pitext
+config: x86_64-buildonly-randconfig-001-20240202 (https://download.01.org/0day-ci/archive/20240203/202402030124.2ATrwQC8-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030124.2ATrwQC8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030100.hmViPmOK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402030124.2ATrwQC8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/i3c/target.o: in function `i3c_target_ctrl_destroy':
->> drivers/i3c/target.c:182: undefined reference to `i3c_target_cfs_remove_ctrl_group'
-   ld: drivers/i3c/target.o: in function `__i3c_target_func_register_driver':
->> drivers/i3c/target.c:406: undefined reference to `i3c_target_cfs_add_func_group'
-   ld: drivers/i3c/target.o: in function `__i3c_target_ctrl_create':
->> drivers/i3c/target.c:141: undefined reference to `i3c_target_cfs_add_ctrl_group'
-   ld: drivers/i3c/target.o: in function `i3c_target_ctrl_destroy':
->> drivers/i3c/target.c:182: undefined reference to `i3c_target_cfs_remove_ctrl_group'
+>> vmlinux.o: warning: objtool: cr4_init_shadow+0x0: stack state mismatch: cfa1=4+8 cfa2=-1+0
 
 
-vim +182 drivers/i3c/target.c
-
-   104	
-   105	/**
-   106	 * __i3c_target_ctrl_create() - create a new target controller device
-   107	 * @dev: device that is creating the new target controller
-   108	 * @ops: function pointers for performing target controller  operations
-   109	 * @owner: the owner of the module that creates the target controller device
-   110	 *
-   111	 * Return: Pointer to struct i3c_target_ctrl
-   112	 */
-   113	struct i3c_target_ctrl *
-   114	__i3c_target_ctrl_create(struct device *dev, const struct i3c_target_ctrl_ops *ops,
-   115				struct module *owner)
-   116	{
-   117		struct i3c_target_ctrl *ctrl;
-   118		int ret;
-   119	
-   120		if (WARN_ON(!dev))
-   121			return ERR_PTR(-EINVAL);
-   122	
-   123		ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
-   124		if (!ctrl)
-   125			return ERR_PTR(-ENOMEM);
-   126	
-   127		device_initialize(&ctrl->dev);
-   128		ctrl->dev.class = i3c_target_ctrl_class;
-   129		ctrl->dev.parent = dev;
-   130		ctrl->dev.release = i3c_target_ctrl_release;
-   131		ctrl->ops = ops;
-   132	
-   133		ret = dev_set_name(&ctrl->dev, "%s", dev_name(dev));
-   134		if (ret)
-   135			goto put_dev;
-   136	
-   137		ret = device_add(&ctrl->dev);
-   138		if (ret)
-   139			goto put_dev;
-   140	
- > 141		ctrl->group = i3c_target_cfs_add_ctrl_group(ctrl);
-   142		if (!ctrl->group)
-   143			goto put_dev;
-   144	
-   145		return ctrl;
-   146	
-   147	put_dev:
-   148		put_device(&ctrl->dev);
-   149		kfree(ctrl);
-   150	
-   151		return ERR_PTR(ret);
-   152	}
-   153	EXPORT_SYMBOL_GPL(__i3c_target_ctrl_create);
-   154	
-   155	/**
-   156	 * devm_i3c_target_ctrl_destroy() - destroy the target controller device
-   157	 * @dev: device that hat has to be destroy
-   158	 * @ctrl: the target controller device that has to be destroy
-   159	 *
-   160	 * Invoke to create a new target controller device and add it to i3c_target class. While at that, it
-   161	 * also associates the device with the i3c_target using devres. On driver detach, release function
-   162	 * is invoked on the devres data, then devres data is freed.
-   163	 */
-   164	void devm_i3c_target_ctrl_destroy(struct device *dev, struct i3c_target_ctrl *ctrl)
-   165	{
-   166		int r;
-   167	
-   168		r = devres_destroy(dev, devm_i3c_target_ctrl_release, devm_i3c_target_ctrl_match,
-   169				   ctrl);
-   170		dev_WARN_ONCE(dev, r, "couldn't find I3C controller resource\n");
-   171	}
-   172	EXPORT_SYMBOL_GPL(devm_i3c_target_ctrl_destroy);
-   173	
-   174	/**
-   175	 * i3c_target_ctrl_destroy() - destroy the target controller device
-   176	 * @ctrl: the target controller device that has to be destroyed
-   177	 *
-   178	 * Invoke to destroy the I3C target device
-   179	 */
-   180	void i3c_target_ctrl_destroy(struct i3c_target_ctrl *ctrl)
-   181	{
- > 182		i3c_target_cfs_remove_ctrl_group(ctrl->group);
-   183		device_unregister(&ctrl->dev);
-   184	}
-   185	EXPORT_SYMBOL_GPL(i3c_target_ctrl_destroy);
-   186	
+objdump-func vmlinux.o cr4_init_shadow:
+0000 00000000001a3640 <cr4_init_shadow>:
+0000   1a3640:	0f 20 e0             	mov    %cr4,%rax
+0003   1a3643:	65 48 89 05 00 00 00 00 	mov    %rax,%gs:0x0(%rip)        # 1a364b <cr4_init_shadow+0xb>	1a3647: R_X86_64_PC32	cpu_tlbstate+0x14
+000b   1a364b:	c3                   	ret
+000c   1a364c:	cc                   	int3
+000d   1a364d:	66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+001c   1a365c:	66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+002b   1a366b:	66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+003a   1a367a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
 
 -- 
 0-DAY CI Kernel Test Service
