@@ -1,63 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBFD8062B;
-	Fri,  2 Feb 2024 21:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC5A8175F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 21:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706908752; cv=none; b=nFAhbTaUrcP3iY3Ek6P/5npNC6d75PcrnsW57BZPZkDY1n8ktlUQa010dr8HsEhi+AEb0N1gVWLLxY9qa3WCjq3Em/dWgd6puhzTbNaUyhIqQ3ti6b7yYi2/z6bjpcdyJgpo1sEcc2PxcBkuCZS5TH+xMbQer9fXq6gF9cmjFOA=
+	t=1706909472; cv=none; b=uJ3YIXQCX0NhmrCIlZ47IzDIwiQysy8cVzhcbtv0Tp6kZOoQwlW5vbGTouydPrGzpb2B2zm8aGTTaj3uBU+oudBjMlSLC3RxirX+eSHkuU95/0ILioStM7Tg5/844eh5LP0m01YXFYXOUJUp6HIQOEaShdKaTyV7nst7deS0jGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706908752; c=relaxed/simple;
-	bh=5ksOdQd8ghM9qXKkEiudkWeCW/Mz361KuBeBg2gzM/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b9P8XMFVK/LhUBMbqRThuc93AHm1GSLlEGt24sQz4T+7icI+KBJG3f2NpMmXj+EdL2PKZOMQwlYAy4kiIV/xWwZXTSyR527amOZIa4Y9EQeYc0/J+ZjVELw0ln6Sa6riGpnWH9IykjX2rPOTZ+OBsrPds7AbsObGsT7eg3Oo6c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nNqU9s23; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1706909472; c=relaxed/simple;
+	bh=wN2rzMgn+iJjgN4+LMt4pdQHnxkBZthLEK0/yPKCKfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fSMjzuq4LLgkhGrwa/xBH1XCUVbMkEp04ujuq9SlOAHFae607ZZtC0m0GEAaewN9MlgZfXxS/4FFiwb+8XLKUJHiW3xAnJy5lh5coN8PbeTh89Bz0acjZRkFN/gjI2cmR345IgKe9zfUABbLkQSiwpGm65JC/xFLJZgoDiZ/cmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibUho1Q/; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nNqU9s23"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibUho1Q/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706908751; x=1738444751;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5ksOdQd8ghM9qXKkEiudkWeCW/Mz361KuBeBg2gzM/4=;
-  b=nNqU9s23ItmdisKaKf6tshjaRnar2k4cqBurHtmJM/PRlsi9PVTpPCy8
-   R4SbTCGeVIvDKX+cC98Kkq5eBE/8Q3dHM1vlWIUGoLAT4ToES0HLvkzLt
-   nQkn3Ymt+qsA62Ar9ieVsFUp8hu7P/G8/nvdBeV94MUcxlGdLQ0GdkwTU
-   cbZgcVxhE9cielIJcmpVB6m2L5SSOC8TCMb8KcBQAAUzu5RnUdsNUPFxs
-   D2LCCsYMb+VfchzPpZMCiHA/dUueB5vvOjOSFc8vbM4rkXNeemTu1J6UM
-   YsCUVhJbrdxGUfMiBKwUJfjJaJ4xnjjnURwZspvH4rLvvIML09pSbpRr5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="148406"
+  t=1706909470; x=1738445470;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wN2rzMgn+iJjgN4+LMt4pdQHnxkBZthLEK0/yPKCKfA=;
+  b=ibUho1Q/ljCedjVNhNRx7weHD10u5mk6EOA/OJshz00Y2z9Rn/+tYL9D
+   QEdRPaVJKWgNXvQetRpPu4Wgym0Q+E6xBZ/Iha2svQbqoc8JISVrVtfKy
+   GLaNm/uzV/+bsLMUzHJqBucwq4SxlFBktUUCthZqqSe+4ue4Ygt2sBh1z
+   hKlatGs6TeFu66D77jIYqNSLSWFmsEmAn4SytpV4ow5cmosyulO88wRia
+   DrF7ONIjVeLNBFU4jshr4WAhdmXjxjI/CLFm59ebF3xsUWZa6tD4a7wbh
+   peF/CESmXGSF1TpBIQwY/PutXr9w9nqm4zZVP5RKuzy19JAkd2LAp7oP/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="17659905"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="148406"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 13:19:10 -0800
+   d="scan'208";a="17659905"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 13:31:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="932581866"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="932581866"
+   d="scan'208";a="185997"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2024 13:19:05 -0800
+  by orviesa010.jf.intel.com with ESMTP; 02 Feb 2024 13:31:06 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rW0wB-0004H0-1Q;
-	Fri, 02 Feb 2024 21:19:03 +0000
-Date: Sat, 3 Feb 2024 05:18:51 +0800
+	id 1rW17n-0004HE-1v;
+	Fri, 02 Feb 2024 21:31:03 +0000
+Date: Sat, 3 Feb 2024 05:30:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, ilpo.jarvinen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, Frank.Li@nxp.com,
-	alexandre.belloni@bootlin.com, conor.culhane@silvaco.com,
-	devicetree@vger.kernel.org, gregkh@linuxfoundation.org,
-	imx@lists.linux.dev, jirislaby@kernel.org, joe@perches.com,
-	krzysztof.kozlowski+dt@linaro.org, krzysztof.kozlowski@linaro.org,
-	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, miquel.raynal@bootlin.com,
-	robh@kernel.org, zbigniew.lukwinski@linux.intel.com
-Subject: Re: [PATCH v5 1/8] i3c: add target mode support
-Message-ID: <202402030437.GdGCrKeK-lkp@intel.com>
-References: <20240129195321.229867-2-Frank.Li@nxp.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.8-rc2-esp32 21/44]
+ include/linux/device.h:381:23: sparse: sparse: incorrect type in return
+ expression (different address spaces)
+Message-ID: <202402030503.M7AdbycV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,45 +58,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240129195321.229867-2-Frank.Li@nxp.com>
 
-Hi Frank,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus robh/for-next linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/i3c-add-target-mode-support/20240130-035826
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20240129195321.229867-2-Frank.Li%40nxp.com
-patch subject: [PATCH v5 1/8] i3c: add target mode support
-config: sh-randconfig-r122-20240202 (https://download.01.org/0day-ci/archive/20240203/202402030437.GdGCrKeK-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240203/202402030437.GdGCrKeK-lkp@intel.com/reproduce)
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.8-rc2-esp32
+head:   b25ff15921c2ce0b8abd0f2797f4942a28866d9e
+commit: 1d4c0e9d617182a90eb506db56bff1b70f01c2ed [21/44] drivers/mtd: add esp32 MTD support
+config: s390-randconfig-r133-20240202 (https://download.01.org/0day-ci/archive/20240203/202402030503.M7AdbycV-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
+reproduce: (https://download.01.org/0day-ci/archive/20240203/202402030503.M7AdbycV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030437.GdGCrKeK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402030503.M7AdbycV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/misc/esp32-ipc.c: note: in included file (through include/linux/platform_device.h):
+>> include/linux/device.h:381:23: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   include/linux/device.h:381:23: sparse:     expected void [noderef] __iomem *
+   include/linux/device.h:381:23: sparse:     got void *
+>> include/linux/device.h:381:23: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   include/linux/device.h:381:23: sparse:     expected void [noderef] __iomem *
+   include/linux/device.h:381:23: sparse:     got void *
 
-   sh4-linux-ld: drivers/i3c/target.o: in function `i3c_target_ctrl_destroy':
->> target.c:(.text+0x264): undefined reference to `i3c_target_cfs_remove_ctrl_group'
-   sh4-linux-ld: drivers/i3c/target.o: in function `__i3c_target_func_register_driver':
->> target.c:(.text+0x4bc): undefined reference to `i3c_target_cfs_add_func_group'
-   sh4-linux-ld: drivers/i3c/target.o: in function `__i3c_target_ctrl_create':
->> target.c:(.text+0x778): undefined reference to `i3c_target_cfs_add_ctrl_group'
-   sh4-linux-ld: drivers/i3c/target.o: in function `devm_i3c_target_ctrl_release':
-   target.c:(.text+0x7b8): undefined reference to `i3c_target_cfs_remove_ctrl_group'
-   sh4-linux-ld: drivers/media/i2c/tc358746.o: in function `tc358746_probe':
-   tc358746.c:(.text+0x17c4): undefined reference to `devm_clk_hw_register'
-   sh4-linux-ld: tc358746.c:(.text+0x17c8): undefined reference to `devm_of_clk_add_hw_provider'
-   sh4-linux-ld: tc358746.c:(.text+0x17cc): undefined reference to `of_clk_hw_simple_get'
+vim +381 include/linux/device.h
+
+da7c07b1083809 Mark Brown 2023-07-18  375  
+da7c07b1083809 Mark Brown 2023-07-18  376  static inline
+da7c07b1083809 Mark Brown 2023-07-18  377  void __iomem *devm_of_iomap(struct device *dev,
+da7c07b1083809 Mark Brown 2023-07-18  378  			    struct device_node *node, int index,
+da7c07b1083809 Mark Brown 2023-07-18  379  			    resource_size_t *size)
+da7c07b1083809 Mark Brown 2023-07-18  380  {
+da7c07b1083809 Mark Brown 2023-07-18 @381  	return ERR_PTR(-EINVAL);
+da7c07b1083809 Mark Brown 2023-07-18  382  }
+da7c07b1083809 Mark Brown 2023-07-18  383  
+
+:::::: The code at line 381 was first introduced by commit
+:::::: da7c07b1083809888c82522e74370f962fb7685e driver core: Provide stubs for !IOMEM builds
+
+:::::: TO: Mark Brown <broonie@kernel.org>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
