@@ -1,81 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24D28060E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 21:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBFD8062B;
+	Fri,  2 Feb 2024 21:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706908154; cv=none; b=jngvh3HBgOCNYfFaDriJaWV/7riB6YW3YPCCgHM0BdtxSv0q0BQ/1jgVV9eLTwO5G9lWwxUmnmzM0SKxHws8cN+RHLergLrC1SaXEC8CfPnbzztzeWID3k141j1JqK12PYABa/OdGeEa9/Jjb4+EyRJs0n8MeJpfIZpm48YLtcc=
+	t=1706908752; cv=none; b=nFAhbTaUrcP3iY3Ek6P/5npNC6d75PcrnsW57BZPZkDY1n8ktlUQa010dr8HsEhi+AEb0N1gVWLLxY9qa3WCjq3Em/dWgd6puhzTbNaUyhIqQ3ti6b7yYi2/z6bjpcdyJgpo1sEcc2PxcBkuCZS5TH+xMbQer9fXq6gF9cmjFOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706908154; c=relaxed/simple;
-	bh=hxd5d2XNTGe78cj97Hq4bIzwkO2DBjwVeHtJXRjHd3E=;
+	s=arc-20240116; t=1706908752; c=relaxed/simple;
+	bh=5ksOdQd8ghM9qXKkEiudkWeCW/Mz361KuBeBg2gzM/4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nwu3RnPdQU6fZBtblsXnJSULQZsC8EsHzjPVGHM10QLIO0pvejgeSq0IZiV6Vwlw9AHSsMDjvXfPq2gMw/JUWUqHopWCoYu/PrAT5GzlgtnK7RZLPLpstT0W+2oCAv7UdsZCzwWZUC8AmQBOmoobZT10EobUCd8DsYt4IaZUFqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CMXPHaZw; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=b9P8XMFVK/LhUBMbqRThuc93AHm1GSLlEGt24sQz4T+7icI+KBJG3f2NpMmXj+EdL2PKZOMQwlYAy4kiIV/xWwZXTSyR527amOZIa4Y9EQeYc0/J+ZjVELw0ln6Sa6riGpnWH9IykjX2rPOTZ+OBsrPds7AbsObGsT7eg3Oo6c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nNqU9s23; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CMXPHaZw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nNqU9s23"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706908153; x=1738444153;
+  t=1706908751; x=1738444751;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hxd5d2XNTGe78cj97Hq4bIzwkO2DBjwVeHtJXRjHd3E=;
-  b=CMXPHaZwsrRMeqW1/l0S54Si3etmdD6213zGGezUK1C4XSjmKY6G6m/f
-   F4xBC7PFqshxEqUCNMfbbk7/lnSaKoLhsStV260dajy8AVpN1/YrEjS3c
-   qR8GUgBjU0UtO0Dbpn5gDq3R8MUY41xQYdXqaJPp/lZg5sZb1e7G37pTN
-   5V7xE90ai3h4dKgteZUWO8cxfKUpeEjwrfeGRtyyN7x13xsb0pP7lxDNB
-   fBcQj2z51kN7S7zj6WxcgoBveLPnBgUdzmMx+P2YftoJuI6F4c8nKS/wb
-   oDYOESk7QCFAmYsIp5E16Avm7e2rvfz53TFPfrO1igxOXDEsAqvLBqw8E
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="420256"
+  bh=5ksOdQd8ghM9qXKkEiudkWeCW/Mz361KuBeBg2gzM/4=;
+  b=nNqU9s23ItmdisKaKf6tshjaRnar2k4cqBurHtmJM/PRlsi9PVTpPCy8
+   R4SbTCGeVIvDKX+cC98Kkq5eBE/8Q3dHM1vlWIUGoLAT4ToES0HLvkzLt
+   nQkn3Ymt+qsA62Ar9ieVsFUp8hu7P/G8/nvdBeV94MUcxlGdLQ0GdkwTU
+   cbZgcVxhE9cielIJcmpVB6m2L5SSOC8TCMb8KcBQAAUzu5RnUdsNUPFxs
+   D2LCCsYMb+VfchzPpZMCiHA/dUueB5vvOjOSFc8vbM4rkXNeemTu1J6UM
+   YsCUVhJbrdxGUfMiBKwUJfjJaJ4xnjjnURwZspvH4rLvvIML09pSbpRr5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="148406"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="420256"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 13:09:12 -0800
+   d="scan'208";a="148406"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 13:19:10 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="932581866"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="4771764"
+   d="scan'208";a="932581866"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Feb 2024 13:09:05 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2024 13:19:05 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rW0mV-0004GY-0W;
-	Fri, 02 Feb 2024 21:09:03 +0000
-Date: Sat, 3 Feb 2024 05:08:39 +0800
+	id 1rW0wB-0004H0-1Q;
+	Fri, 02 Feb 2024 21:19:03 +0000
+Date: Sat, 3 Feb 2024 05:18:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] mm: ptdump: Have ptdump_check_wx() return bool
-Message-ID: <202402030403.WAFc9HZO-lkp@intel.com>
-References: <7943149fe955458cb7b57cd483bf41a3aad94684.1706610398.git.christophe.leroy@csgroup.eu>
+To: Frank Li <Frank.Li@nxp.com>, ilpo.jarvinen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, Frank.Li@nxp.com,
+	alexandre.belloni@bootlin.com, conor.culhane@silvaco.com,
+	devicetree@vger.kernel.org, gregkh@linuxfoundation.org,
+	imx@lists.linux.dev, jirislaby@kernel.org, joe@perches.com,
+	krzysztof.kozlowski+dt@linaro.org, krzysztof.kozlowski@linaro.org,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, miquel.raynal@bootlin.com,
+	robh@kernel.org, zbigniew.lukwinski@linux.intel.com
+Subject: Re: [PATCH v5 1/8] i3c: add target mode support
+Message-ID: <202402030437.GdGCrKeK-lkp@intel.com>
+References: <20240129195321.229867-2-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,82 +66,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7943149fe955458cb7b57cd483bf41a3aad94684.1706610398.git.christophe.leroy@csgroup.eu>
+In-Reply-To: <20240129195321.229867-2-Frank.Li@nxp.com>
 
-Hi Christophe,
+Hi Frank,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus robh/for-next linus/master v6.8-rc2 next-20240202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/arm-ptdump-Rename-CONFIG_DEBUG_WX-to-CONFIG_ARM_DEBUG_WX/20240130-183913
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/7943149fe955458cb7b57cd483bf41a3aad94684.1706610398.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH v2 4/5] mm: ptdump: Have ptdump_check_wx() return bool
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240203/202402030403.WAFc9HZO-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030403.WAFc9HZO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/i3c-add-target-mode-support/20240130-035826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20240129195321.229867-2-Frank.Li%40nxp.com
+patch subject: [PATCH v5 1/8] i3c: add target mode support
+config: sh-randconfig-r122-20240202 (https://download.01.org/0day-ci/archive/20240203/202402030437.GdGCrKeK-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240203/202402030437.GdGCrKeK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030403.WAFc9HZO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402030437.GdGCrKeK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/mm/dump_pagetables.c:365:6: error: two or more data types in declaration specifiers
-     365 | bool void ptdump_walk_pgd_level_core(struct seq_file *m,
-         |      ^~~~
-   arch/x86/mm/dump_pagetables.c:365:11: warning: no previous prototype for 'ptdump_walk_pgd_level_core' [-Wmissing-prototypes]
-     365 | bool void ptdump_walk_pgd_level_core(struct seq_file *m,
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +365 arch/x86/mm/dump_pagetables.c
-
-   364	
- > 365	bool void ptdump_walk_pgd_level_core(struct seq_file *m,
-   366					       struct mm_struct *mm, pgd_t *pgd,
-   367					       bool checkwx, bool dmesg)
-   368	{
-   369		const struct ptdump_range ptdump_ranges[] = {
-   370	#ifdef CONFIG_X86_64
-   371		{0, PTRS_PER_PGD * PGD_LEVEL_MULT / 2},
-   372		{GUARD_HOLE_END_ADDR, ~0UL},
-   373	#else
-   374		{0, ~0UL},
-   375	#endif
-   376		{0, 0}
-   377	};
-   378	
-   379		struct pg_state st = {
-   380			.ptdump = {
-   381				.note_page	= note_page,
-   382				.effective_prot = effective_prot,
-   383				.range		= ptdump_ranges
-   384			},
-   385			.level = -1,
-   386			.to_dmesg	= dmesg,
-   387			.check_wx	= checkwx,
-   388			.seq		= m
-   389		};
-   390	
-   391		ptdump_walk_pgd(&st.ptdump, mm, pgd);
-   392	
-   393		if (!checkwx)
-   394			return true;
-   395		if (st.wx_pages) {
-   396			pr_info("x86/mm: Checked W+X mappings: FAILED, %lu W+X pages found.\n",
-   397				st.wx_pages);
-   398	
-   399			return false;
-   400		} else {
-   401			pr_info("x86/mm: Checked W+X mappings: passed, no W+X pages found.\n");
-   402	
-   403			return true;
-   404		}
-   405	}
-   406	
+   sh4-linux-ld: drivers/i3c/target.o: in function `i3c_target_ctrl_destroy':
+>> target.c:(.text+0x264): undefined reference to `i3c_target_cfs_remove_ctrl_group'
+   sh4-linux-ld: drivers/i3c/target.o: in function `__i3c_target_func_register_driver':
+>> target.c:(.text+0x4bc): undefined reference to `i3c_target_cfs_add_func_group'
+   sh4-linux-ld: drivers/i3c/target.o: in function `__i3c_target_ctrl_create':
+>> target.c:(.text+0x778): undefined reference to `i3c_target_cfs_add_ctrl_group'
+   sh4-linux-ld: drivers/i3c/target.o: in function `devm_i3c_target_ctrl_release':
+   target.c:(.text+0x7b8): undefined reference to `i3c_target_cfs_remove_ctrl_group'
+   sh4-linux-ld: drivers/media/i2c/tc358746.o: in function `tc358746_probe':
+   tc358746.c:(.text+0x17c4): undefined reference to `devm_clk_hw_register'
+   sh4-linux-ld: tc358746.c:(.text+0x17c8): undefined reference to `devm_of_clk_add_hw_provider'
+   sh4-linux-ld: tc358746.c:(.text+0x17cc): undefined reference to `of_clk_hw_simple_get'
 
 -- 
 0-DAY CI Kernel Test Service
