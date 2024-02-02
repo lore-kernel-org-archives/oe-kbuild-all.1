@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C7715E5BA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 19:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A6080603
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 19:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706901951; cv=none; b=Zm/dQJx2fAI/DKpdURZfKBiHF3XLrkcvsldq8rCsYHPeIEDXY+Ld19YgJg3CFZcXFXLpkCf0nRLXBGcBdayCtRB9VBdwRihLQorsMO2XY+CL2t12gqth8YirCN1Z5hMlneA6Ztk1Cw9ulNfl4xrcRkGGFEidYzYbaHUYHF3yJiM=
+	t=1706903216; cv=none; b=DVY2hWuoSoP6JzJtpGDfBkos9V7hRudNvN50h7UfBHdkEOMMJqhpz2KxqNg+zzWrcruKvp101uT6oKPAU6ZB+JAbyiCrCbG+8bBIru+FTz/PxMaIe7guc1qX48pjqpY3YLAShZDPR87uznukqKjinGXAFK8WpFbSqs0U09lqvw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706901951; c=relaxed/simple;
-	bh=rO/4piFDiQXXsuef0W1WgoriWG5NhITZnQFKHu7K2vw=;
+	s=arc-20240116; t=1706903216; c=relaxed/simple;
+	bh=pjJ14wDfigNM3cbr4UEd9tYJ6mJMX2WWnujlyDoKRVE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tMm9TcyQ8nLOlW0z96O3pYXR5bTxjZ8blGpyHNy2/8jNV1CNw729W94TD+ZsXBECKXI4padq577K8g8E3mBIdQwlhaNZzJOhVM3RjdGX/MBLJKZeW/r5/hyeZqWWMhxDTi1Gh0OJxZpYIt7TaXA8aZHTyrttTOLWqRxOQ87p0Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csquiwDa; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=cmDYNJnSe0KP+DXV8QALBHrVED2mosnBMG/sGb/smuR+t6/vAj6cHAiAy3xKVarL9aqKQZH23feslFyMMQr2UFGB/9vlqbgjVeIUutBtQWF2rWA/FLuaSZItGE3EclxQQMS694h8sAJFIOOzys0f3leF1Ul7EWP7l/B1zDzrgGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lc4mc5Mv; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csquiwDa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lc4mc5Mv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706901949; x=1738437949;
+  t=1706903214; x=1738439214;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rO/4piFDiQXXsuef0W1WgoriWG5NhITZnQFKHu7K2vw=;
-  b=csquiwDa1cyksTLWaxZY7sEQEaDMP1LZyPrfWKBLUsHhlQcuifDZI7ID
-   Ngxvzqdb7xv3F6/ltzUeoTmzQUB3sJb9mtibWFVrcjaqHugsNLmHLmQjU
-   YksigVos5DtusLMYMfqUfw/nF7C/BAJ7/WG2lKMy6QXZAU8gNvpdPrgTm
-   Gg9bC2pzCfNpUU7jpwXOkx8Hi+ztTn40mYRIh8IIpE8m9p3bbQ+ljRw17
-   QQxCNOsn47SjJndtWmUDiU5nP+yhuQ8TB8mXygpIRTCsYuDH4Diz3X8T2
-   5Rmh3kHzBu+2OS2b9F3qIHfjfjtYMRfD7vUeJLGVyveVudll5noMhEh/I
+  bh=pjJ14wDfigNM3cbr4UEd9tYJ6mJMX2WWnujlyDoKRVE=;
+  b=Lc4mc5MvMiKRa4kuNTG3w64DwmcE5JAfPGLvtJJqdWWzIqaXxF4bnOug
+   C4z9Sb29jbh94yLhuPtNJcCoB5CwOq2q1YBQkDyepJNDyG7/5wjYbq9Vp
+   yNWWdCmqCiP+YZYbOlGWl4XSVc8snTXxhWV3/P/Nqh2YPX65a51n87MP2
+   g3pkTQRYLr5xIYWgDqc1wmXUFxRxa3mgAP3QN8yWRmTwtysSWvXrXpbGz
+   9u0c3oQHY7Tu9TLvwyV2EiE1IIxBGSsFQ3wyq6wNw1jqvaZWgPpo3tVie
+   4ZI5k85hytbEWdDt/h1Q3xZQpV7ED2Z46vOO2N1kjFfo21aOBIM4hJRNr
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="135072"
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="435369763"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="135072"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 11:25:47 -0800
+   d="scan'208";a="435369763"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 11:46:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="37567976"
+   d="scan'208";a="157903"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 02 Feb 2024 11:25:46 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 02 Feb 2024 11:46:52 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVzAV-0004Cw-1x;
-	Fri, 02 Feb 2024 19:25:43 +0000
-Date: Sat, 3 Feb 2024 03:24:56 +0800
+	id 1rVzUu-0004DK-05;
+	Fri, 02 Feb 2024 19:46:49 +0000
+Date: Sat, 3 Feb 2024 03:46:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:rxrpc-iothread 23/24] net/rxrpc/output.c:270:58:
- warning: assignment to 'void *' from 'long unsigned int' makes pointer from
- integer without a cast
-Message-ID: <202402030324.zgljQAUQ-lkp@intel.com>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [linux-next:master 2558/3789] sound_kunit.c:undefined reference to
+ `snd_pcm_format_name'
+Message-ID: <202402030306.l4idnFyz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,83 +60,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git rxrpc-iothread
-head:   975bd4732a7b88c6ec05685c43b639000f888fbe
-commit: 83f863dfba3ae06a4b4f5369c46e9a39594d6da9 [23/24] rxrpc: Implement path-MTU probing using padded PING ACKs (RFC8899)
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402030324.zgljQAUQ-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030324.zgljQAUQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   076d56d74f17e625b3d63cf4743b3d7d02180379
+commit: 3e39acf56ededdebd1033349a16b704839b94b28 [2558/3789] ALSA: core: Add sound core KUnit test
+config: openrisc-randconfig-r013-20211230 (https://download.01.org/0day-ci/archive/20240203/202402030306.l4idnFyz-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030306.l4idnFyz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030324.zgljQAUQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402030306.l4idnFyz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/rxrpc/output.c: In function 'rxrpc_send_ACK':
->> net/rxrpc/output.c:270:58: warning: assignment to 'void *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
-     270 |                         txb->kvec[txb->nr_kvec].iov_base = empty_zero_page;
-         |                                                          ^
---
-   net/rxrpc/txbuf.c: In function 'rxrpc_free_txbuf':
->> net/rxrpc/txbuf.c:183:43: warning: comparison between pointer and integer
-     183 |                     txb->kvec[i].iov_base != empty_zero_page)
-         |                                           ^~
-
-
-vim +270 net/rxrpc/output.c
-
-   237	
-   238	/*
-   239	 * Queue an ACK for immediate transmission.
-   240	 */
-   241	void rxrpc_send_ACK(struct rxrpc_call *call, u8 ack_reason,
-   242			    rxrpc_serial_t serial, enum rxrpc_propose_ack_trace why)
-   243	{
-   244		struct rxrpc_txbuf *txb;
-   245	
-   246		if (test_bit(RXRPC_CALL_DISCONNECTED, &call->flags))
-   247			return;
-   248	
-   249		rxrpc_inc_stat(call->rxnet, stat_tx_acks[ack_reason]);
-   250	
-   251		txb = rxrpc_alloc_ack_txbuf(call, call->ackr_wtop - call->ackr_window);
-   252		if (!txb) {
-   253			kleave(" = -ENOMEM");
-   254			return;
-   255		}
-   256	
-   257		txb->ack_why = why;
-   258	
-   259		rxrpc_fill_out_ack(call, txb, ack_reason, serial);
-   260	
-   261		/* Extend a path MTU probe ACK. */
-   262		if (why == rxrpc_propose_ack_ping_for_mtu_probe) {
-   263			size_t probe_mtu = call->peer->pmtud_trial + sizeof(struct rxrpc_wire_header);
-   264	
-   265			if (txb->len > probe_mtu)
-   266				goto skip;
-   267			while (txb->len < probe_mtu) {
-   268				size_t part = min_t(size_t, probe_mtu - txb->len, PAGE_SIZE);
-   269	
- > 270				txb->kvec[txb->nr_kvec].iov_base = empty_zero_page;
-   271				txb->kvec[txb->nr_kvec].iov_len = part;
-   272				txb->len += part;
-   273				txb->nr_kvec++;
-   274			}
-   275		}
-   276	
-   277		call->ackr_nr_unacked = 0;
-   278		atomic_set(&call->ackr_nr_consumed, 0);
-   279		clear_bit(RXRPC_CALL_RX_IS_IDLE, &call->flags);
-   280	
-   281		trace_rxrpc_send_ack(call, why, ack_reason, serial);
-   282		rxrpc_send_ack_packet(call, txb, why);
-   283	skip:
-   284		rxrpc_put_txbuf(txb, rxrpc_txbuf_put_ack_tx);
-   285	}
-   286	
+   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_pcm_format_name':
+>> sound_kunit.c:(.text+0x54): undefined reference to `snd_pcm_format_name'
+>> sound_kunit.c:(.text+0x54): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_name'
+>> or1k-linux-ld: sound_kunit.c:(.text+0x118): undefined reference to `snd_pcm_format_name'
+   sound_kunit.c:(.text+0x118): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_name'
+   or1k-linux-ld: sound_kunit.c:(.text+0x18c): undefined reference to `snd_pcm_format_name'
+   sound_kunit.c:(.text+0x18c): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_name'
+   or1k-linux-ld: sound/core/sound_kunit.o: in function `_test_fill_silence':
+>> sound_kunit.c:(.text+0x258): undefined reference to `snd_pcm_format_set_silence'
+>> sound_kunit.c:(.text+0x258): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_set_silence'
+   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_format_signed':
+>> sound_kunit.c:(.text+0x3b0): undefined reference to `snd_pcm_format_signed'
+>> sound_kunit.c:(.text+0x3b0): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_signed'
+>> or1k-linux-ld: sound_kunit.c:(.text+0x410): undefined reference to `snd_pcm_format_unsigned'
+>> sound_kunit.c:(.text+0x410): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_unsigned'
+>> or1k-linux-ld: sound_kunit.c:(.text+0x490): undefined reference to `snd_pcm_format_width'
+>> sound_kunit.c:(.text+0x490): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_width'
+   or1k-linux-ld: sound_kunit.c:(.text+0x4ec): undefined reference to `snd_pcm_format_width'
+   sound_kunit.c:(.text+0x4ec): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_width'
+   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_format_width':
+>> sound_kunit.c:(.text+0x5b4): undefined reference to `snd_pcm_format_width'
+   sound_kunit.c:(.text+0x5b4): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_width'
+   or1k-linux-ld: sound_kunit.c:(.text+0x618): undefined reference to `snd_pcm_format_width'
+   sound_kunit.c:(.text+0x618): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_width'
+   or1k-linux-ld: sound_kunit.c:(.text+0x674): undefined reference to `snd_pcm_format_width'
+   sound_kunit.c:(.text+0x674): additional relocation overflows omitted from the output
+   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_format_endianness':
+>> sound_kunit.c:(.text+0x734): undefined reference to `snd_pcm_format_little_endian'
+>> or1k-linux-ld: sound_kunit.c:(.text+0x794): undefined reference to `snd_pcm_format_big_endian'
+>> or1k-linux-ld: sound_kunit.c:(.text+0x814): undefined reference to `snd_pcm_format_little_endian'
+   or1k-linux-ld: sound_kunit.c:(.text+0x870): undefined reference to `snd_pcm_format_little_endian'
+   or1k-linux-ld: sound_kunit.c:(.text+0x8cc): undefined reference to `snd_pcm_format_big_endian'
+   or1k-linux-ld: sound_kunit.c:(.text+0x928): undefined reference to `snd_pcm_format_big_endian'
+   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_phys_format_size':
+>> sound_kunit.c:(.text+0x9ec): undefined reference to `snd_pcm_format_physical_width'
+>> or1k-linux-ld: sound_kunit.c:(.text+0xa50): undefined reference to `snd_pcm_format_physical_width'
+   or1k-linux-ld: sound_kunit.c:(.text+0xaac): undefined reference to `snd_pcm_format_physical_width'
+   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_format_fill_silence':
+   sound_kunit.c:(.text+0xbe8): undefined reference to `snd_pcm_format_set_silence'
+>> or1k-linux-ld: sound_kunit.c:(.text+0xc48): undefined reference to `snd_pcm_format_set_silence'
 
 -- 
 0-DAY CI Kernel Test Service
