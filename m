@@ -1,57 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B179179A5
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 15:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3266F182BB
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 16:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706889226; cv=none; b=OnC0kwmAnz4i65jvxFGpb/Qw35d8qrlR9VcNR0nfIchvA6+5c0PQMLDFm8KRqaNbTmwpuALFvhonKMRGzcufSYV05GnWUE6Rb1nTOIw0io0/bvx0L+jtUay1hDEqdMgC7X1z/yyKkXau/jilqpRsIDUesdgJLHPjvc/e2iIsiRU=
+	t=1706889974; cv=none; b=WGeVBwAsHG0JAzlnvTbXE88XEnkOwxS62CHCCUEXDT04WFK4Opbg/KQXM8zkFcea5N3YBo1QOJa1FUwep7TwQSN/uHJl70RLuIJGy3lQbzH+J7Rmpw+yx9l8JkdWQvt+HcB/jbBeW21DcLFHmaTgThXw/Vq7V9wJ/yAA+qmh9qY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706889226; c=relaxed/simple;
-	bh=qlS0k4F4pG6oEncHuDoQuRyHYvN6ZAQDHaVc77gVLf8=;
+	s=arc-20240116; t=1706889974; c=relaxed/simple;
+	bh=Pw6bHXUfDTHT30wCaDWHZJcoxOcm5BNRaq/ohjK5O7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CjGZ/lZUGkQ5LrnWJfUDHXUlEoZ1zEKd3BFixH0a8nXWKUU4HPVgcxVDiNNxqdO44skFe2v81f9JFU8mipsGsHgAxxmKHHIWJ+0tQSk514xrraeUHWcxMUfJA8Hnkk/AlRfX4eS3QLyhS1DNKFV0FzJqWkNUuGhamuMDa506H84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c+XnG344; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=puQxg8PvlDg8JIi67YvEwB16adLIk7pS7/Fwumpwn231BccQDmC67HPc9Dc31V86uqCeDIxxyMeBSU/jKycj+64QbIhp3gHvsYeiANZX3Rn4KZMdVpaLRv4VpMd21+vT/XIF5p7QYZUrFT7QhYwfDQB9MBH1qje7UpZxH7D3vns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDG1BFpX; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+XnG344"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDG1BFpX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706889224; x=1738425224;
+  t=1706889971; x=1738425971;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qlS0k4F4pG6oEncHuDoQuRyHYvN6ZAQDHaVc77gVLf8=;
-  b=c+XnG344oq4hxLPnxJuRYPQKcY0CGs5jVjHvfXrwpuZP1ztszbvs/dd1
-   nEat0VIMiQF1ov1RjbYlYef/VCx5b9ld5XhFVeExCsRQUTHkxzj1ykyr5
-   egenVe9a1KuJNPbegGOQLwxZ3tlln4d55wQtx2leoJrmXyPgTgY4AReRm
-   2omp6Pnz6us20VqXy4e5AylCDU+zvaWsvG/VnMaptJUaZV48Z0inuGy5v
-   KYcwgEiMDOzibf8Wn2RNnbWODvHIR+ctPAJoS4SHZSyFg4E8T0nJZPU6p
-   1R7vddoae54QF4DWuiGsRA7sa0qokJAcpp7OWTKQ6gATEZBbgkAChpoym
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="4079077"
+  bh=Pw6bHXUfDTHT30wCaDWHZJcoxOcm5BNRaq/ohjK5O7k=;
+  b=lDG1BFpXEmfe6v6IAAUgEeumu/fWOq99Fuop2eSnZLQGLXjnkBssFby9
+   6SmuDVu+zFacnNDsgXMTNuHa0KzeQVeYnyso5l249sIW4FI4YNZX3pLOd
+   d+5n8OtD0NO3fgSqezmllX5OgnW/Eca4wEc0HEGWTW47GK9vX5FrXBwoV
+   5CdAxvdE2N6kJggCMix5adkZ0ZpOnFBLdBpaDec8pypM+81x2E+uXMuk5
+   If6x8YlUS1sKhHxfcQGEN6WytKY9NSf84HfQeSQwpJXECWozAjtBJxpB+
+   0bonzOauFA7OOF2EPxuVGQ6/T+PM+9DkVuErFfYvOXtHwauYqMKTvvYFz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="412287"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="4079077"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 07:53:44 -0800
+   d="scan'208";a="412287"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 08:05:45 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="30916232"
+   d="scan'208";a="111204"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 02 Feb 2024 07:53:42 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 02 Feb 2024 08:05:44 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVvrH-00040A-1q;
-	Fri, 02 Feb 2024 15:53:39 +0000
-Date: Fri, 2 Feb 2024 23:52:58 +0800
+	id 1rVw2v-00041R-0N;
+	Fri, 02 Feb 2024 16:05:41 +0000
+Date: Sat, 3 Feb 2024 00:05:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.8-rc1-net-next-mv88e6xxx-leds-v4 6/8] kismet: WARNING:
- unmet direct dependencies detected for NETDEV_LEDS when selected by
- NET_DSA_MV88E6XXX
-Message-ID: <202402022308.z7B9jQw1-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:rxrpc-iothread 23/24] net/rxrpc/output.c:270:60: error:
+ 'empty_zero_page' undeclared; did you mean 'memzero_page'?
+Message-ID: <202402022326.jwuMkYNM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,119 +58,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/lunn/linux.git v6.8-rc1-net-next-mv88e6xxx-leds-v4
-head:   5d9c481bbe2fc447edf620644d5476812d21a350
-commit: 50afa47989f1c88bb4fd40424e3aa38bd6cd4e66 [6/8] dsa: mv88e6xxx: Create port/netdev LEDs
-config: alpha-kismet-CONFIG_NETDEV_LEDS-CONFIG_NET_DSA_MV88E6XXX-0-0 (https://download.01.org/0day-ci/archive/20240202/202402022308.z7B9jQw1-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240202/202402022308.z7B9jQw1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git rxrpc-iothread
+head:   975bd4732a7b88c6ec05685c43b639000f888fbe
+commit: 83f863dfba3ae06a4b4f5369c46e9a39594d6da9 [23/24] rxrpc: Implement path-MTU probing using padded PING ACKs (RFC8899)
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20240202/202402022326.jwuMkYNM-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240202/202402022326.jwuMkYNM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402022308.z7B9jQw1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402022326.jwuMkYNM-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for NETDEV_LEDS when selected by NET_DSA_MV88E6XXX
-   .config:55:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:245:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:347:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:374:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:433:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:451:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:617:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:643:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:691:warning: symbol value 'n' invalid for SERIAL_AR933X_NR_UARTS
-   .config:758:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:802:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:810:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:852:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:867:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:888:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:901:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:909:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:920:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:922:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:1152:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1182:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1285:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1454:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1510:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:1601:warning: symbol value 'n' invalid for WATCHDOG_OPEN_TIMEOUT
-   .config:1604:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1771:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1893:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:2063:warning: symbol value 'n' invalid for VGA_ARB_MAX_GPUS
-   .config:2146:warning: symbol value 'n' invalid for SND_HDA_PREALLOC_SIZE
-   .config:2151:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
-   .config:2177:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2195:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2340:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2341:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2578:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2666:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2846:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2862:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2961:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2984:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:3002:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
-   .config:3010:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:3118:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3155:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3169:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:3323:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3362:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:3456:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3497:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3543:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3597:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
-   .config:3666:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3805:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3869:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3882:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:3907:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:4206:warning: symbol value 'n' invalid for CMA_AREAS
-   .config:4263:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4296:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4375:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4556:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:4614:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4686:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4735:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:5072:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:5153:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5174:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5221:warning: symbol value 'n' invalid for SND_MAX_CARDS
-   .config:5332:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5412:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:5430:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5448:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5604:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5711:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5742:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5833:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5840:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5862:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:5899:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:5925:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:6066:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
-   .config:6164:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6332:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6433:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:6435:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6526:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
-   .config:6549:warning: symbol value 'n' invalid for RIONET_TX_SIZE
-   .config:6711:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6855:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:6958:warning: symbol value 'n' invalid for OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:6989:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:7003:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:7008:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:7323:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
-   .config:7362:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
-   .config:7384:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7473:warning: symbol value 'n' invalid for VIDEO_VIVID_MAX_DEVS
-   .config:7500:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
-   .config:7504:warning: symbol value 'n' invalid for KDB_CONTINUE_CATASTROPHIC
+All errors (new ones prefixed by >>):
+
+   net/rxrpc/output.c: In function 'rxrpc_send_ACK':
+>> net/rxrpc/output.c:270:60: error: 'empty_zero_page' undeclared (first use in this function); did you mean 'memzero_page'?
+     270 |                         txb->kvec[txb->nr_kvec].iov_base = empty_zero_page;
+         |                                                            ^~~~~~~~~~~~~~~
+         |                                                            memzero_page
+   net/rxrpc/output.c:270:60: note: each undeclared identifier is reported only once for each function it appears in
+--
+   net/rxrpc/txbuf.c: In function 'rxrpc_free_txbuf':
+>> net/rxrpc/txbuf.c:183:46: error: 'empty_zero_page' undeclared (first use in this function); did you mean 'memzero_page'?
+     183 |                     txb->kvec[i].iov_base != empty_zero_page)
+         |                                              ^~~~~~~~~~~~~~~
+         |                                              memzero_page
+   net/rxrpc/txbuf.c:183:46: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +270 net/rxrpc/output.c
+
+   237	
+   238	/*
+   239	 * Queue an ACK for immediate transmission.
+   240	 */
+   241	void rxrpc_send_ACK(struct rxrpc_call *call, u8 ack_reason,
+   242			    rxrpc_serial_t serial, enum rxrpc_propose_ack_trace why)
+   243	{
+   244		struct rxrpc_txbuf *txb;
+   245	
+   246		if (test_bit(RXRPC_CALL_DISCONNECTED, &call->flags))
+   247			return;
+   248	
+   249		rxrpc_inc_stat(call->rxnet, stat_tx_acks[ack_reason]);
+   250	
+   251		txb = rxrpc_alloc_ack_txbuf(call, call->ackr_wtop - call->ackr_window);
+   252		if (!txb) {
+   253			kleave(" = -ENOMEM");
+   254			return;
+   255		}
+   256	
+   257		txb->ack_why = why;
+   258	
+   259		rxrpc_fill_out_ack(call, txb, ack_reason, serial);
+   260	
+   261		/* Extend a path MTU probe ACK. */
+   262		if (why == rxrpc_propose_ack_ping_for_mtu_probe) {
+   263			size_t probe_mtu = call->peer->pmtud_trial + sizeof(struct rxrpc_wire_header);
+   264	
+   265			if (txb->len > probe_mtu)
+   266				goto skip;
+   267			while (txb->len < probe_mtu) {
+   268				size_t part = min_t(size_t, probe_mtu - txb->len, PAGE_SIZE);
+   269	
+ > 270				txb->kvec[txb->nr_kvec].iov_base = empty_zero_page;
+   271				txb->kvec[txb->nr_kvec].iov_len = part;
+   272				txb->len += part;
+   273				txb->nr_kvec++;
+   274			}
+   275		}
+   276	
+   277		call->ackr_nr_unacked = 0;
+   278		atomic_set(&call->ackr_nr_consumed, 0);
+   279		clear_bit(RXRPC_CALL_RX_IS_IDLE, &call->flags);
+   280	
+   281		trace_rxrpc_send_ack(call, why, ack_reason, serial);
+   282		rxrpc_send_ack_packet(call, txb, why);
+   283	skip:
+   284		rxrpc_put_txbuf(txb, rxrpc_txbuf_put_ack_tx);
+   285	}
+   286	
 
 -- 
 0-DAY CI Kernel Test Service
