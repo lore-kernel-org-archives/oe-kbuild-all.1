@@ -1,57 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7013182B5
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 08:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E2C7C6EF;
+	Fri,  2 Feb 2024 10:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706862923; cv=none; b=QpW4uY0Vj/cqsvlpeptvEqZOPjWumWRIKKZMhKsIjb2beuaKsFeqT1ihyTKAnMzBe4tZEqw5+vPJhv/w5EVg00qm1Ue46i7EJvWuwSqzOdh4BfE3PIY5exR8LDgAb1QKfzu28WwfNz1BA9vQJ3F9qzBewLI9OuADgql9GG+Cta0=
+	t=1706869148; cv=none; b=GkvuIfS3yDXAIFKZNyNtPLcBCIJxTJNgUwLLsWAr6qNtzm8+jniO0Xxisw1lB2FYwB1CBC31bgz2XswhlSHRNybWDwJ60FQectIbMvuyMsCNb8Qqs5SUBOUx6SxXQB9rNYMkwtUKg1/pUDaQKFSpbR8qzIy/wJCb0qWZ0IdDHsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706862923; c=relaxed/simple;
-	bh=dPugiWgAAEhpiYBQBMTNcFTYgGC1MV8jWXgzbUd9gwo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JIlUr3yBSO5Ii4jO8LJmY95z08uTpWbBQ8p/1crBe/CcAGf6x2Vf1Grv9GLpXuEeHJNdOVmLRFVsiDVTszL/3YLPYwypNxo3gOP/ANE5o/4UBwS9y/1YvGvDG8eDGKvRC88678Xbn72ROAzZgNXIQXeFbAybPdMWhuAQzDVetO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RYr9KBmY; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1706869148; c=relaxed/simple;
+	bh=O0dlvz0rsuZkkrXwFE4VhXogz4lXzTTIUA+KqRGGRos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TFKCiK09XdLfZDefbC0E73FE5tNp5z9ei9kVeJ/F5FHi+MKTgmR0XwrPa4snwAAjpDycUt14mxIIB6kkIShzi4eG1g4hnjimMURCt3VGQe0Oyoiu5QIopI9WSbCKrMLQZAdI2rsyu5RLrNiXmItBNFUATO1SrxaVvK5Ml7yUQqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b4Oph+s+; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RYr9KBmY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b4Oph+s+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706862922; x=1738398922;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dPugiWgAAEhpiYBQBMTNcFTYgGC1MV8jWXgzbUd9gwo=;
-  b=RYr9KBmYbsDae1RA7yHkbt6GU+5S4xGBbWQPbPY7rfGa78TNF9YXut4X
-   xSyLTw9RMqkqbzNrILD+fhAe8S8ZC8piwvdyfuKF4T09K2gk+uR+VHmKg
-   fJbOlvgVPicjHlBQotLdEBEUatzfEAuG7GgI0ay0yEzskvsNbUqzBjtOs
-   goKuhDEHABekkPjKI4cW2JuqE33c1rCwqtMCOes4YZzUYUHbZXujyLi1z
-   S3g+E/cYiDcJbzZ9ZIYm7usAlQ6DeX5DKofjh8pscPbUb1D6L6ZrCrcsB
-   JnTyOoRk3VTAmz/EL5Kc0Yv0Col77gT+W4fnEI7ypQS9A3w4QqtgVXp5P
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="11478578"
+  t=1706869147; x=1738405147;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O0dlvz0rsuZkkrXwFE4VhXogz4lXzTTIUA+KqRGGRos=;
+  b=b4Oph+s+101+9rzSS5tLFailKgrxQN7bNLrNaxSsQ3354BoVcqnyonzE
+   tBkEHtn3sFFzDpqc7e3Cys+kmoW4tDGPs3W6LRh+WAiViO8zpsFyUM9H4
+   JdoXYRZ5+EEAXhvs9jiBpYjlrPDunaLDekvU8KztoAca1Samr4Lreotab
+   dwjKbBzhdCfSk+dIHchLEUMyveguNoXhCL2xpmdcCqt8+HMMtBSFkip5r
+   y99IwBonEZM+/X0mT4+g43/GSx+CkODbFGt02GKP2Vxs4LxCkBt5fNGo8
+   HQdAvYgrmn05955ajrpv6+durRoGkppMdtt5F7sHUBZv5cC+Z7iD7L68e
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="4028813"
 X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
-   d="scan'208";a="11478578"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 00:35:20 -0800
+   d="scan'208";a="4028813"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 02:19:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="962153251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="932436108"
 X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
-   d="scan'208";a="962153251"
+   d="scan'208";a="932436108"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 02 Feb 2024 00:35:17 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2024 02:18:58 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVp11-0003iI-1N;
-	Fri, 02 Feb 2024 08:35:15 +0000
-Date: Fri, 2 Feb 2024 16:35:04 +0800
+	id 1rVqdH-0003lw-1Y;
+	Fri, 02 Feb 2024 10:18:53 +0000
+Date: Fri, 2 Feb 2024 18:17:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.8-rc2-esp32 35/44] kismet: WARNING: unmet
- direct dependencies detected for ESP32_IPC when selected by ESP32_WIFI_SHMEM
-Message-ID: <202402021658.1GDCtFN4-lkp@intel.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>, virtualization@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Eric Farman <farman@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	Yang Li <yang.lee@linux.alibaba.com>, linux-um@lists.infradead.org
+Subject: Re: [PATCH vhost 07/17] virtio: find_vqs: pass struct instead of
+ multi parameters
+Message-ID: <202402021724.AisZOf9F-lkp@intel.com>
+References: <20240130114224.86536-8-xuanzhuo@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,120 +86,336 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240130114224.86536-8-xuanzhuo@linux.alibaba.com>
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.8-rc2-esp32
-head:   62ce2e36e80490aa6c2fbc6b28f166201107f25a
-commit: 8ab3ed66b691770a8ae3c88ece2b28eed78aca7f [35/44] esp_wifi: add IPC transport
-config: alpha-kismet-CONFIG_ESP32_IPC-CONFIG_ESP32_WIFI_SHMEM-0-0 (https://download.01.org/0day-ci/archive/20240202/202402021658.1GDCtFN4-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240202/202402021658.1GDCtFN4-lkp@intel.com/reproduce)
+Hi Xuan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.7]
+[also build test ERROR on next-20240202]
+[cannot apply to remoteproc/rproc-next uml/next s390/features linus/master uml/fixes v6.8-rc2 v6.8-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-introduce-vring_need_unmap_buffer/20240130-195202
+base:   v6.7
+patch link:    https://lore.kernel.org/r/20240130114224.86536-8-xuanzhuo%40linux.alibaba.com
+patch subject: [PATCH vhost 07/17] virtio: find_vqs: pass struct instead of multi parameters
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240202/202402021724.AisZOf9F-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240202/202402021724.AisZOf9F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402021658.1GDCtFN4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402021724.AisZOf9F-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ESP32_IPC when selected by ESP32_WIFI_SHMEM
-   .config:10:warning: symbol value 'n' invalid for BLK_DEV_LOOP_MIN_COUNT
-   .config:34:warning: symbol value 'n' invalid for FB_OMAP2_NUM_FBS
-   .config:136:warning: symbol value 'n' invalid for CFAG12864B_RATE
-   .config:197:warning: symbol value 'n' invalid for CMA_SIZE_MBYTES
-   .config:239:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:338:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:388:warning: symbol value 'n' invalid for RAPIDIO_DISC_TIMEOUT
-   .config:414:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:434:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:493:warning: symbol value 'n' invalid for AIC7XXX_DEBUG_MASK
-   .config:616:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:622:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:723:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:778:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:790:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:812:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:831:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:834:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:856:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:892:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:900:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:902:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:1129:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1156:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1176:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
-   .config:1384:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1495:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:1535:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1735:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1805:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:1958:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:2008:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2139:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2224:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2287:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2500:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2521:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2605:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2793:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2843:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:2890:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2914:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:2932:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
-   .config:2938:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:2977:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3041:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3076:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:3081:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3288:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3414:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3417:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
-   .config:3458:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3575:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3622:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3624:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:3635:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
-   .config:3691:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3700:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:3938:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:4076:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4149:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4260:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4393:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4507:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:4563:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4595:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:4944:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:5023:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5045:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5199:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5290:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5329:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:5361:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:5368:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5564:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5595:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5685:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5693:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5715:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:5761:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:5915:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
-   .config:6008:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6154:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6173:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6249:warning: symbol value 'n' invalid for SND_MAX_CARDS
-   .config:6358:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:6538:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6683:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:6693:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:6701:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:6717:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:6808:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:7049:warning: symbol value 'n' invalid for LOCKDEP_BITS
-   .config:7075:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7140:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
-   .config:7222:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:7310:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
-   .config:7322:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
-   .config:7342:warning: symbol value 'n' invalid for RIONET_TX_SIZE
-   .config:7433:warning: symbol value 'n' invalid for PANEL_LCD
+All errors (new ones prefixed by >>):
+
+   drivers/virtio/virtio_vdpa.c: In function 'virtio_vdpa_setup_vq':
+>> drivers/virtio/virtio_vdpa.c:212:59: error: 'cfg' undeclared (first use in this function)
+     212 |         vq = vring_create_virtqueue(vdev, index, &tp_cfg, cfg);
+         |                                                           ^~~
+   drivers/virtio/virtio_vdpa.c:212:59: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/virtio/virtio_vdpa.c: In function 'virtio_vdpa_find_vqs':
+>> drivers/virtio/virtio_vdpa.c:389:66: error: passing argument 3 of 'virtio_vdpa_setup_vq' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     389 |                 vqs[i] = virtio_vdpa_setup_vq(vdev, queue_idx++, cfg);
+         |                                                                  ^~~
+         |                                                                  |
+         |                                                                  struct virtio_vq_config *
+   drivers/virtio/virtio_vdpa.c:145:29: note: expected 'void (*)(struct virtqueue *)' but argument is of type 'struct virtio_vq_config *'
+     145 |                      void (*callback)(struct virtqueue *vq),
+         |                      ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/virtio/virtio_vdpa.c:389:26: error: too few arguments to function 'virtio_vdpa_setup_vq'
+     389 |                 vqs[i] = virtio_vdpa_setup_vq(vdev, queue_idx++, cfg);
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_vdpa.c:144:1: note: declared here
+     144 | virtio_vdpa_setup_vq(struct virtio_device *vdev, unsigned int index,
+         | ^~~~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_vdpa.c: At top level:
+>> drivers/virtio/virtio_vdpa.c:473:27: error: initialization of 'int (*)(struct virtio_device *, struct virtio_vq_config *)' from incompatible pointer type 'int (*)(struct virtio_device *, struct virtio_vq_config *, struct irq_affinity *)' [-Werror=incompatible-pointer-types]
+     473 |         .find_vqs       = virtio_vdpa_find_vqs,
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_vdpa.c:473:27: note: (near initialization for 'virtio_vdpa_config_ops.find_vqs')
+   cc1: some warnings being treated as errors
+
+
+vim +/cfg +212 drivers/virtio/virtio_vdpa.c
+
+   142	
+   143	static struct virtqueue *
+   144	virtio_vdpa_setup_vq(struct virtio_device *vdev, unsigned int index,
+   145			     void (*callback)(struct virtqueue *vq),
+   146			     const char *name, bool ctx)
+   147	{
+   148		struct virtio_vdpa_device *vd_dev = to_virtio_vdpa_device(vdev);
+   149		struct vdpa_device *vdpa = vd_get_vdpa(vdev);
+   150		struct transport_vq_config tp_cfg = {};
+   151		const struct vdpa_config_ops *ops = vdpa->config;
+   152		struct virtio_vdpa_vq_info *info;
+   153		bool (*notify)(struct virtqueue *vq) = virtio_vdpa_notify;
+   154		struct vdpa_callback cb;
+   155		struct virtqueue *vq;
+   156		u64 desc_addr, driver_addr, device_addr;
+   157		/* Assume split virtqueue, switch to packed if necessary */
+   158		struct vdpa_vq_state state = {0};
+   159		unsigned long flags;
+   160		u32 align, max_num, min_num = 1;
+   161		bool may_reduce_num = true;
+   162		int err;
+   163	
+   164		if (!name)
+   165			return NULL;
+   166	
+   167		if (index >= vdpa->nvqs)
+   168			return ERR_PTR(-ENOENT);
+   169	
+   170		/* We cannot accept VIRTIO_F_NOTIFICATION_DATA without kick_vq_with_data */
+   171		if (__virtio_test_bit(vdev, VIRTIO_F_NOTIFICATION_DATA)) {
+   172			if (ops->kick_vq_with_data)
+   173				notify = virtio_vdpa_notify_with_data;
+   174			else
+   175				__virtio_clear_bit(vdev, VIRTIO_F_NOTIFICATION_DATA);
+   176		}
+   177	
+   178		/* Queue shouldn't already be set up. */
+   179		if (ops->get_vq_ready(vdpa, index))
+   180			return ERR_PTR(-ENOENT);
+   181	
+   182		/* Allocate and fill out our active queue description */
+   183		info = kmalloc(sizeof(*info), GFP_KERNEL);
+   184		if (!info)
+   185			return ERR_PTR(-ENOMEM);
+   186	
+   187		max_num = ops->get_vq_num_max(vdpa);
+   188		if (max_num == 0) {
+   189			err = -ENOENT;
+   190			goto error_new_virtqueue;
+   191		}
+   192	
+   193		if (ops->get_vq_num_min)
+   194			min_num = ops->get_vq_num_min(vdpa);
+   195	
+   196		may_reduce_num = (max_num == min_num) ? false : true;
+   197	
+   198		/* Create the vring */
+   199		align = ops->get_vq_align(vdpa);
+   200	
+   201		if (ops->get_vq_dma_dev)
+   202			tp_cfg.dma_dev = ops->get_vq_dma_dev(vdpa, index);
+   203		else
+   204			tp_cfg.dma_dev = vdpa_get_dma_dev(vdpa);
+   205	
+   206		tp_cfg.num = max_num;
+   207		tp_cfg.vring_align = align;
+   208		tp_cfg.weak_barriers = true;
+   209		tp_cfg.may_reduce_num = may_reduce_num;
+   210		tp_cfg.notify = notify;
+   211	
+ > 212		vq = vring_create_virtqueue(vdev, index, &tp_cfg, cfg);
+   213		if (!vq) {
+   214			err = -ENOMEM;
+   215			goto error_new_virtqueue;
+   216		}
+   217	
+   218		vq->num_max = max_num;
+   219	
+   220		/* Setup virtqueue callback */
+   221		cb.callback = callback ? virtio_vdpa_virtqueue_cb : NULL;
+   222		cb.private = info;
+   223		cb.trigger = NULL;
+   224		ops->set_vq_cb(vdpa, index, &cb);
+   225		ops->set_vq_num(vdpa, index, virtqueue_get_vring_size(vq));
+   226	
+   227		desc_addr = virtqueue_get_desc_addr(vq);
+   228		driver_addr = virtqueue_get_avail_addr(vq);
+   229		device_addr = virtqueue_get_used_addr(vq);
+   230	
+   231		if (ops->set_vq_address(vdpa, index,
+   232					desc_addr, driver_addr,
+   233					device_addr)) {
+   234			err = -EINVAL;
+   235			goto err_vq;
+   236		}
+   237	
+   238		/* reset virtqueue state index */
+   239		if (virtio_has_feature(vdev, VIRTIO_F_RING_PACKED)) {
+   240			struct vdpa_vq_state_packed *s = &state.packed;
+   241	
+   242			s->last_avail_counter = 1;
+   243			s->last_avail_idx = 0;
+   244			s->last_used_counter = 1;
+   245			s->last_used_idx = 0;
+   246		}
+   247		err = ops->set_vq_state(vdpa, index, &state);
+   248		if (err)
+   249			goto err_vq;
+   250	
+   251		ops->set_vq_ready(vdpa, index, 1);
+   252	
+   253		vq->priv = info;
+   254		info->vq = vq;
+   255	
+   256		spin_lock_irqsave(&vd_dev->lock, flags);
+   257		list_add(&info->node, &vd_dev->virtqueues);
+   258		spin_unlock_irqrestore(&vd_dev->lock, flags);
+   259	
+   260		return vq;
+   261	
+   262	err_vq:
+   263		vring_del_virtqueue(vq);
+   264	error_new_virtqueue:
+   265		ops->set_vq_ready(vdpa, index, 0);
+   266		/* VDPA driver should make sure vq is stopeed here */
+   267		WARN_ON(ops->get_vq_ready(vdpa, index));
+   268		kfree(info);
+   269		return ERR_PTR(err);
+   270	}
+   271	
+   272	static void virtio_vdpa_del_vq(struct virtqueue *vq)
+   273	{
+   274		struct virtio_vdpa_device *vd_dev = to_virtio_vdpa_device(vq->vdev);
+   275		struct vdpa_device *vdpa = vd_dev->vdpa;
+   276		const struct vdpa_config_ops *ops = vdpa->config;
+   277		struct virtio_vdpa_vq_info *info = vq->priv;
+   278		unsigned int index = vq->index;
+   279		unsigned long flags;
+   280	
+   281		spin_lock_irqsave(&vd_dev->lock, flags);
+   282		list_del(&info->node);
+   283		spin_unlock_irqrestore(&vd_dev->lock, flags);
+   284	
+   285		/* Select and deactivate the queue (best effort) */
+   286		ops->set_vq_ready(vdpa, index, 0);
+   287	
+   288		vring_del_virtqueue(vq);
+   289	
+   290		kfree(info);
+   291	}
+   292	
+   293	static void virtio_vdpa_del_vqs(struct virtio_device *vdev)
+   294	{
+   295		struct virtqueue *vq, *n;
+   296	
+   297		list_for_each_entry_safe(vq, n, &vdev->vqs, list)
+   298			virtio_vdpa_del_vq(vq);
+   299	}
+   300	
+   301	static void default_calc_sets(struct irq_affinity *affd, unsigned int affvecs)
+   302	{
+   303		affd->nr_sets = 1;
+   304		affd->set_size[0] = affvecs;
+   305	}
+   306	
+   307	static struct cpumask *
+   308	create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
+   309	{
+   310		unsigned int affvecs = 0, curvec, usedvecs, i;
+   311		struct cpumask *masks = NULL;
+   312	
+   313		if (nvecs > affd->pre_vectors + affd->post_vectors)
+   314			affvecs = nvecs - affd->pre_vectors - affd->post_vectors;
+   315	
+   316		if (!affd->calc_sets)
+   317			affd->calc_sets = default_calc_sets;
+   318	
+   319		affd->calc_sets(affd, affvecs);
+   320	
+   321		if (!affvecs)
+   322			return NULL;
+   323	
+   324		masks = kcalloc(nvecs, sizeof(*masks), GFP_KERNEL);
+   325		if (!masks)
+   326			return NULL;
+   327	
+   328		/* Fill out vectors at the beginning that don't need affinity */
+   329		for (curvec = 0; curvec < affd->pre_vectors; curvec++)
+   330			cpumask_setall(&masks[curvec]);
+   331	
+   332		for (i = 0, usedvecs = 0; i < affd->nr_sets; i++) {
+   333			unsigned int this_vecs = affd->set_size[i];
+   334			int j;
+   335			struct cpumask *result = group_cpus_evenly(this_vecs);
+   336	
+   337			if (!result) {
+   338				kfree(masks);
+   339				return NULL;
+   340			}
+   341	
+   342			for (j = 0; j < this_vecs; j++)
+   343				cpumask_copy(&masks[curvec + j], &result[j]);
+   344			kfree(result);
+   345	
+   346			curvec += this_vecs;
+   347			usedvecs += this_vecs;
+   348		}
+   349	
+   350		/* Fill out vectors at the end that don't need affinity */
+   351		if (usedvecs >= affvecs)
+   352			curvec = affd->pre_vectors + affvecs;
+   353		else
+   354			curvec = affd->pre_vectors + usedvecs;
+   355		for (; curvec < nvecs; curvec++)
+   356			cpumask_setall(&masks[curvec]);
+   357	
+   358		return masks;
+   359	}
+   360	
+   361	static int virtio_vdpa_find_vqs(struct virtio_device *vdev,
+   362					struct virtio_vq_config *cfg,
+   363					struct irq_affinity *desc)
+   364	{
+   365		struct virtio_vdpa_device *vd_dev = to_virtio_vdpa_device(vdev);
+   366		struct vdpa_device *vdpa = vd_get_vdpa(vdev);
+   367		const struct vdpa_config_ops *ops = vdpa->config;
+   368		struct irq_affinity default_affd = { 0 };
+   369		struct cpumask *masks;
+   370		struct vdpa_callback cb;
+   371		bool has_affinity = desc && ops->set_vq_affinity;
+   372		struct virtqueue **vqs = cfg->vqs;
+   373		unsigned int nvqs = cfg->nvqs;
+   374		int i, err, queue_idx = 0;
+   375	
+   376		if (has_affinity) {
+   377			masks = create_affinity_masks(nvqs, desc ? desc : &default_affd);
+   378			if (!masks)
+   379				return -ENOMEM;
+   380		}
+   381	
+   382		for (i = 0; i < nvqs; ++i) {
+   383			if (!cfg->names[i]) {
+   384				vqs[i] = NULL;
+   385				continue;
+   386			}
+   387	
+   388			cfg->cfg_idx = i;
+ > 389			vqs[i] = virtio_vdpa_setup_vq(vdev, queue_idx++, cfg);
+   390			if (IS_ERR(vqs[i])) {
+   391				err = PTR_ERR(vqs[i]);
+   392				goto err_setup_vq;
+   393			}
+   394	
+   395			if (has_affinity)
+   396				ops->set_vq_affinity(vdpa, i, &masks[i]);
+   397		}
+   398	
+   399		cb.callback = virtio_vdpa_config_cb;
+   400		cb.private = vd_dev;
+   401		ops->set_config_cb(vdpa, &cb);
+   402		if (has_affinity)
+   403			kfree(masks);
+   404	
+   405		return 0;
+   406	
+   407	err_setup_vq:
+   408		virtio_vdpa_del_vqs(vdev);
+   409		if (has_affinity)
+   410			kfree(masks);
+   411		return err;
+   412	}
+   413	
 
 -- 
 0-DAY CI Kernel Test Service
