@@ -1,56 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A6080603
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 19:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4283C7C087
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 20:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706903216; cv=none; b=DVY2hWuoSoP6JzJtpGDfBkos9V7hRudNvN50h7UfBHdkEOMMJqhpz2KxqNg+zzWrcruKvp101uT6oKPAU6ZB+JAbyiCrCbG+8bBIru+FTz/PxMaIe7guc1qX48pjqpY3YLAShZDPR87uznukqKjinGXAFK8WpFbSqs0U09lqvw8=
+	t=1706907552; cv=none; b=sOEvBrJS3si5mBUcvXkBNLH0SUHDRms7UhqRtswQ9HGDFReXbDP2H4OYqflBU2mxDWZx7AbZBBDYYIm9e6TpkBmbLkPB89VNkRlJUiGQVMng5qG1ZRFOEudEzBgmAU5MIuLnJLwHPGShDPk/g3bi992tx6bsa13Sn3rfs1pz3rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706903216; c=relaxed/simple;
-	bh=pjJ14wDfigNM3cbr4UEd9tYJ6mJMX2WWnujlyDoKRVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cmDYNJnSe0KP+DXV8QALBHrVED2mosnBMG/sGb/smuR+t6/vAj6cHAiAy3xKVarL9aqKQZH23feslFyMMQr2UFGB/9vlqbgjVeIUutBtQWF2rWA/FLuaSZItGE3EclxQQMS694h8sAJFIOOzys0f3leF1Ul7EWP7l/B1zDzrgGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lc4mc5Mv; arc=none smtp.client-ip=192.55.52.88
+	s=arc-20240116; t=1706907552; c=relaxed/simple;
+	bh=T1SmPiaekiTqw+dUGeKjsiOONvZZYtkQjwGugxBhr98=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rgYhbilp8PzgoGMNZ+eBYifTiJOMuB/P3GrSSTLlnM1af8CQn/7n72HgarimosaZtN+ybXRKBWD2XVkKhFFGjIbvifB2WaFxSE6TYn3VUq04Px58dyuSv1CknjGMaH+mpARjDpACGlT37Ni9405JFPhx/Fv86qByKsiEkwsxDiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IGJllm8m; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lc4mc5Mv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGJllm8m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706903214; x=1738439214;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pjJ14wDfigNM3cbr4UEd9tYJ6mJMX2WWnujlyDoKRVE=;
-  b=Lc4mc5MvMiKRa4kuNTG3w64DwmcE5JAfPGLvtJJqdWWzIqaXxF4bnOug
-   C4z9Sb29jbh94yLhuPtNJcCoB5CwOq2q1YBQkDyepJNDyG7/5wjYbq9Vp
-   yNWWdCmqCiP+YZYbOlGWl4XSVc8snTXxhWV3/P/Nqh2YPX65a51n87MP2
-   g3pkTQRYLr5xIYWgDqc1wmXUFxRxa3mgAP3QN8yWRmTwtysSWvXrXpbGz
-   9u0c3oQHY7Tu9TLvwyV2EiE1IIxBGSsFQ3wyq6wNw1jqvaZWgPpo3tVie
-   4ZI5k85hytbEWdDt/h1Q3xZQpV7ED2Z46vOO2N1kjFfo21aOBIM4hJRNr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="435369763"
+  t=1706907550; x=1738443550;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=T1SmPiaekiTqw+dUGeKjsiOONvZZYtkQjwGugxBhr98=;
+  b=IGJllm8mbzV39eSHMpIEUln/Sg73uM/6H98RCt0UJl48UJ4ew/rNc29s
+   ejXDR5bn/zHfAOiIVFMo+6ymZq0XUVXq28WdUnQiKX1SBT3y+FWAnY2Bd
+   TSrXbc7LsxV0aTqu8WT5kZuZ+BMlOpUDQ9yNW7uX2Bhat424Xw7l26T3g
+   RbgLAVXu2tRH0WJ0faEM86+7w3FYAfZZH5J/F6HXqdEf+b8LwyhXo8qMT
+   9Rk5DASRh7LdCf9q5ut1wHkdH0YhEZmZe3NzCL7zPFeMeH11oDqx4QhuZ
+   /619jzdLLvNZU8FmcZuwIr2l62LSHP9Lj3dSTVqj4dVGbHvbcXlyp2Qda
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="462865"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="435369763"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 11:46:53 -0800
+   d="scan'208";a="462865"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 12:59:09 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="157903"
+   d="scan'208";a="157606"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Feb 2024 11:46:52 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 02 Feb 2024 12:59:05 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVzUu-0004DK-05;
-	Fri, 02 Feb 2024 19:46:49 +0000
-Date: Sat, 3 Feb 2024 03:46:09 +0800
+	id 1rW0co-0004G6-34;
+	Fri, 02 Feb 2024 20:59:02 +0000
+Date: Sat, 3 Feb 2024 04:58:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ivan Orlov <ivan.orlov0322@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [linux-next:master 2558/3789] sound_kunit.c:undefined reference to
- `snd_pcm_format_name'
-Message-ID: <202402030306.l4idnFyz-lkp@intel.com>
+To: Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jeff LaBundy <jeff@labundy.com>
+Cc: oe-kbuild-all@lists.linux.dev, catalin.popescu@leica-geosystems.com,
+	mark.satterthwaite@touchnetix.com,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	bsp-development.geo@leica-geosystems.com,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: Re: [PATCH v7 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+Message-ID: <202402030433.2vfAa4qt-lkp@intel.com>
+References: <20240131141158.3350344-4-kamel.bouhara@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,61 +71,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240131141158.3350344-4-kamel.bouhara@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   076d56d74f17e625b3d63cf4743b3d7d02180379
-commit: 3e39acf56ededdebd1033349a16b704839b94b28 [2558/3789] ALSA: core: Add sound core KUnit test
-config: openrisc-randconfig-r013-20211230 (https://download.01.org/0day-ci/archive/20240203/202402030306.l4idnFyz-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030306.l4idnFyz-lkp@intel.com/reproduce)
+Hi Kamel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next krzk-dt/for-next linus/master v6.8-rc2 next-20240202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamel-Bouhara/dt-bindings-vendor-prefixes-Add-TouchNetix-AS/20240131-221925
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20240131141158.3350344-4-kamel.bouhara%40bootlin.com
+patch subject: [PATCH v7 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+config: s390-randconfig-r131-20240201 (https://download.01.org/0day-ci/archive/20240203/202402030433.2vfAa4qt-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fdac7d0b6f74f919d319b31a0680c77f66732586)
+reproduce: (https://download.01.org/0day-ci/archive/20240203/202402030433.2vfAa4qt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030306.l4idnFyz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402030433.2vfAa4qt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/touchscreen/touchnetix_axiom.c:181:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] preamble @@     got unsigned int @@
+   drivers/input/touchscreen/touchnetix_axiom.c:181:18: sparse:     expected restricted __le32 [usertype] preamble
+   drivers/input/touchscreen/touchnetix_axiom.c:181:18: sparse:     got unsigned int
+>> drivers/input/touchscreen/touchnetix_axiom.c:183:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int reg @@     got restricted __le32 [usertype] preamble @@
+   drivers/input/touchscreen/touchnetix_axiom.c:183:40: sparse:     expected unsigned int reg
+   drivers/input/touchscreen/touchnetix_axiom.c:183:40: sparse:     got restricted __le32 [usertype] preamble
 
-   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_pcm_format_name':
->> sound_kunit.c:(.text+0x54): undefined reference to `snd_pcm_format_name'
->> sound_kunit.c:(.text+0x54): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_name'
->> or1k-linux-ld: sound_kunit.c:(.text+0x118): undefined reference to `snd_pcm_format_name'
-   sound_kunit.c:(.text+0x118): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_name'
-   or1k-linux-ld: sound_kunit.c:(.text+0x18c): undefined reference to `snd_pcm_format_name'
-   sound_kunit.c:(.text+0x18c): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_name'
-   or1k-linux-ld: sound/core/sound_kunit.o: in function `_test_fill_silence':
->> sound_kunit.c:(.text+0x258): undefined reference to `snd_pcm_format_set_silence'
->> sound_kunit.c:(.text+0x258): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_set_silence'
-   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_format_signed':
->> sound_kunit.c:(.text+0x3b0): undefined reference to `snd_pcm_format_signed'
->> sound_kunit.c:(.text+0x3b0): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_signed'
->> or1k-linux-ld: sound_kunit.c:(.text+0x410): undefined reference to `snd_pcm_format_unsigned'
->> sound_kunit.c:(.text+0x410): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_unsigned'
->> or1k-linux-ld: sound_kunit.c:(.text+0x490): undefined reference to `snd_pcm_format_width'
->> sound_kunit.c:(.text+0x490): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_width'
-   or1k-linux-ld: sound_kunit.c:(.text+0x4ec): undefined reference to `snd_pcm_format_width'
-   sound_kunit.c:(.text+0x4ec): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_width'
-   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_format_width':
->> sound_kunit.c:(.text+0x5b4): undefined reference to `snd_pcm_format_width'
-   sound_kunit.c:(.text+0x5b4): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_width'
-   or1k-linux-ld: sound_kunit.c:(.text+0x618): undefined reference to `snd_pcm_format_width'
-   sound_kunit.c:(.text+0x618): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `snd_pcm_format_width'
-   or1k-linux-ld: sound_kunit.c:(.text+0x674): undefined reference to `snd_pcm_format_width'
-   sound_kunit.c:(.text+0x674): additional relocation overflows omitted from the output
-   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_format_endianness':
->> sound_kunit.c:(.text+0x734): undefined reference to `snd_pcm_format_little_endian'
->> or1k-linux-ld: sound_kunit.c:(.text+0x794): undefined reference to `snd_pcm_format_big_endian'
->> or1k-linux-ld: sound_kunit.c:(.text+0x814): undefined reference to `snd_pcm_format_little_endian'
-   or1k-linux-ld: sound_kunit.c:(.text+0x870): undefined reference to `snd_pcm_format_little_endian'
-   or1k-linux-ld: sound_kunit.c:(.text+0x8cc): undefined reference to `snd_pcm_format_big_endian'
-   or1k-linux-ld: sound_kunit.c:(.text+0x928): undefined reference to `snd_pcm_format_big_endian'
-   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_phys_format_size':
->> sound_kunit.c:(.text+0x9ec): undefined reference to `snd_pcm_format_physical_width'
->> or1k-linux-ld: sound_kunit.c:(.text+0xa50): undefined reference to `snd_pcm_format_physical_width'
-   or1k-linux-ld: sound_kunit.c:(.text+0xaac): undefined reference to `snd_pcm_format_physical_width'
-   or1k-linux-ld: sound/core/sound_kunit.o: in function `test_format_fill_silence':
-   sound_kunit.c:(.text+0xbe8): undefined reference to `snd_pcm_format_set_silence'
->> or1k-linux-ld: sound_kunit.c:(.text+0xc48): undefined reference to `snd_pcm_format_set_silence'
+vim +181 drivers/input/touchscreen/touchnetix_axiom.c
+
+   171	
+   172	static int axiom_read(struct axiom_data *ts, u8 usage, u8 page, void *buf, u16 len)
+   173	{
+   174		struct axiom_cmd_header cmd_header;
+   175		__le32 preamble;
+   176		int ret;
+   177	
+   178		cmd_header.target_address = cpu_to_le16(axiom_usage_to_target_address(ts, usage, page, 0));
+   179		cmd_header.length = cpu_to_le16(len | AXIOM_CMD_HEADER_READ_MASK);
+   180	
+ > 181		preamble = get_unaligned_le32((u8 *)&cmd_header);
+   182	
+ > 183		ret = regmap_write(ts->regmap, preamble, 0);
+   184		if (ret) {
+   185			dev_err(ts->dev, "failed to write preamble, error %d\n", ret);
+   186			return ret;
+   187		}
+   188	
+   189		ret = regmap_raw_read(ts->regmap, 0, buf, len);
+   190		if (ret) {
+   191			dev_err(ts->dev, "failed to read target address %04x, error %d\n",
+   192				cmd_header.target_address, ret);
+   193			return ret;
+   194		}
+   195	
+   196		/* Wait device's DMA operations */
+   197		usleep_range(AXIOM_DMA_OPS_DELAY_USEC, AXIOM_DMA_OPS_DELAY_USEC + 50);
+   198	
+   199		return 0;
+   200	}
+   201	
 
 -- 
 0-DAY CI Kernel Test Service
