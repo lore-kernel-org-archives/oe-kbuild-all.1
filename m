@@ -1,147 +1,133 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2722514C583
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 18:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5D514C598
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 18:12:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706897453; cv=none; b=j2CdqIwtVJD4qIrDKR6E00KEpCIY4URTzupXL0WD6I0cVV0fwSKYHA1+FFKsbRovcE7qjUsEMDEdcMc0AaiBxb1p+kHCht4TkukSjT1MGxtjdlWOZ6qakiOCHRtYOizpawd+ZDtYZ+AyVIpX3ByqEfX14Riez6YOIqGyIbLsLFg=
+	t=1706897567; cv=none; b=Ix3AA7SbpfEB6RzZcBQxvAYzCfeIzz+zW0jefEmKcljYWL7cqQXmqJhU0f0hfIU7V0fsjm+j76ofAAMr+5pHELJo0i9TnroF+1HE7g0Xi0KMqnloXgybcATwZQTv6B3i5rEZ1X3MuL4xIkEAobK585VLUOBWyjSGeQ/3TOXJDtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706897453; c=relaxed/simple;
-	bh=Bz5RLrDSI2lz3eGrZ1BaBArmjYUlb+b6xEsdTMAn6jo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DmLMloo3WUQGp6xMbuQ8eMwpCeZQKVglVeKTbzwL2F50oiwPd0retBA/PizqpEKmzkVG1lYyYCQm9xBwZXWlViLtv7p4D/vWWtRw6sF9p+bcfhs5szmMTAIOFqWUgUjgmK4cmJy7GTjKFzmBXOVpmRtDJgQ9fxdH+bbdn+lhjOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dN3di2NV; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1706897567; c=relaxed/simple;
+	bh=B/LZguq9EB059xq5IiI6hqPxxL0vnXVLbvtINrDrK+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W8luwDMcjRgIW9XZlL5nr3bHKrdxOVf91ykpjsRSzWPQ06VJHQi9UZVkYi5hp2ZbQ2aT6ztilrRle7BlYd+Sw+JhOLyO5ENy9O5RHglfXtI6FtPkSZqurwydIybd8rRauAKyQWWrTZUEFKOw4BM4SDGfTTzduMUORBJWDz3HzGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvA1zAF5; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dN3di2NV"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6041c6333cdso20540097b3.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 02 Feb 2024 10:10:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706897451; x=1707502251; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=T9UGts6nGQS3RkEfXeXcR2v8wnlBQKwVVYdgj9qNjJg=;
-        b=dN3di2NVGHyAoqnHmqb7hX0a23gbO9uMIS40iMe/s6FMjnPn93fCXN2tAumE5IUjsc
-         Tc4IYPiymqYGaAVONVdzjQxIGhp9phL2n1Wy/0/B1SmWvPyYK3apvKJlg1BtWb9k++6a
-         FMInjwmyzqy2nme0bsYFM8rvhZ0y1JnQVbDBzLDwy/yYXbZm4gq2G8FO+fyE9fq71ST5
-         gruHAbk3SDJCoOc13X/FdSJaZTMnEgCNScc0l3WuK9K9rm+8WF1bL4m/2ZZqygYn840z
-         nrVc65H8Yg0A0K3tye7YC/YjG0CxF6V4NsciEWeQDh46NGgEmFLQ0JhrsBWTuO11/8ub
-         pTAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706897451; x=1707502251;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=T9UGts6nGQS3RkEfXeXcR2v8wnlBQKwVVYdgj9qNjJg=;
-        b=bp3vfhRdaAo9iDUvEnKw89cKqRIEyoDBUP9nO7SLKVyvhfC/vjKvxXo8EcqSqplr5f
-         7wNMZqG5Ch1FzuAfPon26JPP7fxAqbnTWLKzcvXsf6Xj864rWIjqzshTDbYWHIbS8B00
-         euFnDTsTR/25qIpSTPF0INRgLkwyfWLf3iUNfzZ33c6Eu/fUhDzRICCN6Mizae+jTb1O
-         sv/dEc4PZTSx1xSskAeqBJC2VoLEnl/fDAiaIxI/FUGYS2Ov4bOD/ltg1CS7FB4PtZd5
-         9r9gDNRQ8TBkwlJLtxcU64mXDxUaxF9hd3mhWiWjyQxb9QJWpAh3MoCsmAEuTP4NkZ6Q
-         QGZw==
-X-Gm-Message-State: AOJu0YyKyinrsFnb6zsnVaqCxecMAWXh2S63TCHmN1ENo/n0Rs6uLEst
-	OmPwVb9MbCE8z/R0oLoLxxLCfb0vAoKBAuNeE81hzZlRe3ZcKXB+w1d/k65okYZuALG+OnjfBOX
-	iUBzhi58E5pKiQzDjEo5F/utGtdMkyiu1cqfuAQ==
-X-Google-Smtp-Source: AGHT+IEaGvHddmuizMRHJVxE6vTh6Fz0RMNu2HTzUn5QTT2/OptTAJOP+s9PzIaIo7n/qn5MsZwbga2DCIchY7JwDtA=
-X-Received: by 2002:a81:b613:0:b0:604:ea3:6525 with SMTP id
- u19-20020a81b613000000b006040ea36525mr6745858ywh.0.1706897449670; Fri, 02 Feb
- 2024 10:10:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvA1zAF5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706897565; x=1738433565;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B/LZguq9EB059xq5IiI6hqPxxL0vnXVLbvtINrDrK+8=;
+  b=AvA1zAF5tTY1ZXqYNrPdkP1FnKFrd2/xnFZ/o8nTpY1EsJEfiPNZMumA
+   6kIoZLJG3aKkIauPjrw6CQKZfrpCz6XAMH84gjpXYEHQc4MNb31Lwk+pQ
+   OtECclXzusm0MPILoUuX8vr/hLaKpyxYD9O+a7mPMvhOAFewCiGYPj/e+
+   eV43zWNd88vL3slb1jJ7eZ23F2P1evaO3LH+gdEJtcyfABJ5j1/7lRyiW
+   0IO/vKBJEMOl9sXbWqZPndou0heITIRvSzARlDA2hemLfi2ll2kDSyjAl
+   2peuCxzANjXBWlgq8a3Hyw4mbjFY5qsAmGXi1V0xSNFAVMM8+6hG8wIax
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="369706"
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="369706"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 10:12:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="418410"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Feb 2024 10:12:41 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rVy1l-00049C-34;
+	Fri, 02 Feb 2024 18:12:38 +0000
+Date: Sat, 3 Feb 2024 02:12:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
+Message-ID: <202402030114.spgdRGpC-lkp@intel.com>
+References: <20240131164709.810587-4-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240122102157.22761-3-brgl@bgdev.pl> <202402030101.nxmgLcAB-lkp@intel.com>
-In-Reply-To: <202402030101.nxmgLcAB-lkp@intel.com>
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Date: Fri, 2 Feb 2024 19:10:38 +0100
-Message-ID: <CACMJSetk29BXrb2ywuWPCsvkDn9k6+0gTbcxmZBUyJteJG2=hA@mail.gmail.com>
-Subject: Re: [RESEND PATCH v6 02/12] firmware: qcom: scm: enable the TZ mem allocator
-To: kernel test robot <lkp@intel.com>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Elliot Berman <quic_eberman@quicinc.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Guru Das Srinagesh <quic_gurus@quicinc.com>, Andrew Halaney <ahalaney@redhat.com>, 
-	Maximilian Luz <luzmaximilian@gmail.com>, Alex Elder <elder@linaro.org>, 
-	Srini Kandagatla <srinivas.kandagatla@linaro.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kernel@quicinc.com, Deepti Jaggi <quic_djaggi@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240131164709.810587-4-dan.scally@ideasonboard.com>
 
-On Fri, 2 Feb 2024 at 19:02, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Bartosz,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on krzk-dt/for-next v6.8-rc2 next-20240202]
-> [cannot apply to arm64/for-next/core]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/firmware-qcom-add-a-dedicated-TrustZone-buffer-allocator/20240122-182633
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20240122102157.22761-3-brgl%40bgdev.pl
-> patch subject: [RESEND PATCH v6 02/12] firmware: qcom: scm: enable the TZ mem allocator
-> config: i386-buildonly-randconfig-004-20240202 (https://download.01.org/0day-ci/archive/20240203/202402030101.nxmgLcAB-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030101.nxmgLcAB-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402030101.nxmgLcAB-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> ld.lld: error: undefined symbol: gen_pool_create
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_pool_new) in archive vmlinux.a
-> --
-> >> ld.lld: error: undefined symbol: gen_pool_best_fit
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_pool_new) in archive vmlinux.a
-> --
-> >> ld.lld: error: undefined symbol: gen_pool_set_algo
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_pool_new) in archive vmlinux.a
-> --
-> >> ld.lld: error: undefined symbol: gen_pool_add_owner
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_pool_new) in archive vmlinux.a
-> --
-> >> ld.lld: error: undefined symbol: gen_pool_destroy
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_pool_new) in archive vmlinux.a
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_pool_free) in archive vmlinux.a
-> --
-> >> ld.lld: error: undefined symbol: gen_pool_alloc_algo_owner
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_alloc) in archive vmlinux.a
-> --
-> >> ld.lld: error: undefined symbol: gen_pool_virt_to_phys
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_alloc) in archive vmlinux.a
-> --
-> >> ld.lld: error: undefined symbol: gen_pool_free_owner
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_alloc) in archive vmlinux.a
->    >>> referenced by qcom_tzmem.c
->    >>>               drivers/firmware/qcom/qcom_tzmem.o:(qcom_tzmem_free) in archive vmlinux.a
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Hi Daniel,
 
-Huh, strange that it took so long to report it. Seems like QCOM_TZMEM
-needs to select GENERIC_ALLOCATOR in Kconfig.
+kernel test robot noticed the following build warnings:
 
-Bart
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master linus/master v6.8-rc2 next-20240202]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-uapi-Add-MEDIA_BUS_FMT_RGB202020_1X60-format-code/20240201-005029
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240131164709.810587-4-dan.scally%40ideasonboard.com
+patch subject: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
+config: arc-randconfig-r132-20240202 (https://download.01.org/0day-ci/archive/20240203/202402030114.spgdRGpC-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240203/202402030114.spgdRGpC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402030114.spgdRGpC-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/platform/arm/mali-c55/mali-c55-core.c:33:12: sparse: sparse: symbol 'mali_c55_interrupt_names' was not declared. Should it be static?
+>> drivers/media/platform/arm/mali-c55/mali-c55-core.c:602:29: sparse: sparse: Using plain integer as NULL pointer
+
+vim +/mali_c55_interrupt_names +33 drivers/media/platform/arm/mali-c55/mali-c55-core.c
+
+    32	
+  > 33	const char * const mali_c55_interrupt_names[] = {
+    34		[MALI_C55_IRQ_ISP_START] = "ISP start",
+    35		[MALI_C55_IRQ_ISP_DONE] = "ISP done",
+    36		[MALI_C55_IRQ_MCM_ERROR] = "Multi-context management error",
+    37		[MALI_C55_IRQ_BROKEN_FRAME_ERROR] = "Broken frame error",
+    38		[MALI_C55_IRQ_MET_AF_DONE] = "AF metering done",
+    39		[MALI_C55_IRQ_MET_AEXP_DONE] = "AEXP metering done",
+    40		[MALI_C55_IRQ_MET_AWB_DONE] = "AWB metering done",
+    41		[MALI_C55_IRQ_AEXP_1024_DONE] = "AEXP 1024-bit histogram done",
+    42		[MALI_C55_IRQ_IRIDIX_MET_DONE] = "Iridix metering done",
+    43		[MALI_C55_IRQ_LUT_INIT_DONE] = "LUT memory init done",
+    44		[MALI_C55_IRQ_FR_Y_DONE] = "Full resolution Y plane DMA done",
+    45		[MALI_C55_IRQ_FR_UV_DONE] = "Full resolution U/V plane DMA done",
+    46		[MALI_C55_IRQ_DS_Y_DONE] = "Downscale Y plane DMA done",
+    47		[MALI_C55_IRQ_DS_UV_DONE] = "Downscale U/V plane DMA done",
+    48		[MALI_C55_IRQ_LINEARIZATION_DONE] = "Linearisation done",
+    49		[MALI_C55_IRQ_RAW_FRONTEND_DONE] = "Raw frontend processing done",
+    50		[MALI_C55_IRQ_NOISE_REDUCTION_DONE] = "Noise reduction done",
+    51		[MALI_C55_IRQ_IRIDIX_DONE] = "Iridix done",
+    52		[MALI_C55_IRQ_BAYER2RGB_DONE] = "Bayer to RGB conversion done",
+    53		[MALI_C55_IRQ_WATCHDOG_TIMER] = "Watchdog timer timed out",
+    54		[MALI_C55_IRQ_FRAME_COLLISION] = "Frame collision error",
+    55		[MALI_C55_IRQ_UNUSED] = "IRQ bit unused",
+    56		[MALI_C55_IRQ_DMA_ERROR] = "DMA error",
+    57		[MALI_C55_IRQ_INPUT_STOPPED] = "Input port safely stopped",
+    58		[MALI_C55_IRQ_MET_AWB_TARGET1_HIT] = "AWB metering target 1 address hit",
+    59		[MALI_C55_IRQ_MET_AWB_TARGET2_HIT] = "AWB metering target 2 address hit"
+    60	};
+    61	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
