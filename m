@@ -1,179 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF6038F97
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 13:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295A945BFC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 13:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706878866; cv=none; b=c7K/pszy8VXGFsyHyKG/SaRmr81oYMzLHhQS4wOjd/ammLre+hFRmhsAxPUFv5iOkLgNy/IB0jUEwFFgOTeULsjboNEhGjfPSkwdan+ETADsiYlPb06W6FwIZbkYhyJNUTK19eyhnIFfZFKzAAU20A2iOr+hoJyHZ/s/3nYQaw8=
+	t=1706879385; cv=none; b=igZ+DeKjrKHSswNHGdf+HP8o7daNsPlSaAY+1m+osNDv39ZwtH7G4NMXhqfK9s63/r8EeQAsXVRovF+EMDBt+5oxf/GjIerjaazfotnBxwvhQkTwKtWxKJrkOWGZdm5Kq0f2/giPU6XAIi93WGUTaPNGAk+RPK+s/zkbfTT44wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706878866; c=relaxed/simple;
-	bh=LhnEhIG/Vs40iwCzDbmnyOsFhRqP2/+mVm19E37H8Sc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZwRTBQqIbekVOyv2BjdJTFEj0oGX7CiYqeifmvVbrabAiwAxD6Of3GmhuhItsDI7HASZ3pPCcZ2h9x562lSUTFPJv/bOOB1mCW+qbhl2r646P4axglTgHuV2nCcQY3g0IXC9f3fFi5Scz3ztLV2x0K2Tiy1l3wSu0va0k4ClsGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OyX9QgTf; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OyX9QgTf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706878862; x=1738414862;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LhnEhIG/Vs40iwCzDbmnyOsFhRqP2/+mVm19E37H8Sc=;
-  b=OyX9QgTfKHq4vOo8QwE5KnMmlaIEr8/rVU9XNZZAC56GofZ2aIoSUCjV
-   5FYC1/Ul4YPcYlvbSG58gTnICUqyoHE0oUYixdqI1jrtXNsFkkVgeAM85
-   /ycNQDMWqBv5Xsmt6kQno0ozWUHeoQUGoQg3Cy4rZ2aLJfYYs4r+u7M7h
-   60WcbszLUFPKwUQ07/+9tWGAcYDthn5LTPN7hppCnerLjWm8KntfDf43i
-   zR2uEjZ0KXEmSM40L34reaJ/gcPQ6knv7YhnDBSos32k4JulbDXKj53aR
-   X4P4aa7LFMpO8LgwM3rv9MvVxkf5KBaOrHvi2N+mMM6wFduGwPMcDx3ME
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="71407"
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="71407"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 05:01:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="400791"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 02 Feb 2024 05:01:02 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rVtAB-0003r8-12;
-	Fri, 02 Feb 2024 13:00:59 +0000
-Date: Fri, 2 Feb 2024 21:00:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.8-rc2-esp32 21/44] kismet: WARNING: unmet
- direct dependencies detected for ESP32_IPC when selected by MTD_ESP32
-Message-ID: <202402022032.iXp8O6LL-lkp@intel.com>
+	s=arc-20240116; t=1706879385; c=relaxed/simple;
+	bh=si1jDfJkJmfIzO1h/ErfppSUMhkjCOpyaxbayvbpRjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fW7vh4KGBFCAL5hbvSpJ82rQvntkoZpyNs7GcJvdMZ1R6a/QCCl0pctOKD/55SK0nYM2L9mPb4w6FZL0xsk/O6TmbA9PZFXUpLIAvoz6gmbPXRXin7b+6gmz9sYO28PZWg/XwpsoJU7oWKHyEiVWJJsmW+XEYAXPziypT/Tk9CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rVtIM-0003lW-88; Fri, 02 Feb 2024 14:09:26 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rVtIK-0044R6-S0; Fri, 02 Feb 2024 14:09:24 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rVtIK-00DnDD-2U;
+	Fri, 02 Feb 2024 14:09:24 +0100
+Date: Fri, 2 Feb 2024 14:08:27 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Mark Brown <broonie@kernel.org>, Michal Simek <monstr@monstr.eu>, 
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>, 
+	kernel@pengutronix.de, oe-kbuild-all@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 17/33] spi: bitbang: Follow renaming of SPI "master"
+ to "controller"
+Message-ID: <fkqzgxam5hlutiujsdnrhoidx2mjcnkwl427dpvydux7fn3ye4@2p7b4e7z45e6>
+References: <b2035a8030b77e8a3eea87adf7e4a191c0a18717.1705944943.git.u.kleine-koenig@pengutronix.de>
+ <202401301813.fehkuS9c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tetp5lb4bqqkwc3b"
 Content-Disposition: inline
+In-Reply-To: <202401301813.fehkuS9c-lkp@intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.8-rc2-esp32
-head:   b25ff15921c2ce0b8abd0f2797f4942a28866d9e
-commit: 1d4c0e9d617182a90eb506db56bff1b70f01c2ed [21/44] drivers/mtd: add esp32 MTD support
-config: alpha-kismet-CONFIG_ESP32_IPC-CONFIG_MTD_ESP32-0-0 (https://download.01.org/0day-ci/archive/20240202/202402022032.iXp8O6LL-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240202/202402022032.iXp8O6LL-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402022032.iXp8O6LL-lkp@intel.com/
+--tetp5lb4bqqkwc3b
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for ESP32_IPC when selected by MTD_ESP32
-   .config:239:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:333:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:360:warning: symbol value 'n' invalid for SQUASHFS_FRAGMENT_CACHE_SIZE
-   .config:426:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:450:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:499:warning: symbol value 'n' invalid for FB_OMAP2_NUM_FBS
-   .config:603:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:610:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:646:warning: symbol value 'n' invalid for CFAG12864B_RATE
-   .config:712:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:775:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:801:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:819:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:861:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:869:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:879:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:891:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:950:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:954:warning: symbol value 'n' invalid for FAT_DEFAULT_CODEPAGE
-   .config:1112:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1141:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1214:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1363:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1511:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1645:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
-   .config:1652:warning: symbol value 'n' invalid for BLK_DEV_LOOP_MIN_COUNT
-   .config:1701:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1768:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:1941:warning: symbol value 'n' invalid for CMA_SIZE_MBYTES
-   .config:2011:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:2059:warning: symbol value 'n' invalid for SND_HDA_PREALLOC_SIZE
-   .config:2076:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2107:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2174:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2249:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2301:warning: symbol value 'n' invalid for AIC7XXX_DEBUG_MASK
-   .config:2478:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2479:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:2563:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2635:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2745:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2840:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2864:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:2887:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:2949:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:2989:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3029:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3065:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3235:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3358:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3361:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
-   .config:3402:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3476:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:3522:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3565:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3609:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:3635:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3645:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:3879:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:4012:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4033:warning: symbol value 'n' invalid for CMA_AREAS
-   .config:4088:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4198:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4313:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4429:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:4443:warning: symbol value 'n' invalid for VGA_ARB_MAX_GPUS
-   .config:4498:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4878:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:4958:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:4979:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:4986:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:5129:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5220:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5237:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5259:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5351:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
-   .config:5408:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:5493:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5523:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5604:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:5612:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5620:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5643:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:5835:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
-   .config:5930:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:5993:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:6031:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6093:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6458:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6489:warning: symbol value 'n' invalid for SND_MAX_CARDS
-   .config:6574:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:6576:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:6598:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:6599:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:6651:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:6756:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
-   .config:6909:warning: symbol value 'n' invalid for LOCKDEP_BITS
-   .config:6938:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:6962:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:7053:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
+Hello,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Tue, Jan 30, 2024 at 06:46:16PM +0800, kernel test robot wrote:
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on 6613476e225e090cc9aad49be7fa504e290dd33d]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/f=
+pga-ice40-spi-Follow-renaming-of-SPI-master-to-controller/20240123-031635
+> base:   6613476e225e090cc9aad49be7fa504e290dd33d
+> patch link:    https://lore.kernel.org/r/b2035a8030b77e8a3eea87adf7e4a191=
+c0a18717.1705944943.git.u.kleine-koenig%40pengutronix.de
+> patch subject: [PATCH v2 17/33] spi: bitbang: Follow renaming of SPI "mas=
+ter" to "controller"
+> config: mips-db1xxx_defconfig (https://download.01.org/0day-ci/archive/20=
+240130/202401301813.fehkuS9c-lkp@intel.com/config)
+> compiler: mipsel-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20240130/202401301813.fehkuS9c-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401301813.fehkuS9c-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    drivers/spi/spi-au1550.c: In function 'au1550_spi_probe':
+> >> drivers/spi/spi-au1550.c:803:20: error: 'struct spi_bitbang' has no me=
+mber named 'master'
+>      803 |         hw->bitbang.master =3D hw->host;
+>          |                    ^
+
+Dang, didn't build test on mips. Will send a v3 once I did a few more
+build tests.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--tetp5lb4bqqkwc3b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmW86UYACgkQj4D7WH0S
+/k4oqQf+PKoAyxps0x4nVkFRkOBtTNcXlNeXyJLJ15QRTcR2j2LDAoaetOiL8PWR
+LVeT0uCO/tCC5ayoHYfKtsdtiwpkZU0d3ZhWydcB37BSC4SwcmtGTHW0PA6Y4eNE
+6U3XpFO23oZ4zFCv45HqiiDbxeHySUvw97nmHinvLPw+1FqLIGhPtoKw78AbWwA3
+GR4c7p7DTqYGVwlOUAv/cwioQQznUh01WYLpyRnMmMIdCvM8MkgM9ISbDNOve1al
+sWus7hbUcBwlbMD4isdmYo3GomwgIv0+aDQJCFoekNiVKaS5T/QaXZWvAr7sEYQw
+h4B1Fk/0m2lLaSVHLM4LaxSh2ZntjQ==
+=4c6p
+-----END PGP SIGNATURE-----
+
+--tetp5lb4bqqkwc3b--
