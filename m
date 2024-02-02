@@ -1,62 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5D514C598
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 18:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C7715E5BA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 19:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706897567; cv=none; b=Ix3AA7SbpfEB6RzZcBQxvAYzCfeIzz+zW0jefEmKcljYWL7cqQXmqJhU0f0hfIU7V0fsjm+j76ofAAMr+5pHELJo0i9TnroF+1HE7g0Xi0KMqnloXgybcATwZQTv6B3i5rEZ1X3MuL4xIkEAobK585VLUOBWyjSGeQ/3TOXJDtM=
+	t=1706901951; cv=none; b=Zm/dQJx2fAI/DKpdURZfKBiHF3XLrkcvsldq8rCsYHPeIEDXY+Ld19YgJg3CFZcXFXLpkCf0nRLXBGcBdayCtRB9VBdwRihLQorsMO2XY+CL2t12gqth8YirCN1Z5hMlneA6Ztk1Cw9ulNfl4xrcRkGGFEidYzYbaHUYHF3yJiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706897567; c=relaxed/simple;
-	bh=B/LZguq9EB059xq5IiI6hqPxxL0vnXVLbvtINrDrK+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W8luwDMcjRgIW9XZlL5nr3bHKrdxOVf91ykpjsRSzWPQ06VJHQi9UZVkYi5hp2ZbQ2aT6ztilrRle7BlYd+Sw+JhOLyO5ENy9O5RHglfXtI6FtPkSZqurwydIybd8rRauAKyQWWrTZUEFKOw4BM4SDGfTTzduMUORBJWDz3HzGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvA1zAF5; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1706901951; c=relaxed/simple;
+	bh=rO/4piFDiQXXsuef0W1WgoriWG5NhITZnQFKHu7K2vw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tMm9TcyQ8nLOlW0z96O3pYXR5bTxjZ8blGpyHNy2/8jNV1CNw729W94TD+ZsXBECKXI4padq577K8g8E3mBIdQwlhaNZzJOhVM3RjdGX/MBLJKZeW/r5/hyeZqWWMhxDTi1Gh0OJxZpYIt7TaXA8aZHTyrttTOLWqRxOQ87p0Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csquiwDa; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvA1zAF5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csquiwDa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706897565; x=1738433565;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B/LZguq9EB059xq5IiI6hqPxxL0vnXVLbvtINrDrK+8=;
-  b=AvA1zAF5tTY1ZXqYNrPdkP1FnKFrd2/xnFZ/o8nTpY1EsJEfiPNZMumA
-   6kIoZLJG3aKkIauPjrw6CQKZfrpCz6XAMH84gjpXYEHQc4MNb31Lwk+pQ
-   OtECclXzusm0MPILoUuX8vr/hLaKpyxYD9O+a7mPMvhOAFewCiGYPj/e+
-   eV43zWNd88vL3slb1jJ7eZ23F2P1evaO3LH+gdEJtcyfABJ5j1/7lRyiW
-   0IO/vKBJEMOl9sXbWqZPndou0heITIRvSzARlDA2hemLfi2ll2kDSyjAl
-   2peuCxzANjXBWlgq8a3Hyw4mbjFY5qsAmGXi1V0xSNFAVMM8+6hG8wIax
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="369706"
+  t=1706901949; x=1738437949;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rO/4piFDiQXXsuef0W1WgoriWG5NhITZnQFKHu7K2vw=;
+  b=csquiwDa1cyksTLWaxZY7sEQEaDMP1LZyPrfWKBLUsHhlQcuifDZI7ID
+   Ngxvzqdb7xv3F6/ltzUeoTmzQUB3sJb9mtibWFVrcjaqHugsNLmHLmQjU
+   YksigVos5DtusLMYMfqUfw/nF7C/BAJ7/WG2lKMy6QXZAU8gNvpdPrgTm
+   Gg9bC2pzCfNpUU7jpwXOkx8Hi+ztTn40mYRIh8IIpE8m9p3bbQ+ljRw17
+   QQxCNOsn47SjJndtWmUDiU5nP+yhuQ8TB8mXygpIRTCsYuDH4Diz3X8T2
+   5Rmh3kHzBu+2OS2b9F3qIHfjfjtYMRfD7vUeJLGVyveVudll5noMhEh/I
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="135072"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="369706"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 10:12:44 -0800
+   d="scan'208";a="135072"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 11:25:47 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="418410"
+   d="scan'208";a="37567976"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Feb 2024 10:12:41 -0800
+  by orviesa001.jf.intel.com with ESMTP; 02 Feb 2024 11:25:46 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVy1l-00049C-34;
-	Fri, 02 Feb 2024 18:12:38 +0000
-Date: Sat, 3 Feb 2024 02:12:28 +0800
+	id 1rVzAV-0004Cw-1x;
+	Fri, 02 Feb 2024 19:25:43 +0000
+Date: Sat, 3 Feb 2024 03:24:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
-Message-ID: <202402030114.spgdRGpC-lkp@intel.com>
-References: <20240131164709.810587-4-dan.scally@ideasonboard.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:rxrpc-iothread 23/24] net/rxrpc/output.c:270:58:
+ warning: assignment to 'void *' from 'long unsigned int' makes pointer from
+ integer without a cast
+Message-ID: <202402030324.zgljQAUQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,68 +58,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240131164709.810587-4-dan.scally@ideasonboard.com>
 
-Hi Daniel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linuxtv-media-stage/master linus/master v6.8-rc2 next-20240202]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-uapi-Add-MEDIA_BUS_FMT_RGB202020_1X60-format-code/20240201-005029
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240131164709.810587-4-dan.scally%40ideasonboard.com
-patch subject: [PATCH 3/5] media: mali-c55: Add Mali-C55 ISP driver
-config: arc-randconfig-r132-20240202 (https://download.01.org/0day-ci/archive/20240203/202402030114.spgdRGpC-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240203/202402030114.spgdRGpC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git rxrpc-iothread
+head:   975bd4732a7b88c6ec05685c43b639000f888fbe
+commit: 83f863dfba3ae06a4b4f5369c46e9a39594d6da9 [23/24] rxrpc: Implement path-MTU probing using padded PING ACKs (RFC8899)
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402030324.zgljQAUQ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030324.zgljQAUQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030114.spgdRGpC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402030324.zgljQAUQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/platform/arm/mali-c55/mali-c55-core.c:33:12: sparse: sparse: symbol 'mali_c55_interrupt_names' was not declared. Should it be static?
->> drivers/media/platform/arm/mali-c55/mali-c55-core.c:602:29: sparse: sparse: Using plain integer as NULL pointer
+All warnings (new ones prefixed by >>):
 
-vim +/mali_c55_interrupt_names +33 drivers/media/platform/arm/mali-c55/mali-c55-core.c
+   net/rxrpc/output.c: In function 'rxrpc_send_ACK':
+>> net/rxrpc/output.c:270:58: warning: assignment to 'void *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
+     270 |                         txb->kvec[txb->nr_kvec].iov_base = empty_zero_page;
+         |                                                          ^
+--
+   net/rxrpc/txbuf.c: In function 'rxrpc_free_txbuf':
+>> net/rxrpc/txbuf.c:183:43: warning: comparison between pointer and integer
+     183 |                     txb->kvec[i].iov_base != empty_zero_page)
+         |                                           ^~
 
-    32	
-  > 33	const char * const mali_c55_interrupt_names[] = {
-    34		[MALI_C55_IRQ_ISP_START] = "ISP start",
-    35		[MALI_C55_IRQ_ISP_DONE] = "ISP done",
-    36		[MALI_C55_IRQ_MCM_ERROR] = "Multi-context management error",
-    37		[MALI_C55_IRQ_BROKEN_FRAME_ERROR] = "Broken frame error",
-    38		[MALI_C55_IRQ_MET_AF_DONE] = "AF metering done",
-    39		[MALI_C55_IRQ_MET_AEXP_DONE] = "AEXP metering done",
-    40		[MALI_C55_IRQ_MET_AWB_DONE] = "AWB metering done",
-    41		[MALI_C55_IRQ_AEXP_1024_DONE] = "AEXP 1024-bit histogram done",
-    42		[MALI_C55_IRQ_IRIDIX_MET_DONE] = "Iridix metering done",
-    43		[MALI_C55_IRQ_LUT_INIT_DONE] = "LUT memory init done",
-    44		[MALI_C55_IRQ_FR_Y_DONE] = "Full resolution Y plane DMA done",
-    45		[MALI_C55_IRQ_FR_UV_DONE] = "Full resolution U/V plane DMA done",
-    46		[MALI_C55_IRQ_DS_Y_DONE] = "Downscale Y plane DMA done",
-    47		[MALI_C55_IRQ_DS_UV_DONE] = "Downscale U/V plane DMA done",
-    48		[MALI_C55_IRQ_LINEARIZATION_DONE] = "Linearisation done",
-    49		[MALI_C55_IRQ_RAW_FRONTEND_DONE] = "Raw frontend processing done",
-    50		[MALI_C55_IRQ_NOISE_REDUCTION_DONE] = "Noise reduction done",
-    51		[MALI_C55_IRQ_IRIDIX_DONE] = "Iridix done",
-    52		[MALI_C55_IRQ_BAYER2RGB_DONE] = "Bayer to RGB conversion done",
-    53		[MALI_C55_IRQ_WATCHDOG_TIMER] = "Watchdog timer timed out",
-    54		[MALI_C55_IRQ_FRAME_COLLISION] = "Frame collision error",
-    55		[MALI_C55_IRQ_UNUSED] = "IRQ bit unused",
-    56		[MALI_C55_IRQ_DMA_ERROR] = "DMA error",
-    57		[MALI_C55_IRQ_INPUT_STOPPED] = "Input port safely stopped",
-    58		[MALI_C55_IRQ_MET_AWB_TARGET1_HIT] = "AWB metering target 1 address hit",
-    59		[MALI_C55_IRQ_MET_AWB_TARGET2_HIT] = "AWB metering target 2 address hit"
-    60	};
-    61	
+
+vim +270 net/rxrpc/output.c
+
+   237	
+   238	/*
+   239	 * Queue an ACK for immediate transmission.
+   240	 */
+   241	void rxrpc_send_ACK(struct rxrpc_call *call, u8 ack_reason,
+   242			    rxrpc_serial_t serial, enum rxrpc_propose_ack_trace why)
+   243	{
+   244		struct rxrpc_txbuf *txb;
+   245	
+   246		if (test_bit(RXRPC_CALL_DISCONNECTED, &call->flags))
+   247			return;
+   248	
+   249		rxrpc_inc_stat(call->rxnet, stat_tx_acks[ack_reason]);
+   250	
+   251		txb = rxrpc_alloc_ack_txbuf(call, call->ackr_wtop - call->ackr_window);
+   252		if (!txb) {
+   253			kleave(" = -ENOMEM");
+   254			return;
+   255		}
+   256	
+   257		txb->ack_why = why;
+   258	
+   259		rxrpc_fill_out_ack(call, txb, ack_reason, serial);
+   260	
+   261		/* Extend a path MTU probe ACK. */
+   262		if (why == rxrpc_propose_ack_ping_for_mtu_probe) {
+   263			size_t probe_mtu = call->peer->pmtud_trial + sizeof(struct rxrpc_wire_header);
+   264	
+   265			if (txb->len > probe_mtu)
+   266				goto skip;
+   267			while (txb->len < probe_mtu) {
+   268				size_t part = min_t(size_t, probe_mtu - txb->len, PAGE_SIZE);
+   269	
+ > 270				txb->kvec[txb->nr_kvec].iov_base = empty_zero_page;
+   271				txb->kvec[txb->nr_kvec].iov_len = part;
+   272				txb->len += part;
+   273				txb->nr_kvec++;
+   274			}
+   275		}
+   276	
+   277		call->ackr_nr_unacked = 0;
+   278		atomic_set(&call->ackr_nr_consumed, 0);
+   279		clear_bit(RXRPC_CALL_RX_IS_IDLE, &call->flags);
+   280	
+   281		trace_rxrpc_send_ack(call, why, ack_reason, serial);
+   282		rxrpc_send_ack_packet(call, txb, why);
+   283	skip:
+   284		rxrpc_put_txbuf(txb, rxrpc_txbuf_put_ack_tx);
+   285	}
+   286	
 
 -- 
 0-DAY CI Kernel Test Service
