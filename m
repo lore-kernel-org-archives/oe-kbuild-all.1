@@ -1,122 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15A24C71
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 00:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F5BBE59
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 02:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706834826; cv=none; b=Eychw8XK/c1Gs6a4cRvswrVRTE6d3GV3X6FchrZWdad53z69ELULXFF8DcodRHXB6Su+1obneSWtP7/hA5/MGIFUw/zoUSwYu4VNwNLqW3Fxs6XLNJ2+mXuG+MJk/q9xOTc9nNsEVjnc/dcy/WTFbNtb+1Gm8S9XQLWQpFl35zU=
+	t=1706841948; cv=none; b=jz7AqvHvYqivCvmRTiDroLLMlfOmL6w+716hJiGnSuwUXnSOBReiLPxjmuF2tnO/6EToWi0gS9zLHcdav03GL6GqjBdoaAuqPiIfGEfHjMRja1+U/GXifNDjzUVpT6vgbJlrMg7xdhV3HhqU486/6y6e6EkfIkL9GOAfZONLpkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706834826; c=relaxed/simple;
-	bh=+j8LMO+IOP+7vD7y30g/kDTaUgyz087tpiGgG1uwfXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ir9lZXAj6jeD28lK/0wiaVYM3/AdUSOR3fDllJs8/Rbkfa99oiVQHAbFeNOOxPvwu1l0grAf1iLATWMFgTCUn62usvGQqV+0aS/2c4DIvHyOy/HSQ/cMSLHlPwOBYd/NBjJsiJk2qwdgYZekG4ZupcwGvzp3vOJbETasBL2VQRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K21xhU1R; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706841948; c=relaxed/simple;
+	bh=7oBb7IKcObfzmvqyYZJoHP6WOxWIh2A9L3BkkMhnI1U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=oI6QtlvCgD75BtCyezbgM5TVDrXuL+JDpbtzuaKSqiIrFLUWPTQLZt4N9RcGQRiiTnu/LIHaw7mIQVhzPmBPzP37N1wVWgTbv9hqgM0AgxAcKqzCMjbqvP6iWs/G5OVa5yAlqHqaw9cxhD6UU/J1h8BRqfPvCyKRGfdDML6rTgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BrOT32d6; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K21xhU1R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706834825; x=1738370825;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+j8LMO+IOP+7vD7y30g/kDTaUgyz087tpiGgG1uwfXo=;
-  b=K21xhU1RhCZgEQR19Blz08WWQ8LY2LdIqYbdoegrlDI5qdiHK8a76dAJ
-   SCK2KEjjGFSGnujA7my3Mo6jzW6ijo45juhGJgkQ+f1uoEza2Dq/ivLyZ
-   rCRPMGPp9lT3YFTjwlh2t8cJwR97zihQSHU5wWUe/TyNK4CafqkC/lKha
-   UkGwkt//VUReBjJCGmObUr9kXEEFF7EaQ8nxmpXYk5+U/HmlQ4AafNjc7
-   d/V66e4tbetqBPatOqzyJrmUzhDBQosFjtAF/TNxekP9akBYQiRxUmyhk
-   WHbLJ0Pqx7KgCD9DVlVHIl/vA1fFWtKQ8AYHI/8WdTi9g4WpSu7/Z99AM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="2977652"
-X-IronPort-AV: E=Sophos;i="6.05,236,1701158400"; 
-   d="scan'208";a="2977652"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 16:46:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,236,1701158400"; 
-   d="scan'208";a="30756783"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 01 Feb 2024 16:46:50 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rVhhe-0003Pi-24;
-	Fri, 02 Feb 2024 00:46:46 +0000
-Date: Fri, 2 Feb 2024 08:46:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Maxime Ripard <mripard@kernel.org>
-Subject: [drm-misc:drm-misc-next 2/6]
- drivers/gpu/drm/drm_managed.c:200:22-24: WARNING !A || A && B is equivalent
- to !A || B
-Message-ID: <202402020855.4Fsjr97a-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BrOT32d6"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4121WY86014692;
+	Fri, 2 Feb 2024 02:45:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=8MyOR6juEfYYlI/Kvs5o3c2m2K3i/huXkF9+m7b70mw=; b=Br
+	OT32d6T0L7urISx7NL1ls+pluG4RJGOjiwgOhTFhIuWDb01kLZdKYCAt+c5vHLKz
+	jA91qh8P5VFM8mKnl6Lsyt6iqJ6F18e+hIT6I6FHyc+O2277v3VTn8SnYj48UbdH
+	Em36vTK6xyRew3niYdwM8WukEsyk4q1zROxhZgfhymTQ7i+VkktOcyR9ZU8HiTBo
+	yDBvW7B1EDGVy4DJ+pKCt0nV9hIbi39aEd2UJw6mWFT9bTeG85Wgc/+SMlUlX7tP
+	8gSQX4utKGx/gosZigCEsQh6jKKAp8I7sR6QomxQNYCJVyeHjih710iGhEVITeSX
+	de9QPGBIC0Pr0qSD7o3A==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0ptv03sh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 02 Feb 2024 02:45:41 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4122jeO8002795
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 2 Feb 2024 02:45:40 GMT
+Received: from [10.231.195.68] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 1 Feb
+ 2024 18:45:38 -0800
+Message-ID: <a626846c-0b0c-4656-bf10-0fc187553aaf@quicinc.com>
+Date: Fri, 2 Feb 2024 10:45:38 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [kvalo-ath:pending 47/100]
+ drivers/net/wireless/ath/ath11k/mac.c:7949 ath11k_mac_fill_reg_tpc_info()
+ error: uninitialized symbol 'eirp_power'.
+Content-Language: en-US
+To: Kalle Valo <kvalo@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <ath10k@lists.infradead.org>,
+        kernel test
+ robot <lkp@intel.com>, <ath11k@lists.infradead.org>
+References: <202401311243.NyXwWZxP-lkp@intel.com> <87ttmtvfx4.fsf@kernel.org>
+ <a2fb59bb-6090-433f-9c3d-d35aaab93e70@quicinc.com>
+ <87zfwktaws.fsf@kernel.org>
+From: Baochen Qiang <quic_bqiang@quicinc.com>
+In-Reply-To: <87zfwktaws.fsf@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ItZ-MkuCs1zMEHsVRJCi0tg0Yi7BC60u
+X-Proofpoint-GUID: ItZ-MkuCs1zMEHsVRJCi0tg0Yi7BC60u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-01_10,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 clxscore=1015 spamscore=0 phishscore=0 adultscore=0
+ mlxscore=0 mlxlogscore=790 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402020017
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   041261ac4c365e03b07427569d6735f8adfd21c8
-commit: 42d6196f6a948aaecfedf72326925dcbd054f9db [2/6] drm/managed: Add drmm_release_action
-config: x86_64-randconfig-103-20240201 (https://download.01.org/0day-ci/archive/20240202/202402020855.4Fsjr97a-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402020855.4Fsjr97a-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_managed.c:200:22-24: WARNING !A || A && B is equivalent to !A || B
+On 2/2/2024 12:19 AM, Kalle Valo wrote:
+> Baochen Qiang <quic_bqiang@quicinc.com> writes:
+> 
+>> On 1/31/2024 8:35 PM, Kalle Valo wrote:
+>>> + ath11k list
+>>> kernel test robot <lkp@intel.com> writes:
+>>>
+>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git pending
+>>>> head:   2c471f31297856be56f60ef29f2565dea1470800
+>>>> commit: 92425f788feede9bf152ecf3fb7a264942ee7719 [47/100] wifi:
+>>>> ath11k: fill parameters for vdev set tpc power WMI command
+>>>> config: i386-randconfig-141-20240129
+>>>> (https://download.01.org/0day-ci/archive/20240131/202401311243.NyXwWZxP-lkp@intel.com/config)
+>>>> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+>>>>
+>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>> the same patch/commit), kindly add following tags
+>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>> | Closes:
+>>>> | https://lore.kernel.org/oe-kbuild-all/202401311243.NyXwWZxP-lkp@intel.com/
+>>>>
+>>>> New smatch warnings:
+>>>> drivers/net/wireless/ath/ath11k/mac.c:7949
+>>>> ath11k_mac_fill_reg_tpc_info() error: uninitialized symbol
+>>>> 'eirp_power'.
+>>> Baochen, could you take a look at this new warning and if it's valid
+>>> send a fix for it, please?
+>>
+>> I sent the patch yesterday. search
+>> "wifi: ath11k: initialize eirp_power before use"
+> 
+> Great, thanks again Baochen. It's always a good practice to reply to
+> build bot mails, something like "This is a valid warning, I'll fix it"
+> is usually enough.
 
-vim +200 drivers/gpu/drm/drm_managed.c
+Got it Kalle, will do.
 
-   178	
-   179	/**
-   180	 * drmm_release_action - release a managed action from a &drm_device
-   181	 * @dev: DRM device
-   182	 * @action: function which would be called when @dev is released
-   183	 * @data: opaque pointer, passed to @action
-   184	 *
-   185	 * This function calls the @action previously added by drmm_add_action()
-   186	 * immediately.
-   187	 * The @action is removed from the list of cleanup actions for @dev,
-   188	 * which means that it won't be called in the final drm_dev_put().
-   189	 */
-   190	void drmm_release_action(struct drm_device *dev,
-   191				 drmres_release_t action,
-   192				 void *data)
-   193	{
-   194		struct drmres *dr_match = NULL, *dr;
-   195		unsigned long flags;
-   196	
-   197		spin_lock_irqsave(&dev->managed.lock, flags);
-   198		list_for_each_entry_reverse(dr, &dev->managed.resources, node.entry) {
-   199			if (dr->node.release == action) {
- > 200				if (!data || (data && *(void **)dr->data == data)) {
-   201					dr_match = dr;
-   202					del_dr(dev, dr_match);
-   203					break;
-   204				}
-   205			}
-   206		}
-   207		spin_unlock_irqrestore(&dev->managed.lock, flags);
-   208	
-   209		if (WARN_ON(!dr_match))
-   210			return;
-   211	
-   212		action(dev, data);
-   213	
-   214		free_dr(dr_match);
-   215	}
-   216	EXPORT_SYMBOL(drmm_release_action);
-   217	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
