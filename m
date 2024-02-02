@@ -1,162 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86F77E102
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 14:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D81F1487C3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 15:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706885311; cv=none; b=BCIHgpNw21MqGJ05/j9WbUkYtJHZfV4maBx2AMmqgzXnh5LN8n+igtUR4kOAfP0RwkarfeeehCq64rx24eTqV27caLsBy3g6FQkewAy2dvFmtk1JbzP4vRWveZTlBjS+w9l4CfNzXbLYAh/QiFIMVE69hiK6/r3jT6cqpLIE/j8=
+	t=1706887239; cv=none; b=kG6zJ3sUWSwf87Lhj/fIt6gn6eAjzqlDMQ6UF2QOd7Us0d5ZtEiNGJfw5BTrQ+Ozp9wuu20hQtN13q60Pw2TDTOooxm1PbX6pGl3mLsv6SwRO+Nm8WcXtThcO8Q3oC2m5FJ6qvLYHdWJeaAnPNN+jugcZtpZayimBK37zTWQE9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706885311; c=relaxed/simple;
-	bh=RBEe6zgdBiEclgiZlXWug4HT58kpehNG/ck8cKHtp1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NzclVwtnQxs/PC7XIJ6CoW3DWFm22A/MrRlmQ5rnPFdBsVmolIjENhTXDHngEwRNiA9QY3CGo0Ohuc36VRfUrel5RbJ/4Xe1hXDniT/fROukxX2f0Ro7fpvzxqWXP02rYprNztJyb4nmEpG/rsVRwZCnsJw8P6Q4QI17XBvVxhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a8d4Pote; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1706887239; c=relaxed/simple;
+	bh=wCvGgAJLOJmA5E6Wp625GtIL9ISh+qemcLXqpE6Co7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Iy6lymXj/djLliZsyPSXELbkTkGAGYS11Q6RilZmy5jChQMEb48C1G2kXCMKO4/BNDvw41mxiFN/eeLWPhHud3gd7fMMNvaFhZ+jCJjaoijAGK451Wwce1w4JE/7XEUAl0Yd9htWbd1gmByj+Wn9/tAqPNc7psBGpJ2pEJEyumI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NktKykP3; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a8d4Pote"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NktKykP3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706885310; x=1738421310;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RBEe6zgdBiEclgiZlXWug4HT58kpehNG/ck8cKHtp1w=;
-  b=a8d4PotejLG3k7OFOpBsuJEvOWIkQscp3gEJ8A5H4qnWph0MVn3qCX1J
-   OgLonXpnjW5pLfv24phcbwXmBSL7jx2QUTrGbZHIsgyDk0B0Z4+N/LBfC
-   0hOAmRJtZjR/k9yhsUeuW1nb9V/5iNXrN7Qtjj6ZuW8JDvksLpa5GQUmA
-   rHM4smXey4Y5bpH8ANBjzJVxS+7nnxrakU/Gm679+NNznWABchYaxEP1L
-   BQgY5XJrKRURL+5KooknG1Sz2BJ2f+HR0REVyp6xpg3Tm6/ZSABX43W3H
-   AXLnIZruDqqcgyHTPbUjcavOpKdzITqPm/MEBpW0svaIyvnFQcJbI87mV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="332014"
+  t=1706887235; x=1738423235;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wCvGgAJLOJmA5E6Wp625GtIL9ISh+qemcLXqpE6Co7s=;
+  b=NktKykP368eFye98JvW0eMoOjzyPCujtN1u7ZLoeuDbQpV7xjKBzfB31
+   Ved36K0Aa98bUFRwv2CBqeyHf+P/wLC5d5QJTP5pf1VFXTZwVI7ZDtQjA
+   KGYEGb/CbS4dNoxvVtzHeMyF2NclvXQfdsxPWDaG1CgLqLs06RWqSqYFZ
+   meWaLX6sWdqSiJSGrwJfukqC1LB6mRIJGkLR30vHkO8q8dmZLt1kLUtUX
+   pMqoDcZ1j8UHTjoztWs81bJhprnr01GThoFwQNn1zz2WRaSl1SQhPXfM3
+   aa11qSivL36+aRritlFYdGj3350Y249apvoB59PIkxhl9TeqwzVrkZeoc
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="394610874"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="332014"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 06:48:29 -0800
+   d="scan'208";a="394610874"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 07:20:30 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="297255"
+   d="scan'208";a="4710527"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Feb 2024 06:48:27 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 02 Feb 2024 07:20:29 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rVuq9-0003xf-39;
-	Fri, 02 Feb 2024 14:48:25 +0000
-Date: Fri, 2 Feb 2024 22:47:41 +0800
+	id 1rVvL8-0003yg-22;
+	Fri, 02 Feb 2024 15:20:26 +0000
+Date: Fri, 2 Feb 2024 23:19:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v12 04/20] ipe: add LSM hooks on execution and kernel
- read
-Message-ID: <202402022217.BvClYUqt-lkp@intel.com>
-References: <1706654228-17180-5-git-send-email-wufan@linux.microsoft.com>
+To: Li Zhijian <lizhijian@fujitsu.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux1394-devel@lists.sourceforge.net,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Subject: [ieee1394-linux1394:for-next 1/2]
+ drivers/firewire/core-device.c:369:48: error: 'bufsize' undeclared; did you
+ mean 'ksize'?
+Message-ID: <202402022343.NkgsMITA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1706654228-17180-5-git-send-email-wufan@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Fan,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on lwn/docs-next linus/master v6.8-rc2 next-20240202]
-[cannot apply to device-mapper-dm/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fan-Wu/security-add-ipe-lsm/20240131-064224
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/1706654228-17180-5-git-send-email-wufan%40linux.microsoft.com
-patch subject: [RFC PATCH v12 04/20] ipe: add LSM hooks on execution and kernel read
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240202/202402022217.BvClYUqt-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240202/202402022217.BvClYUqt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git for-next
+head:   7e9ce9dfce1695b96ed299217ec07db6b6374127
+commit: 67a5a58c04438e13db391249330bb5e43cecf5fb [1/2] firewire: Kill unnecessary buf check in device_attribute.show
+config: nios2-randconfig-r081-20240202 (https://download.01.org/0day-ci/archive/20240202/202402022343.NkgsMITA-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240202/202402022343.NkgsMITA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402022217.BvClYUqt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402022343.NkgsMITA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> security/ipe/hooks.c:51: warning: Function parameter or struct member '__always_unused' not described in 'ipe_mmap_file'
-   security/ipe/hooks.c:51: warning: Excess function parameter 'reqprot' description in 'ipe_mmap_file'
->> security/ipe/hooks.c:79: warning: Function parameter or struct member '__always_unused' not described in 'ipe_file_mprotect'
-   security/ipe/hooks.c:79: warning: Excess function parameter 'reqprot' description in 'ipe_file_mprotect'
+   drivers/firewire/core-device.c: In function 'show_text_leaf':
+>> drivers/firewire/core-device.c:369:48: error: 'bufsize' undeclared (first use in this function); did you mean 'ksize'?
+     369 |                                                bufsize);
+         |                                                ^~~~~~~
+         |                                                ksize
+   drivers/firewire/core-device.c:369:48: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +51 security/ipe/hooks.c
+vim +369 drivers/firewire/core-device.c
 
-    33	
-    34	/**
-    35	 * ipe_mmap_file - ipe security hook function for mmap check.
-    36	 * @f: File being mmap'd. Can be NULL in the case of anonymous memory.
-    37	 * @reqprot: The requested protection on the mmap, passed from usermode.
-    38	 * @prot: The effective protection on the mmap, resolved from reqprot and
-    39	 *	  system configuration.
-    40	 * @flags: Unused.
-    41	 *
-    42	 * This hook is called when a file is loaded through the mmap
-    43	 * family of system calls.
-    44	 *
-    45	 * Return:
-    46	 * * 0	- OK
-    47	 * * !0	- Error
-    48	 */
-    49	int ipe_mmap_file(struct file *f, unsigned long reqprot __always_unused,
-    50			  unsigned long prot, unsigned long flags)
-  > 51	{
-    52		struct ipe_eval_ctx ctx = IPE_EVAL_CTX_INIT;
-    53	
-    54		if (prot & PROT_EXEC) {
-    55			build_eval_ctx(&ctx, f, IPE_OP_EXEC);
-    56			return ipe_evaluate_event(&ctx);
-    57		}
-    58	
-    59		return 0;
-    60	}
-    61	
-    62	/**
-    63	 * ipe_file_mprotect - ipe security hook function for mprotect check.
-    64	 * @vma: Existing virtual memory area created by mmap or similar.
-    65	 * @reqprot: The requested protection on the mmap, passed from usermode.
-    66	 * @prot: The effective protection on the mmap, resolved from reqprot and
-    67	 *	  system configuration.
-    68	 *
-    69	 * This LSM hook is called when a mmap'd region of memory is changing
-    70	 * its protections via mprotect.
-    71	 *
-    72	 * Return:
-    73	 * * 0	- OK
-    74	 * * !0	- Error
-    75	 */
-    76	int ipe_file_mprotect(struct vm_area_struct *vma,
-    77			      unsigned long reqprot __always_unused,
-    78			      unsigned long prot)
-  > 79	{
-    80		struct ipe_eval_ctx ctx = IPE_EVAL_CTX_INIT;
-    81	
-    82		/* Already Executable */
-    83		if (vma->vm_flags & VM_EXEC)
-    84			return 0;
-    85	
-    86		if (prot & PROT_EXEC) {
-    87			build_eval_ctx(&ctx, vma->vm_file, IPE_OP_EXEC);
-    88			return ipe_evaluate_event(&ctx);
-    89		}
-    90	
-    91		return 0;
-    92	}
-    93	
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  327  
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  328  #define IMMEDIATE_ATTR(name, key)				\
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  329  	{ __ATTR(name, S_IRUGO, show_immediate, NULL), key }
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  330  
+53dca51175cc2f drivers/firewire/fw-device.c   Stefan Richter    2008-12-14  331  static ssize_t show_text_leaf(struct device *dev,
+53dca51175cc2f drivers/firewire/fw-device.c   Stefan Richter    2008-12-14  332  			      struct device_attribute *dattr, char *buf)
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  333  {
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  334  	struct config_rom_attribute *attr =
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  335  		container_of(dattr, struct config_rom_attribute, attr);
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  336  	const u32 *directories[] = {NULL, NULL};
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  337  	int i, ret = -ENOENT;
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  338  
+c9755e14a01987 drivers/firewire/fw-device.c   Stefan Richter    2008-03-24  339  	down_read(&fw_device_rwsem);
+c9755e14a01987 drivers/firewire/fw-device.c   Stefan Richter    2008-03-24  340  
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  341  	if (is_fw_unit(dev)) {
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  342  		directories[0] = fw_unit(dev)->directory;
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  343  	} else {
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  344  		const u32 *root_directory = fw_device(dev)->config_rom + ROOT_DIR_OFFSET;
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  345  		const u32 *vendor_directory = search_directory(root_directory, CSR_VENDOR);
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  346  
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  347  		if (!vendor_directory) {
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  348  			directories[0] = root_directory;
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  349  		} else {
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  350  			// Legacy layout of configuration ROM described in Annex 1 of
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  351  			// 'Configuration ROM for AV/C Devices 1.0 (December 12, 2000, 1394
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  352  			// Trading Association, TA Document 1999027)'.
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  353  			directories[0] = root_directory;
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  354  			directories[1] = vendor_directory;
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  355  		}
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  356  	}
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  357  
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  358  	for (i = 0; i < ARRAY_SIZE(directories) && !!directories[i]; ++i) {
+67a5a58c04438e drivers/firewire/core-device.c Li Zhijian        2024-01-22  359  		int result = fw_csr_string(directories[i], attr->key, buf,
+67a5a58c04438e drivers/firewire/core-device.c Li Zhijian        2024-01-22  360  					   PAGE_SIZE - 1);
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  361  		// Detected.
+47dc55181dcbee drivers/firewire/core-device.c Takashi Sakamoto  2024-02-01  362  		if (result >= 0) {
+47dc55181dcbee drivers/firewire/core-device.c Takashi Sakamoto  2024-02-01  363  			ret = result;
+47dc55181dcbee drivers/firewire/core-device.c Takashi Sakamoto  2024-02-01  364  		} else if (i == 0 && attr->key == CSR_VENDOR) {
+47dc55181dcbee drivers/firewire/core-device.c Takashi Sakamoto  2024-02-01  365  			// Sony DVMC-DA1 has configuration ROM such that the descriptor leaf entry
+47dc55181dcbee drivers/firewire/core-device.c Takashi Sakamoto  2024-02-01  366  			// in the root directory follows to the directory entry for vendor ID
+47dc55181dcbee drivers/firewire/core-device.c Takashi Sakamoto  2024-02-01  367  			// instead of the immediate value for vendor ID.
+47dc55181dcbee drivers/firewire/core-device.c Takashi Sakamoto  2024-02-01  368  			result = fw_csr_string(directories[i], CSR_DIRECTORY | attr->key, buf,
+47dc55181dcbee drivers/firewire/core-device.c Takashi Sakamoto  2024-02-01 @369  					       bufsize);
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  370  			if (result >= 0)
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  371  				ret = result;
+2eab8bc0f0c80d drivers/firewire/core-device.c Takashi Sakamoto  2023-12-25  372  		}
+47dc55181dcbee drivers/firewire/core-device.c Takashi Sakamoto  2024-02-01  373  	}
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  374  
+1f8fef7b3388b5 drivers/firewire/core-device.c Clemens Ladisch   2009-12-24  375  	if (ret >= 0) {
+1f8fef7b3388b5 drivers/firewire/core-device.c Clemens Ladisch   2009-12-24  376  		/* Strip trailing whitespace and add newline. */
+1f8fef7b3388b5 drivers/firewire/core-device.c Clemens Ladisch   2009-12-24  377  		while (ret > 0 && isspace(buf[ret - 1]))
+1f8fef7b3388b5 drivers/firewire/core-device.c Clemens Ladisch   2009-12-24  378  			ret--;
+1f8fef7b3388b5 drivers/firewire/core-device.c Clemens Ladisch   2009-12-24  379  		strcpy(buf + ret, "\n");
+1f8fef7b3388b5 drivers/firewire/core-device.c Clemens Ladisch   2009-12-24  380  		ret++;
+c9755e14a01987 drivers/firewire/fw-device.c   Stefan Richter    2008-03-24  381  	}
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  382  
+c9755e14a01987 drivers/firewire/fw-device.c   Stefan Richter    2008-03-24  383  	up_read(&fw_device_rwsem);
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  384  
+c9755e14a01987 drivers/firewire/fw-device.c   Stefan Richter    2008-03-24  385  	return ret;
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  386  }
+7feb9cce2d07be drivers/firewire/fw-device.c   Kristian Høgsberg 2007-03-21  387  
+
+:::::: The code at line 369 was first introduced by commit
+:::::: 47dc55181dcbee69fc84c902e7fb060213b9b8a5 firewire: core: search descriptor leaf just after vendor directory entry in root directory
+
+:::::: TO: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+:::::: CC: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
 -- 
 0-DAY CI Kernel Test Service
