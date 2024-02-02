@@ -1,61 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4417467A15
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 23:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CC812C80D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 23:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706915143; cv=none; b=u8XiyoAASRgaYsSuGBX6xgQfCOllmEZBsgflKCL/z/4Q1grcGbuuPjgd3ec2+loXgwtQxC9NC3X33oxFNB/QcY5PiD3ZrGrhMOlveHTv2dih+J5hicpKBIbzAILN63zsfrQuXRCFVUbUT78KQAZWK6YuuB2D7Kr+YSAWCUcfjKc=
+	t=1706918324; cv=none; b=StFI4g9CaPxx99ouSlisbn65uXk+Kme6mkXst6UVnLiBmsqRUtliiH+slvL73YbTp4qe4zohDkwSA2XsdzORToamj2cUcB1x9iNm2qAOGjqpx0TZ+iQ/fhsq3OC2X+ECnKF8hhecQQRTKDhh7zDB8V/vstnPo3T92skrw0hnfdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706915143; c=relaxed/simple;
-	bh=907Cjcx17hJdMDAtyiOwkCb1yo7RB4G44MF7DN7qiKI=;
+	s=arc-20240116; t=1706918324; c=relaxed/simple;
+	bh=3iHo5jFbOoBjmlrWVNrRBKHdIEaU0Jo77eGSWz2fUeE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NR4aOP8mTdSLP2cSTEEtFpIE+Gb3dG9rRHiqN52JETF/+c3Zv28sXAuouVidqUHYouNq29GUXCaNTMm0tV4BQE8lHofKsxSrhZZi3KWlooKid7EI6PXOFYJJtzT1mZu6eJq5Msi0cPHgcC82rL9P2UgtnKiBBCzDe6lsxkCQBBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ho+VMEAN; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=seRC8DEZh+LYBsRgv0GkRG9ygSZ8bOsuchY5jhoSZ0im1bmot3P4mft76aKetP1CmL/vYznWkCUcbzULtffRBeqP/FUyVLeDcbbZ5L4nGSt6lxcqlgVaUX591tiKCaemthaEkiFhJFG/7tVJIFuEOKYV2ueHkc6V1pxhptQ55uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+491opZ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ho+VMEAN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+491opZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706915141; x=1738451141;
+  t=1706918321; x=1738454321;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=907Cjcx17hJdMDAtyiOwkCb1yo7RB4G44MF7DN7qiKI=;
-  b=Ho+VMEANxQo9nclhaZE5G2+Y5rKxfL1U+JCqsO3zz3H+6bEfYLaHr/Rg
-   fTvSthdnXsDaz4e2mTUrGFG6obBhaxPak/OYkpzz+wcCDUxndWIwuFSj/
-   GULfGoiivO8aLBx+SE7QvSu2o0Y+8ErK6dh1bdpaCdVMBQNjULVxHgr6K
-   vmYoMdAQNSuzYszQg49tZtw5NCk9dGqDqZp1pB98h+TV/RX35rRx7vq3V
-   necazrFfVjEb855nb+379m1/X1i0cNxYZEO43Zq1Zu5SRIo5fByHFOfgm
-   cI1mqqXDAnKMO6Svxq1bUs+0hP1gteXa+0mJnOp3UfdFuqEJ6QukDf+mI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="10910546"
+  bh=3iHo5jFbOoBjmlrWVNrRBKHdIEaU0Jo77eGSWz2fUeE=;
+  b=L+491opZxO/NBOcjPW7pRPfUVimUw896NjihXxiChCobGDKpJJNpWDGY
+   5pS1Q9fJMlSFH8vVv4+d9/kCMd7EEIXhk8TDEiKHl453PqqZq4bAXLMp9
+   f5cakTOyNHyjmvFjIfDqO6KZ43xXCnXy9bWQgM5TO4wZy/mzDqX9V05uM
+   KQ7uZaK8RGPpM/uMhS31MNrPTA0DZERAyIzCYLwrr8HIXjYu+chiZRZXN
+   2tbI1ak812oFms3XX9RFW6PqmRNnA2i0yd8WewtgYRlgkeV11jGXjt92j
+   r0jwssTgPLvLCsABBQlzwIYpCSoh+fGqQuiRlnvJq3q63GGEZQ0Q99lOK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="172873"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="10910546"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 15:05:40 -0800
+   d="scan'208";a="172873"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 15:58:39 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="932625972"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="470982"
+   d="scan'208";a="932625972"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Feb 2024 15:05:37 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2024 15:58:37 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rW2bD-0004MY-2M;
-	Fri, 02 Feb 2024 23:05:31 +0000
-Date: Sat, 3 Feb 2024 07:05:26 +0800
+	id 1rW3QZ-0004Pu-2H;
+	Fri, 02 Feb 2024 23:58:35 +0000
+Date: Sat, 3 Feb 2024 07:58:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Rakie Kim <rakie.kim@sk.com>, Honggyu Kim <honggyu.kim@sk.com>,
-	Hyeongtak Ji <hyeongtak.ji@sk.com>,
-	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>,
-	Ravi Jonnalagadda <ravis.opensrc@micron.com>,
-	"Huang, Ying" <ying.huang@intel.com>
-Subject: [linux-next:master 2939/3789] mm/mempolicy.c:2429:17: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202402030631.6mCz0axA-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 18554/21614]
+ drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2718:30: warning: unused
+ variable 'adapter'
+Message-ID: <202402030729.W96TozyN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,239 +60,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   076d56d74f17e625b3d63cf4743b3d7d02180379
-commit: 147371fd14993ae64ef2f612eb15f37fcef12d83 [2939/3789] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
-config: x86_64-randconfig-r123-20240201 (https://download.01.org/0day-ci/archive/20240203/202402030631.6mCz0axA-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5bc2c7cbdcbc5c8e5bbe65d3542ec2fccbc61492
+commit: 206f9c11a8c8b0197da5a26859d96d2ed65f5757 [18554/21614] net: ngbe: Add Netswift Giga NIC driver
+config: x86_64-randconfig-011-20240203 (https://download.01.org/0day-ci/archive/20240203/202402030729.W96TozyN-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030631.6mCz0axA-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030729.W96TozyN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030631.6mCz0axA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402030729.W96TozyN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/mempolicy.c:158:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *table @@     got unsigned char * @@
-   mm/mempolicy.c:158:15: sparse:     expected unsigned char [noderef] [usertype] __rcu *table
-   mm/mempolicy.c:158:15: sparse:     got unsigned char *
-   mm/mempolicy.c:1980:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *table @@     got unsigned char * @@
-   mm/mempolicy.c:1980:15: sparse:     expected unsigned char [noderef] [usertype] __rcu *table
-   mm/mempolicy.c:1980:15: sparse:     got unsigned char *
-   mm/mempolicy.c:2422:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *weights @@     got void * @@
-   mm/mempolicy.c:2422:17: sparse:     expected unsigned char [noderef] [usertype] __rcu *weights
-   mm/mempolicy.c:2422:17: sparse:     got void *
-   mm/mempolicy.c:2427:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *table @@     got unsigned char * @@
-   mm/mempolicy.c:2427:15: sparse:     expected unsigned char [noderef] [usertype] __rcu *table
-   mm/mempolicy.c:2427:15: sparse:     got unsigned char *
-   mm/mempolicy.c:2429:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *weights @@
-   mm/mempolicy.c:2429:17: sparse:     expected void const *
-   mm/mempolicy.c:2429:17: sparse:     got unsigned char [noderef] [usertype] __rcu *weights
-   mm/mempolicy.c:2429:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *table @@
-   mm/mempolicy.c:2429:17: sparse:     expected void const *
-   mm/mempolicy.c:2429:17: sparse:     got unsigned char [noderef] [usertype] __rcu *table
-   mm/mempolicy.c:2429:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *weights @@
-   mm/mempolicy.c:2429:17: sparse:     expected void const *
-   mm/mempolicy.c:2429:17: sparse:     got unsigned char [noderef] [usertype] __rcu *weights
-   mm/mempolicy.c:2429:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *table @@
-   mm/mempolicy.c:2429:17: sparse:     expected void const *
-   mm/mempolicy.c:2429:17: sparse:     got unsigned char [noderef] [usertype] __rcu *table
->> mm/mempolicy.c:2429:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got unsigned char [noderef] [usertype] __rcu *weights @@
-   mm/mempolicy.c:2429:17: sparse:     expected void *
-   mm/mempolicy.c:2429:17: sparse:     got unsigned char [noderef] [usertype] __rcu *weights
-   mm/mempolicy.c:2429:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *table @@
-   mm/mempolicy.c:2429:17: sparse:     expected void const *
-   mm/mempolicy.c:2429:17: sparse:     got unsigned char [noderef] [usertype] __rcu *table
-   mm/mempolicy.c:2485:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __rcu *weights @@
-   mm/mempolicy.c:2485:15: sparse:     expected void const *objp
-   mm/mempolicy.c:2485:15: sparse:     got unsigned char [noderef] [usertype] __rcu *weights
-   mm/mempolicy.c:3353:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *new @@     got void * @@
-   mm/mempolicy.c:3353:13: sparse:     expected unsigned char [noderef] [usertype] __rcu *new
-   mm/mempolicy.c:3353:13: sparse:     got void *
-   mm/mempolicy.c:3358:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *old @@     got unsigned char * @@
-   mm/mempolicy.c:3358:13: sparse:     expected unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:3358:13: sparse:     got unsigned char *
-   mm/mempolicy.c:3361:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *new @@
-   mm/mempolicy.c:3361:17: sparse:     expected void const *
-   mm/mempolicy.c:3361:17: sparse:     got unsigned char [noderef] [usertype] __rcu *new
-   mm/mempolicy.c:3361:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *old @@
-   mm/mempolicy.c:3361:17: sparse:     expected void const *
-   mm/mempolicy.c:3361:17: sparse:     got unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:3361:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *new @@
-   mm/mempolicy.c:3361:17: sparse:     expected void const *
-   mm/mempolicy.c:3361:17: sparse:     got unsigned char [noderef] [usertype] __rcu *new
-   mm/mempolicy.c:3361:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *old @@
-   mm/mempolicy.c:3361:17: sparse:     expected void const *
-   mm/mempolicy.c:3361:17: sparse:     got unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:3361:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got unsigned char [noderef] [usertype] __rcu *new @@
-   mm/mempolicy.c:3361:17: sparse:     expected void *
-   mm/mempolicy.c:3361:17: sparse:     got unsigned char [noderef] [usertype] __rcu *new
-   mm/mempolicy.c:3361:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __rcu *old @@
-   mm/mempolicy.c:3361:17: sparse:     expected void const *
-   mm/mempolicy.c:3361:17: sparse:     got unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:3366:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __rcu *old @@
-   mm/mempolicy.c:3366:15: sparse:     expected void const *objp
-   mm/mempolicy.c:3366:15: sparse:     got unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:3462:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __rcu *old @@     got unsigned char * @@
-   mm/mempolicy.c:3462:13: sparse:     expected unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:3462:13: sparse:     got unsigned char *
-   mm/mempolicy.c:3467:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __rcu *old @@
-   mm/mempolicy.c:3467:15: sparse:     expected void const *objp
-   mm/mempolicy.c:3467:15: sparse:     got unsigned char [noderef] [usertype] __rcu *old
-   mm/mempolicy.c:160:31: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:781:9: sparse: sparse: context imbalance in 'queue_folios_pte_range' - unexpected unlock
-   mm/mempolicy.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/mempolicy.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
-   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-   mm/mempolicy.c:1984:39: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:1994:39: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2396:9: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2397:13: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2398:30: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2404:33: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2408:41: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2415:30: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2434:29: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2435:32: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2436:40: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2449:32: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2452:17: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2452:33: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2453:30: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2455:29: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2456:39: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2457:34: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2461:38: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2464:56: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:2468:49: sparse: sparse: dereference of noderef expression
-   mm/mempolicy.c:3362:12: sparse: sparse: dereference of noderef expression
+All warnings (new ones prefixed by >>):
 
-vim +2429 mm/mempolicy.c
+   In file included from include/linux/sctp.h:57,
+                    from drivers/net/ethernet/netswift/ngbe/ngbe.h:28,
+                    from drivers/net/ethernet/netswift/ngbe/ngbe_main.c:38:
+   include/uapi/linux/sctp.h:390:1: warning: alignment 4 of 'struct sctp_paddr_change' is less than 8 [-Wpacked-not-aligned]
+     390 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:719:1: warning: alignment 4 of 'struct sctp_setpeerprim' is less than 8 [-Wpacked-not-aligned]
+     719 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:718:33: warning: 'sspp_addr' offset 4 in 'struct sctp_setpeerprim' isn't aligned to 8 [-Wpacked-not-aligned]
+     718 |         struct sockaddr_storage sspp_addr;
+         |                                 ^~~~~~~~~
+   include/uapi/linux/sctp.h:732:1: warning: alignment 4 of 'struct sctp_prim' is less than 8 [-Wpacked-not-aligned]
+     732 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:731:33: warning: 'ssp_addr' offset 4 in 'struct sctp_prim' isn't aligned to 8 [-Wpacked-not-aligned]
+     731 |         struct sockaddr_storage ssp_addr;
+         |                                 ^~~~~~~~
+   include/uapi/linux/sctp.h:783:1: warning: alignment 4 of 'struct sctp_paddrparams' is less than 8 [-Wpacked-not-aligned]
+     783 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:775:33: warning: 'spp_address' offset 4 in 'struct sctp_paddrparams' isn't aligned to 8 [-Wpacked-not-aligned]
+     775 |         struct sockaddr_storage spp_address;
+         |                                 ^~~~~~~~~~~
+   include/uapi/linux/sctp.h:896:1: warning: alignment 4 of 'struct sctp_paddrinfo' is less than 8 [-Wpacked-not-aligned]
+     896 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:890:33: warning: 'spinfo_address' offset 4 in 'struct sctp_paddrinfo' isn't aligned to 8 [-Wpacked-not-aligned]
+     890 |         struct sockaddr_storage spinfo_address;
+         |                                 ^~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/netswift/ngbe/ngbe_main.c:38:
+   drivers/net/ethernet/netswift/ngbe/ngbe.h: In function 'ngbe_misc_isb':
+   drivers/net/ethernet/netswift/ngbe/ngbe.h:764:13: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     764 |         u32 cur_diff = 0;
+         |             ^~~~~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: At top level:
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:170:6: warning: no previous prototype for 'ngbe_service_event_schedule' [-Wmissing-prototypes]
+     170 | void ngbe_service_event_schedule(struct ngbe_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: In function 'ngbe_tx_timeout':
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:433:14: warning: variable 'real_tx_hang' set but not used [-Wunused-but-set-variable]
+     433 |         bool real_tx_hang = false;
+         |              ^~~~~~~~~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: In function 'ngbe_addr_list_itr':
+>> drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2718:30: warning: unused variable 'adapter' [-Wunused-variable]
+    2718 |         struct ngbe_adapter *adapter = hw->back;
+         |                              ^~~~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: At top level:
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3223:6: warning: no previous prototype for 'ngbe_configure_isb' [-Wmissing-prototypes]
+    3223 | void ngbe_configure_isb(struct ngbe_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3233:6: warning: no previous prototype for 'ngbe_configure_port' [-Wmissing-prototypes]
+    3233 | void ngbe_configure_port(struct ngbe_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3592:6: warning: no previous prototype for 'ngbe_disable_device' [-Wmissing-prototypes]
+    3592 | void ngbe_disable_device(struct ngbe_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3693:5: warning: no previous prototype for 'ngbe_init_shared_code' [-Wmissing-prototypes]
+    3693 | s32 ngbe_init_shared_code(struct ngbe_hw *hw)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:5810:5: warning: no previous prototype for 'ngbe_skb_pad_nonzero' [-Wmissing-prototypes]
+    5810 | int ngbe_skb_pad_nonzero(struct sk_buff *skb, int pad)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: In function 'ngbe_mii_ioctl':
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6010:20: warning: variable 'devad' set but not used [-Wunused-but-set-variable]
+    6010 |         int prtad, devad, ret = 0;
+         |                    ^~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6010:13: warning: variable 'prtad' set but not used [-Wunused-but-set-variable]
+    6010 |         int prtad, devad, ret = 0;
+         |             ^~~~~
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:257: warning: Function parameter or member 'quiet' not described in 'ngbe_read_reg'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:1644: warning: Function parameter or member 'queues' not described in 'ngbe_irq_enable'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:1644: warning: Function parameter or member 'flush' not described in 'ngbe_irq_enable'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2035: warning: Function parameter or member 'adapter' not described in 'ngbe_configure_msi_and_legacy'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2449: warning: Function parameter or member 'adapter' not described in 'ngbe_configure_bridge_mode'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2913: warning: Function parameter or member 'pool' not described in 'ngbe_write_uc_addr_list'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3722: warning: cannot understand function prototype: 'const u32 def_rss_key[10] = '
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4583: warning: Function parameter or member 'adapter' not described in 'ngbe_check_hang_subtask'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4648: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_update_link_status'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4744: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_link_is_up'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4789: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_link_is_down'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4856: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_flush_tx'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4928: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_subtask'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4957: warning: Function parameter or member 't' not described in 'ngbe_service_timer'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4957: warning: Excess function parameter 'data' description in 'ngbe_service_timer'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6043: warning: Function parameter or member 'dev' not described in 'ngbe_setup_tc'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6043: warning: Excess function parameter 'netdev' description in 'ngbe_setup_tc'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6297: warning: Excess function parameter 'device_id' description in 'ngbe_wol_supported'
+   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6297: warning: Excess function parameter 'subdev_id' description in 'ngbe_wol_supported'
 
-  2367	
-  2368	static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
-  2369			struct mempolicy *pol, unsigned long nr_pages,
-  2370			struct page **page_array)
-  2371	{
-  2372		struct task_struct *me = current;
-  2373		unsigned long total_allocated = 0;
-  2374		unsigned long nr_allocated = 0;
-  2375		unsigned long rounds;
-  2376		unsigned long node_pages, delta;
-  2377		u8 __rcu *table, *weights, weight;
-  2378		unsigned int weight_total = 0;
-  2379		unsigned long rem_pages = nr_pages;
-  2380		nodemask_t nodes;
-  2381		int nnodes, node, next_node;
-  2382		int resume_node = MAX_NUMNODES - 1;
-  2383		u8 resume_weight = 0;
-  2384		int prev_node;
-  2385		int i;
-  2386	
-  2387		if (!nr_pages)
-  2388			return 0;
-  2389	
-  2390		nnodes = read_once_policy_nodemask(pol, &nodes);
-  2391		if (!nnodes)
-  2392			return 0;
-  2393	
-  2394		/* Continue allocating from most recent node and adjust the nr_pages */
-  2395		node = me->il_prev;
-  2396		weight = me->il_weight;
-  2397		if (weight && node_isset(node, nodes)) {
-  2398			node_pages = min(rem_pages, weight);
-  2399			nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
-  2400							  NULL, page_array);
-  2401			page_array += nr_allocated;
-  2402			total_allocated += nr_allocated;
-  2403			/* if that's all the pages, no need to interleave */
-  2404			if (rem_pages < weight) {
-  2405				/* stay on current node, adjust il_weight */
-  2406				me->il_weight -= rem_pages;
-  2407				return total_allocated;
-  2408			} else if (rem_pages == weight) {
-  2409				/* move to next node / weight */
-  2410				me->il_prev = next_node_in(node, nodes);
-  2411				me->il_weight = get_il_weight(next_node);
-  2412				return total_allocated;
-  2413			}
-  2414			/* Otherwise we adjust remaining pages, continue from there */
-  2415			rem_pages -= weight;
-  2416		}
-  2417		/* clear active weight in case of an allocation failure */
-  2418		me->il_weight = 0;
-  2419		prev_node = node;
-  2420	
-  2421		/* create a local copy of node weights to operate on outside rcu */
-  2422		weights = kzalloc(nr_node_ids, GFP_KERNEL);
-  2423		if (!weights)
-  2424			return total_allocated;
-  2425	
-  2426		rcu_read_lock();
-  2427		table = rcu_dereference(iw_table);
-  2428		if (table)
-> 2429			memcpy(weights, table, nr_node_ids);
-  2430		rcu_read_unlock();
-  2431	
-  2432		/* calculate total, detect system default usage */
-  2433		for_each_node_mask(node, nodes) {
-  2434			if (!weights[node])
-  2435				weights[node] = 1;
-  2436			weight_total += weights[node];
-  2437		}
-  2438	
-  2439		/*
-  2440		 * Calculate rounds/partial rounds to minimize __alloc_pages_bulk calls.
-  2441		 * Track which node weighted interleave should resume from.
-  2442		 *
-  2443		 * if (rounds > 0) and (delta == 0), resume_node will always be
-  2444		 * the node following prev_node and its weight.
-  2445		 */
-  2446		rounds = rem_pages / weight_total;
-  2447		delta = rem_pages % weight_total;
-  2448		resume_node = next_node_in(prev_node, nodes);
-  2449		resume_weight = weights[resume_node];
-  2450		for (i = 0; i < nnodes; i++) {
-  2451			node = next_node_in(prev_node, nodes);
-  2452			weight = weights[node];
-  2453			node_pages = weight * rounds;
-  2454			/* If a delta exists, add this node's portion of the delta */
-  2455			if (delta > weight) {
-  2456				node_pages += weight;
-  2457				delta -= weight;
-  2458			} else if (delta) {
-  2459				node_pages += delta;
-  2460				/* delta may deplete on a boundary or w/ a remainder */
-  2461				if (delta == weight) {
-  2462					/* boundary: resume from next node/weight */
-  2463					resume_node = next_node_in(node, nodes);
-  2464					resume_weight = weights[resume_node];
-  2465				} else {
-  2466					/* remainder: resume this node w/ remainder */
-  2467					resume_node = node;
-  2468					resume_weight = weight - delta;
-  2469				}
-  2470				delta = 0;
-  2471			}
-  2472			/* node_pages can be 0 if an allocation fails and rounds == 0 */
-  2473			if (!node_pages)
-  2474				break;
-  2475			nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
-  2476							  NULL, page_array);
-  2477			page_array += nr_allocated;
-  2478			total_allocated += nr_allocated;
-  2479			if (total_allocated == nr_pages)
-  2480				break;
-  2481			prev_node = node;
-  2482		}
-  2483		me->il_prev = resume_node;
-  2484		me->il_weight = resume_weight;
-  2485		kfree(weights);
-  2486		return total_allocated;
-  2487	}
-  2488	
+
+vim +/adapter +2718 drivers/net/ethernet/netswift/ngbe/ngbe_main.c
+
+  2712	
+  2713	static u8 *ngbe_addr_list_itr(struct ngbe_hw *hw,
+  2714				       u8 **mc_addr_ptr, u32 *vmdq)
+  2715	{
+  2716		struct netdev_hw_addr *mc_ptr;
+  2717		u8 *addr = *mc_addr_ptr;
+> 2718		struct ngbe_adapter *adapter = hw->back;
+  2719	
+  2720		/* VMDQ_P implicitely uses the adapter struct when CONFIG_PCI_IOV is
+  2721		 * defined, so we have to wrap the pointer above correctly to prevent
+  2722		 * a warning.
+  2723		 */
+  2724		*vmdq = VMDQ_P(0);
+  2725	
+  2726		mc_ptr = container_of(addr, struct netdev_hw_addr, addr[0]);
+  2727		if (mc_ptr->list.next) {
+  2728			struct netdev_hw_addr *ha;
+  2729	
+  2730			ha = list_entry(mc_ptr->list.next, struct netdev_hw_addr, list);
+  2731			*mc_addr_ptr = ha->addr;
+  2732		} else
+  2733			*mc_addr_ptr = NULL;
+  2734	
+  2735		return addr;
+  2736	}
+  2737	
 
 -- 
 0-DAY CI Kernel Test Service
