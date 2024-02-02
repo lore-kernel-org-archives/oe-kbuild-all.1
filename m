@@ -1,56 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CC812C80D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 23:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C20812C81F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Feb 2024 23:58:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706918324; cv=none; b=StFI4g9CaPxx99ouSlisbn65uXk+Kme6mkXst6UVnLiBmsqRUtliiH+slvL73YbTp4qe4zohDkwSA2XsdzORToamj2cUcB1x9iNm2qAOGjqpx0TZ+iQ/fhsq3OC2X+ECnKF8hhecQQRTKDhh7zDB8V/vstnPo3T92skrw0hnfdM=
+	t=1706918325; cv=none; b=SPDeP159CJBzsHH56w01J+7qTycJr2yVMKr8zCAp4It3lrGIH67GeTCxxItfcRjGJJp/4bpXIylcasq+LhinJ36ZalzSZtvNYtRbxupDAAetgTa0xv3jn3GS+1u2+8VTLqFqZk5RevEuKAGj8upgY8fZ515hEg2ld63auK+i6Tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706918324; c=relaxed/simple;
-	bh=3iHo5jFbOoBjmlrWVNrRBKHdIEaU0Jo77eGSWz2fUeE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=seRC8DEZh+LYBsRgv0GkRG9ygSZ8bOsuchY5jhoSZ0im1bmot3P4mft76aKetP1CmL/vYznWkCUcbzULtffRBeqP/FUyVLeDcbbZ5L4nGSt6lxcqlgVaUX591tiKCaemthaEkiFhJFG/7tVJIFuEOKYV2ueHkc6V1pxhptQ55uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+491opZ; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1706918325; c=relaxed/simple;
+	bh=zYoO7Wdoe+eIO/LyIAPkIFAZg398b2C1GJUJEJ0a+AE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BsuIeqf3n6HAZSfwQFGmmNL9RX2jnTUadBhFjhr1GlDdzx+XKcaZ+M2kAMz6tFJrxH9GrA8cim+aN84dc14Xx7ReTs4FrRCZtiU/woyLoyDkDgBwkinIFQ4EFIPrHLE05uQ8+2gggUgwqEJG6j9/HxTJRLoqKNPT1Ur29jd+sCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lgr7/GLm; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+491opZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lgr7/GLm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706918321; x=1738454321;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3iHo5jFbOoBjmlrWVNrRBKHdIEaU0Jo77eGSWz2fUeE=;
-  b=L+491opZxO/NBOcjPW7pRPfUVimUw896NjihXxiChCobGDKpJJNpWDGY
-   5pS1Q9fJMlSFH8vVv4+d9/kCMd7EEIXhk8TDEiKHl453PqqZq4bAXLMp9
-   f5cakTOyNHyjmvFjIfDqO6KZ43xXCnXy9bWQgM5TO4wZy/mzDqX9V05uM
-   KQ7uZaK8RGPpM/uMhS31MNrPTA0DZERAyIzCYLwrr8HIXjYu+chiZRZXN
-   2tbI1ak812oFms3XX9RFW6PqmRNnA2i0yd8WewtgYRlgkeV11jGXjt92j
-   r0jwssTgPLvLCsABBQlzwIYpCSoh+fGqQuiRlnvJq3q63GGEZQ0Q99lOK
+  t=1706918323; x=1738454323;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zYoO7Wdoe+eIO/LyIAPkIFAZg398b2C1GJUJEJ0a+AE=;
+  b=Lgr7/GLmISTDPspN4zZWQbL9X+KcaQ277i6Y+GH6fcDH6hRXuvht6/dn
+   rzklkeBvBp7VXJ5d8YcOBOHvPDmMpkTYjBQf0tC5nc84xmXoKAcbpE7Vo
+   IECgjk2IzL/Ok+S7fcZ2T7WL08cCRBQ2tjjQeEOjEuYYwwnKlNDXIq5/Q
+   P4MzDAXJAwVPJQdEIK3NC/uqa90155P1kVhLZCh0Nuks4P/q7G2e5tNmg
+   80q+CPy41TtHg6PGOZNCugDku3oaLSQNzUpCCSZMZVLndZlRrbABmSl+q
+   3pwafFmkV8oEl01OgQEG31K6gINSy/2lraVPHmKX3WhXh7Efd7B3/skrp
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="172873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="172887"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="172873"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 15:58:39 -0800
+   d="scan'208";a="172887"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 15:58:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="932625972"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="932625972"
+   d="scan'208";a="494891"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2024 15:58:37 -0800
+  by orviesa006.jf.intel.com with ESMTP; 02 Feb 2024 15:58:39 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rW3QZ-0004Pu-2H;
+	id 1rW3QZ-0004Py-2N;
 	Fri, 02 Feb 2024 23:58:35 +0000
-Date: Sat, 3 Feb 2024 07:58:34 +0800
+Date: Sat, 3 Feb 2024 07:58:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18554/21614]
- drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2718:30: warning: unused
- variable 'adapter'
-Message-ID: <202402030729.W96TozyN-lkp@intel.com>
+To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Max Kellermann <max.kellermann@ionos.com>
+Subject: Re: [PATCH 16/28] device.h: move declarations to device_types.h
+Message-ID: <202402030708.WgadrfjA-lkp@intel.com>
+References: <20240131145008.1345531-17-max.kellermann@ionos.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,140 +59,263 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240131145008.1345531-17-max.kellermann@ionos.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5bc2c7cbdcbc5c8e5bbe65d3542ec2fccbc61492
-commit: 206f9c11a8c8b0197da5a26859d96d2ed65f5757 [18554/21614] net: ngbe: Add Netswift Giga NIC driver
-config: x86_64-randconfig-011-20240203 (https://download.01.org/0day-ci/archive/20240203/202402030729.W96TozyN-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030729.W96TozyN-lkp@intel.com/reproduce)
+Hi Max,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240131]
+[cannot apply to mkp-scsi/for-next jejb-scsi/for-next axboe-block/for-next linus/master v6.8-rc2 v6.8-rc1 v6.7 v6.8-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-add-missing-includes/20240131-231042
+base:   next-20240131
+patch link:    https://lore.kernel.org/r/20240131145008.1345531-17-max.kellermann%40ionos.com
+patch subject: [PATCH 16/28] device.h: move declarations to device_types.h
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240203/202402030708.WgadrfjA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030708.WgadrfjA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030729.W96TozyN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402030708.WgadrfjA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/sctp.h:57,
-                    from drivers/net/ethernet/netswift/ngbe/ngbe.h:28,
-                    from drivers/net/ethernet/netswift/ngbe/ngbe_main.c:38:
-   include/uapi/linux/sctp.h:390:1: warning: alignment 4 of 'struct sctp_paddr_change' is less than 8 [-Wpacked-not-aligned]
-     390 | } __attribute__((packed, aligned(4)));
-         | ^
-   include/uapi/linux/sctp.h:719:1: warning: alignment 4 of 'struct sctp_setpeerprim' is less than 8 [-Wpacked-not-aligned]
-     719 | } __attribute__((packed, aligned(4)));
-         | ^
-   include/uapi/linux/sctp.h:718:33: warning: 'sspp_addr' offset 4 in 'struct sctp_setpeerprim' isn't aligned to 8 [-Wpacked-not-aligned]
-     718 |         struct sockaddr_storage sspp_addr;
-         |                                 ^~~~~~~~~
-   include/uapi/linux/sctp.h:732:1: warning: alignment 4 of 'struct sctp_prim' is less than 8 [-Wpacked-not-aligned]
-     732 | } __attribute__((packed, aligned(4)));
-         | ^
-   include/uapi/linux/sctp.h:731:33: warning: 'ssp_addr' offset 4 in 'struct sctp_prim' isn't aligned to 8 [-Wpacked-not-aligned]
-     731 |         struct sockaddr_storage ssp_addr;
-         |                                 ^~~~~~~~
-   include/uapi/linux/sctp.h:783:1: warning: alignment 4 of 'struct sctp_paddrparams' is less than 8 [-Wpacked-not-aligned]
-     783 | } __attribute__((packed, aligned(4)));
-         | ^
-   include/uapi/linux/sctp.h:775:33: warning: 'spp_address' offset 4 in 'struct sctp_paddrparams' isn't aligned to 8 [-Wpacked-not-aligned]
-     775 |         struct sockaddr_storage spp_address;
-         |                                 ^~~~~~~~~~~
-   include/uapi/linux/sctp.h:896:1: warning: alignment 4 of 'struct sctp_paddrinfo' is less than 8 [-Wpacked-not-aligned]
-     896 | } __attribute__((packed, aligned(4)));
-         | ^
-   include/uapi/linux/sctp.h:890:33: warning: 'spinfo_address' offset 4 in 'struct sctp_paddrinfo' isn't aligned to 8 [-Wpacked-not-aligned]
-     890 |         struct sockaddr_storage spinfo_address;
-         |                                 ^~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/netswift/ngbe/ngbe_main.c:38:
-   drivers/net/ethernet/netswift/ngbe/ngbe.h: In function 'ngbe_misc_isb':
-   drivers/net/ethernet/netswift/ngbe/ngbe.h:764:13: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
-     764 |         u32 cur_diff = 0;
-         |             ^~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: At top level:
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:170:6: warning: no previous prototype for 'ngbe_service_event_schedule' [-Wmissing-prototypes]
-     170 | void ngbe_service_event_schedule(struct ngbe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: In function 'ngbe_tx_timeout':
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:433:14: warning: variable 'real_tx_hang' set but not used [-Wunused-but-set-variable]
-     433 |         bool real_tx_hang = false;
-         |              ^~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: In function 'ngbe_addr_list_itr':
->> drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2718:30: warning: unused variable 'adapter' [-Wunused-variable]
-    2718 |         struct ngbe_adapter *adapter = hw->back;
-         |                              ^~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: At top level:
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3223:6: warning: no previous prototype for 'ngbe_configure_isb' [-Wmissing-prototypes]
-    3223 | void ngbe_configure_isb(struct ngbe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3233:6: warning: no previous prototype for 'ngbe_configure_port' [-Wmissing-prototypes]
-    3233 | void ngbe_configure_port(struct ngbe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3592:6: warning: no previous prototype for 'ngbe_disable_device' [-Wmissing-prototypes]
-    3592 | void ngbe_disable_device(struct ngbe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3693:5: warning: no previous prototype for 'ngbe_init_shared_code' [-Wmissing-prototypes]
-    3693 | s32 ngbe_init_shared_code(struct ngbe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:5810:5: warning: no previous prototype for 'ngbe_skb_pad_nonzero' [-Wmissing-prototypes]
-    5810 | int ngbe_skb_pad_nonzero(struct sk_buff *skb, int pad)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c: In function 'ngbe_mii_ioctl':
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6010:20: warning: variable 'devad' set but not used [-Wunused-but-set-variable]
-    6010 |         int prtad, devad, ret = 0;
-         |                    ^~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6010:13: warning: variable 'prtad' set but not used [-Wunused-but-set-variable]
-    6010 |         int prtad, devad, ret = 0;
-         |             ^~~~~
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:257: warning: Function parameter or member 'quiet' not described in 'ngbe_read_reg'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:1644: warning: Function parameter or member 'queues' not described in 'ngbe_irq_enable'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:1644: warning: Function parameter or member 'flush' not described in 'ngbe_irq_enable'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2035: warning: Function parameter or member 'adapter' not described in 'ngbe_configure_msi_and_legacy'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2449: warning: Function parameter or member 'adapter' not described in 'ngbe_configure_bridge_mode'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:2913: warning: Function parameter or member 'pool' not described in 'ngbe_write_uc_addr_list'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:3722: warning: cannot understand function prototype: 'const u32 def_rss_key[10] = '
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4583: warning: Function parameter or member 'adapter' not described in 'ngbe_check_hang_subtask'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4648: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_update_link_status'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4744: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_link_is_up'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4789: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_link_is_down'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4856: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_flush_tx'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4928: warning: Function parameter or member 'adapter' not described in 'ngbe_watchdog_subtask'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4957: warning: Function parameter or member 't' not described in 'ngbe_service_timer'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:4957: warning: Excess function parameter 'data' description in 'ngbe_service_timer'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6043: warning: Function parameter or member 'dev' not described in 'ngbe_setup_tc'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6043: warning: Excess function parameter 'netdev' description in 'ngbe_setup_tc'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6297: warning: Excess function parameter 'device_id' description in 'ngbe_wol_supported'
-   drivers/net/ethernet/netswift/ngbe/ngbe_main.c:6297: warning: Excess function parameter 'subdev_id' description in 'ngbe_wol_supported'
+         |                                                                    ^~~~~
+   mm/slub.c:6327:14: error: 'slabs' undeclared here (not in a function); did you mean 'slab'?
+    6327 | SLAB_ATTR_RO(slabs);
+         |              ^~~~~
+   mm/slub.c:6132:68: note: in definition of macro 'SLAB_ATTR_RO'
+    6132 |         static struct slab_attribute _name##_attr = __ATTR_RO_MODE(_name, 0400)
+         |                                                                    ^~~~~
+   mm/slub.c:6333:14: error: 'total_objects' undeclared here (not in a function); did you mean 'oo_objects'?
+    6333 | SLAB_ATTR_RO(total_objects);
+         |              ^~~~~~~~~~~~~
+   mm/slub.c:6132:68: note: in definition of macro 'SLAB_ATTR_RO'
+    6132 |         static struct slab_attribute _name##_attr = __ATTR_RO_MODE(_name, 0400)
+         |                                                                    ^~~~~
+   mm/slub.c:6339:14: error: 'objects' undeclared here (not in a function); did you mean 'kobject'?
+    6339 | SLAB_ATTR_RO(objects);
+         |              ^~~~~~~
+   mm/slub.c:6132:68: note: in definition of macro 'SLAB_ATTR_RO'
+    6132 |         static struct slab_attribute _name##_attr = __ATTR_RO_MODE(_name, 0400)
+         |                                                                    ^~~~~
+   mm/slub.c:6345:14: error: 'sanity_checks' undeclared here (not in a function); did you mean 'sanity_checks_attr'?
+    6345 | SLAB_ATTR_RO(sanity_checks);
+         |              ^~~~~~~~~~~~~
+   mm/slub.c:6132:68: note: in definition of macro 'SLAB_ATTR_RO'
+    6132 |         static struct slab_attribute _name##_attr = __ATTR_RO_MODE(_name, 0400)
+         |                                                                    ^~~~~
+   mm/slub.c:6132:53: error: invalid initializer
+    6132 |         static struct slab_attribute _name##_attr = __ATTR_RO_MODE(_name, 0400)
+         |                                                     ^~~~~~~~~~~~~~
+   mm/slub.c:6351:1: note: in expansion of macro 'SLAB_ATTR_RO'
+    6351 | SLAB_ATTR_RO(trace);
+         | ^~~~~~~~~~~~
+   mm/slub.c:6358:14: error: 'red_zone' undeclared here (not in a function)
+    6358 | SLAB_ATTR_RO(red_zone);
+         |              ^~~~~~~~
+   mm/slub.c:6132:68: note: in definition of macro 'SLAB_ATTR_RO'
+    6132 |         static struct slab_attribute _name##_attr = __ATTR_RO_MODE(_name, 0400)
+         |                                                                    ^~~~~
+   mm/slub.c:6365:14: error: 'poison' undeclared here (not in a function)
+    6365 | SLAB_ATTR_RO(poison);
+         |              ^~~~~~
+   mm/slub.c:6132:68: note: in definition of macro 'SLAB_ATTR_RO'
+    6132 |         static struct slab_attribute _name##_attr = __ATTR_RO_MODE(_name, 0400)
+         |                                                                    ^~~~~
+   mm/slub.c:6372:14: error: 'store_user' undeclared here (not in a function); did you mean 'pte_user'?
+    6372 | SLAB_ATTR_RO(store_user);
+         |              ^~~~~~~~~~
+   mm/slub.c:6132:68: note: in definition of macro 'SLAB_ATTR_RO'
+    6132 |         static struct slab_attribute _name##_attr = __ATTR_RO_MODE(_name, 0400)
+         |                                                                    ^~~~~
+   mm/slub.c:6391:11: error: 'validate' undeclared here (not in a function); did you mean 'key_validate'?
+    6391 | SLAB_ATTR(validate);
+         |           ^~~~~~~~
+   mm/slub.c:6135:68: note: in definition of macro 'SLAB_ATTR'
+    6135 |         static struct slab_attribute _name##_attr = __ATTR_RW_MODE(_name, 0600)
+         |                                                                    ^~~~~
+   mm/slub.c:6431:11: error: 'shrink' undeclared here (not in a function); did you mean 'shrinker'?
+    6431 | SLAB_ATTR(shrink);
+         |           ^~~~~~
+   mm/slub.c:6135:68: note: in definition of macro 'SLAB_ATTR'
+    6135 |         static struct slab_attribute _name##_attr = __ATTR_RW_MODE(_name, 0600)
+         |                                                                    ^~~~~
+   mm/slub.c:6455:11: error: 'remote_node_defrag_ratio' undeclared here (not in a function); did you mean 'remote_node_defrag_ratio_attr'?
+    6455 | SLAB_ATTR(remote_node_defrag_ratio);
+         |           ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:6135:68: note: in definition of macro 'SLAB_ATTR'
+    6135 |         static struct slab_attribute _name##_attr = __ATTR_RW_MODE(_name, 0600)
+         |                                                                    ^~~~~
+   mm/slub.c:6682:21: error: variable 'slab_sysfs_ops' has initializer but incomplete type
+    6682 | static const struct sysfs_ops slab_sysfs_ops = {
+         |                     ^~~~~~~~~
+   mm/slub.c:6683:10: error: 'const struct sysfs_ops' has no member named 'show'
+    6683 |         .show = slab_attr_show,
+         |          ^~~~
+   mm/slub.c:6683:17: warning: excess elements in struct initializer
+    6683 |         .show = slab_attr_show,
+         |                 ^~~~~~~~~~~~~~
+   mm/slub.c:6683:17: note: (near initialization for 'slab_sysfs_ops')
+   mm/slub.c:6684:10: error: 'const struct sysfs_ops' has no member named 'store'
+    6684 |         .store = slab_attr_store,
+         |          ^~~~~
+   mm/slub.c:6684:18: warning: excess elements in struct initializer
+    6684 |         .store = slab_attr_store,
+         |                  ^~~~~~~~~~~~~~~
+   mm/slub.c:6684:18: note: (near initialization for 'slab_sysfs_ops')
+   mm/slub.c: In function 'sysfs_slab_add':
+   mm/slub.c:6760:17: error: implicit declaration of function 'sysfs_remove_link' [-Werror=implicit-function-declaration]
+    6760 |                 sysfs_remove_link(&slab_kset->kobj, s->name);
+         |                 ^~~~~~~~~~~~~~~~~
+   mm/slub.c:6777:15: error: implicit declaration of function 'sysfs_create_group' [-Werror=implicit-function-declaration]
+    6777 |         err = sysfs_create_group(&s->kobj, &slab_attr_group);
+         |               ^~~~~~~~~~~~~~~~~~
+   mm/slub.c: In function 'sysfs_slab_alias':
+   mm/slub.c:6827:24: error: implicit declaration of function 'sysfs_create_link'; did you mean 'kernfs_create_link'? [-Werror=implicit-function-declaration]
+    6827 |                 return sysfs_create_link(&slab_kset->kobj, &s->kobj, name);
+         |                        ^~~~~~~~~~~~~~~~~
+         |                        kernfs_create_link
+   mm/slub.c: At top level:
+   mm/slub.c:6682:31: error: storage size of 'slab_sysfs_ops' isn't known
+    6682 | static const struct sysfs_ops slab_sysfs_ops = {
+         |                               ^~~~~~~~~~~~~~
+>> mm/slub.c:6439:16: warning: 'remote_node_defrag_ratio_store' defined but not used [-Wunused-function]
+    6439 | static ssize_t remote_node_defrag_ratio_store(struct kmem_cache *s,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slub.c:6434:16: warning: 'remote_node_defrag_ratio_show' defined but not used [-Wunused-function]
+    6434 | static ssize_t remote_node_defrag_ratio_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:6422:16: warning: 'shrink_store' defined but not used [-Wunused-function]
+    6422 | static ssize_t shrink_store(struct kmem_cache *s,
+         |                ^~~~~~~~~~~~
+   mm/slub.c:6417:16: warning: 'shrink_show' defined but not used [-Wunused-function]
+    6417 | static ssize_t shrink_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~
+   mm/slub.c:6379:16: warning: 'validate_store' defined but not used [-Wunused-function]
+    6379 | static ssize_t validate_store(struct kmem_cache *s,
+         |                ^~~~~~~~~~~~~~
+   mm/slub.c:6374:16: warning: 'validate_show' defined but not used [-Wunused-function]
+    6374 | static ssize_t validate_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~
+   mm/slub.c:6367:16: warning: 'store_user_show' defined but not used [-Wunused-function]
+    6367 | static ssize_t store_user_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~
+   mm/slub.c:6360:16: warning: 'poison_show' defined but not used [-Wunused-function]
+    6360 | static ssize_t poison_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~
+   mm/slub.c:6353:16: warning: 'red_zone_show' defined but not used [-Wunused-function]
+    6353 | static ssize_t red_zone_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~
+   mm/slub.c:6347:16: warning: 'trace_show' defined but not used [-Wunused-function]
+    6347 | static ssize_t trace_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~
+   mm/slub.c:6341:16: warning: 'sanity_checks_show' defined but not used [-Wunused-function]
+    6341 | static ssize_t sanity_checks_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~~~
+   mm/slub.c:6335:16: warning: 'objects_show' defined but not used [-Wunused-function]
+    6335 | static ssize_t objects_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~
+   mm/slub.c:6329:16: warning: 'total_objects_show' defined but not used [-Wunused-function]
+    6329 | static ssize_t total_objects_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~~~
+   mm/slub.c:6323:16: warning: 'slabs_show' defined but not used [-Wunused-function]
+    6323 | static ssize_t slabs_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~
+   mm/slub.c:6316:16: warning: 'destroy_by_rcu_show' defined but not used [-Wunused-function]
+    6316 | static ssize_t destroy_by_rcu_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~~~~
+   mm/slub.c:6301:16: warning: 'cache_dma_show' defined but not used [-Wunused-function]
+    6301 | static ssize_t cache_dma_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~
+   mm/slub.c:6294:16: warning: 'hwcache_align_show' defined but not used [-Wunused-function]
+    6294 | static ssize_t hwcache_align_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~~~
+   mm/slub.c:6288:16: warning: 'reclaim_account_show' defined but not used [-Wunused-function]
+    6288 | static ssize_t reclaim_account_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:6247:16: warning: 'slabs_cpu_partial_show' defined but not used [-Wunused-function]
+    6247 | static ssize_t slabs_cpu_partial_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:6241:16: warning: 'objects_partial_show' defined but not used [-Wunused-function]
+    6241 | static ssize_t objects_partial_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:6235:16: warning: 'cpu_slabs_show' defined but not used [-Wunused-function]
+    6235 | static ssize_t cpu_slabs_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~
+   mm/slub.c:6229:16: warning: 'partial_show' defined but not used [-Wunused-function]
+    6229 | static ssize_t partial_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~
+   mm/slub.c:6223:16: warning: 'aliases_show' defined but not used [-Wunused-function]
+    6223 | static ssize_t aliases_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~
+   mm/slub.c:6215:16: warning: 'ctor_show' defined but not used [-Wunused-function]
+    6215 | static ssize_t ctor_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~
+   mm/slub.c:6197:16: warning: 'cpu_partial_store' defined but not used [-Wunused-function]
+    6197 | static ssize_t cpu_partial_store(struct kmem_cache *s, const char *buf,
+         |                ^~~~~~~~~~~~~~~~~
+   mm/slub.c:6187:16: warning: 'cpu_partial_show' defined but not used [-Wunused-function]
+    6187 | static ssize_t cpu_partial_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~
+   mm/slub.c:6172:16: warning: 'min_partial_store' defined but not used [-Wunused-function]
+    6172 | static ssize_t min_partial_store(struct kmem_cache *s, const char *buf,
+         |                ^~~~~~~~~~~~~~~~~
+   mm/slub.c:6167:16: warning: 'min_partial_show' defined but not used [-Wunused-function]
+    6167 | static ssize_t min_partial_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~
+   mm/slub.c:6161:16: warning: 'order_show' defined but not used [-Wunused-function]
+    6161 | static ssize_t order_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~
+   mm/slub.c:6155:16: warning: 'objs_per_slab_show' defined but not used [-Wunused-function]
+    6155 | static ssize_t objs_per_slab_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~~~
+   mm/slub.c:6149:16: warning: 'object_size_show' defined but not used [-Wunused-function]
+    6149 | static ssize_t object_size_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~~~
+   mm/slub.c:6143:16: warning: 'align_show' defined but not used [-Wunused-function]
+    6143 | static ssize_t align_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~
+   mm/slub.c:6137:16: warning: 'slab_size_show' defined but not used [-Wunused-function]
+    6137 | static ssize_t slab_size_show(struct kmem_cache *s, char *buf)
+         |                ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/adapter +2718 drivers/net/ethernet/netswift/ngbe/ngbe_main.c
+vim +/remote_node_defrag_ratio_store +6439 mm/slub.c
 
-  2712	
-  2713	static u8 *ngbe_addr_list_itr(struct ngbe_hw *hw,
-  2714				       u8 **mc_addr_ptr, u32 *vmdq)
-  2715	{
-  2716		struct netdev_hw_addr *mc_ptr;
-  2717		u8 *addr = *mc_addr_ptr;
-> 2718		struct ngbe_adapter *adapter = hw->back;
-  2719	
-  2720		/* VMDQ_P implicitely uses the adapter struct when CONFIG_PCI_IOV is
-  2721		 * defined, so we have to wrap the pointer above correctly to prevent
-  2722		 * a warning.
-  2723		 */
-  2724		*vmdq = VMDQ_P(0);
-  2725	
-  2726		mc_ptr = container_of(addr, struct netdev_hw_addr, addr[0]);
-  2727		if (mc_ptr->list.next) {
-  2728			struct netdev_hw_addr *ha;
-  2729	
-  2730			ha = list_entry(mc_ptr->list.next, struct netdev_hw_addr, list);
-  2731			*mc_addr_ptr = ha->addr;
-  2732		} else
-  2733			*mc_addr_ptr = NULL;
-  2734	
-  2735		return addr;
-  2736	}
-  2737	
+2086d26a05a4b5 Christoph Lameter 2007-05-06  6432  
+81819f0fc8285a Christoph Lameter 2007-05-06  6433  #ifdef CONFIG_NUMA
+9824601ead957a Christoph Lameter 2008-01-07 @6434  static ssize_t remote_node_defrag_ratio_show(struct kmem_cache *s, char *buf)
+81819f0fc8285a Christoph Lameter 2007-05-06  6435  {
+bf16d19aabd8f5 Joe Perches       2020-12-14  6436  	return sysfs_emit(buf, "%u\n", s->remote_node_defrag_ratio / 10);
+81819f0fc8285a Christoph Lameter 2007-05-06  6437  }
+81819f0fc8285a Christoph Lameter 2007-05-06  6438  
+9824601ead957a Christoph Lameter 2008-01-07 @6439  static ssize_t remote_node_defrag_ratio_store(struct kmem_cache *s,
+81819f0fc8285a Christoph Lameter 2007-05-06  6440  				const char *buf, size_t length)
+81819f0fc8285a Christoph Lameter 2007-05-06  6441  {
+eb7235eb842043 Alexey Dobriyan   2018-04-05  6442  	unsigned int ratio;
+0121c619d03820 Christoph Lameter 2008-04-29  6443  	int err;
+0121c619d03820 Christoph Lameter 2008-04-29  6444  
+eb7235eb842043 Alexey Dobriyan   2018-04-05  6445  	err = kstrtouint(buf, 10, &ratio);
+0121c619d03820 Christoph Lameter 2008-04-29  6446  	if (err)
+0121c619d03820 Christoph Lameter 2008-04-29  6447  		return err;
+eb7235eb842043 Alexey Dobriyan   2018-04-05  6448  	if (ratio > 100)
+eb7235eb842043 Alexey Dobriyan   2018-04-05  6449  		return -ERANGE;
+0121c619d03820 Christoph Lameter 2008-04-29  6450  
+0121c619d03820 Christoph Lameter 2008-04-29  6451  	s->remote_node_defrag_ratio = ratio * 10;
+81819f0fc8285a Christoph Lameter 2007-05-06  6452  
+81819f0fc8285a Christoph Lameter 2007-05-06  6453  	return length;
+81819f0fc8285a Christoph Lameter 2007-05-06  6454  }
+9824601ead957a Christoph Lameter 2008-01-07  6455  SLAB_ATTR(remote_node_defrag_ratio);
+81819f0fc8285a Christoph Lameter 2007-05-06  6456  #endif
+81819f0fc8285a Christoph Lameter 2007-05-06  6457  
 
 -- 
 0-DAY CI Kernel Test Service
