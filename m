@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7071111AC
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 06:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FE212E6D
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 06:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706940356; cv=none; b=qT3yCs2ZmCb7JXW272XunRwxi2YMpaBTdm1ziUE2Mej9DO7j4/jdwX2AC718i1e64HA2CsXd5ToPnXYtV31GfO+5b4YRC+pCJvx4xdnBgrreBsgT+h7h+w5XIrH9x6YJxcRPlVgxV7pG1eucZ1Vo1nPSm3LP5r1CZt6G1RfnxuI=
+	t=1706940979; cv=none; b=NcTH3k52Q1n2TsXj9vc57vyGZA36rHOPtMutNbhLc0pDkYqE2cTG/Ryn1dDuLYdhVPmu679m8T5Gs1oAKeDCbd1wiQJnS3SgGT6SGAPPcKbHaypeT8fAqXCl7+JyxhEPqapyODfjDBpSq3ATD7gMDqqVYq5270s2CswRp7XssI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706940356; c=relaxed/simple;
-	bh=SU4UxvavEjTqMN5PNvoZtPbihV3+kp8uz40/wRkea2g=;
+	s=arc-20240116; t=1706940979; c=relaxed/simple;
+	bh=RidlOSqi2CYLEakxkwfxmPYFO7B/a8huV3f7gYbpYbE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AqfyGXC4c3a3zgZndVHGptoh6B7fgxqR2CVlxDU/VwVAfkp+dxLI306WYoWjVMUcpGNQCy8+79692+/9TAIJnw0Uk1hpICHo5vjF9Bhr+PtMOXRc40+FZbKRxAb/PfLByrAUdAQOWlLVAVciz/iZoZ2Gk/dcL8Izw4AyPDgLE0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HA/98oyb; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=guSj52LCxCwxdUv0ifvbzmZjrMVW7jUyH2iw7ro/d+KwSeAta8pq/8YX/pIhcvBhktc7sps934fm/8RGrwK9VU/hbeC8LIAjKXEVIIhRm+Xzf/mqCBU/xjt07NrY/QF8SLLxh/5m2el5i96qF1dwIbEeKBk1IN+NqWJ5tlnx4sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c7oW+Pkg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HA/98oyb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c7oW+Pkg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706940355; x=1738476355;
+  t=1706940978; x=1738476978;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SU4UxvavEjTqMN5PNvoZtPbihV3+kp8uz40/wRkea2g=;
-  b=HA/98oyb/NVzDkcYL861x+6rH+O1mJU9ViMA+ejuAzE6D7j4imWr+ANu
-   RNizBnjbuhucp2z7lDZ4AdyN5+iYM9rVVyJuHvj9mWRMLmkGddKDwi6s6
-   EnBX5j2sxLDkERsCej+zxzg5pSE6Eo4NJOeejgh/fgdaLTD5xA2FHiuVW
-   MibAQuobez1EOXBPPqGpuzrZNSyvTGJ6E6l+UwyTwUf3gTyP4gNuJ2zWw
-   k/h3pvC34by+qGzS2Q1wuJf5y5KiZTnqEcYGrZuDS8oHJL8ulvzvu80NT
-   t/7a3eMKNv1xaTqGPF5gn97fDX2j1WiSQau2XBDRCLdj8fM+rhBNNc5t5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="11038612"
+  bh=RidlOSqi2CYLEakxkwfxmPYFO7B/a8huV3f7gYbpYbE=;
+  b=c7oW+PkgNDWSjXggZ7Vwz1EM9X5mw3snEeTAtLUhwIzqtV/Za/KwipMc
+   zwuLjr8l17/5ohGThUPlNrteNZwCHZGMse+zPzAKpG67DBS1UEVXWZYJr
+   k6q+AxX3upsiR+dUGTtBHfzE7Mr6ZZPYjEcdCjQ2BMULq+5y05EUAfOQy
+   D5XyV33PPOMFWkMjGw0sOdUJfoXQjltG1naYOIVsB+5OyOnrQcztC1PwJ
+   nBaZt4VLKR2BSitYFEb0zHVx/Rr6bTQwapRU3CQ2LoAuDF8bjrF0cywoL
+   r82wdI3LHGobhii9F/Kba8WW7220Onucnr5mdHir0Aq3CyjHmGoHAkygx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="17817356"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="11038612"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 22:05:54 -0800
+   d="scan'208";a="17817356"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 22:16:17 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="37690769"
+   d="scan'208";a="266869"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 02 Feb 2024 22:05:51 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 02 Feb 2024 22:16:16 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rW99u-0004gr-2p;
-	Sat, 03 Feb 2024 06:05:47 +0000
-Date: Sat, 3 Feb 2024 14:04:48 +0800
+	id 1rW9Jz-0004hb-1C;
+	Sat, 03 Feb 2024 06:16:11 +0000
+Date: Sat, 3 Feb 2024 14:15:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brijesh Singh <brijesh.singh@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Jarkko Sakkinen <jarkko@profian.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Michael Roth <michael.roth@amd.com>
-Subject: [tip:x86/sev 16/29] drivers/crypto/ccp/sev-dev.c:93:28: sparse:
- sparse: symbol 'snp_range_list' was not declared. Should it be static?
-Message-ID: <202402031410.GTE3PJ1Y-lkp@intel.com>
+To: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Kalle Valo <kvalo@kernel.org>, linux-wireless@vger.kernel.org,
+	Johannes Berg <johannes.berg@intel.com>,
+	Gregory Greenman <gregory.greenman@intel.com>
+Subject: [wireless-next:main 36/68]
+ drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1476:50: error: 'struct iwl_mvm'
+ has no member named 'phy_filters'
+Message-ID: <202402031454.syX4cSGN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,31 +63,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/sev
-head:   1bfca8d2800ab5ef0dfed335a2a29d1632c99411
-commit: 1ca5614b84eed5904f65f143e0e7aaab0ac4c6b2 [16/29] crypto: ccp: Add support to initialize the AMD-SP for SEV-SNP
-config: x86_64-randconfig-r131-20240203 (https://download.01.org/0day-ci/archive/20240203/202402031410.GTE3PJ1Y-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402031410.GTE3PJ1Y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+head:   5932ad87828b267649d750869c89c0f1a3873477
+commit: 427661e4c48887ea2a226cd972e574ae7686fb95 [36/68] wifi: iwlwifi: read SAR tables from UEFI
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402031454.syX4cSGN-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402031454.syX4cSGN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402031410.GTE3PJ1Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402031454.syX4cSGN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/crypto/ccp/sev-dev.c:93:28: sparse: sparse: symbol 'snp_range_list' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/snp_range_list +93 drivers/crypto/ccp/sev-dev.c
+   drivers/net/wireless/intel/iwlwifi/mvm/fw.c: In function 'iwl_mvm_get_bios_tables':
+>> drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1476:50: error: 'struct iwl_mvm' has no member named 'phy_filters'
+    1476 |         iwl_acpi_get_phy_filters(&mvm->fwrt, &mvm->phy_filters);
+         |                                                  ^~
 
-    87	
-    88	/*
-    89	 * SEV_DATA_RANGE_LIST:
-    90	 *   Array containing range of pages that firmware transitions to HV-fixed
-    91	 *   page state.
-    92	 */
-  > 93	struct sev_data_range_list *snp_range_list;
-    94	
+
+vim +1476 drivers/net/wireless/intel/iwlwifi/mvm/fw.c
+
+427661e4c48887 Miri Korenblit 2024-01-31  1421  
+427661e4c48887 Miri Korenblit 2024-01-31  1422  void iwl_mvm_get_bios_tables(struct iwl_mvm *mvm)
+78a19d5285d93e Miri Korenblit 2021-08-05  1423  {
+78a19d5285d93e Miri Korenblit 2021-08-05  1424  	int ret;
+78a19d5285d93e Miri Korenblit 2021-08-05  1425  
+ebe8f41319fabe Miri Korenblit 2024-01-28  1426  	iwl_acpi_get_guid_lock_status(&mvm->fwrt);
+ebe8f41319fabe Miri Korenblit 2024-01-28  1427  
+78a19d5285d93e Miri Korenblit 2021-08-05  1428  	/* read PPAG table */
+e8e10a37c51c08 Matt Chen      2022-03-04  1429  	ret = iwl_acpi_get_ppag_table(&mvm->fwrt);
+78a19d5285d93e Miri Korenblit 2021-08-05  1430  	if (ret < 0) {
+78a19d5285d93e Miri Korenblit 2021-08-05  1431  		IWL_DEBUG_RADIO(mvm,
+78a19d5285d93e Miri Korenblit 2021-08-05  1432  				"PPAG BIOS table invalid or unavailable. (%d)\n",
+78a19d5285d93e Miri Korenblit 2021-08-05  1433  				ret);
+78a19d5285d93e Miri Korenblit 2021-08-05  1434  	}
+78a19d5285d93e Miri Korenblit 2021-08-05  1435  
+78a19d5285d93e Miri Korenblit 2021-08-05  1436  	/* read SAR tables */
+427661e4c48887 Miri Korenblit 2024-01-31  1437  	ret = iwl_bios_get_wrds_table(&mvm->fwrt);
+78a19d5285d93e Miri Korenblit 2021-08-05  1438  	if (ret < 0) {
+78a19d5285d93e Miri Korenblit 2021-08-05  1439  		IWL_DEBUG_RADIO(mvm,
+78a19d5285d93e Miri Korenblit 2021-08-05  1440  				"WRDS SAR BIOS table invalid or unavailable. (%d)\n",
+78a19d5285d93e Miri Korenblit 2021-08-05  1441  				ret);
+78a19d5285d93e Miri Korenblit 2021-08-05  1442  		/*
+78a19d5285d93e Miri Korenblit 2021-08-05  1443  		 * If not available, don't fail and don't bother with EWRD and
+78a19d5285d93e Miri Korenblit 2021-08-05  1444  		 * WGDS */
+78a19d5285d93e Miri Korenblit 2021-08-05  1445  
+427661e4c48887 Miri Korenblit 2024-01-31  1446  		if (!iwl_bios_get_wgds_table(&mvm->fwrt)) {
+78a19d5285d93e Miri Korenblit 2021-08-05  1447  			/*
+78a19d5285d93e Miri Korenblit 2021-08-05  1448  			 * If basic SAR is not available, we check for WGDS,
+78a19d5285d93e Miri Korenblit 2021-08-05  1449  			 * which should *not* be available either.  If it is
+78a19d5285d93e Miri Korenblit 2021-08-05  1450  			 * available, issue an error, because we can't use SAR
+78a19d5285d93e Miri Korenblit 2021-08-05  1451  			 * Geo without basic SAR.
+78a19d5285d93e Miri Korenblit 2021-08-05  1452  			 */
+78a19d5285d93e Miri Korenblit 2021-08-05  1453  			IWL_ERR(mvm, "BIOS contains WGDS but no WRDS\n");
+78a19d5285d93e Miri Korenblit 2021-08-05  1454  		}
+78a19d5285d93e Miri Korenblit 2021-08-05  1455  
+78a19d5285d93e Miri Korenblit 2021-08-05  1456  	} else {
+427661e4c48887 Miri Korenblit 2024-01-31  1457  		ret = iwl_bios_get_ewrd_table(&mvm->fwrt);
+78a19d5285d93e Miri Korenblit 2021-08-05  1458  		/* if EWRD is not available, we can still use
+78a19d5285d93e Miri Korenblit 2021-08-05  1459  		* WRDS, so don't fail */
+78a19d5285d93e Miri Korenblit 2021-08-05  1460  		if (ret < 0)
+78a19d5285d93e Miri Korenblit 2021-08-05  1461  			IWL_DEBUG_RADIO(mvm,
+78a19d5285d93e Miri Korenblit 2021-08-05  1462  					"EWRD SAR BIOS table invalid or unavailable. (%d)\n",
+78a19d5285d93e Miri Korenblit 2021-08-05  1463  					ret);
+78a19d5285d93e Miri Korenblit 2021-08-05  1464  
+78a19d5285d93e Miri Korenblit 2021-08-05  1465  		/* read geo SAR table */
+78a19d5285d93e Miri Korenblit 2021-08-05  1466  		if (iwl_sar_geo_support(&mvm->fwrt)) {
+427661e4c48887 Miri Korenblit 2024-01-31  1467  			ret = iwl_bios_get_wgds_table(&mvm->fwrt);
+78a19d5285d93e Miri Korenblit 2021-08-05  1468  			if (ret < 0)
+78a19d5285d93e Miri Korenblit 2021-08-05  1469  				IWL_DEBUG_RADIO(mvm,
+78a19d5285d93e Miri Korenblit 2021-08-05  1470  						"Geo SAR BIOS table invalid or unavailable. (%d)\n",
+78a19d5285d93e Miri Korenblit 2021-08-05  1471  						ret);
+78a19d5285d93e Miri Korenblit 2021-08-05  1472  				/* we don't fail if the table is not available */
+78a19d5285d93e Miri Korenblit 2021-08-05  1473  		}
+78a19d5285d93e Miri Korenblit 2021-08-05  1474  	}
+c4c95454775592 Johannes Berg  2023-06-14  1475  
+c4c95454775592 Johannes Berg  2023-06-14 @1476  	iwl_acpi_get_phy_filters(&mvm->fwrt, &mvm->phy_filters);
+78a19d5285d93e Miri Korenblit 2021-08-05  1477  }
+6996490501ed80 Luca Coelho    2017-01-12  1478  
+
+:::::: The code at line 1476 was first introduced by commit
+:::::: c4c954547755927807aaca981025847821dd2d0c wifi: iwlwifi: implement WPFC ACPI table loading
+
+:::::: TO: Johannes Berg <johannes.berg@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
