@@ -1,64 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4514B5AE
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 07:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F054C3D6
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 07:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706944108; cv=none; b=jolYmF6zDCSkE21BZbYZ4qOQ0KvW5oV4oU+PANDin4VqDaAN6TVspv/3gwUhskFS/w3ZMR0m4SL8irmfARsnSNYa1dZATUv4WsNkbtYFpFZHfPMlQwgjXYkWO6pqFw6HH9b1eQOdQ3vHyBGen1TjaeMhgNASvub50u5jUYouVZs=
+	t=1706944707; cv=none; b=aN5YIcqJjwfYPFk96Kws2DEWOLzCbvHmtt6jgmOm/JWXoHkqXBi8M0QsGrUpOKNYxnlhQol3fEp+cQiRCK9AIEp2Gbz+Nfy+Lp3Q8w7RF+uIWbANDMa6OV9nNUO0HWzsk8+jwgrtnbsf8wRXoS4GmH93C2DIZ9+d903vshQ3r+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706944108; c=relaxed/simple;
-	bh=QikV9LjfXCKhq110UZUbqz0FYd57gjfWzqI2NfGAlhI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JKiPKMMd/IJdF8yN0aClquSKsWXTy/b/fE8JZPMyeTYjznxGmx/zqDJs72Ie1mXqzAm90qtoWyYvnGAyqU0cwbNn9AadgP3/ElfoiAWa9uD/OU77EFxXel1ZcAUUpEJQhmNJFhL/9jJvWIaH9soVJn7SYpPTJq9EeR04GwTYIEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Btrmv4XQ; arc=none smtp.client-ip=192.55.52.88
+	s=arc-20240116; t=1706944707; c=relaxed/simple;
+	bh=lYGSulgBKmiXnOASMnbumSZB09g+AZ04NESJO31PedA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pniibotBEzxavdOc6HQpXApKtTGtIMIKEbTs0yj0sAFgKWGmkx8qm++f0ByTuKDWIhTh/H9kbLeoSIOCWYXAK+a3nKuTN72L/e6XAwcinilMLC+QhaHh8lj03LtchJG8pfT4Adr40ZoGpNY0IH9vFi/pn1g5zFV9zgLRtPeMh1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mG66w+/r; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Btrmv4XQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mG66w+/r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706944106; x=1738480106;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QikV9LjfXCKhq110UZUbqz0FYd57gjfWzqI2NfGAlhI=;
-  b=Btrmv4XQaDWLQ1LaQKxFQYKUAJK1rpYAA+Fe1Vd/wtvkNpj2J1I395b5
-   diIdn6UzpLT02lDUtWH2jZI/wjMZtvl1bEo1qds2NgQM7L0yZBNHQkV5x
-   nMepge98CnsZ8+CQwc70WPRr/WMSK+bh+QUlBDlsBE6yqCvWpbfw4d05/
-   URJjDA3waYt3wBBV866FWYVA1/Lo1uQv7XpmUCoxOS68ttnae3Lc5eVFX
-   G3TSyuBeJ2jZ6FWBqSMX94F0CklWKD92pE3DpQb6rmUy8qrsa7U4+JH+C
-   HN68Iwvg61L9T4as1ciIutfoxRFXa8UTMOkX6UOab75yTCxZm+vJFDBC+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="435436789"
+  t=1706944705; x=1738480705;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lYGSulgBKmiXnOASMnbumSZB09g+AZ04NESJO31PedA=;
+  b=mG66w+/rMMg8q4yiThn0NAcIgJ4/hOYlPLDuzVApuY7Ybd6jPG9uuRsj
+   oRgB+wdUc7CPRb9d6oq2fgPvIYs7Mo7u4Dw6xk0bI6cee0LERf14Ecv6N
+   oTAkTmzIGBR9L73e+HonkJnMfA1maxnwH3KnU2MVnpr9gbf7aQTz52zlP
+   /dftvjb+BPnW6IAX/oS4Mv14veUheqsWjpm4IwbcdnMBzVG3eHVhfOUch
+   D2LdzgwUoFTEFVbLGy5jphCfmsvGUoFAI6zCARzmmpytAiVNGz81Dam9/
+   +ZJlMbXNsWKSSVww209q9SUCyEcGiaY5dX9K8wDX2OJwMvrlerhPpjsuo
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="22771143"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="435436789"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 23:08:25 -0800
+   d="scan'208";a="22771143"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 23:18:24 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="908791453"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="278653"
+   d="scan'208";a="908791453"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Feb 2024 23:08:22 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 02 Feb 2024 23:18:22 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWA8R-0004j8-1p;
-	Sat, 03 Feb 2024 07:08:19 +0000
-Date: Sat, 3 Feb 2024 15:07:45 +0800
+	id 1rWAI8-0004jm-08;
+	Sat, 03 Feb 2024 07:18:20 +0000
+Date: Sat, 3 Feb 2024 15:17:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	alexandre.belloni@bootlin.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jdelvare@suse.com, linux@roeck-us.net, antoniu.miclaus@analog.com,
-	noname.nuno@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
-	Zeynep Arslanbenzer <Zeynep.Arslanbenzer@analog.com>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: Re: [PATCH v6 1/2] drivers: rtc: add max313xx series rtc driver
-Message-ID: <202402031414.zapkL312-lkp@intel.com>
-References: <20240202025241.834283-2-chris.packham@alliedtelesis.co.nz>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:slub-percpu-caches-v4r0 2/6] mm/slub.c:4840:15: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202402031522.gfPVqSoT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,153 +58,179 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240202025241.834283-2-chris.packham@alliedtelesis.co.nz>
 
-Hi Chris,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on abelloni/rtc-next]
-[also build test WARNING on robh/for-next linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/drivers-rtc-add-max313xx-series-rtc-driver/20240202-105538
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20240202025241.834283-2-chris.packham%40alliedtelesis.co.nz
-patch subject: [PATCH v6 1/2] drivers: rtc: add max313xx series rtc driver
-config: i386-randconfig-063-20240203 (https://download.01.org/0day-ci/archive/20240203/202402031414.zapkL312-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402031414.zapkL312-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-caches-v4r0
+head:   4ed1364ec4fe2aa8d5e6d6b464dfc7939ac08ff1
+commit: d80fc960ad716b0d2c8475e1f9007a74afdf5cd8 [2/6] mm/slub: add opt-in percpu array cache of objects
+config: loongarch-randconfig-r132-20240203 (https://download.01.org/0day-ci/archive/20240203/202402031522.gfPVqSoT-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240203/202402031522.gfPVqSoT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402031414.zapkL312-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402031522.gfPVqSoT-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/rtc/rtc-max313xx.c:546:21: sparse: sparse: symbol 'max313xx_nvmem_cfg' was not declared. Should it be static?
->> drivers/rtc/rtc-max313xx.c:656:22: sparse: sparse: symbol 'max313xx_clk_init' was not declared. Should it be static?
+   mm/slub.c:4840:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4840:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   mm/slub.c:4840:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+>> mm/slub.c:4840:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4840:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:4840:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+>> mm/slub.c:4840:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4840:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:4840:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+>> mm/slub.c:4840:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4840:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:4840:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+>> mm/slub.c:4840:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4840:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:4840:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:4840:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
+   mm/slub.c:4840:13: sparse:     expected struct slub_percpu_array *pca
+   mm/slub.c:4840:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
+   mm/slub.c:4878:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4878:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   mm/slub.c:4878:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:4878:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4878:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:4878:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:4878:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4878:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:4878:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:4878:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4878:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:4878:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:4878:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:4878:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:4878:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:4878:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
+   mm/slub.c:4878:13: sparse:     expected struct slub_percpu_array *pca
+   mm/slub.c:4878:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
+   mm/slub.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   mm/slub.c:2903:55: sparse: sparse: context imbalance in '__put_partials' - unexpected unlock
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
+   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
+   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
+   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
+   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
+   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
+   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *ptr @@     got struct slub_percpu_array [noderef] __percpu ** @@
+   mm/slub.c:3841:15: sparse:     expected void [noderef] __percpu *ptr
+   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
+   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
 
-vim +/max313xx_nvmem_cfg +546 drivers/rtc/rtc-max313xx.c
+vim +4840 mm/slub.c
 
-   545	
- > 546	struct nvmem_config max313xx_nvmem_cfg = {
-   547		.reg_read = max313xx_nvmem_reg_read,
-   548		.reg_write = max313xx_nvmem_reg_write,
-   549		.word_size = 8,
-   550	};
-   551	
-   552	static unsigned long max313xx_clkout_recalc_rate(struct clk_hw *hw,
-   553							 unsigned long parent_rate)
-   554	{
-   555		struct max313xx *rtc = clk_hw_to_max313xx(hw);
-   556		const struct clkout_cfg *clkout = rtc->chip->clkout;
-   557		unsigned int freq_mask;
-   558		unsigned int reg;
-   559		int ret;
-   560	
-   561		ret = regmap_read(rtc->regmap, clkout->reg, &reg);
-   562		if (ret)
-   563			return 0;
-   564	
-   565		freq_mask = __roundup_pow_of_two(clkout->freq_size) - 1;
-   566	
-   567		return clkout->freq_avail[(reg >> clkout->freq_pos) & freq_mask];
-   568	}
-   569	
-   570	static long max313xx_clkout_round_rate(struct clk_hw *hw, unsigned long rate,
-   571					       unsigned long *prate)
-   572	{
-   573		struct max313xx *rtc = clk_hw_to_max313xx(hw);
-   574		struct clkout_cfg *clkout = rtc->chip->clkout;
-   575		int index;
-   576	
-   577		index = find_closest(rate, clkout->freq_avail, clkout->freq_size);
-   578		return clkout->freq_avail[index];
-   579	}
-   580	
-   581	static int max313xx_clkout_set_rate(struct clk_hw *hw, unsigned long rate,
-   582					    unsigned long parent_rate)
-   583	{
-   584		struct max313xx *rtc = clk_hw_to_max313xx(hw);
-   585		struct clkout_cfg *clkout = rtc->chip->clkout;
-   586		unsigned int freq_mask;
-   587		int index;
-   588	
-   589		index = find_closest(rate, clkout->freq_avail, clkout->freq_size);
-   590		freq_mask = __roundup_pow_of_two(clkout->freq_size) - 1;
-   591	
-   592		return regmap_update_bits(rtc->regmap, clkout->reg,
-   593					  freq_mask << clkout->freq_pos,
-   594					  index << clkout->freq_pos);
-   595	}
-   596	
-   597	static int max313xx_clkout_enable(struct clk_hw *hw)
-   598	{
-   599		struct max313xx *rtc = clk_hw_to_max313xx(hw);
-   600		struct clkout_cfg *clkout = rtc->chip->clkout;
-   601	
-   602		if (clkout->en_invert)
-   603			return regmap_clear_bits(rtc->regmap, clkout->reg,
-   604						 clkout->en_bit);
-   605	
-   606		return regmap_set_bits(rtc->regmap, clkout->reg,  clkout->en_bit);
-   607	}
-   608	
-   609	static void max313xx_clkout_disable(struct clk_hw *hw)
-   610	{
-   611		struct max313xx *rtc = clk_hw_to_max313xx(hw);
-   612		struct clkout_cfg *clkout = rtc->chip->clkout;
-   613	
-   614		switch (rtc->id) {
-   615		case ID_MAX31331:
-   616		case ID_MAX31334:
-   617			if (rtc->irq > 0) {
-   618				dev_err(rtc->rtc->dev.parent,
-   619					"clkout cannot be disabled when IRQ is requested");
-   620				return;
-   621			}
-   622			break;
-   623		default:
-   624			break;
-   625		}
-   626	
-   627		if (clkout->en_invert)
-   628			regmap_set_bits(rtc->regmap, clkout->reg, clkout->en_bit);
-   629		else
-   630			regmap_clear_bits(rtc->regmap, clkout->reg,  clkout->en_bit);
-   631	}
-   632	
-   633	static int max313xx_clkout_is_enabled(struct clk_hw *hw)
-   634	{
-   635		struct max313xx *rtc = clk_hw_to_max313xx(hw);
-   636		struct clkout_cfg *clkout = rtc->chip->clkout;
-   637		unsigned int reg;
-   638		int ret;
-   639	
-   640		ret = regmap_read(rtc->regmap, clkout->reg, &reg);
-   641		if (ret)
-   642			return ret;
-   643	
-   644		return !!(reg & clkout->en_bit) ^ clkout->en_invert;
-   645	}
-   646	
-   647	static const struct clk_ops max313xx_clkout_ops = {
-   648		.recalc_rate = max313xx_clkout_recalc_rate,
-   649		.round_rate = max313xx_clkout_round_rate,
-   650		.set_rate = max313xx_clkout_set_rate,
-   651		.enable = max313xx_clkout_enable,
-   652		.disable = max313xx_clkout_disable,
-   653		.is_enabled = max313xx_clkout_is_enabled,
-   654	};
-   655	
- > 656	struct clk_init_data max313xx_clk_init = {
-   657		.name = "max313xx-clkout",
-   658		.ops = &max313xx_clkout_ops,
-   659	};
-   660	
+  4824	
+  4825	static bool refill_pca(struct kmem_cache *s, unsigned int count, gfp_t gfp)
+  4826	{
+  4827		unsigned int batch, allocated;
+  4828		struct slub_percpu_array *pca;
+  4829		unsigned long flags;
+  4830		void *objects[32];
+  4831	
+  4832	bulk_alloc:
+  4833		batch = min(count, 32U);
+  4834	
+  4835		allocated = __kmem_cache_alloc_bulk(s, gfp, batch, &objects[0]);
+  4836		if (!allocated)
+  4837			return false;
+  4838	
+  4839		local_lock_irqsave(&s->cpu_array->lock, flags);
+> 4840		pca = this_cpu_read(s->cpu_array);
+  4841	
+  4842		batch = min(allocated, pca->count - pca->used);
+  4843	
+  4844		for (unsigned int i = 0; i < batch; i++) {
+  4845			pca->objects[pca->used++] = objects[i];
+  4846		}
+  4847	
+  4848		local_unlock_irqrestore(&s->cpu_array->lock, flags);
+  4849	
+  4850		stat_add(s, PCA_REFILL, batch);
+  4851	
+  4852		/*
+  4853		 * We could have migrated to a different cpu or somebody else freed to the
+  4854		 * pca while we were bulk allocating, and now we have too many objects
+  4855		 */
+  4856		if (batch < allocated) {
+  4857			__kmem_cache_free_bulk(s, allocated - batch, &objects[batch]);
+  4858		} else {
+  4859			count -= batch;
+  4860			if (count > 0)
+  4861				goto bulk_alloc;
+  4862		}
+  4863	
+  4864		return true;
+  4865	}
+  4866	
 
 -- 
 0-DAY CI Kernel Test Service
