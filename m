@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C6E12E63
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 21:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C6F1642F;
+	Sat,  3 Feb 2024 22:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706996862; cv=none; b=bKS21BJXpbxo4ArXU2HNZ7rUkXaQjEbeZJDjLwICXxkotwF2VQqeQELWHLxvp3Hjgw04tHFqe//lGCb53b2S2LuruybuwG/K6q1yS/KqKS9qXPi+hmWqrT2FPAmdaFbf20A0n/HlvXyKpWKP5aIRzlNAPB50oqFUML+kTmRaT54=
+	t=1706999385; cv=none; b=XUKqK7FJbPS1+2i6lAcYdZCVQFAhSrsWeSTr/meaxOfFFye3PregHxy/mqcUOAqTSh5UWz/Fy5XYZ68nHb83BlXodFZk5udli69SUWXyGxGC2L0j0YJ+DKa+EFB+X/bRfP7oHzeps0eMYgIChFvlh8YVvVZynsHy+MFk1VfRqr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706996862; c=relaxed/simple;
-	bh=eJYAaMsgL0ueSQnPT57fASVVRZAuwx4mNxup1pccJMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a5TgTPzQmggzbm//pGO/+vmYs8I7RNAaAp0oS2zIt9V4x+AAFvfupCJ3n8RZz+T+uwEHXovh4dpl43oKTXyeWmajvc/eaJLiNkF1aGwIbcSZ2UMmGEBPkMn6Bowuk6RfBJ5XX983z7erJ/ypqFCHkClOIsoIuRmaUDnq5NMhPIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XHUXXkhu; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1706999385; c=relaxed/simple;
+	bh=HJWQ+j7xiuNX9Mz654Q+3LRPBupZ7ioDeogXoqP/Qdo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KL00d/MV/tWMmqOaOV2K3NcbJ+rRLz9q76XqrJG89SSCbl2cUf0mpbdu/IrYJCM8z0gbYbN7PypT+OCIQ1QEJNx0e2cn9lgr0Sm675zETB0xtYONs70L8gVr9L+yzme1D6GWbqTMl7HO8ESdPl0C7ZcC9z7m2/T2TX7MlSQas+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPHlLmzJ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XHUXXkhu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPHlLmzJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706996861; x=1738532861;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eJYAaMsgL0ueSQnPT57fASVVRZAuwx4mNxup1pccJMw=;
-  b=XHUXXkhuWEWOYGyGgCUHVJFkz3oQ/ymZp3hW1cTgdV82NPqH2AgneL7/
-   ZfdPamdo8crzvXOG+SzPbT1Z7cGHhM6MgwzfWI25bNMhhDDY/MVv3QCPy
-   MD+0AbaNE/N6XVx+vLKR9sM1/OXDFfJX0FtAmDfT0dtCSvU9isaNmL6Oz
-   /Vf++eg3AThotawQNPYd9i41EVK3cXCnxqw76bZ9KMyxCrxo1YnpB4xdo
-   1DcCbUtZf1NAPAzFoArdu23FanFP+9eqyb9DCuPyFNhRlMZZgdtfhMGvz
-   fgARAAd3RiAAamNTIcz/Z/IA9U41ri8aKrrLagF61BPL9Zau/njWOjV+X
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="17756614"
+  t=1706999383; x=1738535383;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HJWQ+j7xiuNX9Mz654Q+3LRPBupZ7ioDeogXoqP/Qdo=;
+  b=dPHlLmzJk1yKOsFT44TUV9pavvo3LN84e1t8D041Seee0WWvDe8Qoo7d
+   nCHwnCAHFPr1omMbOPhiIGempszTSiS8rBiSpK6oOIEaCwnhfFPWPO/NZ
+   W8gkbZzoBExuHy7M51rtfNj5AKlLeO3CNl9fW1bTbh1OVo3+tedCtKDlp
+   HU+ZXLeDUYx/t1R9zk5/ebTwUDMnTossz6XK/ZnxjvHxTGYTRaPRNHTVU
+   WHpwJxM2pNm2vsqBKkFSrCh6KLjagqLuOhoDCOyGNVjPqYYiAdkaI5huW
+   Da5ZkLZ2KEUPtFr+S/787SLN4hmXCerYt6TLe4VnDbvy2t4RCZphn4ysH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="241393"
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="17756614"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 13:47:40 -0800
+   d="scan'208";a="241393"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 14:29:42 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="373629"
+   d="scan'208";a="5007886"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Feb 2024 13:47:38 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 03 Feb 2024 14:29:39 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWNrL-0005e5-1W;
-	Sat, 03 Feb 2024 21:47:35 +0000
-Date: Sun, 4 Feb 2024 05:47:00 +0800
+	id 1rWOW1-0005gE-03;
+	Sat, 03 Feb 2024 22:29:37 +0000
+Date: Sun, 4 Feb 2024 06:29:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fiona Klute <fiona.klute@gmx.de>, linux-wireless@vger.kernel.org,
-	Ping-Ke Shih <pkshih@realtek.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kalle Valo <kvalo@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
-	Pavel Machek <pavel@ucw.cz>,
-	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	Fiona Klute <fiona.klute@gmx.de>
-Subject: Re: [PATCH 1/9] wifi: rtw88: Shared module for rtw8723x devices
-Message-ID: <202402040512.CAqNtCtW-lkp@intel.com>
-References: <20240202121050.977223-2-fiona.klute@gmx.de>
+To: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Kalle Valo <kvalo@kernel.org>, linux-wireless@vger.kernel.org,
+	Johannes Berg <johannes.berg@intel.com>,
+	Gregory Greenman <gregory.greenman@intel.com>
+Subject: [wireless-next:main 36/68]
+ drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1476:45: error: no member named
+ 'phy_filters' in 'struct iwl_mvm'
+Message-ID: <202402040640.lvAxs3pQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,51 +62,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240202121050.977223-2-fiona.klute@gmx.de>
 
-Hi Fiona,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fiona-Klute/wifi-rtw88-Shared-module-for-rtw8723x-devices/20240202-201428
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20240202121050.977223-2-fiona.klute%40gmx.de
-patch subject: [PATCH 1/9] wifi: rtw88: Shared module for rtw8723x devices
-config: x86_64-randconfig-121-20240203 (https://download.01.org/0day-ci/archive/20240204/202402040512.CAqNtCtW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040512.CAqNtCtW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+head:   5932ad87828b267649d750869c89c0f1a3873477
+commit: 427661e4c48887ea2a226cd972e574ae7686fb95 [36/68] wifi: iwlwifi: read SAR tables from UEFI
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240204/202402040640.lvAxs3pQ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040640.lvAxs3pQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402040512.CAqNtCtW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402040640.lvAxs3pQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/realtek/rtw88/rtw8723x.c:156:6: sparse: sparse: symbol '__rtw8723x_cfg_ldo25' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/__rtw8723x_cfg_ldo25 +156 drivers/net/wireless/realtek/rtw88/rtw8723x.c
+>> drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1476:45: error: no member named 'phy_filters' in 'struct iwl_mvm'
+    1476 |         iwl_acpi_get_phy_filters(&mvm->fwrt, &mvm->phy_filters);
+         |                                               ~~~  ^
+   1 error generated.
 
-   155	
- > 156	void __rtw8723x_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
-   157	{
-   158		u8 ldo_pwr;
-   159	
-   160		ldo_pwr = rtw_read8(rtwdev, REG_LDO_EFUSE_CTRL + 3);
-   161		if (enable) {
-   162			ldo_pwr &= ~BIT_MASK_LDO25_VOLTAGE;
-   163			ldo_pwr |= (BIT_LDO25_VOLTAGE_V25 << 4) | BIT_LDO25_EN;
-   164		} else {
-   165			ldo_pwr &= ~BIT_LDO25_EN;
-   166		}
-   167		rtw_write8(rtwdev, REG_LDO_EFUSE_CTRL + 3, ldo_pwr);
-   168	}
-   169	
+
+vim +1476 drivers/net/wireless/intel/iwlwifi/mvm/fw.c
+
+427661e4c48887 Miri Korenblit 2024-01-31  1421  
+427661e4c48887 Miri Korenblit 2024-01-31  1422  void iwl_mvm_get_bios_tables(struct iwl_mvm *mvm)
+78a19d5285d93e Miri Korenblit 2021-08-05  1423  {
+78a19d5285d93e Miri Korenblit 2021-08-05  1424  	int ret;
+78a19d5285d93e Miri Korenblit 2021-08-05  1425  
+ebe8f41319fabe Miri Korenblit 2024-01-28  1426  	iwl_acpi_get_guid_lock_status(&mvm->fwrt);
+ebe8f41319fabe Miri Korenblit 2024-01-28  1427  
+78a19d5285d93e Miri Korenblit 2021-08-05  1428  	/* read PPAG table */
+e8e10a37c51c08 Matt Chen      2022-03-04  1429  	ret = iwl_acpi_get_ppag_table(&mvm->fwrt);
+78a19d5285d93e Miri Korenblit 2021-08-05  1430  	if (ret < 0) {
+78a19d5285d93e Miri Korenblit 2021-08-05  1431  		IWL_DEBUG_RADIO(mvm,
+78a19d5285d93e Miri Korenblit 2021-08-05  1432  				"PPAG BIOS table invalid or unavailable. (%d)\n",
+78a19d5285d93e Miri Korenblit 2021-08-05  1433  				ret);
+78a19d5285d93e Miri Korenblit 2021-08-05  1434  	}
+78a19d5285d93e Miri Korenblit 2021-08-05  1435  
+78a19d5285d93e Miri Korenblit 2021-08-05  1436  	/* read SAR tables */
+427661e4c48887 Miri Korenblit 2024-01-31  1437  	ret = iwl_bios_get_wrds_table(&mvm->fwrt);
+78a19d5285d93e Miri Korenblit 2021-08-05  1438  	if (ret < 0) {
+78a19d5285d93e Miri Korenblit 2021-08-05  1439  		IWL_DEBUG_RADIO(mvm,
+78a19d5285d93e Miri Korenblit 2021-08-05  1440  				"WRDS SAR BIOS table invalid or unavailable. (%d)\n",
+78a19d5285d93e Miri Korenblit 2021-08-05  1441  				ret);
+78a19d5285d93e Miri Korenblit 2021-08-05  1442  		/*
+78a19d5285d93e Miri Korenblit 2021-08-05  1443  		 * If not available, don't fail and don't bother with EWRD and
+78a19d5285d93e Miri Korenblit 2021-08-05  1444  		 * WGDS */
+78a19d5285d93e Miri Korenblit 2021-08-05  1445  
+427661e4c48887 Miri Korenblit 2024-01-31  1446  		if (!iwl_bios_get_wgds_table(&mvm->fwrt)) {
+78a19d5285d93e Miri Korenblit 2021-08-05  1447  			/*
+78a19d5285d93e Miri Korenblit 2021-08-05  1448  			 * If basic SAR is not available, we check for WGDS,
+78a19d5285d93e Miri Korenblit 2021-08-05  1449  			 * which should *not* be available either.  If it is
+78a19d5285d93e Miri Korenblit 2021-08-05  1450  			 * available, issue an error, because we can't use SAR
+78a19d5285d93e Miri Korenblit 2021-08-05  1451  			 * Geo without basic SAR.
+78a19d5285d93e Miri Korenblit 2021-08-05  1452  			 */
+78a19d5285d93e Miri Korenblit 2021-08-05  1453  			IWL_ERR(mvm, "BIOS contains WGDS but no WRDS\n");
+78a19d5285d93e Miri Korenblit 2021-08-05  1454  		}
+78a19d5285d93e Miri Korenblit 2021-08-05  1455  
+78a19d5285d93e Miri Korenblit 2021-08-05  1456  	} else {
+427661e4c48887 Miri Korenblit 2024-01-31  1457  		ret = iwl_bios_get_ewrd_table(&mvm->fwrt);
+78a19d5285d93e Miri Korenblit 2021-08-05  1458  		/* if EWRD is not available, we can still use
+78a19d5285d93e Miri Korenblit 2021-08-05  1459  		* WRDS, so don't fail */
+78a19d5285d93e Miri Korenblit 2021-08-05  1460  		if (ret < 0)
+78a19d5285d93e Miri Korenblit 2021-08-05  1461  			IWL_DEBUG_RADIO(mvm,
+78a19d5285d93e Miri Korenblit 2021-08-05  1462  					"EWRD SAR BIOS table invalid or unavailable. (%d)\n",
+78a19d5285d93e Miri Korenblit 2021-08-05  1463  					ret);
+78a19d5285d93e Miri Korenblit 2021-08-05  1464  
+78a19d5285d93e Miri Korenblit 2021-08-05  1465  		/* read geo SAR table */
+78a19d5285d93e Miri Korenblit 2021-08-05  1466  		if (iwl_sar_geo_support(&mvm->fwrt)) {
+427661e4c48887 Miri Korenblit 2024-01-31  1467  			ret = iwl_bios_get_wgds_table(&mvm->fwrt);
+78a19d5285d93e Miri Korenblit 2021-08-05  1468  			if (ret < 0)
+78a19d5285d93e Miri Korenblit 2021-08-05  1469  				IWL_DEBUG_RADIO(mvm,
+78a19d5285d93e Miri Korenblit 2021-08-05  1470  						"Geo SAR BIOS table invalid or unavailable. (%d)\n",
+78a19d5285d93e Miri Korenblit 2021-08-05  1471  						ret);
+78a19d5285d93e Miri Korenblit 2021-08-05  1472  				/* we don't fail if the table is not available */
+78a19d5285d93e Miri Korenblit 2021-08-05  1473  		}
+78a19d5285d93e Miri Korenblit 2021-08-05  1474  	}
+c4c95454775592 Johannes Berg  2023-06-14  1475  
+c4c95454775592 Johannes Berg  2023-06-14 @1476  	iwl_acpi_get_phy_filters(&mvm->fwrt, &mvm->phy_filters);
+78a19d5285d93e Miri Korenblit 2021-08-05  1477  }
+6996490501ed80 Luca Coelho    2017-01-12  1478  
+
+:::::: The code at line 1476 was first introduced by commit
+:::::: c4c954547755927807aaca981025847821dd2d0c wifi: iwlwifi: implement WPFC ACPI table loading
+
+:::::: TO: Johannes Berg <johannes.berg@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
