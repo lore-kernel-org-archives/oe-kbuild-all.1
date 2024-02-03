@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283644F215
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 13:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86745D904;
+	Sat,  3 Feb 2024 13:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706966211; cv=none; b=hcLuDjZzcUXpoLEUC5z/kkGLPZ6wjmth+OS7IdMdsUAQk3jeJwCJVcCQFmjcaNroPaVdN6OXW4reaqUzCevEFb8bymLVJTOljCGUw8CPwPjvz7LQTyfl5RR3dsaNLj06bClJ+PGfiHab8XPuGbnBDzMhopVDlyfCJw096jLr53Y=
+	t=1706967533; cv=none; b=nSM03EUdgMcLdYYqY1XFZtYbCPMuNDMcU6/JMWDg9Oo9AtZX4pDOkS2ikvtRU3OP7RUofrritZ0z6vXstgnjdeMEiVyPPqWfZznZxhKDOnEZ7NQCBJ5PsguyswicXvX604w4DFEfu2ky/a4mpasRbsJK+uxMX0GPJ+qRuKMbsag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706966211; c=relaxed/simple;
-	bh=4+zMKxvYaiaxOW0B3LJoq39gR4Zfnm5GTXLb8V0K1bQ=;
+	s=arc-20240116; t=1706967533; c=relaxed/simple;
+	bh=YjOtAVRDfuPH8lpCCJ1yeiZiENIgmPX6pSBD0VtNlWo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YYhBm17HTpmVV9i4LTl3JNnTFKNLjKO/xM/u6VL3yAF17FA9xFVv2GZIMOjhUJ3djznA1Ro/zwXYIwfbOEj5t6e+8zLL5H7zqLFRUttY6KvA7JpJ0U9YeSHSsIxd5XYdIFgu/Kmo6VYFrA3BrcssuTGM04UNa23xwk0JwGIbH5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzbusSPI; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=mqrZYblqia8/xQsoNoEdgg1efRJgkghxdtlqX2TNQxauDxktojpn1Dxmaxdp08V9OW/dBr+Qd5t5XiQt/lnOxvB7yv6uPmL3MWqmoX23zvNPIxEi/R0drAlAJxOS2lcP//xCfifGN0sZpfsewX/j//8Oom2hx00mrY3OWXz6dI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gl3tI9Q8; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzbusSPI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gl3tI9Q8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706966210; x=1738502210;
+  t=1706967532; x=1738503532;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4+zMKxvYaiaxOW0B3LJoq39gR4Zfnm5GTXLb8V0K1bQ=;
-  b=hzbusSPIxZUKvsA1JzjQEVemMmZlVQ5iNnSp8YiOhzeEPL8M8k7XHFEk
-   Cscn9QXkepbDzI5VCFRKlN7fxixWSyU7lufOxMIwXh8FXoH1KwhWEHmSn
-   Ju4Cekqs+8PigXsYbHTzg4eVMDrG5fSCSiIAKHI3Pqu0RaD0UQqUjyWDE
-   kCIVbVIcUyGcAc5QbBY13UEGf5SnpoYreEiF0Zbx7MUXS7qQL8VyQ/Vxv
-   GxD2w9vrnz+Hi0iQ2ptd456w/1Z5Fhs6s2lHTCR3pkglTPu1uP7WRNafe
-   YE8eaF3yUlsTBtc/YTnnn7RpRgRx40pGDwcPPrQRRH7M3v0o2iXvG8wxI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="17728808"
+  bh=YjOtAVRDfuPH8lpCCJ1yeiZiENIgmPX6pSBD0VtNlWo=;
+  b=gl3tI9Q8/q6BNdD2RUrYc6W6Pdo8fAlskcLwIPUxzOwrn4N/647c0W2K
+   R3yerKctoM5pZ6ANtJcFHvrg9dqjeSjC325CU7dB5gqIzwQWjT7n31vgg
+   uj19tm7F1nVCHf8SqHs5Gss7EOQocoZfDPlzvb2fWACiXDL0HEHR7HUoQ
+   kSEbjJACdQeL/BY5FWtMrA0Qv7cKjcU06Yp3X4xi3dNOKGmGY2vS9CjtU
+   /Ye8YWvmwtOW/+9EfNk+uzlLhHqgwx0M02Fja+KNDM0DN3Wg3A3in3i+k
+   J6Mn3cPyBRAqpPFGNClkERTSQeR+rAeFT6hC25zMCZTAZAUshadD0nDhx
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="10967208"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="17728808"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 05:16:50 -0800
+   d="scan'208";a="10967208"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 05:38:51 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="4932024"
+   d="scan'208";a="645392"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2024 05:16:46 -0800
+  by orviesa008.jf.intel.com with ESMTP; 03 Feb 2024 05:38:48 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWFsx-00055a-0l;
-	Sat, 03 Feb 2024 13:16:43 +0000
-Date: Sat, 3 Feb 2024 21:15:48 +0800
+	id 1rWGEG-00057C-2l;
+	Sat, 03 Feb 2024 13:38:44 +0000
+Date: Sat, 3 Feb 2024 21:37:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Oleg Nesterov <oleg@redhat.com>,
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Ben Hutchings <bwh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-mips@vger.kernel.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
 	Xi Ruoyao <xry111@xry111.site>
 Subject: Re: [PATCH 3/3] mm/memory: Use exception ip to search exception
  tables
-Message-ID: <202402032150.DmM8VjRz-lkp@intel.com>
+Message-ID: <202402032112.NBimLx5h-lkp@intel.com>
 References: <20240201-exception_ip-v1-3-aa26ab3ee0b5@flygoat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -78,22 +78,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jiaxun-Yang/ptrace-Introd
 base:   06f658aadff0e483ee4f807b0b46c9e5cba62bfa
 patch link:    https://lore.kernel.org/r/20240201-exception_ip-v1-3-aa26ab3ee0b5%40flygoat.com
 patch subject: [PATCH 3/3] mm/memory: Use exception ip to search exception tables
-config: i386-buildonly-randconfig-002-20240203 (https://download.01.org/0day-ci/archive/20240203/202402032150.DmM8VjRz-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032150.DmM8VjRz-lkp@intel.com/reproduce)
+config: arm64-randconfig-001-20240203 (https://download.01.org/0day-ci/archive/20240203/202402032112.NBimLx5h-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032112.NBimLx5h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402032150.DmM8VjRz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402032112.NBimLx5h-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'get_mmap_lock_carefully':
->> mm/memory.c:5484:22: error: implicit declaration of function 'exception_ip' [-Werror=implicit-function-declaration]
-      unsigned long ip = exception_ip(regs);
-                         ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> mm/memory.c:5484:22: error: call to undeclared function 'exception_ip'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   unsigned long ip = exception_ip(regs);
+                                      ^
+   mm/memory.c:5509:22: error: call to undeclared function 'exception_ip'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   unsigned long ip = exception_ip(regs);
+                                      ^
+   2 errors generated.
 
 
 vim +/exception_ip +5484 mm/memory.c
