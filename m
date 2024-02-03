@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DC65F554
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 19:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967705EE80
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 19:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706987608; cv=none; b=YZ4sFBhxUUGy9WxrRJa6LQYA+JrBDN9x7DnhJy+rmZQeOoC2rTil9K59WylPnbgkco2TYwt1xwQB+2793kso0AAs+UKibIhq5nlmARm+o0A4CffgyzqPaHbu1F8GDPf+B3hTP3VFJgA6RZYYkSJFoDAy+RYpBIOmyUQBuFWePjI=
+	t=1706988205; cv=none; b=ByShCdQibc1KSvWJXtGPiRgbVAiXv84kp9u49tfDCVjbdNupVLco152ulJsGhlYi8NFQLoZqTM4/KaY81xCdJNiJLbW+hg11EadGq0OyG948IuCmQB8lscl8pP3E39CT2wcjXnZ+mLj4mZRYidHNnLr5hV125ZtRkTiHfDSUCBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706987608; c=relaxed/simple;
-	bh=pHok6RksrsEONhRmSw62ZPWwkRDVQiY7VhfooE0bS7I=;
+	s=arc-20240116; t=1706988205; c=relaxed/simple;
+	bh=5EgyfyRfK+QZ19JXQQL2e7cwpGmmODjN5eYattX0DsA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rB3vtcW+RpMp2SaNa7cmBr9ClYnLJztdWm8kL9mfEIobjLDBe3wN8pnYar3yI0dUU4o5T1nMhE9J8QbnqVJHakbelt5wvaXlxQxt5Y+bPPk+1jbOyuFPQ0e1vYJgOks0FN4T1QWGiPI4zDQzyWnEYnS075uN+S7+q3ethrkXi0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kB1CfU3W; arc=none smtp.client-ip=192.55.52.88
+	 Content-Type:Content-Disposition:In-Reply-To; b=NPcNZlmuqaNszf0E9ToMcoIcUFRqW0ONi41DcdcGL3ZZOYeM/tuAqNcCUBjrjzthrl5+Q6qFOWazqpw4/1Agr6c0Lm22eLyxbMo9e6xWrsbqOmIT0W/ufmiq9h5SojUu7K7FGuaRM8RkrwsDljdLncC7JJ4daaU6Jk4Wl5tfYNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OPnKdibd; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kB1CfU3W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OPnKdibd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706987606; x=1738523606;
+  t=1706988203; x=1738524203;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pHok6RksrsEONhRmSw62ZPWwkRDVQiY7VhfooE0bS7I=;
-  b=kB1CfU3Wld8Tvb1tGfoE+aKgxqKLxjTu4ZmCGJH5rrUwZA2Dv/pQKu5y
-   CN1YLOQCNbxGEcWj+JqU0vPNClihD7YUAHKajmaqEiRTVQtRyJ04BG6Lm
-   FpWlq3FtydP70oYBXL4ZTKayGFOViMhu56PhNkAoi1jaCHNSQwNpjhbzt
-   yw2PePbadDpb/z9EA0jTIYdliPtFmNLHywJXsiLlRQXfzzKb7OPVbYTPl
-   EX0jxvzre009o+hef7J578EV8xqB6/raQjKYXBgs9A07KWeCfDSKDXTZH
-   ebUr0dL5luQXOAsVe6gK3JMtrf82NGRDkkg9XTElTkRqcxkghpEHUnmJe
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="435476116"
+  bh=5EgyfyRfK+QZ19JXQQL2e7cwpGmmODjN5eYattX0DsA=;
+  b=OPnKdibdOzwwzVGU5fnE6h2HcY8fPA+mcclB4QALDTPP5MWbF5CZxvBo
+   c6saM5j5naWK4UNOJ3ZBe7JATBdEA6UbbXCiZVAewD44a4n71SyeOFWM5
+   +ptUiHXIPekbosF8N/eYA0k2eBPACl7kVHfCw4v4rBZIm961BYz4luyeI
+   OrXbZI6wr4B1Y9m9asJyqkTuIOmLygapfB8w30qJbgFDHrmblZPvHsL3z
+   wFCs5hEfMInjQZ/UhiHZ7dIFomlsP+QFPM0G5cbgFbJiSOmwJ4Bii1Gzb
+   LK7SZ90GjTnc/Y/undzgmeB4VkpcfNFKuqFFYYCgjdusSiszpA3C3445p
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="17749264"
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="435476116"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 11:13:23 -0800
+   d="scan'208";a="17749264"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 11:23:23 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="4973109"
+   d="scan'208";a="31150817"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2024 11:13:21 -0800
+  by orviesa002.jf.intel.com with ESMTP; 03 Feb 2024 11:23:22 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWLS2-0005Ug-1p;
-	Sat, 03 Feb 2024 19:13:18 +0000
-Date: Sun, 4 Feb 2024 03:12:30 +0800
+	id 1rWLbj-0005Vi-0I;
+	Sat, 03 Feb 2024 19:23:19 +0000
+Date: Sun, 4 Feb 2024 03:22:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
-	pjones@redhat.com, deller@gmx.de, ardb@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 3/8] firmware/sysfb: Set firmware-framebuffer parent
- device
-Message-ID: <202402040214.GFutmkRC-lkp@intel.com>
-References: <20240202120140.3517-4-tzimmermann@suse.de>
+To: Ping-Ke Shih <pkshih@realtek.com>, kvalo@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org
+Subject: Re: [PATCH 3/4] wifi: rtw89: fw: parse secure section from firmware
+ file
+Message-ID: <202402040350.rRpOepoU-lkp@intel.com>
+References: <20240203003251.10641-4-pkshih@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,109 +59,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240202120140.3517-4-tzimmermann@suse.de>
+In-Reply-To: <20240203003251.10641-4-pkshih@realtek.com>
 
-Hi Thomas,
+Hi Ping-Ke,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.8-rc2 next-20240202]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.8-rc2 next-20240202]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/video-Add-helpers-for-decoding-screen_info/20240202-200314
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240202120140.3517-4-tzimmermann%40suse.de
-patch subject: [PATCH v2 3/8] firmware/sysfb: Set firmware-framebuffer parent device
-config: i386-buildonly-randconfig-002-20240203 (https://download.01.org/0day-ci/archive/20240204/202402040214.GFutmkRC-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040214.GFutmkRC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Ke-Shih/wifi-rtw89-fw-consider-checksum-length-of-security-data/20240203-085038
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20240203003251.10641-4-pkshih%40realtek.com
+patch subject: [PATCH 3/4] wifi: rtw89: fw: parse secure section from firmware file
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20240204/202402040350.rRpOepoU-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040350.rRpOepoU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402040214.GFutmkRC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402040350.rRpOepoU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/firmware/sysfb.c: In function 'sysfb_init':
->> drivers/firmware/sysfb.c:104:8: error: too many arguments to function 'sysfb_create_simplefb'
-      pd = sysfb_create_simplefb(si, &mode, parent);
-           ^~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/firmware/sysfb.c:36:0:
-   include/linux/sysfb.h:105:39: note: declared here
-    static inline struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-                                          ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw89/fw.c: In function 'rtw89_fw_hdr_parser_v1':
+>> drivers/net/wireless/realtek/rtw89/fw.c:384:88: warning: format '%lx' expects argument of type 'long unsigned int', but argument 9 has type 'int' [-Wformat=]
+     384 |                             "section[%d] type=%d len=0x%-6x mssc=%d mssc_len=%d addr=%lx\n",
+         |                                                                                      ~~^
+         |                                                                                        |
+         |                                                                                        long unsigned int
+         |                                                                                      %x
+     385 |                             i, section_info->type, section_info->len,
+     386 |                             section_info->mssc, mssc_len, bin - fw);
+         |                                                           ~~~~~~~~                      
+         |                                                               |
+         |                                                               int
+   drivers/net/wireless/realtek/rtw89/fw.c:388:68: warning: format '%lx' expects argument of type 'long unsigned int', but argument 6 has type 'int' [-Wformat=]
+     388 |                             "           ignore=%d key_addr=%p (0x%lx) key_len=%d key_idx=%d\n",
+         |                                                                  ~~^
+         |                                                                    |
+         |                                                                    long unsigned int
+         |                                                                  %x
+     389 |                             section_info->ignore, section_info->key_addr,
+     390 |                             section_info->key_addr ?
+         |                             ~~~~~~~~~~~~~~~~~~~~~~~~                
+     391 |                             section_info->key_addr - section_info->addr : 0,
+         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                         |
+         |                                                                         int
 
 
-vim +/sysfb_create_simplefb +104 drivers/firmware/sysfb.c
+vim +384 drivers/net/wireless/realtek/rtw89/fw.c
 
-    83	
-    84	static __init int sysfb_init(void)
-    85	{
-    86		struct screen_info *si = &screen_info;
-    87		struct device *parent;
-    88		struct simplefb_platform_data mode;
-    89		const char *name;
-    90		bool compatible;
-    91		int ret = 0;
-    92	
-    93		mutex_lock(&disable_lock);
-    94		if (disabled)
-    95			goto unlock_mutex;
-    96	
-    97		sysfb_apply_efi_quirks();
-    98	
-    99		parent = sysfb_parent_dev(si);
-   100	
-   101		/* try to create a simple-framebuffer device */
-   102		compatible = sysfb_parse_mode(si, &mode);
-   103		if (compatible) {
- > 104			pd = sysfb_create_simplefb(si, &mode, parent);
-   105			if (!IS_ERR(pd))
-   106				goto unlock_mutex;
-   107		}
-   108	
-   109		/* if the FB is incompatible, create a legacy framebuffer device */
-   110		if (si->orig_video_isVGA == VIDEO_TYPE_EFI)
-   111			name = "efi-framebuffer";
-   112		else if (si->orig_video_isVGA == VIDEO_TYPE_VLFB)
-   113			name = "vesa-framebuffer";
-   114		else if (si->orig_video_isVGA == VIDEO_TYPE_VGAC)
-   115			name = "vga-framebuffer";
-   116		else if (si->orig_video_isVGA == VIDEO_TYPE_EGAC)
-   117			name = "ega-framebuffer";
-   118		else
-   119			name = "platform-framebuffer";
-   120	
-   121		pd = platform_device_alloc(name, 0);
-   122		if (!pd) {
-   123			ret = -ENOMEM;
-   124			goto unlock_mutex;
-   125		}
-   126	
-   127		pd->dev.parent = parent;
-   128	
-   129		sysfb_set_efifb_fwnode(pd);
-   130	
-   131		ret = platform_device_add_data(pd, si, sizeof(*si));
-   132		if (ret)
-   133			goto err;
-   134	
-   135		ret = platform_device_add(pd);
-   136		if (ret)
-   137			goto err;
-   138	
-   139		goto unlock_mutex;
-   140	err:
-   141		platform_device_put(pd);
-   142	unlock_mutex:
-   143		mutex_unlock(&disable_lock);
-   144		return ret;
-   145	}
-   146	
+   322	
+   323	static int rtw89_fw_hdr_parser_v1(struct rtw89_dev *rtwdev, const u8 *fw, u32 len,
+   324					  struct rtw89_fw_bin_info *info)
+   325	{
+   326		const struct rtw89_fw_hdr_v1 *fw_hdr = (const struct rtw89_fw_hdr_v1 *)fw;
+   327		struct rtw89_fw_hdr_section_info *section_info;
+   328		const struct rtw89_fw_dynhdr_hdr *fwdynhdr;
+   329		const struct rtw89_fw_hdr_section_v1 *section;
+   330		const u8 *fw_end = fw + len;
+   331		const u8 *bin;
+   332		u32 base_hdr_len;
+   333		u32 mssc_len;
+   334		int ret;
+   335		u32 i;
+   336	
+   337		info->section_num = le32_get_bits(fw_hdr->w6, FW_HDR_V1_W6_SEC_NUM);
+   338		info->dsp_checksum = le32_get_bits(fw_hdr->w6, FW_HDR_V1_W6_DSP_CHKSUM);
+   339		base_hdr_len = struct_size(fw_hdr, sections, info->section_num);
+   340		info->dynamic_hdr_en = le32_get_bits(fw_hdr->w7, FW_HDR_V1_W7_DYN_HDR);
+   341	
+   342		if (info->dynamic_hdr_en) {
+   343			info->hdr_len = le32_get_bits(fw_hdr->w5, FW_HDR_V1_W5_HDR_SIZE);
+   344			info->dynamic_hdr_len = info->hdr_len - base_hdr_len;
+   345			fwdynhdr = (const struct rtw89_fw_dynhdr_hdr *)(fw + base_hdr_len);
+   346			if (le32_to_cpu(fwdynhdr->hdr_len) != info->dynamic_hdr_len) {
+   347				rtw89_err(rtwdev, "[ERR]invalid fw dynamic header len\n");
+   348				return -EINVAL;
+   349			}
+   350		} else {
+   351			info->hdr_len = base_hdr_len;
+   352			info->dynamic_hdr_len = 0;
+   353		}
+   354	
+   355		bin = fw + info->hdr_len;
+   356	
+   357		/* jump to section header */
+   358		section_info = info->section_info;
+   359		for (i = 0; i < info->section_num; i++) {
+   360			section = &fw_hdr->sections[i];
+   361	
+   362			section_info->type =
+   363				le32_get_bits(section->w1, FWSECTION_HDR_V1_W1_SECTIONTYPE);
+   364			section_info->len =
+   365				le32_get_bits(section->w1, FWSECTION_HDR_V1_W1_SEC_SIZE);
+   366			if (le32_get_bits(section->w1, FWSECTION_HDR_V1_W1_CHECKSUM))
+   367				section_info->len += FWDL_SECTION_CHKSUM_LEN;
+   368			section_info->redl = le32_get_bits(section->w1, FWSECTION_HDR_V1_W1_REDL);
+   369			section_info->dladdr =
+   370				le32_get_bits(section->w0, FWSECTION_HDR_V1_W0_DL_ADDR);
+   371			section_info->addr = bin;
+   372	
+   373			if (section_info->type == FWDL_SECURITY_SECTION_TYPE) {
+   374				ret = __parse_security_section(rtwdev, info, section_info,
+   375							       section, bin, &mssc_len);
+   376				if (ret)
+   377					return ret;
+   378			} else {
+   379				section_info->mssc = 0;
+   380				mssc_len = 0;
+   381			}
+   382	
+   383			rtw89_debug(rtwdev, RTW89_DBG_FW,
+ > 384				    "section[%d] type=%d len=0x%-6x mssc=%d mssc_len=%d addr=%lx\n",
+   385				    i, section_info->type, section_info->len,
+   386				    section_info->mssc, mssc_len, bin - fw);
+   387			rtw89_debug(rtwdev, RTW89_DBG_FW,
+   388				    "           ignore=%d key_addr=%p (0x%lx) key_len=%d key_idx=%d\n",
+   389				    section_info->ignore, section_info->key_addr,
+   390				    section_info->key_addr ?
+   391				    section_info->key_addr - section_info->addr : 0,
+   392				    section_info->key_len, section_info->key_idx);
+   393	
+   394			bin += section_info->len + mssc_len;
+   395			section_info++;
+   396		}
+   397	
+   398		if (fw_end != bin) {
+   399			rtw89_err(rtwdev, "[ERR]fw bin size\n");
+   400			return -EINVAL;
+   401		}
+   402	
+   403		if (!info->secure_section_exist)
+   404			rtw89_warn(rtwdev, "no firmware secure section\n");
+   405	
+   406		return 0;
+   407	}
+   408	
 
 -- 
 0-DAY CI Kernel Test Service
