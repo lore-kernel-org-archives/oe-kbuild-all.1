@@ -1,54 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7280882A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 03:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B170F9F5
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 04:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706929721; cv=none; b=otBYjTmXc2nVVNreIZ7DiqZJPZgFujCJ8wLnHEbVCUHYvsJKNiU/KLTM2iAcZ/5rRcLKs4GLY62hF+a3qaGvOjjcegAs3CoZRnAJobSa1TsNdNDkNQZhGth8ePa51bVa5Bb24/VIM64NBfKTAZLpLMoi9Ju3ogW+V+impIA9KS4=
+	t=1706934072; cv=none; b=hGm5cPbLFWPlzDVCn5UQcheK4SpZZpO2Zd3vg27wTqO0BqjQVmTBFyIL1U4dP7tIZQrMtbAc28Oh0YqXh8bm/UFG8yO29ysqx7MVSzPrkq5cUsopb9tZNPa8z0TT2onZBRx51YIiZXF1u86RxJtsPbvXkiuyY+fyZUkeWczIlxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706929721; c=relaxed/simple;
-	bh=tHiSKgaOvL3uSigNkIR0bgtN0gimP0NB5jsS0H8j1/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d5g0AB4YFCeYA0AViMwa5iQY6zscVIGqLsaY6HKktoxIuC623BG4nHsvnXseKaZoSyfwKpI20FiJAiCdgK0zQ0d5bni0lOPC8ULDMv902Xkz2zQTb2wNHePnX+HobTQaJWPK+Q+vTu6MKCc9XaKBrUp46EAZGztjIUPAlk6EARw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N0l9F2ef; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1706934072; c=relaxed/simple;
+	bh=l8fqb95s8syuE8Cx9UHSXoTZx0Bim/EsdxuGX0FstWM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JlrzzMn17WcE2+omPjIlPfNkxA0NKTNLHLUghMgDF/+ZPCZDIVCkqZSTb/VKnsiAkcTvvDhgozch9yumz3cd1MH8jWlq6sQrKln6gcS/fClkKlTsU/YTny3GCO3iEH8tiaaBxfiZHrDHgDMWCSTAXHqk2Pajr47r0Ho/S32GrtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ob/JSzh4; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N0l9F2ef"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ob/JSzh4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706929718; x=1738465718;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tHiSKgaOvL3uSigNkIR0bgtN0gimP0NB5jsS0H8j1/A=;
-  b=N0l9F2efLBzRObrTNvp8ajuVtUdQJQaVQpgUjvSQZzs/qpFSt6W4vM+J
-   TfEUPsvvnYRFMUerrcXOuA680oNqWFt+WVR184neUv1ArZho21r7CYgZs
-   LpdoOG4WpBv5Z6OgdZ4wQR12YDKWZZy7PQQjAbaW/z+Wzk8nh5x3VsIiF
-   kqha73wHKFh05KSwTRMkv39NEFEvNqz4XSPbri+Uaaqzl2Gblm0fooLYi
-   3J3U5BsELT3lAAFDZ1Wd/bqkUyAFfK8JhdtDTCsYueiBOzjLzmUskrXeu
-   vxywtBpCIGTjyX3xbKAM3SN4g9wrCbVNfXN+dOD0JnsrdGmmcKNJjMTdw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="200858"
+  t=1706934070; x=1738470070;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l8fqb95s8syuE8Cx9UHSXoTZx0Bim/EsdxuGX0FstWM=;
+  b=Ob/JSzh4WBeKLXmCRYHxj0k/fdIaMYdMwTw8tdPiN6OBBPCRuSofnoie
+   S1W2a9wUCnGYYPfO6jYcARhZ+lqAEe3Gl/OwtWWHAN0hotGLHnFB3Br5M
+   uSESZkJIcczAzGtKcgbjHv7KCE7PkqYcOVU+6oCessqMcJIX9FLyjM09M
+   H54X4/G5CPOSGm16CojGP7Kgr3BWLmXPdbZBuw+Mvp0U6EfYkvPIYVRUA
+   bijxowSmPI5RZbHPi4dCPhNXEwDKRQSAn4UC/xuA/WZS8A+1UpkAlsJsc
+   NAWyQngE3ZSfJtF1sZf1h+y1D2kapn2p27ZvPdM9MLVCDW9BEem6zoVWo
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="11655570"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="200858"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 19:08:38 -0800
+   d="scan'208";a="11655570"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 20:21:09 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="4849860"
+   d="scan'208";a="31047732"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 02 Feb 2024 19:08:37 -0800
+  by orviesa002.jf.intel.com with ESMTP; 02 Feb 2024 20:21:04 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rW6OP-0004aS-1R;
-	Sat, 03 Feb 2024 03:08:33 +0000
-Date: Sat, 3 Feb 2024 11:07:43 +0800
+	id 1rW7WX-0004cQ-0G;
+	Sat, 03 Feb 2024 04:21:01 +0000
+Date: Sat, 3 Feb 2024 12:20:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:slub-percpu-caches-v4r0 2/6] mm/slub.c:4840:15: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202402031122.iBOiCkEw-lkp@intel.com>
+To: Andrew Davis <afd@ti.com>, Sebastian Reichel <sre@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, Andrew Davis <afd@ti.com>
+Subject: Re: [PATCH 09/18] power: reset: rmobile-reset: Use
+ devm_register_sys_off_handler(RESTART)
+Message-ID: <202402031246.nZHDnDnf-lkp@intel.com>
+References: <20240201180102.70395-10-afd@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,160 +71,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240201180102.70395-10-afd@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-caches-v4r0
-head:   4ed1364ec4fe2aa8d5e6d6b464dfc7939ac08ff1
-commit: d80fc960ad716b0d2c8475e1f9007a74afdf5cd8 [2/6] mm/slub: add opt-in percpu array cache of objects
-config: x86_64-randconfig-121-20240202 (https://download.01.org/0day-ci/archive/20240203/202402031122.iBOiCkEw-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402031122.iBOiCkEw-lkp@intel.com/reproduce)
+Hi Andrew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sre-power-supply/for-next]
+[also build test WARNING on mani-mhi/mhi-next soc/for-next linus/master v6.8-rc2 next-20240202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/power-reset-atc260x-poweroff-Use-devm_register_sys_off_handler-RESTART/20240202-020809
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20240201180102.70395-10-afd%40ti.com
+patch subject: [PATCH 09/18] power: reset: rmobile-reset: Use devm_register_sys_off_handler(RESTART)
+config: hexagon-randconfig-r122-20240202 (https://download.01.org/0day-ci/archive/20240203/202402031246.nZHDnDnf-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
+reproduce: (https://download.01.org/0day-ci/archive/20240203/202402031246.nZHDnDnf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402031122.iBOiCkEw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402031246.nZHDnDnf-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> mm/slub.c:4840:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:4840:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:4840:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
->> mm/slub.c:4840:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:4840:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:4840:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:4878:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:4878:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:4878:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:4878:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:4878:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:4878:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:3841:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:3841:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:3841:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:3841:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:3841:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:3841:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   mm/slub.c:4187:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
-   mm/slub.c:4291:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:4291:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:4291:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:4291:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:4291:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:4291:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:4291:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:4291:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:4291:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:4291:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:4291:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:4291:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:4320:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:4320:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:4320:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:4320:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:4320:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:4320:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
-   mm/slub.c:3873:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct slub_percpu_array [noderef] __percpu ** @@
-   mm/slub.c:3873:15: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   mm/slub.c:3873:15: sparse:     got struct slub_percpu_array [noderef] __percpu **
-   mm/slub.c:3873:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct slub_percpu_array *pca @@     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__ @@
-   mm/slub.c:3873:13: sparse:     expected struct slub_percpu_array *pca
-   mm/slub.c:3873:13: sparse:     got struct slub_percpu_array [noderef] __percpu *[assigned] pscr_ret__
+>> drivers/power/reset/rmobile-reset.c:24:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *sysc_base2 @@     got void *cb_data @@
+   drivers/power/reset/rmobile-reset.c:24:40: sparse:     expected void [noderef] __iomem *sysc_base2
+   drivers/power/reset/rmobile-reset.c:24:40: sparse:     got void *cb_data
+>> drivers/power/reset/rmobile-reset.c:45:47: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected void *cb_data @@     got void [noderef] __iomem *[assigned] sysc_base2 @@
+   drivers/power/reset/rmobile-reset.c:45:47: sparse:     expected void *cb_data
+   drivers/power/reset/rmobile-reset.c:45:47: sparse:     got void [noderef] __iomem *[assigned] sysc_base2
 
-vim +4840 mm/slub.c
+vim +24 drivers/power/reset/rmobile-reset.c
 
-  4824	
-  4825	static bool refill_pca(struct kmem_cache *s, unsigned int count, gfp_t gfp)
-  4826	{
-  4827		unsigned int batch, allocated;
-  4828		struct slub_percpu_array *pca;
-  4829		unsigned long flags;
-  4830		void *objects[32];
-  4831	
-  4832	bulk_alloc:
-  4833		batch = min(count, 32U);
-  4834	
-  4835		allocated = __kmem_cache_alloc_bulk(s, gfp, batch, &objects[0]);
-  4836		if (!allocated)
-  4837			return false;
-  4838	
-  4839		local_lock_irqsave(&s->cpu_array->lock, flags);
-> 4840		pca = this_cpu_read(s->cpu_array);
-  4841	
-  4842		batch = min(allocated, pca->count - pca->used);
-  4843	
-  4844		for (unsigned int i = 0; i < batch; i++) {
-  4845			pca->objects[pca->used++] = objects[i];
-  4846		}
-  4847	
-  4848		local_unlock_irqrestore(&s->cpu_array->lock, flags);
-  4849	
-  4850		stat_add(s, PCA_REFILL, batch);
-  4851	
-  4852		/*
-  4853		 * We could have migrated to a different cpu or somebody else freed to the
-  4854		 * pca while we were bulk allocating, and now we have too many objects
-  4855		 */
-  4856		if (batch < allocated) {
-  4857			__kmem_cache_free_bulk(s, allocated - batch, &objects[batch]);
-  4858		} else {
-  4859			count -= batch;
-  4860			if (count > 0)
-  4861				goto bulk_alloc;
-  4862		}
-  4863	
-  4864		return true;
-  4865	}
-  4866	
+    21	
+    22	static int rmobile_reset_handler(struct sys_off_data *data)
+    23	{
+  > 24		void __iomem *sysc_base2 = data->cb_data;
+    25	
+    26		/* Let's assume we have acquired the HPB semaphore */
+    27		writel(RESCNT2_PRES, sysc_base2 + RESCNT2);
+    28	
+    29		return NOTIFY_DONE;
+    30	}
+    31	
+    32	static int rmobile_reset_probe(struct platform_device *pdev)
+    33	{
+    34		void __iomem *sysc_base2;
+    35		int error;
+    36	
+    37		sysc_base2 = devm_platform_ioremap_resource(pdev, 0);
+    38		if (IS_ERR(sysc_base2))
+    39			return PTR_ERR(sysc_base2);
+    40	
+    41		error = devm_register_sys_off_handler(&pdev->dev,
+    42						      SYS_OFF_MODE_RESTART,
+    43						      SYS_OFF_PRIO_HIGH,
+    44						      rmobile_reset_handler,
+  > 45						      sysc_base2);
+    46		if (error) {
+    47			dev_err(&pdev->dev,
+    48				"cannot register restart handler (err=%d)\n", error);
+    49			return error;
+    50		}
+    51	
+    52		return 0;
+    53	}
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
