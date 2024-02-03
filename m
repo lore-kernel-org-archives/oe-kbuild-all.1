@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CFC5DF11
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 14:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DF45DF15;
+	Sat,  3 Feb 2024 14:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706970098; cv=none; b=ZmOCXVVJrQIkwnu7SAAHpY2aFz8Bra6BztfOIeX2zJi5NIF9LsTf7F+yofpnDQzuyyWFxHVOHG2gvMvO3X/HRidFuXWZVElM1AYtNc/WlLDLZY7A3z9zD7iN/NnXEmldebxqoEkPpTxxlmrXP24z1hg9QkP/yjzRFLd9qyXNuBA=
+	t=1706970099; cv=none; b=e1xDVFfj8MR4mbRilV7DjOK8N90WPjTct9tiD5rsctUXmtDacgDCPsPH8pX5pKLBuVREM/rEDOhZIuSokOR2ESzxjaqXMEj6fypRRF3OjW41rLXxWDsSODn232rSjLHKTvzvyVWcncaz8b5pcm3IrJUcqTV5euOLcP8kN9kHNPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706970098; c=relaxed/simple;
-	bh=iKJsA8qrv4b0XlTNT8h8NVU8w8Bmbd2G3WGljcs7ppQ=;
+	s=arc-20240116; t=1706970099; c=relaxed/simple;
+	bh=jbe1RCokte3s+lwYFj+Qw2J1gC36MNGy/9NJXF7DZPs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q2RpEceocSq4NJ7/4HDi2SIaTkJ2MHZO7NcDR2tEFqZLZASrKHLEEoVcwxTpVBbVVZYV+0duMBc8PuIL+Nv2ZN3cQV13mGTRJQHfbJxFrPeAm4acHrUlsE9gyCHCcfUYcvXQEKck5MYCy+2/N5xR8yFs0QttC6J0760GeZIBWeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NyGQ7ZOE; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=ONHjXNq2zUxN8vlOAC0Xem2fXY9DxsIIeism0zKCt5P5Gat7mGw57h8lzhi0GYSY5q9qV96TUlf8i5ZiW6k3aR/6FQhvA8PRQTm6XhUHconl9bkiRCrDmaHRAE7vu6C+gfR81SquxVSHMYt+8Zp1rNOO6eii88ShCCUtUe0icNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AfpCzIPj; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NyGQ7ZOE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AfpCzIPj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706970097; x=1738506097;
+  t=1706970096; x=1738506096;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iKJsA8qrv4b0XlTNT8h8NVU8w8Bmbd2G3WGljcs7ppQ=;
-  b=NyGQ7ZOERf61SOSJBHZsksGW1H5qeRpHAfbo2uga7RYwWAvAsYpk83QJ
-   6StWZaTz4GNOWYIH9sN+Hc57ylHOA/P9E47aLfiUWSL8UFTZOzHaNiCa4
-   qkCxhnd3TFJEamojdtLH7JBXaLsd9XfApE7e3/EnNZ05R/rdST1PhVmqa
-   rh4sl7j12A1GYA+Iw3nSyVUcmhp80dCKqmSOp+UcebJ3YPaQ/zC8nw1nR
-   9fY75ObTf3F1njZVdwjjn561L+Bzfz2DMlFsMBxZCxgdtHxmQigesqHXH
-   PApP+wWDrZ5At9ytd21Q7SsaYYBVJ4o+267n6/FqOBJA1iJOxk6lGc5Bl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="474798"
+  bh=jbe1RCokte3s+lwYFj+Qw2J1gC36MNGy/9NJXF7DZPs=;
+  b=AfpCzIPjOhlcfh1BTZm8txynmklamMqvWCwYNMCqSEtI8G24YLq/s90P
+   f2d7HxmuIETQJo6YjpfqgjZEewAAYDMWJM72S3DWmzz0May0JStw+7Dej
+   YHgD1AQ9AkK9Xz50kw5IgAV2/Rb1lqKmDVRbtlkmZgzR8/VCUzksDifW4
+   MwoxV3Vlnq462JgG9Ec+cBQiZI1AvbXGsesuU+vQHZYeBPwFPJ+7IVRug
+   JVReaO6mPcGECHTOxhgxjlHfksqYHBgkJYxn5SIeEsEWj5jZ/Jbp0+A3n
+   B/b+zTLJsWVeLUlXQF5JGkDZGnHZqFYLulUFRmD7qfvydaUK4cUSF1DJO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="11680504"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="474798"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 06:21:37 -0800
+   d="scan'208";a="11680504"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 06:21:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="932751511"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="932751511"
+   d="scan'208";a="540616"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2024 06:21:31 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 03 Feb 2024 06:21:32 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWGtd-00059K-24;
+	id 1rWGtd-00059M-28;
 	Sat, 03 Feb 2024 14:21:29 +0000
-Date: Sat, 3 Feb 2024 22:20:41 +0800
+Date: Sat, 3 Feb 2024 22:20:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dharma Balasubiramani <dharma.b@microchip.com>,
-	manikandan.m@microchip.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux4microchip@microchip.com
-Subject: Re: [PATCH 2/3] drm/bridge: add lvds controller support for sam9x7
-Message-ID: <202402032248.6puqAuzM-lkp@intel.com>
-References: <20240122082947.21645-3-dharma.b@microchip.com>
+To: Fiona Klute <fiona.klute@gmx.de>, linux-wireless@vger.kernel.org,
+	Ping-Ke Shih <pkshih@realtek.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kalle Valo <kvalo@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-mmc@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
+	Fiona Klute <fiona.klute@gmx.de>
+Subject: Re: [PATCH 1/9] wifi: rtw88: Shared module for rtw8723x devices
+Message-ID: <202402032222.kwUrsH9V-lkp@intel.com>
+References: <20240202121050.977223-2-fiona.klute@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,47 +63,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240122082947.21645-3-dharma.b@microchip.com>
+In-Reply-To: <20240202121050.977223-2-fiona.klute@gmx.de>
 
-Hi Dharma,
+Hi Fiona,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.8-rc2 next-20240202]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.8-rc2 next-20240202]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dharma-Balasubiramani/dt-bindings-display-bridge-add-sam9x7-lvds-compatible/20240122-163209
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240122082947.21645-3-dharma.b%40microchip.com
-patch subject: [PATCH 2/3] drm/bridge: add lvds controller support for sam9x7
-config: arm-randconfig-r112-20240203 (https://download.01.org/0day-ci/archive/20240203/202402032248.6puqAuzM-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240203/202402032248.6puqAuzM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fiona-Klute/wifi-rtw88-Shared-module-for-rtw8723x-devices/20240202-201428
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20240202121050.977223-2-fiona.klute%40gmx.de
+patch subject: [PATCH 1/9] wifi: rtw88: Shared module for rtw8723x devices
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402032222.kwUrsH9V-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032222.kwUrsH9V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402032248.6puqAuzM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402032222.kwUrsH9V-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/bridge/microchip-lvds.c:236:24: sparse: sparse: symbol 'mchp_lvds_driver' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/mchp_lvds_driver +236 drivers/gpu/drm/bridge/microchip-lvds.c
+>> drivers/net/wireless/realtek/rtw88/rtw8723x.c:156:6: warning: no previous prototype for function '__rtw8723x_cfg_ldo25' [-Wmissing-prototypes]
+     156 | void __rtw8723x_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
+         |      ^
+   drivers/net/wireless/realtek/rtw88/rtw8723x.c:156:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     156 | void __rtw8723x_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
+         | ^
+         | static 
+   1 warning generated.
 
-   235	
- > 236	struct platform_driver mchp_lvds_driver = {
-   237		.probe = mchp_lvds_probe,
-   238		.remove = mchp_lvds_remove,
-   239		.driver = {
-   240			   .name = "microchip-lvds",
-   241			   .of_match_table = mchp_lvds_dt_ids,
-   242		},
-   243	};
-   244	module_platform_driver(mchp_lvds_driver);
-   245	
+
+vim +/__rtw8723x_cfg_ldo25 +156 drivers/net/wireless/realtek/rtw88/rtw8723x.c
+
+   155	
+ > 156	void __rtw8723x_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
+   157	{
+   158		u8 ldo_pwr;
+   159	
+   160		ldo_pwr = rtw_read8(rtwdev, REG_LDO_EFUSE_CTRL + 3);
+   161		if (enable) {
+   162			ldo_pwr &= ~BIT_MASK_LDO25_VOLTAGE;
+   163			ldo_pwr |= (BIT_LDO25_VOLTAGE_V25 << 4) | BIT_LDO25_EN;
+   164		} else {
+   165			ldo_pwr &= ~BIT_LDO25_EN;
+   166		}
+   167		rtw_write8(rtwdev, REG_LDO_EFUSE_CTRL + 3, ldo_pwr);
+   168	}
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
