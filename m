@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAACB2EAEA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 14:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35945EE8F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 15:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706972020; cv=none; b=dz8L0f3t5ll/zFUyofVIdOHl3z9ZrY55s7SCWZLHy5PjhYcbltLdXlWYKhbgubyUa2/oujzTriIsdchaq1OEgvamP+WPs/LgcRacssvFDzTWFncA49k+97QpywYrlOCSQC30cfoavxjrlfzE8mRAwaVJepgWh9CphO0dgfdzlkU=
+	t=1706972757; cv=none; b=IXhO+12KC5/4bHhu1eWcxWnBscIhXW8dSqCnbfuuJB6H+/DfjmhGq6uI3PXrq8yIviu92YjPuEety8Uf4UKf+5LLIFtmgRmWkE2z//N1pHNyvEyqK8vPhox1Jk4TDslqwHLT2JRCZtIAVeKAbI/F5aZhJmwKkyLUfDAf7TreKek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706972020; c=relaxed/simple;
-	bh=8T/nZ7mIhCzPXna+zFF7zHAoFcD+3KJb/lVkzv1Pst8=;
+	s=arc-20240116; t=1706972757; c=relaxed/simple;
+	bh=oN2Jtenyl16AJ73ZWHV33yxPWdeYESnQPTWfOUZIMcQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dfiK0WG0PjQ2hNFvO57FM6nGBZmLgMMftDlm8fcztT27eAIoW6SiXBPusALI6yRpeupONdFnkTjvkj5Q/cv9TSZ0N8g7fx6Q28VJUZj17QEc7MxB7AIk80QUBkrg9BmzEzn31uqDdF2NP0J1Xxk4ntAITO1bY7steZF6PzcQuLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SmRd9iaX; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=EDFn2WPuLxAX25/My1LonewqADR6iW/fV1EPl3QVelzi+hBgpu81jM06PJvo7xQs+vikaZvqcoFVZ8m8ydT1vH7x6nd8MzZ3l3mYg/svnmPt+Yc8XzCOY/nVI22MpgzSDUSv61M1BX4PU132WLy+Qv3HTMMgqK/aMRotXpppOWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NVlBS4bu; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmRd9iaX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NVlBS4bu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706972019; x=1738508019;
+  t=1706972754; x=1738508754;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8T/nZ7mIhCzPXna+zFF7zHAoFcD+3KJb/lVkzv1Pst8=;
-  b=SmRd9iaXKHNDdIlFU35ZFsBbTTlwprTgpPKSYQOA+Kml+aBpJnHSCjVC
-   +J1GIVJIa6IgxddqRxwJJgKbyYJ6zWcaJfgE9gadom+mfjK/hi8CN91VX
-   /2/Bz8UF5QRdVngyoENQKJ5ezmUDHlbmQP147BCcP9wIg9IfOooRgFIWN
-   xxNJ24VGAvOK/wu0LGRMvOsCVeFNI0xt3nDeq0+g3TN1LOESBiNlLZI9X
-   796yHGovUNg9xqd854QwCf+K19UPOTU/7QEXJkNrierJW/u5ySB386OpP
-   K9IIq5xV3XVXh6RinbiE2wGIFYjiBCHF/b/WjIiJXn5Zu4Y9wheN7dj6X
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="22796031"
+  bh=oN2Jtenyl16AJ73ZWHV33yxPWdeYESnQPTWfOUZIMcQ=;
+  b=NVlBS4buvGuM/8vDVk2ApmXbo1i1WRUofwAPo3Cnh4w+QXa/auzKuEXL
+   oSJ3hQoFnJKPuJX6wcXU+9hZIEvDWJMpKHzNuHAmQtr43HtRCcoeAHO21
+   LVc5NdlgrJ51mNE312IPKw8Zz9UPlJBqAano/Ut1ZrtIJNG6jpdST0oXW
+   PrhZXAL6p/1IO27L51am9N4Upxsqz2xGtQC8T3s/lLm1hXzppKgFRNZ+K
+   Ou2TYTnnNcdikQbmTh4FaPjG5hthHZZ/G36YWQayWU/RCrcQiUbxzDF0O
+   RsFxPpO98NKFogZRB07+5PNztoSflK9XD3C3fcFELl2TJSsrcHxwaVbAh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="555417"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="22796031"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 06:53:38 -0800
+   d="scan'208";a="555417"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 07:05:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="646853"
+   d="scan'208";a="23607843"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 03 Feb 2024 06:53:34 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2024 07:05:51 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWHOd-0005CM-0f;
-	Sat, 03 Feb 2024 14:53:31 +0000
-Date: Sat, 3 Feb 2024 22:52:50 +0800
+	id 1rWHaV-0005DG-10;
+	Sat, 03 Feb 2024 15:05:48 +0000
+Date: Sat, 3 Feb 2024 23:04:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lorenzo.bianconi@redhat.com,
-	davem@davemloft.net, kuba@kernel.org, edumazet@google.com,
-	pabeni@redhat.com, bpf@vger.kernel.org, toke@redhat.com,
-	willemdebruijn.kernel@gmail.com, jasowang@redhat.com,
-	sdf@google.com, hawk@kernel.org, ilias.apalodimas@linaro.org,
-	linyunsheng@huawei.com
-Subject: Re: [PATCH v7 net-next 1/4] net: add generic percpu page_pool
- allocator
-Message-ID: <202402032223.Imbb9JgJ-lkp@intel.com>
-References: <1d34b717f8f842b9c3e9f70f0e8ffd245a5d2460.1706861261.git.lorenzo@kernel.org>
+To: Fiona Klute <fiona.klute@gmx.de>, linux-wireless@vger.kernel.org,
+	Ping-Ke Shih <pkshih@realtek.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kalle Valo <kvalo@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+	Pavel Machek <pavel@ucw.cz>,
+	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
+	Fiona Klute <fiona.klute@gmx.de>
+Subject: Re: [PATCH 1/9] wifi: rtw88: Shared module for rtw8723x devices
+Message-ID: <202402032249.cMZd6DxM-lkp@intel.com>
+References: <20240202121050.977223-2-fiona.klute@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,166 +63,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1d34b717f8f842b9c3e9f70f0e8ffd245a5d2460.1706861261.git.lorenzo@kernel.org>
+In-Reply-To: <20240202121050.977223-2-fiona.klute@gmx.de>
 
-Hi Lorenzo,
+Hi Fiona,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.8-rc2 next-20240202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/net-add-generic-percpu-page_pool-allocator/20240202-162516
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/1d34b717f8f842b9c3e9f70f0e8ffd245a5d2460.1706861261.git.lorenzo%40kernel.org
-patch subject: [PATCH v7 net-next 1/4] net: add generic percpu page_pool allocator
-config: x86_64-randconfig-121-20240203 (https://download.01.org/0day-ci/archive/20240203/202402032223.Imbb9JgJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032223.Imbb9JgJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fiona-Klute/wifi-rtw88-Shared-module-for-rtw8723x-devices/20240202-201428
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20240202121050.977223-2-fiona.klute%40gmx.de
+patch subject: [PATCH 1/9] wifi: rtw88: Shared module for rtw8723x devices
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20240203/202402032249.cMZd6DxM-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032249.cMZd6DxM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402032223.Imbb9JgJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402032249.cMZd6DxM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/dev.c:3364:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3364:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3364:23: sparse:     got unsigned int
-   net/core/dev.c:3364:23: sparse: sparse: cast from restricted __wsum
->> net/core/dev.c:11809:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct page_pool * @@
-   net/core/dev.c:11809:34: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/core/dev.c:11809:34: sparse:     got struct page_pool *
-   net/core/dev.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   net/core/dev.c:205:9: sparse: sparse: context imbalance in 'unlist_netdevice' - different lock contexts for basic block
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   net/core/dev.c:3804:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   net/core/dev.c:5184:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> net/core/dev.c:11809:34: sparse: sparse: dereference of noderef expression
+All warnings (new ones prefixed by >>):
 
-vim +11809 net/core/dev.c
+>> drivers/net/wireless/realtek/rtw88/rtw8723x.c:156:6: warning: no previous prototype for '__rtw8723x_cfg_ldo25' [-Wmissing-prototypes]
+     156 | void __rtw8723x_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
+         |      ^~~~~~~~~~~~~~~~~~~~
 
- 11722	
- 11723	/*
- 11724	 *       This is called single threaded during boot, so no need
- 11725	 *       to take the rtnl semaphore.
- 11726	 */
- 11727	static int __init net_dev_init(void)
- 11728	{
- 11729		int i, rc = -ENOMEM;
- 11730	
- 11731		BUG_ON(!dev_boot_phase);
- 11732	
- 11733		net_dev_struct_check();
- 11734	
- 11735		if (dev_proc_init())
- 11736			goto out;
- 11737	
- 11738		if (netdev_kobject_init())
- 11739			goto out;
- 11740	
- 11741		INIT_LIST_HEAD(&ptype_all);
- 11742		for (i = 0; i < PTYPE_HASH_SIZE; i++)
- 11743			INIT_LIST_HEAD(&ptype_base[i]);
- 11744	
- 11745		if (register_pernet_subsys(&netdev_net_ops))
- 11746			goto out;
- 11747	
- 11748		/*
- 11749		 *	Initialise the packet receive queues.
- 11750		 */
- 11751	
- 11752		for_each_possible_cpu(i) {
- 11753			struct work_struct *flush = per_cpu_ptr(&flush_works, i);
- 11754			struct softnet_data *sd = &per_cpu(softnet_data, i);
- 11755	
- 11756			INIT_WORK(flush, flush_backlog);
- 11757	
- 11758			skb_queue_head_init(&sd->input_pkt_queue);
- 11759			skb_queue_head_init(&sd->process_queue);
- 11760	#ifdef CONFIG_XFRM_OFFLOAD
- 11761			skb_queue_head_init(&sd->xfrm_backlog);
- 11762	#endif
- 11763			INIT_LIST_HEAD(&sd->poll_list);
- 11764			sd->output_queue_tailp = &sd->output_queue;
- 11765	#ifdef CONFIG_RPS
- 11766			INIT_CSD(&sd->csd, rps_trigger_softirq, sd);
- 11767			sd->cpu = i;
- 11768	#endif
- 11769			INIT_CSD(&sd->defer_csd, trigger_rx_softirq, sd);
- 11770			spin_lock_init(&sd->defer_lock);
- 11771	
- 11772			init_gro_hash(&sd->backlog);
- 11773			sd->backlog.poll = process_backlog;
- 11774			sd->backlog.weight = weight_p;
- 11775	
- 11776			if (net_page_pool_create(i))
- 11777				goto out;
- 11778		}
- 11779	
- 11780		dev_boot_phase = 0;
- 11781	
- 11782		/* The loopback device is special if any other network devices
- 11783		 * is present in a network namespace the loopback device must
- 11784		 * be present. Since we now dynamically allocate and free the
- 11785		 * loopback device ensure this invariant is maintained by
- 11786		 * keeping the loopback device as the first device on the
- 11787		 * list of network devices.  Ensuring the loopback devices
- 11788		 * is the first device that appears and the last network device
- 11789		 * that disappears.
- 11790		 */
- 11791		if (register_pernet_device(&loopback_net_ops))
- 11792			goto out;
- 11793	
- 11794		if (register_pernet_device(&default_device_ops))
- 11795			goto out;
- 11796	
- 11797		open_softirq(NET_TX_SOFTIRQ, net_tx_action);
- 11798		open_softirq(NET_RX_SOFTIRQ, net_rx_action);
- 11799	
- 11800		rc = cpuhp_setup_state_nocalls(CPUHP_NET_DEV_DEAD, "net/dev:dead",
- 11801					       NULL, dev_cpu_dead);
- 11802		WARN_ON(rc < 0);
- 11803		rc = 0;
- 11804	out:
- 11805		if (rc < 0) {
- 11806			for_each_possible_cpu(i) {
- 11807				struct page_pool *pp_ptr;
- 11808	
- 11809				pp_ptr = per_cpu_ptr(system_page_pool, i);
- 11810				if (!pp_ptr)
- 11811					continue;
- 11812	
- 11813				page_pool_destroy(pp_ptr);
- 11814				per_cpu(system_page_pool, i) = NULL;
- 11815			}
- 11816		}
- 11817	
- 11818		return rc;
- 11819	}
- 11820	
+
+vim +/__rtw8723x_cfg_ldo25 +156 drivers/net/wireless/realtek/rtw88/rtw8723x.c
+
+   155	
+ > 156	void __rtw8723x_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
+   157	{
+   158		u8 ldo_pwr;
+   159	
+   160		ldo_pwr = rtw_read8(rtwdev, REG_LDO_EFUSE_CTRL + 3);
+   161		if (enable) {
+   162			ldo_pwr &= ~BIT_MASK_LDO25_VOLTAGE;
+   163			ldo_pwr |= (BIT_LDO25_VOLTAGE_V25 << 4) | BIT_LDO25_EN;
+   164		} else {
+   165			ldo_pwr &= ~BIT_LDO25_EN;
+   166		}
+   167		rtw_write8(rtwdev, REG_LDO_EFUSE_CTRL + 3, ldo_pwr);
+   168	}
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
