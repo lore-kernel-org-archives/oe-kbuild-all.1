@@ -1,121 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A92658206
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 13:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4EC5DF11
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 14:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706968776; cv=none; b=lXo1vLPn5qDJFxaKc1AJWxg32pdZmejocMjsw8JrQ+wMrj2A/05tW19cFgXR1VH1qE/GdIyiB8/WBYyxOPqt3a3Dp/divIwPMXx+zgaza8FL9motg8VamaqWqIorduqBA+1eGiCdZExhJkuvu42UjglD6vDEtBwMJyvYNR5PHSs=
+	t=1706969534; cv=none; b=oijpUT6tOdhqQTucpCPzJb5VFtIgtWUeEswocvGGx/NQbq8yOLX7jFjrZ4E/YPfcakr/ran+6sSIBrWX4y2ss4qUsOW97JYWCQZlAmG6R/jiXDYz6qis+DiJxXJQCFwWY70vPboD7q49rZ2i5coScDbTAHNa0Uk2SLVA/ZERChs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706968776; c=relaxed/simple;
-	bh=tfMghj2EHFVhQtt89dRMAsudia1RS5Au2NS0/D4ucFM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tr5kt7XheMa1FDnaTL5pxy1qlukySC5I49CIcLHVGKM46SCxAPPRiJ+K8wIE1UlUnr+8t3CA+L5fnG6MVME3nksBHBAnaOurA44u98uZGVtQrLLvQT8iNMSt8/zRYnIJ5l2OGADtfclsEVQ9axJJy5oHAGJfj4PCTIOt6vYqcBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WVC2GwwY; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706969534; c=relaxed/simple;
+	bh=K6PIwbjh4qCkXg3M6RFX76XMXlLA7KONXTmXirazj7s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jbrprb+mp+dRkZqENYlPdDt3EI+wpGyRCNpOiXu3mSRtk7m9htVgLrLBLDqJ067R47qH69tmd5A9MzJyL72lP33LBUWwZMbwyBQ18iNsjD24DFzNTcXIKjT0KysTL3O4rCvuNRvCZWbxlYIE/lZ8ac1bYlCFVEo/6u6ARZGMPLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BY2AtRUE; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WVC2GwwY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706968774; x=1738504774;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tfMghj2EHFVhQtt89dRMAsudia1RS5Au2NS0/D4ucFM=;
-  b=WVC2GwwYJxe2OLrbyODcVvDLMr3/IAYaZ8n9QJcpdp6vRkbCT0uyXCtA
-   SLBdZmXiv5zhHksfw8mpYDgOHiqvBr69wrIRWc6P7dXecl9CUSWA/la2t
-   ec37/KV0QzjpNVQSb7F/A8knqaVtiKtknePzhmg7RO2eLP990dCgznUVT
-   KUid/MNqN6JOF5q9XxwYnSjGpXzCCuOrPr1X/siY6vD1QDCcQFUz1nBIH
-   6cHO41Yk7yiqzgWsNjL/sOtgBhpH1YEqJcm80Tg4geVleguW+DfpoPkR/
-   uAG8KaNcYUnlpgz9Vf10/i3F7JFiOCqowXRBwdSrFNw1dOuDlI18w5fM0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="4123248"
-X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="4123248"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 05:59:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="4921874"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 03 Feb 2024 05:59:31 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rWGYK-00058E-2W;
-	Sat, 03 Feb 2024 13:59:28 +0000
-Date: Sat, 3 Feb 2024 21:58:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:slub-percpu-caches-v4r1-BROKEN 2/6] mm/slub.c:4905:13:
- warning: 'flush_pca' defined but not used
-Message-ID: <202402032111.AEPLIyDN-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BY2AtRUE"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5d8b887bb0cso2935588a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 03 Feb 2024 06:12:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706969532; x=1707574332; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=eEFO3XuvJC4aDvU2xQvLPxI9i4t2fxYN9VTwe5rBqvQ=;
+        b=BY2AtRUERlBD4oQM1ADTa69cYXtQNiBIiaMHuMUsQ3n5z4KX9uusmJVNZvPio4ebKU
+         afP+izwbYT4bkmgwm5F2oLUM5UdKKKX0Nbut1sCQOJVjLGWjRZ1uUg3Mob/XFG0yf1Mz
+         StW4EqHbyFObUI0bTbYe9QirjkoalgN2k5GvY9g3YkzhpXu4AXt9Jwts+7hD+EN6LDMh
+         pyADTDr1zYY1IDiBMv2mCDYSrOOHR5AHMX9XUsWmJLaHxv6E20psUBYJJPvua4SsUlJb
+         pBDEWOa7XfJEvjk223Y03XShHg79x0+BSqieLDTbUV0VLuzyZyV8ab0ybgwr7px3U+pM
+         hEjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706969532; x=1707574332;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eEFO3XuvJC4aDvU2xQvLPxI9i4t2fxYN9VTwe5rBqvQ=;
+        b=EeIw9jk/BXb/0MtZfVIbypQjMAoZEqdb0l2MDtvn+We4wxWYJOllt3FKr2hN0W8bfE
+         Oy1/aQETjMMoEBpQnZ7LYgKbz76aFyX8HmzUywQLusBTYGNp/JI2LaIfZGnxw+N6jQQG
+         WgCU/oniTInDyLVslHKQ29iJd3iwDYHDCP+1VSEhqB4+G/DuW/MNR0kLftMKtZik7ANP
+         j6awjmwEi3Tsv4/q6jUIbsmF1VlmpDrGYKKCu4iEN9A7YxUVPpGf7uHQNjtYbZ/w7TVx
+         HiLDodRAthUTLgDBg/r1F6j+eQrdL3lGNQP+1CPNA9BsJ+15y7uPCFqmd1flyXYv/Up5
+         BWug==
+X-Gm-Message-State: AOJu0Yyw+mxlPZA9YcPzLD9jqiRORwNHMwZf5YISl5Pv5am63OLwAZ3E
+	XOLIb7eUk3ND5w4vojDr4gSSByHxVi+KqJ90kylhYsQVvtsLG9vl
+X-Google-Smtp-Source: AGHT+IFipV2DF3+kBNA/FWTzlHT4xHjQLxGNLpjvzfmfB06xJy2CeFOqtI5wYQzZ/S0YL8HtNBRZDw==
+X-Received: by 2002:a05:6a00:14d2:b0:6dd:8853:ada8 with SMTP id w18-20020a056a0014d200b006dd8853ada8mr15277877pfu.26.1706969532103;
+        Sat, 03 Feb 2024 06:12:12 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWv/p7HZbYli1IVqDc89RuadLlRZe/Hap/YH0W280tmDns5yhzhkp18Vc+juYxB/+4eMAmegLrAqPVCFwwytof2cBdMN3qhdzRglP8GchDHlJ6yt4YVwojWz3CXiOXpdNqh5FnpDcy5oBaS30ftuELlvy5wC/IpbifGqo35LVpjMkmwyETXyu6CFh91gXfQjbDoZg==
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id e13-20020a056a001a8d00b006db9604bf8csm3427693pfv.131.2024.02.03.06.12.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 03 Feb 2024 06:12:11 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <ffd297c3-4ac7-45e5-bf76-8f4e4e9e603c@roeck-us.net>
+Date: Sat, 3 Feb 2024 06:12:09 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [groeck-staging:hwmon-next 13/34]
+ drivers/hwmon/surface_fan.c:22:9: warning: no previous prototype for
+ 'surface_fan_hwmon_is_visible'
+Content-Language: en-US
+To: Ivor Wanders <ivor@iwanders.net>, lkp@intel.com
+Cc: W_Armin@gmx.de, linux-hwmon@vger.kernel.org, luzmaximilian@gmail.com,
+ oe-kbuild-all@lists.linux.dev
+References: <202402031253.JPVKEF5X-lkp@intel.com>
+ <20240203125217.4702-1-ivor@iwanders.net>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240203125217.4702-1-ivor@iwanders.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-caches-v4r1-BROKEN
-head:   769a361e3d36bf4b006b69c6adbdcd24fe2e470a
-commit: 8f3b3550b6d09f88b11b9d89eb1d6a215c48bf98 [2/6] mm/slub: add opt-in percpu array cache of objects
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240203/202402032111.AEPLIyDN-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032111.AEPLIyDN-lkp@intel.com/reproduce)
+On 2/3/24 04:52, Ivor Wanders wrote:
+>>>> drivers/hwmon/surface_fan.c:22:9: warning: no previous prototype for 'surface_fan_hwmon_is_visible' [-Wmissing-prototypes]
+>>       22 | umode_t surface_fan_hwmon_is_visible(const void *drvdata,
+> 
+> I tried reproducing this, but I think this issue is already fixed in the
+> most recent hwmon-next?
+> The function should've been marked `static`. It wasn't in the original v5
+> patch, but the current commit in the tree (216d66aa89f9fc882) already marks
+> the function static, resolving the issue.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402032111.AEPLIyDN-lkp@intel.com/
+Yes, I already fixed this up.
 
-All warnings (new ones prefixed by >>):
-
->> mm/slub.c:4905:13: warning: 'flush_pca' defined but not used [-Wunused-function]
-    4905 | static void flush_pca(struct kmem_cache *s, unsigned int count)
-         |             ^~~~~~~~~
+Guenter
 
 
-vim +/flush_pca +4905 mm/slub.c
-
-  4904	
-> 4905	static void flush_pca(struct kmem_cache *s, unsigned int count)
-  4906	{
-  4907		struct slub_percpu_array *pca;
-  4908		unsigned int batch, remaining;
-  4909		void *objects[PCA_BATCH_MAX];
-  4910		unsigned long flags;
-  4911	
-  4912		local_lock_irqsave(&s->cpu_array->lock, flags);
-  4913		pca = this_cpu_read(s->cpu_array);
-  4914	
-  4915	next_batch:
-  4916		batch = min(count, PCA_BATCH_MAX);
-  4917	
-  4918		batch = min(batch, pca->used);
-  4919	
-  4920		for (unsigned int i = 0; i < batch; i++) {
-  4921			objects[i] = pca->objects[--pca->used];
-  4922		}
-  4923	
-  4924		remaining = pca->used;
-  4925	
-  4926		local_unlock_irqrestore(&s->cpu_array->lock, flags);
-  4927	
-  4928		__kmem_cache_free_bulk(s, batch, &objects[0]);
-  4929	
-  4930		stat_add(s, PCA_FLUSH, batch);
-  4931	
-  4932		if (batch < count && remaining > 0) {
-  4933			count -= batch;
-  4934			local_lock_irqsave(&s->cpu_array->lock, flags);
-  4935			pca = this_cpu_read(s->cpu_array);
-  4936			goto next_batch;
-  4937		}
-  4938	}
-  4939	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
