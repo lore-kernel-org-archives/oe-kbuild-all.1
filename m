@@ -1,123 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DF45DF15;
-	Sat,  3 Feb 2024 14:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD165D8F8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 14:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706970099; cv=none; b=e1xDVFfj8MR4mbRilV7DjOK8N90WPjTct9tiD5rsctUXmtDacgDCPsPH8pX5pKLBuVREM/rEDOhZIuSokOR2ESzxjaqXMEj6fypRRF3OjW41rLXxWDsSODn232rSjLHKTvzvyVWcncaz8b5pcm3IrJUcqTV5euOLcP8kN9kHNPQ=
+	t=1706970165; cv=none; b=f1+vNF7FH/ePOJtnJaAIZF009jfNTEvkpwatOpTQerAFVDU/n3EJ73tCNJtLl9rOFi56jph8gcfkuZa8CA0RLg4LoqiAtb1kapQdssduVkK2u34LTBnvNKSmj16Ckc2o/MgldzJhKtxoHqEeR5a668i1M55lZq/ilCqjF04TfBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706970099; c=relaxed/simple;
-	bh=jbe1RCokte3s+lwYFj+Qw2J1gC36MNGy/9NJXF7DZPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ONHjXNq2zUxN8vlOAC0Xem2fXY9DxsIIeism0zKCt5P5Gat7mGw57h8lzhi0GYSY5q9qV96TUlf8i5ZiW6k3aR/6FQhvA8PRQTm6XhUHconl9bkiRCrDmaHRAE7vu6C+gfR81SquxVSHMYt+8Zp1rNOO6eii88ShCCUtUe0icNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AfpCzIPj; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706970165; c=relaxed/simple;
+	bh=PrIMWk6WiIx/F30p3tmvGplX10rZECwBwq/uYP+hWow=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rMQrnYNTnQa5O0W9qN1/SmJzI/eBLN+27UuDvjjB9IAV+tsODW/YM1oZ4XoiYQTukYtPDuZuaE2lOpNEz3fndd5PG2eC5ThDI/v+khkqIew3PXBwfIUjDyRVK0Pecbikv7uGR0dP4bdwGfdXrsiiUwJwdycGPjlAKq5ONLq/2gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cgIKPLK7; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AfpCzIPj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706970096; x=1738506096;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jbe1RCokte3s+lwYFj+Qw2J1gC36MNGy/9NJXF7DZPs=;
-  b=AfpCzIPjOhlcfh1BTZm8txynmklamMqvWCwYNMCqSEtI8G24YLq/s90P
-   f2d7HxmuIETQJo6YjpfqgjZEewAAYDMWJM72S3DWmzz0May0JStw+7Dej
-   YHgD1AQ9AkK9Xz50kw5IgAV2/Rb1lqKmDVRbtlkmZgzR8/VCUzksDifW4
-   MwoxV3Vlnq462JgG9Ec+cBQiZI1AvbXGsesuU+vQHZYeBPwFPJ+7IVRug
-   JVReaO6mPcGECHTOxhgxjlHfksqYHBgkJYxn5SIeEsEWj5jZ/Jbp0+A3n
-   B/b+zTLJsWVeLUlXQF5JGkDZGnHZqFYLulUFRmD7qfvydaUK4cUSF1DJO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="11680504"
-X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="11680504"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 06:21:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="540616"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Feb 2024 06:21:32 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rWGtd-00059M-28;
-	Sat, 03 Feb 2024 14:21:29 +0000
-Date: Sat, 3 Feb 2024 22:20:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Fiona Klute <fiona.klute@gmx.de>, linux-wireless@vger.kernel.org,
-	Ping-Ke Shih <pkshih@realtek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kalle Valo <kvalo@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	Fiona Klute <fiona.klute@gmx.de>
-Subject: Re: [PATCH 1/9] wifi: rtw88: Shared module for rtw8723x devices
-Message-ID: <202402032222.kwUrsH9V-lkp@intel.com>
-References: <20240202121050.977223-2-fiona.klute@gmx.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cgIKPLK7"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d7393de183so23266135ad.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 03 Feb 2024 06:22:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706970163; x=1707574963; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lar8+DEYByB26BO1W2Y+xi5fjc4udKQ/8U5P1WHlxuQ=;
+        b=cgIKPLK7rVMfd1Rt+olk3zfB2EgTVLxnKxlvEQXuC+ejXK6z4zqC71Mpv9tGCfACIx
+         w3lUFhNLaE4qYCwZLmz7wZVEIJbLjTRaZVMGsg6mhkZRhLFETFMXoKfkrsGORxhc36W+
+         J0zABNl2H9wZ8caFxuJYpHmu50HkEsIw2hv7Fy0i17mXFyM225fdNvtSNMqkg0a3BGbP
+         bE1IXOhbEx01fSyO8veVR2pzSd01ExmdzxOUHEY8qu57E1nVoLxEmFPGJqCMAHBwNyp9
+         Ls7+SZxZLgdXn8Ag+OHs3l6aoKG539RFKs53hI7CjmkUd0VIqR7thcP3arWMQacI6Amc
+         d/NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706970163; x=1707574963;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lar8+DEYByB26BO1W2Y+xi5fjc4udKQ/8U5P1WHlxuQ=;
+        b=NsRRZKI0OQHgzayd7WAWhjHqYck2tHbBYjvrc/AKF4IXpmwGWx7tHUuCuydvsxEEzR
+         kNkyX4nz9R/coS1IZB9o/HOnkA1q8vgJVGsVB2xWeo6WkEsI5+bOxo91RB0CD/iHsZqx
+         ZzPtW8oy15quksERHxBahStFHUz04bP6tXNp7BCCgtCGyP0aR+gil2pwb0LJxerQMlZ2
+         C73HgXVRJgj4AqhxCuOPG7sew7mkSdNjS+mjN3GrebQPoVC3dA/H06pjqGfO8jrYCkyV
+         F3HnKRp/0088lpRNu8M9jL/BhFNbuksKDJq4sBaVZdCyYEeWBvh38li0ArhpIfj6DETL
+         DcRQ==
+X-Gm-Message-State: AOJu0YwMEUSd8OchBXOaQl9ecABGQJIz+bDMnlRpW7gKcB1WhKBsD2kr
+	WPqlanrGIQ2T9PYNglW7oSckSOVCMJAB0SDnwYB2PefZ+zRdqI6l
+X-Google-Smtp-Source: AGHT+IFQEPoId7thmxcwoet1tk+YGlorC1f2+P5th71pKcYa/TmUDnRqg5mNpUjQrYD/kdVcKTxDmQ==
+X-Received: by 2002:a17:902:f545:b0:1d9:5d65:c1b with SMTP id h5-20020a170902f54500b001d95d650c1bmr7272206plf.41.1706970163181;
+        Sat, 03 Feb 2024 06:22:43 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVdvgSj8XlsRnO83JbSFJB566bGv3sqrrBEnbHTQGyB8lbCir7JI/2J4TSFAlgadna/kN15MYBvPugRhsLY+ku0JSKjfw4kvFytCfwEEZUyEaePhSWSwlvemlB57L9XPhGwMo9JNJzsBUSYajmjUY+AUmjo0kU8PYGgpfPUXgxCCqMa09uA5B3LSKqIy9RKcDuXwg==
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id m10-20020a170902f20a00b001d916995423sm3355002plc.99.2024.02.03.06.22.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 03 Feb 2024 06:22:42 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <382a2754-f5b0-4c71-a292-7fe2095a45cb@roeck-us.net>
+Date: Sat, 3 Feb 2024 06:22:41 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240202121050.977223-2-fiona.klute@gmx.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [groeck-staging:hwmon-next 13/34]
+ drivers/hwmon/surface_fan.c:22:9: warning: no previous prototype for
+ 'surface_fan_hwmon_is_visible'
+Content-Language: en-US
+To: Ivor Wanders <ivor@iwanders.net>
+Cc: W_Armin@gmx.de, linux-hwmon@vger.kernel.org, lkp@intel.com,
+ luzmaximilian@gmail.com, oe-kbuild-all@lists.linux.dev
+References: <ffd297c3-4ac7-45e5-bf76-8f4e4e9e603c@roeck-us.net>
+ <20240203141610.5838-1-ivor@iwanders.net>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
+ nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
+ hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
+ c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
+ 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
+ GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
+ sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
+ Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
+ HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
+ BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
+ l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
+ J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
+ cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
+ wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
+ hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
+ nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
+ QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
+ trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
+ WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
+ HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240203141610.5838-1-ivor@iwanders.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Fiona,
+On 2/3/24 06:16, Ivor Wanders wrote:
+>> Yes, I already fixed this up.
+> 
+> Appreciate the confirmation, thank you for fixing this.
+> 
 
-kernel test robot noticed the following build warnings:
+No worries. Sorry, I should have added a note to the commit message,
+but it was late last night and I forgot. I'll do that now.
 
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Guenter
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fiona-Klute/wifi-rtw88-Shared-module-for-rtw8723x-devices/20240202-201428
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20240202121050.977223-2-fiona.klute%40gmx.de
-patch subject: [PATCH 1/9] wifi: rtw88: Shared module for rtw8723x devices
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402032222.kwUrsH9V-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032222.kwUrsH9V-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402032222.kwUrsH9V-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/wireless/realtek/rtw88/rtw8723x.c:156:6: warning: no previous prototype for function '__rtw8723x_cfg_ldo25' [-Wmissing-prototypes]
-     156 | void __rtw8723x_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
-         |      ^
-   drivers/net/wireless/realtek/rtw88/rtw8723x.c:156:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     156 | void __rtw8723x_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/__rtw8723x_cfg_ldo25 +156 drivers/net/wireless/realtek/rtw88/rtw8723x.c
-
-   155	
- > 156	void __rtw8723x_cfg_ldo25(struct rtw_dev *rtwdev, bool enable)
-   157	{
-   158		u8 ldo_pwr;
-   159	
-   160		ldo_pwr = rtw_read8(rtwdev, REG_LDO_EFUSE_CTRL + 3);
-   161		if (enable) {
-   162			ldo_pwr &= ~BIT_MASK_LDO25_VOLTAGE;
-   163			ldo_pwr |= (BIT_LDO25_VOLTAGE_V25 << 4) | BIT_LDO25_EN;
-   164		} else {
-   165			ldo_pwr &= ~BIT_LDO25_EN;
-   166		}
-   167		rtw_write8(rtwdev, REG_LDO_EFUSE_CTRL + 3, ldo_pwr);
-   168	}
-   169	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
