@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C6F1642F;
-	Sat,  3 Feb 2024 22:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C89168B1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 23:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706999385; cv=none; b=XUKqK7FJbPS1+2i6lAcYdZCVQFAhSrsWeSTr/meaxOfFFye3PregHxy/mqcUOAqTSh5UWz/Fy5XYZ68nHb83BlXodFZk5udli69SUWXyGxGC2L0j0YJ+DKa+EFB+X/bRfP7oHzeps0eMYgIChFvlh8YVvVZynsHy+MFk1VfRqr0=
+	t=1707001324; cv=none; b=HhAQn+BDCOTmiwL+JghVRBcMN1fzn9lsEKf8DMaiMlNqvFgjYjTnuVzl1XkPLk101kyLIr5KKP7RtcCjFthboMMXZwHrlpLyjlho+7hsHSf8aic6dNQA0CGv0hxjsHRmZF9ML8jTATabPPGMlodQPZuRBa8AP+fQ2zLeskRrPbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706999385; c=relaxed/simple;
-	bh=HJWQ+j7xiuNX9Mz654Q+3LRPBupZ7ioDeogXoqP/Qdo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KL00d/MV/tWMmqOaOV2K3NcbJ+rRLz9q76XqrJG89SSCbl2cUf0mpbdu/IrYJCM8z0gbYbN7PypT+OCIQ1QEJNx0e2cn9lgr0Sm675zETB0xtYONs70L8gVr9L+yzme1D6GWbqTMl7HO8ESdPl0C7ZcC9z7m2/T2TX7MlSQas+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPHlLmzJ; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1707001324; c=relaxed/simple;
+	bh=wLyNmBdAm1MeSkKDxYTlRPMwZWiZhv8MGDrLD9h+mBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YnFOh0XFbM7vWrvwSJY/lKBH5KmMvpDioia0jHyGrsAQH5LEiThH4EAAlsfpFwYvcnumtl8pVI8/8pyaVHmmPNI3m0T5BhXGYgv5Z2JwSJJWalIoV/m/k4RfIfyv35mQc8RJnSmr1wrEEJ9+80hAcA7zyAcezR5DxFyEEjZPeN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QYBj1bcM; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPHlLmzJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QYBj1bcM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706999383; x=1738535383;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HJWQ+j7xiuNX9Mz654Q+3LRPBupZ7ioDeogXoqP/Qdo=;
-  b=dPHlLmzJk1yKOsFT44TUV9pavvo3LN84e1t8D041Seee0WWvDe8Qoo7d
-   nCHwnCAHFPr1omMbOPhiIGempszTSiS8rBiSpK6oOIEaCwnhfFPWPO/NZ
-   W8gkbZzoBExuHy7M51rtfNj5AKlLeO3CNl9fW1bTbh1OVo3+tedCtKDlp
-   HU+ZXLeDUYx/t1R9zk5/ebTwUDMnTossz6XK/ZnxjvHxTGYTRaPRNHTVU
-   WHpwJxM2pNm2vsqBKkFSrCh6KLjagqLuOhoDCOyGNVjPqYYiAdkaI5huW
-   Da5ZkLZ2KEUPtFr+S/787SLN4hmXCerYt6TLe4VnDbvy2t4RCZphn4ysH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="241393"
+  t=1707001322; x=1738537322;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wLyNmBdAm1MeSkKDxYTlRPMwZWiZhv8MGDrLD9h+mBk=;
+  b=QYBj1bcM19L0HHyU1sORGO/3fWv58i7rywem0aqJUjZkXNH+ajdqoYVx
+   HAoAxNQ0ppev1mNMAQCNic3uY89gbkL6pZZ9aCEX0tiGH/tnD7N47/F2P
+   IhhotfkYSQ+Rmh3MwBz5VXgL3OEYhLyZnFr26tCsEyABX3kgSyqc0/UCW
+   zvtSDylm++mv0o3DKNT2cxanpFbr5Ir8dw2k1uunwxjyTburmLLZmBWlq
+   a7Tdfbj6JtPuUSSSXiYuy5wAmZHlOecwEGyt7TNgf5DCbrqPZf19b2jXd
+   WdUBVg3Yvv22TShVKA16ROkBWqbuLpTyWZZJRktk3WsaA89eOypdCQ3Fg
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="22821071"
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="241393"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 14:29:42 -0800
+   d="scan'208";a="22821071"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 15:02:01 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="5007886"
+   d="scan'208";a="672702"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Feb 2024 14:29:39 -0800
+  by orviesa006.jf.intel.com with ESMTP; 03 Feb 2024 15:02:00 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWOW1-0005gE-03;
-	Sat, 03 Feb 2024 22:29:37 +0000
-Date: Sun, 4 Feb 2024 06:29:25 +0800
+	id 1rWP1J-0005hm-2h;
+	Sat, 03 Feb 2024 23:01:57 +0000
+Date: Sun, 4 Feb 2024 07:01:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Kalle Valo <kvalo@kernel.org>, linux-wireless@vger.kernel.org,
-	Johannes Berg <johannes.berg@intel.com>,
-	Gregory Greenman <gregory.greenman@intel.com>
-Subject: [wireless-next:main 36/68]
- drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1476:45: error: no member named
- 'phy_filters' in 'struct iwl_mvm'
-Message-ID: <202402040640.lvAxs3pQ-lkp@intel.com>
+To: Valentin Schneider <vschneid@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 3/5] sched/fair: Delete cfs_rq_throttled_loose(),
+ use cfs_rq->throttle_pending instead
+Message-ID: <202402040651.KMZz9c3q-lkp@intel.com>
+References: <20240202080920.3337862-4-vschneid@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +59,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240202080920.3337862-4-vschneid@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-head:   5932ad87828b267649d750869c89c0f1a3873477
-commit: 427661e4c48887ea2a226cd972e574ae7686fb95 [36/68] wifi: iwlwifi: read SAR tables from UEFI
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240204/202402040640.lvAxs3pQ-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040640.lvAxs3pQ-lkp@intel.com/reproduce)
+Hi Valentin,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on tip/core/entry tip/master linus/master v6.8-rc2 next-20240202]
+[cannot apply to tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Valentin-Schneider/sched-fair-Only-throttle-CFS-tasks-on-return-to-userspace/20240202-162620
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20240202080920.3337862-4-vschneid%40redhat.com
+patch subject: [RFC PATCH v2 3/5] sched/fair: Delete cfs_rq_throttled_loose(), use cfs_rq->throttle_pending instead
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240204/202402040651.KMZz9c3q-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040651.KMZz9c3q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402040640.lvAxs3pQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402040651.KMZz9c3q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1476:45: error: no member named 'phy_filters' in 'struct iwl_mvm'
-    1476 |         iwl_acpi_get_phy_filters(&mvm->fwrt, &mvm->phy_filters);
-         |                                               ~~~  ^
-   1 error generated.
+   kernel/sched/fair.c: In function 'enqueue_task_fair':
+   kernel/sched/fair.c:6942:17: error: implicit declaration of function 'unthrottle_on_enqueue' [-Werror=implicit-function-declaration]
+    6942 |                 unthrottle_on_enqueue(p);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'dequeue_task_fair':
+   kernel/sched/fair.c:6959:46: error: 'struct sched_entity' has no member named 'kernel_node'
+    6959 |         bool kernel_task = !list_empty(&p->se.kernel_node);
+         |                                              ^
+   kernel/sched/fair.c: At top level:
+   kernel/sched/fair.c:13303:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
+   13303 | void free_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13305:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
+   13305 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13310:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
+   13310 | void online_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13312:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
+   13312 | void unregister_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/fair.c:6750:13: warning: 'cfs_rq_throttled_loose' defined but not used [-Wunused-function]
+    6750 | static bool cfs_rq_throttled_loose(struct cfs_rq *cfs_rq)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1476 drivers/net/wireless/intel/iwlwifi/mvm/fw.c
+vim +/cfs_rq_throttled_loose +6750 kernel/sched/fair.c
 
-427661e4c48887 Miri Korenblit 2024-01-31  1421  
-427661e4c48887 Miri Korenblit 2024-01-31  1422  void iwl_mvm_get_bios_tables(struct iwl_mvm *mvm)
-78a19d5285d93e Miri Korenblit 2021-08-05  1423  {
-78a19d5285d93e Miri Korenblit 2021-08-05  1424  	int ret;
-78a19d5285d93e Miri Korenblit 2021-08-05  1425  
-ebe8f41319fabe Miri Korenblit 2024-01-28  1426  	iwl_acpi_get_guid_lock_status(&mvm->fwrt);
-ebe8f41319fabe Miri Korenblit 2024-01-28  1427  
-78a19d5285d93e Miri Korenblit 2021-08-05  1428  	/* read PPAG table */
-e8e10a37c51c08 Matt Chen      2022-03-04  1429  	ret = iwl_acpi_get_ppag_table(&mvm->fwrt);
-78a19d5285d93e Miri Korenblit 2021-08-05  1430  	if (ret < 0) {
-78a19d5285d93e Miri Korenblit 2021-08-05  1431  		IWL_DEBUG_RADIO(mvm,
-78a19d5285d93e Miri Korenblit 2021-08-05  1432  				"PPAG BIOS table invalid or unavailable. (%d)\n",
-78a19d5285d93e Miri Korenblit 2021-08-05  1433  				ret);
-78a19d5285d93e Miri Korenblit 2021-08-05  1434  	}
-78a19d5285d93e Miri Korenblit 2021-08-05  1435  
-78a19d5285d93e Miri Korenblit 2021-08-05  1436  	/* read SAR tables */
-427661e4c48887 Miri Korenblit 2024-01-31  1437  	ret = iwl_bios_get_wrds_table(&mvm->fwrt);
-78a19d5285d93e Miri Korenblit 2021-08-05  1438  	if (ret < 0) {
-78a19d5285d93e Miri Korenblit 2021-08-05  1439  		IWL_DEBUG_RADIO(mvm,
-78a19d5285d93e Miri Korenblit 2021-08-05  1440  				"WRDS SAR BIOS table invalid or unavailable. (%d)\n",
-78a19d5285d93e Miri Korenblit 2021-08-05  1441  				ret);
-78a19d5285d93e Miri Korenblit 2021-08-05  1442  		/*
-78a19d5285d93e Miri Korenblit 2021-08-05  1443  		 * If not available, don't fail and don't bother with EWRD and
-78a19d5285d93e Miri Korenblit 2021-08-05  1444  		 * WGDS */
-78a19d5285d93e Miri Korenblit 2021-08-05  1445  
-427661e4c48887 Miri Korenblit 2024-01-31  1446  		if (!iwl_bios_get_wgds_table(&mvm->fwrt)) {
-78a19d5285d93e Miri Korenblit 2021-08-05  1447  			/*
-78a19d5285d93e Miri Korenblit 2021-08-05  1448  			 * If basic SAR is not available, we check for WGDS,
-78a19d5285d93e Miri Korenblit 2021-08-05  1449  			 * which should *not* be available either.  If it is
-78a19d5285d93e Miri Korenblit 2021-08-05  1450  			 * available, issue an error, because we can't use SAR
-78a19d5285d93e Miri Korenblit 2021-08-05  1451  			 * Geo without basic SAR.
-78a19d5285d93e Miri Korenblit 2021-08-05  1452  			 */
-78a19d5285d93e Miri Korenblit 2021-08-05  1453  			IWL_ERR(mvm, "BIOS contains WGDS but no WRDS\n");
-78a19d5285d93e Miri Korenblit 2021-08-05  1454  		}
-78a19d5285d93e Miri Korenblit 2021-08-05  1455  
-78a19d5285d93e Miri Korenblit 2021-08-05  1456  	} else {
-427661e4c48887 Miri Korenblit 2024-01-31  1457  		ret = iwl_bios_get_ewrd_table(&mvm->fwrt);
-78a19d5285d93e Miri Korenblit 2021-08-05  1458  		/* if EWRD is not available, we can still use
-78a19d5285d93e Miri Korenblit 2021-08-05  1459  		* WRDS, so don't fail */
-78a19d5285d93e Miri Korenblit 2021-08-05  1460  		if (ret < 0)
-78a19d5285d93e Miri Korenblit 2021-08-05  1461  			IWL_DEBUG_RADIO(mvm,
-78a19d5285d93e Miri Korenblit 2021-08-05  1462  					"EWRD SAR BIOS table invalid or unavailable. (%d)\n",
-78a19d5285d93e Miri Korenblit 2021-08-05  1463  					ret);
-78a19d5285d93e Miri Korenblit 2021-08-05  1464  
-78a19d5285d93e Miri Korenblit 2021-08-05  1465  		/* read geo SAR table */
-78a19d5285d93e Miri Korenblit 2021-08-05  1466  		if (iwl_sar_geo_support(&mvm->fwrt)) {
-427661e4c48887 Miri Korenblit 2024-01-31  1467  			ret = iwl_bios_get_wgds_table(&mvm->fwrt);
-78a19d5285d93e Miri Korenblit 2021-08-05  1468  			if (ret < 0)
-78a19d5285d93e Miri Korenblit 2021-08-05  1469  				IWL_DEBUG_RADIO(mvm,
-78a19d5285d93e Miri Korenblit 2021-08-05  1470  						"Geo SAR BIOS table invalid or unavailable. (%d)\n",
-78a19d5285d93e Miri Korenblit 2021-08-05  1471  						ret);
-78a19d5285d93e Miri Korenblit 2021-08-05  1472  				/* we don't fail if the table is not available */
-78a19d5285d93e Miri Korenblit 2021-08-05  1473  		}
-78a19d5285d93e Miri Korenblit 2021-08-05  1474  	}
-c4c95454775592 Johannes Berg  2023-06-14  1475  
-c4c95454775592 Johannes Berg  2023-06-14 @1476  	iwl_acpi_get_phy_filters(&mvm->fwrt, &mvm->phy_filters);
-78a19d5285d93e Miri Korenblit 2021-08-05  1477  }
-6996490501ed80 Luca Coelho    2017-01-12  1478  
-
-:::::: The code at line 1476 was first introduced by commit
-:::::: c4c954547755927807aaca981025847821dd2d0c wifi: iwlwifi: implement WPFC ACPI table loading
-
-:::::: TO: Johannes Berg <johannes.berg@intel.com>
-:::::: CC: Johannes Berg <johannes.berg@intel.com>
+ab84d31e15502f kernel/sched_fair.c Paul Turner       2011-07-21  6730  
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra    2011-10-25  6731  static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra    2011-10-25  6732  {
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra    2011-10-25  6733  	return NULL;
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra    2011-10-25  6734  }
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra    2011-10-25  6735  static inline void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+0e59bdaea75f12 kernel/sched/fair.c Kirill Tkhai      2014-06-25  6736  static inline void update_runtime_enabled(struct rq *rq) {}
+a4c96ae319b804 kernel/sched/fair.c Peter Boonstoppel 2012-08-09  6737  static inline void unthrottle_offline_cfs_rqs(struct rq *rq) {}
+88c56cfeaec464 kernel/sched/fair.c Phil Auld         2023-07-12  6738  #ifdef CONFIG_CGROUP_SCHED
+88c56cfeaec464 kernel/sched/fair.c Phil Auld         2023-07-12  6739  bool cfs_task_bw_constrained(struct task_struct *p)
+88c56cfeaec464 kernel/sched/fair.c Phil Auld         2023-07-12  6740  {
+88c56cfeaec464 kernel/sched/fair.c Phil Auld         2023-07-12  6741  	return false;
+88c56cfeaec464 kernel/sched/fair.c Phil Auld         2023-07-12  6742  }
+88c56cfeaec464 kernel/sched/fair.c Phil Auld         2023-07-12  6743  #endif
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02  6744  static void enqueue_kernel(struct cfs_rq *cfs_rq, struct sched_entity *se, int count) {}
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02  6745  static void dequeue_kernel(struct cfs_rq *cfs_rq, struct sched_entity *se, int count) {}
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02  6746  static inline bool is_kernel_task(struct task_struct *p)
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02  6747  {
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02  6748  	return false;
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02  6749  }
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02 @6750  static bool cfs_rq_throttled_loose(struct cfs_rq *cfs_rq)
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02  6751  {
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02  6752  	return false;
+f3743713c72187 kernel/sched/fair.c Benjamin Segall   2024-02-02  6753  }
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra    2011-10-25  6754  #endif /* CONFIG_CFS_BANDWIDTH */
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra    2011-10-25  6755  
 
 -- 
 0-DAY CI Kernel Test Service
