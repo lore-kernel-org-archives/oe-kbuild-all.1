@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C81C63AE
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 01:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFA3612B;
+	Sat,  3 Feb 2024 02:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706925318; cv=none; b=egEghZb8TXICg65UuhQQfolborIodfW1nFt0jnKLezYTMCVkuObgLi9caApZdGoJ+V7sHTZZh3X8fL+XEHbuMMKlOShgaXWGn4WxO1XEv6QwIUa+8VCM+b0/x9QDbEq+KBB9smilWp0oPO+fqQmFko80LLLu/gz8mAmIET8oTMw=
+	t=1706926556; cv=none; b=nc1+wOhBaUEQ93eH786CwL3nVoG1Dy0S+mUgjkb4YK1M57+kQqBmgBgxowu4m57SxCpE9uC7KAeNOv9ANr5Ta2txtAAtGNwcMwMCsVEyqXNgmlrlOXh1WmLKz/FWKTzWHDwuvBb/E4FQhm1Q8kXskqqSr5wIzAKY4Zrsvr3FqjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706925318; c=relaxed/simple;
-	bh=zj5W0jgMX2iMP6/D1Yn+1ZlFej6I3CPhYxpVBoixFgQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kovl6PSxaPED6UGfDXL1xbM5GMlwko1QQKFM/jin8migaVvfgtVzJMPLWDFGNxucQaJoDsQGcSg6MnfTILT6VVd2lAZvJeP9G55VX4RYtHOGN/O1AnJ2bh70WHw6DHP6HnY6Fo3dcCKtZctfx7S8ZG1fR1cBt453sQiD0WTdvUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvOBBtv7; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1706926556; c=relaxed/simple;
+	bh=jUe6ut4trDSoZXCarOfPmMnUFiYo70AueWJpJriuw/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SpqOSPXvvwMZmHnTcszWlBGuuU81nr9jj6Fzp5hCOr+oOEahuFSzuconiGSe8OBEV1LFkbGXHMYBo8oeK8rQHRbDR2v1vGVFMofkTUbnKZNuDEfaRtih2fKJiPeJhcqdtXBYzxFFvw5yhsn7119+h+JPMHoY6gWnich2HJXaSjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GL/y6e2A; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvOBBtv7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GL/y6e2A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706925316; x=1738461316;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zj5W0jgMX2iMP6/D1Yn+1ZlFej6I3CPhYxpVBoixFgQ=;
-  b=IvOBBtv7xf3UTN9yR/g15EUd47Jv3vaYoZ4DTeqsHJutEPB1hHSuS7f5
-   cvqDt1ABRPVHLvg+Jd26RAg0TF6xpsexRE+tsl2ZJjn3B75oGVX7hkl+X
-   DTnq4tRSl9svyzVS6D2KBdZJP3jx5T9O1JLt8O3V3AutcNha7bTyg8kAe
-   rWffdAKHCJZ8WkI8mKhcm+zObW0eppi9rxKc75/QnxDbCAuLSISqdCpNB
-   O5B8l7NoS4K+mxe5i87TmRMVdwNoTYYtMh0NPLraLwmmdXo841cx27wcP
-   sdji3ox5HWQqXkZNAgvNy+I7EPi1Z+ansKpC8/TLwVWwG4XMHSUR0OMlO
+  t=1706926554; x=1738462554;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jUe6ut4trDSoZXCarOfPmMnUFiYo70AueWJpJriuw/c=;
+  b=GL/y6e2Ayi6D0LV3k9MB7VHQDuz+nLkjG5UppYszSkPfyag/ag4DfeCd
+   hMurNNcsTTAHBbIh82TpaDH9hEz02VBRaj9LG4APXTiOwXQYhB+j3vuMV
+   QilH7gybYfAMiKQvExF73n4kOUC2LYX1MI7PoOn2HuMVlgoAgfaQa5Sy9
+   C6p/k+Y7boBShB8gtecpezwH2EdcepObVCR6t48NhMEH9B3zIwCHKl1fT
+   F1fHGOLa5nY16SIMYOF5ped2EqvTVh3l/ne09t8bJWczGoIi/gInpV2xl
+   76XQ3Uu9U/nglxAcjkwckx2nWvmS7iVc5Xrxt1CgN/m891MaNpC0jbcld
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="17803207"
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="394707723"
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="17803207"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 17:55:15 -0800
+   d="scan'208";a="394707723"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 18:15:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="433862"
+   d="scan'208";a="37648762"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Feb 2024 17:55:14 -0800
+  by orviesa001.jf.intel.com with ESMTP; 02 Feb 2024 18:15:52 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rW5Ey-0004Wc-1m;
-	Sat, 03 Feb 2024 01:55:11 +0000
-Date: Sat, 3 Feb 2024 09:53:39 +0800
+	id 1rW5Z2-0004XG-2S;
+	Sat, 03 Feb 2024 02:15:43 +0000
+Date: Sat, 3 Feb 2024 10:15:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Dave Kleikamp <shaggy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	jfs-discussion@lists.sourceforge.net, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 10/13] jfs: Convert inc_io and mp_anchor to take a folio
-Message-ID: <202402030956.qthlo2BE-lkp@intel.com>
-References: <20240201224605.4055895-11-willy@infradead.org>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 53/55]
+ drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: warning: declaration of
+ 'struct circ_buf' will not be visible outside of this function
+Message-ID: <202402031058.BjICn73w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,180 +58,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240201224605.4055895-11-willy@infradead.org>
 
-Hi Matthew,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kleikamp-shaggy/jfs-next]
-[also build test ERROR on linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/jfs-Convert-metapage_read_folio-to-use-folio-APIs/20240202-064805
-base:   https://github.com/kleikamp/linux-shaggy jfs-next
-patch link:    https://lore.kernel.org/r/20240201224605.4055895-11-willy%40infradead.org
-patch subject: [PATCH 10/13] jfs: Convert inc_io and mp_anchor to take a folio
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240203/202402030956.qthlo2BE-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402030956.qthlo2BE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   417694d355605a4881edb833d8212c636c6c4c8a
+commit: 8de16c2e3e826f59359da550330149d938e1fb09 [53/55] tty: serial, use kfifo
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402031058.BjICn73w-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402031058.BjICn73w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402030956.qthlo2BE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402031058.BjICn73w-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/jfs/jfs_metapage.c: In function 'remove_metapage':
-   fs/jfs/jfs_metapage.c:130:38: error: passing argument 1 of 'folio_detach_private' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     130 |                 folio_detach_private(&folio->page);
-         |                                      ^~~~~~~~~~~~
-         |                                      |
-         |                                      struct page *
-   In file included from include/linux/buffer_head.h:15,
-                    from fs/jfs/jfs_metapage.c:14:
-   include/linux/pagemap.h:508:56: note: expected 'struct folio *' but argument is of type 'struct page *'
-     508 | static inline void *folio_detach_private(struct folio *folio)
-         |                                          ~~~~~~~~~~~~~~^~~~~
-   fs/jfs/jfs_metapage.c: In function 'inc_io':
->> fs/jfs/jfs_metapage.c:137:37: warning: dereferencing 'void *' pointer
-     137 |         atomic_inc(&mp_anchor(folio)->io_count);
-         |                                     ^~
->> fs/jfs/jfs_metapage.c:137:37: error: request for member 'io_count' in something not a structure or union
-   cc1: some warnings being treated as errors
+>> drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: warning: declaration of 'struct circ_buf' will not be visible outside of this function [-Wvisibility]
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:391:11: error: incomplete definition of type 'struct circ_buf'
+     391 |                 if (xmit->tail > (UART_XMIT_SIZE - UART_BURST_SIZE))
+         |                     ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:393:32: error: incomplete definition of type 'struct circ_buf'
+     393 |                 writel(*(unsigned int *)&xmit->buf[xmit->tail],
+         |                                          ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:393:42: error: incomplete definition of type 'struct circ_buf'
+     393 |                 writel(*(unsigned int *)&xmit->buf[xmit->tail],
+         |                                                    ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:399:7: error: incomplete definition of type 'struct circ_buf'
+     399 |                 xmit->tail = (xmit->tail + UART_BURST_SIZE) &
+         |                 ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:399:21: error: incomplete definition of type 'struct circ_buf'
+     399 |                 xmit->tail = (xmit->tail + UART_BURST_SIZE) &
+         |                               ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:406:14: error: incomplete definition of type 'struct circ_buf'
+     406 |                 writeb(xmit->buf[xmit->tail], port->membase +
+         |                        ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:406:24: error: incomplete definition of type 'struct circ_buf'
+     406 |                 writeb(xmit->buf[xmit->tail], port->membase +
+         |                                  ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:415:7: error: incomplete definition of type 'struct circ_buf'
+     415 |                 xmit->tail = (xmit->tail + UART_BYTE_SIZE) &
+         |                 ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:415:21: error: incomplete definition of type 'struct circ_buf'
+     415 |                 xmit->tail = (xmit->tail + UART_BYTE_SIZE) &
+         |                               ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:422:33: error: incomplete definition of type 'struct circ_buf'
+     422 |                 if (valid_burst_count && (xmit->tail <
+         |                                           ~~~~^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:13: note: forward declaration of 'struct circ_buf'
+     376 |                                         struct circ_buf *xmit,
+         |                                                ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:435:23: error: no member named 'xmit' in 'struct uart_state'
+     435 |         xmit = &port->state->xmit;
+         |                 ~~~~~~~~~~~  ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:444:34: error: call to undeclared function 'uart_circ_empty'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     444 |         if ((uart_tx_stopped(port)) || (uart_circ_empty(xmit))) {
+         |                                         ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:444:34: note: did you mean 'uart_lsr_tx_empty'?
+   include/linux/serial.h:26:20: note: 'uart_lsr_tx_empty' declared here
+      26 | static inline bool uart_lsr_tx_empty(u16 lsr)
+         |                    ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:450:23: error: call to undeclared function 'uart_circ_chars_pending'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     450 |                         valid_byte_count = uart_circ_chars_pending(xmit);
+         |                                            ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:452:38: error: incompatible pointer types passing 'struct circ_buf *' to parameter of type 'struct circ_buf *' [-Werror,-Wincompatible-pointer-types]
+     452 |                         pci1xxxx_process_write_data(port, xmit,
+         |                                                           ^~~~
+   drivers/tty/serial/8250/8250_pci1xxxx.c:376:23: note: passing argument to parameter 'xmit' here
+     376 |                                         struct circ_buf *xmit,
+         |                                                          ^
+   drivers/tty/serial/8250/8250_pci1xxxx.c:462:6: error: call to undeclared function 'uart_circ_chars_pending'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     462 |         if (uart_circ_chars_pending(xmit) < WAKEUP_CHARS)
+         |             ^
+   1 warning and 15 errors generated.
 
 
-vim +/io_count +137 fs/jfs/jfs_metapage.c
+vim +376 drivers/tty/serial/8250/8250_pci1xxxx.c
 
-  > 14	#include <linux/buffer_head.h>
-    15	#include <linux/mempool.h>
-    16	#include <linux/seq_file.h>
-    17	#include <linux/writeback.h>
-    18	#include "jfs_incore.h"
-    19	#include "jfs_superblock.h"
-    20	#include "jfs_filsys.h"
-    21	#include "jfs_metapage.h"
-    22	#include "jfs_txnmgr.h"
-    23	#include "jfs_debug.h"
-    24	
-    25	#ifdef CONFIG_JFS_STATISTICS
-    26	static struct {
-    27		uint	pagealloc;	/* # of page allocations */
-    28		uint	pagefree;	/* # of page frees */
-    29		uint	lockwait;	/* # of sleeping lock_metapage() calls */
-    30	} mpStat;
-    31	#endif
-    32	
-    33	#define metapage_locked(mp) test_bit(META_locked, &(mp)->flag)
-    34	#define trylock_metapage(mp) test_and_set_bit_lock(META_locked, &(mp)->flag)
-    35	
-    36	static inline void unlock_metapage(struct metapage *mp)
-    37	{
-    38		clear_bit_unlock(META_locked, &mp->flag);
-    39		wake_up(&mp->wait);
-    40	}
-    41	
-    42	static inline void __lock_metapage(struct metapage *mp)
-    43	{
-    44		DECLARE_WAITQUEUE(wait, current);
-    45		INCREMENT(mpStat.lockwait);
-    46		add_wait_queue_exclusive(&mp->wait, &wait);
-    47		do {
-    48			set_current_state(TASK_UNINTERRUPTIBLE);
-    49			if (metapage_locked(mp)) {
-    50				unlock_page(mp->page);
-    51				io_schedule();
-    52				lock_page(mp->page);
-    53			}
-    54		} while (trylock_metapage(mp));
-    55		__set_current_state(TASK_RUNNING);
-    56		remove_wait_queue(&mp->wait, &wait);
-    57	}
-    58	
-    59	/*
-    60	 * Must have mp->page locked
-    61	 */
-    62	static inline void lock_metapage(struct metapage *mp)
-    63	{
-    64		if (trylock_metapage(mp))
-    65			__lock_metapage(mp);
-    66	}
-    67	
-    68	#define METAPOOL_MIN_PAGES 32
-    69	static struct kmem_cache *metapage_cache;
-    70	static mempool_t *metapage_mempool;
-    71	
-    72	#define MPS_PER_PAGE (PAGE_SIZE >> L2PSIZE)
-    73	
-    74	#if MPS_PER_PAGE > 1
-    75	
-    76	struct meta_anchor {
-    77		int mp_count;
-    78		atomic_t io_count;
-    79		struct metapage *mp[MPS_PER_PAGE];
-    80	};
-    81	#define mp_anchor(folio) (folio->private)
-    82	
-    83	static inline struct metapage *folio_to_mp(struct folio *folio, int offset)
-    84	{
-    85		struct meta_anchor *anchor = folio->private;
-    86	
-    87		if (!anchor)
-    88			return NULL;
-    89		return anchor->mp[offset >> L2PSIZE];
-    90	}
-    91	
-    92	static inline int insert_metapage(struct folio *folio, struct metapage *mp)
-    93	{
-    94		struct meta_anchor *a;
-    95		int index;
-    96		int l2mp_blocks;	/* log2 blocks per metapage */
-    97	
-    98		a = folio->private;
-    99		if (!a) {
-   100			a = kzalloc(sizeof(struct meta_anchor), GFP_NOFS);
-   101			if (!a)
-   102				return -ENOMEM;
-   103			folio_attach_private(folio, a);
-   104			kmap(&folio->page);
-   105		}
-   106	
-   107		if (mp) {
-   108			l2mp_blocks = L2PSIZE - folio->mapping->host->i_blkbits;
-   109			index = (mp->index >> l2mp_blocks) & (MPS_PER_PAGE - 1);
-   110			a->mp_count++;
-   111			a->mp[index] = mp;
-   112		}
-   113	
-   114		return 0;
-   115	}
-   116	
-   117	static inline void remove_metapage(struct folio *folio, struct metapage *mp)
-   118	{
-   119		struct meta_anchor *a = mp_anchor(folio);
-   120		int l2mp_blocks = L2PSIZE - folio->mapping->host->i_blkbits;
-   121		int index;
-   122	
-   123		index = (mp->index >> l2mp_blocks) & (MPS_PER_PAGE - 1);
-   124	
-   125		BUG_ON(a->mp[index] != mp);
-   126	
-   127		a->mp[index] = NULL;
-   128		if (--a->mp_count == 0) {
-   129			kfree(a);
-   130			folio_detach_private(&folio->page);
-   131			kunmap(&folio->page);
-   132		}
-   133	}
-   134	
-   135	static inline void inc_io(struct folio *folio)
-   136	{
- > 137		atomic_inc(&mp_anchor(folio)->io_count);
-   138	}
-   139	
+aba8290f368d96 Rengarajan S 2023-12-15  374  
+90d051b63519b0 Rengarajan S 2024-01-25  375  static void pci1xxxx_process_write_data(struct uart_port *port,
+90d051b63519b0 Rengarajan S 2024-01-25 @376  					struct circ_buf *xmit,
+90d051b63519b0 Rengarajan S 2024-01-25  377  					int *data_empty_count,
+90d051b63519b0 Rengarajan S 2024-01-25  378  					u32 *valid_byte_count)
+90d051b63519b0 Rengarajan S 2024-01-25  379  {
+90d051b63519b0 Rengarajan S 2024-01-25  380  	u32 valid_burst_count = *valid_byte_count / UART_BURST_SIZE;
+90d051b63519b0 Rengarajan S 2024-01-25  381  
+90d051b63519b0 Rengarajan S 2024-01-25  382  	/*
+90d051b63519b0 Rengarajan S 2024-01-25  383  	 * Each transaction transfers data in DWORDs. If there are less than
+90d051b63519b0 Rengarajan S 2024-01-25  384  	 * four remaining valid_byte_count to transfer or if the circular
+90d051b63519b0 Rengarajan S 2024-01-25  385  	 * buffer has insufficient space for a DWORD, the data is transferred
+90d051b63519b0 Rengarajan S 2024-01-25  386  	 * one byte at a time.
+90d051b63519b0 Rengarajan S 2024-01-25  387  	 */
+90d051b63519b0 Rengarajan S 2024-01-25  388  	while (valid_burst_count) {
+90d051b63519b0 Rengarajan S 2024-01-25  389  		if (*data_empty_count - UART_BURST_SIZE < 0)
+90d051b63519b0 Rengarajan S 2024-01-25  390  			break;
+90d051b63519b0 Rengarajan S 2024-01-25  391  		if (xmit->tail > (UART_XMIT_SIZE - UART_BURST_SIZE))
+90d051b63519b0 Rengarajan S 2024-01-25  392  			break;
+90d051b63519b0 Rengarajan S 2024-01-25  393  		writel(*(unsigned int *)&xmit->buf[xmit->tail],
+90d051b63519b0 Rengarajan S 2024-01-25  394  		       port->membase + UART_TX_BURST_FIFO);
+90d051b63519b0 Rengarajan S 2024-01-25  395  		*valid_byte_count -= UART_BURST_SIZE;
+90d051b63519b0 Rengarajan S 2024-01-25  396  		*data_empty_count -= UART_BURST_SIZE;
+90d051b63519b0 Rengarajan S 2024-01-25  397  		valid_burst_count -= UART_BYTE_SIZE;
+90d051b63519b0 Rengarajan S 2024-01-25  398  
+90d051b63519b0 Rengarajan S 2024-01-25  399  		xmit->tail = (xmit->tail + UART_BURST_SIZE) &
+90d051b63519b0 Rengarajan S 2024-01-25  400  			     (UART_XMIT_SIZE - 1);
+90d051b63519b0 Rengarajan S 2024-01-25  401  	}
+90d051b63519b0 Rengarajan S 2024-01-25  402  
+90d051b63519b0 Rengarajan S 2024-01-25  403  	while (*valid_byte_count) {
+90d051b63519b0 Rengarajan S 2024-01-25  404  		if (*data_empty_count - UART_BYTE_SIZE < 0)
+90d051b63519b0 Rengarajan S 2024-01-25  405  			break;
+90d051b63519b0 Rengarajan S 2024-01-25  406  		writeb(xmit->buf[xmit->tail], port->membase +
+90d051b63519b0 Rengarajan S 2024-01-25  407  		       UART_TX_BYTE_FIFO);
+90d051b63519b0 Rengarajan S 2024-01-25  408  		*data_empty_count -= UART_BYTE_SIZE;
+90d051b63519b0 Rengarajan S 2024-01-25  409  		*valid_byte_count -= UART_BYTE_SIZE;
+90d051b63519b0 Rengarajan S 2024-01-25  410  
+90d051b63519b0 Rengarajan S 2024-01-25  411  		/*
+90d051b63519b0 Rengarajan S 2024-01-25  412  		 * When the tail of the circular buffer is reached, the next
+90d051b63519b0 Rengarajan S 2024-01-25  413  		 * byte is transferred to the beginning of the buffer.
+90d051b63519b0 Rengarajan S 2024-01-25  414  		 */
+90d051b63519b0 Rengarajan S 2024-01-25  415  		xmit->tail = (xmit->tail + UART_BYTE_SIZE) &
+90d051b63519b0 Rengarajan S 2024-01-25  416  			     (UART_XMIT_SIZE - 1);
+90d051b63519b0 Rengarajan S 2024-01-25  417  
+90d051b63519b0 Rengarajan S 2024-01-25  418  		/*
+90d051b63519b0 Rengarajan S 2024-01-25  419  		 * If there are any pending burst count, data is handled by
+90d051b63519b0 Rengarajan S 2024-01-25  420  		 * transmitting DWORDs at a time.
+90d051b63519b0 Rengarajan S 2024-01-25  421  		 */
+90d051b63519b0 Rengarajan S 2024-01-25  422  		if (valid_burst_count && (xmit->tail <
+90d051b63519b0 Rengarajan S 2024-01-25  423  		   (UART_XMIT_SIZE - UART_BURST_SIZE)))
+90d051b63519b0 Rengarajan S 2024-01-25  424  			break;
+90d051b63519b0 Rengarajan S 2024-01-25  425  	}
+90d051b63519b0 Rengarajan S 2024-01-25  426  }
+90d051b63519b0 Rengarajan S 2024-01-25  427  
+
+:::::: The code at line 376 was first introduced by commit
+:::::: 90d051b63519b0e653432168ecee8a4c0abc24dd 8250: microchip: pci1xxxx: Add Burst mode transmission support in uart driver for reading from FIFO
+
+:::::: TO: Rengarajan S <rengarajan.s@microchip.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
