@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77105D902
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 15:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD1C5EE96
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 15:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706973362; cv=none; b=GYvZEpVA8+FA78IlNz56v4R4AtpFDfXhKAelIgTttc/Ml4ovGcLf6U3j0ykiiWabEU22hevDEMnmzTLAVwPH+r2nqBf1oabT9Pwg8sTFPz4J8apMhvaVUMkIkjYJJIhx78zMMjNFdnAm1UDi6KxPhiEN2D105BwQWggWt7BFsrA=
+	t=1706974084; cv=none; b=CAHoz0odkyQIvTQ/wOfjxlWQyK8/lUHQLzUuXXF9ZvxKmi2/LXat+5nWMWWyenuYUG+bT6+5opUxGRlHOUubA6m0mZCkCPFMs9udWzs+lAKPr5lrxn6cl4eQkUR9wZ1jz20OHZa5YlNrqCNMBm72KL2SsKI6yKBacWVCEbmdb+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706973362; c=relaxed/simple;
-	bh=8osCem98wQSR/C6crEduDVR2XShOesb5B9SOsn7SfOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QQuxR8TGIUfAdpou5gXlvL9GyqzlPruflnhr0nsmgxQAjHoJaLj4vzG+2BMsVR5vrJuYXeNkCyTj6m4p8xXuBf8gxPGBBSINCt2EXLAKrHa0cd1juhMqEkHlFjuv9pM4OVI7U2VPBLRvwphZYbgiYBsQYamfHNPaWbbV3ueWQhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GISwDwGN; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1706974084; c=relaxed/simple;
+	bh=mleHdsRpgFiNqpNnv72bNRKAGIJtE0nN60rA3Mj/2W4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ry4bDYWATA6/S+A5MSGcrV3IaSdjfmzIn8EmnCt5Sp8MKXxzMd2QZ0DQ+6+6qAHtldGZjS/qBN73V9e5cGEd1Me4Ml+gUFegVQbR4Cjy8JVXxI7tK6CBLg8pzTd5W9XxZbfWqnwOuuGT7dXswuXSiNtVIg8OA6MAjYuHf+Zq33I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DffyA2ER; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GISwDwGN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DffyA2ER"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706973361; x=1738509361;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8osCem98wQSR/C6crEduDVR2XShOesb5B9SOsn7SfOs=;
-  b=GISwDwGNz0+ucsPH25yAGDIL2NPjnOnhMwRl15wxO7Jo9MNzE9u85V4K
-   wBYcWvDbzsYsIxJuKjkuwq20+omHTxtshye5O5KIHxxThpuWteocfNumL
-   cej08EdN6vvU1L9ad8f29BR1N6i8ft+RGvPGvZG1DFP4xNAVpXWlRh9m0
-   ZyrcerIJluRuguAUWvqCRq6SGZdN49wgOrf6ATjGoYdsyxfi+jj6HpBk9
-   Qt62k4HX0gQY060bLjz/5GwTRKFZR8I9E0/RQKjC/hwUOcWIJpnN7viCa
-   M/46NEhzXLA55GWdFDPPXSYh2thqHrReoLMUQLFzV0j2Nc2neUbh+koYd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="221810"
+  t=1706974081; x=1738510081;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mleHdsRpgFiNqpNnv72bNRKAGIJtE0nN60rA3Mj/2W4=;
+  b=DffyA2ER9K1cktXjwpnkv7oHTroql+n46ErQKlTTw2SrKgU/Q82gozgw
+   lIg9uA3w4eNCtWtcdbU62uGXT9ZNRR2qj5NyEdQpqcoyUzbaWUU2p1FJg
+   ngN7ff3MVmTMsNZdIIrI4lolyPeDFjWj8XDWG8DECRvyj+tO6kSWIBUVw
+   W7AmEfVUYk68gvwpHg/E6wjdui5GDIbN+jY47CRjidU69H1HqudHBUMYF
+   96xC+mguw9liRPnIu8y+1V8D49Cl44ccvjqfueDnx3amXaJmSOhiaQcwt
+   1lFgqyCc1m6jiIwFVd5HXflM51qNSmlpArNBy3AEXTUmOcW59GN83kQHv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="22799141"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="221810"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 07:16:00 -0800
+   d="scan'208";a="22799141"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 07:28:01 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="932757308"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="618728"
+   d="scan'208";a="932757308"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Feb 2024 07:15:59 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2024 07:27:59 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWHkJ-0005Dc-1w;
-	Sat, 03 Feb 2024 15:15:55 +0000
-Date: Sat, 3 Feb 2024 23:15:00 +0800
+	id 1rWHvx-0005EQ-0s;
+	Sat, 03 Feb 2024 15:27:57 +0000
+Date: Sat, 3 Feb 2024 23:27:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 3/9] power: sequencing: new subsystem
-Message-ID: <202402032357.73FAz40V-lkp@intel.com>
-References: <20240201155532.49707-4-brgl@bgdev.pl>
+To: Matt Fleming <matt@codeblueprint.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev, Ulrich Hecht <uli@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>, Ben Hutchings <bwh@kernel.org>
+Subject: [cip:linux-4.4.y-cip-rebase 1884/2766]
+ drivers/firmware/efi/capsule.c:249:16: warning: comparison between signed
+ and unsigned integer expressions
+Message-ID: <202402032355.LoqrMSFQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,283 +60,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240201155532.49707-4-brgl@bgdev.pl>
 
-Hi Bartosz,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus robh/for-next bluetooth-next/master bluetooth/master linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/of-provide-a-cleanup-helper-for-OF-nodes/20240202-000307
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240201155532.49707-4-brgl%40bgdev.pl
-patch subject: [RFC 3/9] power: sequencing: new subsystem
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240203/202402032357.73FAz40V-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032357.73FAz40V-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-cip-rebase
+head:   a1ba69950787dfcb1e5268dc14233e12f2861076
+commit: a15361999f329f981fd182dff850f23627bbd2c2 [1884/2766] efi: Add 'capsule' update support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240203/202402032355.LoqrMSFQ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032355.LoqrMSFQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402032357.73FAz40V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402032355.LoqrMSFQ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/power/sequencing/core.c: In function 'pwrseq_release':
->> drivers/power/sequencing/core.c:91:9: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-      91 |         kfree(pwrseq);
-         |         ^~~~~
-         |         kvfree
-   drivers/power/sequencing/core.c: In function 'pwrseq_device_register':
->> drivers/power/sequencing/core.c:123:18: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
-     123 |         pwrseq = kzalloc(sizeof(*pwrseq), GFP_KERNEL);
-         |                  ^~~~~~~
->> drivers/power/sequencing/core.c:123:16: warning: assignment to 'struct pwrseq_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     123 |         pwrseq = kzalloc(sizeof(*pwrseq), GFP_KERNEL);
-         |                ^
-   drivers/power/sequencing/core.c: In function 'pwrseq_get':
->> drivers/power/sequencing/core.c:280:16: error: cleanup argument not a function
-     280 |         struct pwrseq_desc *desc __free(kfree) = kzalloc(sizeof(*desc),
-         |                ^~~~~~~~~~~
->> drivers/power/sequencing/core.c:280:50: warning: initialization of 'struct pwrseq_desc *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     280 |         struct pwrseq_desc *desc __free(kfree) = kzalloc(sizeof(*desc),
-         |                                                  ^~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from arch/arm64/include/asm/hw_breakpoint.h:20:0,
+                    from arch/arm64/include/asm/processor.h:33,
+                    from arch/arm64/include/asm/spinlock.h:21,
+                    from include/linux/spinlock.h:87,
+                    from include/linux/mmzone.h:7,
+                    from include/linux/gfp.h:5,
+                    from include/linux/slab.h:14,
+                    from drivers/firmware/efi/capsule.c:12:
+   arch/arm64/include/asm/cpufeature.h: In function 'cpuid_feature_extract_field':
+   arch/arm64/include/asm/cpufeature.h:156:55: warning: signed and unsigned type in conditional expression [-Wsign-compare]
+      cpuid_feature_extract_signed_field(features, field) :
+                                                          ^
+   drivers/firmware/efi/capsule.c: In function 'efi_capsule_update':
+>> drivers/firmware/efi/capsule.c:249:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < sg_count; i++) {
+                   ^
+   drivers/firmware/efi/capsule.c:257:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; i < sg_count; i++) {
+                   ^
+   drivers/firmware/efi/capsule.c:266:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      for (j = 0; j < SGLIST_PER_PAGE && count > 0; j++) {
+                    ^
+   drivers/firmware/efi/capsule.c:279:13: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      if (i + 1 == sg_count)
+                ^~
+   drivers/firmware/efi/capsule.c:292:22: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (i = 0; rv && i < sg_count; i++) {
+                         ^
 
 
-vim +91 drivers/power/sequencing/core.c
+vim +249 drivers/firmware/efi/capsule.c
 
-    84	
-    85	static void pwrseq_release(struct device *dev)
-    86	{
-    87		struct pwrseq_device *pwrseq = to_pwrseq_device(dev);
-    88	
-    89		mutex_destroy(&pwrseq->state_lock);
-    90		ida_free(&pwrseq_ida, pwrseq->id);
-  > 91		kfree(pwrseq);
-    92	}
-    93	
-    94	static const struct device_type pwrseq_device_type = {
-    95		.name = "power_sequencer",
-    96		.release = pwrseq_release,
-    97	};
-    98	
-    99	/**
-   100	 * pwrseq_device_register() - Register a new power sequencer.
-   101	 * @config: Configuration of the new power sequencing device.
-   102	 *
-   103	 * The config structure is only used during the call and can be freed after
-   104	 * the function returns. The config structure *must* have the parent device
-   105	 * as well as the match(), power_on() and power_off() callbacks registered.
-   106	 *
-   107	 * Returns:
-   108	 * Returns the address of the new pwrseq device or ERR_PTR() on failure.
-   109	 */
-   110	struct pwrseq_device *pwrseq_device_register(struct pwrseq_config *config)
-   111	{
-   112		struct pwrseq_device *pwrseq;
-   113		int ret;
-   114	
-   115		/*
-   116		 * Power sequencer must have a parent device and at least the power-on,
-   117		 * power-off and match callbacks.
-   118		 */
-   119		if (!config->parent || !config->match || !config->power_on ||
-   120		    !config->power_off)
-   121			return ERR_PTR(-EINVAL);
-   122	
- > 123		pwrseq = kzalloc(sizeof(*pwrseq), GFP_KERNEL);
-   124		if (!pwrseq)
-   125			return ERR_PTR(-ENOMEM);
-   126	
-   127		pwrseq->dev.type = &pwrseq_device_type;
-   128		pwrseq->dev.bus = &pwrseq_bus;
-   129		pwrseq->dev.parent = config->parent;
-   130		device_set_node(&pwrseq->dev, dev_fwnode(config->parent));
-   131	
-   132		pwrseq->id = ida_alloc(&pwrseq_ida, GFP_KERNEL);
-   133		if (pwrseq->id < 0) {
-   134			kfree(pwrseq);
-   135			return ERR_PTR(pwrseq->id);
-   136		}
-   137	
-   138		/*
-   139		 * From this point onwards the device's release() callback is
-   140		 * responsible for freeing resources.
-   141		 */
-   142		device_initialize(&pwrseq->dev);
-   143	
-   144		ret = dev_set_name(&pwrseq->dev, "pwrseq.%d", pwrseq->id);
-   145		if (ret)
-   146			goto err_put_pwrseq;
-   147	
-   148		pwrseq->owner = config->owner ?: THIS_MODULE;
-   149		pwrseq->drvdata = config->drvdata;
-   150		pwrseq->match = config->match;
-   151		pwrseq->power_on = config->power_on;
-   152		pwrseq->power_off = config->power_off;
-   153	
-   154		init_rwsem(&pwrseq->dev_sem);
-   155		mutex_init(&pwrseq->state_lock);
-   156	
-   157		scoped_guard(rwsem_write, &pwrseq_sem) {
-   158			ret = device_add(&pwrseq->dev);
-   159			if (ret)
-   160				goto err_put_pwrseq;
-   161		}
-   162	
-   163		return pwrseq;
-   164	
-   165	err_put_pwrseq:
-   166		pwrseq_device_put(pwrseq);
-   167		return ERR_PTR(ret);
-   168	}
-   169	EXPORT_SYMBOL_GPL(pwrseq_device_register);
-   170	
-   171	/**
-   172	 * pwrseq_device_unregister() - Unregister the power sequencer.
-   173	 * @pwrseq: Power sequencer to unregister.
-   174	 */
-   175	void pwrseq_device_unregister(struct pwrseq_device *pwrseq)
-   176	{
-   177		struct device *dev = &pwrseq->dev;
-   178	
-   179		scoped_guard(mutex, &pwrseq->state_lock) {
-   180			WARN_ONCE(pwrseq->pwrup_count > 0,
-   181				  "%s: UNREGISTERING POWER SEQUENCER WITH ACTIVE USERS\n",
-   182				  dev_name(&pwrseq->dev));
-   183	
-   184			scoped_guard(rwsem_write, &pwrseq_sem) {
-   185				scoped_guard(rwsem_write, &pwrseq->dev_sem)
-   186					device_del(dev);
-   187			}
-   188		}
-   189	
-   190		pwrseq_device_put(pwrseq);
-   191	}
-   192	EXPORT_SYMBOL_GPL(pwrseq_device_unregister);
-   193	
-   194	static void devm_pwrseq_device_unregister(void *data)
-   195	{
-   196		struct pwrseq_device *pwrseq = data;
-   197	
-   198		pwrseq_device_unregister(pwrseq);
-   199	}
-   200	
-   201	/**
-   202	 * devm_pwrseq_device_register() - Managed variant of pwrseq_device_register().
-   203	 * @dev: Managing device.
-   204	 * @config: Configuration of the new power sequencing device.
-   205	 *
-   206	 * Returns:
-   207	 * Returns the address of the new pwrseq device or ERR_PTR() on failure.
-   208	 */
-   209	struct pwrseq_device *
-   210	devm_pwrseq_device_register(struct device *dev, struct pwrseq_config *config)
-   211	{
-   212		struct pwrseq_device *pwrseq;
-   213		int ret;
-   214	
-   215		pwrseq = pwrseq_device_register(config);
-   216		if (IS_ERR(pwrseq))
-   217			return pwrseq;
-   218	
-   219		ret = devm_add_action_or_reset(dev, devm_pwrseq_device_unregister,
-   220					       pwrseq);
-   221		if (ret)
-   222			return ERR_PTR(ret);
-   223	
-   224		return pwrseq;
-   225	}
-   226	EXPORT_SYMBOL_GPL(devm_pwrseq_device_register);
-   227	
-   228	/**
-   229	 * pwrseq_device_get_data() - Get the driver private data associated with this
-   230	 *                            sequencer.
-   231	 * @pwrseq: Power sequencer object.
-   232	 *
-   233	 * Returns:
-   234	 * Address of the private driver data.
-   235	 */
-   236	void *pwrseq_device_get_data(struct pwrseq_device *pwrseq)
-   237	{
-   238		return pwrseq->drvdata;
-   239	}
-   240	EXPORT_SYMBOL_GPL(pwrseq_device_get_data);
+   194	
+   195	/**
+   196	 * efi_capsule_update - send a capsule to the firmware
+   197	 * @capsule: capsule to send to firmware
+   198	 * @pages: an array of capsule data pages
+   199	 *
+   200	 * Build a scatter gather list with EFI capsule block descriptors to
+   201	 * map the capsule described by @capsule with its data in @pages and
+   202	 * send it to the firmware via the UpdateCapsule() runtime service.
+   203	 *
+   204	 * @capsule must be a virtual mapping of the first page in @pages
+   205	 * (@pages[0]) in the kernel address space. That is, a
+   206	 * capsule_header_t that describes the entire contents of the capsule
+   207	 * must be at the start of the first data page.
+   208	 *
+   209	 * Even though this function will validate that the firmware supports
+   210	 * the capsule guid, users will likely want to check that
+   211	 * efi_capsule_supported() returns true before calling this function
+   212	 * because it makes it easier to print helpful error messages.
+   213	 *
+   214	 * If the capsule is successfully submitted to the firmware, any
+   215	 * subsequent calls to efi_capsule_pending() will return true. @pages
+   216	 * must not be released or modified if this function returns
+   217	 * successfully.
+   218	 *
+   219	 * Callers must be prepared for this function to fail, which can
+   220	 * happen if we raced with system reboot or if there is already a
+   221	 * pending capsule that has a reset type that conflicts with the one
+   222	 * required by @capsule. Do NOT use efi_capsule_pending() to detect
+   223	 * this conflict since that would be racy. Instead, submit the capsule
+   224	 * to efi_capsule_update() and check the return value.
+   225	 *
+   226	 * Return 0 on success, a converted EFI status code on failure.
+   227	 */
+   228	int efi_capsule_update(efi_capsule_header_t *capsule, struct page **pages)
+   229	{
+   230		u32 imagesize = capsule->imagesize;
+   231		efi_guid_t guid = capsule->guid;
+   232		unsigned int count, sg_count;
+   233		u32 flags = capsule->flags;
+   234		struct page **sg_pages;
+   235		int rv, reset_type;
+   236		int i, j;
+   237	
+   238		rv = efi_capsule_supported(guid, flags, imagesize, &reset_type);
+   239		if (rv)
+   240			return rv;
    241	
-   242	struct pwrseq_match_data {
-   243		struct pwrseq_device *matched;
-   244		struct device *dev;
-   245	};
-   246	
-   247	static int pwrseq_match_device(struct device *pwrseq_dev, void *data)
-   248	{
-   249		struct pwrseq_device *pwrseq = to_pwrseq_device(pwrseq_dev);
-   250		struct pwrseq_match_data *match_data = data;
-   251		int ret;
-   252	
-   253		guard(rwsem_read)(&pwrseq->dev_sem);
-   254		if (!device_is_registered(&pwrseq->dev))
-   255			return 0;
-   256	
-   257		ret = pwrseq->match(pwrseq, match_data->dev);
-   258		if (ret <= 0)
-   259			return ret;
-   260	
-   261		match_data->matched = pwrseq;
-   262	
-   263		return 1;
-   264	}
-   265	
-   266	/**
-   267	 * pwrseq_get() - Get the power sequencer associated with this device.
-   268	 * @dev: Device for which to get the sequencer.
-   269	 *
-   270	 * Returns:
-   271	 * New power sequencer descriptor for use by the consumer driver or ERR_PTR()
-   272	 * on failure.
-   273	 */
-   274	struct pwrseq_desc *pwrseq_get(struct device *dev)
-   275	{
-   276		struct pwrseq_match_data match_data;
-   277		struct pwrseq_device *pwrseq;
-   278		int ret;
-   279	
- > 280		struct pwrseq_desc *desc __free(kfree) = kzalloc(sizeof(*desc),
-   281								 GFP_KERNEL);
-   282		if (!desc)
-   283			return ERR_PTR(-ENOMEM);
-   284	
-   285		match_data.matched = NULL;
-   286		match_data.dev = dev;
-   287	
-   288		guard(rwsem_read)(&pwrseq_sem);
-   289	
-   290		ret = bus_for_each_dev(&pwrseq_bus, NULL, &match_data,
-   291				       pwrseq_match_device);
-   292		if (ret < 0)
-   293			return ERR_PTR(ret);
-   294		if (ret == 0)
-   295			/* No device matched. */
-   296			return ERR_PTR(-EPROBE_DEFER);
-   297	
-   298		pwrseq = match_data.matched;
-   299	
-   300		if (!try_module_get(pwrseq->owner))
-   301			return ERR_PTR(-EPROBE_DEFER);
-   302	
-   303		desc->pwrseq = pwrseq_device_get(pwrseq);
-   304	
-   305		return no_free_ptr(desc);
-   306	}
-   307	EXPORT_SYMBOL_GPL(pwrseq_get);
-   308	
+   242		count = DIV_ROUND_UP(imagesize, PAGE_SIZE);
+   243		sg_count = sg_pages_num(count);
+   244	
+   245		sg_pages = kzalloc(sg_count * sizeof(*sg_pages), GFP_KERNEL);
+   246		if (!sg_pages)
+   247			return -ENOMEM;
+   248	
+ > 249		for (i = 0; i < sg_count; i++) {
 
 -- 
 0-DAY CI Kernel Test Service
