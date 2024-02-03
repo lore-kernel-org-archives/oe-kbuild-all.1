@@ -1,55 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B7E5D728
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 11:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B46A5D8F3
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 11:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706958476; cv=none; b=c51hUSjBWB5YYqTLA5lFYWq126XNr45PJrxEj7lDxuAFfQtXUYces0gbLIdBrSbTAx7Kas7ZRu3+pBskW9yUTY0zdfUqUXMhF15Tcq+FzPOR66UF+Z4ehVUpw14aYLaqzTJS78w55vUNL8y7zXyOlDAvbRpIyj8iMZJL1ijof04=
+	t=1706961603; cv=none; b=E7X3YvFW9doRh8y2VHdW9SsC9bRG5gB8AxuLR3A9CmzfvsCtsZ0nikvCUIl6+T0w9zbMR0UCsggeEwOv1PFudfcEpATJCdzk0Cpo5PRK6hjKqm57iEMuUorBVP3quGpwNaREvtYFthyuhWwlPSCVv1jLkChOYRevkwwAVCUEjGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706958476; c=relaxed/simple;
-	bh=fzoWHBsc4qRKprufNKiYrHa6fSp2NMcfp1M2qsMV/1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pnYQzl2FNPFnOS5dR5hq7/WHUWVojvA1/EROR9+VlVhraA+iESy3TQGlYuCwqF/od/6ojmQkoseR4pK08SXGGk9d/SyW8dtH+KDsFy6qgPpTkoBFq9QwCq+dYmEyg1iJuc+vjBpmbhKv3p9fZCVAU12W/DE6fM6JlJgKEDJlgbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8Uag08t; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1706961603; c=relaxed/simple;
+	bh=OaM3NQPREDdpKg0JK+QSLTqUnxO///RJV6jgIGAqKH8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KU2z0aKTqR+3HPANzN3IvdpyclSqzPBPGFw00d0+sFDzX14VjCL31BiDRKgkP0jHOO2w6uDjxAYu6XPfFYnc2QXb1YZit1+DVHXKeAbB+KM0hqTfOx08nsTgtsN3U/SKS1i7dQ1ufewrz4jUro15+5CWI+mNgmJ3Isffro5HLac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btXJjrnF; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8Uag08t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btXJjrnF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706958475; x=1738494475;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fzoWHBsc4qRKprufNKiYrHa6fSp2NMcfp1M2qsMV/1g=;
-  b=Y8Uag08t/79a3YNn3x2KBPuLJLQPkP/3fP1x4rKSoQdITrsvaArTlQGM
-   Z1ZuFHxnL2XHVSpjprAuK3gyirFBcKhO2dbKlnWNNoJHf4WcvJ4qzE6yv
-   wGidkdeIGs0tj5rWim9qw5cSb0dzF259eQNTLLD31FSBQ3Ac1Izfwdd5B
-   Ce6du0/QJfcPSyNyp4+5xDVwv6IG9Id0ExJveWkSKqJloXyEPhhl9GOMs
-   03HebEOx5LMIDfKLQxoc/UFgw8WZVtqAASpotDprUaQMEAV5lScl1KvN/
-   vZKsXLCszvSSo1A12DgWBiuTDwnK1HhzpI5bkXuQ9mkDP+cCRrBulBYYO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="22781716"
+  t=1706961600; x=1738497600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OaM3NQPREDdpKg0JK+QSLTqUnxO///RJV6jgIGAqKH8=;
+  b=btXJjrnFM9KelXjPU22Mz/JdfICOQKyAJrrHqTvH6R3DdjvnMabiJEpe
+   K+z9NXOo/Nie4TeWRkvmZD8VAElyfoBBupMH97Gfu1BwtJyZqra9RQpsA
+   xGafuKiQIeGUuKOdh8ZHRvO+lyBLpfftZcCN5KOUcugVIFrs/ch/CEVEU
+   3anw4xm01/LJxgBl1E80QC7OpO6/d5DvAG0jjFtWQiqd4qUGUJntf34xm
+   qYuZlnAZxepckPH2wR9mT9SH6/RyO4tEUn9gSyAFEzbFii2AQHmU1s8o7
+   Fo0DMBFJMlVeueuWBBYUjAYAcQGu3dEfuFPOvU2RsCEo9G70vJLbTEfWz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="17835206"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="22781716"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 03:07:54 -0800
+   d="scan'208";a="17835206"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 03:59:59 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="31393480"
+   d="scan'208";a="4911402"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Feb 2024 03:07:52 -0800
+  by orviesa005.jf.intel.com with ESMTP; 03 Feb 2024 03:59:55 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWDsE-0004xW-1U;
-	Sat, 03 Feb 2024 11:07:50 +0000
-Date: Sat, 3 Feb 2024 19:07:05 +0800
+	id 1rWEga-000506-0C;
+	Sat, 03 Feb 2024 11:59:52 +0000
+Date: Sat, 3 Feb 2024 19:59:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qais Yousef <qyousef@layalina.io>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:improve-sched-cpufreq-interaction 1/1]
- kernel/sched/core.c:5129:36: error: 'cpufreq_update_enabled' undeclared; did
- you mean 'cpufreq_boost_enabled'?
-Message-ID: <202402031907.7fDaITAG-lkp@intel.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org, Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH net-next 2/3] net: stmmac: Allow drivers to provide a
+ default AXI configuration
+Message-ID: <202402031948.IySiUm4u-lkp@intel.com>
+References: <20240201-stmmac-axi-config-v1-2-822e97b2d26e@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,114 +67,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240201-stmmac-axi-config-v1-2-822e97b2d26e@nvidia.com>
 
-tree:   https://github.com/qais-yousef/linux improve-sched-cpufreq-interaction
-head:   787874f453b03230a3fcde689b1c6b68355e2f40
-commit: 787874f453b03230a3fcde689b1c6b68355e2f40 [1/1] sched: Consolidate cpufreq updates
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240203/202402031907.7fDaITAG-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402031907.7fDaITAG-lkp@intel.com/reproduce)
+Hi Thierry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 51b70ff55ed88edd19b080a524063446bcc34b62]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Reding/net-stmmac-Pass-resources-to-DT-parsing-code/20240202-025357
+base:   51b70ff55ed88edd19b080a524063446bcc34b62
+patch link:    https://lore.kernel.org/r/20240201-stmmac-axi-config-v1-2-822e97b2d26e%40nvidia.com
+patch subject: [PATCH net-next 2/3] net: stmmac: Allow drivers to provide a default AXI configuration
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402031948.IySiUm4u-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402031948.IySiUm4u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402031907.7fDaITAG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402031948.IySiUm4u-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/export.h:5,
-                    from include/linux/linkage.h:7,
-                    from include/linux/fs.h:5,
-                    from include/linux/highmem.h:5,
-                    from kernel/sched/core.c:9:
-   kernel/sched/core.c: In function 'update_cpufreq_ctx_switch':
->> kernel/sched/core.c:5129:36: error: 'cpufreq_update_enabled' undeclared (first use in this function); did you mean 'cpufreq_boost_enabled'?
-    5129 |         if (!static_branch_likely(&cpufreq_update_enabled))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   include/linux/jump_label.h:508:41: note: in expansion of macro 'likely_notrace'
-     508 | #define static_branch_likely(x)         likely_notrace(static_key_enabled(&(x)->key))
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/jump_label.h:508:56: note: in expansion of macro 'static_key_enabled'
-     508 | #define static_branch_likely(x)         likely_notrace(static_key_enabled(&(x)->key))
-         |                                                        ^~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:5129:14: note: in expansion of macro 'static_branch_likely'
-    5129 |         if (!static_branch_likely(&cpufreq_update_enabled))
-         |              ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:5129:36: note: each undeclared identifier is reported only once for each function it appears in
-    5129 |         if (!static_branch_likely(&cpufreq_update_enabled))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   include/linux/jump_label.h:508:41: note: in expansion of macro 'likely_notrace'
-     508 | #define static_branch_likely(x)         likely_notrace(static_key_enabled(&(x)->key))
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/jump_label.h:508:56: note: in expansion of macro 'static_key_enabled'
-     508 | #define static_branch_likely(x)         likely_notrace(static_key_enabled(&(x)->key))
-         |                                                        ^~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:5129:14: note: in expansion of macro 'static_branch_likely'
-    5129 |         if (!static_branch_likely(&cpufreq_update_enabled))
-         |              ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:5146:37: error: 'struct cfs_rq' has no member named 'decayed'
-    5146 |                 if (unlikely(rq->cfs.decayed)) {
-         |                                     ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   kernel/sched/core.c:5147:32: error: 'struct cfs_rq' has no member named 'decayed'
-    5147 |                         rq->cfs.decayed = false;
-         |                                ^
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c:96: warning: Function parameter or struct member 'res' not described in 'stmmac_axi_setup'
 
 
-vim +5129 kernel/sched/core.c
+vim +96 drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
 
-  5126	
-  5127	static inline void update_cpufreq_ctx_switch(struct rq *rq)
-  5128	{
-> 5129		if (!static_branch_likely(&cpufreq_update_enabled))
-  5130			return;
-  5131	
-  5132		if (unlikely(current->sched_class == &stop_sched_class))
-  5133			return;
-  5134	
-  5135		if (unlikely(current->sched_class == &idle_sched_class))
-  5136			return;
-  5137	
-  5138		if (unlikely(task_has_idle_policy(current)))
-  5139			return;
-  5140	
-  5141		if (likely(fair_policy(current->policy))) {
-  5142	
-  5143			/*
-  5144			 * Allow cpufreq updates once for every update_load_avg() decay.
-  5145			 */
-  5146			if (unlikely(rq->cfs.decayed)) {
-  5147				rq->cfs.decayed = false;
-  5148				goto force_update;
-  5149			}
-  5150	
-  5151			if (unlikely(current->in_iowait))
-  5152				goto force_update;
-  5153	
-  5154			return;
-  5155		}
-  5156	
-  5157		/* RT and DL should always send a freq update */
-  5158	
-  5159		/* XXX ignore updates for sugov worker thread */
-  5160	
-  5161	force_update:
-  5162	
-  5163		/*
-  5164		 * Request freq update after __balance_callbacks to take into account
-  5165		 * any changes to rq.
-  5166		 */
-  5167		cpufreq_update_util(rq, current->in_iowait ? SCHED_CPUFREQ_IOWAIT : 0);
-  5168	}
-  5169	
+3b57de958e2aa3 Vince Bridgers     2014-07-31   86  
+afea03656add70 Giuseppe Cavallaro 2016-02-29   87  /**
+afea03656add70 Giuseppe Cavallaro 2016-02-29   88   * stmmac_axi_setup - parse DT parameters for programming the AXI register
+afea03656add70 Giuseppe Cavallaro 2016-02-29   89   * @pdev: platform device
+afea03656add70 Giuseppe Cavallaro 2016-02-29   90   * Description:
+afea03656add70 Giuseppe Cavallaro 2016-02-29   91   * if required, from device-tree the AXI internal register can be tuned
+afea03656add70 Giuseppe Cavallaro 2016-02-29   92   * by using platform parameters.
+afea03656add70 Giuseppe Cavallaro 2016-02-29   93   */
+af49f82367c1e3 Thierry Reding     2024-02-01   94  static struct stmmac_axi *stmmac_axi_setup(struct platform_device *pdev,
+af49f82367c1e3 Thierry Reding     2024-02-01   95  					   struct stmmac_resources *res)
+afea03656add70 Giuseppe Cavallaro 2016-02-29  @96  {
+afea03656add70 Giuseppe Cavallaro 2016-02-29   97  	struct device_node *np;
+afea03656add70 Giuseppe Cavallaro 2016-02-29   98  	struct stmmac_axi *axi;
+afea03656add70 Giuseppe Cavallaro 2016-02-29   99  
+afea03656add70 Giuseppe Cavallaro 2016-02-29  100  	np = of_parse_phandle(pdev->dev.of_node, "snps,axi-config", 0);
+af49f82367c1e3 Thierry Reding     2024-02-01  101  	if (!np && !res->axi)
+afea03656add70 Giuseppe Cavallaro 2016-02-29  102  		return NULL;
+afea03656add70 Giuseppe Cavallaro 2016-02-29  103  
+64f48e593a54a8 Joao Pinto         2017-03-07  104  	axi = devm_kzalloc(&pdev->dev, sizeof(*axi), GFP_KERNEL);
+4613b279bee795 Peter Chen         2016-08-01  105  	if (!axi) {
+af49f82367c1e3 Thierry Reding     2024-02-01  106  		if (np)
+4613b279bee795 Peter Chen         2016-08-01  107  			of_node_put(np);
+af49f82367c1e3 Thierry Reding     2024-02-01  108  
+afea03656add70 Giuseppe Cavallaro 2016-02-29  109  		return ERR_PTR(-ENOMEM);
+4613b279bee795 Peter Chen         2016-08-01  110  	}
+afea03656add70 Giuseppe Cavallaro 2016-02-29  111  
+af49f82367c1e3 Thierry Reding     2024-02-01  112  	if (res->axi)
+af49f82367c1e3 Thierry Reding     2024-02-01  113  		*axi = *res->axi;
+af49f82367c1e3 Thierry Reding     2024-02-01  114  
+af49f82367c1e3 Thierry Reding     2024-02-01  115  	if (np) {
+afea03656add70 Giuseppe Cavallaro 2016-02-29  116  		axi->axi_lpi_en = of_property_read_bool(np, "snps,lpi_en");
+afea03656add70 Giuseppe Cavallaro 2016-02-29  117  		axi->axi_xit_frm = of_property_read_bool(np, "snps,xit_frm");
+61d4f140943c47 Jisheng Zhang      2022-12-03  118  		axi->axi_kbbe = of_property_read_bool(np, "snps,kbbe");
+61d4f140943c47 Jisheng Zhang      2022-12-03  119  		axi->axi_fb = of_property_read_bool(np, "snps,fb");
+61d4f140943c47 Jisheng Zhang      2022-12-03  120  		axi->axi_mb = of_property_read_bool(np, "snps,mb");
+61d4f140943c47 Jisheng Zhang      2022-12-03  121  		axi->axi_rb =  of_property_read_bool(np, "snps,rb");
+afea03656add70 Giuseppe Cavallaro 2016-02-29  122  
+af49f82367c1e3 Thierry Reding     2024-02-01  123  		if (of_property_read_u32(np, "snps,wr_osr_lmt", &axi->axi_wr_osr_lmt)) {
+af49f82367c1e3 Thierry Reding     2024-02-01  124  			if (!res->axi)
+6b3374cb1c0bd4 Niklas Cassel      2016-12-05  125  				axi->axi_wr_osr_lmt = 1;
+af49f82367c1e3 Thierry Reding     2024-02-01  126  		}
+af49f82367c1e3 Thierry Reding     2024-02-01  127  
+af49f82367c1e3 Thierry Reding     2024-02-01  128  		if (of_property_read_u32(np, "snps,rd_osr_lmt", &axi->axi_rd_osr_lmt)) {
+af49f82367c1e3 Thierry Reding     2024-02-01  129  			if (!res->axi)
+6b3374cb1c0bd4 Niklas Cassel      2016-12-05  130  				axi->axi_rd_osr_lmt = 1;
+af49f82367c1e3 Thierry Reding     2024-02-01  131  		}
+af49f82367c1e3 Thierry Reding     2024-02-01  132  
+afea03656add70 Giuseppe Cavallaro 2016-02-29  133  		of_property_read_u32_array(np, "snps,blen", axi->axi_blen, AXI_BLEN);
+af49f82367c1e3 Thierry Reding     2024-02-01  134  
+4613b279bee795 Peter Chen         2016-08-01  135  		of_node_put(np);
+af49f82367c1e3 Thierry Reding     2024-02-01  136  	}
+afea03656add70 Giuseppe Cavallaro 2016-02-29  137  
+afea03656add70 Giuseppe Cavallaro 2016-02-29  138  	return axi;
+afea03656add70 Giuseppe Cavallaro 2016-02-29  139  }
+afea03656add70 Giuseppe Cavallaro 2016-02-29  140  
 
 -- 
 0-DAY CI Kernel Test Service
