@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71DD10A12
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 20:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF11517BB3
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 21:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706993606; cv=none; b=dFZzFCV3N3VDH01zk6DBaGwsa0f8qK6dUjcAgSa08C9bRVch3YeF0Kl00RoSI+mFH7ex0fCi58vxUTPCTwr6R3e/V0E2Vbkp9l1/daM1i6dnRrLUdROr5CQkkFg6Qj5QqmPyuRw910cbE5Wq+7qgvCCobnZ+P8xXz45w8SPLsAg=
+	t=1706995542; cv=none; b=DU7NZ5Rk+f7Xd0Q/iDbv2Nv9PsP2SCRFeD7Mj+utiPae2zdcphDJsJdCSUDnUCSOWLSgKdhxzqcGvG8wP9/FKMM7ZBJ+pnnJJd+7swC7ZoYpuDRZayrzwkBIHYWH9u1mLG897E8YuSuVtvx7rJgOD6daSVCXyaE+qY5WtKHAAIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706993606; c=relaxed/simple;
-	bh=kOFYAsBsgolladMxT9dE8GWLfqSJ9L5SnKmwlbgjQ8E=;
+	s=arc-20240116; t=1706995542; c=relaxed/simple;
+	bh=anEXvHi/liQI/P/VZNOnTUNZ5Rc2871TTLyj8CFp6hY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WNQd9fmAWfwXe+1DNtvRFFpkJAGg8qO/UkHjykGeUGdYtVV6GO3j3iD6sd3brUC+PYgjgp+JwPuQIUPZephr/OPAJSQI29JHD7aXxmprApEclIBNx1j7MUq0adhVT2FxYHtK/81dMmc5MhaBRBerCnvDeFKxhURvoR+/AuB+Ld8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qf+OCMP1; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=q7FgMdQNezLvPulj40hm6//ZBPsvfgvjEqdresBIyEUlqF/C5Z82HR8SAqYSrcQMQU/I5cv1wi3nYZBzOjatZQBfm3VYSKAjB/EJmGVJ8rfAk8gXqDgJhQHpQrlQdxtd0ugPzqE4GxkijIY9QDD5+wIV8XJVnOYoSBLAQGiAsAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AalGWHEL; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qf+OCMP1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AalGWHEL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706993604; x=1738529604;
+  t=1706995539; x=1738531539;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kOFYAsBsgolladMxT9dE8GWLfqSJ9L5SnKmwlbgjQ8E=;
-  b=Qf+OCMP1/T2KyEERtMOzazTw16nZ4C6k7x0nyeczd0J0639EhDVsByTF
-   SLfTQcBgRu55b3PaFCj0rtzNG/j8M1/JvYbbI63CaRuy8h4ZDc/orc/8r
-   +WBRYorN2akQZsq3S2CMybeEOxVjETV7dv447LmTU4sCI5oh8JUs8edGC
-   opGv1Enx03GDsgTunVy29wtsIR8B0kCKpQg90D0Zt3rysCRX2K3bB0dRu
-   FThkJyCzsX5NY+RsGlRmMa078E99F0CtDxRxm6WqRyyyRUlcJNbaxzAjZ
-   N4DsBLDnaph5rJnumZSfbk9ur8Eh2MRU1hLb+mL+8dcrE0y5Boi7V+rti
+  bh=anEXvHi/liQI/P/VZNOnTUNZ5Rc2871TTLyj8CFp6hY=;
+  b=AalGWHELZYxUdVGBWwiDLVmF9XwzJZ24IxzQyKWtTbVR3i2oFoSt+5nn
+   ntc0EfEFGR3xG+y5LEm7FEmTs6WGPzjKj5RfryNsGwskRn+qH5c32vNii
+   aXsXh6u1aPNDkcJBippIJyF6J7ahycXrtP+kyB7B77nwO8TAWiyE8xQrs
+   fDmZRawyuhVj742W/nN5RD4KXIpo9MowK2lz+R6xWJ74B4uLXEDY+ZSx7
+   xsyguEqotPG24ofaBcTW9QCsdf2Wf/pT3fh/WRe6hqoELo79s8VjvYFYx
+   IXEFiK6rYP6lHLUFRWSVv4kyxeDJN9Ts7K67fg77Jdn9GYxjB12qC6PuN
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="4144145"
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="22817479"
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="4144145"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 12:53:23 -0800
+   d="scan'208";a="22817479"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 13:25:38 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="37801872"
+   d="scan'208";a="31164985"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 03 Feb 2024 12:53:22 -0800
+  by orviesa002.jf.intel.com with ESMTP; 03 Feb 2024 13:25:37 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWN0o-0005bk-0H;
-	Sat, 03 Feb 2024 20:53:18 +0000
-Date: Sun, 4 Feb 2024 04:52:50 +0800
+	id 1rWNW2-0005cw-1V;
+	Sat, 03 Feb 2024 21:25:34 +0000
+Date: Sun, 4 Feb 2024 05:25:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 8557/21614]
- fs/ecryptfs/.tmp_messaging.o: warning: objtool: missing symbol for section
- .text.unlikely
-Message-ID: <202402040416.bTJHykFw-lkp@intel.com>
+To: Aleksa Savic <savicaleksa83@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [groeck-staging:hwmon-next 34/34]
+ drivers/hwmon/asus_rog_ryujin.c:574: undefined reference to `hid_hw_close'
+Message-ID: <202402040512.f0f23Wq1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,25 +59,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5bc2c7cbdcbc5c8e5bbe65d3542ec2fccbc61492
-commit: 775947c125d5bd6e00e0dcf9d12c57fd5d44d07f [8557/21614] asm-generic: fix -Wtype-limits compiler warnings
-config: x86_64-buildonly-randconfig-003-20240203 (https://download.01.org/0day-ci/archive/20240204/202402040416.bTJHykFw-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040416.bTJHykFw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+head:   57319c16d5cc3d49067c181c5f5ba49613163144
+commit: 57319c16d5cc3d49067c181c5f5ba49613163144 [34/34] hwmon: Add driver for ASUS ROG RYUJIN II 360 AIO cooler
+config: i386-randconfig-141-20240204 (https://download.01.org/0day-ci/archive/20240204/202402040512.f0f23Wq1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040512.f0f23Wq1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402040416.bTJHykFw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402040512.f0f23Wq1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/ecryptfs/messaging.c:28: warning: Function parameter or member 'ecryptfs_msg_ctx_free_list' not described in 'LIST_HEAD'
-   fs/ecryptfs/messaging.c:170: warning: Function parameter or member 'daemon' not described in 'ecryptfs_exorcise_daemon'
-   fs/ecryptfs/messaging.c:220: warning: Function parameter or member 'daemon' not described in 'ecryptfs_process_response'
-   fs/ecryptfs/messaging.c:275: warning: Function parameter or member 'msg_type' not described in 'ecryptfs_send_message_locked'
->> fs/ecryptfs/.tmp_messaging.o: warning: objtool: missing symbol for section .text.unlikely
+   ld: drivers/hwmon/asus_rog_ryujin.o: in function `rog_ryujin_remove':
+>> drivers/hwmon/asus_rog_ryujin.c:574: undefined reference to `hid_hw_close'
+>> ld: drivers/hwmon/asus_rog_ryujin.c:575: undefined reference to `hid_hw_stop'
+   ld: drivers/hwmon/asus_rog_ryujin.o: in function `rog_ryujin_write_expanded':
+>> drivers/hwmon/asus_rog_ryujin.c:161: undefined reference to `hid_hw_output_report'
+   ld: drivers/hwmon/asus_rog_ryujin.o: in function `hid_parse':
+>> include/linux/hid.h:1118: undefined reference to `hid_open_report'
+   ld: drivers/hwmon/asus_rog_ryujin.o: in function `rog_ryujin_probe':
+>> drivers/hwmon/asus_rog_ryujin.c:523: undefined reference to `hid_hw_start'
+>> ld: drivers/hwmon/asus_rog_ryujin.c:529: undefined reference to `hid_hw_open'
+   ld: drivers/hwmon/asus_rog_ryujin.c:564: undefined reference to `hid_hw_stop'
+>> ld: drivers/hwmon/asus_rog_ryujin.c:562: undefined reference to `hid_hw_close'
+   ld: drivers/hwmon/asus_rog_ryujin.o: in function `rog_ryujin_exit':
+>> drivers/hwmon/asus_rog_ryujin.c:600: undefined reference to `hid_unregister_driver'
+   ld: drivers/hwmon/asus_rog_ryujin.o: in function `rog_ryujin_init':
+>> drivers/hwmon/asus_rog_ryujin.c:595: undefined reference to `__hid_register_driver'
+
+
+vim +574 drivers/hwmon/asus_rog_ryujin.c
+
+   496	
+   497	static int rog_ryujin_probe(struct hid_device *hdev, const struct hid_device_id *id)
+   498	{
+   499		struct rog_ryujin_data *priv;
+   500		int ret;
+   501	
+   502		priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
+   503		if (!priv)
+   504			return -ENOMEM;
+   505	
+   506		priv->hdev = hdev;
+   507		hid_set_drvdata(hdev, priv);
+   508	
+   509		/*
+   510		 * Initialize priv->updated to STATUS_VALIDITY seconds in the past, making
+   511		 * the initial empty data invalid for rog_ryujin_read() without the need for
+   512		 * a special case there.
+   513		 */
+   514		priv->updated = jiffies - msecs_to_jiffies(STATUS_VALIDITY);
+   515	
+   516		ret = hid_parse(hdev);
+   517		if (ret) {
+   518			hid_err(hdev, "hid parse failed with %d\n", ret);
+   519			return ret;
+   520		}
+   521	
+   522		/* Enable hidraw so existing user-space tools can continue to work */
+ > 523		ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
+   524		if (ret) {
+   525			hid_err(hdev, "hid hw start failed with %d\n", ret);
+   526			return ret;
+   527		}
+   528	
+ > 529		ret = hid_hw_open(hdev);
+   530		if (ret) {
+   531			hid_err(hdev, "hid hw open failed with %d\n", ret);
+   532			goto fail_and_stop;
+   533		}
+   534	
+   535		priv->buffer = devm_kzalloc(&hdev->dev, MAX_REPORT_LENGTH, GFP_KERNEL);
+   536		if (!priv->buffer) {
+   537			ret = -ENOMEM;
+   538			goto fail_and_close;
+   539		}
+   540	
+   541		mutex_init(&priv->status_report_request_mutex);
+   542		mutex_init(&priv->buffer_lock);
+   543		spin_lock_init(&priv->status_report_request_lock);
+   544		init_completion(&priv->cooler_status_received);
+   545		init_completion(&priv->controller_status_received);
+   546		init_completion(&priv->cooler_duty_received);
+   547		init_completion(&priv->controller_duty_received);
+   548		init_completion(&priv->cooler_duty_set);
+   549		init_completion(&priv->controller_duty_set);
+   550	
+   551		priv->hwmon_dev = hwmon_device_register_with_info(&hdev->dev, "rog_ryujin",
+   552								  priv, &rog_ryujin_chip_info, NULL);
+   553		if (IS_ERR(priv->hwmon_dev)) {
+   554			ret = PTR_ERR(priv->hwmon_dev);
+   555			hid_err(hdev, "hwmon registration failed with %d\n", ret);
+   556			goto fail_and_close;
+   557		}
+   558	
+   559		return 0;
+   560	
+   561	fail_and_close:
+ > 562		hid_hw_close(hdev);
+   563	fail_and_stop:
+   564		hid_hw_stop(hdev);
+   565		return ret;
+   566	}
+   567	
+   568	static void rog_ryujin_remove(struct hid_device *hdev)
+   569	{
+   570		struct rog_ryujin_data *priv = hid_get_drvdata(hdev);
+   571	
+   572		hwmon_device_unregister(priv->hwmon_dev);
+   573	
+ > 574		hid_hw_close(hdev);
+ > 575		hid_hw_stop(hdev);
+   576	}
+   577	
+   578	static const struct hid_device_id rog_ryujin_table[] = {
+   579		{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_AIO) },
+   580		{ }
+   581	};
+   582	
+   583	MODULE_DEVICE_TABLE(hid, rog_ryujin_table);
+   584	
+   585	static struct hid_driver rog_ryujin_driver = {
+   586		.name = "rog_ryujin",
+   587		.id_table = rog_ryujin_table,
+   588		.probe = rog_ryujin_probe,
+   589		.remove = rog_ryujin_remove,
+   590		.raw_event = rog_ryujin_raw_event,
+   591	};
+   592	
+   593	static int __init rog_ryujin_init(void)
+   594	{
+ > 595		return hid_register_driver(&rog_ryujin_driver);
+   596	}
+   597	
+   598	static void __exit rog_ryujin_exit(void)
+   599	{
+ > 600		hid_unregister_driver(&rog_ryujin_driver);
+   601	}
+   602	
 
 -- 
 0-DAY CI Kernel Test Service
