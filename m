@@ -1,165 +1,340 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71455F479;
-	Sat,  3 Feb 2024 15:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77105D902
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 15:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706972759; cv=none; b=PkdRUj0/ZNJjt3mn1J0SgptclyazdWYis3Xzlo4VBsr7RlP5234S95RsHIe8GQFhz9/8vVj2zHXc+kG527AL2+scU1osH1lnAIaFNMt6GzV0slMVT94Ni1EcdpX2TGUroasURj4BS6oyApAEBCJ1cMnbcErp+JNywUbk8L1uGN0=
+	t=1706973362; cv=none; b=GYvZEpVA8+FA78IlNz56v4R4AtpFDfXhKAelIgTttc/Ml4ovGcLf6U3j0ykiiWabEU22hevDEMnmzTLAVwPH+r2nqBf1oabT9Pwg8sTFPz4J8apMhvaVUMkIkjYJJIhx78zMMjNFdnAm1UDi6KxPhiEN2D105BwQWggWt7BFsrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706972759; c=relaxed/simple;
-	bh=ELEZEWWk9NQcZeuQTjNOf8Xawd967PBWJKiK7K14SIs=;
+	s=arc-20240116; t=1706973362; c=relaxed/simple;
+	bh=8osCem98wQSR/C6crEduDVR2XShOesb5B9SOsn7SfOs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oyp1HJ5Lh8RKkG4ABTCoGFFPEs7lMn9KIEBZ9bBrdmhcnS0yNL/eCbeXfDcEXOpKFYyoCQq/qYZkTTtzUWw3SkgRvPYPIDEgEUgdcZkVL0L3khAHu1wfRxhvW1sJukdbnrFrzpdVjHhBFJwInoQKAybCqbV8HymiXFLSOvZDP/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eo9N6xfL; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=QQuxR8TGIUfAdpou5gXlvL9GyqzlPruflnhr0nsmgxQAjHoJaLj4vzG+2BMsVR5vrJuYXeNkCyTj6m4p8xXuBf8gxPGBBSINCt2EXLAKrHa0cd1juhMqEkHlFjuv9pM4OVI7U2VPBLRvwphZYbgiYBsQYamfHNPaWbbV3ueWQhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GISwDwGN; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eo9N6xfL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GISwDwGN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706972758; x=1738508758;
+  t=1706973361; x=1738509361;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ELEZEWWk9NQcZeuQTjNOf8Xawd967PBWJKiK7K14SIs=;
-  b=Eo9N6xfL0KrLZgnJ9kOT4iYQcQWKnidQ+KbCgbHaG0hxvSOb+NJsp7MW
-   w1sflXaMT8cAjHlajW35GpEOV5fbXuTEI9n97kRY1fo4uw4rGDlPXEo9Q
-   yRMnZruwof6izOKQp2FlCpzPXsDooyfAmHeb/AGbXDQefRbFymdNYRMvM
-   U667bbH8Jg95eu9JijMh0tItgWK0EPQsmoAfCrHh2hA3jd3CuRJsWdCyE
-   /tJjJ0++QGJafPKv+c82y/P+ukJykjBvMHPWjFBUII8eSgmF3Suj2rrNG
-   sB51x+ekPMfYkNJ+kpHc9+cVi5V1Fn1JNCyVe2VTojKUz7RzXwdSXbm1p
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="555423"
+   mime-version:in-reply-to;
+  bh=8osCem98wQSR/C6crEduDVR2XShOesb5B9SOsn7SfOs=;
+  b=GISwDwGNz0+ucsPH25yAGDIL2NPjnOnhMwRl15wxO7Jo9MNzE9u85V4K
+   wBYcWvDbzsYsIxJuKjkuwq20+omHTxtshye5O5KIHxxThpuWteocfNumL
+   cej08EdN6vvU1L9ad8f29BR1N6i8ft+RGvPGvZG1DFP4xNAVpXWlRh9m0
+   ZyrcerIJluRuguAUWvqCRq6SGZdN49wgOrf6ATjGoYdsyxfi+jj6HpBk9
+   Qt62k4HX0gQY060bLjz/5GwTRKFZR8I9E0/RQKjC/hwUOcWIJpnN7viCa
+   M/46NEhzXLA55GWdFDPPXSYh2thqHrReoLMUQLFzV0j2Nc2neUbh+koYd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="221810"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="555423"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 07:05:54 -0800
+   d="scan'208";a="221810"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 07:16:00 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="23607836"
+   d="scan'208";a="618728"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2024 07:05:47 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 03 Feb 2024 07:15:59 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWHaS-0005DA-0N;
-	Sat, 03 Feb 2024 15:05:44 +0000
-Date: Sat, 3 Feb 2024 23:04:47 +0800
+	id 1rWHkJ-0005Dc-1w;
+	Sat, 03 Feb 2024 15:15:55 +0000
+Date: Sat, 3 Feb 2024 23:15:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Aleksandr Shubin <privatesub2@gmail.com>,
-	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	John Watts <contact@jookia.org>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Maksim Kiselev <bigunclemax@gmail.com>, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
- support
-Message-ID: <202402032222.BiIrD3g4-lkp@intel.com>
-References: <20240131125920.2879433-3-privatesub2@gmail.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 3/9] power: sequencing: new subsystem
+Message-ID: <202402032357.73FAz40V-lkp@intel.com>
+References: <20240201155532.49707-4-brgl@bgdev.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240131125920.2879433-3-privatesub2@gmail.com>
+In-Reply-To: <20240201155532.49707-4-brgl@bgdev.pl>
 
-Hi Aleksandr,
+Hi Bartosz,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on sunxi/sunxi/for-next linus/master v6.8-rc2 next-20240202]
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus robh/for-next bluetooth-next/master bluetooth/master linus/master v6.8-rc2 next-20240202]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandr-Shubin/dt-bindings-pwm-Add-binding-for-Allwinner-D1-T113-S3-R329-PWM-controller/20240131-210313
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240131125920.2879433-3-privatesub2%40gmail.com
-patch subject: [PATCH v8 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402032222.BiIrD3g4-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032222.BiIrD3g4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/of-provide-a-cleanup-helper-for-OF-nodes/20240202-000307
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240201155532.49707-4-brgl%40bgdev.pl
+patch subject: [RFC 3/9] power: sequencing: new subsystem
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240203/202402032357.73FAz40V-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032357.73FAz40V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402032222.BiIrD3g4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402032357.73FAz40V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/pwm/pwm-sun20i.c:47: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * SUN20I_PWM_MAGIC is used to quickly compute the values of the clock dividers
+   drivers/power/sequencing/core.c: In function 'pwrseq_release':
+>> drivers/power/sequencing/core.c:91:9: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+      91 |         kfree(pwrseq);
+         |         ^~~~~
+         |         kvfree
+   drivers/power/sequencing/core.c: In function 'pwrseq_device_register':
+>> drivers/power/sequencing/core.c:123:18: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+     123 |         pwrseq = kzalloc(sizeof(*pwrseq), GFP_KERNEL);
+         |                  ^~~~~~~
+>> drivers/power/sequencing/core.c:123:16: warning: assignment to 'struct pwrseq_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     123 |         pwrseq = kzalloc(sizeof(*pwrseq), GFP_KERNEL);
+         |                ^
+   drivers/power/sequencing/core.c: In function 'pwrseq_get':
+>> drivers/power/sequencing/core.c:280:16: error: cleanup argument not a function
+     280 |         struct pwrseq_desc *desc __free(kfree) = kzalloc(sizeof(*desc),
+         |                ^~~~~~~~~~~
+>> drivers/power/sequencing/core.c:280:50: warning: initialization of 'struct pwrseq_desc *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     280 |         struct pwrseq_desc *desc __free(kfree) = kzalloc(sizeof(*desc),
+         |                                                  ^~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +47 drivers/pwm/pwm-sun20i.c
+vim +91 drivers/power/sequencing/core.c
 
-    45	
-    46	/**
-  > 47	 * SUN20I_PWM_MAGIC is used to quickly compute the values of the clock dividers
-    48	 * div_m (SUN20I_PWM_CLK_CFG_DIV_M) & prescale_k (SUN20I_PWM_CTL_PRESCAL_K)
-    49	 * without using a loop. These dividers limit the # of cycles in a period
-    50	 * to SUN20I_PWM_PCNTR_SIZE by applying a scaling factor of
-    51	 * 1/(div_m * (prescale_k + 1)) to the clock source.
-    52	 *
-    53	 * SUN20I_PWM_MAGIC is derived by solving for div_m and prescale_k
-    54	 * such that for a given requested period,
-    55	 *
-    56	 * i) div_m is minimized for any prescale_k ≤ SUN20I_PWM_CTL_PRESCAL_K_MAX,
-    57	 * ii) prescale_k is minimized.
-    58	 *
-    59	 * The derivation proceeds as follows, with val = # of cycles for reqested
-    60	 * period:
-    61	 *
-    62	 * for a given value of div_m we want the smallest prescale_k such that
-    63	 *
-    64	 * (val >> div_m) // (prescale_k + 1) ≤ 65536 (SUN20I_PWM_PCNTR_SIZE)
-    65	 *
-    66	 * This is equivalent to:
-    67	 *
-    68	 * (val >> div_m) ≤ 65536 * (prescale_k + 1) + prescale_k
-    69	 * ⟺ (val >> div_m) ≤ 65537 * prescale_k + 65536
-    70	 * ⟺ (val >> div_m) - 65536 ≤ 65537 * prescale_k
-    71	 * ⟺ ((val >> div_m) - 65536) / 65537 ≤ prescale_k
-    72	 *
-    73	 * As prescale_k is integer, this becomes
-    74	 *
-    75	 * ((val >> div_m) - 65536) // 65537 ≤ prescale_k
-    76	 *
-    77	 * And is minimized at
-    78	 *
-    79	 * ((val >> div_m) - 65536) // 65537
-    80	 *
-    81	 * Now we pick the smallest div_m that satifies prescale_k ≤ 255
-    82	 * (i.e SUN20I_PWM_CTL_PRESCAL_K_MAX),
-    83	 *
-    84	 * ((val >> div_m) - 65536) // 65537 ≤ 255
-    85	 * ⟺ (val >> div_m) - 65536 ≤ 255 * 65537 + 65536
-    86	 * ⟺ val >> div_m ≤ 255 * 65537 + 2 * 65536
-    87	 * ⟺ val >> div_m < (255 * 65537 + 2 * 65536 + 1)
-    88	 * ⟺ div_m = fls((val) / (255 * 65537 + 2 * 65536 + 1))
-    89	 *
-    90	 * Suggested by Uwe Kleine-König
-    91	 */
-    92	#define SUN20I_PWM_MAGIC			(255 * 65537 + 2 * 65536 + 1)
+    84	
+    85	static void pwrseq_release(struct device *dev)
+    86	{
+    87		struct pwrseq_device *pwrseq = to_pwrseq_device(dev);
+    88	
+    89		mutex_destroy(&pwrseq->state_lock);
+    90		ida_free(&pwrseq_ida, pwrseq->id);
+  > 91		kfree(pwrseq);
+    92	}
     93	
+    94	static const struct device_type pwrseq_device_type = {
+    95		.name = "power_sequencer",
+    96		.release = pwrseq_release,
+    97	};
+    98	
+    99	/**
+   100	 * pwrseq_device_register() - Register a new power sequencer.
+   101	 * @config: Configuration of the new power sequencing device.
+   102	 *
+   103	 * The config structure is only used during the call and can be freed after
+   104	 * the function returns. The config structure *must* have the parent device
+   105	 * as well as the match(), power_on() and power_off() callbacks registered.
+   106	 *
+   107	 * Returns:
+   108	 * Returns the address of the new pwrseq device or ERR_PTR() on failure.
+   109	 */
+   110	struct pwrseq_device *pwrseq_device_register(struct pwrseq_config *config)
+   111	{
+   112		struct pwrseq_device *pwrseq;
+   113		int ret;
+   114	
+   115		/*
+   116		 * Power sequencer must have a parent device and at least the power-on,
+   117		 * power-off and match callbacks.
+   118		 */
+   119		if (!config->parent || !config->match || !config->power_on ||
+   120		    !config->power_off)
+   121			return ERR_PTR(-EINVAL);
+   122	
+ > 123		pwrseq = kzalloc(sizeof(*pwrseq), GFP_KERNEL);
+   124		if (!pwrseq)
+   125			return ERR_PTR(-ENOMEM);
+   126	
+   127		pwrseq->dev.type = &pwrseq_device_type;
+   128		pwrseq->dev.bus = &pwrseq_bus;
+   129		pwrseq->dev.parent = config->parent;
+   130		device_set_node(&pwrseq->dev, dev_fwnode(config->parent));
+   131	
+   132		pwrseq->id = ida_alloc(&pwrseq_ida, GFP_KERNEL);
+   133		if (pwrseq->id < 0) {
+   134			kfree(pwrseq);
+   135			return ERR_PTR(pwrseq->id);
+   136		}
+   137	
+   138		/*
+   139		 * From this point onwards the device's release() callback is
+   140		 * responsible for freeing resources.
+   141		 */
+   142		device_initialize(&pwrseq->dev);
+   143	
+   144		ret = dev_set_name(&pwrseq->dev, "pwrseq.%d", pwrseq->id);
+   145		if (ret)
+   146			goto err_put_pwrseq;
+   147	
+   148		pwrseq->owner = config->owner ?: THIS_MODULE;
+   149		pwrseq->drvdata = config->drvdata;
+   150		pwrseq->match = config->match;
+   151		pwrseq->power_on = config->power_on;
+   152		pwrseq->power_off = config->power_off;
+   153	
+   154		init_rwsem(&pwrseq->dev_sem);
+   155		mutex_init(&pwrseq->state_lock);
+   156	
+   157		scoped_guard(rwsem_write, &pwrseq_sem) {
+   158			ret = device_add(&pwrseq->dev);
+   159			if (ret)
+   160				goto err_put_pwrseq;
+   161		}
+   162	
+   163		return pwrseq;
+   164	
+   165	err_put_pwrseq:
+   166		pwrseq_device_put(pwrseq);
+   167		return ERR_PTR(ret);
+   168	}
+   169	EXPORT_SYMBOL_GPL(pwrseq_device_register);
+   170	
+   171	/**
+   172	 * pwrseq_device_unregister() - Unregister the power sequencer.
+   173	 * @pwrseq: Power sequencer to unregister.
+   174	 */
+   175	void pwrseq_device_unregister(struct pwrseq_device *pwrseq)
+   176	{
+   177		struct device *dev = &pwrseq->dev;
+   178	
+   179		scoped_guard(mutex, &pwrseq->state_lock) {
+   180			WARN_ONCE(pwrseq->pwrup_count > 0,
+   181				  "%s: UNREGISTERING POWER SEQUENCER WITH ACTIVE USERS\n",
+   182				  dev_name(&pwrseq->dev));
+   183	
+   184			scoped_guard(rwsem_write, &pwrseq_sem) {
+   185				scoped_guard(rwsem_write, &pwrseq->dev_sem)
+   186					device_del(dev);
+   187			}
+   188		}
+   189	
+   190		pwrseq_device_put(pwrseq);
+   191	}
+   192	EXPORT_SYMBOL_GPL(pwrseq_device_unregister);
+   193	
+   194	static void devm_pwrseq_device_unregister(void *data)
+   195	{
+   196		struct pwrseq_device *pwrseq = data;
+   197	
+   198		pwrseq_device_unregister(pwrseq);
+   199	}
+   200	
+   201	/**
+   202	 * devm_pwrseq_device_register() - Managed variant of pwrseq_device_register().
+   203	 * @dev: Managing device.
+   204	 * @config: Configuration of the new power sequencing device.
+   205	 *
+   206	 * Returns:
+   207	 * Returns the address of the new pwrseq device or ERR_PTR() on failure.
+   208	 */
+   209	struct pwrseq_device *
+   210	devm_pwrseq_device_register(struct device *dev, struct pwrseq_config *config)
+   211	{
+   212		struct pwrseq_device *pwrseq;
+   213		int ret;
+   214	
+   215		pwrseq = pwrseq_device_register(config);
+   216		if (IS_ERR(pwrseq))
+   217			return pwrseq;
+   218	
+   219		ret = devm_add_action_or_reset(dev, devm_pwrseq_device_unregister,
+   220					       pwrseq);
+   221		if (ret)
+   222			return ERR_PTR(ret);
+   223	
+   224		return pwrseq;
+   225	}
+   226	EXPORT_SYMBOL_GPL(devm_pwrseq_device_register);
+   227	
+   228	/**
+   229	 * pwrseq_device_get_data() - Get the driver private data associated with this
+   230	 *                            sequencer.
+   231	 * @pwrseq: Power sequencer object.
+   232	 *
+   233	 * Returns:
+   234	 * Address of the private driver data.
+   235	 */
+   236	void *pwrseq_device_get_data(struct pwrseq_device *pwrseq)
+   237	{
+   238		return pwrseq->drvdata;
+   239	}
+   240	EXPORT_SYMBOL_GPL(pwrseq_device_get_data);
+   241	
+   242	struct pwrseq_match_data {
+   243		struct pwrseq_device *matched;
+   244		struct device *dev;
+   245	};
+   246	
+   247	static int pwrseq_match_device(struct device *pwrseq_dev, void *data)
+   248	{
+   249		struct pwrseq_device *pwrseq = to_pwrseq_device(pwrseq_dev);
+   250		struct pwrseq_match_data *match_data = data;
+   251		int ret;
+   252	
+   253		guard(rwsem_read)(&pwrseq->dev_sem);
+   254		if (!device_is_registered(&pwrseq->dev))
+   255			return 0;
+   256	
+   257		ret = pwrseq->match(pwrseq, match_data->dev);
+   258		if (ret <= 0)
+   259			return ret;
+   260	
+   261		match_data->matched = pwrseq;
+   262	
+   263		return 1;
+   264	}
+   265	
+   266	/**
+   267	 * pwrseq_get() - Get the power sequencer associated with this device.
+   268	 * @dev: Device for which to get the sequencer.
+   269	 *
+   270	 * Returns:
+   271	 * New power sequencer descriptor for use by the consumer driver or ERR_PTR()
+   272	 * on failure.
+   273	 */
+   274	struct pwrseq_desc *pwrseq_get(struct device *dev)
+   275	{
+   276		struct pwrseq_match_data match_data;
+   277		struct pwrseq_device *pwrseq;
+   278		int ret;
+   279	
+ > 280		struct pwrseq_desc *desc __free(kfree) = kzalloc(sizeof(*desc),
+   281								 GFP_KERNEL);
+   282		if (!desc)
+   283			return ERR_PTR(-ENOMEM);
+   284	
+   285		match_data.matched = NULL;
+   286		match_data.dev = dev;
+   287	
+   288		guard(rwsem_read)(&pwrseq_sem);
+   289	
+   290		ret = bus_for_each_dev(&pwrseq_bus, NULL, &match_data,
+   291				       pwrseq_match_device);
+   292		if (ret < 0)
+   293			return ERR_PTR(ret);
+   294		if (ret == 0)
+   295			/* No device matched. */
+   296			return ERR_PTR(-EPROBE_DEFER);
+   297	
+   298		pwrseq = match_data.matched;
+   299	
+   300		if (!try_module_get(pwrseq->owner))
+   301			return ERR_PTR(-EPROBE_DEFER);
+   302	
+   303		desc->pwrseq = pwrseq_device_get(pwrseq);
+   304	
+   305		return no_free_ptr(desc);
+   306	}
+   307	EXPORT_SYMBOL_GPL(pwrseq_get);
+   308	
 
 -- 
 0-DAY CI Kernel Test Service
