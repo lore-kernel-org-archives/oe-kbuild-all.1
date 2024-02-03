@@ -1,60 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38A65F56E;
-	Sat,  3 Feb 2024 19:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313375F86A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 20:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706990371; cv=none; b=kTqwEpgEUF8TjWxpp3IDNTVJ697kZbU5IWyi8W9jt62yhEtpx8a9YDvK1PzgGCV/go+DcooHrP6rkwHIyhrbFeKkvmejTcSU9w8ISe/0r0XdSY0feahBz1+0fnpbgPLtyMom5Z40bxHGpWfUi3YbrUFrCcTt9iYWZvWChzMHycg=
+	t=1706991030; cv=none; b=Z4TPyzNZJ5uisd4/BKP9BsdFMN+6k/Z4K2lM/g121n7pwmokPkQH76VCM42oRTcRUAwL+33bLCk5GISZVeTPsqkl6GGIjLJzCDY2a8tW4PmQtbp6hFifxr6xNFZzibvkUPMsk9y6TWvN29OAl2c2VD2UHeS/zMYqI6SFt1/0gKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706990371; c=relaxed/simple;
-	bh=0Cl0sgbD6FT0nxPUKA/aqwhhXsqtDupISOShia89apY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IrXns5PXE/sOGAgt5ymUPvRxwSvW57O7Ctzfsk6djgz66xQbpLN2yi+wB1FPXfQYv09ZVquIdBJbpBiml4DvxYz62W5hsiYEKe9ALYW5h3JkOa71oaVXNo6B2bIRobDvddDkWhg/UeBEMTfFt86MX47dAfX15KsySxafPLgctVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIlnyUTu; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1706991030; c=relaxed/simple;
+	bh=x6tzkksiFiJb+Uy10odQpwTrRmWD8OWFzZjTU1dQgyc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f1dqh+T7y8UyT7xC/OR9ujRYAWBTs1lEmQSuMICuH51qBsr1qNiiUmF/WnxLZGOrvwgZhAmkyQSFJfqtR3w/HNnm9yN8ZdaMj+QJr87NTx+HnNGObI9FUXrztxGgdaCGwgr/xkr9b1GkWFuIJw6WzNo5tPdxZcLbq59qYe5XkLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKJZxYMW; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIlnyUTu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nKJZxYMW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706990369; x=1738526369;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0Cl0sgbD6FT0nxPUKA/aqwhhXsqtDupISOShia89apY=;
-  b=nIlnyUTuL+AAxMma9PPUB9quXa5AGnD2b3uI60aX2LjjW7Zj6qeNi3kP
-   RxVp0MxltBNR1HAH9ma3e4Z8fKpbmUZ8XvQv6OQSsT0YrOUtl62WtTXwl
-   VCXqoFP1tPZ8dniBq08HjUoU7NIRz0NrzRl9mZYfY3lmiHQvCsaRJpAtI
-   NlRMoCzVdlgo3KfCmrOVvkCk6pGlYCI0MHMiiphj9DyyTH0WiWboXQjpv
-   CwDa6qImxcIxRPZJYiOzoLMSGUSrolY2sRXVA4mqGsah1KsT5MQM0ItvH
-   cC0FuvTjTt/np9RU+rU6vCf76iXx/A+D6ysRirSoykfbzcBBnMkVEWLvY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="236330"
+  t=1706991028; x=1738527028;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=x6tzkksiFiJb+Uy10odQpwTrRmWD8OWFzZjTU1dQgyc=;
+  b=nKJZxYMWcuwmzha4R7HfEZIDdkAgfifb1vqtVvKiExr8hTY+CLQOghk8
+   wJ9vZ9bjgQermarpYYHVx5aM7vmo9CSmceHsaaiwe7cA4d+BYJcx6bQ4Q
+   ANhb4+o2/dSya9On/DLVj2yLU8GOlgjow9L1QQbJb5ShUz20ZFQCO0tfI
+   sllh3njIZANq/SL0oMMbuKDxq02FVHhGE2kl4AjgpK1zN2F2sMHWRehJ/
+   yKVyAVS8zM4PX0uzT+MbUAORokRU/QKgYXwGXTvluihFOT75oOeBCYOc3
+   5+WdVSmgoI3XIABtfFgVjmEeS/16bCuGwDUZCMJnc/wbeiTL3yR3y8tkg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="492041"
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="236330"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 11:59:28 -0800
+   d="scan'208";a="492041"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 12:10:28 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="823505372"
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="577386"
+   d="scan'208";a="823505372"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Feb 2024 11:59:26 -0800
+  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2024 12:10:26 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWMAe-0005Xs-03;
-	Sat, 03 Feb 2024 19:59:24 +0000
-Date: Sun, 4 Feb 2024 03:59:15 +0800
+	id 1rWMLI-0005YA-0n;
+	Sat, 03 Feb 2024 20:10:24 +0000
+Date: Sun, 4 Feb 2024 04:10:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Kuniyuki Iwashima <kuniyu@amazon.com>
-Subject: Re: [PATCH v1 net-next 07/16] af_unix: Detect Strongly Connected
- Components.
-Message-ID: <202402040348.uejoTcrq-lkp@intel.com>
-References: <20240203030058.60750-8-kuniyu@amazon.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 11954/21614]
+ drivers/soc/amlogic/meson-gx-socinfo.o: warning: objtool: missing symbol for
+ section .text
+Message-ID: <202402040409.rwfOX8Xu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +59,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240203030058.60750-8-kuniyu@amazon.com>
 
-Hi Kuniyuki,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/af_unix-Add-struct-unix_vertex-in-struct-unix_sock/20240203-110847
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240203030058.60750-8-kuniyu%40amazon.com
-patch subject: [PATCH v1 net-next 07/16] af_unix: Detect Strongly Connected Components.
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240204/202402040348.uejoTcrq-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5bc2c7cbdcbc5c8e5bbe65d3542ec2fccbc61492
+commit: a95885602b93885b15fd80d3a9f59db0daa6d831 [11954/21614] drivers: soc: Allow building the amlogic drivers without ARCH_MESON
+config: x86_64-buildonly-randconfig-001-20240202 (https://download.01.org/0day-ci/archive/20240204/202402040409.rwfOX8Xu-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040348.uejoTcrq-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040409.rwfOX8Xu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402040348.uejoTcrq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402040409.rwfOX8Xu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/unix/garbage.c:257:2: warning: label at end of compound statement is a C2x extension [-Wc2x-extensions]
-     257 |         }
-         |         ^
-   1 warning generated.
-
-
-vim +257 net/unix/garbage.c
-
-   227	
-   228	static void __unix_walk_scc(struct unix_vertex *vertex)
-   229	{
-   230		unsigned long index = UNIX_VERTEX_INDEX_START;
-   231		LIST_HEAD(vertex_stack);
-   232		struct unix_edge *edge;
-   233		LIST_HEAD(edge_stack);
-   234	
-   235	next_vertex:
-   236		vertex->index = index;
-   237		vertex->lowlink = index;
-   238		index++;
-   239	
-   240		vertex->on_stack = true;
-   241		list_move(&vertex->scc_entry, &vertex_stack);
-   242	
-   243		list_for_each_entry(edge, &vertex->edges, entry) {
-   244			if (!edge->successor->out_degree)
-   245				continue;
-   246	
-   247			if (edge->successor->index == UNIX_VERTEX_INDEX_UNVISITED) {
-   248				list_add(&edge->stack_entry, &edge_stack);
-   249	
-   250				vertex = edge->successor;
-   251				goto next_vertex;
-   252			}
-   253	
-   254			if (edge->successor->on_stack)
-   255				vertex->lowlink = min(vertex->lowlink, edge->successor->index);
-   256	next_edge:
- > 257		}
-   258	
-   259		if (vertex->index == vertex->lowlink) {
-   260			LIST_HEAD(scc);
-   261	
-   262			list_cut_position(&scc, &vertex_stack, &vertex->scc_entry);
-   263	
-   264			list_for_each_entry_reverse(vertex, &scc, scc_entry) {
-   265				list_move_tail(&vertex->entry, &unix_visited_vertices);
-   266	
-   267				vertex->on_stack = false;
-   268			}
-   269	
-   270			list_del(&scc);
-   271		}
-   272	
-   273		if (!list_empty(&edge_stack)) {
-   274			edge = list_first_entry(&edge_stack, typeof(*edge), stack_entry);
-   275			list_del_init(&edge->stack_entry);
-   276	
-   277			vertex = edge->predecessor;
-   278			vertex->lowlink = min(vertex->lowlink, edge->successor->lowlink);
-   279			goto next_edge;
-   280		}
-   281	}
-   282	
+>> drivers/soc/amlogic/meson-gx-socinfo.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
