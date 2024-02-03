@@ -1,147 +1,165 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CE95F464
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 15:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71455F479;
+	Sat,  3 Feb 2024 15:05:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706972758; cv=none; b=cUMU3N5NybFl1Px5+8UIrbnEur05os5eZDu89c3GB0R8nBxHw5VXK6jQQvOAt1L0Up07QQ5IIEpgvfM2VcZpC9uGxfgJx/PDcB5ZzRyaYls6pQkTT4Nz5fVMwrNfg8N7s9xRSACib8cOOhb+hN+80TIWbLMdCjiVV6nSOT4gHIo=
+	t=1706972759; cv=none; b=PkdRUj0/ZNJjt3mn1J0SgptclyazdWYis3Xzlo4VBsr7RlP5234S95RsHIe8GQFhz9/8vVj2zHXc+kG527AL2+scU1osH1lnAIaFNMt6GzV0slMVT94Ni1EcdpX2TGUroasURj4BS6oyApAEBCJ1cMnbcErp+JNywUbk8L1uGN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706972758; c=relaxed/simple;
-	bh=MHpWQZr14ZdD05M7rrgademJsf9AaFaLqV4a7m2Ific=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bX5HXf1a/aprP3rL3GYe2zwbicf+ymObqS7tDjniHZ7UTegFZiNcWPH0V9bZKQle6PICR2D2wv8ggbBXvZH0iZCTLQhkx2sQRgRlLbi9gxeM2uU4+DgtOItJ18nYw/5t7cNZYz9gvuIuLnGydZys/O2nJivvjZKWTbuENFckaIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkutrpJ+; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1706972759; c=relaxed/simple;
+	bh=ELEZEWWk9NQcZeuQTjNOf8Xawd967PBWJKiK7K14SIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oyp1HJ5Lh8RKkG4ABTCoGFFPEs7lMn9KIEBZ9bBrdmhcnS0yNL/eCbeXfDcEXOpKFYyoCQq/qYZkTTtzUWw3SkgRvPYPIDEgEUgdcZkVL0L3khAHu1wfRxhvW1sJukdbnrFrzpdVjHhBFJwInoQKAybCqbV8HymiXFLSOvZDP/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eo9N6xfL; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkutrpJ+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eo9N6xfL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706972757; x=1738508757;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MHpWQZr14ZdD05M7rrgademJsf9AaFaLqV4a7m2Ific=;
-  b=NkutrpJ+I/vYuyujb4kM0KLiK0RxHWFr9mi/k85A3nGvj2zIcelpCF9O
-   iztXQfWsGHTJeERpUqU/nSjc12qDX2S3pqs/8QjlCpRuUjNnl+WS7vKW0
-   iIUFVZR1gtmdvmWMzC53AfFQlOh8rZIL5W/IBLgo8n3J5zjH7vIthlzF3
-   nEZJkTpihJjkWjztrX6DWkuMoy3Igc40/S2xhJHBt7INEfAeLSjBKeHF6
-   RfHcWIh5hQN42hArK4ECw6VnWO2/ALMohlzXPMVymMBa1W0SAJETzAP17
-   6/A4qH+xeRPdoEcM0aL91mrotBKj1UxwGOVSa/RUeLClfNEPWjfzCGf9m
+  t=1706972758; x=1738508758;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ELEZEWWk9NQcZeuQTjNOf8Xawd967PBWJKiK7K14SIs=;
+  b=Eo9N6xfL0KrLZgnJ9kOT4iYQcQWKnidQ+KbCgbHaG0hxvSOb+NJsp7MW
+   w1sflXaMT8cAjHlajW35GpEOV5fbXuTEI9n97kRY1fo4uw4rGDlPXEo9Q
+   yRMnZruwof6izOKQp2FlCpzPXsDooyfAmHeb/AGbXDQefRbFymdNYRMvM
+   U667bbH8Jg95eu9JijMh0tItgWK0EPQsmoAfCrHh2hA3jd3CuRJsWdCyE
+   /tJjJ0++QGJafPKv+c82y/P+ukJykjBvMHPWjFBUII8eSgmF3Suj2rrNG
+   sB51x+ekPMfYkNJ+kpHc9+cVi5V1Fn1JNCyVe2VTojKUz7RzXwdSXbm1p
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="555420"
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="555423"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="555420"
+   d="scan'208";a="555423"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 07:05:53 -0800
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 07:05:54 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="23607848"
+   d="scan'208";a="23607836"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2024 07:05:52 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2024 07:05:47 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWHaW-0005DK-2p;
-	Sat, 03 Feb 2024 15:05:49 +0000
-Date: Sat, 3 Feb 2024 23:04:48 +0800
+	id 1rWHaS-0005DA-0N;
+	Sat, 03 Feb 2024 15:05:44 +0000
+Date: Sat, 3 Feb 2024 23:04:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: ckkim <changkon12@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-6.6.y 19/51]
- drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for
- 'odroid_card_reset'
-Message-ID: <202402032253.CurLtaPq-lkp@intel.com>
+To: Aleksandr Shubin <privatesub2@gmail.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Aleksandr Shubin <privatesub2@gmail.com>,
+	Brandon Cheo Fusi <fusibrandon13@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	John Watts <contact@jookia.org>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Maksim Kiselev <bigunclemax@gmail.com>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM
+ support
+Message-ID: <202402032222.BiIrD3g4-lkp@intel.com>
+References: <20240131125920.2879433-3-privatesub2@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240131125920.2879433-3-privatesub2@gmail.com>
 
-tree:   https://github.com/tobetter/linux odroid-6.6.y
-head:   0ea9759612aba09cc99b50301b281417f70e847c
-commit: 5eff876806397ef1a51aafa3cba44aeaaa40475c [19/51] ODROID-COMMON: power:reset: Add odroid support
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240203/202402032253.CurLtaPq-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032253.CurLtaPq-lkp@intel.com/reproduce)
+Hi Aleksandr,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on sunxi/sunxi/for-next linus/master v6.8-rc2 next-20240202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandr-Shubin/dt-bindings-pwm-Add-binding-for-Allwinner-D1-T113-S3-R329-PWM-controller/20240131-210313
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240131125920.2879433-3-privatesub2%40gmail.com
+patch subject: [PATCH v8 2/3] pwm: Add Allwinner's D1/T113-S3/R329 SoCs PWM support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240203/202402032222.BiIrD3g4-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032222.BiIrD3g4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402032253.CurLtaPq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402032222.BiIrD3g4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for 'odroid_card_reset' [-Wmissing-prototypes]
-      63 | void odroid_card_reset(void)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/power/reset/odroid-reboot.c: In function 'odroid_restart_probe':
-   drivers/power/reset/odroid-reboot.c:141:17: error: 'arm_pm_restart' undeclared (first use in this function); did you mean 'alarm_restart'?
-     141 |                 arm_pm_restart = do_odroid_restart;
-         |                 ^~~~~~~~~~~~~~
-         |                 alarm_restart
-   drivers/power/reset/odroid-reboot.c:141:17: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/pwm/pwm-sun20i.c:47: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * SUN20I_PWM_MAGIC is used to quickly compute the values of the clock dividers
 
 
-vim +/odroid_card_reset +63 drivers/power/reset/odroid-reboot.c
+vim +47 drivers/pwm/pwm-sun20i.c
 
-    62	
-  > 63	void odroid_card_reset(void)
-    64	{
-    65		int ret = 0;
-    66	
-    67		if ((sd_vqsw == 0) && (sd_vmmc == 0))
-    68			return;
-    69	
-    70		if (sd_vqen == 0) {
-    71			gpio_free(sd_vqsw);
-    72			gpio_free(sd_vmmc);
-    73			ret = gpio_request_one(sd_vqsw,
-    74					GPIOF_OUT_INIT_LOW, "REBOOT");
-    75			CHECK_RET(ret);
-    76			mdelay(10);
-    77			ret = gpio_direction_output(sd_vqsw, 1);
-    78			CHECK_RET(ret);
-    79			ret = gpio_request_one(sd_vmmc,
-    80					GPIOF_OUT_INIT_LOW, "REBOOT");
-    81			CHECK_RET(ret);
-    82			mdelay(10);
-    83			ret = gpio_direction_output(sd_vqsw, 0);
-    84			CHECK_RET(ret);
-    85			ret = gpio_direction_output(sd_vmmc, 1);
-    86			CHECK_RET(ret);
-    87			mdelay(5);
-    88			gpio_free(sd_vqsw);
-    89			gpio_free(sd_vmmc);
-    90		} else {
-    91			gpio_free(sd_vqsw);
-    92			gpio_free(sd_vqen);
-    93			gpio_free(sd_vmmc);
-    94	
-    95			ret = gpio_request_one(sd_vqsw,
-    96					GPIOF_OUT_INIT_LOW, "REBOOT");
-    97			CHECK_RET(ret);
-    98			ret = gpio_request_one(sd_vqen,
-    99					GPIOF_OUT_INIT_LOW, "REBOOT");
-   100			CHECK_RET(ret);
-   101			ret = gpio_request_one(sd_vmmc,
-   102					GPIOF_OUT_INIT_LOW, "REBOOT");
-   103			CHECK_RET(ret);
-   104			mdelay(100);
-   105			ret = gpio_direction_input(sd_vqen);
-   106			CHECK_RET(ret);
-   107			ret = gpio_direction_input(sd_vmmc);
-   108			CHECK_RET(ret);
-   109			ret = gpio_direction_input(sd_vqsw);
-   110			CHECK_RET(ret);
-   111			mdelay(5);
-   112			gpio_free(sd_vqen);
-   113			gpio_free(sd_vmmc);
-   114			gpio_free(sd_vqsw);
-   115		}
-   116	}
-   117	
+    45	
+    46	/**
+  > 47	 * SUN20I_PWM_MAGIC is used to quickly compute the values of the clock dividers
+    48	 * div_m (SUN20I_PWM_CLK_CFG_DIV_M) & prescale_k (SUN20I_PWM_CTL_PRESCAL_K)
+    49	 * without using a loop. These dividers limit the # of cycles in a period
+    50	 * to SUN20I_PWM_PCNTR_SIZE by applying a scaling factor of
+    51	 * 1/(div_m * (prescale_k + 1)) to the clock source.
+    52	 *
+    53	 * SUN20I_PWM_MAGIC is derived by solving for div_m and prescale_k
+    54	 * such that for a given requested period,
+    55	 *
+    56	 * i) div_m is minimized for any prescale_k ≤ SUN20I_PWM_CTL_PRESCAL_K_MAX,
+    57	 * ii) prescale_k is minimized.
+    58	 *
+    59	 * The derivation proceeds as follows, with val = # of cycles for reqested
+    60	 * period:
+    61	 *
+    62	 * for a given value of div_m we want the smallest prescale_k such that
+    63	 *
+    64	 * (val >> div_m) // (prescale_k + 1) ≤ 65536 (SUN20I_PWM_PCNTR_SIZE)
+    65	 *
+    66	 * This is equivalent to:
+    67	 *
+    68	 * (val >> div_m) ≤ 65536 * (prescale_k + 1) + prescale_k
+    69	 * ⟺ (val >> div_m) ≤ 65537 * prescale_k + 65536
+    70	 * ⟺ (val >> div_m) - 65536 ≤ 65537 * prescale_k
+    71	 * ⟺ ((val >> div_m) - 65536) / 65537 ≤ prescale_k
+    72	 *
+    73	 * As prescale_k is integer, this becomes
+    74	 *
+    75	 * ((val >> div_m) - 65536) // 65537 ≤ prescale_k
+    76	 *
+    77	 * And is minimized at
+    78	 *
+    79	 * ((val >> div_m) - 65536) // 65537
+    80	 *
+    81	 * Now we pick the smallest div_m that satifies prescale_k ≤ 255
+    82	 * (i.e SUN20I_PWM_CTL_PRESCAL_K_MAX),
+    83	 *
+    84	 * ((val >> div_m) - 65536) // 65537 ≤ 255
+    85	 * ⟺ (val >> div_m) - 65536 ≤ 255 * 65537 + 65536
+    86	 * ⟺ val >> div_m ≤ 255 * 65537 + 2 * 65536
+    87	 * ⟺ val >> div_m < (255 * 65537 + 2 * 65536 + 1)
+    88	 * ⟺ div_m = fls((val) / (255 * 65537 + 2 * 65536 + 1))
+    89	 *
+    90	 * Suggested by Uwe Kleine-König
+    91	 */
+    92	#define SUN20I_PWM_MAGIC			(255 * 65537 + 2 * 65536 + 1)
+    93	
 
 -- 
 0-DAY CI Kernel Test Service
