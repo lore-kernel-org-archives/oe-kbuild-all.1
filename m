@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997695D905;
-	Sat,  3 Feb 2024 13:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049DE17738
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Feb 2024 13:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706965488; cv=none; b=js3Maue+EgvFwFaQjHl00Gokab4P6Lz5QIWf/q9l7euhDaPecziRdtNHCD2XsFgiC9HGpEoY3fpOvCPYlMm9JigCjlhnrMOp6XN+M7l0kGWlViWm05cQ9BC/ptUbp8rAYMkVii+bf7Hg2mP++dubIiR4S0XqfFhppOFa3KQrGgE=
+	t=1706966209; cv=none; b=HG+P1dafC7W7QayUeWlp2eNiP7kHg8Mj0Ma4Tu0rG73H43ZJaHq1K0VsLaS1tudgNY8fMbOk44TfCSKccRL1zGLNK7HFSSqdniQrfGNYxMRJ5oDr0g38JvRPKTgzHG0cS4VUOArrWwpHH9ZHeVc/t5z1H7GwPsaDTKP7eYS4mn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706965488; c=relaxed/simple;
-	bh=rXezbFoIoVPvOb5xFsvLuYCgvv61ODqgpCMWzHAJBCU=;
+	s=arc-20240116; t=1706966209; c=relaxed/simple;
+	bh=NAYeIQ0ZA7glbIJHWpYWZbdZ6cWmDH/AnenVPZ+/kK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QKt4tyvnKesyLEE6183eXKw6/DEhRyBkLGWhtvDxLwRFamKNfuQ7biSCNGyk/m27S6esGnMhej7UTd/T7AbdvQ8GAZZb82YqkXXwlwlxQHDGIhiHh6PqP/j0lfTfyDTtcORS6aWObd8x1KHIkiZWnCkohTC/pusIy9q49aXMJP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RqVdioP7; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=KQ5xkjqIMMqSdyBI6AEfrAEBUGJWwYzN1OIV+awH79tdTc8LiCmib6G6io0Z9W2kuNWw74rcGeZle5a7EZvfzAEwWahj3O5wW0vOqxzRlnf/0RChRyjGSkUuvrGwm4IlArVASTwKSD+E+wuXo+VuIQmoU84ydoT9CcFInHj3zC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I4eXBCH5; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RqVdioP7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I4eXBCH5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706965487; x=1738501487;
+  t=1706966208; x=1738502208;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rXezbFoIoVPvOb5xFsvLuYCgvv61ODqgpCMWzHAJBCU=;
-  b=RqVdioP7jnpZyQrdbOrOkk4A3zWrNX5AsHO0Ht2Gw6gArUVpGjiPH9JW
-   uIZ7X31JpIvAxVnfEjV7A4kJfr1dYTRxlp7An5sOIVdW95R2BSX7SJGmx
-   zmrJ1PprP8iKNr1n+zLJkBpaoZBVvK97iSQ6Gg2Kf+IBpi6XWBy2hINbR
-   +kfb60HXNbFvtXR1o8gI7vUyAyYHQ9ackzsEiQJUj2xxxu83F/LjkK5of
-   8KbuI39O4zJzvT6I3PaC9YgrlkC5R6D/hqiX5W7FxF0p0a/GHDNpF/3GS
-   JzKtcTwjHTah6WkmcNX4IA/aJ7a96qpttVdCcWHtUSSbWucUAmu70TuXk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="470373"
+  bh=NAYeIQ0ZA7glbIJHWpYWZbdZ6cWmDH/AnenVPZ+/kK8=;
+  b=I4eXBCH5xtpYHthkX93XOUTK8P/w2OmzMHvM/3UoTznQ4BKI4J2NT7oz
+   8idxZtNA6TMm2EvxtnRQYIA2amusWNtKMXOaeyBCidsPoeini10+mxw3z
+   cLahdLsmYYIb1qVINUbsLOxlUI47Z5wGDlfPRAE7n2E/RCk1kRS2Xkeie
+   rkyX//Y2DM2JxoqRrqOYKvedi66QSLGivw+vpCmZgRao71asZFu4VbbBM
+   8fKu7L0rMCQsOhqf+kamfSIQcFaQAYjdLqvCaYymmOUS6rh3ylgLzAXu2
+   oeSHi4JY6rla/2hiAjAcFJBx9zfndL6ViD/hTHeZzHj2aNn3qkkBo841i
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="17728806"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="470373"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 05:04:46 -0800
+   d="scan'208";a="17728806"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 05:16:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="908848512"
 X-IronPort-AV: E=Sophos;i="6.05,240,1701158400"; 
-   d="scan'208";a="908848512"
+   d="scan'208";a="4932023"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2024 05:04:44 -0800
+  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2024 05:16:45 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWFhK-00054I-1b;
-	Sat, 03 Feb 2024 13:04:42 +0000
-Date: Sat, 3 Feb 2024 21:04:04 +0800
+	id 1rWFsx-00055X-0h;
+	Sat, 03 Feb 2024 13:16:43 +0000
+Date: Sat, 3 Feb 2024 21:15:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:slub-percpu-caches-v4r1-BROKEN 2/6] mm/slub.c:4878:10:
- warning: expression which evaluates to zero treated as a null pointer
- constant of type 'void *'
-Message-ID: <202402032112.HhHYWQUZ-lkp@intel.com>
+To: Dongjin Kim <tobetter@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tobetter:odroid-6.6.y 17/51]
+ drivers/gpu/drm/tiny/ili9488_pio.c:23:10: fatal error:
+ drm/drm_fb_cma_helper.h: No such file or directory
+Message-ID: <202402032142.TITwC0pM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,160 +59,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-caches-v4r1-BROKEN
-head:   769a361e3d36bf4b006b69c6adbdcd24fe2e470a
-commit: 8f3b3550b6d09f88b11b9d89eb1d6a215c48bf98 [2/6] mm/slub: add opt-in percpu array cache of objects
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240203/202402032112.HhHYWQUZ-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032112.HhHYWQUZ-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   0ea9759612aba09cc99b50301b281417f70e847c
+commit: d9d97a57ca4c689c91ba8d0ca0af61187dbe19f1 [17/51] ODROID-COMMON: gpu/drm: Add new Tiny DRM driver with Ili9488
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240203/202402032142.TITwC0pM-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240203/202402032142.TITwC0pM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402032112.HhHYWQUZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402032142.TITwC0pM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/slub.c:2595:15: warning: variable 'partial_slabs' set but not used [-Wunused-but-set-variable]
-    2595 |         unsigned int partial_slabs = 0;
-         |                      ^
->> mm/slub.c:4878:10: warning: expression which evaluates to zero treated as a null pointer constant of type 'void *' [-Wnon-literal-null-conversion]
-    4878 |                 return false;
-         |                        ^~~~~
->> mm/slub.c:4953:6: warning: variable 'pca' is uninitialized when used here [-Wuninitialized]
-    4953 |         if (pca->count < count)
-         |             ^~~
-   mm/slub.c:4943:31: note: initialize the variable 'pca' to silence this warning
-    4943 |         struct slub_percpu_array *pca;
-         |                                      ^
-         |                                       = NULL
-   mm/slub.c:2045:34: warning: unused function 'memcg_from_slab_obj' [-Wunused-function]
-    2045 | static inline struct mem_cgroup *memcg_from_slab_obj(void *ptr)
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
+>> drivers/gpu/drm/tiny/ili9488_pio.c:23:10: fatal error: drm/drm_fb_cma_helper.h: No such file or directory
+      23 | #include <drm/drm_fb_cma_helper.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +4878 mm/slub.c
+vim +23 drivers/gpu/drm/tiny/ili9488_pio.c
 
-  4863	
-  4864	static void *refill_pca(struct kmem_cache *s, unsigned int count, gfp_t gfp,
-  4865				bool want_obj)
-  4866	{
-  4867		unsigned int batch, allocated;
-  4868		struct slub_percpu_array *pca;
-  4869		void *objects[PCA_BATCH_MAX];
-  4870		unsigned long flags;
-  4871		void *obj = NULL;
-  4872	
-  4873		if (count > PCA_BATCH_MAX)
-  4874			return ERR_PTR(-EINVAL);
-  4875	
-  4876		allocated = __kmem_cache_alloc_bulk(s, gfp, count, &objects[0]);
-  4877		if (!allocated)
-> 4878			return false;
-  4879	
-  4880		if (want_obj)
-  4881			obj = objects[--allocated];
-  4882	
-  4883		local_lock_irqsave(&s->cpu_array->lock, flags);
-  4884		pca = this_cpu_read(s->cpu_array);
-  4885	
-  4886		batch = min(allocated, pca->count - pca->used);
-  4887	
-  4888		for (unsigned int i = 0; i < batch; i++)
-  4889			pca->objects[pca->used++] = objects[i];
-  4890	
-  4891		local_unlock_irqrestore(&s->cpu_array->lock, flags);
-  4892	
-  4893		stat_add(s, PCA_REFILL, batch);
-  4894	
-  4895		/*
-  4896		 * We could have migrated to a different cpu or somebody else freed to the
-  4897		 * pca while we were bulk allocating, and now we have too many objects
-  4898		 */
-  4899		if (batch < allocated)
-  4900			__kmem_cache_free_bulk(s, allocated - batch, &objects[batch]);
-  4901	
-  4902		return obj;
-  4903	}
-  4904	
-  4905	static void flush_pca(struct kmem_cache *s, unsigned int count)
-  4906	{
-  4907		struct slub_percpu_array *pca;
-  4908		unsigned int batch, remaining;
-  4909		void *objects[PCA_BATCH_MAX];
-  4910		unsigned long flags;
-  4911	
-  4912		local_lock_irqsave(&s->cpu_array->lock, flags);
-  4913		pca = this_cpu_read(s->cpu_array);
-  4914	
-  4915	next_batch:
-  4916		batch = min(count, PCA_BATCH_MAX);
-  4917	
-  4918		batch = min(batch, pca->used);
-  4919	
-  4920		for (unsigned int i = 0; i < batch; i++) {
-  4921			objects[i] = pca->objects[--pca->used];
-  4922		}
-  4923	
-  4924		remaining = pca->used;
-  4925	
-  4926		local_unlock_irqrestore(&s->cpu_array->lock, flags);
-  4927	
-  4928		__kmem_cache_free_bulk(s, batch, &objects[0]);
-  4929	
-  4930		stat_add(s, PCA_FLUSH, batch);
-  4931	
-  4932		if (batch < count && remaining > 0) {
-  4933			count -= batch;
-  4934			local_lock_irqsave(&s->cpu_array->lock, flags);
-  4935			pca = this_cpu_read(s->cpu_array);
-  4936			goto next_batch;
-  4937		}
-  4938	}
-  4939	
-  4940	int kmem_cache_prefill_percpu_array(struct kmem_cache *s, unsigned int count,
-  4941					    gfp_t gfp)
-  4942	{
-  4943		struct slub_percpu_array *pca;
-  4944		unsigned int used, batch;
-  4945		void *refill;
-  4946	
-  4947		if (!gfpflags_allow_blocking(gfp))
-  4948			return -EINVAL;
-  4949	
-  4950		if (!s->cpu_array)
-  4951			return -EINVAL;
-  4952	
-> 4953		if (pca->count < count)
-  4954			return -EINVAL;
-  4955	
-  4956		/* racy but we don't care */
-  4957		pca = raw_cpu_ptr(s->cpu_array);
-  4958	
-  4959		used = READ_ONCE(pca->used);
-  4960		if (used >= count)
-  4961			return 0;
-  4962	
-  4963		count -= used;
-  4964	
-  4965	refill:
-  4966		batch = min(count, PCA_BATCH_MAX);
-  4967	
-  4968		refill = refill_pca(s, batch, gfp, false);
-  4969		if (IS_ERR(refill))
-  4970			return PTR_ERR(refill);
-  4971	
-  4972		count -= batch;
-  4973		if (count) {
-  4974			pca = raw_cpu_ptr(s->cpu_array);
-  4975			if (pca->used < pca->count)
-  4976				goto refill;
-  4977		}
-  4978	
-  4979		return 0;
-  4980	}
-  4981	
+    19	
+    20	#include <drm/drm_atomic_helper.h>
+    21	#include <drm/drm_damage_helper.h>
+    22	#include <drm/drm_drv.h>
+  > 23	#include <drm/drm_fb_cma_helper.h>
+    24	#include <drm/drm_fb_helper.h>
+    25	#include <drm/drm_fourcc.h>
+    26	#include <drm/drm_gem_atomic_helper.h>
+    27	#include <drm/drm_gem_cma_helper.h>
+    28	#include <drm/drm_gem_framebuffer_helper.h>
+    29	#include <drm/drm_managed.h>
+    30	#include <drm/drm_mipi_dbi.h>
+    31	#include <drm/drm_rect.h>
+    32	
 
 -- 
 0-DAY CI Kernel Test Service
