@@ -1,80 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031B4225D0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 15:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF09E225AA;
+	Sun,  4 Feb 2024 15:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707061209; cv=none; b=fBhhXaygG/+TGgGLLgsCRYB7wUmmfrJRWfac2D54H6L5wMkxmWx3ziSrA9qvq990ibw187dAWCww3KaaIosJGX5DZE7V4Ak4WVo2MoX3tqzbVjfY3P5uNAX0iskW8Zv9X5at+dNBdLB8q9jXIBmXhIc6qrSKTY6LsIfSuX6Ca4Y=
+	t=1707061224; cv=none; b=spn/U1dAKzAmZYXUitDwkP1mWohm+Tt2vwPJrqKAnh6fdGsYzgWNNqFg2VAyCpibPzEHhF8iUOHTqpUFRK9/tvobqBNbDVtXmmtnKYVjmTe4W9XhtT1uG85jzvkdfCquJsVS290cZgQ9JilytKmsTbJt8SrjvGaKvthY2ckoyvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707061209; c=relaxed/simple;
-	bh=JCr1pCGlVgKqUk1zF1gcqAf9POPZ9MYR2KUNzXr/Q9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=dZOHuTEREDrIC7LAkDlHE5qlEXyGRCnRez1FWiCjh5oFA1IqWuuGfAGQUlaenQobEr7fIVAfxZ0qIXa7rCwrep5DBBDyTe4YLBwjuWo3izbq4MFAujrGb1fz853em1NjgwAeg2aTYbreDHvEYbIkReBm7ciygJhzyKG2u2aFedo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KFkYU9CR; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707061224; c=relaxed/simple;
+	bh=2EvkgALGcToD6260SXQurF+v/lAKqYPlYYhKIGObQAk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p4mbJsE3k5N/mUrhrkiO3dJLEmtakZUIN+CZTjaYgevJ4rdb6Q8g3nNQRPHm34CB0wgEKrYj4Ogm6lwPh/1CQxi4bNO11qeEDsg+MCbVqlnpaVoHNx16MtBLX7KQswHq7XftBkxsp55xL0Xrv84rZuaBINT/kdAKyAwRLiBbsGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uPiwcQj0; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFkYU9CR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707061207; x=1738597207;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=JCr1pCGlVgKqUk1zF1gcqAf9POPZ9MYR2KUNzXr/Q9g=;
-  b=KFkYU9CR2GCoUWqc2EVHwP5TE0CV1o3+/K2PLeqy3/f5QVv4SQCCC1vJ
-   swMNUS0vUutVQE+5ZBHV0mOVtfZpvUTHs5RTfqkh5U8py6K2jPyRgyPKf
-   CDjlAksFsTYKXEAJBIWpzUkVt1xi49vLc5VF9ns0Zqi1I2uvvZwGIup+H
-   kmbgW1MRKblnmuvuBrw0KjBI62W4CSkYZXyxXcKuxSetVJKyAJBJ5/efW
-   s4cKDS2ZX85NVR5xj5YVWOJuOccdJvOnkLyJwhMOLfOdxDE6DTfWXW/r6
-   sgsTmlErK2eAPuUjIfDF1bCLRybn7PmTxvhkZ54uavWdAokvfl95jyRht
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="11759051"
-X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="11759051"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 07:40:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="823653889"
-X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="823653889"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 04 Feb 2024 07:40:05 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rWebC-0006Sa-3B;
-	Sun, 04 Feb 2024 15:40:02 +0000
-Date: Sun, 4 Feb 2024 23:39:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jozsef Kadlecsik <kadlec@netfilter.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/1] netfilter: ipset: Missing gc cancellations fixed
-Message-ID: <Zb-vtyrh3Q7FzJ_1@a2a592e9b9e1>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uPiwcQj0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=W0msZcEJ+t9nTsjWnaj57/Vi4XqPL4hKO6bHA7TAcok=; b=uPiwcQj0YSXa3jlk7aT2ywFFJh
+	X5Lw84Q6RQou+PYtmuh6xBAPmqghtcjkk9292TgVnTj4RhcEIwx9KaibyR21ZNJYr35vPxo4DghVE
+	FHEIexZzXxXI0yCYTUW7xd8N8GEtVxR0f71c7tgvsv4iEJFZft84Cqmus1eNE3dSzgdVYB4seKvdC
+	quPlAoMCKpwUfviTVDo7LmaxJbptFdQSLZ/inR8qFh0oM34o9Do+CcKgPZXzBXbJoSczGaD3NfG+H
+	AujcV2z1hPKt4PfIkbawa0YXOSuq9q0b/PsRch83vw4Xl/JBBMYB+pQwvdurd5AE5H14NOWL4Nfly
+	qOUcaL6Q==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rWebM-000000014EQ-3Vb4;
+	Sun, 04 Feb 2024 15:40:12 +0000
+Message-ID: <7531b72b-e44b-4135-85db-2c75c4805c2e@infradead.org>
+Date: Sun, 4 Feb 2024 07:40:12 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240204152642.1394588-1-kadlec@netfilter.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 12610/12662] htmldocs: Warning: file
+ Documentation/ABI/testing/sysfs-platform-silicom#20:
+To: Hans de Goede <hdegoede@redhat.com>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>, linux-doc@vger.kernel.org
+References: <202401070202.BQvPxgyp-lkp@intel.com>
+ <97f7e278-725b-4453-aae9-6a80664920c7@infradead.org>
+ <23509de3-beab-4afd-b76f-4d675797e7d7@redhat.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <23509de3-beab-4afd-b76f-4d675797e7d7@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-Thanks for your patch.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+On 2/3/24 23:21, Hans de Goede wrote:
+> Hi Randy,
+> 
+> On 2/4/24 02:26, Randy Dunlap wrote:
+>> Hi ktr,
+>>
+>> Sorry for the late reply.
+>>
+>>
+>> On 1/6/24 10:13, kernel test robot wrote:
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>>> head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
+>>> commit: f24945c77ed4c57b602632b9e3cbf5752e202a6f [12610/12662] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
+>>> reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070202.BQvPxgyp-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202401070202.BQvPxgyp-lkp@intel.com/
+>>>
+>>> All warnings (new ones prefixed by >>):
+>>>
+>>>>> Warning: file Documentation/ABI/testing/sysfs-platform-silicom#20:
+>>>
+>>
+>> but what was the warning or problem here?
+>> I don't see it.
+> 
+> This has already been fixed by:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=41237735ccde2cc3fe1d83ae0b776a085be6a22f
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+Hi Hans,
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH 1/1] netfilter: ipset: Missing gc cancellations fixed
-Link: https://lore.kernel.org/stable/20240204152642.1394588-1-kadlec%40netfilter.org
+I was trying to understand the incomplete warning message...
+
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-
+#Randy
