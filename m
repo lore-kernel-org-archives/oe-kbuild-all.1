@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA5710F5
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 02:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDB810F1
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 02:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707013600; cv=none; b=IUllzHwjBmIfQzGRk8vvgwNmZRj0rdQ9Vo8IEgVn7OyfPUlj+OOat81hj/wyAAYIT9yzN5FS1fj2jR1q7yp0au0uSPYZQ0OJHTMyM8OIjc0lfmSAiOOSEOlqHvDUV1rfeCPEXZD3TwQO667K1ULygsYZP6QoXW2iFVa+NSsMhoQ=
+	t=1707014199; cv=none; b=dYLE63ZNaWxE+DGr6RCA0flGOOkpoaTXdM7h0YBpGYtuormJZEWvELmnD6NbgkJe1/Ow/t9japoM2MkB89Qq94a7jq4svW3VK556QgSUlFOujTYwwPS5e6E9gVpu0SY46xjKRcWdzslYFhmNP94rIeLs2KEHIdI1LPs9D6UMj/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707013600; c=relaxed/simple;
-	bh=MZuUD704UrOLgccaN1b2cCtt8f2iQc2TlTIT1NofrqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gr5TzF2+VNaio57Y76E6TlMSzQjyhtgAj6dIARCyC6HBawrRgJ45tbBNiiJWyDigtcxuooU+iZkpMuXvnxewVSKsoM16aRvxygl3RbGNlX5SODI/+cx7zdFvN7JvGT7rYPpeAxShSF0FGTXSqkDFxF2HusY8T86iw0hlYFJF28s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OHX2fOkL; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1707014199; c=relaxed/simple;
+	bh=MsLXGSpYIXwXXtOlqRtXM2x+I0nBNGqXPMORAJmDC0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AlDiSw+952lahh/BglOzb37PUpPVk11354k755gQBvl2spsa7id8WSJ0ZISq9blMY9RBhU3Z1dNOVlxxCnrL33q5hPAZaYZnlMGo6kmjCZY8//t3+v819V/lHmvcMlBCeRkPe7KPDlwbMmkuZ+1aUu7MtO5SsSK9ztT8ydE5SoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsDiQSdC; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OHX2fOkL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsDiQSdC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707013598; x=1738549598;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MZuUD704UrOLgccaN1b2cCtt8f2iQc2TlTIT1NofrqM=;
-  b=OHX2fOkLXCW1KtVUJqoUyoN+ud+HZ5hfubYggwalRpNenq/HSoGa6cUx
-   v2T+1ij8btF/OboBCIlH1TgYkkzTAuvu8E8weiSWJpSyeMD/iFnylqnpZ
-   ieoC8R9PHGVAjeFI2Yrc3rFCIn2p+nrO04QOGk2p+/P4o+kzidgzPIytX
-   CA427PFMdcoITAbNmNHvMGTeT+5CpqlUoI6rrIQvlPjpr9GDQab+IAD/C
-   Vrk59yckSQ0vTzdkluCNyyBRdmPigSHvaF2tsAZhyoJWnnnmVrL8+65v3
-   Liyo6pzF4qzzDWSQK4to+hvcJgBJ79hHxRn9fI5UV+n2/gFQGzFzkqgFu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="10948393"
+  t=1707014198; x=1738550198;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MsLXGSpYIXwXXtOlqRtXM2x+I0nBNGqXPMORAJmDC0M=;
+  b=dsDiQSdC297Ux3IO4W3rlNgLa+1wp4f7vxxnEctOO7ZzpzjkVR0hKU+Q
+   wPouNO34O9foOF7kSmmJqT2LSO6fd2bZ6zKDRPl8Qfh0Adk4ApQ7+TsEc
+   I5uEix3cK5hpxxZKezaeYbPj2GelQHDScys4AkSP+Rsnoe5GMoN4EF6CF
+   X+uYr8NDw0dB3ZDku9lkm2lhEi6BReQDILNLoy9eJ/JqSMgZwCXTeCVi6
+   1zq5ZDLYp8CkmpvFZIMUIdT538sqR37+tIiFpksgihe7mIJxhmTz2OWPP
+   hAiYHJXI58i1PnCd50pi5wF6pF4wYPuUmSi4C3CDxEMfhluiuFL4oLCdG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="253713"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="10948393"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 18:26:37 -0800
+   d="scan'208";a="253713"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 18:36:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="908957191"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="908957191"
+   d="scan'208";a="627557"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2024 18:26:34 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 03 Feb 2024 18:36:34 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWSDH-0005tm-2y;
-	Sun, 04 Feb 2024 02:26:31 +0000
-Date: Sun, 4 Feb 2024 10:25:32 +0800
+	id 1rWSMy-0005uS-18;
+	Sun, 04 Feb 2024 02:36:32 +0000
+Date: Sun, 4 Feb 2024 10:36:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	alexandre.belloni@bootlin.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jdelvare@suse.com, linux@roeck-us.net, antoniu.miclaus@analog.com,
-	noname.nuno@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
-	Zeynep Arslanbenzer <Zeynep.Arslanbenzer@analog.com>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: Re: [PATCH v6 1/2] drivers: rtc: add max313xx series rtc driver
-Message-ID: <202402041027.jyioXP7e-lkp@intel.com>
-References: <20240202025241.834283-2-chris.packham@alliedtelesis.co.nz>
+To: Daniel Cashman <dcashman@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ulrich Hecht <uli@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Ben Hutchings <bwh@kernel.org>
+Subject: [cip:linux-4.4.y-cip-rebase 1830/2766] include/linux/kasan.h:14:10:
+ fatal error: asm/kasan.h: No such file or directory
+Message-ID: <202402041032.z998S1g8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,38 +61,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240202025241.834283-2-chris.packham@alliedtelesis.co.nz>
 
-Hi Chris,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on abelloni/rtc-next]
-[also build test ERROR on robh/for-next linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/drivers-rtc-add-max313xx-series-rtc-driver/20240202-105538
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20240202025241.834283-2-chris.packham%40alliedtelesis.co.nz
-patch subject: [PATCH v6 1/2] drivers: rtc: add max313xx series rtc driver
-config: parisc-randconfig-r051-20240204 (https://download.01.org/0day-ci/archive/20240204/202402041027.jyioXP7e-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041027.jyioXP7e-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-cip-rebase
+head:   a1ba69950787dfcb1e5268dc14233e12f2861076
+commit: 4dfb37ff6229e10facb903c5aa2a1966b930facf [1830/2766] arm: mm: support ARCH_MMAP_RND_BITS
+config: arm-randconfig-001-20240203 (https://download.01.org/0day-ci/archive/20240204/202402041032.z998S1g8-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041032.z998S1g8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402041027.jyioXP7e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402041032.z998S1g8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   hppa-linux-ld: drivers/rtc/rtc-max313xx.o: in function `max313xx_probe':
->> (.text+0x16b0): undefined reference to `devm_clk_hw_register'
->> hppa-linux-ld: (.text+0x16c8): undefined reference to `devm_of_clk_add_hw_provider'
-   hppa-linux-ld: drivers/rtc/rtc-max313xx.o: in function `.LC19':
->> (.rodata.cst4+0x4): undefined reference to `of_clk_hw_simple_get'
+   In file included from include/linux/nodemask.h:92:0,
+                    from include/linux/mmzone.h:16,
+                    from include/linux/gfp.h:5,
+                    from include/linux/kmod.h:22,
+                    from include/linux/module.h:13,
+                    from drivers/mfd/tps6105x.c:16:
+   include/linux/bitmap.h: In function 'bitmap_empty':
+   include/linux/bitmap.h:300:36: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     return find_first_bit(src, nbits) == nbits;
+                                       ^~
+   include/linux/bitmap.h: In function 'bitmap_full':
+   include/linux/bitmap.h:308:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     return find_first_zero_bit(src, nbits) == nbits;
+                                            ^~
+   In file included from include/linux/slab.h:107:0,
+                    from drivers/mfd/tps6105x.c:22:
+   include/linux/kasan.h: At top level:
+>> include/linux/kasan.h:14:10: fatal error: asm/kasan.h: No such file or directory
+    #include <asm/kasan.h>
+             ^~~~~~~~~~~~~
+   compilation terminated.
+--
+   In file included from include/linux/nodemask.h:92:0,
+                    from include/linux/mmzone.h:16,
+                    from include/linux/gfp.h:5,
+                    from include/linux/kmod.h:22,
+                    from include/linux/module.h:13,
+                    from drivers/mfd/wm8350-i2c.c:16:
+   include/linux/bitmap.h: In function 'bitmap_empty':
+   include/linux/bitmap.h:300:36: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     return find_first_bit(src, nbits) == nbits;
+                                       ^~
+   include/linux/bitmap.h: In function 'bitmap_full':
+   include/linux/bitmap.h:308:41: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     return find_first_zero_bit(src, nbits) == nbits;
+                                            ^~
+   In file included from include/linux/writeback.h:192:0,
+                    from include/linux/memcontrol.h:30,
+                    from include/linux/swap.h:8,
+                    from include/linux/suspend.h:4,
+                    from include/linux/regulator/machine.h:19,
+                    from include/linux/mfd/wm8350/pmic.h:18,
+                    from include/linux/mfd/wm8350/core.h:24,
+                    from drivers/mfd/wm8350-i2c.c:22:
+   include/linux/bio.h: In function 'bio_next_split':
+   include/linux/bio.h:424:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (sectors >= bio_sectors(bio))
+                 ^~
+   In file included from include/linux/slab.h:107:0,
+                    from drivers/mfd/wm8350-i2c.c:24:
+   include/linux/kasan.h: At top level:
+>> include/linux/kasan.h:14:10: fatal error: asm/kasan.h: No such file or directory
+    #include <asm/kasan.h>
+             ^~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +14 include/linux/kasan.h
+
+0b24becc810dc3 Andrey Ryabinin 2015-02-13  13  
+0b24becc810dc3 Andrey Ryabinin 2015-02-13 @14  #include <asm/kasan.h>
+69786cdb379bbc Andrey Ryabinin 2015-08-13  15  #include <asm/pgtable.h>
+0b24becc810dc3 Andrey Ryabinin 2015-02-13  16  #include <linux/sched.h>
+0b24becc810dc3 Andrey Ryabinin 2015-02-13  17  
+
+:::::: The code at line 14 was first introduced by commit
+:::::: 0b24becc810dc3be6e3f94103a866f214c282394 kasan: add kernel address sanitizer infrastructure
+
+:::::: TO: Andrey Ryabinin <a.ryabinin@samsung.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
