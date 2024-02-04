@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717421385
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 03:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E742611A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 03:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707016125; cv=none; b=d5DaoxXfTj3FfN2PzUpT3VRyxKhFuPHi9h/K5wWYeoH2MUeeTGlhA3n51z/7KjqUsif/dOCykidDs0aj+EIn5YgtZV6a4hmFUfxemXYN1mMZ0XjJ2+6i7XtwPIC81l1Vm7g7v1UTVi2eX5CXNPY11MzvMjsrtslhDy9J44NCc2Y=
+	t=1707017505; cv=none; b=Lj11bJpeVjibuxtQw3CjASONQYU1/smJm359ECON2/85GQtU1xxjKfckI1zmP9eHYdOS6RJJqDVwQnPxdAln8ayb6caj1tXQ9B9rPgqH0jmVdMB28AZw9G0d8+WIMvmfvjDNhJ7WmQihsAeaGIGWRU7rBxUJlul5M940ieKFHd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707016125; c=relaxed/simple;
-	bh=ADL3xeGJXZ68im1QzzqdBhs2LqujIrgCaF1yQrHIpJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QfAXdCwBAjNfA3QhJlQYsZjZj3sCU5TjpcABj0Kx9YUTT7oPEWIhB/rD/1Z8eaDHhVh/2JUxmXls5+PBzEo9Jh6ZrRhd3Wwwnj6NSyz9hcUpFJBxQ/b5dEmtSInOz9pjs2kUDTt3GH/O0vAZUKmx+46FKN5Mtmti8Boiv8JiM9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jXnTf/z9; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1707017505; c=relaxed/simple;
+	bh=3xVWaKpbNBtvyLFCIm1OC4SV8y9QYFAC6mt6k/I7j9Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cEQr5+KYLzhpvexIwWsz95LcViA9+gTFInJsHkYmfAq5krn4fAvBJmQ+EP66lQbGzphY/8h2cqYwvqAM55PuAEydli/ua961Yi5L8Kxw3BPohIqYeFYj8I7RqjKR7SS4aR4PaY9o5tikBiWvZRTzi89S5n/kWQLOVnwfTfJuekg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ORAUn2BB; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jXnTf/z9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORAUn2BB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707016123; x=1738552123;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ADL3xeGJXZ68im1QzzqdBhs2LqujIrgCaF1yQrHIpJA=;
-  b=jXnTf/z9UyX9NpCdZlI0eJAEsil1HnbZhhj/CHpff0BDrSUiX0mmlsHM
-   jkFAJmntmAnUGzyeZbPQNm676W10Qt7WmFS6J9yyAD29JpwOcrLmnb/Wj
-   0oQ4CDtdh898xYsRrGmi7ll+BIszY3cKOhfFZZvYzDzzu2jsjpg/eF8mB
-   4hakejOl0mMXPGsf7ggDNucy5Wqx5OPMBdDlvEfxGw5mAGDeHnEi7Lm2a
-   WGluJ+e9v9JKjvkCijCAZ7DDN0WRVSMDjr6DRhFk2bEpIrrn+5/QoQeXo
-   LtiOaX9SKI9sQLTgAveoM3oW09UkIHetDDTjpitfY8HZtay4Ec3EzzH/5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="518487"
+  t=1707017502; x=1738553502;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3xVWaKpbNBtvyLFCIm1OC4SV8y9QYFAC6mt6k/I7j9Q=;
+  b=ORAUn2BBi1xXIYBI9aQ9kulkuDxP9RJ7swsMLRvALVJMFsRGbkkXT54z
+   LwPDtSotrPgM5k5kp68G1p15TsBdo2nrgucC81B7PJmIA0IWLsamCAPFK
+   SFubk32nHH8CoE7uNi/c6wzugsHfT1EH5EG/9cbrifJ/bYpXYw3v7Gu9A
+   atzl2ovlUa2+387e7AOkZrneVNMepDF02eT5AoCvag3AJ3gM7eX6SgIZj
+   dsKYOm1SMtxTvi7uFYHODkBhaMOLj8nQJmbBvXH+igNmn/sh0sQfFcrbN
+   wlJoCyC4IhW41dOhPxol5tdl0wWw6+Y64aRk/JdGkMVOiWQUp7RXLOMT/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="4252470"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="518487"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 19:08:40 -0800
+   d="scan'208";a="4252470"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 19:31:42 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="23679476"
+   d="scan'208";a="5012331"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2024 19:08:39 -0800
+  by orviesa005.jf.intel.com with ESMTP; 03 Feb 2024 19:31:41 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWSs0-0005wG-3C;
-	Sun, 04 Feb 2024 03:08:36 +0000
-Date: Sun, 4 Feb 2024 11:08:13 +0800
+	id 1rWTEI-0005xi-04;
+	Sun, 04 Feb 2024 03:31:38 +0000
+Date: Sun, 4 Feb 2024 11:31:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Valentin Schneider <vschneid@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 4/5] sched/fair: Track count of tasks running in
- userspace
-Message-ID: <202402041155.ZPTGxQSD-lkp@intel.com>
-References: <20240202080920.3337862-5-vschneid@redhat.com>
+To: Qu Wenruo <wqu@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
+Subject: [kdave-btrfs-devel:misc-next 14/37] fs/btrfs/zlib.c:231
+ zlib_compress_folios() error: uninitialized symbol 'ret'.
+Message-ID: <202402041144.c6bTqlrj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,220 +57,217 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240202080920.3337862-5-vschneid@redhat.com>
 
-Hi Valentin,
+Hi Qu,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on tip/core/entry tip/master linus/master v6.8-rc2 next-20240202]
-[cannot apply to tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Valentin-Schneider/sched-fair-Only-throttle-CFS-tasks-on-return-to-userspace/20240202-162620
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20240202080920.3337862-5-vschneid%40redhat.com
-patch subject: [RFC PATCH v2 4/5] sched/fair: Track count of tasks running in userspace
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240204/202402041155.ZPTGxQSD-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041155.ZPTGxQSD-lkp@intel.com/reproduce)
+tree:   https://github.com/kdave/btrfs-devel.git misc-next
+head:   a5c508d84a99a0ea3646eaa03ff6293433cda7af
+commit: 046bf67791fef3776ca221391a57ef718905e7ce [14/37] btrfs: compression: migrate compression/decompression paths to folios
+config: i386-randconfig-141-20240204 (https://download.01.org/0day-ci/archive/20240204/202402041144.c6bTqlrj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402041155.ZPTGxQSD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402041144.c6bTqlrj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/btrfs/zlib.c:231 zlib_compress_folios() error: uninitialized symbol 'ret'.
 
-   kernel/sched/fair.c: In function 'enqueue_task_fair':
->> kernel/sched/fair.c:6940:65: error: 'struct cfs_rq' has no member named 'throttle_pending'
-    6940 |                 if (kernel_task || (!throttle_pending && !cfs_rq->throttle_pending))
-         |                                                                 ^~
->> kernel/sched/fair.c:6945:33: error: 'struct cfs_rq' has no member named 'h_user_running'; did you mean 'h_nr_running'?
-    6945 |                         cfs_rq->h_user_running++;
-         |                                 ^~~~~~~~~~~~~~
-         |                                 h_nr_running
-   kernel/sched/fair.c:6947:43: error: 'struct cfs_rq' has no member named 'throttle_pending'
-    6947 |                 throttle_pending |= cfs_rq->throttle_pending;
-         |                                           ^~
-   kernel/sched/fair.c:6969:65: error: 'struct cfs_rq' has no member named 'throttle_pending'
-    6969 |                 if (kernel_task || (!throttle_pending && !cfs_rq->throttle_pending))
-         |                                                                 ^~
-   kernel/sched/fair.c:6974:33: error: 'struct cfs_rq' has no member named 'h_user_running'; did you mean 'h_nr_running'?
-    6974 |                         cfs_rq->h_user_running++;
-         |                                 ^~~~~~~~~~~~~~
-         |                                 h_nr_running
-   kernel/sched/fair.c:6976:43: error: 'struct cfs_rq' has no member named 'throttle_pending'
-    6976 |                 throttle_pending |= cfs_rq->throttle_pending;
-         |                                           ^~
-   kernel/sched/fair.c:7014:17: error: implicit declaration of function 'unthrottle_on_enqueue' [-Werror=implicit-function-declaration]
-    7014 |                 unthrottle_on_enqueue(p);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'dequeue_task_fair':
-   kernel/sched/fair.c:7031:46: error: 'struct sched_entity' has no member named 'kernel_node'
-    7031 |         bool kernel_task = !list_empty(&p->se.kernel_node);
-         |                                              ^
-   kernel/sched/fair.c:7041:65: error: 'struct cfs_rq' has no member named 'throttle_pending'
-    7041 |                 if (kernel_task || (!throttle_pending && !cfs_rq->throttle_pending))
-         |                                                                 ^~
-   kernel/sched/fair.c:7046:33: error: 'struct cfs_rq' has no member named 'h_user_running'; did you mean 'h_nr_running'?
-    7046 |                         cfs_rq->h_user_running--;
-         |                                 ^~~~~~~~~~~~~~
-         |                                 h_nr_running
-   kernel/sched/fair.c:7048:43: error: 'struct cfs_rq' has no member named 'throttle_pending'
-    7048 |                 throttle_pending |= cfs_rq->throttle_pending;
-         |                                           ^~
-   kernel/sched/fair.c:7082:65: error: 'struct cfs_rq' has no member named 'throttle_pending'
-    7082 |                 if (kernel_task || (!throttle_pending && !cfs_rq->throttle_pending))
-         |                                                                 ^~
-   kernel/sched/fair.c:7087:33: error: 'struct cfs_rq' has no member named 'h_user_running'; did you mean 'h_nr_running'?
-    7087 |                         cfs_rq->h_user_running--;
-         |                                 ^~~~~~~~~~~~~~
-         |                                 h_nr_running
-   kernel/sched/fair.c:7089:43: error: 'struct cfs_rq' has no member named 'throttle_pending'
-    7089 |                 throttle_pending |= cfs_rq->throttle_pending;
-         |                                           ^~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:13427:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
-   13427 | void free_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:13429:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
-   13429 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:13434:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
-   13434 | void online_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:13436:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
-   13436 | void unregister_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6807:13: warning: 'cfs_rq_throttled_loose' defined but not used [-Wunused-function]
-    6807 | static bool cfs_rq_throttled_loose(struct cfs_rq *cfs_rq)
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +/ret +231 fs/btrfs/zlib.c
 
+c8b978188c9a0f Chris Mason           2008-10-29   93  
+046bf67791fef3 Qu Wenruo             2024-01-29   94  int zlib_compress_folios(struct list_head *ws, struct address_space *mapping,
+046bf67791fef3 Qu Wenruo             2024-01-29   95  		u64 start, struct folio **folios, unsigned long *out_folios,
+c4bf665a319755 David Sterba          2019-10-01   96  		unsigned long *total_in, unsigned long *total_out)
+c8b978188c9a0f Chris Mason           2008-10-29   97  {
+261507a02ccba9 Li Zefan              2010-12-17   98  	struct workspace *workspace = list_entry(ws, struct workspace, list);
+c8b978188c9a0f Chris Mason           2008-10-29   99  	int ret;
+718e58551aecf7 Fabio M. De Francesco 2022-06-27  100  	char *data_in = NULL;
+046bf67791fef3 Qu Wenruo             2024-01-29  101  	char *cfolio_out;
+046bf67791fef3 Qu Wenruo             2024-01-29  102  	int nr_folios = 0;
+046bf67791fef3 Qu Wenruo             2024-01-29  103  	struct folio *in_folio = NULL;
+046bf67791fef3 Qu Wenruo             2024-01-29  104  	struct folio *out_folio = NULL;
+c8b978188c9a0f Chris Mason           2008-10-29  105  	unsigned long bytes_left;
+046bf67791fef3 Qu Wenruo             2024-01-29  106  	unsigned int in_buf_folios;
+38c31464089f63 David Sterba          2017-02-14  107  	unsigned long len = *total_out;
+046bf67791fef3 Qu Wenruo             2024-01-29  108  	unsigned long nr_dest_folios = *out_folios;
+046bf67791fef3 Qu Wenruo             2024-01-29  109  	const unsigned long max_out = nr_dest_folios * PAGE_SIZE;
+c8b978188c9a0f Chris Mason           2008-10-29  110  
+046bf67791fef3 Qu Wenruo             2024-01-29  111  	*out_folios = 0;
+c8b978188c9a0f Chris Mason           2008-10-29  112  	*total_out = 0;
+c8b978188c9a0f Chris Mason           2008-10-29  113  	*total_in = 0;
+c8b978188c9a0f Chris Mason           2008-10-29  114  
+f51d2b59120ff3 David Sterba          2017-09-15  115  	if (Z_OK != zlib_deflateInit(&workspace->strm, workspace->level)) {
+62e855771dacf7 Jeff Mahoney          2016-09-20  116  		pr_warn("BTRFS: deflateInit failed\n");
+60e1975acb48fc Zach Brown            2014-05-09  117  		ret = -EIO;
+c8b978188c9a0f Chris Mason           2008-10-29  118  		goto out;
+c8b978188c9a0f Chris Mason           2008-10-29  119  	}
+c8b978188c9a0f Chris Mason           2008-10-29  120  
+7880991344f736 Sergey Senozhatsky    2014-07-07  121  	workspace->strm.total_in = 0;
+7880991344f736 Sergey Senozhatsky    2014-07-07  122  	workspace->strm.total_out = 0;
+c8b978188c9a0f Chris Mason           2008-10-29  123  
+046bf67791fef3 Qu Wenruo             2024-01-29  124  	out_folio = btrfs_alloc_compr_folio();
+046bf67791fef3 Qu Wenruo             2024-01-29  125  	if (out_folio == NULL) {
+60e1975acb48fc Zach Brown            2014-05-09  126  		ret = -ENOMEM;
+4b72029dc3fd6b Li Zefan              2010-11-09  127  		goto out;
+4b72029dc3fd6b Li Zefan              2010-11-09  128  	}
+046bf67791fef3 Qu Wenruo             2024-01-29  129  	cfolio_out = folio_address(out_folio);
+046bf67791fef3 Qu Wenruo             2024-01-29  130  	folios[0] = out_folio;
+046bf67791fef3 Qu Wenruo             2024-01-29  131  	nr_folios = 1;
+c8b978188c9a0f Chris Mason           2008-10-29  132  
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  133  	workspace->strm.next_in = workspace->buf;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  134  	workspace->strm.avail_in = 0;
+046bf67791fef3 Qu Wenruo             2024-01-29  135  	workspace->strm.next_out = cfolio_out;
+09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  136  	workspace->strm.avail_out = PAGE_SIZE;
+c8b978188c9a0f Chris Mason           2008-10-29  137  
+7880991344f736 Sergey Senozhatsky    2014-07-07  138  	while (workspace->strm.total_in < len) {
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  139  		/*
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  140  		 * Get next input pages and copy the contents to
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  141  		 * the workspace buffer if required.
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  142  		 */
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  143  		if (workspace->strm.avail_in == 0) {
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  144  			bytes_left = len - workspace->strm.total_in;
+046bf67791fef3 Qu Wenruo             2024-01-29  145  			in_buf_folios = min(DIV_ROUND_UP(bytes_left, PAGE_SIZE),
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  146  					    workspace->buf_size / PAGE_SIZE);
+046bf67791fef3 Qu Wenruo             2024-01-29  147  			if (in_buf_folios > 1) {
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  148  				int i;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  149  
+046bf67791fef3 Qu Wenruo             2024-01-29  150  				for (i = 0; i < in_buf_folios; i++) {
+718e58551aecf7 Fabio M. De Francesco 2022-06-27  151  					if (data_in) {
+718e58551aecf7 Fabio M. De Francesco 2022-06-27  152  						kunmap_local(data_in);
+046bf67791fef3 Qu Wenruo             2024-01-29  153  						folio_put(in_folio);
+2f81f11aa2e058 Qu Wenruo             2024-01-29  154  						data_in = NULL;
+55276e14df4324 David Sterba          2021-10-27  155  					}
+046bf67791fef3 Qu Wenruo             2024-01-29  156  					ret = btrfs_compress_filemap_get_folio(mapping,
+046bf67791fef3 Qu Wenruo             2024-01-29  157  							start, &in_folio);
+2f81f11aa2e058 Qu Wenruo             2024-01-29  158  					if (ret < 0)
+2f81f11aa2e058 Qu Wenruo             2024-01-29  159  						goto out;
+046bf67791fef3 Qu Wenruo             2024-01-29  160  					data_in = kmap_local_folio(in_folio, 0);
+9e5e6d4e2e5e37 David Sterba          2022-10-31  161  					copy_page(workspace->buf + i * PAGE_SIZE,
+9e5e6d4e2e5e37 David Sterba          2022-10-31  162  						  data_in);
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  163  					start += PAGE_SIZE;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  164  				}
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  165  				workspace->strm.next_in = workspace->buf;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  166  			} else {
+718e58551aecf7 Fabio M. De Francesco 2022-06-27  167  				if (data_in) {
+718e58551aecf7 Fabio M. De Francesco 2022-06-27  168  					kunmap_local(data_in);
+046bf67791fef3 Qu Wenruo             2024-01-29  169  					folio_put(in_folio);
+2f81f11aa2e058 Qu Wenruo             2024-01-29  170  					data_in = NULL;
+55276e14df4324 David Sterba          2021-10-27  171  				}
+046bf67791fef3 Qu Wenruo             2024-01-29  172  				ret = btrfs_compress_filemap_get_folio(mapping,
+046bf67791fef3 Qu Wenruo             2024-01-29  173  						start, &in_folio);
+2f81f11aa2e058 Qu Wenruo             2024-01-29  174  				if (ret < 0)
+2f81f11aa2e058 Qu Wenruo             2024-01-29  175  					goto out;
+046bf67791fef3 Qu Wenruo             2024-01-29  176  				data_in = kmap_local_folio(in_folio, 0);
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  177  				start += PAGE_SIZE;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  178  				workspace->strm.next_in = data_in;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  179  			}
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  180  			workspace->strm.avail_in = min(bytes_left,
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  181  						       (unsigned long) workspace->buf_size);
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  182  		}
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  183  
+7880991344f736 Sergey Senozhatsky    2014-07-07  184  		ret = zlib_deflate(&workspace->strm, Z_SYNC_FLUSH);
+c8b978188c9a0f Chris Mason           2008-10-29  185  		if (ret != Z_OK) {
+62e855771dacf7 Jeff Mahoney          2016-09-20  186  			pr_debug("BTRFS: deflate in loop returned %d\n",
+c8b978188c9a0f Chris Mason           2008-10-29  187  			       ret);
+7880991344f736 Sergey Senozhatsky    2014-07-07  188  			zlib_deflateEnd(&workspace->strm);
+60e1975acb48fc Zach Brown            2014-05-09  189  			ret = -EIO;
+c8b978188c9a0f Chris Mason           2008-10-29  190  			goto out;
+c8b978188c9a0f Chris Mason           2008-10-29  191  		}
+c8b978188c9a0f Chris Mason           2008-10-29  192  
+c8b978188c9a0f Chris Mason           2008-10-29  193  		/* we're making it bigger, give up */
+7880991344f736 Sergey Senozhatsky    2014-07-07  194  		if (workspace->strm.total_in > 8192 &&
+7880991344f736 Sergey Senozhatsky    2014-07-07  195  		    workspace->strm.total_in <
+7880991344f736 Sergey Senozhatsky    2014-07-07  196  		    workspace->strm.total_out) {
+130d5b415a091e David Sterba          2014-06-20  197  			ret = -E2BIG;
+c8b978188c9a0f Chris Mason           2008-10-29  198  			goto out;
+c8b978188c9a0f Chris Mason           2008-10-29  199  		}
+c8b978188c9a0f Chris Mason           2008-10-29  200  		/* we need another page for writing out.  Test this
+c8b978188c9a0f Chris Mason           2008-10-29  201  		 * before the total_in so we will pull in a new page for
+c8b978188c9a0f Chris Mason           2008-10-29  202  		 * the stream end if required
+c8b978188c9a0f Chris Mason           2008-10-29  203  		 */
+7880991344f736 Sergey Senozhatsky    2014-07-07  204  		if (workspace->strm.avail_out == 0) {
+046bf67791fef3 Qu Wenruo             2024-01-29  205  			if (nr_folios == nr_dest_folios) {
+60e1975acb48fc Zach Brown            2014-05-09  206  				ret = -E2BIG;
+c8b978188c9a0f Chris Mason           2008-10-29  207  				goto out;
+c8b978188c9a0f Chris Mason           2008-10-29  208  			}
+046bf67791fef3 Qu Wenruo             2024-01-29  209  			out_folio = btrfs_alloc_compr_folio();
+046bf67791fef3 Qu Wenruo             2024-01-29  210  			if (out_folio == NULL) {
+60e1975acb48fc Zach Brown            2014-05-09  211  				ret = -ENOMEM;
+4b72029dc3fd6b Li Zefan              2010-11-09  212  				goto out;
+4b72029dc3fd6b Li Zefan              2010-11-09  213  			}
+046bf67791fef3 Qu Wenruo             2024-01-29  214  			cfolio_out = folio_address(out_folio);
+046bf67791fef3 Qu Wenruo             2024-01-29  215  			folios[nr_folios] = out_folio;
+046bf67791fef3 Qu Wenruo             2024-01-29  216  			nr_folios++;
+09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  217  			workspace->strm.avail_out = PAGE_SIZE;
+046bf67791fef3 Qu Wenruo             2024-01-29  218  			workspace->strm.next_out = cfolio_out;
+c8b978188c9a0f Chris Mason           2008-10-29  219  		}
+c8b978188c9a0f Chris Mason           2008-10-29  220  		/* we're all done */
+7880991344f736 Sergey Senozhatsky    2014-07-07  221  		if (workspace->strm.total_in >= len)
+c8b978188c9a0f Chris Mason           2008-10-29  222  			break;
+7880991344f736 Sergey Senozhatsky    2014-07-07  223  		if (workspace->strm.total_out > max_out)
+c8b978188c9a0f Chris Mason           2008-10-29  224  			break;
+c8b978188c9a0f Chris Mason           2008-10-29  225  	}
+7880991344f736 Sergey Senozhatsky    2014-07-07  226  	workspace->strm.avail_in = 0;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  227  	/*
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  228  	 * Call deflate with Z_FINISH flush parameter providing more output
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  229  	 * space but no more input data, until it returns with Z_STREAM_END.
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  230  	 */
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30 @231  	while (ret != Z_STREAM_END) {
+7880991344f736 Sergey Senozhatsky    2014-07-07  232  		ret = zlib_deflate(&workspace->strm, Z_FINISH);
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  233  		if (ret == Z_STREAM_END)
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  234  			break;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  235  		if (ret != Z_OK && ret != Z_BUF_ERROR) {
+7880991344f736 Sergey Senozhatsky    2014-07-07  236  			zlib_deflateEnd(&workspace->strm);
+60e1975acb48fc Zach Brown            2014-05-09  237  			ret = -EIO;
+c8b978188c9a0f Chris Mason           2008-10-29  238  			goto out;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  239  		} else if (workspace->strm.avail_out == 0) {
+046bf67791fef3 Qu Wenruo             2024-01-29  240  			/* get another folio for the stream end */
+046bf67791fef3 Qu Wenruo             2024-01-29  241  			if (nr_folios == nr_dest_folios) {
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  242  				ret = -E2BIG;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  243  				goto out;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  244  			}
+046bf67791fef3 Qu Wenruo             2024-01-29  245  			out_folio = btrfs_alloc_compr_folio();
+046bf67791fef3 Qu Wenruo             2024-01-29  246  			if (out_folio == NULL) {
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  247  				ret = -ENOMEM;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  248  				goto out;
+c8b978188c9a0f Chris Mason           2008-10-29  249  			}
+046bf67791fef3 Qu Wenruo             2024-01-29  250  			cfolio_out = folio_address(out_folio);
+046bf67791fef3 Qu Wenruo             2024-01-29  251  			folios[nr_folios] = out_folio;
+046bf67791fef3 Qu Wenruo             2024-01-29  252  			nr_folios++;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  253  			workspace->strm.avail_out = PAGE_SIZE;
+046bf67791fef3 Qu Wenruo             2024-01-29  254  			workspace->strm.next_out = cfolio_out;
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  255  		}
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  256  	}
+3fd396afc05fc9 Mikhail Zaslonko      2020-01-30  257  	zlib_deflateEnd(&workspace->strm);
+c8b978188c9a0f Chris Mason           2008-10-29  258  
+7880991344f736 Sergey Senozhatsky    2014-07-07  259  	if (workspace->strm.total_out >= workspace->strm.total_in) {
+60e1975acb48fc Zach Brown            2014-05-09  260  		ret = -E2BIG;
+c8b978188c9a0f Chris Mason           2008-10-29  261  		goto out;
+c8b978188c9a0f Chris Mason           2008-10-29  262  	}
+c8b978188c9a0f Chris Mason           2008-10-29  263  
+c8b978188c9a0f Chris Mason           2008-10-29  264  	ret = 0;
+7880991344f736 Sergey Senozhatsky    2014-07-07  265  	*total_out = workspace->strm.total_out;
+7880991344f736 Sergey Senozhatsky    2014-07-07  266  	*total_in = workspace->strm.total_in;
+c8b978188c9a0f Chris Mason           2008-10-29  267  out:
+046bf67791fef3 Qu Wenruo             2024-01-29  268  	*out_folios = nr_folios;
+718e58551aecf7 Fabio M. De Francesco 2022-06-27  269  	if (data_in) {
+718e58551aecf7 Fabio M. De Francesco 2022-06-27  270  		kunmap_local(data_in);
+046bf67791fef3 Qu Wenruo             2024-01-29  271  		folio_put(in_folio);
+55276e14df4324 David Sterba          2021-10-27  272  	}
+718e58551aecf7 Fabio M. De Francesco 2022-06-27  273  
+c8b978188c9a0f Chris Mason           2008-10-29  274  	return ret;
+c8b978188c9a0f Chris Mason           2008-10-29  275  }
+c8b978188c9a0f Chris Mason           2008-10-29  276  
 
-vim +6940 kernel/sched/fair.c
+:::::: The code at line 231 was first introduced by commit
+:::::: 3fd396afc05fc90097276c6b7a70c406ad4df5bb btrfs: use larger zlib buffer for s390 hardware compression
 
-  6901	
-  6902	/*
-  6903	 * The enqueue_task method is called before nr_running is
-  6904	 * increased. Here we update the fair scheduling stats and
-  6905	 * then put the task into the rbtree:
-  6906	 */
-  6907	static void
-  6908	enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
-  6909	{
-  6910		struct cfs_rq *cfs_rq;
-  6911		struct sched_entity *se = &p->se;
-  6912		int idle_h_nr_running = task_has_idle_policy(p);
-  6913		int task_new = !(flags & ENQUEUE_WAKEUP);
-  6914		bool kernel_task = is_kernel_task(p);
-  6915		bool throttle_pending = false;
-  6916	
-  6917		/*
-  6918		 * The code below (indirectly) updates schedutil which looks at
-  6919		 * the cfs_rq utilization to select a frequency.
-  6920		 * Let's add the task's estimated utilization to the cfs_rq's
-  6921		 * estimated utilization, before we update schedutil.
-  6922		 */
-  6923		util_est_enqueue(&rq->cfs, p);
-  6924	
-  6925		/*
-  6926		 * If in_iowait is set, the code below may not trigger any cpufreq
-  6927		 * utilization updates, so do it here explicitly with the IOWAIT flag
-  6928		 * passed.
-  6929		 */
-  6930		if (p->in_iowait)
-  6931			cpufreq_update_util(rq, SCHED_CPUFREQ_IOWAIT);
-  6932	
-  6933		for_each_sched_entity(se) {
-  6934			if (se->on_rq)
-  6935				break;
-  6936			cfs_rq = cfs_rq_of(se);
-  6937			enqueue_entity(cfs_rq, se, flags);
-  6938	
-  6939	
-> 6940			if (kernel_task || (!throttle_pending && !cfs_rq->throttle_pending))
-  6941				cfs_rq->h_nr_running++;
-  6942			if (kernel_task)
-  6943				enqueue_kernel(cfs_rq, se, 1);
-  6944			else if (!throttle_pending)
-> 6945				cfs_rq->h_user_running++;
-  6946	
-  6947			throttle_pending |= cfs_rq->throttle_pending;
-  6948	
-  6949			cfs_rq->idle_h_nr_running += idle_h_nr_running;
-  6950			if (cfs_rq_is_idle(cfs_rq))
-  6951				idle_h_nr_running = 1;
-  6952	
-  6953	
-  6954			/* end evaluation on encountering a throttled cfs_rq */
-  6955			if (cfs_rq_throttled(cfs_rq))
-  6956				goto enqueue_throttle;
-  6957	
-  6958			flags = ENQUEUE_WAKEUP;
-  6959		}
-  6960	
-  6961		for_each_sched_entity(se) {
-  6962			cfs_rq = cfs_rq_of(se);
-  6963	
-  6964			update_load_avg(cfs_rq, se, UPDATE_TG);
-  6965			se_update_runnable(se);
-  6966			update_cfs_group(se);
-  6967	
-  6968	
-  6969			if (kernel_task || (!throttle_pending && !cfs_rq->throttle_pending))
-  6970				cfs_rq->h_nr_running++;
-  6971			if (kernel_task)
-  6972				enqueue_kernel(cfs_rq, se, 1);
-  6973			else if (!throttle_pending)
-  6974				cfs_rq->h_user_running++;
-  6975	
-  6976			throttle_pending |= cfs_rq->throttle_pending;
-  6977	
-  6978			cfs_rq->idle_h_nr_running += idle_h_nr_running;
-  6979			if (cfs_rq_is_idle(cfs_rq))
-  6980				idle_h_nr_running = 1;
-  6981	
-  6982	
-  6983			/* end evaluation on encountering a throttled cfs_rq */
-  6984			if (cfs_rq_throttled(cfs_rq))
-  6985				goto enqueue_throttle;
-  6986		}
-  6987	
-  6988		/* At this point se is NULL and we are at root level*/
-  6989		add_nr_running(rq, 1);
-  6990	
-  6991		/*
-  6992		 * Since new tasks are assigned an initial util_avg equal to
-  6993		 * half of the spare capacity of their CPU, tiny tasks have the
-  6994		 * ability to cross the overutilized threshold, which will
-  6995		 * result in the load balancer ruining all the task placement
-  6996		 * done by EAS. As a way to mitigate that effect, do not account
-  6997		 * for the first enqueue operation of new tasks during the
-  6998		 * overutilized flag detection.
-  6999		 *
-  7000		 * A better way of solving this problem would be to wait for
-  7001		 * the PELT signals of tasks to converge before taking them
-  7002		 * into account, but that is not straightforward to implement,
-  7003		 * and the following generally works well enough in practice.
-  7004		 */
-  7005		if (!task_new)
-  7006			update_overutilized_status(rq);
-  7007	
-  7008	enqueue_throttle:
-  7009		assert_list_leaf_cfs_rq(rq);
-  7010	
-  7011		hrtick_update(rq);
-  7012	
-  7013		if (kernel_task)
-  7014			unthrottle_on_enqueue(p);
-  7015	}
-  7016	
+:::::: TO: Mikhail Zaslonko <zaslonko@linux.ibm.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
