@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF9610A19;
-	Sun,  4 Feb 2024 08:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B3014275
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 08:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707034466; cv=none; b=SVFupx8grWpSFUPrl7vCELtig1QkoOZ8h+mXG+YcmZCuY0pa94Tw9K6Z229L6xbNPXyY4sBT+Zr8URKR6cNxolg97E6+PVwKb/pssr775w0YaEoDliUwltleICiNix2ATBIEJdmQsv+3gi1aEUuv0yd+hY4HdSzcTDZQjLucAyg=
+	t=1707037106; cv=none; b=Dqly+waW92GJPaMUuHZlO1BJmS6fWp+UprzhTwwqzGaF0ldgmQlZdPbbHV3LOPl5S/2lgJpoTs1KJ9TcbtTCgzO4Zr7dtJioTYGkN6yu5GjSckkm7IWsDg8bwlmH8ZAM83uvDdMBrMYq5qYhN3AXwJ4nR0Gx7myw29L1VYQTZ/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707034466; c=relaxed/simple;
-	bh=C3qfc5ALTWzUYWNVrxnzlA5PHdtrABr+imII4/V5rbw=;
+	s=arc-20240116; t=1707037106; c=relaxed/simple;
+	bh=8jpNOSzFasM+HSeXw6TzgytStlhA65bfmYu2O9kpDHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mR06DvWhxAk2CoroCr7uGpb/mIIZRQo4GBWJYpXOGYKk77RE6EpL0k3mZFLr9VR6nL0CGGda+v2VXRU2UvVE4UL5P5z8yzv+eqtH5S9xGdqHB9OqG4fHlMElCEoKEsxm656pP+H09UbtlcUxlrzXman0tkAQRR+YT3/okV7fBuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mbDo8qZ1; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=r72uq4fsK6zqApzUNbU+WMDYODCzxp2HMgt/SqbqFJru26L+5DOcdKMEjuzJqCT8EN43pxLGHvgAfZnfLIX+aq3k7EgBw+fb6/xFtPqX2QBuzy1QZp2nVhKDx7Qecposvcmt3TZVrItyYGeN1Rh2o6+MjRBCh6Ni8cswqD9FtWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lv3LgYyK; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mbDo8qZ1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lv3LgYyK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707034464; x=1738570464;
+  t=1707037104; x=1738573104;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C3qfc5ALTWzUYWNVrxnzlA5PHdtrABr+imII4/V5rbw=;
-  b=mbDo8qZ1Nk8cyx/T5q7aORdDujRF6Uni0BEGWOGwDPsfOeAa6fR6nspo
-   Pbj4VIutrbQx3M1xMASIqKV5iL/bpicZZ5Rb646sq7KtrTo9BUYcxk3bx
-   Y9FzM0qgpOASVKyT7Ah7nzvY5SuiRDUt1FBQehdhbPdOENaAvKiSkeghO
-   xLRZZpSdU2VmtMhtpk92ZGIZ0An72ibxqusc0+7bEo4Siv+nEj+YM9tTL
-   WocT7EjbuzSK2hFWbFbc57cuM7hB18ej78UYiQNmO6o46uWutVPtF20YG
-   RJgj2V/VVQediEVBPPq6rTKWUZEnMv26R/uLN3T4f1t+YPUnjUK9U8qBL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="292333"
+  bh=8jpNOSzFasM+HSeXw6TzgytStlhA65bfmYu2O9kpDHE=;
+  b=Lv3LgYyKgo3eEcOI5PnABePL/XHFgk+oMzx09RCV76CT/zHpGI41k0iI
+   /EDOI0PalpA5mhPnIbII1H3F3U6pxUxGPGUfwPSRy1I1PZcHOUNRv8Hqu
+   /iKRyEvPhO8qI78UM+0b6zmxIv44rEOZKhvjXHm6a61zP4FEfrJu8/zQu
+   6ZK5UwA1N/BFe4jdO+sQH2SnqXFN8gVpBveXQgIyxQujN4QTYS8mOJN5e
+   LKBtzyjI22ZFliPsXSZVHTzObjduHeO6jzKRFaa8RlhZpJYkVLZsK47Y8
+   oSgwwVyj6nBiPcROaQBNIPbt3ijcIi1x7V3HA7Lx3uVBmciU3xNYNFL+U
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="25824867"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="292333"
+   d="scan'208";a="25824867"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 00:14:24 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 00:58:23 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="5046958"
+   d="scan'208";a="5053803"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 04 Feb 2024 00:14:22 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Feb 2024 00:58:22 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWXcs-00069U-2I;
-	Sun, 04 Feb 2024 08:13:31 +0000
-Date: Sun, 4 Feb 2024 16:12:23 +0800
+	id 1rWYKR-0006BH-1W;
+	Sun, 04 Feb 2024 08:58:19 +0000
+Date: Sun, 4 Feb 2024 16:57:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: Qais Yousef <qais.yousef@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:overutilized-affinity 2/2] kernel/sched/fair.c:12694:2:
- error: call to undeclared function 'set_task_max_allowed_capacity'; ISO C99
- and later do not support implicit function declarations
-Message-ID: <202402041649.mdKgSRsZ-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:overutilized-affinity 2/2] kernel/sched/fair.c:12694:9:
+ error: implicit declaration of function 'set_task_max_allowed_capacity'
+Message-ID: <202402041657.yeJn6c06-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +61,35 @@ Content-Disposition: inline
 tree:   https://github.com/qais-yousef/linux overutilized-affinity
 head:   22d6e6b5c20133897944454d2ca4924389d2da90
 commit: 3c515086c41e884b65c919541cc1bb563be80ed6 [2/2] sched/fair: Check a task has a fitting cpu when updating misfit
-config: i386-randconfig-001-20240204 (https://download.01.org/0day-ci/archive/20240204/202402041649.mdKgSRsZ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041649.mdKgSRsZ-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-002-20240204 (https://download.01.org/0day-ci/archive/20240204/202402041657.yeJn6c06-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041657.yeJn6c06-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402041649.mdKgSRsZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402041657.yeJn6c06-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/fair.c:12694:2: error: call to undeclared function 'set_task_max_allowed_capacity'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    12694 |         set_task_max_allowed_capacity(p);
-          |         ^
-   kernel/sched/fair.c:12819:2: error: call to undeclared function 'set_task_max_allowed_capacity'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    12819 |         set_task_max_allowed_capacity(p);
-          |         ^
-   2 errors generated.
+   kernel/sched/fair.c: In function 'task_fork_fair':
+>> kernel/sched/fair.c:12694:9: error: implicit declaration of function 'set_task_max_allowed_capacity' [-Werror=implicit-function-declaration]
+   12694 |         set_task_max_allowed_capacity(p);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: At top level:
+   kernel/sched/fair.c:13150:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
+   13150 | void free_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13152:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
+   13152 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13157:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
+   13157 | void online_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13159:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
+   13159 | void unregister_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
 vim +/set_task_max_allowed_capacity +12694 kernel/sched/fair.c
