@@ -1,66 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D91633;
-	Sun,  4 Feb 2024 00:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FD710F7
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 01:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707005721; cv=none; b=IhXXJFFHbQNuUlEB9mKU49dfgavL9m8miiPoTskCS0o52AAngloioOOStlESqlnPQA2XFFyQPnm0uxtkEuJf29jcpRYlGoEV/jIXWPWnBb7x6jia1hDocrBFzcqmA/FZ5qW3r5AhCPNw6MQIl7PfJsO4WwkLpiT7vG3R6tpzTos=
+	t=1707009035; cv=none; b=thhyWNVJ5bEoCOfYrjGgc5KJEbZORNsQvQSuzJHNvo+yW51w+/HgdXWhQ++W4Wv0Vz4N+sSolBSfqGbKVnGXjOmjsupnDDMdT6Fv0cWXh+lnjTcmHlwMEc3N6erdLquki3GszG6CQzBKBIxJchfNt7CfKefJwc5mC+ma3yLY/z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707005721; c=relaxed/simple;
-	bh=Qmetxv98oqYTe4Vwuh5lGAp8R2QMprpLFMDJJirpkAc=;
+	s=arc-20240116; t=1707009035; c=relaxed/simple;
+	bh=WyIMQvoDbOUygrCXL4tcOl6XsrIf1Y+KcQ21LH218W8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H1DcRT+WU9SjdOB9ernCYkWhB3tmx5DqO49nc4zNz0RSjddWZ6P+eYI0lrLiRDuxwJ7WyBLnqNQnlyo+TR8zTNQyqPnXTPh/lmks+DH0uoKe7kcI1sC5Ax4SBC2BRBGyyh4qc2Ppnv3vHc2cMjOvGgCej9zn+jdoaWLevlUY53w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SDIhNGCD; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=tcO/fKDvGALM652aTuwx7KCm2tJufvzuEulzDx0q68SO4GJ/bi+mfs361C1Y8dQFhdShki4ZDmWjaEDg0AcmiLbVC/9drc5Tazph6dbuUGFfrwFKFS6OwNSNJRX83VvGAUV3knw6jLZZ9nWQDbc1187Obq2MvqFTdGG5MV70XCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KHgEuPjE; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SDIhNGCD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KHgEuPjE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707005719; x=1738541719;
+  t=1707009033; x=1738545033;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Qmetxv98oqYTe4Vwuh5lGAp8R2QMprpLFMDJJirpkAc=;
-  b=SDIhNGCDPneRdN7sbb1Nn/5ppaYHtvNFI4PvfNyo/jXfTEmQ17wscSZm
-   65d3HBg41euAlrxExSKUsG7ezMEvCn12+kjV/U7HL+iFNP9/YWwSjB0Ry
-   eVrC9bTvS9izHkHzAzj1HTWzvBTJ/kXF0AJcNZcPf8iLfhKZX4VcB9p7K
-   9S+Qhqr6Igq33Xgncvpz8khZu3U7WYI2A/vRilrDC7bS3AdKP0YTCP/1B
-   R5JcwDIsceHKuPuqQXnD/aRQqXHU+dmf+PDVK2+x2xxOgUmZATyxADu1X
-   NxRceVPV+ponhYyMKoVCvv0qFFly8BE4lhy4QJD7XZMJ4x2lzXNmLqMYX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="11708710"
+  bh=WyIMQvoDbOUygrCXL4tcOl6XsrIf1Y+KcQ21LH218W8=;
+  b=KHgEuPjE4OL20NWLhTNA8kyYe1wKqPV5wW2JGbIMPKcxzgpn6Rx77OmV
+   COML4e1F+pe++ZF6jyNYBFef2TXrKUtKUQEDfRabIWKF4QEqdOGMx5axC
+   bK76fxQW2jWbh/LndzX+diWX5VssqMSWi6LvPceMUuWuKnw2ML95bY2hv
+   qWxqjOYzZjUa2lqoIqfqU1opCCE8bF7kqYhFe1NlJLEBOWusx8hR2AZ1f
+   LV2TBo+wi8Fs6v6rlIZ2D9b1y57hJUk3Ern+AXjwq0pVvNBQTxc7bQzoD
+   OoUCjKEjdiPcdZ/WD1QhYrYOZ0SGDF5A/w3+kq9DwVJch+LQ6PMw0JLJQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="11718337"
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="11708710"
+   d="scan'208";a="11718337"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 16:15:18 -0800
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 17:10:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="710111"
+   d="scan'208";a="715429"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 03 Feb 2024 16:15:13 -0800
+  by orviesa007.jf.intel.com with ESMTP; 03 Feb 2024 17:10:30 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWQAA-0005mI-2P;
-	Sun, 04 Feb 2024 00:15:10 +0000
-Date: Sun, 4 Feb 2024 08:14:54 +0800
+	id 1rWR1Q-0005pK-1O;
+	Sun, 04 Feb 2024 01:10:26 +0000
+Date: Sun, 4 Feb 2024 09:09:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geliang Tang <geliang@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Geliang Tang <tanggeliang@kylinos.cn>,
-	bpf@vger.kernel.org, mptcp@lists.linux.dev
-Subject: Re: [PATCH bpf-next v2 1/2] bpf, btf: Add register_check_missing_btf
- helper
-Message-ID: <202402040740.WcfFYJQX-lkp@intel.com>
-References: <f4b147ddaa8fe8c07c7ba77a1d61780bffc49bb6.1706946547.git.tanggeliang@kylinos.cn>
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>,
+	srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 03/16] misc: fastrpc: Add static PD restart support
+Message-ID: <202402040834.qMpd4i4O-lkp@intel.com>
+References: <20240202064039.15505-4-quic_ekangupt@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,95 +60,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f4b147ddaa8fe8c07c7ba77a1d61780bffc49bb6.1706946547.git.tanggeliang@kylinos.cn>
+In-Reply-To: <20240202064039.15505-4-quic_ekangupt@quicinc.com>
 
-Hi Geliang,
+Hi Ekansh,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test ERROR on char-misc/char-misc-testing]
+[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.8-rc2 next-20240202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/bpf-btf-Add-register_check_missing_btf-helper/20240203-155524
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/f4b147ddaa8fe8c07c7ba77a1d61780bffc49bb6.1706946547.git.tanggeliang%40kylinos.cn
-patch subject: [PATCH bpf-next v2 1/2] bpf, btf: Add register_check_missing_btf helper
-config: arm-randconfig-001-20240204 (https://download.01.org/0day-ci/archive/20240204/202402040740.WcfFYJQX-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040740.WcfFYJQX-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Redesign-remote-heap-management/20240202-144921
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20240202064039.15505-4-quic_ekangupt%40quicinc.com
+patch subject: [PATCH v1 03/16] misc: fastrpc: Add static PD restart support
+config: arm64-randconfig-r053-20240203 (https://download.01.org/0day-ci/archive/20240204/202402040834.qMpd4i4O-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402040834.qMpd4i4O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402040740.WcfFYJQX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402040834.qMpd4i4O-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/bpf/btf.c: In function 'btf_seq_show':
-   kernel/bpf/btf.c:7286:29: warning: function 'btf_seq_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7286 |         seq_vprintf((struct seq_file *)show->target, fmt, args);
-         |                             ^~~~~~~~
-   kernel/bpf/btf.c: In function 'btf_snprintf_show':
-   kernel/bpf/btf.c:7323:9: warning: function 'btf_snprintf_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7323 |         len = vsnprintf(show->target, ssnprintf->len_left, fmt, args);
-         |         ^~~
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/linux/sched.h:14,
-                    from include/linux/ptrace.h:6,
-                    from include/uapi/asm-generic/bpf_perf_event.h:4,
-                    from ./arch/arm/include/generated/uapi/asm/bpf_perf_event.h:1,
-                    from include/uapi/linux/bpf_perf_event.h:11,
-                    from kernel/bpf/btf.c:6:
-   kernel/bpf/btf.c: In function 'register_check_missing_btf':
->> kernel/bpf/btf.c:7750:39: error: invalid use of undefined type 'const struct module'
-    7750 |                                 module->name, msg);
-         |                                       ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:508:9: note: in expansion of macro 'printk'
-     508 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/bpf/btf.c:7749:25: note: in expansion of macro 'pr_warn'
-    7749 |                         pr_warn("allow module %s BTF mismatch, skip register %s\n",
-         |                         ^~~~~~~
-   kernel/bpf/btf.c:7753:77: error: invalid use of undefined type 'const struct module'
-    7753 |                 pr_err("missing module %s BTF, cannot register %s\n", module->name, msg);
-         |                                                                             ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/bpf/btf.c:7753:17: note: in expansion of macro 'pr_err'
-    7753 |                 pr_err("missing module %s BTF, cannot register %s\n", module->name, msg);
-         |                 ^~~~~~
-
-
-vim +7750 kernel/bpf/btf.c
-
-  7740	
-  7741	static int register_check_missing_btf(const struct module *module, const char *msg)
-  7742	{
-  7743		if (!module && IS_ENABLED(CONFIG_DEBUG_INFO_BTF)) {
-  7744			pr_err("missing vmlinux BTF, cannot register %s\n", msg);
-  7745			return -ENOENT;
-  7746		}
-  7747		if (module && IS_ENABLED(CONFIG_DEBUG_INFO_BTF_MODULES)) {
-  7748			if (IS_ENABLED(CONFIG_MODULE_ALLOW_BTF_MISMATCH)) {
-  7749				pr_warn("allow module %s BTF mismatch, skip register %s\n",
-> 7750					module->name, msg);
-  7751				return 0;
-  7752			}
-  7753			pr_err("missing module %s BTF, cannot register %s\n", module->name, msg);
-  7754			return -ENOENT;
-  7755		}
-  7756		return 0;
-  7757	}
-  7758	
+>> ld.lld: error: undefined symbol: pdr_handle_alloc
+   >>> referenced by fastrpc.c
+   >>>               drivers/misc/fastrpc.o:(fastrpc_rpmsg_probe) in archive vmlinux.a
+   >>> referenced by fastrpc.c
+   >>>               drivers/misc/fastrpc.o:(fastrpc_rpmsg_probe) in archive vmlinux.a
+   >>> referenced by fastrpc.c
+   >>>               drivers/misc/fastrpc.o:(fastrpc_setup_service_locator) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: pdr_add_lookup
+   >>> referenced by fastrpc.c
+   >>>               drivers/misc/fastrpc.o:(fastrpc_rpmsg_probe) in archive vmlinux.a
+   >>> referenced by fastrpc.c
+   >>>               drivers/misc/fastrpc.o:(fastrpc_rpmsg_probe) in archive vmlinux.a
+   >>> referenced by fastrpc.c
+   >>>               drivers/misc/fastrpc.o:(fastrpc_setup_service_locator) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: pdr_handle_release
+   >>> referenced by fastrpc.c
+   >>>               drivers/misc/fastrpc.o:(fastrpc_rpmsg_remove) in archive vmlinux.a
+   >>> referenced by fastrpc.c
+   >>>               drivers/misc/fastrpc.o:(fastrpc_rpmsg_remove) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
