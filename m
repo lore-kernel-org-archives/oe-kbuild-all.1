@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C81024B31
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 19:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B832C68A;
+	Sun,  4 Feb 2024 21:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707073425; cv=none; b=ED/OroO5wsMv8F2o5qPpkOf2BBh/hCchYxZb+WQjwp+IZkyHyKBjbxYu4UBOCAUax7rdEKGCIDV4HQlHLN3aJAg9Dn195zapnARbeQTwRkhTTKgGesqBD4sg9fuXyNsMGYLhytZ9l3ixzN8dY+mFMf3AbJDYdfXC8wda76kJ36Y=
+	t=1707082694; cv=none; b=se3CrbgRwtQ6+OyBWvdxpq6GwzUwfa4JBPXyTsRd7zTdXEJizbja6G6IRXOknB/HX1uiclH1mbmXNVdo2zgKqrRHCyLUb/Za4slXEy7Sxa61dxD3BTM+nTplpovpxNDbA5JNNoU28FrP9kbVSINUPcl8VLd5lzJmYXvtQ8uet+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707073425; c=relaxed/simple;
-	bh=htjEB7/ES7IBOtXr9pkw8ucXzYHQnv3iASlBsn+ZRfA=;
+	s=arc-20240116; t=1707082694; c=relaxed/simple;
+	bh=f2vk03Y+4mrkeUMcKSsq/rQUXlBdQpV5u/ZRKoAoKwQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DDC7dxnRRUxbCgkDOlha3FQKgaahCymBn7djmjlUh3F2kb1PvG0p85fuSFy4lI4oj0EbwQegwNoz+v8Ogb8qVmhdxUrlr0q0lwH22WaLY9eB3m0IRY4P305PmHL22rMo4gIDmG1Xpe22HPe30tWcne94SK98wBhciqKK+zikTe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URsjnGsK; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=nP5KLZ3U4StQ2YPKHFizAvSimX+1eRvx9D4s2KfT2ve2A9goqn9MZFoshOFqIRAXiauDZEU01CuQ1Pbq7TWDJiW0lXWE11SwLnJLFw5COCGNe6RoPxsBNENEX7pcOUzUkHaPFbdKBki/uECKgOjNqddIKkYVG2R0Y73F2CojNVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EiMdZQ6C; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URsjnGsK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EiMdZQ6C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707073423; x=1738609423;
+  t=1707082691; x=1738618691;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=htjEB7/ES7IBOtXr9pkw8ucXzYHQnv3iASlBsn+ZRfA=;
-  b=URsjnGsKpFryrvZ4WfkNHy+4WdF4WNkHVzQPYThfoP9yf518V9zbrRIb
-   Rrfb22aGiZlMtuFtm9U+wgWijqEnjyE0cBJWWEj8eWbTXSmBj907pN18S
-   n1eKt3egrMau5XkPYegxK+NcS0MVI/4cyZvPn4uHVXZwvv0lb0Gwc3DOF
-   WG9nLtpAHcuTddq2nFHpe6oH+kB1RTObRO/Q0GnYAuXYxM6rdP7HkoTVX
-   ZS+EfBs/arWQgqAIC6gogSl2P1GWiOl4IY7bsfj07fOGhIs/r03qhJ6sv
-   mTrYnhKAEf6ZXowIO8mkWEx+cSdSNMVSN3/MPVVz2fp8FfsPlfiJbojBh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="17936151"
+  bh=f2vk03Y+4mrkeUMcKSsq/rQUXlBdQpV5u/ZRKoAoKwQ=;
+  b=EiMdZQ6CCjxG3SCoRVD8SX7hmNTpxaeTvuIzVSkIBUoCcwFCv1QWfoKi
+   ekUsuX0OeWUAF53QaS4/p5m0lbdtwI2Wzwxl0AJhRb54SGR1Nu87vebcK
+   ANoFejNwRNoh6dzNztz5jrF+tV67wp6G07SzOl1cde7Fpev+cKstIp5YV
+   /0J/Nkc/ssXnaj8UCqF7Mc7wbpS7yOX/fDRzGek/KfAXmZYtzgBouRoVh
+   5c1SA1j5PJhon7chWN1arPpaFt9RgNncVXDwrmDynu94/WuzIa0e7XC/3
+   gX21SIGTjuhd5l+ZyI6ngXEeGyxQV4VX74819JhoxdvT5Wk5y1GBPOUMn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="394845427"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="17936151"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 11:03:42 -0800
+   d="scan'208";a="394845427"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 13:38:10 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="932984623"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="5168638"
+   d="scan'208";a="932984623"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 04 Feb 2024 11:03:40 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2024 13:38:08 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWhmE-0006dg-1K;
-	Sun, 04 Feb 2024 19:03:38 +0000
-Date: Mon, 5 Feb 2024 03:03:26 +0800
+	id 1rWkBi-0006i0-2b;
+	Sun, 04 Feb 2024 21:38:06 +0000
+Date: Mon, 5 Feb 2024 05:37:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [broonie-misc:arm64-sve-trap-mitigation 2/2]
- arch/arm64/kernel/fpsimd.c:441 task_fpsimd_load() error: uninitialized
- symbol 'sve_vq_minus_one'.
-Message-ID: <202402050231.mmQMnRLE-lkp@intel.com>
+To: Qais Yousef <qais.yousef@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:overutilized-affinity 2/2] kernel/sched/fair.c:12696:2:
+ error: call to undeclared function 'set_task_max_allowed_capacity'; ISO C99
+ and later do not support implicit function declarations
+Message-ID: <202402050557.oS6wZjUC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,202 +60,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mark,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git arm64-sve-trap-mitigation
-head:   10e172f00d0f81c7fee6a8c9ff7d38e68ffb5f10
-commit: 10e172f00d0f81c7fee6a8c9ff7d38e68ffb5f10 [2/2] arm64/fpsimd: Suppress SVE access traps when loading FPSIMD state
-config: arm64-randconfig-r081-20240129 (https://download.01.org/0day-ci/archive/20240205/202402050231.mmQMnRLE-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4a39d08908942b2d415db405844cbe4af73e75d4)
+tree:   https://github.com/qais-yousef/linux overutilized-affinity
+head:   22d6e6b5c20133897944454d2ca4924389d2da90
+commit: 46bb39f63c39afa78df4d14261068751b3e3d92e [2/2] sched/fair: Check a task has a fitting cpu when updating misfit
+config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20240205/202402050557.oS6wZjUC-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402050557.oS6wZjUC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402050231.mmQMnRLE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402050557.oS6wZjUC-lkp@intel.com/
 
-smatch warnings:
-arch/arm64/kernel/fpsimd.c:441 task_fpsimd_load() error: uninitialized symbol 'sve_vq_minus_one'.
+All errors (new ones prefixed by >>):
 
-vim +/sve_vq_minus_one +441 arch/arm64/kernel/fpsimd.c
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> kernel/sched/fair.c:12696:2: error: call to undeclared function 'set_task_max_allowed_capacity'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           set_task_max_allowed_capacity(p);
+           ^
+   kernel/sched/fair.c:12821:2: error: call to undeclared function 'set_task_max_allowed_capacity'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           set_task_max_allowed_capacity(p);
+           ^
+   12 warnings and 2 errors generated.
 
-   271	
-   272	/*
-   273	 * TIF_SME controls whether a task can use SME without trapping while
-   274	 * in userspace, when TIF_SME is set then we must have storage
-   275	 * allocated in sve_state and sme_state to store the contents of both ZA
-   276	 * and the SVE registers for both streaming and non-streaming modes.
-   277	 *
-   278	 * If both SVCR.ZA and SVCR.SM are disabled then at any point we
-   279	 * may disable TIF_SME and reenable traps.
-   280	 */
-   281	
-   282	
-   283	/*
-   284	 * TIF_SVE controls whether a task can use SVE without trapping while
-   285	 * in userspace, and also (together with TIF_SME) the way a task's
-   286	 * FPSIMD/SVE state is stored in thread_struct.
-   287	 *
-   288	 * The kernel uses this flag to track whether a user task is actively
-   289	 * using SVE, and therefore whether full SVE register state needs to
-   290	 * be tracked.  If not, the cheaper FPSIMD context handling code can
-   291	 * be used instead of the more costly SVE equivalents.
-   292	 *
-   293	 *  * TIF_SVE or SVCR.SM set:
-   294	 *
-   295	 *    The task can execute SVE instructions while in userspace without
-   296	 *    trapping to the kernel.
-   297	 *
-   298	 *    During any syscall, the kernel may optionally clear TIF_SVE and
-   299	 *    discard the vector state except for the FPSIMD subset.
-   300	 *
-   301	 *  * TIF_SVE clear:
-   302	 *
-   303	 *    An attempt by the user task to execute an SVE instruction causes
-   304	 *    do_sve_acc() to be called, which does some preparation and then
-   305	 *    sets TIF_SVE.
-   306	 *
-   307	 * During any syscall, the kernel may optionally clear TIF_SVE and
-   308	 * discard the vector state except for the FPSIMD subset.
-   309	 *
-   310	 * The data will be stored in one of two formats:
-   311	 *
-   312	 *  * FPSIMD only - FP_STATE_FPSIMD:
-   313	 *
-   314	 *    When the FPSIMD only state stored task->thread.fp_type is set to
-   315	 *    FP_STATE_FPSIMD, the FPSIMD registers V0-V31 are encoded in
-   316	 *    task->thread.uw.fpsimd_state; bits [max : 128] for each of Z0-Z31 are
-   317	 *    logically zero but not stored anywhere; P0-P15 and FFR are not
-   318	 *    stored and have unspecified values from userspace's point of
-   319	 *    view.  For hygiene purposes, the kernel zeroes them on next use,
-   320	 *    but userspace is discouraged from relying on this.
-   321	 *
-   322	 *    task->thread.sve_state does not need to be non-NULL, valid or any
-   323	 *    particular size: it must not be dereferenced and any data stored
-   324	 *    there should be considered stale and not referenced.
-   325	 *
-   326	 *  * SVE state - FP_STATE_SVE:
-   327	 *
-   328	 *    When the full SVE state is stored task->thread.fp_type is set to
-   329	 *    FP_STATE_SVE and Z0-Z31 (incorporating Vn in bits[127:0] or the
-   330	 *    corresponding Zn), P0-P15 and FFR are encoded in in
-   331	 *    task->thread.sve_state, formatted appropriately for vector
-   332	 *    length task->thread.sve_vl or, if SVCR.SM is set,
-   333	 *    task->thread.sme_vl. The storage for the vector registers in
-   334	 *    task->thread.uw.fpsimd_state should be ignored.
-   335	 *
-   336	 *    task->thread.sve_state must point to a valid buffer at least
-   337	 *    sve_state_size(task) bytes in size. The data stored in
-   338	 *    task->thread.uw.fpsimd_state.vregs should be considered stale
-   339	 *    and not referenced.
-   340	 *
-   341	 *  * FPSR and FPCR are always stored in task->thread.uw.fpsimd_state
-   342	 *    irrespective of whether TIF_SVE is clear or set, since these are
-   343	 *    not vector length dependent.
-   344	 */
-   345	
-   346	/*
-   347	 * Update current's FPSIMD/SVE registers from thread_struct.
-   348	 *
-   349	 * This function should be called only when the FPSIMD/SVE state in
-   350	 * thread_struct is known to be up to date, when preparing to enter
-   351	 * userspace.
-   352	 */
-   353	static void task_fpsimd_load(void)
-   354	{
-   355		bool restore_sve_regs = false;
-   356		bool restore_ffr;
-   357		unsigned long sve_vq_minus_one;
-   358	
-   359		WARN_ON(!system_supports_fpsimd());
-   360		WARN_ON(preemptible());
-   361		WARN_ON(test_thread_flag(TIF_KERNEL_FPSTATE));
-   362	
-   363		if (system_supports_sve() || system_supports_sme()) {
-   364			switch (current->thread.fp_type) {
-   365			case FP_STATE_FPSIMD:
-   366				break;
-   367			case FP_STATE_SVE:
-   368				if (!thread_sm_enabled(&current->thread) &&
-   369				    !WARN_ON_ONCE(!test_and_set_thread_flag(TIF_SVE)))
-   370					sve_user_enable();
-   371	
-   372				restore_sve_regs = true;
-   373				restore_ffr = true;
-   374				break;
-   375			default:
-   376				/*
-   377				 * This indicates either a bug in
-   378				 * fpsimd_save_user_state() or memory corruption, we
-   379				 * should always record an explicit format
-   380				 * when we save. We always at least have the
-   381				 * memory allocated for FPSMID registers so
-   382				 * try that and hope for the best.
-   383				 */
-   384				WARN_ON_ONCE(1);
-   385				clear_thread_flag(TIF_SVE);
-   386				break;
-   387			}
-   388		}
-   389	
-   390		/*
-   391		 * If SVE has been enabled we may keep it enabled even if
-   392		 * loading only FPSIMD state, so always set the VL.
-   393		 */
-   394		if (system_supports_sve() && test_thread_flag(TIF_SVE)) {
-   395			sve_vq_minus_one = sve_vq_from_vl(task_get_sve_vl(current)) - 1;
-   396			sve_set_vq(sve_vq_minus_one);
-   397		}
-   398	
-   399		/* Restore SME, override SVE register configuration if needed */
-   400		if (system_supports_sme()) {
-   401			unsigned long sme_vl = task_get_sme_vl(current);
-   402	
-   403			/* Ensure VL is set up for restoring data */
-   404			if (test_thread_flag(TIF_SME))
-   405				sme_set_vq(sve_vq_from_vl(sme_vl) - 1);
-   406	
-   407			write_sysreg_s(current->thread.svcr, SYS_SVCR);
-   408	
-   409			if (thread_za_enabled(&current->thread))
-   410				sme_load_state(current->thread.sme_state,
-   411					       system_supports_sme2());
-   412	
-   413			if (thread_sm_enabled(&current->thread))
-   414				restore_ffr = system_supports_fa64();
-   415		}
-   416	
-   417		if (restore_sve_regs) {
-   418			WARN_ON_ONCE(current->thread.fp_type != FP_STATE_SVE);
-   419			sve_load_state(sve_pffr(&current->thread),
-   420				       &current->thread.uw.fpsimd_state.fpsr,
-   421				       restore_ffr);
-   422		} else {
-   423			WARN_ON_ONCE(current->thread.fp_type != FP_STATE_FPSIMD);
-   424			fpsimd_load_state(&current->thread.uw.fpsimd_state);
-   425	
-   426			/*
-   427			 * If the task had been using SVE we keep it enabled
-   428			 * when loading FPSIMD only state for a number of
-   429			 * times to minimise overhead for tasks actively using
-   430			 * SVE, disabling it periodicaly to enusre that tasks
-   431			 * that use SVE intermittently do eventually avoid the
-   432			 * overhead of carrying SVE state.  The timeout is
-   433			 * initialised when we take a SVE trap in in do_sve_acc().
-   434			 */
-   435			if (system_supports_sve() && test_thread_flag(TIF_SVE)) {
-   436				if (!current->thread.sve_timeout) {
-   437					clear_thread_flag(TIF_SVE);
-   438					sve_user_disable();
-   439				} else {
-   440					current->thread.sve_timeout--;
- > 441					sve_flush_live(true, sve_vq_minus_one);
-   442				}
-   443			}
-   444		}
-   445	}
-   446	
+
+vim +/set_task_max_allowed_capacity +12696 kernel/sched/fair.c
+
+ 12680	
+ 12681	/*
+ 12682	 * called on fork with the child task as argument from the parent's context
+ 12683	 *  - child not yet on the tasklist
+ 12684	 *  - preemption disabled
+ 12685	 */
+ 12686	static void task_fork_fair(struct task_struct *p)
+ 12687	{
+ 12688		struct sched_entity *se = &p->se, *curr;
+ 12689		struct cfs_rq *cfs_rq;
+ 12690		struct rq *rq = this_rq();
+ 12691		struct rq_flags rf;
+ 12692	
+ 12693		rq_lock(rq, &rf);
+ 12694		update_rq_clock(rq);
+ 12695	
+ 12696		set_task_max_allowed_capacity(p);
+ 12697	
+ 12698		cfs_rq = task_cfs_rq(current);
+ 12699		curr = cfs_rq->curr;
+ 12700		if (curr)
+ 12701			update_curr(cfs_rq);
+ 12702		place_entity(cfs_rq, se, ENQUEUE_INITIAL);
+ 12703		rq_unlock(rq, &rf);
+ 12704	}
+ 12705	
 
 -- 
 0-DAY CI Kernel Test Service
