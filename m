@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FFC224DB
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 13:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED3E225AA;
+	Sun,  4 Feb 2024 14:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707053875; cv=none; b=JLjJdDPHopWC+YgpwOpv/7KxhZA2L/pm8p3yBDCOUFdVl3z43NBiatTBxhRcoH3ShcGHcmWyKVR6eovyoxuH9ctBZOMn+5LNKLsl0peK672b2OWyevS1QZu2Ha8L1Qr01CFrEzt3IB1UqlALJ4jNIZwlcACmhMBbTbjNvMKteE8=
+	t=1707056409; cv=none; b=Av4iXTdQKvTfptaHBWJvE4OsyXfw+4Elqa5z5uaR2CyEexWIaHObARZuTExlJ4EPrGdjBw2An68LY2MgcMMfgPMPkYUFGc3pDN1F8sn/WWpuNrNgdxmvf5pe/X/ADGkWhhb99ZBrSY6wGgjcgSpQBwNak+yB+nzRpqLtYuMQGeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707053875; c=relaxed/simple;
-	bh=KP8u3fWUJbcqRt1L9NHgQfOHs7X67+rebC955OVmA3A=;
+	s=arc-20240116; t=1707056409; c=relaxed/simple;
+	bh=9R4wi9rCotNv7MMPBJDwFj841y9SDNSdM5EgvxWKO94=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g8jaOdmLIQ32KFeux04ykMACRhCSY2DtiOJY2c+XS5cy8ZNjB+kOZqk65cQ8fTVjRzYMjf11aUAu499KrUZL14llvZCPz9iBqeVyZlpvaeryfKTRZSWeJhs2eLXGgswqkgrTJwrNkkVScdDCd4ZKy8T4HUu4JzFinqiosoyBQAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFuW85XO; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=oODLqteK/ZoUyjjVmtcAFjtjH8Xjv7dKe9SMJJ3qiIOsJiLOnIkSgFlBxKos3jIoixIwbN+PysRkIzWtKxEi6yYiafjEfPM74aW8WKSLoRX4m/cNWgRfmNGNBPCoXGeu+Af50wANqbANg0lG/Ma0xkFmv3R9Du1bcb7xrWdPfRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFJp/b7X; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFuW85XO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFJp/b7X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707053874; x=1738589874;
+  t=1707056407; x=1738592407;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KP8u3fWUJbcqRt1L9NHgQfOHs7X67+rebC955OVmA3A=;
-  b=oFuW85XO8o1CpQB87j0ce+QIMtYRWRRQQDDiKU/tFiOIccHXb2ZCyYO6
-   1rIurULkRLW0u6hUbdZQhcFeYh9NEcI6JbnPYa17B/98b19SfZ4LpQmwK
-   a4vKlZ+o9TpH0RNZANO6ztvOtmbG0tB4xDroQRE+fOtK36JinPdoIVcyO
-   /hdIkqOIxVxRWr9+BltqGkT/hUvmXa7bIqSQ0N9gqt5susBuNv4ox4lBZ
-   O+l+9rMbf5IWNg4tf72XbbLOrCovKp9SC9YRHMeen/muBGOdMpUYPNcbn
-   fN9YaFHK2wAaFWMzAW60syjVyS2s/7vWLuNIy6m1Pq0YlkOGCeYWw44Gl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="310332"
+  bh=9R4wi9rCotNv7MMPBJDwFj841y9SDNSdM5EgvxWKO94=;
+  b=mFJp/b7XvafebBaHYhdaH0EZZ1Na4j4JGDRq7ERFM0Nr6o4OIL28b2m6
+   6Qbi/qckB+/j1UGbkrM1vmr70vN+sfFrzvU/bsAK5yW+4h44DfbMnA9xQ
+   aeHSux03VsnBsZBHrCsKvQfYf9pmD6nSqlI5LioIs6ys0FM2fyvn8VAkF
+   JYNk9FGTIWn+RjHPbtygU/oJLZvFxt4zuguQuBih+2WKb+bqMJzIQWuqo
+   ZBZHcukPgvddY3C73RgLf/wf3wFHAvB0VOHEUc3FnaodLU+ZU8wC23TQV
+   cmnXTghbXPSmCiose2ijlNTWEbL2fttdYAjcOcXi/AGB8x1MePTd+sPu6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="567637"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="310332"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 05:37:53 -0800
+   d="scan'208";a="567637"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 06:20:06 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="497596"
+   d="scan'208";a="790942"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 04 Feb 2024 05:37:51 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 04 Feb 2024 06:20:03 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWcgu-0006Me-2U;
-	Sun, 04 Feb 2024 13:37:48 +0000
-Date: Sun, 4 Feb 2024 21:37:01 +0800
+	id 1rWdLk-0006OS-2H;
+	Sun, 04 Feb 2024 14:20:00 +0000
+Date: Sun, 4 Feb 2024 22:19:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stephen Boyd <stephen.boyd@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rob Herring <robh@kernel.org>
-Subject: drivers/of/base.c:1337:73: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202402042134.GEb3Bgwl-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/170-atcphy 5/12] drivers/phy/apple/dptx.c:63:14:
+ error: call to undeclared function 'readl'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202402042224.6s7TEZk3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,225 +60,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f24fcdacd40c70dd2949c1cfd8cc2e75942a9e3
-commit: bd6f2fd5a1d52198468c5cdc3c2472362dff5aaa of: Support parsing phandle argument lists through a nexus node
-date:   6 years ago
-config: x86_64-randconfig-x051-20230705 (https://download.01.org/0day-ci/archive/20240204/202402042134.GEb3Bgwl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402042134.GEb3Bgwl-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
+head:   4931e8edc0670b6acf66c1b83702c7521722ff1c
+commit: 3ba9173a776695e19481d515c3c1135ca6d718d5 [5/12] phy: apple: Add DP TX phy driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240204/202402042224.6s7TEZk3-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402042224.6s7TEZk3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402042134.GEb3Bgwl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402042224.6s7TEZk3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/of/base.c:1337:73: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be32 @@     got int @@
-   drivers/of/base.c:1337:73: sparse:     expected restricted __be32
-   drivers/of/base.c:1337:73: sparse:     got int
-   drivers/of/base.c:233: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Checks if the given "prop_name" property holds the physical id of the
-   drivers/of/base.c:965: warning: Function parameter or member 'match' not described in 'of_find_matching_node_and_match'
-   drivers/of/base.c:1550: warning: Function parameter or member 'np' not described in '__of_add_property'
-   drivers/of/base.c:1550: warning: Function parameter or member 'prop' not described in '__of_add_property'
-   drivers/of/base.c:1571: warning: Function parameter or member 'np' not described in 'of_add_property'
-   drivers/of/base.c:1571: warning: Function parameter or member 'prop' not described in 'of_add_property'
-   drivers/of/base.c:1620: warning: Function parameter or member 'np' not described in 'of_remove_property'
-   drivers/of/base.c:1620: warning: Function parameter or member 'prop' not described in 'of_remove_property'
-   drivers/of/base.c:1854: warning: Function parameter or member 'dn' not described in 'of_console_check'
-   drivers/of/base.c:1854: warning: Function parameter or member 'name' not described in 'of_console_check'
-   drivers/of/base.c:1854: warning: Function parameter or member 'index' not described in 'of_console_check'
-   drivers/of/base.o: warning: objtool: of_print_phandle_args()+0x7a: sibling call from callable instruction with modified stack frame
-   drivers/of/base.o: warning: objtool: of_print_phandle_args.cold()+0x12: sibling call from callable instruction with modified stack frame
+All errors (new ones prefixed by >>):
 
-vim +1337 drivers/of/base.c
+>> drivers/phy/apple/dptx.c:63:14: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      63 |         u32 value = readl(reg);
+         |                     ^
+>> drivers/phy/apple/dptx.c:66:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      66 |         writel(value, reg);
+         |         ^
+   drivers/phy/apple/dptx.c:89:9: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      89 |         ctrl = readl(phy->regs.dptx + 0x4000);
+         |                ^
+   drivers/phy/apple/dptx.c:90:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      90 |         writel(ctrl, phy->regs.dptx + 0x4000);
+         |         ^
+   drivers/phy/apple/dptx.c:134:2: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     134 |         readl(phy->regs.core + 0x10);
+         |         ^
+   drivers/phy/apple/dptx.c:135:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     135 |         writel(dcp_index, phy->regs.core + 0x10);
+         |         ^
+   drivers/phy/apple/dptx.c:347:5: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     347 |     readl(phy->regs.dptx + 0x2200);
+         |     ^
+   drivers/phy/apple/dptx.c:356:5: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     356 |     writel(val_100c, phy->regs.dptx + 0x100c);
+         |     ^
+   drivers/phy/apple/dptx.c:320:9: warning: variable 'sts_1008' set but not used [-Wunused-but-set-variable]
+     320 |     u32 sts_1008, sts_1014, val_100c, val_20b0, val_20b4;
+         |         ^
+   drivers/phy/apple/dptx.c:320:19: warning: variable 'sts_1014' set but not used [-Wunused-but-set-variable]
+     320 |     u32 sts_1008, sts_1014, val_100c, val_20b0, val_20b4;
+         |                   ^
+   drivers/phy/apple/dptx.c:318:5: warning: no previous prototype for function 'dptx_phy_set_link_rate' [-Wmissing-prototypes]
+     318 | int dptx_phy_set_link_rate(struct apple_dptx_phy *phy, u32 link_rate)
+         |     ^
+   drivers/phy/apple/dptx.c:318:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     318 | int dptx_phy_set_link_rate(struct apple_dptx_phy *phy, u32 link_rate)
+         | ^
+         | static 
+   3 warnings and 8 errors generated.
 
-  1285	
-  1286	/**
-  1287	 * of_parse_phandle_with_args_map() - Find a node pointed by phandle in a list and remap it
-  1288	 * @np:		pointer to a device tree node containing a list
-  1289	 * @list_name:	property name that contains a list
-  1290	 * @stem_name:	stem of property names that specify phandles' arguments count
-  1291	 * @index:	index of a phandle to parse out
-  1292	 * @out_args:	optional pointer to output arguments structure (will be filled)
-  1293	 *
-  1294	 * This function is useful to parse lists of phandles and their arguments.
-  1295	 * Returns 0 on success and fills out_args, on error returns appropriate errno
-  1296	 * value. The difference between this function and of_parse_phandle_with_args()
-  1297	 * is that this API remaps a phandle if the node the phandle points to has
-  1298	 * a <@stem_name>-map property.
-  1299	 *
-  1300	 * Caller is responsible to call of_node_put() on the returned out_args->np
-  1301	 * pointer.
-  1302	 *
-  1303	 * Example:
-  1304	 *
-  1305	 * phandle1: node1 {
-  1306	 *	#list-cells = <2>;
-  1307	 * }
-  1308	 *
-  1309	 * phandle2: node2 {
-  1310	 *	#list-cells = <1>;
-  1311	 * }
-  1312	 *
-  1313	 * phandle3: node3 {
-  1314	 * 	#list-cells = <1>;
-  1315	 * 	list-map = <0 &phandle2 3>,
-  1316	 * 		   <1 &phandle2 2>,
-  1317	 * 		   <2 &phandle1 5 1>;
-  1318	 *	list-map-mask = <0x3>;
-  1319	 * };
-  1320	 *
-  1321	 * node4 {
-  1322	 *	list = <&phandle1 1 2 &phandle3 0>;
-  1323	 * }
-  1324	 *
-  1325	 * To get a device_node of the `node2' node you may call this:
-  1326	 * of_parse_phandle_with_args(node4, "list", "list", 1, &args);
-  1327	 */
-  1328	int of_parse_phandle_with_args_map(const struct device_node *np,
-  1329					   const char *list_name,
-  1330					   const char *stem_name,
-  1331					   int index, struct of_phandle_args *out_args)
-  1332	{
-  1333		char *cells_name, *map_name = NULL, *mask_name = NULL;
-  1334		char *pass_name = NULL;
-  1335		struct device_node *cur, *new = NULL;
-  1336		const __be32 *map, *mask, *pass;
-> 1337		static const __be32 dummy_mask[] = { [0 ... MAX_PHANDLE_ARGS] = ~0 };
-  1338		static const __be32 dummy_pass[] = { [0 ... MAX_PHANDLE_ARGS] = 0 };
-  1339		__be32 initial_match_array[MAX_PHANDLE_ARGS];
-  1340		const __be32 *match_array = initial_match_array;
-  1341		int i, ret, map_len, match;
-  1342		u32 list_size, new_size;
-  1343	
-  1344		if (index < 0)
-  1345			return -EINVAL;
-  1346	
-  1347		cells_name = kasprintf(GFP_KERNEL, "#%s-cells", stem_name);
-  1348		if (!cells_name)
-  1349			return -ENOMEM;
-  1350	
-  1351		ret = -ENOMEM;
-  1352		map_name = kasprintf(GFP_KERNEL, "%s-map", stem_name);
-  1353		if (!map_name)
-  1354			goto free;
-  1355	
-  1356		mask_name = kasprintf(GFP_KERNEL, "%s-map-mask", stem_name);
-  1357		if (!mask_name)
-  1358			goto free;
-  1359	
-  1360		pass_name = kasprintf(GFP_KERNEL, "%s-map-pass-thru", stem_name);
-  1361		if (!pass_name)
-  1362			goto free;
-  1363	
-  1364		ret = __of_parse_phandle_with_args(np, list_name, cells_name, 0, index,
-  1365						   out_args);
-  1366		if (ret)
-  1367			goto free;
-  1368	
-  1369		/* Get the #<list>-cells property */
-  1370		cur = out_args->np;
-  1371		ret = of_property_read_u32(cur, cells_name, &list_size);
-  1372		if (ret < 0)
-  1373			goto put;
-  1374	
-  1375		/* Precalculate the match array - this simplifies match loop */
-  1376		for (i = 0; i < list_size; i++)
-  1377			initial_match_array[i] = cpu_to_be32(out_args->args[i]);
-  1378	
-  1379		ret = -EINVAL;
-  1380		while (cur) {
-  1381			/* Get the <list>-map property */
-  1382			map = of_get_property(cur, map_name, &map_len);
-  1383			if (!map) {
-  1384				ret = 0;
-  1385				goto free;
-  1386			}
-  1387			map_len /= sizeof(u32);
-  1388	
-  1389			/* Get the <list>-map-mask property (optional) */
-  1390			mask = of_get_property(cur, mask_name, NULL);
-  1391			if (!mask)
-  1392				mask = dummy_mask;
-  1393			/* Iterate through <list>-map property */
-  1394			match = 0;
-  1395			while (map_len > (list_size + 1) && !match) {
-  1396				/* Compare specifiers */
-  1397				match = 1;
-  1398				for (i = 0; i < list_size; i++, map_len--)
-  1399					match &= !((match_array[i] ^ *map++) & mask[i]);
-  1400	
-  1401				of_node_put(new);
-  1402				new = of_find_node_by_phandle(be32_to_cpup(map));
-  1403				map++;
-  1404				map_len--;
-  1405	
-  1406				/* Check if not found */
-  1407				if (!new)
-  1408					goto put;
-  1409	
-  1410				if (!of_device_is_available(new))
-  1411					match = 0;
-  1412	
-  1413				ret = of_property_read_u32(new, cells_name, &new_size);
-  1414				if (ret)
-  1415					goto put;
-  1416	
-  1417				/* Check for malformed properties */
-  1418				if (WARN_ON(new_size > MAX_PHANDLE_ARGS))
-  1419					goto put;
-  1420				if (map_len < new_size)
-  1421					goto put;
-  1422	
-  1423				/* Move forward by new node's #<list>-cells amount */
-  1424				map += new_size;
-  1425				map_len -= new_size;
-  1426			}
-  1427			if (!match)
-  1428				goto put;
-  1429	
-  1430			/* Get the <list>-map-pass-thru property (optional) */
-  1431			pass = of_get_property(cur, pass_name, NULL);
-  1432			if (!pass)
-  1433				pass = dummy_pass;
-  1434	
-  1435			/*
-  1436			 * Successfully parsed a <list>-map translation; copy new
-  1437			 * specifier into the out_args structure, keeping the
-  1438			 * bits specified in <list>-map-pass-thru.
-  1439			 */
-  1440			match_array = map - new_size;
-  1441			for (i = 0; i < new_size; i++) {
-  1442				__be32 val = *(map - new_size + i);
-  1443	
-  1444				if (i < list_size) {
-  1445					val &= ~pass[i];
-  1446					val |= cpu_to_be32(out_args->args[i]) & pass[i];
-  1447				}
-  1448	
-  1449				out_args->args[i] = be32_to_cpu(val);
-  1450			}
-  1451			out_args->args_count = list_size = new_size;
-  1452			/* Iterate again with new provider */
-  1453			out_args->np = new;
-  1454			of_node_put(cur);
-  1455			cur = new;
-  1456		}
-  1457	put:
-  1458		of_node_put(cur);
-  1459		of_node_put(new);
-  1460	free:
-  1461		kfree(mask_name);
-  1462		kfree(map_name);
-  1463		kfree(cells_name);
-  1464		kfree(pass_name);
-  1465	
-  1466		return ret;
-  1467	}
-  1468	EXPORT_SYMBOL(of_parse_phandle_with_args_map);
-  1469	
+
+vim +/readl +63 drivers/phy/apple/dptx.c
+
+    59	
+    60	
+    61	static inline void mask32(void __iomem *reg, u32 mask, u32 set)
+    62	{
+  > 63		u32 value = readl(reg);
+    64		value &= ~mask;
+    65		value |= set;
+  > 66		writel(value, reg);
+    67	}
+    68	
 
 -- 
 0-DAY CI Kernel Test Service
