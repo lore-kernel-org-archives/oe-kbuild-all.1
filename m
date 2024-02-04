@@ -1,297 +1,219 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE4F7494
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 06:36:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1B17493
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 06:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707028608; cv=none; b=e/G5v9pADykidtv6LPwzanqSLKLhq3Tbt/y5/O9m1gX1NPz+8OvSEafnoLO7vTU7P5o0hrzIexx9QS66Db+MVD1ptBM37tLmMrPWd6sl9r0VrX+G3mteUkB6ZGtjagso8hub6NHypxJDmMTUee96U43noS10DsOo5akp4EnPsfk=
+	t=1707029717; cv=none; b=GygwgMcenRSycAt+GfAGVS8DGPTAv4DcrK41q/t3qFvk3x9EH/iFMd0G30UQw/yoPz4ANGoHsOT9JBv6hKMxe9of+aB7ufGTGcZljaglqvZwPMOelPwSbLb58UbjDbatbFCfqqVrKgrb9vzxSTpaAWw3Okf2GwcxQYlkz5kvHYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707028608; c=relaxed/simple;
-	bh=FYK7AaDiYqbTlfS3pColRv7XRm0JZmbEe42rT2tlpYA=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=pXjkC5SDASiGLjnzu2loKtVoGzzrdGY8p3IKNF6GrfA96AuVkXI1i8jdAw9OQwfQGFtQyYJR25Eb1ozc4t77c1Xyy5qYfrYBct4WDnpsfn5qnoUK8vsA7j9i6XdGwLS9ybLN/iwMxeVO/H/FxC2q6aO3iE0ZySVgJfTY9bK6gLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AsDUcr3W; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707029717; c=relaxed/simple;
+	bh=0brfFjqI00nD7+jKQ2hUiX53kudEThogOEz/Nv+0htg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JzmvUlDvxo0SyrujJgT/RFS/5kEIULZ7OMm2PxMx5oLk/BJ2bTGd/MQDfWHbKdnoww8FVrNrq7Ic9duy/UWVlz06I++Yxruan5N0GcDjtRvcsGMUJskpJWW7UgzC8VsqbrsiynWBDY7qATC414qBJeeQE0N+91DdGQ5LIjMEUmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESuNZFeZ; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AsDUcr3W"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d780a392fdso29016675ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 03 Feb 2024 22:36:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707028606; x=1707633406; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :subject:cc:to:from:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AhrdsLXyharQtwk+YSZTkf4E5FkLiyUBnotfivIVHMw=;
-        b=AsDUcr3WMAiFKJ5FrVqz7ESCLxNA2u5Uqn1QxtMVmBFRwPGJyCQfAg1uyDBxX5VUNi
-         oiJ3bGP0VAdIxf52pfXhs2nlF3qGigoYvR+8AsPvbP6z/L2FFFAB3tqDW53Sgyk6MBpv
-         R61Q/0+RqIu6MsBYYmhsRoPKEBPNOzKB9WRZtra+q3PmGNH+9Z/aU9FnWEh8DzL9VMqK
-         XK1tZMQ0ZWaZrD7rbA41gEWMHi29CwWILTt27lsEsUJaPuVolfOKY2l6N9WBXgNF9pvB
-         aJRLXMn5JhSoGcCX/dzn9Xsjzhmy3sizGM2XvrY2YxUyQyW30BkWwfuNsn8TocZO9mzL
-         1Mfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707028606; x=1707633406;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:date
-         :subject:cc:to:from:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=AhrdsLXyharQtwk+YSZTkf4E5FkLiyUBnotfivIVHMw=;
-        b=pRZiTTlV71aTHdu72KAwo2cxcJ5D9hpO/JhyPcEMGjtrlLjbZ5QkjrMKtmQnAT8tqp
-         Ff2IB5Nf6PIdktEVmQnCyAbKyin3nD3tdB5NkxQzLGWBP5Bi0w/iJR9XifddrAc/w7uN
-         /eQTmfROOLTm5SRp96jlCdsyGrrqKDH5YxzxGFjFXVKyNAsP+q+bU2Uft+CB/mWSE4V0
-         TVSSZlDK9+zzyG2ZekaNyYXYImGnvw27BJsBMO+ULty09QwmBxEiEcoyJJQE2eLoi2jn
-         87/Dg65GqlwNXUDAnu5A9DtUsKNlGt7v1qsmnBUpbnXY0Rtjk2jVwr4WnzOGGWXYrjmZ
-         FXsQ==
-X-Gm-Message-State: AOJu0Yy3os/6dRuNJC4eQABSP/R+I8J7O527ybIjL/lyIHcpOcZuEZLT
-	fVu2Aj2BgowV+vLXCxtfwieqyQNSJMmWPZNh9k8XhRTvI7lnketk
-X-Google-Smtp-Source: AGHT+IGnQ0gSe5sRpzcfC4U19xJj5IwPh91we/gcJADZ/cNtw5aEKY3XtZ+g5/rZ/QsrOXtmYBoN0w==
-X-Received: by 2002:a17:902:c40c:b0:1d9:a6e8:1c8c with SMTP id k12-20020a170902c40c00b001d9a6e81c8cmr1073283plk.15.1707028606124;
-        Sat, 03 Feb 2024 22:36:46 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVDEKtZeceoHlPvaOg73HN92iSg8sP7+W8dEcfEgNCEvv/jgv75qW3RU97O4MqStQPwo5+uHpAyAd3wP0BXXZwElPYOSX8tdtd3ygWncV9LHZ3nvgXeny3ZrZNsMPKRYaLDZxOBDeXnQoA+cuP30OYEv6Xkcjd+vB1mfran7VE7jGSNzbKCLGm17D5ThM71drXZ2FCtrq1zODnNVqhkKCk3l9ZDAQRxFkqWChEJjFHZqbjTEOwCPqJ2Xj2pg53qLJUmJDQ85PjELaqkS9i355rhUJ9TYMbah6EKkbjbeBBi662c0lEdB/GtOJMKfbjNrWH+Cz0pU+AKgyWSdelHdm0ACHhCjU16X60HSsOcS7hE+xnni33HZBGe+zMFJjbcFH8whuXTg5JU8FzKU3UGumqc0AoDyE5+6mgqiDX7Lv2SDZWC0IaRG4O8Xcc7q3Gr4MCK0ncEskRkfsQ3uWf+Ufu4fqOzzoY3NcsNr1G1iy1Bep93KWGNhJuNZNAG+9F9lNXMEHSQWI6BiI+fXQG/O2Qp5GnlIOsW2EFeS2TvRuJrcnISdMs=
-Received: from localhost.localdomain ([58.84.61.91])
-        by smtp.gmail.com with ESMTPSA id q21-20020a170902c75500b001d8b8bf8e45sm4102848plq.37.2024.02.03.22.36.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 22:36:45 -0800 (PST)
-Message-ID: <65bf307d.170a0220.4d544.f32b@mx.google.com>
-X-Google-Original-Message-ID: <9b5f9e1b-645a-4b44-a30c-fe93e7bf3532@gmx.net> (raw)
-From: pratikmanvar09@gmail.com
-To: wahrenst@gmx.net
-Cc: festevam@gmail.com,
-	jun.li@nxp.com,
-	kernel@pengutronix.de,
-	linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	pratik.manvar@ifm.com,
-	pratikmanvar09@gmail.com,
-	s.hauer@pengutronix.de,
-	shawnguo@kernel.org,
-	thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	xiaoning.wang@nxp.com
-Subject: Re: [PATCH v2] pwm: imx27: workaround of the pwm output bug
-Date: Sun,  4 Feb 2024 12:06:26 +0530
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240103063454.1795-1-pratikmanvar09@gmail.com>
-References: <9b5f9e1b-645a-4b44-a30c-fe93e7bf3532@gmx.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESuNZFeZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707029715; x=1738565715;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0brfFjqI00nD7+jKQ2hUiX53kudEThogOEz/Nv+0htg=;
+  b=ESuNZFeZCSr/XzE2eFEJ1MjaIeZO1FW4QHFwj9XOu0mAm0qbTx5i2rJ9
+   1JvbFmnTfoOV79olt7G0LMBzyeTlKP0/p//YZrW7sJ56baq+/1oXIE2MH
+   Rz0AbtUm2MWKLq06BvJ12to2yTKcFBrvzcbit239oFCPFlm/jUAXVyo9n
+   1whtQzjaPqOFdWsCqXHPbbcFILYRpeCEnRT4S1iyWPXUX1lzJwv+mGX8R
+   hY2ThS5XITP7WINYhgPnTZTVUGDyGClcFnstMTCYA6qZ1omabYUjvRq6o
+   AJlyGi0tBT0FJ5GCfISIVy3AVXCNBPz0PMvujjm5l3kdFrtvT/U8gNXyl
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="528904"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="528904"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 22:55:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="767610"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 03 Feb 2024 22:55:12 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rWWPF-00065w-1W;
+	Sun, 04 Feb 2024 06:55:09 +0000
+Date: Sun, 4 Feb 2024 14:54:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>,
+	Christian Brauner <brauner@kernel.org>, NeilBrown <neilb@suse.de>
+Subject: [brauner-vfs:vfs.file 7/48] fs/ceph/locks.c:447:13: warning: unused
+ variable 'l'
+Message-ID: <202402041412.6YvtlflL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Stefan,=0D
-=0D
-Thanks for your review.=0D
-Please see my reply below inline.=0D
-=0D
->> From: Clark Wang <xiaoning.wang@nxp.com>=0D
->>=0D
->> This fixes the pwm output bug when decrease the duty cycle.=0D
->> This is a limited workaround for the PWM IP issue TKT0577206.=0D
->this looks like a patch from the vendor tree.=0D
-=0D
-[Pratik]: Yes, this is the patch from NXP. Please see original link of the =
-patch https://github.com/nxp-imx/linux-imx/commit/16181cc4eee61d87cbaba0e5a=
-479990507816317=0D
-=0D
->Could you please provide a link to the origin or at least to the=0D
->document which describes TKT0577206?=0D
-[Pratik]: Please refer i.MX8MN errata #ERR051198 in https://www.nxp.com/doc=
-s/en/errata/IMX8MN_0N14Y.pdf.=0D
-=0D
->As a i.MX6ULL user i couldn't find this issue in the chip errata. So are=0D
->you sure that every PWM IP handled by this driver is affected?=0D
-[Pratik]: Yes, looks like this issue is on all platforms which uses this PW=
-M IP.=0D
-=0D
->> Root cause:=0D
->> When the SAR FIFO is empty, the new write value will be directly applied=
-=0D
->> to SAR even the current period is not over.=0D
->> If the new SAR value is less than the old one, and the counter is=0D
->> greater than the new SAR value, the current period will not filp the=0D
->s/filp/flip/ ?=0D
->> level. This will result in a pulse with a duty cycle of 100%.=0D
->>=0D
->> Workaround:=0D
->> Add an old value SAR write before updating the new duty cycle to SAR.=0D
->> This will keep the new value is always in a not empty fifo, and can be=0D
->> wait to update after a period finished.=0D
->>=0D
->> Limitation:=0D
->> This workaround can only solve this issue when the PWM period is longer=
-=0D
->> than 2us(or <500KHz).=0D
->>=0D
->> Reviewed-by: Jun Li <jun.li@nxp.com>=0D
->> Signed-off-by: Clark Wang <xiaoning.wang@nxp.com>=0D
->> Link: https://github.com/nxp-imx/linux-imx/commit/16181cc4eee61d87cbaba0=
-e5a479990507816317=0D
->> Tested-by: Pratik Manvar <pratik.manvar@ifm.com>=0D
->> ---=0D
->>   V1 -> V2: fix sparse warnings reported-by: kernel test robot <lkp@inte=
-l.com>=0D
->>             Closes: https://lore.kernel.org/oe-kbuild-all/202312300907.R=
-GtYsKxb-lkp@intel.com/=0D
->>=0D
->>   drivers/pwm/pwm-imx27.c | 67 ++++++++++++++++++++++++++++++++++++++---=
-=0D
->>   1 file changed, 62 insertions(+), 5 deletions(-)=0D
->>=0D
->> diff --git a/drivers/pwm/pwm-imx27.c b/drivers/pwm/pwm-imx27.c=0D
->> index 7d9bc43f12b0..1e500a5bf564 100644=0D
->> --- a/drivers/pwm/pwm-imx27.c=0D
->> +++ b/drivers/pwm/pwm-imx27.c=0D
->> @@ -21,11 +21,13 @@=0D
->>   #include <linux/platform_device.h>=0D
->>   #include <linux/pwm.h>=0D
->>   #include <linux/slab.h>=0D
->> +#include <linux/spinlock.h>=0D
->>=0D
->>   #define MX3_PWMCR			0x00    /* PWM Control Register */=0D
->>   #define MX3_PWMSR			0x04    /* PWM Status Register */=0D
->>   #define MX3_PWMSAR			0x0C    /* PWM Sample Register */=0D
->>   #define MX3_PWMPR			0x10    /* PWM Period Register */=0D
->> +#define MX3_PWMCNR			0x14    /* PWM Counter Register */=0D
->>=0D
->>   #define MX3_PWMCR_FWM			GENMASK(27, 26)=0D
->>   #define MX3_PWMCR_STOPEN		BIT(25)=0D
->> @@ -91,6 +93,7 @@ struct pwm_imx27_chip {=0D
->>   	 * value to return in that case.=0D
->>   	 */=0D
->>   	unsigned int duty_cycle;=0D
->> +	spinlock_t lock;=0D
->>   };=0D
->>=0D
->>   #define to_pwm_imx27_chip(chip)	container_of(chip, struct pwm_imx27_ch=
-ip, chip)=0D
->> @@ -203,10 +206,10 @@ static void pwm_imx27_wait_fifo_slot(struct pwm_ch=
-ip *chip,=0D
->>=0D
->>   	sr =3D readl(imx->mmio_base + MX3_PWMSR);=0D
->>   	fifoav =3D FIELD_GET(MX3_PWMSR_FIFOAV, sr);=0D
->> -	if (fifoav =3D=3D MX3_PWMSR_FIFOAV_4WORDS) {=0D
->> +	if (fifoav >=3D MX3_PWMSR_FIFOAV_3WORDS) {=0D
->>   		period_ms =3D DIV_ROUND_UP_ULL(pwm_get_period(pwm),=0D
->>   					 NSEC_PER_MSEC);=0D
->> -		msleep(period_ms);=0D
->> +		msleep(period_ms * (fifoav - 2));=0D
->This touches a different workaround ("pwm: imx: Avoid sample FIFO=0D
->overflow for i.MX PWM version2") without any explanation.=0D
-[Pratik]: Sure, I will look into this. Thanks!=0D
->>=0D
->>   		sr =3D readl(imx->mmio_base + MX3_PWMSR);=0D
->>   		if (fifoav =3D=3D FIELD_GET(MX3_PWMSR_FIFOAV, sr))=0D
->> @@ -217,13 +220,15 @@ static void pwm_imx27_wait_fifo_slot(struct pwm_ch=
-ip *chip,=0D
->>   static int pwm_imx27_apply(struct pwm_chip *chip, struct pwm_device *p=
-wm,=0D
->>   			   const struct pwm_state *state)=0D
->>   {=0D
->> -	unsigned long period_cycles, duty_cycles, prescale;=0D
->> +	unsigned long period_cycles, duty_cycles, prescale, counter_check, fla=
-gs;=0D
->>   	struct pwm_imx27_chip *imx =3D to_pwm_imx27_chip(chip);=0D
->> +	void __iomem *reg_sar =3D imx->mmio_base + MX3_PWMSAR;=0D
->> +	__force u32 sar_last, sar_current;=0D
->>   	struct pwm_state cstate;=0D
->>   	unsigned long long c;=0D
->>   	unsigned long long clkrate;=0D
->>   	int ret;=0D
->> -	u32 cr;=0D
->> +	u32 cr, timeout =3D 1000;=0D
->>=0D
->>   	pwm_get_state(pwm, &cstate);=0D
->>=0D
->> @@ -264,7 +269,57 @@ static int pwm_imx27_apply(struct pwm_chip *chip, s=
-truct pwm_device *pwm,=0D
->>   		pwm_imx27_sw_reset(chip);=0D
->>   	}=0D
->>=0D
->> -	writel(duty_cycles, imx->mmio_base + MX3_PWMSAR);=0D
->> +	/*=0D
->> +	 * This is a limited workaround. When the SAR FIFO is empty, the new=0D
->> +	 * write value will be directly applied to SAR even the current period=
-=0D
->> +	 * is not over.=0D
->> +	 * If the new SAR value is less than the old one, and the counter is=0D
->> +	 * greater than the new SAR value, the current period will not filp=0D
->The same typo as in the commit message.=0D
->> +	 * the level. This will result in a pulse with a duty cycle of 100%.=0D
->> +	 * So, writing the current value of the SAR to SAR here before updatin=
-g=0D
->> +	 * the new SAR value can avoid this issue.=0D
->> +	 *=0D
->> +	 * Add a spin lock and turn off the interrupt to ensure that the=0D
->> +	 * real-time performance can be guaranteed as much as possible when=0D
->> +	 * operating the following operations.=0D
->> +	 *=0D
->> +	 * 1. Add a threshold of 1.5us. If the time T between the read current=
-=0D
->> +	 * count value CNR and the end of the cycle is less than 1.5us, wait=0D
->> +	 * for T to be longer than 1.5us before updating the SAR register.=0D
->> +	 * This is to avoid the situation that when the first SAR is written,=
-=0D
->> +	 * the current cycle just ends and the SAR FIFO that just be written=0D
->> +	 * is emptied again.=0D
->> +	 *=0D
->> +	 * 2. Use __raw_writel() to minimize the interval between two writes t=
-o=0D
->> +	 * the SAR register to increase the fastest pwm frequency supported.=0D
->> +	 *=0D
->> +	 * When the PWM period is longer than 2us(or <500KHz), this workaround=
-=0D
->> +	 * can solve this problem.=0D
->> +	 */=0D
->> +	if (duty_cycles < imx->duty_cycle) {=0D
->> +		c =3D clkrate * 1500;=0D
->> +		do_div(c, NSEC_PER_SEC);=0D
->> +		counter_check =3D c;=0D
->> +		sar_last =3D (__force u32) cpu_to_le32(imx->duty_cycle);=0D
->> +		sar_current =3D (__force u32) cpu_to_le32(duty_cycles);=0D
->> +=0D
->> +		spin_lock_irqsave(&imx->lock, flags);=0D
->> +		if (state->period >=3D 2000) {=0D
->> +			while ((period_cycles -=0D
->> +				readl_relaxed(imx->mmio_base + MX3_PWMCNR))=0D
->> +				< counter_check) {=0D
->> +				if (!--timeout)=0D
->> +					break;=0D
->> +			};=0D
->> +		}=0D
->> +		if (!(MX3_PWMSR_FIFOAV &=0D
->> +		      readl_relaxed(imx->mmio_base + MX3_PWMSR)))=0D
->> +			__raw_writel(sar_last, reg_sar);=0D
->> +		__raw_writel(sar_current, reg_sar);=0D
->> +		spin_unlock_irqrestore(&imx->lock, flags);=0D
->> +	} else=0D
->> +		writel(duty_cycles, imx->mmio_base + MX3_PWMSAR);=0D
->> +=0D
->This is hard to believe that checkpatch.pl is fine with this patch.=0D
->Please use it before submission.=0D
-[Pratik]: I used the checkpatch.pl in this patch and that runs without any =
-warnings/errors!=0D
-=0D
->>   	writel(period_cycles, imx->mmio_base + MX3_PWMPR);=0D
->>=0D
->>   	/*=0D
->> @@ -324,6 +379,8 @@ static int pwm_imx27_probe(struct platform_device *p=
-dev)=0D
->>   		return dev_err_probe(&pdev->dev, PTR_ERR(imx->clk_per),=0D
->>   				     "failed to get peripheral clock\n");=0D
->>=0D
->> +	spin_lock_init(&imx->lock);=0D
->> +	imx->duty_cycle =3D 0;=0D
->This line looks unrelated and unnecessary.=0D
-[Pratik]: Right. I will remove this line in next patch version.=0D
-=0D
->Best regards=0D
->>   	imx->chip.ops =3D &pwm_imx27_ops;=0D
->>   	imx->chip.dev =3D &pdev->dev;=0D
->>   	imx->chip.npwm =3D 1;=
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.file
+head:   1499e59af376949b062cdc039257f811f6c1697f
+commit: 7c82f310391564a8ca1b8f996ddaa6204eb65253 [7/48] ceph: convert to using new filelock helpers
+config: arc-randconfig-002-20240204 (https://download.01.org/0day-ci/archive/20240204/202402041412.6YvtlflL-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041412.6YvtlflL-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402041412.6YvtlflL-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   fs/ceph/locks.c: In function 'ceph_lock':
+   fs/ceph/locks.c:276:54: error: implicit declaration of function 'lock_is_unlock'; did you mean 'lock_pin_lock'? [-Werror=implicit-function-declaration]
+     276 |                 if (op == CEPH_MDS_OP_SETFILELOCK && lock_is_unlock(fl))
+         |                                                      ^~~~~~~~~~~~~~
+         |                                                      lock_pin_lock
+   fs/ceph/locks.c:281:13: error: implicit declaration of function 'lock_is_read'; did you mean 'lock_is_held'? [-Werror=implicit-function-declaration]
+     281 |         if (lock_is_read(fl))
+         |             ^~~~~~~~~~~~
+         |             lock_is_held
+   fs/ceph/locks.c:283:18: error: implicit declaration of function 'lock_is_write'; did you mean 'op_is_write'? [-Werror=implicit-function-declaration]
+     283 |         else if (lock_is_write(fl))
+         |                  ^~~~~~~~~~~~~
+         |                  op_is_write
+   fs/ceph/locks.c: In function 'ceph_count_locks':
+   fs/ceph/locks.c:388:17: error: implicit declaration of function 'for_each_file_lock'; did you mean 'for_each_node_mask'? [-Werror=implicit-function-declaration]
+     388 |                 for_each_file_lock(lock, &ctx->flc_posix)
+         |                 ^~~~~~~~~~~~~~~~~~
+         |                 for_each_node_mask
+   fs/ceph/locks.c:389:25: error: lvalue required as increment operand
+     389 |                         ++(*fcntl_count);
+         |                         ^~
+   fs/ceph/locks.c:391:25: error: lvalue required as increment operand
+     391 |                         ++(*flock_count);
+         |                         ^~
+   fs/ceph/locks.c: In function 'ceph_encode_locks_to_buffer':
+   fs/ceph/locks.c:456:50: error: expected ';' before '{' token
+     456 |         for_each_file_lock(lock, &ctx->flc_posix) {
+         |                                                  ^~
+         |                                                  ;
+>> fs/ceph/locks.c:447:13: warning: unused variable 'l' [-Wunused-variable]
+     447 |         int l = 0;
+         |             ^
+>> fs/ceph/locks.c:446:13: warning: unused variable 'seen_flock' [-Wunused-variable]
+     446 |         int seen_flock = 0;
+         |             ^~~~~~~~~~
+>> fs/ceph/locks.c:445:13: warning: unused variable 'seen_fcntl' [-Wunused-variable]
+     445 |         int seen_fcntl = 0;
+         |             ^~~~~~~~~~
+   fs/ceph/locks.c: At top level:
+>> fs/ceph/locks.c:401:12: warning: 'lock_to_ceph_filelock' defined but not used [-Wunused-function]
+     401 | static int lock_to_ceph_filelock(struct inode *inode,
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/l +447 fs/ceph/locks.c
+
+40819f6fb227c1 Greg Farnum 2010-08-02  397  
+c6db8472336379 Yan, Zheng  2017-09-11  398  /*
+c6db8472336379 Yan, Zheng  2017-09-11  399   * Given a pointer to a lock, convert it to a ceph filelock
+c6db8472336379 Yan, Zheng  2017-09-11  400   */
+38d46409c4639a Xiubo Li    2023-06-12 @401  static int lock_to_ceph_filelock(struct inode *inode,
+38d46409c4639a Xiubo Li    2023-06-12  402  				 struct file_lock *lock,
+c6db8472336379 Yan, Zheng  2017-09-11  403  				 struct ceph_filelock *cephlock)
+c6db8472336379 Yan, Zheng  2017-09-11  404  {
+38d46409c4639a Xiubo Li    2023-06-12  405  	struct ceph_client *cl = ceph_inode_to_client(inode);
+c6db8472336379 Yan, Zheng  2017-09-11  406  	int err = 0;
+38d46409c4639a Xiubo Li    2023-06-12  407  
+c6db8472336379 Yan, Zheng  2017-09-11  408  	cephlock->start = cpu_to_le64(lock->fl_start);
+c6db8472336379 Yan, Zheng  2017-09-11  409  	cephlock->length = cpu_to_le64(lock->fl_end - lock->fl_start + 1);
+c6db8472336379 Yan, Zheng  2017-09-11  410  	cephlock->client = cpu_to_le64(0);
+c6db8472336379 Yan, Zheng  2017-09-11  411  	cephlock->pid = cpu_to_le64((u64)lock->fl_pid);
+c6db8472336379 Yan, Zheng  2017-09-11  412  	cephlock->owner = cpu_to_le64(secure_addr(lock->fl_owner));
+c6db8472336379 Yan, Zheng  2017-09-11  413  
+c6db8472336379 Yan, Zheng  2017-09-11  414  	switch (lock->fl_type) {
+c6db8472336379 Yan, Zheng  2017-09-11  415  	case F_RDLCK:
+c6db8472336379 Yan, Zheng  2017-09-11  416  		cephlock->type = CEPH_LOCK_SHARED;
+c6db8472336379 Yan, Zheng  2017-09-11  417  		break;
+c6db8472336379 Yan, Zheng  2017-09-11  418  	case F_WRLCK:
+c6db8472336379 Yan, Zheng  2017-09-11  419  		cephlock->type = CEPH_LOCK_EXCL;
+c6db8472336379 Yan, Zheng  2017-09-11  420  		break;
+c6db8472336379 Yan, Zheng  2017-09-11  421  	case F_UNLCK:
+c6db8472336379 Yan, Zheng  2017-09-11  422  		cephlock->type = CEPH_LOCK_UNLOCK;
+c6db8472336379 Yan, Zheng  2017-09-11  423  		break;
+c6db8472336379 Yan, Zheng  2017-09-11  424  	default:
+38d46409c4639a Xiubo Li    2023-06-12  425  		doutc(cl, "Have unknown lock type %d\n", lock->fl_type);
+c6db8472336379 Yan, Zheng  2017-09-11  426  		err = -EINVAL;
+c6db8472336379 Yan, Zheng  2017-09-11  427  	}
+c6db8472336379 Yan, Zheng  2017-09-11  428  
+c6db8472336379 Yan, Zheng  2017-09-11  429  	return err;
+c6db8472336379 Yan, Zheng  2017-09-11  430  }
+c6db8472336379 Yan, Zheng  2017-09-11  431  
+06a1ad438b7b8d Jeff Layton 2020-09-29  432  /*
+39be95e9c8c0b5 Jim Schutt  2013-05-15  433   * Encode the flock and fcntl locks for the given inode into the ceph_filelock
+1c8c601a8c0dc5 Jeff Layton 2013-06-21  434   * array. Must be called with inode->i_lock already held.
+39be95e9c8c0b5 Jim Schutt  2013-05-15  435   * If we encounter more of a specific lock type than expected, return -ENOSPC.
+40819f6fb227c1 Greg Farnum 2010-08-02  436   */
+39be95e9c8c0b5 Jim Schutt  2013-05-15  437  int ceph_encode_locks_to_buffer(struct inode *inode,
+39be95e9c8c0b5 Jim Schutt  2013-05-15  438  				struct ceph_filelock *flocks,
+40819f6fb227c1 Greg Farnum 2010-08-02  439  				int num_fcntl_locks, int num_flock_locks)
+40819f6fb227c1 Greg Farnum 2010-08-02  440  {
+40819f6fb227c1 Greg Farnum 2010-08-02  441  	struct file_lock *lock;
+d4e78663f6bc83 Jeff Layton 2022-11-16  442  	struct file_lock_context *ctx = locks_inode_context(inode);
+38d46409c4639a Xiubo Li    2023-06-12  443  	struct ceph_client *cl = ceph_inode_to_client(inode);
+40819f6fb227c1 Greg Farnum 2010-08-02  444  	int err = 0;
+fca4451acfdcf8 Greg Farnum 2010-09-17 @445  	int seen_fcntl = 0;
+fca4451acfdcf8 Greg Farnum 2010-09-17 @446  	int seen_flock = 0;
+39be95e9c8c0b5 Jim Schutt  2013-05-15 @447  	int l = 0;
+40819f6fb227c1 Greg Farnum 2010-08-02  448  
+38d46409c4639a Xiubo Li    2023-06-12  449  	doutc(cl, "encoding %d flock and %d fcntl locks\n", num_flock_locks,
+40819f6fb227c1 Greg Farnum 2010-08-02  450  	      num_fcntl_locks);
+39be95e9c8c0b5 Jim Schutt  2013-05-15  451  
+bd61e0a9c852de Jeff Layton 2015-01-16  452  	if (!ctx)
+bd61e0a9c852de Jeff Layton 2015-01-16  453  		return 0;
+bd61e0a9c852de Jeff Layton 2015-01-16  454  
+6109c85037e534 Jeff Layton 2015-01-16  455  	spin_lock(&ctx->flc_lock);
+7c82f310391564 Jeff Layton 2024-01-31  456  	for_each_file_lock(lock, &ctx->flc_posix) {
+fca4451acfdcf8 Greg Farnum 2010-09-17  457  		++seen_fcntl;
+fca4451acfdcf8 Greg Farnum 2010-09-17  458  		if (seen_fcntl > num_fcntl_locks) {
+fca4451acfdcf8 Greg Farnum 2010-09-17  459  			err = -ENOSPC;
+fca4451acfdcf8 Greg Farnum 2010-09-17  460  			goto fail;
+fca4451acfdcf8 Greg Farnum 2010-09-17  461  		}
+38d46409c4639a Xiubo Li    2023-06-12  462  		err = lock_to_ceph_filelock(inode, lock, &flocks[l]);
+40819f6fb227c1 Greg Farnum 2010-08-02  463  		if (err)
+40819f6fb227c1 Greg Farnum 2010-08-02  464  			goto fail;
+39be95e9c8c0b5 Jim Schutt  2013-05-15  465  		++l;
+40819f6fb227c1 Greg Farnum 2010-08-02  466  	}
+7c82f310391564 Jeff Layton 2024-01-31  467  	for_each_file_lock(lock, &ctx->flc_flock) {
+fca4451acfdcf8 Greg Farnum 2010-09-17  468  		++seen_flock;
+fca4451acfdcf8 Greg Farnum 2010-09-17  469  		if (seen_flock > num_flock_locks) {
+fca4451acfdcf8 Greg Farnum 2010-09-17  470  			err = -ENOSPC;
+fca4451acfdcf8 Greg Farnum 2010-09-17  471  			goto fail;
+fca4451acfdcf8 Greg Farnum 2010-09-17  472  		}
+38d46409c4639a Xiubo Li    2023-06-12  473  		err = lock_to_ceph_filelock(inode, lock, &flocks[l]);
+40819f6fb227c1 Greg Farnum 2010-08-02  474  		if (err)
+40819f6fb227c1 Greg Farnum 2010-08-02  475  			goto fail;
+39be95e9c8c0b5 Jim Schutt  2013-05-15  476  		++l;
+40819f6fb227c1 Greg Farnum 2010-08-02  477  	}
+40819f6fb227c1 Greg Farnum 2010-08-02  478  fail:
+6109c85037e534 Jeff Layton 2015-01-16  479  	spin_unlock(&ctx->flc_lock);
+40819f6fb227c1 Greg Farnum 2010-08-02  480  	return err;
+40819f6fb227c1 Greg Farnum 2010-08-02  481  }
+40819f6fb227c1 Greg Farnum 2010-08-02  482  
+
+:::::: The code at line 447 was first introduced by commit
+:::::: 39be95e9c8c0b5668c9f8806ffe29bf9f4bc0f40 ceph: ceph_pagelist_append might sleep while atomic
+
+:::::: TO: Jim Schutt <jaschut@sandia.gov>
+:::::: CC: Alex Elder <elder@inktank.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
