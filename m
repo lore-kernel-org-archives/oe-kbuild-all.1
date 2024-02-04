@@ -1,80 +1,89 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244C1EDE;
-	Sun,  4 Feb 2024 01:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA2610F1;
+	Sun,  4 Feb 2024 01:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707010012; cv=none; b=KvMknVDFPBtTVDQQKuLKMLip7cFGdoC8vLY3j6TTybTyEpDZPLKuapbWUZFjxRzCDqwGAjPZGHSL7Fvidjmm3AcUStoc24fK21gRoUp7+7oeE4ypNiLDDlpot93K8kzE8+vAQZ6Ys7j0QmA1ipr+K5f8khNeLTocDvUUaShRmJY=
+	t=1707010322; cv=none; b=eei2gq8LGRmq2HtoWJa/IGk4qnYgltOEJfvPQlCn5lJAKTt8RSqwcoUz5DoEH1VLhE1dyTXd+D4actkzoAtVSrpf6CdxW15rG4rs9vjcSPpqvalVECpIwUll6pQPUdj3JW7mj+ig5xcOxxjBy4l3OCjWK3QT3QvEd85dVKVhvLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707010012; c=relaxed/simple;
-	bh=LpJEAMF+Ooaz45GJ+ISwigXoS0uW4CmyzR45FwrvGHo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AvErLk/pVbjsfdfEMFxO8lF54PceGiGAQwB5Jsq5d+xgSkYosn3SGIAJUyAZmqcVkIy5j3f7sUdeLKg4I2QYs/CxDDussmkL6AXzRJ/Jn+4ZrfPzavM37sNxdXVvyR43MCUsif/HsYOIIJ3XNy08SgLZsmp9/ze4fXF7dwFXn3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nLKCxn+y; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nLKCxn+y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=rhinI2Yz3ldCYiyf5UXL/+9A9v7fUw89mwEEs5eTdoA=; b=nLKCxn+yVc/eV71DOyVta0bKBT
-	FUeGTTTOu39hERGUbyGAbzcy4KEO5G6/e2Kr1ayYOEoNbIj5uBM2Yd7XTYD80FwZoKU1RZ2sv4J0e
-	5Mh0gM9wsHCW9gEetfCoSlFmFhC7FFMIP3lksbh0cLHSK4VKGYLQ43/GtAsm4NcAMHrT71mQESHol
-	3c8AUCqebHKxmdNzCOysrVed7qUl98AF/bfAuT3lcgowN5qJ/GcA5LgWuZ/6wGyOjT4LDGU6Agk/H
-	8lpVauyf5NFHSEoumHx6ARu5ib7KPI0On5PtrRKVbbm2Y7+RCqe93mZ9g1e5w4sq3XcFbRQLvqeTg
-	pSFnGWPQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWRHV-0000000HWAS-2ntk;
-	Sun, 04 Feb 2024 01:26:49 +0000
-Message-ID: <97f7e278-725b-4453-aae9-6a80664920c7@infradead.org>
-Date: Sat, 3 Feb 2024 17:26:49 -0800
+	s=arc-20240116; t=1707010322; c=relaxed/simple;
+	bh=LAtoXISJxeafujJzD5Nr1eEj2NPuDf37Hxk5B9t2c78=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=UsRxDFNV0kMRQTxaOcNOBbpteFeypKBbK79tfNAxGQOkPHCtnedvMMBAZdKYpqjckb4H1uq0t6CPaLcWCJX1HTbTuvZQdwcSzlm/9TjyVYXvdRo7CKPK5dMAR1aXrko8LXSoTi2VZzHCpdvdFMki9IvTdekHdqy01ynnIilGXVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4141VjAO22615386, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.95/5.92) with ESMTPS id 4141VjAO22615386
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 4 Feb 2024 09:31:45 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.17; Sun, 4 Feb 2024 09:31:45 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Sun, 4 Feb 2024 09:31:45 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::c9b7:82a9:7e98:fa7f]) by
+ RTEXMBS04.realtek.com.tw ([fe80::c9b7:82a9:7e98:fa7f%7]) with mapi id
+ 15.01.2507.035; Sun, 4 Feb 2024 09:31:45 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: "kvalo@kernel.org" <kvalo@kernel.org>, "lkp@intel.com" <lkp@intel.com>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [PATCH 3/4] wifi: rtw89: fw: parse secure section from firmware file
+Thread-Topic: [PATCH 3/4] wifi: rtw89: fw: parse secure section from firmware
+ file
+Thread-Index: AQHaVjiuZCYGjpZVQ0eMXVSiurUcQ7D4ejGAgABm9oA=
+Date: Sun, 4 Feb 2024 01:31:45 +0000
+Message-ID: <e645b875c771216f688ae106abd5be86aff59b42.camel@realtek.com>
+References: <20240203003251.10641-4-pkshih@realtek.com>
+	 <202402040350.rRpOepoU-lkp@intel.com>
+In-Reply-To: <202402040350.rRpOepoU-lkp@intel.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+user-agent: Evolution 3.36.1-2 
+x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F9F344B0556AD6479EE0CC8FC753B7F3@realtek.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 12610/12662] htmldocs: Warning: file
- Documentation/ABI/testing/sysfs-platform-silicom#20:
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Hans de Goede <hdegoede@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>, linux-doc@vger.kernel.org
-References: <202401070202.BQvPxgyp-lkp@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202401070202.BQvPxgyp-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-Hi ktr,
-
-Sorry for the late reply.
-
-
-On 1/6/24 10:13, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
-> commit: f24945c77ed4c57b602632b9e3cbf5752e202a6f [12610/12662] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
-> reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070202.BQvPxgyp-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401070202.BQvPxgyp-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> Warning: file Documentation/ABI/testing/sysfs-platform-silicom#20:
-> 
-
-but what was the warning or problem here?
-I don't see it.
-
-thanks.
--- 
-#Randy
+T24gU3VuLCAyMDI0LTAyLTA0IGF0IDAzOjIyICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
+ZToNCj4gDQo+ICAgIGRyaXZlcnMvbmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnR3ODkvZncuYzogSW4g
+ZnVuY3Rpb24gJ3J0dzg5X2Z3X2hkcl9wYXJzZXJfdjEnOg0KPiA+ID4gZHJpdmVycy9uZXQvd2ly
+ZWxlc3MvcmVhbHRlay9ydHc4OS9mdy5jOjM4NDo4ODogd2FybmluZzogZm9ybWF0ICclbHgnIGV4
+cGVjdHMgYXJndW1lbnQgb2YgdHlwZQ0KPiA+ID4gJ2xvbmcgdW5zaWduZWQgaW50JywgYnV0IGFy
+Z3VtZW50IDkgaGFzIHR5cGUgJ2ludCcgWy1XZm9ybWF0PV0NCj4gICAgICAzODQgfCAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgInNlY3Rpb25bJWRdIHR5cGU9JWQgbGVuPTB4JS02eCBtc3Nj
+PSVkIG1zc2NfbGVuPSVkDQo+IGFkZHI9JWx4XG4iLA0KPiAgICAgICAgICB8ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICB+fg0KPiBeDQo+ICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgDQo+IHwNCj4gICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICANCj4gbG9uZyB1bnNpZ25lZCBpbnQNCj4gICAgICAgICAgfCAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgJXgNCj4gICAgICAzODUgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+aSwgc2VjdGlvbl9pbmZvLT50eXBlLCBzZWN0aW9uX2luZm8tPmxlbiwNCj4gICAgICAzODYgfCAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgc2VjdGlvbl9pbmZvLT5tc3NjLCBtc3NjX2xlbiwg
+YmluIC0gZncpOw0KPiAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICB+fn5+fn5+fg0KPiAgICAgICAgICB8ICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfA0K
+PiAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgaW50DQoNCkkgbG9va2VkIGZvciBob3cgdG8gcHJpbnQgb3V0IGRp
+ZmZlcmVuY2VzIChzdWJ0cmFjdGlvbikgb2YgcG9pbnRzLCBhbmQNCiIldHgiIGlzIHRoZSBkZXNp
+cmVkIGZvcm1hdCBbMV0uIEkgY29ycmVjdGVkIHRoaXMgYnkgdjIuDQoNClsxXSBodHRwczovL2Rv
+Y3Mua2VybmVsLm9yZy9jb3JlLWFwaS9wcmludGstZm9ybWF0cy5odG1sI3BvaW50ZXItZGlmZmVy
+ZW5jZXMNCg0KUGluZy1LZSANCg0K
