@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36421B7E6
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 10:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507BA1B7E8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 10:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707042389; cv=none; b=CGftug7yLZg40aLS7PrudFSCEBw0029fs4fPm2bKiWRPHrgB+a+Fh5BKlpurHYrxWZPsGeS/AjVxXaedZBaFBr+qmhxLsqiTLW8YRvC3CRSJO5pjV/0HLnfyF5PAo6ipQHpp3Qlp81gmWr/8Iac/CqSyu3QLE/gY0ZAgSW3BDLE=
+	t=1707042390; cv=none; b=E6vC3W1/5Ido9z5eG0e9aLoCoyI7V9m+hFJVnCy9jy70VJOhb+UVQ9Pt1PjoYswmYqpeGWPmoXwQpOm+mfIOYow8DlFkIQmIIyMykx4Q+Mkrb8tHiABdIR4CSSUJibK2GMRuYb3W4ETU/5UeAGMGRNCKcXu0jGnuxkRu+qqtVYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707042389; c=relaxed/simple;
-	bh=pwhN9oWwHaCUSHAboadQEcESFRWbGj1KZ3RY9ZVp5T0=;
+	s=arc-20240116; t=1707042390; c=relaxed/simple;
+	bh=nU1XjE9yWtZFx2f2kzzNCOyZ1kStBXcpF7QJiSTLn24=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JpMg4GAA3fTR6Ke0PdQ7cnS5uQWeqIKdIV1jgnH9PShvLq2TCwSzqXrlPWxLx68yd+w0IEtt+z7jNHZ5HEhDbetZTbWa1Y8Pm5KrBBLorHWfv1g722V6/lqMd1ZiV8wViKUI2z5tgXGQZE047jC8aEiy6WM0kQ1VzSMCbjoDs4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BVXSFDNd; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=uXnYzMMOCuRPK0CZutIx8nYZsmp4UxcTJrnyi1+oa8J3rRhl27C2ZckeVSXouX6+PGnYNU+kCuj2JcUuT9ggtj9kdH4xnsPNKuTl1MQPPA9fru1Itlo+elZtMOZ4sTx81vca/PXgP1rTcL8uPYpVw74uuT+HB0VZ1UkZcaPTO9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=khy0od7Y; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BVXSFDNd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="khy0od7Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707042387; x=1738578387;
+  t=1707042388; x=1738578388;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pwhN9oWwHaCUSHAboadQEcESFRWbGj1KZ3RY9ZVp5T0=;
-  b=BVXSFDNdTzaYp3MNgDinZut5aH8KRyz4WgYbK7UuyC8L1936erNg3c0m
-   RtNRiWdeDxFq/TDm/7ke0NiMcfxX7EvspVLnxoJhjJiPFZ4CHlJJhDuDT
-   x66lOXaJwDmqxeYN1jS5yExJux5XssJS7Y45P9GwFMtz2hVXFaQPVD+lm
-   n7hEm6hXTPc3Jlyjbtlz9Bter6mbsY2YN+2ONHqaOZIGOoFHlOk42Pdc4
-   1kiEnQeStPUKXgOfXB77L5LkB8pC2NXKcYVagazeMOkGVHgafsdodycNC
-   MTK0yygycbI9H39mk0YNr4JHLiO8ft4TEUE24+lc1W0Qsztj2c9Fx5Ed3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="299203"
+  bh=nU1XjE9yWtZFx2f2kzzNCOyZ1kStBXcpF7QJiSTLn24=;
+  b=khy0od7Y/PrKWSv14KXKa13iD0bx/l1mxRgB6PARKhCrwkb/zD2+Y8gW
+   sCjVhMoV7l/ys5ZF/rBkvkRGAqa+YNXsJRQE3Q321HIBWyw15xEfksRdW
+   +51/cGIBn2cxydSf7nf8/LJw8mAkJRqSAQkGQokEqz1vPz6zfbLRhJdyI
+   MXwGT6f1yZjkB6dP21PjiCOFemF68npWem8l+0z0SKntY56wAMrGXbzk8
+   WxB+qRK2TAEYCT5bSunqwQwhguyRKf+m4IuFLqssG6RhDm7viYbt+8wlL
+   A8DRwnj+Hx+AmS10BUZdTcQ4Eo1R57rnGfU4ndedE3RUXfLvXduQbf8DE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="11120629"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="299203"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 02:26:26 -0800
+   d="scan'208";a="11120629"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 02:26:28 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="5094558"
+   d="scan'208";a="475315"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Feb 2024 02:26:25 -0800
+  by orviesa009.jf.intel.com with ESMTP; 04 Feb 2024 02:26:26 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWZhd-0006FA-0z;
-	Sun, 04 Feb 2024 10:26:21 +0000
-Date: Sun, 4 Feb 2024 18:25:27 +0800
+	id 1rWZhe-0006FC-1m;
+	Sun, 04 Feb 2024 10:26:22 +0000
+Date: Sun, 4 Feb 2024 18:25:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:pr/339 6/16] drivers/video/fbdev/core/fbcon.c:477:5: error: use
- of undeclared identifier 'fb_center_logo'
-Message-ID: <202402041809.zMGfNuay-lkp@intel.com>
+Subject: [zen:pr/339 15/16] drivers/video/fbdev/core/fb_chrdev.c:190:8:
+ error: redefinition of 'fb_cmap32'
+Message-ID: <202402041809.3sJAqRg0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,97 +60,45 @@ Content-Disposition: inline
 
 tree:   https://github.com/zen-kernel/zen-kernel pr/339
 head:   c178ea136b21f7814d3ee52d508d4acd2e3cf93f
-commit: 6e3d1052d6a5a242fc1769fa2fcec7707c38ba98 [6/16] Update fbcon.c
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240204/202402041809.zMGfNuay-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041809.zMGfNuay-lkp@intel.com/reproduce)
+commit: aa0cc72c4b46aee70fdf09a8ad9c79bc12e69664 [15/16] Update fb.h
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240204/202402041809.3sJAqRg0-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041809.3sJAqRg0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402041809.zMGfNuay-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402041809.3sJAqRg0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/video/fbdev/core/fbcon.c:117:17: warning: no previous prototype for function 'fbcon_info_from_console' [-Wmissing-prototypes]
-   struct fb_info *fbcon_info_from_console(int console) {
-                   ^
-   drivers/video/fbdev/core/fbcon.c:117:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct fb_info *fbcon_info_from_console(int console) {
-   ^
-   static 
-   drivers/video/fbdev/core/fbcon.c:280:5: warning: no previous prototype for function 'get_color' [-Wmissing-prototypes]
-   int get_color(struct vc_data *vc, struct fb_info *info,
-       ^
-   drivers/video/fbdev/core/fbcon.c:280:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int get_color(struct vc_data *vc, struct fb_info *info,
-   ^
-   static 
->> drivers/video/fbdev/core/fbcon.c:477:5: error: use of undeclared identifier 'fb_center_logo'
-                                   fb_center_logo = true;
-                                   ^
->> drivers/video/fbdev/core/fbcon.c:484:5: error: use of undeclared identifier 'fb_logo_count'
-                                   fb_logo_count = simple_strtol(options, &options, 0);
-                                   ^
-   drivers/video/fbdev/core/fbcon.c:981:14: error: no member named 'vc_decor' in 'struct vc_data'
-                   cols = vc->vc_decor.twidth / vc->vc_font.width;
-                          ~~  ^
-   drivers/video/fbdev/core/fbcon.c:982:14: error: no member named 'vc_decor' in 'struct vc_data'
-                   rows = vc->vc_decor.theight / vc->vc_font.height;
-                          ~~  ^
-   drivers/video/fbdev/core/fbcon.c:2066:43: error: no member named 'vc_decor' in 'struct vc_data'
-                   y_diff < 0 || y_diff > virt_fh) && !vc->vc_decor.state) {
-                                                       ~~  ^
-   drivers/video/fbdev/core/fbcon.c:2173:17: error: no member named 'vc_decor' in 'struct vc_data'
-                   if (!vc_curr->vc_decor.theme ||
-                        ~~~~~~~  ^
-   drivers/video/fbdev/core/fbcon.c:2174:15: error: no member named 'vc_decor' in 'struct vc_data'
-                           strcmp(vc->vc_decor.theme, vc_curr->vc_decor.theme) ||
-                                  ~~  ^
-   drivers/video/fbdev/core/fbcon.c:2174:40: error: no member named 'vc_decor' in 'struct vc_data'
-                           strcmp(vc->vc_decor.theme, vc_curr->vc_decor.theme) ||
-                                                      ~~~~~~~  ^
-   drivers/video/fbdev/core/fbcon.c:2490:15: error: no member named 'vc_decor' in 'struct vc_data'
-                           cols = vc->vc_decor.twidth;
-                                  ~~  ^
-   drivers/video/fbdev/core/fbcon.c:2491:15: error: no member named 'vc_decor' in 'struct vc_data'
-                           rows = vc->vc_decor.theight;
-                                  ~~  ^
-   drivers/video/fbdev/core/fbcon.c:2700:45: error: no member named 'bgdecor' in 'struct fb_info'
-                      info->var.bits_per_pixel == 8 && info->bgdecor.cmap.red != NULL)
-                                                       ~~~~  ^
-   drivers/video/fbdev/core/fbcon.c:2701:22: error: no member named 'bgdecor' in 'struct fb_info'
-                   fb_set_cmap(&info->bgdecor.cmap, info);
-                                ~~~~  ^
-   2 warnings and 12 errors generated.
+>> drivers/video/fbdev/core/fb_chrdev.c:190:8: error: redefinition of 'fb_cmap32'
+     190 | struct fb_cmap32 {
+         |        ^
+   include/uapi/linux/fb.h:320:8: note: previous definition is here
+     320 | struct fb_cmap32 {
+         |        ^
+   1 error generated.
 
 
-vim +/fb_center_logo +477 drivers/video/fbdev/core/fbcon.c
+vim +/fb_cmap32 +190 drivers/video/fbdev/core/fb_chrdev.c
 
-890d14d2d4b57f drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-01-16  473  
-890d14d2d4b57f drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-01-16  474  		if (!strncmp(options, "logo-pos:", 9)) {
-890d14d2d4b57f drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-01-16  475  			options += 9;
-890d14d2d4b57f drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-01-16  476  			if (!strcmp(options, "center"))
-890d14d2d4b57f drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-01-16 @477  				fb_center_logo = true;
-890d14d2d4b57f drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-01-16  478  			continue;
-890d14d2d4b57f drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-01-16  479  		}
-691f50ab274255 drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-08-27  480  
-691f50ab274255 drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-08-27  481  		if (!strncmp(options, "logo-count:", 11)) {
-691f50ab274255 drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-08-27  482  			options += 11;
-691f50ab274255 drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-08-27  483  			if (*options)
-691f50ab274255 drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-08-27 @484  				fb_logo_count = simple_strtol(options, &options, 0);
-691f50ab274255 drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-08-27  485  			continue;
-691f50ab274255 drivers/video/fbdev/core/fbcon.c Peter Rosin    2019-08-27  486  		}
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  487  	}
-9b41046cd0ee0a drivers/video/console/fbcon.c    OGAWA Hirofumi 2006-03-31  488  	return 1;
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  489  }
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  490  
+588b35634a5aab Thomas Zimmermann 2023-06-13  189  
+588b35634a5aab Thomas Zimmermann 2023-06-13 @190  struct fb_cmap32 {
+588b35634a5aab Thomas Zimmermann 2023-06-13  191  	u32			start;
+588b35634a5aab Thomas Zimmermann 2023-06-13  192  	u32			len;
+588b35634a5aab Thomas Zimmermann 2023-06-13  193  	compat_caddr_t	red;
+588b35634a5aab Thomas Zimmermann 2023-06-13  194  	compat_caddr_t	green;
+588b35634a5aab Thomas Zimmermann 2023-06-13  195  	compat_caddr_t	blue;
+588b35634a5aab Thomas Zimmermann 2023-06-13  196  	compat_caddr_t	transp;
+588b35634a5aab Thomas Zimmermann 2023-06-13  197  };
+588b35634a5aab Thomas Zimmermann 2023-06-13  198  
 
-:::::: The code at line 477 was first introduced by commit
-:::::: 890d14d2d4b57ff5a149309da3ed36c8a529987f fbdev: fbmem: convert CONFIG_FB_LOGO_CENTER into a cmd line option
+:::::: The code at line 190 was first introduced by commit
+:::::: 588b35634a5aabce1aef3297a048e42279f62dec fbdev/core: Move file-I/O code into separate file
 
-:::::: TO: Peter Rosin <peda@axentia.se>
-:::::: CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+:::::: TO: Thomas Zimmermann <tzimmermann@suse.de>
+:::::: CC: Thomas Zimmermann <tzimmermann@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
