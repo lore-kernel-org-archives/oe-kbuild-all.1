@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CB6249F9
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 18:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABCC249EE
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 18:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707070839; cv=none; b=dmOKCgwqr4teXT5PLq3J7avfR9FMnbH922oAvBZa0gMFI+6nylCD+md6V+0q8eGbzItfeMqyuNigScPddcbZ8/RJYNuU3d/gu9dR/DO+uWagRe4Hy5bwMJFEYAFHop8IpceC5oC8eY3h8x9nwNTxCsMpXA/h6kGR7Z2N7sRxXJs=
+	t=1707071560; cv=none; b=N+9WVFX5v8a7aLnoroZAW4NVfF+KeOzmVpsIq7Cwv7DRzxBwTg69Q5Z4snJ5hbN4PRrllrjfOuk3H+BQSXVRxDpKwvSKHOCA1utVvlWAbyw7uDSijlpTsuuLQmyB1ssViTD0dvA+IkUlQiShcgoOlznXrPeQfZvBFWe892m/5Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707070839; c=relaxed/simple;
-	bh=gy8zs2FoOIoSogXPm8fRBnCFPBZTbqCcHm5nXQLDHz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MG26jBD1ALgJ6nNwHJRUGqA9bzc82/e99useqd4+/ngI8EQY0pj7p3AigSAnoYxMS0SmYeQv5YbYNPrpLk78FbNyJC04M3+nkVHfr+sAtRabMBnMIXpYlkNCcc8lrlvpAz3/jIZbc+MzGsmyk/ytGMkAclUZZ1Z47KrzBJpOoMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=elXcEfiV; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1707071560; c=relaxed/simple;
+	bh=OdrYR/4lac8Otue6qn2pOeudBNBEFsdiy53g7QIz39w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lw/QHA9+picAQc7ZsZ1kor6Css4AYGftxBTLhMLm+mbP3WSl2wZyVSMpgkZdT9bBK50lsnQjiG2nq+MF0hE+dxtE4khbgtR4DjxR4kfZvYAHVIRUctWsuoNu0TlEQzXtYqUGC49BAEMouhg2q3JKrOnYvS5tIEzcYWqAASTTGus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LegMIa7c; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elXcEfiV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LegMIa7c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707070837; x=1738606837;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gy8zs2FoOIoSogXPm8fRBnCFPBZTbqCcHm5nXQLDHz8=;
-  b=elXcEfiVyfSy4TkffaXh/0ejjWoGBUQQqIsJP4tZHGvxZj4oZMMktXZI
-   RbbOGB8aoY1za/PcsovFTM9Wfb2u+SRatAVfmrd/RiAKmHsDNFEv5H4Vc
-   qZI7kp8qSspumpfDwRknZpYfyLawmabnkt6Y3G6CWN2Bz1N8d1CDJa0Ct
-   qOV9skn2xx0Nl8r+3FvSvzlg4mnA9RXusNvJ42QjnMeyjk80lf3QtKL5W
-   cQwz+qEoR/m8wwMOFBjtFmZlDEX16SedqOvGBDLpwQb13qjxHaWkuWyAb
-   Esc3ge5Mru9RfVmO3Xmb5fgDfA0lbGM1QtddMniKTCTS1d2k+ugdhF2GQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="3374147"
+  t=1707071558; x=1738607558;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OdrYR/4lac8Otue6qn2pOeudBNBEFsdiy53g7QIz39w=;
+  b=LegMIa7cuuqc0J3doLj2ucCywzs9ETEj+QRchP0pOf4U2UPG6OXxJ+yy
+   d6S5RFGldV/fwb9mXv7bzoKpK8g7R9kQuuapH/AvHUCCZTCzv7VrrABlZ
+   kVgGigb4I2iGWQHAP0N61lZMY+65IoMuWIyeWsmBTO29LJjxiCN7rFw/Q
+   rLkjsAwMjlxWlwixpXC+jGnyBAju+nHyAQZMPZR2iWUCLu58WzXP93keW
+   fn+z0Iw4viMUfN91nE41l0tga2aprBATKy3LCc8xffuiVNpIbcz3A4g7o
+   nNyavj/USWQh0ALuGEnJokv17YrzDAUxd7UPVED1RFC0ywYsVM8jq9pwQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="657914"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="3374147"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 10:20:37 -0800
+   d="scan'208";a="657914"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 10:32:38 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="5151591"
+   d="scan'208";a="37957387"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Feb 2024 10:20:36 -0800
+  by orviesa001.jf.intel.com with ESMTP; 04 Feb 2024 10:32:37 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWh6X-0006c8-2Y;
-	Sun, 04 Feb 2024 18:20:33 +0000
-Date: Mon, 5 Feb 2024 02:19:43 +0800
+	id 1rWhIA-0006ci-0X;
+	Sun, 04 Feb 2024 18:32:34 +0000
+Date: Mon, 5 Feb 2024 02:32:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boris Burkov <boris@bur.io>, linux-btrfs@vger.kernel.org,
-	kernel-team@fb.com
+To: Tejun Heo <tj@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/6] btrfs: periodic block_group reclaim
-Message-ID: <202402050244.pa6hJds3-lkp@intel.com>
-References: <1173e535ec7b46bda33ed2dc4219027502763902.1706914865.git.boris@bur.io>
+Subject: [tj-wq:wq-bh-v1 26/31] kernel/workqueue.c:1217:25: error: implicit
+ declaration of function 'raise_softirq_irqoff'
+Message-ID: <202402050253.WvWDIaIh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,55 +57,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1173e535ec7b46bda33ed2dc4219027502763902.1706914865.git.boris@bur.io>
 
-Hi Boris,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master v6.8-rc2 next-20240202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Burkov/btrfs-report-reclaim-count-in-sysfs/20240203-071516
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/1173e535ec7b46bda33ed2dc4219027502763902.1706914865.git.boris%40bur.io
-patch subject: [PATCH 4/6] btrfs: periodic block_group reclaim
-config: i386-randconfig-141-20240204 (https://download.01.org/0day-ci/archive/20240205/202402050244.pa6hJds3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git wq-bh-v1
+head:   3af70c858c44623c77be759d0809b7ae8ff09b26
+commit: aec8a645378b508d17c2286276451d85d74bf1ec [26/31] workqueue: Implement BH workqueues to eventually replace tasklets
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240205/202402050253.WvWDIaIh-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402050253.WvWDIaIh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402050244.pa6hJds3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402050253.WvWDIaIh-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/space-info.c:1996 btrfs_reclaim_sweep() error: uninitialized symbol 'ret'.
+All errors (new ones prefixed by >>):
 
-vim +/ret +1996 fs/btrfs/space-info.c
+   kernel/workqueue.c: In function 'kick_pool':
+>> kernel/workqueue.c:1217:25: error: implicit declaration of function 'raise_softirq_irqoff' [-Werror=implicit-function-declaration]
+    1217 |                         raise_softirq_irqoff(HI_SOFTIRQ);
+         |                         ^~~~~~~~~~~~~~~~~~~~
+>> kernel/workqueue.c:1217:46: error: 'HI_SOFTIRQ' undeclared (first use in this function)
+    1217 |                         raise_softirq_irqoff(HI_SOFTIRQ);
+         |                                              ^~~~~~~~~~
+   kernel/workqueue.c:1217:46: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/workqueue.c:1219:46: error: 'TASKLET_SOFTIRQ' undeclared (first use in this function)
+    1219 |                         raise_softirq_irqoff(TASKLET_SOFTIRQ);
+         |                                              ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-  1977	
-  1978	int btrfs_reclaim_sweep(struct btrfs_fs_info *fs_info)
-  1979	{
-  1980		int ret;
-  1981		int raid;
-  1982		struct btrfs_space_info *space_info;
-  1983	
-  1984		list_for_each_entry(space_info, &fs_info->space_info, list) {
-  1985			if (space_info->flags & BTRFS_BLOCK_GROUP_SYSTEM)
-  1986				continue;
-  1987			if (!READ_ONCE(space_info->periodic_reclaim))
-  1988				continue;
-  1989			for (raid = 0; raid < BTRFS_NR_RAID_TYPES; raid++) {
-  1990				ret = do_reclaim_sweep(fs_info, space_info, raid);
-  1991				if (ret)
-  1992					return ret;
-  1993			}
-  1994		}
-  1995	
-> 1996		return ret;
+
+vim +/raise_softirq_irqoff +1217 kernel/workqueue.c
+
+  1197	
+  1198	/**
+  1199	 * kick_pool - wake up an idle worker if necessary
+  1200	 * @pool: pool to kick
+  1201	 *
+  1202	 * @pool may have pending work items. Wake up worker if necessary. Returns
+  1203	 * whether a worker was woken up.
+  1204	 */
+  1205	static bool kick_pool(struct worker_pool *pool)
+  1206	{
+  1207		struct worker *worker = first_idle_worker(pool);
+  1208		struct task_struct *p;
+  1209	
+  1210		lockdep_assert_held(&pool->lock);
+  1211	
+  1212		if (!need_more_worker(pool) || !worker)
+  1213			return false;
+  1214	
+  1215		if (pool->flags & POOL_BH) {
+  1216			if (pool->attrs->nice == HIGHPRI_NICE_LEVEL)
+> 1217				raise_softirq_irqoff(HI_SOFTIRQ);
+  1218			else
+> 1219				raise_softirq_irqoff(TASKLET_SOFTIRQ);
+  1220			return true;
+  1221		}
+  1222	
+  1223		p = worker->task;
+  1224	
 
 -- 
 0-DAY CI Kernel Test Service
