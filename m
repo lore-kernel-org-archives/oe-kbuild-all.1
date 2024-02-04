@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7243922313
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 12:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CB02134F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 13:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707048871; cv=none; b=BLgZ/ywp5ecj2gDlcUgqr/3s60GKbY0H5w86AGwFuMHbDpTSa5CgsBo87DvoL1bTZxCNUkkrx2zdJWWeDSio+9F8thlUnO1SHMaVOXzRtJ2F0Bc5A7lSCi2pOw98mGDRki6QpSuYYtBaI8NsoqUX/guP/ZTovG+HZDLwtzA/tSI=
+	t=1707053215; cv=none; b=gna9s6aav7hbj9IiTt65oc7jcbOolIg5bYzGPczcmFnsXBJNk/3Iq8UYHAUGAKM/RvIxFhCiXkBlHvw2RuZx7sX77HqsHd2IQTi8Gz3N8cWuAb9210oY2b77V2bjJ5B8DxUQweRMRbeXjifz6MO2oYCzzDxQzR9YmZsdl7wjg9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707048871; c=relaxed/simple;
-	bh=LhBXAdqdbG1vcfn5JzVGcw1W6OmmWRM+PAK11sMrSUA=;
+	s=arc-20240116; t=1707053215; c=relaxed/simple;
+	bh=2FlnSXlraAHUSEGbsmZmSsK1hwENTbK3yILVSbu2XZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FTwrc7+V9e0tgaEI20+pkSYlo4rMs2ulk1y4cN+9cmEi4cnmEKQuITQWcRU3wp1pxxwP1NH9Q1fN7FXhk5vxgaigNo/VFoqTu0ctDBUZRi5sxUa+p9tktVN1dS7/fGfI3jRVQRQHQx9arQtzW/CqUVO0uOKHFIenVG2eyvsD+0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anNfT7iK; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=HpLIlxvO/Ie+vqu0vAzoHKEznisPc3l4o31oxPZXOz47PTrykA0umU8ESKhsH5OTwFTarolHFqr+P49wD0siU1nUW2ai3JO1DAPh1Ewa2RrpKpxH0cVXSKZKYDK/q8iJOjM0vkb+2cWdI6uEEPanJpvcMqgszGnPv/ktLzrVg54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R8Q9uBI1; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anNfT7iK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R8Q9uBI1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707048869; x=1738584869;
+  t=1707053213; x=1738589213;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LhBXAdqdbG1vcfn5JzVGcw1W6OmmWRM+PAK11sMrSUA=;
-  b=anNfT7iKCCMj3gEAECz9YBsxcOt+A0deSHaoxKdgV4aiXt2Ac95BJ+lQ
-   //c15yyubRF2Bm62eYSEces8RrpxRy/cdhcyfAuQ5Djs1p/WxdP5lH7k+
-   ScsYLbbi6R7uDIAL2bSL89DAhzQ9Nt4+ZYyuF4Tidri9bUrU3SVGv9zTu
-   +5WJK9dfHVlQcSgpL9ku0QdBvyMuqeDWohsvbdFRLNWLDNm/x55A4o0TX
-   TFAOAhqjpKc2ROMbdoDHkSiLRPHkmr3cqv3wQgPInGXT6UxSE0zVdZWb6
-   KzOBHuMwkk5HaM24Q5oX3IMGr+CANNwOv5MbDYBYms2KpsEIIfm0mmEPF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="540001"
+  bh=2FlnSXlraAHUSEGbsmZmSsK1hwENTbK3yILVSbu2XZo=;
+  b=R8Q9uBI1AJM7IutSLhWYSgEuAO9tWIEcWzDqT60v+rb7p8WHfwtFq0/U
+   uXxiCsvRvt77GVRW1s5vi9YLsbCnWTfQJ9Qma9+M3aIcgcB0lk+WxKJwz
+   MX8he02qJPh8u6fmLVTDj7s4xrAk7R6ZuvesIdjMpedvYlhPydVrTl/cT
+   d64FD7InYbZ04TvptcaO+fsVWyQX1uWE8MHVdRfcWG/LZqE5aGvdEnvO8
+   x4WlRFGRk5TuOko4PlCu+ZrTg2LpqZMd8TvKtBIoBF8ZYRlQbtPGqtYsY
+   7stq7rS/w2WqVnLGBjGPf4hndCwMSHN7J5ysWAkCRLaxCrPkMkmBJIA3y
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="309707"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="540001"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 04:14:28 -0800
+   d="scan'208";a="309707"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 05:26:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="774194"
+   d="scan'208";a="782198"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Feb 2024 04:14:26 -0800
+  by orviesa006.jf.intel.com with ESMTP; 04 Feb 2024 05:26:51 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWbOC-0006JU-0b;
-	Sun, 04 Feb 2024 12:14:24 +0000
-Date: Sun, 4 Feb 2024 20:14:23 +0800
+	id 1rWcWG-0006MK-1w;
+	Sun, 04 Feb 2024 13:26:48 +0000
+Date: Sun, 4 Feb 2024 21:26:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/arm/mm/proc-v7.S:545: Error: invalid constant
- (fffffffffffffbd8) after fixup
-Message-ID: <202402042025.f9AcUiMP-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 1/1]
+ drivers/usb/gadget/configfs.c:1575: undefined reference to
+ `acc_ctrlrequest_composite'
+Message-ID: <202402042125.FKUOswxH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,126 +59,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f24fcdacd40c70dd2949c1cfd8cc2e75942a9e3
-commit: 84fc863606239d8b434e59e6bbbe805f457e5767 ARM: make ARCH_MULTIPLATFORM user-visible
-date:   1 year, 5 months ago
-config: arm-randconfig-004-20240204 (https://download.01.org/0day-ci/archive/20240204/202402042025.f9AcUiMP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402042025.f9AcUiMP-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   db57c320fa5ef4a3e402444e7e652f994eeba999
+commit: e12e360999d84e5e56952c6c027803f662567d76 [1/1] ANDROID: usb: f_accessory: Check buffer size when initialised via composite
+config: i386-randconfig-011-20240202 (https://download.01.org/0day-ci/archive/20240204/202402042125.FKUOswxH-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402042125.FKUOswxH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402042025.f9AcUiMP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402042125.FKUOswxH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm/mm/proc-v7.S: Assembler messages:
->> arch/arm/mm/proc-v7.S:545: Error: invalid constant (fffffffffffffbd8) after fixup
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for TEGRA20_APB_DMA
-   Depends on [n]: DMADEVICES [=n] && (ARCH_TEGRA [=y] || COMPILE_TEST [=y])
-   Selected by [y]:
-   - SOC_TEGRA_FUSE [=y] && ARCH_TEGRA [=y] && ARCH_TEGRA_2x_SOC [=y]
+   ld: drivers/usb/gadget/configfs.o: in function `configfs_composite_disconnect':
+   drivers/usb/gadget/configfs.c:1635: undefined reference to `acc_disconnect'
+   ld: drivers/usb/gadget/configfs.o: in function `android_setup':
+>> drivers/usb/gadget/configfs.c:1575: undefined reference to `acc_ctrlrequest_composite'
 
 
-vim +545 arch/arm/mm/proc-v7.S
+vim +1575 drivers/usb/gadget/configfs.c
 
-de4901933f6dfc Gregory CLEMENT 2012-10-03  483  
-14eff1812679c7 Daniel Walker   2010-09-17  484  __v7_setup:
-95731b8ee63ec9 Ard Biesheuvel  2021-02-11  485  	do_invalidate_l1
-1946d6ef9d7bd4 Russell King    2009-06-01  486  
-bac51ad9d14f6b Russell King    2015-07-09  487  __v7_setup_cont:
-c76f238e261b8d Russell King    2015-04-04  488  	and	r0, r9, #0xff000000		@ ARM?
-c76f238e261b8d Russell King    2015-04-04  489  	teq	r0, #0x41000000
-17e7bf86690eaa Russell King    2015-04-04  490  	bne	__errata_finish
-4419496884ed16 Russell King    2015-04-04  491  	and	r3, r9, #0x00f00000		@ variant
-4419496884ed16 Russell King    2015-04-04  492  	and	r6, r9, #0x0000000f		@ revision
-b2c3e38a54714e Russell King    2015-04-04  493  	orr	r6, r6, r3, lsr #20-4		@ combine variant and revision
-4419496884ed16 Russell King    2015-04-04  494  	ubfx	r0, r9, #4, #12			@ primary part number
-1946d6ef9d7bd4 Russell King    2009-06-01  495  
-6491848d1ab246 Will Deacon     2010-09-14  496  	/* Cortex-A8 Errata */
-6491848d1ab246 Will Deacon     2010-09-14  497  	ldr	r10, =0x00000c08		@ Cortex-A8 primary part number
-6491848d1ab246 Will Deacon     2010-09-14  498  	teq	r0, r10
-17e7bf86690eaa Russell King    2015-04-04  499  	beq	__ca8_errata
-9f05027c7cb3cf Will Deacon     2010-09-14  500  
-9f05027c7cb3cf Will Deacon     2010-09-14  501  	/* Cortex-A9 Errata */
-17e7bf86690eaa Russell King    2015-04-04  502  	ldr	r10, =0x00000c09		@ Cortex-A9 primary part number
-9f05027c7cb3cf Will Deacon     2010-09-14  503  	teq	r0, r10
-17e7bf86690eaa Russell King    2015-04-04  504  	beq	__ca9_errata
-1946d6ef9d7bd4 Russell King    2009-06-01  505  
-62c0f4a53447bc Doug Anderson   2016-04-07  506  	/* Cortex-A12 Errata */
-62c0f4a53447bc Doug Anderson   2016-04-07  507  	ldr	r10, =0x00000c0d		@ Cortex-A12 primary part number
-62c0f4a53447bc Doug Anderson   2016-04-07  508  	teq	r0, r10
-62c0f4a53447bc Doug Anderson   2016-04-07  509  	beq	__ca12_errata
-62c0f4a53447bc Doug Anderson   2016-04-07  510  
-62c0f4a53447bc Doug Anderson   2016-04-07  511  	/* Cortex-A17 Errata */
-62c0f4a53447bc Doug Anderson   2016-04-07  512  	ldr	r10, =0x00000c0e		@ Cortex-A17 primary part number
-62c0f4a53447bc Doug Anderson   2016-04-07  513  	teq	r0, r10
-62c0f4a53447bc Doug Anderson   2016-04-07  514  	beq	__ca17_errata
-62c0f4a53447bc Doug Anderson   2016-04-07  515  
-84b6504f560157 Will Deacon     2013-08-20  516  	/* Cortex-A15 Errata */
-17e7bf86690eaa Russell King    2015-04-04  517  	ldr	r10, =0x00000c0f		@ Cortex-A15 primary part number
-84b6504f560157 Will Deacon     2013-08-20  518  	teq	r0, r10
-17e7bf86690eaa Russell King    2015-04-04  519  	beq	__ca15_errata
-84b6504f560157 Will Deacon     2013-08-20  520  
-17e7bf86690eaa Russell King    2015-04-04  521  __errata_finish:
-17e7bf86690eaa Russell King    2015-04-04  522  	mov	r10, #0
-bbe888864ec324 Catalin Marinas 2007-05-08  523  	mcr	p15, 0, r10, c7, c5, 0		@ I+BTB cache invalidate
-2eb8c82bc492d5 Catalin Marinas 2007-07-20  524  #ifdef CONFIG_MMU
-bbe888864ec324 Catalin Marinas 2007-05-08  525  	mcr	p15, 0, r10, c8, c7, 0		@ invalidate I + D TLBs
-b2c3e38a54714e Russell King    2015-04-04  526  	v7_ttb_setup r10, r4, r5, r8, r3	@ TTBCR, TTBRx setup
-b2c3e38a54714e Russell King    2015-04-04  527  	ldr	r3, =PRRR			@ PRRR
-f6b0fa02e8b070 Russell King    2011-02-06  528  	ldr	r6, =NMRR			@ NMRR
-b2c3e38a54714e Russell King    2015-04-04  529  	mcr	p15, 0, r3, c10, c2, 0		@ write PRRR
-3f69c0c1af288d Russell King    2008-09-15  530  	mcr	p15, 0, r6, c10, c2, 1		@ write NMRR
-078c04545ba56d Jonathan Austin 2012-04-12  531  #endif
-bae0ca2bc550d1 Will Deacon     2014-02-07  532  	dsb					@ Complete invalidations
-078c04545ba56d Jonathan Austin 2012-04-12  533  #ifndef CONFIG_ARM_THUMBEE
-078c04545ba56d Jonathan Austin 2012-04-12  534  	mrc	p15, 0, r0, c0, c1, 0		@ read ID_PFR0 for ThumbEE
-078c04545ba56d Jonathan Austin 2012-04-12  535  	and	r0, r0, #(0xf << 12)		@ ThumbEE enabled field
-078c04545ba56d Jonathan Austin 2012-04-12  536  	teq	r0, #(1 << 12)			@ check if ThumbEE is present
-078c04545ba56d Jonathan Austin 2012-04-12  537  	bne	1f
-b2c3e38a54714e Russell King    2015-04-04  538  	mov	r3, #0
-b2c3e38a54714e Russell King    2015-04-04  539  	mcr	p14, 6, r3, c1, c0, 0		@ Initialize TEEHBR to 0
-078c04545ba56d Jonathan Austin 2012-04-12  540  	mrc	p14, 6, r0, c0, c0, 0		@ load TEECR
-078c04545ba56d Jonathan Austin 2012-04-12  541  	orr	r0, r0, #1			@ set the 1st bit in order to
-078c04545ba56d Jonathan Austin 2012-04-12  542  	mcr	p14, 6, r0, c0, c0, 0		@ stop userspace TEEHBR access
-078c04545ba56d Jonathan Austin 2012-04-12  543  1:
-bdaaaec39792ee Catalin Marinas 2009-07-24  544  #endif
-b2c3e38a54714e Russell King    2015-04-04 @545  	adr	r3, v7_crval
-b2c3e38a54714e Russell King    2015-04-04  546  	ldmia	r3, {r3, r6}
-457c2403c513c7 Ben Dooks       2013-02-12  547   ARM_BE8(orr	r6, r6, #1 << 25)		@ big-endian page tables
-64d2dc384e41e2 Leif Lindholm   2010-09-16  548  #ifdef CONFIG_SWP_EMULATE
-b2c3e38a54714e Russell King    2015-04-04  549  	orr     r3, r3, #(1 << 10)              @ set SW bit in "clear"
-64d2dc384e41e2 Leif Lindholm   2010-09-16  550  	bic     r6, r6, #(1 << 10)              @ clear it in "mmuset"
-26584853a44c58 Catalin Marinas 2009-05-30  551  #endif
-bbe888864ec324 Catalin Marinas 2007-05-08  552     	mrc	p15, 0, r0, c1, c0, 0		@ read control register
-b2c3e38a54714e Russell King    2015-04-04  553  	bic	r0, r0, r3			@ clear bits them
-2eb8c82bc492d5 Catalin Marinas 2007-07-20  554  	orr	r0, r0, r6			@ set them
-347c8b70b1d525 Catalin Marinas 2009-07-24  555   THUMB(	orr	r0, r0, #1 << 30	)	@ Thumb exceptions
-6ebbf2ce437b33 Russell King    2014-06-30  556  	ret	lr				@ return to head.S:__ret
-93ed3970114983 Catalin Marinas 2008-08-28  557  ENDPROC(__v7_setup)
-bbe888864ec324 Catalin Marinas 2007-05-08  558  
-5085f3ff458521 Russell King    2010-10-01  559  	__INITDATA
-5085f3ff458521 Russell King    2010-10-01  560  
-f5fe12b1eaee22 Russell King    2018-05-14  561  	.weak cpu_v7_bugs_init
-f5fe12b1eaee22 Russell King    2018-05-14  562  
-78a8f3c365b885 Dave Martin     2011-06-23  563  	@ define struct processor (see <asm/proc-fns.h> and proc-macros.S)
-f5fe12b1eaee22 Russell King    2018-05-14  564  	define_processor_functions v7, dabort=v7_early_abort, pabort=v7_pabort, suspend=1, bugs=cpu_v7_bugs_init
-06c23f5ffe7ad4 Russell King    2018-04-20  565  
-
-:::::: The code at line 545 was first introduced by commit
-:::::: b2c3e38a54714e917c9e8675ff5812dca1c0f39d ARM: redo TTBR setup code for LPAE
-
-:::::: TO: Russell King <rmk+kernel@arm.linux.org.uk>
-:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
+  1538	
+  1539	#ifdef CONFIG_USB_CONFIGFS_UEVENT
+  1540	static int android_setup(struct usb_gadget *gadget,
+  1541				const struct usb_ctrlrequest *c)
+  1542	{
+  1543		struct usb_composite_dev *cdev;
+  1544		unsigned long flags;
+  1545		struct gadget_info *gi;
+  1546		int value = -EOPNOTSUPP;
+  1547		struct usb_function_instance *fi;
+  1548	
+  1549		if (!android_device)
+  1550			return 0;
+  1551	
+  1552		gi = dev_get_drvdata(android_device);
+  1553		spin_lock_irqsave(&gi->spinlock, flags);
+  1554		cdev = get_gadget_data(gadget);
+  1555		if (!cdev || gi->unbind) {
+  1556			spin_unlock_irqrestore(&gi->spinlock, flags);
+  1557			return 0;
+  1558		}
+  1559	
+  1560		if (!gi->connected) {
+  1561			gi->connected = 1;
+  1562			schedule_work(&gi->work);
+  1563		}
+  1564	
+  1565		list_for_each_entry(fi, &gi->available_func, cfs_list) {
+  1566			if (fi != NULL && fi->f != NULL && fi->f->setup != NULL) {
+  1567				value = fi->f->setup(fi->f, c);
+  1568				if (value >= 0)
+  1569					break;
+  1570			}
+  1571		}
+  1572	
+  1573	#ifdef CONFIG_USB_CONFIGFS_F_ACC
+  1574		if (value < 0)
+> 1575			value = acc_ctrlrequest_composite(cdev, c);
+  1576	#endif
+  1577	
+  1578		if (value < 0)
+  1579			value = composite_setup(gadget, c);
+  1580	
+  1581		if (c->bRequest == USB_REQ_SET_CONFIGURATION &&
+  1582							cdev->config) {
+  1583			schedule_work(&gi->work);
+  1584		}
+  1585		spin_unlock_irqrestore(&gi->spinlock, flags);
+  1586	
+  1587		return value;
+  1588	}
+  1589	
 
 -- 
 0-DAY CI Kernel Test Service
