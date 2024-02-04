@@ -1,80 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFEFEC3
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 01:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244C1EDE;
+	Sun,  4 Feb 2024 01:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707009599; cv=none; b=BbMVksZ6JSVM9lU+FyCCZTCGdf6ArgB/Ad5+gL9pVdJTwL1zhVHQz8Sy2a4CJeWctE15xroE5C4VlFrluEAjm+afOPLZv3Tlag1uXz9SiCKspoqalZszyOCpHdVQftkdrENNezGAV1FX8q0txYyN1VUGvwtzpIxlc8pIimtzdGw=
+	t=1707010012; cv=none; b=KvMknVDFPBtTVDQQKuLKMLip7cFGdoC8vLY3j6TTybTyEpDZPLKuapbWUZFjxRzCDqwGAjPZGHSL7Fvidjmm3AcUStoc24fK21gRoUp7+7oeE4ypNiLDDlpot93K8kzE8+vAQZ6Ys7j0QmA1ipr+K5f8khNeLTocDvUUaShRmJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707009599; c=relaxed/simple;
-	bh=mnKXM428CTNyQLwynzoZ//XN6QsTIWh7jO+y+amTYiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=WMVr3OKg9ulMwahVFMH6yziaYxN+HDQQHplW84h2O6f4qUBjTsTIxSGN+DBEtsc/jh1vdk19PFzeJOQs8F5ptKRPWAV2ozZYIIv+L+VuC3BuBjF/MtIqOf8nEPh+OJLtjJYzkOUivDeN63p3JJLps11mocPVPriDsaovRp9vTiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ReY4whhR; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707010012; c=relaxed/simple;
+	bh=LpJEAMF+Ooaz45GJ+ISwigXoS0uW4CmyzR45FwrvGHo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AvErLk/pVbjsfdfEMFxO8lF54PceGiGAQwB5Jsq5d+xgSkYosn3SGIAJUyAZmqcVkIy5j3f7sUdeLKg4I2QYs/CxDDussmkL6AXzRJ/Jn+4ZrfPzavM37sNxdXVvyR43MCUsif/HsYOIIJ3XNy08SgLZsmp9/ze4fXF7dwFXn3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nLKCxn+y; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ReY4whhR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707009598; x=1738545598;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=mnKXM428CTNyQLwynzoZ//XN6QsTIWh7jO+y+amTYiA=;
-  b=ReY4whhRHoMSmq+zzUPxqFoUpwIuo4VYVOvQ3nw0O1Aa/4YmVoCu8V2p
-   kycgGzBoYO7oXpmdAo7ifCw7UiVR4k+81C2I9AjdyWVBmRiyRclhJMoXp
-   YG+Xzz5qdqMfkfghXNPOAFnmA+iITG3Vdd1ozNvHNZWTRS/f+LWzU+zLv
-   nLN+1gwpACjN6fPsxEg0e099fWxuog/CeBrAdT6iBw42rNG+L+U4IMAvV
-   w03qEoc5wDopFeWgXNZetp5n7R5+5KbgciTZSdVnG1RsXAKT/QfeUM8t7
-   uqtbBW02B4XEc6HYSbf08lFHr1n6eLwbGJrMP7qNivxQOcLxQeMp76qJk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="273050"
-X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="273050"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 17:19:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,241,1701158400"; 
-   d="scan'208";a="5028409"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Feb 2024 17:19:56 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rWRAi-0005px-1M;
-	Sun, 04 Feb 2024 01:19:48 +0000
-Date: Sun, 4 Feb 2024 09:19:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [v6.7][PATCH 01/23] eventfs: Remove "lookup" parameter from
- create_dir/file_dentry()
-Message-ID: <Zb7mKLBQYy7egOju@a2a592e9b9e1>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nLKCxn+y"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=rhinI2Yz3ldCYiyf5UXL/+9A9v7fUw89mwEEs5eTdoA=; b=nLKCxn+yVc/eV71DOyVta0bKBT
+	FUeGTTTOu39hERGUbyGAbzcy4KEO5G6/e2Kr1ayYOEoNbIj5uBM2Yd7XTYD80FwZoKU1RZ2sv4J0e
+	5Mh0gM9wsHCW9gEetfCoSlFmFhC7FFMIP3lksbh0cLHSK4VKGYLQ43/GtAsm4NcAMHrT71mQESHol
+	3c8AUCqebHKxmdNzCOysrVed7qUl98AF/bfAuT3lcgowN5qJ/GcA5LgWuZ/6wGyOjT4LDGU6Agk/H
+	8lpVauyf5NFHSEoumHx6ARu5ib7KPI0On5PtrRKVbbm2Y7+RCqe93mZ9g1e5w4sq3XcFbRQLvqeTg
+	pSFnGWPQ==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rWRHV-0000000HWAS-2ntk;
+	Sun, 04 Feb 2024 01:26:49 +0000
+Message-ID: <97f7e278-725b-4453-aae9-6a80664920c7@infradead.org>
+Date: Sat, 3 Feb 2024 17:26:49 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240204011827.061811169@goodmis.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 12610/12662] htmldocs: Warning: file
+ Documentation/ABI/testing/sysfs-platform-silicom#20:
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Hans de Goede <hdegoede@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>, linux-doc@vger.kernel.org
+References: <202401070202.BQvPxgyp-lkp@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202401070202.BQvPxgyp-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi ktr,
 
-Thanks for your patch.
+Sorry for the late reply.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+On 1/6/24 10:13, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
+> commit: f24945c77ed4c57b602632b9e3cbf5752e202a6f [12610/12662] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
+> reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070202.BQvPxgyp-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401070202.BQvPxgyp-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> Warning: file Documentation/ABI/testing/sysfs-platform-silicom#20:
+> 
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [v6.7][PATCH 01/23] eventfs: Remove "lookup" parameter from create_dir/file_dentry()
-Link: https://lore.kernel.org/stable/20240204011827.061811169%40goodmis.org
+but what was the warning or problem here?
+I don't see it.
 
+thanks.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-
+#Randy
