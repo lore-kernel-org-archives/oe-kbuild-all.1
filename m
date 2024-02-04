@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9772410A3F;
-	Sun,  4 Feb 2024 11:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7243922313
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Feb 2024 12:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707046952; cv=none; b=sLjA/73v8pjri+g8f6Q9dAErae8mKW9ie9uz3dGqhtKisSTgQg9324qYla+wjxeNNR910X7HP5w6U72v+vfEOL5lYTr8y8U26+ZHWoVI/k4PFfOXd3iGeXmxTlghque13ijVN98aLKeDZhRlIvLOCrshA9D4u07ADngxRnntM+Y=
+	t=1707048871; cv=none; b=BLgZ/ywp5ecj2gDlcUgqr/3s60GKbY0H5w86AGwFuMHbDpTSa5CgsBo87DvoL1bTZxCNUkkrx2zdJWWeDSio+9F8thlUnO1SHMaVOXzRtJ2F0Bc5A7lSCi2pOw98mGDRki6QpSuYYtBaI8NsoqUX/guP/ZTovG+HZDLwtzA/tSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707046952; c=relaxed/simple;
-	bh=KGDpUThHtAKqkOgWRCAPT9jQfnmE7CzSh7uY2Rj7gh0=;
+	s=arc-20240116; t=1707048871; c=relaxed/simple;
+	bh=LhBXAdqdbG1vcfn5JzVGcw1W6OmmWRM+PAK11sMrSUA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RCMDHZmPjlU8l3+W6sVQPAcCAkJJR/Au8glmT6rvuSSwt7SBqqcOgiNYkRlyhPTrB902Ug5xDmouG/RQtV/GyArglUyqMXZ4isLuPmOdvGaExY84uEjdT+BRw6cSsgYk8NaFqFFncGXfE5yK72udYpbWeHLwbaPZs+UJphA2ydY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TUmk9hkT; arc=none smtp.client-ip=192.55.52.88
+	 Content-Disposition; b=FTwrc7+V9e0tgaEI20+pkSYlo4rMs2ulk1y4cN+9cmEi4cnmEKQuITQWcRU3wp1pxxwP1NH9Q1fN7FXhk5vxgaigNo/VFoqTu0ctDBUZRi5sxUa+p9tktVN1dS7/fGfI3jRVQRQHQx9arQtzW/CqUVO0uOKHFIenVG2eyvsD+0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anNfT7iK; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUmk9hkT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anNfT7iK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707046950; x=1738582950;
+  t=1707048869; x=1738584869;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KGDpUThHtAKqkOgWRCAPT9jQfnmE7CzSh7uY2Rj7gh0=;
-  b=TUmk9hkTrOs3sMPh/mBzpibr9rFuT3esWX7zrpeKj4mIORVgFjHW25bW
-   9wpi4GzAwxU4RAXlZP7lAE2r+kHBD2yGY95+7b4JHegJxlHRDCG7OxNgI
-   OoFGYvZ3bKZQftoOx7Dm5wKYsjQ+if2ifJiYhes158ygHMPJkg1C9ckDM
-   Jxy3plECBxAEA8SHRBDRNF+a++nBS90t/dTNf6FgoGSH5GTo59GIm+10D
-   NC3zrczFI0oaHeq893vkGIjvtmp7FYacsrVIBVG0fYp+OaCu8ZA8fuNlh
-   FvTAjZk7Jn2G67s/4dbnwFbLFAhQ14mnXa+IjFJ3uyXqtEFwcQ3/RlumP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="435522417"
+  bh=LhBXAdqdbG1vcfn5JzVGcw1W6OmmWRM+PAK11sMrSUA=;
+  b=anNfT7iKCCMj3gEAECz9YBsxcOt+A0deSHaoxKdgV4aiXt2Ac95BJ+lQ
+   //c15yyubRF2Bm62eYSEces8RrpxRy/cdhcyfAuQ5Djs1p/WxdP5lH7k+
+   ScsYLbbi6R7uDIAL2bSL89DAhzQ9Nt4+ZYyuF4Tidri9bUrU3SVGv9zTu
+   +5WJK9dfHVlQcSgpL9ku0QdBvyMuqeDWohsvbdFRLNWLDNm/x55A4o0TX
+   TFAOAhqjpKc2ROMbdoDHkSiLRPHkmr3cqv3wQgPInGXT6UxSE0zVdZWb6
+   KzOBHuMwkk5HaM24Q5oX3IMGr+CANNwOv5MbDYBYms2KpsEIIfm0mmEPF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="540001"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="435522417"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 03:42:27 -0800
+   d="scan'208";a="540001"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 04:14:28 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="812941"
+   d="scan'208";a="774194"
 Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 04 Feb 2024 03:42:26 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 04 Feb 2024 04:14:26 -0800
 Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWatD-0006IO-0e;
-	Sun, 04 Feb 2024 11:42:23 +0000
-Date: Sun, 4 Feb 2024 19:42:17 +0800
+	id 1rWbOC-0006JU-0b;
+	Sun, 04 Feb 2024 12:14:24 +0000
+Date: Sun, 4 Feb 2024 20:14:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>
-Subject: [viro-vfs:work.misc 6/6] fs/splice.c:743:9: error: call to
- undeclared function 'call_write_iter'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202402041909.VYei40Zu-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/arm/mm/proc-v7.S:545: Error: invalid constant
+ (fffffffffffffbd8) after fixup
+Message-ID: <202402042025.f9AcUiMP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,166 +58,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.misc
-head:   8f5893b867907f2e6d6451cca3b397e655f7c094
-commit: 8f5893b867907f2e6d6451cca3b397e655f7c094 [6/6] remove call_{read,write}_iter() functions
-config: i386-randconfig-001-20240204 (https://download.01.org/0day-ci/archive/20240204/202402041909.VYei40Zu-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402041909.VYei40Zu-lkp@intel.com/reproduce)
+Hi Arnd,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3f24fcdacd40c70dd2949c1cfd8cc2e75942a9e3
+commit: 84fc863606239d8b434e59e6bbbe805f457e5767 ARM: make ARCH_MULTIPLATFORM user-visible
+date:   1 year, 5 months ago
+config: arm-randconfig-004-20240204 (https://download.01.org/0day-ci/archive/20240204/202402042025.f9AcUiMP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240204/202402042025.f9AcUiMP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402041909.VYei40Zu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402042025.f9AcUiMP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/splice.c:743:9: error: call to undeclared function 'call_write_iter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     743 |                 ret = call_write_iter(out, &kiocb, &from);
-         |                       ^
-   1 error generated.
+   arch/arm/mm/proc-v7.S: Assembler messages:
+>> arch/arm/mm/proc-v7.S:545: Error: invalid constant (fffffffffffffbd8) after fixup
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for TEGRA20_APB_DMA
+   Depends on [n]: DMADEVICES [=n] && (ARCH_TEGRA [=y] || COMPILE_TEST [=y])
+   Selected by [y]:
+   - SOC_TEGRA_FUSE [=y] && ARCH_TEGRA [=y] && ARCH_TEGRA_2x_SOC [=y]
 
 
-vim +/call_write_iter +743 fs/splice.c
+vim +545 arch/arm/mm/proc-v7.S
 
-6da61809822c22 Mark Fasheh       2006-10-17  651  
-8d0207652cbe27 Al Viro           2014-04-05  652  /**
-8d0207652cbe27 Al Viro           2014-04-05  653   * iter_file_splice_write - splice data from a pipe to a file
-8d0207652cbe27 Al Viro           2014-04-05  654   * @pipe:	pipe info
-8d0207652cbe27 Al Viro           2014-04-05  655   * @out:	file to write to
-8d0207652cbe27 Al Viro           2014-04-05  656   * @ppos:	position in @out
-8d0207652cbe27 Al Viro           2014-04-05  657   * @len:	number of bytes to splice
-8d0207652cbe27 Al Viro           2014-04-05  658   * @flags:	splice modifier flags
-8d0207652cbe27 Al Viro           2014-04-05  659   *
-8d0207652cbe27 Al Viro           2014-04-05  660   * Description:
-8d0207652cbe27 Al Viro           2014-04-05  661   *    Will either move or copy pages (determined by @flags options) from
-8d0207652cbe27 Al Viro           2014-04-05  662   *    the given pipe inode to the given file.
-8d0207652cbe27 Al Viro           2014-04-05  663   *    This one is ->write_iter-based.
-8d0207652cbe27 Al Viro           2014-04-05  664   *
-8d0207652cbe27 Al Viro           2014-04-05  665   */
-8d0207652cbe27 Al Viro           2014-04-05  666  ssize_t
-8d0207652cbe27 Al Viro           2014-04-05  667  iter_file_splice_write(struct pipe_inode_info *pipe, struct file *out,
-8d0207652cbe27 Al Viro           2014-04-05  668  			  loff_t *ppos, size_t len, unsigned int flags)
-8d0207652cbe27 Al Viro           2014-04-05  669  {
-8d0207652cbe27 Al Viro           2014-04-05  670  	struct splice_desc sd = {
-8d0207652cbe27 Al Viro           2014-04-05  671  		.total_len = len,
-8d0207652cbe27 Al Viro           2014-04-05  672  		.flags = flags,
-8d0207652cbe27 Al Viro           2014-04-05  673  		.pos = *ppos,
-8d0207652cbe27 Al Viro           2014-04-05  674  		.u.file = out,
-8d0207652cbe27 Al Viro           2014-04-05  675  	};
-6718b6f855a0b4 David Howells     2019-10-16  676  	int nbufs = pipe->max_usage;
-d53471ba6f7ae9 Amir Goldstein    2023-11-23  677  	struct bio_vec *array;
-8d0207652cbe27 Al Viro           2014-04-05  678  	ssize_t ret;
-8d0207652cbe27 Al Viro           2014-04-05  679  
-d53471ba6f7ae9 Amir Goldstein    2023-11-23  680  	if (!out->f_op->write_iter)
-d53471ba6f7ae9 Amir Goldstein    2023-11-23  681  		return -EINVAL;
-d53471ba6f7ae9 Amir Goldstein    2023-11-23  682  
-d53471ba6f7ae9 Amir Goldstein    2023-11-23  683  	array = kcalloc(nbufs, sizeof(struct bio_vec), GFP_KERNEL);
-8d0207652cbe27 Al Viro           2014-04-05  684  	if (unlikely(!array))
-8d0207652cbe27 Al Viro           2014-04-05  685  		return -ENOMEM;
-8d0207652cbe27 Al Viro           2014-04-05  686  
-8d0207652cbe27 Al Viro           2014-04-05  687  	pipe_lock(pipe);
-8d0207652cbe27 Al Viro           2014-04-05  688  
-8d0207652cbe27 Al Viro           2014-04-05  689  	splice_from_pipe_begin(&sd);
-8d0207652cbe27 Al Viro           2014-04-05  690  	while (sd.total_len) {
-d53471ba6f7ae9 Amir Goldstein    2023-11-23  691  		struct kiocb kiocb;
-8d0207652cbe27 Al Viro           2014-04-05  692  		struct iov_iter from;
-ec057595cb3fb3 Linus Torvalds    2019-12-06  693  		unsigned int head, tail, mask;
-8d0207652cbe27 Al Viro           2014-04-05  694  		size_t left;
-8cefc107ca54c8 David Howells     2019-11-15  695  		int n;
-8d0207652cbe27 Al Viro           2014-04-05  696  
-8d0207652cbe27 Al Viro           2014-04-05  697  		ret = splice_from_pipe_next(pipe, &sd);
-8d0207652cbe27 Al Viro           2014-04-05  698  		if (ret <= 0)
-8d0207652cbe27 Al Viro           2014-04-05  699  			break;
-8d0207652cbe27 Al Viro           2014-04-05  700  
-6718b6f855a0b4 David Howells     2019-10-16  701  		if (unlikely(nbufs < pipe->max_usage)) {
-8d0207652cbe27 Al Viro           2014-04-05  702  			kfree(array);
-6718b6f855a0b4 David Howells     2019-10-16  703  			nbufs = pipe->max_usage;
-8d0207652cbe27 Al Viro           2014-04-05  704  			array = kcalloc(nbufs, sizeof(struct bio_vec),
-8d0207652cbe27 Al Viro           2014-04-05  705  					GFP_KERNEL);
-8d0207652cbe27 Al Viro           2014-04-05  706  			if (!array) {
-8d0207652cbe27 Al Viro           2014-04-05  707  				ret = -ENOMEM;
-8d0207652cbe27 Al Viro           2014-04-05  708  				break;
-8d0207652cbe27 Al Viro           2014-04-05  709  			}
-8d0207652cbe27 Al Viro           2014-04-05  710  		}
-8d0207652cbe27 Al Viro           2014-04-05  711  
-ec057595cb3fb3 Linus Torvalds    2019-12-06  712  		head = pipe->head;
-ec057595cb3fb3 Linus Torvalds    2019-12-06  713  		tail = pipe->tail;
-ec057595cb3fb3 Linus Torvalds    2019-12-06  714  		mask = pipe->ring_size - 1;
-ec057595cb3fb3 Linus Torvalds    2019-12-06  715  
-8d0207652cbe27 Al Viro           2014-04-05  716  		/* build the vector */
-8d0207652cbe27 Al Viro           2014-04-05  717  		left = sd.total_len;
-0f1d344feb5345 Pavel Begunkov    2021-01-09  718  		for (n = 0; !pipe_empty(head, tail) && left && n < nbufs; tail++) {
-8cefc107ca54c8 David Howells     2019-11-15  719  			struct pipe_buffer *buf = &pipe->bufs[tail & mask];
-8d0207652cbe27 Al Viro           2014-04-05  720  			size_t this_len = buf->len;
-8d0207652cbe27 Al Viro           2014-04-05  721  
-0f1d344feb5345 Pavel Begunkov    2021-01-09  722  			/* zero-length bvecs are not supported, skip them */
-0f1d344feb5345 Pavel Begunkov    2021-01-09  723  			if (!this_len)
-0f1d344feb5345 Pavel Begunkov    2021-01-09  724  				continue;
-0f1d344feb5345 Pavel Begunkov    2021-01-09  725  			this_len = min(this_len, left);
-8d0207652cbe27 Al Viro           2014-04-05  726  
-fba597db4218ac Miklos Szeredi    2016-09-27  727  			ret = pipe_buf_confirm(pipe, buf);
-8d0207652cbe27 Al Viro           2014-04-05  728  			if (unlikely(ret)) {
-8d0207652cbe27 Al Viro           2014-04-05  729  				if (ret == -ENODATA)
-8d0207652cbe27 Al Viro           2014-04-05  730  					ret = 0;
-8d0207652cbe27 Al Viro           2014-04-05  731  				goto done;
-8d0207652cbe27 Al Viro           2014-04-05  732  			}
-8d0207652cbe27 Al Viro           2014-04-05  733  
-664e40789abaad Christoph Hellwig 2023-02-03  734  			bvec_set_page(&array[n], buf->page, this_len,
-664e40789abaad Christoph Hellwig 2023-02-03  735  				      buf->offset);
-8d0207652cbe27 Al Viro           2014-04-05  736  			left -= this_len;
-0f1d344feb5345 Pavel Begunkov    2021-01-09  737  			n++;
-8d0207652cbe27 Al Viro           2014-04-05  738  		}
-8d0207652cbe27 Al Viro           2014-04-05  739  
-de4eda9de2d957 Al Viro           2022-09-15  740  		iov_iter_bvec(&from, ITER_SOURCE, array, n, sd.total_len - left);
-d53471ba6f7ae9 Amir Goldstein    2023-11-23  741  		init_sync_kiocb(&kiocb, out);
-d53471ba6f7ae9 Amir Goldstein    2023-11-23  742  		kiocb.ki_pos = sd.pos;
-d53471ba6f7ae9 Amir Goldstein    2023-11-23 @743  		ret = call_write_iter(out, &kiocb, &from);
-d53471ba6f7ae9 Amir Goldstein    2023-11-23  744  		sd.pos = kiocb.ki_pos;
-8d0207652cbe27 Al Viro           2014-04-05  745  		if (ret <= 0)
-8d0207652cbe27 Al Viro           2014-04-05  746  			break;
-8d0207652cbe27 Al Viro           2014-04-05  747  
-8d0207652cbe27 Al Viro           2014-04-05  748  		sd.num_spliced += ret;
-8d0207652cbe27 Al Viro           2014-04-05  749  		sd.total_len -= ret;
-dbe4e192a234cd Christoph Hellwig 2015-01-25  750  		*ppos = sd.pos;
-8d0207652cbe27 Al Viro           2014-04-05  751  
-8d0207652cbe27 Al Viro           2014-04-05  752  		/* dismiss the fully eaten buffers, adjust the partial one */
-8cefc107ca54c8 David Howells     2019-11-15  753  		tail = pipe->tail;
-8d0207652cbe27 Al Viro           2014-04-05  754  		while (ret) {
-8cefc107ca54c8 David Howells     2019-11-15  755  			struct pipe_buffer *buf = &pipe->bufs[tail & mask];
-8d0207652cbe27 Al Viro           2014-04-05  756  			if (ret >= buf->len) {
-8d0207652cbe27 Al Viro           2014-04-05  757  				ret -= buf->len;
-8d0207652cbe27 Al Viro           2014-04-05  758  				buf->len = 0;
-a779638cf622f0 Miklos Szeredi    2016-09-27  759  				pipe_buf_release(pipe, buf);
-8cefc107ca54c8 David Howells     2019-11-15  760  				tail++;
-8cefc107ca54c8 David Howells     2019-11-15  761  				pipe->tail = tail;
-8d0207652cbe27 Al Viro           2014-04-05  762  				if (pipe->files)
-8d0207652cbe27 Al Viro           2014-04-05  763  					sd.need_wakeup = true;
-8d0207652cbe27 Al Viro           2014-04-05  764  			} else {
-8d0207652cbe27 Al Viro           2014-04-05  765  				buf->offset += ret;
-8d0207652cbe27 Al Viro           2014-04-05  766  				buf->len -= ret;
-8d0207652cbe27 Al Viro           2014-04-05  767  				ret = 0;
-8d0207652cbe27 Al Viro           2014-04-05  768  			}
-8d0207652cbe27 Al Viro           2014-04-05  769  		}
-8d0207652cbe27 Al Viro           2014-04-05  770  	}
-8d0207652cbe27 Al Viro           2014-04-05  771  done:
-8d0207652cbe27 Al Viro           2014-04-05  772  	kfree(array);
-8d0207652cbe27 Al Viro           2014-04-05  773  	splice_from_pipe_end(pipe, &sd);
-8d0207652cbe27 Al Viro           2014-04-05  774  
-8d0207652cbe27 Al Viro           2014-04-05  775  	pipe_unlock(pipe);
-8d0207652cbe27 Al Viro           2014-04-05  776  
-8d0207652cbe27 Al Viro           2014-04-05  777  	if (sd.num_spliced)
-8d0207652cbe27 Al Viro           2014-04-05  778  		ret = sd.num_spliced;
-8d0207652cbe27 Al Viro           2014-04-05  779  
-8d0207652cbe27 Al Viro           2014-04-05  780  	return ret;
-8d0207652cbe27 Al Viro           2014-04-05  781  }
-8d0207652cbe27 Al Viro           2014-04-05  782  
+de4901933f6dfc Gregory CLEMENT 2012-10-03  483  
+14eff1812679c7 Daniel Walker   2010-09-17  484  __v7_setup:
+95731b8ee63ec9 Ard Biesheuvel  2021-02-11  485  	do_invalidate_l1
+1946d6ef9d7bd4 Russell King    2009-06-01  486  
+bac51ad9d14f6b Russell King    2015-07-09  487  __v7_setup_cont:
+c76f238e261b8d Russell King    2015-04-04  488  	and	r0, r9, #0xff000000		@ ARM?
+c76f238e261b8d Russell King    2015-04-04  489  	teq	r0, #0x41000000
+17e7bf86690eaa Russell King    2015-04-04  490  	bne	__errata_finish
+4419496884ed16 Russell King    2015-04-04  491  	and	r3, r9, #0x00f00000		@ variant
+4419496884ed16 Russell King    2015-04-04  492  	and	r6, r9, #0x0000000f		@ revision
+b2c3e38a54714e Russell King    2015-04-04  493  	orr	r6, r6, r3, lsr #20-4		@ combine variant and revision
+4419496884ed16 Russell King    2015-04-04  494  	ubfx	r0, r9, #4, #12			@ primary part number
+1946d6ef9d7bd4 Russell King    2009-06-01  495  
+6491848d1ab246 Will Deacon     2010-09-14  496  	/* Cortex-A8 Errata */
+6491848d1ab246 Will Deacon     2010-09-14  497  	ldr	r10, =0x00000c08		@ Cortex-A8 primary part number
+6491848d1ab246 Will Deacon     2010-09-14  498  	teq	r0, r10
+17e7bf86690eaa Russell King    2015-04-04  499  	beq	__ca8_errata
+9f05027c7cb3cf Will Deacon     2010-09-14  500  
+9f05027c7cb3cf Will Deacon     2010-09-14  501  	/* Cortex-A9 Errata */
+17e7bf86690eaa Russell King    2015-04-04  502  	ldr	r10, =0x00000c09		@ Cortex-A9 primary part number
+9f05027c7cb3cf Will Deacon     2010-09-14  503  	teq	r0, r10
+17e7bf86690eaa Russell King    2015-04-04  504  	beq	__ca9_errata
+1946d6ef9d7bd4 Russell King    2009-06-01  505  
+62c0f4a53447bc Doug Anderson   2016-04-07  506  	/* Cortex-A12 Errata */
+62c0f4a53447bc Doug Anderson   2016-04-07  507  	ldr	r10, =0x00000c0d		@ Cortex-A12 primary part number
+62c0f4a53447bc Doug Anderson   2016-04-07  508  	teq	r0, r10
+62c0f4a53447bc Doug Anderson   2016-04-07  509  	beq	__ca12_errata
+62c0f4a53447bc Doug Anderson   2016-04-07  510  
+62c0f4a53447bc Doug Anderson   2016-04-07  511  	/* Cortex-A17 Errata */
+62c0f4a53447bc Doug Anderson   2016-04-07  512  	ldr	r10, =0x00000c0e		@ Cortex-A17 primary part number
+62c0f4a53447bc Doug Anderson   2016-04-07  513  	teq	r0, r10
+62c0f4a53447bc Doug Anderson   2016-04-07  514  	beq	__ca17_errata
+62c0f4a53447bc Doug Anderson   2016-04-07  515  
+84b6504f560157 Will Deacon     2013-08-20  516  	/* Cortex-A15 Errata */
+17e7bf86690eaa Russell King    2015-04-04  517  	ldr	r10, =0x00000c0f		@ Cortex-A15 primary part number
+84b6504f560157 Will Deacon     2013-08-20  518  	teq	r0, r10
+17e7bf86690eaa Russell King    2015-04-04  519  	beq	__ca15_errata
+84b6504f560157 Will Deacon     2013-08-20  520  
+17e7bf86690eaa Russell King    2015-04-04  521  __errata_finish:
+17e7bf86690eaa Russell King    2015-04-04  522  	mov	r10, #0
+bbe888864ec324 Catalin Marinas 2007-05-08  523  	mcr	p15, 0, r10, c7, c5, 0		@ I+BTB cache invalidate
+2eb8c82bc492d5 Catalin Marinas 2007-07-20  524  #ifdef CONFIG_MMU
+bbe888864ec324 Catalin Marinas 2007-05-08  525  	mcr	p15, 0, r10, c8, c7, 0		@ invalidate I + D TLBs
+b2c3e38a54714e Russell King    2015-04-04  526  	v7_ttb_setup r10, r4, r5, r8, r3	@ TTBCR, TTBRx setup
+b2c3e38a54714e Russell King    2015-04-04  527  	ldr	r3, =PRRR			@ PRRR
+f6b0fa02e8b070 Russell King    2011-02-06  528  	ldr	r6, =NMRR			@ NMRR
+b2c3e38a54714e Russell King    2015-04-04  529  	mcr	p15, 0, r3, c10, c2, 0		@ write PRRR
+3f69c0c1af288d Russell King    2008-09-15  530  	mcr	p15, 0, r6, c10, c2, 1		@ write NMRR
+078c04545ba56d Jonathan Austin 2012-04-12  531  #endif
+bae0ca2bc550d1 Will Deacon     2014-02-07  532  	dsb					@ Complete invalidations
+078c04545ba56d Jonathan Austin 2012-04-12  533  #ifndef CONFIG_ARM_THUMBEE
+078c04545ba56d Jonathan Austin 2012-04-12  534  	mrc	p15, 0, r0, c0, c1, 0		@ read ID_PFR0 for ThumbEE
+078c04545ba56d Jonathan Austin 2012-04-12  535  	and	r0, r0, #(0xf << 12)		@ ThumbEE enabled field
+078c04545ba56d Jonathan Austin 2012-04-12  536  	teq	r0, #(1 << 12)			@ check if ThumbEE is present
+078c04545ba56d Jonathan Austin 2012-04-12  537  	bne	1f
+b2c3e38a54714e Russell King    2015-04-04  538  	mov	r3, #0
+b2c3e38a54714e Russell King    2015-04-04  539  	mcr	p14, 6, r3, c1, c0, 0		@ Initialize TEEHBR to 0
+078c04545ba56d Jonathan Austin 2012-04-12  540  	mrc	p14, 6, r0, c0, c0, 0		@ load TEECR
+078c04545ba56d Jonathan Austin 2012-04-12  541  	orr	r0, r0, #1			@ set the 1st bit in order to
+078c04545ba56d Jonathan Austin 2012-04-12  542  	mcr	p14, 6, r0, c0, c0, 0		@ stop userspace TEEHBR access
+078c04545ba56d Jonathan Austin 2012-04-12  543  1:
+bdaaaec39792ee Catalin Marinas 2009-07-24  544  #endif
+b2c3e38a54714e Russell King    2015-04-04 @545  	adr	r3, v7_crval
+b2c3e38a54714e Russell King    2015-04-04  546  	ldmia	r3, {r3, r6}
+457c2403c513c7 Ben Dooks       2013-02-12  547   ARM_BE8(orr	r6, r6, #1 << 25)		@ big-endian page tables
+64d2dc384e41e2 Leif Lindholm   2010-09-16  548  #ifdef CONFIG_SWP_EMULATE
+b2c3e38a54714e Russell King    2015-04-04  549  	orr     r3, r3, #(1 << 10)              @ set SW bit in "clear"
+64d2dc384e41e2 Leif Lindholm   2010-09-16  550  	bic     r6, r6, #(1 << 10)              @ clear it in "mmuset"
+26584853a44c58 Catalin Marinas 2009-05-30  551  #endif
+bbe888864ec324 Catalin Marinas 2007-05-08  552     	mrc	p15, 0, r0, c1, c0, 0		@ read control register
+b2c3e38a54714e Russell King    2015-04-04  553  	bic	r0, r0, r3			@ clear bits them
+2eb8c82bc492d5 Catalin Marinas 2007-07-20  554  	orr	r0, r0, r6			@ set them
+347c8b70b1d525 Catalin Marinas 2009-07-24  555   THUMB(	orr	r0, r0, #1 << 30	)	@ Thumb exceptions
+6ebbf2ce437b33 Russell King    2014-06-30  556  	ret	lr				@ return to head.S:__ret
+93ed3970114983 Catalin Marinas 2008-08-28  557  ENDPROC(__v7_setup)
+bbe888864ec324 Catalin Marinas 2007-05-08  558  
+5085f3ff458521 Russell King    2010-10-01  559  	__INITDATA
+5085f3ff458521 Russell King    2010-10-01  560  
+f5fe12b1eaee22 Russell King    2018-05-14  561  	.weak cpu_v7_bugs_init
+f5fe12b1eaee22 Russell King    2018-05-14  562  
+78a8f3c365b885 Dave Martin     2011-06-23  563  	@ define struct processor (see <asm/proc-fns.h> and proc-macros.S)
+f5fe12b1eaee22 Russell King    2018-05-14  564  	define_processor_functions v7, dabort=v7_early_abort, pabort=v7_pabort, suspend=1, bugs=cpu_v7_bugs_init
+06c23f5ffe7ad4 Russell King    2018-04-20  565  
 
-:::::: The code at line 743 was first introduced by commit
-:::::: d53471ba6f7ae97a4e223539029528108b705af1 splice: remove permission hook from iter_file_splice_write()
+:::::: The code at line 545 was first introduced by commit
+:::::: b2c3e38a54714e917c9e8675ff5812dca1c0f39d ARM: redo TTBR setup code for LPAE
 
-:::::: TO: Amir Goldstein <amir73il@gmail.com>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+:::::: TO: Russell King <rmk+kernel@arm.linux.org.uk>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
