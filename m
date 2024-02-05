@@ -1,149 +1,187 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405823FB02
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 15:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0AD3FB34
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 16:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707148441; cv=none; b=fQtFbqeEQiOfQVh6ou+vmpVXzuujgqCEagtTrPun7qTUzbLpA82UvdeqIN5A932X34f//tT2Z3yvk1z6bPja7/FRrCfudrSlZdVu2neB9lABZQlCeRSzGCpVo/NT7kViouLPkPDKRDix7c58//F7F2y++e1/PrH2bSxprdqtzIU=
+	t=1707149860; cv=none; b=EprNmFW94CFjzF4Oo30Pd5t+10dwyQKWtyNNH0YkE4ajFz+QNd3oubIxmLzqEO08XhwAMu1HifKlg4MyEU0xpwR1yLHWQN+bMj9lAz7FnIa0Zh5IgjqYyLBW8ElhdfQ01dXFel3+HufwNbCfotKfkcIZnIdY4dvOCCGqzGuoPhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707148441; c=relaxed/simple;
-	bh=0PzwQ7RIMQPCNKSS7SKKlVchmYYVwiICCMzINycFKRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XPleel/cpTzdL4fUwfXjs4S097+1lpCI1hsA5uhQIfILscbQ4ORk2EzqmjuT23miOTkCrhn+0aEZLNhwQuVuSgXmyqZh0ZV0t4eNtx4lahfUogTbhI5b2mPurRBfzFqZKx08w/7ItI6QQnAQgyUGVcbmS4hQb+9ZXevUjy3hsok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ys+SMCiv; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707149860; c=relaxed/simple;
+	bh=DNaO54IRI7/2oh1XNOcunI96AdtlbD9Mn82BtlCzBqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=erAjblJgnP1N0WI93taw9whtlalQNrYWuQEE5Xihnse/2FYiTYxAGs0KYo0DZxY0KgbNIF50zmtWTLbEnJNzHAO7HGiazfdoJ9EPakttgijcqxzBe/xDpRJ9wCgkjo6RTGQ4k7diwYTUCfdp1pPirfypcTlY6svtuPaSd82dBC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6XFbwqH; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ys+SMCiv"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-59a1a03d067so1885176eaf.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Feb 2024 07:53:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707148438; x=1707753238; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=m/cqcJnpXk97rMJdBIsmS4z7GoxL3OzwnwJcHxbAh8o=;
-        b=Ys+SMCivhzQcGcIfcI3j8nt5l3YCnk+r2gh284+20d8XO+74rABmdx0UMNm+ZBKJzD
-         JPNpsxlcEmirp1s71GNkkT5gXIK4mzntaYk2Z9c6TlBDEJ7BXdtN6Se53cp85KTTqZFa
-         vguWY9LAGDc3EfOl3/+KZZGl/qLiCQslTDtSA8LMvP1eTPX6pXGqBJ/3rsM3kmVsqyiY
-         trs2EJgdzcAm2g34E50kebQC0VKIiZizkPrh5u1+tKOVpDqEBGhZxnedqRZrPhaI3opK
-         9fEbw/Lt4a4UAOHZoUzqJ8Wliku2rfIb7ZNSaTuCJwKr8ZtSpL0lPQfvzoDwSCopFuFy
-         bS2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707148438; x=1707753238;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m/cqcJnpXk97rMJdBIsmS4z7GoxL3OzwnwJcHxbAh8o=;
-        b=SyjtbjHQivn/7YQNlDdPGQ1onHPMcpSji+/DzHdi5S5pAb/WUUkvQTSLeuJBWmlxYB
-         k+ZlbjSd6HiEunvsyOCDqHZ5GQCIBWe8FjCcc1yCHSIHqhK9iBNdAy495TsFFDS9xGKL
-         BvTS5rOouCee3pajF5LHicGNzUF/yVuoPbd9YuSGEmFnzystWOamJ4LHzM7la2vzSD0n
-         eGK89Df0JCeKxkU0Dru3cHBluQptRXHxqVbXR9eQhushSZie8/R++GwTEq9LdBycII8o
-         +hWVWxWw9CvkuO+ymP8O04QqvUwuMv7cpI9SLEfxl1wd2aXSPR8uLEn+556ILUGz+Uw5
-         Mt/A==
-X-Gm-Message-State: AOJu0YyG6B+aZJmCNqN25J3kGLy5wia1AljQbb7dKeWhlhpW67FG63VX
-	UNqEWY4rflIy3zZV+zj1CKGA+PA4D4KIHVbaGejEVokL0eFgR3I+
-X-Google-Smtp-Source: AGHT+IFwyheGvTuG3zH0mbLDJxQlpoqm+eeUrgrKBAAbhgOCwj9XhdyGGVYDvJcBMsq2b0kX4sCzew==
-X-Received: by 2002:a05:6358:33a5:b0:176:bef2:634a with SMTP id i37-20020a05635833a500b00176bef2634amr265142rwd.0.1707148438047;
-        Mon, 05 Feb 2024 07:53:58 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUO6mHMD/B6VMuLnsCHbuyBMv9GZfgB3VXj2Zadgaf2d3HVF6FvBVd+aY1VnAJavMJzvJX8q095IQ9xUjMNg5hkER/hz/cQ5r8SXrN2l/KK6wcRJslEH8QTBcyqbZKOM1B1OCMaeXync/KBbu8eLNxPCZpYhgvoVs7oQ7HgQ22CscZdclX+ICWiNyR9Xg==
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p9-20020a634f49000000b0059b2316be86sm89796pgl.46.2024.02.05.07.53.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 07:53:57 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <45b98838-ab26-4c0f-a639-7c5f0df4c49d@roeck-us.net>
-Date: Mon, 5 Feb 2024 07:53:55 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6XFbwqH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707149859; x=1738685859;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DNaO54IRI7/2oh1XNOcunI96AdtlbD9Mn82BtlCzBqA=;
+  b=J6XFbwqHZ+pqApQHXjgDTu2sLYSjkDePIggbwkcWOaGVXjwiwxyXbVje
+   DvAnnYkWqpQuYIrWgLZnkpbTio6S4v9RN50/UP1l9Cy1+hhf42pCtnUVK
+   lg+kPhY/BuLyRcO+NQ5YMtwCu+YWT8TZQbySGAaSDaukvnl8osNAhDifz
+   8FE9VME9pX++rpT3SpizvtuYbPH5qZ8hrObv01dgkvkGHbb7x6gS7ESy+
+   xd0qYO6zeMt6yCEdZzCQuJ9Dd7joR/ZiFTiRN5AIanxKRxP+mLnTIqZu2
+   456dQj1qD/VxobOlMbIaNgEOtJHda9AaolI53fGhTC3q3fLUaDj/Hvsst
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="23033453"
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="23033453"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 08:17:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="24003295"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 05 Feb 2024 08:17:33 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rX1f0-0000dm-3A;
+	Mon, 05 Feb 2024 16:17:30 +0000
+Date: Tue, 6 Feb 2024 00:17:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: "mac.shen" <mac.shen@mediatek.com>, chunkuang.hu@kernel.org,
+	p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	jitao.shi@mediatek.com
+Cc: oe-kbuild-all@lists.linux.dev, mac.shen@mediatek.com,
+	shuijing.li@mediatek.com, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/3] Subject: [PATCH] drm/mediatek/dp: Add tee client
+ application for HDCP feature
+Message-ID: <202402052342.Y5awT1T2-lkp@intel.com>
+References: <20240205055055.25340-2-mac.shen@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [groeck-staging:hwmon-next 13/34] drivers/hwmon/surface_fan.c:87:
- undefined reference to `__ssam_device_driver_register'
-Content-Language: en-US
-To: Maximilian Luz <luzmaximilian@gmail.com>, Ivor Wanders <ivor@iwanders.net>
-Cc: W_Armin@gmx.de, linux-hwmon@vger.kernel.org, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev
-References: <50af81da-779b-4782-9326-043bc204bfe6@gmail.com>
- <20240205125249.3740-1-ivor@iwanders.net>
- <d96ccd50-9354-4c73-9d8d-021e29e5fcfc@gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <d96ccd50-9354-4c73-9d8d-021e29e5fcfc@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240205055055.25340-2-mac.shen@mediatek.com>
 
-On 2/5/24 05:03, Maximilian Luz wrote:
-> Am 2/5/2024 um 1:52 PM schrieb Ivor Wanders:
->>> Missing 'depends on SURFACE_AGGREGATOR' in the Kconfig.
->>
->> Unfortunately, `SURFACE_AGGREGATOR` is what was in the Kconfig, it should
->> have been `SURFACE_AGGREGATOR_BUS` instead, that's where the missing symbol
->> is defined. I wonder if that split still provides value, but that's
->> off topic for this thread.
->>
->> I see that c3747f28ebcefe34d6ea2e4eb2d3bb6b9d574b5f is no longer in the
->> branch, but 42c88a7d1474b6f6e53acca3522d179d3c9b1c6f is where this is
->> already changed over.
->>
->> Thanks again Guenter!
->>
->> ~Ivor
-> 
-> It should actually depend on both. Since SURFACE_AGGREGATOR_BUS is just
-> a bool, depending on it alone will allow the module to be built in when
-> SURFACE_AGGREGATOR has not been built in. Which I assume is what caused
-> this issue.
-> 
+Hi mac.shen,
 
-Weird dependencies. Never mind, I'll add the second one as well.
+kernel test robot noticed the following build warnings:
 
-Guenter
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on pza/reset/next linus/master v6.8-rc3 next-20240205]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/mac-shen/Subject-PATCH-drm-mediatek-dp-Add-tee-client-application-for-HDCP-feature/20240205-163727
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240205055055.25340-2-mac.shen%40mediatek.com
+patch subject: [PATCH v2 1/3] Subject: [PATCH] drm/mediatek/dp: Add tee client application for HDCP feature
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240205/202402052342.Y5awT1T2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402052342.Y5awT1T2-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402052342.Y5awT1T2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.c:34: warning: Function parameter or struct member 'dp_tee_priv' not described in 'dp_tee_op_send'
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.c:34: warning: Function parameter or struct member 'cmd_id' not described in 'dp_tee_op_send'
+
+
+vim +34 drivers/gpu/drm/mediatek/tlc_dp_hdcp.c
+
+    13	
+    14	/*
+    15	 * TA_FTPM_UUID: 99975014-3c7c-54ea-8487-a80d215ea92c
+    16	 *
+    17	 * Randomly generated, and must correspond to the GUID on the TA side.
+    18	 * Defined here in the reference implementation:
+    19	 * https://github.com/microsoft/ms-tpm-20-ref/blob/master/Samples/ARM32-FirmwareTPM/optee_ta/fTPM/include/fTPM.h#L42
+    20	 */
+    21	static const uuid_t dp_ta_uuid =
+    22		UUID_INIT(0x99975014, 0x3c7c, 0x54ea,
+    23			  0x84, 0x87, 0xa8, 0x0d, 0x21, 0x5e, 0xa9, 0x2c);
+    24	
+    25	/**
+    26	 * dp_tee_op_send() - send dp commands through the TEE shared memory.
+    27	 * @len:	the number of bytes to send.
+    28	 *
+    29	 * Return:
+    30	 *	In case of success, returns 0.
+    31	 *	On failure, -errno
+    32	 */
+    33	static int dp_tee_op_send(struct dp_tee_private *dp_tee_priv, size_t len, u32 cmd_id)
+  > 34	{
+    35		int rc;
+    36		u8 *temp_buf;
+    37		struct tee_ioctl_invoke_arg transceive_args;
+    38		struct tee_param command_params[4];
+    39		struct tee_shm *shm = dp_tee_priv->shm;
+    40	
+    41		if (len > MAX_COMMAND_SIZE) {
+    42			TLCERR("%s: len=%zd exceeds MAX_COMMAND_SIZE supported by dp TA\n", __func__, len);
+    43			return -EIO;
+    44		}
+    45	
+    46		memset(&transceive_args, 0, sizeof(transceive_args));
+    47		memset(command_params, 0, sizeof(command_params));
+    48		dp_tee_priv->resp_len = 0;
+    49	
+    50		/* Invoke FTPM_OPTEE_TA_SUBMIT_COMMAND function of dp TA */
+    51		transceive_args = (struct tee_ioctl_invoke_arg) {
+    52			.func = cmd_id,
+    53			.session = dp_tee_priv->session,
+    54			.num_params = 4,
+    55		};
+    56	
+    57		/* Fill FTPM_OPTEE_TA_SUBMIT_COMMAND parameters */
+    58		command_params[0] = (struct tee_param) {
+    59			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT,
+    60			.u.memref = {
+    61				.shm = shm,
+    62				.size = len,
+    63				.shm_offs = 0,
+    64			},
+    65		};
+    66	
+    67		command_params[1] = (struct tee_param) {
+    68			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT,
+    69			.u.memref = {
+    70				.shm = shm,
+    71				.size = MAX_RESPONSE_SIZE,
+    72				.shm_offs = MAX_COMMAND_SIZE,
+    73			},
+    74		};
+    75	
+    76		rc = tee_client_invoke_func(dp_tee_priv->ctx, &transceive_args, command_params);
+    77		if (rc < 0 || transceive_args.ret != 0) {
+    78			TLCERR("%s: invoke error: 0x%x\n", __func__, transceive_args.ret);
+    79			return (rc < 0) ? rc : transceive_args.ret;
+    80		}
+    81	
+    82		temp_buf = tee_shm_get_va(shm, command_params[1].u.memref.shm_offs);
+    83		if (IS_ERR(temp_buf)) {
+    84			TLCERR("%s: tee_shm_get_va failed for receive\n", __func__);
+    85			return PTR_ERR(temp_buf);
+    86		}
+    87	
+    88		/* Sanity checks look good, cache the response */
+    89		memcpy(dp_tee_priv->resp_buf, temp_buf, MAX_RESPONSE_SIZE / 2);
+    90		dp_tee_priv->resp_len = MAX_RESPONSE_SIZE / 2;
+    91	
+    92		return 0;
+    93	}
+    94	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
