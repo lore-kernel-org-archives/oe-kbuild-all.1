@@ -1,123 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3C1AD32
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 03:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26817B642
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 04:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707105075; cv=none; b=qdZ/MQ820R4RKNZYEc41AO2+ygAzFkUzatgO4jjbI25I9U2DNMH6/RmROvokaLKIQypfbz0+9p1OV+zvUCY7bzfNuxui4RmfUzODufJYCDnE9oW4yWUDwML4+/xrPkL7ae4Q0qKAamBpRYBmgZ2rawzEiend7lNc5lWLTnYbCdo=
+	t=1707105735; cv=none; b=eyRec4KvAQeitWwI37+8yJbXRR6/xezCq9LPIH3QGsoPqtVGw3Vbz9MLYixEnR/0fTl/qljYUlNhNI1tcCq0y9K6DRZBaS5QbgA35jMk49CDX6qxsUPdeabRVy2NQdkvNZzp+7EEt7jf7VGZTQHea6Nmi+cf/nRg0UIFaugb9uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707105075; c=relaxed/simple;
-	bh=3JnmSjx2Ar6tsZ4zC8JW0TsroxoTzhBNqXOGnyaX/tM=;
+	s=arc-20240116; t=1707105735; c=relaxed/simple;
+	bh=Y4t97HavkbbOEw9K2bcChLcQZ0xfupfY6E4WaS8oQsk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hoi9gdqkEKnPyljd+HawBSbGHKyvJxZLolYNVjM5LnyQLUw+qd38b1CxiFBh7hEsMfhnl96hQSw/JwMKo1pCVhnEPHIK5IFSlQzygDcT55aOX23xzoDndj38YLXahUHEPZalKfchBB6cclq4xP9RIufw7fZV5A5pnzl6EqEcz9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2DD0nuo; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=oDHfsTlZ2EA0zWp3Js+XJ1QbHVzYkpx70l0vjNhrd5gsjqHoui1G33Ljd1tOefw6L1y89N3DOEaM8nZ7vHrBPwegYGOUwtUnh1opyhDysc/eVfXWeQxsTzHWZekO4rymaTXLQN+LtK6HTYTAP78WrsowHYAdL25eemeSTcAegs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiTaNpTa; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2DD0nuo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiTaNpTa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707105072; x=1738641072;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3JnmSjx2Ar6tsZ4zC8JW0TsroxoTzhBNqXOGnyaX/tM=;
-  b=R2DD0nuoILmVdfXwJjn7wN+VcCumTWq6+iRlFHr6/MmmTfejziQVd8/p
-   6X8x7S7qtH7E5UeBbwzi/zRM7vshuhqwztK5Hs0qOY2sXBjLtBY7IP5/i
-   GfvOvxw8s6S/cLvzZOwU21KN5+CkJB27IMnaWMHYfwKtip9SDnhBPbE4H
-   44pnJrUz/FTTxHW8QxlrXa6CdN7Y3HNH7gdyq0e1+A0rwmCJDJ5Y3uh9v
-   EIRnQkcRFW7XIRTcgqXZHJ9IKzWQf96zz830zNm00YR4jAxNLD8nyQ//P
-   SiiAYH0+NTe04lc30aMdg7E2KWCet+EoD8CvYX7f+kDweXoy3/RNFjssr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="593991"
+  t=1707105733; x=1738641733;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Y4t97HavkbbOEw9K2bcChLcQZ0xfupfY6E4WaS8oQsk=;
+  b=QiTaNpTa8gUhyFVtYQX1laFLZUzLS3AY6TIpw0tgcUUCk4yPjctlHjPL
+   d0fsetILRTAW4SMWzsJqil/NczFE7wQd0kpxGuAyeokZ4dUkjzT9dXrZD
+   9XYXtgj47JcayETHawHDH5YYBy282bhzto0wsDtWvXV7Ng9h+QdqGhvqQ
+   hw434VOzq7gJN0HZjIHrMpnysUI1dtfKaicKKdPIA8LS7EDNFACjHsBNW
+   dO7K11gdWRr+8Vx/LstwWTJ8RJO64Y9SfV/dCDBIsQQoUq6OQBwFQ1dmZ
+   gChNLekJ3dGknsTogBG4J0Npm2VQ1KyAkhw4b4r0RzDeQE7mlXBvlZyVh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="4263611"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="593991"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 19:51:11 -0800
+   d="scan'208";a="4263611"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 20:02:13 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="5230821"
+   d="scan'208";a="5359006"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Feb 2024 19:51:12 -0800
+  by orviesa004.jf.intel.com with ESMTP; 04 Feb 2024 20:02:11 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWq0i-00007Y-1b;
-	Mon, 05 Feb 2024 03:51:08 +0000
-Date: Mon, 5 Feb 2024 11:50:27 +0800
+	id 1rWqBM-00007o-23;
+	Mon, 05 Feb 2024 04:02:08 +0000
+Date: Mon, 5 Feb 2024 12:01:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ricardo B. Marliere" <ricardo@marliere.net>
-Cc: oe-kbuild-all@lists.linux.dev, Tejun Heo <tj@kernel.org>
-Subject: [tj-wq:for-6.9-bh-conversions 25/30] kernel/workqueue.c:6798:39:
- warning: passing argument 1 of 'subsys_virtual_register' discards 'const'
- qualifier from pointer target type
-Message-ID: <202402051108.eqfecqfn-lkp@intel.com>
+To: kernel@openeuler.org, Wei Tian <tianwei@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 21385/21614]
+ drivers/tee/optee/core.c:618:24: warning: returning 'void *' from a function
+ with return type 'int' makes integer from pointer without a cast
+Message-ID: <202402051104.NkxxZxgE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.9-bh-conversions
-head:   ae9075ec8b89e3a7581d525954c3b29267d56937
-commit: d412ace11144aa2bf692c7cf9778351efc15c827 [25/30] workqueue: make wq_subsys const
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240205/202402051108.eqfecqfn-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402051108.eqfecqfn-lkp@intel.com/reproduce)
+Hi Ard,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5bc2c7cbdcbc5c8e5bbe65d3542ec2fccbc61492
+commit: 595311cf7e49c781dd26782e4b45fd54bbfb3e40 [21385/21614] optee: model OP-TEE as a platform device/driver
+config: arm64-randconfig-003-20240112 (https://download.01.org/0day-ci/archive/20240205/202402051104.NkxxZxgE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402051104.NkxxZxgE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402051108.eqfecqfn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402051104.NkxxZxgE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/workqueue.c: In function 'wq_sysfs_init':
->> kernel/workqueue.c:6798:39: warning: passing argument 1 of 'subsys_virtual_register' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    6798 |         err = subsys_virtual_register(&wq_subsys, NULL);
-         |                                       ^~~~~~~~~~
-   In file included from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from kernel/workqueue.c:36:
-   include/linux/device.h:77:46: note: expected 'struct bus_type *' but argument is of type 'const struct bus_type *'
-      77 | int subsys_virtual_register(struct bus_type *subsys,
-         |                             ~~~~~~~~~~~~~~~~~^~~~~~
+   drivers/tee/optee/core.c: In function 'optee_probe':
+>> drivers/tee/optee/core.c:618:24: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
+     618 |                 return ERR_PTR(-EINVAL);
+         |                        ^~~~~~~~~~~~~~~~
 
 
-vim +6798 kernel/workqueue.c
+vim +618 drivers/tee/optee/core.c
 
-b05a79280b346e Frederic Weisbecker 2015-04-27  6792  
-6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  6793  static int __init wq_sysfs_init(void)
-2d3854a37e8b76 Rusty Russell       2008-11-05  6794  {
-686f669780276d Greg Kroah-Hartman  2023-03-13  6795  	struct device *dev_root;
-b05a79280b346e Frederic Weisbecker 2015-04-27  6796  	int err;
-b05a79280b346e Frederic Weisbecker 2015-04-27  6797  
-b05a79280b346e Frederic Weisbecker 2015-04-27 @6798  	err = subsys_virtual_register(&wq_subsys, NULL);
-b05a79280b346e Frederic Weisbecker 2015-04-27  6799  	if (err)
-b05a79280b346e Frederic Weisbecker 2015-04-27  6800  		return err;
-b05a79280b346e Frederic Weisbecker 2015-04-27  6801  
-686f669780276d Greg Kroah-Hartman  2023-03-13  6802  	dev_root = bus_get_dev_root(&wq_subsys);
-686f669780276d Greg Kroah-Hartman  2023-03-13  6803  	if (dev_root) {
-fe28f631fa941f Waiman Long         2023-10-25  6804  		struct device_attribute *attr;
-fe28f631fa941f Waiman Long         2023-10-25  6805  
-fe28f631fa941f Waiman Long         2023-10-25  6806  		for (attr = wq_sysfs_cpumask_attrs; attr->attr.name; attr++) {
-fe28f631fa941f Waiman Long         2023-10-25  6807  			err = device_create_file(dev_root, attr);
-fe28f631fa941f Waiman Long         2023-10-25  6808  			if (err)
-fe28f631fa941f Waiman Long         2023-10-25  6809  				break;
-fe28f631fa941f Waiman Long         2023-10-25  6810  		}
-686f669780276d Greg Kroah-Hartman  2023-03-13  6811  		put_device(dev_root);
-686f669780276d Greg Kroah-Hartman  2023-03-13  6812  	}
-686f669780276d Greg Kroah-Hartman  2023-03-13  6813  	return err;
-2d3854a37e8b76 Rusty Russell       2008-11-05  6814  }
-6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  6815  core_initcall(wq_sysfs_init);
-2d3854a37e8b76 Rusty Russell       2008-11-05  6816  
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  581  
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  582  static int optee_probe(struct platform_device *pdev)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  583  {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  584  	optee_invoke_fn *invoke_fn;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  585  	struct tee_shm_pool *pool;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  586  	struct optee *optee = NULL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  587  	void *memremaped_shm = NULL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  588  	struct tee_device *teedev;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  589  	u32 sec_caps;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  590  	int rc;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  591  
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  592  	invoke_fn = get_invoke_func(&pdev->dev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  593  	if (IS_ERR(invoke_fn))
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  594  		return PTR_ERR(invoke_fn);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  595  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  596  	if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  597  		pr_warn("api uid mismatch\n");
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  598  		return -EINVAL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  599  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  600  
+5c5f80307ab27c Jérôme Forissier  2017-11-24  601  	optee_msg_get_os_revision(invoke_fn);
+5c5f80307ab27c Jérôme Forissier  2017-11-24  602  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  603  	if (!optee_msg_api_revision_is_compatible(invoke_fn)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  604  		pr_warn("api revision mismatch\n");
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  605  		return -EINVAL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  606  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  607  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  608  	if (!optee_msg_exchange_capabilities(invoke_fn, &sec_caps)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  609  		pr_warn("capabilities mismatch\n");
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  610  		return -EINVAL;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  611  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  612  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  613  	/*
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  614  	 * We have no other option for shared memory, if secure world
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  615  	 * doesn't have any reserved memory we can use we can't continue.
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  616  	 */
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  617  	if (!(sec_caps & OPTEE_SMC_SEC_CAP_HAVE_RESERVED_SHM))
+4fb0a5eb364d23 Jens Wiklander    2015-04-14 @618  		return ERR_PTR(-EINVAL);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  619  
+f58e236c9d665a Volodymyr Babchuk 2017-11-29  620  	pool = optee_config_shm_memremap(invoke_fn, &memremaped_shm, sec_caps);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  621  	if (IS_ERR(pool))
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  622  		return PTR_ERR(pool);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  623  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  624  	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  625  	if (!optee) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  626  		rc = -ENOMEM;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  627  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  628  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  629  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  630  	optee->invoke_fn = invoke_fn;
+d885cc5e0759fc Volodymyr Babchuk 2017-11-29  631  	optee->sec_caps = sec_caps;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  632  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  633  	teedev = tee_device_alloc(&optee_desc, NULL, pool, optee);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  634  	if (IS_ERR(teedev)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  635  		rc = PTR_ERR(teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  636  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  637  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  638  	optee->teedev = teedev;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  639  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  640  	teedev = tee_device_alloc(&optee_supp_desc, NULL, pool, optee);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  641  	if (IS_ERR(teedev)) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  642  		rc = PTR_ERR(teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  643  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  644  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  645  	optee->supp_teedev = teedev;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  646  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  647  	rc = tee_device_register(optee->teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  648  	if (rc)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  649  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  650  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  651  	rc = tee_device_register(optee->supp_teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  652  	if (rc)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  653  		goto err;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  654  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  655  	mutex_init(&optee->call_queue.mutex);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  656  	INIT_LIST_HEAD(&optee->call_queue.waiters);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  657  	optee_wait_queue_init(&optee->wait_queue);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  658  	optee_supp_init(&optee->supp);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  659  	optee->memremaped_shm = memremaped_shm;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  660  	optee->pool = pool;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  661  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  662  	optee_enable_shm_cache(optee);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  663  
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  664  	platform_set_drvdata(pdev, optee);
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  665  
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  666  	pr_info("initialized driver\n");
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  667  	return 0;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  668  err:
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  669  	if (optee) {
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  670  		/*
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  671  		 * tee_device_unregister() is safe to call even if the
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  672  		 * devices hasn't been registered with
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  673  		 * tee_device_register() yet.
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  674  		 */
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  675  		tee_device_unregister(optee->supp_teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  676  		tee_device_unregister(optee->teedev);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  677  		kfree(optee);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  678  	}
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  679  	if (pool)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  680  		tee_shm_pool_free(pool);
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  681  	if (memremaped_shm)
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  682  		memunmap(memremaped_shm);
+595311cf7e49c7 Ard Biesheuvel    2019-12-09  683  	return rc;
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  684  }
+4fb0a5eb364d23 Jens Wiklander    2015-04-14  685  
 
-:::::: The code at line 6798 was first introduced by commit
-:::::: b05a79280b346eb24ddb73b39988398015291075 workqueue: Create low-level unbound workqueues cpumask
+:::::: The code at line 618 was first introduced by commit
+:::::: 4fb0a5eb364d239722e745c02aef0dbd4e0f1ad2 tee: add OP-TEE driver
 
-:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
-:::::: CC: Tejun Heo <tj@kernel.org>
+:::::: TO: Jens Wiklander <jens.wiklander@linaro.org>
+:::::: CC: Jens Wiklander <jens.wiklander@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
