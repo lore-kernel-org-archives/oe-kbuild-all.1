@@ -1,56 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178FC10A13
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 06:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84F8BA30
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 06:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707112826; cv=none; b=bI//gRQtrnc4Jffpwdc7CgsvGb0C1U1fpDk+gNTvaluww8W/ekYB4GbJVW/IWvk4/ne/pEIJipMN+swFX3uvXta0VqZQs1aPu8bcU+HFP5qHextUZIQZ2OdYCxHJo5KEfOMZwnjOCRn3uVq95CEjwbelKWiTMKOftQpv1QAM/2M=
+	t=1707112834; cv=none; b=q6HQgxieX1PWaSabQSBSoWnqW9vzQCxUNp2OH+9vn9uvaoLLORRryDYG9sbxtMqb/O++hZlSAfzuRm9KWPh7Sbg2Tc45788XkjAU0hWAZuvmukqCk8gLQej8r/Fgi5og2IjSqAhB8rZzwQubcox5NdjK+FGh9hEtXAZ7ItZbnCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707112826; c=relaxed/simple;
-	bh=/7xFaw3/Zb6J98Ip2iGXSKiDkJI4cW6NvatttrpeXLE=;
+	s=arc-20240116; t=1707112834; c=relaxed/simple;
+	bh=kq67++PrGOHRSPoTJxqLmFHrC5ZBBCoPb0xUFUCOK5k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R+yY29DD5X75Q9btp6a8kU6PmlfviioSeSkZN4yOhuMPUf9iqUK+tfVDVNrIZ3DuqbO0DeWJDPyQwJmzdAw31uBmUw0S2Xf3IwgHdQhBLFlybqJXqPtB97Zp+OlUjycYyLIi7RIIoDKdB2jF30ushnS0FdldFKuzuQjia49Dahs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hP/BZh3O; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=mqPoz3j0VaXouJsRzwAaQULt8+vSiHBCCiV90ia18aPgd4fXzDhRl/OcjELBRScP1QExzm9LC5Yqdc1ukHreg+0fnhUEXvGQynge48wP46Agle4Cog9WXjhn29hI4+240SdJ2SQNustgxPNvKwSw4gFtYtSsW7GA+g9MHNEhACo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kqyyTW7P; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hP/BZh3O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707112824; x=1738648824;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/7xFaw3/Zb6J98Ip2iGXSKiDkJI4cW6NvatttrpeXLE=;
-  b=hP/BZh3Ow1zLvPJzIiq+wLTuAmxkN4Q1jzwAyQn5eX9dgVrWoP8ZLeIr
-   nGhcW2XjWhDgtrANIxWKol5SKyGV3fr5b9SCX+gClVq0HI+4qRmONBGUh
-   U0tmjEj6CAB6nIaMSwDadxiMNnfdFVzoOTddXAzfyjwy477bieTySmcdK
-   0zC8c6lXyuczHY0WEJnrLZgOffVkpCgToNeUy/lCGL9UiAdRUGQ3inH3r
-   iULr9CKMbFacvhtbyBnzRuUP4oV1C/yNfk6aMn4bKo1+PPYENfUk+YRY/
-   Wo0IQP1CWrhdAoPO0SKsj8a+b8hGu+rqONmejPnhiF+MO3ap3stZ0zUCs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="11193005"
-X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="11193005"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 22:00:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="5375221"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Feb 2024 22:00:13 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rWs1a-0000BE-22;
-	Mon, 05 Feb 2024 06:00:10 +0000
-Date: Mon, 5 Feb 2024 14:00:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>, NeilBrown <neilb@suse.de>
-Subject: [brauner-vfs:vfs.file 7/48] fs/ceph/locks.c:276:54: error: implicit
- declaration of function 'lock_is_unlock'; did you mean 'lock_pin_lock'?
-Message-ID: <202402051353.X9p1BSS2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kqyyTW7P"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d0aabed735so7381681fa.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 04 Feb 2024 22:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707112831; x=1707717631; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IE8etV8dXymxXxD26dhXxFfWTSA6CW6O1D+5fVLbWAA=;
+        b=kqyyTW7PG87DCDYBbNdljQKI3Rp0c2SC6z882aNgygh55WH6c6BeWvQ8dlsTCzucq7
+         hFPuhC7KtsXTVevFiD+5GTnNN9TjsvbyBn0N9VHzcYeGXdapGr7USPqfgBxoV6ETeZhy
+         UopYkaRBg7r3nb8IzMryYDaW2QGT/LHo1BLkYziAVkAvqh2X/1X0HplaknTHcsMjw+C/
+         k3mEQ0tY+wB47IX3Wk9+FxMRp88OdyEMkHCEpDef6ASa0vOOPyGct8xIl25rqdX5EQn9
+         /4zV9tCLhEzB+vvhu87cjY3pZpIkqGQCPmQTEIXcsnSleGp9R0mcJT7Gr6CJNnUuUPMb
+         5YPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707112831; x=1707717631;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IE8etV8dXymxXxD26dhXxFfWTSA6CW6O1D+5fVLbWAA=;
+        b=v3s0t8mMMxz5EW0cl4HtlJtEQiW46/0ujdbs3GDJ0TrFjpllJ5Vo54lFbFyeU3H/TS
+         +9P598ULzMVZ0VvTo4bBE2kMLHhLpzokRtoMDB4C0HbX3LsSqjbSMa6VhexMzMtsBRPo
+         4Ex6SZNFoh+18gUaj6ceJrMy9bKWr6/SuSjaUcryJw55vm+7SEcqUdM/Mc/EMt8ttWIX
+         Cm5rF3S6ljW/IsRwy5M4s3cO4LgDCIkrttL1TPy/TxjqiqFx2wbpY2auPdJKDr/hOeE6
+         n9A8BUOn8af8l5IlmzYs87TKiwTORSk2EHVyaGtBcKVN6uDUP4NW0I41m3fa83oDZKiE
+         HYPw==
+X-Gm-Message-State: AOJu0YxYOCidt9UtMpzAziGsvDnL4BvtCQ1LJ4juviRnR1f3tI/ZrQ/M
+	mwnCWPifeeC9CVzkz471TEYO/HN4fuQTM4JUU8ltQvHtcZGVrzNnrPBgM/4w/Y8=
+X-Google-Smtp-Source: AGHT+IGG/AGVPP7LiZNlnh5kCNRsd5c+DeHu3TIgGXHZtMB/ODPl6wHXaWTmA7nlzvycP2j9PHyMHA==
+X-Received: by 2002:a2e:b602:0:b0:2d0:aa28:6f77 with SMTP id r2-20020a2eb602000000b002d0aa286f77mr1395893ljn.45.1707112829238;
+        Sun, 04 Feb 2024 22:00:29 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWpmknaqH7W7vctyYKHv/5HxbGPtVEdM/5peP6NthYwIBiKW+GlBgl6RovtVsmJaCF+iuaHwSFV5+hYlvdoHIndnki6V+WKrZ1llxDKvUNJ8o1rD2RtUSET/sJ2SjA7f+FtYrXQS3ARvky1LdUTVcS+ynlb27Kj2mXYhZl7SopvI0XR78OaYAjGuJk+WmpTGg==
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id n7-20020a50cc47000000b0055c63205052sm3389068edi.37.2024.02.04.22.00.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Feb 2024 22:00:28 -0800 (PST)
+Date: Mon, 5 Feb 2024 09:00:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Steve Jeong <how2soft@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.6.y 42/51] drivers/char/aml-gpiomem.c:242
+ aml_gpiomem_probe() error: we previously assumed 'inst' could be null (see
+ line 164)
+Message-ID: <3b813542-6a16-4b10-b866-7bccdefbf3bd@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,310 +68,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.file
-head:   1499e59af376949b062cdc039257f811f6c1697f
-commit: 7c82f310391564a8ca1b8f996ddaa6204eb65253 [7/48] ceph: convert to using new filelock helpers
-config: arc-randconfig-002-20240204 (https://download.01.org/0day-ci/archive/20240205/202402051353.X9p1BSS2-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402051353.X9p1BSS2-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   0ea9759612aba09cc99b50301b281417f70e847c
+commit: 7d68a4b7edc4029f164a974f900a2eb2f1fc2919 [42/51] ODROID-N2/C4: char: Add /dev/gpiomem device
+config: x86_64-randconfig-161-20240203 (https://download.01.org/0day-ci/archive/20240204/202402040226.dWKVclcB-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402051353.X9p1BSS2-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402040226.dWKVclcB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/char/aml-gpiomem.c:242 aml_gpiomem_probe() error: we previously assumed 'inst' could be null (see line 164)
 
-   fs/ceph/locks.c: In function 'ceph_lock':
->> fs/ceph/locks.c:276:54: error: implicit declaration of function 'lock_is_unlock'; did you mean 'lock_pin_lock'? [-Werror=implicit-function-declaration]
-     276 |                 if (op == CEPH_MDS_OP_SETFILELOCK && lock_is_unlock(fl))
-         |                                                      ^~~~~~~~~~~~~~
-         |                                                      lock_pin_lock
->> fs/ceph/locks.c:281:13: error: implicit declaration of function 'lock_is_read'; did you mean 'lock_is_held'? [-Werror=implicit-function-declaration]
-     281 |         if (lock_is_read(fl))
-         |             ^~~~~~~~~~~~
-         |             lock_is_held
->> fs/ceph/locks.c:283:18: error: implicit declaration of function 'lock_is_write'; did you mean 'op_is_write'? [-Werror=implicit-function-declaration]
-     283 |         else if (lock_is_write(fl))
-         |                  ^~~~~~~~~~~~~
-         |                  op_is_write
-   fs/ceph/locks.c: In function 'ceph_count_locks':
->> fs/ceph/locks.c:388:17: error: implicit declaration of function 'for_each_file_lock'; did you mean 'for_each_node_mask'? [-Werror=implicit-function-declaration]
-     388 |                 for_each_file_lock(lock, &ctx->flc_posix)
-         |                 ^~~~~~~~~~~~~~~~~~
-         |                 for_each_node_mask
->> fs/ceph/locks.c:389:25: error: lvalue required as increment operand
-     389 |                         ++(*fcntl_count);
-         |                         ^~
-   fs/ceph/locks.c:391:25: error: lvalue required as increment operand
-     391 |                         ++(*flock_count);
-         |                         ^~
-   fs/ceph/locks.c: In function 'ceph_encode_locks_to_buffer':
->> fs/ceph/locks.c:456:50: error: expected ';' before '{' token
-     456 |         for_each_file_lock(lock, &ctx->flc_posix) {
-         |                                                  ^~
-         |                                                  ;
-   fs/ceph/locks.c:447:13: warning: unused variable 'l' [-Wunused-variable]
-     447 |         int l = 0;
-         |             ^
-   fs/ceph/locks.c:446:13: warning: unused variable 'seen_flock' [-Wunused-variable]
-     446 |         int seen_flock = 0;
-         |             ^~~~~~~~~~
-   fs/ceph/locks.c:445:13: warning: unused variable 'seen_fcntl' [-Wunused-variable]
-     445 |         int seen_fcntl = 0;
-         |             ^~~~~~~~~~
-   fs/ceph/locks.c: At top level:
-   fs/ceph/locks.c:401:12: warning: 'lock_to_ceph_filelock' defined but not used [-Wunused-function]
-     401 | static int lock_to_ceph_filelock(struct inode *inode,
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +/inst +242 drivers/char/aml-gpiomem.c
 
+7d68a4b7edc402 Steve Jeong 2023-04-04  153  static int aml_gpiomem_probe(struct platform_device *pdev)
+7d68a4b7edc402 Steve Jeong 2023-04-04  154  {
+7d68a4b7edc402 Steve Jeong 2023-04-04  155  	int err = 0;
+7d68a4b7edc402 Steve Jeong 2023-04-04  156  	struct device *dev = &pdev->dev;
+7d68a4b7edc402 Steve Jeong 2023-04-04  157  	struct device_node *np = dev->of_node;
+7d68a4b7edc402 Steve Jeong 2023-04-04  158  	struct resource *res = NULL;
+7d68a4b7edc402 Steve Jeong 2023-04-04  159  	int i = 0;
+7d68a4b7edc402 Steve Jeong 2023-04-04  160  
+7d68a4b7edc402 Steve Jeong 2023-04-04  161  	/* Allocate buffers and instance data */
+7d68a4b7edc402 Steve Jeong 2023-04-04  162  	inst = kzalloc(sizeof(struct aml_gpiomem_instance), GFP_KERNEL);
+7d68a4b7edc402 Steve Jeong 2023-04-04  163  
+7d68a4b7edc402 Steve Jeong 2023-04-04 @164  	if (!inst) {
+7d68a4b7edc402 Steve Jeong 2023-04-04  165  		err = -ENOMEM;
+7d68a4b7edc402 Steve Jeong 2023-04-04  166  		goto failed_inst_alloc;
 
-vim +276 fs/ceph/locks.c
+inst is NULL so this goto will crash.  No need to print a warning after
+a kmalloc() by the way.  kmalloc() has it's own warning built in.
 
-   241	
-   242	/*
-   243	 * Attempt to set an fcntl lock.
-   244	 * For now, this just goes away to the server. Later it may be more awesome.
-   245	 */
-   246	int ceph_lock(struct file *file, int cmd, struct file_lock *fl)
-   247	{
-   248		struct inode *inode = file_inode(file);
-   249		struct ceph_inode_info *ci = ceph_inode(inode);
-   250		struct ceph_client *cl = ceph_inode_to_client(inode);
-   251		int err = 0;
-   252		u16 op = CEPH_MDS_OP_SETFILELOCK;
-   253		u8 wait = 0;
-   254		u8 lock_cmd;
-   255	
-   256		if (!(fl->fl_flags & FL_POSIX))
-   257			return -ENOLCK;
-   258	
-   259		if (ceph_inode_is_shutdown(inode))
-   260			return -ESTALE;
-   261	
-   262		doutc(cl, "fl_owner: %p\n", fl->fl_owner);
-   263	
-   264		/* set wait bit as appropriate, then make command as Ceph expects it*/
-   265		if (IS_GETLK(cmd))
-   266			op = CEPH_MDS_OP_GETFILELOCK;
-   267		else if (IS_SETLKW(cmd))
-   268			wait = 1;
-   269	
-   270		spin_lock(&ci->i_ceph_lock);
-   271		if (ci->i_ceph_flags & CEPH_I_ERROR_FILELOCK) {
-   272			err = -EIO;
-   273		}
-   274		spin_unlock(&ci->i_ceph_lock);
-   275		if (err < 0) {
- > 276			if (op == CEPH_MDS_OP_SETFILELOCK && lock_is_unlock(fl))
-   277				posix_lock_file(file, fl, NULL);
-   278			return err;
-   279		}
-   280	
- > 281		if (lock_is_read(fl))
-   282			lock_cmd = CEPH_LOCK_SHARED;
- > 283		else if (lock_is_write(fl))
-   284			lock_cmd = CEPH_LOCK_EXCL;
-   285		else
-   286			lock_cmd = CEPH_LOCK_UNLOCK;
-   287	
-   288		if (op == CEPH_MDS_OP_SETFILELOCK && lock_is_unlock(fl)) {
-   289			err = try_unlock_file(file, fl);
-   290			if (err <= 0)
-   291				return err;
-   292		}
-   293	
-   294		err = ceph_lock_message(CEPH_LOCK_FCNTL, op, inode, lock_cmd, wait, fl);
-   295		if (!err) {
-   296			if (op == CEPH_MDS_OP_SETFILELOCK && F_UNLCK != fl->fl_type) {
-   297				doutc(cl, "locking locally\n");
-   298				err = posix_lock_file(file, fl, NULL);
-   299				if (err) {
-   300					/* undo! This should only happen if
-   301					 * the kernel detects local
-   302					 * deadlock. */
-   303					ceph_lock_message(CEPH_LOCK_FCNTL, op, inode,
-   304							  CEPH_LOCK_UNLOCK, 0, fl);
-   305					doutc(cl, "got %d on posix_lock_file, undid lock\n",
-   306					      err);
-   307				}
-   308			}
-   309		}
-   310		return err;
-   311	}
-   312	
-   313	int ceph_flock(struct file *file, int cmd, struct file_lock *fl)
-   314	{
-   315		struct inode *inode = file_inode(file);
-   316		struct ceph_inode_info *ci = ceph_inode(inode);
-   317		struct ceph_client *cl = ceph_inode_to_client(inode);
-   318		int err = 0;
-   319		u8 wait = 0;
-   320		u8 lock_cmd;
-   321	
-   322		if (!(fl->fl_flags & FL_FLOCK))
-   323			return -ENOLCK;
-   324	
-   325		if (ceph_inode_is_shutdown(inode))
-   326			return -ESTALE;
-   327	
-   328		doutc(cl, "fl_file: %p\n", fl->fl_file);
-   329	
-   330		spin_lock(&ci->i_ceph_lock);
-   331		if (ci->i_ceph_flags & CEPH_I_ERROR_FILELOCK) {
-   332			err = -EIO;
-   333		}
-   334		spin_unlock(&ci->i_ceph_lock);
-   335		if (err < 0) {
-   336			if (lock_is_unlock(fl))
-   337				locks_lock_file_wait(file, fl);
-   338			return err;
-   339		}
-   340	
-   341		if (IS_SETLKW(cmd))
-   342			wait = 1;
-   343	
-   344		if (lock_is_read(fl))
-   345			lock_cmd = CEPH_LOCK_SHARED;
-   346		else if (lock_is_write(fl))
-   347			lock_cmd = CEPH_LOCK_EXCL;
-   348		else
-   349			lock_cmd = CEPH_LOCK_UNLOCK;
-   350	
-   351		if (lock_is_unlock(fl)) {
-   352			err = try_unlock_file(file, fl);
-   353			if (err <= 0)
-   354				return err;
-   355		}
-   356	
-   357		err = ceph_lock_message(CEPH_LOCK_FLOCK, CEPH_MDS_OP_SETFILELOCK,
-   358					inode, lock_cmd, wait, fl);
-   359		if (!err && F_UNLCK != fl->fl_type) {
-   360			err = locks_lock_file_wait(file, fl);
-   361			if (err) {
-   362				ceph_lock_message(CEPH_LOCK_FLOCK,
-   363						  CEPH_MDS_OP_SETFILELOCK,
-   364						  inode, CEPH_LOCK_UNLOCK, 0, fl);
-   365				doutc(cl, "got %d on locks_lock_file_wait, undid lock\n",
-   366				      err);
-   367			}
-   368		}
-   369		return err;
-   370	}
-   371	
-   372	/*
-   373	 * Fills in the passed counter variables, so you can prepare pagelist metadata
-   374	 * before calling ceph_encode_locks.
-   375	 */
-   376	void ceph_count_locks(struct inode *inode, int *fcntl_count, int *flock_count)
-   377	{
-   378		struct ceph_client *cl = ceph_inode_to_client(inode);
-   379		struct file_lock *lock;
-   380		struct file_lock_context *ctx;
-   381	
-   382		*fcntl_count = 0;
-   383		*flock_count = 0;
-   384	
-   385		ctx = locks_inode_context(inode);
-   386		if (ctx) {
-   387			spin_lock(&ctx->flc_lock);
- > 388			for_each_file_lock(lock, &ctx->flc_posix)
- > 389				++(*fcntl_count);
-   390			for_each_file_lock(lock, &ctx->flc_flock)
-   391				++(*flock_count);
-   392			spin_unlock(&ctx->flc_lock);
-   393		}
-   394		doutc(cl, "counted %d flock locks and %d fcntl locks\n",
-   395		      *flock_count, *fcntl_count);
-   396	}
-   397	
-   398	/*
-   399	 * Given a pointer to a lock, convert it to a ceph filelock
-   400	 */
-   401	static int lock_to_ceph_filelock(struct inode *inode,
-   402					 struct file_lock *lock,
-   403					 struct ceph_filelock *cephlock)
-   404	{
-   405		struct ceph_client *cl = ceph_inode_to_client(inode);
-   406		int err = 0;
-   407	
-   408		cephlock->start = cpu_to_le64(lock->fl_start);
-   409		cephlock->length = cpu_to_le64(lock->fl_end - lock->fl_start + 1);
-   410		cephlock->client = cpu_to_le64(0);
-   411		cephlock->pid = cpu_to_le64((u64)lock->fl_pid);
-   412		cephlock->owner = cpu_to_le64(secure_addr(lock->fl_owner));
-   413	
-   414		switch (lock->fl_type) {
-   415		case F_RDLCK:
-   416			cephlock->type = CEPH_LOCK_SHARED;
-   417			break;
-   418		case F_WRLCK:
-   419			cephlock->type = CEPH_LOCK_EXCL;
-   420			break;
-   421		case F_UNLCK:
-   422			cephlock->type = CEPH_LOCK_UNLOCK;
-   423			break;
-   424		default:
-   425			doutc(cl, "Have unknown lock type %d\n", lock->fl_type);
-   426			err = -EINVAL;
-   427		}
-   428	
-   429		return err;
-   430	}
-   431	
-   432	/*
-   433	 * Encode the flock and fcntl locks for the given inode into the ceph_filelock
-   434	 * array. Must be called with inode->i_lock already held.
-   435	 * If we encounter more of a specific lock type than expected, return -ENOSPC.
-   436	 */
-   437	int ceph_encode_locks_to_buffer(struct inode *inode,
-   438					struct ceph_filelock *flocks,
-   439					int num_fcntl_locks, int num_flock_locks)
-   440	{
-   441		struct file_lock *lock;
-   442		struct file_lock_context *ctx = locks_inode_context(inode);
-   443		struct ceph_client *cl = ceph_inode_to_client(inode);
-   444		int err = 0;
-   445		int seen_fcntl = 0;
-   446		int seen_flock = 0;
-   447		int l = 0;
-   448	
-   449		doutc(cl, "encoding %d flock and %d fcntl locks\n", num_flock_locks,
-   450		      num_fcntl_locks);
-   451	
-   452		if (!ctx)
-   453			return 0;
-   454	
-   455		spin_lock(&ctx->flc_lock);
- > 456		for_each_file_lock(lock, &ctx->flc_posix) {
-   457			++seen_fcntl;
-   458			if (seen_fcntl > num_fcntl_locks) {
-   459				err = -ENOSPC;
-   460				goto fail;
-   461			}
-   462			err = lock_to_ceph_filelock(inode, lock, &flocks[l]);
-   463			if (err)
-   464				goto fail;
-   465			++l;
-   466		}
-   467		for_each_file_lock(lock, &ctx->flc_flock) {
-   468			++seen_flock;
-   469			if (seen_flock > num_flock_locks) {
-   470				err = -ENOSPC;
-   471				goto fail;
-   472			}
-   473			err = lock_to_ceph_filelock(inode, lock, &flocks[l]);
-   474			if (err)
-   475				goto fail;
-   476			++l;
-   477		}
-   478	fail:
-   479		spin_unlock(&ctx->flc_lock);
-   480		return err;
-   481	}
-   482	
+7d68a4b7edc402 Steve Jeong 2023-04-04  167  	}
+7d68a4b7edc402 Steve Jeong 2023-04-04  168  
+7d68a4b7edc402 Steve Jeong 2023-04-04  169  	inst->dev = dev;
+7d68a4b7edc402 Steve Jeong 2023-04-04  170  	inst->gpio_area_count = of_property_count_elems_of_size(np, "reg",
+7d68a4b7edc402 Steve Jeong 2023-04-04  171  				sizeof(u32)) / 4;
+7d68a4b7edc402 Steve Jeong 2023-04-04  172  
+7d68a4b7edc402 Steve Jeong 2023-04-04  173  	if (inst->gpio_area_count > 32 || inst->gpio_area_count <= 0) {
+7d68a4b7edc402 Steve Jeong 2023-04-04  174  		dev_err(inst->dev, "failed to get gpio register area.");
+7d68a4b7edc402 Steve Jeong 2023-04-04  175  		err = -EINVAL;
+7d68a4b7edc402 Steve Jeong 2023-04-04  176  		goto failed_inst_alloc;
+7d68a4b7edc402 Steve Jeong 2023-04-04  177  	}
+7d68a4b7edc402 Steve Jeong 2023-04-04  178  
+7d68a4b7edc402 Steve Jeong 2023-04-04  179  	dev_info(inst->dev, "Initialised: GPIO register area is %d",
+7d68a4b7edc402 Steve Jeong 2023-04-04  180  			inst->gpio_area_count);
+7d68a4b7edc402 Steve Jeong 2023-04-04  181  
+7d68a4b7edc402 Steve Jeong 2023-04-04  182  	for (i = 0; i < inst->gpio_area_count; ++i) {
+7d68a4b7edc402 Steve Jeong 2023-04-04  183  		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+7d68a4b7edc402 Steve Jeong 2023-04-04  184  		if (res) {
+7d68a4b7edc402 Steve Jeong 2023-04-04  185  			inst->gpio_regs_phys[i].start = res->start;
+7d68a4b7edc402 Steve Jeong 2023-04-04  186  			inst->gpio_regs_phys[i].end   = res->end;
+7d68a4b7edc402 Steve Jeong 2023-04-04  187  		} else {
+7d68a4b7edc402 Steve Jeong 2023-04-04  188  			dev_err(inst->dev, "failed to get IO resource area %d", i);
+7d68a4b7edc402 Steve Jeong 2023-04-04  189  			err = -ENOENT;
+7d68a4b7edc402 Steve Jeong 2023-04-04  190  			goto failed_get_resource;
+7d68a4b7edc402 Steve Jeong 2023-04-04  191  		}
+7d68a4b7edc402 Steve Jeong 2023-04-04  192  	}
+7d68a4b7edc402 Steve Jeong 2023-04-04  193  
+7d68a4b7edc402 Steve Jeong 2023-04-04  194  	/* Create character device entries */
+7d68a4b7edc402 Steve Jeong 2023-04-04  195  	err = alloc_chrdev_region(&aml_gpiomem_devid,
+7d68a4b7edc402 Steve Jeong 2023-04-04  196  				  DEVICE_MINOR, 1, DEVICE_NAME);
+7d68a4b7edc402 Steve Jeong 2023-04-04  197  	if (err != 0) {
+7d68a4b7edc402 Steve Jeong 2023-04-04  198  		dev_err(inst->dev, "unable to allocate device number");
+7d68a4b7edc402 Steve Jeong 2023-04-04  199  		goto failed_alloc_chrdev;
+7d68a4b7edc402 Steve Jeong 2023-04-04  200  	}
+7d68a4b7edc402 Steve Jeong 2023-04-04  201  	cdev_init(&aml_gpiomem_cdev, &aml_gpiomem_fops);
+7d68a4b7edc402 Steve Jeong 2023-04-04  202  	aml_gpiomem_cdev.owner = THIS_MODULE;
+7d68a4b7edc402 Steve Jeong 2023-04-04  203  	err = cdev_add(&aml_gpiomem_cdev, aml_gpiomem_devid, 1);
+7d68a4b7edc402 Steve Jeong 2023-04-04  204  	if (err != 0) {
+7d68a4b7edc402 Steve Jeong 2023-04-04  205  		dev_err(inst->dev, "unable to register device");
+7d68a4b7edc402 Steve Jeong 2023-04-04  206  		goto failed_cdev_add;
+7d68a4b7edc402 Steve Jeong 2023-04-04  207  	}
+7d68a4b7edc402 Steve Jeong 2023-04-04  208  
+7d68a4b7edc402 Steve Jeong 2023-04-04  209  	/* Create sysfs entries */
+7d68a4b7edc402 Steve Jeong 2023-04-04  210  	aml_gpiomem_class = class_create(DEVICE_NAME);
+7d68a4b7edc402 Steve Jeong 2023-04-04  211  	err = IS_ERR(aml_gpiomem_class);
+7d68a4b7edc402 Steve Jeong 2023-04-04  212  	if (err)
+7d68a4b7edc402 Steve Jeong 2023-04-04  213  		goto failed_class_create;
+7d68a4b7edc402 Steve Jeong 2023-04-04  214  
+7d68a4b7edc402 Steve Jeong 2023-04-04  215  	aml_gpiomem_dev = device_create(aml_gpiomem_class, NULL,
+7d68a4b7edc402 Steve Jeong 2023-04-04  216  					aml_gpiomem_devid, NULL,
+7d68a4b7edc402 Steve Jeong 2023-04-04  217  					"gpiomem");
+7d68a4b7edc402 Steve Jeong 2023-04-04  218  	err = IS_ERR(aml_gpiomem_dev);
+7d68a4b7edc402 Steve Jeong 2023-04-04  219  	if (err)
+7d68a4b7edc402 Steve Jeong 2023-04-04  220  		goto failed_device_create;
+7d68a4b7edc402 Steve Jeong 2023-04-04  221  
+7d68a4b7edc402 Steve Jeong 2023-04-04  222  	for (i = 0; i < inst->gpio_area_count; ++i) {
+7d68a4b7edc402 Steve Jeong 2023-04-04  223  		dev_info(inst->dev,
+7d68a4b7edc402 Steve Jeong 2023-04-04  224  			"Initialised: Registers at start:0x%08lx end:0x%08lx size:0x%08lx",
+7d68a4b7edc402 Steve Jeong 2023-04-04  225  			inst->gpio_regs_phys[i].start,
+7d68a4b7edc402 Steve Jeong 2023-04-04  226  			inst->gpio_regs_phys[i].end,
+7d68a4b7edc402 Steve Jeong 2023-04-04  227  			inst->gpio_regs_phys[i].end - inst->gpio_regs_phys[i].start);
+7d68a4b7edc402 Steve Jeong 2023-04-04  228  	}
+7d68a4b7edc402 Steve Jeong 2023-04-04  229  
+7d68a4b7edc402 Steve Jeong 2023-04-04  230  	return 0;
+7d68a4b7edc402 Steve Jeong 2023-04-04  231  
+7d68a4b7edc402 Steve Jeong 2023-04-04  232  failed_device_create:
+7d68a4b7edc402 Steve Jeong 2023-04-04  233  	class_destroy(aml_gpiomem_class);
+7d68a4b7edc402 Steve Jeong 2023-04-04  234  failed_class_create:
+7d68a4b7edc402 Steve Jeong 2023-04-04  235  	cdev_del(&aml_gpiomem_cdev);
+7d68a4b7edc402 Steve Jeong 2023-04-04  236  failed_cdev_add:
+7d68a4b7edc402 Steve Jeong 2023-04-04  237  	unregister_chrdev_region(aml_gpiomem_devid, 1);
+7d68a4b7edc402 Steve Jeong 2023-04-04  238  failed_alloc_chrdev:
+7d68a4b7edc402 Steve Jeong 2023-04-04  239  failed_get_resource:
+7d68a4b7edc402 Steve Jeong 2023-04-04  240  	kfree(inst);
+                                                ^^^^^^^^^^^
+inst is freed here...  Why is Smatch not detecting the use after free?
+I will investigate.
+
+7d68a4b7edc402 Steve Jeong 2023-04-04  241  failed_inst_alloc:
+7d68a4b7edc402 Steve Jeong 2023-04-04 @242  	dev_err(inst->dev, "could not load aml_gpiomem");
+                                                ^^^^^^^^^^^^^^^^^^
+Here.
+
+7d68a4b7edc402 Steve Jeong 2023-04-04  243  	return err;
+7d68a4b7edc402 Steve Jeong 2023-04-04  244  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
