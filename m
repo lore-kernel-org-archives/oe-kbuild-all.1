@@ -1,232 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B288D17EF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 01:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CA98F51
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 02:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707098232; cv=none; b=afAhE1UKjyC7VkyYc7Mh32vuSl9OZpXqHD19I9CM3/M4YSXzFA/fIpdpHIvgmtBnmCO2J2GWvjDCGaH34sx7HoeA5pFmIqjPz5wKg0MwhjjHsk/GS09aQ//hDSc2uX3EFG5ZieDDQfzweaH0j4IouTJxFgmmWRk+KaQOxX7CYME=
+	t=1707100928; cv=none; b=MXy1g7qZMktM4NXYcHpqG/ocXk7qmiAckk7DQwdlHLfyLZu0Mw3QUc37axo1acPVt7QtQsUuYosRADe8LtwJHVWObELKwCiWKGU9gtA0XVLdeKaNm5O37ZOoxYME1vHk5bYz6XYjeuMlmmia5gq7SE/Pjxj88N+sWgTvwdKdyFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707098232; c=relaxed/simple;
-	bh=gB8I3iWvmybCtLUMyIDP+Lv2A1PEOVqAQcq92f5rFzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W3bdy5foi8fyeS7DzehLPer6UPyICfX6Jp7qpLfVLkrOmASfJ8ifz8ZnuaOxRhWg2OjHW1T3vJ4ytYKBHjmMd7iexvE8edqf0golFMk9TKPb+5CvfItPtt9ez/qkD8yuOf18WBT8HPPHohvdm7BOThvLBrcNOatxvOrRfzTyT/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WzVOJhlk; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WzVOJhlk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707098229; x=1738634229;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gB8I3iWvmybCtLUMyIDP+Lv2A1PEOVqAQcq92f5rFzE=;
-  b=WzVOJhlkXlVlh9UsIjcRy43wZC1GXtIy0/C1OjJc6h2Wf27KcvwoXJkT
-   R8/NNnVsnjrwUT9RlGAVQcx2htcExIPRk4BlrS0FzrB5D9b3UZDSRZgyM
-   ZnzaJy95rTGBbx1UQEmat1jZ1XwYJbpGh2mLlPCpX0NDaaGRyuY0O/SDL
-   fiR3AmUGy1UapT5m/1lq55KFei8Z1tsRdv0tZEYEvAOVRrp8DoVj+4m+Q
-   mLuDnCMm23yAfPcaAOi7wKoxs1fLIXcNDWuIDqm3gSxgYYSS8HLYQl5Yd
-   b2SpMtUop/dnw5+XLQLGMXdWpgCKKHuhOvYbIdqu6EBTtwVE0aDfr90fp
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="338539"
-X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="338539"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 17:57:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="909160359"
-X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="909160359"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Feb 2024 17:57:07 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rWoEL-00002W-0k;
-	Mon, 05 Feb 2024 01:57:05 +0000
-Date: Mon, 5 Feb 2024 09:56:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 10115/21614] drivers/char/svm.c:353:35:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202402050932.KOCxoEKK-lkp@intel.com>
+	s=arc-20240116; t=1707100928; c=relaxed/simple;
+	bh=HLOV5juc9V21oxs5QlKgUfEkMeIEqmDHRV557PeYu5c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=XoVKuZbACAbEFsCm9+T7pHErrOcfYDhMHk95o+0m2sabW1xykgT1smBXAtSxVeyEZUrIxKG0+Guj6IzhDXulIfWs20cjhKlvMMmu+m8UsLT8SdSqXxtvbCqkhS1LLS6tPhqqwR/abExZiTW+3PcoUNEEpwomVuhOAUKa5Cr039w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shingroup.cn; spf=pass smtp.mailfrom=shingroup.cn; arc=none smtp.client-ip=54.254.200.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shingroup.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shingroup.cn
+X-QQ-mid: bizesmtp71t1707100845t33pzhpj
+X-QQ-Originating-IP: tEmptkO3RX7FmDcpxkDieLOniV0tL5NFvlU0xAeyXd0=
+Received: from localhost ( [183.209.108.228])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 05 Feb 2024 10:40:44 +0800 (CST)
+X-QQ-SSF: 01400000000000504000000A0000000
+X-QQ-FEAT: q+EIYT+FhZrcpAw8J2l7WYvl1nkWUiMk5YKYvT/b9Yt7WT9Ef3sSYNzREBFwn
+	gfqNy+umEk8UOTLeVLbEYL49fYXZ8WvfbX9v7vsGiGxNF/c7na+ZIQxjRURnp4WpzmK8ecM
+	Af9captGYMnaoI1MxWe+IgV7UisapmLsv7QgGRookv0v6EzH3n7Kmq4MZ7pNxUtxr0V5b6Y
+	xzwvPq+CBgupPWnqqfCMZyrgw0rAksl9UTMQfyspbiL8FSUbma74JDxoYvg0R4JEBjRW7ce
+	UzeNk3xSIMjQu3kZ4qHcLpE5W2XRvaAKAT6LVBjpm24S7ZXoGxfPVIUtYPsPsXgeWOof9P0
+	7x1A3x7GMb6Hk1NeKxNCm4eQ2TndP92FbXtLDdYM+68BG0J/lin+0Zv/RMUkRQUoUU1EovZ
+X-QQ-GoodBg: 2
+X-BIZMAIL-ID: 1361134515028198652
+From: Dawei Li <dawei.li@shingroup.cn>
+To: robh+dt@kernel.org,
+	frowand.list@gmail.com,
+	lkp@intel.com
+Cc: stephen.boyd@linaro.org,
+	oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dawei Li <dawei.li@shingroup.cn>
+Subject: [PATCH] of: Make explicit cpu_to_be32 conversion to mute sparse warning
+Date: Mon,  5 Feb 2024 10:40:33 +0800
+Message-Id: <20240205024033.3572617-1-dawei.li@shingroup.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <202402042134.GEb3Bgwl-lkp@intel.com>
+References: <202402042134.GEb3Bgwl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:shingroup.cn:qybglogicsvrgz:qybglogicsvrgz5a-1
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5bc2c7cbdcbc5c8e5bbe65d3542ec2fccbc61492
-commit: b8c0480a3eba11ee6616019a3aaa75ee38f06f02 [10115/21614] svm: serach dts to init children device
-config: arm64-randconfig-r131-20240130 (https://download.01.org/0day-ci/archive/20240205/202402050932.KOCxoEKK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240205/202402050932.KOCxoEKK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402050932.KOCxoEKK-lkp@intel.com/
-
+Kernel test robot reports sparse warning:
 sparse warnings: (new ones prefixed by >>)
->> drivers/char/svm.c:353:35: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/of/base.c:1337:73: sparse: sparse: incorrect type in initializer
+   (different base types) @@  expected restricted __be32 @@  got int @@
+   drivers/of/base.c:1337:73: sparse:     expected restricted __be32
+   drivers/of/base.c:1337:73: sparse:     got int
 
-vim +353 drivers/char/svm.c
+Thus, Make explicit conversions to mute warning(Although BE and LE are
+exactly same in binary representation for 0/~0).
 
-   221	
-   222	static int svm_init_core(struct svm_device *sdev)
-   223	{
-   224		int err = 0;
-   225		struct device *dev = sdev->dev;
-   226		struct acpi_device *adev = ACPI_COMPANION(sdev->dev);
-   227		struct acpi_device *cdev = NULL;
-   228		int id = 0;
-   229	
-   230		down_write(&svm_sem);
-   231		if (!svm_bus_type.iommu_ops) {
-   232			err = bus_register(&svm_bus_type);
-   233			if (err) {
-   234				up_write(&svm_sem);
-   235				dev_err(dev, "failed to register svm_bus_type\n");
-   236				return err;
-   237			}
-   238	
-   239			err = bus_set_iommu(&svm_bus_type, dev->bus->iommu_ops);
-   240			if (err) {
-   241				up_write(&svm_sem);
-   242				dev_err(dev, "failed to set iommu for svm_bus_type\n");
-   243				goto err_unregister_bus;
-   244			}
-   245		} else if (svm_bus_type.iommu_ops != dev->bus->iommu_ops) {
-   246			err = -EBUSY;
-   247			up_write(&svm_sem);
-   248			dev_err(dev, "iommu_ops configured, but changed!\n");
-   249			goto err_unregister_bus;
-   250		}
-   251		up_write(&svm_sem);
-   252	
-   253		list_for_each_entry(cdev, &adev->children, node) {
-   254			err = svm_acpi_add_core(sdev, cdev, id++);
-   255			if (err)
-   256				device_for_each_child(dev, NULL, svm_remove_core);
-   257		}
-   258	
-   259		return err;
-   260	
-   261	err_unregister_bus:
-   262		bus_unregister(&svm_bus_type);
-   263	
-   264		return err;
-   265	}
-   266	#else
-   267	static int svm_of_add_core(struct svm_device *sdev, struct device_node *np)
-   268	{
-   269		int err;
-   270		struct resource res;
-   271		struct core_device *cdev = NULL;
-   272		char *name = NULL;
-   273	
-   274		name = devm_kasprintf(sdev->dev, GFP_KERNEL, "svm%llu_%s",
-   275				sdev->id, np->name);
-   276		if (name == NULL)
-   277			return -ENOMEM;
-   278	
-   279		cdev = kzalloc(sizeof(*cdev), GFP_KERNEL);
-   280		if (cdev == NULL)
-   281			return -ENOMEM;
-   282	
-   283		cdev->dev.of_node = np;
-   284		cdev->dev.parent = sdev->dev;
-   285		cdev->dev.bus = &svm_bus_type;
-   286		cdev->dev.release = cdev_device_release;
-   287		cdev->smmu_bypass = of_property_read_bool(np, "hisi,smmu_bypass");
-   288		dev_set_name(&cdev->dev, "%s", name);
-   289	
-   290		err = device_register(&cdev->dev);
-   291		if (err) {
-   292			dev_info(&cdev->dev, "core_device register failed\n");
-   293			put_device(&cdev->dev);
-   294			kfree(cdev);
-   295			return err;
-   296		}
-   297	
-   298		err = of_dma_configure(&cdev->dev, np, true);
-   299		if (err) {
-   300			dev_dbg(&cdev->dev, "of_dma_configure failed\n");
-   301			goto err_unregister_dev;
-   302		}
-   303	
-   304		err = of_address_to_resource(np, 0, &res);
-   305		if (err) {
-   306			dev_info(&cdev->dev, "no reg, FW should install the sid\n");
-   307		} else {
-   308			/* If the reg specified, install sid for the core */
-   309			void __iomem *core_base = NULL;
-   310			int sid = cdev->dev.iommu_fwspec->ids[0];
-   311	
-   312			core_base = ioremap(res.start, resource_size(&res));
-   313			if (core_base == NULL) {
-   314				err = -ENOMEM;
-   315				dev_err(&cdev->dev, "ioremap failed\n");
-   316				goto err_unregister_dev;
-   317			}
-   318	
-   319			writel_relaxed(sid, core_base + CORE_SID);
-   320			iounmap(core_base);
-   321		}
-   322	
-   323		/* If core device is smmu bypass, request direct map. */
-   324		if (cdev->smmu_bypass) {
-   325			err = iommu_request_dm_for_dev(&cdev->dev);
-   326			if (err)
-   327				goto err_unregister_dev;
-   328	
-   329			return 0;
-   330		}
-   331	
-   332		cdev->group = iommu_group_get(&cdev->dev);
-   333		if (IS_ERR_OR_NULL(cdev->group)) {
-   334			err = -ENXIO;
-   335			dev_err(&cdev->dev, "smmu is not right configured\n");
-   336			goto err_unregister_dev;
-   337		}
-   338	
-   339		cdev->domain = iommu_domain_alloc(sdev->dev->bus);
-   340		if (cdev->domain == NULL) {
-   341			err = -ENOMEM;
-   342			dev_info(&cdev->dev, "failed to alloc domain\n");
-   343			goto err_unregister_dev;
-   344		}
-   345	
-   346		err = iommu_attach_group(cdev->domain, cdev->group);
-   347		if (err) {
-   348			dev_err(&cdev->dev, "failed group to domain\n");
-   349			goto err_free_domain;
-   350		}
-   351	
-   352		err = iommu_sva_device_init(&cdev->dev, IOMMU_SVA_FEAT_IOPF,
- > 353				UINT_MAX, 0);
-   354		if (err) {
-   355			dev_err(&cdev->dev, "failed to init sva device\n");
-   356			goto err_detach_group;
-   357		}
-   358	
-   359		return 0;
-   360	
-   361	err_detach_group:
-   362		iommu_detach_group(cdev->domain, cdev->group);
-   363	err_free_domain:
-   364		iommu_domain_free(cdev->domain);
-   365	err_unregister_dev:
-   366		device_unregister(&cdev->dev);
-   367	
-   368		return err;
-   369	}
-   370	
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202402042134.GEb3Bgwl-lkp@intel.com/
+Signed-off-by: Dawei Li <dawei.li@shingroup.cn>
+---
+ drivers/of/base.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/of/base.c b/drivers/of/base.c
+index b0ad8fc06e80..f71cda9ac09d 100644
+--- a/drivers/of/base.c
++++ b/drivers/of/base.c
+@@ -1345,8 +1345,8 @@ int of_parse_phandle_with_args_map(const struct device_node *np,
+ 	char *pass_name = NULL;
+ 	struct device_node *cur, *new = NULL;
+ 	const __be32 *map, *mask, *pass;
+-	static const __be32 dummy_mask[] = { [0 ... MAX_PHANDLE_ARGS] = ~0 };
+-	static const __be32 dummy_pass[] = { [0 ... MAX_PHANDLE_ARGS] = 0 };
++	static const __be32 dummy_mask[] = { [0 ... MAX_PHANDLE_ARGS] = cpu_to_be32(~0) };
++	static const __be32 dummy_pass[] = { [0 ... MAX_PHANDLE_ARGS] = cpu_to_be32(0) };
+ 	__be32 initial_match_array[MAX_PHANDLE_ARGS];
+ 	const __be32 *match_array = initial_match_array;
+ 	int i, ret, map_len, match;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.27.0
+
