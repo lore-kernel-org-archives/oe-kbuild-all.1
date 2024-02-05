@@ -1,56 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D9D32C92
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 16:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571424644C;
+	Mon,  5 Feb 2024 17:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707150009; cv=none; b=nCCSm3mMfqosVTcKmSvGnjRGv8E/ORDLlGpMvbvxIYzyN9vO0KhDcQDsNQeHHMYsITJHme9TU+IKa+IGcebxBBJqjZROXRbNf7mbY29f4cEiTOlo6aFGLGo/igmlDHgAH9WMOl4fWwcWGTcPNTZderxCYn9IEYvRKDWnbPHOLfQ=
+	t=1707154897; cv=none; b=lyoZxrAA04KHc5D4OskB8rUPDU0LrSzXFQkKWUpqrjcazH8v0NppnX5n0FRviHM/zVDgZh7XYFxS+BbPifwxYNDZJGuhKR9UhwnqAL+g+V4kvgAZd2i9gHqea4/GYM8FsbdX2SDN5xtZC36EMzewhiuH9IQquX6boORZ9AFkQwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707150009; c=relaxed/simple;
-	bh=lnp3rqevVSDp9ZREHTz2gvHeKNRKHytovhcjhcB+MB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cVi1gSTfi7eMISV0Exz8aXqT6SpoT853TkHmyb6u88PG9yK/gTZB2iNV2Nl9FpV6/w7aBaISzoi47ioRGHgcd7OonkhH/jGcMq7m01HmkHdMys1c4LApTBH+b2vRoGSWdUNKny8gVDcTFXAXbchwp2ECjJ/sgFxaqpBwqAVu+Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNbTB4sa; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707154897; c=relaxed/simple;
+	bh=YChhHsbcujQFIcf7V0PBBnQi8++njW9XmpXYVj+1wSA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WdtwH4vK3B38QkTlxjen1lUl8JypNiSQLLqVHh77Kwb8wlejpZokfiKuOmUzegLIiO37b7iFqQlS2uLekYNFNfAk7TA0pSvUyAErXBOxr1rfF1zprZ7RUqGBYwKR3Db6D0Pev2EGo2Z1tazZFN+dhRzS2ptznozoeayrNPBnyMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EL9O1yVm; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNbTB4sa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707150007; x=1738686007;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lnp3rqevVSDp9ZREHTz2gvHeKNRKHytovhcjhcB+MB0=;
-  b=SNbTB4saaQmVJ/fpI4T9iULFEf1EKYibS0E26grEv0XibNsBI1yrGbor
-   zcfHScIUm2ZHT/sGQGx03mT7XPcbeDXUxgUwNIXZlO1v4yZJ6oYT8Ixwb
-   v5HANDooXKsdLfhOHHd0vTW1FLCGvDQeDDYYPXHlANVJRTLa0IMvIYnFZ
-   ElJkJq3tJlx+xZ8TW4h4RQdZYBduWVgRoE1B7bgVudg8xl0Cvm0ygpwmf
-   KpUY1WbVZsg+w3x6vy9Z9iStJlSkRMBP5DGe9LyuJSAK7FNS8pUAseFzs
-   LUr8hhxL7dsCLOL9gZ7QrC5mZ+wT6MQVeeY2IwAFxm3zqQdSgDQh3n+Pd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="704665"
-X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="704665"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 08:17:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="933190211"
-X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="933190211"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2024 08:17:33 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rX1f1-0000dq-0B;
-	Mon, 05 Feb 2024 16:17:31 +0000
-Date: Tue, 6 Feb 2024 00:17:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2533/3004] kernel/sched/core.c:11514:74: warning:
- format '%llu' expects argument of type 'long long unsigned int', but
- argument 6 has type 'int'
-Message-ID: <202402060056.fYdLYVrs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EL9O1yVm"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5ce07cf1e5dso3941772a12.2;
+        Mon, 05 Feb 2024 09:41:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707154895; x=1707759695; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X5wEw2pIqKMER/ytlm8qV6OP9Ve1OSfzYNi3uU1WVTE=;
+        b=EL9O1yVmHhSrFYckXfTwvPz7XtEoRP+q+LWtW2+BF9jCPbc+t+BfU2cGKdRedXtuGT
+         VGSRliKUq55XIfE8dwKdkC82D0WF0hcffQLggaHUbyJa/zLkjV9abRomBTUeOtzEsIS2
+         bp6c9lp//8ORYnEFTDxT0T1YIXLDtomJgUrHMIxHtnfuiq34/kQbt2EopIUMNb8RnY79
+         iqrxilwioELS5XEPt1R6WbUAo/bXEmBJId4TORj/wGRhmBApC3gHsU1+dvm9f71b6bCA
+         kuEQc+MMGLFxVlm23CPWqSs6cUTDPjNi9yA6ATC2rShe8vcT+6gY8pqqfvyAu2kgh16B
+         pQRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707154895; x=1707759695;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X5wEw2pIqKMER/ytlm8qV6OP9Ve1OSfzYNi3uU1WVTE=;
+        b=S7Lh/qCpq+q16Hlh1bdFlMKaYa5oYvpFYLrB+xDykzYZqH22m/wxSF55vE6OZZXQS5
+         ZfGSGelkDx/XmzVkIsqAf56AVYhRB4j/dcwsA8jrzhppVDIO3PdxIUSAZssp+hZaxlq7
+         coEibx6/HoYgrY7bfsQCiYM5odFQFxSygWPbnj8G2Kx/VBx+oyB0PLFDxvXJzINhjIjE
+         +lUnYaDOB+xq0YX7txk0dhcb1NHVUqJ4PvlnRs5B3sNqGbB15y7lEcrNnQyh2+4/u8zP
+         jFiQ/e4433GYcpcxJVn5cWITacHa+HjS0hqnaXLx3yUWuqtmi74fsVjmVENaM70W3EX+
+         gM+Q==
+X-Gm-Message-State: AOJu0Yx+ALgkVxHbMbTNhZyt8CnfVFtSd29hsACpjh0YGI++mlTTIfo7
+	lOFwJ7jRdF1THfcc1er2MOl2gaFoQpXAQRitKYf6vy3KQoUMZecO3WuJEfshl84=
+X-Google-Smtp-Source: AGHT+IEKOp7NGwUbOkUId1UQrtyxxtooS73qEU49s7hvFLxBqrp33Pccemlyq0zEYKNZ77hdjBkeTQ==
+X-Received: by 2002:a05:6a20:a127:b0:19c:8ed6:8bb5 with SMTP id q39-20020a056a20a12700b0019c8ed68bb5mr250021pzk.39.1707154895255;
+        Mon, 05 Feb 2024 09:41:35 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVIxFZP+oizRtz9SZTNa5aMJ79aLujR7gAB6ZPepA1AGfGJG13MWnGSlNj+hKlEOSfaXuHLDcjAiKgsUZdqsVmf93po1kqZEkh5uuvX1kry6YR5pt3IqeFBYw4l/fKWHQ2wjZ+MiZpbFrvkF6WNMqSnn5Q4H1I8LGFYOdM7fTLzt3hZ9yOmxI545Q==
+Received: from localhost (dhcp-141-239-144-21.hawaiiantel.net. [141.239.144.21])
+        by smtp.gmail.com with ESMTPSA id b6-20020aa78706000000b006e050644092sm113598pfo.55.2024.02.05.09.41.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 09:41:34 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Mon, 5 Feb 2024 07:41:33 -1000
+From: Tejun Heo <tj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: "Ricardo B. Marliere" <ricardo@marliere.net>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [PATCH wq/for-6.9] Revert "workqueue: make wq_subsys const"
+Message-ID: <ZcEdzUle0VZZNkAo@slm.duckdns.org>
+References: <202402051505.kM9Rr3CJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,71 +70,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202402051505.kM9Rr3CJ-lkp@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   fa30d756edd690da32744e72880e2ff10c01208f
-commit: 6eb07f9925a906d81f328c808ba25f7800888dce [2533/3004] sched: Introduce smart grid scheduling strategy for cfs
-config: arm64-randconfig-002-20240205 (https://download.01.org/0day-ci/archive/20240206/202402060056.fYdLYVrs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402060056.fYdLYVrs-lkp@intel.com/reproduce)
+From 4f19b8e01e2fb6c97d4307abb7bde4d34a1e601e Mon Sep 17 00:00:00 2001
+From: Tejun Heo <tj@kernel.org>
+Date: Mon, 5 Feb 2024 07:18:08 -1000
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402060056.fYdLYVrs-lkp@intel.com/
+This reverts commit d412ace11144aa2bf692c7cf9778351efc15c827. This leads to
+build failures as it depends on a driver-core commit 32f78abe59c7 ("driver
+core: bus: constantify subsys_register() calls"). Let's drop it from wq tree
+and route it through driver-core tree.
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Tejun Heo <tj@kernel.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202402051505.kM9Rr3CJ-lkp@intel.com/
+---
+ kernel/workqueue.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   kernel/sched/core.c:11374:5: warning: no previous prototype for 'tg_set_dynamic_affinity_mode' [-Wmissing-prototypes]
-   11374 | int tg_set_dynamic_affinity_mode(struct task_group *tg, u64 mode)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:11415:5: warning: no previous prototype for 'tg_set_affinity_period' [-Wmissing-prototypes]
-   11415 | int tg_set_affinity_period(struct task_group *tg, u64 period_ms)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:11429:5: warning: no previous prototype for 'tg_get_affinity_period' [-Wmissing-prototypes]
-   11429 | u64 tg_get_affinity_period(struct task_group *tg)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c: In function 'cpu_affinity_stat_show':
->> kernel/sched/core.c:11514:74: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type 'int' [-Wformat=]
-   11514 |                 seq_printf(sf, "sd_level %d, cpu list %*pbl, stay_cnt %llu\n",
-         |                                                                       ~~~^
-         |                                                                          |
-         |                                                                          long long unsigned int
-         |                                                                       %u
-
-
-vim +11514 kernel/sched/core.c
-
- 11493	
- 11494	static int cpu_affinity_stat_show(struct seq_file *sf, void *v)
- 11495	{
- 11496		struct task_group *tg = css_tg(seq_css(sf));
- 11497		struct auto_affinity *auto_affi = tg->auto_affinity;
- 11498		struct affinity_domain *ad;
- 11499		int i;
- 11500	
- 11501		/* No stat when dynamic affinity disabled */
- 11502		if (!dynamic_affinity_enabled())
- 11503			return -EPERM;
- 11504	
- 11505		if (unlikely(!auto_affi))
- 11506			return -EPERM;
- 11507	
- 11508		ad = &auto_affi->ad;
- 11509		seq_printf(sf, "period_active %d\n", auto_affi->period_active);
- 11510		seq_printf(sf, "dcount %d\n", ad->dcount);
- 11511		seq_printf(sf, "domain_mask 0x%x\n", ad->domain_mask);
- 11512		seq_printf(sf, "curr_level %d\n", ad->curr_level);
- 11513		for (i = 0; i < ad->dcount; i++)
- 11514			seq_printf(sf, "sd_level %d, cpu list %*pbl, stay_cnt %llu\n",
- 11515				i, cpumask_pr_args(ad->domains[i]),
- 11516				schedstat_val(ad->stay_cnt[i]));
- 11517	
- 11518		return 0;
- 11519	}
- 11520	#endif /* CONFIG_QOS_SCHED_SMART_GRID */
- 11521	
-
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index 78b4b992e1a3..524a7fff52af 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -6874,7 +6874,7 @@ static struct device_attribute wq_sysfs_unbound_attrs[] = {
+ 	__ATTR_NULL,
+ };
+ 
+-static const struct bus_type wq_subsys = {
++static struct bus_type wq_subsys = {
+ 	.name				= "workqueue",
+ 	.dev_groups			= wq_sysfs_groups,
+ };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
