@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5533679E0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 00:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0708A883C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 00:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707094379; cv=none; b=VE6Fy7jSEzHUSKwcpjBlm2XqsoeUIZUc/zGY8rFEO7W3J14VWNh9xCShqTpSoEYFsrwprd8Me9qSmtXyjuC2IYVT4WGaShzXdrMSRXyo952sYkgjDfWoSUnTcN9wSpIThQqnldSDKoatqhXdOnOJDEP9Cimc9r+kzUM6y9xHBZM=
+	t=1707094381; cv=none; b=CpAyiWj+5PS+TgJk/SblecsY2qwrR/TMNJT6Rw4qge994ZVCCjx5zMbw9k/YwJ8aGfgBEOrlm9SUah86hDq1+iIPRj7VjIwEU6r97OO7Z4Mj5HwzOkQnsZeegNgs+K34yPP2jKJPSEvUi6rqChZ8N7X3YPOew3dcIO2Wvc77jt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707094379; c=relaxed/simple;
-	bh=9gpCQHbJT6hgLIKTZDaHpX8KSWO4r+6i0Oi8hqA2n5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xq7q1mbL4FQYvWIdPtVjHKQSUHdO1EJgIysg7XMst6N9LWSEGVRwp/EGLZlWBEYnA1PoF3uIxtwk5Oftx3XdQr5mj9qk3dGoILrWQa1xgiGC+oFEkXpWYYDeiHYK6S8bO4vshJzdZ2Xe0558B7Q2zrVZKRF5l9DvXdO6w+UMx0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HGhbx/ox; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1707094381; c=relaxed/simple;
+	bh=IY6UPsFs52YpHCRKFUTBFV8hsRQu2YS9QvOMskQ5VQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TRAs7X7lVQ5jsgqRhgsVkaS0VRrQrWEQEts9KeMpCmV2gus3evLNdnn7hx3GZZLD0MrFXw6GVpqos3sqGzq8fITXIc05TgzmxLox8GawId9rxCxrSYt8zdQOeuNSpztuUpfUV1+XTro7A+eyrQBsmpXnNTr40dp0NYHTEUmpmEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=USv+FOEB; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HGhbx/ox"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USv+FOEB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707094377; x=1738630377;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9gpCQHbJT6hgLIKTZDaHpX8KSWO4r+6i0Oi8hqA2n5s=;
-  b=HGhbx/oxYZY8OkWqAwhX1bG8RKzfaJTZoueh6EIG5sjg2rKHoYSCSR5i
-   kvFXLBTji45yvIluKJoSfm2kXUp/OJP8TBlVjAmBKo+k/SN+NUPgytwcF
-   wrDIB7WXg/qHF0eheUmFZrgR08TFa/ot5hchJkcDcxbtb5H1FoOC5kpf8
-   QkvtyA5aJB5k/HJiFANZy4gdusnvzTIXjrCjenC5VK5CG1Kont+US++EI
-   y4HakCgcfMhHIe8txE/x3ErTXAgE3y7RPhHXiS768/vkQfW+MRivXTnwf
-   rYw1vweW8mFxry8SS/ach3SqEdRXUDnSeT1VmyQod6bZHonimMRrFsIla
+  t=1707094379; x=1738630379;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IY6UPsFs52YpHCRKFUTBFV8hsRQu2YS9QvOMskQ5VQQ=;
+  b=USv+FOEBkTS8pa8OxpwLQnVD1yex+HZqJ3wtyaAd9nyYbcjmVRJkI1NG
+   TxvrIp+qIf5udXEReVz4fETgtxMxIFWA099HVYesQzaLRolz9ekFOobJg
+   D4R3KlYgFjkaAThYNlBK92KDtsTMkbpOC91qxs0bKc/JojEq5laPK71Vj
+   gz9bf2jrpCeSqbF/UAW2xbihKEd299n88YqjVrZbeTKe64UIO87nuwsQt
+   0rKWjxXtKRXuGfBGiRb5VaagHF6cyfMcTxSvcqNT8IDDprlRiP/CSzF84
+   05IZknhK/xnWrR+Ms/uX6R1b9MTkcg1IyDl3QzjgVMEjTAZxigfwEUOxz
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="3392122"
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="11522727"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="3392122"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 16:52:56 -0800
+   d="scan'208";a="11522727"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 16:52:56 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="5183407"
+   d="scan'208";a="865486"
 Received: from lkp-server02.sh.intel.com (HELO 1098e01a32bc) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 04 Feb 2024 16:52:56 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 04 Feb 2024 16:52:55 -0800
 Received: from kbuild by 1098e01a32bc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWnEC-00003S-31;
-	Mon, 05 Feb 2024 00:52:52 +0000
-Date: Mon, 5 Feb 2024 08:52:22 +0800
+	id 1rWnED-00003c-01;
+	Mon, 05 Feb 2024 00:52:53 +0000
+Date: Mon, 5 Feb 2024 08:52:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wenyu Huang <huangwenyu5@huawei.com>
+To: Andrea della Porta <andrea.porta@suse.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1659/2942] kernel/sched/fair.c:146:12: warning:
- 'hundred_thousand' defined but not used
-Message-ID: <202402050715.VjY76Raq-lkp@intel.com>
+Subject: Re: [PATCH 02/12] bcm2835-dma: Add proper 40-bit DMA support
+Message-ID: <202402050859.p2kotSyE-lkp@intel.com>
+References: <eeb94204c30c2182f5ffd3ec083c04399ecdee32.1706948717.git.andrea.porta@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,42 +58,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <eeb94204c30c2182f5ffd3ec083c04399ecdee32.1706948717.git.andrea.porta@suse.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   988c7111f1e95028838eb8e4f71ee49b45132a23
-commit: a3c9f2da0a35df4e41751556be4308f57bdaf3d6 [1659/2942] sched: Introduce handle priority reversion mechanism
-config: arm64-randconfig-002-20240205 (https://download.01.org/0day-ci/archive/20240205/202402050715.VjY76Raq-lkp@intel.com/config)
+Hi Andrea,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on linus/master v6.8-rc3 next-20240202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-della-Porta/bcm2835-dma-Add-support-for-per-channel-flags/20240204-150430
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/eeb94204c30c2182f5ffd3ec083c04399ecdee32.1706948717.git.andrea.porta%40suse.com
+patch subject: [PATCH 02/12] bcm2835-dma: Add proper 40-bit DMA support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240205/202402050859.p2kotSyE-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402050715.VjY76Raq-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402050859.p2kotSyE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402050715.VjY76Raq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402050859.p2kotSyE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sched/fair.c:146:12: warning: 'hundred_thousand' defined but not used [-Wunused-variable]
-     146 | static int hundred_thousand = 100000;
-         |            ^~~~~~~~~~~~~~~~
->> kernel/sched/fair.c:145:12: warning: 'one_thousand' defined but not used [-Wunused-variable]
-     145 | static int one_thousand = 1000;
-         |            ^~~~~~~~~~~~
+>> drivers/dma/bcm2835-dma.c:1175:5: warning: no previous prototype for 'bcm2711_dma40_memcpy_init' [-Wmissing-prototypes]
+    1175 | int bcm2711_dma40_memcpy_init(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/dma/bcm2835-dma.c:1190:6: warning: no previous prototype for 'bcm2711_dma40_memcpy' [-Wmissing-prototypes]
+    1190 | void bcm2711_dma40_memcpy(dma_addr_t dst, dma_addr_t src, size_t size)
+         |      ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/hundred_thousand +146 kernel/sched/fair.c
+vim +/bcm2711_dma40_memcpy_init +1175 drivers/dma/bcm2835-dma.c
 
-   139	
-   140	static DEFINE_PER_CPU_SHARED_ALIGNED(struct list_head, qos_throttled_cfs_rq);
-   141	static DEFINE_PER_CPU_SHARED_ALIGNED(struct hrtimer, qos_overload_timer);
-   142	static DEFINE_PER_CPU(int, qos_cpu_overload);
-   143	unsigned int sysctl_overload_detect_period = 5000;  /* in ms */
-   144	unsigned int sysctl_offline_wait_interval = 100;  /* in ms */
- > 145	static int one_thousand = 1000;
- > 146	static int hundred_thousand = 100000;
-   147	static int unthrottle_qos_cfs_rqs(int cpu);
-   148	#endif
-   149	
+  1174	
+> 1175	int bcm2711_dma40_memcpy_init(void)
+  1176	{
+  1177		if (!memcpy_parent)
+  1178			return -EPROBE_DEFER;
+  1179	
+  1180		if (!memcpy_chan)
+  1181			return -EINVAL;
+  1182	
+  1183		if (!memcpy_scb)
+  1184			return -ENOMEM;
+  1185	
+  1186		return 0;
+  1187	}
+  1188	EXPORT_SYMBOL(bcm2711_dma40_memcpy_init);
+  1189	
+> 1190	void bcm2711_dma40_memcpy(dma_addr_t dst, dma_addr_t src, size_t size)
+  1191	{
+  1192		struct bcm2711_dma40_scb *scb = memcpy_scb;
+  1193		unsigned long flags;
+  1194	
+  1195		if (!scb) {
+  1196			pr_err("%s not initialised!\n", __func__);
+  1197			return;
+  1198		}
+  1199	
+  1200		spin_lock_irqsave(&memcpy_lock, flags);
+  1201	
+  1202		scb->ti = 0;
+  1203		scb->src = lower_32_bits(src);
+  1204		scb->srci = upper_32_bits(src) | BCM2711_DMA40_MEMCPY_XFER_INFO;
+  1205		scb->dst = lower_32_bits(dst);
+  1206		scb->dsti = upper_32_bits(dst) | BCM2711_DMA40_MEMCPY_XFER_INFO;
+  1207		scb->len = size;
+  1208		scb->next_cb = 0;
+  1209	
+  1210		writel((u32)(memcpy_scb_dma >> 5), memcpy_chan + BCM2711_DMA40_CB);
+  1211		writel(BCM2711_DMA40_MEMCPY_FLAGS + BCM2711_DMA40_ACTIVE,
+  1212		       memcpy_chan + BCM2711_DMA40_CS);
+  1213	
+  1214		/* Poll for completion */
+  1215		while (!(readl(memcpy_chan + BCM2711_DMA40_CS) & BCM2711_DMA40_END))
+  1216			cpu_relax();
+  1217	
+  1218		writel(BCM2711_DMA40_END, memcpy_chan + BCM2711_DMA40_CS);
+  1219	
+  1220		spin_unlock_irqrestore(&memcpy_lock, flags);
+  1221	}
+  1222	EXPORT_SYMBOL(bcm2711_dma40_memcpy);
+  1223	
 
 -- 
 0-DAY CI Kernel Test Service
