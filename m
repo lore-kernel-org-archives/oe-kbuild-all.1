@@ -1,54 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D075249FA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 13:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1752A20DCB
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 13:49:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707140974; cv=none; b=qzN+DUgDGwbpLCEoTiSLy4jJpXMuACT4+LRPiw3H5W7KUnMrOm6jIBcpNbQauaHvr8CE7YkUeVr6DeVimM66eRXqa3h8FyWobtMJVKhrJfzGb3tTjA2grg7Zoq89jnSlhXyRLGOxSGJb+jzqkKOdYx7m/bHsHzqavmZkcBS+Bq0=
+	t=1707140976; cv=none; b=Lk29hu9pU28acAoxIefP+4YrmztOZdsTbN4qLaqS0Q6qVuxXVy+UFdG5G3LKWaGQ9xGDAhjMo1Zq4Edu1JLfyBehBrWKOKhIYNQMQMe3FAIHUqdhh31TNwLlW2n0K4ktjpe8XdQjB2ySfddzpBpil9HiV3GBsG0q0b2qCD0Ai7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707140974; c=relaxed/simple;
-	bh=vfaaNPbvGYvqan5q53y8Wjd0JvLAOl1T8XpvcNEtlaE=;
+	s=arc-20240116; t=1707140976; c=relaxed/simple;
+	bh=jqtiepyDwH8RIFnkSyLmXdoaadNgikhEhPw0eMyhn+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pyDs4UgDbEL9FQpsEswsqeGkaVBNGcywDsmvDNqlNJ8OIhsSiGIgSQUpeh4WIpT1d0RAXlxSsT6J188Dw1yVAMzk/q+uyIgVCgS+VzefHBxj92W0Lvy/kx7FlgD8k/zMxjRxwzOWjxQMwslqEHoPDLZamE1UM4FMMw7ZD1CgDwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OBLnUtxc; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=tAkUl9wgWmCOd/ygwtdIKvVJqDrX0Y2MfWxAd0jWmy2SzDvRnVLxHAXNu2KQtg2XL0amHGpzUDGUNwg8fO1t1nmJBED/EwYK6A1R99sGBtHxeQFMFENzWxjW2YL3u7/swFw/rkwUdN/y3tZfA46lBTnhK/lF06jp/Vgjs5FYI6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TT5t2yY9; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OBLnUtxc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TT5t2yY9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707140972; x=1738676972;
+  t=1707140974; x=1738676974;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vfaaNPbvGYvqan5q53y8Wjd0JvLAOl1T8XpvcNEtlaE=;
-  b=OBLnUtxcsDfyBnnr9Et9rRwb8Qb1dh7sjB+g9wIFQBvAelTxG0gSAhyv
-   BU+rrnP+DiyXqKTPpmcHtDFoGKPYmFDLNvWQcSoQof8Gu7qjmRKWb8B8a
-   tbBDvULWQjRvQ5HjD5thLUos8H9DzWqP0kYEpMfhIGKpkBscVttLNTwMr
-   AMJEIYfJ6+mss6OeghAn5tVag1bC+OxSt7hWY5O3GagxhRu5uKSeCFwM8
-   bTAqFKT8UoCrGY7UYOspdIYqlXk/YHUB+W7iiV+bI9zsa2mKVLWTBwLuU
-   5KzVMNbGvu6+9yXs9/eyRAmrKWb5yJD+9N5obtIoh+6xiwWdeyl1pSsvu
+  bh=jqtiepyDwH8RIFnkSyLmXdoaadNgikhEhPw0eMyhn+U=;
+  b=TT5t2yY92qw0VqdxYAkIdhmVeYIG+VGWrboVNhQoYZsX8Y9hW9+tn3gy
+   qBAe9EvnaX6to9DoBoXIIu2thXiqApPGMRuQeqZ+q+fuY180rhwhX5Uao
+   LyuxQVE4qyu6+yt3B3GUVZgYGs0WGUYXFq6Y0c/nc6ioS/m5Rn4DmSwbl
+   521Cdc6p7MFx0ZyIkna9OzI7SHnRppOWfZwQIo2jAbOkU6b0y2k7Jg0Fp
+   ZKjx41jCRjI0Knjtap7Td3O8rC2RK1wfODCNf318ABD4eEizcdkarKYDR
+   I9qVLE2eIIat75GJNZ776eHkQAlN1Yphxarkq1Y18Uz32WKd5DXSZDkF+
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="413057"
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="413063"
 X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="413057"
+   d="scan'208";a="413063"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 05:49:31 -0800
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 05:49:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="728242"
+   d="scan'208";a="728243"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 05 Feb 2024 05:49:31 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWzLk-0000ZE-0U;
+	id 1rWzLk-0000ZA-0M;
 	Mon, 05 Feb 2024 13:49:28 +0000
-Date: Mon, 5 Feb 2024 21:49:10 +0800
+Date: Mon, 5 Feb 2024 21:49:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2536/2999] kernel/sched/fair.c:314:36: error:
- 'hundred_thousand' undeclared here (not in a function)
-Message-ID: <202402052121.E2UkGTnd-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 16446/21616]
+ drivers/iommu/arm-smmu-v3.c:211:55: error: 'CONFIG_CMA_ALIGNMENT'
+ undeclared; did you mean 'CONFIG_CMDLINE'?
+Message-ID: <202402052127.OnYWBMsR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,134 +59,165 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   90577e059749e400dd367f89398a3f60a35ab887
-commit: f7c232d3e20a69b46e53da221ba3cbac0fa68a0d [2536/2999] smart_grid: introduce smart_grid_strategy_ctrl sysctl
-config: loongarch-randconfig-001-20240205 (https://download.01.org/0day-ci/archive/20240205/202402052121.E2UkGTnd-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402052121.E2UkGTnd-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   3a28772f4b29bdda924e9a5d2e3ff1ff1b23fd14
+commit: 3e8f9682bfad48236b3a76f113cbd5270102e745 [16446/21616] iommu/arm-smmu-v3: Increase maximum size of queues
+config: arm64-randconfig-r131-20240130 (https://download.01.org/0day-ci/archive/20240205/202402052127.OnYWBMsR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240205/202402052127.OnYWBMsR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402052121.E2UkGTnd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402052127.OnYWBMsR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/fair.c:314:36: error: 'hundred_thousand' undeclared here (not in a function)
-     314 |                 .extra2         = &hundred_thousand,
-         |                                    ^~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:7104:6: warning: no previous prototype for 'free_affinity_domains' [-Wmissing-prototypes]
-    7104 | void free_affinity_domains(struct affinity_domain *ad)
-         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:879:26: sparse: sparse: cast to restricted __le64
+   drivers/iommu/arm-smmu-v3.c:879:24: sparse: sparse: incorrect type in assignment (different base types)
+   drivers/iommu/arm-smmu-v3.c:879:24: sparse:     expected restricted __le64 [usertype]
+   drivers/iommu/arm-smmu-v3.c:879:24: sparse:     got unsigned long long [usertype]
+   drivers/iommu/arm-smmu-v3.c:887:20: sparse: sparse: incorrect type in argument 1 (different base types)
+   drivers/iommu/arm-smmu-v3.c:887:20: sparse:     expected restricted __le64 [usertype] *[assigned] dst
+   drivers/iommu/arm-smmu-v3.c:887:20: sparse:     got unsigned long long [usertype] *ent
+   drivers/iommu/arm-smmu-v3.c:887:25: sparse: sparse: incorrect type in argument 2 (different base types)
+   drivers/iommu/arm-smmu-v3.c:887:25: sparse:     expected unsigned long long [usertype] *[assigned] src
+   drivers/iommu/arm-smmu-v3.c:887:25: sparse:     got restricted __le64 [usertype] *
+   drivers/iommu/arm-smmu-v3.c:983:27: sparse: sparse: restricted __le32 degrades to integer
+   drivers/iommu/arm-smmu-v3.c:983:27: sparse: sparse: cast from restricted __le32
+   drivers/iommu/arm-smmu-v3.c:1029:20: sparse: sparse: incorrect type in argument 1 (different base types)
+   drivers/iommu/arm-smmu-v3.c:1029:20: sparse:     expected restricted __le64 [usertype] *[assigned] dst
+   drivers/iommu/arm-smmu-v3.c:1029:20: sparse:     got unsigned long long *
+   drivers/iommu/arm-smmu-v3.c:1029:25: sparse: sparse: incorrect type in argument 2 (different base types)
+   drivers/iommu/arm-smmu-v3.c:1029:25: sparse:     expected unsigned long long [usertype] *[assigned] src
+   drivers/iommu/arm-smmu-v3.c:1029:25: sparse:     got restricted __le64 [usertype] *
+   drivers/iommu/arm-smmu-v3.c:1328:53: sparse: sparse: incorrect type in argument 3 (different base types)
+   drivers/iommu/arm-smmu-v3.c:1328:53: sparse:     expected restricted __le64 [usertype] *dst
+   drivers/iommu/arm-smmu-v3.c:1328:53: sparse:     got unsigned long long [usertype] *strtab
+   drivers/iommu/arm-smmu-v3.c:1356:39: sparse: sparse: incorrect type in argument 1 (different base types)
+   drivers/iommu/arm-smmu-v3.c:1356:39: sparse:     expected unsigned long long [usertype] *[assigned] strtab
+   drivers/iommu/arm-smmu-v3.c:1356:39: sparse:     got restricted __le64 [usertype] *l2ptr
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3558:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3566:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: cast from unknown type
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: undefined identifier 'CONFIG_CMA_ALIGNMENT'
+   drivers/iommu/arm-smmu-v3.c:3568:36: sparse: sparse: cast from unknown type
+   In file included from include/linux/list.h:9,
+                    from include/linux/resource_ext.h:17,
+                    from include/linux/acpi.h:26,
+                    from drivers/iommu/arm-smmu-v3.c:23:
+   drivers/iommu/arm-smmu-v3.c: In function 'arm_smmu_device_hw_probe':
+>> drivers/iommu/arm-smmu-v3.c:211:55: error: 'CONFIG_CMA_ALIGNMENT' undeclared (first use in this function); did you mean 'CONFIG_CMDLINE'?
+     211 | #define Q_MAX_SZ_SHIFT                  (PAGE_SHIFT + CONFIG_CMA_ALIGNMENT)
+         |                                                       ^~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:847:36: note: in definition of macro '__typecheck'
+     847 |                 (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                    ^
+   include/linux/kernel.h:871:31: note: in expansion of macro '__safe_cmp'
+     871 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~
+   include/linux/kernel.h:939:33: note: in expansion of macro '__careful_cmp'
+     939 | #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+         |                                 ^~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:3558:36: note: in expansion of macro 'min_t'
+    3558 |         smmu->cmdq.q.max_n_shift = min_t(u32, CMDQ_MAX_SZ_SHIFT,
+         |                                    ^~~~~
+   drivers/iommu/arm-smmu-v3.c:278:42: note: in expansion of macro 'Q_MAX_SZ_SHIFT'
+     278 | #define CMDQ_MAX_SZ_SHIFT               (Q_MAX_SZ_SHIFT - CMDQ_ENT_SZ_SHIFT)
+         |                                          ^~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:3558:47: note: in expansion of macro 'CMDQ_MAX_SZ_SHIFT'
+    3558 |         smmu->cmdq.q.max_n_shift = min_t(u32, CMDQ_MAX_SZ_SHIFT,
+         |                                               ^~~~~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:211:55: note: each undeclared identifier is reported only once for each function it appears in
+     211 | #define Q_MAX_SZ_SHIFT                  (PAGE_SHIFT + CONFIG_CMA_ALIGNMENT)
+         |                                                       ^~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:847:36: note: in definition of macro '__typecheck'
+     847 |                 (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                    ^
+   include/linux/kernel.h:871:31: note: in expansion of macro '__safe_cmp'
+     871 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~
+   include/linux/kernel.h:939:33: note: in expansion of macro '__careful_cmp'
+     939 | #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+         |                                 ^~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:3558:36: note: in expansion of macro 'min_t'
+    3558 |         smmu->cmdq.q.max_n_shift = min_t(u32, CMDQ_MAX_SZ_SHIFT,
+         |                                    ^~~~~
+   drivers/iommu/arm-smmu-v3.c:278:42: note: in expansion of macro 'Q_MAX_SZ_SHIFT'
+     278 | #define CMDQ_MAX_SZ_SHIFT               (Q_MAX_SZ_SHIFT - CMDQ_ENT_SZ_SHIFT)
+         |                                          ^~~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:3558:47: note: in expansion of macro 'CMDQ_MAX_SZ_SHIFT'
+    3558 |         smmu->cmdq.q.max_n_shift = min_t(u32, CMDQ_MAX_SZ_SHIFT,
+         |                                               ^~~~~~~~~~~~~~~~~
+>> include/linux/kernel.h:871:9: error: first argument to '__builtin_choose_expr' not a constant
+     871 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:939:33: note: in expansion of macro '__careful_cmp'
+     939 | #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+         |                                 ^~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:3558:36: note: in expansion of macro 'min_t'
+    3558 |         smmu->cmdq.q.max_n_shift = min_t(u32, CMDQ_MAX_SZ_SHIFT,
+         |                                    ^~~~~
+>> include/linux/kernel.h:871:9: error: first argument to '__builtin_choose_expr' not a constant
+     871 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:939:33: note: in expansion of macro '__careful_cmp'
+     939 | #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+         |                                 ^~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:3566:36: note: in expansion of macro 'min_t'
+    3566 |         smmu->evtq.q.max_n_shift = min_t(u32, EVTQ_MAX_SZ_SHIFT,
+         |                                    ^~~~~
+>> include/linux/kernel.h:871:9: error: first argument to '__builtin_choose_expr' not a constant
+     871 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:939:33: note: in expansion of macro '__careful_cmp'
+     939 | #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+         |                                 ^~~~~~~~~~~~~
+   drivers/iommu/arm-smmu-v3.c:3568:36: note: in expansion of macro 'min_t'
+    3568 |         smmu->priq.q.max_n_shift = min_t(u32, PRIQ_MAX_SZ_SHIFT,
+         |                                    ^~~~~
 
 
-vim +/hundred_thousand +314 kernel/sched/fair.c
+vim +211 drivers/iommu/arm-smmu-v3.c
 
-   216	
-   217	#ifdef CONFIG_SYSCTL
-   218	static struct ctl_table sched_fair_sysctls[] = {
-   219		{
-   220			.procname       = "sched_child_runs_first",
-   221			.data           = &sysctl_sched_child_runs_first,
-   222			.maxlen         = sizeof(unsigned int),
-   223			.mode           = 0644,
-   224			.proc_handler   = proc_dointvec,
-   225		},
-   226	#ifdef CONFIG_CFS_BANDWIDTH
-   227		{
-   228			.procname       = "sched_cfs_bandwidth_slice_us",
-   229			.data           = &sysctl_sched_cfs_bandwidth_slice,
-   230			.maxlen         = sizeof(unsigned int),
-   231			.mode           = 0644,
-   232			.proc_handler   = proc_dointvec_minmax,
-   233			.extra1         = SYSCTL_ONE,
-   234		},
-   235	#endif
-   236	#ifdef CONFIG_NUMA_BALANCING
-   237		{
-   238			.procname	= "numa_balancing_promote_rate_limit_MBps",
-   239			.data		= &sysctl_numa_balancing_promote_rate_limit,
-   240			.maxlen		= sizeof(unsigned int),
-   241			.mode		= 0644,
-   242			.proc_handler	= proc_dointvec_minmax,
-   243			.extra1		= SYSCTL_ZERO,
-   244		},
-   245	#endif /* CONFIG_NUMA_BALANCING */
-   246	#ifdef CONFIG_QOS_SCHED
-   247		{
-   248			.procname	= "qos_overload_detect_period_ms",
-   249			.data		= &sysctl_overload_detect_period,
-   250			.maxlen		= sizeof(unsigned int),
-   251			.mode		= 0644,
-   252			.proc_handler	= proc_dointvec_minmax,
-   253			.extra1		= SYSCTL_ONE_HUNDRED,
-   254			.extra2		= &hundred_thousand,
-   255		},
-   256		{
-   257			.procname	= "qos_offline_wait_interval_ms",
-   258			.data		= &sysctl_offline_wait_interval,
-   259			.maxlen		= sizeof(unsigned int),
-   260			.mode		= 0644,
-   261			.proc_handler	= proc_dointvec_minmax,
-   262			.extra1		= SYSCTL_ONE_HUNDRED,
-   263			.extra2		= &one_thousand,
-   264		},
-   265	#endif
-   266	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
-   267		{
-   268			.procname       = "sched_util_low_pct",
-   269			.data           = &sysctl_sched_util_low_pct,
-   270			.maxlen         = sizeof(sysctl_sched_util_low_pct),
-   271			.mode           = 0644,
-   272			.proc_handler   = proc_dointvec_minmax,
-   273			.extra1         = SYSCTL_ZERO,
-   274			.extra2		= SYSCTL_ONE_HUNDRED,
-   275		},
-   276	#endif
-   277	#ifdef CONFIG_QOS_SCHED_PRIO_LB
-   278		{
-   279			.procname	= "sched_prio_load_balance_enabled",
-   280			.data		= &sysctl_sched_prio_load_balance_enabled,
-   281			.maxlen		= sizeof(unsigned int),
-   282			.mode		= 0644,
-   283			.proc_handler	= proc_dointvec_minmax,
-   284			.extra1		= SYSCTL_ZERO,
-   285			.extra2		= SYSCTL_ONE,
-   286		},
-   287	#endif
-   288	#ifdef CONFIG_QOS_SCHED_MULTILEVEL
-   289		{
-   290			.procname	= "qos_level_weights",
-   291			.data		= &sysctl_qos_level_weights,
-   292			.maxlen		= 5*sizeof(int),
-   293			.mode		= 0644,
-   294			.proc_handler	= proc_dointvec,
-   295		},
-   296	#endif
-   297	#ifdef CONFIG_QOS_SCHED_SMART_GRID
-   298		{
-   299			.procname	= "smart_grid_strategy_ctrl",
-   300			.data		= &sysctl_smart_grid_strategy_ctrl,
-   301			.maxlen		= sizeof(unsigned int),
-   302			.mode		= 0644,
-   303			.proc_handler   = proc_dointvec_minmax,
-   304			.extra1         = SYSCTL_ZERO,
-   305			.extra2		= SYSCTL_ONE,
-   306		},
-   307		{
-   308			.procname	= "affinity_adjust_delay_ms",
-   309			.data		= &sysctl_affinity_adjust_delay_ms,
-   310			.maxlen		= sizeof(unsigned int),
-   311			.mode		= 0644,
-   312			.proc_handler   = proc_dointvec_minmax,
-   313			.extra1         = SYSCTL_ZERO,
- > 314			.extra2		= &hundred_thousand,
-   315		},
-   316	#endif
-   317		{}
-   318	};
-   319	
+   200	
+   201	#define Q_IDX(q, p)			((p) & ((1 << (q)->max_n_shift) - 1))
+   202	#define Q_WRP(q, p)			((p) & (1 << (q)->max_n_shift))
+   203	#define Q_OVERFLOW_FLAG			(1 << 31)
+   204	#define Q_OVF(q, p)			((p) & Q_OVERFLOW_FLAG)
+   205	#define Q_ENT(q, p)			((q)->base +			\
+   206						 Q_IDX(q, p) * (q)->ent_dwords)
+   207	
+   208	#define Q_BASE_RWA			(1UL << 62)
+   209	#define Q_BASE_ADDR_MASK		GENMASK_ULL(51, 5)
+   210	#define Q_BASE_LOG2SIZE			GENMASK(4, 0)
+ > 211	#define Q_MAX_SZ_SHIFT			(PAGE_SHIFT + CONFIG_CMA_ALIGNMENT)
+   212	
 
 -- 
 0-DAY CI Kernel Test Service
