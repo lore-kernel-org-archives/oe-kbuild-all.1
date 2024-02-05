@@ -1,61 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0948F56
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 03:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3C1AD32
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 03:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707102556; cv=none; b=sEb7RgcKyjZgQjgtMeAa9zXFCNdgJOgkQtmKxkn5Qb0aqRgeflcDNyeL0xu5w7XmAzwtdcmigp/g5aHCSVcC/k14yvsjfGKjpULde7eWFEtB04TxX3D/yxzvwCFlE+g6BoI73mj+NZKyLx5QL0Bpt/cwjLqN+uBn5Kjg/mUlbD8=
+	t=1707105075; cv=none; b=qdZ/MQ820R4RKNZYEc41AO2+ygAzFkUzatgO4jjbI25I9U2DNMH6/RmROvokaLKIQypfbz0+9p1OV+zvUCY7bzfNuxui4RmfUzODufJYCDnE9oW4yWUDwML4+/xrPkL7ae4Q0qKAamBpRYBmgZ2rawzEiend7lNc5lWLTnYbCdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707102556; c=relaxed/simple;
-	bh=SZyMPSgOZ56GBwOPXTzYASZ88ieNjvabixYu2gwArKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c6lWggAFzUiPS56ciS9Z8KLoQq2rlWMSqEvqY+o4Akw5N9mRR2bOG48WkbqdlfEeHQOC1LeHK/ik18IABgu9ieSGRCVkwZk4Tyu0JWgbMkfDQl+XO6atqbTQx85o4F661n7MMpckzGGAqb+mY3gyxoCJYUUGA35rmGZQp7LbEqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2vcNqSO; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1707105075; c=relaxed/simple;
+	bh=3JnmSjx2Ar6tsZ4zC8JW0TsroxoTzhBNqXOGnyaX/tM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hoi9gdqkEKnPyljd+HawBSbGHKyvJxZLolYNVjM5LnyQLUw+qd38b1CxiFBh7hEsMfhnl96hQSw/JwMKo1pCVhnEPHIK5IFSlQzygDcT55aOX23xzoDndj38YLXahUHEPZalKfchBB6cclq4xP9RIufw7fZV5A5pnzl6EqEcz9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2DD0nuo; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2vcNqSO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2DD0nuo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707102555; x=1738638555;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SZyMPSgOZ56GBwOPXTzYASZ88ieNjvabixYu2gwArKk=;
-  b=R2vcNqSOgZdnovNJWjuFsGUmFMav7vcOePOqfAqvZQCS+R6fVCI2m4HM
-   WFCjCPWZy0m2i5BoCLssl7bFV44BHCQdmr5nJUDZsmAZZ0ANgcFSSNZne
-   fOwP+UknTYOBBv93TFmNFGKKEqKfqv3B4u4Y3fZefehZWLB5fkP+tpC2e
-   SSFUmmAyCnkFpKYHUyrz8yzoSj/2krJ+JK3O4clWIw6wNSJ25TJj+/1Yw
-   a7zGiRe2FbrFA20HVuWDpfUSswAaNgszgkx+keBEO6t8PutUpNGxmzptg
-   /u8g7LMIfCUOkh+GzrofhRZHTwFEWIIqdFvL5Y2DUhOunWJtcCBXfxGPB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="594809"
+  t=1707105072; x=1738641072;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3JnmSjx2Ar6tsZ4zC8JW0TsroxoTzhBNqXOGnyaX/tM=;
+  b=R2DD0nuoILmVdfXwJjn7wN+VcCumTWq6+iRlFHr6/MmmTfejziQVd8/p
+   6X8x7S7qtH7E5UeBbwzi/zRM7vshuhqwztK5Hs0qOY2sXBjLtBY7IP5/i
+   GfvOvxw8s6S/cLvzZOwU21KN5+CkJB27IMnaWMHYfwKtip9SDnhBPbE4H
+   44pnJrUz/FTTxHW8QxlrXa6CdN7Y3HNH7gdyq0e1+A0rwmCJDJ5Y3uh9v
+   EIRnQkcRFW7XIRTcgqXZHJ9IKzWQf96zz830zNm00YR4jAxNLD8nyQ//P
+   SiiAYH0+NTe04lc30aMdg7E2KWCet+EoD8CvYX7f+kDweXoy3/RNFjssr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="593991"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="594809"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 19:09:14 -0800
+   d="scan'208";a="593991"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 19:51:11 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="895179"
+   d="scan'208";a="5230821"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Feb 2024 19:09:10 -0800
+  by orviesa003.jf.intel.com with ESMTP; 04 Feb 2024 19:51:12 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rWpM3-00006K-2p;
-	Mon, 05 Feb 2024 03:09:07 +0000
-Date: Mon, 5 Feb 2024 11:08:39 +0800
+	id 1rWq0i-00007Y-1b;
+	Mon, 05 Feb 2024 03:51:08 +0000
+Date: Mon, 5 Feb 2024 11:50:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>, ast@kernel.org,
-	daniel@iogearbox.net, john.fastabend@gmail.com, andrii@kernel.org,
-	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
-	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-	jolsa@kernel.org, tj@kernel.org, void@manifault.com
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	Yafang Shao <laoar.shao@gmail.com>
-Subject: Re: [PATCH v5 bpf-next 4/4] selftests/bpf: Add selftests for cpumask
- iter
-Message-ID: <202402051121.y4w06atm-lkp@intel.com>
-References: <20240131145454.86990-5-laoar.shao@gmail.com>
+To: "Ricardo B. Marliere" <ricardo@marliere.net>
+Cc: oe-kbuild-all@lists.linux.dev, Tejun Heo <tj@kernel.org>
+Subject: [tj-wq:for-6.9-bh-conversions 25/30] kernel/workqueue.c:6798:39:
+ warning: passing argument 1 of 'subsys_virtual_register' discards 'const'
+ qualifier from pointer target type
+Message-ID: <202402051108.eqfecqfn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,65 +58,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240131145454.86990-5-laoar.shao@gmail.com>
 
-Hi Yafang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/bpf-Add-bpf_iter_cpumask-kfuncs/20240131-232406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240131145454.86990-5-laoar.shao%40gmail.com
-patch subject: [PATCH v5 bpf-next 4/4] selftests/bpf: Add selftests for cpumask iter
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402051121.y4w06atm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.9-bh-conversions
+head:   ae9075ec8b89e3a7581d525954c3b29267d56937
+commit: d412ace11144aa2bf692c7cf9778351efc15c827 [25/30] workqueue: make wq_subsys const
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240205/202402051108.eqfecqfn-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402051108.eqfecqfn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402051121.y4w06atm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402051108.eqfecqfn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> progs/cpumask_iter_success.c:61:2: error: incomplete definition of type 'struct psi_group_cpu'
-      61 |         READ_PERCPU_DATA(meta, cgrp, p->cpus_ptr);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   progs/cpumask_iter_success.c:39:27: note: expanded from macro 'READ_PERCPU_DATA'
-      39 |                 psi_nr_running += groupc->tasks[NR_RUNNING];                                    \
-         |                                   ~~~~~~^
-   progs/cpumask_iter_success.c:13:21: note: forward declaration of 'struct psi_group_cpu'
-      13 | extern const struct psi_group_cpu system_group_pcpu __ksym __weak;
-         |                     ^
->> progs/cpumask_iter_success.c:61:2: error: use of undeclared identifier 'NR_RUNNING'; did you mean 'T_RUNNING'?
-      61 |         READ_PERCPU_DATA(meta, cgrp, p->cpus_ptr);
-         |         ^
-   progs/cpumask_iter_success.c:39:35: note: expanded from macro 'READ_PERCPU_DATA'
-      39 |                 psi_nr_running += groupc->tasks[NR_RUNNING];                                    \
-         |                                                 ^
-   /tools/include/vmlinux.h:28263:3: note: 'T_RUNNING' declared here
-    28263 |                 T_RUNNING = 0,
-          |                 ^
-   progs/cpumask_iter_success.c:80:2: error: incomplete definition of type 'struct psi_group_cpu'
-      80 |         READ_PERCPU_DATA(meta, cgrp, p->cpus_ptr);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   progs/cpumask_iter_success.c:39:27: note: expanded from macro 'READ_PERCPU_DATA'
-      39 |                 psi_nr_running += groupc->tasks[NR_RUNNING];                                    \
-         |                                   ~~~~~~^
-   progs/cpumask_iter_success.c:13:21: note: forward declaration of 'struct psi_group_cpu'
-      13 | extern const struct psi_group_cpu system_group_pcpu __ksym __weak;
-         |                     ^
-   progs/cpumask_iter_success.c:80:2: error: use of undeclared identifier 'NR_RUNNING'; did you mean 'T_RUNNING'?
-      80 |         READ_PERCPU_DATA(meta, cgrp, p->cpus_ptr);
-         |         ^
-   progs/cpumask_iter_success.c:39:35: note: expanded from macro 'READ_PERCPU_DATA'
-      39 |                 psi_nr_running += groupc->tasks[NR_RUNNING];                                    \
-         |                                                 ^
-   /tools/include/vmlinux.h:28263:3: note: 'T_RUNNING' declared here
-    28263 |                 T_RUNNING = 0,
-          |                 ^
-   4 errors generated.
+   kernel/workqueue.c: In function 'wq_sysfs_init':
+>> kernel/workqueue.c:6798:39: warning: passing argument 1 of 'subsys_virtual_register' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    6798 |         err = subsys_virtual_register(&wq_subsys, NULL);
+         |                                       ^~~~~~~~~~
+   In file included from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from kernel/workqueue.c:36:
+   include/linux/device.h:77:46: note: expected 'struct bus_type *' but argument is of type 'const struct bus_type *'
+      77 | int subsys_virtual_register(struct bus_type *subsys,
+         |                             ~~~~~~~~~~~~~~~~~^~~~~~
+
+
+vim +6798 kernel/workqueue.c
+
+b05a79280b346e Frederic Weisbecker 2015-04-27  6792  
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  6793  static int __init wq_sysfs_init(void)
+2d3854a37e8b76 Rusty Russell       2008-11-05  6794  {
+686f669780276d Greg Kroah-Hartman  2023-03-13  6795  	struct device *dev_root;
+b05a79280b346e Frederic Weisbecker 2015-04-27  6796  	int err;
+b05a79280b346e Frederic Weisbecker 2015-04-27  6797  
+b05a79280b346e Frederic Weisbecker 2015-04-27 @6798  	err = subsys_virtual_register(&wq_subsys, NULL);
+b05a79280b346e Frederic Weisbecker 2015-04-27  6799  	if (err)
+b05a79280b346e Frederic Weisbecker 2015-04-27  6800  		return err;
+b05a79280b346e Frederic Weisbecker 2015-04-27  6801  
+686f669780276d Greg Kroah-Hartman  2023-03-13  6802  	dev_root = bus_get_dev_root(&wq_subsys);
+686f669780276d Greg Kroah-Hartman  2023-03-13  6803  	if (dev_root) {
+fe28f631fa941f Waiman Long         2023-10-25  6804  		struct device_attribute *attr;
+fe28f631fa941f Waiman Long         2023-10-25  6805  
+fe28f631fa941f Waiman Long         2023-10-25  6806  		for (attr = wq_sysfs_cpumask_attrs; attr->attr.name; attr++) {
+fe28f631fa941f Waiman Long         2023-10-25  6807  			err = device_create_file(dev_root, attr);
+fe28f631fa941f Waiman Long         2023-10-25  6808  			if (err)
+fe28f631fa941f Waiman Long         2023-10-25  6809  				break;
+fe28f631fa941f Waiman Long         2023-10-25  6810  		}
+686f669780276d Greg Kroah-Hartman  2023-03-13  6811  		put_device(dev_root);
+686f669780276d Greg Kroah-Hartman  2023-03-13  6812  	}
+686f669780276d Greg Kroah-Hartman  2023-03-13  6813  	return err;
+2d3854a37e8b76 Rusty Russell       2008-11-05  6814  }
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  6815  core_initcall(wq_sysfs_init);
+2d3854a37e8b76 Rusty Russell       2008-11-05  6816  
+
+:::::: The code at line 6798 was first introduced by commit
+:::::: b05a79280b346eb24ddb73b39988398015291075 workqueue: Create low-level unbound workqueues cpumask
+
+:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
