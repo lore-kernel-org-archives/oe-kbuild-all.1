@@ -1,193 +1,164 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84F8BA30
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 06:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3432BA22
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 06:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707112834; cv=none; b=q6HQgxieX1PWaSabQSBSoWnqW9vzQCxUNp2OH+9vn9uvaoLLORRryDYG9sbxtMqb/O++hZlSAfzuRm9KWPh7Sbg2Tc45788XkjAU0hWAZuvmukqCk8gLQej8r/Fgi5og2IjSqAhB8rZzwQubcox5NdjK+FGh9hEtXAZ7ItZbnCI=
+	t=1707112963; cv=none; b=SMJ9rzKNHtww/xvHqMHSoSta2ZIJoSH6EoeoZKXkGAkdtGdjyIrx1etCV+Vh7GqRmIC8wwXymtsj3t9kQHW0DZ/U3dsQrVfU9ttaJDTZwBNzIzvgN51HkbqF8c3AJ/vjN0xF17xo+nKvErvcC41zE9ifDqaQqS6W3Zm5defBpYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707112834; c=relaxed/simple;
-	bh=kq67++PrGOHRSPoTJxqLmFHrC5ZBBCoPb0xUFUCOK5k=;
+	s=arc-20240116; t=1707112963; c=relaxed/simple;
+	bh=u50aePyTMVslHQLzITmJuiuiC1ED0dOxSNecS8vn2lE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mqPoz3j0VaXouJsRzwAaQULt8+vSiHBCCiV90ia18aPgd4fXzDhRl/OcjELBRScP1QExzm9LC5Yqdc1ukHreg+0fnhUEXvGQynge48wP46Agle4Cog9WXjhn29hI4+240SdJ2SQNustgxPNvKwSw4gFtYtSsW7GA+g9MHNEhACo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kqyyTW7P; arc=none smtp.client-ip=209.85.208.176
+	 Content-Disposition; b=j9kEAIuY/dkECTD+BCpOvHBjTLgnA4OjtRZzEus0w9wXw9+QjuwPWHom6rE9WB6kqq91y96GCxTmNwb5QrqvVNTGkpYqgMjNmD6omcCfYl7IbnPm3bT30XcTucJhRkdMmH63XmX8B6SMy0fVVAcp3FtfCJvTU2jLggzX5POHXJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yZIgRqCV; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kqyyTW7P"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d0aabed735so7381681fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 04 Feb 2024 22:00:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yZIgRqCV"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a36126e7459so521480166b.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 04 Feb 2024 22:02:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707112831; x=1707717631; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IE8etV8dXymxXxD26dhXxFfWTSA6CW6O1D+5fVLbWAA=;
-        b=kqyyTW7PG87DCDYBbNdljQKI3Rp0c2SC6z882aNgygh55WH6c6BeWvQ8dlsTCzucq7
-         hFPuhC7KtsXTVevFiD+5GTnNN9TjsvbyBn0N9VHzcYeGXdapGr7USPqfgBxoV6ETeZhy
-         UopYkaRBg7r3nb8IzMryYDaW2QGT/LHo1BLkYziAVkAvqh2X/1X0HplaknTHcsMjw+C/
-         k3mEQ0tY+wB47IX3Wk9+FxMRp88OdyEMkHCEpDef6ASa0vOOPyGct8xIl25rqdX5EQn9
-         /4zV9tCLhEzB+vvhu87cjY3pZpIkqGQCPmQTEIXcsnSleGp9R0mcJT7Gr6CJNnUuUPMb
-         5YPg==
+        d=linaro.org; s=google; t=1707112960; x=1707717760; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1O6c4RbNAzKl2D6PJxpSt/YZnEK4rkLiPUDqpsCBXKY=;
+        b=yZIgRqCV3ZDaHSTutu7KZMTK9ctcKDzyRsQ7ISkF4NWF6Vzp9n5PHlBJbGB0wy4Tq1
+         pnE0qdv2anVYqJYdI1GfBfLugahI8tMYBGkBopfiGEI9Y8mVfe4Xv79yVbGdXcFJicGR
+         ZT/Sak9q9GWT+ylCR6ZwStFofkPn5NdKfkUm+2a60uuE4rQzJjiDlxW7tGbq+mdVFdXS
+         3E9X3F86Kl6D0h9z/UvC3q33EEVIkjG6MyvITe+DAhKl5EPvxbyDhimVI3/nClY0dL14
+         hP9JuLFxEfCkLVB35trh4IUsdR+yMlkGgJvJfxT2IKQtwGGUXvYMtw0nu8LEoC6J2T0v
+         8xwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707112831; x=1707717631;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IE8etV8dXymxXxD26dhXxFfWTSA6CW6O1D+5fVLbWAA=;
-        b=v3s0t8mMMxz5EW0cl4HtlJtEQiW46/0ujdbs3GDJ0TrFjpllJ5Vo54lFbFyeU3H/TS
-         +9P598ULzMVZ0VvTo4bBE2kMLHhLpzokRtoMDB4C0HbX3LsSqjbSMa6VhexMzMtsBRPo
-         4Ex6SZNFoh+18gUaj6ceJrMy9bKWr6/SuSjaUcryJw55vm+7SEcqUdM/Mc/EMt8ttWIX
-         Cm5rF3S6ljW/IsRwy5M4s3cO4LgDCIkrttL1TPy/TxjqiqFx2wbpY2auPdJKDr/hOeE6
-         n9A8BUOn8af8l5IlmzYs87TKiwTORSk2EHVyaGtBcKVN6uDUP4NW0I41m3fa83oDZKiE
-         HYPw==
-X-Gm-Message-State: AOJu0YxYOCidt9UtMpzAziGsvDnL4BvtCQ1LJ4juviRnR1f3tI/ZrQ/M
-	mwnCWPifeeC9CVzkz471TEYO/HN4fuQTM4JUU8ltQvHtcZGVrzNnrPBgM/4w/Y8=
-X-Google-Smtp-Source: AGHT+IGG/AGVPP7LiZNlnh5kCNRsd5c+DeHu3TIgGXHZtMB/ODPl6wHXaWTmA7nlzvycP2j9PHyMHA==
-X-Received: by 2002:a2e:b602:0:b0:2d0:aa28:6f77 with SMTP id r2-20020a2eb602000000b002d0aa286f77mr1395893ljn.45.1707112829238;
-        Sun, 04 Feb 2024 22:00:29 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWpmknaqH7W7vctyYKHv/5HxbGPtVEdM/5peP6NthYwIBiKW+GlBgl6RovtVsmJaCF+iuaHwSFV5+hYlvdoHIndnki6V+WKrZ1llxDKvUNJ8o1rD2RtUSET/sJ2SjA7f+FtYrXQS3ARvky1LdUTVcS+ynlb27Kj2mXYhZl7SopvI0XR78OaYAjGuJk+WmpTGg==
+        d=1e100.net; s=20230601; t=1707112960; x=1707717760;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1O6c4RbNAzKl2D6PJxpSt/YZnEK4rkLiPUDqpsCBXKY=;
+        b=eLU2Cq6OkmlaArNiizgByodEe61cySMcI/vK7gCaRrDBbeXUSU9P48zi+Rm6r6I+Nh
+         6Xdj8gNbaeKTxtf8osVRpK4+T6cd9JpA+9uCXADAf6N0gNgfad1565goJR9WbZXeWamF
+         a8CA3aui/ZVBFlgFf3jKobwhs9/OZCFWZB2z6EHKP/33EFmTS8As6zPV4c3b1rU4hq6M
+         5CMi+KeCuMbIZS4xBnDF5PHWfRhd+LBrERDTR3EBX+vPHAENH0xcvXu9cZ6nuequNa+I
+         OpAycZ0OH6FHmU4PnmdNZKCFLeNxnWKrxf52HXGA1sb3x5R1cTZtNPH3Ni1LjR4mvw6x
+         mqaA==
+X-Gm-Message-State: AOJu0Yx7Ezp4NYeJuzOk1P5c9XqUDjnew6XB4O5QEOHVtmoQaNIpmctk
+	F1MGoTH2arukL6DDFpdz2rVyu1Qz7q0ORpeZViQ/tT7wg4hmb8lEFjs/qTighYK1ABo7C6x9wcf
+	P
+X-Google-Smtp-Source: AGHT+IGjGKK1LE0zg0BFOTorFfbmj/E/YU9z8kygavoTaSilE6tBhVCyh8+F+KeClEqb2UKJMWlAtg==
+X-Received: by 2002:a17:907:b9c4:b0:a37:e5fd:94ee with SMTP id xa4-20020a170907b9c400b00a37e5fd94eemr116470ejc.72.1707112960018;
+        Sun, 04 Feb 2024 22:02:40 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVRkACueswKhgq0eTksjOjicxJptZglx7HNSFDwPvDYZT34BgKe+WcR8GB5ygLP/DhbvRX3ZBolVFcdiQtG83Px1HTQm0S0VLx+DimxJGf2D4P8O4xpbJWiNB3TfG1KqhZIOlDynjPcRp2yEDC3qqCNPeWGrCxpkJm0HIY=
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id n7-20020a50cc47000000b0055c63205052sm3389068edi.37.2024.02.04.22.00.26
+        by smtp.gmail.com with ESMTPSA id j20-20020a170906475400b00a353ca3d907sm3894839ejs.217.2024.02.04.22.02.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 22:00:28 -0800 (PST)
-Date: Mon, 5 Feb 2024 09:00:23 +0300
+        Sun, 04 Feb 2024 22:02:39 -0800 (PST)
+Date: Mon, 5 Feb 2024 09:02:36 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Steve Jeong <how2soft@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-6.6.y 42/51] drivers/char/aml-gpiomem.c:242
- aml_gpiomem_probe() error: we previously assumed 'inst' could be null (see
- line 164)
-Message-ID: <3b813542-6a16-4b10-b866-7bccdefbf3bd@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [tobetter:odroid-6.6.y 21/51] drivers/net/phy/phy_device.c:1836
+ phy_detach() error: we previously assumed 'dev' could be null (see line
+ 1815)
+Message-ID: <63e0ce4c-5707-4663-87a7-3dff0cfeb44d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 tree:   https://github.com/tobetter/linux odroid-6.6.y
 head:   0ea9759612aba09cc99b50301b281417f70e847c
-commit: 7d68a4b7edc4029f164a974f900a2eb2f1fc2919 [42/51] ODROID-N2/C4: char: Add /dev/gpiomem device
-config: x86_64-randconfig-161-20240203 (https://download.01.org/0day-ci/archive/20240204/202402040226.dWKVclcB-lkp@intel.com/config)
+commit: 10a25be4b77c699179ad1d36f7c67491c812c34e [21/51] ODROID-COMMON: phy/realtek: add Wake-on-Lan to Realtek PHY
+config: i386-randconfig-141-20240203 (https://download.01.org/0day-ci/archive/20240204/202402040224.6ErXx7IE-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402040226.dWKVclcB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402040224.6ErXx7IE-lkp@intel.com/
 
 smatch warnings:
-drivers/char/aml-gpiomem.c:242 aml_gpiomem_probe() error: we previously assumed 'inst' could be null (see line 164)
+drivers/net/phy/phy_device.c:1836 phy_detach() error: we previously assumed 'dev' could be null (see line 1815)
+drivers/net/phy/phy_device.c:1848 phy_detach() warn: variable dereferenced before check 'dev' (see line 1836)
 
-vim +/inst +242 drivers/char/aml-gpiomem.c
+vim +/dev +1836 drivers/net/phy/phy_device.c
 
-7d68a4b7edc402 Steve Jeong 2023-04-04  153  static int aml_gpiomem_probe(struct platform_device *pdev)
-7d68a4b7edc402 Steve Jeong 2023-04-04  154  {
-7d68a4b7edc402 Steve Jeong 2023-04-04  155  	int err = 0;
-7d68a4b7edc402 Steve Jeong 2023-04-04  156  	struct device *dev = &pdev->dev;
-7d68a4b7edc402 Steve Jeong 2023-04-04  157  	struct device_node *np = dev->of_node;
-7d68a4b7edc402 Steve Jeong 2023-04-04  158  	struct resource *res = NULL;
-7d68a4b7edc402 Steve Jeong 2023-04-04  159  	int i = 0;
-7d68a4b7edc402 Steve Jeong 2023-04-04  160  
-7d68a4b7edc402 Steve Jeong 2023-04-04  161  	/* Allocate buffers and instance data */
-7d68a4b7edc402 Steve Jeong 2023-04-04  162  	inst = kzalloc(sizeof(struct aml_gpiomem_instance), GFP_KERNEL);
-7d68a4b7edc402 Steve Jeong 2023-04-04  163  
-7d68a4b7edc402 Steve Jeong 2023-04-04 @164  	if (!inst) {
-7d68a4b7edc402 Steve Jeong 2023-04-04  165  		err = -ENOMEM;
-7d68a4b7edc402 Steve Jeong 2023-04-04  166  		goto failed_inst_alloc;
+e13934563db047 Andy Fleming       2005-08-24  1795  void phy_detach(struct phy_device *phydev)
+e13934563db047 Andy Fleming       2005-08-24  1796  {
+ec988ad78ed6d1 Florian Fainelli   2016-12-06  1797  	struct net_device *dev = phydev->attached_dev;
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1798  	struct module *ndev_owner = NULL;
+3e3aaf64941698 Russell King       2015-09-24  1799  	struct mii_bus *bus;
+b3565f278a9bab Ezequiel Garcia    2014-07-23  1800  
+bc66fa87d4fda9 Xiaolei Wang       2022-11-30  1801  	if (phydev->devlink)
+bc66fa87d4fda9 Xiaolei Wang       2022-11-30  1802  		device_link_del(phydev->devlink);
+bc66fa87d4fda9 Xiaolei Wang       2022-11-30  1803  
+a3995460491d45 Florian Fainelli   2017-05-27  1804  	if (phydev->sysfs_links) {
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1805  		if (dev)
+                                                                    ^^^
+Check for NULL
 
-inst is NULL so this goto will crash.  No need to print a warning after
-a kmalloc() by the way.  kmalloc() has it's own warning built in.
+5568363f0cb358 Florian Fainelli   2017-05-25  1806  			sysfs_remove_link(&dev->dev.kobj, "phydev");
+5568363f0cb358 Florian Fainelli   2017-05-25  1807  		sysfs_remove_link(&phydev->mdio.dev.kobj, "attached_dev");
+a3995460491d45 Florian Fainelli   2017-05-27  1808  	}
+c920f745f45d46 Ioana Ciornei      2019-05-28  1809  
+c920f745f45d46 Ioana Ciornei      2019-05-28  1810  	if (!phydev->attached_dev)
+c920f745f45d46 Ioana Ciornei      2019-05-28  1811  		sysfs_remove_file(&phydev->mdio.dev.kobj,
+c920f745f45d46 Ioana Ciornei      2019-05-28  1812  				  &dev_attr_phy_standalone.attr);
+c920f745f45d46 Ioana Ciornei      2019-05-28  1813  
+93f41e67dc8ff0 Heiner Kallweit    2018-09-24  1814  	phy_suspend(phydev);
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28 @1815  	if (dev) {
+                                                            ^^^
+Checked here again
 
-7d68a4b7edc402 Steve Jeong 2023-04-04  167  	}
-7d68a4b7edc402 Steve Jeong 2023-04-04  168  
-7d68a4b7edc402 Steve Jeong 2023-04-04  169  	inst->dev = dev;
-7d68a4b7edc402 Steve Jeong 2023-04-04  170  	inst->gpio_area_count = of_property_count_elems_of_size(np, "reg",
-7d68a4b7edc402 Steve Jeong 2023-04-04  171  				sizeof(u32)) / 4;
-7d68a4b7edc402 Steve Jeong 2023-04-04  172  
-7d68a4b7edc402 Steve Jeong 2023-04-04  173  	if (inst->gpio_area_count > 32 || inst->gpio_area_count <= 0) {
-7d68a4b7edc402 Steve Jeong 2023-04-04  174  		dev_err(inst->dev, "failed to get gpio register area.");
-7d68a4b7edc402 Steve Jeong 2023-04-04  175  		err = -EINVAL;
-7d68a4b7edc402 Steve Jeong 2023-04-04  176  		goto failed_inst_alloc;
-7d68a4b7edc402 Steve Jeong 2023-04-04  177  	}
-7d68a4b7edc402 Steve Jeong 2023-04-04  178  
-7d68a4b7edc402 Steve Jeong 2023-04-04  179  	dev_info(inst->dev, "Initialised: GPIO register area is %d",
-7d68a4b7edc402 Steve Jeong 2023-04-04  180  			inst->gpio_area_count);
-7d68a4b7edc402 Steve Jeong 2023-04-04  181  
-7d68a4b7edc402 Steve Jeong 2023-04-04  182  	for (i = 0; i < inst->gpio_area_count; ++i) {
-7d68a4b7edc402 Steve Jeong 2023-04-04  183  		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
-7d68a4b7edc402 Steve Jeong 2023-04-04  184  		if (res) {
-7d68a4b7edc402 Steve Jeong 2023-04-04  185  			inst->gpio_regs_phys[i].start = res->start;
-7d68a4b7edc402 Steve Jeong 2023-04-04  186  			inst->gpio_regs_phys[i].end   = res->end;
-7d68a4b7edc402 Steve Jeong 2023-04-04  187  		} else {
-7d68a4b7edc402 Steve Jeong 2023-04-04  188  			dev_err(inst->dev, "failed to get IO resource area %d", i);
-7d68a4b7edc402 Steve Jeong 2023-04-04  189  			err = -ENOENT;
-7d68a4b7edc402 Steve Jeong 2023-04-04  190  			goto failed_get_resource;
-7d68a4b7edc402 Steve Jeong 2023-04-04  191  		}
-7d68a4b7edc402 Steve Jeong 2023-04-04  192  	}
-7d68a4b7edc402 Steve Jeong 2023-04-04  193  
-7d68a4b7edc402 Steve Jeong 2023-04-04  194  	/* Create character device entries */
-7d68a4b7edc402 Steve Jeong 2023-04-04  195  	err = alloc_chrdev_region(&aml_gpiomem_devid,
-7d68a4b7edc402 Steve Jeong 2023-04-04  196  				  DEVICE_MINOR, 1, DEVICE_NAME);
-7d68a4b7edc402 Steve Jeong 2023-04-04  197  	if (err != 0) {
-7d68a4b7edc402 Steve Jeong 2023-04-04  198  		dev_err(inst->dev, "unable to allocate device number");
-7d68a4b7edc402 Steve Jeong 2023-04-04  199  		goto failed_alloc_chrdev;
-7d68a4b7edc402 Steve Jeong 2023-04-04  200  	}
-7d68a4b7edc402 Steve Jeong 2023-04-04  201  	cdev_init(&aml_gpiomem_cdev, &aml_gpiomem_fops);
-7d68a4b7edc402 Steve Jeong 2023-04-04  202  	aml_gpiomem_cdev.owner = THIS_MODULE;
-7d68a4b7edc402 Steve Jeong 2023-04-04  203  	err = cdev_add(&aml_gpiomem_cdev, aml_gpiomem_devid, 1);
-7d68a4b7edc402 Steve Jeong 2023-04-04  204  	if (err != 0) {
-7d68a4b7edc402 Steve Jeong 2023-04-04  205  		dev_err(inst->dev, "unable to register device");
-7d68a4b7edc402 Steve Jeong 2023-04-04  206  		goto failed_cdev_add;
-7d68a4b7edc402 Steve Jeong 2023-04-04  207  	}
-7d68a4b7edc402 Steve Jeong 2023-04-04  208  
-7d68a4b7edc402 Steve Jeong 2023-04-04  209  	/* Create sysfs entries */
-7d68a4b7edc402 Steve Jeong 2023-04-04  210  	aml_gpiomem_class = class_create(DEVICE_NAME);
-7d68a4b7edc402 Steve Jeong 2023-04-04  211  	err = IS_ERR(aml_gpiomem_class);
-7d68a4b7edc402 Steve Jeong 2023-04-04  212  	if (err)
-7d68a4b7edc402 Steve Jeong 2023-04-04  213  		goto failed_class_create;
-7d68a4b7edc402 Steve Jeong 2023-04-04  214  
-7d68a4b7edc402 Steve Jeong 2023-04-04  215  	aml_gpiomem_dev = device_create(aml_gpiomem_class, NULL,
-7d68a4b7edc402 Steve Jeong 2023-04-04  216  					aml_gpiomem_devid, NULL,
-7d68a4b7edc402 Steve Jeong 2023-04-04  217  					"gpiomem");
-7d68a4b7edc402 Steve Jeong 2023-04-04  218  	err = IS_ERR(aml_gpiomem_dev);
-7d68a4b7edc402 Steve Jeong 2023-04-04  219  	if (err)
-7d68a4b7edc402 Steve Jeong 2023-04-04  220  		goto failed_device_create;
-7d68a4b7edc402 Steve Jeong 2023-04-04  221  
-7d68a4b7edc402 Steve Jeong 2023-04-04  222  	for (i = 0; i < inst->gpio_area_count; ++i) {
-7d68a4b7edc402 Steve Jeong 2023-04-04  223  		dev_info(inst->dev,
-7d68a4b7edc402 Steve Jeong 2023-04-04  224  			"Initialised: Registers at start:0x%08lx end:0x%08lx size:0x%08lx",
-7d68a4b7edc402 Steve Jeong 2023-04-04  225  			inst->gpio_regs_phys[i].start,
-7d68a4b7edc402 Steve Jeong 2023-04-04  226  			inst->gpio_regs_phys[i].end,
-7d68a4b7edc402 Steve Jeong 2023-04-04  227  			inst->gpio_regs_phys[i].end - inst->gpio_regs_phys[i].start);
-7d68a4b7edc402 Steve Jeong 2023-04-04  228  	}
-7d68a4b7edc402 Steve Jeong 2023-04-04  229  
-7d68a4b7edc402 Steve Jeong 2023-04-04  230  	return 0;
-7d68a4b7edc402 Steve Jeong 2023-04-04  231  
-7d68a4b7edc402 Steve Jeong 2023-04-04  232  failed_device_create:
-7d68a4b7edc402 Steve Jeong 2023-04-04  233  	class_destroy(aml_gpiomem_class);
-7d68a4b7edc402 Steve Jeong 2023-04-04  234  failed_class_create:
-7d68a4b7edc402 Steve Jeong 2023-04-04  235  	cdev_del(&aml_gpiomem_cdev);
-7d68a4b7edc402 Steve Jeong 2023-04-04  236  failed_cdev_add:
-7d68a4b7edc402 Steve Jeong 2023-04-04  237  	unregister_chrdev_region(aml_gpiomem_devid, 1);
-7d68a4b7edc402 Steve Jeong 2023-04-04  238  failed_alloc_chrdev:
-7d68a4b7edc402 Steve Jeong 2023-04-04  239  failed_get_resource:
-7d68a4b7edc402 Steve Jeong 2023-04-04  240  	kfree(inst);
-                                                ^^^^^^^^^^^
-inst is freed here...  Why is Smatch not detecting the use after free?
-I will investigate.
+c1f19b51d1d87f Richard Cochran    2010-07-17  1816  		phydev->attached_dev->phydev = NULL;
+e13934563db047 Andy Fleming       2005-08-24  1817  		phydev->attached_dev = NULL;
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1818  	}
+9525ae83959b60 Russell King       2017-07-25  1819  	phydev->phylink = NULL;
+e13934563db047 Andy Fleming       2005-08-24  1820  
+d98ce1f083cca8 Daniel Golle       2023-12-12  1821  	if (!phydev->is_on_sfp_module)
+0075bd692dca03 Geert Uytterhoeven 2016-11-28  1822  		phy_led_triggers_unregister(phydev);
+0075bd692dca03 Geert Uytterhoeven 2016-11-28  1823  
+c2b727df7caa33 Florian Fainelli   2020-09-16  1824  	if (phydev->mdio.dev.driver)
+6d9f66ac7fec2a Florian Fainelli   2017-02-08  1825  		module_put(phydev->mdio.dev.driver->owner);
+6d9f66ac7fec2a Florian Fainelli   2017-02-08  1826  
+e13934563db047 Andy Fleming       2005-08-24  1827  	/* If the device had no specific driver before (i.e. - it
+e13934563db047 Andy Fleming       2005-08-24  1828  	 * was using the generic driver), we unbind the device
+e13934563db047 Andy Fleming       2005-08-24  1829  	 * from the generic driver so that there's a chance a
+2f53e9047e79b6 Sergei Shtylyov    2014-01-05  1830  	 * real driver could be loaded
+2f53e9047e79b6 Sergei Shtylyov    2014-01-05  1831  	 */
+5db5ea995fc2fa Florian Fainelli   2019-01-15  1832  	if (phy_driver_is_genphy(phydev) ||
+5db5ea995fc2fa Florian Fainelli   2019-01-15  1833  	    phy_driver_is_genphy_10g(phydev))
+e5a03bfd873c29 Andrew Lunn        2016-01-06  1834  		device_release_driver(&phydev->mdio.dev);
+3e3aaf64941698 Russell King       2015-09-24  1835  
+10a25be4b77c69 Dongjin Kim        2021-11-17 @1836  	if (!dev->wol_enabled) {
+                                                             ^^^^^
+Dereferenced without checking.
 
-7d68a4b7edc402 Steve Jeong 2023-04-04  241  failed_inst_alloc:
-7d68a4b7edc402 Steve Jeong 2023-04-04 @242  	dev_err(inst->dev, "could not load aml_gpiomem");
-                                                ^^^^^^^^^^^^^^^^^^
-Here.
+cbda1b16687580 Marek Behún        2022-01-19  1837  		/* Assert the reset signal */
+cbda1b16687580 Marek Behún        2022-01-19  1838  		phy_device_reset(phydev, 1);
+10a25be4b77c69 Dongjin Kim        2021-11-17  1839  	}
+cbda1b16687580 Marek Behún        2022-01-19  1840  
+7322967bc1bd97 Russell King       2015-09-24  1841  	/*
+7322967bc1bd97 Russell King       2015-09-24  1842  	 * The phydev might go away on the put_device() below, so avoid
+7322967bc1bd97 Russell King       2015-09-24  1843  	 * a use-after-free bug by reading the underlying bus first.
+7322967bc1bd97 Russell King       2015-09-24  1844  	 */
+e5a03bfd873c29 Andrew Lunn        2016-01-06  1845  	bus = phydev->mdio.bus;
+3e3aaf64941698 Russell King       2015-09-24  1846  
+e5a03bfd873c29 Andrew Lunn        2016-01-06  1847  	put_device(&phydev->mdio.dev);
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28 @1848  	if (dev)
+                                                            ^^^
+Checked here
 
-7d68a4b7edc402 Steve Jeong 2023-04-04  243  	return err;
-7d68a4b7edc402 Steve Jeong 2023-04-04  244  }
+2db2d9d1ac3722 Ioana Ciornei      2019-05-28  1849  		ndev_owner = dev->dev.parent->driver->owner;
+ec988ad78ed6d1 Florian Fainelli   2016-12-06  1850  	if (ndev_owner != bus->owner)
+3e3aaf64941698 Russell King       2015-09-24  1851  		module_put(bus->owner);
+e13934563db047 Andy Fleming       2005-08-24  1852  }
 
 -- 
 0-DAY CI Kernel Test Service
