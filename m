@@ -1,170 +1,151 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B861CA85
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 13:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746D51CA9B;
+	Mon,  5 Feb 2024 13:15:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707138933; cv=none; b=tLSHPRlmPJcIXFog8/+YMHm6M6RH+T+Z+5865lMJhV7nV4zjgi2KS0RQPZBsqLDsYLxf+640T9o8Z6zYFL5+cvvC79m5auGgB6qcsosPs3cD8uMQ/h20KaVbZuTyN7N9XisbIXhQxyAzfFZ62DaLnPcGrLdwC8iGZ0K49xyKmtQ=
+	t=1707138936; cv=none; b=tGHGmMG/nCJdikc7Txnw4dJ5qM5OM0ip8Mmf61Yc/2S3lb4maeMmmwY0T+TwPtSQvNUlKmpm/+Zokkv7xcJzSckq0Q6/AKonUv0l7QAN3ZRBhS26A3KDxVR2hu+eu4kxbd+LE+7jOMc2VnpoUA2EPbWtZXPjEseBuEMGSjW/RJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707138933; c=relaxed/simple;
-	bh=rmNjQomfQpoCnRaBN1vTPIo7AOHkslo9q8arq5KNEfo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NhoP7Y5OntbH7+egKX+eF2Zb+CHjjpkE6wgVWkuiUiEpAqG6hHDAOwgwz6ODQXKgdrbWKhSH9nWky239ZLW+3RomPGP6CzAe6dchM2KrUM7wI3LtL4CLPiL+Fj7kiy0KxgxTyA7wAM5GpkKZnx6DbRreZK36xV5w/OWz1BwpDrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Otw2Jbg3; arc=none smtp.client-ip=209.85.160.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707138936; c=relaxed/simple;
+	bh=jxi9hBIW/u/xN1/3l39jSDwYER6jWurCP3CAR9bpTUM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cB2NIpPTR/oVqm0FgNFj/U4VUpbeD049UFy3qCLDrY92EzvHgsUlwnkH2LriHeLMBVyM4gZa711fqCSBWM8L1I99pDb1nyW+xco++NjITTJpqr6xrjZKjSyiuunROtU1UDtkoEd0skZ3NFNLHmPhcH5TEQv/40VVsRF4tH4tKOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PhFy3H6U; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Otw2Jbg3"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-204f50f305cso2927223fac.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Feb 2024 05:15:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707138931; x=1707743731; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MYnrTyMuuQpsXk2cGIbD2TvHCAjk4pn8UcToxn41yoM=;
-        b=Otw2Jbg3o7BsGo05yNznDderzTLSL+PUBKEqnsmcw17GwixwIQ9ljBcyJFdoV0ftj8
-         hlhu8TwQ1qgDREAYfe7zvUKMBNRJsY6LuoPMYd2OtEgYJUVDJN6FUDqflBE4/gWO1d/4
-         JY37i0i15Wn6pGXn78G8aKDYqC04VQdfonxAihLmvOSKQXYZYluIFvDMEXSrSmljXrbz
-         T97AhJTxfI5TRpYCAdxhtQrE1WWjCgpIkktcXS7xeTBFpT5xRa+w0yhZBAaWf8ZwLIXO
-         hOZs4/VbbHnCNBED/Tewq88Po2FBWM6OP/2JV1H3p8H4svQ1xy3e+Y+9mu+ylyC3HjqE
-         k8BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707138931; x=1707743731;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MYnrTyMuuQpsXk2cGIbD2TvHCAjk4pn8UcToxn41yoM=;
-        b=Z7mz4VpoQZslL9BZ6E3QC74eQhGE58ea2Eq8I7atese4zHcjRwha+H79GIAoiiWDAa
-         ucaiU7y1ObHUe2aSgoBk1aibMnRv97vqPnFiC8k5a92hZSoNLYr0k0Tkao8PvtEXDQRs
-         noTFrwW6XFOYAIllXLoSjI2mW+S5g8R0E+i2FWZdD54fKneMIu9L5++SsJcTXterdija
-         HAFzBnOR13TgfOsFtPySbEblx0gROHZuhzpD51jlKgkMWCfwFhk9uj4555BeiKRSj/Ac
-         lO3c9fFIQ0y92ZkxhbFxglNMUbuue0ulfO8wG4U0XZRW8Wq3CVYvyZndQgUsDRsxn8Ju
-         r8/g==
-X-Gm-Message-State: AOJu0Yz+FFp5RsgEyhGyFpqcs0uudkVJsyDdG7OXUBqU33kUkEgAl7I4
-	tbWZn67Froj8EWcwm1YieJ2cPlcF8Y1pH7Ko7CuDue3DdAov9uTCKv4fAU5duOtTaEoDB0uwdBw
-	hILGZIqtR34EWXq48Hw3u7re8MOs=
-X-Google-Smtp-Source: AGHT+IG5SEnnxJDcGqDuVFPAlJd22LuemSGISAYgm4cKDI9N3pS8CMMcQAuUhR5txWZtx5AelWcfQz76myw+ESMwJyM=
-X-Received: by 2002:a05:6870:d389:b0:204:a85:2580 with SMTP id
- k9-20020a056870d38900b002040a852580mr8695329oag.34.1707138930993; Mon, 05 Feb
- 2024 05:15:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PhFy3H6U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707138935; x=1738674935;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jxi9hBIW/u/xN1/3l39jSDwYER6jWurCP3CAR9bpTUM=;
+  b=PhFy3H6U0Zt5UmfhWaAy21wVepJAJrAs0D/uK9pTvyz9cBW12VGn/hdL
+   L2Q6R7w3coxHPmrtxL+g3713OOMPFY+PR/IhAyQEnIW9Ozl1MZ5d4x0Q3
+   VOasJehQZOeLRArGn5L3XGyUGsADuEJSq1XxnKhC2YRYQRDuy874jHETv
+   0YEnl4KqBhhstN1ST4FqSlWrJWeqyIZGFjImvhpiSrcu9U5RjDBTRPlmD
+   /gAICEyIgsQ89cNc9vYZv81uwMJgrvJ5NCCJPk5BKJmBrN6mnQvri3VOY
+   3dSfn1i+KP8fjFLcSLZjgpZ7YYjtY5+VJGn3I0pGU34e5olF5DQfbvRG5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="11105843"
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="11105843"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 05:15:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="1014816"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 05 Feb 2024 05:15:29 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rWyoo-0000Xk-32;
+	Mon, 05 Feb 2024 13:15:26 +0000
+Date: Mon, 5 Feb 2024 21:14:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, alexandre.belloni@bootlin.com,
+	conor.culhane@silvaco.com, devicetree@vger.kernel.org,
+	gregkh@linuxfoundation.org, ilpo.jarvinen@linux.intel.com,
+	imx@lists.linux.dev, jirislaby@kernel.org, joe@perches.com,
+	krzysztof.kozlowski+dt@linaro.org, krzysztof.kozlowski@linaro.org,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, miquel.raynal@bootlin.com,
+	robh@kernel.org, zbigniew.lukwinski@linux.intel.com
+Subject: Re: [PATCH v6 8/8] tty: i3c: add TTY over I3C master support
+Message-ID: <202402052026.UNrmrB2M-lkp@intel.com>
+References: <20240202230925.1000659-9-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240131145454.86990-5-laoar.shao@gmail.com> <202402051121.y4w06atm-lkp@intel.com>
-In-Reply-To: <202402051121.y4w06atm-lkp@intel.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Mon, 5 Feb 2024 21:14:54 +0800
-Message-ID: <CALOAHbDiOO+=0ZbVQBc9FJB3v0Ta7WGJV2aQ4y=J9KqBVMy=gQ@mail.gmail.com>
-Subject: Re: [PATCH v5 bpf-next 4/4] selftests/bpf: Add selftests for cpumask iter
-To: kernel test robot <lkp@intel.com>
-Cc: ast@kernel.org, daniel@iogearbox.net, john.fastabend@gmail.com, 
-	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org, 
-	yonghong.song@linux.dev, kpsingh@kernel.org, sdf@google.com, 
-	haoluo@google.com, jolsa@kernel.org, tj@kernel.org, void@manifault.com, 
-	oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240202230925.1000659-9-Frank.Li@nxp.com>
 
-On Mon, Feb 5, 2024 at 11:09=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Yafang,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on bpf-next/master]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/bpf-Ad=
-d-bpf_iter_cpumask-kfuncs/20240131-232406
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20240131145454.86990-5-laoar.sha=
-o%40gmail.com
-> patch subject: [PATCH v5 bpf-next 4/4] selftests/bpf: Add selftests for c=
-pumask iter
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240205/202402051121.y4w06atm-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402051121.y4w06atm-lkp=
-@intel.com/
+Hi Frank,
 
-Thanks for your report.
-It seems that the issue is caused by missing CONFIG_PSI=3Dy.
-The kernel config should align with tools/testing/selftests/bpf/config.
+kernel test robot noticed the following build warnings:
 
->
-> All errors (new ones prefixed by >>):
->
-> >> progs/cpumask_iter_success.c:61:2: error: incomplete definition of typ=
-e 'struct psi_group_cpu'
->       61 |         READ_PERCPU_DATA(meta, cgrp, p->cpus_ptr);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    progs/cpumask_iter_success.c:39:27: note: expanded from macro 'READ_PE=
-RCPU_DATA'
->       39 |                 psi_nr_running +=3D groupc->tasks[NR_RUNNING];=
-                                    \
->          |                                   ~~~~~~^
->    progs/cpumask_iter_success.c:13:21: note: forward declaration of 'stru=
-ct psi_group_cpu'
->       13 | extern const struct psi_group_cpu system_group_pcpu __ksym __w=
-eak;
->          |                     ^
-> >> progs/cpumask_iter_success.c:61:2: error: use of undeclared identifier=
- 'NR_RUNNING'; did you mean 'T_RUNNING'?
->       61 |         READ_PERCPU_DATA(meta, cgrp, p->cpus_ptr);
->          |         ^
->    progs/cpumask_iter_success.c:39:35: note: expanded from macro 'READ_PE=
-RCPU_DATA'
->       39 |                 psi_nr_running +=3D groupc->tasks[NR_RUNNING];=
-                                    \
->          |                                                 ^
->    /tools/include/vmlinux.h:28263:3: note: 'T_RUNNING' declared here
->     28263 |                 T_RUNNING =3D 0,
->           |                 ^
->    progs/cpumask_iter_success.c:80:2: error: incomplete definition of typ=
-e 'struct psi_group_cpu'
->       80 |         READ_PERCPU_DATA(meta, cgrp, p->cpus_ptr);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    progs/cpumask_iter_success.c:39:27: note: expanded from macro 'READ_PE=
-RCPU_DATA'
->       39 |                 psi_nr_running +=3D groupc->tasks[NR_RUNNING];=
-                                    \
->          |                                   ~~~~~~^
->    progs/cpumask_iter_success.c:13:21: note: forward declaration of 'stru=
-ct psi_group_cpu'
->       13 | extern const struct psi_group_cpu system_group_pcpu __ksym __w=
-eak;
->          |                     ^
->    progs/cpumask_iter_success.c:80:2: error: use of undeclared identifier=
- 'NR_RUNNING'; did you mean 'T_RUNNING'?
->       80 |         READ_PERCPU_DATA(meta, cgrp, p->cpus_ptr);
->          |         ^
->    progs/cpumask_iter_success.c:39:35: note: expanded from macro 'READ_PE=
-RCPU_DATA'
->       39 |                 psi_nr_running +=3D groupc->tasks[NR_RUNNING];=
-                                    \
->          |                                                 ^
->    /tools/include/vmlinux.h:28263:3: note: 'T_RUNNING' declared here
->     28263 |                 T_RUNNING =3D 0,
->           |                 ^
->    4 errors generated.
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus robh/for-next linus/master v6.8-rc3 next-20240205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/i3c-add-target-mode-support/20240203-071519
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20240202230925.1000659-9-Frank.Li%40nxp.com
+patch subject: [PATCH v6 8/8] tty: i3c: add TTY over I3C master support
+config: powerpc-randconfig-r071-20240205 (https://download.01.org/0day-ci/archive/20240205/202402052026.UNrmrB2M-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402052026.UNrmrB2M-lkp@intel.com/
 
---=20
-Regards
-Yafang
+smatch warnings:
+drivers/tty/i3c_tty.c:237 tty_i3c_rxwork() error: uninitialized symbol 'status'.
+
+vim +/status +237 drivers/tty/i3c_tty.c
+
+   191	
+   192	static void tty_i3c_rxwork(struct work_struct *work)
+   193	{
+   194		struct ttyi3c_port *sport = container_of(work, struct ttyi3c_port, rxwork);
+   195		struct i3c_priv_xfer xfers;
+   196		u32 retry = I3C_TTY_RETRY;
+   197		u16 status;
+   198		int ret;
+   199	
+   200		memset(&xfers, 0, sizeof(xfers));
+   201		xfers.data.in = sport->rx_buff;
+   202		xfers.len = I3C_TTY_TRANS_SIZE;
+   203		xfers.rnw = 1;
+   204	
+   205		do {
+   206			if (test_bit(I3C_TTY_RX_STOP, &sport->status))
+   207				break;
+   208	
+   209			i3c_device_do_priv_xfers(sport->i3cdev, &xfers, 1);
+   210	
+   211			if (xfers.actual_len) {
+   212				ret = tty_insert_flip_string(&sport->port, sport->rx_buff,
+   213							     xfers.actual_len);
+   214				if (ret < xfers.actual_len)
+   215					sport->buf_overrun++;
+   216	
+   217				retry = I3C_TTY_RETRY;
+   218				continue;
+   219			}
+   220	
+   221			status = I3C_TTY_TARGET_RX_READY;
+   222			i3c_device_getstatus_format1(sport->i3cdev, &status);
+   223			/*
+   224			 * Target side needs some time to fill data into fifo. Target side may not
+   225			 * have hardware update status in real time. Software update status always
+   226			 * needs some delays.
+   227			 *
+   228			 * Generally, target side have circular buffer in memory, it will be moved
+   229			 * into FIFO by CPU or DMA. 'status' just show if circular buffer empty. But
+   230			 * there are gap, especially CPU have not response irq to fill FIFO in time.
+   231			 * So xfers.actual will be zero, wait for little time to avoid flood
+   232			 * transfer in i3c bus.
+   233			 */
+   234			usleep_range(I3C_TTY_YIELD_US, 10 * I3C_TTY_YIELD_US);
+   235			retry--;
+   236	
+ > 237		} while (retry && (status & I3C_TTY_TARGET_RX_READY));
+   238	
+   239		tty_flip_buffer_push(&sport->port);
+   240	}
+   241	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
