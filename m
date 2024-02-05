@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C03482F5;
-	Mon,  5 Feb 2024 23:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B5248793
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 23:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707174828; cv=none; b=MmONVU3JLffxzlIgTvgwlkCSTAaNIlP+14kt2GmxpG1rE0i3Q6/FkvL3wEmIxHIKIMJ7jp3FOPObiJdZiveqTiCqwJTHc7frzvKBi5Z8s/KMv61lkwwtXYfk+OiW775m2wpbNddAriRRtBkcPAiFHPfuXOG+QegtWXeg16Ws3/8=
+	t=1707175430; cv=none; b=sZ/AKly+axMdSBi7SL+rWPlNKbxf5mnWz+SgNtoIWiMZi62IZk4OzPsnqSFQu8sxFYttn25IjmC1g4RU7enLWxTMFTS02mrxt/Gz76izQYMnlTPdmIZ/hoh6DpOnuH9zlaSI3ZFuDOA0MQCYuMkUHk8JUEcObR31lr1VozwguMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707174828; c=relaxed/simple;
-	bh=uEOPooNg2SYkTD6le+KknqIc+GX5jBSXTh3C3x/DtOE=;
+	s=arc-20240116; t=1707175430; c=relaxed/simple;
+	bh=lp4oNwKDpPwaT7j9+zFHyG9XnfMqCKib3JNHHV1TpDA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dyrJzSxjQNN/HVYVP8agQFeIbQZ8MhtWYXT/y8Sd+vZiKpTJmEUlZjiBqsOHYarXxiFJeti3DhLnDJj9Cgp6mQpuExBXxaZLKhc3pGXoadmn1Xr/nRZop9l3MJthqLbHEa+S/J19iO5tdRhL/pJmq1WAE3mUq+bvWX8D+1CXNL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cn+t59ow; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=fR6H7IwT4Bi7IIcQOPM3647RvuzHk9taTNyOB8ALq9oDrRkrbm7T2UUO8rgj9GbV3BP6+bHJbptK+Ll+Iw//j3NObQlHTp5obEAaFxZCyf5i6sjC3jqmES7SCk/NpfV1vneS2iGwiYgQj4qrcNy2gdPedfoTSZ9TJ5RseHJK12s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jXSGrq27; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cn+t59ow"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jXSGrq27"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707174827; x=1738710827;
+  t=1707175427; x=1738711427;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uEOPooNg2SYkTD6le+KknqIc+GX5jBSXTh3C3x/DtOE=;
-  b=Cn+t59owImGdBW7j2soIylOdirSdK2no3/nit7gsr4DlgdqL0caH2pUh
-   Xqop3676R4/SoH+0G5ihKIOQo0TgY9tKL1i0PcGR0oydY9rWrRGwI/7fy
-   jcQufzkEOy28TPvOAVIZYEPj3WrqK9wmsqUtMneBczRpg5ZCMOvOMKned
-   +nErVfB/Gc4FnVQWFyN1MbtwWlZYXZ/POz6SkxROAgGMYGk3HerMT1VGq
-   x2l5/qq9hNIbIgaOzT59nbjzn7dwGgk+k88Qc1ILdjlMZ7Y3xmvQk6gFy
-   KRn+pv5qPBangP1Ob3TyY8F6mAN1UVwgnK6XdMemdN/4+4WTSTQ3qtONy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="3587699"
+  bh=lp4oNwKDpPwaT7j9+zFHyG9XnfMqCKib3JNHHV1TpDA=;
+  b=jXSGrq27u4spUJViJZhp/lDfgJX+or7P8LESjSwSlshjDCYg0wPM74XE
+   +o3HKvXez21uw+buC4CWH1WpvyzgYXJzqLfwn50KUEyOlOgYe7lOxZ8gh
+   jE9AtT4M/Rpooyy6rPoqdzBKsMvSToQwlrTraDDLwmfWp1J52I5g2B/Ly
+   psuS+FaCvC6/QLeztg+sSbTWeMf0wpxs7eTpnEPeF5iGcCE1xnfIwiRYK
+   G5yZd/Kr7WfPs4Kr3LBCUmfnrhravaZMCR172lUfuJIMP90tNBN6t0tnN
+   etHJvu25ENQ1Dy8oW/5ZMnBX8lIDDfv4cCJqftu+1gmwNj8nlD1uzSYpn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="26072236"
 X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="3587699"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 15:13:46 -0800
+   d="scan'208";a="26072236"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 15:23:45 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="841529"
+   d="scan'208";a="38276368"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Feb 2024 15:13:43 -0800
+  by orviesa001.jf.intel.com with ESMTP; 05 Feb 2024 15:23:44 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rX89l-0000tB-2q;
-	Mon, 05 Feb 2024 23:13:41 +0000
-Date: Tue, 6 Feb 2024 07:12:56 +0800
+	id 1rX8JR-0000tM-36;
+	Mon, 05 Feb 2024 23:23:41 +0000
+Date: Tue, 6 Feb 2024 07:23:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kees Cook <keescook@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Justin Stitt <justinstitt@google.com>
-Subject: [kees:devel/2-arg-strscpy 2/4] fs/exec.c:1234:2: error: call to
- undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202402060734.jrkbSAtM-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kees:devel/2-arg-strscpy 3/4] include/linux/string.h:143:21: error:
+ '__strscpy_pad' undeclared; did you mean 'strscpy_pad'?
+Message-ID: <202402060752.Ab6TLFAi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,86 +60,88 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git devel/2-arg-strscpy
 head:   ec83dccab8c18d8482dc1934e7079916508b8eea
-commit: db19daefe72fd816f386afed91ae83633382e489 [2/4] string: Allow 2-argument strscpy()
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240206/202402060734.jrkbSAtM-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402060734.jrkbSAtM-lkp@intel.com/reproduce)
+commit: dec483587dcaf35a567dc38c50a8800ad4b106d3 [3/4] string: Allow 2-argument strscpy_pad()
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240206/202402060752.Ab6TLFAi-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402060752.Ab6TLFAi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402060734.jrkbSAtM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402060752.Ab6TLFAi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/exec.c:1234:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   In file included from include/linux/bitmap.h:12,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from fs/exec.c:27:
+   fs/exec.c: In function '__get_task_comm':
+   include/linux/string.h:143:9: error: implicit declaration of function 'CONCATENATE' [-Werror=implicit-function-declaration]
+     143 |         CONCATENATE(__strscpy_pad, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |         ^~~~~~~~~~~
+   fs/exec.c:1234:9: note: in expansion of macro 'strscpy_pad'
     1234 |         strscpy_pad(buf, tsk->comm, buf_size);
-         |         ^
-   include/linux/string.h:132:12: note: expanded from macro 'strscpy_pad'
-     132 |         __wrote = strscpy(__dst, __src, __count);                       \
-         |                   ^
-   include/linux/string.h:104:2: note: expanded from macro 'strscpy'
-     104 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-         |         ^
->> fs/exec.c:1234:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/string.h:132:12: note: expanded from macro 'strscpy_pad'
-     132 |         __wrote = strscpy(__dst, __src, __count);                       \
-         |                   ^
-   include/linux/string.h:104:25: note: expanded from macro 'strscpy'
-     104 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-         |                                ^
-   fs/exec.c:1234:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:132:12: note: expanded from macro 'strscpy_pad'
-     132 |         __wrote = strscpy(__dst, __src, __count);                       \
-         |                   ^
-   include/linux/string.h:104:14: note: expanded from macro 'strscpy'
-     104 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-         |                     ^
-   fs/exec.c:1249:2: error: call to undeclared function 'CONCATENATE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |         ^~~~~~~~~~~
+>> include/linux/string.h:143:21: error: '__strscpy_pad' undeclared (first use in this function); did you mean 'strscpy_pad'?
+     143 |         CONCATENATE(__strscpy_pad, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |                     ^~~~~~~~~~~~~
+   fs/exec.c:1234:9: note: in expansion of macro 'strscpy_pad'
+    1234 |         strscpy_pad(buf, tsk->comm, buf_size);
+         |         ^~~~~~~~~~~
+   include/linux/string.h:143:21: note: each undeclared identifier is reported only once for each function it appears in
+     143 |         CONCATENATE(__strscpy_pad, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |                     ^~~~~~~~~~~~~
+   fs/exec.c:1234:9: note: in expansion of macro 'strscpy_pad'
+    1234 |         strscpy_pad(buf, tsk->comm, buf_size);
+         |         ^~~~~~~~~~~
+   include/linux/string.h:143:36: error: implicit declaration of function 'COUNT_ARGS' [-Werror=implicit-function-declaration]
+     143 |         CONCATENATE(__strscpy_pad, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |                                    ^~~~~~~~~~
+   fs/exec.c:1234:9: note: in expansion of macro 'strscpy_pad'
+    1234 |         strscpy_pad(buf, tsk->comm, buf_size);
+         |         ^~~~~~~~~~~
+   fs/exec.c: In function '__set_task_comm':
+>> include/linux/string.h:143:21: error: '__strscpy_pad' undeclared (first use in this function); did you mean 'strscpy_pad'?
+     143 |         CONCATENATE(__strscpy_pad, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |                     ^~~~~~~~~~~~~
+   fs/exec.c:1249:9: note: in expansion of macro 'strscpy_pad'
     1249 |         strscpy_pad(tsk->comm, buf, sizeof(tsk->comm));
-         |         ^
-   include/linux/string.h:132:12: note: expanded from macro 'strscpy_pad'
-     132 |         __wrote = strscpy(__dst, __src, __count);                       \
-         |                   ^
-   include/linux/string.h:104:2: note: expanded from macro 'strscpy'
-     104 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-         |         ^
-   fs/exec.c:1249:2: error: call to undeclared function 'COUNT_ARGS'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/string.h:132:12: note: expanded from macro 'strscpy_pad'
-     132 |         __wrote = strscpy(__dst, __src, __count);                       \
-         |                   ^
-   include/linux/string.h:104:25: note: expanded from macro 'strscpy'
-     104 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-         |                                ^
-   fs/exec.c:1249:2: error: use of undeclared identifier '__strscpy'
-   include/linux/string.h:132:12: note: expanded from macro 'strscpy_pad'
-     132 |         __wrote = strscpy(__dst, __src, __count);                       \
-         |                   ^
-   include/linux/string.h:104:14: note: expanded from macro 'strscpy'
-     104 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
-         |                     ^
-   6 errors generated.
+         |         ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/COUNT_ARGS +1234 fs/exec.c
+vim +143 include/linux/string.h
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1229  
-3756f6401c3026 Arnd Bergmann  2017-12-14  1230  char *__get_task_comm(char *buf, size_t buf_size, struct task_struct *tsk)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1231  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1232  	task_lock(tsk);
-503471ac36df60 Yafang Shao    2022-01-19  1233  	/* Always NUL terminated and zero-padded */
-503471ac36df60 Yafang Shao    2022-01-19 @1234  	strscpy_pad(buf, tsk->comm, buf_size);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1235  	task_unlock(tsk);
-59714d65dfbc86 Andrew Morton  2008-02-04  1236  	return buf;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1237  }
-3756f6401c3026 Arnd Bergmann  2017-12-14  1238  EXPORT_SYMBOL_GPL(__get_task_comm);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1239  
-
-:::::: The code at line 1234 was first introduced by commit
-:::::: 503471ac36df60bba037c3b110d76f53a93f61b5 fs/exec: replace strncpy with strscpy_pad in __get_task_comm
-
-:::::: TO: Yafang Shao <laoar.shao@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   121	
+   122	/**
+   123	 * strscpy_pad() - Copy a C-string into a sized buffer
+   124	 * @dest: Where to copy the string to
+   125	 * @src: Where to copy the string from
+   126	 * @count: Size of destination buffer
+   127	 *
+   128	 * Copy the string, or as much of it as fits, into the dest buffer. The
+   129	 * behavior is undefined if the string buffers overlap. The destination
+   130	 * buffer is always %NUL terminated, unless it's zero-sized.
+   131	 *
+   132	 * If the source string is shorter than the destination buffer, zeros
+   133	 * the tail of the destination buffer.
+   134	 *
+   135	 * For full explanation of why you may want to consider using the
+   136	 * 'strscpy' functions please see the function docstring for strscpy().
+   137	 *
+   138	 * Returns:
+   139	 * * The number of characters copied (not including the trailing %NULs)
+   140	 * * -E2BIG if count is 0 or @src was truncated.
+   141	 */
+   142	#define strscpy_pad(dst, src, ...)	\
+ > 143		CONCATENATE(__strscpy_pad, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
