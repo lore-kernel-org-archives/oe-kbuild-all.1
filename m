@@ -1,190 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999F61173A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 08:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707121821; cv=none; b=QRnGuAAjYcRsI3dbiP8E9GIhsGB0sWI7VTdW7QxjR+05UruYU9ZutVA196uYnpEFnMb7VHl/zR5g7vhUk6co3oU2iifB30hkB8hht1ydzwEsAhruL/XdQE1GfykXp2pg5vdvbpWTInQlnRODp4ubFHAfiyscKC9QLjjdieWZf/0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707121821; c=relaxed/simple;
-	bh=8ERouzPESfY4i6PqZdnNfLUCciOei7+D3Ql0RtqcsfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AgkHRX8hL2i4c7GoAJ/4eel7WZ38OJtFZVDIniNhxTCeCT5AkbGo1u/k7X39+hsO1SzukBeM6rHNF6JoDanLyLDPkCyU436jrIpvnLU8qkmSpSH+WXUj2e75Kzt73bM9NaS+Gu/ua7FQHyU4xxTMxAil6g6dWngER1tsqCjcs0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LGGe04zz; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C6212E4E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Feb 2024 09:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707125543; cv=fail; b=nQ7VgHzLmbrePjODPFSOep8IOPAL8GTdVauAuZZTEf4uZdQ5ejV26Gjy/rLnM/W+nptCLCE6a/7hH4XGFHK692HEDSGTPL0p11VTrhKA/6P2RBl9lTLjj3zO9KBUXrO3xZ+roeTbiU+gRQlD6Yf+EtPSjAom3gV3M1sQt/ry0+I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707125543; c=relaxed/simple;
+	bh=8JRJFOttjny7/iqazOpUu8rIynKVPlY9IzN3fwfNNjQ=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=PG8/UyRyGo0TCMJms06iuAI6qKkld7KpMzaxc+qGbUMn1R3H6+VuZI1frRMaMn9IlEovK3PFrvthzAcxE8fc2up4m8VeHy+zd62srlsE7nYkNm6LOlIMpo3ZapFXAUcZ2HyqPOvClKQKlpwkF3jIpgnmCr/6+cFY7YT7Isq5D9o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ie64AmGr; arc=fail smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LGGe04zz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ie64AmGr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707121819; x=1738657819;
+  t=1707125542; x=1738661542;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8ERouzPESfY4i6PqZdnNfLUCciOei7+D3Ql0RtqcsfQ=;
-  b=LGGe04zzC4BnU2+yDkAWIMvBnr5mNisXZzznO+3admZ/rO4kB5CtQ+uk
-   M/slk6mbwN2Y//539hzeYOfcb0PBommJ9qKNwfY2DmL7DEe8/3uq2dlRl
-   EOdkmqyXrwIhlGeWMwQEdxMPcpV/H9PDYFNGi02Tq2RvjEla/SHBMAxHo
-   sGptzxciAInvIBy7zghi6djPUBZ/7JubJabnpj265ZPsLcl1VV5uBQWZN
-   I2Fi07OvfJI3IYzU2d7SxOTJu/TJXDhRgmReUzeeEteUQtBGunAdYmwzH
-   5sQ0Ckb7xryDJaFdH8aduy3V2bmb7RMCj4AAHehcP0Leyc4xH64Gs+Tp3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="17891006"
+  bh=8JRJFOttjny7/iqazOpUu8rIynKVPlY9IzN3fwfNNjQ=;
+  b=Ie64AmGr39tohZpupqbEcg9jLOQ8R60XJ5SXgF+oP5U2dZsA05WZDJu8
+   ZoDZtCO+nGqPV5lybJd28SrSW890RxexbNerX+IQlWDQcKqx8xBUuBmQC
+   9qsihmyh4I6Vhoean/6a6xY66bKfhGf/BaVBdkUs+L3iQQp60QQRYooYD
+   /Oa7ovlL0omnsbHVkvjz/zrebz/9gq0RSS+Z/KvQJBbL+gqB0aIbjUPUC
+   jyiRHfZ/9zBFOVTpXNxxcZqCsrkuyEYecx/X7SpXGoR21vTZ86MIZoPaQ
+   kZuYJcqaO7DuxzLsFshchTNn8aeKDdH+Zxs8RmsxVLtKvWTz/K0XJrMq6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="3442153"
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="17891006"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 00:30:19 -0800
+   d="scan'208";a="3442153"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 01:32:18 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
-   d="scan'208";a="948778"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 05 Feb 2024 00:30:18 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rWuMp-0000HE-1x;
-	Mon, 05 Feb 2024 08:30:15 +0000
-Date: Mon, 5 Feb 2024 16:30:05 +0800
+   d="scan'208";a="23923656"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Feb 2024 01:32:18 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 5 Feb 2024 01:32:17 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 5 Feb 2024 01:32:17 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 5 Feb 2024 01:32:17 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VliI65HPrI4SmTyiXMqCwo6qbPFSUnFqGwJXX9roncFm1bdka/0LiQ5BcOleeuwwx9B+zCgH3wfbi2PUwpIgC25tFxlATrZLXrTadZeSbWN4owIEiScjFsdQHL3SFETe/XAMj4cwpbD8DMVwAzV232zEtk9Ygufxmbg0dK+bRnQN4QgrVvBpGCB6bZ5cP5thMlwimPFwcFys9NUQiydKqBxmj2jv37OYwwAWCD1UP4nOr6R0eXuQ04GhhTPJtDzaNezbhYYGsIjKqkBtCY7lxFt7APDeXZ+fYAMODxIbeI0Qy4IjibbAmd/COcWefsrhOxRZ6FlmLXmS/wlx/vAIbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mUqvBTEKiNvS4K//9PbZgdhtorqxJB6ERNBgZaV/44g=;
+ b=LHiTgxMVfNAKJ0W72+j+7HpwzKTlf8fDYZE0axO56Qi+ZGWSHiWd3WUiTmnV8WZFcLllS3ULPmVP0XHWPtKf81uVYOZtVkys+y2dVLN6mRZR8SK2drbdhstqmuHntL2FPSNQx/5OwwPQ8ynmtGpff6X34MsHuKT4fd4o97mQyWiG/re2/BgkCNSDc7xMZGlkbi9zCjDwVRDV1TJLAa414M4vB7cAtCJCKrjvVqmOYdzhHGhcDx8RCfLCeSmKqScKVjqLjIoBGa1ShscwZRoYWru40fo1kaeBvY4GM1u5+TinzV5P+LQAjecnGRM31ynK8zfTyDn6ZsQ0VTcq8ZOYnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
+ by DS0PR11MB7441.namprd11.prod.outlook.com (2603:10b6:8:141::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Mon, 5 Feb
+ 2024 09:32:14 +0000
+Received: from CH3PR11MB8414.namprd11.prod.outlook.com
+ ([fe80::ed34:4cf2:df58:f708]) by CH3PR11MB8414.namprd11.prod.outlook.com
+ ([fe80::ed34:4cf2:df58:f708%4]) with mapi id 15.20.7249.035; Mon, 5 Feb 2024
+ 09:32:13 +0000
+Date: Mon, 5 Feb 2024 17:32:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.8-rc2-esp32 27/52]
- drivers/net/wireless/espressif/esp32-ng/esp_bt.c:131:18: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202402051634.nqKLWkZq-lkp@intel.com>
+To: Mark Salyzyn <salyzyn@google.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: net-procfs.c:(.ref.text+0x60): relocation truncated to fit:
+ R_AARCH64_CALL26 against undefined symbol `wext_proc_exit'
+Message-ID: <ZcCrFo3h65d5D0cb@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0171.apcprd04.prod.outlook.com (2603:1096:4::33)
+ To CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8414:EE_|DS0PR11MB7441:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f3afc48-0442-4549-3fe8-08dc262d5595
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HCS4HdBvDFf9aaflFpygwCDcTcBYLx9JW9fdIkjQ9ZEgW7hYWWXjwn2tBOf7//YIoUFjvSSdUza4plexD1Kj5luI+dZqejXa0fWwR/RbNCMF5UWW3Pa6ZleN4VdWIZZX/xOPWBN6XT40GRI2S44/k19FOvJi1jMj6s2RDRsbmgPwN4dMHf0nthZiZziH5h9Jgs8dB0WlNLfRohnA5prGlVdflky5crl4M0LKYzzCZtZqCk9Pw+ux8OhnL8nh18es31vLSIKZhkQjbKq2ptjNePsaen+2VQ73HzZftxIWY6y3/640x9gp5A6QreRqQYvNQpheeYWNhYRQbhEIkI8uYwp0K26tmKZT2sM1m+kl04hd1sTVg/+Xorf6eBPOs0h3YI2wa5RgHYr1+viRLx5+3kPoW3QgvZD46UGCWIp9u2bXBuq9jHziLZ5sW38Sc+oyUXPsCe/Yl9UYgz8LKn7CiO44UuKvo7ggC0DLDg0tX0wlGL4PHs3ybVYv0E2Mf+kf/wP5Mx5zU67vpbpvsM3xaaHzpNyxYWKB39zdMSJNY8rEKWHJ0gzGPIYLerpI+D5vBWQrweXR06pVX/JqHsLY+w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8414.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(346002)(39860400002)(396003)(136003)(376002)(230273577357003)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(83380400001)(38100700002)(8676002)(4326008)(5660300002)(8936002)(478600001)(6666004)(33716001)(9686003)(41300700001)(6506007)(2906002)(66556008)(6486002)(316002)(6512007)(66476007)(966005)(66946007)(6916009)(26005)(86362001)(82960400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0/TrYaf8pRb2YN2zPSBQrwtdYBmsUBtv+WFCZTQVcqD1XsMbga8RbUG9u9Ol?=
+ =?us-ascii?Q?Ub4JNgppp2pA7XWZvtOjtsm63diZiwjYBjC9Frjurf2hwWQW54ZnIzp6diJL?=
+ =?us-ascii?Q?wKWCkDHdgl0jSSv1JbbHqn8PQPLLm7ibl9FSa8cwYlFQcWT6mMPT0uT6PQ3x?=
+ =?us-ascii?Q?bFg3Ru/DoKM4/m8aTTHDYaQsbYtOuTvhc+pGM2h76ohbCq4ARd3omiLc6Uvg?=
+ =?us-ascii?Q?ujvExPBEE9aRlrRToUV+YzKY0S3pb/3Uj7idxFixW/JotIPMVWgsOpWQ3iQG?=
+ =?us-ascii?Q?7q9o7nMk0gTUODeSksf/D42K5MQXp8u5vcos+W3UZevm+KYRx99IOwQcbTb+?=
+ =?us-ascii?Q?srWxvJOUx/ZFoZm22whZOg56AzLIImuNyEFfqYtlYNHLzeg5FLbLgcREo3+m?=
+ =?us-ascii?Q?fm0SEKOq8LJQooEjZkWEvLytFUc58Aeg0a5Y64PR5W0NLMTV9FNgn+qV/HvB?=
+ =?us-ascii?Q?sBVRtaejd6U8LWQ7BeBJcdPMKC6qjmXVQZ5P/8o8Z/WvkCgiIUbHNFlKfP0O?=
+ =?us-ascii?Q?DcsuaPJLUAuQsKyBuiaxqKNA2DuBRIGRnPSk7IGUMmhosYengDRKzioxx1v9?=
+ =?us-ascii?Q?mxHAZ8123J9luAXf7fu4EwpXOaxxteCtF6xdbk4R9wJwETH9lBxUKQ5KE6pw?=
+ =?us-ascii?Q?xRSfFy7euR8CG6LyREJ5P3s8Oku5RhfFKdN7D+R5Il+McwyQIfHOcXz60Uvx?=
+ =?us-ascii?Q?524xfaverPsPNGE/814rTQ+KxGAUSLT2FYVBUoaj1NTTPStOHOj/ttz5IOYY?=
+ =?us-ascii?Q?4TY16Z4oXQXw1JM4CktIuSzJqgBUcleyt2dG0cEgii9mtwyvJ/yWmr4BvRha?=
+ =?us-ascii?Q?ZfNoUcpL68q8uy6fVLXrvPL6kH1BF6FO8lR6U5OBFh/y9cNC2xdtY44knL3f?=
+ =?us-ascii?Q?s2t7dVmiJ6jqEgvrEkIrh+d6to5Jt/mbLXxgFWzYhNCjWP8cG3ZFdq/JhXDh?=
+ =?us-ascii?Q?24W3yTT1np3/Dtai1I1r9wohJf85y+59fFVzNGHhBDJpb/fPpJyRhWZiI9MI?=
+ =?us-ascii?Q?TtijrgPQsrf3HbE7BDpQhv/Z5sVEqTlw4vY9Vsde/k6AXOF/ICAPu2ecCpRo?=
+ =?us-ascii?Q?yljSc+5QkmQHWBY83LZ5GopUXpjGqjW+q44Ocps9MeXwzQKVz2LUTp5y8SUR?=
+ =?us-ascii?Q?oGE8cYjxA/9fjEc05VWDdvG2WIKmqua9e0wVQ/d2fborMyDXePZ1vTp32VB4?=
+ =?us-ascii?Q?zxDH8zN1XxFJrJaF+DIqVPSzRQ4UexRuHFAfkTJqXR/ChyfRR5PPrcTjQTG9?=
+ =?us-ascii?Q?i/f/GkuczeYNqlIbbhxkPMXr4TVT0eBvIzPzK6xV81OjgScvUvC/6sFjzyQq?=
+ =?us-ascii?Q?PJZ/kbsC7+i2V98B0mcvllN4B2bg/Jo0Iwx2zDQV7Tgq42rMOdK6xuCGU+Yo?=
+ =?us-ascii?Q?iTdP1dQK92eH1SJVll8q+onz4z56ds/s6IcOppcwGMBubAowPLG0VnhPSsC5?=
+ =?us-ascii?Q?jK2YIOTZtEt+7z4S/0RMFaQ24vyPHMm8E0iSuZEmniHUn0hxJ5gO6K7XM6dM?=
+ =?us-ascii?Q?0/6tkCqehkuN1oIBAI8Nt40zDbFs6BZobbHcH9zxmyhVzNxV77RZ75sX5yre?=
+ =?us-ascii?Q?hRrHJXYuZt3XISB4MG+drtwB+w1s4FKU9bSoIPPTULUHL3EB00mAXdvGtf9B?=
+ =?us-ascii?Q?Zw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f3afc48-0442-4549-3fe8-08dc262d5595
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8414.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2024 09:32:13.8368
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ovIZD8UAPNA3RJV53yap7S+9/1p7WhaPtPSFTRQ9NzJT/gORY4U1BHb+1XNowUSqlrBriWWYMxQAH1qriGc25Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7441
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.8-rc2-esp32
-head:   b25ff15921c2ce0b8abd0f2797f4942a28866d9e
-commit: 45f979e707835f557c2e8a0403e7338bf0f67472 [27/52] drivers/net/wireless/espressif/esp32-ng: update
-config: arc-randconfig-r111-20240205 (https://download.01.org/0day-ci/archive/20240205/202402051634.nqKLWkZq-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240205/202402051634.nqKLWkZq-lkp@intel.com/reproduce)
+tree:   https://github.com/ambarus/linux-0day syzkaller-id-5ecbc557fcdb8a2864e876f690ef377db999c50f
+head:   caa714448992ba4eb583735a4acb26917fbc67a8
+commit: 8a167346a33aa28c6e422739e69abc87f57f81bc ANDROID: net: enable wireless core features with GKI_LEGACY_WEXT_ALLCONFIG
+date:   4 years, 5 months ago
+:::::: branch date: 1 year, 2 months ago
+:::::: commit date: 4 years, 5 months ago
+config: arm64-randconfig-001-20240117 (https://download.01.org/0day-ci/archive/20240205/202402051349.XPu1hxff-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240205/202402051349.XPu1hxff-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402051634.nqKLWkZq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202402051349.XPu1hxff-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/espressif/esp32-ng/esp_bt.c:131:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] len @@     got restricted __le16 [usertype] @@
-   drivers/net/wireless/espressif/esp32-ng/esp_bt.c:131:18: sparse:     expected unsigned short [usertype] len
-   drivers/net/wireless/espressif/esp32-ng/esp_bt.c:131:18: sparse:     got restricted __le16 [usertype]
->> drivers/net/wireless/espressif/esp32-ng/esp_bt.c:132:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] offset @@     got restricted __le16 [usertype] @@
-   drivers/net/wireless/espressif/esp32-ng/esp_bt.c:132:21: sparse:     expected unsigned short [usertype] offset
-   drivers/net/wireless/espressif/esp32-ng/esp_bt.c:132:21: sparse:     got restricted __le16 [usertype]
->> drivers/net/wireless/espressif/esp32-ng/esp_bt.c:139:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] checksum @@     got restricted __le16 [usertype] @@
-   drivers/net/wireless/espressif/esp32-ng/esp_bt.c:139:31: sparse:     expected unsigned short [usertype] checksum
-   drivers/net/wireless/espressif/esp32-ng/esp_bt.c:139:31: sparse:     got restricted __le16 [usertype]
+Note: the ambarus/syzkaller-id-5ecbc557fcdb8a2864e876f690ef377db999c50f HEAD caa714448992ba4eb583735a4acb26917fbc67a8 builds fine.
+      It only hurts bisectability.
 
-vim +131 drivers/net/wireless/espressif/esp32-ng/esp_bt.c
+All errors (new ones prefixed by >>):
 
-f41685cce7c34e Max Filippov 2023-06-27   59  
-f41685cce7c34e Max Filippov 2023-06-27   60  static ESP_BT_SEND_FRAME_PROTOTYPE()
-f41685cce7c34e Max Filippov 2023-06-27   61  {
-f41685cce7c34e Max Filippov 2023-06-27   62  	struct esp_payload_header *hdr;
-f41685cce7c34e Max Filippov 2023-06-27   63  	size_t total_len, len = skb->len;
-f41685cce7c34e Max Filippov 2023-06-27   64  	int ret = 0;
-f41685cce7c34e Max Filippov 2023-06-27   65  #if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 13, 0))
-f41685cce7c34e Max Filippov 2023-06-27   66  	struct hci_dev *hdev = (struct hci_dev *)(skb->dev);
-f41685cce7c34e Max Filippov 2023-06-27   67  #endif
-f41685cce7c34e Max Filippov 2023-06-27   68  	struct esp_adapter *adapter = hci_get_drvdata(hdev);
-f41685cce7c34e Max Filippov 2023-06-27   69  	struct sk_buff *new_skb;
-f41685cce7c34e Max Filippov 2023-06-27   70  	u8 pad_len = 0, realloc_skb = 0;
-f41685cce7c34e Max Filippov 2023-06-27   71  	u8 *pos = NULL;
-f41685cce7c34e Max Filippov 2023-06-27   72  	u8 pkt_type;
-f41685cce7c34e Max Filippov 2023-06-27   73  
-f41685cce7c34e Max Filippov 2023-06-27   74  	if (!adapter) {
-f41685cce7c34e Max Filippov 2023-06-27   75  		esp_err("Invalid args");
-f41685cce7c34e Max Filippov 2023-06-27   76  		return -EINVAL;
-f41685cce7c34e Max Filippov 2023-06-27   77  	}
-f41685cce7c34e Max Filippov 2023-06-27   78  	//print_hex_dump(KERN_INFO, "bt_tx: ", DUMP_PREFIX_ADDRESS, 16, 1, skb->data, len, 1  );
-f41685cce7c34e Max Filippov 2023-06-27   79  
-f41685cce7c34e Max Filippov 2023-06-27   80  	/* Create space for payload header */
-f41685cce7c34e Max Filippov 2023-06-27   81  	pad_len = sizeof(struct esp_payload_header);
-f41685cce7c34e Max Filippov 2023-06-27   82  	total_len = len + sizeof(struct esp_payload_header);
-f41685cce7c34e Max Filippov 2023-06-27   83  
-f41685cce7c34e Max Filippov 2023-06-27   84  	/* Align buffer len */
-f41685cce7c34e Max Filippov 2023-06-27   85  	pad_len += SKB_DATA_ADDR_ALIGNMENT - (total_len % SKB_DATA_ADDR_ALIGNMENT);
-f41685cce7c34e Max Filippov 2023-06-27   86  
-f41685cce7c34e Max Filippov 2023-06-27   87  	pkt_type = hci_skb_pkt_type(skb);
-f41685cce7c34e Max Filippov 2023-06-27   88  
-f41685cce7c34e Max Filippov 2023-06-27   89  	if (skb_headroom(skb) < pad_len) {
-f41685cce7c34e Max Filippov 2023-06-27   90  		/* Headroom is not sufficient */
-f41685cce7c34e Max Filippov 2023-06-27   91  		realloc_skb = 1;
-f41685cce7c34e Max Filippov 2023-06-27   92  	}
-f41685cce7c34e Max Filippov 2023-06-27   93  
-f41685cce7c34e Max Filippov 2023-06-27   94  	if (realloc_skb || !IS_ALIGNED((unsigned long) skb->data, SKB_DATA_ADDR_ALIGNMENT)) {
-f41685cce7c34e Max Filippov 2023-06-27   95  		/* Realloc SKB */
-f41685cce7c34e Max Filippov 2023-06-27   96  		if (skb_linearize(skb)) {
-f41685cce7c34e Max Filippov 2023-06-27   97  			hdev->stat.err_tx++;
-f41685cce7c34e Max Filippov 2023-06-27   98  			return -EINVAL;
-f41685cce7c34e Max Filippov 2023-06-27   99  		}
-f41685cce7c34e Max Filippov 2023-06-27  100  
-f41685cce7c34e Max Filippov 2023-06-27  101  		new_skb = esp_alloc_skb(skb->len + pad_len);
-f41685cce7c34e Max Filippov 2023-06-27  102  
-f41685cce7c34e Max Filippov 2023-06-27  103  		if (!new_skb) {
-f41685cce7c34e Max Filippov 2023-06-27  104  			esp_err("Failed to allocate SKB");
-f41685cce7c34e Max Filippov 2023-06-27  105  			hdev->stat.err_tx++;
-f41685cce7c34e Max Filippov 2023-06-27  106  			return -ENOMEM;
-f41685cce7c34e Max Filippov 2023-06-27  107  		}
-f41685cce7c34e Max Filippov 2023-06-27  108  
-f41685cce7c34e Max Filippov 2023-06-27  109  		pos = new_skb->data;
-f41685cce7c34e Max Filippov 2023-06-27  110  
-f41685cce7c34e Max Filippov 2023-06-27  111  		pos += pad_len;
-f41685cce7c34e Max Filippov 2023-06-27  112  
-f41685cce7c34e Max Filippov 2023-06-27  113  		/* Populate new SKB */
-f41685cce7c34e Max Filippov 2023-06-27  114  		skb_copy_from_linear_data(skb, pos, skb->len);
-f41685cce7c34e Max Filippov 2023-06-27  115  		skb_put(new_skb, skb->len);
-f41685cce7c34e Max Filippov 2023-06-27  116  
-f41685cce7c34e Max Filippov 2023-06-27  117  		/* Replace old SKB */
-f41685cce7c34e Max Filippov 2023-06-27  118  		dev_kfree_skb_any(skb);
-f41685cce7c34e Max Filippov 2023-06-27  119  		skb = new_skb;
-f41685cce7c34e Max Filippov 2023-06-27  120  	} else {
-f41685cce7c34e Max Filippov 2023-06-27  121  		/* Realloc is not needed, Make space for interface header */
-f41685cce7c34e Max Filippov 2023-06-27  122  		skb_push(skb, pad_len);
-f41685cce7c34e Max Filippov 2023-06-27  123  	}
-f41685cce7c34e Max Filippov 2023-06-27  124  
-f41685cce7c34e Max Filippov 2023-06-27  125  	hdr = (struct esp_payload_header *) skb->data;
-f41685cce7c34e Max Filippov 2023-06-27  126  
-f41685cce7c34e Max Filippov 2023-06-27  127  	memset(hdr, 0, sizeof(struct esp_payload_header));
-f41685cce7c34e Max Filippov 2023-06-27  128  
-f41685cce7c34e Max Filippov 2023-06-27  129  	hdr->if_type = ESP_HCI_IF;
-f41685cce7c34e Max Filippov 2023-06-27  130  	hdr->if_num = 0;
-f41685cce7c34e Max Filippov 2023-06-27 @131  	hdr->len = cpu_to_le16(len);
-f41685cce7c34e Max Filippov 2023-06-27 @132  	hdr->offset = cpu_to_le16(pad_len);
-f41685cce7c34e Max Filippov 2023-06-27  133  	pos = skb->data;
-f41685cce7c34e Max Filippov 2023-06-27  134  
-f41685cce7c34e Max Filippov 2023-06-27  135  	/* set HCI packet type */
-f41685cce7c34e Max Filippov 2023-06-27  136  	*(pos + pad_len - 1) = pkt_type;
-f41685cce7c34e Max Filippov 2023-06-27  137  
-f41685cce7c34e Max Filippov 2023-06-27  138  	if (adapter->capabilities & ESP_CHECKSUM_ENABLED)
-f41685cce7c34e Max Filippov 2023-06-27 @139  		hdr->checksum = cpu_to_le16(compute_checksum(skb->data, (len + pad_len)));
-f41685cce7c34e Max Filippov 2023-06-27  140  
-f41685cce7c34e Max Filippov 2023-06-27  141  	ret = esp_send_packet(adapter, skb);
-f41685cce7c34e Max Filippov 2023-06-27  142  
-f41685cce7c34e Max Filippov 2023-06-27  143  	if (ret) {
-f41685cce7c34e Max Filippov 2023-06-27  144  		hdev->stat.err_tx++;
-f41685cce7c34e Max Filippov 2023-06-27  145  		return ret;
-f41685cce7c34e Max Filippov 2023-06-27  146  	} else {
-f41685cce7c34e Max Filippov 2023-06-27  147  		esp_hci_update_tx_counter(hdev, hdr->hci_pkt_type, skb->len);
-f41685cce7c34e Max Filippov 2023-06-27  148  	}
-f41685cce7c34e Max Filippov 2023-06-27  149  
-f41685cce7c34e Max Filippov 2023-06-27  150  	return 0;
-f41685cce7c34e Max Filippov 2023-06-27  151  }
-f41685cce7c34e Max Filippov 2023-06-27  152  
+   aarch64-linux-ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   aarch64-linux-ld: net/socket.o: in function `sock_ioctl':
+   socket.c:(.text+0x32cc): undefined reference to `wext_handle_ioctl'
+   socket.c:(.text+0x32cc): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `wext_handle_ioctl'
+   aarch64-linux-ld: net/socket.o: in function `compat_sock_ioctl':
+   socket.c:(.text+0x497c): undefined reference to `compat_wext_handle_ioctl'
+   socket.c:(.text+0x497c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `compat_wext_handle_ioctl'
+   aarch64-linux-ld: net/core/net-procfs.o: in function `dev_proc_net_exit':
+   net-procfs.c:(.ref.text+0x60): undefined reference to `wext_proc_exit'
+>> net-procfs.c:(.ref.text+0x60): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `wext_proc_exit'
+   aarch64-linux-ld: net/core/net-procfs.o: in function `dev_proc_net_init':
+   net-procfs.c:(.init.text+0x100): undefined reference to `wext_proc_init'
+>> net-procfs.c:(.init.text+0x100): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `wext_proc_init'
 
-:::::: The code at line 131 was first introduced by commit
-:::::: f41685cce7c34eaab7d26ae4399cd7059a2e7e42 drivers/net/wireless/espressif/esp32-ng: initial import
-
-:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
-:::::: CC: Max Filippov <jcmvbkbc@gmail.com>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
