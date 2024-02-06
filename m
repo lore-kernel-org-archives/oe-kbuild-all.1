@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D72137E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Feb 2024 00:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B648C4A03
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Feb 2024 01:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707180474; cv=none; b=G/i42weiHWcyGXJWUo/aJn4YN2ERfZVo9okXIO9lGwPgiJidVBif+A2c1RHKKcH0kr5elsFabi3kpgLAhrICg+xTLZJCmsZVjGUEOKEgAS5VQvju9/WjHTr7LyH19s4daioB4KSlFALNj9dyrZdZOCTWRx17GcVCwpK5fpJjthM=
+	t=1707181671; cv=none; b=fZiZC3DoVsTrLGFi9fZM/cqwAgmZrqNxXF+cTcmbjj+SBpKV9rEnBjJirvyM7sjCj+GoaMufZTqNw8p5WX67N59rhZr8iR3YLdmsSHuB/QkSKOBz+mz5jCxAiBcAzLl3OlXPKtyTAXs+yGQgJ5p2WlErIPjGeEbByCInRsyH6mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707180474; c=relaxed/simple;
-	bh=lsTWuncrCmykHzqU/6Xz8I0JO7HtzmT0x76C2c+1tcA=;
+	s=arc-20240116; t=1707181671; c=relaxed/simple;
+	bh=ea+JE6CKgIN89jGBtU/Ifrz8Ngn/6Fl4dGvsZHZWO8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oXTR3qwXmuGS2aLU6xbhXPlaL0JMat64aLB5IIWQ85al5DdQM5RT8vW3qtDEfuLpBxdbaq9QhqYdJYUg25K1HfTEE07uJTdvrmnwiZphRtmGmPqpBMMFp2kZh27Elv2QIoLGG7ryhqMAzyYpT84MpU+XqcDiDDDhPInO51iHyCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EeypFLvj; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=juPSxnBvkg/eFIK3KFLRVt7qPVzRP0FwrdHjAeN06KAnNVs8YpK/2jDUSuPllhmCEfC9uE2vNCK5eCJ15oiPsLvv8mMHKMmHInaoFnL3fqkHBdIEv8V4sVVIu3aY463P/xP0tCc1414brvV2FICDSmWw6/VPERQYfpeC+0K7UME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AcdN+h5Z; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EeypFLvj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AcdN+h5Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707180471; x=1738716471;
+  t=1707181669; x=1738717669;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lsTWuncrCmykHzqU/6Xz8I0JO7HtzmT0x76C2c+1tcA=;
-  b=EeypFLvjwJsnCJV6OxgVdH1qZAS9tVrqwv4edABgZpCm5ktjNM70ZwKH
-   Gq+jlIJ/+HSkfv5OhE7Z3WjiMgs8oYXWmOBL6Y399d12Lf0c0Z/GBC1ce
-   3Kvizv29GI38OHKN641J/chkWN0ovnHjyWYSS1tqGUHcoFjs/1z3gB70t
-   MVeWtSMGc8ayrIfnXMd1iMlijbN+C/luoC82z8X6KVvaujeyYN24AWfeb
-   GncZyv7LgBCtjJgqfpk5rCvpituS9bUNzr8YVVjkg8QTycSalQOJbc8Nk
-   B+/8iwQsqtX1a6hOWv/CQIBEzN9OqYSD2e0VdmympPJIxcFw0LiXOReHU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="782464"
+  bh=ea+JE6CKgIN89jGBtU/Ifrz8Ngn/6Fl4dGvsZHZWO8s=;
+  b=AcdN+h5ZU7dR0h+NX5rWc8Rvotz5Tjad3W2TZQ7ca4bTjW//IUyPVoc+
+   e+Yd/diQs6aWARV+I2JopwWjiPJQYd8TKnmVb2O6eWF86a8m8U3Xi1qjs
+   oh0aBKFLzPfbk+tsldjagUJi9VHLeS3mfIw95OYLAX/xxHtWjIAzJnNPT
+   aqNkmd6oi+HYTyHCkxbMnk2LHOg9PhjefbTi1osziuLHF+Hm9YA+bux+0
+   emFt2YZfHoqwx+w8IGLXHUulcGXTPvUORx9j5nyo8QaibpyeClX696dVx
+   dVu1Y019shYFfuW4ILJ73NE8S5mifhzv1WpxnadxvI5R7ZYsPYjuh4/41
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="806295"
 X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="782464"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 16:47:51 -0800
+   d="scan'208";a="806295"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 17:07:48 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="5477817"
+   d="scan'208";a="1143855"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Feb 2024 16:47:48 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 05 Feb 2024 17:07:46 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rX9cm-0000we-05;
-	Tue, 06 Feb 2024 00:47:44 +0000
-Date: Tue, 6 Feb 2024 08:46:50 +0800
+	id 1rX9w8-0000xG-1B;
+	Tue, 06 Feb 2024 01:07:44 +0000
+Date: Tue, 6 Feb 2024 09:07:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: drivers/video/fbdev/sis/init301.c:239:28: warning: 'SiS_Part2CLVX_6'
- defined but not used
-Message-ID: <202402060830.Py9fSWCW-lkp@intel.com>
+To: kernel@openeuler.org, lishuo <lishuo@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 21254/21616]
+ drivers/gpu/drm/phytium/phytium_display_drv.c:89:16: warning: variable
+ 'status' set but not used
+Message-ID: <202402060915.ltYJWMoP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,227 +59,215 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
+Hi lishuo,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   54be6c6c5ae8e0d93a6c4641cb7528eb0b6ba478
-commit: 5908986ef3481b7ac783642733a4ab91c15c7550 video: fbdev: sis: avoid mismatched prototypes
-date:   6 years ago
-config: x86_64-randconfig-x051-20230705 (https://download.01.org/0day-ci/archive/20240206/202402060830.Py9fSWCW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402060830.Py9fSWCW-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   3a28772f4b29bdda924e9a5d2e3ff1ff1b23fd14
+commit: cad0702e5286d3cc80afe545de027858b855dd5a [21254/21616] DRM: Phytium display DRM driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240206/202402060915.ltYJWMoP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402060915.ltYJWMoP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402060830.Py9fSWCW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402060915.ltYJWMoP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/video/fbdev/sis/init301.c: In function 'SiS_SetCRT2ModeRegs':
-   drivers/video/fbdev/sis/init301.c:2690:24: warning: variable 'modeflag' set but not used [-Wunused-but-set-variable]
-    2690 |   unsigned short i, j, modeflag, tempah=0;
-         |                        ^~~~~~~~
-   drivers/video/fbdev/sis/init301.c: In function 'SiS_SetGroup1':
-   drivers/video/fbdev/sis/init301.c:6236:52: warning: variable 'resinfo' set but not used [-Wunused-but-set-variable]
-    6236 |   unsigned short  pushbx=0, CRT1Index=0, modeflag, resinfo=0;
-         |                                                    ^~~~~~~
-   drivers/video/fbdev/sis/init301.c: At top level:
->> drivers/video/fbdev/sis/init301.c:239:28: warning: 'SiS_Part2CLVX_6' defined but not used [-Wunused-const-variable=]
-     239 | static const unsigned char SiS_Part2CLVX_6[] = {   /* 1080i */
-         |                            ^~~~~~~~~~~~~~~
->> drivers/video/fbdev/sis/init301.c:230:28: warning: 'SiS_Part2CLVX_5' defined but not used [-Wunused-const-variable=]
-     230 | static const unsigned char SiS_Part2CLVX_5[] = {   /* 750p */
-         |                            ^~~~~~~~~~~~~~~
->> drivers/video/fbdev/sis/init301.c:211:28: warning: 'SiS_Part2CLVX_4' defined but not used [-Wunused-const-variable=]
-     211 | static const unsigned char SiS_Part2CLVX_4[] = {   /* PAL */
-         |                            ^~~~~~~~~~~~~~~
->> drivers/video/fbdev/sis/init301.c:192:28: warning: 'SiS_Part2CLVX_3' defined but not used [-Wunused-const-variable=]
-     192 | static const unsigned char SiS_Part2CLVX_3[] = {  /* NTSC, 525i, 525p */
-         |                            ^~~~~~~~~~~~~~~
->> drivers/video/fbdev/sis/init301.c:184:28: warning: 'SiS_Part2CLVX_2' defined but not used [-Wunused-const-variable=]
-     184 | static const unsigned char SiS_Part2CLVX_2[] = {
-         |                            ^~~~~~~~~~~~~~~
->> drivers/video/fbdev/sis/init301.c:176:28: warning: 'SiS_Part2CLVX_1' defined but not used [-Wunused-const-variable=]
-     176 | static const unsigned char SiS_Part2CLVX_1[] = {
-         |                            ^~~~~~~~~~~~~~~
-   In file included from drivers/video/fbdev/sis/sis.h:31,
-                    from drivers/video/fbdev/sis/init301.h:66,
-                    from drivers/video/fbdev/sis/init301.c:72:
-   drivers/video/fbdev/sis/init.h:1445:38: warning: 'SiS_LVDSCRT1640x480_1_H' defined but not used [-Wunused-const-variable=]
-    1445 | static const struct SiS_LVDSCRT1Data SiS_LVDSCRT1640x480_1_H[] =
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1423:38: warning: 'SiS_LVDSCRT1640x480_1' defined but not used [-Wunused-const-variable=]
-    1423 | static const struct SiS_LVDSCRT1Data SiS_LVDSCRT1640x480_1[] =
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1398:38: warning: 'SiS_LVDSCRT1320x240_3_H' defined but not used [-Wunused-const-variable=]
-    1398 | static const struct SiS_LVDSCRT1Data SiS_LVDSCRT1320x240_3_H[] =
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1373:38: warning: 'SiS_LVDSCRT1320x240_3' defined but not used [-Wunused-const-variable=]
-    1373 | static const struct SiS_LVDSCRT1Data SiS_LVDSCRT1320x240_3[] =
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1348:38: warning: 'SiS_LVDSCRT1320x240_2_H' defined but not used [-Wunused-const-variable=]
-    1348 | static const struct SiS_LVDSCRT1Data SiS_LVDSCRT1320x240_2_H[] =
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1318:38: warning: 'SiS_LVDSCRT1320x240_2' defined but not used [-Wunused-const-variable=]
-    1318 | static const struct SiS_LVDSCRT1Data SiS_LVDSCRT1320x240_2[] =
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1293:38: warning: 'SiS_LVDSCRT1320x240_1' defined but not used [-Wunused-const-variable=]
-    1293 | static const struct SiS_LVDSCRT1Data SiS_LVDSCRT1320x240_1[] =
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1280:34: warning: 'SiS_CHTVONTSCData' defined but not used [-Wunused-const-variable=]
-    1280 | static const struct SiS_LVDSData SiS_CHTVONTSCData[]=
-         |                                  ^~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1269:34: warning: 'SiS_CHTVUNTSCData' defined but not used [-Wunused-const-variable=]
-    1269 | static const struct SiS_LVDSData SiS_CHTVUNTSCData[]=
-         |                                  ^~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1258:34: warning: 'SiS_LVDS1024x768Data_1' defined but not used [-Wunused-const-variable=]
-    1258 | static const struct SiS_LVDSData SiS_LVDS1024x768Data_1[]=
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1247:34: warning: 'SiS_LVDS1024x600Data_1' defined but not used [-Wunused-const-variable=]
-    1247 | static const struct SiS_LVDSData SiS_LVDS1024x600Data_1[] =
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1237:34: warning: 'SiS_LVDS800x600Data_1' defined but not used [-Wunused-const-variable=]
-    1237 | static const struct SiS_LVDSData SiS_LVDS800x600Data_1[]=
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1228:34: warning: 'SiS_LVDS640x480Data_1' defined but not used [-Wunused-const-variable=]
-    1228 | static const struct SiS_LVDSData SiS_LVDS640x480Data_1[]=
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1217:34: warning: 'SiS_LVDS320x240Data_2' defined but not used [-Wunused-const-variable=]
-    1217 | static const struct SiS_LVDSData SiS_LVDS320x240Data_2[]=
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1206:34: warning: 'SiS_LVDS320x240Data_1' defined but not used [-Wunused-const-variable=]
-    1206 | static const struct SiS_LVDSData SiS_LVDS320x240Data_1[]=
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1163:33: warning: 'SiS_NoScaleData' defined but not used [-Wunused-const-variable=]
-    1163 | static const struct SiS_LCDData SiS_NoScaleData[] =
-         |                                 ^~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1143:33: warning: 'SiS_ExtLCD1600x1200Data' defined but not used [-Wunused-const-variable=]
-    1143 | static const struct SiS_LCDData SiS_ExtLCD1600x1200Data[] =
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1125:33: warning: 'SiS_StLCD1600x1200Data' defined but not used [-Wunused-const-variable=]
-    1125 | static const struct SiS_LCDData SiS_StLCD1600x1200Data[] =
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1107:33: warning: 'SiS_LCD1680x1050Data' defined but not used [-Wunused-const-variable=]
-    1107 | static const struct SiS_LCDData SiS_LCD1680x1050Data[] =
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1086:33: warning: 'SiS_ExtLCD1400x1050Data' defined but not used [-Wunused-const-variable=]
-    1086 | static const struct SiS_LCDData SiS_ExtLCD1400x1050Data[] =
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1068:33: warning: 'SiS_StLCD1400x1050Data' defined but not used [-Wunused-const-variable=]
-    1068 | static const struct SiS_LCDData SiS_StLCD1400x1050Data[] =
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1050:33: warning: 'SiS_LCD1280x960Data' defined but not used [-Wunused-const-variable=]
-    1050 | static const struct SiS_LCDData SiS_LCD1280x960Data[] =
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1032:33: warning: 'SiS_LCD1280x854Data' defined but not used [-Wunused-const-variable=]
-    1032 | static const struct SiS_LCDData SiS_LCD1280x854Data[] = /* 2.21.00CS (LVDS) */
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:1000:33: warning: 'SiS_LCD1280x800_2Data' defined but not used [-Wunused-const-variable=]
-    1000 | static const struct SiS_LCDData SiS_LCD1280x800_2Data[] = /* 2.03.00 (LVDS) */
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:985:33: warning: 'SiS_LCD1280x800Data' defined but not used [-Wunused-const-variable=]
-     985 | static const struct SiS_LCDData SiS_LCD1280x800Data[] = /* 0.93.12a (TMDS) */
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:953:33: warning: 'SiS_ExtLCD1280x768_2Data' defined but not used [-Wunused-const-variable=]
-     953 | static const struct SiS_LCDData SiS_ExtLCD1280x768_2Data[] = /* 2.03.00 */
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:938:33: warning: 'SiS_StLCD1280x768_2Data' defined but not used [-Wunused-const-variable=]
-     938 | static const struct SiS_LCDData SiS_StLCD1280x768_2Data[] = /* 2.03.00 */
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:916:33: warning: 'SiS_LCD1280x720Data' defined but not used [-Wunused-const-variable=]
-     916 | static const struct SiS_LCDData SiS_LCD1280x720Data[] =  /* 2.03.00 */
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:902:32: warning: 'SiS_Ext750pData' defined but not used [-Wunused-const-variable=]
-     902 | static const struct SiS_TVData SiS_Ext750pData[] =
-         |                                ^~~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:893:32: warning: 'SiS_St750pData' defined but not used [-Wunused-const-variable=]
-     893 | static const struct SiS_TVData SiS_St750pData[] =
-         |                                ^~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:884:32: warning: 'SiS_St525pData' defined but not used [-Wunused-const-variable=]
-     884 | static const struct SiS_TVData SiS_St525pData[] =
-         |                                ^~~~~~~~~~~~~~
-   drivers/video/fbdev/sis/init.h:868:32: warning: 'SiS_ExtHiTVData' defined but not used [-Wunused-const-variable=]
-     868 | static const struct SiS_TVData SiS_ExtHiTVData[] =
+   drivers/gpu/drm/phytium/phytium_display_drv.c: In function 'phytium_irq_preinstall':
+>> drivers/gpu/drm/phytium/phytium_display_drv.c:89:16: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+      89 |         int i, status;
+         |                ^~~~~~
+   drivers/gpu/drm/phytium/phytium_display_drv.c: In function 'phytium_irq_uninstall':
+   drivers/gpu/drm/phytium/phytium_display_drv.c:100:16: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+     100 |         int i, status;
+         |                ^~~~~~
+--
+>> drivers/gpu/drm/phytium/phytium_plane.c:25:6: warning: no previous prototype for 'phytium_plane_destroy' [-Wmissing-prototypes]
+      25 | void phytium_plane_destroy(struct drm_plane *plane)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_plane.c:67:1: warning: no previous prototype for 'phytium_plane_atomic_set_property' [-Wmissing-prototypes]
+      67 | phytium_plane_atomic_set_property(struct drm_plane *plane,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_plane.c:77:1: warning: no previous prototype for 'phytium_plane_atomic_duplicate_state' [-Wmissing-prototypes]
+      77 | phytium_plane_atomic_duplicate_state(struct drm_plane *plane)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_plane.c:98:1: warning: no previous prototype for 'phytium_plane_atomic_destroy_state' [-Wmissing-prototypes]
+      98 | phytium_plane_atomic_destroy_state(struct drm_plane *plane, struct drm_plane_state *state)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_plane.c: In function 'phytium_dc_primary_plane_update':
+>> drivers/gpu/drm/phytium/phytium_plane.c:372:35: warning: variable 'crtc_y' set but not used [-Wunused-but-set-variable]
+     372 |         int src_x, src_y, crtc_x, crtc_y, crtc_w, crtc_h;
+         |                                   ^~~~~~
+>> drivers/gpu/drm/phytium/phytium_plane.c:372:27: warning: variable 'crtc_x' set but not used [-Wunused-but-set-variable]
+     372 |         int src_x, src_y, crtc_x, crtc_y, crtc_w, crtc_h;
+         |                           ^~~~~~
+--
+>> drivers/gpu/drm/phytium/phytium_crtc.c:104:1: warning: no previous prototype for 'phytium_crtc_atomic_duplicate_state' [-Wmissing-prototypes]
+     104 | phytium_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_crtc.c:119:1: warning: no previous prototype for 'phytium_crtc_atomic_destroy_state' [-Wmissing-prototypes]
+     119 | phytium_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_crtc.c: In function 'phytium_crtc_atomic_flush':
+>> drivers/gpu/drm/phytium/phytium_crtc.c:303:36: warning: variable 'phytium_crtc_state' set but not used [-Wunused-but-set-variable]
+     303 |         struct phytium_crtc_state *phytium_crtc_state = NULL;
+         |                                    ^~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/phytium/phytium_dp.c:542:6: warning: no previous prototype for 'phytium_dp_coding_8b10b_need_enable' [-Wmissing-prototypes]
+     542 | bool phytium_dp_coding_8b10b_need_enable(unsigned char test_pattern)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:559:6: warning: no previous prototype for 'phytium_dp_scrambled_need_enable' [-Wmissing-prototypes]
+     559 | bool phytium_dp_scrambled_need_enable(unsigned char test_pattern)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:692:6: warning: no previous prototype for 'phytium_dp_hw_enable_audio' [-Wmissing-prototypes]
+     692 | void phytium_dp_hw_enable_audio(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:861:6: warning: no previous prototype for 'phytium_dp_hw_disable_video' [-Wmissing-prototypes]
+     861 | void phytium_dp_hw_disable_video(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:872:6: warning: no previous prototype for 'phytium_dp_hw_video_is_enable' [-Wmissing-prototypes]
+     872 | bool phytium_dp_hw_video_is_enable(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:883:6: warning: no previous prototype for 'phytium_dp_hw_enable_video' [-Wmissing-prototypes]
+     883 | void phytium_dp_hw_enable_video(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:895:6: warning: no previous prototype for 'phytium_dp_hw_config_video' [-Wmissing-prototypes]
+     895 | void phytium_dp_hw_config_video(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:984:6: warning: no previous prototype for 'phytium_dp_hw_disable_output' [-Wmissing-prototypes]
+     984 | void phytium_dp_hw_disable_output(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:996:6: warning: no previous prototype for 'phytium_dp_hw_enable_output' [-Wmissing-prototypes]
+     996 | void phytium_dp_hw_enable_output(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1008:6: warning: no previous prototype for 'phytium_dp_hw_enable_input_source' [-Wmissing-prototypes]
+    1008 | void phytium_dp_hw_enable_input_source(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1019:6: warning: no previous prototype for 'phytium_dp_hw_disable_input_source' [-Wmissing-prototypes]
+    1019 | void phytium_dp_hw_disable_input_source(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1029:6: warning: no previous prototype for 'phytium_dp_hw_output_is_enable' [-Wmissing-prototypes]
+    1029 | bool phytium_dp_hw_output_is_enable(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1066:6: warning: no previous prototype for 'phytium_dp_hw_hpd_irq_setup' [-Wmissing-prototypes]
+    1066 | void phytium_dp_hw_hpd_irq_setup(struct phytium_dp_device *phytium_dp, bool enable)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1081:5: warning: no previous prototype for 'phytium_dp_hw_init' [-Wmissing-prototypes]
+    1081 | int phytium_dp_hw_init(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1260:6: warning: no previous prototype for 'phytium_dp_dpcd_sink_dpms' [-Wmissing-prototypes]
+    1260 | void phytium_dp_dpcd_sink_dpms(struct phytium_dp_device *phytium_dp, int mode)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1486:5: warning: no previous prototype for 'phytium_dp_get_link_train_fallback_values' [-Wmissing-prototypes]
+    1486 | int phytium_dp_get_link_train_fallback_values(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1535:5: warning: no previous prototype for 'phytium_dp_start_link_train' [-Wmissing-prototypes]
+    1535 | int phytium_dp_start_link_train(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1840:6: warning: no previous prototype for 'phytium_dp_hpd_poll_handler' [-Wmissing-prototypes]
+    1840 | void phytium_dp_hpd_poll_handler(struct phytium_display_private *priv)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:1987:6: warning: no previous prototype for 'phytium_dp_fast_link_train' [-Wmissing-prototypes]
+    1987 | bool phytium_dp_fast_link_train(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_dp.c:2178:6: warning: no previous prototype for 'phytium_dp_adjust_link_train_parameter' [-Wmissing-prototypes]
+    2178 | void phytium_dp_adjust_link_train_parameter(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:2438:5: warning: no previous prototype for 'phytium_get_encoder_crtc_mask' [-Wmissing-prototypes]
+    2438 | int phytium_get_encoder_crtc_mask(struct phytium_dp_device *phytium_dp, int port)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/gpu/drm/phytium/phytium_fb.c: In function 'phytium_fb_create':
+>> drivers/gpu/drm/phytium/phytium_fb.c:81:22: warning: variable 'hsub' set but not used [-Wunused-but-set-variable]
+      81 |         unsigned int hsub, vsub, size;
+         |                      ^~~~
+--
+>> drivers/gpu/drm/phytium/phytium_gem.c:21:5: warning: no previous prototype for 'phytium_memory_pool_alloc' [-Wmissing-prototypes]
+      21 | int phytium_memory_pool_alloc(struct phytium_display_private *priv, void **pvaddr,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_gem.c:36:6: warning: no previous prototype for 'phytium_memory_pool_free' [-Wmissing-prototypes]
+      36 | void phytium_memory_pool_free(struct phytium_display_private *priv, void *vaddr, uint64_t size)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_gem.c:188:5: warning: no previous prototype for 'phytium_dma_transfer' [-Wmissing-prototypes]
+     188 | int phytium_dma_transfer(struct drm_device *drm_dev, int dev_to_mem, void *addr,
+         |     ^~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/phytium/phytium_fbdev.c:113:5: warning: no previous prototype for 'phytium_drm_fbdev_init' [-Wmissing-prototypes]
+     113 | int phytium_drm_fbdev_init(struct drm_device *dev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_fbdev.c:144:6: warning: no previous prototype for 'phytium_drm_fbdev_fini' [-Wmissing-prototypes]
+     144 | void phytium_drm_fbdev_fini(struct drm_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/phytium/phytium_debugfs.c:375:5: warning: no previous prototype for 'phytium_debugfs_connector_add' [-Wmissing-prototypes]
+     375 | int phytium_debugfs_connector_add(struct drm_connector *connector)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/phytium_debugfs.c:437:5: warning: no previous prototype for 'phytium_debugfs_display_register' [-Wmissing-prototypes]
+     437 | int phytium_debugfs_display_register(struct phytium_display_private *priv)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/phytium/x100_dp.c:852:6: warning: no previous prototype for 'x100_dp_hw_spread_is_enable' [-Wmissing-prototypes]
+     852 | bool x100_dp_hw_spread_is_enable(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dp.c:864:5: warning: no previous prototype for 'x100_dp_hw_reset' [-Wmissing-prototypes]
+     864 | int x100_dp_hw_reset(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dp.c:897:9: warning: no previous prototype for 'x100_dp_hw_get_source_lane_count' [-Wmissing-prototypes]
+     897 | uint8_t x100_dp_hw_get_source_lane_count(struct phytium_dp_device *phytium_dp)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/phytium/phytium_panel.c:234:6: warning: no previous prototype for 'phytium_dp_panel_release_backlight_funcs' [-Wmissing-prototypes]
+     234 | void phytium_dp_panel_release_backlight_funcs(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/phytium/x100_dc.c:64:6: warning: no previous prototype for 'x100_dc_hw_vram_init' [-Wmissing-prototypes]
+      64 | void x100_dc_hw_vram_init(struct phytium_display_private *priv, resource_size_t vram_addr,
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dc.c:96:6: warning: no previous prototype for 'x100_dc_hw_clear_msi_irq' [-Wmissing-prototypes]
+      96 | void x100_dc_hw_clear_msi_irq(struct phytium_display_private *priv, uint32_t phys_pipe)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dc.c:101:6: warning: no previous prototype for 'x100_dc_hw_config_pix_clock' [-Wmissing-prototypes]
+     101 | void x100_dc_hw_config_pix_clock(struct drm_crtc *crtc, int clock)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dc.c:119:6: warning: no previous prototype for 'x100_dc_hw_disable' [-Wmissing-prototypes]
+     119 | void x100_dc_hw_disable(struct drm_crtc *crtc)
+         |      ^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dc.c:167:5: warning: no previous prototype for 'x100_dc_hw_fb_format_check' [-Wmissing-prototypes]
+     167 | int x100_dc_hw_fb_format_check(const struct drm_mode_fb_cmd2 *mode_cmd, int count)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dc.c:237:6: warning: no previous prototype for 'x100_dc_hw_plane_get_primary_format' [-Wmissing-prototypes]
+     237 | void x100_dc_hw_plane_get_primary_format(const uint64_t **format_modifiers,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dc.c:246:6: warning: no previous prototype for 'x100_dc_hw_plane_get_cursor_format' [-Wmissing-prototypes]
+     246 | void x100_dc_hw_plane_get_cursor_format(const uint64_t **format_modifiers,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dc.c:255:6: warning: no previous prototype for 'x100_dc_hw_update_dcreq' [-Wmissing-prototypes]
+     255 | void x100_dc_hw_update_dcreq(struct drm_plane *plane)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/phytium/x100_dc.c:312:6: warning: no previous prototype for 'x100_dc_hw_update_primary_hi_addr' [-Wmissing-prototypes]
+     312 | void x100_dc_hw_update_primary_hi_addr(struct drm_plane *plane)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
 
 
-vim +/SiS_Part2CLVX_6 +239 drivers/video/fbdev/sis/init301.c
+vim +/status +89 drivers/gpu/drm/phytium/phytium_display_drv.c
 
-   175	
- > 176	static const unsigned char SiS_Part2CLVX_1[] = {
-   177	    0x00,0x00,
-   178	    0x00,0x20,0x00,0x00,0x7F,0x20,0x02,0x7F,0x7D,0x20,0x04,0x7F,0x7D,0x1F,0x06,0x7E,
-   179	    0x7C,0x1D,0x09,0x7E,0x7C,0x1B,0x0B,0x7E,0x7C,0x19,0x0E,0x7D,0x7C,0x17,0x11,0x7C,
-   180	    0x7C,0x14,0x14,0x7C,0x7C,0x11,0x17,0x7C,0x7D,0x0E,0x19,0x7C,0x7E,0x0B,0x1B,0x7C,
-   181	    0x7E,0x09,0x1D,0x7C,0x7F,0x06,0x1F,0x7C,0x7F,0x04,0x20,0x7D,0x00,0x02,0x20,0x7E
-   182	};
-   183	
- > 184	static const unsigned char SiS_Part2CLVX_2[] = {
-   185	    0x00,0x00,
-   186	    0x00,0x20,0x00,0x00,0x7F,0x20,0x02,0x7F,0x7D,0x20,0x04,0x7F,0x7D,0x1F,0x06,0x7E,
-   187	    0x7C,0x1D,0x09,0x7E,0x7C,0x1B,0x0B,0x7E,0x7C,0x19,0x0E,0x7D,0x7C,0x17,0x11,0x7C,
-   188	    0x7C,0x14,0x14,0x7C,0x7C,0x11,0x17,0x7C,0x7D,0x0E,0x19,0x7C,0x7E,0x0B,0x1B,0x7C,
-   189	    0x7E,0x09,0x1D,0x7C,0x7F,0x06,0x1F,0x7C,0x7F,0x04,0x20,0x7D,0x00,0x02,0x20,0x7E
-   190	};
-   191	
- > 192	static const unsigned char SiS_Part2CLVX_3[] = {  /* NTSC, 525i, 525p */
-   193	    0xE0,0x01,
-   194	    0x04,0x1A,0x04,0x7E,0x03,0x1A,0x06,0x7D,0x01,0x1A,0x08,0x7D,0x00,0x19,0x0A,0x7D,
-   195	    0x7F,0x19,0x0C,0x7C,0x7E,0x18,0x0E,0x7C,0x7E,0x17,0x10,0x7B,0x7D,0x15,0x12,0x7C,
-   196	    0x7D,0x13,0x13,0x7D,0x7C,0x12,0x15,0x7D,0x7C,0x10,0x17,0x7D,0x7C,0x0E,0x18,0x7E,
-   197	    0x7D,0x0C,0x19,0x7E,0x7D,0x0A,0x19,0x00,0x7D,0x08,0x1A,0x01,0x7E,0x06,0x1A,0x02,
-   198	    0x58,0x02,
-   199	    0x07,0x14,0x07,0x7E,0x06,0x14,0x09,0x7D,0x05,0x14,0x0A,0x7D,0x04,0x13,0x0B,0x7E,
-   200	    0x03,0x13,0x0C,0x7E,0x02,0x12,0x0D,0x7F,0x01,0x12,0x0E,0x7F,0x01,0x11,0x0F,0x7F,
-   201	    0x00,0x10,0x10,0x00,0x7F,0x0F,0x11,0x01,0x7F,0x0E,0x12,0x01,0x7E,0x0D,0x12,0x03,
-   202	    0x7E,0x0C,0x13,0x03,0x7E,0x0B,0x13,0x04,0x7E,0x0A,0x14,0x04,0x7D,0x09,0x14,0x06,
-   203	    0x00,0x03,
-   204	    0x09,0x0F,0x09,0x7F,0x08,0x0F,0x09,0x00,0x07,0x0F,0x0A,0x00,0x06,0x0F,0x0A,0x01,
-   205	    0x06,0x0E,0x0B,0x01,0x05,0x0E,0x0B,0x02,0x04,0x0E,0x0C,0x02,0x04,0x0D,0x0C,0x03,
-   206	    0x03,0x0D,0x0D,0x03,0x02,0x0C,0x0D,0x05,0x02,0x0C,0x0E,0x04,0x01,0x0B,0x0E,0x06,
-   207	    0x01,0x0B,0x0E,0x06,0x00,0x0A,0x0F,0x07,0x00,0x0A,0x0F,0x07,0x00,0x09,0x0F,0x08,
-   208	    0xFF,0xFF
-   209	};
-   210	
- > 211	static const unsigned char SiS_Part2CLVX_4[] = {   /* PAL */
-   212	    0x58,0x02,
-   213	    0x05,0x19,0x05,0x7D,0x03,0x19,0x06,0x7E,0x02,0x19,0x08,0x7D,0x01,0x18,0x0A,0x7D,
-   214	    0x00,0x18,0x0C,0x7C,0x7F,0x17,0x0E,0x7C,0x7E,0x16,0x0F,0x7D,0x7E,0x14,0x11,0x7D,
-   215	    0x7D,0x13,0x13,0x7D,0x7D,0x11,0x14,0x7E,0x7D,0x0F,0x16,0x7E,0x7D,0x0E,0x17,0x7E,
-   216	    0x7D,0x0C,0x18,0x7F,0x7D,0x0A,0x18,0x01,0x7D,0x08,0x19,0x02,0x7D,0x06,0x19,0x04,
-   217	    0x00,0x03,
-   218	    0x08,0x12,0x08,0x7E,0x07,0x12,0x09,0x7E,0x06,0x12,0x0A,0x7E,0x05,0x11,0x0B,0x7F,
-   219	    0x04,0x11,0x0C,0x7F,0x03,0x11,0x0C,0x00,0x03,0x10,0x0D,0x00,0x02,0x0F,0x0E,0x01,
-   220	    0x01,0x0F,0x0F,0x01,0x01,0x0E,0x0F,0x02,0x00,0x0D,0x10,0x03,0x7F,0x0C,0x11,0x04,
-   221	    0x7F,0x0C,0x11,0x04,0x7F,0x0B,0x11,0x05,0x7E,0x0A,0x12,0x06,0x7E,0x09,0x12,0x07,
-   222	    0x40,0x02,
-   223	    0x04,0x1A,0x04,0x7E,0x02,0x1B,0x05,0x7E,0x01,0x1A,0x07,0x7E,0x00,0x1A,0x09,0x7D,
-   224	    0x7F,0x19,0x0B,0x7D,0x7E,0x18,0x0D,0x7D,0x7D,0x17,0x10,0x7C,0x7D,0x15,0x12,0x7C,
-   225	    0x7C,0x14,0x14,0x7C,0x7C,0x12,0x15,0x7D,0x7C,0x10,0x17,0x7D,0x7C,0x0D,0x18,0x7F,
-   226	    0x7D,0x0B,0x19,0x7F,0x7D,0x09,0x1A,0x00,0x7D,0x07,0x1A,0x02,0x7E,0x05,0x1B,0x02,
-   227	    0xFF,0xFF
-   228	};
-   229	
- > 230	static const unsigned char SiS_Part2CLVX_5[] = {   /* 750p */
-   231	    0x00,0x03,
-   232	    0x05,0x19,0x05,0x7D,0x03,0x19,0x06,0x7E,0x02,0x19,0x08,0x7D,0x01,0x18,0x0A,0x7D,
-   233	    0x00,0x18,0x0C,0x7C,0x7F,0x17,0x0E,0x7C,0x7E,0x16,0x0F,0x7D,0x7E,0x14,0x11,0x7D,
-   234	    0x7D,0x13,0x13,0x7D,0x7D,0x11,0x14,0x7E,0x7D,0x0F,0x16,0x7E,0x7D,0x0E,0x17,0x7E,
-   235	    0x7D,0x0C,0x18,0x7F,0x7D,0x0A,0x18,0x01,0x7D,0x08,0x19,0x02,0x7D,0x06,0x19,0x04,
-   236	    0xFF,0xFF
-   237	};
-   238	
- > 239	static const unsigned char SiS_Part2CLVX_6[] = {   /* 1080i */
-   240	    0x00,0x04,
-   241	    0x04,0x1A,0x04,0x7E,0x02,0x1B,0x05,0x7E,0x01,0x1A,0x07,0x7E,0x00,0x1A,0x09,0x7D,
-   242	    0x7F,0x19,0x0B,0x7D,0x7E,0x18,0x0D,0x7D,0x7D,0x17,0x10,0x7C,0x7D,0x15,0x12,0x7C,
-   243	    0x7C,0x14,0x14,0x7C,0x7C,0x12,0x15,0x7D,0x7C,0x10,0x17,0x7D,0x7C,0x0D,0x18,0x7F,
-   244	    0x7D,0x0B,0x19,0x7F,0x7D,0x09,0x1A,0x00,0x7D,0x07,0x1A,0x02,0x7E,0x05,0x1B,0x02,
-   245	    0xFF,0xFF,
-   246	};
-   247	
+    85	
+    86	static void phytium_irq_preinstall(struct drm_device *dev)
+    87	{
+    88		struct phytium_display_private *priv = dev->dev_private;
+  > 89		int i, status;
+    90	
+    91		for_each_pipe_masked(priv, i) {
+    92			status = phytium_readl_reg(priv, priv->dc_reg_base[i], PHYTIUM_DC_INT_STATUS);
+    93			phytium_writel_reg(priv, INT_DISABLE, priv->dc_reg_base[i], PHYTIUM_DC_INT_ENABLE);
+    94		}
+    95	}
+    96	
 
 -- 
 0-DAY CI Kernel Test Service
