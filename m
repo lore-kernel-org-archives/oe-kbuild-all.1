@@ -1,325 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D947A12FB09
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Feb 2024 12:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707223151; cv=none; b=FuGZGQNhPm3AxGIAMzfcva+n5rk6Dpq54/ngDe4nzQwQt6wptS8cZs3jSLgZdwBOQemlFAT3r16ylI5Z2fFRqFMIDJbo7A1UZjaOzlV3UqFdwNPnVfUtlX8uX4+YqMcnrwInm6bLLbTqVpe5xbDC28tuIfDSQ8muUt4KMDJxlj0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707223151; c=relaxed/simple;
-	bh=wEdxoajiHi0nRbTF+xROd6UfelnZp48W1TtZVvK6c80=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VLsuwi08dGOrl6XX889M5nHjeFcllcmeokrItLfcevsYzNdASUcyxYdGy+eZl7Ehk1pweGIx3Sozoj3F+yhi7Ve5dSKap+FmpiRQnlWihH2TL8TujPZs3zXDQgLyGGRrOBpXBIEwWwO3/wXxZXVkX63Yty8jukOTlmmimuVs0TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIocJG7B; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C735D130AD4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Feb 2024 13:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707225637; cv=fail; b=OLoh4LRP3tzN8+lI5PIHpI2UGSStwcqNiDXsoXB/1Wf3m0hNM9RULKZb+sV8+/CPwnRhCMAcaCEyhB/lWcKYHW82TFhbzWD6HfzIRAGt23id/xDrTqYpF/0DafozsjiPjY/+3yqSdVnKQEfncYFisKYPYU5huZ9Ep/FQtSI0yOc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707225637; c=relaxed/simple;
+	bh=tmqokIqCTSiKmaL9UAGlZ4n5mzuenxAaLp2/ccxeq+o=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=arYeX/l0wccxlDwm7P9gWsySP8UNPqOOmzQo+CHNWu2r8Z2ZdTwMGglGI6voCBqy3HRw5+ZZvA9lVlEq9QwmlcM0Gk6mjJACtHFPIeFm78FQ2RVpo861Nnm/UxRBXoQthOlF5yXC9D6ye10BdMkRjikO/VkoQIFf/FKF+AjDYvA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M89bilGW; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIocJG7B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M89bilGW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707223149; x=1738759149;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wEdxoajiHi0nRbTF+xROd6UfelnZp48W1TtZVvK6c80=;
-  b=OIocJG7Bru6jd8Me4UxePvsyW6ZHX8FKNkwEdvFCji2MqN+J0xkOqjzN
-   IFrs1hoCCokuNFLisxzDtV6/ElITAkrM4ObHH+1x1sLBFCIpuddajOqlJ
-   pUmor5Gv2WfYcybuwCMURw4M2HOcll22NfVH21hl20OOGLzAIzIKuFaYG
-   Bx7CGJRRaUwFG98xtq0e6iCSVV4W4ld9hGtPMkX87y3gMGzM3376QHZ0H
-   tRMeQd1hVJAGV3IVVeZMaXuaeni1C3IBpmoNo1q82VuWDwD62PAqM0vSj
-   ToA3yidxyIZGvO7AzdfPI0yL2gvtKVU+trxPOH2oln4mK0C7v23CzgW/H
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="638373"
+  t=1707225634; x=1738761634;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=tmqokIqCTSiKmaL9UAGlZ4n5mzuenxAaLp2/ccxeq+o=;
+  b=M89bilGWXssvGp8eyJd4X6f94yeBCsFJceNKKVuliNOHVcR/IMl3OG3O
+   lY6rg74CcK29j1EqjpXRJ/XHwxGLlig4ZOnC3eR5Unf6RIWjAxLzwZ0uu
+   4KPTYFD8+J8+PwtecGAo3tah9eOe/trn8+8hpyyhk4uSY5L+riCD6SNda
+   MSG0COnIFarzzp/SkSYsJSauLWSMKelRt9A9sjoaW421VRxLzebbywonI
+   ToV0WSHjNksTMVWe5zMBNinKQw+gBjFJf+Bovj6xf+P1rR2NXjCfqyFWl
+   ycJjqx2XhwjuEY3mp29Ti94/WdeO2+BmFzDplkyDoq0T1WEgFlXxVRtIR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="641143"
 X-IronPort-AV: E=Sophos;i="6.05,247,1701158400"; 
-   d="scan'208";a="638373"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 04:39:09 -0800
+   d="scan'208";a="641143"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 05:20:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,247,1701158400"; 
-   d="scan'208";a="24254234"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Feb 2024 04:39:04 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rXKj7-0001NU-2e;
-	Tue, 06 Feb 2024 12:39:01 +0000
-Date: Tue, 6 Feb 2024 20:38:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-unionfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	zohar@linux.ibm.com, roberto.sassu@huawei.com, amir73il@gmail.com,
-	brauner@kernel.org, miklos@szeredi.hu,
-	Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v2 4/9] ima: Reset EVM status upon detecting changes to
- the real file
-Message-ID: <202402062032.8kRzlrPA-lkp@intel.com>
-References: <20240205182506.3569743-5-stefanb@linux.ibm.com>
+   d="scan'208";a="1015351"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Feb 2024 05:20:30 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 6 Feb 2024 05:20:31 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 6 Feb 2024 05:20:31 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 6 Feb 2024 05:20:30 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FbzxfBygGup0zRtQjuSiNP/oE2RomkNEl44Z9DlqK3Igpv31wY+vmTBYa1RqfzuZ93LZybtAFDRBo0NQLara3qroHc17j/FOqP9R8sl0rmz44aO7StYjMQekFGzL+zoQKt9Xxbg2fN2ZG01G8yuTrLW4WzqfK3M7UlXOY4fKp2emC9F46GuZ0XHvdsSndG25O4j0+4wbk2TkyLppDc/FxLoVLQvh9cWAEhsCCGLBECmhqpx8dB1/8BizmYqDLMMVbc1RDK13s8/4vkCvFAEVjYokBMgtgmd2ExITepkU2ukiGOo/Yy6HElov+xngSRZaQ3jMs+f9BdLxZMBSpBSemw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/mqdYV8DgctzNoJB1UGwZdjFwMhgnRLo1raCT4UIGlQ=;
+ b=ZI6mzRGPQoGh9vy9XKkg3e4CiWFY6ohRMHo9PBaaKo8OoZhY9PHw46ZDi1c9LOgtRQ83kiI6imBHIA0qLupe2wkdWaCO4+g5IluFoNLAH1WFKBB+7RkWptCoWtDnivGIZH9FxIc5t35Nw5lZLwh0/9XcNifkc51ZY7ifLBLAhtbWwvry2fgcKW6FCH5WK5XK6VsVKi8YgkMGQD22iylPAqDBeg7rbrNu/fSbG5TAOoBLXldWkkD1mOgIEaOCM8cebqWeDngznTgFoAGWrKbj0jxnazXlKBCjCcb+IreaKzpXmxsf+PHaFg1R6ZBCLbS5ISraWvXfE3hhwa9BQeEqoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
+ by DM4PR11MB6454.namprd11.prod.outlook.com (2603:10b6:8:b8::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7249.36; Tue, 6 Feb 2024 13:20:29 +0000
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::8760:b5ec:92af:7769]) by DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::8760:b5ec:92af:7769%6]) with mapi id 15.20.7249.035; Tue, 6 Feb 2024
+ 13:20:29 +0000
+Message-ID: <a856cbeb-dd2e-436b-a7f2-74d3493df18e@intel.com>
+Date: Tue, 6 Feb 2024 14:20:17 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re:
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6193:12:
+ warning: stack frame size (3368) exceeds limit (2048) in
+ 'dml_core_mode_support'
+Content-Language: en-US
+To: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>
+References: <202311200955.pmjdQEM1-lkp@intel.com>
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+In-Reply-To: <202311200955.pmjdQEM1-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0212.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e4::11) To DS0PR11MB8718.namprd11.prod.outlook.com
+ (2603:10b6:8:1b9::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240205182506.3569743-5-stefanb@linux.ibm.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8718:EE_|DM4PR11MB6454:EE_
+X-MS-Office365-Filtering-Correlation-Id: 013dd58b-c1c2-4d2c-7149-08dc2716637b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: k+DFMA93piyYctYXdJ9sAprXOzZL8n0BHjm0L05NcRjm+NOz4eajDtDda2zGMHdkNY/3AWDwZZwyXq4t7OsxJhKNL7/9gntrDaFmtZ5+2+TRpoVxtnT5nA9ULgofE2FKUFvLa1iXkvaWQBlNJ88riDCmARLJdrwqjGX8HJA7WEToVh0/F6pW6BTIRzo4zOb+q5nO33GyWeKaZAqHdU+sxOAtFVm7govYu4pF9t3yxM4lU0NxiHcxmB0V5dTpSae777/BM4hF1KH61aa1Zy84885Cn0242z0kIIVg01fvaPQ88Kw84vMUT6/f+WQSKZGQ9kcvAyajHkod5xsNfMQsHHP6PUFsJsLp5ITGK+k+ykwkz35x7UsbM4u/7aBqPRk1AIhHptnMQCwkv/4a/HrN2vhks6N4oPHZpqv5jXNr6zx0L3a9MbqEvvP7uRncR4LsugwCm5VlFFy5ruH4woNT3KIRCOMZ1Y2UGQB8Z1PNembjTf3OxkLj2TOApmfTu9lW4u7M6cHHIzNvlZK6/cvIOIeOr6scdt6fLHj03a+esyZRa/So1AEUIpguPx6D6f9KMxOHQUdVO/v8/74GwH7Dq/K9NMXacdaj3uyl4qBi1p4QpECm6HsDth1WQJqzMgcautR1aHLl0hQPyjPGlblbsTDkFkEoxAJF1DWyANRT/+U=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8718.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(346002)(136003)(366004)(396003)(230273577357003)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(41300700001)(2616005)(26005)(86362001)(966005)(6486002)(5660300002)(478600001)(2906002)(316002)(6916009)(54906003)(66476007)(66556008)(66946007)(8936002)(8676002)(4326008)(36756003)(6512007)(6666004)(6506007)(31686004)(31696002)(38100700002)(83380400001)(82960400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlYrL2VKSmxtSFRhaWJDTmZnbGVxc1NmUk5XaUFpZ2dRZ0lablN4UHJvOGVx?=
+ =?utf-8?B?L0NZdWxOZlRwN2tjSENxL0hDM1hIT01IUHZiNWF5TzBjRjM3V1VzUXhKT3hT?=
+ =?utf-8?B?RzJBSXdUVm15Zk1IdmJ6em1WRUxSK09KSUo1QXJYS0c3R2FWOUZOdEx6VzNN?=
+ =?utf-8?B?MUdsamtkODRkenFTTW45TUdzNzJReC83aEhJUTNHVlpTQ214eHpNbTYxS1M2?=
+ =?utf-8?B?S043ZC90OXZlMEZrZ2dUekt1TDJOSVRieThnQy80MnpUSERPc3ppSTV1OW10?=
+ =?utf-8?B?UG5vckN6cXhHWEQxeTE2bzBBWHp6dVpmVjFRN0Y0eG5DQWhkdGpZcE41Nm5x?=
+ =?utf-8?B?b1dBS2lsS1RZUGd1WjFoRDA3STVFOWVyMlpmUXB0bTVTTWttN2xMQkdhNkpD?=
+ =?utf-8?B?MG9VQkoybEw2NzFFSVdNSTVSK3ROTmZoYmpqc2lzWDB1QmNjNHZ1ODBabmZs?=
+ =?utf-8?B?SVFhMWcxVFJFdzdNQjFsTXdRWWpBTi9vZnhpZC9BY3hJNEF2U3ZqZE5OZ05Y?=
+ =?utf-8?B?TXRyQWNXSCtVRzVEV3RCenRDUUFwRnRLUU9XVlBmYzFSejA4ZmYrYldNNDBY?=
+ =?utf-8?B?bnJxa0xZY1hKR05mN2YwWVRFa2xFQ1BXaTVuZG1tOXdUcGp3ME51cU43c2c5?=
+ =?utf-8?B?b0l0R0Izc2JXd3lTVWx3Zk5qWmtPMmNmMm1RbjR4dEdNZFlWWHZDK09tckdS?=
+ =?utf-8?B?ZFF3ZWtoU1lKU1NXaWh1c0hWeU8xSFNJa1A5QlhreXR2cGl6TlBJS1l5a05P?=
+ =?utf-8?B?TDhRL21LaUZITFQwaGtUa2p6TDZaRU1TSEpVc01WWVpzQWluUTBIQ1hlNVhX?=
+ =?utf-8?B?S0lhWjhqa3F6ZkNxVFd1alNyOVJyK2J1TTRuV0lrQmJ1UHpZVVp6Zm55RUVX?=
+ =?utf-8?B?ZnhReWJiYzV6QWhaSkhPYWszYUdmczFKd1B5SjJSdURBKzJoTHZoN0wwYzND?=
+ =?utf-8?B?WGhzQVNZRThRSU5KSGh0OGtGbTl5cUFvS3k4U29FNEtIN1BNaVlIUER3YVNP?=
+ =?utf-8?B?VTliVlVHMTFta0YyTTNTbzJheFdNMjVUczlHNWRKRmNLRFVDcVMxT1IyWFdl?=
+ =?utf-8?B?a0lac3ZBYmFtY3BxdWhMR3VnN0xscGQrOTdLZTAyY28vczQ3YWs3TTFhVTdN?=
+ =?utf-8?B?c0NTY3pjaVNCMk1aRnRxdU40Ym85T0xhbEdWWUMxVkQrT0JGUGJySGVkT2J5?=
+ =?utf-8?B?Y21ET1MrRWsxL2FIS1FlZzVNR2lNdXdYbGFMdmo5YTRsL0JUVFB5Sk80WmIr?=
+ =?utf-8?B?dXdSNUdsc3Qxc0owai9QMEsxMlB1WHA2SGhNaVVUVnppSWJZNk9Ta0NWTFRJ?=
+ =?utf-8?B?Z1lsa3lBN2hzMDFQZzMxRWhWaVQ3a0xtQ1BBS0dOK084cGxJeUJZZ1dKUkk4?=
+ =?utf-8?B?STFpa0RSenBKTFI3UjF3ZUhkZW42eTl1eDJscnBUZ3BzNWJoWjNjTW1Wa3pH?=
+ =?utf-8?B?cFh0TlJPRWJQRzk4R2s1K0tMMzk3OVFVYS82SklVa0ZNdTN0dmFIbGZSWW5L?=
+ =?utf-8?B?VHlPdkY0NVd3N0pTR1JZWUw5cVFjZ0YwUzFMeW9EVHFoL1dySFhKUFhCRHM5?=
+ =?utf-8?B?aHU3a0RQZWx3MlVWRnQ3RG92L01uWjRMZlVXMVZERjFobGVwQlhRUmx2RFk0?=
+ =?utf-8?B?MW9ZTUFRQjBGTnY3cG9wMmhGdzF2VXBKREUrNU4yck16UnJRMnFpM2lqK0ov?=
+ =?utf-8?B?SWozSTFOT0w2bFdXNUJNcnhrQTVnSFlLajlJYWhiRXBnVEZsMXhCaThxL3Vn?=
+ =?utf-8?B?ek1jbkdtcW00YlNob2lrUWZUL3BZdDBDc29kN3ZPOGg3K3VEVkx0WlViWk5l?=
+ =?utf-8?B?dk1IOERsVXNYc3lpY3c3NEEwVGtGRmMyT1p2UjJLRXA2L3VCVC8zYzRWa2NI?=
+ =?utf-8?B?c3BuTzdoRTJBakVhR2dGamtwVDY2WjVGeFc0cUNuZWF1T2VBOHphSEkyTW5N?=
+ =?utf-8?B?UEJHc0UxeHpGaW8ycm5CcTNBZ2lUVlZQdDlYeWZvVHVvcS9qdHlqUjdaU0hS?=
+ =?utf-8?B?VXdaT0E3NEtjbyt4bndyWE5yV0xnR3VTWG9tNnZ6RjVreW0xYXN6T1M3TUhx?=
+ =?utf-8?B?Y3l0MGFBRGErOHoxeHZidGJlNFhteXRKem5xNFVSOTBoSHFwdTVEZjVodjJq?=
+ =?utf-8?B?QUFoMTRMRHovaXBNZEtqYW9IcG12NHF1TzBlbnZ1Y1ZaVk95eUtORjlhS3kr?=
+ =?utf-8?B?QUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 013dd58b-c1c2-4d2c-7149-08dc2716637b
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8718.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2024 13:20:29.2686
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yuJfMu1VVMye6az40yZMeMd5RZf/zgPqo4yYLOU4OSn/dIiDNQCJ9f4j4cum18fPdsor1Cb/L/lnIMId2F3LPOcvGXsQh4DOqG2yLznRWWg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6454
+X-OriginatorOrg: intel.com
 
-Hi Stefan,
+From: Kernel Test Robot <lkp@intel.com>
+Date: Mon, 20 Nov 2023 10:01:21 +0800
 
-kernel test robot noticed the following build errors:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   037266a5f7239ead1530266f7d7af153d2a867fa
+> commit: 7966f319c66d9468623c6a6a017ecbc0dd79be75 drm/amd/display: Introduce DML2
+> date:   6 weeks ago
+> config: x86_64-randconfig-121-20231119 (https://download.01.org/0day-ci/archive/20231120/202311200955.pmjdQEM1-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311200955.pmjdQEM1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311200955.pmjdQEM1-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wstring-concatenation'? [-Wunknown-warning-option]
+>    warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
+>>> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6193:12: warning: stack frame size (3368) exceeds limit (2048) in 'dml_core_mode_support' [-Wframe-larger-than]
+>    dml_bool_t dml_core_mode_support(struct display_mode_lib_st *mode_lib)
 
-[auto build test ERROR on zohar-integrity/next-integrity]
-[also build test ERROR on pcmoore-selinux/next linus/master v6.8-rc3 next-20240206]
-[cannot apply to mszeredi-vfs/overlayfs-next mszeredi-vfs/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Ping? This still happens on the latest RC and linux-next on LLVM 19 at
+least (-O2) and breaks CONFIG_WERROR builds.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Berger/ima-Rename-backing_inode-to-real_inode/20240206-022848
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
-patch link:    https://lore.kernel.org/r/20240205182506.3569743-5-stefanb%40linux.ibm.com
-patch subject: [PATCH v2 4/9] ima: Reset EVM status upon detecting changes to the real file
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240206/202402062032.8kRzlrPA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402062032.8kRzlrPA-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402062032.8kRzlrPA-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   security/integrity/ima/ima_main.c: In function 'process_measurement':
->> security/integrity/ima/ima_main.c:303:58: error: 'D_REAL_METADATA' undeclared (first use in this function)
-     303 |                                                          D_REAL_METADATA)))
-         |                                                          ^~~~~~~~~~~~~~~
-   security/integrity/ima/ima_main.c:303:58: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/D_REAL_METADATA +303 security/integrity/ima/ima_main.c
-
-   207	
-   208	static int process_measurement(struct file *file, const struct cred *cred,
-   209				       u32 secid, char *buf, loff_t size, int mask,
-   210				       enum ima_hooks func)
-   211	{
-   212		struct inode *real_inode, *inode = file_inode(file);
-   213		struct integrity_iint_cache *iint = NULL;
-   214		struct ima_template_desc *template_desc = NULL;
-   215		char *pathbuf = NULL;
-   216		char filename[NAME_MAX];
-   217		const char *pathname = NULL;
-   218		int rc = 0, action, must_appraise = 0;
-   219		int pcr = CONFIG_IMA_MEASURE_PCR_IDX;
-   220		struct evm_ima_xattr_data *xattr_value = NULL;
-   221		struct modsig *modsig = NULL;
-   222		int xattr_len = 0;
-   223		bool violation_check;
-   224		enum hash_algo hash_algo;
-   225		unsigned int allowed_algos = 0;
-   226	
-   227		if (!ima_policy_flag || !S_ISREG(inode->i_mode))
-   228			return 0;
-   229	
-   230		/* Return an IMA_MEASURE, IMA_APPRAISE, IMA_AUDIT action
-   231		 * bitmask based on the appraise/audit/measurement policy.
-   232		 * Included is the appraise submask.
-   233		 */
-   234		action = ima_get_action(file_mnt_idmap(file), inode, cred, secid,
-   235					mask, func, &pcr, &template_desc, NULL,
-   236					&allowed_algos);
-   237		violation_check = ((func == FILE_CHECK || func == MMAP_CHECK ||
-   238				    func == MMAP_CHECK_REQPROT) &&
-   239				   (ima_policy_flag & IMA_MEASURE));
-   240		if (!action && !violation_check)
-   241			return 0;
-   242	
-   243		must_appraise = action & IMA_APPRAISE;
-   244	
-   245		/*  Is the appraise rule hook specific?  */
-   246		if (action & IMA_FILE_APPRAISE)
-   247			func = FILE_CHECK;
-   248	
-   249		inode_lock(inode);
-   250	
-   251		if (action) {
-   252			iint = integrity_inode_get(inode);
-   253			if (!iint)
-   254				rc = -ENOMEM;
-   255		}
-   256	
-   257		if (!rc && violation_check)
-   258			ima_rdwr_violation_check(file, iint, action & IMA_MEASURE,
-   259						 &pathbuf, &pathname, filename);
-   260	
-   261		inode_unlock(inode);
-   262	
-   263		if (rc)
-   264			goto out;
-   265		if (!action)
-   266			goto out;
-   267	
-   268		mutex_lock(&iint->mutex);
-   269	
-   270		if (test_and_clear_bit(IMA_CHANGE_ATTR, &iint->atomic_flags))
-   271			/* reset appraisal flags if ima_inode_post_setattr was called */
-   272			iint->flags &= ~(IMA_APPRAISE | IMA_APPRAISED |
-   273					 IMA_APPRAISE_SUBMASK | IMA_APPRAISED_SUBMASK |
-   274					 IMA_NONACTION_FLAGS);
-   275	
-   276		/*
-   277		 * Re-evaulate the file if either the xattr has changed or the
-   278		 * kernel has no way of detecting file change on the filesystem.
-   279		 * (Limited to privileged mounted filesystems.)
-   280		 */
-   281		if (test_and_clear_bit(IMA_CHANGE_XATTR, &iint->atomic_flags) ||
-   282		    ((inode->i_sb->s_iflags & SB_I_IMA_UNVERIFIABLE_SIGNATURE) &&
-   283		     !(inode->i_sb->s_iflags & SB_I_UNTRUSTED_MOUNTER) &&
-   284		     !(action & IMA_FAIL_UNVERIFIABLE_SIGS))) {
-   285			iint->flags &= ~IMA_DONE_MASK;
-   286			iint->measured_pcrs = 0;
-   287		}
-   288	
-   289		/*
-   290		 * Detect and re-evaluate changes made to the inode holding file data.
-   291		 */
-   292		real_inode = d_real_inode(file_dentry(file));
-   293		if (real_inode != inode &&
-   294		    (action & IMA_DO_MASK) && (iint->flags & IMA_DONE_MASK)) {
-   295			if (!IS_I_VERSION(real_inode) ||
-   296			    real_inode->i_sb->s_dev != iint->real_dev ||
-   297			    real_inode->i_ino != iint->real_ino ||
-   298			    !inode_eq_iversion(real_inode, iint->version)) {
-   299				iint->flags &= ~IMA_DONE_MASK;
-   300				iint->measured_pcrs = 0;
-   301	
-   302				if (real_inode == d_inode(d_real(file_dentry(file),
- > 303								 D_REAL_METADATA)))
-   304					evm_reset_cache_status(file_dentry(file), iint);
-   305			}
-   306		}
-   307	
-   308		/* Determine if already appraised/measured based on bitmask
-   309		 * (IMA_MEASURE, IMA_MEASURED, IMA_XXXX_APPRAISE, IMA_XXXX_APPRAISED,
-   310		 *  IMA_AUDIT, IMA_AUDITED)
-   311		 */
-   312		iint->flags |= action;
-   313		action &= IMA_DO_MASK;
-   314		action &= ~((iint->flags & (IMA_DONE_MASK ^ IMA_MEASURED)) >> 1);
-   315	
-   316		/* If target pcr is already measured, unset IMA_MEASURE action */
-   317		if ((action & IMA_MEASURE) && (iint->measured_pcrs & (0x1 << pcr)))
-   318			action ^= IMA_MEASURE;
-   319	
-   320		/* HASH sets the digital signature and update flags, nothing else */
-   321		if ((action & IMA_HASH) &&
-   322		    !(test_bit(IMA_DIGSIG, &iint->atomic_flags))) {
-   323			xattr_len = ima_read_xattr(file_dentry(file),
-   324						   &xattr_value, xattr_len);
-   325			if ((xattr_value && xattr_len > 2) &&
-   326			    (xattr_value->type == EVM_IMA_XATTR_DIGSIG))
-   327				set_bit(IMA_DIGSIG, &iint->atomic_flags);
-   328			iint->flags |= IMA_HASHED;
-   329			action ^= IMA_HASH;
-   330			set_bit(IMA_UPDATE_XATTR, &iint->atomic_flags);
-   331		}
-   332	
-   333		/* Nothing to do, just return existing appraised status */
-   334		if (!action) {
-   335			if (must_appraise) {
-   336				rc = mmap_violation_check(func, file, &pathbuf,
-   337							  &pathname, filename);
-   338				if (!rc)
-   339					rc = ima_get_cache_status(iint, func);
-   340			}
-   341			goto out_locked;
-   342		}
-   343	
-   344		if ((action & IMA_APPRAISE_SUBMASK) ||
-   345		    strcmp(template_desc->name, IMA_TEMPLATE_IMA_NAME) != 0) {
-   346			/* read 'security.ima' */
-   347			xattr_len = ima_read_xattr(file_dentry(file),
-   348						   &xattr_value, xattr_len);
-   349	
-   350			/*
-   351			 * Read the appended modsig if allowed by the policy, and allow
-   352			 * an additional measurement list entry, if needed, based on the
-   353			 * template format and whether the file was already measured.
-   354			 */
-   355			if (iint->flags & IMA_MODSIG_ALLOWED) {
-   356				rc = ima_read_modsig(func, buf, size, &modsig);
-   357	
-   358				if (!rc && ima_template_has_modsig(template_desc) &&
-   359				    iint->flags & IMA_MEASURED)
-   360					action |= IMA_MEASURE;
-   361			}
-   362		}
-   363	
-   364		hash_algo = ima_get_hash_algo(xattr_value, xattr_len);
-   365	
-   366		rc = ima_collect_measurement(iint, file, buf, size, hash_algo, modsig);
-   367		if (rc != 0 && rc != -EBADF && rc != -EINVAL)
-   368			goto out_locked;
-   369	
-   370		if (!pathbuf)	/* ima_rdwr_violation possibly pre-fetched */
-   371			pathname = ima_d_path(&file->f_path, &pathbuf, filename);
-   372	
-   373		if (action & IMA_MEASURE)
-   374			ima_store_measurement(iint, file, pathname,
-   375					      xattr_value, xattr_len, modsig, pcr,
-   376					      template_desc);
-   377		if (rc == 0 && (action & IMA_APPRAISE_SUBMASK)) {
-   378			rc = ima_check_blacklist(iint, modsig, pcr);
-   379			if (rc != -EPERM) {
-   380				inode_lock(inode);
-   381				rc = ima_appraise_measurement(func, iint, file,
-   382							      pathname, xattr_value,
-   383							      xattr_len, modsig);
-   384				inode_unlock(inode);
-   385			}
-   386			if (!rc)
-   387				rc = mmap_violation_check(func, file, &pathbuf,
-   388							  &pathname, filename);
-   389		}
-   390		if (action & IMA_AUDIT)
-   391			ima_audit_measurement(iint, pathname);
-   392	
-   393		if ((file->f_flags & O_DIRECT) && (iint->flags & IMA_PERMIT_DIRECTIO))
-   394			rc = 0;
-   395	
-   396		/* Ensure the digest was generated using an allowed algorithm */
-   397		if (rc == 0 && must_appraise && allowed_algos != 0 &&
-   398		    (allowed_algos & (1U << hash_algo)) == 0) {
-   399			rc = -EACCES;
-   400	
-   401			integrity_audit_msg(AUDIT_INTEGRITY_DATA, file_inode(file),
-   402					    pathname, "collect_data",
-   403					    "denied-hash-algorithm", rc, 0);
-   404		}
-   405	out_locked:
-   406		if ((mask & MAY_WRITE) && test_bit(IMA_DIGSIG, &iint->atomic_flags) &&
-   407		     !(iint->flags & IMA_NEW_FILE))
-   408			rc = -EACCES;
-   409		mutex_unlock(&iint->mutex);
-   410		kfree(xattr_value);
-   411		ima_free_modsig(modsig);
-   412	out:
-   413		if (pathbuf)
-   414			__putname(pathbuf);
-   415		if (must_appraise) {
-   416			if (rc && (ima_appraise & IMA_APPRAISE_ENFORCE))
-   417				return -EACCES;
-   418			if (file->f_mode & FMODE_WRITE)
-   419				set_bit(IMA_UPDATE_XATTR, &iint->atomic_flags);
-   420		}
-   421		return 0;
-   422	}
-   423	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>               ^
+>    2183/3368 (64.82%) spills, 1185/3368 (35.18%) variables
+>    drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:8241:6: warning: stack frame size (2232) exceeds limit (2048) in 'dml_core_mode_programming' [-Wframe-larger-than]
+>    void dml_core_mode_programming(struct display_mode_lib_st *mode_lib, const struct dml_clk_cfg_st *clk_cfg)
+>         ^
+>    1441/2232 (64.56%) spills, 791/2232 (35.44%) variables
+>    4 warnings generated.
+Thanks,
+Olek
