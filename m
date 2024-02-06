@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B4914A9D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Feb 2024 19:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D435017984
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Feb 2024 19:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707246921; cv=none; b=BZNQ3UzDd0G+ILH0QKOSIHnowb8otaMGNcJJCG26uVPkxYuu0PZK4f/t8yMeMRKbLK+m4fTjXd6+tCtDj8aZYfYHiuUv5MRqHm24bSRUnU6TUI86HbXF4dM9ZDaAW461GcGEmws+6+Fi/TiqApBgE2szYNTzdohIrhtYMi5cBCo=
+	t=1707248782; cv=none; b=Rnj6SyGZHOueqMAZ7zBRXghDQ3d2JvvYacjGS4aLDrPW+dgIK1lCY1ovA9GK5SPGNfbddYmta3cfy53VuSdUmpc3w+Zft7ta3gelQ9vevwdh6frriWo+5+Z+/kkIfquqTAFzXMHWnS4XfyuxCOMrAsFEAZi4VVyR7oMt/CQn3pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707246921; c=relaxed/simple;
-	bh=P8AcbjLfFgXyfuTPADQSKLnyCl4ME5jn+p7UVHgB1IA=;
+	s=arc-20240116; t=1707248782; c=relaxed/simple;
+	bh=yTF8iJVW0ai7q6rMRk2LhdTNGcLYjFnkaXwxZg/zYtI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IgDw6jys6JkjBOcG6NKTIBzSe/JaKhvr0cQwBlMuqP7ogUVhPl89VyBhwnMjR+jCvKbcVwRu9wJXD2GJh3P/jHmW+a7q6Xi3J/GRB4+q/uDQplVIVig8yZX8PKv2/IVT1GGtYQLv/bpnUKPqpqv8FJP25mECc6S56fQIckyOST0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGlnLy+A; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=gF8cUlNBh02JtzAc5svVyGLSJKPUE+pziiZSmXNL1pH/iF2h/bCjyhd1PIVrufYNdrJOF7WGxEWv1deNg75H3mHWb3EDnijJ6so3Q2R8E/fDkDJhccCviOhqnTIxRkt/CSAgnwfrj9cH1VPeRs33DQBKDjIlopE9aTqNcPayApQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VoWjZkJE; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGlnLy+A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VoWjZkJE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707246920; x=1738782920;
+  t=1707248779; x=1738784779;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P8AcbjLfFgXyfuTPADQSKLnyCl4ME5jn+p7UVHgB1IA=;
-  b=OGlnLy+A7JII6xkdeSrcU0lJLzb6fK8Imwpy7k6Jb8A3OvKYh0Nga+UP
-   Pqx8voW91phD57mI1nUpgZi8tHM39gaZj0tY7Z2xX5ZhNhnNPbtp8jPI1
-   2sHdJw2dTQ055BB5W502U+aU8JYhfari6nssbMmEIG5YCUvNXHtppprNv
-   VrEOqA9s+grcqTQ1R7rQBPTnouhSdN1LLgr9zLCDb7Q0IkQfAKuHV6LSq
-   FNRuNz8rcsQ1d8FMnsej7eY7LJjrarpmBh42W9SoujJy5vczGcYVHnp7T
-   g3bNP56uGsr7bSO5MXFjmS01gmrval76UpKpW0EoRwA4GRZxw/f8Nucck
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="1101173"
+  bh=yTF8iJVW0ai7q6rMRk2LhdTNGcLYjFnkaXwxZg/zYtI=;
+  b=VoWjZkJESBOFHRAyV3AN5gOnR9fqDfnMkYCobMtJYmk9E03qFA8eTpRA
+   48FYiZjh1F87RW/DnnmDhphFLeq9X7HFn4iSvK9RW1iSHXbXCPi4N+rlb
+   G0ROzs+TD2FIvVMmWtROlP3VELlgLs2JGaXezxKVlDuHDtdA0aLLCJ0hH
+   P8UJYxvXL+VzGeG2ySFR8O7Vx6oDmMkSbmtixvovOJ/aMzFol0u0+oxRq
+   Pg50TEp+RwTWcWarbjLcb1ja2dK15RnneZTLIhgSh07nTbfy5YOBVgmC+
+   19dB/ui2kJcGBiTQlKL2TJmQQjby2XI0C0VjyH5YtAIXIRpVYJSFmG+Ep
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="973763"
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="1101173"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 11:15:19 -0800
+   d="scan'208";a="973763"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 11:46:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="909733588"
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="909733588"
+   d="scan'208";a="1103526"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Feb 2024 11:15:17 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 06 Feb 2024 11:46:17 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXQuZ-0001j5-1U;
-	Tue, 06 Feb 2024 19:15:15 +0000
-Date: Wed, 7 Feb 2024 03:15:14 +0800
+	id 1rXROZ-0001jf-2Z;
+	Tue, 06 Feb 2024 19:46:15 +0000
+Date: Wed, 7 Feb 2024 03:45:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 59/66] drivers/md/bcache/util.h:366:17:
- error: too few arguments to function 'time_stats_to_seq_buf'
-Message-ID: <202402070344.9JjVBlpj-lkp@intel.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [wsa:renesas/sdhi/tmio-simplification 3/5]
+ drivers/mmc/host/tmio_mmc_core.c:1087:6: error: implicit declaration of
+ function 'of_property_read_bool' is invalid in C99
+Message-ID: <202402070323.JpYfFtkQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,86 +59,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   50847e296b34efabe199e408ec4d72f10a866c39
-commit: c7caff27eedeef30d457cbe0d5aae0698fcc954f [59/66] time_stats: don't print any output if event count is zero
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240207/202402070344.9JjVBlpj-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070344.9JjVBlpj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/sdhi/tmio-simplification
+head:   cccb4dda1ee496a1baabb6283db1e5f52808b706
+commit: a01061a0afbd18bce634e772e050c78ce6bd8fdc [3/5] mfd: tmio: update include files
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240207/202402070323.JpYfFtkQ-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070323.JpYfFtkQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402070344.9JjVBlpj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402070323.JpYfFtkQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/md/bcache/bset.h:10,
-                    from drivers/md/bcache/bcache.h:195,
-                    from drivers/md/bcache/sysfs.c:9:
-   drivers/md/bcache/sysfs.c: In function '__bch_cache_set_show':
->> drivers/md/bcache/util.h:366:17: error: too few arguments to function 'time_stats_to_seq_buf'
-     366 |                 time_stats_to_seq_buf(&seq, stats);                     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/sysfs.c:747:9: note: in expansion of macro 'sysfs_print_time_stats'
-     747 |         sysfs_print_time_stats(&c->btree_gc_time,       btree_gc_times);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/md/bcache/bcache.h:189:
-   include/linux/time_stats.h:153:6: note: declared here
-     153 | void time_stats_to_seq_buf(struct seq_buf *, struct time_stats *,
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/md/bcache/util.h:366:17: error: too few arguments to function 'time_stats_to_seq_buf'
-     366 |                 time_stats_to_seq_buf(&seq, stats);                     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/sysfs.c:748:9: note: in expansion of macro 'sysfs_print_time_stats'
-     748 |         sysfs_print_time_stats(&c->btree_split_time,    btree_split_times);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/time_stats.h:153:6: note: declared here
-     153 | void time_stats_to_seq_buf(struct seq_buf *, struct time_stats *,
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/md/bcache/util.h:366:17: error: too few arguments to function 'time_stats_to_seq_buf'
-     366 |                 time_stats_to_seq_buf(&seq, stats);                     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/sysfs.c:749:9: note: in expansion of macro 'sysfs_print_time_stats'
-     749 |         sysfs_print_time_stats(&c->sort.time,           btree_sort_times);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/time_stats.h:153:6: note: declared here
-     153 | void time_stats_to_seq_buf(struct seq_buf *, struct time_stats *,
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/md/bcache/util.h:366:17: error: too few arguments to function 'time_stats_to_seq_buf'
-     366 |                 time_stats_to_seq_buf(&seq, stats);                     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/sysfs.c:750:9: note: in expansion of macro 'sysfs_print_time_stats'
-     750 |         sysfs_print_time_stats(&c->btree_read_time,     btree_read_times);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/time_stats.h:153:6: note: declared here
-     153 | void time_stats_to_seq_buf(struct seq_buf *, struct time_stats *,
-         |      ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/mmc/host/tmio_mmc_core.c:1087:6: error: implicit declaration of function 'of_property_read_bool' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           if (of_property_read_bool(np, "toshiba,mmc-wrprotect-disable"))
+               ^
+   1 error generated.
+--
+>> drivers/mmc/host/renesas_sdhi_sys_dmac.c:459:26: error: use of undeclared identifier 'pm_runtime_force_suspend'
+           SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_sys_dmac.c:460:5: error: use of undeclared identifier 'pm_runtime_force_resume'
+                                   pm_runtime_force_resume)
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_sys_dmac.c:459:26: error: use of undeclared identifier 'pm_runtime_force_suspend'
+           SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_sys_dmac.c:460:5: error: use of undeclared identifier 'pm_runtime_force_resume'
+                                   pm_runtime_force_resume)
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_sys_dmac.c:459:26: error: use of undeclared identifier 'pm_runtime_force_suspend'
+           SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_sys_dmac.c:460:5: error: use of undeclared identifier 'pm_runtime_force_resume'
+                                   pm_runtime_force_resume)
+                                   ^
+   6 errors generated.
+--
+>> drivers/mmc/host/renesas_sdhi_internal_dmac.c:598:26: error: use of undeclared identifier 'pm_runtime_force_suspend'
+           SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_internal_dmac.c:599:5: error: use of undeclared identifier 'pm_runtime_force_resume'
+                                   pm_runtime_force_resume)
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_internal_dmac.c:598:26: error: use of undeclared identifier 'pm_runtime_force_suspend'
+           SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_internal_dmac.c:599:5: error: use of undeclared identifier 'pm_runtime_force_resume'
+                                   pm_runtime_force_resume)
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_internal_dmac.c:598:26: error: use of undeclared identifier 'pm_runtime_force_suspend'
+           SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+                                   ^
+>> drivers/mmc/host/renesas_sdhi_internal_dmac.c:599:5: error: use of undeclared identifier 'pm_runtime_force_resume'
+                                   pm_runtime_force_resume)
+                                   ^
+   6 errors generated.
 
 
-vim +/time_stats_to_seq_buf +366 drivers/md/bcache/util.h
+vim +/of_property_read_bool +1087 drivers/mmc/host/tmio_mmc_core.c
 
-cafe563591446c Kent Overstreet 2013-03-23  356  
-cafe563591446c Kent Overstreet 2013-03-23  357  #define __print_time_stat(stats, name, stat, units)			\
-cafe563591446c Kent Overstreet 2013-03-23  358  	sysfs_print(name ## _ ## stat ## _ ## units,			\
-cafe563591446c Kent Overstreet 2013-03-23  359  		    div_u64((stats)->stat >> 8, NSEC_PER_ ## units))
-cafe563591446c Kent Overstreet 2013-03-23  360  
-21ba4155ff2f9e Kent Overstreet 2024-01-26  361  #define sysfs_print_time_stats(stats, name)				\
-cafe563591446c Kent Overstreet 2013-03-23  362  do {									\
-21ba4155ff2f9e Kent Overstreet 2024-01-26  363  	if (attr == &sysfs_##name) {					\
-21ba4155ff2f9e Kent Overstreet 2024-01-26  364  		struct seq_buf seq;					\
-21ba4155ff2f9e Kent Overstreet 2024-01-26  365  		seq_buf_init(&seq, buf, PAGE_SIZE);			\
-21ba4155ff2f9e Kent Overstreet 2024-01-26 @366  		time_stats_to_seq_buf(&seq, stats);			\
-21ba4155ff2f9e Kent Overstreet 2024-01-26  367  		return seq.len;						\
-21ba4155ff2f9e Kent Overstreet 2024-01-26  368  	}								\
-cafe563591446c Kent Overstreet 2013-03-23  369  } while (0)
-cafe563591446c Kent Overstreet 2013-03-23  370  
+b958a67c6bbe0a drivers/mmc/host/tmio_mmc_pio.c  Guennadi Liakhovetski 2012-06-20  1073  
+5a00a971a2b12e drivers/mmc/host/tmio_mmc_pio.c  Guennadi Liakhovetski 2013-02-15  1074  static void tmio_mmc_of_parse(struct platform_device *pdev,
+7c53b79766a463 drivers/mmc/host/tmio_mmc_core.c Masahiro Yamada       2018-01-18  1075  			      struct mmc_host *mmc)
+5a00a971a2b12e drivers/mmc/host/tmio_mmc_pio.c  Guennadi Liakhovetski 2013-02-15  1076  {
+5a00a971a2b12e drivers/mmc/host/tmio_mmc_pio.c  Guennadi Liakhovetski 2013-02-15  1077  	const struct device_node *np = pdev->dev.of_node;
+f2218db8154854 drivers/mmc/host/tmio_mmc_core.c Simon Horman          2017-06-16  1078  
+5a00a971a2b12e drivers/mmc/host/tmio_mmc_pio.c  Guennadi Liakhovetski 2013-02-15  1079  	if (!np)
+5a00a971a2b12e drivers/mmc/host/tmio_mmc_pio.c  Guennadi Liakhovetski 2013-02-15  1080  		return;
+5a00a971a2b12e drivers/mmc/host/tmio_mmc_pio.c  Guennadi Liakhovetski 2013-02-15  1081  
+788778b0d21a6d drivers/mmc/host/tmio_mmc_core.c Masahiro Yamada       2018-01-18  1082  	/*
+788778b0d21a6d drivers/mmc/host/tmio_mmc_core.c Masahiro Yamada       2018-01-18  1083  	 * DEPRECATED:
+788778b0d21a6d drivers/mmc/host/tmio_mmc_core.c Masahiro Yamada       2018-01-18  1084  	 * For new platforms, please use "disable-wp" instead of
+788778b0d21a6d drivers/mmc/host/tmio_mmc_core.c Masahiro Yamada       2018-01-18  1085  	 * "toshiba,mmc-wrprotect-disable"
+788778b0d21a6d drivers/mmc/host/tmio_mmc_core.c Masahiro Yamada       2018-01-18  1086  	 */
+ca6b5fe277e91e drivers/mmc/host/tmio_mmc_core.c Rob Herring           2023-03-10 @1087  	if (of_property_read_bool(np, "toshiba,mmc-wrprotect-disable"))
+7c53b79766a463 drivers/mmc/host/tmio_mmc_core.c Masahiro Yamada       2018-01-18  1088  		mmc->caps2 |= MMC_CAP2_NO_WRITE_PROTECT;
+5a00a971a2b12e drivers/mmc/host/tmio_mmc_pio.c  Guennadi Liakhovetski 2013-02-15  1089  }
+5a00a971a2b12e drivers/mmc/host/tmio_mmc_pio.c  Guennadi Liakhovetski 2013-02-15  1090  
 
-:::::: The code at line 366 was first introduced by commit
-:::::: 21ba4155ff2f9e17cf4d27f1ad2ea42fecfed4ae bcache: Convert to lib/time_stats
+:::::: The code at line 1087 was first introduced by commit
+:::::: ca6b5fe277e91ebca5101dc00c0e26755f0ed6c4 mmc: Use of_property_read_bool() for boolean properties
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Rob Herring <robh@kernel.org>
+:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
