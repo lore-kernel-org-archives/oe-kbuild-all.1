@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD90C1B951;
-	Tue,  6 Feb 2024 21:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DE61BDD9
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Feb 2024 21:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707255086; cv=none; b=HSaRveUtEqLII9wpbg8gbGMm2nVHybz5UCe7GhNKnw86j5fWmIhDb/Llubr3aL6rJ+Zsz3kIuUH8YeHRLLzp6N37nR80DcI7HE6m4M/mmqZv1qScaPMzMw11sDtbBDKUCEt4bJwnkV5skLkeCl8D8RAxFE4ptiEKSQPZHf8WBrE=
+	t=1707256405; cv=none; b=PmedzBnXdOxPdbEM8H8cBK3dE1Fg2gM+zlsF1PVHrXdwn7GHjhYXsmezqsYXpRUkexmZaKQ0PcKaOO+K8rfYeo6bdyXxMt6i0L1uSN305AQ99l87OorhJQuX/J4dsT49PJceluivsgnGte630Alv/OgUBQqrXjiAoCTkYmYfhMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707255086; c=relaxed/simple;
-	bh=GfYkQ+wmvhilD4S0J24vgWuyWeoJwxzYahORsu2PvI8=;
+	s=arc-20240116; t=1707256405; c=relaxed/simple;
+	bh=rPLwAShfqSYglh11kXyiT/05bFHEp31jbN2WGqklEBw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HsVSP38jzl2DFNHi0aVlO2jG5e6SrHz/GY0JMLM2gtDrHtxDGFxQQAEUyacDwkV8QnALhTitoIgSbLqIbfhZq77VZoy9aiKHceOWEp/oL6j1/DGzoMlbOXjgMRwU5qmIdhvY3x7eQBInSV/aIarLwnpOXnKrmDaI+rG8gGJL/mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PKq5f+3L; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=hR8ICtOE1sho7URP/YKfHMb+3FtzYpn1yU7P3zMPPhdbZb29oAkEdBElDFCJH5aCtJzaoXZTToFAskOvoimzcUzoa6AVJsdduNM/RrQDh/n/q5xysS9tdbp9862O2XJ+cPZ20bP4jAfBrDXaZxBG8QJL9/Lk8NSyVaSd5XixHQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=edKrH3K5; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PKq5f+3L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="edKrH3K5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707255084; x=1738791084;
+  t=1707256402; x=1738792402;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GfYkQ+wmvhilD4S0J24vgWuyWeoJwxzYahORsu2PvI8=;
-  b=PKq5f+3LvGir8hZdnQ2MY0xdqGBo74wKRHS/59NlQwB5FCT4w1pQ0p9U
-   U4Rt08dpApiZtp/RuO7Voy0jFrZPZ1GXMkWh1gtoyK/mGJwQXtSxw3WcX
-   LGWWwBGtkOIQ15M0DI3oWWhMYWKjyJUWJ4IzcdrAdVpVkah999NcnbJe/
-   ygojvbqRtsTSLUu6LX3saCMGXirUPB5QkafXxOvNs8zOXt3TLXAfVeXK3
-   2WzP6nfwTWFTq5lmrAl+dcmOmHAQRmX8P/tpfh9ssrkX+3JWxaerkMd68
-   jNV4mn/ZL5soTvHBvlILgFYCc/JuVfTbBAnUTxpeQSuTcERNa8sIioN9R
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="11433736"
+  bh=rPLwAShfqSYglh11kXyiT/05bFHEp31jbN2WGqklEBw=;
+  b=edKrH3K5RSzB9Yzq5iyCVT9gB+q93pcL5IBAn8ipl98t3ZIy8rK+ReLs
+   6TT5AsRo7H81YSzpiXiDNBuBq1b8QoPYTVIwAbP5BfOxNYbENChJ+5Cr6
+   n5aT2sHykLztSRxAY6b/7vm8AdsOb1FrdOZI9id3nlWMO9ZMaoWxj1tII
+   63vq6Iq765564XjchFhG6ckuoZCH6ENsVsGdOKhGjmHO6L4UTSvcjEg2J
+   4VTPSSS87QEC24B++GiQ5QSHvX0wI2rDQh4rZ/CRSnzmh/bY12mNP9btB
+   cFwzXnoIgUurO10yJ+dmAIWkcT/AIe3qfsK+y36Zaqt6QTlN8AA7MEIjT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="761822"
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="11433736"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 13:31:22 -0800
+   d="scan'208";a="761822"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 13:53:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="5767978"
+   d="scan'208";a="1487427"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Feb 2024 13:31:21 -0800
+  by orviesa008.jf.intel.com with ESMTP; 06 Feb 2024 13:53:21 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXT2E-0001o0-0O;
-	Tue, 06 Feb 2024 21:31:18 +0000
-Date: Wed, 7 Feb 2024 05:31:06 +0800
+	id 1rXTNW-0001od-1I;
+	Tue, 06 Feb 2024 21:53:18 +0000
+Date: Wed, 7 Feb 2024 05:52:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 59/66] drivers/md/bcache/sysfs.c:747:2:
- error: too few arguments to function call, expected 3, have 2
-Message-ID: <202402070517.d8Nu87mD-lkp@intel.com>
+To: Chao Gao <chao.gao@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chenyi Qiang <chenyi.qiang@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 311/376]
+ include/linux/compiler_types.h:435:45: error: call to
+ '__compiletime_assert_599' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof(attrs->attributes) != sizeof(unsigned long)
+Message-ID: <202402070531.a2HFdlz2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,163 +60,415 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   50847e296b34efabe199e408ec4d72f10a866c39
-commit: c7caff27eedeef30d457cbe0d5aae0698fcc954f [59/66] time_stats: don't print any output if event count is zero
-config: i386-randconfig-002-20240206 (https://download.01.org/0day-ci/archive/20240207/202402070517.d8Nu87mD-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070517.d8Nu87mD-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   e7a7b1f2a1c28403511e71538d30888c9e1425ef
+commit: c31cc15694db5786e00039aef9864df6dfc60a2d [311/376] x86/virt/tdx: Boot-time tdx module loading
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240207/202402070531.a2HFdlz2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070531.a2HFdlz2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402070517.d8Nu87mD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402070531.a2HFdlz2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/md/bcache/sysfs.c:747:2: error: too few arguments to function call, expected 3, have 2
-     747 |         sysfs_print_time_stats(&c->btree_gc_time,       btree_gc_times);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/util.h:366:36: note: expanded from macro 'sysfs_print_time_stats'
-     366 |                 time_stats_to_seq_buf(&seq, stats);                     \
-         |                 ~~~~~~~~~~~~~~~~~~~~~            ^
-   include/linux/time_stats.h:153:6: note: 'time_stats_to_seq_buf' declared here
-     153 | void time_stats_to_seq_buf(struct seq_buf *, struct time_stats *,
-         |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     154 |                 unsigned int flags);
-         |                 ~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/sysfs.c:748:2: error: too few arguments to function call, expected 3, have 2
-     748 |         sysfs_print_time_stats(&c->btree_split_time,    btree_split_times);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/util.h:366:36: note: expanded from macro 'sysfs_print_time_stats'
-     366 |                 time_stats_to_seq_buf(&seq, stats);                     \
-         |                 ~~~~~~~~~~~~~~~~~~~~~            ^
-   include/linux/time_stats.h:153:6: note: 'time_stats_to_seq_buf' declared here
-     153 | void time_stats_to_seq_buf(struct seq_buf *, struct time_stats *,
-         |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     154 |                 unsigned int flags);
-         |                 ~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/sysfs.c:749:2: error: too few arguments to function call, expected 3, have 2
-     749 |         sysfs_print_time_stats(&c->sort.time,           btree_sort_times);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/util.h:366:36: note: expanded from macro 'sysfs_print_time_stats'
-     366 |                 time_stats_to_seq_buf(&seq, stats);                     \
-         |                 ~~~~~~~~~~~~~~~~~~~~~            ^
-   include/linux/time_stats.h:153:6: note: 'time_stats_to_seq_buf' declared here
-     153 | void time_stats_to_seq_buf(struct seq_buf *, struct time_stats *,
-         |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     154 |                 unsigned int flags);
-         |                 ~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/sysfs.c:750:2: error: too few arguments to function call, expected 3, have 2
-     750 |         sysfs_print_time_stats(&c->btree_read_time,     btree_read_times);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/util.h:366:36: note: expanded from macro 'sysfs_print_time_stats'
-     366 |                 time_stats_to_seq_buf(&seq, stats);                     \
-         |                 ~~~~~~~~~~~~~~~~~~~~~            ^
-   include/linux/time_stats.h:153:6: note: 'time_stats_to_seq_buf' declared here
-     153 | void time_stats_to_seq_buf(struct seq_buf *, struct time_stats *,
-         |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     154 |                 unsigned int flags);
-         |                 ~~~~~~~~~~~~~~~~~~
-   4 errors generated.
+   In file included from <command-line>:
+   In function 'kvm_vm_ioctl_set_mem_attributes',
+       inlined from 'kvm_vm_ioctl' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:5346:7:
+>> include/linux/compiler_types.h:435:45: error: call to '__compiletime_assert_599' declared with attribute error: BUILD_BUG_ON failed: sizeof(attrs->attributes) != sizeof(unsigned long)
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:416:25: note: in definition of macro '__compiletime_assert'
+     416 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:2657:9: note: in expansion of macro 'BUILD_BUG_ON'
+    2657 |         BUILD_BUG_ON(sizeof(attrs->attributes) != sizeof(unsigned long));
+         |         ^~~~~~~~~~~~
+--
+   In file included from <command-line>:
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: In function 'kvm_gmem_bind':
+>> include/linux/compiler_types.h:435:45: error: call to '__compiletime_assert_353' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_t) != sizeof(slot->gmem.pgoff)
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:416:25: note: in definition of macro '__compiletime_assert'
+     416 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:453:9: note: in expansion of macro 'BUILD_BUG_ON'
+     453 |         BUILD_BUG_ON(sizeof(gfn_t) != sizeof(slot->gmem.pgoff));
+         |         ^~~~~~~~~~~~
+--
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_a0_read':
+>> arch/x86/kvm/vmx/tdx.c:221:16: error: implicit declaration of function 'kvm_r12_read'; did you mean 'kvm_rsp_read'? [-Werror=implicit-function-declaration]
+     221 |         return kvm_##gpr##_read(vcpu);                                  \
+         |                ^~~~
+   arch/x86/kvm/vmx/tdx.c:228:1: note: in expansion of macro 'BUILD_TDVMCALL_ACCESSORS'
+     228 | BUILD_TDVMCALL_ACCESSORS(a0, r12);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_a0_write':
+>> arch/x86/kvm/vmx/tdx.c:226:9: error: implicit declaration of function 'kvm_r12_write'; did you mean 'kvm_rsp_write'? [-Werror=implicit-function-declaration]
+     226 |         kvm_##gpr##_write(vcpu, val);                                   \
+         |         ^~~~
+   arch/x86/kvm/vmx/tdx.c:228:1: note: in expansion of macro 'BUILD_TDVMCALL_ACCESSORS'
+     228 | BUILD_TDVMCALL_ACCESSORS(a0, r12);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_a1_read':
+>> arch/x86/kvm/vmx/tdx.c:221:16: error: implicit declaration of function 'kvm_r13_read'; did you mean 'kvm_rsp_read'? [-Werror=implicit-function-declaration]
+     221 |         return kvm_##gpr##_read(vcpu);                                  \
+         |                ^~~~
+   arch/x86/kvm/vmx/tdx.c:229:1: note: in expansion of macro 'BUILD_TDVMCALL_ACCESSORS'
+     229 | BUILD_TDVMCALL_ACCESSORS(a1, r13);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_a1_write':
+>> arch/x86/kvm/vmx/tdx.c:226:9: error: implicit declaration of function 'kvm_r13_write'; did you mean 'kvm_rsp_write'? [-Werror=implicit-function-declaration]
+     226 |         kvm_##gpr##_write(vcpu, val);                                   \
+         |         ^~~~
+   arch/x86/kvm/vmx/tdx.c:229:1: note: in expansion of macro 'BUILD_TDVMCALL_ACCESSORS'
+     229 | BUILD_TDVMCALL_ACCESSORS(a1, r13);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_a2_read':
+>> arch/x86/kvm/vmx/tdx.c:221:16: error: implicit declaration of function 'kvm_r14_read'; did you mean 'kvm_rsp_read'? [-Werror=implicit-function-declaration]
+     221 |         return kvm_##gpr##_read(vcpu);                                  \
+         |                ^~~~
+   arch/x86/kvm/vmx/tdx.c:230:1: note: in expansion of macro 'BUILD_TDVMCALL_ACCESSORS'
+     230 | BUILD_TDVMCALL_ACCESSORS(a2, r14);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_a2_write':
+>> arch/x86/kvm/vmx/tdx.c:226:9: error: implicit declaration of function 'kvm_r14_write'; did you mean 'kvm_rsp_write'? [-Werror=implicit-function-declaration]
+     226 |         kvm_##gpr##_write(vcpu, val);                                   \
+         |         ^~~~
+   arch/x86/kvm/vmx/tdx.c:230:1: note: in expansion of macro 'BUILD_TDVMCALL_ACCESSORS'
+     230 | BUILD_TDVMCALL_ACCESSORS(a2, r14);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_a3_read':
+>> arch/x86/kvm/vmx/tdx.c:221:16: error: implicit declaration of function 'kvm_r15_read'; did you mean 'kvm_rsp_read'? [-Werror=implicit-function-declaration]
+     221 |         return kvm_##gpr##_read(vcpu);                                  \
+         |                ^~~~
+   arch/x86/kvm/vmx/tdx.c:231:1: note: in expansion of macro 'BUILD_TDVMCALL_ACCESSORS'
+     231 | BUILD_TDVMCALL_ACCESSORS(a3, r15);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_a3_write':
+>> arch/x86/kvm/vmx/tdx.c:226:9: error: implicit declaration of function 'kvm_r15_write'; did you mean 'kvm_rsp_write'? [-Werror=implicit-function-declaration]
+     226 |         kvm_##gpr##_write(vcpu, val);                                   \
+         |         ^~~~
+   arch/x86/kvm/vmx/tdx.c:231:1: note: in expansion of macro 'BUILD_TDVMCALL_ACCESSORS'
+     231 | BUILD_TDVMCALL_ACCESSORS(a3, r15);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_exit_type':
+>> arch/x86/kvm/vmx/tdx.c:235:16: error: implicit declaration of function 'kvm_r10_read'; did you mean 'kvm_rsp_read'? [-Werror=implicit-function-declaration]
+     235 |         return kvm_r10_read(vcpu);
+         |                ^~~~~~~~~~~~
+         |                kvm_rsp_read
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_leaf':
+>> arch/x86/kvm/vmx/tdx.c:239:16: error: implicit declaration of function 'kvm_r11_read'; did you mean 'kvm_rsp_read'? [-Werror=implicit-function-declaration]
+     239 |         return kvm_r11_read(vcpu);
+         |                ^~~~~~~~~~~~
+         |                kvm_rsp_read
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_set_return_code':
+>> arch/x86/kvm/vmx/tdx.c:244:9: error: implicit declaration of function 'kvm_r10_write'; did you mean 'kvm_rsp_write'? [-Werror=implicit-function-declaration]
+     244 |         kvm_r10_write(vcpu, val);
+         |         ^~~~~~~~~~~~~
+         |         kvm_rsp_write
+   arch/x86/kvm/vmx/tdx.c: In function 'tdvmcall_set_return_val':
+>> arch/x86/kvm/vmx/tdx.c:249:9: error: implicit declaration of function 'kvm_r11_write'; did you mean 'kvm_rsp_write'? [-Werror=implicit-function-declaration]
+     249 |         kvm_r11_write(vcpu, val);
+         |         ^~~~~~~~~~~~~
+         |         kvm_rsp_write
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_clear_page':
+>> arch/x86/kvm/vmx/tdx.c:334:9: error: implicit declaration of function '__mb' [-Werror=implicit-function-declaration]
+     334 |         __mb();
+         |         ^~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_prepare_switch_to_guest':
+>> arch/x86/kvm/vmx/tdx.c:859:63: error: 'struct thread_struct' has no member named 'gsbase'
+     859 |                 tdx->msr_host_kernel_gs_base = current->thread.gsbase;
+         |                                                               ^
+>> arch/x86/kvm/vmx/tdx.c:861:48: error: implicit declaration of function 'read_msr'; did you mean 'readsl'? [-Werror=implicit-function-declaration]
+     861 |                 tdx->msr_host_kernel_gs_base = read_msr(MSR_KERNEL_GS_BASE);
+         |                                                ^~~~~~~~
+         |                                                readsl
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_vcpu_enter_exit':
+>> arch/x86/kvm/vmx/tdx.c:1100:20: error: implicit declaration of function 'kvm_r9_read'; did you mean 'kvm_rsp_read'? [-Werror=implicit-function-declaration]
+    1100 |             is_nmi(kvm_r9_read(vcpu))) {
+         |                    ^~~~~~~~~~~
+         |                    kvm_rsp_read
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_vcpu_run':
+>> arch/x86/kvm/vmx/tdx.c:1189:25: error: implicit declaration of function 'kvm_r8_read'; did you mean 'kvm_rsp_read'? [-Werror=implicit-function-declaration]
+    1189 |         tdx->exit_gpa = kvm_r8_read(vcpu);
+         |                         ^~~~~~~~~~~
+         |                         kvm_rsp_read
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_complete_vp_vmcall':
+>> arch/x86/kvm/vmx/tdx.c:1422:25: error: implicit declaration of function 'kvm_r8_write'; did you mean 'kvm_rsp_write'? [-Werror=implicit-function-declaration]
+    1422 |                         kvm_## REG ## _write(vcpu, tdx_vmcall->out_ ## REG);    \
+         |                         ^~~~
+   arch/x86/kvm/vmx/tdx.c:1435:9: note: in expansion of macro 'COPY_REG'
+    1435 |         COPY_REG(R8, r8);
+         |         ^~~~~~~~
+>> arch/x86/kvm/vmx/tdx.c:1422:25: error: implicit declaration of function 'kvm_r9_write'; did you mean 'kvm_rsp_write'? [-Werror=implicit-function-declaration]
+    1422 |                         kvm_## REG ## _write(vcpu, tdx_vmcall->out_ ## REG);    \
+         |                         ^~~~
+   arch/x86/kvm/vmx/tdx.c:1436:9: note: in expansion of macro 'COPY_REG'
+    1436 |         COPY_REG(R9, r9);
+         |         ^~~~~~~~
+   In file included from arch/x86/kvm/vmx/tdx_ops.h:18,
+                    from arch/x86/kvm/vmx/tdx.h:9,
+                    from arch/x86/kvm/vmx/common.h:14,
+                    from arch/x86/kvm/vmx/tdx.c:11:
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_emulate_io':
+>> arch/x86/kvm/vmx/tdx_errno.h:110:49: warning: overflow in conversion from 'long long unsigned int' to 'long int' changes value from '9223372036854775808' to '0' [-Woverflow]
+     110 | #define TDG_VP_VMCALL_INVALID_OPERAND           0x8000000000000000ULL
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c:1557:48: note: in expansion of macro 'TDG_VP_VMCALL_INVALID_OPERAND'
+    1557 |                 tdvmcall_set_return_code(vcpu, TDG_VP_VMCALL_INVALID_OPERAND);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_emulate_mmio':
+   arch/x86/kvm/vmx/tdx_errno.h:110:49: warning: overflow in conversion from 'long long unsigned int' to 'long int' changes value from '9223372036854775808' to '0' [-Woverflow]
+     110 | #define TDG_VP_VMCALL_INVALID_OPERAND           0x8000000000000000ULL
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c:1690:40: note: in expansion of macro 'TDG_VP_VMCALL_INVALID_OPERAND'
+    1690 |         tdvmcall_set_return_code(vcpu, TDG_VP_VMCALL_INVALID_OPERAND);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_emulate_rdmsr':
+   arch/x86/kvm/vmx/tdx_errno.h:110:49: warning: overflow in conversion from 'long long unsigned int' to 'long int' changes value from '9223372036854775808' to '0' [-Woverflow]
+     110 | #define TDG_VP_VMCALL_INVALID_OPERAND           0x8000000000000000ULL
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c:1702:48: note: in expansion of macro 'TDG_VP_VMCALL_INVALID_OPERAND'
+    1702 |                 tdvmcall_set_return_code(vcpu, TDG_VP_VMCALL_INVALID_OPERAND);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_emulate_wrmsr':
+   arch/x86/kvm/vmx/tdx_errno.h:110:49: warning: overflow in conversion from 'long long unsigned int' to 'long int' changes value from '9223372036854775808' to '0' [-Woverflow]
+     110 | #define TDG_VP_VMCALL_INVALID_OPERAND           0x8000000000000000ULL
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c:1720:48: note: in expansion of macro 'TDG_VP_VMCALL_INVALID_OPERAND'
+    1720 |                 tdvmcall_set_return_code(vcpu, TDG_VP_VMCALL_INVALID_OPERAND);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_get_td_vm_call_info':
+   arch/x86/kvm/vmx/tdx_errno.h:110:49: warning: overflow in conversion from 'long long unsigned int' to 'long int' changes value from '9223372036854775808' to '0' [-Woverflow]
+     110 | #define TDG_VP_VMCALL_INVALID_OPERAND           0x8000000000000000ULL
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c:1732:48: note: in expansion of macro 'TDG_VP_VMCALL_INVALID_OPERAND'
+    1732 |                 tdvmcall_set_return_code(vcpu, TDG_VP_VMCALL_INVALID_OPERAND);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_cache_reg':
+   arch/x86/kvm/vmx/tdx.c:2938:57: warning: left shift count >= width of type [-Wshift-count-overflow]
+    2938 |                         vcpu->arch.regs[reg] = 0xdeadul << 48;
+         |                                                         ^~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_get_capabilities':
+   arch/x86/kvm/vmx/tdx.c:3314:21: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    3314 |         user_caps = (void __user *)cmd->data;
+         |                     ^
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_td_init':
+   arch/x86/kvm/vmx/tdx.c:3744:37: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    3744 |         if (copy_from_user(init_vm, (void __user *)cmd->data, sizeof(*init_vm))) {
+         |                                     ^
+   arch/x86/kvm/vmx/tdx.c:3753:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    3753 |                            (void __user *)cmd->data + sizeof(*init_vm),
+         |                            ^
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_init_mem_region':
+   arch/x86/kvm/vmx/tdx.c:3859:37: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    3859 |         if (copy_from_user(&region, (void __user *)cmd->data, sizeof(region)))
+         |                                     ^
+   arch/x86/kvm/vmx/tdx.c:3925:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    3925 |         if (copy_to_user((void __user *)cmd->data, &region, sizeof(region)))
+         |                          ^
+   In file included from include/linux/xarray.h:15,
+                    from include/linux/radix-tree.h:21,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from arch/x86/kvm/vmx/tdx.c:2:
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_read_write_memory':
+   arch/x86/kvm/vmx/tdx.c:4540:19: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    4540 |         free_page((u64)tmp_buf);
+         |                   ^
+   include/linux/gfp.h:328:37: note: in definition of macro 'free_page'
+     328 | #define free_page(addr) free_pages((addr), 0)
+         |                                     ^~~~
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_read_guest_memory':
+   arch/x86/kvm/vmx/tdx.c:4650:45: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    4650 |                                             (void __user *)rw_memory->ubuf,
+         |                                             ^
+   arch/x86/kvm/vmx/tdx.c: In function 'tdx_write_guest_memory':
+   arch/x86/kvm/vmx/tdx.c:4731:45: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    4731 |                                             (void __user *)rw_memory->ubuf,
+         |                                             ^
+   cc1: some warnings being treated as errors
+--
+   arch/x86/kvm/vmx/vmenter.S: Assembler messages:
+>> arch/x86/kvm/vmx/vmenter.S:87: Error: `pushq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/vmenter.S:88: Error: bad register name `%rsp'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/vmenter.S:94: Error: bad register name `%rdi'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/vmenter.S:97: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:98: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:99: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:100: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:101: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:102: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:111: Error: `pushq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:112: Error: `pushq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:113: Error: `pushq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:114: Error: `pushq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:115: Error: `pushq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:117: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:118: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:119: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:120: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:121: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:125: Error: `pushq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:128: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/vmenter.S:130: Error: bad register name `%rsi)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:173: Error: `pushq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:174: Error: bad register name `%rsp)'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:175: Error: bad register name `%rsi'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:176: Error: `popq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:177: Error: `popq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:180: Error: bad register name `%r12'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:181: Error: bad register name `%r13'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:182: Error: bad register name `%r14'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:183: Error: bad register name `%r15'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:184: Error: bad register name `%rbx'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:185: Error: bad register name `%rdi'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:189: Error: bad register name `%rcx'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:190: Error: bad register name `%rdx'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:191: Error: bad register name `%r8'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:192: Error: bad register name `%r9'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:193: Error: bad register name `%r10'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+>> arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:194: Error: bad register name `%r11'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:215: Error: bad register name `%r8d'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:216: Error: bad register name `%r9d'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:217: Error: bad register name `%r10d'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:218: Error: bad register name `%r11d'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:219: Error: bad register name `%r12d'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:220: Error: bad register name `%r13d'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:221: Error: bad register name `%r14d'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:222: Error: bad register name `%r15d'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:233: Error: `popq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:234: Error: `popq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:235: Error: `popq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:236: Error: `popq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:237: Error: `popq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:241: Error: `popq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:249: Error: bad register name `%rax'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:261: Error: bad register name `%rdi'
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:262: Error: `orq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+   arch/x86/kvm/vmx/../../virt/vmx/tdx/tdxcall.S:267: Error: `popq' is only supported in 64-bit mode
+   arch/x86/kvm/vmx/vmenter.S:400:  Info: macro invoked from here
+..
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_TDX_HOST
+   Depends on [n]: CPU_SUP_INTEL [=y] && X86_64 [=n] && KVM_INTEL [=m] && X86_X2APIC [=n] && CONTIG_ALLOC [=y] && !KEXEC_CORE [=y] && X86_MCE [=y]
+   Selected by [y]:
+   - INTEL_TDX_MODULE_LOADER_OLD [=y] && SYSFS [=y]
+   WARNING: unmet direct dependencies detected for KVM_SW_PROTECTED_VM
+   Depends on [n]: VIRTUALIZATION [=y] && KVM [=m] && X86_64 [=n]
+   Selected by [m]:
+   - KVM_INTEL [=m] && VIRTUALIZATION [=y] && KVM [=m] && IA32_FEAT_CTL [=y] && INTEL_TDX_HOST [=y]
 
 
-vim +747 drivers/md/bcache/sysfs.c
+vim +/__compiletime_assert_599 +435 include/linux/compiler_types.h
 
-cafe563591446c Kent Overstreet 2013-03-23  731  
-cb85114956dc88 John Sheu       2014-03-17  732  SHOW(__bch_cache_set)
-cb85114956dc88 John Sheu       2014-03-17  733  {
-cafe563591446c Kent Overstreet 2013-03-23  734  	struct cache_set *c = container_of(kobj, struct cache_set, kobj);
-cafe563591446c Kent Overstreet 2013-03-23  735  
-6f9414e0f6f35c Coly Li         2020-10-01  736  	sysfs_print(synchronous,		CACHE_SYNC(&c->cache->sb));
-cafe563591446c Kent Overstreet 2013-03-23  737  	sysfs_print(journal_delay_ms,		c->journal_delay_ms);
-63a96c05cd43cc Coly Li         2020-10-01  738  	sysfs_hprint(bucket_size,		bucket_bytes(c->cache));
-4e1ebae3ee4e0c Coly Li         2020-10-01  739  	sysfs_hprint(block_size,		block_bytes(c->cache));
-cafe563591446c Kent Overstreet 2013-03-23  740  	sysfs_print(tree_depth,			c->root->level);
-cb85114956dc88 John Sheu       2014-03-17  741  	sysfs_print(root_usage_percent,		bch_root_usage(c));
-cafe563591446c Kent Overstreet 2013-03-23  742  
-cb85114956dc88 John Sheu       2014-03-17  743  	sysfs_hprint(btree_cache_size,		bch_cache_size(c));
-cb85114956dc88 John Sheu       2014-03-17  744  	sysfs_print(btree_cache_max_chain,	bch_cache_max_chain(c));
-cafe563591446c Kent Overstreet 2013-03-23  745  	sysfs_print(cache_available_percent,	100 - c->gc_stats.in_use);
-cafe563591446c Kent Overstreet 2013-03-23  746  
-21ba4155ff2f9e Kent Overstreet 2024-01-26 @747  	sysfs_print_time_stats(&c->btree_gc_time,	btree_gc_times);
-21ba4155ff2f9e Kent Overstreet 2024-01-26  748  	sysfs_print_time_stats(&c->btree_split_time,	btree_split_times);
-21ba4155ff2f9e Kent Overstreet 2024-01-26  749  	sysfs_print_time_stats(&c->sort.time,		btree_sort_times);
-21ba4155ff2f9e Kent Overstreet 2024-01-26  750  	sysfs_print_time_stats(&c->btree_read_time,	btree_read_times);
-cafe563591446c Kent Overstreet 2013-03-23  751  
-cb85114956dc88 John Sheu       2014-03-17  752  	sysfs_print(btree_used_percent,	bch_btree_used(c));
-cafe563591446c Kent Overstreet 2013-03-23  753  	sysfs_print(btree_nodes,	c->gc_stats.nodes);
-cb85114956dc88 John Sheu       2014-03-17  754  	sysfs_hprint(average_key_size,	bch_average_key_size(c));
-cafe563591446c Kent Overstreet 2013-03-23  755  
-cafe563591446c Kent Overstreet 2013-03-23  756  	sysfs_print(cache_read_races,
-cafe563591446c Kent Overstreet 2013-03-23  757  		    atomic_long_read(&c->cache_read_races));
-cafe563591446c Kent Overstreet 2013-03-23  758  
-a728eacbbdd229 Tang Junhui     2018-02-07  759  	sysfs_print(reclaim,
-a728eacbbdd229 Tang Junhui     2018-02-07  760  		    atomic_long_read(&c->reclaim));
-a728eacbbdd229 Tang Junhui     2018-02-07  761  
-dff90d58a1c815 Coly Li         2019-06-28  762  	sysfs_print(reclaimed_journal_buckets,
-dff90d58a1c815 Coly Li         2019-06-28  763  		    atomic_long_read(&c->reclaimed_journal_buckets));
-dff90d58a1c815 Coly Li         2019-06-28  764  
-a728eacbbdd229 Tang Junhui     2018-02-07  765  	sysfs_print(flush_write,
-a728eacbbdd229 Tang Junhui     2018-02-07  766  		    atomic_long_read(&c->flush_write));
-a728eacbbdd229 Tang Junhui     2018-02-07  767  
-cafe563591446c Kent Overstreet 2013-03-23  768  	sysfs_print(writeback_keys_done,
-cafe563591446c Kent Overstreet 2013-03-23  769  		    atomic_long_read(&c->writeback_keys_done));
-cafe563591446c Kent Overstreet 2013-03-23  770  	sysfs_print(writeback_keys_failed,
-cafe563591446c Kent Overstreet 2013-03-23  771  		    atomic_long_read(&c->writeback_keys_failed));
-cafe563591446c Kent Overstreet 2013-03-23  772  
-77c320eb46e216 Kent Overstreet 2013-07-11  773  	if (attr == &sysfs_errors)
-77c320eb46e216 Kent Overstreet 2013-07-11  774  		return bch_snprint_string_list(buf, PAGE_SIZE, error_actions,
-77c320eb46e216 Kent Overstreet 2013-07-11  775  					       c->on_error);
-77c320eb46e216 Kent Overstreet 2013-07-11  776  
-cafe563591446c Kent Overstreet 2013-03-23  777  	/* See count_io_errors for why 88 */
-cafe563591446c Kent Overstreet 2013-03-23  778  	sysfs_print(io_error_halflife,	c->error_decay * 88);
-7ba0d830dc0e4c Coly Li         2018-02-07  779  	sysfs_print(io_error_limit,	c->error_limit);
-cafe563591446c Kent Overstreet 2013-03-23  780  
-cafe563591446c Kent Overstreet 2013-03-23  781  	sysfs_hprint(congested,
-cafe563591446c Kent Overstreet 2013-03-23  782  		     ((uint64_t) bch_get_congested(c)) << 9);
-cafe563591446c Kent Overstreet 2013-03-23  783  	sysfs_print(congested_read_threshold_us,
-cafe563591446c Kent Overstreet 2013-03-23  784  		    c->congested_read_threshold_us);
-cafe563591446c Kent Overstreet 2013-03-23  785  	sysfs_print(congested_write_threshold_us,
-cafe563591446c Kent Overstreet 2013-03-23  786  		    c->congested_write_threshold_us);
-cafe563591446c Kent Overstreet 2013-03-23  787  
-9aaf51654672b1 Coly Li         2018-12-13  788  	sysfs_print(cutoff_writeback, bch_cutoff_writeback);
-9aaf51654672b1 Coly Li         2018-12-13  789  	sysfs_print(cutoff_writeback_sync, bch_cutoff_writeback_sync);
-9aaf51654672b1 Coly Li         2018-12-13  790  
-cafe563591446c Kent Overstreet 2013-03-23  791  	sysfs_print(active_journal_entries,	fifo_used(&c->journal.pin));
-cafe563591446c Kent Overstreet 2013-03-23  792  	sysfs_printf(verify,			"%i", c->verify);
-cafe563591446c Kent Overstreet 2013-03-23  793  	sysfs_printf(key_merging_disabled,	"%i", c->key_merging_disabled);
-280481d06c8a68 Kent Overstreet 2013-10-24  794  	sysfs_printf(expensive_debug_checks,
-280481d06c8a68 Kent Overstreet 2013-10-24  795  		     "%i", c->expensive_debug_checks);
-cafe563591446c Kent Overstreet 2013-03-23  796  	sysfs_printf(gc_always_rewrite,		"%i", c->gc_always_rewrite);
-cafe563591446c Kent Overstreet 2013-03-23  797  	sysfs_printf(btree_shrinker_disabled,	"%i", c->shrinker_disabled);
-cafe563591446c Kent Overstreet 2013-03-23  798  	sysfs_printf(copy_gc_enabled,		"%i", c->copy_gc_enabled);
-c5fcdedcee4e6a Coly Li         2019-11-13  799  	sysfs_printf(idle_max_writeback_rate,	"%i",
-c5fcdedcee4e6a Coly Li         2019-11-13  800  		     c->idle_max_writeback_rate_enabled);
-7a671d8ef821bf Coly Li         2018-12-13  801  	sysfs_printf(gc_after_writeback,	"%i", c->gc_after_writeback);
-771f393e8ffc9b Coly Li         2018-03-18  802  	sysfs_printf(io_disable,		"%i",
-771f393e8ffc9b Coly Li         2018-03-18  803  		     test_bit(CACHE_SET_IO_DISABLE, &c->flags));
-cafe563591446c Kent Overstreet 2013-03-23  804  
-cafe563591446c Kent Overstreet 2013-03-23  805  	if (attr == &sysfs_bset_tree_stats)
-cafe563591446c Kent Overstreet 2013-03-23  806  		return bch_bset_print_stats(c, buf);
-cafe563591446c Kent Overstreet 2013-03-23  807  
-092bd54d69230b Coly Li         2020-07-25  808  	if (attr == &sysfs_feature_compat)
-092bd54d69230b Coly Li         2020-07-25  809  		return bch_print_cache_set_feature_compat(c, buf, PAGE_SIZE);
-092bd54d69230b Coly Li         2020-07-25  810  	if (attr == &sysfs_feature_ro_compat)
-092bd54d69230b Coly Li         2020-07-25  811  		return bch_print_cache_set_feature_ro_compat(c, buf, PAGE_SIZE);
-092bd54d69230b Coly Li         2020-07-25  812  	if (attr == &sysfs_feature_incompat)
-092bd54d69230b Coly Li         2020-07-25  813  		return bch_print_cache_set_feature_incompat(c, buf, PAGE_SIZE);
-092bd54d69230b Coly Li         2020-07-25  814  
-cafe563591446c Kent Overstreet 2013-03-23  815  	return 0;
-cafe563591446c Kent Overstreet 2013-03-23  816  }
-cafe563591446c Kent Overstreet 2013-03-23  817  SHOW_LOCKED(bch_cache_set)
-cafe563591446c Kent Overstreet 2013-03-23  818  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  421  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  422  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  423  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  425  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  426   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  427   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  428   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  429   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  430   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  431   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  432   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  433   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  434  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @435  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  436  
 
-:::::: The code at line 747 was first introduced by commit
-:::::: 21ba4155ff2f9e17cf4d27f1ad2ea42fecfed4ae bcache: Convert to lib/time_stats
+:::::: The code at line 435 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
