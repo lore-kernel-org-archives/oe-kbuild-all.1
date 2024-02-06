@@ -1,79 +1,114 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9EB13246A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Feb 2024 14:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF984134721
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Feb 2024 15:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707230948; cv=none; b=WJRMyapOFTbxlXsvIRgY3AO7W+OolpeL+t19DqRh3EGK48HSDjxn6uhmbApt8EniK4IayTkRzQj8Hdzsz0nFvwC0ZyNhH9/AUAMaOaETV0dzEnbkdubo03Z18+nYxEAsIArY83V1AE8UncqPvue+ln7OwEpFjkI2hNcFXGt1MEU=
+	t=1707234924; cv=none; b=u06Fh5KDBie+NXviafudRnjE58olKVuvPy87k2P3zlMcKwCX4kbZzc9ucEnpLGa3CR2kEWvdjnPo9ptnz458d6LwcD1iaHgLYi7sxL4CrIaTyxzn2OiMYkrGKwkeRfXSOb5wyYfqjIsmxUy8RJCvutDLx4H0HNurE/FkG9aqN8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707230948; c=relaxed/simple;
-	bh=ZYhM25AzuOO8uiA+4AJts7dxWvnoP0sziHlbTBDdgdU=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=T9tzUqnlCZiBvT1KW6mvvRNWxIyLJ+YjmwW6NldAt7ssJbZzwGeXRQZWNtMdPQHoPSi1Tsr2nb3vdHB+15HgedKNY19HzLZZdjn2JEIwdrc5TX1VvbcHb1OsKcdCeMVjU7RZd3n2q9Br/dcfUIb3QuG3hApw6hHNLWejU8QqLP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-7c00a1374ecso395095639f.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 06 Feb 2024 06:49:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707230946; x=1707835746;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kSrsdZ/RuKV0gEG27LOO5dIr8YmZtFDZ3FYa41rVAQo=;
-        b=UKwqT1HwyXEe9w6QU036gsynVNwGk+9SC8KKdxjzC6CnEmq0b0D5L86VEylFGXsA5H
-         u4UBSlaoY/nygh3uV7+5W+rFmNiAHEjTVIL2Hw4T6dmLbf01YMO9d5gy9aM1pIg0Bw1q
-         2moIuwwTcb5QHEzXcxGc79m/9sdByI5zroYACQT00s42owLg4VKUdnYhNt/DYdLfSMT7
-         UkisbAAYjyeG+ch1koFuqtt0t0vxL6at1KVUgU+S2aZtIQfpxDvatm5HicJclotE/d9g
-         ibWBEBqaA363QVx3JmLwywD0PEJT6T6gE9TxweLrEjdBpzVqZQ27ve+GkCDPu7ACjYxr
-         OkFA==
-X-Gm-Message-State: AOJu0Yx5EgMaLQzsPSoo1oNY3Uhzo+rUBmkq7Aioyvka7SgqM7KTuht5
-	ws2bn/KK589DU4v8tvCHGJ34aDLu1RAI/qA1R/6aBRLgpP62yTuU1jvOi8cgaHoNzqat6Adx2oD
-	UMJs4eLW3j5AaH7gPDHxzOiIU1M065Vjo60k3TW620di002dn7D+U7uU=
-X-Google-Smtp-Source: AGHT+IGyJ27bMyWH8/GynoFXTjuNU5g+uu1OXbn98nBQ0bYYkpj0BC/KPVZdYE7KwK+zDcXtX/Ot0QVWkk9m9WuMvI7pjKLzBruq
+	s=arc-20240116; t=1707234924; c=relaxed/simple;
+	bh=LzXN8H1Nh9fX0CLo6p7FXChGdEpLUoDQkI9eOCyQdE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gnjLx4yy9lJje8PSdYrP0D+/U7WTqUv1R5UoQgSnlePhvJvtnJAH30/vDstZdCYCHokUFAmH+a14qUq4K434pdqcZKxOoitwtX2B4Tmv48fIGwVCG43WJBhKUglCN169W+pczG195YGrbrlTWY6JF+Cg0P3VPnfRaLvdUoIKa8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OUsf3t6V; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OUsf3t6V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707234923; x=1738770923;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LzXN8H1Nh9fX0CLo6p7FXChGdEpLUoDQkI9eOCyQdE0=;
+  b=OUsf3t6VSoo1Y8392nHPAdoWAUxJWAtRzHKXNzD/pzJ6ipbgjsCtEz1T
+   AOUyb4Jvbjk9tWfv/NhFi0tpVhHqWh87rI/On3TjmZEMkkRDoFkhv28tJ
+   BJBCfA+dYDS3jjVPtjvRoiOh5B08Tpq4drvglh5QmvlR6TfbwPOlf4GHh
+   cEYdZJb+2A3TEAniJBebfKxkblahrBiLF+yMzNqJSIBVkMAhJEw0fH4XF
+   rYaI8s348ruJIAikVx+W/AJro5KibR2Dn9QsUn/U1UOh4htJe0IolWSkY
+   ftdokFfwpxXb2E7E1nlmU9Vmaj4z0zuJLSNkFrbrio4SNTCvC+wZFodZs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="11358953"
+X-IronPort-AV: E=Sophos;i="6.05,247,1701158400"; 
+   d="scan'208";a="11358953"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 07:55:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="824218404"
+X-IronPort-AV: E=Sophos;i="6.05,247,1701158400"; 
+   d="scan'208";a="824218404"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 06 Feb 2024 07:55:10 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rXNmt-0001Y8-2M;
+	Tue, 06 Feb 2024 15:55:07 +0000
+Date: Tue, 6 Feb 2024 23:54:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danny Kaehn <danny.kaehn@plexus.com>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	andriy.shevchenko@linux.intel.com, bentiss@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jikos@kernel.org,
+	bartosz.golaszewski@linaro.org, niyas.sait@linaro.org,
+	dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, ethan.twardy@plexus.com,
+	Danny Kaehn <danny.kaehn@plexus.com>
+Subject: Re: [PATCH v10 3/3] HID: cp2112: Fwnode Support
+Message-ID: <202402062306.UUQJhqxi-lkp@intel.com>
+References: <20240205170920.93499-4-danny.kaehn@plexus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:154d:b0:363:a059:670b with SMTP id
- j13-20020a056e02154d00b00363a059670bmr186965ilu.4.1707230945919; Tue, 06 Feb
- 2024 06:49:05 -0800 (PST)
-Date: Tue, 06 Feb 2024 06:49:05 -0800
-In-Reply-To: <000000000000332a2505e981f474@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000014c9ca0610b7aec6@google.com>
-Subject: Re: [syzbot] [jfs?] KASAN: slab-out-of-bounds Read in dtSearch
-From: syzbot <syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com>
-To: axboe@kernel.dk, brauner@kernel.org, dan.carpenter@linaro.org, 
-	dave.kleikamp@oracle.com, ghandatmanas@gmail.com, jack@suse.cz, 
-	jfs-discussion@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	lkp@intel.com, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	oe-kbuild@lists.linux.dev, shaggy@kernel.org, syzkaller-bugs@googlegroups.com, 
-	syzkaller@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240205170920.93499-4-danny.kaehn@plexus.com>
 
-syzbot suspects this issue was fixed by commit:
+Hi Danny,
 
-commit 6f861765464f43a71462d52026fbddfc858239a5
-Author: Jan Kara <jack@suse.cz>
-Date:   Wed Nov 1 17:43:10 2023 +0000
+kernel test robot noticed the following build warnings:
 
-    fs: Block writes to mounted block devices
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on robh/for-next andi-shyti/i2c/i2c-host linus/master v6.8-rc3 next-20240206]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13767e8fe80000
-start commit:   bee0e7762ad2 Merge tag 'for-linus-iommufd' of git://git.ke..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b45dfd882e46ec91
-dashboard link: https://syzkaller.appspot.com/bug?extid=9924e2a08d9ba0fd4ce2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152bfc22e80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1608f4a2e80000
+url:    https://github.com/intel-lab-lkp/linux/commits/Danny-Kaehn/dt-bindings-i2c-Add-CP2112-HID-USB-to-SMBus-Bridge/20240206-015922
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20240205170920.93499-4-danny.kaehn%40plexus.com
+patch subject: [PATCH v10 3/3] HID: cp2112: Fwnode Support
+config: x86_64-randconfig-102-20240206 (https://download.01.org/0day-ci/archive/20240206/202402062306.UUQJhqxi-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402062306.UUQJhqxi-lkp@intel.com/reproduce)
 
-If the result looks correct, please mark the issue as fixed by replying with:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402062306.UUQJhqxi-lkp@intel.com/
 
-#syz fix: fs: Block writes to mounted block devices
+All warnings (new ones prefixed by >>):
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+>> drivers/hid/hid-cp2112.c:41: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * CP2112 Fwnode child names.
+
+
+vim +41 drivers/hid/hid-cp2112.c
+
+    39	
+    40	/**
+  > 41	 * CP2112 Fwnode child names.
+    42	 * CP2112 sub-functions can be described by named fwnode children or by ACPI _ADR
+    43	 */
+    44	static const char * const cp2112_cell_names[] = {
+    45		[CP2112_I2C_ADR]	= "i2c",
+    46		[CP2112_GPIO_ADR]	= "gpio",
+    47	};
+    48	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
