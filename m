@@ -1,89 +1,60 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7FA2031C;
-	Wed,  7 Feb 2024 08:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D454920DD8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 09:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707295257; cv=none; b=Cw1tXhxdyxZ2uFzIpj/gPSys0gZZJVzhHnz5b+H5Emrp2Govani6fDHl3qhkR00Ce+N8AJ+2uyhIKOToMGknfNRUaFSSNZLV5fJfaDxRdU8WFYlSprXAXEpJC30RSsomcXVks3cJSyIrQLkX8anEf6bq0X9aA+kMEFVwRS31Vtg=
+	t=1707297652; cv=none; b=IP51l2Xn+Z1rrLzyXxCbbPfm3be64aw4ae0r4aS2QCoF6NkTyApQb9xOECOZgB+nYQOZXVG5nHvACLDOPnoHjCJZ8OYRWVxguRBNqE/hiNCeNVguuvOexZQ9RIwQN4VMmEKlNW9Dm0xNrKVMhxd7XPARiC+uwCfKjSsnAesffxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707295257; c=relaxed/simple;
-	bh=7mWCDilBtyn6a8R/MQs4iWeqLin9foUbZ3OlyKHlEtY=;
+	s=arc-20240116; t=1707297652; c=relaxed/simple;
+	bh=6YvQzVV4nusevcHCqpVYqUFJYCCJgg8JwrDhNoV+FTM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZvKYUbX8UkoXUFWL/V/ISV6zuVmPDadKXc8MJ3F2LNIzOP6+rJJSTwtM88HsS8wor298mBEsAlHzdVEpQwlGq+Xk+WtBblZ7GmHkU9cebOCV0/dHTNWG/+GkadlQN0ytixSjDOxSFQeO1Zht89rwwFUqY00WqIB/ZcjBSfiOAIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uo2iAS4V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g6lFN9sT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uo2iAS4V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g6lFN9sT; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=QnOctq25G/YtUctrk3a/5arMP+Sm3svPdwvby4ACslznA5bxH8xup1dpZWjxGVqHGtTAMEhbz0pFzQ4ySHHwqo6hE0giPJ4RJq93iGi+vHCZ1saq8aOfPuATPlMLgowFwDT/OgeOd1BqK6D0BRe1XO3p6YZp55Xu/DTelXDVS8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kK8i5+wP; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uo2iAS4V";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g6lFN9sT";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uo2iAS4V";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g6lFN9sT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 50666221D1;
-	Wed,  7 Feb 2024 08:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1707295254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
-	b=uo2iAS4VHfmzbP8+sGhwxwBhz+ITGZl9aP7Eg4thsPHmTH4Q4BSFt0SmR80AT8NeCxoAE+
-	ClThyH205khyJ4lwUie453vYGg/E21jtlQASqbOVwRoQtX3TbeTjfrnt6dUx5+zPfzdoDE
-	xg/ZhFcksSLcX0jP2GVJUZBpq3i1oEg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1707295254;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
-	b=g6lFN9sTD/PIiY3ic7OCv2L/NLz6tjpsciHv8cGE0TTVGwwBl5WNTHRilGSwbuertuNxWz
-	/78FUB4U2yS1TMAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1707295254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
-	b=uo2iAS4VHfmzbP8+sGhwxwBhz+ITGZl9aP7Eg4thsPHmTH4Q4BSFt0SmR80AT8NeCxoAE+
-	ClThyH205khyJ4lwUie453vYGg/E21jtlQASqbOVwRoQtX3TbeTjfrnt6dUx5+zPfzdoDE
-	xg/ZhFcksSLcX0jP2GVJUZBpq3i1oEg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1707295254;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
-	b=g6lFN9sTD/PIiY3ic7OCv2L/NLz6tjpsciHv8cGE0TTVGwwBl5WNTHRilGSwbuertuNxWz
-	/78FUB4U2yS1TMAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3EFF8139D8;
-	Wed,  7 Feb 2024 08:40:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pjggDxZCw2U6QwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 07 Feb 2024 08:40:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 9CC16A0809; Wed,  7 Feb 2024 09:40:53 +0100 (CET)
-Date: Wed, 7 Feb 2024 09:40:53 +0100
-From: Jan Kara <jack@suse.cz>
-To: syzbot <syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com>
-Cc: axboe@kernel.dk, brauner@kernel.org, dan.carpenter@linaro.org,
-	dave.kleikamp@oracle.com, ghandatmanas@gmail.com, jack@suse.cz,
-	jfs-discussion@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org, lkp@intel.com, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev,
-	shaggy@kernel.org, syzkaller-bugs@googlegroups.com,
-	syzkaller@googlegroups.com
-Subject: Re: [syzbot] [jfs?] KASAN: slab-out-of-bounds Read in dtSearch
-Message-ID: <20240207084053.ydlu3fnyzzvjpdr3@quack3>
-References: <000000000000332a2505e981f474@google.com>
- <00000000000014c9ca0610b7aec6@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kK8i5+wP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707297651; x=1738833651;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6YvQzVV4nusevcHCqpVYqUFJYCCJgg8JwrDhNoV+FTM=;
+  b=kK8i5+wPmRsUKNu3gKq/P+rKxfHYbk709xj9yW8agh1lFzqLGeOC49Jk
+   SzLJiu0eC1bamZRpBqNjtQb3o7LID1pCtoGz04qwP2+W+NY9AdwfE7F1S
+   6G3trwOaOkUakGt8kuczB9NqRqRuRnjrTBaapJ5+rlasoosuj48CzWiFl
+   LjojzbiVwDLiba9eYc3ovJijqhGJgFJM4Bpv3EL6Vng9SNIsntFj10sQb
+   H2Kz8xZqGmBgu8+YfMX4JIFFuDyH0XiwxJHnny9KIDQ38uA0k1VeKMQK0
+   ti+O6XZbtQ+HyXZa53qyqMKjGGP/UKTOCtg7PMDkrrTmR9Q2kjC71VoHL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="1086071"
+X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
+   d="scan'208";a="1086071"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 01:20:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
+   d="scan'208";a="6050463"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 07 Feb 2024 01:20:47 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rXe6m-0002Rg-2D;
+	Wed, 07 Feb 2024 09:20:44 +0000
+Date: Wed, 7 Feb 2024 17:19:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	Miquel Raynal <miquel.raynal@bootlin.com>, yen-mei.goh@keysight.com,
+	koon-kee.lie@keysight.com,
+	Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH 2/2] spi: omap2-mcspi: Add support for MULTI-mode
+Message-ID: <202402071719.e1p4tUge-lkp@intel.com>
+References: <20240126-spi-omap2-mcspi-multi-mode-v1-2-d143d33f0fe0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -92,71 +63,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <00000000000014c9ca0610b7aec6@google.com>
-X-Spam-Level: *
-X-Spamd-Bar: +
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=uo2iAS4V;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=g6lFN9sT
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [1.49 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLjmuxkameenh34oafz4d4fopd)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.cz:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.00)[33.64%];
-	 SUBJECT_HAS_QUESTION(0.00)[];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=b45dfd882e46ec91];
-	 TAGGED_RCPT(0.00)[9924e2a08d9ba0fd4ce2];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[18];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[kernel.dk,kernel.org,linaro.org,oracle.com,gmail.com,suse.cz,lists.sourceforge.net,vger.kernel.org,lists.linuxfoundation.org,intel.com,lists.linux.dev,googlegroups.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: 1.49
-X-Rspamd-Queue-Id: 50666221D1
-X-Spam-Flag: NO
+In-Reply-To: <20240126-spi-omap2-mcspi-multi-mode-v1-2-d143d33f0fe0@bootlin.com>
 
-On Tue 06-02-24 06:49:05, syzbot wrote:
-> syzbot suspects this issue was fixed by commit:
-> 
-> commit 6f861765464f43a71462d52026fbddfc858239a5
-> Author: Jan Kara <jack@suse.cz>
-> Date:   Wed Nov 1 17:43:10 2023 +0000
-> 
->     fs: Block writes to mounted block devices
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13767e8fe80000
-> start commit:   bee0e7762ad2 Merge tag 'for-linus-iommufd' of git://git.ke..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=b45dfd882e46ec91
-> dashboard link: https://syzkaller.appspot.com/bug?extid=9924e2a08d9ba0fd4ce2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152bfc22e80000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1608f4a2e80000
-> 
-> If the result looks correct, please mark the issue as fixed by replying with:
+Hi Louis,
 
-Makes sense.
- 
-#syz fix: fs: Block writes to mounted block devices
+kernel test robot noticed the following build errors:
 
-								Honza
+[auto build test ERROR on 41bccc98fb7931d63d03f326a746ac4d429c1dd3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/Revert-spi-spi-omap2-mcspi-c-Toggle-CS-after-each-word/20240206-180243
+base:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
+patch link:    https://lore.kernel.org/r/20240126-spi-omap2-mcspi-multi-mode-v1-2-d143d33f0fe0%40bootlin.com
+patch subject: [PATCH 2/2] spi: omap2-mcspi: Add support for MULTI-mode
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240207/202402071719.e1p4tUge-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071719.e1p4tUge-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402071719.e1p4tUge-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/spi/spi-omap2-mcspi.c: In function 'omap2_mcspi_prepare_message':
+>> drivers/spi/spi-omap2-mcspi.c:1415:30: error: 'master' undeclared (first use in this function)
+    1415 |         omap2_mcspi_set_mode(master);
+         |                              ^~~~~~
+   drivers/spi/spi-omap2-mcspi.c:1415:30: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/spi/spi-omap2-mcspi.c:1388:13: warning: unused variable 'speed_hz' [-Wunused-variable]
+    1388 |         u32 speed_hz;
+         |             ^~~~~~~~
+
+
+vim +/master +1415 drivers/spi/spi-omap2-mcspi.c
+
+  1379	
+  1380	static int omap2_mcspi_prepare_message(struct spi_controller *ctlr,
+  1381					       struct spi_message *msg)
+  1382	{
+  1383		struct omap2_mcspi	*mcspi = spi_controller_get_devdata(ctlr);
+  1384		struct omap2_mcspi_regs	*ctx = &mcspi->ctx;
+  1385		struct omap2_mcspi_cs	*cs;
+  1386		struct spi_transfer	*tr;
+  1387		u8 bits_per_word;
+> 1388		u32 speed_hz;
+  1389	
+  1390		/*
+  1391		 * The conditions are strict, it is mandatory to check each transfer of the list to see if
+  1392		 * multi-mode is applicable.
+  1393		 */
+  1394		mcspi->use_multi_mode = true;
+  1395		list_for_each_entry(tr, &msg->transfers, transfer_list) {
+  1396			if (!tr->bits_per_word)
+  1397				bits_per_word = msg->spi->bits_per_word;
+  1398			else
+  1399				bits_per_word = tr->bits_per_word;
+  1400	
+  1401			/* Check if the transfer content is only one word */
+  1402			if ((bits_per_word < 8 && tr->len > 1) ||
+  1403			    (bits_per_word >= 8 && tr->len > bits_per_word / 8))
+  1404				mcspi->use_multi_mode = false;
+  1405	
+  1406			/* Check if transfer asks to change the CS status after the transfer */
+  1407			if (!tr->cs_change)
+  1408				mcspi->use_multi_mode = false;
+  1409	
+  1410			/* If at least one message is not compatible, switch back to single mode */
+  1411			if (!mcspi->use_multi_mode)
+  1412				break;
+  1413		}
+  1414	
+> 1415		omap2_mcspi_set_mode(master);
+  1416	
+  1417		/* In single mode only a single channel can have the FORCE bit enabled
+  1418		 * in its chconf0 register.
+  1419		 * Scan all channels and disable them except the current one.
+  1420		 * A FORCE can remain from a last transfer having cs_change enabled
+  1421		 *
+  1422		 * In multi mode all FORCE bits must be disabled.
+  1423		 */
+  1424		list_for_each_entry(cs, &ctx->cs, node) {
+  1425			if (msg->spi->controller_state == cs && !mcspi->use_multi_mode) {
+  1426				continue;
+  1427			}
+  1428	
+  1429			if ((cs->chconf0 & OMAP2_MCSPI_CHCONF_FORCE)) {
+  1430				cs->chconf0 &= ~OMAP2_MCSPI_CHCONF_FORCE;
+  1431				writel_relaxed(cs->chconf0,
+  1432						cs->base + OMAP2_MCSPI_CHCONF0);
+  1433				readl_relaxed(cs->base + OMAP2_MCSPI_CHCONF0);
+  1434			}
+  1435		}
+  1436	
+  1437		return 0;
+  1438	}
+  1439	
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
