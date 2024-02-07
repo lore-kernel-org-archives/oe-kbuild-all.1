@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BE21CD1F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 06:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A161CD21
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 06:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707286064; cv=none; b=Tw9E3WfS6OHNYNg8yGI77ViRvAAGHR+cQ98e1rRSe0O+Gi9BjfCm0srSZ/sbNUyToPs3RQr1L2we9y0Dn6VKbNx0HvaorNB1n60yJsxBkQ1a2Moc+0lRBQBICLwh32eCzkEHqRsn9ppUmXRK4Ea0ou68SXgolqQM6ny03Rze1X4=
+	t=1707287265; cv=none; b=k5HTmH8v6E/uGvAMrkfopE9XoEXkp/v5hQ5+xB/NZ6aLbVcaSriPF+L9gMHQWmJZmErD8V5FS8uI1sneJucorRKhx0rVnS3N8bw74XldmIcX7AuYIha8pUVYAjPZA7gdGB1lJhsjW4hwCs2swHe5+oqxG5BnPrsNxv4svGzJ4f8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707286064; c=relaxed/simple;
-	bh=Blq1eOAMpcMoBC2CmFzPuoCsBfz537te9Ld2NXwMniY=;
+	s=arc-20240116; t=1707287265; c=relaxed/simple;
+	bh=EQhVKF6lrs3BMJaecpK0G50o7Xaea/k7paQd439LTzw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lhTkCNwHOJ7GgqpiNJRg4D2J+LbHa3Js+3pxnGXpGA3NcyUjf5kA8EOS0dsYdRvPIW3j0xng5Ij/XsxhhSCpwOmMaN5QBfzbEP6drVk2rF4QoOwJpZD6jaHL4obdjaRc0+exvHA4uF31m5iI8NkTgl7gRAXXf1RCPuXX3Qao9Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=go3g9HYt; arc=none smtp.client-ip=192.55.52.88
+	 Content-Disposition; b=SN2I4LUiZxPBvvM5t1ee1oprDt3O2ZgrFKH9PtI6V7Dltu12UF97KA5PdSO2duLcSJ1zlrY0iM7oTn07N6fo7k6drW1vYUsj+mgGfpw8bAUFGHbIxPObkcTKwr205pvtm+LWVGwMs2ghvxMFY+6aqdqPmUf6eUMBMMK/DQsbLbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MqIQxVBO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="go3g9HYt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MqIQxVBO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707286061; x=1738822061;
+  t=1707287264; x=1738823264;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Blq1eOAMpcMoBC2CmFzPuoCsBfz537te9Ld2NXwMniY=;
-  b=go3g9HYt15pjz/6FgbBI+YuSJrJSPBpNBhBLrtC9xQux5IwekElj1t4x
-   kSwYM82ECGeSSyhEX7W/kcGDR2duIUp9+ORe20Cb2EiNmXAIvEKnOFFIb
-   luHJOBYF3tphuv0PaJCuYwFbef2z1275/FM/EJQOi7jyF1gaZ6a/nPrCh
-   ZihS7GwpOFFwpOyUn1nbZtNgebw6GCCrojuzIZMiBMxMfbtAWNEcuKeyE
-   hggKuz0AbAaW36SvLpzdktkn+3Q+QtG3+9sZ0klknazCgB1osKbnzfjRk
-   rXwYAUwbkCHdh4jEiFSCt5PzZ2pePwT5LNaghPPgTtXNnZNm+xBiB/OWw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="436053809"
+  bh=EQhVKF6lrs3BMJaecpK0G50o7Xaea/k7paQd439LTzw=;
+  b=MqIQxVBOk0DqhYY8PSJIeL+0b8tMLxRCMkPanG0N4J1Pg9A60K5T09Ze
+   XUDj3d3GrDzP7Del8uqD/O7ywroDIOe8QHm0q424Ll0IvoTmpqu5krk6q
+   ygIZgtAS0rK1NVabjoUzn/YrFwOBZZdEaSRCjMxlCoRjKulft/BVz4xes
+   FO8HL174EGpkZC3nx+Taku56Y7pBfUNm+ojwvRgR3/3Xl+LvF/dOHx1s1
+   Yp9pH+TqYAeHGRpJzymgOy+/qKLaKP/ZoGZ4XldGIU+KAx7Z4mxgcvSbO
+   55y/mOCAM+Wjbp0uQNDcgqfMav9xl4d8gqMYyU6nm3fzW7lTDq8/kRaDw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="1196232"
 X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="436053809"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 22:07:41 -0800
+   d="scan'208";a="1196232"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 22:27:43 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="5849550"
+   d="scan'208";a="32064816"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Feb 2024 22:07:40 -0800
+  by orviesa002.jf.intel.com with ESMTP; 06 Feb 2024 22:27:41 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXb5t-0002G0-2K;
-	Wed, 07 Feb 2024 06:07:37 +0000
-Date: Wed, 7 Feb 2024 14:07:07 +0800
+	id 1rXbPG-0002Gu-1N;
+	Wed, 07 Feb 2024 06:27:38 +0000
+Date: Wed, 7 Feb 2024 14:27:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 67/67] fs/bcachefs/error.c:35:24: error:
- implicit declaration of function 'bch2_run_explicit_recovery_pass'
-Message-ID: <202402071357.pS5OZzr3-lkp@intel.com>
+To: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
+ kallsyms_on_each_match_symbol: .text+0x97c): relocation R_RISCV_PCREL_HI20
+ out of range: -524417 is not in [-524288, 524287]; references
+ kallsyms_relative_base
+Message-ID: <202402071416.ejGGvihf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,82 +61,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   18627fdec55036b874377d9201351f0a8f9baa68
-commit: 18627fdec55036b874377d9201351f0a8f9baa68 [67/67] bcachefs: Kill more -EIO error codes
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240207/202402071357.pS5OZzr3-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071357.pS5OZzr3-lkp@intel.com/reproduce)
+Hi Zhen,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   99bd3cb0d12e85d5114425353552121ec8f93adc
+commit: 4dc533e0f2c04174e1ae4aa98e7cffc1c04b9998 kallsyms: Add helper kallsyms_on_each_match_symbol()
+date:   1 year, 3 months ago
+config: riscv-randconfig-r064-20240120 (https://download.01.org/0day-ci/archive/20240207/202402071416.ejGGvihf-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071416.ejGGvihf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402071357.pS5OZzr3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402071416.ejGGvihf-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/bcachefs.h:209,
-                    from fs/bcachefs/error.c:2:
-   fs/bcachefs/bcachefs_format.h:221:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     221 |         struct bversion version;
-         |                         ^~~~~~~
-   fs/bcachefs/error.c: In function 'bch2_topology_error':
->> fs/bcachefs/error.c:35:24: error: implicit declaration of function 'bch2_run_explicit_recovery_pass' [-Werror=implicit-function-declaration]
-      35 |                 return bch2_run_explicit_recovery_pass(c, BCH_RECOVERY_PASS_check_topology) ?:
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x97c): relocation R_RISCV_PCREL_HI20 out of range: -524417 is not in [-524288, 524287]; references kallsyms_relative_base
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
 --
-   In file included from fs/bcachefs/bcachefs.h:209,
-                    from fs/bcachefs/recovery.c:3:
-   fs/bcachefs/bcachefs_format.h:221:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     221 |         struct bversion version;
-         |                         ^~~~~~~
-   fs/bcachefs/recovery.c: In function 'journal_replay_entry_early':
->> fs/bcachefs/recovery.c:267:36: warning: overflow in conversion from 'int' to 's8' {aka 'signed char'} changes value from '-2275' to '29' [-Woverflow]
-     267 |                         r->error = -BCH_ERR_btree_node_read_error;
-         |                                    ^
-
-
-vim +/bch2_run_explicit_recovery_pass +35 fs/bcachefs/error.c
-
-   > 2	#include "bcachefs.h"
-     3	#include "error.h"
-     4	#include "super.h"
-     5	#include <linux/thread_with_file.h>
-     6	
-     7	#define FSCK_ERR_RATELIMIT_NR	10
-     8	
-     9	bool bch2_inconsistent_error(struct bch_fs *c)
-    10	{
-    11		set_bit(BCH_FS_error, &c->flags);
-    12	
-    13		switch (c->opts.errors) {
-    14		case BCH_ON_ERROR_continue:
-    15			return false;
-    16		case BCH_ON_ERROR_ro:
-    17			if (bch2_fs_emergency_read_only(c))
-    18				bch_err(c, "inconsistency detected - emergency read only");
-    19			return true;
-    20		case BCH_ON_ERROR_panic:
-    21			panic(bch2_fmt(c, "panic after error"));
-    22			return true;
-    23		default:
-    24			BUG();
-    25		}
-    26	}
-    27	
-    28	int bch2_topology_error(struct bch_fs *c)
-    29	{
-    30		set_bit(BCH_FS_topology_error, &c->flags);
-    31		if (!test_bit(BCH_FS_fsck_running, &c->flags)) {
-    32			bch2_inconsistent_error(c);
-    33			return -BCH_ERR_btree_need_topology_repair;
-    34		} else {
-  > 35			return bch2_run_explicit_recovery_pass(c, BCH_RECOVERY_PASS_check_topology) ?:
-    36				-BCH_ERR_btree_node_read_validate_error;
-    37		}
-    38	}
-    39	
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x988): relocation R_RISCV_PCREL_HI20 out of range: -524417 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x990): relocation R_RISCV_PCREL_HI20 out of range: -524417 is not in [-524288, 524287]; references kallsyms_offsets
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x16c): relocation R_RISCV_PCREL_HI20 out of range: -524416 is not in [-524288, 524287]; references kallsyms_num_syms
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x19c): relocation R_RISCV_PCREL_HI20 out of range: -524417 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x1a4): relocation R_RISCV_PCREL_HI20 out of range: -524417 is not in [-524288, 524287]; references kallsyms_markers
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x1ac): relocation R_RISCV_PCREL_HI20 out of range: -524417 is not in [-524288, 524287]; references kallsyms_names
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x1b4): relocation R_RISCV_PCREL_HI20 out of range: -524417 is not in [-524288, 524287]; references kallsyms_token_index
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x1c8): relocation R_RISCV_PCREL_HI20 out of range: -524417 is not in [-524288, 524287]; references kallsyms_token_table
+   >>> referenced by kallsyms.c
+   >>> defined in vmlinux.a(kernel/kallsyms.o)
 
 -- 
 0-DAY CI Kernel Test Service
