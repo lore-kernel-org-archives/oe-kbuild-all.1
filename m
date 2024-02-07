@@ -1,60 +1,39 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D454920DD8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 09:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B633C23759;
+	Wed,  7 Feb 2024 09:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707297652; cv=none; b=IP51l2Xn+Z1rrLzyXxCbbPfm3be64aw4ae0r4aS2QCoF6NkTyApQb9xOECOZgB+nYQOZXVG5nHvACLDOPnoHjCJZ8OYRWVxguRBNqE/hiNCeNVguuvOexZQ9RIwQN4VMmEKlNW9Dm0xNrKVMhxd7XPARiC+uwCfKjSsnAesffxc=
+	t=1707299505; cv=none; b=duhnhT+ju30JFkMno0Iw2Wlzzpq4OpAVSenWYfZKRNxPkbs00JzQHpMtRfWgF8vAiqHUZL/CEbr0fzDsbY42xN8H57mo9CMeNaqSpZy2eQbcQHYnklgpT4SpEoA2GFgmuVLIZ/M1DMH64Cop5dU742RwzpXn9XGtVZQIDXSQ8Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707297652; c=relaxed/simple;
-	bh=6YvQzVV4nusevcHCqpVYqUFJYCCJgg8JwrDhNoV+FTM=;
+	s=arc-20240116; t=1707299505; c=relaxed/simple;
+	bh=q43MH+lenOB9ylP/fJbs+XxYluDSrl1obvPsCaw5/qI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QnOctq25G/YtUctrk3a/5arMP+Sm3svPdwvby4ACslznA5bxH8xup1dpZWjxGVqHGtTAMEhbz0pFzQ4ySHHwqo6hE0giPJ4RJq93iGi+vHCZ1saq8aOfPuATPlMLgowFwDT/OgeOd1BqK6D0BRe1XO3p6YZp55Xu/DTelXDVS8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kK8i5+wP; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wk+YVBe948tb33cJOKBRuFm+gqESf7FpBG6TnHFWDfJ7oCEyMG9/ghSLMfHhAr5o3mZBqXgox8227KtLc5F5hftj9qwsi3LFVJ2qdrP/YyMNj54ta3Yb70EBtpC0QudEmwZ+Gj4Ogzs1udYSGIj6CdEkdff4F3O9WWTi5AM5teA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NG4uDLd9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kK8i5+wP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707297651; x=1738833651;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6YvQzVV4nusevcHCqpVYqUFJYCCJgg8JwrDhNoV+FTM=;
-  b=kK8i5+wPmRsUKNu3gKq/P+rKxfHYbk709xj9yW8agh1lFzqLGeOC49Jk
-   SzLJiu0eC1bamZRpBqNjtQb3o7LID1pCtoGz04qwP2+W+NY9AdwfE7F1S
-   6G3trwOaOkUakGt8kuczB9NqRqRuRnjrTBaapJ5+rlasoosuj48CzWiFl
-   LjojzbiVwDLiba9eYc3ovJijqhGJgFJM4Bpv3EL6Vng9SNIsntFj10sQb
-   H2Kz8xZqGmBgu8+YfMX4JIFFuDyH0XiwxJHnny9KIDQ38uA0k1VeKMQK0
-   ti+O6XZbtQ+HyXZa53qyqMKjGGP/UKTOCtg7PMDkrrTmR9Q2kjC71VoHL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="1086071"
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="1086071"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 01:20:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="6050463"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 Feb 2024 01:20:47 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rXe6m-0002Rg-2D;
-	Wed, 07 Feb 2024 09:20:44 +0000
-Date: Wed, 7 Feb 2024 17:19:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	Miquel Raynal <miquel.raynal@bootlin.com>, yen-mei.goh@keysight.com,
-	koon-kee.lie@keysight.com,
-	Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH 2/2] spi: omap2-mcspi: Add support for MULTI-mode
-Message-ID: <202402071719.e1p4tUge-lkp@intel.com>
-References: <20240126-spi-omap2-mcspi-multi-mode-v1-2-d143d33f0fe0@bootlin.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NG4uDLd9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6028C433C7;
+	Wed,  7 Feb 2024 09:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707299505;
+	bh=q43MH+lenOB9ylP/fJbs+XxYluDSrl1obvPsCaw5/qI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NG4uDLd9567/mD8Cm7Y9Ll0pAWb10GtbdlnARs2MEag3EyRff/WSo2U8BczID2Iyk
+	 wjI4YnlCwNpvunO9JSTzxFQj8+4EAF7wuYDW6pHKAKGCdmJScnnbkPUlfPYUL+eiwg
+	 NlQnVQrQb3luE+BhMQ+FqmKURmFTGq8HCzzc11Ds=
+Date: Wed, 7 Feb 2024 09:51:42 +0000
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Sreenath Vijayan <sreenath.vijayan@sony.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+	Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>,
+	John Ogness <john.ogness@linutronix.de>
+Subject: Re: [tty:tty-testing 28/29] include/linux/printk.h:275:13: error:
+ unused function 'dump_printk_buffer'
+Message-ID: <2024020708-unknotted-ceramics-f6ec@gregkh>
+References: <202402071252.Zj78sTXN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,103 +42,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240126-spi-omap2-mcspi-multi-mode-v1-2-d143d33f0fe0@bootlin.com>
+In-Reply-To: <202402071252.Zj78sTXN-lkp@intel.com>
 
-Hi Louis,
+On Wed, Feb 07, 2024 at 12:22:40PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+> head:   014e10bea593b963574d607faa34e7eaaad3c02b
+> commit: 558367b641b3802572132e7ed865f5eb887c41ea [28/29] printk: Add function to dump printk buffer directly to consoles
+> config: i386-buildonly-randconfig-006-20240207 (https://download.01.org/0day-ci/archive/20240207/202402071252.Zj78sTXN-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071252.Zj78sTXN-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402071252.Zj78sTXN-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from lib/test_bitops.c:9:
+>    In file included from include/linux/module.h:13:
+>    In file included from include/linux/stat.h:19:
+>    In file included from include/linux/time.h:60:
+>    In file included from include/linux/time32.h:13:
+>    In file included from include/linux/timex.h:67:
+>    In file included from arch/x86/include/asm/timex.h:5:
+>    In file included from arch/x86/include/asm/processor.h:23:
+>    In file included from arch/x86/include/asm/msr.h:11:
+>    In file included from arch/x86/include/asm/cpumask.h:5:
+>    In file included from include/linux/cpumask.h:10:
+>    In file included from include/linux/kernel.h:31:
+> >> include/linux/printk.h:275:13: error: unused function 'dump_printk_buffer' [-Werror,-Wunused-function]
+>      275 | static void dump_printk_buffer(void)
+>          |             ^~~~~~~~~~~~~~~~~~
+>    1 error generated.
+> 
+> 
+> vim +/dump_printk_buffer +275 include/linux/printk.h
+> 
+>    268	
+>    269	static inline void dump_stack(void)
+>    270	{
+>    271	}
+>    272	static inline void printk_trigger_flush(void)
+>    273	{
+>    274	}
+>  > 275	static void dump_printk_buffer(void)
 
-kernel test robot noticed the following build errors:
+Ah, inline was missed :(
 
-[auto build test ERROR on 41bccc98fb7931d63d03f326a746ac4d429c1dd3]
+I'll drop these from my tree for now, can you resubmit fixed patches
+with all of the collected reviewed tags?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/Revert-spi-spi-omap2-mcspi-c-Toggle-CS-after-each-word/20240206-180243
-base:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
-patch link:    https://lore.kernel.org/r/20240126-spi-omap2-mcspi-multi-mode-v1-2-d143d33f0fe0%40bootlin.com
-patch subject: [PATCH 2/2] spi: omap2-mcspi: Add support for MULTI-mode
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240207/202402071719.e1p4tUge-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071719.e1p4tUge-lkp@intel.com/reproduce)
+thanks,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402071719.e1p4tUge-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/spi/spi-omap2-mcspi.c: In function 'omap2_mcspi_prepare_message':
->> drivers/spi/spi-omap2-mcspi.c:1415:30: error: 'master' undeclared (first use in this function)
-    1415 |         omap2_mcspi_set_mode(master);
-         |                              ^~~~~~
-   drivers/spi/spi-omap2-mcspi.c:1415:30: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/spi/spi-omap2-mcspi.c:1388:13: warning: unused variable 'speed_hz' [-Wunused-variable]
-    1388 |         u32 speed_hz;
-         |             ^~~~~~~~
-
-
-vim +/master +1415 drivers/spi/spi-omap2-mcspi.c
-
-  1379	
-  1380	static int omap2_mcspi_prepare_message(struct spi_controller *ctlr,
-  1381					       struct spi_message *msg)
-  1382	{
-  1383		struct omap2_mcspi	*mcspi = spi_controller_get_devdata(ctlr);
-  1384		struct omap2_mcspi_regs	*ctx = &mcspi->ctx;
-  1385		struct omap2_mcspi_cs	*cs;
-  1386		struct spi_transfer	*tr;
-  1387		u8 bits_per_word;
-> 1388		u32 speed_hz;
-  1389	
-  1390		/*
-  1391		 * The conditions are strict, it is mandatory to check each transfer of the list to see if
-  1392		 * multi-mode is applicable.
-  1393		 */
-  1394		mcspi->use_multi_mode = true;
-  1395		list_for_each_entry(tr, &msg->transfers, transfer_list) {
-  1396			if (!tr->bits_per_word)
-  1397				bits_per_word = msg->spi->bits_per_word;
-  1398			else
-  1399				bits_per_word = tr->bits_per_word;
-  1400	
-  1401			/* Check if the transfer content is only one word */
-  1402			if ((bits_per_word < 8 && tr->len > 1) ||
-  1403			    (bits_per_word >= 8 && tr->len > bits_per_word / 8))
-  1404				mcspi->use_multi_mode = false;
-  1405	
-  1406			/* Check if transfer asks to change the CS status after the transfer */
-  1407			if (!tr->cs_change)
-  1408				mcspi->use_multi_mode = false;
-  1409	
-  1410			/* If at least one message is not compatible, switch back to single mode */
-  1411			if (!mcspi->use_multi_mode)
-  1412				break;
-  1413		}
-  1414	
-> 1415		omap2_mcspi_set_mode(master);
-  1416	
-  1417		/* In single mode only a single channel can have the FORCE bit enabled
-  1418		 * in its chconf0 register.
-  1419		 * Scan all channels and disable them except the current one.
-  1420		 * A FORCE can remain from a last transfer having cs_change enabled
-  1421		 *
-  1422		 * In multi mode all FORCE bits must be disabled.
-  1423		 */
-  1424		list_for_each_entry(cs, &ctx->cs, node) {
-  1425			if (msg->spi->controller_state == cs && !mcspi->use_multi_mode) {
-  1426				continue;
-  1427			}
-  1428	
-  1429			if ((cs->chconf0 & OMAP2_MCSPI_CHCONF_FORCE)) {
-  1430				cs->chconf0 &= ~OMAP2_MCSPI_CHCONF_FORCE;
-  1431				writel_relaxed(cs->chconf0,
-  1432						cs->base + OMAP2_MCSPI_CHCONF0);
-  1433				readl_relaxed(cs->base + OMAP2_MCSPI_CHCONF0);
-  1434			}
-  1435		}
-  1436	
-  1437		return 0;
-  1438	}
-  1439	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
