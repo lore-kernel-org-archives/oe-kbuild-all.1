@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62085D267
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 01:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361ADEEDA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 01:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707267691; cv=none; b=msbpIv97DT3+kZtgz7QGeqjW0iO1fj+A3hNDayBhmJ2CjYzubaAS7IHWKjiVRuexyG9bx3xTC1nLPzCrjnFtysrPa9C771JQqqiMT8buZ7olvwB1obrAEFySQJ9q3WqrGtcGaz2eDV9bg9okvxd1IgRCsJkQPTpBo8PntFgLeoA=
+	t=1707269671; cv=none; b=DIq0gONY7nJfi5M3ueoQLqy8PLeYpRrp/KY570ebNW6osVxSyNUcfqHEK8SenHF1QEzoaK78UezCgOXtSPXmx6yGbS+rl6FmgudbFjW32x8P9s0BXrAc9xzbK+106APnEmKyEhmQDeFwTIlW//vYY3Koslv/zdEcCDaNBxC95+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707267691; c=relaxed/simple;
-	bh=jneFIwaGpCNlrPBkC5+baWxVqXCO1J9kkbZMfzw9PlQ=;
+	s=arc-20240116; t=1707269671; c=relaxed/simple;
+	bh=rvrPJK4G619kXzQpdO6yJGIjG7HESkRWGN4jM1ajWEY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jfVrEgrP5UwELkNdZ608KPqZpN5Q3C8JUOG5JQ0lb/eUWudeI6l0JweTJc2uux4n6JjhxLT1cWrZEEO4IW9V9lU7dgbZwVEVZfUJPjln/Pc0fBenn0R7myYOfkPGnF5bnONUqBmleTYMk/xjdmT3qTy9AkT5h91eP9h9AMsY/EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aReIEO6D; arc=none smtp.client-ip=134.134.136.20
+	 Content-Disposition; b=P8bykvLSlT3/IPoIvIdaLEq6VmHqtTSmH9g9DlyTiRt95BhmU4khbv/erePsFi1GwPEUZ+qkFhGN2oHmKm6NTfIAXQK7ozzM7/1UXZS5pTkTZ9osFJmud9TkhF6fSIxRsJ8KRtlvEQwRd3tqTeJjmCcPq01x1koM0ZR3qgT9vPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EBx26T/h; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aReIEO6D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EBx26T/h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707267688; x=1738803688;
+  t=1707269669; x=1738805669;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jneFIwaGpCNlrPBkC5+baWxVqXCO1J9kkbZMfzw9PlQ=;
-  b=aReIEO6D6hI305tnRoekdLpOO2hbPzZSYiGiWAHApal3vUtGOqCXLKbA
-   7/RtVy7HAD2nqzkBO7ZBVO2eBbtNrit/7rvJSlCsI2NypdDSo/WTjPC4t
-   quIvZ270ofdlkjbkzRklFmajU7Yisdtqtjb/SKDj6/ZiJ4ZoHlrIYgeeq
-   EGWsZX0Ry/tdWtxXe3Nh2eSe2MpV8sX6nQTDLQiVCu0aLx4iOsf6bzs37
-   9O6ntZoTDbv/Z/8o9N8bWcnGyD60Gqjf51WlOvw8AbXUWKzpLtY3AroX2
-   w92jy9z1pVgPRxNgnumwc+DNwAEvzI5r2ctDJXiNZnaMKXV/9ELzS1ojW
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="395297641"
+  bh=rvrPJK4G619kXzQpdO6yJGIjG7HESkRWGN4jM1ajWEY=;
+  b=EBx26T/h6Pq8V4TojCF0tadayGK0iwX26rGqiDt+Lzo3PDYZqW2huvoW
+   Cz7ZpVVrIlycA8q4zOSgdJaQX2UytfBtItX5i7/23nSkPT4HGeQcZmuVd
+   N05ZTe30U47uaQ+zqchquvWbUzfAqJJXLjvSB6G8E9XhUIN+YsTOYget8
+   qydBdTzIhF+l7fLCVCjTIoaj2kfWWXhgzbSWTJ1KP1HdE09/7khUrBj6R
+   g4sQqC1rTt3HvMpUS+vg4bDB5AzS0+rZq3olh3DBbmLR96f8PnRFqTUkL
+   HH2UNIDwOl3rFxFVxVPEc0Cxpxqa6QkgYAZU8f5quto2T3Nzsn9yeeb/5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="11619955"
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="395297641"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 17:01:27 -0800
+   d="scan'208";a="11619955"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 17:34:28 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="1225486"
+   d="scan'208";a="32006389"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Feb 2024 17:01:26 -0800
+  by orviesa002.jf.intel.com with ESMTP; 06 Feb 2024 17:34:26 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXWJX-0001w4-0O;
-	Wed, 07 Feb 2024 01:01:23 +0000
-Date: Wed, 7 Feb 2024 09:00:55 +0800
+	id 1rXWpT-0001xE-2q;
+	Wed, 07 Feb 2024 01:34:23 +0000
+Date: Wed, 7 Feb 2024 09:34:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Steven Song <steven.song@3snic.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21328/21616]
- drivers/scsi/sssraid/sssraid_os.c:1704:9: error: implicit declaration of
- function 'for_each_pci_msi_entry'; did you mean 'for_each_msi_entry'?
-Message-ID: <202402070803.9BXgYVmQ-lkp@intel.com>
+Subject: [djwong-xfs:timestats-cleanups 542/548]
+ fs/bcachefs/io_write.c:91:22: error: incompatible pointer types passing
+ 'struct time_stats_quantiles *' to parameter of type 'struct time_stats *'
+Message-ID: <202402070937.SBvT1Rip-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,119 +59,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3a28772f4b29bdda924e9a5d2e3ff1ff1b23fd14
-commit: 2e2a4edd9d4a725c5474dc278b090913d9b5bfd5 [21328/21616] SCSI: SSSRAID: Support 3SNIC 3S5XX serial RAID/HBA  controllers
-config: x86_64-randconfig-r053-20240206 (https://download.01.org/0day-ci/archive/20240207/202402070803.9BXgYVmQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070803.9BXgYVmQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-cleanups
+head:   d07e8ccdf01715f8c7fbbdea9d7910d89c6684fb
+commit: 2305f6e0a722327c9e83a1a353ece28e101603fd [542/548] time_stats: split stats-with-quantiles into a separate structure
+config: x86_64-buildonly-randconfig-002-20240206 (https://download.01.org/0day-ci/archive/20240207/202402070937.SBvT1Rip-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070937.SBvT1Rip-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402070803.9BXgYVmQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402070937.SBvT1Rip-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/scsi/sssraid/sssraid_os.c: In function 'sssraid_map_queues':
->> drivers/scsi/sssraid/sssraid_os.c:1704:9: error: implicit declaration of function 'for_each_pci_msi_entry'; did you mean 'for_each_msi_entry'? [-Werror=implicit-function-declaration]
-    1704 |         for_each_pci_msi_entry(entry, pdev) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         for_each_msi_entry
->> drivers/scsi/sssraid/sssraid_os.c:1704:44: error: expected ';' before '{' token
-    1704 |         for_each_pci_msi_entry(entry, pdev) {
-         |                                            ^~
-         |                                            ;
-   drivers/scsi/sssraid/sssraid_os.c:1702:22: warning: unused variable 'node_id_array' [-Wunused-variable]
-    1702 |         unsigned int node_id_array[100];
-         |                      ^~~~~~~~~~~~~
-   drivers/scsi/sssraid/sssraid_os.c:1701:28: warning: unused variable 'i' [-Wunused-variable]
-    1701 |         u8 node_count = 0, i;
-         |                            ^
-   drivers/scsi/sssraid/sssraid_os.c:1701:12: warning: unused variable 'node_count' [-Wunused-variable]
-    1701 |         u8 node_count = 0, i;
-         |            ^~~~~~~~~~
-   drivers/scsi/sssraid/sssraid_os.c:1700:18: warning: unused variable 'queue' [-Wunused-variable]
-    1700 |         int cpu, queue = 0;
-         |                  ^~~~~
-   drivers/scsi/sssraid/sssraid_os.c:1700:13: warning: unused variable 'cpu' [-Wunused-variable]
-    1700 |         int cpu, queue = 0;
-         |             ^~~
-   drivers/scsi/sssraid/sssraid_os.c:1699:31: warning: unused variable 'node_id_last' [-Wunused-variable]
-    1699 |         unsigned int node_id, node_id_last = 0xFFFFFFFF;
-         |                               ^~~~~~~~~~~~
-   drivers/scsi/sssraid/sssraid_os.c:1699:22: warning: unused variable 'node_id' [-Wunused-variable]
-    1699 |         unsigned int node_id, node_id_last = 0xFFFFFFFF;
-         |                      ^~~~~~~
-   drivers/scsi/sssraid/sssraid_os.c:1698:22: warning: unused variable 'nr_queues' [-Wunused-variable]
-    1698 |         unsigned int nr_queues = tag_set->nr_hw_queues;
-         |                      ^~~~~~~~~
-   drivers/scsi/sssraid/sssraid_os.c:1697:31: warning: unused variable 'node_mask' [-Wunused-variable]
-    1697 |         const struct cpumask *node_mask = NULL;
-         |                               ^~~~~~~~~
-   drivers/scsi/sssraid/sssraid_os.c:1696:23: warning: unused variable 'map' [-Wunused-variable]
-    1696 |         unsigned int *map = tag_set->mq_map;
-         |                       ^~~
-   drivers/scsi/sssraid/sssraid_os.c:1739:1: warning: no return statement in function returning non-void [-Wreturn-type]
-    1739 | }
-         | ^
-   cc1: some warnings being treated as errors
+>> fs/bcachefs/io_write.c:91:22: error: incompatible pointer types passing 'struct time_stats_quantiles *' to parameter of type 'struct time_stats *' [-Werror,-Wincompatible-pointer-types]
+      91 |         __time_stats_update(&ca->io_latency[rw], submit_time, now);
+         |                             ^~~~~~~~~~~~~~~~~~~
+   include/linux/time_stats.h:111:45: note: passing argument to parameter 'stats' here
+     111 | void __time_stats_update(struct time_stats *stats, u64, u64);
+         |                                             ^
+   1 error generated.
 
 
-vim +1704 drivers/scsi/sssraid/sssraid_os.c
+vim +91 fs/bcachefs/io_write.c
 
-  1689	
-  1690	static int sssraid_map_queues(struct Scsi_Host *shost)
-  1691	{
-  1692		struct sssraid_ioc *sdioc = shost_priv(shost);
-  1693		struct pci_dev *pdev = sdioc->pdev;
-  1694		struct msi_desc *entry = NULL;
-  1695		struct blk_mq_tag_set *tag_set = &shost->tag_set;
-  1696		unsigned int *map = tag_set->mq_map;
-  1697		const struct cpumask *node_mask = NULL;
-  1698		unsigned int nr_queues = tag_set->nr_hw_queues;
-  1699		unsigned int node_id, node_id_last = 0xFFFFFFFF;
-  1700		int cpu, queue = 0;
-  1701		u8 node_count = 0, i;
-  1702		unsigned int node_id_array[100];
-  1703	
-> 1704		for_each_pci_msi_entry(entry, pdev) {
-  1705			struct list_head *msi_list = &pdev->dev.msi_list;
-  1706	
-  1707			if (list_is_last(msi_list, &entry->list))
-  1708				goto get_next_numa_node;
-  1709	
-  1710			if (entry->irq) {
-  1711				node_mask = entry->affinity;
-  1712	
-  1713				cpu = cpumask_first(node_mask);
-  1714				node_id = cpu_to_node(cpu);
-  1715				if (node_id_last == node_id)
-  1716					continue;
-  1717	
-  1718				for (i = 0; i < node_count; i++) {
-  1719					if (node_id == node_id_array[i])
-  1720						goto get_next_numa_node;
-  1721				}
-  1722				node_id_array[node_count++] = node_id;
-  1723				node_id_last = node_id;
-  1724			}
-  1725	get_next_numa_node:
-  1726			continue;
-  1727		}
-  1728	
-  1729		for (i = 0; i < node_count; i++) {
-  1730			node_mask = cpumask_of_node(node_id_array[i]);
-  1731			dbgprint(sdioc, "NUMA_node = %d\n", node_id_array[i]);
-  1732			for_each_cpu(cpu, node_mask) {
-  1733				map[cpu] = (queue < nr_queues) ? queue++ : 0;
-  1734				dbgprint(sdioc, "map[%d] = %d\n", cpu, map[cpu]);
-  1735			}
-  1736		}
-  1737	
-  1738		return 0;
-  1739	}
-  1740	
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  64  
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  65  void bch2_latency_acct(struct bch_dev *ca, u64 submit_time, int rw)
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  66  {
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  67  	atomic64_t *latency = &ca->cur_latency[rw];
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  68  	u64 now = local_clock();
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  69  	u64 io_latency = time_after64(now, submit_time)
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  70  		? now - submit_time
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  71  		: 0;
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  72  	u64 old, new, v = atomic64_read(latency);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  73  
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  74  	do {
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  75  		old = v;
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  76  
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  77  		/*
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  78  		 * If the io latency was reasonably close to the current
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  79  		 * latency, skip doing the update and atomic operation - most of
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  80  		 * the time:
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  81  		 */
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  82  		if (abs((int) (old - io_latency)) < (old >> 1) &&
+2cd0563461b68b fs/bcachefs/io.c       Brett Holman    2021-05-16  83  		    now & ~(~0U << 5))
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  84  			break;
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  85  
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  86  		new = ewma_add(old, io_latency, 5);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  87  	} while ((v = atomic64_cmpxchg(latency, old, new)) != old);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  88  
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  89  	bch2_congested_acct(ca, io_latency, now, rw);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  90  
+753f4c53cf0ad1 fs/bcachefs/io_write.c Kent Overstreet 2024-02-01 @91  	__time_stats_update(&ca->io_latency[rw], submit_time, now);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  92  }
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  93  
+
+:::::: The code at line 91 was first introduced by commit
+:::::: 753f4c53cf0ad12ccf6cfef1681ec07b79fb0555 time_stats: Promote to lib/
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
