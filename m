@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46306A8B6
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 22:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31476200D2;
+	Wed,  7 Feb 2024 22:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707343280; cv=none; b=Qjvehta4Msax22nGoLkl6maYO6tTDGRRudWquX5YrwBIuwA9+Vpd/pJ5gv3cVB2SC0JBEZzax4H5IFP3Iv1hJ+50DzIm7XWSu6DMPCyWLIhFwAyDUvNVBlU2zrz656cCW34u93IYivtwAxQtaz33R/KR56B5fmEnqr1L1gEl048=
+	t=1707346404; cv=none; b=PeObR9UAGj2nJGwHdbLV4GFEKXf7TuWuQPrGkEV3Nos7B/GLC/zyIKuVAfePeftZayATHJq9dbF86Fjj5vr8U1rF2CXy7QY1YG8J9nKCr9UcN/y9wa71UthrF3K76h+bq/n4IiIqIcIHl3zRPJq+B5WZ1S5xRWE8Vn/szC6I12o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707343280; c=relaxed/simple;
-	bh=wV4USB061/8cvVO3Kr7r3y7D6k0uLUDBPQn8tgwumiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EUQP3FSlnrVuTJ/6/9MaOV7Grimnum5X+3c99t/2YUEMyj2D60lYDrc1fMn43yVMMsBhzSsQ11XPn23YEC9+fP44yqkpJEkIT1l9EShwV31jRP+r1ni12kNK9z+aqDqHxwDtfSIVYnAy7XTPNK9pyENPWrMZnNWYeD9cNTdsn2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0q3nCSP; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1707346404; c=relaxed/simple;
+	bh=nmb2k3C9v+KzAmt2g3cPPXFlei6g+FVLekXJpHiBpLI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NS/JFQWxsk2zCAxt6XubWZepqLaZht/c6YuBXEJp6nbzfedrPLvhovpemA6pmB2WtgX1QJPok2g6TYkmjck/bVJdPiKM+CtXb5Vonqorb40Q0xjfCRb0uE/kAbOR5FSV4afj8n76bRmEjrPdptCdiIvpkj8j2EWlNe3JOREaZvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bx4B6DK9; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0q3nCSP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bx4B6DK9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707343278; x=1738879278;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wV4USB061/8cvVO3Kr7r3y7D6k0uLUDBPQn8tgwumiE=;
-  b=W0q3nCSP4oZeiRQSPp0fF3sAIQw6pjoBKejMP0CO9tpWarxyVg1InV8d
-   4XS7GK5F78i/p0Iqa79haC3dtY+lQ93OsMpE3N/6/L6LuEYVNNtdGZ1GA
-   Pc4nL+blvTffBHRxVtTuCa41XsGfCmMZpYdgc2DXwRdEUnz+ry2I9nHzT
-   27YdaUblJqcuN+KFYsO2Flv4MUzaM+HBHAFhUHlzH9eImfei922V6ToL/
-   /UzVbuQqV4hb1OVewL/mK2To7fNv9MeikexSHovQBotGuLpECcHXtafZV
-   MdJw37pyrZYBr/UB9Rjaqy2mbnnmYBbsfDsgCU3LuuA0prCPnZCxQh09R
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1236299"
-X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="1236299"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 14:01:16 -0800
+  t=1707346402; x=1738882402;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nmb2k3C9v+KzAmt2g3cPPXFlei6g+FVLekXJpHiBpLI=;
+  b=bx4B6DK9cAZW4NeoF+ZNq8KkKYJ3r2FMD0aBkRwCc2B1aWPSVjA+ZvKd
+   s3QrytosAXeEXwP2ZGQv343c2wAx+rgMqjo9C26yIUtfba+FtLwi0YIOv
+   aOg6mpKde7VbQph7Xsq/1YZURkXMOVd5muoCEn2LaPbinsFIamFGadqkg
+   lS42kimccj4seghVoD9kT7k/3aAsliinV2m1TjKOkbxe0Y5F9B7l4gr/+
+   3GMO3QFSwEjozigOcpw6k+lMLefVF4apNqF938XPDtWYC8x8VJcBUQiZR
+   3Kizc/Yr9VaEmPxobF9/Ly7rSmHInMW0dQno7FTUclPc+Xb3NhZNHiWXq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="12467559"
+X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
+   d="scan'208";a="12467559"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 14:53:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="910123760"
-X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="910123760"
+X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
+   d="scan'208";a="1494186"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2024 14:01:15 -0800
+  by orviesa010.jf.intel.com with ESMTP; 07 Feb 2024 14:53:17 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXpyi-00034u-2G;
-	Wed, 07 Feb 2024 22:01:12 +0000
-Date: Thu, 8 Feb 2024 06:00:13 +0800
+	id 1rXqn3-000376-2u;
+	Wed, 07 Feb 2024 22:53:13 +0000
+Date: Thu, 8 Feb 2024 06:52:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marco Elver <elver@google.com>
-Subject: [linux-next:master 4186/4898] debug.c:undefined reference to
- `__ubsan_handle_divrem_overflow'
-Message-ID: <202402080538.FNTaeLJO-lkp@intel.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Prashant Malani <pmalani@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Emilie Roberts <hadrosaur@google.com>,
+	"Nyman, Mathias" <mathias.nyman@intel.com>,
+	"Regupathy, Rajaram" <rajaram.regupathy@intel.com>,
+	"Radjacoumar, Shyam Sundar" <ssradjacoumar@google.com>,
+	Samuel Jacob <samjaco@google.com>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Uday Bhat <uday.m.bhat@intel.com>
+Subject: Re: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB
+ role switch has PLD
+Message-ID: <202402080600.zOq5UvYq-lkp@intel.com>
+References: <20240207145851.1603237-3-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,34 +71,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240207145851.1603237-3-heikki.krogerus@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2ae0a045e6814c8c1d676d6153c605a65746aa29
-commit: 5084a4cd510f887a4fcc9f3386de1fbea698c7c4 [4186/4898] ubsan: reintroduce signed overflow sanitizer
-config: s390-randconfig-r063-20240207 (https://download.01.org/0day-ci/archive/20240208/202402080538.FNTaeLJO-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402080538.FNTaeLJO-lkp@intel.com/reproduce)
+Hi Heikki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus chrome-platform/for-next chrome-platform/for-firmware-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.8-rc3 next-20240207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/usb-roles-Link-the-switch-to-its-connector/20240207-230017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240207145851.1603237-3-heikki.krogerus%40linux.intel.com
+patch subject: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB role switch has PLD
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240208/202402080600.zOq5UvYq-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402080600.zOq5UvYq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402080538.FNTaeLJO-lkp@intel.com/
-
-Note: the linux-next/master HEAD 2ae0a045e6814c8c1d676d6153c605a65746aa29 builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402080600.zOq5UvYq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   s390-linux-ld: arch/s390/kernel/debug.o: in function `debug_output':
->> debug.c:(.text+0x17ea): undefined reference to `__ubsan_handle_divrem_overflow'
-   s390-linux-ld: arch/s390/kernel/debug.o: in function `debug_event_common':
-   debug.c:(.text+0x213a): undefined reference to `__ubsan_handle_divrem_overflow'
-   s390-linux-ld: arch/s390/kernel/debug.o: in function `debug_exception_common':
-   debug.c:(.text+0x2760): undefined reference to `__ubsan_handle_divrem_overflow'
->> s390-linux-ld: debug.c:(.text+0x2812): undefined reference to `__ubsan_handle_divrem_overflow'
-   s390-linux-ld: arch/s390/kernel/debug.o: in function `debug_events_append':
-   debug.c:(.text+0x2d18): undefined reference to `__ubsan_handle_divrem_overflow'
-   s390-linux-ld: arch/s390/kernel/debug.o:debug.c:(.text+0x2e94): more undefined references to `__ubsan_handle_divrem_overflow' follow
+>> drivers/platform/chrome/cros_ec_typec.c:75:20: error: incomplete definition of type 'struct acpi_device'
+                   if (adev && !adev->pld_crc)
+                                ~~~~^
+   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
+   struct acpi_device;
+          ^
+   drivers/platform/chrome/cros_ec_typec.c:76:8: error: incomplete definition of type 'struct acpi_device'
+                           adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
+                           ~~~~^
+   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
+   struct acpi_device;
+          ^
+   drivers/platform/chrome/cros_ec_typec.c:76:47: error: incomplete definition of type 'struct acpi_device'
+                           adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
+   struct acpi_device;
+          ^
+   3 errors generated.
+
+
+vim +75 drivers/platform/chrome/cros_ec_typec.c
+
+    23	
+    24	#define DP_PORT_VDO	(DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D)) | \
+    25					DP_CAP_DFP_D | DP_CAP_RECEPTACLE)
+    26	
+    27	static int cros_typec_parse_port_props(struct typec_capability *cap,
+    28					       struct fwnode_handle *fwnode,
+    29					       struct device *dev)
+    30	{
+    31		struct fwnode_handle *sw_fwnode;
+    32		const char *buf;
+    33		int ret;
+    34	
+    35		memset(cap, 0, sizeof(*cap));
+    36		ret = fwnode_property_read_string(fwnode, "power-role", &buf);
+    37		if (ret) {
+    38			dev_err(dev, "power-role not found: %d\n", ret);
+    39			return ret;
+    40		}
+    41	
+    42		ret = typec_find_port_power_role(buf);
+    43		if (ret < 0)
+    44			return ret;
+    45		cap->type = ret;
+    46	
+    47		ret = fwnode_property_read_string(fwnode, "data-role", &buf);
+    48		if (ret) {
+    49			dev_err(dev, "data-role not found: %d\n", ret);
+    50			return ret;
+    51		}
+    52	
+    53		ret = typec_find_port_data_role(buf);
+    54		if (ret < 0)
+    55			return ret;
+    56		cap->data = ret;
+    57	
+    58		/* Try-power-role is optional. */
+    59		ret = fwnode_property_read_string(fwnode, "try-power-role", &buf);
+    60		if (ret) {
+    61			dev_warn(dev, "try-power-role not found: %d\n", ret);
+    62			cap->prefer_role = TYPEC_NO_PREFERRED_ROLE;
+    63		} else {
+    64			ret = typec_find_power_role(buf);
+    65			if (ret < 0)
+    66				return ret;
+    67			cap->prefer_role = ret;
+    68		}
+    69	
+    70		/* Assing the USB role switch the correct pld_crc if it's missing. */
+    71		sw_fwnode = fwnode_find_reference(fwnode, "usb-role-switch", 0);
+    72		if (!IS_ERR_OR_NULL(sw_fwnode)) {
+    73			struct acpi_device *adev = to_acpi_device_node(sw_fwnode);
+    74	
+  > 75			if (adev && !adev->pld_crc)
+    76				adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
+    77			fwnode_handle_put(sw_fwnode);
+    78		}
+    79	
+    80		cap->fwnode = fwnode;
+    81	
+    82		return 0;
+    83	}
+    84	
 
 -- 
 0-DAY CI Kernel Test Service
