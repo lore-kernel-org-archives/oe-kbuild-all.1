@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1919512B165
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 21:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46306A8B6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 22:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707341438; cv=none; b=ZDlJDS9Dr2pYnt6ban8uW8Muw1Ei0lqPGuyPoIO7juZYtJ9TXePzqcCcn8lMuk0JNiNIkvj8BS10Wfanc54VNzqWkEfg9gakHMjoNIg4RyESxz/xP6duHRZZkbbONf9ncQ5ZlpUsHoKhWr+hbyL7jTiv/eOCdsHSBlXl+A/FpDg=
+	t=1707343280; cv=none; b=Qjvehta4Msax22nGoLkl6maYO6tTDGRRudWquX5YrwBIuwA9+Vpd/pJ5gv3cVB2SC0JBEZzax4H5IFP3Iv1hJ+50DzIm7XWSu6DMPCyWLIhFwAyDUvNVBlU2zrz656cCW34u93IYivtwAxQtaz33R/KR56B5fmEnqr1L1gEl048=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707341438; c=relaxed/simple;
-	bh=eDnc59kht7O8Qg75/MonoyZkWzSOmlK2QuJlP98lg7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CeHdpJ77d8GB7oIfwObcre7CNh0jeF7P6ZiJLQP0s6VTXZzWZCBhczRkSTHPE5n5Lu76CtKj+t3zk1C/M8pbl5ipTtjJFEQ/Ljwmo8uYxUTsrX8lDMucS3BrgYS09SwJHH9Lb1xjFh2UTtGQ/rUoPiLdUzd87rTgVemxITixRag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cmZUdA4v; arc=none smtp.client-ip=134.134.136.20
+	s=arc-20240116; t=1707343280; c=relaxed/simple;
+	bh=wV4USB061/8cvVO3Kr7r3y7D6k0uLUDBPQn8tgwumiE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EUQP3FSlnrVuTJ/6/9MaOV7Grimnum5X+3c99t/2YUEMyj2D60lYDrc1fMn43yVMMsBhzSsQ11XPn23YEC9+fP44yqkpJEkIT1l9EShwV31jRP+r1ni12kNK9z+aqDqHxwDtfSIVYnAy7XTPNK9pyENPWrMZnNWYeD9cNTdsn2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0q3nCSP; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cmZUdA4v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0q3nCSP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707341436; x=1738877436;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eDnc59kht7O8Qg75/MonoyZkWzSOmlK2QuJlP98lg7s=;
-  b=cmZUdA4v3itYNTadShrDA6sLKfrPPfDbArGfHhIgHLmmC/zC6Wi4pi/a
-   GFKvvY7l9rsIJBE35RDDuXG07kXdJ4w4zCkKawNm5JoHFl8k78GOfOuDw
-   RaVSVqlCtUvNdNzUcY2WC4QamID3xS7Kkq8/lualbBw6u6x/E4Ku0epDd
-   rYn5b7R9B7a6Qh56E0Gj69g0iCNOSMnELNK8Mr07kKZmE0yA5zxfD3aeo
-   qSBGpzfK0uCloATIvn99z+S8PX03izOEKoPTwJP0oBNlnBSmY9Rb2NkqN
-   aMQAAzfvLtP//eOUKtbc2o8IYAsJpMLzMvhunuOzahjxiWU88Nr5WraFO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="395504114"
+  t=1707343278; x=1738879278;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wV4USB061/8cvVO3Kr7r3y7D6k0uLUDBPQn8tgwumiE=;
+  b=W0q3nCSP4oZeiRQSPp0fF3sAIQw6pjoBKejMP0CO9tpWarxyVg1InV8d
+   4XS7GK5F78i/p0Iqa79haC3dtY+lQ93OsMpE3N/6/L6LuEYVNNtdGZ1GA
+   Pc4nL+blvTffBHRxVtTuCa41XsGfCmMZpYdgc2DXwRdEUnz+ry2I9nHzT
+   27YdaUblJqcuN+KFYsO2Flv4MUzaM+HBHAFhUHlzH9eImfei922V6ToL/
+   /UzVbuQqV4hb1OVewL/mK2To7fNv9MeikexSHovQBotGuLpECcHXtafZV
+   MdJw37pyrZYBr/UB9Rjaqy2mbnnmYBbsfDsgCU3LuuA0prCPnZCxQh09R
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="1236299"
 X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="395504114"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 13:30:18 -0800
+   d="scan'208";a="1236299"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 14:01:16 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="910123760"
 X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="1748616"
+   d="scan'208";a="910123760"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 07 Feb 2024 13:30:14 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2024 14:01:15 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXpUi-000343-0u;
-	Wed, 07 Feb 2024 21:30:12 +0000
-Date: Thu, 8 Feb 2024 05:29:50 +0800
+	id 1rXpyi-00034u-2G;
+	Wed, 07 Feb 2024 22:01:12 +0000
+Date: Thu, 8 Feb 2024 06:00:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Ogletree <jogletre@opensource.cirrus.com>,
-	dmitry.torokhov@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	lee@kernel.org, broonie@kernel.org, jeff@labundy.com
-Cc: oe-kbuild-all@lists.linux.dev, patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	James Ogletree <jogletre@opensource.cirrus.com>
-Subject: Re: [PATCH v6 4/5] Input: cs40l50 - Add support for the CS40L50
- haptic driver
-Message-ID: <202402080502.5DJwrbZt-lkp@intel.com>
-References: <20240207003612.4187370-5-jogletre@opensource.cirrus.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marco Elver <elver@google.com>
+Subject: [linux-next:master 4186/4898] debug.c:undefined reference to
+ `__ubsan_handle_divrem_overflow'
+Message-ID: <202402080538.FNTaeLJO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,90 +61,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240207003612.4187370-5-jogletre@opensource.cirrus.com>
 
-Hi James,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on lee-mfd/for-mfd-fixes broonie-sound/for-next linus/master v6.8-rc3 next-20240207]
-[cannot apply to dtor-input/next dtor-input/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Ogletree/firmware-cs_dsp-Add-write-sequencer-interface/20240207-083734
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20240207003612.4187370-5-jogletre%40opensource.cirrus.com
-patch subject: [PATCH v6 4/5] Input: cs40l50 - Add support for the CS40L50 haptic driver
-config: alpha-randconfig-r112-20240207 (https://download.01.org/0day-ci/archive/20240208/202402080502.5DJwrbZt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240208/202402080502.5DJwrbZt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2ae0a045e6814c8c1d676d6153c605a65746aa29
+commit: 5084a4cd510f887a4fcc9f3386de1fbea698c7c4 [4186/4898] ubsan: reintroduce signed overflow sanitizer
+config: s390-randconfig-r063-20240207 (https://download.01.org/0day-ci/archive/20240208/202402080538.FNTaeLJO-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402080538.FNTaeLJO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402080502.5DJwrbZt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402080538.FNTaeLJO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/misc/cs40l50-vibra.c:245:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got signed short [noderef] [usertype] __user *custom_data @@
-   drivers/input/misc/cs40l50-vibra.c:245:53: sparse:     expected void const *
-   drivers/input/misc/cs40l50-vibra.c:245:53: sparse:     got signed short [noderef] [usertype] __user *custom_data
->> drivers/input/misc/cs40l50-vibra.c:239:45: sparse: sparse: dereference of noderef expression
-   drivers/input/misc/cs40l50-vibra.c: note: in included file (through include/linux/input.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+Note: the linux-next/master HEAD 2ae0a045e6814c8c1d676d6153c605a65746aa29 builds fine.
+      It may have been fixed somewhere.
 
-vim +245 drivers/input/misc/cs40l50-vibra.c
+All errors (new ones prefixed by >>):
 
-   216	
-   217	static int vibra_upload_owt(struct vibra_work *work_data, struct vibra_effect *effect)
-   218	{
-   219		struct ff_periodic_effect add_effect = work_data->effect->u.periodic;
-   220		u32 len = 2 * add_effect.custom_len, wt_offset, wt_size;
-   221		struct vibra_info *info = work_data->info;
-   222		struct owt_header header;
-   223		u8 *out_data;
-   224		int error;
-   225	
-   226		error = regmap_read(info->regmap, info->dsp.owt_size_reg, &wt_size);
-   227		if (error)
-   228			return error;
-   229	
-   230		if ((wt_size * sizeof(u32)) < sizeof(header) + len) {
-   231			dev_err(info->dev, "No space in OWT bank for effect\n");
-   232			return -ENOSPC;
-   233		}
-   234	
-   235		out_data = kzalloc(sizeof(header) + len, GFP_KERNEL);
-   236		if (!out_data)
-   237			return -ENOMEM;
-   238	
- > 239		header.type = add_effect.custom_data[0] == CS40L50_PCM_ID ? CS40L50_TYPE_PCM :
-   240									    CS40L50_TYPE_PWLE;
-   241		header.offset = sizeof(header) / sizeof(u32);
-   242		header.data_words = len / sizeof(u32);
-   243	
-   244		memcpy(out_data, &header, sizeof(header));
- > 245		memcpy(out_data + sizeof(header), add_effect.custom_data, len);
-   246	
-   247		error = regmap_read(info->regmap, info->dsp.owt_offset_reg, &wt_offset);
-   248		if (error)
-   249			return error;
-   250	
-   251		error = regmap_bulk_write(info->regmap, info->dsp.owt_base_reg +
-   252					  (wt_offset * sizeof(u32)), out_data,
-   253					  sizeof(header) + len);
-   254		if (error)
-   255			goto err_free;
-   256	
-   257		error = info->dsp.write(info->dev, info->regmap, info->dsp.push_owt_cmd);
-   258	err_free:
-   259		kfree(out_data);
-   260	
-   261		return error;
-   262	}
-   263	
+   s390-linux-ld: arch/s390/kernel/debug.o: in function `debug_output':
+>> debug.c:(.text+0x17ea): undefined reference to `__ubsan_handle_divrem_overflow'
+   s390-linux-ld: arch/s390/kernel/debug.o: in function `debug_event_common':
+   debug.c:(.text+0x213a): undefined reference to `__ubsan_handle_divrem_overflow'
+   s390-linux-ld: arch/s390/kernel/debug.o: in function `debug_exception_common':
+   debug.c:(.text+0x2760): undefined reference to `__ubsan_handle_divrem_overflow'
+>> s390-linux-ld: debug.c:(.text+0x2812): undefined reference to `__ubsan_handle_divrem_overflow'
+   s390-linux-ld: arch/s390/kernel/debug.o: in function `debug_events_append':
+   debug.c:(.text+0x2d18): undefined reference to `__ubsan_handle_divrem_overflow'
+   s390-linux-ld: arch/s390/kernel/debug.o:debug.c:(.text+0x2e94): more undefined references to `__ubsan_handle_divrem_overflow' follow
 
 -- 
 0-DAY CI Kernel Test Service
