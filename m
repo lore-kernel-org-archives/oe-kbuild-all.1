@@ -1,68 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31476200D2;
-	Wed,  7 Feb 2024 22:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F2520308
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 23:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707346404; cv=none; b=PeObR9UAGj2nJGwHdbLV4GFEKXf7TuWuQPrGkEV3Nos7B/GLC/zyIKuVAfePeftZayATHJq9dbF86Fjj5vr8U1rF2CXy7QY1YG8J9nKCr9UcN/y9wa71UthrF3K76h+bq/n4IiIqIcIHl3zRPJq+B5WZ1S5xRWE8Vn/szC6I12o=
+	t=1707347721; cv=none; b=QSk3Mw2vvxqdEM0KvUVje2iw4afwkmiYbJPscgren+4LfTp+EpN5JqFoi3bbemv4r1RF2g7yjs+Inh68C3uKrAW9nXMYiu7l3J1ofyfR3851iV29kKSuYGODzraoPc180cJZViz7Y0SP2ULZjgke0cf4S/ISCweTRV6uumW2epU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707346404; c=relaxed/simple;
-	bh=nmb2k3C9v+KzAmt2g3cPPXFlei6g+FVLekXJpHiBpLI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NS/JFQWxsk2zCAxt6XubWZepqLaZht/c6YuBXEJp6nbzfedrPLvhovpemA6pmB2WtgX1QJPok2g6TYkmjck/bVJdPiKM+CtXb5Vonqorb40Q0xjfCRb0uE/kAbOR5FSV4afj8n76bRmEjrPdptCdiIvpkj8j2EWlNe3JOREaZvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bx4B6DK9; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1707347721; c=relaxed/simple;
+	bh=37kvymAl2a0vztjBgxyT3wvcC6NyoffOOBrP+Zfackc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=l9u2LD7nswH2iutyEc/yKd3wvAhjeFHA5ae7WJcz8xfUc+NqFECt+DINdapILmE0pLnbkRE5ZXURwWR8aIIzgcrCw1aGVWrXLsBdbCoMGF0v+Lai/bjwXLKdG2nwFSt3TGauXAItLiv4LA8NRCIWvjY5iXlTLhuCsk7beie3h14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VP9Prw40; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bx4B6DK9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VP9Prw40"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707346402; x=1738882402;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nmb2k3C9v+KzAmt2g3cPPXFlei6g+FVLekXJpHiBpLI=;
-  b=bx4B6DK9cAZW4NeoF+ZNq8KkKYJ3r2FMD0aBkRwCc2B1aWPSVjA+ZvKd
-   s3QrytosAXeEXwP2ZGQv343c2wAx+rgMqjo9C26yIUtfba+FtLwi0YIOv
-   aOg6mpKde7VbQph7Xsq/1YZURkXMOVd5muoCEn2LaPbinsFIamFGadqkg
-   lS42kimccj4seghVoD9kT7k/3aAsliinV2m1TjKOkbxe0Y5F9B7l4gr/+
-   3GMO3QFSwEjozigOcpw6k+lMLefVF4apNqF938XPDtWYC8x8VJcBUQiZR
-   3Kizc/Yr9VaEmPxobF9/Ly7rSmHInMW0dQno7FTUclPc+Xb3NhZNHiWXq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="12467559"
+  t=1707347718; x=1738883718;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=37kvymAl2a0vztjBgxyT3wvcC6NyoffOOBrP+Zfackc=;
+  b=VP9Prw40CyCIMQkw5LCIsygCfugx6jflJmsftXBUK36m6bJLGxtawC3n
+   YT39XStfFksTCx+YFaAyzHilLORMjD0p0yruoHGXiBgLxiGQHs+lZgdLj
+   EbBVglsknGtwDZ/F/nP5gG7n9OmSQzhxk67A4WiC+3G3/Xyl9ju3BUBTs
+   7qFD1WijC7r3+F2IKDCstPYRDbAqqTSnvXALwlZzYu1H4ZYURowg7YlKn
+   eMI7o5pJ9OxAzdt3IhcrNcueAF8lWBn5rCKBUfQ8KPNi0Gv28ztCvRhrL
+   X2flX3IagxMzEg1eEq8+a/6boKCK4c24okbPPHkUseyFs5MIlEwhlrePr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="4087704"
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="12467559"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 14:53:21 -0800
+   d="scan'208";a="4087704"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 15:15:17 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="1494186"
+   d="scan'208";a="1844585"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Feb 2024 14:53:17 -0800
+  by orviesa008.jf.intel.com with ESMTP; 07 Feb 2024 15:15:16 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXqn3-000376-2u;
-	Wed, 07 Feb 2024 22:53:13 +0000
-Date: Thu, 8 Feb 2024 06:52:42 +0800
+	id 1rXr8M-00037c-0r;
+	Wed, 07 Feb 2024 23:15:14 +0000
+Date: Thu, 8 Feb 2024 07:15:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Prashant Malani <pmalani@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Emilie Roberts <hadrosaur@google.com>,
-	"Nyman, Mathias" <mathias.nyman@intel.com>,
-	"Regupathy, Rajaram" <rajaram.regupathy@intel.com>,
-	"Radjacoumar, Shyam Sundar" <ssradjacoumar@google.com>,
-	Samuel Jacob <samjaco@google.com>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Uday Bhat <uday.m.bhat@intel.com>
-Subject: Re: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB
- role switch has PLD
-Message-ID: <202402080600.zOq5UvYq-lkp@intel.com>
-References: <20240207145851.1603237-3-heikki.krogerus@linux.intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 4602/4898] io_uring/filetable.h:66:35: sparse:
+ sparse: restricted io_req_flags degrades to integer
+Message-ID: <202402080739.XJoiFBMo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,118 +58,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240207145851.1603237-3-heikki.krogerus@linux.intel.com>
 
-Hi Heikki,
+Hi Jens,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus chrome-platform/for-next chrome-platform/for-firmware-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.8-rc3 next-20240207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heikki-Krogerus/usb-roles-Link-the-switch-to-its-connector/20240207-230017
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240207145851.1603237-3-heikki.krogerus%40linux.intel.com
-patch subject: [PATCH 2/2] platform/chrome: cros_ec_typec: Make sure the USB role switch has PLD
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240208/202402080600.zOq5UvYq-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402080600.zOq5UvYq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2ae0a045e6814c8c1d676d6153c605a65746aa29
+commit: 4767a6c0a8092dd225b8177a6cf731b1787f2f72 [4602/4898] io_uring: expand main struct io_kiocb flags to 64-bits
+config: x86_64-randconfig-121-20240207 (https://download.01.org/0day-ci/archive/20240208/202402080739.XJoiFBMo-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402080739.XJoiFBMo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402080600.zOq5UvYq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402080739.XJoiFBMo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   io_uring/filetable.c: note: in included file (through io_uring/io_uring.h):
+   include/linux/io_uring_types.h:341:48: sparse: sparse: array of flexible structures
+   io_uring/filetable.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   io_uring/filetable.c: note: in included file (through io_uring/io_uring.h):
+>> io_uring/filetable.h:66:35: sparse: sparse: restricted io_req_flags degrades to integer
+--
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+   include/linux/io_uring_types.h:341:48: sparse: sparse: array of flexible structures
+   io_uring/rsrc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   io_uring/rsrc.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+>> io_uring/filetable.h:66:35: sparse: sparse: restricted io_req_flags degrades to integer
+   io_uring/rsrc.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+>> io_uring/filetable.h:66:35: sparse: sparse: restricted io_req_flags degrades to integer
+--
+   io_uring/io_uring.c: note: in included file (through include/linux/io_uring/cmd.h):
+   include/linux/io_uring_types.h:341:48: sparse: sparse: array of flexible structures
+   io_uring/io_uring.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/io_uring.h):
+>> include/trace/events/io_uring.h:140:1: sparse: sparse: cast from restricted io_req_flags
+   include/trace/events/io_uring.h:370:1: sparse: sparse: cast from restricted io_req_flags
+   io_uring/io_uring.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/io_uring.h):
+>> include/trace/events/io_uring.h:140:1: sparse: sparse: cast to restricted io_req_flags
+>> include/trace/events/io_uring.h:140:1: sparse: sparse: restricted io_req_flags degrades to integer
+>> include/trace/events/io_uring.h:140:1: sparse: sparse: restricted io_req_flags degrades to integer
+   include/trace/events/io_uring.h:370:1: sparse: sparse: cast to restricted io_req_flags
+   include/trace/events/io_uring.h:370:1: sparse: sparse: restricted io_req_flags degrades to integer
+   include/trace/events/io_uring.h:370:1: sparse: sparse: restricted io_req_flags degrades to integer
+   io_uring/io_uring.c: note: in included file (through include/linux/io_uring/cmd.h):
+   include/linux/io_uring_types.h:182:37: sparse: sparse: array of flexible structures
+>> io_uring/io_uring.c:2175:23: sparse: sparse: cast to restricted io_req_flags
+   io_uring/io_uring.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   io_uring/io_uring.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   io_uring/io_uring.c:656:36: sparse: sparse: context imbalance in 'io_fill_cqe_req_aux' - unexpected unlock
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   io_uring/io_uring.c:658:17: sparse: sparse: context imbalance in '__io_submit_flush_completions' - different lock contexts for basic block
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
->> drivers/platform/chrome/cros_ec_typec.c:75:20: error: incomplete definition of type 'struct acpi_device'
-                   if (adev && !adev->pld_crc)
-                                ~~~~^
-   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
-   struct acpi_device;
-          ^
-   drivers/platform/chrome/cros_ec_typec.c:76:8: error: incomplete definition of type 'struct acpi_device'
-                           adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
-                           ~~~~^
-   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
-   struct acpi_device;
-          ^
-   drivers/platform/chrome/cros_ec_typec.c:76:47: error: incomplete definition of type 'struct acpi_device'
-                           adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
-                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-   include/linux/acpi.h:795:8: note: forward declaration of 'struct acpi_device'
-   struct acpi_device;
-          ^
-   3 errors generated.
+vim +66 io_uring/filetable.h
 
+4bfb0c9af832a1 Christoph Hellwig 2023-06-20  61  
+a4ad4f748ea962 Jens Axboe        2022-05-25  62  static inline void io_fixed_file_set(struct io_fixed_file *file_slot,
+a4ad4f748ea962 Jens Axboe        2022-05-25  63  				     struct file *file)
+a4ad4f748ea962 Jens Axboe        2022-05-25  64  {
+8487f083c6ff6e Christoph Hellwig 2023-06-20  65  	file_slot->file_ptr = (unsigned long)file |
+8487f083c6ff6e Christoph Hellwig 2023-06-20 @66  		(io_file_get_flags(file) >> REQ_F_SUPPORT_NOWAIT_BIT);
+a4ad4f748ea962 Jens Axboe        2022-05-25  67  }
+a4ad4f748ea962 Jens Axboe        2022-05-25  68  
 
-vim +75 drivers/platform/chrome/cros_ec_typec.c
+:::::: The code at line 66 was first introduced by commit
+:::::: 8487f083c6ff6e02b2ec14f22ef2b0079a1b6425 io_uring: return REQ_F_ flags from io_file_get_flags
 
-    23	
-    24	#define DP_PORT_VDO	(DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D)) | \
-    25					DP_CAP_DFP_D | DP_CAP_RECEPTACLE)
-    26	
-    27	static int cros_typec_parse_port_props(struct typec_capability *cap,
-    28					       struct fwnode_handle *fwnode,
-    29					       struct device *dev)
-    30	{
-    31		struct fwnode_handle *sw_fwnode;
-    32		const char *buf;
-    33		int ret;
-    34	
-    35		memset(cap, 0, sizeof(*cap));
-    36		ret = fwnode_property_read_string(fwnode, "power-role", &buf);
-    37		if (ret) {
-    38			dev_err(dev, "power-role not found: %d\n", ret);
-    39			return ret;
-    40		}
-    41	
-    42		ret = typec_find_port_power_role(buf);
-    43		if (ret < 0)
-    44			return ret;
-    45		cap->type = ret;
-    46	
-    47		ret = fwnode_property_read_string(fwnode, "data-role", &buf);
-    48		if (ret) {
-    49			dev_err(dev, "data-role not found: %d\n", ret);
-    50			return ret;
-    51		}
-    52	
-    53		ret = typec_find_port_data_role(buf);
-    54		if (ret < 0)
-    55			return ret;
-    56		cap->data = ret;
-    57	
-    58		/* Try-power-role is optional. */
-    59		ret = fwnode_property_read_string(fwnode, "try-power-role", &buf);
-    60		if (ret) {
-    61			dev_warn(dev, "try-power-role not found: %d\n", ret);
-    62			cap->prefer_role = TYPEC_NO_PREFERRED_ROLE;
-    63		} else {
-    64			ret = typec_find_power_role(buf);
-    65			if (ret < 0)
-    66				return ret;
-    67			cap->prefer_role = ret;
-    68		}
-    69	
-    70		/* Assing the USB role switch the correct pld_crc if it's missing. */
-    71		sw_fwnode = fwnode_find_reference(fwnode, "usb-role-switch", 0);
-    72		if (!IS_ERR_OR_NULL(sw_fwnode)) {
-    73			struct acpi_device *adev = to_acpi_device_node(sw_fwnode);
-    74	
-  > 75			if (adev && !adev->pld_crc)
-    76				adev->pld_crc = to_acpi_device_node(fwnode)->pld_crc;
-    77			fwnode_handle_put(sw_fwnode);
-    78		}
-    79	
-    80		cap->fwnode = fwnode;
-    81	
-    82		return 0;
-    83	}
-    84	
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
