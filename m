@@ -1,57 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C166820326
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 08:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7FA2031C;
+	Wed,  7 Feb 2024 08:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707295129; cv=none; b=NDrX7RwIQsIkDmMS+yK8uHVN5TQdaTLJihCMnFWCgPnKMLQ5zFrJW20roHo6gmLTTVB7OO+W6D6RSkOVMPL/Zw/7Ud3cLiruEeF9lBicANL72D5g80ZjG0bqimhT7eDKm/GQz2ECIQHbUUt8JcPUGrwSXJyF+/zYqe/JQYlUyc0=
+	t=1707295257; cv=none; b=Cw1tXhxdyxZ2uFzIpj/gPSys0gZZJVzhHnz5b+H5Emrp2Govani6fDHl3qhkR00Ce+N8AJ+2uyhIKOToMGknfNRUaFSSNZLV5fJfaDxRdU8WFYlSprXAXEpJC30RSsomcXVks3cJSyIrQLkX8anEf6bq0X9aA+kMEFVwRS31Vtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707295129; c=relaxed/simple;
-	bh=jFBlkLO+zGEktohSHqhVVqLpFHILzdE38LEOSPyY2bQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t6hxcvCq8/CHFBjkIIGM5jDWOY2nrgIHk35MEmCWd5D/AfrDpKS/9MIGklMibxsO8XeYkYh6uvg9H6S6vtayxIuuQ9sPH8K45K7cSvZGjPoQFBX1LfGaiMxVEJvwRwLlu2jOkuj4xG5c8zkFoLvLkDnBg5B8UsoVc9/g1Cy3Csc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ca5fhoj6; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707295257; c=relaxed/simple;
+	bh=7mWCDilBtyn6a8R/MQs4iWeqLin9foUbZ3OlyKHlEtY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZvKYUbX8UkoXUFWL/V/ISV6zuVmPDadKXc8MJ3F2LNIzOP6+rJJSTwtM88HsS8wor298mBEsAlHzdVEpQwlGq+Xk+WtBblZ7GmHkU9cebOCV0/dHTNWG/+GkadlQN0ytixSjDOxSFQeO1Zht89rwwFUqY00WqIB/ZcjBSfiOAIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uo2iAS4V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g6lFN9sT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uo2iAS4V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g6lFN9sT; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ca5fhoj6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707295128; x=1738831128;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jFBlkLO+zGEktohSHqhVVqLpFHILzdE38LEOSPyY2bQ=;
-  b=Ca5fhoj65qCeF1Q+tp+Y9v50ZTrDfey6MFwWH0XaLXWYmGA29SoeYB/h
-   PV1wg/SVeUHcylVlUlNYm4/MqLlvgtk5nfFmFTH6YwMHVXwaodxM1HNmh
-   VFFA/NRD/lC1I8RkHgDLzddmT/JVb5EOpwpmM2m8oSYZ/yJKx0s6LxB07
-   kgx0jCXLAzS/OKGtpch1rN7I9IeOAbqFtwg2KVU1CdDVYNKzr2a4iIDod
-   P1VQPPlegFfIBBCdT5hka0v8iGWjYRaV4st1c+KYfC0G++cjRdtpgG+5c
-   aFz2rwplXUS9tKjx/FvSI+HEJBm66U0lsjfUhroJhuebMWdI3yCWaLnQI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="3910282"
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="3910282"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 00:38:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="1510860"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Feb 2024 00:38:45 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rXdS6-0002Oa-2x;
-	Wed, 07 Feb 2024 08:38:42 +0000
-Date: Wed, 7 Feb 2024 16:37:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sreenath Vijayan <sreenath.vijayan@sony.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: [tty:tty-testing 28/29] include/linux/printk.h:275:13: warning:
- 'dump_printk_buffer' defined but not used
-Message-ID: <202402071643.DU2VnE06-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uo2iAS4V";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g6lFN9sT";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uo2iAS4V";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g6lFN9sT"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 50666221D1;
+	Wed,  7 Feb 2024 08:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1707295254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
+	b=uo2iAS4VHfmzbP8+sGhwxwBhz+ITGZl9aP7Eg4thsPHmTH4Q4BSFt0SmR80AT8NeCxoAE+
+	ClThyH205khyJ4lwUie453vYGg/E21jtlQASqbOVwRoQtX3TbeTjfrnt6dUx5+zPfzdoDE
+	xg/ZhFcksSLcX0jP2GVJUZBpq3i1oEg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1707295254;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
+	b=g6lFN9sTD/PIiY3ic7OCv2L/NLz6tjpsciHv8cGE0TTVGwwBl5WNTHRilGSwbuertuNxWz
+	/78FUB4U2yS1TMAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1707295254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
+	b=uo2iAS4VHfmzbP8+sGhwxwBhz+ITGZl9aP7Eg4thsPHmTH4Q4BSFt0SmR80AT8NeCxoAE+
+	ClThyH205khyJ4lwUie453vYGg/E21jtlQASqbOVwRoQtX3TbeTjfrnt6dUx5+zPfzdoDE
+	xg/ZhFcksSLcX0jP2GVJUZBpq3i1oEg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1707295254;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R7q8iY10uoxfBBuRXr+Ei/C8akP0H6jzk/X1fqaQvQY=;
+	b=g6lFN9sTD/PIiY3ic7OCv2L/NLz6tjpsciHv8cGE0TTVGwwBl5WNTHRilGSwbuertuNxWz
+	/78FUB4U2yS1TMAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3EFF8139D8;
+	Wed,  7 Feb 2024 08:40:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pjggDxZCw2U6QwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 07 Feb 2024 08:40:54 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 9CC16A0809; Wed,  7 Feb 2024 09:40:53 +0100 (CET)
+Date: Wed, 7 Feb 2024 09:40:53 +0100
+From: Jan Kara <jack@suse.cz>
+To: syzbot <syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com>
+Cc: axboe@kernel.dk, brauner@kernel.org, dan.carpenter@linaro.org,
+	dave.kleikamp@oracle.com, ghandatmanas@gmail.com, jack@suse.cz,
+	jfs-discussion@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org, lkp@intel.com, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev,
+	shaggy@kernel.org, syzkaller-bugs@googlegroups.com,
+	syzkaller@googlegroups.com
+Subject: Re: [syzbot] [jfs?] KASAN: slab-out-of-bounds Read in dtSearch
+Message-ID: <20240207084053.ydlu3fnyzzvjpdr3@quack3>
+References: <000000000000332a2505e981f474@google.com>
+ <00000000000014c9ca0610b7aec6@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,91 +92,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <00000000000014c9ca0610b7aec6@google.com>
+X-Spam-Level: *
+X-Spamd-Bar: +
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=uo2iAS4V;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=g6lFN9sT
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [1.49 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 R_RATELIMIT(0.00)[to_ip_from(RLjmuxkameenh34oafz4d4fopd)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.00)[33.64%];
+	 SUBJECT_HAS_QUESTION(0.00)[];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=b45dfd882e46ec91];
+	 TAGGED_RCPT(0.00)[9924e2a08d9ba0fd4ce2];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[18];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[kernel.dk,kernel.org,linaro.org,oracle.com,gmail.com,suse.cz,lists.sourceforge.net,vger.kernel.org,lists.linuxfoundation.org,intel.com,lists.linux.dev,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Score: 1.49
+X-Rspamd-Queue-Id: 50666221D1
+X-Spam-Flag: NO
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-head:   014e10bea593b963574d607faa34e7eaaad3c02b
-commit: 558367b641b3802572132e7ed865f5eb887c41ea [28/29] printk: Add function to dump printk buffer directly to consoles
-config: arc-randconfig-002-20240207 (https://download.01.org/0day-ci/archive/20240207/202402071643.DU2VnE06-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071643.DU2VnE06-lkp@intel.com/reproduce)
+On Tue 06-02-24 06:49:05, syzbot wrote:
+> syzbot suspects this issue was fixed by commit:
+> 
+> commit 6f861765464f43a71462d52026fbddfc858239a5
+> Author: Jan Kara <jack@suse.cz>
+> Date:   Wed Nov 1 17:43:10 2023 +0000
+> 
+>     fs: Block writes to mounted block devices
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13767e8fe80000
+> start commit:   bee0e7762ad2 Merge tag 'for-linus-iommufd' of git://git.ke..
+> git tree:       upstream
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=b45dfd882e46ec91
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9924e2a08d9ba0fd4ce2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152bfc22e80000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1608f4a2e80000
+> 
+> If the result looks correct, please mark the issue as fixed by replying with:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402071643.DU2VnE06-lkp@intel.com/
+Makes sense.
+ 
+#syz fix: fs: Block writes to mounted block devices
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
->> include/linux/printk.h:275:13: warning: 'dump_printk_buffer' defined but not used [-Wunused-function]
-     275 | static void dump_printk_buffer(void)
-         |             ^~~~~~~~~~~~~~~~~~
---
-   In file included from kernel/locking/lockdep.c:62:
-   kernel/locking/lockdep_internals.h:69:28: warning: 'LOCKF_USED_IN_IRQ_READ' defined but not used [-Wunused-const-variable=]
-      69 | static const unsigned long LOCKF_USED_IN_IRQ_READ =
-         |                            ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep_internals.h:63:28: warning: 'LOCKF_ENABLED_IRQ_READ' defined but not used [-Wunused-const-variable=]
-      63 | static const unsigned long LOCKF_ENABLED_IRQ_READ =
-         |                            ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep_internals.h:57:28: warning: 'LOCKF_USED_IN_IRQ' defined but not used [-Wunused-const-variable=]
-      57 | static const unsigned long LOCKF_USED_IN_IRQ =
-         |                            ^~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep_internals.h:51:28: warning: 'LOCKF_ENABLED_IRQ' defined but not used [-Wunused-const-variable=]
-      51 | static const unsigned long LOCKF_ENABLED_IRQ =
-         |                            ^~~~~~~~~~~~~~~~~
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from arch/arc/include/asm/current.h:20,
-                    from include/linux/mutex.h:14,
-                    from kernel/locking/lockdep.c:30:
->> include/linux/printk.h:275:13: warning: 'dump_printk_buffer' defined but not used [-Wunused-function]
-     275 | static void dump_printk_buffer(void)
-         |             ^~~~~~~~~~~~~~~~~~
---
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
->> include/linux/printk.h:275:13: warning: 'dump_printk_buffer' defined but not used [-Wunused-function]
-     275 | static void dump_printk_buffer(void)
-         |             ^~~~~~~~~~~~~~~~~~
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from arch/arc/include/asm/current.h:20,
-                    from include/linux/sched.h:12,
-                    from arch/arc/kernel/asm-offsets.c:6:
->> include/linux/printk.h:275:13: warning: 'dump_printk_buffer' defined but not used [-Wunused-function]
-     275 | static void dump_printk_buffer(void)
-         |             ^~~~~~~~~~~~~~~~~~
-
-
-vim +/dump_printk_buffer +275 include/linux/printk.h
-
-   268	
-   269	static inline void dump_stack(void)
-   270	{
-   271	}
-   272	static inline void printk_trigger_flush(void)
-   273	{
-   274	}
- > 275	static void dump_printk_buffer(void)
-   276	{
-   277	}
-   278	#endif
-   279	
-
+								Honza
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
