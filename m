@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61518EED4
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 01:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24465DF6B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 01:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707269671; cv=none; b=Ua+7WA2/Gao2734RcYMswFrS8fIJDZNdTB8zixZ7zC8zfSKD7UXkX92efIYVfT3YK5uD5PozTAaSu9bqkiKg+r1TjNrcbBXBXXBx6vnXAUhGDskswVrZtirSxJxnaWC+3sYRqBZGxftBDrB/eOaod8SqajLV8fFoJ8zV30jieLg=
+	t=1707270932; cv=none; b=JIV3a2Rqm6aj+stkc1V9W9ULEglpQ3SbuHCMSmZwEfcyY/Kb+kbfKTW8UWmLmLQmXwv1bqzY+Wl3x3LUQOzqzpe3dpUQzIcZs/g7GC5ohqjtHscz6kVWGNhYjX2AnP9xitQbyYX2OSzq4T5M58QQQDThz4Vkr6Q7AFa+PhPYF6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707269671; c=relaxed/simple;
-	bh=K5UqNYXECDU8B6qMO6ZrnzRU9Kj9go3KsOdjqpy1u60=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QgAnOSUPya2mxhgZOaN+6ZIpygNLXf7kDAZsgGjoM9cpsFhKSMiJWRWxI5zFtLk4vnsw/2nqp6ORqNMr+lPZuGsRrxzQmNaXNh68GjUIpY1mhRPMa/7Jrek2qsrgFJj3PxrmwIg8eICZVFP+gSfYfYcJ11N82ldhYc7D8Sb+mGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cXg0h28g; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1707270932; c=relaxed/simple;
+	bh=mG7uSB7BF0mlbRNJ9ZZyvOnHgKYsgTxFbHl5KXrLGug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UPOtxGE4bHCpAZBsba4tblsSZ7exXBQNBWApSl4Ai2mstuMc3yOJtI8/JP7F76FAuBkk5vwr+I2SkQqjty2E8iJkqkTQdDrmWS2XcGhSWSZVx4EstW8HbPODSzxfQyl80BELHrLjKwZT/sHmmeE701xk7GBnl8iCwvxFe/EhRgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3O55aQ4; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXg0h28g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3O55aQ4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707269668; x=1738805668;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K5UqNYXECDU8B6qMO6ZrnzRU9Kj9go3KsOdjqpy1u60=;
-  b=cXg0h28gZbUGKF6LLHWItBHl0VQdxBd2ZTgjNQyo4URkSKSiMU4OStfx
-   eYcJlP8KDawcB+gE7lBBKVMTVeGa+nXnvMoFoK22C+EeRxgTFgUPgpsRm
-   Ya4pAk2OJIYoR7WmrTFbvY92dHmOAPOW2pkfAS6l2U1WhIxrbZep7niM6
-   7bDL3YV5iw4hUN6KAAVeIkBfGH57dT4OlGgSIlrG5Bvf1DHIyC4IkqI4R
-   jH+TJNPwiHiVqR7d7KJfnYXqAls2rUPosFI9pDpTBr/d2oq9dBR8GlLz0
-   6zzJzSUQJG0ottGUOXlitsCYBwVdGYt/cM5j1PPDbevVwGVaL7Uqz5fKC
+  t=1707270930; x=1738806930;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mG7uSB7BF0mlbRNJ9ZZyvOnHgKYsgTxFbHl5KXrLGug=;
+  b=B3O55aQ4kdKFmYjUNuUgkK9+q5KwpfRZz4qPKnMnL+fPPoRHAka2nU2e
+   evi3HKpde10+QT5vxsm0ZJq3xhDYBzA3w9XxMJPCHQz4azb5a7339+cAo
+   6PfReVhKg9AH2a8JUAR2IZNDGjQbxo+aMP3ahHhK7/on5asxoYKagaCW2
+   AtwZ+U0N2S2LI+KFCR+uYAX11CrGO1Jj0lRo2MskAkCIRiu52NSVWh6Ox
+   hXtqYJx0HP2wn61wFxP5v0pe0unKdcbS2J21zFiOQSksq56O1EwboY/is
+   o7mTSM7pxmNVFvoIdxxwDu+sQcVid9iLxtsJoU2QjVJ077AkWlV0wMW4f
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="11533442"
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="4671460"
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="11533442"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 17:34:28 -0800
+   d="scan'208";a="4671460"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 17:55:29 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="1189312"
+   d="scan'208";a="5807087"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Feb 2024 17:34:26 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 06 Feb 2024 17:55:26 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXWpT-0001xG-2t;
-	Wed, 07 Feb 2024 01:34:23 +0000
-Date: Wed, 7 Feb 2024 09:33:57 +0800
+	id 1rXX9o-0001yQ-1U;
+	Wed, 07 Feb 2024 01:55:24 +0000
+Date: Wed, 7 Feb 2024 09:54:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sreenath Vijayan <sreenath.vijayan@sony.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>,
-	John Ogness <john.ogness@linutronix.de>, linux-doc@vger.kernel.org
-Subject: [tty:tty-testing 28/29] kernel/printk/printk.c:4267: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202402070957.NsPz3RBO-lkp@intel.com>
+To: "Fabio M. De Francesco" <fabio.maria.de.francesco@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-cxl@vger.kernel.org,
+	Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	"Fabio M. De Francesco" <fabio.maria.de.francesco@linux.intel.com>,
+	Ira Weiny <ira.weiny@intel.com>
+Subject: Re: [PATCH 2/2 v3] cxl/region: Use cond_guard() in show_targetN()
+Message-ID: <202402070919.0zuYCxMS-lkp@intel.com>
+References: <20240206121301.7225-3-fabio.maria.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,39 +66,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240206121301.7225-3-fabio.maria.de.francesco@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-head:   014e10bea593b963574d607faa34e7eaaad3c02b
-commit: 558367b641b3802572132e7ed865f5eb887c41ea [28/29] printk: Add function to dump printk buffer directly to consoles
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240207/202402070957.NsPz3RBO-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070957.NsPz3RBO-lkp@intel.com/reproduce)
+Hi Fabio,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.8-rc3 next-20240206]
+[cannot apply to cxl/next cxl/pending]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco/cleanup-Add-cond_guard-to-conditional-guards/20240206-203110
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240206121301.7225-3-fabio.maria.de.francesco%40linux.intel.com
+patch subject: [PATCH 2/2 v3] cxl/region: Use cond_guard() in show_targetN()
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240207/202402070919.0zuYCxMS-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070919.0zuYCxMS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402070957.NsPz3RBO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402070919.0zuYCxMS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/printk/printk.c:4267: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Dump the printk ring buffer directly to consoles
+   drivers/cxl/core/region.c: In function 'show_targetN':
+>> drivers/cxl/core/region.c:670:70: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+     670 |         cond_guard(rwsem_read_intr, return -EINTR, &cxl_region_rwsem);
+         |                                                                      ^
 
 
-vim +4267 kernel/printk/printk.c
+vim +/else +670 drivers/cxl/core/region.c
 
-  4265	
-  4266	/**
-> 4267	 * Dump the printk ring buffer directly to consoles
-  4268	 */
-  4269	void dump_printk_buffer(void)
-  4270	{
-  4271		console_lock();
-  4272		console_rewind_all();
-  4273		console_unlock();
-  4274	}
-  4275	#endif
-  4276	
+   664	
+   665	static size_t show_targetN(struct cxl_region *cxlr, char *buf, int pos)
+   666	{
+   667		struct cxl_region_params *p = &cxlr->params;
+   668		struct cxl_endpoint_decoder *cxled;
+   669	
+ > 670		cond_guard(rwsem_read_intr, return -EINTR, &cxl_region_rwsem);
+   671	
+   672		if (pos >= p->interleave_ways) {
+   673			dev_dbg(&cxlr->dev, "position %d out of range %d\n", pos,
+   674				p->interleave_ways);
+   675			return -ENXIO;
+   676		}
+   677	
+   678		cxled = p->targets[pos];
+   679		if (!cxled)
+   680			return sysfs_emit(buf, "\n");
+   681	
+   682		return sysfs_emit(buf, "%s\n", dev_name(&cxled->cxld.dev));
+   683	}
+   684	
 
 -- 
 0-DAY CI Kernel Test Service
