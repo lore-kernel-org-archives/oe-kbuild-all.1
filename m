@@ -1,39 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B633C23759;
-	Wed,  7 Feb 2024 09:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786A7241E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 09:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707299505; cv=none; b=duhnhT+ju30JFkMno0Iw2Wlzzpq4OpAVSenWYfZKRNxPkbs00JzQHpMtRfWgF8vAiqHUZL/CEbr0fzDsbY42xN8H57mo9CMeNaqSpZy2eQbcQHYnklgpT4SpEoA2GFgmuVLIZ/M1DMH64Cop5dU742RwzpXn9XGtVZQIDXSQ8Ns=
+	t=1707299572; cv=none; b=aDATgWuLQQhaZUwLwoWCfiSBZkim/nSAEjRz20t4xtPsh4I4LB6Hs2buzdX3dLHu3cIul5KNYHjI8zRHmjdOdTE304cZTYZk1NOl6CQufBtbAWxKLOiHCdQ2s3kTXRkDA/5zkgUHmnCaQqbCq2WI7I3S9GUNFIgYncfX3sWXtDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707299505; c=relaxed/simple;
-	bh=q43MH+lenOB9ylP/fJbs+XxYluDSrl1obvPsCaw5/qI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wk+YVBe948tb33cJOKBRuFm+gqESf7FpBG6TnHFWDfJ7oCEyMG9/ghSLMfHhAr5o3mZBqXgox8227KtLc5F5hftj9qwsi3LFVJ2qdrP/YyMNj54ta3Yb70EBtpC0QudEmwZ+Gj4Ogzs1udYSGIj6CdEkdff4F3O9WWTi5AM5teA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NG4uDLd9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707299572; c=relaxed/simple;
+	bh=A74van680EyeD8FIklTLW1SRbgI9ML5v7OIL5WnazlA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JB6xeVuipSIkg2dyQ9ZY1Tb3hFa48B2Jm4HvONl12cl3Vor192HGRy4szlyJZkIshhhJeDXIvWbRpN5g+5RMLGxZBNPLz56FRO8pvnchAyOUo6xMu1Qc66y5gBneKn7Ox4kq/PJqccMJpf5qCx6dhSnMQj8/T+/tUQx765apkqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhmNdv1E; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NG4uDLd9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6028C433C7;
-	Wed,  7 Feb 2024 09:51:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707299505;
-	bh=q43MH+lenOB9ylP/fJbs+XxYluDSrl1obvPsCaw5/qI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NG4uDLd9567/mD8Cm7Y9Ll0pAWb10GtbdlnARs2MEag3EyRff/WSo2U8BczID2Iyk
-	 wjI4YnlCwNpvunO9JSTzxFQj8+4EAF7wuYDW6pHKAKGCdmJScnnbkPUlfPYUL+eiwg
-	 NlQnVQrQb3luE+BhMQ+FqmKURmFTGq8HCzzc11Ds=
-Date: Wed, 7 Feb 2024 09:51:42 +0000
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Sreenath Vijayan <sreenath.vijayan@sony.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
-	Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: Re: [tty:tty-testing 28/29] include/linux/printk.h:275:13: error:
- unused function 'dump_printk_buffer'
-Message-ID: <2024020708-unknotted-ceramics-f6ec@gregkh>
-References: <202402071252.Zj78sTXN-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhmNdv1E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707299570; x=1738835570;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=A74van680EyeD8FIklTLW1SRbgI9ML5v7OIL5WnazlA=;
+  b=OhmNdv1EZ6h1Eal6iJ5mFipgEiYOywRPBaY+1bi+Z8RFziSPWN7Ow4Sx
+   dSJNnzC8EfoVbNMGjxGqAhGafkvdoaGqbbuGTBgMfxgh5HUqD5vdO9+sX
+   MZzn57ibf1Xs+1cnKtrqnWHXdtJEy5QFa36j0zPZDHEeS8XOdxoGSascj
+   lLbqGXp0d8qaleqY0r2GrmgyQLXzByJ8too0t4hMmYmsbxhmmdV/7QcMH
+   P6yboSCRBqSNTIWPC7fBTKfCmCuE4N5yj7odRUhJpXvsG2aNud7g3IVKu
+   pl92gbYnv7uBSnevIJn9wQoPpz0bbyJlxZQba71J0S6sPm97tMwcIsiS+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="12310712"
+X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
+   d="scan'208";a="12310712"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 01:52:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
+   d="scan'208";a="1322651"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 07 Feb 2024 01:52:49 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rXebm-0002TA-26;
+	Wed, 07 Feb 2024 09:52:46 +0000
+Date: Wed, 7 Feb 2024 17:52:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Chen Ziqiang <chenziqiang1686@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 21351/21625]
+ drivers/mailbox/phytium_mailbox.c:116:36: warning: 'phytium_mbox_acpi_match'
+ defined but not used
+Message-ID: <202402071742.dc3sALg1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,57 +58,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202402071252.Zj78sTXN-lkp@intel.com>
 
-On Wed, Feb 07, 2024 at 12:22:40PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-> head:   014e10bea593b963574d607faa34e7eaaad3c02b
-> commit: 558367b641b3802572132e7ed865f5eb887c41ea [28/29] printk: Add function to dump printk buffer directly to consoles
-> config: i386-buildonly-randconfig-006-20240207 (https://download.01.org/0day-ci/archive/20240207/202402071252.Zj78sTXN-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071252.Zj78sTXN-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402071252.Zj78sTXN-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from lib/test_bitops.c:9:
->    In file included from include/linux/module.h:13:
->    In file included from include/linux/stat.h:19:
->    In file included from include/linux/time.h:60:
->    In file included from include/linux/time32.h:13:
->    In file included from include/linux/timex.h:67:
->    In file included from arch/x86/include/asm/timex.h:5:
->    In file included from arch/x86/include/asm/processor.h:23:
->    In file included from arch/x86/include/asm/msr.h:11:
->    In file included from arch/x86/include/asm/cpumask.h:5:
->    In file included from include/linux/cpumask.h:10:
->    In file included from include/linux/kernel.h:31:
-> >> include/linux/printk.h:275:13: error: unused function 'dump_printk_buffer' [-Werror,-Wunused-function]
->      275 | static void dump_printk_buffer(void)
->          |             ^~~~~~~~~~~~~~~~~~
->    1 error generated.
-> 
-> 
-> vim +/dump_printk_buffer +275 include/linux/printk.h
-> 
->    268	
->    269	static inline void dump_stack(void)
->    270	{
->    271	}
->    272	static inline void printk_trigger_flush(void)
->    273	{
->    274	}
->  > 275	static void dump_printk_buffer(void)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   7efcac7603953bb58d80041f410b079378b5174c
+commit: 1ae9436b02e93f1f2b9cfc10226812197fbfcd04 [21351/21625] mailbox: add phytium mailbox driver
+config: arm64-randconfig-002-20240125 (https://download.01.org/0day-ci/archive/20240207/202402071742.dc3sALg1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071742.dc3sALg1-lkp@intel.com/reproduce)
 
-Ah, inline was missed :(
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402071742.dc3sALg1-lkp@intel.com/
 
-I'll drop these from my tree for now, can you resubmit fixed patches
-with all of the collected reviewed tags?
+All warnings (new ones prefixed by >>):
 
-thanks,
+>> drivers/mailbox/phytium_mailbox.c:116:36: warning: 'phytium_mbox_acpi_match' defined but not used [-Wunused-const-variable=]
+     116 | static const struct acpi_device_id phytium_mbox_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
 
-greg k-h
+
+vim +/phytium_mbox_acpi_match +116 drivers/mailbox/phytium_mailbox.c
+
+   115	
+ > 116	static const struct acpi_device_id phytium_mbox_acpi_match[] = {
+   117		{ "PHYT0009", 0 },
+   118		{ },
+   119	};
+   120	MODULE_DEVICE_TABLE(acpi, phytium_mbox_acpi_match);
+   121	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
