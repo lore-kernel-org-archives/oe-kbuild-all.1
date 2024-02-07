@@ -1,69 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8741A12E78;
-	Wed,  7 Feb 2024 03:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D93112E47
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 04:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707277779; cv=none; b=SD3CInT1H0o/vTyWqOPAXAM5AiYAne/MOzcXMTl4EC+PpGk0SEBO7VfChZIyY5WRJHQLUDJfz6S6DkBnKuPcRQ80WiRqIHmWbds1yKuNyWzX798jxmIOSbNL5hc03Dqd3kAk4YipBoiJfc2JeX8Mk3mY6rhFZglxbbuWeAQ8Ovs=
+	t=1707278437; cv=none; b=TYU8vyOgE1+h4AjphostCuzAeKHzlkB2Z0tLN+waqVvsbuY1kqWo5SfO57SDTCG7+JldNASC4/+UtubUB6RcyM4iOzCQTj2XJQHBC9QEO3zc5gkBrQXhnaf3Yn1b0ggwutOeFDMbc5hYOw/bDmQKAA+ZzIqTuSLMnXDcmPwCE8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707277779; c=relaxed/simple;
-	bh=ObkV3zInduvhSkY4zn3MNEHSwTQuIk8E/taDaK7eh1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=infiHKeZ//fAOilyJ6J8fpF/D63EOrlPqjWk7r1m7Oyr8ZncFZSTevH52ns1Menf4kaVGNVDitf5DiBEEsirAagCh0C0cJis9UquCezdhKKQUzokuaa0NTfXL7Syfi8lPh4r/b4dIp66uOadQjBUvkqPrIVNKGuonGl2Z1KM+Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WRSfXb5g; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1707278437; c=relaxed/simple;
+	bh=/B8J5fp898qmrUCS/WpWZVyoWeF53/HDPuafBIMVv7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SOeAYNDrI9My40jixbs2329tZgaeEl9Ndj/rWmAkA5hfiIDYx9Om7EE6QhVPtx7gZUPRpsoyLkA8OgmhDElnDuRwUX6+Fh7EkYfGH13O2OtxVF0KJ7J6m7MKN2nrjWeMgvQrMPpQoTlsAHmxbzmP+59njJydTWew+YKallx6+TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCq4etn2; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WRSfXb5g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCq4etn2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707277777; x=1738813777;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ObkV3zInduvhSkY4zn3MNEHSwTQuIk8E/taDaK7eh1I=;
-  b=WRSfXb5gX94iaJDY/smAUga9ND1/koJxgx9QM+6pFzyxwxnJPEp0PE3O
-   vMOhq+iqzC6iFNSjoZY/ghtD/ZJmak6ICePDQAQFUcY0TTnBf5qzIa+gV
-   Q55bVPS7WzNX6xrAGu5wdXNGopomZCbjsqAaKh/s7z5F4mZwIb9T2Q2LR
-   wzgunk/nLiRhpz/jowJ5J3S3V4aIXAX4P6QYo1r7zhPuCtated2lkU83f
-   eHSHFGOCLxPjo54WmEfXXAcrVewJybhGVWXgPkHC6oY1DYl2CnYP4ZSWg
-   wXLAxYUnLR3BFV0RE9ZbziFmiZVPek2Sa+gOIJpmKFXpIQtIDl3rKCLq4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="1049671"
+  t=1707278436; x=1738814436;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/B8J5fp898qmrUCS/WpWZVyoWeF53/HDPuafBIMVv7I=;
+  b=oCq4etn2+lLHFNQ/djlFI7co5YKzXtC0ctYCPaSwQzqWYbEFffMLduai
+   4kgNxip4lVkWjnsYfGjlYvb7jOz6igsdacj6NJNPDZjJz8zVzntc01x8L
+   l3zYnpq8tVylIk7bLUSb/fBxBO9ob90YvaJQuCT5GdlVXdb6SEn/MRT/a
+   0C+iiDPXZIORgSXJmKGN+Kf7H/K8GO4IPoI6/N/03ECIP/nQbXXQMaHd8
+   bNyMtNpWBzdkl+PqB3TOZYxiMxVzfnSD8i8SovgKWJrMdU9jgVoxUkHCE
+   Id0coB3rU1F8MmXPOJbZLJi6ahocIld4GHxtQNBQsBrbo7bQ3UI9CReQs
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="1058666"
 X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="1049671"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 19:49:37 -0800
+   d="scan'208";a="1058666"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 20:00:35 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,250,1701158400"; 
-   d="scan'208";a="5825634"
+   d="scan'208";a="1269156"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 06 Feb 2024 19:49:32 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 06 Feb 2024 20:00:33 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXYwE-00024y-1S;
-	Wed, 07 Feb 2024 03:49:30 +0000
-Date: Wed, 7 Feb 2024 11:49:27 +0800
+	id 1rXZ6t-00026a-0J;
+	Wed, 07 Feb 2024 04:00:31 +0000
+Date: Wed, 7 Feb 2024 11:59:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jagadeesh Kona <quic_jkona@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Taniya Das <quic_tdas@quicinc.com>, linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Imran Shaik <quic_imrashai@quicinc.com>,
-	Ajit Pandey <quic_ajipan@quicinc.com>,
-	Jagadeesh Kona <quic_jkona@quicinc.com>
-Subject: Re: [PATCH 2/5] clk: qcom: videocc-sm8550: Add support for SM8650
- videocc
-Message-ID: <202402071128.aZc6BNmF-lkp@intel.com>
-References: <20240206113145.31096-3-quic_jkona@quicinc.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:timestats-cleanups 547/548]
+ lib/math/mean_and_variance_test.c:33:43: error: field designator 'weight'
+ does not refer to any field in type 'struct mean_and_variance_weighted'
+Message-ID: <202402071103.5jXo7Iym-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,109 +58,172 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240206113145.31096-3-quic_jkona@quicinc.com>
 
-Hi Jagadeesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on robh/for-next linus/master v6.8-rc3 next-20240206]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jagadeesh-Kona/dt-bindings-clock-qcom-Add-video-clock-bindings-for-SM8650/20240206-194148
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20240206113145.31096-3-quic_jkona%40quicinc.com
-patch subject: [PATCH 2/5] clk: qcom: videocc-sm8550: Add support for SM8650 videocc
-config: i386-buildonly-randconfig-002-20240207 (https://download.01.org/0day-ci/archive/20240207/202402071128.aZc6BNmF-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071128.aZc6BNmF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-cleanups
+head:   d07e8ccdf01715f8c7fbbdea9d7910d89c6684fb
+commit: 9c23552695abf8c3bacbae100e838e70ad8921e1 [547/548] mean_and_variance: put struct mean_and_variance_weighted on a diet
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240207/202402071103.5jXo7Iym-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402071103.5jXo7Iym-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402071128.aZc6BNmF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402071103.5jXo7Iym-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/clk/qcom/videocc-sm8550.c:570:14: warning: variable 'offset' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     570 |         } else  if (of_device_is_compatible(pdev->dev.of_node, "qcom,sm8650-videocc")) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/qcom/videocc-sm8550.c:590:29: note: uninitialized use occurs here
-     590 |         regmap_update_bits(regmap, offset, BIT(0), BIT(0));
-         |                                    ^~~~~~
-   drivers/clk/qcom/videocc-sm8550.c:570:10: note: remove the 'if' if its condition is always true
-     570 |         } else  if (of_device_is_compatible(pdev->dev.of_node, "qcom,sm8650-videocc")) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/qcom/videocc-sm8550.c:547:12: note: initialize the variable 'offset' to silence this warning
-     547 |         u32 offset;
-         |                   ^
-         |                    = 0
-   1 warning generated.
+>> lib/math/mean_and_variance_test.c:33:43: error: field designator 'weight' does not refer to any field in type 'struct mean_and_variance_weighted'
+      33 |         struct mean_and_variance_weighted s = { .weight = 2 };
+         |                                                 ~^~~~~~~~~~
+>> lib/math/mean_and_variance_test.c:35:42: error: too few arguments to function call, expected 4, have 2
+      35 |         mean_and_variance_weighted_update(&s, 10);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       ^
+   include/linux/mean_and_variance.h:193:6: note: 'mean_and_variance_weighted_update' declared here
+     193 | void mean_and_variance_weighted_update(struct mean_and_variance_weighted *s,
+         |      ^                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     194 |                 s64 v, bool initted, u8 weight);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/math/mean_and_variance_test.c:36:61: error: too few arguments to function call, expected 2, have 1
+      36 |         KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_mean(s), 10);
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
+   include/kunit/test.h:882:28: note: expanded from macro 'KUNIT_EXPECT_EQ'
+     882 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |                                   ^~~~
+   include/kunit/test.h:887:8: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+     887 |                                    left, ==, right,                            \
+         |                                    ^~~~
+   include/kunit/test.h:726:9: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+     726 |                                     left, op, right,                           \
+         |                                     ^~~~
+   include/kunit/test.h:693:15: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     693 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/linux/mean_and_variance.h:196:5: note: 'mean_and_variance_weighted_get_mean' declared here
+     196 | s64 mean_and_variance_weighted_get_mean(struct mean_and_variance_weighted s,
+         |     ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     197 |                 u8 weight);
+         |                 ~~~~~~~~~
+   lib/math/mean_and_variance_test.c:36:61: error: too few arguments to function call, expected 2, have 1
+      36 |         KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_mean(s), 10);
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
+   include/kunit/test.h:882:28: note: expanded from macro 'KUNIT_EXPECT_EQ'
+     882 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |                                   ^~~~
+   include/kunit/test.h:887:8: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+     887 |                                    left, ==, right,                            \
+         |                                    ^~~~
+   include/kunit/test.h:726:9: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+     726 |                                     left, op, right,                           \
+         |                                     ^~~~
+   include/kunit/test.h:693:31: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     693 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/linux/mean_and_variance.h:196:5: note: 'mean_and_variance_weighted_get_mean' declared here
+     196 | s64 mean_and_variance_weighted_get_mean(struct mean_and_variance_weighted s,
+         |     ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     197 |                 u8 weight);
+         |                 ~~~~~~~~~
+   lib/math/mean_and_variance_test.c:37:65: error: too few arguments to function call, expected 2, have 1
+      37 |         KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_variance(s), 0);
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
+   include/kunit/test.h:882:28: note: expanded from macro 'KUNIT_EXPECT_EQ'
+     882 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |                                   ^~~~
+   include/kunit/test.h:887:8: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+     887 |                                    left, ==, right,                            \
+         |                                    ^~~~
+   include/kunit/test.h:726:9: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+     726 |                                     left, op, right,                           \
+         |                                     ^~~~
+   include/kunit/test.h:693:15: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     693 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/linux/mean_and_variance.h:198:5: note: 'mean_and_variance_weighted_get_variance' declared here
+     198 | u64 mean_and_variance_weighted_get_variance(struct mean_and_variance_weighted s,
+         |     ^                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     199 |                 u8 weight);
+         |                 ~~~~~~~~~
+   lib/math/mean_and_variance_test.c:37:65: error: too few arguments to function call, expected 2, have 1
+      37 |         KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_variance(s), 0);
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
+   include/kunit/test.h:882:28: note: expanded from macro 'KUNIT_EXPECT_EQ'
+     882 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |                                   ^~~~
+   include/kunit/test.h:887:8: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+     887 |                                    left, ==, right,                            \
+         |                                    ^~~~
+   include/kunit/test.h:726:9: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+     726 |                                     left, op, right,                           \
+         |                                     ^~~~
+   include/kunit/test.h:693:31: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     693 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/linux/mean_and_variance.h:198:5: note: 'mean_and_variance_weighted_get_variance' declared here
+     198 | u64 mean_and_variance_weighted_get_variance(struct mean_and_variance_weighted s,
+         |     ^                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     199 |                 u8 weight);
+         |                 ~~~~~~~~~
+   lib/math/mean_and_variance_test.c:39:42: error: too few arguments to function call, expected 4, have 2
+      39 |         mean_and_variance_weighted_update(&s, 20);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       ^
+   include/linux/mean_and_variance.h:193:6: note: 'mean_and_variance_weighted_update' declared here
+     193 | void mean_and_variance_weighted_update(struct mean_and_variance_weighted *s,
+         |      ^                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     194 |                 s64 v, bool initted, u8 weight);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/math/mean_and_variance_test.c:40:61: error: too few arguments to function call, expected 2, have 1
+      40 |         KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_mean(s), 12);
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
+   include/kunit/test.h:882:28: note: expanded from macro 'KUNIT_EXPECT_EQ'
+     882 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
 
 
-vim +570 drivers/clk/qcom/videocc-sm8550.c
+vim +33 lib/math/mean_and_variance_test.c
 
-   542	
-   543	static int video_cc_sm8550_probe(struct platform_device *pdev)
-   544	{
-   545		struct regmap *regmap;
-   546		int ret;
-   547		u32 offset;
-   548	
-   549		ret = devm_pm_runtime_enable(&pdev->dev);
-   550		if (ret)
-   551			return ret;
-   552	
-   553		ret = pm_runtime_resume_and_get(&pdev->dev);
-   554		if (ret)
-   555			return ret;
-   556	
-   557		regmap = qcom_cc_map(pdev, &video_cc_sm8550_desc);
-   558		if (IS_ERR(regmap)) {
-   559			pm_runtime_put(&pdev->dev);
-   560			return PTR_ERR(regmap);
-   561		}
-   562	
-   563		if (of_device_is_compatible(pdev->dev.of_node, "qcom,sm8550-videocc")) {
-   564			video_cc_sm8550_clocks[VIDEO_CC_MVS0_SHIFT_CLK] = NULL;
-   565			video_cc_sm8550_clocks[VIDEO_CC_MVS0C_SHIFT_CLK] = NULL;
-   566			video_cc_sm8550_clocks[VIDEO_CC_MVS1_SHIFT_CLK] = NULL;
-   567			video_cc_sm8550_clocks[VIDEO_CC_MVS1C_SHIFT_CLK] = NULL;
-   568			video_cc_sm8550_clocks[VIDEO_CC_XO_CLK_SRC] = NULL;
-   569			offset = 0x8140;
- > 570		} else  if (of_device_is_compatible(pdev->dev.of_node, "qcom,sm8650-videocc")) {
-   571			video_cc_pll0_config.l = 0x1e;
-   572			video_cc_pll0_config.alpha = 0xa000;
-   573			video_cc_pll1_config.l = 0x2b;
-   574			video_cc_pll1_config.alpha = 0xc000;
-   575			video_cc_mvs0_clk_src.freq_tbl = ftbl_video_cc_mvs0_clk_src_sm8650;
-   576			video_cc_mvs1_clk_src.freq_tbl = ftbl_video_cc_mvs1_clk_src_sm8650;
-   577			offset = 0x8150;
-   578		}
-   579	
-   580		clk_lucid_ole_pll_configure(&video_cc_pll0, regmap, &video_cc_pll0_config);
-   581		clk_lucid_ole_pll_configure(&video_cc_pll1, regmap, &video_cc_pll1_config);
-   582	
-   583		/*
-   584		 * Keep clocks always enabled:
-   585		 *	video_cc_ahb_clk
-   586		 *	video_cc_sleep_clk
-   587		 *	video_cc_xo_clk
-   588		 */
-   589		regmap_update_bits(regmap, 0x80f4, BIT(0), BIT(0));
-   590		regmap_update_bits(regmap, offset, BIT(0), BIT(0));
-   591		regmap_update_bits(regmap, 0x8124, BIT(0), BIT(0));
-   592	
-   593		ret = qcom_cc_really_probe(pdev, &video_cc_sm8550_desc, regmap);
-   594	
-   595		pm_runtime_put(&pdev->dev);
-   596	
-   597		return ret;
-   598	}
-   599	
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  25  
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  26  /*
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  27   * Test values computed using a spreadsheet from the psuedocode at the bottom:
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  28   * https://fanf2.user.srcf.net/hermes/doc/antiforgery/stats.pdf
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  29   */
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  30  
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  31  static void mean_and_variance_weighted_test(struct kunit *test)
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  32  {
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06 @33  	struct mean_and_variance_weighted s = { .weight = 2 };
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  34  
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06 @35  	mean_and_variance_weighted_update(&s, 10);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  36  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_mean(s), 10);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  37  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_variance(s), 0);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  38  
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  39  	mean_and_variance_weighted_update(&s, 20);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  40  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_mean(s), 12);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  41  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_variance(s), 18);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  42  
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  43  	mean_and_variance_weighted_update(&s, 30);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  44  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_mean(s), 16);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  45  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_variance(s), 72);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  46  
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  47  	s = (struct mean_and_variance_weighted) { .weight = 2 };
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  48  
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  49  	mean_and_variance_weighted_update(&s, -10);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  50  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_mean(s), -10);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  51  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_variance(s), 0);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  52  
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  53  	mean_and_variance_weighted_update(&s, -20);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  54  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_mean(s), -12);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  55  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_variance(s), 18);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  56  
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  57  	mean_and_variance_weighted_update(&s, -30);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  58  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_mean(s), -16);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  59  	KUNIT_EXPECT_EQ(test, mean_and_variance_weighted_get_variance(s), 72);
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  60  }
+92095781e0f607 fs/bcachefs/mean_and_variance_test.c Daniel Hill 2022-08-06  61  
+
+:::::: The code at line 33 was first introduced by commit
+:::::: 92095781e0f607e735971c1a6462ca6dad8826d2 bcachefs: Mean and variance
+
+:::::: TO: Daniel Hill <daniel@gluo.nz>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
