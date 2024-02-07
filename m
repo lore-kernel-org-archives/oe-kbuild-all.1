@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5954C3D71
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 00:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62085D267
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Feb 2024 01:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707264568; cv=none; b=JukKBrykKOSHscA7LNxcz+v+nsXbPtPFz8v51F+Nx1CPFf/e0OmeGU9H1Iu0D/CFIXyUqncTekKbaNX6PDPDPuz16AXnEmQRIGVOm/5JM5qkD5vSXDFcTHBp3P/4JAauUVJ1GQKiLo32KXqSzjSqtVGF6IyzxdcisxDQTacIkNU=
+	t=1707267691; cv=none; b=msbpIv97DT3+kZtgz7QGeqjW0iO1fj+A3hNDayBhmJ2CjYzubaAS7IHWKjiVRuexyG9bx3xTC1nLPzCrjnFtysrPa9C771JQqqiMT8buZ7olvwB1obrAEFySQJ9q3WqrGtcGaz2eDV9bg9okvxd1IgRCsJkQPTpBo8PntFgLeoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707264568; c=relaxed/simple;
-	bh=tP60nHUsBEiMEWbXvIjIIoyzDTTxvdSXaXnW3tuGLxg=;
+	s=arc-20240116; t=1707267691; c=relaxed/simple;
+	bh=jneFIwaGpCNlrPBkC5+baWxVqXCO1J9kkbZMfzw9PlQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jvQ2lk2aT0/S+rsKohQT52+AOzuGa5AYYXEqDdmXdn7Qd0bmqLIIjNRixLZcsCLGeaUWBGznXEsBFoL+UI/eGrdJuFyAfLkPInVj/4i+ANPCP4XMc2nOVr+nCBL+aSUjE46P/eOAy/SvC7V9rH/36zxGJo/RtDt9R8l7J9AsSBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/D9/2BZ; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=jfVrEgrP5UwELkNdZ608KPqZpN5Q3C8JUOG5JQ0lb/eUWudeI6l0JweTJc2uux4n6JjhxLT1cWrZEEO4IW9V9lU7dgbZwVEVZfUJPjln/Pc0fBenn0R7myYOfkPGnF5bnONUqBmleTYMk/xjdmT3qTy9AkT5h91eP9h9AMsY/EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aReIEO6D; arc=none smtp.client-ip=134.134.136.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/D9/2BZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aReIEO6D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707264566; x=1738800566;
+  t=1707267688; x=1738803688;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tP60nHUsBEiMEWbXvIjIIoyzDTTxvdSXaXnW3tuGLxg=;
-  b=U/D9/2BZO3K6KhZwj+I5+snTmR8lWZNX1MLKzz8LF9VUs8DE7i+Wi9Fz
-   AaIMZk/YMeNFLf/fHOr4o5vvOiEzK1rA9I/vPwpXwpa1PkqnQTYDLKqk4
-   Cg9UKKZyVb6zQziDaPjIG5NYu3bdMpVT9PwluNpi/oKdQDqwg0A4mhM1v
-   V5CHeZMTQQDe2+WmEZeJYrw3A4y9ctXsqueH3usvrwDkUtdpTiHkfMbGz
-   rD44a8BlYXr0O1hwx43BU2PC//N1bQpQTS6TzhxSa/IulL2MfWmMoOpdH
-   YbhQ2P/7eVjl5rg1D3dhr8NSBOaoY8kBK8zDAonjnq3+RwTPrxvNRevhJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="1014047"
+  bh=jneFIwaGpCNlrPBkC5+baWxVqXCO1J9kkbZMfzw9PlQ=;
+  b=aReIEO6D6hI305tnRoekdLpOO2hbPzZSYiGiWAHApal3vUtGOqCXLKbA
+   7/RtVy7HAD2nqzkBO7ZBVO2eBbtNrit/7rvJSlCsI2NypdDSo/WTjPC4t
+   quIvZ270ofdlkjbkzRklFmajU7Yisdtqtjb/SKDj6/ZiJ4ZoHlrIYgeeq
+   EGWsZX0Ry/tdWtxXe3Nh2eSe2MpV8sX6nQTDLQiVCu0aLx4iOsf6bzs37
+   9O6ntZoTDbv/Z/8o9N8bWcnGyD60Gqjf51WlOvw8AbXUWKzpLtY3AroX2
+   w92jy9z1pVgPRxNgnumwc+DNwAEvzI5r2ctDJXiNZnaMKXV/9ELzS1ojW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="395297641"
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="1014047"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 16:09:26 -0800
+   d="scan'208";a="395297641"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 17:01:27 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="5775759"
+   d="scan'208";a="1225486"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2024 16:09:24 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 06 Feb 2024 17:01:26 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXVVB-0001uK-2p;
-	Wed, 07 Feb 2024 00:09:21 +0000
-Date: Wed, 7 Feb 2024 08:08:48 +0800
+	id 1rXWJX-0001w4-0O;
+	Wed, 07 Feb 2024 01:01:23 +0000
+Date: Wed, 7 Feb 2024 09:00:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+To: kernel@openeuler.org, Steven Song <steven.song@3snic.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 7838/21616]
- drivers/net/phy/.tmp_swphy.o: warning: objtool: missing symbol for section
- .text
-Message-ID: <202402070744.YorkcsyM-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 21328/21616]
+ drivers/scsi/sssraid/sssraid_os.c:1704:9: error: implicit declaration of
+ function 'for_each_pci_msi_entry'; did you mean 'for_each_msi_entry'?
+Message-ID: <202402070803.9BXgYVmQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,19 +61,117 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
 head:   3a28772f4b29bdda924e9a5d2e3ff1ff1b23fd14
-commit: d4bdc26bcd632cee393b5171345d5fa6293fe42b [7838/21616] include/asm-generic/bug.h: fix "cut here" for WARN_ON for __WARN_TAINT architectures
-config: x86_64-buildonly-randconfig-003-20240205 (https://download.01.org/0day-ci/archive/20240207/202402070744.YorkcsyM-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070744.YorkcsyM-lkp@intel.com/reproduce)
+commit: 2e2a4edd9d4a725c5474dc278b090913d9b5bfd5 [21328/21616] SCSI: SSSRAID: Support 3SNIC 3S5XX serial RAID/HBA  controllers
+config: x86_64-randconfig-r053-20240206 (https://download.01.org/0day-ci/archive/20240207/202402070803.9BXgYVmQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070803.9BXgYVmQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402070744.YorkcsyM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402070803.9BXgYVmQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/phy/.tmp_swphy.o: warning: objtool: missing symbol for section .text
+   drivers/scsi/sssraid/sssraid_os.c: In function 'sssraid_map_queues':
+>> drivers/scsi/sssraid/sssraid_os.c:1704:9: error: implicit declaration of function 'for_each_pci_msi_entry'; did you mean 'for_each_msi_entry'? [-Werror=implicit-function-declaration]
+    1704 |         for_each_pci_msi_entry(entry, pdev) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         for_each_msi_entry
+>> drivers/scsi/sssraid/sssraid_os.c:1704:44: error: expected ';' before '{' token
+    1704 |         for_each_pci_msi_entry(entry, pdev) {
+         |                                            ^~
+         |                                            ;
+   drivers/scsi/sssraid/sssraid_os.c:1702:22: warning: unused variable 'node_id_array' [-Wunused-variable]
+    1702 |         unsigned int node_id_array[100];
+         |                      ^~~~~~~~~~~~~
+   drivers/scsi/sssraid/sssraid_os.c:1701:28: warning: unused variable 'i' [-Wunused-variable]
+    1701 |         u8 node_count = 0, i;
+         |                            ^
+   drivers/scsi/sssraid/sssraid_os.c:1701:12: warning: unused variable 'node_count' [-Wunused-variable]
+    1701 |         u8 node_count = 0, i;
+         |            ^~~~~~~~~~
+   drivers/scsi/sssraid/sssraid_os.c:1700:18: warning: unused variable 'queue' [-Wunused-variable]
+    1700 |         int cpu, queue = 0;
+         |                  ^~~~~
+   drivers/scsi/sssraid/sssraid_os.c:1700:13: warning: unused variable 'cpu' [-Wunused-variable]
+    1700 |         int cpu, queue = 0;
+         |             ^~~
+   drivers/scsi/sssraid/sssraid_os.c:1699:31: warning: unused variable 'node_id_last' [-Wunused-variable]
+    1699 |         unsigned int node_id, node_id_last = 0xFFFFFFFF;
+         |                               ^~~~~~~~~~~~
+   drivers/scsi/sssraid/sssraid_os.c:1699:22: warning: unused variable 'node_id' [-Wunused-variable]
+    1699 |         unsigned int node_id, node_id_last = 0xFFFFFFFF;
+         |                      ^~~~~~~
+   drivers/scsi/sssraid/sssraid_os.c:1698:22: warning: unused variable 'nr_queues' [-Wunused-variable]
+    1698 |         unsigned int nr_queues = tag_set->nr_hw_queues;
+         |                      ^~~~~~~~~
+   drivers/scsi/sssraid/sssraid_os.c:1697:31: warning: unused variable 'node_mask' [-Wunused-variable]
+    1697 |         const struct cpumask *node_mask = NULL;
+         |                               ^~~~~~~~~
+   drivers/scsi/sssraid/sssraid_os.c:1696:23: warning: unused variable 'map' [-Wunused-variable]
+    1696 |         unsigned int *map = tag_set->mq_map;
+         |                       ^~~
+   drivers/scsi/sssraid/sssraid_os.c:1739:1: warning: no return statement in function returning non-void [-Wreturn-type]
+    1739 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +1704 drivers/scsi/sssraid/sssraid_os.c
+
+  1689	
+  1690	static int sssraid_map_queues(struct Scsi_Host *shost)
+  1691	{
+  1692		struct sssraid_ioc *sdioc = shost_priv(shost);
+  1693		struct pci_dev *pdev = sdioc->pdev;
+  1694		struct msi_desc *entry = NULL;
+  1695		struct blk_mq_tag_set *tag_set = &shost->tag_set;
+  1696		unsigned int *map = tag_set->mq_map;
+  1697		const struct cpumask *node_mask = NULL;
+  1698		unsigned int nr_queues = tag_set->nr_hw_queues;
+  1699		unsigned int node_id, node_id_last = 0xFFFFFFFF;
+  1700		int cpu, queue = 0;
+  1701		u8 node_count = 0, i;
+  1702		unsigned int node_id_array[100];
+  1703	
+> 1704		for_each_pci_msi_entry(entry, pdev) {
+  1705			struct list_head *msi_list = &pdev->dev.msi_list;
+  1706	
+  1707			if (list_is_last(msi_list, &entry->list))
+  1708				goto get_next_numa_node;
+  1709	
+  1710			if (entry->irq) {
+  1711				node_mask = entry->affinity;
+  1712	
+  1713				cpu = cpumask_first(node_mask);
+  1714				node_id = cpu_to_node(cpu);
+  1715				if (node_id_last == node_id)
+  1716					continue;
+  1717	
+  1718				for (i = 0; i < node_count; i++) {
+  1719					if (node_id == node_id_array[i])
+  1720						goto get_next_numa_node;
+  1721				}
+  1722				node_id_array[node_count++] = node_id;
+  1723				node_id_last = node_id;
+  1724			}
+  1725	get_next_numa_node:
+  1726			continue;
+  1727		}
+  1728	
+  1729		for (i = 0; i < node_count; i++) {
+  1730			node_mask = cpumask_of_node(node_id_array[i]);
+  1731			dbgprint(sdioc, "NUMA_node = %d\n", node_id_array[i]);
+  1732			for_each_cpu(cpu, node_mask) {
+  1733				map[cpu] = (queue < nr_queues) ? queue++ : 0;
+  1734				dbgprint(sdioc, "map[%d] = %d\n", cpu, map[cpu]);
+  1735			}
+  1736		}
+  1737	
+  1738		return 0;
+  1739	}
+  1740	
 
 -- 
 0-DAY CI Kernel Test Service
