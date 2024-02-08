@@ -1,62 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F05E1947E;
-	Thu,  8 Feb 2024 02:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C17F18EA1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Feb 2024 02:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707358888; cv=none; b=pGzbJ9NPs/JVUHfvzquI5z1K4jN6MuJsQ5XUMGTku6oC1PwXSkLHoFztHv/0lP6eAujf0DqY7yQJ/Knisxc/DhZ37zeIfNd/UDvp6BD7y5EUwoza5oQymAJTAU6zCo+Bcc/JJrHeuIqDXdoF7UPuI50fWa5ncMQCQgOWuiR5Zfo=
+	t=1707360205; cv=none; b=CUZbdm4YyUncoXG9HmXRvmq9Ke3MRjcbMCjFRXjNKFzwFrV0wqFrZYXzPjLJ+Gh2yG+OQgvCx/bwd05ZpfMfBU+/1jV8tnLrhancUxusKVPISd7EbTlBIJYr0ry+Zjm2GFh+lx7eUnPrT5hcddBZ+pMNpNjHn1BhkCMgJXpSnvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707358888; c=relaxed/simple;
-	bh=UKmPL5Zx+C+SOFiu/lgbITC5x7HQmDloUJhMi2ef6a4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J8o1ltHwRk9LeMf9WGJZAJo/vD9qvxoXW9VdmW0ihDjLE7G+8sLpBTL2viLy8DPJUr5ldGYiwoRazVJHGhDJQcdvtCnr+TYF4EV0OyG8l4PxVGFNu9wPRqLtBbahkDqrPFLLtm+wVOjOWHxCvUjWz6THE/KDzzz3iPx7BO7YuMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yt9qwCMo; arc=none smtp.client-ip=192.55.52.88
+	s=arc-20240116; t=1707360205; c=relaxed/simple;
+	bh=T8oXIPX6GooD4UALkc94g/nkBT9tsU6ilqTsK8LVX6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uFo9pJnlrfPCwLRkAEr9t5djEp9XtAnpR8H/JzaJFpzbpcYn93JrmqATxgClOKG+MIDyFwJp2QrShcMPqaTDzcIpTX1ioIOSiwUKZvAMDMsIzcnobMsvCTwKIjlUqLTTIE5YWzVnn1Php6Wtgt6IxxwWpvbVIzBEzeuCi8qPo0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MzA0Xesy; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yt9qwCMo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MzA0Xesy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707358886; x=1738894886;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UKmPL5Zx+C+SOFiu/lgbITC5x7HQmDloUJhMi2ef6a4=;
-  b=Yt9qwCMoVq+ASx2KbsvBeFFwqNgrcmJ6opz3sSGMm1ITFDCwB4Dk8RXU
-   XzgFiNKn2nA+HTYu8xdsqep/7vUQp7/X5kaLGz4GdhrQRLHme80SQJjYh
-   vqatZFqY3yb6TQKWK003i6xc3oCJPayO920bxK62pBO66nckHz+Bk9mC2
-   xU2ORaUgi0Dw6L0hyWXILF9hoBOvPSK14qzUoRWhr8o7lbf0+zkwF3AoP
-   jJVOCMOaTj07Plz0P7Fz74mQFCERQroxWSQrVbbmuh9y5/AGI/n15llF0
-   u+ktwKZj0RAwN866Ypm2n+t6WOJivjjg0arXZsmrba+PelCaJqWpxXeaF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="436266515"
+  t=1707360204; x=1738896204;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T8oXIPX6GooD4UALkc94g/nkBT9tsU6ilqTsK8LVX6k=;
+  b=MzA0XesyYfnHY4lS67ZOZAjzmvwNgk8anzGOF6jZcVM6x2PQyjhD7Gfe
+   0Fvz2TpnheScCN+mtWaR+6FM5J78bTZ8As3/n6eqQ9EqdvmdWWBMEfzH4
+   +7rq/6PbZv1QpBql8a4L2HElx0M4B1WdMmKx/CaTwrUQs11oZMTb/Achs
+   LDlCWrBpj+zWeLfl994IuvrYGv8tzUnctFBXFL+XDyEoc99iRceTvtGQ0
+   CVucs/fAQr+NLC5iKIxQ5PhG1L9mBtf4QUOcMI9piEd/xvmCTQNIqW4Tu
+   cOQLIb4xDEp6HjseQK00zT6Nnm1L1i/SayOzYanSwcUv0aBbLjQ3gSQ3L
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="11766593"
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="436266515"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 18:21:25 -0800
+   d="scan'208";a="11766593"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 18:43:23 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="1837261"
+   d="scan'208";a="1533665"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 Feb 2024 18:21:21 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 07 Feb 2024 18:43:22 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXu2Q-0003Fi-2L;
-	Thu, 08 Feb 2024 02:21:18 +0000
-Date: Thu, 8 Feb 2024 10:20:43 +0800
+	id 1rXuNk-0003Gy-0n;
+	Thu, 08 Feb 2024 02:43:20 +0000
+Date: Thu, 8 Feb 2024 10:42:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jingbao Qiu <qiujingbao.dlmu@gmail.com>, u.kleine-koenig@pengutronix.de,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	dlan@gentoo.org, inochiama@outlook.com,
-	Jingbao Qiu <qiujingbao.dlmu@gmail.com>
-Subject: Re: [PATCH v1 2/2] pwm: sophgo: add pwm support for Sophgo CV1800 SoC
-Message-ID: <202402081005.iOYVJ6KI-lkp@intel.com>
-References: <20240207060913.672554-1-qiujingbao.dlmu@gmail.com>
+To: kernel@openeuler.org, wangzhimin <wangzhimin1179@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 21354/21625]
+ drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: warning: ordered
+ comparison of pointer with integer zero
+Message-ID: <202402081011.C03dbtgc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,157 +58,192 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240207060913.672554-1-qiujingbao.dlmu@gmail.com>
 
-Hi Jingbao,
+Hi wangzhimin,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 7afc0e7f681e6efd6b826f003fc14c17b5093643]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingbao-Qiu/dt-bindings-pwm-sophgo-add-pwm-for-Sophgo-CV1800-series-SoC/20240207-141135
-base:   7afc0e7f681e6efd6b826f003fc14c17b5093643
-patch link:    https://lore.kernel.org/r/20240207060913.672554-1-qiujingbao.dlmu%40gmail.com
-patch subject: [PATCH v1 2/2] pwm: sophgo: add pwm support for Sophgo CV1800 SoC
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240208/202402081005.iOYVJ6KI-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081005.iOYVJ6KI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   7efcac7603953bb58d80041f410b079378b5174c
+commit: af48889301db8235deab66a8822e3e00195ca14b [21354/21625] dwmac:add phytium dwmac driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240208/202402081011.C03dbtgc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081011.C03dbtgc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402081005.iOYVJ6KI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402081011.C03dbtgc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pwm/pwm-cv1800.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/pwm/pwm-cv1800.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/pwm/pwm-cv1800.c:14:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/pwm/pwm-cv1800.c:131:3: warning: comparison of distinct pointer types ('typeof ((tem)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-     131 |                 do_div(tem, rate);
-         |                 ^~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
-   drivers/pwm/pwm-cv1800.c:131:3: error: incompatible pointer types passing 'u32 *' (aka 'unsigned int *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-     131 |                 do_div(tem, rate);
-         |                 ^~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-     238 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
-     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                                      ^
-   drivers/pwm/pwm-cv1800.c:135:3: warning: comparison of distinct pointer types ('typeof ((tem)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-     135 |                 do_div(tem, hlperiod_val);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
-   drivers/pwm/pwm-cv1800.c:135:3: error: incompatible pointer types passing 'u32 *' (aka 'unsigned int *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-     135 |                 do_div(tem, hlperiod_val);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-     238 |                 __rem = __div64_32(&(n), __base);       \
-         |                                    ^~~~
-   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
-     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-         |                                      ^
->> drivers/pwm/pwm-cv1800.c:131:3: warning: shift count >= width of type [-Wshift-count-overflow]
-     131 |                 do_div(tem, rate);
-         |                 ^~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^  ~~
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   drivers/pwm/pwm-cv1800.c:135:3: warning: shift count >= width of type [-Wshift-count-overflow]
-     135 |                 do_div(tem, hlperiod_val);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^  ~~
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   10 warnings and 2 errors generated.
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c: In function 'phytium_dwmac_probe':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: warning: ordered comparison of pointer with integer zero [-Wextra]
+     157 |         if (stmmac_res.addr < 0) {
+         |                             ^
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:159:34: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
+     159 |                 return stmmac_res.addr;
+         |                        ~~~~~~~~~~^~~~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c: At top level:
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:172:5: warning: no previous prototype for 'phytium_dwmac_remove' [-Wmissing-prototypes]
+     172 | int phytium_dwmac_remove(struct platform_device *pdev)
+         |     ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +131 drivers/pwm/pwm-cv1800.c
+vim +157 drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c
 
+    32	
+    33	static int phytium_dwmac_probe(struct platform_device *pdev)
+    34	{
+    35		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+    36		struct plat_stmmacenet_data *plat;
+    37		struct stmmac_resources stmmac_res;
+    38		struct device_node *np = pdev->dev.of_node;
+    39		struct resource *res;
+    40		u64 clk_freq;
+    41		char clk_name[20];
+    42		int ret;
+    43	
+    44		plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
+    45		if (!plat)
+    46			return -ENOMEM;
+    47	
+    48		plat->dma_cfg = devm_kzalloc(&pdev->dev, sizeof(*plat->dma_cfg),
+    49					     GFP_KERNEL);
+    50		if (!plat->dma_cfg)
+    51			return -ENOMEM;
+    52	
+    53		plat->axi = devm_kzalloc(&pdev->dev, sizeof(*plat->axi), GFP_KERNEL);
+    54		if (!plat->axi)
+    55			return -ENOMEM;
+    56	
+    57		plat->interface = device_get_phy_mode(&pdev->dev);
+    58		if (plat->interface < 0)
+    59			return plat->interface;
+    60	
+    61		/* Configure PHY if using device-tree */
+    62		if (pdev->dev.of_node)
+    63			plat->phy_node = of_parse_phandle(np, "phy-handle", 0);
+    64	
+    65		if (pdev->dev.of_node) {
+    66			plat->bus_id = of_alias_get_id(np, "ethernet");
+    67			if (plat->bus_id < 0)
+    68				plat->bus_id = 0;
+    69		} else if (fwnode_property_read_u32(fwnode, "bus_id", &plat->bus_id)) {
+    70			plat->bus_id = 2;
+    71		}
+    72	
+    73		plat->phy_addr = -1;
+    74		plat->clk_csr = -1;
+    75		plat->has_gmac = 1;
+    76		plat->enh_desc = 1;
+    77		plat->bugged_jumbo = 1;
+    78		plat->pmt = 1;
+    79		plat->force_sf_dma_mode = 1;
+    80	
+    81		if (fwnode_property_read_u32(fwnode, "max-speed", &plat->max_speed))
+    82			plat->max_speed = -1;
+    83	
+    84		if (fwnode_property_read_u32(fwnode, "max-frame-size", &plat->maxmtu))
+    85			plat->maxmtu = JUMBO_LEN;
+    86	
+    87		if (fwnode_property_read_u32(fwnode, "snps,multicast-filter-bins",
+    88					     &plat->multicast_filter_bins))
+    89			plat->multicast_filter_bins = HASH_TABLE_SIZE;
+    90	
+    91		if (fwnode_property_read_u32(fwnode, "snps,perfect-filter-entries",
+    92					     &plat->unicast_filter_entries))
+    93			plat->unicast_filter_entries = 1;
+    94	
+    95		if (fwnode_property_read_u32(fwnode, "tx-fifo-depth",
+    96					     &plat->tx_fifo_size))
+    97			plat->tx_fifo_size = 0x1000;
+    98	
+    99		if (fwnode_property_read_u32(fwnode, "rx-fifo-depth",
+   100					     &plat->rx_fifo_size))
+   101			plat->rx_fifo_size = 0x1000;
+   102	
+   103		if (phytium_dwmac_acpi_phy(plat, fwnode, &pdev->dev))
+   104			return -ENODEV;
+   105	
+   106		plat->rx_queues_to_use = 1;
+   107		plat->tx_queues_to_use = 1;
+   108		plat->rx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
+   109		plat->tx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
+   110	
+   111		if (fwnode_property_read_u64(fwnode, "clock-frequency", &clk_freq))
+   112			clk_freq = 125000000;
    113	
-   114	static int cv1800_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-   115					 struct pwm_state *state)
-   116	{
-   117		struct cv1800_pwm *priv = to_cv1800_pwm_dev(chip);
-   118		u32 period_val, hlperiod_val, tem;
-   119		u64 rate;
-   120		u64 period_ns = 0;
-   121		u64 duty_ns = 0;
-   122		u32 enable = 0;
-   123	
-   124		regmap_read(priv->map, PERIOD(pwm->hwpwm), &period_val);
-   125		regmap_read(priv->map, HLPERIOD(pwm->hwpwm), &hlperiod_val);
-   126	
-   127		if (period_val != PERIOD_RESET || hlperiod_val != HLPERIOD_RESET) {
-   128			rate = (u64)clk_get_rate(priv->clk);
-   129	
-   130			tem = NSEC_PER_SEC * period_val;
- > 131			do_div(tem, rate);
-   132			period_ns = tem;
+   114		/* Set system clock */
+   115		snprintf(clk_name, sizeof(clk_name), "%s-%d", "stmmaceth",
+   116			 plat->bus_id);
+   117	
+   118		plat->stmmac_clk = clk_register_fixed_rate(&pdev->dev, clk_name,
+   119							   NULL, 0, clk_freq);
+   120		if (IS_ERR(plat->stmmac_clk)) {
+   121			dev_warn(&pdev->dev, "Fail to register stmmac-clk\n");
+   122			plat->stmmac_clk = NULL;
+   123		}
+   124	
+   125		ret = clk_prepare_enable(plat->stmmac_clk);
+   126		if (ret) {
+   127			clk_unregister_fixed_rate(plat->stmmac_clk);
+   128			return ret;
+   129		}
+   130	
+   131		plat->clk_ptp_rate = clk_get_rate(plat->stmmac_clk);
+   132		plat->clk_ptp_ref = NULL;
    133	
-   134			tem = period_val * period_ns;
-   135			do_div(tem, hlperiod_val);
-   136			duty_ns = tem;
-   137	
-   138			regmap_read(priv->map, PWMSTART, &enable);
-   139			enable >>= pwm->hwpwm;
-   140		}
-   141	
-   142		state->period = period_ns;
-   143		state->duty_cycle = duty_ns;
-   144		state->enabled = enable;
-   145	
-   146		return 0;
-   147	}
-   148	
+   134		if (fwnode_property_read_u32(fwnode, "snps,pbl", &plat->dma_cfg->pbl))
+   135			plat->dma_cfg->pbl = 16;
+   136	
+   137		fwnode_property_read_u32(fwnode, "snps,txpbl", &plat->dma_cfg->txpbl);
+   138		fwnode_property_read_u32(fwnode, "snps,rxpbl", &plat->dma_cfg->rxpbl);
+   139	
+   140		plat->dma_cfg->pblx8 = !fwnode_property_read_bool(fwnode,
+   141								  "snps,no-pbl-x8");
+   142		plat->dma_cfg->aal = fwnode_property_read_bool(fwnode, "snps,aal");
+   143		plat->dma_cfg->fixed_burst = fwnode_property_read_bool(fwnode,
+   144								       "snps,fixed-burst");
+   145		plat->dma_cfg->mixed_burst = fwnode_property_read_bool(fwnode,
+   146								       "snps,mixed-burst");
+   147	
+   148		plat->axi->axi_lpi_en = false;
+   149		plat->axi->axi_xit_frm = false;
+   150		plat->axi->axi_wr_osr_lmt = 7;
+   151		plat->axi->axi_rd_osr_lmt = 7;
+   152		plat->axi->axi_blen[0] = 16;
+   153	
+   154		memset(&stmmac_res, 0, sizeof(stmmac_res));
+   155		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   156		stmmac_res.addr = devm_ioremap_resource(&pdev->dev, res);
+ > 157		if (stmmac_res.addr < 0) {
+   158			dev_err(&pdev->dev, "resource map failed.\n");
+ > 159			return stmmac_res.addr;
+   160		}
+   161		stmmac_res.irq = platform_get_irq(pdev, 0);
+   162		if (stmmac_res.irq < 0) {
+   163			dev_err(&pdev->dev, "IRQ not found.\n");
+   164			return -ENXIO;
+   165		}
+   166		stmmac_res.wol_irq = stmmac_res.irq;
+   167		stmmac_res.lpi_irq = -1;
+   168	
+   169		return  stmmac_dvr_probe(&pdev->dev, plat, &stmmac_res);
+   170	}
+   171	
+ > 172	int phytium_dwmac_remove(struct platform_device *pdev)
+   173	{
+   174		int ret;
+   175		struct net_device *ndev = platform_get_drvdata(pdev);
+   176		struct stmmac_priv *priv = netdev_priv(ndev);
+   177		struct plat_stmmacenet_data *plat = priv->plat;
+   178	
+   179		ret = stmmac_pltfr_remove(pdev);
+   180		clk_unregister_fixed_rate(plat->stmmac_clk);
+   181		return ret;
+   182	}
+   183	
 
 -- 
 0-DAY CI Kernel Test Service
