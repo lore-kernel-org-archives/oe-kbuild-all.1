@@ -1,55 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C17F18EA1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Feb 2024 02:43:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD3114008
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Feb 2024 02:43:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707360205; cv=none; b=CUZbdm4YyUncoXG9HmXRvmq9Ke3MRjcbMCjFRXjNKFzwFrV0wqFrZYXzPjLJ+Gh2yG+OQgvCx/bwd05ZpfMfBU+/1jV8tnLrhancUxusKVPISd7EbTlBIJYr0ry+Zjm2GFh+lx7eUnPrT5hcddBZ+pMNpNjHn1BhkCMgJXpSnvc=
+	t=1707360207; cv=none; b=Rv06S1bOfx1yRs2A6aFROpRvYmLJGOElhuteGdWZARE+o5AiX4wyEyCQpahHnyXOAvsrDPrBHS2uc9d9nHBWZXC+X9CBPQlM+YWwrz/ktDL/f3ucA9Hs11ecgZK5F/QqCdE5PJNsP17YzBqrzUe0SyIeYXXq/BhLaz8a2f+isPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707360205; c=relaxed/simple;
-	bh=T8oXIPX6GooD4UALkc94g/nkBT9tsU6ilqTsK8LVX6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uFo9pJnlrfPCwLRkAEr9t5djEp9XtAnpR8H/JzaJFpzbpcYn93JrmqATxgClOKG+MIDyFwJp2QrShcMPqaTDzcIpTX1ioIOSiwUKZvAMDMsIzcnobMsvCTwKIjlUqLTTIE5YWzVnn1Php6Wtgt6IxxwWpvbVIzBEzeuCi8qPo0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MzA0Xesy; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1707360207; c=relaxed/simple;
+	bh=17qUkxJsRvjIwPnofp/eqIE56SmHTSHd/YBgUAZH3yY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yt/Ox8kO6kZ5R1k9kfHdTfzQYreRASYMbLo+sE3Q2Z5pBR2zlLoIf55ACXJXqJOvBaCzczMFOmiPHffOs6vpsjgbgguKaOFtOWwZLYHBtumgYmU8h5rfcpuz1xJaZuYNY76iFnI7czLF57qr0Qdzm5b+cGvVP9lIvUdwY6MHeKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h8DcT4X8; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MzA0Xesy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h8DcT4X8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707360204; x=1738896204;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T8oXIPX6GooD4UALkc94g/nkBT9tsU6ilqTsK8LVX6k=;
-  b=MzA0XesyYfnHY4lS67ZOZAjzmvwNgk8anzGOF6jZcVM6x2PQyjhD7Gfe
-   0Fvz2TpnheScCN+mtWaR+6FM5J78bTZ8As3/n6eqQ9EqdvmdWWBMEfzH4
-   +7rq/6PbZv1QpBql8a4L2HElx0M4B1WdMmKx/CaTwrUQs11oZMTb/Achs
-   LDlCWrBpj+zWeLfl994IuvrYGv8tzUnctFBXFL+XDyEoc99iRceTvtGQ0
-   CVucs/fAQr+NLC5iKIxQ5PhG1L9mBtf4QUOcMI9piEd/xvmCTQNIqW4Tu
-   cOQLIb4xDEp6HjseQK00zT6Nnm1L1i/SayOzYanSwcUv0aBbLjQ3gSQ3L
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="11766593"
+  t=1707360206; x=1738896206;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=17qUkxJsRvjIwPnofp/eqIE56SmHTSHd/YBgUAZH3yY=;
+  b=h8DcT4X8sOKZ4EzIGtcZ9kt8hvKran3jDeJic2lpnGljc/tZ7TCKoZqW
+   gqN2Z4woIGW4BJAYWwwlucbqgNDo+3t1iPIWbk1Hjf2avhzrKW6s+Rb2v
+   tta2HEWzBThnmKcG7FS639Pn466wTi4wQT6klQh6quhANRQYD+Z/h8cKP
+   z1nsggMWQD7ea//g7FkxADB1TFvraI0v1YBPJsvN0LVHC0+FywHW0rFTe
+   2VtvR7yPe592ca/aZdh/mGWhy5vnloT43Ziiqyv29FdEEkuczEYgkboVN
+   NCRGZQFHv/LEsORE6IFoFDIbPaZLkPmrnJXKb/iEphnN+UjAex4vu258K
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="11766596"
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="11766593"
+   d="scan'208";a="11766596"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 18:43:23 -0800
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 18:43:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="1533665"
+   d="scan'208";a="1533666"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 07 Feb 2024 18:43:22 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXuNk-0003Gy-0n;
+	id 1rXuNk-0003H3-0x;
 	Thu, 08 Feb 2024 02:43:20 +0000
-Date: Thu, 8 Feb 2024 10:42:42 +0800
+Date: Thu, 8 Feb 2024 10:42:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, wangzhimin <wangzhimin1179@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21354/21625]
- drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: warning: ordered
- comparison of pointer with integer zero
-Message-ID: <202402081011.C03dbtgc-lkp@intel.com>
+To: James Ogletree <jogletre@opensource.cirrus.com>,
+	dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	lee@kernel.org, broonie@kernel.org, jeff@labundy.com
+Cc: oe-kbuild-all@lists.linux.dev, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	James Ogletree <jogletre@opensource.cirrus.com>
+Subject: Re: [PATCH v6 4/5] Input: cs40l50 - Add support for the CS40L50
+ haptic driver
+Message-ID: <202402081011.F6Z941U6-lkp@intel.com>
+References: <20240207003612.4187370-5-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,192 +65,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240207003612.4187370-5-jogletre@opensource.cirrus.com>
 
-Hi wangzhimin,
+Hi James,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   7efcac7603953bb58d80041f410b079378b5174c
-commit: af48889301db8235deab66a8822e3e00195ca14b [21354/21625] dwmac:add phytium dwmac driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240208/202402081011.C03dbtgc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081011.C03dbtgc-lkp@intel.com/reproduce)
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on lee-mfd/for-mfd-fixes broonie-sound/for-next linus/master v6.8-rc3 next-20240207]
+[cannot apply to dtor-input/next dtor-input/for-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Ogletree/firmware-cs_dsp-Add-write-sequencer-interface/20240207-083734
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20240207003612.4187370-5-jogletre%40opensource.cirrus.com
+patch subject: [PATCH v6 4/5] Input: cs40l50 - Add support for the CS40L50 haptic driver
+config: sh-randconfig-r122-20240207 (https://download.01.org/0day-ci/archive/20240208/202402081011.F6Z941U6-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240208/202402081011.F6Z941U6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402081011.C03dbtgc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402081011.F6Z941U6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/misc/cs40l50-vibra.c:245:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *__from @@     got signed short [noderef] [usertype] __user *custom_data @@
+   drivers/input/misc/cs40l50-vibra.c:245:53: sparse:     expected void const *__from
+   drivers/input/misc/cs40l50-vibra.c:245:53: sparse:     got signed short [noderef] [usertype] __user *custom_data
+   drivers/input/misc/cs40l50-vibra.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   drivers/input/misc/cs40l50-vibra.c:239:45: sparse: sparse: dereference of noderef expression
 
-   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c: In function 'phytium_dwmac_probe':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: warning: ordered comparison of pointer with integer zero [-Wextra]
-     157 |         if (stmmac_res.addr < 0) {
-         |                             ^
->> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:159:34: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
-     159 |                 return stmmac_res.addr;
-         |                        ~~~~~~~~~~^~~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c: At top level:
->> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:172:5: warning: no previous prototype for 'phytium_dwmac_remove' [-Wmissing-prototypes]
-     172 | int phytium_dwmac_remove(struct platform_device *pdev)
-         |     ^~~~~~~~~~~~~~~~~~~~
+vim +245 drivers/input/misc/cs40l50-vibra.c
 
-
-vim +157 drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c
-
-    32	
-    33	static int phytium_dwmac_probe(struct platform_device *pdev)
-    34	{
-    35		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
-    36		struct plat_stmmacenet_data *plat;
-    37		struct stmmac_resources stmmac_res;
-    38		struct device_node *np = pdev->dev.of_node;
-    39		struct resource *res;
-    40		u64 clk_freq;
-    41		char clk_name[20];
-    42		int ret;
-    43	
-    44		plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
-    45		if (!plat)
-    46			return -ENOMEM;
-    47	
-    48		plat->dma_cfg = devm_kzalloc(&pdev->dev, sizeof(*plat->dma_cfg),
-    49					     GFP_KERNEL);
-    50		if (!plat->dma_cfg)
-    51			return -ENOMEM;
-    52	
-    53		plat->axi = devm_kzalloc(&pdev->dev, sizeof(*plat->axi), GFP_KERNEL);
-    54		if (!plat->axi)
-    55			return -ENOMEM;
-    56	
-    57		plat->interface = device_get_phy_mode(&pdev->dev);
-    58		if (plat->interface < 0)
-    59			return plat->interface;
-    60	
-    61		/* Configure PHY if using device-tree */
-    62		if (pdev->dev.of_node)
-    63			plat->phy_node = of_parse_phandle(np, "phy-handle", 0);
-    64	
-    65		if (pdev->dev.of_node) {
-    66			plat->bus_id = of_alias_get_id(np, "ethernet");
-    67			if (plat->bus_id < 0)
-    68				plat->bus_id = 0;
-    69		} else if (fwnode_property_read_u32(fwnode, "bus_id", &plat->bus_id)) {
-    70			plat->bus_id = 2;
-    71		}
-    72	
-    73		plat->phy_addr = -1;
-    74		plat->clk_csr = -1;
-    75		plat->has_gmac = 1;
-    76		plat->enh_desc = 1;
-    77		plat->bugged_jumbo = 1;
-    78		plat->pmt = 1;
-    79		plat->force_sf_dma_mode = 1;
-    80	
-    81		if (fwnode_property_read_u32(fwnode, "max-speed", &plat->max_speed))
-    82			plat->max_speed = -1;
-    83	
-    84		if (fwnode_property_read_u32(fwnode, "max-frame-size", &plat->maxmtu))
-    85			plat->maxmtu = JUMBO_LEN;
-    86	
-    87		if (fwnode_property_read_u32(fwnode, "snps,multicast-filter-bins",
-    88					     &plat->multicast_filter_bins))
-    89			plat->multicast_filter_bins = HASH_TABLE_SIZE;
-    90	
-    91		if (fwnode_property_read_u32(fwnode, "snps,perfect-filter-entries",
-    92					     &plat->unicast_filter_entries))
-    93			plat->unicast_filter_entries = 1;
-    94	
-    95		if (fwnode_property_read_u32(fwnode, "tx-fifo-depth",
-    96					     &plat->tx_fifo_size))
-    97			plat->tx_fifo_size = 0x1000;
-    98	
-    99		if (fwnode_property_read_u32(fwnode, "rx-fifo-depth",
-   100					     &plat->rx_fifo_size))
-   101			plat->rx_fifo_size = 0x1000;
-   102	
-   103		if (phytium_dwmac_acpi_phy(plat, fwnode, &pdev->dev))
-   104			return -ENODEV;
-   105	
-   106		plat->rx_queues_to_use = 1;
-   107		plat->tx_queues_to_use = 1;
-   108		plat->rx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
-   109		plat->tx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
-   110	
-   111		if (fwnode_property_read_u64(fwnode, "clock-frequency", &clk_freq))
-   112			clk_freq = 125000000;
-   113	
-   114		/* Set system clock */
-   115		snprintf(clk_name, sizeof(clk_name), "%s-%d", "stmmaceth",
-   116			 plat->bus_id);
-   117	
-   118		plat->stmmac_clk = clk_register_fixed_rate(&pdev->dev, clk_name,
-   119							   NULL, 0, clk_freq);
-   120		if (IS_ERR(plat->stmmac_clk)) {
-   121			dev_warn(&pdev->dev, "Fail to register stmmac-clk\n");
-   122			plat->stmmac_clk = NULL;
-   123		}
-   124	
-   125		ret = clk_prepare_enable(plat->stmmac_clk);
-   126		if (ret) {
-   127			clk_unregister_fixed_rate(plat->stmmac_clk);
-   128			return ret;
-   129		}
-   130	
-   131		plat->clk_ptp_rate = clk_get_rate(plat->stmmac_clk);
-   132		plat->clk_ptp_ref = NULL;
-   133	
-   134		if (fwnode_property_read_u32(fwnode, "snps,pbl", &plat->dma_cfg->pbl))
-   135			plat->dma_cfg->pbl = 16;
-   136	
-   137		fwnode_property_read_u32(fwnode, "snps,txpbl", &plat->dma_cfg->txpbl);
-   138		fwnode_property_read_u32(fwnode, "snps,rxpbl", &plat->dma_cfg->rxpbl);
-   139	
-   140		plat->dma_cfg->pblx8 = !fwnode_property_read_bool(fwnode,
-   141								  "snps,no-pbl-x8");
-   142		plat->dma_cfg->aal = fwnode_property_read_bool(fwnode, "snps,aal");
-   143		plat->dma_cfg->fixed_burst = fwnode_property_read_bool(fwnode,
-   144								       "snps,fixed-burst");
-   145		plat->dma_cfg->mixed_burst = fwnode_property_read_bool(fwnode,
-   146								       "snps,mixed-burst");
-   147	
-   148		plat->axi->axi_lpi_en = false;
-   149		plat->axi->axi_xit_frm = false;
-   150		plat->axi->axi_wr_osr_lmt = 7;
-   151		plat->axi->axi_rd_osr_lmt = 7;
-   152		plat->axi->axi_blen[0] = 16;
-   153	
-   154		memset(&stmmac_res, 0, sizeof(stmmac_res));
-   155		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   156		stmmac_res.addr = devm_ioremap_resource(&pdev->dev, res);
- > 157		if (stmmac_res.addr < 0) {
-   158			dev_err(&pdev->dev, "resource map failed.\n");
- > 159			return stmmac_res.addr;
-   160		}
-   161		stmmac_res.irq = platform_get_irq(pdev, 0);
-   162		if (stmmac_res.irq < 0) {
-   163			dev_err(&pdev->dev, "IRQ not found.\n");
-   164			return -ENXIO;
-   165		}
-   166		stmmac_res.wol_irq = stmmac_res.irq;
-   167		stmmac_res.lpi_irq = -1;
-   168	
-   169		return  stmmac_dvr_probe(&pdev->dev, plat, &stmmac_res);
-   170	}
-   171	
- > 172	int phytium_dwmac_remove(struct platform_device *pdev)
-   173	{
-   174		int ret;
-   175		struct net_device *ndev = platform_get_drvdata(pdev);
-   176		struct stmmac_priv *priv = netdev_priv(ndev);
-   177		struct plat_stmmacenet_data *plat = priv->plat;
-   178	
-   179		ret = stmmac_pltfr_remove(pdev);
-   180		clk_unregister_fixed_rate(plat->stmmac_clk);
-   181		return ret;
-   182	}
-   183	
+   216	
+   217	static int vibra_upload_owt(struct vibra_work *work_data, struct vibra_effect *effect)
+   218	{
+   219		struct ff_periodic_effect add_effect = work_data->effect->u.periodic;
+   220		u32 len = 2 * add_effect.custom_len, wt_offset, wt_size;
+   221		struct vibra_info *info = work_data->info;
+   222		struct owt_header header;
+   223		u8 *out_data;
+   224		int error;
+   225	
+   226		error = regmap_read(info->regmap, info->dsp.owt_size_reg, &wt_size);
+   227		if (error)
+   228			return error;
+   229	
+   230		if ((wt_size * sizeof(u32)) < sizeof(header) + len) {
+   231			dev_err(info->dev, "No space in OWT bank for effect\n");
+   232			return -ENOSPC;
+   233		}
+   234	
+   235		out_data = kzalloc(sizeof(header) + len, GFP_KERNEL);
+   236		if (!out_data)
+   237			return -ENOMEM;
+   238	
+   239		header.type = add_effect.custom_data[0] == CS40L50_PCM_ID ? CS40L50_TYPE_PCM :
+   240									    CS40L50_TYPE_PWLE;
+   241		header.offset = sizeof(header) / sizeof(u32);
+   242		header.data_words = len / sizeof(u32);
+   243	
+   244		memcpy(out_data, &header, sizeof(header));
+ > 245		memcpy(out_data + sizeof(header), add_effect.custom_data, len);
+   246	
+   247		error = regmap_read(info->regmap, info->dsp.owt_offset_reg, &wt_offset);
+   248		if (error)
+   249			return error;
+   250	
+   251		error = regmap_bulk_write(info->regmap, info->dsp.owt_base_reg +
+   252					  (wt_offset * sizeof(u32)), out_data,
+   253					  sizeof(header) + len);
+   254		if (error)
+   255			goto err_free;
+   256	
+   257		error = info->dsp.write(info->dev, info->regmap, info->dsp.push_owt_cmd);
+   258	err_free:
+   259		kfree(out_data);
+   260	
+   261		return error;
+   262	}
+   263	
 
 -- 
 0-DAY CI Kernel Test Service
