@@ -1,60 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from zeeaster.vergenet.net (zeeaster.vergenet.net [206.189.110.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DDE6BFBB;
-	Thu,  8 Feb 2024 09:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAD76BFDD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Feb 2024 10:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.110.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707385660; cv=none; b=R6Fy/ZeIIHeYIGNWb4hEnLSyD9eGg5CONtk7JaxtQSVMHYQzFUOkTeJgqqrqYj/KMFEtzY6SFcRBH54fTxzfsASwcqzim8GwaR+23QHY4bFH5sfeBLJEFxfa8PYSnw0H4Lj/WHgVtXFSHGJNnymi/cjkg+1cFYau6qpsORyZUTs=
+	t=1707386519; cv=none; b=NtDPVc8Wau5z9HqO95Wx0Bmy8VYm7DlDa1xXXqJo9Fhcf2ofZ2wMxo0E0hE8y5VH7iSoKDgWOzg1hxh/I5RdXpMc12lbXXO257dGmsJOP3fT7QI30k6PyR47DSkz30Pj7cRRAeLWs/u2/3nyFRjURex9GFdk3rurY5LmwiXLnUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707385660; c=relaxed/simple;
-	bh=B8cqTdsl61hbTwAme0/u6L8Z4DeauMK0xgKqDax73kI=;
+	s=arc-20240116; t=1707386519; c=relaxed/simple;
+	bh=gZ9DUt5ZTJDILBwMsCZ6wMbdwMkU+sMKxvXh+ZFwvkU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tn3bgiOltt4mSZbK943uZuYcS+bfqIcSDUId0AepJUTtIgQ/EsBuD+OQApkC1tLqugiPugCkyndw7rNnTuTr0adDF8Fd7H2g4CTQ2qlBLOgtf+9dlEM8sSQKl5ur9CxlWQx2Cr/2LOOPQS97i5uA+mf96pxoPBZI8aTm34h3MyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ejfPyVKn; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejfPyVKn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707385658; x=1738921658;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B8cqTdsl61hbTwAme0/u6L8Z4DeauMK0xgKqDax73kI=;
-  b=ejfPyVKnXXRXyNsklI39PmygINOHjpM4SEoDyJAJJhtdINz/oBy2undC
-   Z7UhPWoMoyric4MxDQ6tn1WVZZciSXIVtOom5OCMOov+ZbgQcRsT4QBJJ
-   VjYCamBoghwcDasz2vNMlrWlybUf61fLPfIUuD6cFkCoYfxepsht+MFcz
-   xSPt2o3rcwgIQp8Rxokmp7T3wnbh/seL6feOwjHNaaTQbAnz8B75U7kr8
-   wK/2mz+Wp4sXy7DLuaRwRa94PszlSm/4tTAY28r5s5FbktJuHMvb7kdBY
-   Cjfr6doxZjiGZPUz8c8kPM0PUyAFFd/SzO02LN2LAangx+6RP5IemK5lh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="23663289"
-X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; 
-   d="scan'208";a="23663289"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 01:47:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,253,1701158400"; 
-   d="scan'208";a="1894976"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 Feb 2024 01:47:35 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rY10G-0003aQ-0h;
-	Thu, 08 Feb 2024 09:47:32 +0000
-Date: Thu, 8 Feb 2024 17:47:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
-	sui.jingfeng@linux.dev, pjones@redhat.com, deller@gmx.de,
-	ardb@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 3/8] firmware/sysfb: Set firmware-framebuffer parent
- device
-Message-ID: <202402081758.cylLKURZ-lkp@intel.com>
-References: <20240207134932.7321-4-tzimmermann@suse.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=F3E6wQfyhBwgR9XB57QMvO9ZYp5VRFLgIWvAYfL0E5hQ65a01gZKwqMjjt0e9K76tkqkpu8wxIrLLSA+nAs5qNbt4sNlBp3atD9Gk/96oEIY833U2QDMLTRHpV4lPtwptRtbikg4RKC48a5xmuUDXf7OzUUR7qYnP2U5kup7yfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=horms.net; spf=pass smtp.mailfrom=vergenet.net; arc=none smtp.client-ip=206.189.110.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=horms.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vergenet.net
+Received: from madeliefje.horms.nl (madeliefje.horms.nl [IPv6:2001:470:6ae6:703:627d:9ff:fe45:2ad6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by zeeaster.vergenet.net (Postfix) with ESMTPSA id 0AE56200CD;
+	Thu,  8 Feb 2024 09:55:02 +0000 (UTC)
+Received: by madeliefje.horms.nl (Postfix, from userid 7100)
+	id 7621F1A0B; Thu,  8 Feb 2024 09:55:02 +0000 (GMT)
+Date: Thu, 8 Feb 2024 09:55:02 +0000
+From: Simon Horman <simon@horms.net>
+To: kernel test robot <lkp@intel.com>
+Cc: Furong Xu <0x1207@gmail.com>, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [linux-next:master 3159/4898]
+ drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c:836:20: error:
+ initializer element is not constant
+Message-ID: <20240208095502.GB1435458@vergenet.net>
+References: <202402081135.lAxxBXHk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,51 +40,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240207134932.7321-4-tzimmermann@suse.de>
+In-Reply-To: <202402081135.lAxxBXHk-lkp@intel.com>
+X-Virus-Scanned: clamav-milter 0.103.10 at zeeaster
+X-Virus-Status: Clean
 
-Hi Thomas,
+On Thu, Feb 08, 2024 at 11:23:25AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   2ae0a045e6814c8c1d676d6153c605a65746aa29
+> commit: 46eba193d04f8bd717e525eb4110f3c46c12aec3 [3159/4898] net: stmmac: xgmac: fix handling of DPP safety error for DMA channels
+> config: x86_64-randconfig-121-20240208 (https://download.01.org/0day-ci/archive/20240208/202402081135.lAxxBXHk-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081135.lAxxBXHk-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402081135.lAxxBXHk-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c:836:20: error: initializer element is not constant
+>      { true, "TDPES0", dpp_tx_err },
+>                        ^~~~~~~~~~
+>    drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c:836:20: note: (near initialization for 'dwxgmac3_dma_dpp_errors[0].detailed_desc')
+>    drivers/net/ethernet/stmicro/stmmac/dwxgmac2_core.c:837:20: error: initializer element is not constant
+>      { true, "TDPES1", dpp_tx_err },
+>                        ^~~~~~~~~~
 
-kernel test robot noticed the following build errors:
+...
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.8-rc3 next-20240208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I have posted a patch to address this problem.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/video-Add-helpers-for-decoding-screen_info/20240207-215100
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240207134932.7321-4-tzimmermann%40suse.de
-patch subject: [PATCH v3 3/8] firmware/sysfb: Set firmware-framebuffer parent device
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20240208/202402081758.cylLKURZ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081758.cylLKURZ-lkp@intel.com/reproduce)
+- [PATCH net] net: stmmac: xgmac: use #define for string constants
+  https://lore.kernel.org/netdev/20240208-xgmac-const-v1-1-e69a1eeabfc8@kernel.org/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402081758.cylLKURZ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/firmware/sysfb.c:36:
->> include/linux/sysfb.h:108:1: error: expected identifier or '('
-     108 | {
-         | ^
-   1 error generated.
-
-
-vim +108 include/linux/sysfb.h
-
-e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02  104  
-9e121040e54abe include/linux/sysfb.h        Javier Martinez Canillas 2022-06-07  105  static inline struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-c0a4e7e120d3e9 include/linux/sysfb.h        Thomas Zimmermann        2024-02-07  106  							    const struct simplefb_platform_data *mode,
-c0a4e7e120d3e9 include/linux/sysfb.h        Thomas Zimmermann        2024-02-07  107  							    struct device *parent);
-e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02 @108  {
-9e121040e54abe include/linux/sysfb.h        Javier Martinez Canillas 2022-06-07  109  	return ERR_PTR(-EINVAL);
-e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02  110  }
-e3263ab389a7bc arch/x86/include/asm/sysfb.h David Rheinsberg         2013-08-02  111  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
