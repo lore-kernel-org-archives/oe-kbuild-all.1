@@ -1,57 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BD780BFE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Feb 2024 16:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B370A1292E2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Feb 2024 17:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707410276; cv=none; b=eomn/1DT6COsHgRk/cHLk1uvkYb9Uf1uNXV+bMlYlnjCTHFOv3YAUlN1yj0R5gmd8aBqLuYqNkp9wTw1JJLI1UA5jj/SQ5QocLabLCbFYZ537k+DKi0NJtetJW2bK4D02dWL/wVcTxZlxmBPBU/tv0ZcvNBuvjpsoxNwxwHEKvw=
+	t=1707412226; cv=none; b=fuOtm6NuHaQTTAMpA88qGPAKMEM6ykPiR8vcfneDtHRLs1rbE2gXyXpztttfcj3hup9Xf0uJifd9MLnxycDsi+raYBxF8b/VHDszCNijgh96++0pcvwwZlXxwWksBqAl7HSfFHEQchrpIEFmYWtr+q9jI+aCCs1ZgjyTINmUlUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707410276; c=relaxed/simple;
-	bh=9AhBcoK1JVAWZUeiN9B5A52ztsi+Qag9lJngEhXPSUI=;
+	s=arc-20240116; t=1707412226; c=relaxed/simple;
+	bh=XsAFGO0G0WrF+jzpJgmRGNe/vX6U+oKsJ9cTF0OwOpE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E0AEw/+2+5s991TPdeqtaFi6ty1l3FOU2rMe+XvG6rzWzmeFlNznB26kVU+jID/ctbBJszJKGKzXs3VgUYvUOmMrhF8PfB3+fjn/pW3baIxp8H040GX1eL8J24LUjFpLkPrIlX949/ahqIiAF7QQaCjn/INBMOOAt0+Mehnaq1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QTMJCP/Z; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=qJjNJds0no6Zyc/D/eFn8eaSLPBF5TauGYDRGEcipEEV9OQTvu+Abo1R0m9ZbhY3CPc8vVG02d/WRU109QxKXsKYQBSjxzlWwGTluiinR7UN5mYJ/ek3B7VFTUQzt7ijq97/zEd0Fm4g4m2J/l4wOpm/acqzGM9jjiRHU62j4vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKYR21f9; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QTMJCP/Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKYR21f9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707410273; x=1738946273;
+  t=1707412225; x=1738948225;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9AhBcoK1JVAWZUeiN9B5A52ztsi+Qag9lJngEhXPSUI=;
-  b=QTMJCP/ZiITlLWOVkI6iSCJXPwiNM4Lpy4UEqmIUlmRzymJCQuagkeS4
-   MkOCmUQVaaNnXBgIiM9FXasJs6sKV5tsqyC30pJ4KlfRmRhKbTtUWEZAb
-   4/U6DHK3lr8C+63mB5DDrlHE+0W5y3puzrliQcz3rlBHrh156OR+M/sPu
-   fz8Cfgy7zq+XS+am32B/QuA9Pc16rK9JcHBY1wFsQyEQfQJMYd5eOKsqt
-   kC5Vw3nIqQSRNCQ4OXzlUi0s4trhwnh77zZ97Crn3sk4gxuPx0WN6QGzG
-   BHO2csyKwmAg+XWtjNZabu4UqQWnsQsgQUwLMkvhAQKVh6tBZecpBeMH9
+  bh=XsAFGO0G0WrF+jzpJgmRGNe/vX6U+oKsJ9cTF0OwOpE=;
+  b=kKYR21f9wU2AGhxZE+k/ndHTdZRt4EtVMi84m3YWvkpafXxv+Ty8MQ87
+   ngowA10nfl6FcESzSEc8DQdOCSzYvuTM+IWl3NRS2qbcgwUaGnOm5n4C1
+   vnhzgVBkJL7HCjlNTTqzm4I/+ECQpMmEcgAIBkpwL6XFC/nF7itzwRk9g
+   9JwCiTJH66IZIHTGvvOninRtvzgICBnCCSuC+Ij9a/ICeGuv8HHblkx2M
+   JUaoy4VNUTcrzw5rOMRE5hZQ5dSnrtDEUH4WJmeR2kTzBtXplgwdlTLM5
+   oknGZgwy2drH2QPn6bBYCt2lRUPRUiF3+kfHE+Gf+tOfQjwK48solh6ce
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1163352"
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1152162"
 X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1163352"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 08:37:52 -0800
+   d="scan'208";a="1152162"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 09:09:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,254,1701158400"; 
-   d="scan'208";a="1733129"
+   d="scan'208";a="2001302"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Feb 2024 08:37:50 -0800
+  by orviesa007.jf.intel.com with ESMTP; 08 Feb 2024 09:09:49 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rY7PH-0003w2-2T;
-	Thu, 08 Feb 2024 16:37:47 +0000
-Date: Fri, 9 Feb 2024 00:37:32 +0800
+	id 1rY7uH-0003xq-07;
+	Thu, 08 Feb 2024 17:09:49 +0000
+Date: Fri, 9 Feb 2024 01:09:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gaurav Batra <gbatra@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: [linux-next:pending-fixes 171/335]
- pci_dlpar.c:(.text.init_phb_dynamic+0xb8): undefined reference to
- `ppc_iommu_register_device'
-Message-ID: <202402090048.C5SCPaWB-lkp@intel.com>
+To: Qais Yousef <qyousef@layalina.io>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:overutilized-affinity 2/2] kernel/sched/fair.c:12694:2:
+ error: implicit declaration of function 'set_task_max_allowed_capacity'
+Message-ID: <202402090139.6Udmzrpq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,29 +58,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   cdf641895851e4edf648a3d063e90f8f5a07e77f
-commit: ed8b94f6e0acd652ce69bd69d678a0c769172df8 [171/335] powerpc/pseries/iommu: Fix iommu initialisation during DLPAR add
-config: powerpc64-randconfig-003-20231123 (https://download.01.org/0day-ci/archive/20240209/202402090048.C5SCPaWB-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402090048.C5SCPaWB-lkp@intel.com/reproduce)
+tree:   https://github.com/qais-yousef/linux overutilized-affinity
+head:   e56248505a62ea81cf79261ee519b0fbb7d79b37
+commit: e56248505a62ea81cf79261ee519b0fbb7d79b37 [2/2] sched/fair: Check a task has a fitting cpu when updating misfit
+config: x86_64-randconfig-104-20240207 (https://download.01.org/0day-ci/archive/20240209/202402090139.6Udmzrpq-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402090139.6Udmzrpq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402090048.C5SCPaWB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402090139.6Udmzrpq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `ppc_iommu_register_device'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: arch/powerpc/platforms/pseries/pci_dlpar.o: in function `init_phb_dynamic':
->> pci_dlpar.c:(.text.init_phb_dynamic+0xb8): undefined reference to `ppc_iommu_register_device'
-   powerpc64-linux-ld: arch/powerpc/platforms/pseries/pci_dlpar.o: in function `remove_phb_dynamic':
->> pci_dlpar.c:(.text.remove_phb_dynamic+0xac): undefined reference to `ppc_iommu_unregister_device'
+   kernel/sched/fair.c: In function 'task_fork_fair':
+>> kernel/sched/fair.c:12694:2: error: implicit declaration of function 'set_task_max_allowed_capacity' [-Werror=implicit-function-declaration]
+   12694 |  set_task_max_allowed_capacity(p);
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/set_task_max_allowed_capacity +12694 kernel/sched/fair.c
+
+ 12678	
+ 12679	/*
+ 12680	 * called on fork with the child task as argument from the parent's context
+ 12681	 *  - child not yet on the tasklist
+ 12682	 *  - preemption disabled
+ 12683	 */
+ 12684	static void task_fork_fair(struct task_struct *p)
+ 12685	{
+ 12686		struct sched_entity *se = &p->se, *curr;
+ 12687		struct cfs_rq *cfs_rq;
+ 12688		struct rq *rq = this_rq();
+ 12689		struct rq_flags rf;
+ 12690	
+ 12691		rq_lock(rq, &rf);
+ 12692		update_rq_clock(rq);
+ 12693	
+ 12694		set_task_max_allowed_capacity(p);
+ 12695	
+ 12696		cfs_rq = task_cfs_rq(current);
+ 12697		curr = cfs_rq->curr;
+ 12698		if (curr)
+ 12699			update_curr(cfs_rq);
+ 12700		place_entity(cfs_rq, se, ENQUEUE_INITIAL);
+ 12701		rq_unlock(rq, &rf);
+ 12702	}
+ 12703	
 
 -- 
 0-DAY CI Kernel Test Service
