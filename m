@@ -1,55 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF99B1E86C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Feb 2024 02:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F05E1947E;
+	Thu,  8 Feb 2024 02:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707358886; cv=none; b=cnvGRVDuOd+KHwCs8RAhgvGT8dbRUiUb1ICDq5VmM7qO99IBRupf78/Zdzr4RsDMaVcajCfLdHdt9tDN2cR+oVpL2/hQzHBoYerw5NWbSPJaRD3nr/G1LJR+5SmsBYHWinlfCHcoPIDBmh5E6Nlq/nWK1JsREWNkvYurp2aMpH8=
+	t=1707358888; cv=none; b=pGzbJ9NPs/JVUHfvzquI5z1K4jN6MuJsQ5XUMGTku6oC1PwXSkLHoFztHv/0lP6eAujf0DqY7yQJ/Knisxc/DhZ37zeIfNd/UDvp6BD7y5EUwoza5oQymAJTAU6zCo+Bcc/JJrHeuIqDXdoF7UPuI50fWa5ncMQCQgOWuiR5Zfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707358886; c=relaxed/simple;
-	bh=xkt9JsI8QQ+X8GJXGtDiG0G7mn1TexH8S+YX0+BeVpI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KpFPiY6YfLO4TnsKNCX+07MgMANBe3I1FySMelwZHq/WHYoV5cvjO5H83+h2542I6YHCs8XT0eWqvvMrVaJauj1KN8fUZ+mAcfYf0YRMvE0LKlxIoUe86PE7sUQdqvt1xt8ldlHKu8TICSJH68pu817dt2dBiT40CzWNuI0jEv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GUz5ERkz; arc=none smtp.client-ip=192.55.52.88
+	s=arc-20240116; t=1707358888; c=relaxed/simple;
+	bh=UKmPL5Zx+C+SOFiu/lgbITC5x7HQmDloUJhMi2ef6a4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J8o1ltHwRk9LeMf9WGJZAJo/vD9qvxoXW9VdmW0ihDjLE7G+8sLpBTL2viLy8DPJUr5ldGYiwoRazVJHGhDJQcdvtCnr+TYF4EV0OyG8l4PxVGFNu9wPRqLtBbahkDqrPFLLtm+wVOjOWHxCvUjWz6THE/KDzzz3iPx7BO7YuMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yt9qwCMo; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GUz5ERkz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yt9qwCMo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707358883; x=1738894883;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xkt9JsI8QQ+X8GJXGtDiG0G7mn1TexH8S+YX0+BeVpI=;
-  b=GUz5ERkzaaEvx1+y3cYZGbmY6tHGbAdcIrd/Cs8APe3PctuZl4ITvR0z
-   jMTu0MvNwrHEF0JFPcnMyp4QNYts+EXi2cZZx47V8n+AYGtNU5cFzEDH0
-   4g/eUp3a6vSq+AgQCMnKTgoJNpSMh35iiuncfWDyF9Oa1jC78BxEmK9gl
-   uz8RTHiGd/RVAA0vmNgmXBfP2wDb82wdN5AoKpomFqjKSxAZSpXqKFBJw
-   MzPyEB0IcKxeJpwVENzH7XTTXoK5UTHHR1WSmeZkjDFRH/KheXYY3ZQcn
-   fXsgNxKf16UAHlCNlQI9rP6GIfNGPvkOubnc6tMPqaCe5trVPVgI62QOA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="436266511"
+  t=1707358886; x=1738894886;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UKmPL5Zx+C+SOFiu/lgbITC5x7HQmDloUJhMi2ef6a4=;
+  b=Yt9qwCMoVq+ASx2KbsvBeFFwqNgrcmJ6opz3sSGMm1ITFDCwB4Dk8RXU
+   XzgFiNKn2nA+HTYu8xdsqep/7vUQp7/X5kaLGz4GdhrQRLHme80SQJjYh
+   vqatZFqY3yb6TQKWK003i6xc3oCJPayO920bxK62pBO66nckHz+Bk9mC2
+   xU2ORaUgi0Dw6L0hyWXILF9hoBOvPSK14qzUoRWhr8o7lbf0+zkwF3AoP
+   jJVOCMOaTj07Plz0P7Fz74mQFCERQroxWSQrVbbmuh9y5/AGI/n15llF0
+   u+ktwKZj0RAwN866Ypm2n+t6WOJivjjg0arXZsmrba+PelCaJqWpxXeaF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="436266515"
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="436266511"
+   d="scan'208";a="436266515"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 18:21:22 -0800
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 18:21:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,252,1701158400"; 
-   d="scan'208";a="1837259"
+   d="scan'208";a="1837261"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 07 Feb 2024 18:21:21 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rXu2Q-0003Fg-2G;
+	id 1rXu2Q-0003Fi-2L;
 	Thu, 08 Feb 2024 02:21:18 +0000
-Date: Thu, 8 Feb 2024 10:20:42 +0800
+Date: Thu, 8 Feb 2024 10:20:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kees:devel/overflow/signed-sanitizer 24/27]
- drivers/rtc/rtc-ds1307.c:1385:39: warning: format '%ld' expects argument of
- type 'long int', but argument 3 has type 'int'
-Message-ID: <202402081027.XZBkQbxi-lkp@intel.com>
+To: Jingbao Qiu <qiujingbao.dlmu@gmail.com>, u.kleine-koenig@pengutronix.de,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	dlan@gentoo.org, inochiama@outlook.com,
+	Jingbao Qiu <qiujingbao.dlmu@gmail.com>
+Subject: Re: [PATCH v1 2/2] pwm: sophgo: add pwm support for Sophgo CV1800 SoC
+Message-ID: <202402081005.iOYVJ6KI-lkp@intel.com>
+References: <20240207060913.672554-1-qiujingbao.dlmu@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,351 +65,157 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240207060913.672554-1-qiujingbao.dlmu@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git devel/overflow/signed-sanitizer
-head:   fdc16607cd55a37f5d4924c47f1642047c4ea1e1
-commit: fdbd267624a365d8cc07337965dcc1aeedd35af3 [24/27] [WIP] PTR_ERR() is always asigned to int variables
-config: i386-randconfig-001-20240208 (https://download.01.org/0day-ci/archive/20240208/202402081027.XZBkQbxi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081027.XZBkQbxi-lkp@intel.com/reproduce)
+Hi Jingbao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 7afc0e7f681e6efd6b826f003fc14c17b5093643]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jingbao-Qiu/dt-bindings-pwm-sophgo-add-pwm-for-Sophgo-CV1800-series-SoC/20240207-141135
+base:   7afc0e7f681e6efd6b826f003fc14c17b5093643
+patch link:    https://lore.kernel.org/r/20240207060913.672554-1-qiujingbao.dlmu%40gmail.com
+patch subject: [PATCH v1 2/2] pwm: sophgo: add pwm support for Sophgo CV1800 SoC
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240208/202402081005.iOYVJ6KI-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402081005.iOYVJ6KI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402081027.XZBkQbxi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402081005.iOYVJ6KI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from drivers/rtc/rtc-ds1307.c:12:
-   drivers/rtc/rtc-ds1307.c: In function 'ds1307_hwmon_register':
->> drivers/rtc/rtc-ds1307.c:1385:39: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-    1385 |                 dev_warn(ds1307->dev, "unable to register hwmon device %ld\n",
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
-     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/rtc/rtc-ds1307.c:1385:17: note: in expansion of macro 'dev_warn'
-    1385 |                 dev_warn(ds1307->dev, "unable to register hwmon device %ld\n",
-         |                 ^~~~~~~~
-   drivers/rtc/rtc-ds1307.c:1385:74: note: format string is defined here
-    1385 |                 dev_warn(ds1307->dev, "unable to register hwmon device %ld\n",
-         |                                                                        ~~^
-         |                                                                          |
-         |                                                                          long int
-         |                                                                        %d
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from drivers/rtc/rtc-pcf2127.c:20:
-   drivers/rtc/rtc-pcf2127.c: In function 'pcf2127_i2c_probe':
->> drivers/rtc/rtc-pcf2127.c:1391:39: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
-    1391 |                 dev_err(&client->dev, "%s: regmap allocation failed: %ld\n",
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/rtc/rtc-pcf2127.c:1391:17: note: in expansion of macro 'dev_err'
-    1391 |                 dev_err(&client->dev, "%s: regmap allocation failed: %ld\n",
-         |                 ^~~~~~~
-   drivers/rtc/rtc-pcf2127.c:1391:72: note: format string is defined here
-    1391 |                 dev_err(&client->dev, "%s: regmap allocation failed: %ld\n",
-         |                                                                      ~~^
-         |                                                                        |
-         |                                                                        long int
-         |                                                                      %d
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from drivers/rtc/rtc-rv3029c2.c:12:
-   drivers/rtc/rtc-rv3029c2.c: In function 'rv3029_hwmon_register':
->> drivers/rtc/rtc-rv3029c2.c:684:31: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-     684 |                 dev_warn(dev, "unable to register hwmon device %ld\n",
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
-     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/rtc/rtc-rv3029c2.c:684:17: note: in expansion of macro 'dev_warn'
-     684 |                 dev_warn(dev, "unable to register hwmon device %ld\n",
-         |                 ^~~~~~~~
-   drivers/rtc/rtc-rv3029c2.c:684:66: note: format string is defined here
-     684 |                 dev_warn(dev, "unable to register hwmon device %ld\n",
-         |                                                                ~~^
-         |                                                                  |
-         |                                                                  long int
-         |                                                                %d
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:8,
-                    from sound/soc/bcm/bcm63xx-i2s-whistler.c:8:
-   sound/soc/bcm/bcm63xx-i2s-whistler.c: In function 'bcm63xx_i2s_dev_probe':
->> sound/soc/bcm/bcm63xx-i2s-whistler.c:238:37: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
-     238 |                 dev_err(&pdev->dev, "%s: cannot get a brcm clock: %ld\n",
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/bcm/bcm63xx-i2s-whistler.c:238:17: note: in expansion of macro 'dev_err'
-     238 |                 dev_err(&pdev->dev, "%s: cannot get a brcm clock: %ld\n",
-         |                 ^~~~~~~
-   sound/soc/bcm/bcm63xx-i2s-whistler.c:238:69: note: format string is defined here
-     238 |                 dev_err(&pdev->dev, "%s: cannot get a brcm clock: %ld\n",
-         |                                                                   ~~^
-         |                                                                     |
-         |                                                                     long int
-         |                                                                   %d
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/pci.h:37,
-                    from drivers/pci/doe.c:19:
-   drivers/pci/doe.c: In function 'pci_doe_init':
->> drivers/pci/doe.c:13:22: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
-      13 | #define dev_fmt(fmt) "DOE: " fmt
-         |                      ^~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   include/linux/pci.h:2691:41: note: in expansion of macro 'dev_err'
-    2691 | #define pci_err(pdev, fmt, arg...)      dev_err(&(pdev)->dev, fmt, ##arg)
-         |                                         ^~~~~~~
-   drivers/pci/doe.c:692:25: note: in expansion of macro 'pci_err'
-     692 |                         pci_err(pdev, "[%x] failed to create mailbox: %ld\n",
-         |                         ^~~~~~~
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/cxl/core/port.c:3:
-   drivers/cxl/core/port.c: In function 'devm_cxl_add_port':
->> drivers/cxl/core/port.c:883:36: warning: format '%ld' expects argument of type 'long int', but argument 7 has type 'int' [-Wformat=]
-     883 |                 dev_dbg(uport_dev, "Failed to add%s%s%s: %ld\n",
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
-     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-         |                                         ^~~
-   include/linux/dev_printk.h:163:45: note: in expansion of macro 'dev_fmt'
-     163 |                 dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
-         |                                             ^~~~~~~
-   drivers/cxl/core/port.c:883:17: note: in expansion of macro 'dev_dbg'
-     883 |                 dev_dbg(uport_dev, "Failed to add%s%s%s: %ld\n",
-         |                 ^~~~~~~
-   drivers/cxl/core/port.c:883:60: note: format string is defined here
-     883 |                 dev_dbg(uport_dev, "Failed to add%s%s%s: %ld\n",
-         |                                                          ~~^
-         |                                                            |
-         |                                                            long int
-         |                                                          %d
-   drivers/cxl/core/port.c: In function 'devm_cxl_add_dport':
-   drivers/cxl/core/port.c:1175:36: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'int' [-Wformat=]
-    1175 |                 dev_dbg(dport_dev, "failed to add dport to %s: %ld\n",
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
-     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-         |                                         ^~~
-   include/linux/dev_printk.h:163:45: note: in expansion of macro 'dev_fmt'
-     163 |                 dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
-         |                                             ^~~~~~~
-   drivers/cxl/core/port.c:1175:17: note: in expansion of macro 'dev_dbg'
-    1175 |                 dev_dbg(dport_dev, "failed to add dport to %s: %ld\n",
-         |                 ^~~~~~~
-   drivers/cxl/core/port.c:1175:66: note: format string is defined here
-    1175 |                 dev_dbg(dport_dev, "failed to add dport to %s: %ld\n",
-         |                                                                ~~^
-         |                                                                  |
-         |                                                                  long int
-         |                                                                %d
-   drivers/cxl/core/port.c: In function 'devm_cxl_add_rch_dport':
-   drivers/cxl/core/port.c:1209:36: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'int' [-Wformat=]
-    1209 |                 dev_dbg(dport_dev, "failed to add RCH dport to %s: %ld\n",
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
-     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-         |                                         ^~~
-   include/linux/dev_printk.h:163:45: note: in expansion of macro 'dev_fmt'
-     163 |                 dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
-         |                                             ^~~~~~~
-   drivers/cxl/core/port.c:1209:17: note: in expansion of macro 'dev_dbg'
-    1209 |                 dev_dbg(dport_dev, "failed to add RCH dport to %s: %ld\n",
-         |                 ^~~~~~~
-   drivers/cxl/core/port.c:1209:70: note: format string is defined here
-    1209 |                 dev_dbg(dport_dev, "failed to add RCH dport to %s: %ld\n",
-         |                                                                    ~~^
-         |                                                                      |
-         |                                                                      long int
-         |                                                                    %d
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from sound/soc/codecs/adau7118-i2c.c:7:
-   sound/soc/codecs/adau7118-i2c.c: In function 'adau7118_probe_i2c':
->> sound/soc/codecs/adau7118-i2c.c:57:36: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-      57 |                 dev_err(&i2c->dev, "Failed to init regmap %ld\n", PTR_ERR(map));
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/codecs/adau7118-i2c.c:57:17: note: in expansion of macro 'dev_err'
-      57 |                 dev_err(&i2c->dev, "Failed to init regmap %ld\n", PTR_ERR(map));
-         |                 ^~~~~~~
-   sound/soc/codecs/adau7118-i2c.c:57:61: note: format string is defined here
-      57 |                 dev_err(&i2c->dev, "Failed to init regmap %ld\n", PTR_ERR(map));
-         |                                                           ~~^
-         |                                                             |
-         |                                                             long int
-         |                                                           %d
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from include/sound/soc.h:15,
-                    from sound/soc/intel/avs/topology.c:11:
-   sound/soc/intel/avs/topology.c: In function 'avs_tplg_pipeline_create':
->> sound/soc/intel/avs/topology.c:1240:44: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-    1240 |                         dev_err(comp->dev, "parse module failed: %ld\n",
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/intel/avs/topology.c:1240:25: note: in expansion of macro 'dev_err'
-    1240 |                         dev_err(comp->dev, "parse module failed: %ld\n",
-         |                         ^~~~~~~
-   sound/soc/intel/avs/topology.c:1240:68: note: format string is defined here
-    1240 |                         dev_err(comp->dev, "parse module failed: %ld\n",
-         |                                                                  ~~^
-         |                                                                    |
-         |                                                                    long int
-         |                                                                  %d
-   sound/soc/intel/avs/topology.c: In function 'avs_tplg_path_create':
-   sound/soc/intel/avs/topology.c:1327:44: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-    1327 |                         dev_err(comp->dev, "parse pipeline failed: %ld\n",
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/intel/avs/topology.c:1327:25: note: in expansion of macro 'dev_err'
-    1327 |                         dev_err(comp->dev, "parse pipeline failed: %ld\n",
-         |                         ^~~~~~~
-   sound/soc/intel/avs/topology.c:1327:70: note: format string is defined here
-    1327 |                         dev_err(comp->dev, "parse pipeline failed: %ld\n",
-         |                                                                    ~~^
-         |                                                                      |
-         |                                                                      long int
-         |                                                                    %d
-   sound/soc/intel/avs/topology.c: In function 'parse_path_template':
-   sound/soc/intel/avs/topology.c:1383:44: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-    1383 |                         dev_err(comp->dev, "parse path failed: %ld\n", PTR_ERR(path));
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/intel/avs/topology.c:1383:25: note: in expansion of macro 'dev_err'
-    1383 |                         dev_err(comp->dev, "parse path failed: %ld\n", PTR_ERR(path));
-         |                         ^~~~~~~
-   sound/soc/intel/avs/topology.c:1383:66: note: format string is defined here
-    1383 |                         dev_err(comp->dev, "parse path failed: %ld\n", PTR_ERR(path));
-         |                                                                ~~^
-         |                                                                  |
-         |                                                                  long int
-         |                                                                %d
-   sound/soc/intel/avs/topology.c: In function 'avs_widget_load':
-   sound/soc/intel/avs/topology.c:1493:36: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
-    1493 |                 dev_err(comp->dev, "widget %s load failed: %ld\n", dw->name,
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/intel/avs/topology.c:1493:17: note: in expansion of macro 'dev_err'
-    1493 |                 dev_err(comp->dev, "widget %s load failed: %ld\n", dw->name,
-         |                 ^~~~~~~
-   sound/soc/intel/avs/topology.c:1493:62: note: format string is defined here
-    1493 |                 dev_err(comp->dev, "widget %s load failed: %ld\n", dw->name,
-         |                                                            ~~^
-         |                                                              |
-         |                                                              long int
-         |                                                            %d
---
-   In file included from include/linux/device.h:15,
-                    from include/linux/pci.h:37,
-                    from sound/soc/intel/avs/core.c:18:
-   sound/soc/intel/avs/core.c: In function 'probe_codec':
->> sound/soc/intel/avs/core.c:134:35: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-     134 |                 dev_err(bus->dev, "init codec failed: %ld\n", PTR_ERR(codec));
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/intel/avs/core.c:134:17: note: in expansion of macro 'dev_err'
-     134 |                 dev_err(bus->dev, "init codec failed: %ld\n", PTR_ERR(codec));
-         |                 ^~~~~~~
-   sound/soc/intel/avs/core.c:134:57: note: format string is defined here
-     134 |                 dev_err(bus->dev, "init codec failed: %ld\n", PTR_ERR(codec));
-         |                                                       ~~^
-         |                                                         |
-         |                                                         long int
-         |                                                       %d
+   In file included from drivers/pwm/pwm-cv1800.c:14:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/pwm/pwm-cv1800.c:14:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/pwm/pwm-cv1800.c:14:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/pwm/pwm-cv1800.c:131:3: warning: comparison of distinct pointer types ('typeof ((tem)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+     131 |                 do_div(tem, rate);
+         |                 ^~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-cv1800.c:131:3: error: incompatible pointer types passing 'u32 *' (aka 'unsigned int *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+     131 |                 do_div(tem, rate);
+         |                 ^~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                                      ^
+   drivers/pwm/pwm-cv1800.c:135:3: warning: comparison of distinct pointer types ('typeof ((tem)) *' (aka 'unsigned int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+     135 |                 do_div(tem, hlperiod_val);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-cv1800.c:135:3: error: incompatible pointer types passing 'u32 *' (aka 'unsigned int *') to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+     135 |                 do_div(tem, hlperiod_val);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                                      ^
+>> drivers/pwm/pwm-cv1800.c:131:3: warning: shift count >= width of type [-Wshift-count-overflow]
+     131 |                 do_div(tem, rate);
+         |                 ^~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^  ~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   drivers/pwm/pwm-cv1800.c:135:3: warning: shift count >= width of type [-Wshift-count-overflow]
+     135 |                 do_div(tem, hlperiod_val);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^  ~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   10 warnings and 2 errors generated.
 
 
-vim +1385 drivers/rtc/rtc-ds1307.c
+vim +131 drivers/pwm/pwm-cv1800.c
 
-445c02076f1e60 Akinobu Mita      2016-01-25  1373  
-445c02076f1e60 Akinobu Mita      2016-01-25  1374  static void ds1307_hwmon_register(struct ds1307 *ds1307)
-445c02076f1e60 Akinobu Mita      2016-01-25  1375  {
-445c02076f1e60 Akinobu Mita      2016-01-25  1376  	struct device *dev;
-445c02076f1e60 Akinobu Mita      2016-01-25  1377  
-445c02076f1e60 Akinobu Mita      2016-01-25  1378  	if (ds1307->type != ds_3231)
-445c02076f1e60 Akinobu Mita      2016-01-25  1379  		return;
-445c02076f1e60 Akinobu Mita      2016-01-25  1380  
-11e5890b5342c8 Heiner Kallweit   2017-03-10  1381  	dev = devm_hwmon_device_register_with_groups(ds1307->dev, ds1307->name,
-4057a66e5333bf Alexandre Belloni 2017-09-04  1382  						     ds1307,
-4057a66e5333bf Alexandre Belloni 2017-09-04  1383  						     ds3231_hwmon_groups);
-445c02076f1e60 Akinobu Mita      2016-01-25  1384  	if (IS_ERR(dev)) {
-11e5890b5342c8 Heiner Kallweit   2017-03-10 @1385  		dev_warn(ds1307->dev, "unable to register hwmon device %ld\n",
-11e5890b5342c8 Heiner Kallweit   2017-03-10  1386  			 PTR_ERR(dev));
-445c02076f1e60 Akinobu Mita      2016-01-25  1387  	}
-445c02076f1e60 Akinobu Mita      2016-01-25  1388  }
-445c02076f1e60 Akinobu Mita      2016-01-25  1389  
-
-:::::: The code at line 1385 was first introduced by commit
-:::::: 11e5890b5342c82eefbaa39aec4767ae21ae8803 rtc: ds1307: convert driver to regmap
-
-:::::: TO: Heiner Kallweit <hkallweit1@gmail.com>
-:::::: CC: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+   113	
+   114	static int cv1800_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+   115					 struct pwm_state *state)
+   116	{
+   117		struct cv1800_pwm *priv = to_cv1800_pwm_dev(chip);
+   118		u32 period_val, hlperiod_val, tem;
+   119		u64 rate;
+   120		u64 period_ns = 0;
+   121		u64 duty_ns = 0;
+   122		u32 enable = 0;
+   123	
+   124		regmap_read(priv->map, PERIOD(pwm->hwpwm), &period_val);
+   125		regmap_read(priv->map, HLPERIOD(pwm->hwpwm), &hlperiod_val);
+   126	
+   127		if (period_val != PERIOD_RESET || hlperiod_val != HLPERIOD_RESET) {
+   128			rate = (u64)clk_get_rate(priv->clk);
+   129	
+   130			tem = NSEC_PER_SEC * period_val;
+ > 131			do_div(tem, rate);
+   132			period_ns = tem;
+   133	
+   134			tem = period_val * period_ns;
+   135			do_div(tem, hlperiod_val);
+   136			duty_ns = tem;
+   137	
+   138			regmap_read(priv->map, PWMSTART, &enable);
+   139			enable >>= pwm->hwpwm;
+   140		}
+   141	
+   142		state->period = period_ns;
+   143		state->duty_cycle = duty_ns;
+   144		state->enabled = enable;
+   145	
+   146		return 0;
+   147	}
+   148	
 
 -- 
 0-DAY CI Kernel Test Service
