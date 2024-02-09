@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3272169D25
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 14:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAE676036
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 15:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707488502; cv=none; b=YOOAvCY1GpRMc/6K7WzG72OO3PsqJAXcQFvSKwN24txgxyMT/q3ZWeMguyeyZGK0s7NejjDph+VaFqEDLtkBO/7IZN6aVkNuis46PSRrjd40vXRqzp8dqBDHiKuS8n4aiGDwfhUnaYCCCi45gJnU1UB/YEGovzvzkMTXHKBjR34=
+	t=1707492816; cv=none; b=GIbPEhDdEHB8Js47IFxv6+qvN3aGtu5dJjeQRAScYn3uSw7jwvlij6Wv/SekC1Ka8kUqjJ/chLutmIn2aEL2fNWgJEV196sDod1ZyC32Hd0OsfgZ8QL8h0sslug1+kDLuXsHwTDmDt8sm+kV6j1hz4qWvXc37drqZM/yQrtbmog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707488502; c=relaxed/simple;
-	bh=syWhBX517J+XUXmuU5gMe1ovOlvV1TyZVDh/AeqK1gI=;
+	s=arc-20240116; t=1707492816; c=relaxed/simple;
+	bh=/uOgL0L6lHM/X3uPQJuyG37nIHjtd74huS+zuipAY6Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GvsC85E1m2wHomho3rjl8RHEwS54ZGL2/qY99HqUVMYyopWIuT5hli5FjmyxgvBi640DuVksGSBi3xOjQPLjbPeSbG2x00Ni6cWR9S0n39m3tV2AO2s6gIUb8ievhMUwD57tWrot8RZK5OYFBTPaUE9wYkT9EdGrOYlDfn4FkaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MuszbH2C; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=hb6iRaI5Hf0wiNW3Z+x00ltVeZn3Casq8uT0c1XzEofTwPAUTuiAV+lqB7uDPmOf4nbGgJM6F/rMbvQJQkcr2R44E1awzEQN0Kwoa2V2u3ocqNU0BCTv1KBkg85NYErvEeTz7Xh/nssAKVuDUYQEK9/MCkWQvxs2FmIOFIHdcJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=azHGWNjl; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MuszbH2C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="azHGWNjl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707488501; x=1739024501;
+  t=1707492814; x=1739028814;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=syWhBX517J+XUXmuU5gMe1ovOlvV1TyZVDh/AeqK1gI=;
-  b=MuszbH2C9DXuDyq6D+iqTiKxqRUjrMtDuvmuGmOHaigNdILO+Bf2dvNB
-   gNgEPDQgS1FaDX1Hhli4qKcYIp4w1CvxiPM1WI8WCIwfAmdaQnF0cXu3F
-   iGIu816nMXV1AdDc9JUsWmGjvfBIWfpCZtSr3TqTn87N57kpz/cYUY1oz
-   qIRMaQ3QuioIUSuKnmUfiJq/je1F+IhlGVu8KziXRau6AQwCa4wFY/hHF
-   PuygcZWMhw2x+ng3hgakM7Jt3sZSu/d44cFS1NfCoU0okAjmW23KmV8vd
-   WSelp6yXxDzYUhyeM0OyXZU9TpNmZsXfpSI7nT6HLNUwRJnvqGMxlQJv5
+  bh=/uOgL0L6lHM/X3uPQJuyG37nIHjtd74huS+zuipAY6Q=;
+  b=azHGWNjlD1dowvcJa7reAXZh14KdaSGOENE79tip/pgDDhU9HTAQSOjl
+   BwPN8sP+wuCVEB18HSkRePL9DZwRBwoLp8Fxr/vT6e46EZtQEb4fVixK8
+   p3vnrPnyKBcOe0SUxFCyvYheGVAZUQ8mNXRElZXnvW7bhFCCBB6rwqH11
+   d/uYN+ppKCnDtHs3MRdqWgO9VPYosWljS4ZIkGArPkYaFDSx0KA+S0zMe
+   Q+cyhw0Ym0dLDW4qsxNZVK4S2wpG/Hf7HWlmk2e13rhKQ2Z03BKb6INDl
+   mX+JdjA+PYZq0il9hPlM4Y8mYM5xmGRpg8xg03W+Hw6elq0mUtBGUJtl9
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5252998"
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5296849"
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="5252998"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 06:21:28 -0800
+   d="scan'208";a="5296849"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 07:33:31 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="825170553"
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="2165257"
+   d="scan'208";a="825170553"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Feb 2024 06:21:27 -0800
+  by orsmga001.jf.intel.com with ESMTP; 09 Feb 2024 07:33:29 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYRkq-0004mE-2G;
-	Fri, 09 Feb 2024 14:21:24 +0000
-Date: Fri, 9 Feb 2024 22:20:41 +0800
+	id 1rYSsZ-0004pt-17;
+	Fri, 09 Feb 2024 15:33:27 +0000
+Date: Fri, 9 Feb 2024 23:33:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ukleinek:pwm-lifetime-tracking 153/153]
- drivers/pwm/pwm-omap-dmtimer.c:66: warning: Excess struct member 'chip'
- description in 'pwm_omap_dmtimer_chip'
-Message-ID: <202402092204.Vxk56Ruw-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 65/77]
+ drivers/thermal/intel/intel_quark_dts_thermal.c:353:17: error: 'trips'
+ undeclared
+Message-ID: <202402092329.W4VIvzU0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,47 +61,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm-lifetime-tracking
-head:   f10ff6c7e1f341afe7f15a1f5f53379a0752bcb0
-commit: 4b0a2d6e64260314f34fa13b3749c840da7901b0 [153/153] pwm: omap-dmtimer: Make use of devm_pwmchip_alloc() function
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240209/202402092204.Vxk56Ruw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402092204.Vxk56Ruw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   2bc44535ed4f6a6013ec53b505c4c381e166f0ce
+commit: fdb07e113a91652cc3adf07a8e1ca7da3445f493 [65/77] thermal: intel: Set THERMAL_TRIP_WRITABLE_TEMP directly
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240209/202402092329.W4VIvzU0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402092329.W4VIvzU0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402092204.Vxk56Ruw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402092329.W4VIvzU0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pwm/pwm-omap-dmtimer.c:66: warning: Excess struct member 'chip' description in 'pwm_omap_dmtimer_chip'
+   drivers/thermal/intel/intel_quark_dts_thermal.c: In function 'alloc_soc_dts':
+>> drivers/thermal/intel/intel_quark_dts_thermal.c:353:17: error: 'trips' undeclared (first use in this function)
+     353 |                 trips[QRK_DTS_ID_TP_CRITICAL].flags |= THERMAL_TRIP_WRITABLE_TEMP;
+         |                 ^~~~~
+   drivers/thermal/intel/intel_quark_dts_thermal.c:353:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +66 drivers/pwm/pwm-omap-dmtimer.c
+vim +/trips +353 drivers/thermal/intel/intel_quark_dts_thermal.c
 
-6604c6556db9e4 Neil Armstrong 2015-11-02  52  
-6b28fb6f3ca30b Lokesh Vutla   2020-03-12  53  /**
-6b28fb6f3ca30b Lokesh Vutla   2020-03-12  54   * struct pwm_omap_dmtimer_chip - Structure representing a pwm chip
-6b28fb6f3ca30b Lokesh Vutla   2020-03-12  55   *				  corresponding to omap dmtimer.
-6b28fb6f3ca30b Lokesh Vutla   2020-03-12  56   * @chip:		PWM chip structure representing PWM controller
-6b28fb6f3ca30b Lokesh Vutla   2020-03-12  57   * @dm_timer:		Pointer to omap dm timer.
-6b28fb6f3ca30b Lokesh Vutla   2020-03-12  58   * @pdata:		Pointer to omap dm timer ops.
-dfd9b6154d5df4 Lee Jones      2020-06-29  59   * @dm_timer_pdev:	Pointer to omap dm timer platform device
-6b28fb6f3ca30b Lokesh Vutla   2020-03-12  60   */
-6604c6556db9e4 Neil Armstrong 2015-11-02  61  struct pwm_omap_dmtimer_chip {
-6b28fb6f3ca30b Lokesh Vutla   2020-03-12  62  	/* Mutex to protect pwm apply state */
-54091b5f195b45 Lokesh Vutla   2020-03-12  63  	struct omap_dm_timer *dm_timer;
-b7290cf6ff7869 Keerthy        2018-02-15  64  	const struct omap_dm_timer_ops *pdata;
-6604c6556db9e4 Neil Armstrong 2015-11-02  65  	struct platform_device *dm_timer_pdev;
-6604c6556db9e4 Neil Armstrong 2015-11-02 @66  };
-6604c6556db9e4 Neil Armstrong 2015-11-02  67  
-
-:::::: The code at line 66 was first introduced by commit
-:::::: 6604c6556db9e41c85f2839f66bd9d617bcf9f87 pwm: Add PWM driver for OMAP using dual-mode timers
-
-:::::: TO: Neil Armstrong <narmstrong@baylibre.com>
-:::::: CC: Thierry Reding <thierry.reding@gmail.com>
+   316	
+   317	static struct soc_sensor_entry *alloc_soc_dts(void)
+   318	{
+   319		struct soc_sensor_entry *aux_entry;
+   320		int err;
+   321		u32 out;
+   322	
+   323		aux_entry = kzalloc(sizeof(*aux_entry), GFP_KERNEL);
+   324		if (!aux_entry) {
+   325			err = -ENOMEM;
+   326			return ERR_PTR(-ENOMEM);
+   327		}
+   328	
+   329		/* Check if DTS register is locked */
+   330		err = iosf_mbi_read(QRK_MBI_UNIT_RMU, MBI_REG_READ,
+   331				    QRK_DTS_REG_OFFSET_LOCK, &out);
+   332		if (err)
+   333			goto err_ret;
+   334	
+   335		aux_entry->locked = !!(out & QRK_DTS_LOCK_BIT);
+   336	
+   337		/* Store DTS default state if DTS registers are not locked */
+   338		if (!aux_entry->locked) {
+   339			/* Store DTS default enable for restore on exit */
+   340			err = iosf_mbi_read(QRK_MBI_UNIT_RMU, MBI_REG_READ,
+   341					    QRK_DTS_REG_OFFSET_ENABLE,
+   342					    &aux_entry->store_dts_enable);
+   343			if (err)
+   344				goto err_ret;
+   345	
+   346			/* Store DTS default PTPS register for restore on exit */
+   347			err = iosf_mbi_read(QRK_MBI_UNIT_RMU, MBI_REG_READ,
+   348					    QRK_DTS_REG_OFFSET_PTPS,
+   349					    &aux_entry->store_ptps);
+   350			if (err)
+   351				goto err_ret;
+   352	
+ > 353			trips[QRK_DTS_ID_TP_CRITICAL].flags |= THERMAL_TRIP_WRITABLE_TEMP;
+   354			trips[QRK_DTS_ID_TP_HOT].flags |= THERMAL_TRIP_WRITABLE_TEMP;
+   355		}
+   356	
+   357		aux_entry->trips[QRK_DTS_ID_TP_CRITICAL].temperature = get_trip_temp(QRK_DTS_ID_TP_CRITICAL);
+   358		aux_entry->trips[QRK_DTS_ID_TP_CRITICAL].type = THERMAL_TRIP_CRITICAL;
+   359	
+   360		aux_entry->trips[QRK_DTS_ID_TP_HOT].temperature = get_trip_temp(QRK_DTS_ID_TP_HOT);
+   361		aux_entry->trips[QRK_DTS_ID_TP_HOT].type = THERMAL_TRIP_HOT;
+   362	
+   363		aux_entry->tzone = thermal_zone_device_register_with_trips("quark_dts",
+   364									   aux_entry->trips,
+   365									   QRK_MAX_DTS_TRIPS,
+   366									   0, aux_entry,
+   367									   &tzone_ops,
+   368									   NULL, 0, polling_delay);
+   369		if (IS_ERR(aux_entry->tzone)) {
+   370			err = PTR_ERR(aux_entry->tzone);
+   371			goto err_ret;
+   372		}
+   373	
+   374		err = thermal_zone_device_enable(aux_entry->tzone);
+   375		if (err)
+   376			goto err_aux_status;
+   377	
+   378		return aux_entry;
+   379	
+   380	err_aux_status:
+   381		thermal_zone_device_unregister(aux_entry->tzone);
+   382	err_ret:
+   383		kfree(aux_entry);
+   384		return ERR_PTR(err);
+   385	}
+   386	
 
 -- 
 0-DAY CI Kernel Test Service
