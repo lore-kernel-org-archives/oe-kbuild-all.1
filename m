@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B8A7BB16
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 17:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2618E7EF03
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 18:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707501039; cv=none; b=DND2ptp3JUOWL6a/FI66zV8MKcVfkRCvCipmy53hxDTF9uhGxKVtbMQzkEuV/FNbjQJ2tCHr2c5w9r2EGt1ks53D7fzxuSbftasof3VUu4KDtWsWR23L5cw4MN7dRBR3povKmpWANFRO/GpFza80tsSZGeEJaAG/FJPJqEEoth8=
+	t=1707502299; cv=none; b=bxOLWDRTTa8R5Vcwl3p9SvuncdMS0e7WC7IbmjZI3RgM0CkXS0+d291SUl54nllzCioq/EEQf4WzqZYNhL5HHWkQxrXWrN45lfTgRybyUgSflGnnFalpaQRXZ26FILzX1gWbSLIur0H8F5/RHUqVjUSQ11PaASlVb/WEpK1+6jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707501039; c=relaxed/simple;
-	bh=1laTTHCgygcPfanCnT37plaDmSda/Mn+foyUMPP2B1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CqsGTP1V55uZzRJYU19inyMK4w5gF+Kch/957CJdKOArT7g4vSgSVdv6A5ZuoqxHUzbDyAxMcADUrLA592EqdwA/dAbYFU21jfTHTROo7b4fJU+QWlAIIO9ICyGKSWzO+qqYiP5Q0Zxu/0WmtgV/2AP7ch2OcYmAviFrOc/bKhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGDoMT8M; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1707502299; c=relaxed/simple;
+	bh=TeyFZ3Uf10/ENZtnse02lhW6DQaLP5pXVtknT44L50A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EWSakjTHDyxSC6lwGDwMk/aGTZGayLI0MqCwF1woPhHNjs7cY5VhXdyvM9vNa7WegzaQfOwzb7SFxp+XFmQHPIImbLa3Bpz/yL0ulxuxZB7EywFefhmMoAkvn5fsazX2CqmlTZRSmCQQQnflGvHl0anxLXk5NHBlsVFHoFBuZFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g3CcXZfw; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGDoMT8M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g3CcXZfw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707501038; x=1739037038;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1laTTHCgygcPfanCnT37plaDmSda/Mn+foyUMPP2B1c=;
-  b=aGDoMT8M2WP1UBvdI8mIyVgh2BsoKkMpExZ7baOz7G4taGezLZSic+ny
-   ES1x/Mgd9CrKzdH8ZO0xafX+sHZqzOlQdYKryV2QDvkK+245rWCITyZGe
-   Po21/7R5SnRP4iOIWP4ORCELHvq9mmnnHbavFbeCcFNWGvShGO9chkaZZ
-   jxmuUzaYezaNKLXYXUErgKWQWmVgHdqtb2ss6MtdPeP3iBQHRqVtlKu7W
-   cWwMTFJJxr7H0Fb7UzuBENpqLItb2EJZIXxsF5V8Puxj1rUwmm/N8sp3T
-   hABOvkESl1A5tCHdhPYkCdagJPbKV13rJpuIFMHrr22XT4deDPnsUvmKI
+  t=1707502298; x=1739038298;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TeyFZ3Uf10/ENZtnse02lhW6DQaLP5pXVtknT44L50A=;
+  b=g3CcXZfwKR00nYjgOOdKWvTtznjrhWCWOZbDRzyDZN80iMYeNc5iwYzW
+   SBivxPN6pR6v0tXQrHCSsqxPs/WQgrb7Z9PaeFUa1oY4/sM9Q412cA7j6
+   wxR6regWa4WlumDphrniSedvv2A5EK7yAby3PwBXOPxLVlrbmQR2p/WDu
+   8RXr5NDwjjYQEn36MQZPqdySuo1wF9nhNtuKyticy8TJDM1QSO0bcPEq8
+   DbXtJDRkjXL/jDualmLSAZprCDkE1b2Mzm3vPTa5ELGdCrcFzSAon7R/T
+   HwGrYygzYxu3lQkloDjdTfVjLvDgNEpbI/2jXy8/AHoBIDoAdr+LLKVRH
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="12117976"
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1373274"
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="12117976"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:50:37 -0800
+   d="scan'208";a="1373274"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 10:11:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="6641136"
+   d="scan'208";a="2303414"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Feb 2024 09:50:35 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 09 Feb 2024 10:11:36 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYV1F-0004zC-24;
-	Fri, 09 Feb 2024 17:50:33 +0000
-Date: Sat, 10 Feb 2024 01:50:10 +0800
+	id 1rYVLa-000506-0u;
+	Fri, 09 Feb 2024 18:11:34 +0000
+Date: Sat, 10 Feb 2024 02:10:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, daniele.ceraolospurio@intel.com,
-	Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: Re: [PATCH 4/5] drm/xe/hdcp: Enable HDCP for XE
-Message-ID: <202402100132.XIP3zz5i-lkp@intel.com>
-References: <20240209101412.1326176-5-suraj.kandpal@intel.com>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Frederic Weisbecker <frederic@kernel.org>
+Subject: [frederic-dynticks:timers/anna 27/28]
+ kernel/time/timer_migration.c:18:10: fatal error:
+ trace/events/timer_migration.h: No such file or directory
+Message-ID: <202402100230.4paGWSBs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,55 +59,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240209101412.1326176-5-suraj.kandpal@intel.com>
 
-Hi Suraj,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on drm-tip/drm-tip]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc3 next-20240209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-hdcp-Move-intel_hdcp_gsc_message-def-away-from-header-file/20240209-181915
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20240209101412.1326176-5-suraj.kandpal%40intel.com
-patch subject: [PATCH 4/5] drm/xe/hdcp: Enable HDCP for XE
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240210/202402100132.XIP3zz5i-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402100132.XIP3zz5i-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/anna
+head:   7e542ba8af9a26c2951f3c5ec4c5e1513da16201
+commit: ca2080d0534d1f1a3ea73d415dcfd5d7760abcb6 [27/28] timer_migration: Add tracepoints
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20240210/202402100230.4paGWSBs-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402100230.4paGWSBs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402100132.XIP3zz5i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402100230.4paGWSBs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/xe/xe_gsc_submit.c:50: warning: expecting prototype for xe_gsc_get_host_session_id(). Prototype was for xe_gsc_create_host_session_id() instead
+>> kernel/time/timer_migration.c:18:10: fatal error: trace/events/timer_migration.h: No such file or directory
+      18 | #include <trace/events/timer_migration.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +50 drivers/gpu/drm/xe/xe_gsc_submit.c
+vim +18 kernel/time/timer_migration.c
 
-    42	
-    43	/**
-    44	 * xe_gsc_get_host_session_id - Creates a random 64 bit host_session id with
-    45	 * bits 56-63 masked.
-    46	 *
-    47	 * Returns: random host_session_id which can be used to send messages to gsc cs
-    48	 */
-    49	u64 xe_gsc_create_host_session_id(void)
-  > 50	{
-    51		u64 host_session_id;
-    52	
-    53		get_random_bytes(&host_session_id, sizeof(u64));
-    54		host_session_id &= ~HOST_SESSION_CLIENT_MASK;
-    55		return host_session_id;
-    56	}
-    57	
+    16	
+    17	#define CREATE_TRACE_POINTS
+  > 18	#include <trace/events/timer_migration.h>
+    19	
 
 -- 
 0-DAY CI Kernel Test Service
