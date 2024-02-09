@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7582F6F06C;
-	Fri,  9 Feb 2024 16:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3314376047
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 16:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707495335; cv=none; b=YilakU4oSVpBRuTXcEFN+TthbWx5gFPQcc9MBfK4mkuS1Pau7el7rHICGMXaYzLBiTM6tQbtbzz6OoZHJ2Lfi5qljaG1V87TKRXhksmumqsVS3sNr1Cnrz62K8YrdMQwzycjiUrm8G6RwIeL2qkMTEo5xlBlSe9DFg5i1fyn7Ls=
+	t=1707495336; cv=none; b=KNWy1MKJOTbv/PclyiPn4OBuyAornYQr5vQyZfaEhdQ5l/acVbdH8A+CYaCWMLkQs4w3tmFM6cp1UDV9dhWAOFMXdb0QTwm4MlfbbDoqdJUw8WHFPMocjDV6huBKkRgvBG4SrZhiuYuucQQcEXFTqwjE1MNSu9OsGOmawXQ303I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707495335; c=relaxed/simple;
-	bh=r11DU+XTmPt95MYxRQJdklSHxLcf2Kzval2EIkxhmIQ=;
+	s=arc-20240116; t=1707495336; c=relaxed/simple;
+	bh=7iLPhPds+BjkiKeguEdeSCVjfcEnwmg6sMpuleVgP2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mt+xhFyGX5UewUhkNDnmpFxHqBpbkWm1QeUgMq/p6iCcy+5y9CQ1p9g9mLdrZo7LLsibcJqKBBQSXtsYx1vq2qj7i+UfPgKMB+VfdGOWxJxdudPm0gSVSyKCDcdonVenqs1wupDvfDBsnTrl7z7PgvmK44KkyFF3QUhD6sKHYbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mES36W/5; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=fY8tGNe5KMUA91DjqruQVr8yM+lID2bRq6C7+bgo3TBRNQQcA3CHYJ5rTUGjm1Q1KIiJEO9pwhRv9W+vIwsbH3yQRgi+WLxkpjDdpH9x2SKub6UNo3MbPFTmu/JBk5r4HR5UWGn5haitC87FBubbfrI7dIr3J9DmUni8Zak7ibA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJyOQslt; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mES36W/5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJyOQslt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1707495334; x=1739031334;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r11DU+XTmPt95MYxRQJdklSHxLcf2Kzval2EIkxhmIQ=;
-  b=mES36W/5FgMAmd0T3S3bAlaNx/xiVn2jbxi26IFm88ORRi/qYylnX16H
-   5NoanyVH6qEr68/r35UzWSwo/PFXN6Vlb9NkVgfcbxn20H4t7l872E57L
-   YgouWzcmmbtIdchuo0chSQ0I2pxTIqXGomAfhfqBc6/ZzdyZYS/SRgFMj
-   Cyhc+/sU8jzVG9maq2TEGxzoK1Z32b4v0pLb0+SV0FLNNl8U7skZ/3QaT
-   fcSmnJXzWgZp3JKH6a4FSeI2EjXnXzJCzYKhAZrYNRkwVvs0DDMqqJTsK
-   khZUMOHOCq5XT3c4TY6OG50J/RZ7jYuBYY2EMayPbysfJFZbDNJ3nj1mP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1589340"
+  bh=7iLPhPds+BjkiKeguEdeSCVjfcEnwmg6sMpuleVgP2g=;
+  b=kJyOQsltzkkX0P47mcuS0IdxGTJlMQGdRLdrltqUuqJuo7fD9yhrMj/8
+   //LvlcE2HU/tCuF9sQXKHJq+t3fKzZm88fZ+5IQqEDbUDtl0+w1tnEauB
+   8oQNoR51Ov5KWFihfmVEg57c0qk2U/msXYjv3v3kjWTrcoFzfiD71eaIp
+   8V1+2V8VZfkyUiNvjlHlQeSs/CTANRHoGF9yVv7LY1VePh/F6DQjq8dx4
+   qsuc6VfQgV4ViHkyglXkPVLf7kTHD7hQudkr0014rtMe/wL5fIGP70Ks9
+   wUZaPNPJtuSci4NSSiLsacZUNzmWjCD9TYzscVcV6Dp/zgRCi4KKRWOCi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5249504"
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="1589340"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 08:15:33 -0800
+   d="scan'208";a="5249504"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 08:15:33 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="6619784"
+   d="scan'208";a="2011977"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Feb 2024 08:15:31 -0800
+  by orviesa010.jf.intel.com with ESMTP; 09 Feb 2024 08:15:31 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYTXF-0004sw-0u;
+	id 1rYTXF-0004t1-13;
 	Fri, 09 Feb 2024 16:15:29 +0000
 Date: Sat, 10 Feb 2024 00:15:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ukleinek:pwm-lifetime-tracking 83/148]
- drivers/pwm/pwm-rz-mtu3.c:82: warning: Excess struct member 'chip'
- description in 'rz_mtu3_pwm_chip'
-Message-ID: <202402100028.vCE2IzC1-lkp@intel.com>
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 15692/21625]
+ include/linux/uaccess.h:112:17: warning: 'ciov' may be used uninitialized
+Message-ID: <202402100007.deukWjpN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,55 +58,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm-lifetime-tracking
-head:   f10ff6c7e1f341afe7f15a1f5f53379a0752bcb0
-commit: 83b56e4776beceee8834fa082c64988bacd4d203 [83/148] pwm: rz-mtu3: Make use of devm_pwmchip_alloc() function
-config: x86_64-buildonly-randconfig-001-20240208 (https://download.01.org/0day-ci/archive/20240210/202402100028.vCE2IzC1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402100028.vCE2IzC1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   7efcac7603953bb58d80041f410b079378b5174c
+commit: 6c08191286995b0594d2ecf12fe7fca3cea1a5ca [15692/21625] io_uring: add support for pre-mapped user IO buffers
+config: arm64-randconfig-r123-20240125 (https://download.01.org/0day-ci/archive/20240210/202402100007.deukWjpN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240210/202402100007.deukWjpN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402100028.vCE2IzC1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402100007.deukWjpN-lkp@intel.com/
+
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pwm/pwm-rz-mtu3.c:82: warning: Excess struct member 'chip' description in 'rz_mtu3_pwm_chip'
+   In file included from include/linux/poll.h:12,
+                    from include/linux/ring_buffer.h:7,
+                    from include/linux/trace_events.h:6,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:86,
+                    from fs/io_uring.c:32:
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'io_copy_iov.isra' at fs/io_uring.c:1457:7:
+>> include/linux/uaccess.h:112:17: warning: 'ciov' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/compiler.h:251,
+                    from include/linux/kernel.h:10,
+                    from fs/io_uring.c:29:
+   include/linux/kasan-checks.h: In function 'io_copy_iov.isra':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   fs/io_uring.c:1454:37: note: 'ciov' declared here
+    1454 |                 struct compat_iovec ciov;
+         |                                     ^~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'io_uring_setup' at fs/io_uring.c:1960:6:
+   include/linux/uaccess.h:112:17: warning: 'p' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'io_uring_setup':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   fs/io_uring.c:1956:32: note: 'p' declared here
+    1956 |         struct io_uring_params p;
+         |                                ^
+   In file included from include/linux/uaccess.h:11:
+   In function 'set_fs',
+       inlined from 'io_sq_wq_submit_work' at fs/io_uring.c:1114:3:
+   arch/arm64/include/asm/uaccess.h:59:12: warning: 'old_fs' may be used uninitialized [-Wmaybe-uninitialized]
+      59 |         if (IS_ENABLED(CONFIG_ARM64_UAO) && fs == KERNEL_DS)
+         |            ^
+   fs/io_uring.c: In function 'io_sq_wq_submit_work':
+   fs/io_uring.c:1074:22: note: 'old_fs' was declared here
+    1074 |         mm_segment_t old_fs;
+         |                      ^~~~~~
 
 
-vim +82 drivers/pwm/pwm-rz-mtu3.c
+vim +/ciov +112 include/linux/uaccess.h
 
-254d3a727421cc Biju Das 2023-06-02  60  
-254d3a727421cc Biju Das 2023-06-02  61  /**
-254d3a727421cc Biju Das 2023-06-02  62   * struct rz_mtu3_pwm_chip - MTU3 pwm private data
-254d3a727421cc Biju Das 2023-06-02  63   *
-254d3a727421cc Biju Das 2023-06-02  64   * @chip: MTU3 pwm chip data
-254d3a727421cc Biju Das 2023-06-02  65   * @clk: MTU3 module clock
-254d3a727421cc Biju Das 2023-06-02  66   * @lock: Lock to prevent concurrent access for usage count
-254d3a727421cc Biju Das 2023-06-02  67   * @rate: MTU3 clock rate
-254d3a727421cc Biju Das 2023-06-02  68   * @user_count: MTU3 usage count
-254d3a727421cc Biju Das 2023-06-02  69   * @enable_count: MTU3 enable count
-254d3a727421cc Biju Das 2023-06-02  70   * @prescale: MTU3 prescale
-254d3a727421cc Biju Das 2023-06-02  71   * @channel_data: MTU3 pwm channel data
-254d3a727421cc Biju Das 2023-06-02  72   */
-254d3a727421cc Biju Das 2023-06-02  73  
-254d3a727421cc Biju Das 2023-06-02  74  struct rz_mtu3_pwm_chip {
-254d3a727421cc Biju Das 2023-06-02  75  	struct clk *clk;
-254d3a727421cc Biju Das 2023-06-02  76  	struct mutex lock;
-254d3a727421cc Biju Das 2023-06-02  77  	unsigned long rate;
-254d3a727421cc Biju Das 2023-06-02  78  	u32 user_count[RZ_MTU3_MAX_HW_CHANNELS];
-254d3a727421cc Biju Das 2023-06-02  79  	u32 enable_count[RZ_MTU3_MAX_HW_CHANNELS];
-254d3a727421cc Biju Das 2023-06-02  80  	u8 prescale[RZ_MTU3_MAX_HW_CHANNELS];
-254d3a727421cc Biju Das 2023-06-02  81  	struct rz_mtu3_pwm_channel channel_data[RZ_MTU3_MAX_HW_CHANNELS];
-254d3a727421cc Biju Das 2023-06-02 @82  };
-254d3a727421cc Biju Das 2023-06-02  83  
+d597580d373774 Al Viro        2017-03-20  104  
+d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
+d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
+d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  108  {
+d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
+9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
+4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
+9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
+d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
+9c5f6908de03a4 Al Viro        2017-06-29  114  	}
+d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
+d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
+d597580d373774 Al Viro        2017-03-20  117  	return res;
+d597580d373774 Al Viro        2017-03-20  118  }
+d597580d373774 Al Viro        2017-03-20  119  #else
+d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
+d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
+d597580d373774 Al Viro        2017-03-20  122  #endif
+d597580d373774 Al Viro        2017-03-20  123  
 
-:::::: The code at line 82 was first introduced by commit
-:::::: 254d3a727421ccc935f085eaa9bae51cb6c9df25 pwm: Add Renesas RZ/G2L MTU3a PWM driver
+:::::: The code at line 112 was first introduced by commit
+:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
 
-:::::: TO: Biju Das <biju.das.jz@bp.renesas.com>
-:::::: CC: Thierry Reding <thierry.reding@gmail.com>
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
