@@ -1,152 +1,146 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E786080C0E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 17:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9BE53398
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 17:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707498720; cv=none; b=ihn8z2wmIv8ENwaQGPR8nktRDr+eR3wJR3xvDY65fWosEjv46H0AcgSNuU51I55+PwwGd5eFVg+9BLou1uHGci0KVePmPy/5WxiRwgFDDvpgIyEj6ZpXO936j1O4uooupAmGO8QG9KSeGF5ap130oRdhgRAazRimcjTWCwQE/SY=
+	t=1707500441; cv=none; b=m2Ps3TFXq66eo+W+e+N67BH4EpQBFoKPNxs3/W5CrV2/X0N4VT4COlXnpZSO5BUvIkPxPptDQneGtNsTBtNzBhGt68s2vzz9vR8vvWSYY2U0zoMGyX8lMyvqbcF20f8o0Rc+jq0kHvwAHPS6KEXXajLD0h/lzlSeeKfi2nJ7mbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707498720; c=relaxed/simple;
-	bh=uBXa1G+h4BG6CpiX4pgjvA79P/or7/cF4fVnQiDpxWw=;
+	s=arc-20240116; t=1707500441; c=relaxed/simple;
+	bh=o8b3GPwcypa+9hVIVmQX9pFn46G5rI+gSuxMV22E/pc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fPuYopAGe9tyEqX3EY4TMdkPz9Vgm9TgW/rncD83m5rG8bK1FAIy4AkgtOg1/u0Ur7mdYk8nYl4C37JZVYEzcUfX499Wz/wi/U39/lX5MtsTLx04Ctn4PL46Yf0NwtgykTi1QbToDco9ImRZPUZkO5AjiAPvrgmvwYJIlpl9YSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q9DEIs82; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cc+UpzGfZ1GZBXVwCZn2E1TjvX2CW4pHgRk+yIC2nzDA+uIxWMmk+4iMr4yFkRfUa68xpe/69svyYJ3fAr0JdU3mWFPlvOTNH1RTf00HHzPvkRbniC1sfEl6vCMKO7h9t9S9t/xWBLa/UaG1BmabdNO7FXo2ipaq6bq8m9fP/F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJkp8FcH; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q9DEIs82"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6e06d2180b0so947821b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 09 Feb 2024 09:11:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707498717; x=1708103517; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dKDaFEKDf3M5+RLQofTsLbvyKTMDtF18ICqSKZ0WLRQ=;
-        b=Q9DEIs82yGwBTXMo0gASjNOMjtW8OEApcQDTdd9wqDKYNaeoyE9qLAJSx0zyyUwA55
-         aRzvEjaffi4pilZedoFvorUcho7ZxUCj2zg5eEkjVJYnJEQpqS6RtIuR/ImowLBw3hAo
-         jgZy3r7Kptf+nbqgLncMxlw7lLHwhWHpl1K6nTEORbPHgSph0pvoFjzpdnAYUWTOHNJM
-         OzjckdNIlhOQpZspFQWsEIeRyAR3934Rg+tddcygoXT6w01euh+6erJV9q2w9bXOd8zn
-         mKJK023HxW8XpvM2fSNN9eEDiRFX5Ext6wL4TL4uJ6JHtrM8gEfrLbB3Gzg7C15Nd6No
-         E74g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707498717; x=1708103517;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dKDaFEKDf3M5+RLQofTsLbvyKTMDtF18ICqSKZ0WLRQ=;
-        b=hSzJpRnkPW7f5YGbUyliQ/L3wXIsGVTcz22qkgKFXRUYZWT9SYKfAzzOLKHwNi5Ce8
-         9sTBET5KCI+au6rFqrBI8bwF2cr+CcvgaX3v/lrQAdvXpbhSfUTcwOUKJQPWwGYuB7In
-         aW6+F3JRrc3HZOZIhbACVR52Gx/NpRG0kzpte0fBepkd3LfHMQWc83kewi2LLJB9Kdba
-         HA59GvqPNfWKd0/qW1Iez4nPRbXP/+AyfZtZgpXdasCvANAj6uUMEG3eATZRcOeLIbhc
-         gaEJokYHus9fjtfOfbiYQhWbSnAo6fou8uRXwTWGJ9ySCrCXpWxSd87kkTxVYC3f8lYI
-         eLaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVj3DIHK4uCVYtCmnslMbWsD0b3pkT+VpNABOTCpumRr1g6tF29ge6jbKzNaMrl19SeDBrPsK2LRUuUxqeLD3YeWPlM9/Beg35m5NKIfQ==
-X-Gm-Message-State: AOJu0YyskiqPdkT0c9QzrhiMJAv0o8+gOQwEHco3ceS4zffOFWf2xo7E
-	RBM1T9gIKdS1q6+FIlsJt5/Cjsei7EjLob7x82IetE2Nh6nMKa9I9R12MdSQCA==
-X-Google-Smtp-Source: AGHT+IGMj/UcXGGayRnB/SeVZid1zac0tr5hP7LPr9u0jYjdRznTCi+OIWFpankR3E+qPbjxlpiJww==
-X-Received: by 2002:a05:6a00:3a8a:b0:6e0:8f06:1103 with SMTP id fk10-20020a056a003a8a00b006e08f061103mr1814914pfb.20.1707498716876;
-        Fri, 09 Feb 2024 09:11:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV1b+Q36/q1KITK1TQvGypCaT3kj41tmS+hICWXqlR8dw8m5D6BQVmy+PCF2jJuoRl44/KVFELqjqTjZNhcaSnfuqqDOXVroBrNH5ujB5q2p/QY/wlAo2kJfaewuMMWOfh0OP1UqtZc62wxjK47pyx6I1Of/nrdRws5docMIq9QzDktvkQehJsmhSdUNk8mzB4fYJo4fM8xjdHS+SQ=
-Received: from thinkpad ([103.28.246.136])
-        by smtp.gmail.com with ESMTPSA id o20-20020a056a001b5400b006e051fcc0f4sm764256pfv.47.2024.02.09.09.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 09:11:56 -0800 (PST)
-Date: Fri, 9 Feb 2024 22:41:52 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [pci:endpoint 3/5] drivers/pci/endpoint/pci-epf-core.c:275
- pci_epf_alloc_space() error: uninitialized symbol 'dev'.
-Message-ID: <20240209171152.GI12035@thinkpad>
-References: <7ea6ca33-3954-43a0-a9b8-a09c5db095b6@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJkp8FcH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707500439; x=1739036439;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o8b3GPwcypa+9hVIVmQX9pFn46G5rI+gSuxMV22E/pc=;
+  b=GJkp8FcHJWFY85pXYRegIs7PlSB+ls/1bbuucLM3yavdrKsFBO2+6k/A
+   EM3Syfy52gKWgCay9jiBDpi79gUfSCeQQfWGFexGrqf9khmdLIb1/aNf+
+   RkM/C+QXyFyRbCP93UdO1OJ10ouMjuldBDdCFsnq57Liixhj8NtPWtDhG
+   wtsIZFjrORTOk5NuDEo6PPjwdOZiNAffpw75wFQCk1WIeUKvPd0S3pR6O
+   hs8I04Hh3xEBttcRi2aceP2YiGvI+bJ0NNT31CfUFavoTdQEK0a3cQBE3
+   JHhTRMWWCXJdWOs656c9Ag03B7V/02sb+019+qwb8+1mFQkm6Tv/0TRKH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="23948248"
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="23948248"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:40:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="6637123"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 09 Feb 2024 09:40:36 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rYUrZ-0004z0-1p;
+	Fri, 09 Feb 2024 17:40:33 +0000
+Date: Sat, 10 Feb 2024 01:39:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oscar Salvador <osalvador@suse.de>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Oscar Salvador <osalvador@suse.de>
+Subject: Re: [PATCH v7 1/4] lib/stackdepot: Move stack_record struct
+ definition into the header
+Message-ID: <202402100110.8JfjkMjh-lkp@intel.com>
+References: <20240208234539.19113-2-osalvador@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7ea6ca33-3954-43a0-a9b8-a09c5db095b6@moroto.mountain>
+In-Reply-To: <20240208234539.19113-2-osalvador@suse.de>
 
-On Fri, Feb 09, 2024 at 08:02:21PM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git endpoint
-> head:   f7bcec825e728e0baecf96118e36c8afb7b93f8a
-> commit: 6441639b8a253254b00d7ccfbc2c9c67a8f42d10 [3/5] PCI: endpoint: Improve pci_epf_alloc_space() API
-> config: x86_64-randconfig-161-20240209 (https://download.01.org/0day-ci/archive/20240210/202402100046.9zcFnPl3-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202402100046.9zcFnPl3-lkp@intel.com/
-> 
+Hi Oscar,
 
-Thanks for the report. Fixed the issue in offending commit.
+kernel test robot noticed the following build errors:
 
-- Mani
+[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
+[also build test ERROR on linus/master v6.8-rc3]
+[cannot apply to akpm-mm/mm-everything next-20240209]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> smatch warnings:
-> drivers/pci/endpoint/pci-epf-core.c:275 pci_epf_alloc_space() error: uninitialized symbol 'dev'.
-> 
-> vim +/dev +275 drivers/pci/endpoint/pci-epf-core.c
-> 
-> 2a9a801620efac Kishon Vijay Abraham I 2019-03-25  259  void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
-> e891becdccaa90 Niklas Cassel          2024-02-07  260  			  const struct pci_epc_features *epc_features,
-> e891becdccaa90 Niklas Cassel          2024-02-07  261  			  enum pci_epc_interface_type type)
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  262  {
-> 6441639b8a2532 Niklas Cassel          2024-02-07  263  	u64 bar_fixed_size = epc_features->bar_fixed_size[bar];
-> e891becdccaa90 Niklas Cassel          2024-02-07  264  	size_t align = epc_features->align;
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  265  	struct pci_epf_bar *epf_bar;
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  266  	dma_addr_t phys_addr;
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  267  	struct pci_epc *epc;
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  268  	struct device *dev;
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  269  	void *space;
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  270  
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  271  	if (size < 128)
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  272  		size = 128;
-> 2a9a801620efac Kishon Vijay Abraham I 2019-03-25  273  
-> 6441639b8a2532 Niklas Cassel          2024-02-07  274  	if (bar_fixed_size && size > bar_fixed_size) {
-> 6441639b8a2532 Niklas Cassel          2024-02-07 @275  		dev_err(dev, "requested BAR size is larger than fixed size\n");
-> 
-> "dev" is uninitialized.
-> 
-> 6441639b8a2532 Niklas Cassel          2024-02-07  276  		return NULL;
-> 6441639b8a2532 Niklas Cassel          2024-02-07  277  	}
-> 6441639b8a2532 Niklas Cassel          2024-02-07  278  
-> 6441639b8a2532 Niklas Cassel          2024-02-07  279  	if (bar_fixed_size)
-> 6441639b8a2532 Niklas Cassel          2024-02-07  280  		size = bar_fixed_size;
-> 6441639b8a2532 Niklas Cassel          2024-02-07  281  
-> 2a9a801620efac Kishon Vijay Abraham I 2019-03-25  282  	if (align)
-> 2a9a801620efac Kishon Vijay Abraham I 2019-03-25  283  		size = ALIGN(size, align);
-> 2a9a801620efac Kishon Vijay Abraham I 2019-03-25  284  	else
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  285  		size = roundup_pow_of_two(size);
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  286  
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  287  	if (type == PRIMARY_INTERFACE) {
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  288  		epc = epf->epc;
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  289  		epf_bar = epf->bar;
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  290  	} else {
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  291  		epc = epf->sec_epc;
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  292  		epf_bar = epf->sec_epc_bar;
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  293  	}
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  294  
-> 63840ff5322373 Kishon Vijay Abraham I 2021-02-02  295  	dev = epc->dev.parent;
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  296  	space = dma_alloc_coherent(dev, size, &phys_addr, GFP_KERNEL);
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  297  	if (!space) {
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  298  		dev_err(dev, "failed to allocate mem space\n");
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  299  		return NULL;
-> 5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  300  	}
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/lib-stackdepot-Move-stack_record-struct-definition-into-the-header/20240209-074611
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20240208234539.19113-2-osalvador%40suse.de
+patch subject: [PATCH v7 1/4] lib/stackdepot: Move stack_record struct definition into the header
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240210/202402100110.8JfjkMjh-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402100110.8JfjkMjh-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402100110.8JfjkMjh-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/page_ext.h:7,
+                    from include/linux/mm.h:22,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/openrisc/kernel/asm-offsets.c:28:
+>> include/linux/stackdepot.h:59:39: error: 'CONFIG_STACKDEPOT_MAX_FRAMES' undeclared here (not in a function)
+      59 |                 unsigned long entries[CONFIG_STACKDEPOT_MAX_FRAMES];    /* Frames */
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:116: arch/openrisc/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1191: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/CONFIG_STACKDEPOT_MAX_FRAMES +59 include/linux/stackdepot.h
+
+    51	
+    52	struct stack_record {
+    53		struct list_head hash_list;	/* Links in the hash table */
+    54		u32 hash;			/* Hash in hash table */
+    55		u32 size;			/* Number of stored frames */
+    56		union handle_parts handle;	/* Constant after initialization */
+    57		refcount_t count;
+    58		union {
+  > 59			unsigned long entries[CONFIG_STACKDEPOT_MAX_FRAMES];	/* Frames */
+    60			struct {
+    61				/*
+    62				 * An important invariant of the implementation is to
+    63				 * only place a stack record onto the freelist iff its
+    64				 * refcount is zero. Because stack records with a zero
+    65				 * refcount are never considered as valid, it is safe to
+    66				 * union @entries and freelist management state below.
+    67				 * Conversely, as soon as an entry is off the freelist
+    68				 * and its refcount becomes non-zero, the below must not
+    69				 * be accessed until being placed back on the freelist.
+    70				 */
+    71				struct list_head free_list;	/* Links in the freelist */
+    72				unsigned long rcu_state;	/* RCU cookie */
+    73			};
+    74		};
+    75	};
+    76	
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
