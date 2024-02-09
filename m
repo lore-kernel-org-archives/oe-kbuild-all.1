@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1670FBF0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 04:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE7556B63;
+	Fri,  9 Feb 2024 05:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707453197; cv=none; b=stmj1Xs2GO7aUfdR4172c0SSO0rGJf9otOdvj4MZhT6pIhbaN+tpTiRAn8UzMwLGi4U60p8y5G0VaNiEiFZazb5O0aFCHdLMZIhwuOb/5EpsYBEcZxcGofstjk6Km5Zp2Yk/CZkE5aSrGJ+RoN5YFIyVdPDWgAUXD7g2RpIbT30=
+	t=1707456919; cv=none; b=TCf8jazkl+jTrqZmaG28d6Rhf05O6M0LPh2C2qhs7iHdkNo+Pw/W9m9Vgagp2G1BjmxXbXXZ11xKmT2D/C0ctnF7gL5CFUL5KAZ8a1Xx7LClCcdPkwPzqpXxS8AJSbqKxf8wqKciWY9HRxwIQuDBCRjyfE2gZhaFDbEIM3lSY5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707453197; c=relaxed/simple;
-	bh=o4J1Atsy8r5g+zme6VScE3+94q9O9SRw/BPlvtFWL1c=;
+	s=arc-20240116; t=1707456919; c=relaxed/simple;
+	bh=KhUdmBsyvqeWDNdN1IUYSknTqQGmjH28s7sp44FAXn4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k7tYQlD1PW0XCenDACLReObolQtZ2fWudE1g0qtjjnimU3A2WO3ETLxdTtKiZ/zMMUOXduOhjwp1PS73tfD1iwi+neVpZqpz//JLnkWa5qMNt2HjyMuDI+Lh5qlsioA2SMA1luC942TtB4vS+qZ0aVkZGBB+haF8b/HNoLqtQXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFDhS0+N; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=kSDBER01NbpP33z5U0yb40053CPqmvT4LVlS0dWVbXy/w9ZCz+ZeEezxjglMGfE/Bsa2iAgn3JdI8i+IfbADyh0dzKeDhktVFkPijwlVNBLuq8yW5IIEUYkBeQpmIAAWnwZAg8lY203x/So3xydsQJAzVOTvrdT7Z1QUzhKo0TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hOHRWBu6; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFDhS0+N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hOHRWBu6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707453195; x=1738989195;
+  t=1707456917; x=1738992917;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o4J1Atsy8r5g+zme6VScE3+94q9O9SRw/BPlvtFWL1c=;
-  b=XFDhS0+NuSyuQi5Dq7+rX2IcygX1l09PKR+elVRCTPGfTvofGOKv5jtT
-   i8hBLRpzP4dmsC3NUMpq4jiZnQU2ZgE8J3De/taCRxITHkPRajVhETZD8
-   VUHNaJ4DRCOLdBagp5H/o6fRMs8WkaW4tz6GIRWqSSPgd3WGb8Hyv8bQ+
-   PekG+BPuGfrsRPlThqbKZN9F/wbqCjRPAi8x4zWdMa8/ABXkQPWJI/7Ie
-   gdSDsgLrtB48inVT7VjZQqr1E33gxKez6lzmqelMvKB2plU22SeLlK/68
-   g4knL1Ovb2/h0yuFj11H56KLDJg4FA6h7U9RUHSCdVrSJC+G7yhgn1j0a
+  bh=KhUdmBsyvqeWDNdN1IUYSknTqQGmjH28s7sp44FAXn4=;
+  b=hOHRWBu6dfMH435Xfh4w1oS7XnVtaFG7L0FzrckYrxbJuJqeYPebJMH8
+   +q4yV8xoUxOirZptbFQOVzgPqWIR2ROXF95LaoLvPzNy00NUPcrrXv8yN
+   XG5tYOi3dxoK971QGKua5L9kkbwaWYy2bRBvNsGbnSv95MLERIXBz/cC2
+   flDwAx/0HTtmEepmPXf9cJUW7JEnelGGQ+HOsr12zTOMUziFVFb/voUEu
+   aQFbGoyMq/c3rpWHFpt5Vat2FTMbiRx752pZlhvzbE4dKgGZ/1+sG2wuh
+   U4G45za3GxoPMbhQva9vd/oqrkesdlS5llpXomLA/qF1LU62tGH3thxdO
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1254143"
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="12453790"
 X-IronPort-AV: E=Sophos;i="6.05,255,1701158400"; 
-   d="scan'208";a="1254143"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 20:33:14 -0800
+   d="scan'208";a="12453790"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 21:35:16 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,255,1701158400"; 
-   d="scan'208";a="6503739"
+   d="scan'208";a="32650935"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Feb 2024 20:33:13 -0800
+  by orviesa002.jf.intel.com with ESMTP; 08 Feb 2024 21:35:15 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYIZa-0004OC-2r;
-	Fri, 09 Feb 2024 04:33:10 +0000
-Date: Fri, 9 Feb 2024 12:32:25 +0800
+	id 1rYJXc-0004Qg-0T;
+	Fri, 09 Feb 2024 05:35:12 +0000
+Date: Fri, 9 Feb 2024 13:34:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kees:devel/overflow/signed-sanitizer 26/27] lib/test_ubsan.c:62:16:
- sparse: sparse: cast truncates bits from constant value (7fffffffffffffff
- becomes ffffffff)
-Message-ID: <202402091220.ApBO5EdE-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org, devel@acpica.org,
+	linux-pm@vger.kernel.org,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: [rafael-pm:bleeding-edge 74/77] drivers/thermal/thermal_of.c:444:34:
+ error: initializing 'struct thermal_zone_device_ops *' with an expression of
+ incompatible type 'struct thermal_zone_device_ops'; take the address with &
+Message-ID: <202402091355.DUYRncj7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,34 +62,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git devel/overflow/signed-sanitizer
-head:   fdc16607cd55a37f5d4924c47f1642047c4ea1e1
-commit: 3a9f6e016a76d7c3535f9d410dbae01561bb4916 [26/27] [WIP] Enable -fsanitize=implicit-signed-integer-truncation
-config: powerpc64-randconfig-r113-20240208 (https://download.01.org/0day-ci/archive/20240209/202402091220.ApBO5EdE-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240209/202402091220.ApBO5EdE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   976b96a64c53e1e3d0fa71c97be2bcbe1a64feb1
+commit: c483d4c88bfcd98d7819a722f48edb0adb89c32f [74/77] thermal: core: Store zone ops in struct thermal_zone_device
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240209/202402091355.DUYRncj7-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402091355.DUYRncj7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402091220.ApBO5EdE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402091355.DUYRncj7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/test_ubsan.c:62:16: sparse: sparse: cast truncates bits from constant value (7fffffffffffffff becomes ffffffff)
-   lib/test_ubsan.c:72:18: sparse: sparse: shift count is negative (-1)
+All errors (new ones prefixed by >>):
 
-vim +62 lib/test_ubsan.c
+>> drivers/thermal/thermal_of.c:444:34: error: initializing 'struct thermal_zone_device_ops *' with an expression of incompatible type 'struct thermal_zone_device_ops'; take the address with &
+           struct thermal_zone_device_ops *ops = tz->ops;
+                                           ^     ~~~~~~~
+                                                 &
+   1 error generated.
 
-    55	
-    56	static void test_ubsan_truncate_signed(void)
-    57	{
-    58		volatile long val = LONG_MAX;
-    59		volatile int val2 = 0;
-    60	
-    61		UBSAN_TEST(CONFIG_UBSAN_SIGNED_WRAP);
-  > 62		val2 = val;
-    63	}
-    64	
+
+vim +444 drivers/thermal/thermal_of.c
+
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  432  
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  433  /**
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  434   * thermal_of_zone_unregister - Cleanup the specific allocated ressources
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  435   *
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  436   * This function disables the thermal zone and frees the different
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  437   * ressources allocated specific to the thermal OF.
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  438   *
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  439   * @tz: a pointer to the thermal zone structure
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  440   */
+ac614a9b4c35bf Daniel Lezcano 2023-04-04  441  static void thermal_of_zone_unregister(struct thermal_zone_device *tz)
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  442  {
+8fb5b71ed37dbe Daniel Lezcano 2022-08-09  443  	struct thermal_trip *trips = tz->trips;
+8fb5b71ed37dbe Daniel Lezcano 2022-08-09 @444  	struct thermal_zone_device_ops *ops = tz->ops;
+8fb5b71ed37dbe Daniel Lezcano 2022-08-09  445  
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  446  	thermal_zone_device_disable(tz);
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  447  	thermal_zone_device_unregister(tz);
+8fb5b71ed37dbe Daniel Lezcano 2022-08-09  448  	kfree(trips);
+8fb5b71ed37dbe Daniel Lezcano 2022-08-09  449  	kfree(ops);
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  450  }
+3fd6d6e2b4e80f Daniel Lezcano 2022-08-05  451  
+
+:::::: The code at line 444 was first introduced by commit
+:::::: 8fb5b71ed37dbe469eaa930e2ddc93ec9e305f3c thermal/of: Fix free after use in thermal_of_unregister()
+
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
