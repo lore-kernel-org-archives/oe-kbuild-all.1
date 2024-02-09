@@ -1,63 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9BE53398
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 17:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B8A7BB16
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 17:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707500441; cv=none; b=m2Ps3TFXq66eo+W+e+N67BH4EpQBFoKPNxs3/W5CrV2/X0N4VT4COlXnpZSO5BUvIkPxPptDQneGtNsTBtNzBhGt68s2vzz9vR8vvWSYY2U0zoMGyX8lMyvqbcF20f8o0Rc+jq0kHvwAHPS6KEXXajLD0h/lzlSeeKfi2nJ7mbg=
+	t=1707501039; cv=none; b=DND2ptp3JUOWL6a/FI66zV8MKcVfkRCvCipmy53hxDTF9uhGxKVtbMQzkEuV/FNbjQJ2tCHr2c5w9r2EGt1ks53D7fzxuSbftasof3VUu4KDtWsWR23L5cw4MN7dRBR3povKmpWANFRO/GpFza80tsSZGeEJaAG/FJPJqEEoth8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707500441; c=relaxed/simple;
-	bh=o8b3GPwcypa+9hVIVmQX9pFn46G5rI+gSuxMV22E/pc=;
+	s=arc-20240116; t=1707501039; c=relaxed/simple;
+	bh=1laTTHCgygcPfanCnT37plaDmSda/Mn+foyUMPP2B1c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cc+UpzGfZ1GZBXVwCZn2E1TjvX2CW4pHgRk+yIC2nzDA+uIxWMmk+4iMr4yFkRfUa68xpe/69svyYJ3fAr0JdU3mWFPlvOTNH1RTf00HHzPvkRbniC1sfEl6vCMKO7h9t9S9t/xWBLa/UaG1BmabdNO7FXo2ipaq6bq8m9fP/F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJkp8FcH; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=CqsGTP1V55uZzRJYU19inyMK4w5gF+Kch/957CJdKOArT7g4vSgSVdv6A5ZuoqxHUzbDyAxMcADUrLA592EqdwA/dAbYFU21jfTHTROo7b4fJU+QWlAIIO9ICyGKSWzO+qqYiP5Q0Zxu/0WmtgV/2AP7ch2OcYmAviFrOc/bKhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGDoMT8M; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJkp8FcH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGDoMT8M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707500439; x=1739036439;
+  t=1707501038; x=1739037038;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=o8b3GPwcypa+9hVIVmQX9pFn46G5rI+gSuxMV22E/pc=;
-  b=GJkp8FcHJWFY85pXYRegIs7PlSB+ls/1bbuucLM3yavdrKsFBO2+6k/A
-   EM3Syfy52gKWgCay9jiBDpi79gUfSCeQQfWGFexGrqf9khmdLIb1/aNf+
-   RkM/C+QXyFyRbCP93UdO1OJ10ouMjuldBDdCFsnq57Liixhj8NtPWtDhG
-   wtsIZFjrORTOk5NuDEo6PPjwdOZiNAffpw75wFQCk1WIeUKvPd0S3pR6O
-   hs8I04Hh3xEBttcRi2aceP2YiGvI+bJ0NNT31CfUFavoTdQEK0a3cQBE3
-   JHhTRMWWCXJdWOs656c9Ag03B7V/02sb+019+qwb8+1mFQkm6Tv/0TRKH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="23948248"
+  bh=1laTTHCgygcPfanCnT37plaDmSda/Mn+foyUMPP2B1c=;
+  b=aGDoMT8M2WP1UBvdI8mIyVgh2BsoKkMpExZ7baOz7G4taGezLZSic+ny
+   ES1x/Mgd9CrKzdH8ZO0xafX+sHZqzOlQdYKryV2QDvkK+245rWCITyZGe
+   Po21/7R5SnRP4iOIWP4ORCELHvq9mmnnHbavFbeCcFNWGvShGO9chkaZZ
+   jxmuUzaYezaNKLXYXUErgKWQWmVgHdqtb2ss6MtdPeP3iBQHRqVtlKu7W
+   cWwMTFJJxr7H0Fb7UzuBENpqLItb2EJZIXxsF5V8Puxj1rUwmm/N8sp3T
+   hABOvkESl1A5tCHdhPYkCdagJPbKV13rJpuIFMHrr22XT4deDPnsUvmKI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="12117976"
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="23948248"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:40:39 -0800
+   d="scan'208";a="12117976"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 09:50:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="6637123"
+   d="scan'208";a="6641136"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Feb 2024 09:40:36 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 09 Feb 2024 09:50:35 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYUrZ-0004z0-1p;
-	Fri, 09 Feb 2024 17:40:33 +0000
-Date: Sat, 10 Feb 2024 01:39:54 +0800
+	id 1rYV1F-0004zC-24;
+	Fri, 09 Feb 2024 17:50:33 +0000
+Date: Sat, 10 Feb 2024 01:50:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Oscar Salvador <osalvador@suse.de>
-Subject: Re: [PATCH v7 1/4] lib/stackdepot: Move stack_record struct
- definition into the header
-Message-ID: <202402100110.8JfjkMjh-lkp@intel.com>
-References: <20240208234539.19113-2-osalvador@suse.de>
+To: Suraj Kandpal <suraj.kandpal@intel.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, daniele.ceraolospurio@intel.com,
+	Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: Re: [PATCH 4/5] drm/xe/hdcp: Enable HDCP for XE
+Message-ID: <202402100132.XIP3zz5i-lkp@intel.com>
+References: <20240209101412.1326176-5-suraj.kandpal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,80 +60,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240208234539.19113-2-osalvador@suse.de>
+In-Reply-To: <20240209101412.1326176-5-suraj.kandpal@intel.com>
 
-Hi Oscar,
+Hi Suraj,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on linus/master v6.8-rc3]
-[cannot apply to akpm-mm/mm-everything next-20240209]
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on drm-tip/drm-tip]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc3 next-20240209]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/lib-stackdepot-Move-stack_record-struct-definition-into-the-header/20240209-074611
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20240208234539.19113-2-osalvador%40suse.de
-patch subject: [PATCH v7 1/4] lib/stackdepot: Move stack_record struct definition into the header
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240210/202402100110.8JfjkMjh-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402100110.8JfjkMjh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-hdcp-Move-intel_hdcp_gsc_message-def-away-from-header-file/20240209-181915
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20240209101412.1326176-5-suraj.kandpal%40intel.com
+patch subject: [PATCH 4/5] drm/xe/hdcp: Enable HDCP for XE
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240210/202402100132.XIP3zz5i-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402100132.XIP3zz5i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402100110.8JfjkMjh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402100132.XIP3zz5i-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/page_ext.h:7,
-                    from include/linux/mm.h:22,
-                    from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from arch/openrisc/kernel/asm-offsets.c:28:
->> include/linux/stackdepot.h:59:39: error: 'CONFIG_STACKDEPOT_MAX_FRAMES' undeclared here (not in a function)
-      59 |                 unsigned long entries[CONFIG_STACKDEPOT_MAX_FRAMES];    /* Frames */
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/openrisc/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1191: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/gpu/drm/xe/xe_gsc_submit.c:50: warning: expecting prototype for xe_gsc_get_host_session_id(). Prototype was for xe_gsc_create_host_session_id() instead
 
 
-vim +/CONFIG_STACKDEPOT_MAX_FRAMES +59 include/linux/stackdepot.h
+vim +50 drivers/gpu/drm/xe/xe_gsc_submit.c
 
-    51	
-    52	struct stack_record {
-    53		struct list_head hash_list;	/* Links in the hash table */
-    54		u32 hash;			/* Hash in hash table */
-    55		u32 size;			/* Number of stored frames */
-    56		union handle_parts handle;	/* Constant after initialization */
-    57		refcount_t count;
-    58		union {
-  > 59			unsigned long entries[CONFIG_STACKDEPOT_MAX_FRAMES];	/* Frames */
-    60			struct {
-    61				/*
-    62				 * An important invariant of the implementation is to
-    63				 * only place a stack record onto the freelist iff its
-    64				 * refcount is zero. Because stack records with a zero
-    65				 * refcount are never considered as valid, it is safe to
-    66				 * union @entries and freelist management state below.
-    67				 * Conversely, as soon as an entry is off the freelist
-    68				 * and its refcount becomes non-zero, the below must not
-    69				 * be accessed until being placed back on the freelist.
-    70				 */
-    71				struct list_head free_list;	/* Links in the freelist */
-    72				unsigned long rcu_state;	/* RCU cookie */
-    73			};
-    74		};
-    75	};
-    76	
+    42	
+    43	/**
+    44	 * xe_gsc_get_host_session_id - Creates a random 64 bit host_session id with
+    45	 * bits 56-63 masked.
+    46	 *
+    47	 * Returns: random host_session_id which can be used to send messages to gsc cs
+    48	 */
+    49	u64 xe_gsc_create_host_session_id(void)
+  > 50	{
+    51		u64 host_session_id;
+    52	
+    53		get_random_bytes(&host_session_id, sizeof(u64));
+    54		host_session_id &= ~HOST_SESSION_CLIENT_MASK;
+    55		return host_session_id;
+    56	}
+    57	
 
 -- 
 0-DAY CI Kernel Test Service
