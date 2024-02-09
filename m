@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3763D7A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 00:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4056139B;
+	Fri,  9 Feb 2024 00:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707437952; cv=none; b=gCGkmrG85nTcOrKgZrPEVcgUAxaK8EQKluFV6rnlQSE0aLxdgkQyVMd2TPJvwuaCl5IOe7MX6OJDn0Qkvjjt1FIdDIskzLn6f4r/U1HMjuODY9iEcBWjWbVuDec85ecKTlSve4YxqDPQRh2X2Igm8biwLwP5GNBekhqojgTjqiE=
+	t=1707439872; cv=none; b=VBgJsY94664hipUI+XBllP3AINdl+eUWhKPh1oiZoak3NNRCTlJ3kONGH/1dJgVsxlyCWDpv3wYz6U/HvZ7Qs8jpOWxBTt3LUpfjh7WBlyXgMXW+jfquzO0mUxiwNkGclwLeV+CZwoe+ur7uPcIeQzuRJmIvQFHdAiBxAClA39k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707437952; c=relaxed/simple;
-	bh=ka3DpBTExdCsDP7cUtbhPqxbUYk7McHMjF+6nMhPRuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hINIGKzEQdDlFibGSRJJZY1uoiemxpm8ZjmiOh+ZWLkQntJIy4bKk+Oi7Q+G10rFTqFHfdNh9zI8LJP0XY1X9h9pYitZxiQHkNFsokhjyLr3MnPOgAu9DGMSJxfHibj/am6DUTfeobY2XAugwDH0+N1n1nu/jfivy6UDbUB5crY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2qkT+fD; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1707439872; c=relaxed/simple;
+	bh=rMoBWoQ8IQGZqC9VrNz4ZerwsCRMosmLHiRyZB+esps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=szryGTIJJbY+d4nhKG93FvszA+53nb53kwPyDJO41GiLRhA6LIZUlpu190sHaYfE5amo+GZSjNxt01BtwpoSP9yrYX5AvfWVj0RO+SLF1wWD5nkmRJPjGz433VwZCz9ZFZSe14Zf6kmlUo2PUTbFZSkh4bDV0Sy9mzx3Kc6YhcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B87IUrGK; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2qkT+fD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B87IUrGK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707437948; x=1738973948;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ka3DpBTExdCsDP7cUtbhPqxbUYk7McHMjF+6nMhPRuk=;
-  b=O2qkT+fDSJ/WL6nSHvQyRcAN5GuPqAHjkY7ZY2ojGyRWJI+fb9NS9+un
-   Zagm/zrVeyX5gWzlXapWuAAdbctUFMmveKGQOqDSqFJu1wxTadFULLm0Y
-   UucSgJ6muMKo/ze7uI5ZBtaoy68lVROhjBWrbXaHWegVpufWvogmiVjQS
-   taqJRG8mRs8X8v9b3H3ITxqqFKlaKeKUotlPB6DVAl96n9gP5HiaU26oX
-   AqhVB673HCMAKLGdV0YsVPxCvvCbEhf33arIyhdMFMtK2eBuW1ToBoKM8
-   do+KyEUiS/14/bznFgO8TBOVTa1Th0A3Fuf4BZ2BPB5MZwOrgxMByowLR
+  t=1707439871; x=1738975871;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rMoBWoQ8IQGZqC9VrNz4ZerwsCRMosmLHiRyZB+esps=;
+  b=B87IUrGKuAMvogLRYrQ+gso5Nsq9YVHDUvAnYemr4kDOdTH/y/Bwa2fO
+   ZcuwQt8lTgD8SmFX9kfomSiJDEftWvWEZuqcPRg+Z78oUEBkSl5CIsaaJ
+   IDWGsbwcLxrfNmVHvrmmEP5mzjJaSD0nEyNyGr7pKKxBgqAoe5JeN0bUu
+   rVGNhK4HxCLkbaceu9uabAVmzQySkDT2gidXRg6JHo574OSRiKDz7zb6w
+   Jrf1XX7+wzdqcIbyOafV2u/Ubxi3TOZBfwyWDNocGZs1ZYFOQRnGcwOao
+   0ZkPuwl08Hu9eFf0syjs9hRV2/X5qYVSKuSTWPKHmjiMM3oxUCpw7vpxm
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="5164391"
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="5202934"
 X-IronPort-AV: E=Sophos;i="6.05,255,1701158400"; 
-   d="scan'208";a="5164391"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 16:19:07 -0800
+   d="scan'208";a="5202934"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2024 16:51:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,255,1701158400"; 
-   d="scan'208";a="2103718"
+   d="scan'208";a="2035502"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Feb 2024 16:19:05 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 08 Feb 2024 16:51:07 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYEbe-0004EK-2d;
-	Fri, 09 Feb 2024 00:19:02 +0000
-Date: Fri, 9 Feb 2024 08:18:28 +0800
+	id 1rYF6e-0004FA-1I;
+	Fri, 09 Feb 2024 00:51:04 +0000
+Date: Fri, 9 Feb 2024 08:50:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jozsef Kadlecsik <kadlec@netfilter.org>
-Cc: oe-kbuild-all@lists.linux.dev, netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org, Pablo Neira Ayuso <pablo@netfilter.org>
-Subject: [netfilter-nf:testing 5/13]
- net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type
- in assignment (different address spaces)
-Message-ID: <202402090822.jJ0z40yz-lkp@intel.com>
+To: Ping-Ke Shih <pkshih@realtek.com>, kvalo@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gary.chang@realtek.com, phhuang@realtek.com, kevin_yang@realtek.com,
+	linux-wireless@vger.kernel.org
+Subject: Re: [PATCH 02/11] wifi: rtw89: load BB parameters to PHY-1
+Message-ID: <202402090838.S5xcKIlg-lkp@intel.com>
+References: <20240208022857.14379-3-pkshih@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,174 +60,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240208022857.14379-3-pkshih@realtek.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git testing
-head:   a7eaa3316ffa17957ee70a705000a3a942128820
-commit: 6099505cd2a2652bbb4156582a22feb6d651b6d6 [5/13] netfilter: ipset: Missing gc cancellations fixed
-config: x86_64-randconfig-123-20240208 (https://download.01.org/0day-ci/archive/20240209/202402090822.jJ0z40yz-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402090822.jJ0z40yz-lkp@intel.com/reproduce)
+Hi Ping-Ke,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on next-20240208]
+[cannot apply to wireless/main linus/master v6.8-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Ke-Shih/wifi-rtw89-correct-PHY-register-offset-for-PHY-1/20240208-103413
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20240208022857.14379-3-pkshih%40realtek.com
+patch subject: [PATCH 02/11] wifi: rtw89: load BB parameters to PHY-1
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240209/202402090838.S5xcKIlg-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402090838.S5xcKIlg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402090822.jJ0z40yz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402090838.S5xcKIlg-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/netfilter/ipset/ip_set_hash_mac.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
---
-   net/netfilter/ipset/ip_set_hash_ip.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
-   net/netfilter/ipset/ip_set_hash_ip.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
---
-   net/netfilter/ipset/ip_set_hash_ipportip.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
-   net/netfilter/ipset/ip_set_hash_ipportip.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
---
-   net/netfilter/ipset/ip_set_hash_ipport.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
-   net/netfilter/ipset/ip_set_hash_ipport.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
---
-   net/netfilter/ipset/ip_set_hash_netiface.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
-   net/netfilter/ipset/ip_set_hash_netiface.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
---
-   net/netfilter/ipset/ip_set_hash_netport.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
-   net/netfilter/ipset/ip_set_hash_netport.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
---
-   net/netfilter/ipset/ip_set_hash_net.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
-   net/netfilter/ipset/ip_set_hash_net.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
---
-   net/netfilter/ipset/ip_set_hash_ipportnet.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
-   net/netfilter/ipset/ip_set_hash_ipportnet.c: note: in included file:
->> net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hbucket *n @@     got struct hbucket [noderef] __rcu * @@
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     expected struct hbucket *n
-   net/netfilter/ipset/ip_set_hash_gen.h:435:19: sparse:     got struct hbucket [noderef] __rcu *
->> net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct htable *t @@     got struct htable [noderef] __rcu *table @@
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     expected struct htable *t
-   net/netfilter/ipset/ip_set_hash_gen.h:455:35: sparse:     got struct htable [noderef] __rcu *table
+All warnings (new ones prefixed by >>):
 
-vim +435 net/netfilter/ipset/ip_set_hash_gen.h
+>> drivers/net/wireless/realtek/rtw89/phy.c:1047:7: warning: cast to smaller integer type 'enum rtw89_phy_idx' from 'void *' [-Wvoid-pointer-to-enum-cast]
+    1047 |                 if ((enum rtw89_phy_idx)extra_data == RTW89_PHY_1)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-   426	
-   427	/* Destroy the hashtable part of the set */
-   428	static void
-   429	mtype_ahash_destroy(struct ip_set *set, struct htable *t, bool ext_destroy)
-   430	{
-   431		struct hbucket *n;
-   432		u32 i;
-   433	
-   434		for (i = 0; i < jhash_size(t->htable_bits); i++) {
- > 435			n = hbucket(t, i);
-   436			if (!n)
-   437				continue;
-   438			if (set->extensions & IPSET_EXT_DESTROY && ext_destroy)
-   439				mtype_ext_cleanup(set, n);
-   440			/* FIXME: use slab cache */
-   441			kfree(n);
-   442		}
-   443	
-   444		ip_set_free(t->hregion);
-   445		ip_set_free(t);
-   446	}
-   447	
-   448	/* Destroy a hash type of set */
-   449	static void
-   450	mtype_destroy(struct ip_set *set)
-   451	{
-   452		struct htype *h = set->data;
-   453		struct list_head *l, *lt;
-   454	
- > 455		mtype_ahash_destroy(set, h->table, true);
-   456		list_for_each_safe(l, lt, &h->ad) {
-   457			list_del(l);
-   458			kfree(l);
-   459		}
-   460		kfree(h);
-   461	
-   462		set->data = NULL;
-   463	}
-   464	
+
+vim +1047 drivers/net/wireless/realtek/rtw89/phy.c
+
+  1022	
+  1023	static void rtw89_phy_config_bb_reg(struct rtw89_dev *rtwdev,
+  1024					    const struct rtw89_reg2_def *reg,
+  1025					    enum rtw89_rf_path rf_path,
+  1026					    void *extra_data)
+  1027	{
+  1028		u32 addr;
+  1029	
+  1030		if (reg->addr == 0xfe) {
+  1031			mdelay(50);
+  1032		} else if (reg->addr == 0xfd) {
+  1033			mdelay(5);
+  1034		} else if (reg->addr == 0xfc) {
+  1035			mdelay(1);
+  1036		} else if (reg->addr == 0xfb) {
+  1037			udelay(50);
+  1038		} else if (reg->addr == 0xfa) {
+  1039			udelay(5);
+  1040		} else if (reg->addr == 0xf9) {
+  1041			udelay(1);
+  1042		} else if (reg->data == BYPASS_CR_DATA) {
+  1043			rtw89_debug(rtwdev, RTW89_DBG_PHY_TRACK, "Bypass CR 0x%x\n", reg->addr);
+  1044		} else {
+  1045			addr = reg->addr;
+  1046	
+> 1047			if ((enum rtw89_phy_idx)extra_data == RTW89_PHY_1)
+  1048				addr += rtw89_phy0_phy1_offset(rtwdev, reg->addr);
+  1049	
+  1050			rtw89_phy_write32(rtwdev, addr, reg->data);
+  1051		}
+  1052	}
+  1053	
 
 -- 
 0-DAY CI Kernel Test Service
