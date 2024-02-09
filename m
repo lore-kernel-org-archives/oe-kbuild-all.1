@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593D420332
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 10:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32D31D549
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 11:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707475886; cv=none; b=Hn9VFvKM+4trl4y/TTRunTO7/9rrPQlXzNn98WjS2dQl0kRVPJ9upfxzqAyGCLdfhcHdPhXiCi6J8bc5I4hDRhJz3irnfz69u07rKxm9JX1o+PuP+e4sADSXJWVP0j2Zk1eyzCgYJc4MqqvTENndR+0VzuV7VrzZxJP7Fw0xiTA=
+	t=1707478467; cv=none; b=ACaU892asIZE7ELIdnFGNbNadwswXHjQ2S61i+hLVs9jMQBFwIkEeGUQ2N+0t4xPSwVJd5j0/Xq/LiW6JJlxj4I4/x2hVaA7u9LveY8jzlkhHhLADhvc4YiGcPOEqlCj9k3bgrJG0u7UFnmmFlvtqpc16gg7u+pDI07rY6mY6xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707475886; c=relaxed/simple;
-	bh=uLbyb/T8IHrgHaiGL5sCntOvdau9NSQhgmK0tyK2omY=;
+	s=arc-20240116; t=1707478467; c=relaxed/simple;
+	bh=X2pXjjdiKEXiMsnZbcJWtvTapY+HeNW25hU31VbTGbQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qBW+ipPQOTutCSvwhwUvrFtNoSgwdt2+ok5hnVF/u7+ykhRG8KKcE6dR4dYwGCHTeubgYOu6HRS8j2ypAe08U9Nc2Ro3K0FCyXcN5WUIf3+mS6dbb/nA1m17ARTcWse/NxWN2gs3zIX3CWVpbCS0hcAmkhnRM4rEPRrg1tEBPH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RhjyJ9Lc; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=g2EZh4SUCp0u3Qv14DwVd7+qUH0pO8Uo44nkpdxXmUJHqyILMgdnrdA2A6iQaam9vfetfNxHbrv+JsiJJsCKdvqkeHyGOxIaT3NfmY8v65yAixQTBe9LiOVZFH82hjnGOqR1j7hLC3rejWE7kzUKr4l829QTifRY4ibOhNfmh9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kK9kUGpF; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RhjyJ9Lc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kK9kUGpF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707475883; x=1739011883;
+  t=1707478465; x=1739014465;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uLbyb/T8IHrgHaiGL5sCntOvdau9NSQhgmK0tyK2omY=;
-  b=RhjyJ9Lc5J65NmJ3ZD6nbyymPqZ0VOZpILbP21DcngDBx+ViK6QiF3St
-   BmpJZAjNraFlXYlfKWCayfOAlX+b26MvpZlsQQ3GUkuKoWfhMM6UDOM9b
-   Z00PVUwioRD5+wMr0GFVvjh/dQP0XpLuHZ3FHnAc84fsD3wyCJVpo9/KQ
-   r4JPkEaIix1OqNebUnL2nodiPfr72zsgg5tst2WKJ8G+nisNHd7rKUTBH
-   74a/31K3qiUj/bw2pgXITUwBkqNmALoAHZlo4kmVCNWvsNHhMD8kNhhAv
-   1BjDL4/RiKm9fDRKp0O7ObNANo+2GFKbQUfExTX0JBHL5G1mFhZc9krcY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="1553779"
+  bh=X2pXjjdiKEXiMsnZbcJWtvTapY+HeNW25hU31VbTGbQ=;
+  b=kK9kUGpFwvsg6PmiEnTM0yoW/MuENEuXXxCap8Jns7+QZ0VN5NHRifLh
+   dn0omMNS+GLoPawhKP0OLN0iZcXb6mkTjSPtaiNDtdWGsEwFrr6DWs8Y0
+   P9k91W4MlEnN246bZVE1cJwbNyr3exATZWEGc7lK303PW20Ojdgf7AmaG
+   wRPIaj8a6HJdyD2/gjaOXjpWJ5cYszZum7kMRn2q8F1O5pz3qmjHXIh0N
+   BwC3/++hUPi/56EC6ux5njnKy1tcMRfslunWfYqO9CTItWkINrMEOiDjp
+   4hNoctXZehHZrup0UD0sfy7pucGQLZJjFopQRTZPbQAp8WEyYf6hQzj8G
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10978"; a="18827603"
 X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
-   d="scan'208";a="1553779"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 02:51:22 -0800
+   d="scan'208";a="18827603"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 03:34:24 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,256,1701158400"; 
-   d="scan'208";a="6558828"
+   d="scan'208";a="6689325"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Feb 2024 02:51:21 -0800
+  by orviesa004.jf.intel.com with ESMTP; 09 Feb 2024 03:34:23 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYOTX-0004dQ-0b;
-	Fri, 09 Feb 2024 10:51:19 +0000
-Date: Fri, 9 Feb 2024 18:51:16 +0800
+	id 1rYP9B-0004fe-0C;
+	Fri, 09 Feb 2024 11:34:21 +0000
+Date: Fri, 9 Feb 2024 19:33:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Marco Elver <elver@google.com>,
-	Justin Stitt <justinstitt@google.com>
-Subject: [linux-next:master 4528/5901] kernel/rcu/update.c:319:1: warning:
- 'no_sanitize' attribute directive ignored
-Message-ID: <202402091848.rFySykYW-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.2.x-imx 4128/17898]
+ drivers/crypto/caam/sm_test.c:505:6: warning: no previous prototype for
+ 'caam_sm_example_shutdown'
+Message-ID: <202402091922.j7O0rGzD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,76 +59,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   445a555e0623387fa9b94e68e61681717e70200a
-commit: 2c312f328894df239807173b5b34f1db4cfc397f [4528/5901] ubsan: Reintroduce signed overflow sanitizer
-config: um-randconfig-001-20240209 (https://download.01.org/0day-ci/archive/20240209/202402091848.rFySykYW-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402091848.rFySykYW-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   4e3fc5471376a15279ee5c99e791a7c7b065cbc1
+commit: 9a605b9455ed929a437d6908d1a8d02d85c28141 [4128/17898] MLKU-25-3 crypto: caam - add Secure Memory support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240209/202402091922.j7O0rGzD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402091922.j7O0rGzD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402091848.rFySykYW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402091922.j7O0rGzD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/rcu/update.c:319:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
---
->> kernel/locking/lockdep.c:883:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
-   kernel/locking/lockdep.c:4365:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
-   kernel/locking/lockdep.c:4432:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
-   kernel/locking/lockdep.c:5199:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
-   kernel/locking/lockdep.c:5585:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
-   kernel/locking/lockdep.c:5810:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
---
->> kernel/locking/irqflag-debug.c:8:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
---
->> kernel/time/timekeeping.c:1045:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
---
-   In file included from kernel/sched/build_policy.c:43:0:
->> kernel/sched/idle.c:53:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
-   kernel/sched/idle.c:90:1: warning: 'no_sanitize' attribute directive ignored [-Wattributes]
-    {
-    ^
+>> drivers/crypto/caam/sm_test.c:505:6: warning: no previous prototype for 'caam_sm_example_shutdown' [-Wmissing-prototypes]
+     505 | void caam_sm_example_shutdown(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/no_sanitize +319 kernel/rcu/update.c
+vim +/caam_sm_example_shutdown +505 drivers/crypto/caam/sm_test.c
 
-24ef659a857c3c kernel/rcu/update.c Paul E. McKenney 2013-10-28  317  
-ff5c4f5cad3306 kernel/rcu/update.c Thomas Gleixner  2020-03-13  318  noinstr int notrace debug_lockdep_rcu_enabled(void)
-bc293d62b26ec5 kernel/rcupdate.c   Paul E. McKenney 2010-04-15 @319  {
-3066820034b5dd kernel/rcu/update.c Paul E. McKenney 2021-04-05  320  	return rcu_scheduler_active != RCU_SCHEDULER_INACTIVE && READ_ONCE(debug_locks) &&
-bc293d62b26ec5 kernel/rcupdate.c   Paul E. McKenney 2010-04-15  321  	       current->lockdep_recursion == 0;
-bc293d62b26ec5 kernel/rcupdate.c   Paul E. McKenney 2010-04-15  322  }
-bc293d62b26ec5 kernel/rcupdate.c   Paul E. McKenney 2010-04-15  323  EXPORT_SYMBOL_GPL(debug_lockdep_rcu_enabled);
-bc293d62b26ec5 kernel/rcupdate.c   Paul E. McKenney 2010-04-15  324  
-
-:::::: The code at line 319 was first introduced by commit
-:::::: bc293d62b26ec590afc90a9e0a31c45d355b7bd8 rcu: Make RCU lockdep check the lockdep_recursion variable
-
-:::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+   504	
+ > 505	void caam_sm_example_shutdown(void)
+   506	{
+   507		/* unused in present version */
+   508		struct device_node *dev_node;
+   509		struct platform_device *pdev;
+   510	
+   511		/*
+   512		 * Do of_find_compatible_node() then of_find_device_by_node()
+   513		 * once a functional device tree is available
+   514		 */
+   515		dev_node = of_find_compatible_node(NULL, NULL, "fsl,sec-v4.0");
+   516		if (!dev_node) {
+   517			dev_node = of_find_compatible_node(NULL, NULL, "fsl,sec4.0");
+   518			if (!dev_node)
+   519				return;
+   520		}
+   521	
+   522		pdev = of_find_device_by_node(dev_node);
+   523		if (!pdev)
+   524			return;
+   525	
+   526		of_node_get(dev_node);
+   527	
 
 -- 
 0-DAY CI Kernel Test Service
