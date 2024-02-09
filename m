@@ -1,57 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAE676036
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 15:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C011B74E2B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Feb 2024 16:05:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707492816; cv=none; b=GIbPEhDdEHB8Js47IFxv6+qvN3aGtu5dJjeQRAScYn3uSw7jwvlij6Wv/SekC1Ka8kUqjJ/chLutmIn2aEL2fNWgJEV196sDod1ZyC32Hd0OsfgZ8QL8h0sslug1+kDLuXsHwTDmDt8sm+kV6j1hz4qWvXc37drqZM/yQrtbmog=
+	t=1707494736; cv=none; b=VHKXhmx/TOlhWuGO15pSaZBWnf6uOQTsp4zg0a0v1S2hea59uKQLZL6MPx3dU0YG8up1ij1FIEh7vIJjMBaOVZFjOYoWAVl7YBJ606aHoe7jIl6NVEEjVt8B9atHIc5jgOLYJsRJrVbWVAYnX9ZXTqQufv+cdNo18n8opjUOm9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707492816; c=relaxed/simple;
-	bh=/uOgL0L6lHM/X3uPQJuyG37nIHjtd74huS+zuipAY6Q=;
+	s=arc-20240116; t=1707494736; c=relaxed/simple;
+	bh=kWSzt50lWyjR9G2Fli3yJOkdmcK3GcPsxYJKGtFcgTk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hb6iRaI5Hf0wiNW3Z+x00ltVeZn3Casq8uT0c1XzEofTwPAUTuiAV+lqB7uDPmOf4nbGgJM6F/rMbvQJQkcr2R44E1awzEQN0Kwoa2V2u3ocqNU0BCTv1KBkg85NYErvEeTz7Xh/nssAKVuDUYQEK9/MCkWQvxs2FmIOFIHdcJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=azHGWNjl; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=PjL8gOthqvqqhC3mdkSaaVrfGBoj+qf787SG2UFGXJtcKtvLsti/zMRR21uwuVrJelRwITmCpMu3FNdjZGZkHb7ksZsKKEnST5tjgLeXyryIPpftjeTOr6oyIbchxAmxk1JsAPIH6B0/M3zUTGhxedXCMs9/jWjKwP05viOHVAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S8GstiDm; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="azHGWNjl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S8GstiDm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707492814; x=1739028814;
+  t=1707494735; x=1739030735;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/uOgL0L6lHM/X3uPQJuyG37nIHjtd74huS+zuipAY6Q=;
-  b=azHGWNjlD1dowvcJa7reAXZh14KdaSGOENE79tip/pgDDhU9HTAQSOjl
-   BwPN8sP+wuCVEB18HSkRePL9DZwRBwoLp8Fxr/vT6e46EZtQEb4fVixK8
-   p3vnrPnyKBcOe0SUxFCyvYheGVAZUQ8mNXRElZXnvW7bhFCCBB6rwqH11
-   d/uYN+ppKCnDtHs3MRdqWgO9VPYosWljS4ZIkGArPkYaFDSx0KA+S0zMe
-   Q+cyhw0Ym0dLDW4qsxNZVK4S2wpG/Hf7HWlmk2e13rhKQ2Z03BKb6INDl
-   mX+JdjA+PYZq0il9hPlM4Y8mYM5xmGRpg8xg03W+Hw6elq0mUtBGUJtl9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5296849"
+  bh=kWSzt50lWyjR9G2Fli3yJOkdmcK3GcPsxYJKGtFcgTk=;
+  b=S8GstiDm+I/E9i/XWmBeiJRwpdRwlfi4EHQMogYVl9IhFo9RlQX86eKl
+   IwsSTmU6vzDjMMwtTeR4XFovkrCeWs2QJfHz8wSkU+zDGbGtyo1ep7Mmn
+   Ta56m2MBVEaj85YJK53w5vtUsRfr8vDjQEn0Vh+romJr4HuIuArZNjuGA
+   ZX7YF1wya6D7YDc+RFjf8nuzhfI0LfFh7w9+ApJCdCk/SN2HkuQVT6op2
+   r2U6LduKzB6muaFsC1uQfMUaoMpwdCvyIV7CFTPUXSCVQ93ksH2XSKryZ
+   n4JgNyx1bocOqf8gYMvPIhZ+VizwqP8PnRPJCLgsOwxEpEqLTL9KLXpVi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5302684"
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="5296849"
+   d="scan'208";a="5302684"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 07:33:31 -0800
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 08:05:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="825170553"
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="825174900"
 X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="825170553"
+   d="scan'208";a="825174900"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 Feb 2024 07:33:29 -0800
+  by orsmga001.jf.intel.com with ESMTP; 09 Feb 2024 08:05:31 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYSsZ-0004pt-17;
-	Fri, 09 Feb 2024 15:33:27 +0000
-Date: Fri, 9 Feb 2024 23:33:09 +0800
+	id 1rYTNY-0004s6-2W;
+	Fri, 09 Feb 2024 16:05:28 +0000
+Date: Sat, 10 Feb 2024 00:05:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org
-Subject: [rafael-pm:bleeding-edge 65/77]
- drivers/thermal/intel/intel_quark_dts_thermal.c:353:17: error: 'trips'
- undeclared
-Message-ID: <202402092329.W4VIvzU0-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.2.x-imx 13613/17898]
+ drivers/staging/media/imx/imx8-isi-m2m.c:1431:12: warning:
+ 'mxc_isi_m2m_runtime_suspend' defined but not used
+Message-ID: <202402092317.nSysOX8Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,100 +60,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   2bc44535ed4f6a6013ec53b505c4c381e166f0ce
-commit: fdb07e113a91652cc3adf07a8e1ca7da3445f493 [65/77] thermal: intel: Set THERMAL_TRIP_WRITABLE_TEMP directly
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240209/202402092329.W4VIvzU0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402092329.W4VIvzU0-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   4e3fc5471376a15279ee5c99e791a7c7b065cbc1
+commit: 7e94f63be7a1e193e6426befc4e8760cc2e2acda [13613/17898] LF-9638 media: isi: Fix the isi-m2m play hang if convert format
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240209/202402092317.nSysOX8Y-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240209/202402092317.nSysOX8Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402092329.W4VIvzU0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402092317.nSysOX8Y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/thermal/intel/intel_quark_dts_thermal.c: In function 'alloc_soc_dts':
->> drivers/thermal/intel/intel_quark_dts_thermal.c:353:17: error: 'trips' undeclared (first use in this function)
-     353 |                 trips[QRK_DTS_ID_TP_CRITICAL].flags |= THERMAL_TRIP_WRITABLE_TEMP;
-         |                 ^~~~~
-   drivers/thermal/intel/intel_quark_dts_thermal.c:353:17: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/staging/media/imx/imx8-isi-m2m.c: In function 'mxc_isi_m2m_frame_write_done':
+   drivers/staging/media/imx/imx8-isi-m2m.c:95:32: warning: variable 'src_buf' set but not used [-Wunused-but-set-variable]
+      95 |         struct mxc_isi_buffer *src_buf, *dst_buf;
+         |                                ^~~~~~~
+   drivers/staging/media/imx/imx8-isi-m2m.c: At top level:
+   drivers/staging/media/imx/imx8-isi-m2m.c:1272:6: warning: no previous prototype for 'mxc_isi_m2m_ctrls_delete' [-Wmissing-prototypes]
+    1272 | void mxc_isi_m2m_ctrls_delete(struct mxc_isi_m2m_dev *isi_m2m)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/imx/imx8-isi-m2m.c:1431:12: warning: 'mxc_isi_m2m_runtime_suspend' defined but not used [-Wunused-function]
+    1431 | static int mxc_isi_m2m_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/imx/imx8-isi-m2m.c:1414:12: warning: 'mxc_isi_m2m_runtime_resume' defined but not used [-Wunused-function]
+    1414 | static int mxc_isi_m2m_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/trips +353 drivers/thermal/intel/intel_quark_dts_thermal.c
+vim +/mxc_isi_m2m_runtime_suspend +1431 drivers/staging/media/imx/imx8-isi-m2m.c
 
-   316	
-   317	static struct soc_sensor_entry *alloc_soc_dts(void)
-   318	{
-   319		struct soc_sensor_entry *aux_entry;
-   320		int err;
-   321		u32 out;
-   322	
-   323		aux_entry = kzalloc(sizeof(*aux_entry), GFP_KERNEL);
-   324		if (!aux_entry) {
-   325			err = -ENOMEM;
-   326			return ERR_PTR(-ENOMEM);
-   327		}
-   328	
-   329		/* Check if DTS register is locked */
-   330		err = iosf_mbi_read(QRK_MBI_UNIT_RMU, MBI_REG_READ,
-   331				    QRK_DTS_REG_OFFSET_LOCK, &out);
-   332		if (err)
-   333			goto err_ret;
-   334	
-   335		aux_entry->locked = !!(out & QRK_DTS_LOCK_BIT);
-   336	
-   337		/* Store DTS default state if DTS registers are not locked */
-   338		if (!aux_entry->locked) {
-   339			/* Store DTS default enable for restore on exit */
-   340			err = iosf_mbi_read(QRK_MBI_UNIT_RMU, MBI_REG_READ,
-   341					    QRK_DTS_REG_OFFSET_ENABLE,
-   342					    &aux_entry->store_dts_enable);
-   343			if (err)
-   344				goto err_ret;
-   345	
-   346			/* Store DTS default PTPS register for restore on exit */
-   347			err = iosf_mbi_read(QRK_MBI_UNIT_RMU, MBI_REG_READ,
-   348					    QRK_DTS_REG_OFFSET_PTPS,
-   349					    &aux_entry->store_ptps);
-   350			if (err)
-   351				goto err_ret;
-   352	
- > 353			trips[QRK_DTS_ID_TP_CRITICAL].flags |= THERMAL_TRIP_WRITABLE_TEMP;
-   354			trips[QRK_DTS_ID_TP_HOT].flags |= THERMAL_TRIP_WRITABLE_TEMP;
-   355		}
-   356	
-   357		aux_entry->trips[QRK_DTS_ID_TP_CRITICAL].temperature = get_trip_temp(QRK_DTS_ID_TP_CRITICAL);
-   358		aux_entry->trips[QRK_DTS_ID_TP_CRITICAL].type = THERMAL_TRIP_CRITICAL;
-   359	
-   360		aux_entry->trips[QRK_DTS_ID_TP_HOT].temperature = get_trip_temp(QRK_DTS_ID_TP_HOT);
-   361		aux_entry->trips[QRK_DTS_ID_TP_HOT].type = THERMAL_TRIP_HOT;
-   362	
-   363		aux_entry->tzone = thermal_zone_device_register_with_trips("quark_dts",
-   364									   aux_entry->trips,
-   365									   QRK_MAX_DTS_TRIPS,
-   366									   0, aux_entry,
-   367									   &tzone_ops,
-   368									   NULL, 0, polling_delay);
-   369		if (IS_ERR(aux_entry->tzone)) {
-   370			err = PTR_ERR(aux_entry->tzone);
-   371			goto err_ret;
-   372		}
-   373	
-   374		err = thermal_zone_device_enable(aux_entry->tzone);
-   375		if (err)
-   376			goto err_aux_status;
-   377	
-   378		return aux_entry;
-   379	
-   380	err_aux_status:
-   381		thermal_zone_device_unregister(aux_entry->tzone);
-   382	err_ret:
-   383		kfree(aux_entry);
-   384		return ERR_PTR(err);
-   385	}
-   386	
+  1413	
+> 1414	static int mxc_isi_m2m_runtime_resume(struct device *dev)
+  1415	{
+  1416		struct mxc_isi_m2m_dev *isi_m2m = dev_get_drvdata(dev);
+  1417		struct mxc_isi_dev *mxc_isi = mxc_isi_get_hostdata(isi_m2m->pdev);
+  1418		int ret;
+  1419	
+  1420		ret = mxc_isi_clk_enable(mxc_isi);
+  1421		if (ret) {
+  1422			dev_err(dev, "%s clk enable fail\n", __func__);
+  1423			return ret;
+  1424		}
+  1425		disp_mix_sft_rstn(mxc_isi, false);
+  1426		disp_mix_clks_enable(mxc_isi, true);
+  1427	
+  1428		return 0;
+  1429	}
+  1430	
+> 1431	static int mxc_isi_m2m_runtime_suspend(struct device *dev)
+  1432	{
+  1433		struct mxc_isi_m2m_dev *isi_m2m = dev_get_drvdata(dev);
+  1434		struct mxc_isi_dev *mxc_isi = mxc_isi_get_hostdata(isi_m2m->pdev);
+  1435	
+  1436		disp_mix_clks_enable(mxc_isi, false);
+  1437		mxc_isi_clk_disable(mxc_isi);
+  1438	
+  1439		return 0;
+  1440	}
+  1441	
 
 -- 
 0-DAY CI Kernel Test Service
