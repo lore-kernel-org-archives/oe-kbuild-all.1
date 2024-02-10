@@ -1,56 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8321079B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 06:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBF51A27A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 06:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707544931; cv=none; b=oP05tE2xBwtZKJfkqYKgcAgzlMQx06dBtXs52MQNHJomSrb64sydqK4K8jQ1ZVXad2w5Nzglk9zrkmDbglOGPbw+SX3jn8zzLmDWt2HTAIGhfEZEd04WZ3pq+5zN1Zr1eQ9Ua6mniBkGu1dE+iv9SNAZYVFzDsBRlrZ7NVhGbGs=
+	t=1707547307; cv=none; b=b0UW3uFaTttr8SBAcmx59oUtrwr5COvbRXLsgFQc1Wbwy8JFdO/izEsxyMWUgS/H5gZgzwPnzoZFsf7GvuK+YW/sw684XkbWU3RorLVmJW7Wi+3TWFkDsMxGeb/u0kuFgOhx81Z7t+Mk+M4Ra0fQPkECrcjS+IoeAVMVGslxXg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707544931; c=relaxed/simple;
-	bh=gRI1P+qivEJr0GTzKtVj7RKaG+s1zC6I8i5SOJbjy7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=booLhbtvxQezv0KOlnUcd5HObg9Kfyfs6x92ee3/h+3DcwpqecZpzjA2CeKyAUf26u3TxmwO2OgGzA66PxM+4eWNJAVLL/fISFHXpLyw6byMdKFZMdnH/nDWDGivFyztC3u47h1vGr/beRGYFbYH7AgSagRINQIbVfTkXs4fQkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TWpTqe0M; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707547307; c=relaxed/simple;
+	bh=yxaBIvaCvCFMBiJAMWPiBnSu+HXDJ+ESeSh2AhK4QmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fa1Y0Rk7AmsiAw6hVhqzrsN+nvfbxa9VeKK7LUncfvLbQeHCOWHMWGG4G3wrZuySbthsqE4pmZb6nrNY61ZrOZdGKOt7Z7x49fvenGtQ5V0vrigh8/8Z3aBQIF/bs9in8vENyYFBGquhTJNJNs4EiZRjpoFX6elf23NAmfShOYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dUm0vHFb; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TWpTqe0M"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707544929; x=1739080929;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gRI1P+qivEJr0GTzKtVj7RKaG+s1zC6I8i5SOJbjy7A=;
-  b=TWpTqe0MciLs7+AlmC2JScxE0DlJB/7FUKmOonePdxJoHvi8N3R8qJNA
-   pNXEOxcjQ+woCLMeKZCnwq+7IsVyti5un01Aoq9OOej5z2oILMFWCG8Oo
-   tgwZmLSTfmcjwCDVKCECHxW57QotSwaq2HDxhsL2zHN1IRKtjTWuzTVTW
-   MscVufokVt5mG4xCbwSW2rH7dtOlqeM1Jo55Rx4+uYrXfgvf5nZfrhiqD
-   weW8IXN5ZGOgqLfNPbrfFODYSqYvYVbd6JpNkzIara+T+nJxZQ/izwNf1
-   1Z9XGK36a03ZrqpLFsxOuAXFkHW+QncseUbzJc/+MqC5LRhfOKTJNr4zy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1686939"
-X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="1686939"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 22:02:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="2330689"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Feb 2024 22:02:04 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rYgR8-0005Nw-1F;
-	Sat, 10 Feb 2024 06:02:02 +0000
-Date: Sat, 10 Feb 2024 14:01:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lokesh Gidra <lokeshgidra@google.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dUm0vHFb"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d746856d85so13368625ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 09 Feb 2024 22:41:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1707547305; x=1708152105; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4s7YWKw8vMDXZzc7OV8iMH9o9J180EyKoeLHccFGXhU=;
+        b=dUm0vHFb3Q+CrNNlW7jCkW/14SPvc7TCQDh+2QGFmEOVP+4c3QK+YYGdtVNJN99CnA
+         Z7E5JDi2Usd/wk0h5u88qTjqAfx84zf3BosZ5OszRe7e+sadm6iuypfFOfPAFVjz0vnw
+         Jrj/5eMBoWzAGWeVADR4waMs/Y7t8U4U7TFZQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707547305; x=1708152105;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4s7YWKw8vMDXZzc7OV8iMH9o9J180EyKoeLHccFGXhU=;
+        b=J30e6l8P+tP1kYJ0HSspui7DdY3d19pgoBiuM/88N1AMIvKg7YUcR+mkakBSxuhHw9
+         3HrdFN0KRsiJgBhZqiJXwVLOS91J97Fs1Oscb9UlzIbmQgaKS5HtIALVOWIwm4iiWyjb
+         wrQHzdV/IEjt3UsxcpWhN+kLKzati//xrcBUPvobSXHdYQ9j/5ZBx1CFo+mOeiaLyJKH
+         q8h2crOYrKEl687h961evHcw4UeniELXZSuHUKDUbcAyLSIarJHeDiP538M/hyjf0LJS
+         MFUX1RhKRkdS4uEPnDuI5Xvpt9m5mgxdnJVNOPh0TtsD7vRTRrMc8bznvKGphQJosZEF
+         /+Qw==
+X-Gm-Message-State: AOJu0YzHZ0L1vBRMl3tz544Q4KcBoFWiL+Q1R6EePc7Pdn3Rdt6hR0Dz
+	VB/tHLtLyqj+ZzJFpBRTdRWYtBzAYXvxUJBGUdIQZN263gt20WUUMyTAWl7VeQ==
+X-Google-Smtp-Source: AGHT+IFUFPhe+sib5iaEaIiNw2Z9OCtCHJ2JT6IBiFYv7CAaK8c9jYUH53fzI0Njczat/JoJiNBftQ==
+X-Received: by 2002:a17:903:1104:b0:1d7:88de:cffa with SMTP id n4-20020a170903110400b001d788decffamr1835706plh.19.1707547305177;
+        Fri, 09 Feb 2024 22:41:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWiQHvx1eksAu9I0C+I6GQ2b/sjiwh+NM4LLGbspjRvom93rD4s0Rt70l1Y5mk9Il9LeBKdeRPo7sIZ/mvvSDywn1/ITaVthavo3QFGhdwiL82V2aGA/zEZOcYriwjegMufjGEY2BWs7gWPgbSQQR0=
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id i11-20020a17090332cb00b001d9cfb9af20sm2444010plr.70.2024.02.09.22.41.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 22:41:44 -0800 (PST)
+Date: Fri, 9 Feb 2024 22:41:44 -0800
+From: Kees Cook <keescook@chromium.org>
+To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 289/292] mm/userfaultfd.c:1526: warning: Excess
- function parameter 'mm' description in 'move_pages'
-Message-ID: <202402101302.UF7G8Rr8-lkp@intel.com>
+	Marco Elver <elver@google.com>
+Subject: Re: [linux-next:master 4186/4898] debug.c:undefined reference to
+ `__ubsan_handle_divrem_overflow'
+Message-ID: <202402092240.A6DFC1875B@keescook>
+References: <202402080538.FNTaeLJO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,130 +67,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202402080538.FNTaeLJO-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   191d97734e41a5c9f90a2f6636fdd335ae1d435d
-commit: 2812c4c704e875ed9047a756641ba10c032f6c9c [289/292] userfaultfd: use per-vma locks in userfaultfd operations
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240210/202402101302.UF7G8Rr8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402101302.UF7G8Rr8-lkp@intel.com/reproduce)
+On Thu, Feb 08, 2024 at 06:00:13AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   2ae0a045e6814c8c1d676d6153c605a65746aa29
+> commit: 5084a4cd510f887a4fcc9f3386de1fbea698c7c4 [4186/4898] ubsan: reintroduce signed overflow sanitizer
+> config: s390-randconfig-r063-20240207 (https://download.01.org/0day-ci/archive/20240208/202402080538.FNTaeLJO-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240208/202402080538.FNTaeLJO-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402080538.FNTaeLJO-lkp@intel.com/
+> 
+> Note: the linux-next/master HEAD 2ae0a045e6814c8c1d676d6153c605a65746aa29 builds fine.
+>       It may have been fixed somewhere.
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    s390-linux-ld: arch/s390/kernel/debug.o: in function `debug_output':
+> >> debug.c:(.text+0x17ea): undefined reference to `__ubsan_handle_divrem_overflow'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402101302.UF7G8Rr8-lkp@intel.com/
+I'm not able to reproduce these warnings. I'm using the config above and
+s390x-linux-gnu-gcc (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
-All warnings (new ones prefixed by >>):
+I would expect adding this to arch/s390/kernel/Makefile would fix it:
 
->> mm/userfaultfd.c:1526: warning: Excess function parameter 'mm' description in 'move_pages'
+UBSAN_SANITIZE_debug.o                := n
 
-
-vim +1526 mm/userfaultfd.c
-
-adef440691bab8 Andrea Arcangeli 2023-12-06  1448  
-adef440691bab8 Andrea Arcangeli 2023-12-06  1449  /**
-adef440691bab8 Andrea Arcangeli 2023-12-06  1450   * move_pages - move arbitrary anonymous pages of an existing vma
-adef440691bab8 Andrea Arcangeli 2023-12-06  1451   * @ctx: pointer to the userfaultfd context
-adef440691bab8 Andrea Arcangeli 2023-12-06  1452   * @mm: the address space to move pages
-adef440691bab8 Andrea Arcangeli 2023-12-06  1453   * @dst_start: start of the destination virtual memory range
-adef440691bab8 Andrea Arcangeli 2023-12-06  1454   * @src_start: start of the source virtual memory range
-adef440691bab8 Andrea Arcangeli 2023-12-06  1455   * @len: length of the virtual memory range
-adef440691bab8 Andrea Arcangeli 2023-12-06  1456   * @mode: flags from uffdio_move.mode
-adef440691bab8 Andrea Arcangeli 2023-12-06  1457   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1458   * move_pages() remaps arbitrary anonymous pages atomically in zero
-adef440691bab8 Andrea Arcangeli 2023-12-06  1459   * copy. It only works on non shared anonymous pages because those can
-adef440691bab8 Andrea Arcangeli 2023-12-06  1460   * be relocated without generating non linear anon_vmas in the rmap
-adef440691bab8 Andrea Arcangeli 2023-12-06  1461   * code.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1462   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1463   * It provides a zero copy mechanism to handle userspace page faults.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1464   * The source vma pages should have mapcount == 1, which can be
-adef440691bab8 Andrea Arcangeli 2023-12-06  1465   * enforced by using madvise(MADV_DONTFORK) on src vma.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1466   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1467   * The thread receiving the page during the userland page fault
-adef440691bab8 Andrea Arcangeli 2023-12-06  1468   * will receive the faulting page in the source vma through the network,
-adef440691bab8 Andrea Arcangeli 2023-12-06  1469   * storage or any other I/O device (MADV_DONTFORK in the source vma
-adef440691bab8 Andrea Arcangeli 2023-12-06  1470   * avoids move_pages() to fail with -EBUSY if the process forks before
-adef440691bab8 Andrea Arcangeli 2023-12-06  1471   * move_pages() is called), then it will call move_pages() to map the
-adef440691bab8 Andrea Arcangeli 2023-12-06  1472   * page in the faulting address in the destination vma.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1473   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1474   * This userfaultfd command works purely via pagetables, so it's the
-adef440691bab8 Andrea Arcangeli 2023-12-06  1475   * most efficient way to move physical non shared anonymous pages
-adef440691bab8 Andrea Arcangeli 2023-12-06  1476   * across different virtual addresses. Unlike mremap()/mmap()/munmap()
-adef440691bab8 Andrea Arcangeli 2023-12-06  1477   * it does not create any new vmas. The mapping in the destination
-adef440691bab8 Andrea Arcangeli 2023-12-06  1478   * address is atomic.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1479   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1480   * It only works if the vma protection bits are identical from the
-adef440691bab8 Andrea Arcangeli 2023-12-06  1481   * source and destination vma.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1482   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1483   * It can remap non shared anonymous pages within the same vma too.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1484   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1485   * If the source virtual memory range has any unmapped holes, or if
-adef440691bab8 Andrea Arcangeli 2023-12-06  1486   * the destination virtual memory range is not a whole unmapped hole,
-adef440691bab8 Andrea Arcangeli 2023-12-06  1487   * move_pages() will fail respectively with -ENOENT or -EEXIST. This
-adef440691bab8 Andrea Arcangeli 2023-12-06  1488   * provides a very strict behavior to avoid any chance of memory
-adef440691bab8 Andrea Arcangeli 2023-12-06  1489   * corruption going unnoticed if there are userland race conditions.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1490   * Only one thread should resolve the userland page fault at any given
-adef440691bab8 Andrea Arcangeli 2023-12-06  1491   * time for any given faulting address. This means that if two threads
-adef440691bab8 Andrea Arcangeli 2023-12-06  1492   * try to both call move_pages() on the same destination address at the
-adef440691bab8 Andrea Arcangeli 2023-12-06  1493   * same time, the second thread will get an explicit error from this
-adef440691bab8 Andrea Arcangeli 2023-12-06  1494   * command.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1495   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1496   * The command retval will return "len" is successful. The command
-adef440691bab8 Andrea Arcangeli 2023-12-06  1497   * however can be interrupted by fatal signals or errors. If
-adef440691bab8 Andrea Arcangeli 2023-12-06  1498   * interrupted it will return the number of bytes successfully
-adef440691bab8 Andrea Arcangeli 2023-12-06  1499   * remapped before the interruption if any, or the negative error if
-adef440691bab8 Andrea Arcangeli 2023-12-06  1500   * none. It will never return zero. Either it will return an error or
-adef440691bab8 Andrea Arcangeli 2023-12-06  1501   * an amount of bytes successfully moved. If the retval reports a
-adef440691bab8 Andrea Arcangeli 2023-12-06  1502   * "short" remap, the move_pages() command should be repeated by
-adef440691bab8 Andrea Arcangeli 2023-12-06  1503   * userland with src+retval, dst+reval, len-retval if it wants to know
-adef440691bab8 Andrea Arcangeli 2023-12-06  1504   * about the error that interrupted it.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1505   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1506   * The UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES flag can be specified to
-adef440691bab8 Andrea Arcangeli 2023-12-06  1507   * prevent -ENOENT errors to materialize if there are holes in the
-adef440691bab8 Andrea Arcangeli 2023-12-06  1508   * source virtual range that is being remapped. The holes will be
-adef440691bab8 Andrea Arcangeli 2023-12-06  1509   * accounted as successfully remapped in the retval of the
-adef440691bab8 Andrea Arcangeli 2023-12-06  1510   * command. This is mostly useful to remap hugepage naturally aligned
-adef440691bab8 Andrea Arcangeli 2023-12-06  1511   * virtual regions without knowing if there are transparent hugepage
-adef440691bab8 Andrea Arcangeli 2023-12-06  1512   * in the regions or not, but preventing the risk of having to split
-adef440691bab8 Andrea Arcangeli 2023-12-06  1513   * the hugepmd during the remap.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1514   *
-adef440691bab8 Andrea Arcangeli 2023-12-06  1515   * If there's any rmap walk that is taking the anon_vma locks without
-adef440691bab8 Andrea Arcangeli 2023-12-06  1516   * first obtaining the folio lock (the only current instance is
-adef440691bab8 Andrea Arcangeli 2023-12-06  1517   * folio_referenced), they will have to verify if the folio->mapping
-adef440691bab8 Andrea Arcangeli 2023-12-06  1518   * has changed after taking the anon_vma lock. If it changed they
-adef440691bab8 Andrea Arcangeli 2023-12-06  1519   * should release the lock and retry obtaining a new anon_vma, because
-adef440691bab8 Andrea Arcangeli 2023-12-06  1520   * it means the anon_vma was changed by move_pages() before the lock
-adef440691bab8 Andrea Arcangeli 2023-12-06  1521   * could be obtained. This is the only additional complexity added to
-adef440691bab8 Andrea Arcangeli 2023-12-06  1522   * the rmap code to provide this anonymous page remapping functionality.
-adef440691bab8 Andrea Arcangeli 2023-12-06  1523   */
-2812c4c704e875 Lokesh Gidra     2024-02-08  1524  ssize_t move_pages(struct userfaultfd_ctx *ctx, unsigned long dst_start,
-2812c4c704e875 Lokesh Gidra     2024-02-08  1525  		   unsigned long src_start, unsigned long len, __u64 mode)
-adef440691bab8 Andrea Arcangeli 2023-12-06 @1526  {
-2812c4c704e875 Lokesh Gidra     2024-02-08  1527  	struct mm_struct *mm = ctx->mm;
-adef440691bab8 Andrea Arcangeli 2023-12-06  1528  	struct vm_area_struct *src_vma, *dst_vma;
-adef440691bab8 Andrea Arcangeli 2023-12-06  1529  	unsigned long src_addr, dst_addr;
-adef440691bab8 Andrea Arcangeli 2023-12-06  1530  	pmd_t *src_pmd, *dst_pmd;
-adef440691bab8 Andrea Arcangeli 2023-12-06  1531  	long err = -EINVAL;
-adef440691bab8 Andrea Arcangeli 2023-12-06  1532  	ssize_t moved = 0;
-adef440691bab8 Andrea Arcangeli 2023-12-06  1533  
-adef440691bab8 Andrea Arcangeli 2023-12-06  1534  	/* Sanitize the command parameters. */
-adef440691bab8 Andrea Arcangeli 2023-12-06  1535  	if (WARN_ON_ONCE(src_start & ~PAGE_MASK) ||
-adef440691bab8 Andrea Arcangeli 2023-12-06  1536  	    WARN_ON_ONCE(dst_start & ~PAGE_MASK) ||
-adef440691bab8 Andrea Arcangeli 2023-12-06  1537  	    WARN_ON_ONCE(len & ~PAGE_MASK))
-adef440691bab8 Andrea Arcangeli 2023-12-06  1538  		goto out;
-adef440691bab8 Andrea Arcangeli 2023-12-06  1539  
-adef440691bab8 Andrea Arcangeli 2023-12-06  1540  	/* Does the address range wrap, or is the span zero-sized? */
-adef440691bab8 Andrea Arcangeli 2023-12-06  1541  	if (WARN_ON_ONCE(src_start + len <= src_start) ||
-adef440691bab8 Andrea Arcangeli 2023-12-06  1542  	    WARN_ON_ONCE(dst_start + len <= dst_start))
-adef440691bab8 Andrea Arcangeli 2023-12-06  1543  		goto out;
-adef440691bab8 Andrea Arcangeli 2023-12-06  1544  
-
-:::::: The code at line 1526 was first introduced by commit
-:::::: adef440691bab824e39c1b17382322d195e1fab0 userfaultfd: UFFDIO_MOVE uABI
-
-:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+But I can't meaningfully verify the fix...
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
