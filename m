@@ -1,57 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2F9566B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A87626AFC
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 11:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707564202; cv=none; b=HHRb+5us1JfCDQE/oEr3ouT0pPfZ7bXYHQbwbepu3rE7U2p3CjzLbUQQQlafCHl2U92QHH6RLL0zWsTV0orvv/sy8oRfIsRezDkMxp/Bd1x83i4Yuvrsjm29rAs6D9M5WFecpKp+XamSkQWkiRw0MRvdsH1I8NZ1V8rWoHxoWGo=
+	t=1707564203; cv=none; b=IMyPVv8TwXlVVsExJJTe0bl//UsuOeO1NRItkhSQLYLRSzbrl+gczz36kUlvx4Mxbce0iopMMtZ7E32u8DEqRSFYIbIKu9LfQp9rcRlXjISxw4tMXhi4OY0A//wWP2QTgZWqimSapGZd1ra2Dn9K191XuUTCga17brMLVWnigbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707564202; c=relaxed/simple;
-	bh=gR7/QV9B+WL9Z4DcxePzsCx0zgUbsDxRTu22G+6qT9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=goQAl0iOEn5Bg1hI6oyLnlZKVogXAZObVEzqPZVe54nRKcYWrQl2Q5LzPmSLQ0zAR3EdynaWdeJ2MtsBaRwJ0JIykLjubPpYmjlxqtqvB4HRYZRSauLSXa7cFfLvFoBepj0TNc0+O4AiiPjxa+1KULogGWEDGxr4nR830L7g9tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KumOfj0L; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1707564203; c=relaxed/simple;
+	bh=Jt2XHCZBJmyLtQKThagcyln3XnnHY6Ko/uxU2R0urIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p2RCR2OpD/z24Jnos5FYnPbduuG0xHB81iIxm+MwOwWHCM+Kq71doythg2UA4Llxq4vYcT65JxAoMrlYD4e/1wYjLpqMseRbDG0DKEnYT0qazPWhtUcUmVNutk+PrPy84hwgNAa2DsB77xvVCTpIfbxSruDE5UeeZx0AHXGPH1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PH4BL3OT; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KumOfj0L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PH4BL3OT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1707564200; x=1739100200;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gR7/QV9B+WL9Z4DcxePzsCx0zgUbsDxRTu22G+6qT9I=;
-  b=KumOfj0LbH/0Yu5yQsCKEJQYO0Aqv/65+z7jVh1m5tnEm+sq9wCl3MVe
-   ESj3RlKnEMvrZj+bCS49FqZLp+QpdQNgcGguCs03pqes2Y2l2THSShoNU
-   jxi6XnPrd6pvkPXJBVniOdpBIHgKLeb4j7FF5frq6NpHlvMIcwLSNemjU
-   /XJbLTYxMewNrzIeOvRnOI5pCiKFohBdj/I/8EBj6KSNIx37YsopxVE3U
-   klzemU6Iz2IK8mU1frKt4dDx6KhJEeRlIRnRMGJGDd+nAxCSs/10PmJXI
-   Z7W80gYRouI+8Lbtd3WYCviSQS1T5sJb53iVDR/I3NVxXc+zdBI2UkPZi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5345801"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Jt2XHCZBJmyLtQKThagcyln3XnnHY6Ko/uxU2R0urIU=;
+  b=PH4BL3OTkzwd7gl4vAVOhZDTFOk2ulKpIZEJ9hV973/CR3TundzVHj4g
+   Hfm1you8IaIbvipsCBuZFEcWxsDMacbIJxKLff7fzwXI8CE3QmVn+bGBU
+   UgmPwGPSVXPSnZZdcyV13NDN7F/CY71vWeYcvTB9FV3n97E/47IGuI6oL
+   9LnzNrp3DpjDHDPoLV7u9fZvmbCrkz8wz3urTlkyi45ZzPh80dos/bOIT
+   BPyLk2IjCso0WpdTmrgVJQO5vylPhY391+OpDVJXGnIZj+vETa6L2uxpP
+   uHV418pioVkttsIHbGoLF5ZznS4OX1cCbmd9dDk3FD9CQMDulJ8IBBZz6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1689237"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="5345801"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 03:23:19 -0800
+   d="scan'208";a="1689237"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 03:23:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="825377385"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="825377385"
+   d="scan'208";a="6809180"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 10 Feb 2024 03:23:17 -0800
+  by orviesa005.jf.intel.com with ESMTP; 10 Feb 2024 03:23:18 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYlRz-0005bY-17;
+	id 1rYlRz-0005bW-14;
 	Sat, 10 Feb 2024 11:23:15 +0000
-Date: Sat, 10 Feb 2024 19:22:54 +0800
+Date: Sat, 10 Feb 2024 19:22:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Gomez <da.gomez@samsung.com>
+To: Jim Cromie <jim.cromie@gmail.com>, Lukasz Bartosik <lb@semihalf.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 7/9] shmem: check if a block is uptodate before
- splice into pipe
-Message-ID: <202402101949.MN9XAQX3-lkp@intel.com>
-References: <20240209142901.126894-8-da.gomez@samsung.com>
+Subject: [jimc:dyndbg_trace_v4_2 9/42] drivers/crypto/caam/caamrng.c:195:17:
+ sparse: sparse: Initializer entry defined twice
+Message-ID: <202402101901.H9XOF9QZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,154 +57,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240209142901.126894-8-da.gomez@samsung.com>
 
-Hi Daniel,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on brauner-vfs/vfs.all linus/master v6.8-rc3 next-20240209]
-[cannot apply to vfs-idmapping/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Gomez/splice-don-t-check-for-uptodate-if-partially-uptodate-is-impl/20240209-223226
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240209142901.126894-8-da.gomez%40samsung.com
-patch subject: [RFC PATCH 7/9] shmem: check if a block is uptodate before splice into pipe
-config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20240210/202402101949.MN9XAQX3-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402101949.MN9XAQX3-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dyndbg_trace_v4_2
+head:   5146eacff4028adae1aabf9af4bcf217ea17a472
+commit: f8d052f79bf3d7d6a368d0618852557817f74b4a [9/42] dyndbg: move flags field to a new structure
+config: powerpc-randconfig-r133-20240209 (https://download.01.org/0day-ci/archive/20240210/202402101901.H9XOF9QZ-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ac0577177f053ba7e7016e1b7e44cf5932d00b03)
+reproduce: (https://download.01.org/0day-ci/archive/20240210/202402101901.H9XOF9QZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402101949.MN9XAQX3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402101901.H9XOF9QZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/crypto/caam/caamrng.c:195:17: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/caamrng.c:195:17: sparse:   also defined here
+>> drivers/crypto/caam/caamrng.c:195:17: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/caamrng.c:195:17: sparse:   also defined here
+--
+>> drivers/crypto/caam/caamhash.c:597:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/caamhash.c:597:9: sparse:   also defined here
+   drivers/crypto/caam/caamhash.c:609:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/caamhash.c:609:9: sparse:   also defined here
+   drivers/crypto/caam/caamhash.c:648:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/caamhash.c:648:9: sparse:   also defined here
+   drivers/crypto/caam/caamhash.c:663:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/caamhash.c:663:9: sparse:   also defined here
+   drivers/crypto/caam/caamhash.c:667:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/caamhash.c:667:9: sparse:   also defined here
+   drivers/crypto/caam/caamhash.c:671:17: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/caamhash.c:671:17: sparse:   also defined here
+   drivers/crypto/caam/caamhash.c: note: in included file:
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+>> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
+   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
 
-   microblaze-linux-ld: mm/shmem.o: in function `shmem_file_splice_read':
->> mm/shmem.c:3214:(.text+0x4790): undefined reference to `__moddi3'
+vim +195 drivers/crypto/caam/caamrng.c
 
+e24f7c9e87d46fa Yuan Kang                 2012-06-22  174  
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  175) #ifdef CONFIG_CRYPTO_DEV_FSL_CAAM_RNG_TEST
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  176) static inline void test_len(struct hwrng *rng, size_t len, bool wait)
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  177) {
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  178) 	u8 *buf;
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  179) 	int read_len;
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  180) 	struct caam_rng_ctx *ctx = to_caam_rng_ctx(rng);
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  181) 	struct device *dev = ctx->ctrldev;
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  182) 
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  183) 	buf = kcalloc(CAAM_RNG_MAX_FIFO_STORE_SIZE, sizeof(u8), GFP_KERNEL);
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  184) 
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  185) 	while (len > 0) {
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  186) 		read_len = rng->read(rng, buf, len, wait);
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  187) 
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  188) 		if (read_len < 0 || (read_len == 0 && wait)) {
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  189) 			dev_err(dev, "RNG Read FAILED received %d bytes\n",
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  190) 				read_len);
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  191) 			kfree(buf);
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  192) 			return;
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  193) 		}
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  194) 
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12 @195) 		print_hex_dump_debug("random bytes@: ",
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  196) 			DUMP_PREFIX_ADDRESS, 16, 4,
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  197) 			buf, read_len, 1);
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  198) 
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  199) 		len = len - read_len;
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  200) 	}
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  201) 
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  202) 	kfree(buf);
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  203) }
+2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  204) 
 
-vim +3214 mm/shmem.c
+:::::: The code at line 195 was first introduced by commit
+:::::: 2be0d806e25e7b068113187f9245575914daf0dc crypto: caam - add a test for the RNG
 
-  3148	
-  3149	static ssize_t shmem_file_splice_read(struct file *in, loff_t *ppos,
-  3150					      struct pipe_inode_info *pipe,
-  3151					      size_t len, unsigned int flags)
-  3152	{
-  3153		struct inode *inode = file_inode(in);
-  3154		struct address_space *mapping = inode->i_mapping;
-  3155		struct folio *folio = NULL;
-  3156		size_t total_spliced = 0, used, npages, n, part;
-  3157		loff_t isize;
-  3158		int error = 0;
-  3159	
-  3160		/* Work out how much data we can actually add into the pipe */
-  3161		used = pipe_occupancy(pipe->head, pipe->tail);
-  3162		npages = max_t(ssize_t, pipe->max_usage - used, 0);
-  3163		len = min_t(size_t, len, npages * PAGE_SIZE);
-  3164	
-  3165		do {
-  3166			if (*ppos >= i_size_read(inode))
-  3167				break;
-  3168	
-  3169			error = shmem_get_folio(inode, *ppos / PAGE_SIZE, &folio,
-  3170						SGP_READ);
-  3171			if (error) {
-  3172				if (error == -EINVAL)
-  3173					error = 0;
-  3174				break;
-  3175			}
-  3176			if (folio) {
-  3177				folio_unlock(folio);
-  3178	
-  3179				if (folio_test_hwpoison(folio) ||
-  3180				    (folio_test_large(folio) &&
-  3181				     folio_test_has_hwpoisoned(folio))) {
-  3182					error = -EIO;
-  3183					break;
-  3184				}
-  3185			}
-  3186	
-  3187			/*
-  3188			 * i_size must be checked after we know the pages are Uptodate.
-  3189			 *
-  3190			 * Checking i_size after the check allows us to calculate
-  3191			 * the correct value for "nr", which means the zero-filled
-  3192			 * part of the page is not copied back to userspace (unless
-  3193			 * another truncate extends the file - this is desired though).
-  3194			 */
-  3195			isize = i_size_read(inode);
-  3196			if (unlikely(*ppos >= isize))
-  3197				break;
-  3198			part = min_t(loff_t, isize - *ppos, len);
-  3199			if (folio && folio_test_large(folio) &&
-  3200			    folio_test_private(folio)) {
-  3201				unsigned long from = offset_in_folio(folio, *ppos);
-  3202				unsigned int bfirst = from >> inode->i_blkbits;
-  3203				unsigned int blast, blast_upd;
-  3204	
-  3205				len = min(folio_size(folio) - from, len);
-  3206				blast = (from + len - 1) >> inode->i_blkbits;
-  3207	
-  3208				blast_upd = sfs_get_last_block_uptodate(folio, bfirst,
-  3209									blast);
-  3210				if (blast_upd <= blast) {
-  3211					unsigned int bsize = 1 << inode->i_blkbits;
-  3212					unsigned int blks = blast_upd - bfirst + 1;
-  3213					unsigned int bbytes = blks << inode->i_blkbits;
-> 3214					unsigned int boff = (*ppos % bsize);
-  3215	
-  3216					part = min_t(loff_t, bbytes - boff, len);
-  3217				}
-  3218			}
-  3219	
-  3220			if (folio && shmem_is_block_uptodate(
-  3221					     folio, offset_in_folio(folio, *ppos) >>
-  3222							    inode->i_blkbits)) {
-  3223				/*
-  3224				 * If users can be writing to this page using arbitrary
-  3225				 * virtual addresses, take care about potential aliasing
-  3226				 * before reading the page on the kernel side.
-  3227				 */
-  3228				if (mapping_writably_mapped(mapping))
-  3229					flush_dcache_folio(folio);
-  3230				folio_mark_accessed(folio);
-  3231				/*
-  3232				 * Ok, we have the page, and it's up-to-date, so we can
-  3233				 * now splice it into the pipe.
-  3234				 */
-  3235				n = splice_folio_into_pipe(pipe, folio, *ppos, part);
-  3236				folio_put(folio);
-  3237				folio = NULL;
-  3238			} else {
-  3239				n = splice_zeropage_into_pipe(pipe, *ppos, part);
-  3240			}
-  3241	
-  3242			if (!n)
-  3243				break;
-  3244			len -= n;
-  3245			total_spliced += n;
-  3246			*ppos += n;
-  3247			in->f_ra.prev_pos = *ppos;
-  3248			if (pipe_full(pipe->head, pipe->tail, pipe->max_usage))
-  3249				break;
-  3250	
-  3251			cond_resched();
-  3252		} while (len);
-  3253	
-  3254		if (folio)
-  3255			folio_put(folio);
-  3256	
-  3257		file_accessed(in);
-  3258		return total_spliced ? total_spliced : error;
-  3259	}
-  3260	
+:::::: TO: Victoria Milhoan (b42089) <vicki.milhoan@freescale.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
