@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A87626AFC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 11:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D6717554;
+	Sat, 10 Feb 2024 11:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707564203; cv=none; b=IMyPVv8TwXlVVsExJJTe0bl//UsuOeO1NRItkhSQLYLRSzbrl+gczz36kUlvx4Mxbce0iopMMtZ7E32u8DEqRSFYIbIKu9LfQp9rcRlXjISxw4tMXhi4OY0A//wWP2QTgZWqimSapGZd1ra2Dn9K191XuUTCga17brMLVWnigbE=
+	t=1707564801; cv=none; b=LKSDlsg+3fXJqlJo/HTZ6JFHhcZDJDs6oA89GfvHXLh5kSoP8qW74eFOu9N/oX+aKlMV94WPJs+qgZIohZNh7QkE73oGLYUQoXrOjtdcUZFj5CEkiBDDo3fdy6KLHy4M4DwJp14S10pAlkRQuwWPq22hUhvtkHUUFcB7rNCcMIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707564203; c=relaxed/simple;
-	bh=Jt2XHCZBJmyLtQKThagcyln3XnnHY6Ko/uxU2R0urIU=;
+	s=arc-20240116; t=1707564801; c=relaxed/simple;
+	bh=j1OB/OMrX1bxPGG9OjNeAmWW7AX7FcjWAQz4R1t+qsE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p2RCR2OpD/z24Jnos5FYnPbduuG0xHB81iIxm+MwOwWHCM+Kq71doythg2UA4Llxq4vYcT65JxAoMrlYD4e/1wYjLpqMseRbDG0DKEnYT0qazPWhtUcUmVNutk+PrPy84hwgNAa2DsB77xvVCTpIfbxSruDE5UeeZx0AHXGPH1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PH4BL3OT; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=seU4g4+XGivOMQL4BQ5Y41cEhssQQR5YLPpstcsGbpELYMXX8602sY2yKZegLhontXx6/zl3xpiRbohPcY/gVvBenwZk4H8Is0fsOf1kExJLzwSD/8WMIWrFJe8AcHMnr0LjgvjcriU/ZZxcruZcM8twWTRYuUo/4UcMiDo8TX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nF/RLWs1; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PH4BL3OT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nF/RLWs1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707564200; x=1739100200;
+  t=1707564800; x=1739100800;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jt2XHCZBJmyLtQKThagcyln3XnnHY6Ko/uxU2R0urIU=;
-  b=PH4BL3OTkzwd7gl4vAVOhZDTFOk2ulKpIZEJ9hV973/CR3TundzVHj4g
-   Hfm1you8IaIbvipsCBuZFEcWxsDMacbIJxKLff7fzwXI8CE3QmVn+bGBU
-   UgmPwGPSVXPSnZZdcyV13NDN7F/CY71vWeYcvTB9FV3n97E/47IGuI6oL
-   9LnzNrp3DpjDHDPoLV7u9fZvmbCrkz8wz3urTlkyi45ZzPh80dos/bOIT
-   BPyLk2IjCso0WpdTmrgVJQO5vylPhY391+OpDVJXGnIZj+vETa6L2uxpP
-   uHV418pioVkttsIHbGoLF5ZznS4OX1cCbmd9dDk3FD9CQMDulJ8IBBZz6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1689237"
+  bh=j1OB/OMrX1bxPGG9OjNeAmWW7AX7FcjWAQz4R1t+qsE=;
+  b=nF/RLWs1NnOIbvqtbGf1yN8Iif3gLQXSJaEdDdN8FFNh5RSPeOoErpN0
+   UIyu83Kqj7+HrAqU3eeFQWEqIwW1fEw3Tlg22GYtxP46Vr+0Ux2AtYgp6
+   xOeJ7oiE2prZZwDMm0BXoqJDHq4pKyW1V+cMu8qpGNq4WfttwqlsXOGct
+   l7PH19ujVvdWjD7DOE14niZ+kdo92vuU+oGNTD0B+0hfr+bAVFe7uBR/3
+   Y6R41eoYWhpW/ubiwXtzMNACJffeROomxcT+vXJAxNnxfGq5ponptLY0u
+   8R9amlr2Lma0O0ufAEttCQYZp9ZxYkpWyXof3zCIUZlo3StvSANiMcCUW
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1444787"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="1689237"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 03:23:19 -0800
+   d="scan'208";a="1444787"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 03:33:19 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="6809180"
+   d="scan'208";a="33239086"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Feb 2024 03:23:18 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Feb 2024 03:33:18 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYlRz-0005bW-14;
-	Sat, 10 Feb 2024 11:23:15 +0000
-Date: Sat, 10 Feb 2024 19:22:46 +0800
+	id 1rYlbf-0005bs-1U;
+	Sat, 10 Feb 2024 11:33:15 +0000
+Date: Sat, 10 Feb 2024 19:33:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>, Lukasz Bartosik <lb@semihalf.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dyndbg_trace_v4_2 9/42] drivers/crypto/caam/caamrng.c:195:17:
- sparse: sparse: Initializer entry defined twice
-Message-ID: <202402101901.H9XOF9QZ-lkp@intel.com>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [luto:net/recverr 2/2] include/net/ip.h:838:22: error: no member
+ named '__sk_common' in 'struct socket'
+Message-ID: <202402101949.cMkR01fr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,97 +58,146 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jimc/linux.git dyndbg_trace_v4_2
-head:   5146eacff4028adae1aabf9af4bcf217ea17a472
-commit: f8d052f79bf3d7d6a368d0618852557817f74b4a [9/42] dyndbg: move flags field to a new structure
-config: powerpc-randconfig-r133-20240209 (https://download.01.org/0day-ci/archive/20240210/202402101901.H9XOF9QZ-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/luto/linux.git net/recverr
+head:   d3ed76fed22d68d297a7740671c0d010f8ca205d
+commit: d3ed76fed22d68d297a7740671c0d010f8ca205d [2/2] [WIP] net/ip: Consolidate RECVERR-vs-sk_err handling
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20240210/202402101949.cMkR01fr-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ac0577177f053ba7e7016e1b7e44cf5932d00b03)
-reproduce: (https://download.01.org/0day-ci/archive/20240210/202402101901.H9XOF9QZ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402101949.cMkR01fr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402101901.H9XOF9QZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402101949.cMkR01fr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/crypto/caam/caamrng.c:195:17: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/caamrng.c:195:17: sparse:   also defined here
->> drivers/crypto/caam/caamrng.c:195:17: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/caamrng.c:195:17: sparse:   also defined here
---
->> drivers/crypto/caam/caamhash.c:597:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/caamhash.c:597:9: sparse:   also defined here
-   drivers/crypto/caam/caamhash.c:609:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/caamhash.c:609:9: sparse:   also defined here
-   drivers/crypto/caam/caamhash.c:648:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/caamhash.c:648:9: sparse:   also defined here
-   drivers/crypto/caam/caamhash.c:663:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/caamhash.c:663:9: sparse:   also defined here
-   drivers/crypto/caam/caamhash.c:667:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/caamhash.c:667:9: sparse:   also defined here
-   drivers/crypto/caam/caamhash.c:671:17: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/caamhash.c:671:17: sparse:   also defined here
-   drivers/crypto/caam/caamhash.c: note: in included file:
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
->> drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse: sparse: Initializer entry defined twice
-   drivers/crypto/caam/sg_sw_sec4.h:39:9: sparse:   also defined here
+All errors (new ones prefixed by >>):
 
-vim +195 drivers/crypto/caam/caamrng.c
+   In file included from fs/select.c:33:
+   In file included from include/net/busy_poll.h:15:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from fs/select.c:33:
+   In file included from include/net/busy_poll.h:15:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from fs/select.c:33:
+   In file included from include/net/busy_poll.h:15:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from fs/select.c:33:
+   In file included from include/net/busy_poll.h:18:
+>> include/net/ip.h:838:22: error: no member named '__sk_common' in 'struct socket'
+     838 |         if ((harderr && sk->sk_state == TCP_ESTABLISHED) || recverr) {
+         |                         ~~  ^
+   include/net/sock.h:381:19: note: expanded from macro 'sk_state'
+     381 | #define sk_state                __sk_common.skc_state
+         |                                 ^
+   In file included from fs/select.c:33:
+   In file included from include/net/busy_poll.h:18:
+>> include/net/ip.h:839:7: error: no member named 'sk_err' in 'struct socket'
+     839 |                 sk->sk_err = err;
+         |                 ~~  ^
+>> include/net/ip.h:840:19: error: incompatible pointer types passing 'struct socket *' to parameter of type 'struct sock *' [-Werror,-Wincompatible-pointer-types]
+     840 |                 sk_error_report(sk);
+         |                                 ^~
+   include/net/sock.h:2513:35: note: passing argument to parameter 'sk' here
+    2513 | void sk_error_report(struct sock *sk);
+         |                                   ^
+   12 warnings and 3 errors generated.
 
-e24f7c9e87d46fa Yuan Kang                 2012-06-22  174  
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  175) #ifdef CONFIG_CRYPTO_DEV_FSL_CAAM_RNG_TEST
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  176) static inline void test_len(struct hwrng *rng, size_t len, bool wait)
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  177) {
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  178) 	u8 *buf;
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  179) 	int read_len;
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  180) 	struct caam_rng_ctx *ctx = to_caam_rng_ctx(rng);
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  181) 	struct device *dev = ctx->ctrldev;
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  182) 
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  183) 	buf = kcalloc(CAAM_RNG_MAX_FIFO_STORE_SIZE, sizeof(u8), GFP_KERNEL);
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  184) 
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  185) 	while (len > 0) {
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  186) 		read_len = rng->read(rng, buf, len, wait);
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  187) 
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  188) 		if (read_len < 0 || (read_len == 0 && wait)) {
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  189) 			dev_err(dev, "RNG Read FAILED received %d bytes\n",
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  190) 				read_len);
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  191) 			kfree(buf);
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  192) 			return;
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  193) 		}
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  194) 
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12 @195) 		print_hex_dump_debug("random bytes@: ",
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  196) 			DUMP_PREFIX_ADDRESS, 16, 4,
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  197) 			buf, read_len, 1);
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  198) 
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  199) 		len = len - read_len;
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  200) 	}
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  201) 
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  202) 	kfree(buf);
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  203) }
-2be0d806e25e7b0 Victoria Milhoan (b42089  2023-06-12  204) 
 
-:::::: The code at line 195 was first introduced by commit
-:::::: 2be0d806e25e7b068113187f9245575914daf0dc crypto: caam - add a test for the RNG
+vim +838 include/net/ip.h
 
-:::::: TO: Victoria Milhoan (b42089) <vicki.milhoan@freescale.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+   814	
+   815	/*
+   816	 * When an ICMP error is received that matches a datagram socket, some combination of
+   817	 * queueing an IP_RECVERR-style message, setting sk_err, and signaling POLLERR needs
+   818	 * to happen.
+   819	 *
+   820	 * Use like this:
+   821	 *
+   822	 * bool recverr = inet_test_bit(RECVERR, sk) [and account for ipv6]
+   823	 * int err = ...;
+   824	 * bool harderr;  <- true if the error is 'hard', meaning that it should be reported
+   825	 *                   for !RECVERR connected sockets
+   826	 * if (recverr)
+   827	 * 	ip_icmp_error() or ipv6_icmp_error() as appropriate.
+   828	 * ip_error_report(sk, err, harderr, recverr);
+   829	 */
+   830	static inline bool ip_error_report(struct socket *sk, int err, bool harderr, bool recverr)
+   831	{
+   832		/*
+   833		 * Linux sets sk_err for connected sockets if the error is 'hard' (which makes
+   834		 * perfect sense) and for all sockets if RECVERR[6] (which does not make very
+   835		 * much sense).  It does indeed make sense that sk_error_report(), which signals
+   836		 * POLLERR, is called if RECVERR[6], though.
+   837		 */
+ > 838		if ((harderr && sk->sk_state == TCP_ESTABLISHED) || recverr) {
+ > 839			sk->sk_err = err;
+ > 840			sk_error_report(sk);
+   841		}
+   842	}
+   843	
 
 -- 
 0-DAY CI Kernel Test Service
