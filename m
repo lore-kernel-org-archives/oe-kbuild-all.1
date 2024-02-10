@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5FE23B9;
-	Sat, 10 Feb 2024 03:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD12D3C30
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 04:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707534306; cv=none; b=eqZQ50iyPgVju+J/XCQidrM0Z19Z/Z6FsPXr00dvHBxdwlEsT/d4ed2C4KQyEqGpdIhDH0vu0Aq6+JuWYW6dmk44N3n25vkaTgfrN0jYnWpCNCdlaKBxcSHAZm3IkVVVY4pwLN8boW+29eAx85BWeiOr0SQQPikXus/NLdrunEw=
+	t=1707540547; cv=none; b=guksyxKrGMwEvzbrGmJOor9q+cb2FCAA8PsnQ4RdtatNFlt17V5Jcm/jAAkVUY3zE0sBHdNZR0N/rhYBuo16j3yrualrGiv1nNi3L0jVMBbB8uHjA5KV1yFzDE6pS5jlV2LUY2vrkIop6IzZLwF83/9NlNMhCS1vl2Hy1Oj6vvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707534306; c=relaxed/simple;
-	bh=Wp/c6MLnkyuLOrKc8Us59a9RMebO7T44GwPJbgIan+4=;
+	s=arc-20240116; t=1707540547; c=relaxed/simple;
+	bh=Z0vm92kivIefrLmwWaR87y0W36mrt8Cv2eUigvqT1XQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=vFa0gRO+i17sm5MoPWtlx/c6Z4/FM3dkKgqQB6AzjOUIH3HxudXOM39h0VtwOt0ymeMiN22ZLJ2znz7ZTz/b6+5ieIpB881ePowbyZWCXZXWKYqZZcfRmquifctQzMHD/0p5hc6Sls86Nu/Hi1DpYiQGv3yAckGen3/Cw17Lt4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dxqo4XJT; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=Izn06SCqGCSC8rxrxqKfRkaPTH4i7ofEViGsl9He1+kjv1bGlIE8Dl9S3VG/EznmEJrlWNzQ6uQm/TVpgt7emGap5+dzLtUZx36cEHFLTbX/SIqLRCVZTDvjFuUXr8xIPeGYOB4EiaF5t8XobXMd7I3L2/joj0cQc0JWER1hEp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fF910Z/1; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dxqo4XJT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fF910Z/1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707534304; x=1739070304;
+  t=1707540546; x=1739076546;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Wp/c6MLnkyuLOrKc8Us59a9RMebO7T44GwPJbgIan+4=;
-  b=Dxqo4XJTL2JSUsTpE/MWpTlxgReNTPo6hzk11taC6/isJ31rzeVgQybO
-   YhqW9N8o4AOdq+rTqpKpq89H+MC7K8bnWbLMqlt7XpSi76pYPqgbrT0dW
-   bzQYzOvQs8gWPtesI27YAt6XZUCQfm3ekinm9l55jfHxVDww5z6XK2VHm
-   35ygmWMm3H1U01owTSI7P7SXYxyZlzQVAgq8IrTYWA8FfCERekIah3TXw
-   aIysy6Y0CfsihoDaq0VGBN30yE0s4zYZneScptgje8M902SxaKuRXexz6
-   tdoSFEIW2Emv/ZI+vbcH9vEnCi42i8BzCPGNADjkaO8zZIE1fKL3VHwtv
+  bh=Z0vm92kivIefrLmwWaR87y0W36mrt8Cv2eUigvqT1XQ=;
+  b=fF910Z/112uh+EqdnB9NG+0hteZTuhplV9CamJMT/v+pCiEItN7eQiAF
+   /bKAwpwf1ICZT0518tj4o7SE95ZyKCeZO/v6XB5ngTqdgxmGDNewjZu63
+   ZR0WffkPnrmzmfRrGxJHJ+CopVupMtnuWR/Al3S73xlugbZX3MfzIJ0GE
+   vuwbeOorNHaIpDrs2C2rQOqEPTJjv5tQtwgp47EyPsU9YzFzH78iAl9hl
+   3W9cOaP7jV928JIgZCwCHzO5Aj3Xs4ByAAcwF8+Jpi/Z6NSX6dojYBLsL
+   O6VxJmQaLm7S27ByC4d1WUrnxzhxVZj/Y92pb87Jv6QMFBp+K+06zQO1I
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="12181935"
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1861338"
 X-IronPort-AV: E=Sophos;i="6.05,258,1701158400"; 
-   d="scan'208";a="12181935"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 19:05:02 -0800
+   d="scan'208";a="1861338"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 20:49:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,258,1701158400"; 
-   d="scan'208";a="39541571"
+   d="scan'208";a="6860559"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 Feb 2024 19:04:59 -0800
+  by orviesa004.jf.intel.com with ESMTP; 09 Feb 2024 20:49:04 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYdfl-0005IM-1L;
-	Sat, 10 Feb 2024 03:04:57 +0000
-Date: Sat, 10 Feb 2024 11:04:39 +0800
+	id 1rYfIT-0005M4-1S;
+	Sat, 10 Feb 2024 04:49:01 +0000
+Date: Sat, 10 Feb 2024 12:48:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Pavel Machek <pavel@denx.de>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Subject: [cip:linux-5.10.y-cip 43/56] drivers/cache/ax45mp_cache.c:141:6:
- warning: no previous prototype for function 'arch_sync_dma_for_device'
-Message-ID: <202402101053.wMnRgYch-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:n/dma-engine-constify-and-improvements 6/12]
+ include/linux/preempt.h:55: warning: "SOFTIRQ_DISABLE_OFFSET" redefined
+Message-ID: <202402101222.gkKsMYLw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,158 +58,181 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip
-head:   a624abaa85d7f3ff289eb2e257db5c4485d11d18
-commit: 2656f92bc7dc5ac286595c8eac040828c2f180af [43/56] cache: ax45mp_cache: Add non coherent support
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240210/202402101053.wMnRgYch-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402101053.wMnRgYch-lkp@intel.com/reproduce)
+tree:   https://github.com/krzk/linux n/dma-engine-constify-and-improvements
+head:   2dcf4f0881ca216e8bb9531caf90d8e28963eb86
+commit: 0cee571759f7b4ce88daf5ffe2c72ac65ddf7785 [6/12] serial: amba: use typedef for dma_filter_fn
+config: arm-versatile_defconfig (https://download.01.org/0day-ci/archive/20240210/202402101222.gkKsMYLw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402101222.gkKsMYLw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402101053.wMnRgYch-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402101222.gkKsMYLw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/cache/ax45mp_cache.c:9:
-   In file included from include/linux/of_address.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     464 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     477 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:36:59: note: expanded from macro '__le16_to_cpu'
-      36 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/cache/ax45mp_cache.c:9:
-   In file included from include/linux/of_address.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     490 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
-      34 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/cache/ax45mp_cache.c:9:
-   In file included from include/linux/of_address.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:80:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     501 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     511 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     521 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     609 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     617 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     625 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     634 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     643 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     652 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   drivers/cache/ax45mp_cache.c:70:3: error: implicit declaration of function 'csr_write' [-Werror,-Wimplicit-function-declaration]
-      70 |                 csr_write(AX45MP_CCTL_REG_UCCTLBEGINADDR_NUM, start);
-         |                 ^
->> drivers/cache/ax45mp_cache.c:141:6: warning: no previous prototype for function 'arch_sync_dma_for_device' [-Wmissing-prototypes]
-     141 | void arch_sync_dma_for_device(phys_addr_t paddr,
-         |      ^
-   drivers/cache/ax45mp_cache.c:141:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     141 | void arch_sync_dma_for_device(phys_addr_t paddr,
-         | ^
-         | static 
->> drivers/cache/ax45mp_cache.c:165:6: warning: no previous prototype for function 'arch_sync_dma_for_cpu' [-Wmissing-prototypes]
-     165 | void arch_sync_dma_for_cpu(phys_addr_t paddr,
-         |      ^
-   drivers/cache/ax45mp_cache.c:165:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     165 | void arch_sync_dma_for_cpu(phys_addr_t paddr,
-         | ^
-         | static 
->> drivers/cache/ax45mp_cache.c:183:6: warning: no previous prototype for function 'arch_setup_dma_ops' [-Wmissing-prototypes]
-     183 | void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-         |      ^
-   drivers/cache/ax45mp_cache.c:183:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     183 | void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-         | ^
-         | static 
-   15 warnings and 1 error generated.
+   include/linux/compiler_attributes.h:91:20: error: missing binary operator before token "("
+      91 | #if __has_attribute(__copy__)
+         |                    ^
+   include/linux/compiler_attributes.h:104:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     104 | #if __has_attribute(__counted_by__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:104:20: error: missing binary operator before token "("
+     104 | #if __has_attribute(__counted_by__)
+         |                    ^
+   include/linux/compiler_attributes.h:116:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     116 | #if __has_attribute(__diagnose_as_builtin__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:116:20: error: missing binary operator before token "("
+     116 | #if __has_attribute(__diagnose_as_builtin__)
+         |                    ^
+   include/linux/compiler_attributes.h:139:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     139 | #if __has_attribute(__designated_init__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:139:20: error: missing binary operator before token "("
+     139 | #if __has_attribute(__designated_init__)
+         |                    ^
+   include/linux/compiler_attributes.h:150:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     150 | #if __has_attribute(__error__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:150:20: error: missing binary operator before token "("
+     150 | #if __has_attribute(__error__)
+         |                    ^
+   include/linux/compiler_attributes.h:161:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     161 | #if __has_attribute(__externally_visible__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:161:20: error: missing binary operator before token "("
+     161 | #if __has_attribute(__externally_visible__)
+         |                    ^
+   include/linux/compiler_attributes.h:198:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     198 | #if __has_attribute(__no_caller_saved_registers__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:198:20: error: missing binary operator before token "("
+     198 | #if __has_attribute(__no_caller_saved_registers__)
+         |                    ^
+   include/linux/compiler_attributes.h:209:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     209 | #if __has_attribute(__noclone__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:209:20: error: missing binary operator before token "("
+     209 | #if __has_attribute(__noclone__)
+         |                    ^
+   include/linux/compiler_attributes.h:226:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     226 | #if __has_attribute(__fallthrough__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:226:20: error: missing binary operator before token "("
+     226 | #if __has_attribute(__fallthrough__)
+         |                    ^
+   include/linux/compiler_attributes.h:252:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     252 | #if __has_attribute(__nonstring__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:252:20: error: missing binary operator before token "("
+     252 | #if __has_attribute(__nonstring__)
+         |                    ^
+   include/linux/compiler_attributes.h:264:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     264 | #if __has_attribute(__no_profile_instrument_function__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:264:20: error: missing binary operator before token "("
+     264 | #if __has_attribute(__no_profile_instrument_function__)
+         |                    ^
+   include/linux/compiler_attributes.h:283:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     283 | #if __has_attribute(__no_stack_protector__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:283:20: error: missing binary operator before token "("
+     283 | #if __has_attribute(__no_stack_protector__)
+         |                    ^
+   include/linux/compiler_attributes.h:294:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     294 | #if __has_attribute(__overloadable__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:294:20: error: missing binary operator before token "("
+     294 | #if __has_attribute(__overloadable__)
+         |                    ^
+   include/linux/compiler_attributes.h:313:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     313 | #if __has_attribute(__pass_dynamic_object_size__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:313:20: error: missing binary operator before token "("
+     313 | #if __has_attribute(__pass_dynamic_object_size__)
+         |                    ^
+   include/linux/compiler_attributes.h:318:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     318 | #if __has_attribute(__pass_object_size__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:318:20: error: missing binary operator before token "("
+     318 | #if __has_attribute(__pass_object_size__)
+         |                    ^
+   include/linux/compiler_attributes.h:363:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     363 | #if __has_attribute(__warning__)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:363:20: error: missing binary operator before token "("
+     363 | #if __has_attribute(__warning__)
+         |                    ^
+   include/linux/compiler_attributes.h:380:5: warning: "__has_attribute" is not defined, evaluates to 0 [-Wundef]
+     380 | #if __has_attribute(disable_sanitizer_instrumentation)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/compiler_attributes.h:380:20: error: missing binary operator before token "("
+     380 | #if __has_attribute(disable_sanitizer_instrumentation)
+         |                    ^
+   In file included from include/linux/sched.h:15:
+>> include/linux/preempt.h:55: warning: "SOFTIRQ_DISABLE_OFFSET" redefined
+      55 | #define SOFTIRQ_DISABLE_OFFSET  (2 * SOFTIRQ_OFFSET)
+         | 
+   In file included from arch/arm/include/asm/asm-offsets.h:1,
+                    from arch/arm/include/asm/assembler.h:22,
+                    from arch/arm/kernel/head.S:15:
+   ./include/generated/asm-offsets.h:21: note: this is the location of the previous definition
+      21 | #define SOFTIRQ_DISABLE_OFFSET 512 /* SOFTIRQ_DISABLE_OFFSET */
+         | 
+   In file included from include/linux/kernel.h:15,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/sched.h:16:
+   include/linux/align.h:8: warning: "ALIGN" redefined
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         | 
+   In file included from arch/arm/kernel/head.S:11:
+   include/linux/linkage.h:103: note: this is the location of the previous definition
+     103 | #define ALIGN __ALIGN
+         | 
+   In file included from include/linux/xarray.h:15,
+                    from include/linux/radix-tree.h:21,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16:
+>> include/linux/gfp.h:95:25: warning: "ZONES_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      95 | #define GFP_ZONES_SHIFT ZONES_SHIFT
+         |                         ^~~~~~~~~~~
+   include/linux/gfp.h:98:10: note: in expansion of macro 'GFP_ZONES_SHIFT'
+      98 | #if 16 * GFP_ZONES_SHIFT > BITS_PER_LONG
+         |          ^~~~~~~~~~~~~~~
+   In file included from include/linux/scatterlist.h:8,
+                    from include/linux/dmaengine.h:12:
+>> include/linux/mm.h:268: warning: "VM_EXEC" redefined
+     268 | #define VM_EXEC         0x00000004
+         | 
+   ./include/generated/asm-offsets.h:51: note: this is the location of the previous definition
+      51 | #define VM_EXEC 4 /* VM_EXEC */
+         | 
+   In file included from include/linux/scatterlist.h:9:
+>> arch/arm/include/asm/io.h:159: warning: "IOMEM" redefined
+     159 | #define IOMEM(x)        ((void __force __iomem *)(x))
+         | 
+   arch/arm/include/asm/assembler.h:27: note: this is the location of the previous definition
+      27 | #define IOMEM(x)        (x)
+         | 
 
 
-vim +/arch_sync_dma_for_device +141 drivers/cache/ax45mp_cache.c
+vim +/SOFTIRQ_DISABLE_OFFSET +55 include/linux/preempt.h
 
-   140	
- > 141	void arch_sync_dma_for_device(phys_addr_t paddr,
-   142				      size_t size, enum dma_data_direction dir)
-   143	{
-   144		switch (dir) {
-   145		case DMA_TO_DEVICE:
-   146			ax45mp_dma_cache_wback(paddr, size);
-   147			break;
-   148	
-   149		case DMA_FROM_DEVICE:
-   150			fallthrough;
-   151	
-   152		case DMA_BIDIRECTIONAL:
-   153			/* Skip the invalidate here if it's done later */
-   154			if (IS_ENABLED(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU))
-   155				ax45mp_dma_cache_wback(paddr, size);
-   156			else
-   157				ax45mp_dma_cache_wback_inv(paddr, size);
-   158			break;
-   159	
-   160		default:
-   161			break;
-   162		}
-   163	}
-   164	
- > 165	void arch_sync_dma_for_cpu(phys_addr_t paddr,
-   166				   size_t size, enum dma_data_direction dir)
-   167	{
-   168		switch (dir) {
-   169		case DMA_TO_DEVICE:
-   170			break;
-   171	
-   172		case DMA_FROM_DEVICE:
-   173		case DMA_BIDIRECTIONAL:
-   174			/* FROM_DEVICE invalidate needed if speculative CPU prefetch only */
-   175			ax45mp_dma_cache_inv(paddr, size);
-   176			break;
-   177	
-   178		default:
-   179			break;
-   180		}
-   181	}
-   182	
- > 183	void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-   184				const struct iommu_ops *iommu, bool coherent)
-   185	{
-   186		dev->dma_coherent = coherent;
-   187	}
-   188	
+92cf211874e954 Frederic Weisbecker 2015-05-12  54  
+92cf211874e954 Frederic Weisbecker 2015-05-12 @55  #define SOFTIRQ_DISABLE_OFFSET	(2 * SOFTIRQ_OFFSET)
+92cf211874e954 Frederic Weisbecker 2015-05-12  56  
+
+:::::: The code at line 55 was first introduced by commit
+:::::: 92cf211874e954027b8e91cc9a15485a50b58d6b sched/preempt: Merge preempt_mask.h into preempt.h
+
+:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
