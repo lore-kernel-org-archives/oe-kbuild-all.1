@@ -1,63 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F93F36121;
-	Sat, 10 Feb 2024 10:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2F9566B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 11:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707559218; cv=none; b=Hcpz/C4Ce94bj0IITseiJN1Mrsz7klhdVOxe0rnBhxaUuai9RpHxChh1FfxXQAWG2WSMDgsFPJWWKnFCAeyMoJX5yoydpW+PL1BUJ7Y2a09JrGcaSg8P5C/SK8iTN5xAL13U9p6U+oTZ/x50N25IHZ0XfqbnUCL23Q6UGdIeAjU=
+	t=1707564202; cv=none; b=HHRb+5us1JfCDQE/oEr3ouT0pPfZ7bXYHQbwbepu3rE7U2p3CjzLbUQQQlafCHl2U92QHH6RLL0zWsTV0orvv/sy8oRfIsRezDkMxp/Bd1x83i4Yuvrsjm29rAs6D9M5WFecpKp+XamSkQWkiRw0MRvdsH1I8NZ1V8rWoHxoWGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707559218; c=relaxed/simple;
-	bh=xvt3QW9sfPX4CbxPjCUl0Ga19OdD1/2rQMzUTZom8nE=;
+	s=arc-20240116; t=1707564202; c=relaxed/simple;
+	bh=gR7/QV9B+WL9Z4DcxePzsCx0zgUbsDxRTu22G+6qT9I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CoSQKAYsQODJK9uTjb62l/EgArg66wMRZxVLhehEMEYkLhhCy3VHUL4mHjn4CLtTugO6rtZ7R2z6NGUte7I4YLA2Mj+9V0G7JTDDm05Ne9ZXvyLoOUeUxsZ/G3FjgyL1ZWQpgub697ZVORgQWfTPt+AF+qsNdpfwwuxvG9PriUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GdqDcR1K; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=goQAl0iOEn5Bg1hI6oyLnlZKVogXAZObVEzqPZVe54nRKcYWrQl2Q5LzPmSLQ0zAR3EdynaWdeJ2MtsBaRwJ0JIykLjubPpYmjlxqtqvB4HRYZRSauLSXa7cFfLvFoBepj0TNc0+O4AiiPjxa+1KULogGWEDGxr4nR830L7g9tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KumOfj0L; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GdqDcR1K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KumOfj0L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707559216; x=1739095216;
+  t=1707564200; x=1739100200;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xvt3QW9sfPX4CbxPjCUl0Ga19OdD1/2rQMzUTZom8nE=;
-  b=GdqDcR1Kch9I/qsJxyTLOu0yOd8Cw4QJSUXsULPcQK41mZFVr7x7MO/5
-   HC0ONKPFWkPZXXbGg7ZfEevwo53oYW0qTeCcJTszGBU0p2/5pjb9zAxH7
-   twyJM+vKZ1bX1r5pGZQAVn+hP4Nnc07tq/7PsW1mtYZA2DvM1k+qBv3mF
-   pKJyr9f4j+//ZfWUXACZnd8CJKQbEiDwJCuE9YIKToAZAbSkjxmMu325Z
-   M/rNoQqBYIBUkjlgNpYTX8fsgH1JCCzH9eNKksV0wW29u0Lpj/rzx58ps
-   YXCYqgu6wA2r3TWt0Kcg6jmk7CFgUSxKfrT4JYuNTB6d6TUACJxk7vSIa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1414185"
+  bh=gR7/QV9B+WL9Z4DcxePzsCx0zgUbsDxRTu22G+6qT9I=;
+  b=KumOfj0LbH/0Yu5yQsCKEJQYO0Aqv/65+z7jVh1m5tnEm+sq9wCl3MVe
+   ESj3RlKnEMvrZj+bCS49FqZLp+QpdQNgcGguCs03pqes2Y2l2THSShoNU
+   jxi6XnPrd6pvkPXJBVniOdpBIHgKLeb4j7FF5frq6NpHlvMIcwLSNemjU
+   /XJbLTYxMewNrzIeOvRnOI5pCiKFohBdj/I/8EBj6KSNIx37YsopxVE3U
+   klzemU6Iz2IK8mU1frKt4dDx6KhJEeRlIRnRMGJGDd+nAxCSs/10PmJXI
+   Z7W80gYRouI+8Lbtd3WYCviSQS1T5sJb53iVDR/I3NVxXc+zdBI2UkPZi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="5345801"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="1414185"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 02:00:16 -0800
+   d="scan'208";a="5345801"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 03:23:19 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="825377385"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="2169807"
+   d="scan'208";a="825377385"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Feb 2024 02:00:12 -0800
+  by orsmga001.jf.intel.com with ESMTP; 10 Feb 2024 03:23:17 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYk9Z-0005YK-17;
-	Sat, 10 Feb 2024 10:00:09 +0000
-Date: Sat, 10 Feb 2024 17:59:52 +0800
+	id 1rYlRz-0005bY-17;
+	Sat, 10 Feb 2024 11:23:15 +0000
+Date: Sat, 10 Feb 2024 19:22:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Oscar Salvador <osalvador@suse.de>
-Subject: Re: [PATCH v7 1/4] lib/stackdepot: Move stack_record struct
- definition into the header
-Message-ID: <202402101724.VBz4JA0y-lkp@intel.com>
-References: <20240208234539.19113-2-osalvador@suse.de>
+To: Daniel Gomez <da.gomez@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 7/9] shmem: check if a block is uptodate before
+ splice into pipe
+Message-ID: <202402101949.MN9XAQX3-lkp@intel.com>
+References: <20240209142901.126894-8-da.gomez@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,79 +60,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240208234539.19113-2-osalvador@suse.de>
+In-Reply-To: <20240209142901.126894-8-da.gomez@samsung.com>
 
-Hi Oscar,
+Hi Daniel,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on linus/master v6.8-rc3]
-[cannot apply to akpm-mm/mm-everything next-20240209]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on brauner-vfs/vfs.all linus/master v6.8-rc3 next-20240209]
+[cannot apply to vfs-idmapping/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/lib-stackdepot-Move-stack_record-struct-definition-into-the-header/20240209-074611
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20240208234539.19113-2-osalvador%40suse.de
-patch subject: [PATCH v7 1/4] lib/stackdepot: Move stack_record struct definition into the header
-config: mips-xway_defconfig (https://download.01.org/0day-ci/archive/20240210/202402101724.VBz4JA0y-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ac0577177f053ba7e7016e1b7e44cf5932d00b03)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402101724.VBz4JA0y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Gomez/splice-don-t-check-for-uptodate-if-partially-uptodate-is-impl/20240209-223226
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240209142901.126894-8-da.gomez%40samsung.com
+patch subject: [RFC PATCH 7/9] shmem: check if a block is uptodate before splice into pipe
+config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20240210/202402101949.MN9XAQX3-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402101949.MN9XAQX3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402101724.VBz4JA0y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402101949.MN9XAQX3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/mips/kernel/asm-offsets.c:15:
-   In file included from include/linux/mm.h:22:
-   In file included from include/linux/page_ext.h:7:
->> include/linux/stackdepot.h:59:25: error: use of undeclared identifier 'CONFIG_STACKDEPOT_MAX_FRAMES'
-      59 |                 unsigned long entries[CONFIG_STACKDEPOT_MAX_FRAMES];    /* Frames */
-         |                                       ^
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:116: arch/mips/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1191: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:240: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   microblaze-linux-ld: mm/shmem.o: in function `shmem_file_splice_read':
+>> mm/shmem.c:3214:(.text+0x4790): undefined reference to `__moddi3'
 
 
-vim +/CONFIG_STACKDEPOT_MAX_FRAMES +59 include/linux/stackdepot.h
+vim +3214 mm/shmem.c
 
-    51	
-    52	struct stack_record {
-    53		struct list_head hash_list;	/* Links in the hash table */
-    54		u32 hash;			/* Hash in hash table */
-    55		u32 size;			/* Number of stored frames */
-    56		union handle_parts handle;	/* Constant after initialization */
-    57		refcount_t count;
-    58		union {
-  > 59			unsigned long entries[CONFIG_STACKDEPOT_MAX_FRAMES];	/* Frames */
-    60			struct {
-    61				/*
-    62				 * An important invariant of the implementation is to
-    63				 * only place a stack record onto the freelist iff its
-    64				 * refcount is zero. Because stack records with a zero
-    65				 * refcount are never considered as valid, it is safe to
-    66				 * union @entries and freelist management state below.
-    67				 * Conversely, as soon as an entry is off the freelist
-    68				 * and its refcount becomes non-zero, the below must not
-    69				 * be accessed until being placed back on the freelist.
-    70				 */
-    71				struct list_head free_list;	/* Links in the freelist */
-    72				unsigned long rcu_state;	/* RCU cookie */
-    73			};
-    74		};
-    75	};
-    76	
+  3148	
+  3149	static ssize_t shmem_file_splice_read(struct file *in, loff_t *ppos,
+  3150					      struct pipe_inode_info *pipe,
+  3151					      size_t len, unsigned int flags)
+  3152	{
+  3153		struct inode *inode = file_inode(in);
+  3154		struct address_space *mapping = inode->i_mapping;
+  3155		struct folio *folio = NULL;
+  3156		size_t total_spliced = 0, used, npages, n, part;
+  3157		loff_t isize;
+  3158		int error = 0;
+  3159	
+  3160		/* Work out how much data we can actually add into the pipe */
+  3161		used = pipe_occupancy(pipe->head, pipe->tail);
+  3162		npages = max_t(ssize_t, pipe->max_usage - used, 0);
+  3163		len = min_t(size_t, len, npages * PAGE_SIZE);
+  3164	
+  3165		do {
+  3166			if (*ppos >= i_size_read(inode))
+  3167				break;
+  3168	
+  3169			error = shmem_get_folio(inode, *ppos / PAGE_SIZE, &folio,
+  3170						SGP_READ);
+  3171			if (error) {
+  3172				if (error == -EINVAL)
+  3173					error = 0;
+  3174				break;
+  3175			}
+  3176			if (folio) {
+  3177				folio_unlock(folio);
+  3178	
+  3179				if (folio_test_hwpoison(folio) ||
+  3180				    (folio_test_large(folio) &&
+  3181				     folio_test_has_hwpoisoned(folio))) {
+  3182					error = -EIO;
+  3183					break;
+  3184				}
+  3185			}
+  3186	
+  3187			/*
+  3188			 * i_size must be checked after we know the pages are Uptodate.
+  3189			 *
+  3190			 * Checking i_size after the check allows us to calculate
+  3191			 * the correct value for "nr", which means the zero-filled
+  3192			 * part of the page is not copied back to userspace (unless
+  3193			 * another truncate extends the file - this is desired though).
+  3194			 */
+  3195			isize = i_size_read(inode);
+  3196			if (unlikely(*ppos >= isize))
+  3197				break;
+  3198			part = min_t(loff_t, isize - *ppos, len);
+  3199			if (folio && folio_test_large(folio) &&
+  3200			    folio_test_private(folio)) {
+  3201				unsigned long from = offset_in_folio(folio, *ppos);
+  3202				unsigned int bfirst = from >> inode->i_blkbits;
+  3203				unsigned int blast, blast_upd;
+  3204	
+  3205				len = min(folio_size(folio) - from, len);
+  3206				blast = (from + len - 1) >> inode->i_blkbits;
+  3207	
+  3208				blast_upd = sfs_get_last_block_uptodate(folio, bfirst,
+  3209									blast);
+  3210				if (blast_upd <= blast) {
+  3211					unsigned int bsize = 1 << inode->i_blkbits;
+  3212					unsigned int blks = blast_upd - bfirst + 1;
+  3213					unsigned int bbytes = blks << inode->i_blkbits;
+> 3214					unsigned int boff = (*ppos % bsize);
+  3215	
+  3216					part = min_t(loff_t, bbytes - boff, len);
+  3217				}
+  3218			}
+  3219	
+  3220			if (folio && shmem_is_block_uptodate(
+  3221					     folio, offset_in_folio(folio, *ppos) >>
+  3222							    inode->i_blkbits)) {
+  3223				/*
+  3224				 * If users can be writing to this page using arbitrary
+  3225				 * virtual addresses, take care about potential aliasing
+  3226				 * before reading the page on the kernel side.
+  3227				 */
+  3228				if (mapping_writably_mapped(mapping))
+  3229					flush_dcache_folio(folio);
+  3230				folio_mark_accessed(folio);
+  3231				/*
+  3232				 * Ok, we have the page, and it's up-to-date, so we can
+  3233				 * now splice it into the pipe.
+  3234				 */
+  3235				n = splice_folio_into_pipe(pipe, folio, *ppos, part);
+  3236				folio_put(folio);
+  3237				folio = NULL;
+  3238			} else {
+  3239				n = splice_zeropage_into_pipe(pipe, *ppos, part);
+  3240			}
+  3241	
+  3242			if (!n)
+  3243				break;
+  3244			len -= n;
+  3245			total_spliced += n;
+  3246			*ppos += n;
+  3247			in->f_ra.prev_pos = *ppos;
+  3248			if (pipe_full(pipe->head, pipe->tail, pipe->max_usage))
+  3249				break;
+  3250	
+  3251			cond_resched();
+  3252		} while (len);
+  3253	
+  3254		if (folio)
+  3255			folio_put(folio);
+  3256	
+  3257		file_accessed(in);
+  3258		return total_spliced ? total_spliced : error;
+  3259	}
+  3260	
 
 -- 
 0-DAY CI Kernel Test Service
