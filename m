@@ -1,56 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36774537E5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 14:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F9736B02
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 14:16:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707574585; cv=none; b=IPeflrOqtbZm3Ji91uvgHwLXCAUMtTeLxcQ+NRjyHHKXxVfxvZE8CIsR0TFVrlUEOmAAwnXAhdBRlEU5ARRPHc2HTL3ng3X70AnH6OfQF9BtIDkd8N8xXmRdv6HuuXirjEOvTghIpH/MjWit5gQc6lOU6jpDXl+Vev4FpfF5VFY=
+	t=1707574585; cv=none; b=u9diYa3jE7tjrhX1ikUB7wAjNEXmRIcaH/gAaR2Dikm8VVJxCDb1vreQAVCcG7axidiBUPWrh50XNOdhrdb1WnXaCMHjSlmPrws1xOZGjVoMc0YOtsyeZGMPC01l0ClkGYAbukcXtE6RZGVc8FFyXf07d2JyWkyQY0upBmsYUuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1707574585; c=relaxed/simple;
-	bh=xieRn3ySLg1FvF2R/WX1dSLGtBWLqWBS6FMSFyYth2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B9PevPg0ujHU81mwR2ea5DGYyYdiaPA/2Yu2XMMP85OfOTnujKLxnkhr+kEuwkrY+8nsjiwWGzosjrBf4W58kuYFNvkXOS8b1TN1QkZmtnKn0nk4FbT6jHfayoBGbAjwvJRKr4MCZewcMV0ednLc6UdQ20jafzllm1REVVBtwII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMo5og2R; arc=none smtp.client-ip=198.175.65.16
+	bh=xp9zH1WaW6uoig/Qd9fQ2SgwWOA/7EqqFkCeMF5KI/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IauGPZty9z/rhfg2xisLYPfgRfREtKLokX3ZknZnOz8xAvnHFOOKJkILt0dCrvc5IHxir3kK/iSQUudXhClDsqF7LID6ubKZ7L9IHEpVlc2qnW0g7a1MLwIfMd+vuoUjdD2FKNEx81UKfJZNglMnEJBCXmm5X++sVXmmo/l4yDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0OPgzFm; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMo5og2R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0OPgzFm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707574583; x=1739110583;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xieRn3ySLg1FvF2R/WX1dSLGtBWLqWBS6FMSFyYth2g=;
-  b=EMo5og2R5moqzqkO22cfR6+zhEuoihb1AUAoyR+oQnNMsMEFXXCtBf9h
-   9dwCDNbt1soYQbA2sFGoap+blC7SM6pMfx8lA1vf+QGyrbFfnaeGPdfJD
-   YsoJ0sCh1Xt5o581rViWvNfboFnF5lt8U6PS/cRG3q1SmqBWftOy9BLJJ
-   j+fhBpRaRGBsK/dPckYnCI5agc103FJIEuBbKYQDGCLdKIv8gDnDZt5d3
-   iBmic07kR5I9/0YAvUYZcSfOYZMD80xB2+qkRZ0hyhM7U3Vl9xHlijnXQ
-   JXGL8PAvwtLU1S3mgd/s+5EKeTbdZyauB7M9vJxkNlUhYNkCt7FSrfOkX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1721040"
+  t=1707574584; x=1739110584;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xp9zH1WaW6uoig/Qd9fQ2SgwWOA/7EqqFkCeMF5KI/4=;
+  b=B0OPgzFmcTD+yAz0ggJvrp4EQ+xBLwMDL15wdNa7fcXiQuEH6b+7tqbs
+   otr1Ggz7nW2a3mzPvkbbYSlivDv88OwCfaV2bMy56WXkUFXGxCtC3X13e
+   cIH4YDZ3iNzGDchNlm4v1w1nejvVag9EZooknQ3K+spjELhbQST1Z4Rmk
+   kMJgiCLwFXBgB6zK9yRPgWogVSxOMax9vUhEqcEP7T+jul7TMD5/rVLvg
+   xSVv3Ik1BJ8jzpyWwJsONB6RnXIwbvL03phhwdalP+Ed7Fv8aPkvhBHhC
+   8STOYn/9JiRimZA7Pgo5uHeYwISZ6Ha3k2wf+YlDkLaTg1YFCy9ORRQgY
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1721041"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="1721040"
+   d="scan'208";a="1721041"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 06:16:22 -0800
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 06:16:23 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="33257273"
+   d="scan'208";a="33257272"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 10 Feb 2024 06:16:21 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYo9S-0005i6-2l;
+	id 1rYo9S-0005hy-2Y;
 	Sat, 10 Feb 2024 14:16:18 +0000
-Date: Sat, 10 Feb 2024 22:16:06 +0800
+Date: Sat, 10 Feb 2024 22:16:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: William-tw Lin <william-tw.lin@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [linux-next:master 2195/5901] mtk-socinfo.c:undefined reference to
- `soc_device_unregister'
-Message-ID: <202402102235.Ek3pjcyv-lkp@intel.com>
+To: "Ricardo B. Marliere" <ricardo@marliere.net>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Ricardo B. Marliere" <ricardo@marliere.net>
+Subject: Re: [PATCH 4/4] powerpc: ibmebus: make ibmebus_bus_type const
+Message-ID: <202402102142.uphiKeqw-lkp@intel.com>
+References: <20240209-bus_cleanup-powerpc2-v1-4-79a56dcaebb1@marliere.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,27 +66,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240209-bus_cleanup-powerpc2-v1-4-79a56dcaebb1@marliere.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   445a555e0623387fa9b94e68e61681717e70200a
-commit: 423a54da3c7ee6d27b862b1bae6e639a1374a36a [2195/5901] soc: mediatek: mtk-socinfo: Add driver for getting chip information
-config: arm64-randconfig-004-20240210 (https://download.01.org/0day-ci/archive/20240210/202402102235.Ek3pjcyv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402102235.Ek3pjcyv-lkp@intel.com/reproduce)
+Hi Ricardo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 41bccc98fb7931d63d03f326a746ac4d429c1dd3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-B-Marliere/powerpc-vio-move-device-attributes-into-a-new-ifdef/20240210-080925
+base:   41bccc98fb7931d63d03f326a746ac4d429c1dd3
+patch link:    https://lore.kernel.org/r/20240209-bus_cleanup-powerpc2-v1-4-79a56dcaebb1%40marliere.net
+patch subject: [PATCH 4/4] powerpc: ibmebus: make ibmebus_bus_type const
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20240210/202402102142.uphiKeqw-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402102142.uphiKeqw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402102235.Ek3pjcyv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402102142.uphiKeqw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-socinfo.o: in function `mtk_socinfo_remove':
->> mtk-socinfo.c:(.text+0x28): undefined reference to `soc_device_unregister'
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-socinfo.o: in function `mtk_socinfo_probe':
->> mtk-socinfo.c:(.text+0x210): undefined reference to `soc_device_register'
+>> arch/powerpc/platforms/pseries/ibmebus.c:58:17: error: conflicting type qualifiers for 'ibmebus_bus_type'
+      58 | struct bus_type ibmebus_bus_type;
+         |                 ^~~~~~~~~~~~~~~~
+   In file included from arch/powerpc/platforms/pseries/ibmebus.c:51:
+   arch/powerpc/include/asm/ibmebus.h:51:30: note: previous declaration of 'ibmebus_bus_type' with type 'const struct bus_type'
+      51 | extern const struct bus_type ibmebus_bus_type;
+         |                              ^~~~~~~~~~~~~~~~
+   In file included from arch/powerpc/platforms/pseries/ibmebus.c:40:
+   arch/powerpc/platforms/pseries/ibmebus.c:445:15: error: conflicting type qualifiers for 'ibmebus_bus_type'
+     445 | EXPORT_SYMBOL(ibmebus_bus_type);
+         |               ^~~~~~~~~~~~~~~~
+   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
+      56 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
+         |                                         ^~~~~~~~~~~~~~
+   arch/powerpc/platforms/pseries/ibmebus.c:445:1: note: in expansion of macro 'EXPORT_SYMBOL'
+     445 | EXPORT_SYMBOL(ibmebus_bus_type);
+         | ^~~~~~~~~~~~~
+   arch/powerpc/platforms/pseries/ibmebus.c:435:23: note: previous definition of 'ibmebus_bus_type' with type 'const struct bus_type'
+     435 | const struct bus_type ibmebus_bus_type = {
+         |                       ^~~~~~~~~~~~~~~~
+
+
+vim +/ibmebus_bus_type +58 arch/powerpc/platforms/pseries/ibmebus.c
+
+d7a301033f1990 arch/powerpc/kernel/ibmebus.c Heiko J Schick 2005-11-16  57  
+6bccf755ff5324 arch/powerpc/kernel/ibmebus.c Joachim Fenkes 2007-03-09 @58  struct bus_type ibmebus_bus_type;
+6bccf755ff5324 arch/powerpc/kernel/ibmebus.c Joachim Fenkes 2007-03-09  59  
 
 -- 
 0-DAY CI Kernel Test Service
