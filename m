@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06559524A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 04:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB51F13ACC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 05:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707541147; cv=none; b=tSDOllflQsPg1t2LKLUwMgCyGqCcv7ZWj5p4vcDjwFvlJTmcRC3emPuMG8nxxszbImzX6Sd34rRmxErd92fUEZY2CaMN2e8fFt6eG+6zkSbn2IyQusLrUbc8Eoy9DGObGCymdtIQglyo0Vb1XRPS67HaLV2Hw61vLLPkpr7F/2I=
+	t=1707541807; cv=none; b=aPKCGIn5YGAso4Uv3/DRPpV3J9IkTpf7agNZDVgJt3aHAYLFwZlgFIsJ5NpRz1VV1grQ3zqzQF1FwSqWIwOO4fnY3DvwYmtofj9nCYWaZd2Sr+x3CbUvmeXnOy51Nuh4W8tORDjVGU24m0xkA3SPEPCLImrhuVjrzr3IqIcUmg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707541147; c=relaxed/simple;
-	bh=4nOY6RagxZdgaNgGF1fQwvaQlMCXDDU9Dct/P5+mqVk=;
+	s=arc-20240116; t=1707541807; c=relaxed/simple;
+	bh=HulRH5uxtakzhOuWp8z2Yk9jSPAZVCkuSYkKi6MVUiE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JYlLwrO3oPfjAAHllrfrQmzqV/xVOPz/GLZeBUuddxNqPELDBV32B7lOon0zn/bp5pCeMGSesP90p09HCWgzpPbBRVYTpk1Mdoehb3ouBoBljz4DwxOEvbcBCV6kj5JosuNG765iw/Jm6AyWV3yTX9kBSDMCMZD66VcbWbdG22c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QVwAItHj; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=N6/MtrTKj82MzeJTj7lkNBCIo5OXTY3UizLPXxQHR4g3RvGs0e7pUq22is1ks2Q86lhc2zrnigINBpVsAWyzCeCECSFJZiKHijJiuB73GO+XEEuffAKeCBFcN7zeM+w8RAem4H9t72RHBmWFY0R2skz0an0USm8ZBGCgkDCZT/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gFISl0lb; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QVwAItHj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFISl0lb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707541146; x=1739077146;
+  t=1707541806; x=1739077806;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4nOY6RagxZdgaNgGF1fQwvaQlMCXDDU9Dct/P5+mqVk=;
-  b=QVwAItHjh2jrgD/D+YJa2NgUaz6D6M9EAeUr9n5Utnk6pXKYXEZS/nTV
-   C0Qnq8CvscJJmOlmKG/i58ZpVk88t20y73EBo84XNcm6piPrqqX2yIpHh
-   30XCpgrCOn0x1BUm/YUXTbJCBRQWR+1UA8ICWTr7+4Hwri4YnEIlOkZu4
-   kmdyIpBc9Gior8BwR6b3VKor1M/ZzaCkXR9ISYPySGMnQ0V4adu4dWCfe
-   alD3d0rnbOC5FmzoP9Na7qGH1Mx3wFzZvYlCf8pNukk0xdLbRe94lA363
-   MTYoGMltneNP1rbj5MtsR6CIrHa5uZ9Hc4lQnZs1oPhuLCVLDqQsCA9BE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="12274509"
+  bh=HulRH5uxtakzhOuWp8z2Yk9jSPAZVCkuSYkKi6MVUiE=;
+  b=gFISl0lbNr8JJww/hpLWCBxbXIuDpfqI21Ov+p2K8VDIS8lrEupCPvSS
+   8sjDFwUa0ejbqoJHtJ69jfJcfY/wakCOSXOwOEuYPnTuDolREAracMYe5
+   Y2aFzSH3iWlXIyGgkCG1XroKnpr6YGqljRZ/lWTwrXB0VN/NuZPV56N4H
+   kPfH2dGI676p/YWBG5leja835nNu1+dmtAOnoF9KHRNtc+xTHIjoXwJOp
+   IMyh5DMBjJevIrWSqgwmgVu79vNwHtPej89RrhLcatRHSTqfartmVUmCA
+   h0U2GCf54Kn6VFTHXUaGCij1MdofoZ9maCdVL2CTa/MH9rKDx/NL8AFXi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1426038"
 X-IronPort-AV: E=Sophos;i="6.05,258,1701158400"; 
-   d="scan'208";a="12274509"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 20:59:05 -0800
+   d="scan'208";a="1426038"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 21:10:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,258,1701158400"; 
-   d="scan'208";a="2099553"
+   d="scan'208";a="6756299"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Feb 2024 20:59:03 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 09 Feb 2024 21:10:04 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYfS9-0005ME-1e;
-	Sat, 10 Feb 2024 04:59:01 +0000
-Date: Sat, 10 Feb 2024 12:58:18 +0800
+	id 1rYfcn-0005MU-23;
+	Sat, 10 Feb 2024 05:10:01 +0000
+Date: Sat, 10 Feb 2024 13:09:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, Pavel Machek <pavel@denx.de>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Subject: [cip:linux-5.10.y-cip 43/56] drivers/cache/ax45mp_cache.c:141:6:
- warning: no previous prototype for 'arch_sync_dma_for_device'
-Message-ID: <202402101256.mOmaXuSb-lkp@intel.com>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Frederic Weisbecker <frederic@kernel.org>
+Subject: [frederic-dynticks:timers/anna 23/29]
+ kernel/time/timer_migration.c:1379: warning: Function parameter or struct
+ member 'nextevt' not described in 'tmigr_quick_check'
+Message-ID: <202402101310.rPIZXVPJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,89 +60,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-5.10.y-cip
-head:   a624abaa85d7f3ff289eb2e257db5c4485d11d18
-commit: 2656f92bc7dc5ac286595c8eac040828c2f180af [43/56] cache: ax45mp_cache: Add non coherent support
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240210/202402101256.mOmaXuSb-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402101256.mOmaXuSb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/anna
+head:   9a654aebd02182bcaff7e5a26b632ee20a1536ad
+commit: a7631399e1db94d34d3cc5bae11e1bfcbb02db30 [23/29] do not forget quick check
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240210/202402101310.rPIZXVPJ-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402101310.rPIZXVPJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402101256.mOmaXuSb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402101310.rPIZXVPJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/cache/ax45mp_cache.c: In function 'ax45mp_cpu_cache_operation':
-   drivers/cache/ax45mp_cache.c:70:17: error: implicit declaration of function 'csr_write'; did you mean 'vfs_write'? [-Werror=implicit-function-declaration]
-      70 |                 csr_write(AX45MP_CCTL_REG_UCCTLBEGINADDR_NUM, start);
-         |                 ^~~~~~~~~
-         |                 vfs_write
-   drivers/cache/ax45mp_cache.c: At top level:
->> drivers/cache/ax45mp_cache.c:141:6: warning: no previous prototype for 'arch_sync_dma_for_device' [-Wmissing-prototypes]
-     141 | void arch_sync_dma_for_device(phys_addr_t paddr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cache/ax45mp_cache.c:165:6: warning: no previous prototype for 'arch_sync_dma_for_cpu' [-Wmissing-prototypes]
-     165 | void arch_sync_dma_for_cpu(phys_addr_t paddr,
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/cache/ax45mp_cache.c:183:6: warning: no previous prototype for 'arch_setup_dma_ops' [-Wmissing-prototypes]
-     183 | void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-         |      ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> kernel/time/timer_migration.c:1379: warning: Function parameter or struct member 'nextevt' not described in 'tmigr_quick_check'
+>> kernel/time/timer_migration.c:1379: warning: Excess function parameter 'nextexp' description in 'tmigr_quick_check'
 
 
-vim +/arch_sync_dma_for_device +141 drivers/cache/ax45mp_cache.c
+vim +1379 kernel/time/timer_migration.c
 
-   140	
- > 141	void arch_sync_dma_for_device(phys_addr_t paddr,
-   142				      size_t size, enum dma_data_direction dir)
-   143	{
-   144		switch (dir) {
-   145		case DMA_TO_DEVICE:
-   146			ax45mp_dma_cache_wback(paddr, size);
-   147			break;
-   148	
-   149		case DMA_FROM_DEVICE:
-   150			fallthrough;
-   151	
-   152		case DMA_BIDIRECTIONAL:
-   153			/* Skip the invalidate here if it's done later */
-   154			if (IS_ENABLED(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU))
-   155				ax45mp_dma_cache_wback(paddr, size);
-   156			else
-   157				ax45mp_dma_cache_wback_inv(paddr, size);
-   158			break;
-   159	
-   160		default:
-   161			break;
-   162		}
-   163	}
-   164	
- > 165	void arch_sync_dma_for_cpu(phys_addr_t paddr,
-   166				   size_t size, enum dma_data_direction dir)
-   167	{
-   168		switch (dir) {
-   169		case DMA_TO_DEVICE:
-   170			break;
-   171	
-   172		case DMA_FROM_DEVICE:
-   173		case DMA_BIDIRECTIONAL:
-   174			/* FROM_DEVICE invalidate needed if speculative CPU prefetch only */
-   175			ax45mp_dma_cache_inv(paddr, size);
-   176			break;
-   177	
-   178		default:
-   179			break;
-   180		}
-   181	}
-   182	
- > 183	void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
-   184				const struct iommu_ops *iommu, bool coherent)
-   185	{
-   186		dev->dma_coherent = coherent;
-   187	}
-   188	
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1359  
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1360  /**
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1361   * tmigr_quick_check() - Quick forecast of next tmigr event when CPU wants to
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1362   *			 go idle
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1363   * @nextexp:	The next global timer expiry of the current CPU
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1364   *
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1365   * Return:
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1366   * * KTIME_MAX		- when it is probable that nothing has to be done (not
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1367   *	 		  the only one in the level 0 group; and if it is the
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1368   *	 		  only one in level 0 group, but there are more than a
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1369   *	 		  single group active on the way to top level)
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1370   * * nextevt		- when CPU is offline and has to handle timer on his own
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1371   *			  or when on the way to top in every group only a single
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1372   *			  child is active and but @nextevt is before next_expiry
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1373   *			  of top level group
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1374    * * next_expiry (top)	- value of top level group, when on the way to top in
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1375   * 			  every group only a single child is active and @nextevt
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1376   * 			  is after this value active child.
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1377   */
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1378  u64 tmigr_quick_check(u64 nextevt)
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09 @1379  {
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1380  	struct tmigr_cpu *tmc = this_cpu_ptr(&tmigr_cpu);
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1381  	struct tmigr_group *group = tmc->tmgroup;
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1382  
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1383  	if (tmigr_is_not_available(tmc))
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1384  		return nextevt;
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1385  
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1386  	if (WARN_ON_ONCE(tmc->idle))
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1387  		return nextevt;
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1388  
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1389  	if (!tmigr_check_migrator_and_lonely(tmc->tmgroup, tmc->childmask))
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1390  		return KTIME_MAX;
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1391  
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1392  	do {
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1393  		if (!tmigr_check_lonely(group)) {
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1394  			return KTIME_MAX;
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1395  		} else if (!group->parent) {
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1396  			u64 first_global = READ_ONCE(group->next_expiry);
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1397  			return min_t(u64, nextevt, first_global);
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1398  		}
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1399  		group = group->parent;
+a7631399e1db94 Anna-Maria Behnsen 2024-02-09  1400  	} while (group);
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1401  
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1402  	return KTIME_MAX;
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1403  }
+0a3bafadcf1c9d Anna-Maria Behnsen 2024-02-09  1404  
+
+:::::: The code at line 1379 was first introduced by commit
+:::::: 0a3bafadcf1c9d0de98b840e6e906e8f86167a12 timers: Implement the hierarchical pull model
+
+:::::: TO: Anna-Maria Behnsen <anna-maria@linutronix.de>
+:::::: CC: Frederic Weisbecker <frederic@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
