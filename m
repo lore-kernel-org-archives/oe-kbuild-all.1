@@ -1,53 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F803DBAE;
-	Sat, 10 Feb 2024 12:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDD63D0DF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 12:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707567262; cv=none; b=U+hCY3LEYQV8OiuPFIl+yfxFzwp53VOk1Jc72VmWa+1CwVKoxudsKRfrF0H4Vt10VBl/w+kWQjy32mFmap4iUIZpbzSY3jCcdWW3PHwvq4weoRPE/G/LFfPc5/tSpDQ0n6H6vLM+d6QYLvHAwCdKN76YA4WdzN66/WU5/1eb6w0=
+	t=1707567262; cv=none; b=klwPFJeaKUZNK42ePIyjMP8p2I8LpjdeDJ+3A0pqilPg2gd2K1uIOqn135qPB/kpS4s8hvwhwIG4npo1nGkFq1yzM2EpXPd4W0bYbxOL6GoIU7fBW8wyTrQ/zWIRfRHHl1PbkLlx4hCD5lkuhsJ3dNBBkRC1BCtFzkN7fe2h1WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1707567262; c=relaxed/simple;
-	bh=N+mT2rq0SmwY4I44Z/BEvfh2CiGTN5fhq20HbwmOuXU=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oWpDhiIa1nYWUBooQr/Oh3/NQFxfPv5cl60b08i9W7uaITg+UPFEoUzpMv92oULBLhx7knSiZkqaC4Q/ql/O7/3LLCPX0dP3gOg7Hc+3RlwZ71B/OJ8JFzIgBZbaCyKH2mT3u48tegeaZLYS6Xe2dT++d6SzZ/Z8EFz8+p/Wygc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kQSMJNKk; arc=none smtp.client-ip=198.175.65.13
+	bh=wRC60m5i9KWmbRIJ8MGAeVtVxg3PVQ6oOVJ+ZnzkePI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J5e10uSthsYBolnnfyJLlXw/oR6YUB0q+VMGfTb5SMEMH3rrWwTz7uYVBDxawdjqiEoxbbtC1BUVVTGnmOPn3JCfMKU+SMTfVBZAzQvo1f/in1pYVaRoHhoa8Z2iRAAOsqY3RvRlYGxB0ST3FqjYaiEj+LSAFVy8kbX3wlYJtRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwwV7s6c; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQSMJNKk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwwV7s6c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1707567260; x=1739103260;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=N+mT2rq0SmwY4I44Z/BEvfh2CiGTN5fhq20HbwmOuXU=;
-  b=kQSMJNKkkXpkVnBMWituYsbCmZpSrrqYSccQE23jAbggrHv/0/7wGaRb
-   v+XrVDpGDLdW6coa1Byi+PuuIpuXULQQTlo7/qZJY4bPg6B+a5m8j0WNB
-   4rf4KUi2O/3MO9F0kHYBNCzwMdqYoXp0XdGBtk2nSLdpgavOg5Xg46bSw
-   hloFVjDDX/A/GzgnV+N4j9pFh93r6FJy2Auf0kZzOW10oQPt5MOTpe6XM
-   /eccggGZOF0Kc31CJVkoMmp35gT6jiKnOSm+7no74szsdXigohnS3uclb
-   9mQJQ0RGBK1sBL/PSrlSr0toikTsLqQAlbBVHXstkAaaoRVjTl1u7jofM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="12645407"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wRC60m5i9KWmbRIJ8MGAeVtVxg3PVQ6oOVJ+ZnzkePI=;
+  b=AwwV7s6c82oMl3E9Xr/pENK//Qcm7QitRLIerJ9CN488dlvj43Y4iCBv
+   6fY+urqaTyxroxQT5rZ+LqWxksyXDzcWPe23frDAdI4HYe3KZ89hQ9C1+
+   B1wVeCFwv7rmcriqgPWIxCIzgBN+L3vykaw/ehRogft2zM16kyzXE7Xdp
+   upW2/N7ZrVOyXfMSHz/hdG5D2Ffy4EBh2p/RB0jwmHQh4hukOW4Pe5Oj5
+   6asLsg0Vf7PuKd3tlm4sMnVMFmC8KVT08FGdAVlMx2HHLEsJV7AWPGJ2+
+   towiBfVNLN7YMUAKsSwNn6AIOzHBRjvQLdylkivSe0qxslaDzf5WX2zf2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="436700917"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="12645407"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 04:14:20 -0800
+   d="scan'208";a="436700917"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 04:14:19 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="2550627"
+   d="scan'208";a="2466645"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Feb 2024 04:14:18 -0800
+  by orviesa007.jf.intel.com with ESMTP; 10 Feb 2024 04:14:18 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYmFM-0005dQ-1h;
+	id 1rYmFM-0005dO-1d;
 	Sat, 10 Feb 2024 12:14:16 +0000
-Date: Sat, 10 Feb 2024 20:14:15 +0800
+Date: Sat, 10 Feb 2024 20:14:16 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: ip_vs_protocol_init() falls through to
- next function __cfi_ip_vs_rr_init()
-Message-ID: <202402102007.mWVYAfR0-lkp@intel.com>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [luto:net/recverr 2/2] include/net/ip.h:838:27: error: 'struct
+ socket' has no member named '__sk_common'
+Message-ID: <202402102050.frb3LT68-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,26 +58,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a7bbe7519b6a5d189feeba1d417c8ce9f7e852b
-commit: 55c84a5cf2c72a821719823ef2ebef01b119025b fortify: strcat: Move definition to use fortified strlcat()
-date:   9 months ago
-config: x86_64-randconfig-073-20240210 (https://download.01.org/0day-ci/archive/20240210/202402102007.mWVYAfR0-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402102007.mWVYAfR0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/luto/linux.git net/recverr
+head:   d3ed76fed22d68d297a7740671c0d010f8ca205d
+commit: d3ed76fed22d68d297a7740671c0d010f8ca205d [2/2] [WIP] net/ip: Consolidate RECVERR-vs-sk_err handling
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240210/202402102050.frb3LT68-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402102050.frb3LT68-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402102007.mWVYAfR0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402102050.frb3LT68-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: ip_vs_protocol_init() falls through to next function __cfi_ip_vs_rr_init()
-   vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x3e: relocation to !ENDBR: machine_kexec+0x3f
+   In file included from include/net/busy_poll.h:18,
+                    from fs/select.c:33:
+   include/net/ip.h: In function 'ip_error_report':
+>> include/net/ip.h:838:27: error: 'struct socket' has no member named '__sk_common'
+     838 |         if ((harderr && sk->sk_state == TCP_ESTABLISHED) || recverr) {
+         |                           ^~
+>> include/net/ip.h:839:19: error: 'struct socket' has no member named 'sk_err'
+     839 |                 sk->sk_err = err;
+         |                   ^~
+>> include/net/ip.h:840:33: error: passing argument 1 of 'sk_error_report' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     840 |                 sk_error_report(sk);
+         |                                 ^~
+         |                                 |
+         |                                 struct socket *
+   In file included from include/net/inet_sock.h:22,
+                    from include/net/ip.h:29:
+   include/net/sock.h:2513:35: note: expected 'struct sock *' but argument is of type 'struct socket *'
+    2513 | void sk_error_report(struct sock *sk);
+         |                      ~~~~~~~~~~~~~^~
+>> include/net/ip.h:842:1: warning: no return statement in function returning non-void [-Wreturn-type]
+     842 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +838 include/net/ip.h
+
+   814	
+   815	/*
+   816	 * When an ICMP error is received that matches a datagram socket, some combination of
+   817	 * queueing an IP_RECVERR-style message, setting sk_err, and signaling POLLERR needs
+   818	 * to happen.
+   819	 *
+   820	 * Use like this:
+   821	 *
+   822	 * bool recverr = inet_test_bit(RECVERR, sk) [and account for ipv6]
+   823	 * int err = ...;
+   824	 * bool harderr;  <- true if the error is 'hard', meaning that it should be reported
+   825	 *                   for !RECVERR connected sockets
+   826	 * if (recverr)
+   827	 * 	ip_icmp_error() or ipv6_icmp_error() as appropriate.
+   828	 * ip_error_report(sk, err, harderr, recverr);
+   829	 */
+   830	static inline bool ip_error_report(struct socket *sk, int err, bool harderr, bool recverr)
+   831	{
+   832		/*
+   833		 * Linux sets sk_err for connected sockets if the error is 'hard' (which makes
+   834		 * perfect sense) and for all sockets if RECVERR[6] (which does not make very
+   835		 * much sense).  It does indeed make sense that sk_error_report(), which signals
+   836		 * POLLERR, is called if RECVERR[6], though.
+   837		 */
+ > 838		if ((harderr && sk->sk_state == TCP_ESTABLISHED) || recverr) {
+ > 839			sk->sk_err = err;
+ > 840			sk_error_report(sk);
+   841		}
+ > 842	}
+   843	
 
 -- 
 0-DAY CI Kernel Test Service
