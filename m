@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFB5163
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 00:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E435697
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 01:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707524882; cv=none; b=Jw8u/XhdouWuDA/+ggvV6FyIopY7EGZiDYkbG/vdhJdYlj1D5Vr3V+xsMvrVUMwv+TipXhVhgQpmwUwOotQ39s9OXYg8ClmowOvRuelgEIqlpTSPjXhXOlhkpwJLq2+C3N7SYmms0gKuiYMV7QEDgv+ZCN2PcKIZ2uGNA4gIlLo=
+	t=1707528062; cv=none; b=Gd9iLBcZqIC2FweQoPUrISBWnAwLwOaLkYCo+auim80hN3eY5glXVnwjIxuCZijDmghNNzP00+cYOoGM1OBgc4ilt0I7yJyxAdWpt8p2uEySfiF1/kkH4l66uizBt31EzfDiOP7+QqfCqWm+OYF/fH1klzDqWdmuqz3zlnmQchg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707524882; c=relaxed/simple;
-	bh=wCD42JzIXKJkykdpue1xug7nBe0t62ZZyDtFvKqd1fo=;
+	s=arc-20240116; t=1707528062; c=relaxed/simple;
+	bh=XJrQ27eV9oGF61BlR9w7dQbMAxDrcmleDee2HtbIcAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j3BTUZ4Ul537yuWfs/9zjrUkF5v5bDGX9gW1PVMp+y2TDVDGKh9h/rJIIywzl0XRwudT54UBc73fS9oR19qFT5CabuJ/LtlHSUqP4P9ZG5FGTdYErLSi3DD/t2Wjc1yhu9pcy97oCmOMaPdMrcWy2BiBuWiRpVH+bRdvni8WBIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wov6d+pJ; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=PmGK3XWIdhnmJ6bu6FIWLFH/fx7tLg12qb5dF+RqfhxZtPmO2DjsKwEMvSFa5dQIeXT0+aP6aq2/5F/AaJBumrLUsIj/rtv3EWHXuKozxM7q5zvHKf0Q4xpe9ZiwRbOffLiZovpEkl1QJDilRuA/ybChzvld1KgjkHAJQrcn6T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNek9FCQ; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wov6d+pJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNek9FCQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707524880; x=1739060880;
+  t=1707528060; x=1739064060;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wCD42JzIXKJkykdpue1xug7nBe0t62ZZyDtFvKqd1fo=;
-  b=Wov6d+pJJLJrJ5NDMUdg2jFvuMRK883VjkbD9AAlFv0jfL4Di8ZT/vzT
-   YrWwSdaoSv79hkH4CCU4BWxa+2Z2T2XOD854cJMHNXwTfRB3ieQrlIrNM
-   PqP0Z1oSEy3foDr0B1wgFq5Dbp2qsZ9N5p3CT3tpJjRoQBMV2CyZa3gVF
-   drX6Pmk9Tm7uI4rS06PEDoGrSiQF7rF7FStBFpu27Hxv37V5Mfy0hzCQT
-   M+05uh/91pvG4qlM3YJmB2tQ1G+Pu5QGN1mV0wjI8VXm1qOYJgklM27us
-   xsJduAkTT/tfjAV4UTStfl7vDWagJXhSf1BKEFRUnCptc+6Ovn4T8GHw+
+  bh=XJrQ27eV9oGF61BlR9w7dQbMAxDrcmleDee2HtbIcAU=;
+  b=QNek9FCQrN6GKHYgBry+A2x6wtUs53dt8k/smrq39ghS1I6GkpGqxiJG
+   ahpt3gYr+yFOJrEBVqCXj3YvXehHMZ8S8kZUbZUJ/05+xi/CaNZLqa6qu
+   TZWNoZkF/TrC/irU4T0WvUHHHmSVEk2rI7xX+QLYLNLoqYr/rltEvXl0E
+   X5zSEc2kackR9gZDRViNGfp1sSTFxqj003EoPdItvWIQndz6cKBr6shMz
+   Wc7cVhRoO7BhJ9qWoer3o3MULL2L1S8p6yaZE1GY/D/yVvOpCCFNTW6UR
+   tfel08kdmgUeAml1Yn8iwl/TRdOTfmKk1Nlq0wUZ9qNxqX1Xi5CFNNYVa
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1681992"
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1680838"
 X-IronPort-AV: E=Sophos;i="6.05,258,1701158400"; 
-   d="scan'208";a="1681992"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 16:27:59 -0800
+   d="scan'208";a="1680838"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 17:20:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="825277681"
 X-IronPort-AV: E=Sophos;i="6.05,258,1701158400"; 
-   d="scan'208";a="825277681"
+   d="scan'208";a="25314037"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 Feb 2024 16:27:57 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 09 Feb 2024 17:20:58 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYbDn-0005ET-0D;
-	Sat, 10 Feb 2024 00:27:55 +0000
-Date: Sat, 10 Feb 2024 08:27:36 +0800
+	id 1rYc35-0005FK-1S;
+	Sat, 10 Feb 2024 01:20:55 +0000
+Date: Sat, 10 Feb 2024 09:19:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [broonie-misc:spi-6.9 16/62] drivers/spi/spi-ppc4xx.c:365:12: error:
- 'struct spi_bitbang' has no member named 'master'
-Message-ID: <202402100815.XQXw9XCF-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: [rafael-pm:bleeding-edge 71/77] drivers/thermal/thermal_of.c:536:15:
+ error: incompatible type for argument 1 of 'kfree'
+Message-ID: <202402100947.E7EZyIMp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,242 +60,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Uwe,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git spi-6.9
-head:   fc5b764bef24d0cf722deb5c1a44948cd17d4afe
-commit: 2259233110d90059187c5ba75537eb93eba8417b [16/62] spi: bitbang: Follow renaming of SPI "master" to "controller"
-config: powerpc-randconfig-r014-20230410 (https://download.01.org/0day-ci/archive/20240210/202402100815.XQXw9XCF-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402100815.XQXw9XCF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   2bc44535ed4f6a6013ec53b505c4c381e166f0ce
+commit: fe0ea8a4d293acaf02031aaaaeb3dcf7f262e5b3 [71/77] thermal: core: Store zone ops in struct thermal_zone_device
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240210/202402100947.E7EZyIMp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402100947.E7EZyIMp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402100815.XQXw9XCF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402100947.E7EZyIMp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-ppc4xx.c: In function 'spi_ppc4xx_setupxfer':
-   drivers/spi/spi-ppc4xx.c:169:12: warning: variable 'bits_per_word' set but not used [-Wunused-but-set-variable]
-     169 |         u8 bits_per_word;
-         |            ^~~~~~~~~~~~~
-   drivers/spi/spi-ppc4xx.c: In function 'spi_ppc4xx_of_probe':
-   drivers/spi/spi-ppc4xx.c:346:36: error: invalid use of undefined type 'struct platform_device'
-     346 |         struct device_node *np = op->dev.of_node;
-         |                                    ^~
-   drivers/spi/spi-ppc4xx.c:347:33: error: invalid use of undefined type 'struct platform_device'
-     347 |         struct device *dev = &op->dev;
-         |                                 ^~
-   drivers/spi/spi-ppc4xx.c:356:9: error: implicit declaration of function 'platform_set_drvdata' [-Werror=implicit-function-declaration]
-     356 |         platform_set_drvdata(op, host);
-         |         ^~~~~~~~~~~~~~~~~~~~
->> drivers/spi/spi-ppc4xx.c:365:12: error: 'struct spi_bitbang' has no member named 'master'
-     365 |         bbp->master = hw->host;
-         |            ^~
-   drivers/spi/spi-ppc4xx.c:369:12: error: 'struct spi_bitbang' has no member named 'master'
-     369 |         bbp->master->setup = spi_ppc4xx_setup;
-         |            ^~
-   drivers/spi/spi-ppc4xx.c:370:12: error: 'struct spi_bitbang' has no member named 'master'
-     370 |         bbp->master->cleanup = spi_ppc4xx_cleanup;
-         |            ^~
-   drivers/spi/spi-ppc4xx.c:371:12: error: 'struct spi_bitbang' has no member named 'master'
-     371 |         bbp->master->bits_per_word_mask = SPI_BPW_MASK(8);
-         |            ^~
-   drivers/spi/spi-ppc4xx.c:372:12: error: 'struct spi_bitbang' has no member named 'master'
-     372 |         bbp->master->use_gpio_descriptors = true;
-         |            ^~
-   drivers/spi/spi-ppc4xx.c:377:12: error: 'struct spi_bitbang' has no member named 'master'
-     377 |         bbp->master->num_chipselect = 0;
-         |            ^~
-   drivers/spi/spi-ppc4xx.c:380:12: error: 'struct spi_bitbang' has no member named 'master'
-     380 |         bbp->master->mode_bits =
-         |            ^~
-   drivers/spi/spi-ppc4xx.c: In function 'spi_ppc4xx_of_remove':
-   drivers/spi/spi-ppc4xx.c:469:39: error: implicit declaration of function 'platform_get_drvdata' [-Werror=implicit-function-declaration]
-     469 |         struct spi_controller *host = platform_get_drvdata(op);
-         |                                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-ppc4xx.c:469:39: warning: initialization of 'struct spi_controller *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/spi/spi-ppc4xx.c: At top level:
-   drivers/spi/spi-ppc4xx.c:486:15: error: variable 'spi_ppc4xx_of_driver' has initializer but incomplete type
-     486 | static struct platform_driver spi_ppc4xx_of_driver = {
-         |               ^~~~~~~~~~~~~~~
-   drivers/spi/spi-ppc4xx.c:487:10: error: 'struct platform_driver' has no member named 'probe'
-     487 |         .probe = spi_ppc4xx_of_probe,
-         |          ^~~~~
-   drivers/spi/spi-ppc4xx.c:487:18: warning: excess elements in struct initializer
-     487 |         .probe = spi_ppc4xx_of_probe,
-         |                  ^~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-ppc4xx.c:487:18: note: (near initialization for 'spi_ppc4xx_of_driver')
-   drivers/spi/spi-ppc4xx.c:488:10: error: 'struct platform_driver' has no member named 'remove_new'
-     488 |         .remove_new = spi_ppc4xx_of_remove,
-         |          ^~~~~~~~~~
-   drivers/spi/spi-ppc4xx.c:488:23: warning: excess elements in struct initializer
-     488 |         .remove_new = spi_ppc4xx_of_remove,
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-ppc4xx.c:488:23: note: (near initialization for 'spi_ppc4xx_of_driver')
-   drivers/spi/spi-ppc4xx.c:489:10: error: 'struct platform_driver' has no member named 'driver'
-     489 |         .driver = {
-         |          ^~~~~~
-   drivers/spi/spi-ppc4xx.c:489:19: error: extra brace group at end of initializer
-     489 |         .driver = {
-         |                   ^
-   drivers/spi/spi-ppc4xx.c:489:19: note: (near initialization for 'spi_ppc4xx_of_driver')
-   drivers/spi/spi-ppc4xx.c:489:19: warning: excess elements in struct initializer
-   drivers/spi/spi-ppc4xx.c:489:19: note: (near initialization for 'spi_ppc4xx_of_driver')
-   drivers/spi/spi-ppc4xx.c:494:1: warning: data definition has no type or storage class
-     494 | module_platform_driver(spi_ppc4xx_of_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-ppc4xx.c:494:1: error: type defaults to 'int' in declaration of 'module_platform_driver' [-Werror=implicit-int]
-   drivers/spi/spi-ppc4xx.c:494:1: warning: parameter names (without types) in function declaration
-   drivers/spi/spi-ppc4xx.c:486:31: error: storage size of 'spi_ppc4xx_of_driver' isn't known
-     486 | static struct platform_driver spi_ppc4xx_of_driver = {
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-ppc4xx.c:486:31: warning: 'spi_ppc4xx_of_driver' defined but not used [-Wunused-variable]
-   cc1: some warnings being treated as errors
+   drivers/thermal/thermal_of.c: In function 'thermal_of_zone_register':
+>> drivers/thermal/thermal_of.c:536:15: error: incompatible type for argument 1 of 'kfree'
+     536 |         kfree(of_ops);
+         |               ^~~~~~
+         |               |
+         |               struct thermal_zone_device_ops
+   In file included from drivers/thermal/thermal_of.c:14:
+   include/linux/slab.h:227:24: note: expected 'const void *' but argument is of type 'struct thermal_zone_device_ops'
+     227 | void kfree(const void *objp);
+         |            ~~~~~~~~~~~~^~~~
 
 
-vim +365 drivers/spi/spi-ppc4xx.c
+vim +/kfree +536 drivers/thermal/thermal_of.c
 
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  336  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  337  /*
-2dc11581376829 drivers/spi/spi_ppc4xx.c Grant Likely    2010-08-06  338   * platform_device layer stuff...
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  339   */
-2deff8d602e8c9 drivers/spi/spi-ppc4xx.c Grant Likely    2013-02-05  340  static int spi_ppc4xx_of_probe(struct platform_device *op)
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  341  {
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  342  	struct ppc4xx_spi *hw;
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  343  	struct spi_controller *host;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  344  	struct spi_bitbang *bbp;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  345  	struct resource resource;
-b53550781b7d51 drivers/spi/spi_ppc4xx.c Grant Likely    2010-05-25  346  	struct device_node *np = op->dev.of_node;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  347  	struct device *dev = &op->dev;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  348  	struct device_node *opbnp;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  349  	int ret;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  350  	const unsigned int *clk;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  351  
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  352  	host = spi_alloc_host(dev, sizeof(*hw));
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  353  	if (host == NULL)
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  354  		return -ENOMEM;
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  355  	host->dev.of_node = np;
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  356  	platform_set_drvdata(op, host);
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  357  	hw = spi_controller_get_devdata(host);
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  358  	hw->host = host;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  359  	hw->dev = dev;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  360  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  361  	init_completion(&hw->done);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  362  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  363  	/* Setup the state for the bitbang driver */
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  364  	bbp = &hw->bitbang;
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18 @365  	bbp->master = hw->host;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  366  	bbp->setup_transfer = spi_ppc4xx_setupxfer;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  367  	bbp->txrx_bufs = spi_ppc4xx_txrx;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  368  	bbp->use_dma = 0;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  369  	bbp->master->setup = spi_ppc4xx_setup;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  370  	bbp->master->cleanup = spi_ppc4xx_cleanup;
-24778be20f87d5 drivers/spi/spi-ppc4xx.c Stephen Warren  2013-05-21  371  	bbp->master->bits_per_word_mask = SPI_BPW_MASK(8);
-4726773292bfdb drivers/spi/spi-ppc4xx.c Linus Walleij   2020-07-14  372  	bbp->master->use_gpio_descriptors = true;
-4726773292bfdb drivers/spi/spi-ppc4xx.c Linus Walleij   2020-07-14  373  	/*
-4726773292bfdb drivers/spi/spi-ppc4xx.c Linus Walleij   2020-07-14  374  	 * The SPI core will count the number of GPIO descriptors to figure
-4726773292bfdb drivers/spi/spi-ppc4xx.c Linus Walleij   2020-07-14  375  	 * out the number of chip selects available on the platform.
-4726773292bfdb drivers/spi/spi-ppc4xx.c Linus Walleij   2020-07-14  376  	 */
-4726773292bfdb drivers/spi/spi-ppc4xx.c Linus Walleij   2020-07-14  377  	bbp->master->num_chipselect = 0;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  378  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  379  	/* the spi->mode bits understood by this driver: */
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  380  	bbp->master->mode_bits =
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  381  		SPI_CPHA | SPI_CPOL | SPI_CS_HIGH | SPI_LSB_FIRST;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  382  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  383  	/* Get the clock for the OPB */
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  384  	opbnp = of_find_compatible_node(NULL, NULL, "ibm,opb");
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  385  	if (opbnp == NULL) {
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  386  		dev_err(dev, "OPB: cannot find node\n");
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  387  		ret = -ENODEV;
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  388  		goto free_host;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  389  	}
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  390  	/* Get the clock (Hz) for the OPB */
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  391  	clk = of_get_property(opbnp, "clock-frequency", NULL);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  392  	if (clk == NULL) {
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  393  		dev_err(dev, "OPB: no clock-frequency property set\n");
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  394  		of_node_put(opbnp);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  395  		ret = -ENODEV;
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  396  		goto free_host;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  397  	}
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  398  	hw->opb_freq = *clk;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  399  	hw->opb_freq >>= 2;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  400  	of_node_put(opbnp);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  401  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  402  	ret = of_address_to_resource(np, 0, &resource);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  403  	if (ret) {
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  404  		dev_err(dev, "error while parsing device node resource\n");
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  405  		goto free_host;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  406  	}
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  407  	hw->mapbase = resource.start;
-8e2943c04c74e5 drivers/spi/spi-ppc4xx.c Joe Perches     2011-06-10  408  	hw->mapsize = resource_size(&resource);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  409  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  410  	/* Sanity check */
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  411  	if (hw->mapsize < sizeof(struct spi_ppc4xx_regs)) {
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  412  		dev_err(dev, "too small to map registers\n");
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  413  		ret = -EINVAL;
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  414  		goto free_host;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  415  	}
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  416  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  417  	/* Request IRQ */
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  418  	hw->irqnum = irq_of_parse_and_map(np, 0);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  419  	ret = request_irq(hw->irqnum, spi_ppc4xx_int,
-38ada214fad79f drivers/spi/spi-ppc4xx.c Yong Zhang      2011-10-22  420  			  0, "spi_ppc4xx_of", (void *)hw);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  421  	if (ret) {
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  422  		dev_err(dev, "unable to allocate interrupt\n");
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  423  		goto free_host;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  424  	}
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  425  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  426  	if (!request_mem_region(hw->mapbase, hw->mapsize, DRIVER_NAME)) {
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  427  		dev_err(dev, "resource unavailable\n");
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  428  		ret = -EBUSY;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  429  		goto request_mem_error;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  430  	}
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  431  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  432  	hw->regs = ioremap(hw->mapbase, sizeof(struct spi_ppc4xx_regs));
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  433  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  434  	if (!hw->regs) {
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  435  		dev_err(dev, "unable to memory map registers\n");
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  436  		ret = -ENXIO;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  437  		goto map_io_error;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  438  	}
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  439  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  440  	spi_ppc4xx_enable(hw);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  441  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  442  	/* Finally register our spi controller */
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  443  	dev->dma_mask = 0;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  444  	ret = spi_bitbang_start(bbp);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  445  	if (ret) {
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  446  		dev_err(dev, "failed to register SPI host\n");
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  447  		goto unmap_regs;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  448  	}
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  449  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  450  	dev_info(dev, "driver initialized\n");
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  451  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  452  	return 0;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  453  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  454  unmap_regs:
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  455  	iounmap(hw->regs);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  456  map_io_error:
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  457  	release_mem_region(hw->mapbase, hw->mapsize);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  458  request_mem_error:
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  459  	free_irq(hw->irqnum, hw);
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  460  free_host:
-71345830575984 drivers/spi/spi-ppc4xx.c Yang Yingliang  2023-08-18  461  	spi_controller_put(host);
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  462  
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  463  	dev_err(dev, "initialization failed\n");
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  464  	return ret;
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  465  }
-44dab88e7cc99d drivers/spi/spi_ppc4xx.c Steven A. Falco 2009-09-22  466  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  449  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  450  /**
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  451   * thermal_of_zone_register - Register a thermal zone with device node
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  452   * sensor
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  453   *
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  454   * The thermal_of_zone_register() parses a device tree given a device
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  455   * node sensor and identifier. It searches for the thermal zone
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  456   * associated to the couple sensor/id and retrieves all the thermal
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  457   * zone properties and registers new thermal zone with those
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  458   * properties.
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  459   *
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  460   * @sensor: A device node pointer corresponding to the sensor in the device tree
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  461   * @id: An integer as sensor identifier
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  462   * @data: A private data to be stored in the thermal zone dedicated private area
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  463   * @ops: A set of thermal sensor ops
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  464   *
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  465   * Return: a valid thermal zone structure pointer on success.
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  466   * 	- EINVAL: if the device tree thermal description is malformed
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  467   *	- ENOMEM: if one structure can not be allocated
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  468   *	- Other negative errors are returned by the underlying called functions
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  469   */
+ac614a9b4c35bf Daniel Lezcano    2023-04-04  470  static struct thermal_zone_device *thermal_of_zone_register(struct device_node *sensor, int id, void *data,
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  471  							    const struct thermal_zone_device_ops *ops)
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  472  {
+fe0ea8a4d293ac Rafael J. Wysocki 2024-02-09  473  	struct thermal_zone_device_ops of_ops = *ops;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  474  	struct thermal_zone_device *tz;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  475  	struct thermal_trip *trips;
+ac4436a5b20e0e Ahmad Fatoum      2023-07-08  476  	struct thermal_zone_params tzp = {};
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  477  	struct device_node *np;
+62e79e38b257a5 Fabio Estevam     2023-11-29  478  	const char *action;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  479  	int delay, pdelay;
+990efe2b4813ff Rafael J. Wysocki 2024-02-08  480  	int ntrips;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  481  	int ret;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  482  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  483  	np = of_thermal_zone_find(sensor, id);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  484  	if (IS_ERR(np)) {
+9d6792df07367a Daniel Lezcano    2022-08-09  485  		if (PTR_ERR(np) != -ENODEV)
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  486  			pr_err("Failed to find thermal zone for %pOFn id=%d\n", sensor, id);
+7ef2f023c2c77a Ido Schimmel      2022-10-20  487  		ret = PTR_ERR(np);
+7ef2f023c2c77a Ido Schimmel      2022-10-20  488  		goto out_kfree_of_ops;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  489  	}
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  490  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  491  	trips = thermal_of_trips_init(np, &ntrips);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  492  	if (IS_ERR(trips)) {
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  493  		pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
+7ef2f023c2c77a Ido Schimmel      2022-10-20  494  		ret = PTR_ERR(trips);
+7ef2f023c2c77a Ido Schimmel      2022-10-20  495  		goto out_kfree_of_ops;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  496  	}
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  497  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  498  	ret = thermal_of_monitor_init(np, &delay, &pdelay);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  499  	if (ret) {
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  500  		pr_err("Failed to initialize monitoring delays from %pOFn\n", np);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  501  		goto out_kfree_trips;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  502  	}
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  503  
+ac4436a5b20e0e Ahmad Fatoum      2023-07-08  504  	thermal_of_parameters_init(np, &tzp);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  505  
+fe0ea8a4d293ac Rafael J. Wysocki 2024-02-09  506  	of_ops.bind = thermal_of_bind;
+fe0ea8a4d293ac Rafael J. Wysocki 2024-02-09  507  	of_ops.unbind = thermal_of_unbind;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  508  
+62e79e38b257a5 Fabio Estevam     2023-11-29  509  	ret = of_property_read_string(np, "critical-action", &action);
+62e79e38b257a5 Fabio Estevam     2023-11-29  510  	if (!ret)
+fe0ea8a4d293ac Rafael J. Wysocki 2024-02-09  511  		if (!of_ops.critical && !strcasecmp(action, "reboot"))
+fe0ea8a4d293ac Rafael J. Wysocki 2024-02-09  512  			of_ops.critical = thermal_zone_device_critical_reboot;
+62e79e38b257a5 Fabio Estevam     2023-11-29  513  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  514  	tz = thermal_zone_device_register_with_trips(np->name, trips, ntrips,
+fe0ea8a4d293ac Rafael J. Wysocki 2024-02-09  515  						     data, &of_ops, &tzp,
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  516  						     pdelay, delay);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  517  	if (IS_ERR(tz)) {
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  518  		ret = PTR_ERR(tz);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  519  		pr_err("Failed to register thermal zone %pOFn: %d\n", np, ret);
+ac4436a5b20e0e Ahmad Fatoum      2023-07-08  520  		goto out_kfree_trips;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  521  	}
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  522  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  523  	ret = thermal_zone_device_enable(tz);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  524  	if (ret) {
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  525  		pr_err("Failed to enabled thermal zone '%s', id=%d: %d\n",
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  526  		       tz->type, tz->id, ret);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  527  		thermal_of_zone_unregister(tz);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  528  		return ERR_PTR(ret);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  529  	}
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  530  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  531  	return tz;
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  532  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  533  out_kfree_trips:
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  534  	kfree(trips);
+7ef2f023c2c77a Ido Schimmel      2022-10-20  535  out_kfree_of_ops:
+7ef2f023c2c77a Ido Schimmel      2022-10-20 @536  	kfree(of_ops);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  537  
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  538  	return ERR_PTR(ret);
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  539  }
+3fd6d6e2b4e80f Daniel Lezcano    2022-08-05  540  
 
-:::::: The code at line 365 was first introduced by commit
-:::::: 71345830575984c01c4c2b655ef3a7877100fba3 spi: ppc4xx: switch to use modern name
+:::::: The code at line 536 was first introduced by commit
+:::::: 7ef2f023c2c77a452ba5d0c9b1ad04a5a895d553 thermal/of: Fix memory leak on thermal_of_zone_register() failure
 
-:::::: TO: Yang Yingliang <yangyingliang@huawei.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Ido Schimmel <idosch@nvidia.com>
+:::::: CC: Daniel Lezcano <daniel.lezcano@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
