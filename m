@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7EC31A8F;
-	Sat, 10 Feb 2024 12:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A877E4F88D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 13:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707569964; cv=none; b=P1Yo19vsiOTbV4RKgpsLJzNnwDkA6DHn05QRCW2xN0McFufGWmXjZvAXxUzAZh5gtky7onW0xKFs/R2Y81tFrtxs/W66Y3elgK+JQzR0Q7oEirpoC5XXTX3N3/OZ+IV6+/A4TjhapBtz9mC/1qcgzGTJuhtbf76avwgOhfTegXI=
+	t=1707570564; cv=none; b=cKFp7ug/ZIFjZJRDhkqXPmmq5mWf+zvI192OVEC+mI4JXPyjCj5b/Y5lg9u+sbslPBf8Y4cM7o8Z5vGeDJR92vm2A/DJyLT6PFnvA5saxVwwda23jCLpPq1tCks7ldnHm3O+g+gVwS+6ArbmL8b87BWZIoOmP1W1sYLK8ljlJsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707569964; c=relaxed/simple;
-	bh=Cb1Eh3O2qFMqBZxKzCU4auBY0R5n95zZ3gjKmSOb9JE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OeuToS4a2bFwLDsSqPWaWVYnuBy14ur2i24ybp7COu4AmpY8ci8zGVKWM5yfW09jBCFeiv+z8OapZzrYN3t945V61a6w82GPGpDsmqZNHaU3WhmBBwBiF/Jdv/JIphBPumbKunkxTrEwOaYuRr1j2J3xKhtGjaCgnoBCyOPNXPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FGz0+lSY; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1707570564; c=relaxed/simple;
+	bh=QdN5O+pIFYqtAByEwEVBgBrpmDNTt+7cN3BkE+mM7VQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hNWbo0NTQCRmbFw8L7y7PbutOiAIGMom/gKgYVQ43UVNC5e2uCfcnOI3HcbGLD4s3QlV99Gk1g1w+ieU4WG5EtJQkTm+/6T+ey19qQf/vDYGxWcSwlJEdHWjMyFiCUSxgf08ft77McxbGB/weohva3DaulhqJgnMchaFU+pFU4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nkTBO7F9; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FGz0+lSY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nkTBO7F9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707569961; x=1739105961;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Cb1Eh3O2qFMqBZxKzCU4auBY0R5n95zZ3gjKmSOb9JE=;
-  b=FGz0+lSYHesRWo/GmlvBc/NA1qDyxm5801lnDFn6UxMipIpm7l/AQtUF
-   5bm2kpXqH9l5uTV7ZNUtn8oezpWVAv/AiXbTspueXRTS2Too4Qf/x/zLC
-   qlh5GgZrcx8y1dSjiCafX1rTEhIvL23ZivY71WoJ8pL+1KCph5Ta9i+0U
-   Z9MuFn9jr9OgQx0ZIqJN0Us1pAT0jSHzxLQadi8yPBE+Z9948VHXpHYDE
-   qf//YBSJ8JztoR0fEADz5hnsrSUzkdGlCzOozXtjtykC2ht74MDUF1p6j
-   PNexVq2kuypl1NKTRgNc9z9+VfgMAWXL9agPu2mdFKGwzzKy8iJZ9YKKK
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1449115"
+  t=1707570563; x=1739106563;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QdN5O+pIFYqtAByEwEVBgBrpmDNTt+7cN3BkE+mM7VQ=;
+  b=nkTBO7F9/CMi6H+RPd2S0/MBo/s6znnnWqgzncOJGIyw+UytiZ0sxQVi
+   TRcAECytb2aGUs7dET1KR6c9F//sLHPmCmsnr/ZT5ea+n/tywtIoiaL+a
+   Vn1IFxSCPs1sIVR951E0co1oSST5nU0HE1t61kKwf04e5Kpuc1RIBwm9o
+   cGtUoXa8wKECtJWhno6f2WZuEsjRCmeMKlrZm+O7XIWypERseilzuwpj/
+   a8MeLqOeG6T+Cc51Y7umwTYrNxLhs6Q0tb8+UN43Iu7Y/hNA2HkNgTQEa
+   9/q0cOzWrOe66JB7dab2gTpz8iQKmgO9mYUxC2QPMfddJhAWFwVtX1aja
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1694295"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="1449115"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 04:59:20 -0800
+   d="scan'208";a="1694295"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 05:09:21 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="2380396"
+   d="scan'208";a="6919655"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Feb 2024 04:59:19 -0800
+  by orviesa004.jf.intel.com with ESMTP; 10 Feb 2024 05:09:20 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYmwv-0005fm-1n;
-	Sat, 10 Feb 2024 12:59:17 +0000
-Date: Sat, 10 Feb 2024 20:58:40 +0800
+	id 1rYn6b-0005fy-28;
+	Sat, 10 Feb 2024 13:09:17 +0000
+Date: Sat, 10 Feb 2024 21:08:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Max Kellermann <max.kellermann@ionos.com>
-Subject: Re: [PATCH v2 02/35] include: remove unnecessary #include directives
-Message-ID: <202402102047.IswSP6zZ-lkp@intel.com>
-References: <20240209164027.2582906-3-max.kellermann@ionos.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.2.x-imx 2952/17898]
+ drivers/irqchip/irq-imx-gpcv2.c:229:5: warning: no previous prototype for
+ function 'imx8mq_gpcv2_irq_set_affinity'
+Message-ID: <202402102106.Uf86F2GY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,83 +58,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240209164027.2582906-3-max.kellermann@ionos.com>
 
-Hi Max,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20240209]
-[cannot apply to drm-misc/drm-misc-next media-tree/master mkp-scsi/for-next linus/master v6.8-rc3 v6.8-rc2 v6.8-rc1 v6.8-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-add-missing-includes/20240210-005417
-base:   next-20240209
-patch link:    https://lore.kernel.org/r/20240209164027.2582906-3-max.kellermann%40ionos.com
-patch subject: [PATCH v2 02/35] include: remove unnecessary #include directives
-config: i386-buildonly-randconfig-006-20240210 (https://download.01.org/0day-ci/archive/20240210/202402102047.IswSP6zZ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402102047.IswSP6zZ-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   4e3fc5471376a15279ee5c99e791a7c7b065cbc1
+commit: 2fd38093409494849623c729467047793cc2d83a [2952/17898] MLK-21399 irqchip: Allow i.MX8MQ to call into TF-A
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240210/202402102106.Uf86F2GY-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402102106.Uf86F2GY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402102047.IswSP6zZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402102106.Uf86F2GY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/sun4i/sun4i_layer.c:28:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      28 |                 kfree(state);
-         |                 ^
-   drivers/gpu/drm/sun4i/sun4i_layer.c:28:3: note: did you mean 'vfree'?
-   include/linux/vmalloc.h:160:13: note: 'vfree' declared here
-     160 | extern void vfree(const void *addr);
-         |             ^
->> drivers/gpu/drm/sun4i/sun4i_layer.c:32:10: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      32 |         state = kzalloc(sizeof(*state), GFP_KERNEL);
-         |                 ^
-   drivers/gpu/drm/sun4i/sun4i_layer.c:32:10: note: did you mean 'vzalloc'?
-   include/linux/vmalloc.h:140:14: note: 'vzalloc' declared here
-     140 | extern void *vzalloc(unsigned long size) __alloc_size(1);
-         |              ^
->> drivers/gpu/drm/sun4i/sun4i_layer.c:32:8: error: incompatible integer to pointer conversion assigning to 'struct sun4i_layer_state *' from 'int' [-Wint-conversion]
-      32 |         state = kzalloc(sizeof(*state), GFP_KERNEL);
-         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/sun4i/sun4i_layer.c:43:9: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      43 |         copy = kzalloc(sizeof(*copy), GFP_KERNEL);
-         |                ^
-   drivers/gpu/drm/sun4i/sun4i_layer.c:43:7: error: incompatible integer to pointer conversion assigning to 'struct sun4i_layer_state *' from 'int' [-Wint-conversion]
-      43 |         copy = kzalloc(sizeof(*copy), GFP_KERNEL);
-         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/sun4i/sun4i_layer.c:60:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      60 |         kfree(s_state);
-         |         ^
-   6 errors generated.
+   drivers/irqchip/irq-imx-gpcv2.c:123:2: error: implicit declaration of function 'set_smp_cross_call' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           set_smp_cross_call(imx_gpcv2_raise_softirq);
+           ^
+>> drivers/irqchip/irq-imx-gpcv2.c:229:5: warning: no previous prototype for function 'imx8mq_gpcv2_irq_set_affinity' [-Wmissing-prototypes]
+   int imx8mq_gpcv2_irq_set_affinity(struct irq_data *d, const struct cpumask *cpumask,
+       ^
+   drivers/irqchip/irq-imx-gpcv2.c:229:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int imx8mq_gpcv2_irq_set_affinity(struct irq_data *d, const struct cpumask *cpumask,
+   ^
+   static 
+   1 warning and 1 error generated.
 
 
-vim +/kfree +28 drivers/gpu/drm/sun4i/sun4i_layer.c
+vim +/imx8mq_gpcv2_irq_set_affinity +229 drivers/irqchip/irq-imx-gpcv2.c
 
-9026e0d122ac87 Maxime Ripard      2015-10-29  18  
-d540f82adf3577 Maxime Ripard      2018-01-22  19  static void sun4i_backend_layer_reset(struct drm_plane *plane)
-d540f82adf3577 Maxime Ripard      2018-01-22  20  {
-d540f82adf3577 Maxime Ripard      2018-01-22  21  	struct sun4i_layer_state *state;
-d540f82adf3577 Maxime Ripard      2018-01-22  22  
-d540f82adf3577 Maxime Ripard      2018-01-22  23  	if (plane->state) {
-d540f82adf3577 Maxime Ripard      2018-01-22  24  		state = state_to_sun4i_layer_state(plane->state);
-d540f82adf3577 Maxime Ripard      2018-01-22  25  
-d540f82adf3577 Maxime Ripard      2018-01-22  26  		__drm_atomic_helper_plane_destroy_state(&state->state);
-d540f82adf3577 Maxime Ripard      2018-01-22  27  
-d540f82adf3577 Maxime Ripard      2018-01-22 @28  		kfree(state);
-d540f82adf3577 Maxime Ripard      2018-01-22  29  		plane->state = NULL;
-d540f82adf3577 Maxime Ripard      2018-01-22  30  	}
-d540f82adf3577 Maxime Ripard      2018-01-22  31  
-d540f82adf3577 Maxime Ripard      2018-01-22 @32  	state = kzalloc(sizeof(*state), GFP_KERNEL);
-e4fff65fdb526a Maxime Ripard      2022-02-21  33  	if (state)
-60252323ec9c36 Alexandru Gheorghe 2018-08-04  34  		__drm_atomic_helper_plane_reset(plane, &state->state);
-d540f82adf3577 Maxime Ripard      2018-01-22  35  }
-d540f82adf3577 Maxime Ripard      2018-01-22  36  
+   228	
+ > 229	int imx8mq_gpcv2_irq_set_affinity(struct irq_data *d, const struct cpumask *cpumask,
+   230			      bool force)
+   231	{
+   232		struct arm_smccc_res res;
+   233		int cpu = cpumask_any_and(cpumask, cpu_online_mask);
+   234	
+   235		arm_smccc_smc(FSL_SIP_GPC, FSL_SIP_CONFIG_GPC_SET_AFF,
+   236			d->hwirq, cpu, 0, 0, 0, 0, &res);
+   237	
+   238		return irq_chip_set_affinity_parent(d, cpumask, force);
+   239	}
+   240	
 
 -- 
 0-DAY CI Kernel Test Service
