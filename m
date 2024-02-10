@@ -1,60 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE25537E5;
-	Sat, 10 Feb 2024 13:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36774537E5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Feb 2024 14:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707572666; cv=none; b=CxMVUflOpn2RTfJhvO6SexEv5hchphKxvt6BNpYkpbrE+w3A73Abt6C4Ul+VbfZksmutvUjbqQesrKS9he/Z/Y3PuS0b4nsm/DOYvKIl2TX/0FQi2kaSs86TL2SAMPRyLUZpNgmKsGTQXFWXu+amjYLmCOjU+2VQsYJtY6RGDyI=
+	t=1707574585; cv=none; b=IPeflrOqtbZm3Ji91uvgHwLXCAUMtTeLxcQ+NRjyHHKXxVfxvZE8CIsR0TFVrlUEOmAAwnXAhdBRlEU5ARRPHc2HTL3ng3X70AnH6OfQF9BtIDkd8N8xXmRdv6HuuXirjEOvTghIpH/MjWit5gQc6lOU6jpDXl+Vev4FpfF5VFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707572666; c=relaxed/simple;
-	bh=XcSECDNC/r1nXUOrjHhU0a6q6NoCWQRYvgQLh4gPj1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=de9t2bg0I3b7t2wtmGeunPwTCb2gn30RzZ4P4Wxty42qv2BYxqpg8msXWhC7gB5mG6a7lfUQXaaBo2pZwB5bnhoyDtK8wn80lsVrPoAHWF/C5y+ZEc4jbkx7S/4pJdu4+yb4Ii9ImUj8zJcB0cFigFdwZxVNYmmZZTWgy70OP4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UvpMwBVe; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1707574585; c=relaxed/simple;
+	bh=xieRn3ySLg1FvF2R/WX1dSLGtBWLqWBS6FMSFyYth2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B9PevPg0ujHU81mwR2ea5DGYyYdiaPA/2Yu2XMMP85OfOTnujKLxnkhr+kEuwkrY+8nsjiwWGzosjrBf4W58kuYFNvkXOS8b1TN1QkZmtnKn0nk4FbT6jHfayoBGbAjwvJRKr4MCZewcMV0ednLc6UdQ20jafzllm1REVVBtwII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMo5og2R; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UvpMwBVe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMo5og2R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707572663; x=1739108663;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XcSECDNC/r1nXUOrjHhU0a6q6NoCWQRYvgQLh4gPj1g=;
-  b=UvpMwBVed+1+W/aL6SAaKRlqEj3eJ9UoI+FiTD1B9ySbSEt2ltNJMmb2
-   AvdxP44+Uj19bU4MzHnDjmdHcZ3JjS492WQu1Uqyi2XqBiONf6NdM6hl9
-   B015KcEgzI2P9TwV+gjQg1GHS4ZvZxCeqgoRgpIC5PHsqe6e5t4kvexB1
-   CKtiA+dJKc1Ee7zpW+/n3xjST1plzU7jchz6MU5hWN0DXZDS4lsAUyTXa
-   Rd0DLTpfi+/lX6ti/npzreT352B2duSI1GMv/sNGgGcmbzzb2t987B1Nv
-   NQXGXhFmyLBm0EA1PZbT/9a56ZhVNOEPtL6CJby180889MSVNHdjRUreY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1888239"
+  t=1707574583; x=1739110583;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xieRn3ySLg1FvF2R/WX1dSLGtBWLqWBS6FMSFyYth2g=;
+  b=EMo5og2R5moqzqkO22cfR6+zhEuoihb1AUAoyR+oQnNMsMEFXXCtBf9h
+   9dwCDNbt1soYQbA2sFGoap+blC7SM6pMfx8lA1vf+QGyrbFfnaeGPdfJD
+   YsoJ0sCh1Xt5o581rViWvNfboFnF5lt8U6PS/cRG3q1SmqBWftOy9BLJJ
+   j+fhBpRaRGBsK/dPckYnCI5agc103FJIEuBbKYQDGCLdKIv8gDnDZt5d3
+   iBmic07kR5I9/0YAvUYZcSfOYZMD80xB2+qkRZ0hyhM7U3Vl9xHlijnXQ
+   JXGL8PAvwtLU1S3mgd/s+5EKeTbdZyauB7M9vJxkNlUhYNkCt7FSrfOkX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1721040"
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="1888239"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 05:44:22 -0800
+   d="scan'208";a="1721040"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 06:16:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,259,1701158400"; 
-   d="scan'208";a="2150284"
+   d="scan'208";a="33257273"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Feb 2024 05:44:21 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Feb 2024 06:16:21 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYneU-0005gw-0i;
-	Sat, 10 Feb 2024 13:44:18 +0000
-Date: Sat, 10 Feb 2024 21:44:01 +0800
+	id 1rYo9S-0005i6-2l;
+	Sat, 10 Feb 2024 14:16:18 +0000
+Date: Sat, 10 Feb 2024 22:16:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	johannes@sipsolutions.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
-	Mukesh Sisodiya <mukesh.sisodiya@intel.com>,
-	Gregory Greenman <gregory.greenman@intel.com>
-Subject: Re: [PATCH 01/13] wifi: iwlwifi: nvm: parse the VLP/AFC bit from
- regulatory
-Message-ID: <202402102159.h0x3mL2v-lkp@intel.com>
-References: <20240208185302.9c6a4acabdb3.I501de5c0d86b9702bf61158a2e91c954a1da9a2a@changeid>
+To: William-tw Lin <william-tw.lin@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 2195/5901] mtk-socinfo.c:undefined reference to
+ `soc_device_unregister'
+Message-ID: <202402102235.Ek3pjcyv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +59,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240208185302.9c6a4acabdb3.I501de5c0d86b9702bf61158a2e91c954a1da9a2a@changeid>
 
-Hi Miri,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v6.8-rc3 next-20240209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miri-Korenblit/wifi-iwlwifi-nvm-parse-the-VLP-AFC-bit-from-regulatory/20240209-010143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20240208185302.9c6a4acabdb3.I501de5c0d86b9702bf61158a2e91c954a1da9a2a%40changeid
-patch subject: [PATCH 01/13] wifi: iwlwifi: nvm: parse the VLP/AFC bit from regulatory
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240210/202402102159.h0x3mL2v-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7dd790db8b77c4a833c06632e903dc4f13877a64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402102159.h0x3mL2v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   445a555e0623387fa9b94e68e61681717e70200a
+commit: 423a54da3c7ee6d27b862b1bae6e639a1374a36a [2195/5901] soc: mediatek: mtk-socinfo: Add driver for getting chip information
+config: arm64-randconfig-004-20240210 (https://download.01.org/0day-ci/archive/20240210/202402102235.Ek3pjcyv-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240210/202402102235.Ek3pjcyv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402102159.h0x3mL2v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402102235.Ek3pjcyv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:377:12: error: use of undeclared identifier 'IEEE80211_CHAN_NO_6GHZ_VLP_CLIENT'; did you mean 'IEEE80211_CHAN_NO_UHB_VLP_CLIENT'?
-     377 |                 flags |= IEEE80211_CHAN_NO_6GHZ_VLP_CLIENT;
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                          IEEE80211_CHAN_NO_UHB_VLP_CLIENT
-   include/net/cfg80211.h:149:2: note: 'IEEE80211_CHAN_NO_UHB_VLP_CLIENT' declared here
-     149 |         IEEE80211_CHAN_NO_UHB_VLP_CLIENT= 1<<22,
-         |         ^
->> drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:379:12: error: use of undeclared identifier 'IEEE80211_CHAN_NO_6GHZ_AFC_CLIENT'; did you mean 'IEEE80211_CHAN_NO_UHB_AFC_CLIENT'?
-     379 |                 flags |= IEEE80211_CHAN_NO_6GHZ_AFC_CLIENT;
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                          IEEE80211_CHAN_NO_UHB_AFC_CLIENT
-   include/net/cfg80211.h:150:2: note: 'IEEE80211_CHAN_NO_UHB_AFC_CLIENT' declared here
-     150 |         IEEE80211_CHAN_NO_UHB_AFC_CLIENT= 1<<23,
-         |         ^
->> drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1665:13: error: use of undeclared identifier 'NL80211_RRF_NO_6GHZ_VLP_CLIENT'; did you mean 'NL80211_RRF_NO_UHB_VLP_CLIENT'?
-    1665 |                         flags |= NL80211_RRF_NO_6GHZ_VLP_CLIENT;
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                  NL80211_RRF_NO_UHB_VLP_CLIENT
-   include/uapi/linux/nl80211.h:4543:2: note: 'NL80211_RRF_NO_UHB_VLP_CLIENT' declared here
-    4543 |         NL80211_RRF_NO_UHB_VLP_CLIENT   = 1<<22,
-         |         ^
->> drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1668:13: error: use of undeclared identifier 'NL80211_RRF_NO_6GHZ_AFC_CLIENT'; did you mean 'NL80211_RRF_NO_UHB_AFC_CLIENT'?
-    1668 |                         flags |= NL80211_RRF_NO_6GHZ_AFC_CLIENT;
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                  NL80211_RRF_NO_UHB_AFC_CLIENT
-   include/uapi/linux/nl80211.h:4544:2: note: 'NL80211_RRF_NO_UHB_AFC_CLIENT' declared here
-    4544 |         NL80211_RRF_NO_UHB_AFC_CLIENT   = 1<<23,
-         |         ^
-   4 errors generated.
-
-
-vim +377 drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c
-
-   334	
-   335	static u32 iwl_get_channel_flags(u8 ch_num, int ch_idx, enum nl80211_band band,
-   336					 u32 nvm_flags, const struct iwl_cfg *cfg)
-   337	{
-   338		u32 flags = IEEE80211_CHAN_NO_HT40;
-   339	
-   340		if (band == NL80211_BAND_2GHZ && (nvm_flags & NVM_CHANNEL_40MHZ)) {
-   341			if (ch_num <= LAST_2GHZ_HT_PLUS)
-   342				flags &= ~IEEE80211_CHAN_NO_HT40PLUS;
-   343			if (ch_num >= FIRST_2GHZ_HT_MINUS)
-   344				flags &= ~IEEE80211_CHAN_NO_HT40MINUS;
-   345		} else if (nvm_flags & NVM_CHANNEL_40MHZ) {
-   346			if ((ch_idx - NUM_2GHZ_CHANNELS) % 2 == 0)
-   347				flags &= ~IEEE80211_CHAN_NO_HT40PLUS;
-   348			else
-   349				flags &= ~IEEE80211_CHAN_NO_HT40MINUS;
-   350		}
-   351		if (!(nvm_flags & NVM_CHANNEL_80MHZ))
-   352			flags |= IEEE80211_CHAN_NO_80MHZ;
-   353		if (!(nvm_flags & NVM_CHANNEL_160MHZ))
-   354			flags |= IEEE80211_CHAN_NO_160MHZ;
-   355	
-   356		if (!(nvm_flags & NVM_CHANNEL_IBSS))
-   357			flags |= IEEE80211_CHAN_NO_IR;
-   358	
-   359		if (!(nvm_flags & NVM_CHANNEL_ACTIVE))
-   360			flags |= IEEE80211_CHAN_NO_IR;
-   361	
-   362		if (nvm_flags & NVM_CHANNEL_RADAR)
-   363			flags |= IEEE80211_CHAN_RADAR;
-   364	
-   365		if (nvm_flags & NVM_CHANNEL_INDOOR_ONLY)
-   366			flags |= IEEE80211_CHAN_INDOOR_ONLY;
-   367	
-   368		/* Set the GO concurrent flag only in case that NO_IR is set.
-   369		 * Otherwise it is meaningless
-   370		 */
-   371		if ((nvm_flags & NVM_CHANNEL_GO_CONCURRENT) &&
-   372		    (flags & IEEE80211_CHAN_NO_IR))
-   373			flags |= IEEE80211_CHAN_IR_CONCURRENT;
-   374	
-   375		/* Set the AP type for the UHB case. */
-   376		if (!(nvm_flags & NVM_CHANNEL_VLP))
- > 377			flags |= IEEE80211_CHAN_NO_6GHZ_VLP_CLIENT;
-   378		if (!(nvm_flags & NVM_CHANNEL_AFC))
- > 379			flags |= IEEE80211_CHAN_NO_6GHZ_AFC_CLIENT;
-   380	
-   381		return flags;
-   382	}
-   383	
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/soc/mediatek/mtk-socinfo.o: in function `mtk_socinfo_remove':
+>> mtk-socinfo.c:(.text+0x28): undefined reference to `soc_device_unregister'
+   aarch64-linux-ld: drivers/soc/mediatek/mtk-socinfo.o: in function `mtk_socinfo_probe':
+>> mtk-socinfo.c:(.text+0x210): undefined reference to `soc_device_register'
 
 -- 
 0-DAY CI Kernel Test Service
