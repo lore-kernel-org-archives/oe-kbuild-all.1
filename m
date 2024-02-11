@@ -1,55 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3D6627
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 00:10:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D817E81D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 00:10:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707610245; cv=none; b=rTHaAuT36EblGljn+1wMEBOLvYId2QxhirPin7vCn3i1kimitzEtq7+9KpGrucEBPGnvIMVQScYRYdKP326Im/xLwbDI9Q+QbjoT4OFYztWtXSC4cFQC5u5ZHyynZmfnA0XIvAp7DR/PfjIMwCYmtVKrkCGAc4Zw4lMLGxLxRsM=
+	t=1707610248; cv=none; b=dAZ60JwiyD5x4WlIhZ4S9v/ZPZ4XQOSUiEhV7GmFMJRrnHSXpHFlouCjIHFf5ggkXzXISeop+3uCbAOUqv/7e+GUY/CHzCxwQ4UDFXRKNUhI1Ziqr6a7D4z8uESnEpnLnmAOJEMMJDcSCp1vH46bd4q82OByjc3zKIVVyapWJiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707610245; c=relaxed/simple;
-	bh=rSA6AtzPmpa57bTwg03FIYyG0oUO16Yo7PiqQT1f6u8=;
+	s=arc-20240116; t=1707610248; c=relaxed/simple;
+	bh=HLNjpxaeBmu7+RG7o4c8/QI4zS0BrEeQtqM1svcWMcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ls9qEyxGjKOQjW09IKE+xBN1izccDVm1O2VRJkCUXU77n8eJE0mMFrNAy+X+NLgfBjv4F7G+BbgIep26ea8SQBS7pqxZRWTF8fERE1wZxsaFzxddoLi/42B01lLf3NWuS5CvHRiSj3Sm+WyEh5AldznednBAwYDYo8vLmVq4J5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OFEakbf3; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=njvGSc7BqhRegYkEjVyXg8CCr+DsbSUdCardCMP3qgsp3CBA4Nu773qyLqh7k30mW3RvhEDEaDh7wv7hQ9DXDjfMLmBYMu013fkeoGiH6tMvP9bbdTzQHLDwom9pOR2JmHhU2ERJiyQJxJDheDZNnbofcf2gKCWAay1sTy7D85k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nr//e3kF; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OFEakbf3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nr//e3kF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707610244; x=1739146244;
+  t=1707610246; x=1739146246;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rSA6AtzPmpa57bTwg03FIYyG0oUO16Yo7PiqQT1f6u8=;
-  b=OFEakbf3OL5mHkuTGyf0UFZVMNxZKEu9JDljHMYEZ7f6UExaK0KlP1qr
-   8YvNWP19NpNWd3aYrQ3C2eB5Du9cs8K4ODXHS0WATjTv5reHLqQERtQFp
-   75+QQosl1VhyHIO3LeLjqNFV3j3YtOHmAf0Q6DNAX3LJfYbWO33K8pMML
-   OB2NGKh0wdhsf/61jAfaQB7VD8bsrnNb5pawoGL8FpCrKztpmrl7Y9NuB
-   VaqRvMomsg0Zr1r0TCj6SqqhZch1QYvswGs+WlTWo7xo6GniNvbk1e6it
-   5t0/woce0PvS8I70jD3fqrLaJ+poFD/q8+fxzWM5aJ7dG9m4qmSIaOhF/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="12971860"
+  bh=HLNjpxaeBmu7+RG7o4c8/QI4zS0BrEeQtqM1svcWMcc=;
+  b=nr//e3kFG0anL+EduYSxwHdpbebGFc4/jK4Alc6c247LVHA+r7o3VCPT
+   1qikUbHnio3f1jkLtzm4p8i3ood0iV1Al8U4a0d+1ac67MIA4Iw9adrhD
+   mx4YSbaMpC8rA/jjHnJmoTG0ulupbDvgeDm2s+gXLqm/4J4dIVjieiDzg
+   tt6pzOBeFOYq5HRZbSVXIAsNskTQdIhJaKHqP+HkuBtx95wivlV3e8t+I
+   mKmskCxFIC5LUgX6lOxrMCzvNCMT1he84eYY0PPjcw25Iz7X62/AEKQ9e
+   uAQuCPQWHlC3TTTZtdmOoJuMgQbBXlR+sPB6bixizjOwz49bYUnBSt9zA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="12971861"
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="12971860"
+   d="scan'208";a="12971861"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 16:10:43 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="2554728"
+   d="scan'208";a="2554730"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 10 Feb 2024 16:10:42 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYxQd-0006CC-2D;
+	id 1rYxQd-0006CA-29;
 	Sun, 11 Feb 2024 00:10:39 +0000
-Date: Sun, 11 Feb 2024 08:10:34 +0800
+Date: Sun, 11 Feb 2024 08:10:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.8-dango 5259/5296]
- drivers/spi/spi-mt65xx.c:176: warning: Function parameter or struct member
- 'sample_sel' not described in 'mtk_spi'
-Message-ID: <202402110749.AH23Yj8T-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.10 27/70] kernel/trace/trace_osnoise.c:739:5:
+ sparse: sparse: symbol 'hook_irq_events' was not declared. Should it be
+ static?
+Message-ID: <202402110827.7RQzdcaZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,80 +60,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.8-dango
-head:   28d064b272e5ddac5987b689fefe36d6c7f524b3
-commit: 11a706df1e83d2c2de944b08f27b60c9f08af4dd [5259/5296] drivers: spi-mt65xx: Move chip_config to driver's private data
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240211/202402110749.AH23Yj8T-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402110749.AH23Yj8T-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
+head:   bd1fff5696924f04e2d09be6bdc13203aea86ba4
+commit: 23a8f0f9d326e3a4af5e8b1c10982ca7615b0497 [27/70] UPSTREAM: trace: Add a generic function to read/write u64 values from tracefs
+config: x86_64-randconfig-121-20240210 (https://download.01.org/0day-ci/archive/20240211/202402110827.7RQzdcaZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402110827.7RQzdcaZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402110749.AH23Yj8T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402110827.7RQzdcaZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/trace_osnoise.c:223:14: sparse: sparse: symbol 'interface_lock' was not declared. Should it be static?
+>> kernel/trace/trace_osnoise.c:739:5: sparse: sparse: symbol 'hook_irq_events' was not declared. Should it be static?
+>> kernel/trace/trace_osnoise.c:771:6: sparse: sparse: symbol 'unhook_irq_events' was not declared. Should it be static?
+>> kernel/trace/trace_osnoise.c:788:6: sparse: sparse: symbol 'trace_softirq_entry_callback' was not declared. Should it be static?
+>> kernel/trace/trace_osnoise.c:811:6: sparse: sparse: symbol 'trace_softirq_exit_callback' was not declared. Should it be static?
+>> kernel/trace/trace_osnoise.c:953:1: sparse: sparse: symbol 'trace_sched_switch_callback' was not declared. Should it be static?
+>> kernel/trace/trace_osnoise.c:971:5: sparse: sparse: symbol 'hook_thread_events' was not declared. Should it be static?
+>> kernel/trace/trace_osnoise.c:988:6: sparse: sparse: symbol 'unhook_thread_events' was not declared. Should it be static?
+>> kernel/trace/trace_osnoise.c:1000:6: sparse: sparse: symbol 'save_osn_sample_stats' was not declared. Should it be static?
+>> kernel/trace/trace_osnoise.c:1015:6: sparse: sparse: symbol 'diff_osn_sample_stats' was not declared. Should it be static?
+   kernel/trace/trace_osnoise.c:1657:5: sparse: sparse: symbol 'timerlat_min_period' was not declared. Should it be static?
+   kernel/trace/trace_osnoise.c:1658:5: sparse: sparse: symbol 'timerlat_max_period' was not declared. Should it be static?
 
->> drivers/spi/spi-mt65xx.c:176: warning: Function parameter or struct member 'sample_sel' not described in 'mtk_spi'
->> drivers/spi/spi-mt65xx.c:176: warning: Function parameter or struct member 'get_tick_dly' not described in 'mtk_spi'
+vim +/hook_irq_events +739 kernel/trace/trace_osnoise.c
 
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  732  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  733  /*
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  734   * hook_irq_events - Hook IRQ handling events
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  735   *
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  736   * This function hooks the IRQ related callbacks to the respective trace
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  737   * events.
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  738   */
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22 @739  int hook_irq_events(void)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  740  {
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  741  	int ret;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  742  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  743  	ret = register_trace_irq_handler_entry(trace_irqentry_callback, NULL);
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  744  	if (ret)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  745  		goto out_err;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  746  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  747  	ret = register_trace_irq_handler_exit(trace_irqexit_callback, NULL);
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  748  	if (ret)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  749  		goto out_unregister_entry;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  750  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  751  	ret = osnoise_arch_register();
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  752  	if (ret)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  753  		goto out_irq_exit;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  754  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  755  	return 0;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  756  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  757  out_irq_exit:
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  758  	unregister_trace_irq_handler_exit(trace_irqexit_callback, NULL);
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  759  out_unregister_entry:
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  760  	unregister_trace_irq_handler_entry(trace_irqentry_callback, NULL);
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  761  out_err:
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  762  	return -EINVAL;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  763  }
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  764  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  765  /*
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  766   * unhook_irq_events - Unhook IRQ handling events
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  767   *
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  768   * This function unhooks the IRQ related callbacks to the respective trace
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  769   * events.
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  770   */
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22 @771  void unhook_irq_events(void)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  772  {
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  773  	osnoise_arch_unregister();
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  774  	unregister_trace_irq_handler_exit(trace_irqexit_callback, NULL);
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  775  	unregister_trace_irq_handler_entry(trace_irqentry_callback, NULL);
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  776  }
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  777  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  778  #ifndef CONFIG_PREEMPT_RT
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  779  /*
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  780   * trace_softirq_entry_callback - Note the starting of a softirq
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  781   *
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  782   * Save the starting time of a softirq. As softirqs are non-preemptive to
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  783   * other softirqs, it is safe to use a single variable (ons_var->softirq)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  784   * to save the statistics. The arrival_time is used to report... the
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  785   * arrival time. The delta_start is used to compute the duration at the
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  786   * softirq exit handler. See cond_move_softirq_delta_start().
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  787   */
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22 @788  void trace_softirq_entry_callback(void *data, unsigned int vec_nr)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  789  {
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  790  	struct osnoise_variables *osn_var = this_cpu_osn_var();
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  791  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  792  	if (!osn_var->sampling)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  793  		return;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  794  	/*
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  795  	 * This value will be used in the report, but not to compute
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  796  	 * the execution time, so it is safe to get it unsafe.
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  797  	 */
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  798  	osn_var->softirq.arrival_time = time_get();
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  799  	set_int_safe_time(osn_var, &osn_var->softirq.delta_start);
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  800  	osn_var->softirq.count++;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  801  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  802  	local_inc(&osn_var->int_counter);
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  803  }
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  804  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  805  /*
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  806   * trace_softirq_exit_callback - Note the end of an softirq
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  807   *
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  808   * Computes the duration of the softirq noise, and trace it. Also discounts the
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  809   * interference from other sources of noise could be currently being accounted.
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  810   */
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22 @811  void trace_softirq_exit_callback(void *data, unsigned int vec_nr)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  812  {
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  813  	struct osnoise_variables *osn_var = this_cpu_osn_var();
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  814  	int duration;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  815  
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  816  	if (!osn_var->sampling)
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  817  		return;
+45b80aaf51c5a5 Daniel Bristot de Oliveira 2021-06-22  818  
 
-vim +176 drivers/spi/spi-mt65xx.c
+:::::: The code at line 739 was first introduced by commit
+:::::: 45b80aaf51c5a5cf48bd828095b1e8f7462c5905 UPSTREAM: trace: Add osnoise tracer
 
-a568231f463225 Leilk Liu                  2015-08-07  130  
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  131  /**
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  132   * struct mtk_spi - SPI driver instance
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  133   * @base:		Start address of the SPI controller registers
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  134   * @state:		SPI controller state
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  135   * @pad_num:		Number of pad_sel entries
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  136   * @pad_sel:		Groups of pins to select
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  137   * @parent_clk:		Parent of sel_clk
-cae1578847e60a Yang Yingliang             2023-08-23  138   * @sel_clk:		SPI host mux clock
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  139   * @spi_clk:		Peripheral clock
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  140   * @spi_hclk:		AHB bus clock
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  141   * @cur_transfer:	Currently processed SPI transfer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  142   * @xfer_len:		Number of bytes to transfer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  143   * @num_xfered:		Number of transferred bytes
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  144   * @tx_sgl:		TX transfer scatterlist
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  145   * @rx_sgl:		RX transfer scatterlist
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  146   * @tx_sgl_len:		Size of TX DMA transfer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  147   * @rx_sgl_len:		Size of RX DMA transfer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  148   * @dev_comp:		Device data structure
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  149   * @spi_clk_hz:		Current SPI clock in Hz
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  150   * @spimem_done:	SPI-MEM operation completion
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  151   * @use_spimem:		Enables SPI-MEM
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  152   * @dev:		Device pointer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  153   * @tx_dma:		DMA start for SPI-MEM TX
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  154   * @rx_dma:		DMA start for SPI-MEM RX
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  155   */
-a568231f463225 Leilk Liu                  2015-08-07  156  struct mtk_spi {
-a568231f463225 Leilk Liu                  2015-08-07  157  	void __iomem *base;
-a568231f463225 Leilk Liu                  2015-08-07  158  	u32 state;
-37457607ecaffe Leilk Liu                  2015-10-26  159  	int pad_num;
-37457607ecaffe Leilk Liu                  2015-10-26  160  	u32 *pad_sel;
-a740f4e684c020 Leilk Liu                  2022-03-21  161  	struct clk *parent_clk, *sel_clk, *spi_clk, *spi_hclk;
-a568231f463225 Leilk Liu                  2015-08-07  162  	struct spi_transfer *cur_transfer;
-a568231f463225 Leilk Liu                  2015-08-07  163  	u32 xfer_len;
-00bca73bfca4fb Peter Shih                 2018-09-10  164  	u32 num_xfered;
-a568231f463225 Leilk Liu                  2015-08-07  165  	struct scatterlist *tx_sgl, *rx_sgl;
-a568231f463225 Leilk Liu                  2015-08-07  166  	u32 tx_sgl_len, rx_sgl_len;
-a568231f463225 Leilk Liu                  2015-08-07  167  	const struct mtk_spi_compatible *dev_comp;
-162a31effc4182 Mason Zhang                2021-06-29  168  	u32 spi_clk_hz;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  169  	struct completion spimem_done;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  170  	bool use_spimem;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  171  	struct device *dev;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  172  	dma_addr_t tx_dma;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  173  	dma_addr_t rx_dma;
-11a706df1e83d2 SkyLake.Huang              2022-06-23  174  	u32 sample_sel;
-11a706df1e83d2 SkyLake.Huang              2022-06-23  175  	u32 get_tick_dly;
-a568231f463225 Leilk Liu                  2015-08-07 @176  };
-a568231f463225 Leilk Liu                  2015-08-07  177  
-
-:::::: The code at line 176 was first introduced by commit
-:::::: a568231f463225eb31593f71446a267a03ae0528 spi: mediatek: Add spi bus for Mediatek MT8173
-
-:::::: TO: Leilk Liu <leilk.liu@mediatek.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Daniel Bristot de Oliveira <bristot@redhat.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
