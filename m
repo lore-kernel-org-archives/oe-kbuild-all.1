@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6844F45018
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 08:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAD3168B7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 08:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707638936; cv=none; b=kzrgN11+vjAy9JNkwFepBgAT/cTGwYuv/XtgRboX/gfDlJ/HxOFJMbK+wIyYNjYLr9cw1Trt6YPoESklB7UXyukFcCgBBWHbY/2AcZ9JpIOtYjklwOUHQQXu6Ti0UysZa3MrjVAG7QXmcj4jpHUMjSOqJc5FO2CsakR1+LdM7Mk=
+	t=1707640859; cv=none; b=DHa3YgpJJMIoGDLLK017v0SBkgQ5EqjzXiNGqkZxNgiAiE+9PHEuVUan8LY25l9GBqS9XG/NaBBY30DDXW3hMTfaZqiihE4Xn8KkfYgKbECyk01fWY1NYaTmh1MuA9fxFZW5+ulkDr2qrAjIW3cKzqCGJrtWb9k25Ck0TYojECo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707638936; c=relaxed/simple;
-	bh=pPWgKVKKptmCIhSd4ZfguHgdjLQ8JHKnGjZvYDcN0sA=;
+	s=arc-20240116; t=1707640859; c=relaxed/simple;
+	bh=DOZoQMVJudY5xOMVrMgK/IsAxz6Av8w9q2VvGcpD2KI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BUxYcukrHNwMcgf4QGhwK20Xv/jYzhyvvOgt0RJdBPOo9f4BWj3XyQRz36uoFpqWxpigAjwKTPFQUIFA6KJ+buuXvdeM4R0260tRzIWnBdAwOQsg/pggMWvD1X+fLW4sne3eCk6qpW9OVFX3wgFZzmpcZtS0OwbACXn0t/ntEPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NgyfxCbE; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=cD3uqPHyhbcMxXy/zK99+z3MCblO/QK3/iz1l2Pw+cA1lxxEVj1xW9tv5MVVLq0GWzS4wePtKAHtH7axBOWCJakzPTvQUqi783Ix/MZ17HfxO67Z+3x97Ux6kGTVqtdfJWHNMn7ZldHVPIC3WG4rBjEhTb0SQb4pP9j7TASzUpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bMSQm0j5; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NgyfxCbE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bMSQm0j5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707638933; x=1739174933;
+  t=1707640857; x=1739176857;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pPWgKVKKptmCIhSd4ZfguHgdjLQ8JHKnGjZvYDcN0sA=;
-  b=NgyfxCbEk5a7QD4mZl4OS50/t/fJGCYX2o/LJBjM5LyNZvEKFqu0HqCw
-   iY9BffFquP5HVpjewrobl/787ss2RM+y+ESY7itmbNBl3obwHKTPdc2l3
-   3Q78SU4b1TevR4hAbz0gtzO5gSdnX3eGQY+TNm6ViJDeDsB/l3mYGIDMI
-   SMSBgDrqdc0AtFMifl8vms1o5i1RSch7ZxWnB01HF7dmePllHojgXcIW5
-   dtS2FXtQ5LxV3Wyfzw2C+UkFXwwlZxubWJpJJ5Lh7hN+JixXYrXyG8OPg
-   +JamyXfCLgJ18qX1qUzZxQx+2wtHvHRYm84W7VYmbAL67Wv9bjeZaBNuE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="1739895"
+  bh=DOZoQMVJudY5xOMVrMgK/IsAxz6Av8w9q2VvGcpD2KI=;
+  b=bMSQm0j59gF7Op8yPiwlTH+Gnb54/L76LltEa/1d8qmtRQJYPwNzCkqh
+   AzWgINWmu/Wk3t4nbFgAVVF8pDUJBuUb4LaTFd+fPi8IgRlIqzpYis4tb
+   3BGmbvp2i0ryesCV9aY0DgE9f2f3OnnwsykFPhx/AkmjXebY8PyMsePT8
+   YXJSNcPTlEwne1HcNSjlcdwXd/suXjfIUpR/eC/ETtqMXT6w7aDg9Mb8D
+   SxIy+fUaM3fc2Za//C2rcl/lDVaAHWW1xjk6QyGGcjn4Bff/71T6O2tNP
+   x7IOYh89eYV762aDABqR1aPjL5fJN4ltvmbuGYT3oNb1r4Eu7Mw8NIl11
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="1764021"
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="1739895"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 00:08:52 -0800
+   d="scan'208";a="1764021"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 00:40:56 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="2668606"
+   d="scan'208";a="6968075"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Feb 2024 00:08:51 -0800
+  by orviesa003.jf.intel.com with ESMTP; 11 Feb 2024 00:40:54 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZ4tN-0006RU-08;
-	Sun, 11 Feb 2024 08:08:49 +0000
-Date: Sun, 11 Feb 2024 16:07:57 +0800
+	id 1rZ5ON-0006Ss-2W;
+	Sun, 11 Feb 2024 08:40:51 +0000
+Date: Sun, 11 Feb 2024 16:40:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.8-dango 5266/5296]
- drivers/nvmem/layouts/adtran.c:113:20: error: incompatible function pointer
- types assigning to 'int (*)(struct nvmem_layout *)' from 'int (struct device
- *, struct nvmem_device *)'
-Message-ID: <202402111609.fsC8xWzY-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: [rafael-pm:bleeding-edge 74/80]
+ drivers/thermal/thermal_core.c:1230:13: warning: the comparison will always
+ evaluate as 'true' for the address of 'trips' will never be NULL
+Message-ID: <202402111655.cJxMGZeM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,36 +61,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.8-dango
-head:   28d064b272e5ddac5987b689fefe36d6c7f524b3
-commit: 06790a84c9d33ab94a5ef622a661b05ca75e259f [5266/5296] nvmem: add layout for Adtran devices
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240211/202402111609.fsC8xWzY-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402111609.fsC8xWzY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   1cc7a914a31bd41feb404b644539a007f99b4f00
+commit: 888085f258b2e617bfc4548a9907b09f935efcbb [74/80] thermal: core: Store zone trips table in struct thermal_zone_device
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240211/202402111655.cJxMGZeM-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402111655.cJxMGZeM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402111609.fsC8xWzY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402111655.cJxMGZeM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/nvmem/layouts/adtran.c:113:20: error: incompatible function pointer types assigning to 'int (*)(struct nvmem_layout *)' from 'int (struct device *, struct nvmem_device *)' [-Wincompatible-function-pointer-types]
-     113 |         layout->add_cells = adtran_add_cells;
-         |                           ^ ~~~~~~~~~~~~~~~~
-   1 error generated.
+   drivers/thermal/thermal_core.c: In function 'thermal_zone_get_crit_temp':
+>> drivers/thermal/thermal_core.c:1230:13: warning: the comparison will always evaluate as 'true' for the address of 'trips' will never be NULL [-Waddress]
+    1230 |         if (!tz->trips)
+         |             ^
+   In file included from drivers/thermal/thermal_core.c:18:
+   include/linux/thermal.h:205:29: note: 'trips' declared here
+     205 |         struct thermal_trip trips[] __counted_by(num_trips);
+         |                             ^~~~~
+--
+   drivers/thermal/thermal_trip.c: In function '__thermal_zone_get_trip':
+>> drivers/thermal/thermal_trip.c:125:20: warning: the comparison will always evaluate as 'true' for the address of 'trips' will never be NULL [-Waddress]
+     125 |         if (!tz || !tz->trips || trip_id < 0 || trip_id >= tz->num_trips || !trip)
+         |                    ^
+   In file included from drivers/thermal/thermal_core.h:13,
+                    from drivers/thermal/thermal_trip.c:10:
+   include/linux/thermal.h:205:29: note: 'trips' declared here
+     205 |         struct thermal_trip trips[] __counted_by(num_trips);
+         |                             ^~~~~
 
 
-vim +113 drivers/nvmem/layouts/adtran.c
+vim +1230 drivers/thermal/thermal_core.c
 
-   110	
-   111	static int adtran_probe(struct nvmem_layout *layout)
-   112	{
- > 113		layout->add_cells = adtran_add_cells;
-   114	
-   115		return nvmem_layout_register(layout);
-   116	}
-   117	
+e5f2cda61d068e Daniel Lezcano 2022-07-22  1222  
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1223  int thermal_zone_get_crit_temp(struct thermal_zone_device *tz, int *temp)
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1224  {
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1225  	int i, ret = -EINVAL;
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1226  
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1227  	if (tz->ops->get_crit_temp)
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1228  		return tz->ops->get_crit_temp(tz, temp);
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1229  
+7c3d5c20dc169e Daniel Lezcano 2022-10-03 @1230  	if (!tz->trips)
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1231  		return -EINVAL;
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1232  
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1233  	mutex_lock(&tz->lock);
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1234  
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1235  	for (i = 0; i < tz->num_trips; i++) {
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1236  		if (tz->trips[i].type == THERMAL_TRIP_CRITICAL) {
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1237  			*temp = tz->trips[i].temperature;
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1238  			ret = 0;
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1239  			break;
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1240  		}
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1241  	}
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1242  
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1243  	mutex_unlock(&tz->lock);
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1244  
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1245  	return ret;
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1246  }
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1247  EXPORT_SYMBOL_GPL(thermal_zone_get_crit_temp);
+7c3d5c20dc169e Daniel Lezcano 2022-10-03  1248  
+
+:::::: The code at line 1230 was first introduced by commit
+:::::: 7c3d5c20dc169e55064f7f38c1c56cfbc39ee5b2 thermal/core: Add a generic thermal_zone_get_trip() function
+
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Daniel Lezcano <daniel.lezcano@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
