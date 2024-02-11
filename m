@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AA11E519
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 14:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9635A4C2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 16:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707662522; cv=none; b=LtF/dP1Ht9xSKOjDw3q1dgqmyFIAsahUr3Se2S0zpLkyr6ToH910CLKSVJP8EIxVXTWGeBcy0CoL4lN+TDsiVuuoJs1NwKt9+jHhECQAF8MvodHbMuge/VZewcX5Os45RxK1PBZKiT+fzKsPTIOFHvVu8hxDS3FUwOm7bzBWP7E=
+	t=1707670507; cv=none; b=B3Wtbp+2C2+//kGqVaPYBqAFpiQmNUM8egGDiy/VHAlTLyY6AfnaX2JLCBZgTGUN7c0+plbLzniI9w7lxE2zLxYnWyqXkUZ6So9Ch/rmPZPEksoh1CQ/GFeEKwUo8NnazFFRqnc3ykTw7sL1eYZPP/+uS5yrUzwDUXrHVJHkc2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707662522; c=relaxed/simple;
-	bh=qz/wr7U8OpfCyQuL/j6prxWgMX+97A8stc56eEcOhGM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lnnoQjJ803TLDELuN3FVmO2gfxEdKETkiwc9ErjnfBn7Oeee3XDhMC0E7Y/oMaIPwnqu53QlsYywfrJ2hEO6wen+k9i1rBhHx7R045xhiFkVoEVYE4GZ1IM00TdPOom+zHZvCKM4ED/LN8FUhr5DpK9n1k2F/1ITPsJ3fLS0CfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fVnQC1Dr; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1707670507; c=relaxed/simple;
+	bh=IlT0PE1+gzAIEgJBXEZNWl6K0AeSvuJjkOi8ljZAQ14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yyvoom73ItPha6gaR+npd+ECaf/5WA7IQv7SlH8LToK6dhHirTPjeevzIEYLH5zzYN58jNbPjGJI0JT/yRLqjmBVNd298nGSqEFBz/eXbEw69crqGTjTMWIT2pZWkWeE+U620XGjueP3MAdZl4Z+fdX/5yD7FvR7GyW9NgfPWkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C9tN2k5l; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fVnQC1Dr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C9tN2k5l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707662520; x=1739198520;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qz/wr7U8OpfCyQuL/j6prxWgMX+97A8stc56eEcOhGM=;
-  b=fVnQC1Dr169hBX05mqZgwWjWCZSjQOKxfmZkEEJoLON3gK2Qo3uT6XnN
-   uP7sTosN1uCKGVmoBbVw6JjqyZ23Ng2zgmtm2s+nClGtMPDaGwTULNMmt
-   VGST1sdMfkKmZegqy6BWdL+qj5wt6LF+ffm/5zmB2FFa0w2KQFFH+w5+P
-   OC5kYQQnKf9k3cp2ecYK3epo5NkRr+b5pjaI+PFtqtryeX75Yugczu+9T
-   cq3X1FCBU1u4vEZ3C145T5ODERJ/Hpb47nL/o+3xoXx2+l463bFc0gAnV
-   5rFKVUO7c74n4YNc+gf87RtE2h2BaYg/NDBE5kaIAmnxNG09G9koRjslr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="1512167"
+  t=1707670504; x=1739206504;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IlT0PE1+gzAIEgJBXEZNWl6K0AeSvuJjkOi8ljZAQ14=;
+  b=C9tN2k5lFMLJ+9Dbm/vQsSz/uBOXe3eITJ7dK7sfEl79ODci4rqocROa
+   XSnX5Udf1OyFjpUWHUTByERtTyw4DdVMqulsv5rThIJQJeOcGG6T9IT0Q
+   W8YdnpRrxVUGzyyYa0k2RSa8ELDW1MZt6khWYs7EuJJwOBJTEGIlD+m37
+   DP5sMGlEu4/M8d1DyjtR3scMA3aCMn4XK9cMVz5ZmUX3QDJy8HL/t3k+0
+   URCOf0MPPaQoVxz/fFAjmdriuK1Xw9b8YeDz9o7/y2ACXSTfQdP7HDpG1
+   v8D3X1zGHRZMrA8ujSDV5n564e57NAWm3cAhmUTLhEO/3DQa+wORyDqYp
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="4611767"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="1512167"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 06:42:00 -0800
+   d="scan'208";a="4611767"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 08:55:03 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="2344927"
+   d="scan'208";a="7149548"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Feb 2024 06:41:58 -0800
+  by orviesa004.jf.intel.com with ESMTP; 11 Feb 2024 08:55:02 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZB1o-0006bW-2J;
-	Sun, 11 Feb 2024 14:41:56 +0000
-Date: Sun, 11 Feb 2024 22:41:52 +0800
+	id 1rZD6Z-0006gI-2N;
+	Sun, 11 Feb 2024 16:54:59 +0000
+Date: Mon, 12 Feb 2024 00:54:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: drivers/scsi/esp_scsi.c:(.text.scsi_esp_register+0x2ac): undefined
- reference to `scsi_add_host_with_dma'
-Message-ID: <202402112222.Gl0udKyU-lkp@intel.com>
+To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Max Kellermann <max.kellermann@ionos.com>
+Subject: Re: [PATCH v3 02/35] include: remove unnecessary #include directives
+Message-ID: <202402120009.8KkmWOh4-lkp@intel.com>
+References: <20240211123000.3359365-3-max.kellermann@ionos.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,68 +59,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240211123000.3359365-3-max.kellermann@ionos.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7521f258ea303c827434c101884b62a2b137a942
-commit: 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
-date:   1 year, 9 months ago
-config: mips-randconfig-r005-20220616 (https://download.01.org/0day-ci/archive/20240211/202402112222.Gl0udKyU-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402112222.Gl0udKyU-lkp@intel.com/reproduce)
+Hi Max,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240209]
+[cannot apply to drm-misc/drm-misc-next media-tree/master mkp-scsi/for-next linus/master v6.8-rc3 v6.8-rc2 v6.8-rc1 v6.8-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-add-missing-includes/20240211-204508
+base:   next-20240209
+patch link:    https://lore.kernel.org/r/20240211123000.3359365-3-max.kellermann%40ionos.com
+patch subject: [PATCH v3 02/35] include: remove unnecessary #include directives
+config: parisc-randconfig-002-20240211 (https://download.01.org/0day-ci/archive/20240212/202402120009.8KkmWOh4-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402120009.8KkmWOh4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402112222.Gl0udKyU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402120009.8KkmWOh4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_setsync':
-   drivers/scsi/esp_scsi.c:(.text.esp_setsync+0x198): undefined reference to `spi_display_xfer_agreement'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_msgin_extended':
-   drivers/scsi/esp_scsi.c:(.text.esp_msgin_extended+0x120): undefined reference to `spi_populate_sync_msg'
-   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_msgin_extended+0x2f4): undefined reference to `spi_populate_sync_msg'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `scsi_esp_register':
->> drivers/scsi/esp_scsi.c:(.text.scsi_esp_register+0x2ac): undefined reference to `scsi_add_host_with_dma'
->> mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.scsi_esp_register+0x2d0): undefined reference to `scsi_scan_host'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `scsi_esp_unregister':
->> drivers/scsi/esp_scsi.c:(.text.scsi_esp_unregister+0x2c): undefined reference to `scsi_remove_host'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `dev_to_shost':
-   drivers/scsi/esp_scsi.c:(.text.dev_to_shost+0x18): undefined reference to `scsi_is_host_device'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_slave_configure':
-   drivers/scsi/esp_scsi.c:(.text.esp_slave_configure+0x4c): undefined reference to `scsi_change_queue_depth'
-   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_slave_configure+0x90): undefined reference to `spi_dv_device'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_init':
-   drivers/scsi/esp_scsi.c:(.init.text+0x24): undefined reference to `spi_attach_transport'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_data_bytes_sent':
-   drivers/scsi/esp_scsi.c:(.text.esp_data_bytes_sent+0x284): undefined reference to `scsi_kmap_atomic_sg'
-   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_data_bytes_sent+0x2a8): undefined reference to `scsi_kunmap_atomic_sg'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_unmap_dma.isra.0':
-   drivers/scsi/esp_scsi.c:(.text.esp_unmap_dma.isra.0+0x3c): undefined reference to `scsi_dma_unmap'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_reset_cleanup':
-   drivers/scsi/esp_scsi.c:(.text.esp_reset_cleanup+0xe8): undefined reference to `__starget_for_each_device'
-   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_reset_cleanup+0x158): undefined reference to `scsi_done'
-   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_reset_cleanup+0x1ec): undefined reference to `scsi_done'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_eh_abort_handler':
-   drivers/scsi/esp_scsi.c:(.text.esp_eh_abort_handler+0x190): undefined reference to `scsi_done'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_reconnect':
-   drivers/scsi/esp_scsi.c:(.text.esp_reconnect+0xe4): undefined reference to `__scsi_device_lookup_by_target'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_msgin_process':
-   drivers/scsi/esp_scsi.c:(.text.esp_msgin_process+0x290): undefined reference to `spi_populate_sync_msg'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_maybe_execute_command.part.0':
-   drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0xd4): undefined reference to `spi_populate_tag_msg'
-   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0x638): undefined reference to `scsi_dma_map'
-   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0x6c4): undefined reference to `spi_populate_width_msg'
-   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0x728): undefined reference to `spi_populate_sync_msg'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_cmd_is_done':
-   drivers/scsi/esp_scsi.c:(.text.esp_cmd_is_done+0x178): undefined reference to `scsi_done'
-   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_process_event':
-   drivers/scsi/esp_scsi.c:(.text.esp_process_event+0x884): undefined reference to `scsi_track_queue_full'
-   mips64-linux-ld: drivers/scsi/jazz_esp.o: in function `esp_jazz_probe':
-   drivers/scsi/jazz_esp.c:(.text.esp_jazz_probe+0x34): undefined reference to `scsi_host_alloc'
-   mips64-linux-ld: drivers/scsi/jazz_esp.c:(.text.esp_jazz_probe+0x94): undefined reference to `scsi_host_put'
-   mips64-linux-ld: drivers/scsi/jazz_esp.o: in function `esp_jazz_remove':
-   drivers/scsi/jazz_esp.c:(.text.esp_jazz_remove+0x5c): undefined reference to `scsi_host_put'
+>> kernel/debug/debug_core.c:169:1: warning: data definition has no type or storage class
+     169 | NOKPROBE_SYMBOL(kgdb_arch_set_breakpoint);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:169:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+>> kernel/debug/debug_core.c:169:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:176:1: warning: data definition has no type or storage class
+     176 | NOKPROBE_SYMBOL(kgdb_arch_remove_breakpoint);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:176:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:176:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:206:1: warning: data definition has no type or storage class
+     206 | NOKPROBE_SYMBOL(kgdb_arch_pc);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:206:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:206:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:217:1: warning: data definition has no type or storage class
+     217 | NOKPROBE_SYMBOL(kgdb_skipexception);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:217:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:217:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:289:1: warning: data definition has no type or storage class
+     289 | NOKPROBE_SYMBOL(kgdb_flush_swbreak_addr);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:289:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:289:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:317:1: warning: data definition has no type or storage class
+     317 | NOKPROBE_SYMBOL(dbg_activate_sw_breakpoints);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:317:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:317:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:381:1: warning: data definition has no type or storage class
+     381 | NOKPROBE_SYMBOL(dbg_deactivate_sw_breakpoints);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:381:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:381:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:514:1: warning: data definition has no type or storage class
+     514 | NOKPROBE_SYMBOL(kgdb_io_ready);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:514:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:514:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:562:1: warning: data definition has no type or storage class
+     562 | NOKPROBE_SYMBOL(kgdb_reenter_check);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:562:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:562:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:570:1: warning: data definition has no type or storage class
+     570 | NOKPROBE_SYMBOL(dbg_touch_watchdogs);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:570:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:570:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:827:1: warning: data definition has no type or storage class
+     827 | NOKPROBE_SYMBOL(kgdb_cpu_enter);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:827:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:827:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:872:1: warning: data definition has no type or storage class
+     872 | NOKPROBE_SYMBOL(kgdb_handle_exception);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:872:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:872:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:907:1: warning: data definition has no type or storage class
+     907 | NOKPROBE_SYMBOL(kgdb_nmicallback);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:907:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:907:1: warning: parameter names (without types) in function declaration
+   kernel/debug/debug_core.c:933:1: warning: data definition has no type or storage class
+     933 | NOKPROBE_SYMBOL(kgdb_nmicallin);
+         | ^~~~~~~~~~~~~~~
+   kernel/debug/debug_core.c:933:1: error: type defaults to 'int' in declaration of 'NOKPROBE_SYMBOL' [-Werror=implicit-int]
+   kernel/debug/debug_core.c:933:1: warning: parameter names (without types) in function declaration
+   cc1: some warnings being treated as errors
+
+
+vim +169 kernel/debug/debug_core.c
+
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  148  
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  149  /*
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  150   * Finally, some KGDB code :-)
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  151   */
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  152  
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  153  /*
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  154   * Weak aliases for breakpoint management,
+e16c33e290792c kernel/debug/debug_core.c Youling Tang      2020-08-07  155   * can be overridden by architectures when needed:
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  156   */
+98b54aa1a2241b kernel/debug/debug_core.c Jason Wessel      2012-03-21  157  int __weak kgdb_arch_set_breakpoint(struct kgdb_bkpt *bpt)
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  158  {
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  159  	int err;
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  160  
+fe557319aa06c2 kernel/debug/debug_core.c Christoph Hellwig 2020-06-17  161  	err = copy_from_kernel_nofault(bpt->saved_instr, (char *)bpt->bpt_addr,
+98b54aa1a2241b kernel/debug/debug_core.c Jason Wessel      2012-03-21  162  				BREAK_INSTR_SIZE);
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  163  	if (err)
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  164  		return err;
+fe557319aa06c2 kernel/debug/debug_core.c Christoph Hellwig 2020-06-17  165  	err = copy_to_kernel_nofault((char *)bpt->bpt_addr,
+98b54aa1a2241b kernel/debug/debug_core.c Jason Wessel      2012-03-21  166  				 arch_kgdb_ops.gdb_bpt_instr, BREAK_INSTR_SIZE);
+98b54aa1a2241b kernel/debug/debug_core.c Jason Wessel      2012-03-21  167  	return err;
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  168  }
+4c4197eda710d1 kernel/debug/debug_core.c Daniel Thompson   2020-09-27 @169  NOKPROBE_SYMBOL(kgdb_arch_set_breakpoint);
+dc7d552705215a kernel/kgdb.c             Jason Wessel      2008-04-17  170  
 
 -- 
 0-DAY CI Kernel Test Service
