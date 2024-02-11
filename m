@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9195C613;
-	Sun, 11 Feb 2024 17:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991085EE82
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 17:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707671826; cv=none; b=tfkK6TZJtiIWU7ovr5IYWFeU81+YW746Lve2x7h8zisdcXqJITdFCHhY+xHVkW6bC3R5YjxCdAv7HuTrBTuHTY9jcwlFg9hNy6nLo7aMwZCONoRhVNhi/nLQD66xnF6j/N0ZHiJVlSXE/O6FCCrURksIduHqIDM1l1sc0YAcBLw=
+	t=1707673688; cv=none; b=W8uXoLrvnEbEp1jYimvA7tB4l+DzYTqMtWyy5n/Q5y/JChFYNdqQlqlblEo9Y51zJMeFmUYdJpe2koTj9erVV+FXe5uDhLHec6IEVVEAdidQH9Q3mQpFu8UmKgnYzL6oXMZbl2o4lkjUf5SKeEKC4FM/RsB8rEDivLgZdK6fs3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707671826; c=relaxed/simple;
-	bh=RLdQ20m3STopFisb1+bwMISsfKLUG83g3BUFt2Xbrvs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MMS0ALzxYlNkdeCC25EeAXRpqms2iMbouLtTIRzuDcCaaGEuCs2rrUHB0xLa6Z/sF6tnCL+3jSjJIMun+tgUnTCZbNLDhvv5LVPJ+L3+pmZmGg9+nYXEfnmPYX/4v2GOXNKoPQMH0tD1swd6biCHcK+Xbi+c78bXz3BQ/EPHw+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EnMdUuYp; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1707673688; c=relaxed/simple;
+	bh=aPZ+Ipa2bKs3A7lckKvmYLBAc2RIHXl+5zTtqnbRbF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lluSNjcIClBd4ysNG/2AAmYNl13DWk/Aooe3o/LhV5pErRM5Y++TM9cRmGst7101M3NDQBEvNqJerWAJ3v+jC5iaYQ2hZNwqUhYDzIVJmPzDEFI59mvWBD2+lmB+/AOagXt4EfjrIh2uYHGQzPLSu8zUux1xAkALOa+fcpuhsLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+hJdgmW; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EnMdUuYp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+hJdgmW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707671825; x=1739207825;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RLdQ20m3STopFisb1+bwMISsfKLUG83g3BUFt2Xbrvs=;
-  b=EnMdUuYplsSf2EZpfUAcmKiLSu5s1sDTXZJk88+9bLvGjljS/IvO9rVf
-   RGEWJPGAn0P0y5f79Hrc4Eo+sknNiieW109qlDrtJ/jtbHBz+nf4ZVVC4
-   TrJJLodps2tnoaf51BiKGUW1VoN2XUigbBcMcMUV8XKa7C7QCf10D7zBd
-   x8mYfyBrOpsNHDxSahMqOBzT3+ziPkx8c0PHBkY9MBxNXFcl+XuFb9BfD
-   fzn9W/8MLSwBBagqdzeM7CAhLUA9PPCnF1rYSSeIRaeT3Y82A4hdfqWdX
-   jWjno6+kfDg1LfIGsFSg/jy+OJdjZmAw4pmWvrOPYc4cqPld02HHfBlF+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="5482998"
+  t=1707673686; x=1739209686;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aPZ+Ipa2bKs3A7lckKvmYLBAc2RIHXl+5zTtqnbRbF8=;
+  b=A+hJdgmWT5+HZK8e2Gvc8eD/4gEmBwoET+6mvRPcdzSEQnTzZfkr/Xza
+   OUDDAVYJtHcAen3T4/JnAttZ5t4d6YAXaslKq/k5oPTsCYtRhZaYXQBX5
+   EXTEglZtv4hMUGEFX+b5IQ4Fc70SOcVr7qx+y85nEwz87+cQPX7qTKFte
+   KwD70mFFRg57ICUL3+SFCB7tMt0+U6jr6utiRWDIS2xqg8zIRQPtZMg4g
+   8TlV82wrBsGk+Q+95ySv4QVQHSOWEpMiRWpd5N+lUfkTvzfR8qB7AekCQ
+   m3WJC2YSf6jbD/Ubjafm3MSU2pc/Evda02qxG39+fiJDiKhZzey9zjzrs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="19147009"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="5482998"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 09:17:04 -0800
+   d="scan'208";a="19147009"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 09:48:05 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="825619722"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="2735903"
+   d="scan'208";a="825619722"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Feb 2024 09:17:02 -0800
+  by orsmga001.jf.intel.com with ESMTP; 11 Feb 2024 09:48:03 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZDRs-0006go-0f;
-	Sun, 11 Feb 2024 17:17:00 +0000
-Date: Mon, 12 Feb 2024 01:16:00 +0800
+	id 1rZDvs-0006ha-2V;
+	Sun, 11 Feb 2024 17:48:00 +0000
+Date: Mon, 12 Feb 2024 01:47:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Max Kellermann <max.kellermann@ionos.com>
-Subject: Re: [PATCH v3 35/35] include: remove lots of unnecessary
- <linux/kernel.h> includes
-Message-ID: <202402120114.eFm7I6hz-lkp@intel.com>
-References: <20240211123000.3359365-36-max.kellermann@ionos.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.2.x-imx 1173/17898]
+ drivers/gpu/imx/dpu/dpu-prv.h:365:27: warning: 'sig_ids' defined but not
+ used
+Message-ID: <202402120142.a2KbdeAj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,65 +59,355 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240211123000.3359365-36-max.kellermann@ionos.com>
 
-Hi Max,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20240209]
-[cannot apply to drm-misc/drm-misc-next media-tree/master mkp-scsi/for-next linus/master v6.8-rc3 v6.8-rc2 v6.8-rc1 v6.8-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-add-missing-includes/20240211-204508
-base:   next-20240209
-patch link:    https://lore.kernel.org/r/20240211123000.3359365-36-max.kellermann%40ionos.com
-patch subject: [PATCH v3 35/35] include: remove lots of unnecessary <linux/kernel.h> includes
-config: arm64-randconfig-001-20240211 (https://download.01.org/0day-ci/archive/20240212/202402120114.eFm7I6hz-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402120114.eFm7I6hz-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   4e3fc5471376a15279ee5c99e791a7c7b065cbc1
+commit: 1b15335072f1a39e1f282769d3793fd220913532 [1173/17898] MLK-21509-1 gpu: imx: dpu: common: Add signature unit support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240212/202402120142.a2KbdeAj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402120142.a2KbdeAj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402120114.eFm7I6hz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402120142.a2KbdeAj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/seccomp.c:1034:2: error: call to undeclared function 'do_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           do_exit(SIGKILL);
-           ^
-   kernel/seccomp.c:1359:3: error: call to undeclared function 'do_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   do_exit(SIGKILL);
-                   ^
-   2 errors generated.
+   In file included from drivers/gpu/imx/dpu/dpu-constframe.c:22:
+   drivers/gpu/imx/dpu/dpu-prv.h:380:38: warning: 'dpu_pixel_format_matrix' defined but not used [-Wunused-const-variable=]
+     380 | static const struct dpu_pixel_format dpu_pixel_format_matrix[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:372:27: warning: 'fw_dprc_ids' defined but not used [-Wunused-const-variable=]
+     372 | static const unsigned int fw_dprc_ids[] = {5};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:371:27: warning: 'fl_dprc_ids' defined but not used [-Wunused-const-variable=]
+     371 | static const unsigned int fl_dprc_ids[] = {2};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:370:27: warning: 'fd_dprc_ids' defined but not used [-Wunused-const-variable=]
+     370 | static const unsigned int fd_dprc_ids[] = {3, 4};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:368:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
+     368 | static const unsigned int vs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:367:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
+     367 | static const unsigned int tcon_ids[] = {0, 1};
+         |                           ^~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:366:27: warning: 'st_ids' defined but not used [-Wunused-const-variable=]
+     366 | static const unsigned int st_ids[] = {9};
+         |                           ^~~~~~
+>> drivers/gpu/imx/dpu/dpu-prv.h:365:27: warning: 'sig_ids' defined but not used [-Wunused-const-variable=]
+     365 | static const unsigned int sig_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:364:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
+     364 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:363:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
+     363 | static const unsigned int hs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:362:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
+     362 | static const unsigned int fw_ids[] = {2};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:361:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
+     361 | static const unsigned int fl_ids[] = {0};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:360:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
+     360 | static const unsigned int fg_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:359:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
+     359 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:358:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
+     358 | static const unsigned int fd_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:357:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
+     357 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:356:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
+     356 | static const unsigned int dec_ids[] = {0, 1};
+         |                           ^~~~~~~
+--
+   In file included from drivers/gpu/imx/dpu/dpu-disengcfg.c:21:
+   drivers/gpu/imx/dpu/dpu-prv.h:380:38: warning: 'dpu_pixel_format_matrix' defined but not used [-Wunused-const-variable=]
+     380 | static const struct dpu_pixel_format dpu_pixel_format_matrix[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:372:27: warning: 'fw_dprc_ids' defined but not used [-Wunused-const-variable=]
+     372 | static const unsigned int fw_dprc_ids[] = {5};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:371:27: warning: 'fl_dprc_ids' defined but not used [-Wunused-const-variable=]
+     371 | static const unsigned int fl_dprc_ids[] = {2};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:370:27: warning: 'fd_dprc_ids' defined but not used [-Wunused-const-variable=]
+     370 | static const unsigned int fd_dprc_ids[] = {3, 4};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:368:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
+     368 | static const unsigned int vs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:367:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
+     367 | static const unsigned int tcon_ids[] = {0, 1};
+         |                           ^~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:366:27: warning: 'st_ids' defined but not used [-Wunused-const-variable=]
+     366 | static const unsigned int st_ids[] = {9};
+         |                           ^~~~~~
+>> drivers/gpu/imx/dpu/dpu-prv.h:365:27: warning: 'sig_ids' defined but not used [-Wunused-const-variable=]
+     365 | static const unsigned int sig_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:364:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
+     364 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:363:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
+     363 | static const unsigned int hs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:362:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
+     362 | static const unsigned int fw_ids[] = {2};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:361:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
+     361 | static const unsigned int fl_ids[] = {0};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:360:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
+     360 | static const unsigned int fg_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:359:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
+     359 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:358:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
+     358 | static const unsigned int fd_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:355:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
+     355 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
+         |                           ^~~~~~
+--
+   In file included from drivers/gpu/imx/dpu/dpu-extdst.c:22:
+   drivers/gpu/imx/dpu/dpu-prv.h:380:38: warning: 'dpu_pixel_format_matrix' defined but not used [-Wunused-const-variable=]
+     380 | static const struct dpu_pixel_format dpu_pixel_format_matrix[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:372:27: warning: 'fw_dprc_ids' defined but not used [-Wunused-const-variable=]
+     372 | static const unsigned int fw_dprc_ids[] = {5};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:371:27: warning: 'fl_dprc_ids' defined but not used [-Wunused-const-variable=]
+     371 | static const unsigned int fl_dprc_ids[] = {2};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:370:27: warning: 'fd_dprc_ids' defined but not used [-Wunused-const-variable=]
+     370 | static const unsigned int fd_dprc_ids[] = {3, 4};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:368:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
+     368 | static const unsigned int vs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:367:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
+     367 | static const unsigned int tcon_ids[] = {0, 1};
+         |                           ^~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:366:27: warning: 'st_ids' defined but not used [-Wunused-const-variable=]
+     366 | static const unsigned int st_ids[] = {9};
+         |                           ^~~~~~
+>> drivers/gpu/imx/dpu/dpu-prv.h:365:27: warning: 'sig_ids' defined but not used [-Wunused-const-variable=]
+     365 | static const unsigned int sig_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:364:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
+     364 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:363:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
+     363 | static const unsigned int hs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:362:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
+     362 | static const unsigned int fw_ids[] = {2};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:361:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
+     361 | static const unsigned int fl_ids[] = {0};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:360:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
+     360 | static const unsigned int fg_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:359:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
+     359 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:358:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
+     358 | static const unsigned int fd_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:356:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
+     356 | static const unsigned int dec_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:355:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
+     355 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
+         |                           ^~~~~~
+--
+   drivers/gpu/imx/dpu/dpu-fetchdecode.c: In function 'fetchdecode_set_fmt':
+   drivers/gpu/imx/dpu/dpu-fetchdecode.c:205:53: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     205 |                 is_yuv422upsamplingmode_interpolate = true;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   drivers/gpu/imx/dpu/dpu-fetchdecode.c:207:9: note: here
+     207 |         case DRM_FORMAT_NV12:
+         |         ^~~~
+   In file included from drivers/gpu/imx/dpu/dpu-fetchdecode.c:23:
+   drivers/gpu/imx/dpu/dpu-prv.h: At top level:
+   drivers/gpu/imx/dpu/dpu-prv.h:372:27: warning: 'fw_dprc_ids' defined but not used [-Wunused-const-variable=]
+     372 | static const unsigned int fw_dprc_ids[] = {5};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:371:27: warning: 'fl_dprc_ids' defined but not used [-Wunused-const-variable=]
+     371 | static const unsigned int fl_dprc_ids[] = {2};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:370:27: warning: 'fd_dprc_ids' defined but not used [-Wunused-const-variable=]
+     370 | static const unsigned int fd_dprc_ids[] = {3, 4};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:368:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
+     368 | static const unsigned int vs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:367:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
+     367 | static const unsigned int tcon_ids[] = {0, 1};
+         |                           ^~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:366:27: warning: 'st_ids' defined but not used [-Wunused-const-variable=]
+     366 | static const unsigned int st_ids[] = {9};
+         |                           ^~~~~~
+>> drivers/gpu/imx/dpu/dpu-prv.h:365:27: warning: 'sig_ids' defined but not used [-Wunused-const-variable=]
+     365 | static const unsigned int sig_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:364:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
+     364 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:363:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
+     363 | static const unsigned int hs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:362:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
+     362 | static const unsigned int fw_ids[] = {2};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:361:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
+     361 | static const unsigned int fl_ids[] = {0};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:360:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
+     360 | static const unsigned int fg_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:359:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
+     359 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:357:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
+     357 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:356:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
+     356 | static const unsigned int dec_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:355:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
+     355 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
+         |                           ^~~~~~
+--
+   In file included from drivers/gpu/imx/dpu/dpu-fetcheco.c:21:
+   drivers/gpu/imx/dpu/dpu-prv.h:372:27: warning: 'fw_dprc_ids' defined but not used [-Wunused-const-variable=]
+     372 | static const unsigned int fw_dprc_ids[] = {5};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:371:27: warning: 'fl_dprc_ids' defined but not used [-Wunused-const-variable=]
+     371 | static const unsigned int fl_dprc_ids[] = {2};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:370:27: warning: 'fd_dprc_ids' defined but not used [-Wunused-const-variable=]
+     370 | static const unsigned int fd_dprc_ids[] = {3, 4};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:368:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
+     368 | static const unsigned int vs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:367:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
+     367 | static const unsigned int tcon_ids[] = {0, 1};
+         |                           ^~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:366:27: warning: 'st_ids' defined but not used [-Wunused-const-variable=]
+     366 | static const unsigned int st_ids[] = {9};
+         |                           ^~~~~~
+>> drivers/gpu/imx/dpu/dpu-prv.h:365:27: warning: 'sig_ids' defined but not used [-Wunused-const-variable=]
+     365 | static const unsigned int sig_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:364:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
+     364 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:363:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
+     363 | static const unsigned int hs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:362:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
+     362 | static const unsigned int fw_ids[] = {2};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:361:27: warning: 'fl_ids' defined but not used [-Wunused-const-variable=]
+     361 | static const unsigned int fl_ids[] = {0};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:360:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
+     360 | static const unsigned int fg_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:358:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
+     358 | static const unsigned int fd_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:357:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
+     357 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:356:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
+     356 | static const unsigned int dec_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:355:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
+     355 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
+         |                           ^~~~~~
+--
+   In file included from drivers/gpu/imx/dpu/dpu-fetchlayer.c:22:
+   drivers/gpu/imx/dpu/dpu-prv.h:372:27: warning: 'fw_dprc_ids' defined but not used [-Wunused-const-variable=]
+     372 | static const unsigned int fw_dprc_ids[] = {5};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:371:27: warning: 'fl_dprc_ids' defined but not used [-Wunused-const-variable=]
+     371 | static const unsigned int fl_dprc_ids[] = {2};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:370:27: warning: 'fd_dprc_ids' defined but not used [-Wunused-const-variable=]
+     370 | static const unsigned int fd_dprc_ids[] = {3, 4};
+         |                           ^~~~~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:368:27: warning: 'vs_ids' defined but not used [-Wunused-const-variable=]
+     368 | static const unsigned int vs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:367:27: warning: 'tcon_ids' defined but not used [-Wunused-const-variable=]
+     367 | static const unsigned int tcon_ids[] = {0, 1};
+         |                           ^~~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:366:27: warning: 'st_ids' defined but not used [-Wunused-const-variable=]
+     366 | static const unsigned int st_ids[] = {9};
+         |                           ^~~~~~
+>> drivers/gpu/imx/dpu/dpu-prv.h:365:27: warning: 'sig_ids' defined but not used [-Wunused-const-variable=]
+     365 | static const unsigned int sig_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:364:27: warning: 'lb_ids' defined but not used [-Wunused-const-variable=]
+     364 | static const unsigned int lb_ids[] = {0, 1, 2, 3};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:363:27: warning: 'hs_ids' defined but not used [-Wunused-const-variable=]
+     363 | static const unsigned int hs_ids[] = {4, 5, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:362:27: warning: 'fw_ids' defined but not used [-Wunused-const-variable=]
+     362 | static const unsigned int fw_ids[] = {2};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:360:27: warning: 'fg_ids' defined but not used [-Wunused-const-variable=]
+     360 | static const unsigned int fg_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:359:27: warning: 'fe_ids' defined but not used [-Wunused-const-variable=]
+     359 | static const unsigned int fe_ids[] = {0, 1, 2, 9};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:358:27: warning: 'fd_ids' defined but not used [-Wunused-const-variable=]
+     358 | static const unsigned int fd_ids[] = {0, 1};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:357:27: warning: 'ed_ids' defined but not used [-Wunused-const-variable=]
+     357 | static const unsigned int ed_ids[] = {0, 1, 4, 5};
+         |                           ^~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:356:27: warning: 'dec_ids' defined but not used [-Wunused-const-variable=]
+     356 | static const unsigned int dec_ids[] = {0, 1};
+         |                           ^~~~~~~
+   drivers/gpu/imx/dpu/dpu-prv.h:355:27: warning: 'cf_ids' defined but not used [-Wunused-const-variable=]
+     355 | static const unsigned int cf_ids[] = {0, 1, 4, 5};
+         |                           ^~~~~~
+..
 
 
-vim +/do_exit +1034 kernel/seccomp.c
+vim +/sig_ids +365 drivers/gpu/imx/dpu/dpu-prv.h
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1016  
-a4412fc9486ec8 Andy Lutomirski 2014-07-21  1017  static void __secure_computing_strict(int this_syscall)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1018  {
-fe4bfff86ec547 Kees Cook       2020-06-19  1019  	const int *allowed_syscalls = mode1_syscalls;
-5b1017404aea6d Roland McGrath  2009-02-27  1020  #ifdef CONFIG_COMPAT
-5c38065e021bc7 Andy Lutomirski 2016-03-22  1021  	if (in_compat_syscall())
-fe4bfff86ec547 Kees Cook       2020-06-19  1022  		allowed_syscalls = get_compat_mode1_syscalls();
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1023  #endif
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1024  	do {
-fe4bfff86ec547 Kees Cook       2020-06-19  1025  		if (*allowed_syscalls == this_syscall)
-a4412fc9486ec8 Andy Lutomirski 2014-07-21  1026  			return;
-fe4bfff86ec547 Kees Cook       2020-06-19  1027  	} while (*++allowed_syscalls != -1);
-a4412fc9486ec8 Andy Lutomirski 2014-07-21  1028  
-a4412fc9486ec8 Andy Lutomirski 2014-07-21  1029  #ifdef SECCOMP_DEBUG
-a4412fc9486ec8 Andy Lutomirski 2014-07-21  1030  	dump_stack();
-a4412fc9486ec8 Andy Lutomirski 2014-07-21  1031  #endif
-495ac3069a6235 Kees Cook       2022-02-07  1032  	current->seccomp.mode = SECCOMP_MODE_DEAD;
-fd76875ca289a3 Kees Cook       2017-08-11  1033  	seccomp_log(this_syscall, SIGKILL, SECCOMP_RET_KILL_THREAD, true);
-a4412fc9486ec8 Andy Lutomirski 2014-07-21 @1034  	do_exit(SIGKILL);
-a4412fc9486ec8 Andy Lutomirski 2014-07-21  1035  }
-a4412fc9486ec8 Andy Lutomirski 2014-07-21  1036  
+   354	
+   355	static const unsigned int cf_ids[] = {0, 1, 4, 5};
+   356	static const unsigned int dec_ids[] = {0, 1};
+   357	static const unsigned int ed_ids[] = {0, 1, 4, 5};
+   358	static const unsigned int fd_ids[] = {0, 1};
+   359	static const unsigned int fe_ids[] = {0, 1, 2, 9};
+   360	static const unsigned int fg_ids[] = {0, 1};
+   361	static const unsigned int fl_ids[] = {0};
+   362	static const unsigned int fw_ids[] = {2};
+   363	static const unsigned int hs_ids[] = {4, 5, 9};
+   364	static const unsigned int lb_ids[] = {0, 1, 2, 3};
+ > 365	static const unsigned int sig_ids[] = {0, 1};
+   366	static const unsigned int st_ids[] = {9};
+   367	static const unsigned int tcon_ids[] = {0, 1};
+ > 368	static const unsigned int vs_ids[] = {4, 5, 9};
+   369	
 
 -- 
 0-DAY CI Kernel Test Service
