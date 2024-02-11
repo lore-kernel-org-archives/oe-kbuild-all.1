@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EC636113
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 17:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9195C613;
+	Sun, 11 Feb 2024 17:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707671167; cv=none; b=TJERGbNEhu8yrIgK5R84TKqRihpH7rLEe2r/27fR8F5jnIpZgLs3tA4543TwPEGOommmRp+w8c/Nc8s5k4ay+d0LeQCp1MfMPStSAUt16xFFeuqMV3bhqnkcC3q9aDFuWfZKuP8Y1LUYcfooHLVeQImvfbCVNNcjwkmZ+GAZv8M=
+	t=1707671826; cv=none; b=tfkK6TZJtiIWU7ovr5IYWFeU81+YW746Lve2x7h8zisdcXqJITdFCHhY+xHVkW6bC3R5YjxCdAv7HuTrBTuHTY9jcwlFg9hNy6nLo7aMwZCONoRhVNhi/nLQD66xnF6j/N0ZHiJVlSXE/O6FCCrURksIduHqIDM1l1sc0YAcBLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707671167; c=relaxed/simple;
-	bh=sAk9GD6wztVXkFXCSsWhlNYczbkb1DcbzpW1rblW4Uo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XrkeTjFkm/DAHbQ9Y/Ip+2cLLb5acEYtQJOItMPSkca0pTRMoZ5C1rmJqGdFWV5ANlqxW3jfyzL/t6uuN2Qo+fETRx/xeuoQyWYPSNzV2JtKtod0vQRw3Xm06OV2xrMtVMchX80IMC1sJfEn1fr6h3Uzj/rfUpyd9Vp8We7MO68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nwDy/+Ap; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1707671826; c=relaxed/simple;
+	bh=RLdQ20m3STopFisb1+bwMISsfKLUG83g3BUFt2Xbrvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MMS0ALzxYlNkdeCC25EeAXRpqms2iMbouLtTIRzuDcCaaGEuCs2rrUHB0xLa6Z/sF6tnCL+3jSjJIMun+tgUnTCZbNLDhvv5LVPJ+L3+pmZmGg9+nYXEfnmPYX/4v2GOXNKoPQMH0tD1swd6biCHcK+Xbi+c78bXz3BQ/EPHw+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EnMdUuYp; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwDy/+Ap"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EnMdUuYp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707671165; x=1739207165;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sAk9GD6wztVXkFXCSsWhlNYczbkb1DcbzpW1rblW4Uo=;
-  b=nwDy/+AplYd1ayx7p/s0mfWVrLIia26DLHsQ9dZebqWg5gJMdBqC+7LT
-   R8m99CGy9n8GD/594R3hLjcUV89p7SQC0v61i4mHXrBEOq4c3NW0pQWRw
-   k8GctGcB7g6qNA4VlKQBykapIsqHurFkzS6uyVrj4WVliF15CAFznhZ8U
-   /f9Le1peRRgI77GbFm1sjGbN3S7Fd1QyuQRLgqDPpAiqyC+h1nz/0flI/
-   DTInzd9DAB9zzjqkOxqoWLL0HApahwpLHxeSvSWu5aeIBObmAL1R1q/tr
-   95QVP7wn/d1aucuib9JZ/baY/x/GV1zlrTV0uggblkmOp7O2tDMzrPpz4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="5423607"
+  t=1707671825; x=1739207825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RLdQ20m3STopFisb1+bwMISsfKLUG83g3BUFt2Xbrvs=;
+  b=EnMdUuYplsSf2EZpfUAcmKiLSu5s1sDTXZJk88+9bLvGjljS/IvO9rVf
+   RGEWJPGAn0P0y5f79Hrc4Eo+sknNiieW109qlDrtJ/jtbHBz+nf4ZVVC4
+   TrJJLodps2tnoaf51BiKGUW1VoN2XUigbBcMcMUV8XKa7C7QCf10D7zBd
+   x8mYfyBrOpsNHDxSahMqOBzT3+ziPkx8c0PHBkY9MBxNXFcl+XuFb9BfD
+   fzn9W/8MLSwBBagqdzeM7CAhLUA9PPCnF1rYSSeIRaeT3Y82A4hdfqWdX
+   jWjno6+kfDg1LfIGsFSg/jy+OJdjZmAw4pmWvrOPYc4cqPld02HHfBlF+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="5482998"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="5423607"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 09:06:04 -0800
+   d="scan'208";a="5482998"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 09:17:04 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="2606065"
+   d="scan'208";a="2735903"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Feb 2024 09:06:02 -0800
+  by orviesa006.jf.intel.com with ESMTP; 11 Feb 2024 09:17:02 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZDHE-0006gc-0E;
-	Sun, 11 Feb 2024 17:06:00 +0000
-Date: Mon, 12 Feb 2024 01:05:46 +0800
+	id 1rZDRs-0006go-0f;
+	Sun, 11 Feb 2024 17:17:00 +0000
+Date: Mon, 12 Feb 2024 01:16:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brandon Brnich <b-brnich@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>
-Subject: [ti:ti-linux-6.1.y-wip 19/28]
- drivers/media/platform/img/vxe-vxd/decoder/vxd_v4l2.c:911:36: error:
- implicit declaration of function 'phys_to_page'; did you mean 'pfn_to_page'?
-Message-ID: <202402120004.ybwvMhAw-lkp@intel.com>
+To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Max Kellermann <max.kellermann@ionos.com>
+Subject: Re: [PATCH v3 35/35] include: remove lots of unnecessary
+ <linux/kernel.h> includes
+Message-ID: <202402120114.eFm7I6hz-lkp@intel.com>
+References: <20240211123000.3359365-36-max.kellermann@ionos.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,248 +60,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240211123000.3359365-36-max.kellermann@ionos.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.1.y-wip
-head:   ab9d88d11054a48d1833dc1bb203ce45b53fa706
-commit: 21bbf30fcc1bd923c862ff3cf19741f9d5318fbf [19/28] media: img: vxe-vxd: decoder: Set Contiguous Allocation as Default
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20240212/202402120004.ybwvMhAw-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402120004.ybwvMhAw-lkp@intel.com/reproduce)
+Hi Max,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240209]
+[cannot apply to drm-misc/drm-misc-next media-tree/master mkp-scsi/for-next linus/master v6.8-rc3 v6.8-rc2 v6.8-rc1 v6.8-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-add-missing-includes/20240211-204508
+base:   next-20240209
+patch link:    https://lore.kernel.org/r/20240211123000.3359365-36-max.kellermann%40ionos.com
+patch subject: [PATCH v3 35/35] include: remove lots of unnecessary <linux/kernel.h> includes
+config: arm64-randconfig-001-20240211 (https://download.01.org/0day-ci/archive/20240212/202402120114.eFm7I6hz-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402120114.eFm7I6hz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402120004.ybwvMhAw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402120114.eFm7I6hz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/platform/img/vxe-vxd/decoder/vxd_v4l2.c: In function 'vxd_dec_buf_prepare':
->> drivers/media/platform/img/vxe-vxd/decoder/vxd_v4l2.c:911:36: error: implicit declaration of function 'phys_to_page'; did you mean 'pfn_to_page'? [-Werror=implicit-function-declaration]
-     911 |                         new_page = phys_to_page(vb2_dma_contig_plane_dma_addr(vb, plane));
-         |                                    ^~~~~~~~~~~~
-         |                                    pfn_to_page
-   drivers/media/platform/img/vxe-vxd/decoder/vxd_v4l2.c:911:34: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     911 |                         new_page = phys_to_page(vb2_dma_contig_plane_dma_addr(vb, plane));
-         |                                  ^
-   drivers/media/platform/img/vxe-vxd/decoder/vxd_v4l2.c:778:13: warning: variable 'pages' set but not used [-Wunused-but-set-variable]
-     778 |         int pages;
-         |             ^~~~~
-   In file included from drivers/media/platform/img/vxe-vxd/decoder/vxd_props.h:19,
-                    from drivers/media/platform/img/vxe-vxd/decoder/decoder.h:29,
-                    from drivers/media/platform/img/vxe-vxd/decoder/core.h:20,
-                    from drivers/media/platform/img/vxe-vxd/decoder/vxd_v4l2.c:53:
-   drivers/media/platform/img/vxe-vxd/common/imgmmu.h: At top level:
-   drivers/media/platform/img/vxe-vxd/common/imgmmu.h:65:28: warning: 'VIRT_DIR_IDX_MASK' defined but not used [-Wunused-const-variable=]
-      65 | static const unsigned long VIRT_DIR_IDX_MASK = (~((1 << MMU_DIR_SHIFT) - 1));
-         |                            ^~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/common/imgmmu.h:62:28: warning: 'VIRT_PAGE_TBL_MASK' defined but not used [-Wunused-const-variable=]
-      62 | static const unsigned long VIRT_PAGE_TBL_MASK =
-         |                            ^~~~~~~~~~~~~~~~~~
-   drivers/media/platform/img/vxe-vxd/common/imgmmu.h:60:28: warning: 'VIRT_PAGE_OFF_MASK' defined but not used [-Wunused-const-variable=]
-      60 | static const unsigned long VIRT_PAGE_OFF_MASK = ((1 << MMU_PAGE_SHIFT) - 1);
-         |                            ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> kernel/seccomp.c:1034:2: error: call to undeclared function 'do_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           do_exit(SIGKILL);
+           ^
+   kernel/seccomp.c:1359:3: error: call to undeclared function 'do_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   do_exit(SIGKILL);
+                   ^
+   2 errors generated.
 
 
-vim +911 drivers/media/platform/img/vxe-vxd/decoder/vxd_v4l2.c
+vim +/do_exit +1034 kernel/seccomp.c
 
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  764  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  765  static int vxd_dec_buf_prepare(struct vb2_buffer *vb)
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  766  {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  767  	struct vxd_dec_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  768  	struct device *dev = ctx->dev->dev;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  769  	struct vxd_dec_q_data *q_data;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  770  	void *sgt;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  771  #ifdef CAPTURE_CONTIG_ALLOC
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  772  	struct page *new_page;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  773  #else
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  774  	void *sgl;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  775  #endif
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  776  	struct sg_table *sgt_new;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  777  	void *sgl_new;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  778  	int pages;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  779  	int nents = 0;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  780  	int size = 0;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  781  	int plane, num_planes, ret = 0;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  782  	unsigned long dma_addr;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  783  	struct vxd_mapping *mapping;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  784  	struct list_head *list;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  785  	struct vxd_buffer *buf =
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  786  		container_of(vb, struct vxd_buffer, buffer.vb.vb2_buf);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  787  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  788  	q_data = get_q_data(ctx, vb->vb2_queue->type);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  789  	if (!q_data)
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  790  		return -EINVAL;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  791  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  792  	num_planes = q_data->fmt->num_planes;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  793  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  794  	for (plane = 0; plane < num_planes; plane++) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  795  		if (vb2_plane_size(vb, plane) < q_data->size_image[plane]) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  796  			dev_err(dev, "data will not fit into plane (%lu < %lu)\n",
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  797  				vb2_plane_size(vb, plane),
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  798  				(long)q_data->size_image[plane]);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  799  			return -EINVAL;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  800  		}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  801  	}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  802  
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  803  	if (buf->mapped && !V4L2_TYPE_IS_OUTPUT(vb->type)) {
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  804  #ifdef CAPTURE_CONTIG_ALLOC
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  805  		dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  806  #else
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  807  		sgt = vb2_dma_sg_plane_desc(vb, 0);
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  808  		if (!sgt)
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  809  			return -EFAULT;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  810  
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  811  		dma_addr = sg_phys(img_mmu_get_sgl(sgt));
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  812  #endif
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  813  		if (buf->buf_info.dma_addr != dma_addr) {
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  814  			list_for_each(list, &ctx->cap_mappings) {
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  815  				mapping = list_entry(list, struct vxd_mapping, list);
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  816  				if (dma_addr == mapping->dma_addr)
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  817  					break;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  818  
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  819  				mapping = NULL;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  820  			}
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  821  			if (mapping) {
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  822  				/* skip the mapping, buf update buf_map_id */
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  823  				buf->buf_info.dma_addr = mapping->dma_addr;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  824  				buf->buf_map_id = mapping->buf_map_id;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  825  				buf->buf_info.cpu_linear_addr = vb2_plane_vaddr(vb, 0);
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  826  				buf->mapping = mapping;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  827  				return 0;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  828  			}
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  829  		} else {
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  830  			return 0;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  831  		}
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  832  	} else if (buf->mapped) {
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  833  		return 0;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  834  	}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  835  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  836  	buf->buf_info.cpu_linear_addr = vb2_plane_vaddr(vb, 0);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  837  	buf->buf_info.buf_size = vb2_plane_size(vb, 0);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  838  	buf->buf_info.fd = -1;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  839  	sgt = vb2_dma_sg_plane_desc(vb, 0);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  840  	if (!sgt) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  841  		dev_err(dev, "Could not get sg_table from plane 0\n");
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  842  		return -EINVAL;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  843  	}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  844  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  845  	if (V4L2_TYPE_IS_OUTPUT(vb->type)) {
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  846  		buf->buf_info.dma_addr = sg_phys(img_mmu_get_sgl(sgt));
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  847  		ret = core_stream_map_buf_sg(ctx->res_str_id,
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  848  					     VDEC_BUFTYPE_BITSTREAM,
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  849  					     &buf->buf_info, sgt,
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  850  					     &buf->buf_map_id);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  851  		if (ret) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  852  			dev_err(dev, "OUTPUT core_stream_map_buf_sg failed\n");
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  853  			return ret;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  854  		}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  855  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  856  		buf->bstr_info.buf_size = q_data->size_image[0];
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  857  		buf->bstr_info.cpu_virt_addr = buf->buf_info.cpu_linear_addr;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  858  		buf->bstr_info.mem_attrib =
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  859  			SYS_MEMATTRIB_UNCACHED | SYS_MEMATTRIB_WRITECOMBINE |
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  860  			SYS_MEMATTRIB_INPUT | SYS_MEMATTRIB_CPU_WRITE;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  861  		buf->bstr_info.bufmap_id = buf->buf_map_id;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  862  		lst_init(&buf->seq_unit.bstr_seg_list);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  863  		lst_init(&buf->pic_unit.bstr_seg_list);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  864  		lst_init(&buf->end_unit.bstr_seg_list);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  865  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  866  		list_add_tail(&buf->list, &ctx->out_buffers);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  867  	} else {
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  868  #ifdef CAPTURE_CONTIG_ALLOC
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  869  		buf->buf_info.dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  870  #else
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  871  		buf->buf_info.dma_addr = sg_phys(img_mmu_get_sgl(sgt));
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  872  #endif
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  873  		/* Create a single sgt from the plane(s) */
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  874  		sgt_new = kmalloc(sizeof(*sgt_new), GFP_KERNEL);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  875  		if (!sgt_new)
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  876  			return -EINVAL;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  877  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  878  		for (plane = 0; plane < num_planes; plane++) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  879  			size += ALIGN(vb2_plane_size(vb, plane), PAGE_SIZE);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  880  			sgt = vb2_dma_sg_plane_desc(vb, plane);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  881  			if (!sgt) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  882  				dev_err(dev, "Could not get sg_table from plane %d\n", plane);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  883  				kfree(sgt_new);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  884  				return -EINVAL;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  885  			}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  886  #ifdef CAPTURE_CONTIG_ALLOC
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  887  			nents += 1;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  888  #else
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  889  			nents += sg_nents(img_mmu_get_sgl(sgt));
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  890  #endif
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  891  		}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  892  		buf->buf_info.buf_size = size;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  893  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  894  		pages = (size + PAGE_SIZE - 1) / PAGE_SIZE;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  895  		ret = sg_alloc_table(sgt_new, nents, GFP_KERNEL);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  896  		if (ret) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  897  			kfree(sgt_new);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  898  			return -EINVAL;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  899  		}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  900  		sgl_new = img_mmu_get_sgl(sgt_new);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  901  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  902  		for (plane = 0; plane < num_planes; plane++) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  903  			sgt = vb2_dma_sg_plane_desc(vb, plane);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  904  			if (!sgt) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  905  				dev_err(dev, "Could not get sg_table from plane %d\n", plane);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  906  				sg_free_table(sgt_new);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  907  				kfree(sgt_new);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  908  				return -EINVAL;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  909  			}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  910  #ifdef CAPTURE_CONTIG_ALLOC
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25 @911  			new_page = phys_to_page(vb2_dma_contig_plane_dma_addr(vb, plane));
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  912  			sg_set_page(sgl_new, new_page, ALIGN(vb2_plane_size(vb, plane),
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  913  							     PAGE_SIZE), 0);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  914  			sgl_new = sg_next(sgl_new);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  915  #else
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  916  			sgl = img_mmu_get_sgl(sgt);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  917  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  918  			while (sgl) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  919  				sg_set_page(sgl_new, sg_page(sgl), img_mmu_get_sgl_length(sgl), 0);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  920  				sgl = sg_next(sgl);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  921  				sgl_new = sg_next(sgl_new);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  922  			}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  923  #endif
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  924  		}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  925  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  926  		buf->buf_info.pictbuf_cfg = ctx->pict_bufcfg;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  927  		ret = core_stream_map_buf_sg(ctx->res_str_id,
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  928  					     VDEC_BUFTYPE_PICTURE,
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  929  					     &buf->buf_info, sgt_new,
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  930  					     &buf->buf_map_id);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  931  		sg_free_table(sgt_new);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  932  		kfree(sgt_new);
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  933  		if (ret) {
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  934  			dev_err(dev, "CAPTURE core_stream_map_buf_sg failed\n");
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  935  			return ret;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  936  		}
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  937  		if (buf->mapped == FALSE)
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  938  			list_add_tail(&buf->list, &ctx->cap_buffers);
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  939  
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  940  		/* Add this to the mappings */
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  941  		mapping = kzalloc(sizeof(*mapping), GFP_KERNEL);
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  942  
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  943  		mapping->reuse = TRUE;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  944  		mapping->dma_addr = buf->buf_info.dma_addr;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  945  		mapping->buf_map_id = buf->buf_map_id;
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  946  		list_add_tail(&mapping->list, &ctx->cap_mappings);
-990f359cbacd40 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  947  		buf->mapping = mapping;
-fced2bd86798a6 drivers/media/platform/img/vxe-vxd/decoder/vxd_v4l2.c Darren Etheridge 2023-10-04  948  		mapping->buf = buf;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  949  	}
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  950  	buf->mapped = TRUE;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  951  
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  952  	return 0;
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  953  }
-f1ce557a02e8f1 drivers/media/platform/vxe-vxd/decoder/vxd_v4l2.c     Sidraya          2023-04-25  954  
-
-:::::: The code at line 911 was first introduced by commit
-:::::: f1ce557a02e8f185c8585c901a2b2f79a91278e5 v4l: Add V4L2 Interface function implementations
-
-:::::: TO: Sidraya <sidraya.bj@pathpartnertech.com>
-:::::: CC: Praneeth Bajjuri <praneeth@ti.com>
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1016  
+a4412fc9486ec8 Andy Lutomirski 2014-07-21  1017  static void __secure_computing_strict(int this_syscall)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1018  {
+fe4bfff86ec547 Kees Cook       2020-06-19  1019  	const int *allowed_syscalls = mode1_syscalls;
+5b1017404aea6d Roland McGrath  2009-02-27  1020  #ifdef CONFIG_COMPAT
+5c38065e021bc7 Andy Lutomirski 2016-03-22  1021  	if (in_compat_syscall())
+fe4bfff86ec547 Kees Cook       2020-06-19  1022  		allowed_syscalls = get_compat_mode1_syscalls();
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1023  #endif
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1024  	do {
+fe4bfff86ec547 Kees Cook       2020-06-19  1025  		if (*allowed_syscalls == this_syscall)
+a4412fc9486ec8 Andy Lutomirski 2014-07-21  1026  			return;
+fe4bfff86ec547 Kees Cook       2020-06-19  1027  	} while (*++allowed_syscalls != -1);
+a4412fc9486ec8 Andy Lutomirski 2014-07-21  1028  
+a4412fc9486ec8 Andy Lutomirski 2014-07-21  1029  #ifdef SECCOMP_DEBUG
+a4412fc9486ec8 Andy Lutomirski 2014-07-21  1030  	dump_stack();
+a4412fc9486ec8 Andy Lutomirski 2014-07-21  1031  #endif
+495ac3069a6235 Kees Cook       2022-02-07  1032  	current->seccomp.mode = SECCOMP_MODE_DEAD;
+fd76875ca289a3 Kees Cook       2017-08-11  1033  	seccomp_log(this_syscall, SIGKILL, SECCOMP_RET_KILL_THREAD, true);
+a4412fc9486ec8 Andy Lutomirski 2014-07-21 @1034  	do_exit(SIGKILL);
+a4412fc9486ec8 Andy Lutomirski 2014-07-21  1035  }
+a4412fc9486ec8 Andy Lutomirski 2014-07-21  1036  
 
 -- 
 0-DAY CI Kernel Test Service
