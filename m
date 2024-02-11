@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAE55D462
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 12:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B2259B4F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 14:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707655201; cv=none; b=mFl4NvbRYNly5nxwmFnrUEgmI404CYrrxI4gUfVEuT9PunP1IXsT/wms4y2zZI8XwjrO85kx2dlTS9WvmrkOgY2agniv8uOraMXeVWromZtDa+E+8tyATcGC4GIl+i0eFXdklxjDs6JL2xUN/PqRdF0uH0K1PZLyGLDP+JDWmCw=
+	t=1707661323; cv=none; b=XBZt1v8YkLb7iUhQUFYQC/iVU3yLvJGR6kCxubuGXi/XqkESbiiFfzt2Tlae4whCRoUE6f+ccxckT8jkNHZ2jXhxoSi0DYNXJKafw96pQEUtV9Px479GNtXnU9l0jhIfLi2wSEfLWVY1MH8sJRWxUIQf/YNsov+eq7LnI9o+zlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707655201; c=relaxed/simple;
-	bh=lZq3RI3/rLgGCXOWvhIdIxdrUBjuNiWxCmMwoCv9x+o=;
+	s=arc-20240116; t=1707661323; c=relaxed/simple;
+	bh=VQSEZqtNZ7vVjfA4wnoXlpHMftDcqPa1/7R5lDIAnwo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tYoKMoRNmCOiNeMnB9Cwf3E6nKURpewzg5sOjNSHZQqsXHcbFztQZTkC+1cSBvQYB8Y4a7uQI4wsVtFyP53e3EvPNr1oqCdgIdLaje3iBJLe7r/Oa3J8oQgx8zYG/nddUpLET79hURecdJbFtORtHv4k09wV5Kj9rLpNYmj5KDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZFb7WNED; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=dp7i7TYhyhSO7YrdTpBuu+Itj9lxOf9yVp5qyVcxWtwYQbqTafZyTdBQJrvQ2EWMCRp0XhJ1pJ1xQPMO6BWCFb+RjsDZbmIxtGsoqIizDZbVokQZoh4iCezjNZYWxC6jcytGqJ7Wh9+XjiZkOlf17GxoGhvh3Eakr/R4t8/jux0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k3Mi0d+i; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZFb7WNED"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k3Mi0d+i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707655200; x=1739191200;
+  t=1707661321; x=1739197321;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lZq3RI3/rLgGCXOWvhIdIxdrUBjuNiWxCmMwoCv9x+o=;
-  b=ZFb7WNEDtEwbucnl53JIh18DMfU3l+vUPQSg89hXLEF9ahuezi0eeiV7
-   Vm1jWnWFtTRgn0sDaAVZJJ+BIElZfGcgFUb4pTul2qImrF9YaYIACye7K
-   sQ7qTw00brpPGFxrBHZnfAe6LgJB/fwkEfMFysBWDc2cOjcE3td+ZMFDa
-   aMQMXsSVQ4m9j7z31OJ97NVaQhjNoX+MbcZPv9yWIDNFYQyXFH2K5Spwl
-   BzXXrvSfJGw/HcVJFEOC4mF0OGGdvoB+FHeBHOHDRe4vh3LyUViSUuGvE
-   ltr9gl6/JJwOwz7DroM9+/wzKcFAwDtnrQcB9ANnqFGHg5zvZQGw+Fq4n
+  bh=VQSEZqtNZ7vVjfA4wnoXlpHMftDcqPa1/7R5lDIAnwo=;
+  b=k3Mi0d+iX2DYdMvMq+Yq5ENHNKzNsy0M3Ym+RuxQFJK8YR00k9qfGR4x
+   j+Zh4FVtQj9NWlgA+V5FxfFvcDM4WH2tAiBmsc9N1lGV8JXXgQyJAp9FX
+   7JQ25OO3sQ/0R4+gPN4agJDnuPh2FdIZovr3ZYw22nbFD70HwWExOJaBt
+   MB3154I8aQFbckkIQ+E/5Yr1LPuhs7rF/gSAwf89qGO6300h6gjXXV52U
+   JODlFDZq91In3MJHgJNQxdeDndwNfoFgkIbKJ7JyGmvgZRY2YQ32I2l9E
+   zIGWlW2EkMwhmCI8qSHZz7AwrNNwgR9hlqXonOXFS6o3d01BpAbRA3aLY
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="1532260"
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="5443329"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="1532260"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 04:39:59 -0800
+   d="scan'208";a="5443329"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 06:22:00 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="934867621"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="2324126"
+   d="scan'208";a="934867621"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 11 Feb 2024 04:39:57 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2024 06:21:58 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZ97i-0006Yo-3D;
-	Sun, 11 Feb 2024 12:39:54 +0000
-Date: Sun, 11 Feb 2024 20:38:58 +0800
+	id 1rZAiS-0006b0-1C;
+	Sun, 11 Feb 2024 14:21:56 +0000
+Date: Sun, 11 Feb 2024 22:21:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 47/95] fs/bcachefs/util.c:715:28: error:
- passing argument 1 of 'bch2_prt_printf' from incompatible pointer type
-Message-ID: <202402112057.2hIuIHUi-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 17/17]
+ drivers/gpu/drm/drm_privacy_screen_x86.c:69:15: sparse: sparse: symbol
+ 'privacy_screen_dev' was not declared. Should it be static?
+Message-ID: <202402112204.SnaBulTU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,137 +61,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   647047cefc8436b9a1af76fce288061dddadd39d
-commit: cfd401b15efdf17caa218d0a0402d204ae9b00b4 [47/95] bcachefs: bch2_time_stats_to_seq_buf()
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20240211/202402112057.2hIuIHUi-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402112057.2hIuIHUi-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   c8eb5e6a425e08d0bccf05a4215a5327c57c939c
+commit: 48cd81f48b5b21913f796d27b1a43b8dc04e6f2f [17/17] CHROMIUM: drm: privacy screen for drallion hack
+config: i386-randconfig-062-20240211 (https://download.01.org/0day-ci/archive/20240211/202402112204.SnaBulTU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402112204.SnaBulTU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402112057.2hIuIHUi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402112204.SnaBulTU-lkp@intel.com/
 
-Note: the bcachefs/bcachefs-testing HEAD 647047cefc8436b9a1af76fce288061dddadd39d builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/drm_privacy_screen_x86.c:69:15: sparse: sparse: symbol 'privacy_screen_dev' was not declared. Should it be static?
+>> drivers/gpu/drm/drm_privacy_screen_x86.c:166:6: sparse: sparse: symbol 'privacy_screen_present' was not declared. Should it be static?
 
-All errors (new ones prefixed by >>):
+vim +/privacy_screen_dev +69 drivers/gpu/drm/drm_privacy_screen_x86.c
 
-   In file included from fs/bcachefs/util.c:28:
-   fs/bcachefs/util.c: In function 'bch2_time_stats_to_seq_buf':
->> fs/bcachefs/util.c:715:28: error: passing argument 1 of 'bch2_prt_printf' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     715 |                 prt_printf(out, "quantiles (%s):\t", u->name);
-         |                            ^~~
-         |                            |
-         |                            struct seq_buf *
-   fs/bcachefs/util.h:222:57: note: in definition of macro 'prt_printf'
-     222 | #define prt_printf(_out, ...)           bch2_prt_printf(_out, __VA_ARGS__)
-         |                                                         ^~~~
-   In file included from fs/bcachefs/util.h:219:
-   fs/bcachefs/printbuf.h:104:54: note: expected 'struct printbuf *' but argument is of type 'struct seq_buf *'
-     104 | __printf(2, 3) void bch2_prt_printf(struct printbuf *out, const char *fmt, ...);
-         |                                     ~~~~~~~~~~~~~~~~~^~~
-   cc1: some warnings being treated as errors
-
-
-vim +/bch2_prt_printf +715 fs/bcachefs/util.c
-
-   636	
-   637	void bch2_time_stats_to_seq_buf(struct seq_buf *out, struct bch2_time_stats *stats)
-   638	{
-   639		s64 f_mean = 0, d_mean = 0;
-   640		u64 f_stddev = 0, d_stddev = 0;
-   641	
-   642		if (stats->buffer) {
-   643			int cpu;
-   644	
-   645			spin_lock_irq(&stats->lock);
-   646			for_each_possible_cpu(cpu)
-   647				__bch2_time_stats_clear_buffer(stats, per_cpu_ptr(stats->buffer, cpu));
-   648			spin_unlock_irq(&stats->lock);
-   649		}
-   650	
-   651		/*
-   652		 * avoid divide by zero
-   653		 */
-   654		if (stats->freq_stats.n) {
-   655			f_mean = mean_and_variance_get_mean(stats->freq_stats);
-   656			f_stddev = mean_and_variance_get_stddev(stats->freq_stats);
-   657			d_mean = mean_and_variance_get_mean(stats->duration_stats);
-   658			d_stddev = mean_and_variance_get_stddev(stats->duration_stats);
-   659		}
-   660	
-   661		seq_buf_printf(out, "count: %llu\n", stats->duration_stats.n);
-   662	
-   663		seq_buf_printf(out, "                       since mount        recent\n");
-   664	
-   665		seq_buf_printf(out, "duration of events\n");
-   666	
-   667		seq_buf_printf(out, "  min:                     ");
-   668		seq_buf_time_units_aligned(out, stats->min_duration);
-   669		seq_buf_printf(out, "\n");
-   670	
-   671		seq_buf_printf(out, "  max:                     ");
-   672		seq_buf_time_units_aligned(out, stats->max_duration);
-   673		seq_buf_printf(out, "\n");
-   674	
-   675		seq_buf_printf(out, "  total:                   ");
-   676		seq_buf_time_units_aligned(out, stats->total_duration);
-   677		seq_buf_printf(out, "\n");
-   678	
-   679		seq_buf_printf(out, "  mean:                    ");
-   680		seq_buf_time_units_aligned(out, d_mean);
-   681		seq_buf_time_units_aligned(out, mean_and_variance_weighted_get_mean(stats->duration_stats_weighted));
-   682		seq_buf_printf(out, "\n");
-   683	
-   684		seq_buf_printf(out, "  stddev:                  ");
-   685		seq_buf_time_units_aligned(out, d_stddev);
-   686		seq_buf_time_units_aligned(out, mean_and_variance_weighted_get_stddev(stats->duration_stats_weighted));
-   687		seq_buf_printf(out, "\n");
-   688	
-   689		seq_buf_printf(out, "time between events\n");
-   690	
-   691		seq_buf_printf(out, "  min:                     ");
-   692		seq_buf_time_units_aligned(out, stats->min_freq);
-   693		seq_buf_printf(out, "\n");
-   694	
-   695		seq_buf_printf(out, "  max:                     ");
-   696		seq_buf_time_units_aligned(out, stats->max_freq);
-   697		seq_buf_printf(out, "\n");
-   698	
-   699		seq_buf_printf(out, "  mean:                    ");
-   700		seq_buf_time_units_aligned(out, f_mean);
-   701		seq_buf_time_units_aligned(out, mean_and_variance_weighted_get_mean(stats->freq_stats_weighted));
-   702		seq_buf_printf(out, "\n");
-   703	
-   704		seq_buf_printf(out, "  stddev:                  ");
-   705		seq_buf_time_units_aligned(out, f_stddev);
-   706		seq_buf_time_units_aligned(out, mean_and_variance_weighted_get_stddev(stats->freq_stats_weighted));
-   707		seq_buf_printf(out, "\n");
-   708	
-   709		if (stats->quantiles_enabled) {
-   710			int i = eytzinger0_first(NR_QUANTILES);
-   711			const struct time_unit *u =
-   712				pick_time_units(stats->quantiles.entries[i].m);
-   713			u64 last_q = 0;
-   714	
- > 715			prt_printf(out, "quantiles (%s):\t", u->name);
-   716			eytzinger0_for_each(i, NR_QUANTILES) {
-   717				bool is_last = eytzinger0_next(i, NR_QUANTILES) == -1;
-   718	
-   719				u64 q = max(stats->quantiles.entries[i].m, last_q);
-   720				seq_buf_printf(out, "%llu ", div_u64(q, u->nsecs));
-   721				if (is_last)
-   722					seq_buf_printf(out, "\n");
-   723				last_q = q;
-   724			}
-   725		}
-   726	}
-   727	#else
-   728	void bch2_time_stats_to_text(struct printbuf *out, struct bch2_time_stats *stats) {}
-   729	#endif
-   730	
+    64	
+    65	static const guid_t chromeos_privacy_screen_dsm_guid =
+    66		GUID_INIT(0xc7033113, 0x8720, 0x4ceb, 0x90, 0x90, 0x9d, 0x52, 0xb3,
+    67			  0xe5, 0x2d, 0x73);
+    68	
+  > 69	struct device *privacy_screen_dev;
+    70	
+    71	static void chromeos_privacy_screen_get_hw_state(
+    72		struct drm_privacy_screen *drm_privacy_screen)
+    73	{
+    74		union acpi_object *obj;
+    75		acpi_handle handle;
+    76		struct device *privacy_screen =
+    77			drm_privacy_screen_get_drvdata(drm_privacy_screen);
+    78	
+    79		handle = acpi_device_handle(to_acpi_device(privacy_screen));
+    80		obj = acpi_evaluate_dsm(handle,
+    81					&chromeos_privacy_screen_dsm_guid,
+    82					PRIV_SCRN_DSM_REVID,
+    83					PRIV_SCRN_DSM_FN_GET_STATUS,
+    84					NULL);
+    85		if (!obj) {
+    86			dev_err(privacy_screen,
+    87				"_DSM failed to get privacy-screen state\n");
+    88			return;
+    89		}
+    90	
+    91		if (obj->type != ACPI_TYPE_INTEGER)
+    92			dev_err(privacy_screen,
+    93				"Bad _DSM to get privacy-screen state\n");
+    94		else if (obj->integer.value == 1) {
+    95			drm_privacy_screen->sw_state = PRIVACY_SCREEN_ENABLED;
+    96			drm_privacy_screen->hw_state = PRIVACY_SCREEN_ENABLED;
+    97	
+    98		} else {
+    99			drm_privacy_screen->sw_state = PRIVACY_SCREEN_DISABLED;
+   100			drm_privacy_screen->hw_state = PRIVACY_SCREEN_DISABLED;
+   101		}
+   102		ACPI_FREE(obj);
+   103	}
+   104	static int chromeos_privacy_screen_set_sw_state(
+   105		struct drm_privacy_screen *drm_privacy_screen,
+   106		enum drm_privacy_screen_status state)
+   107	{
+   108		union acpi_object *obj = NULL;
+   109		acpi_handle handle;
+   110		struct device *privacy_screen =
+   111			drm_privacy_screen_get_drvdata(drm_privacy_screen);
+   112	
+   113		handle = acpi_device_handle(to_acpi_device(privacy_screen));
+   114	
+   115		if (state == PRIVACY_SCREEN_DISABLED) {
+   116			obj = acpi_evaluate_dsm(
+   117				handle, &chromeos_privacy_screen_dsm_guid,
+   118				PRIV_SCRN_DSM_REVID,
+   119				PRIV_SCRN_DSM_FN_DISABLE,
+   120				NULL);
+   121		} else if (state == PRIVACY_SCREEN_ENABLED) {
+   122			obj = acpi_evaluate_dsm(
+   123				handle,
+   124				&chromeos_privacy_screen_dsm_guid,
+   125				PRIV_SCRN_DSM_REVID,
+   126				PRIV_SCRN_DSM_FN_ENABLE,
+   127				NULL);
+   128		} else {
+   129			dev_err(privacy_screen,
+   130				"Bad attempt to set privacy-screen status to %u\n",
+   131				state);
+   132			return -EINVAL;
+   133		}
+   134	
+   135		if (!obj) {
+   136			dev_err(privacy_screen,
+   137				"_DSM failed to set privacy-screen state\n");
+   138			return -EIO;
+   139		}
+   140	
+   141		drm_privacy_screen->sw_state = state;
+   142		drm_privacy_screen->hw_state = state;
+   143		ACPI_FREE(obj);
+   144		return 0;
+   145	}
+   146	
+   147	static const struct drm_privacy_screen_ops chromeos_privacy_screen_ops = {
+   148		.get_hw_state = chromeos_privacy_screen_get_hw_state,
+   149		.set_sw_state = chromeos_privacy_screen_set_sw_state,
+   150	};
+   151	
+   152	static int match_privacy_screen(struct device *dev, void *data)
+   153	{
+   154		struct acpi_device *adev = to_acpi_device(dev);
+   155	
+   156		u64 addr = acpi_device_adr(adev);
+   157	
+   158		if (addr == DRALLION_PRIVACY_SCREEN_ADDR) {
+   159			privacy_screen_dev = dev;
+   160			return 1;
+   161		}
+   162	
+   163		return 0;
+   164	}
+   165	
+ > 166	bool privacy_screen_present(struct device *privacy_screen)
+   167	{
+   168		acpi_handle handle = acpi_device_handle(to_acpi_device(privacy_screen));
+   169	
+   170		if (!handle)
+   171			return false;
+   172	
+   173		if (!acpi_check_dsm(handle, &chromeos_privacy_screen_dsm_guid, 1,
+   174				    BIT(PRIV_SCRN_DSM_FN_GET_STATUS) |
+   175					BIT(PRIV_SCRN_DSM_FN_ENABLE) |
+   176					BIT(PRIV_SCRN_DSM_FN_DISABLE)))
+   177			return false;
+   178	
+   179		return true;
+   180	}
+   181	
 
 -- 
 0-DAY CI Kernel Test Service
