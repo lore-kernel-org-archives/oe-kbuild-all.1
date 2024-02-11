@@ -1,62 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5629E5F484
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 22:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0006011182
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 22:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707689183; cv=none; b=WWRYZ7HEJxztTRA0oocUerA5o/oUnKmC/kdGVjsX1BB/Ri6Oq/blHgYSQ8NMWQcN8XYg/cblzQOXbzeEPOX9BN+EYlHX1zPru6o9AsU4UGKEeTVZVs282hs2ZRcki6eHlLrKt2fVSBbX5fDdYqBbyfnSFt7Mwm0AvPBKFtVv9YA=
+	t=1707692242; cv=none; b=V2gAMMw/Op5vkyHd+Kga51YCs/P1pcXgygu3u6MCGfms2pYFT0s+TCnnr/jm+PMZbC8l+AoJZnqvuuFy84rOn7VPkH6wKKnBg4fbqf0i/afJa4Ms3zD2zlbg24Vh1zy31M4GUw1OrqXBympSMel+5mePqPKCM2efR8hpltMdDtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707689183; c=relaxed/simple;
-	bh=0lt0/3dAV6b4iKc8faBrQmffiQNwh2AB2q1QDWvfliM=;
+	s=arc-20240116; t=1707692242; c=relaxed/simple;
+	bh=EncUszjzPei1cQnSJlHdqU/x+Dae9LFh7EXxwJ85qQc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EHBNmWQOyexgHw9hQ0Cru5X9XWotM1L9awW1xHzLJ9Jp+Rm87yLKVt9I92jHsc1gIMt3YPf0rlwYtMUo5Tt41kp3XXZAF/ptJXnzqiiq+9wXzppFm59oVqAHVyiIkYBx2P274vGzSMIHAcsD9AfGEngDkUsl/i8p0KHvAjDtb/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VWOlRobX; arc=none smtp.client-ip=192.55.52.88
+	 Content-Type:Content-Disposition:In-Reply-To; b=aHAZGjxws+neESThrS3p76aNntUDuRWlxwZYyDCSpJMHPCopumJ67WUOQKiG5yRF0nDZdjsF+5SAGFbR+8yzfENZteKfxaYy1t5zhmI18cW87dFiF3sVGcLMAjU0+jWSQJRMressbwgobAdnpFFmZuPStCQJK1DdC59UZDqg/ME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jX4NYLS/; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VWOlRobX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jX4NYLS/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707689180; x=1739225180;
+  t=1707692240; x=1739228240;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0lt0/3dAV6b4iKc8faBrQmffiQNwh2AB2q1QDWvfliM=;
-  b=VWOlRobXbFFEcM+YtcRvSYcvSIPo2fmZYQcv5zEnjGMOgYAU3XkcHm2r
-   sn9GPGxnM0Yw57FLQc3Fcvpnn9kuUBP+d4vxXWtKmNVNapg4VUIEz2hxj
-   L/sSrX/mbgyDVbWzITy8fQf4by6pw9+G2QOBlWhhrelQlKRL8rL7z3poH
-   ag6fs0mMXAAGz4h0eFZG7Yc3UwIBfmtHIZeI0koqgG/YiY8uE5InHmLSx
-   qjJ2kMExXj5GPhKuPpaNjQyUrfsXtmzHvTbvNj9sgkwNBP/4GWrdvEK9i
-   1h7fmu8V9gBiQhhVXGHbHlc/gAW8Bx0V0wFqBaiqJSD4MMkwuWu4H7oiw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="436797321"
+  bh=EncUszjzPei1cQnSJlHdqU/x+Dae9LFh7EXxwJ85qQc=;
+  b=jX4NYLS/gZPqJgd40nO0j7+XQu0yDQyD2VcPf2B9NXqPMQDHpC6AhDR+
+   NJUwj3oc2cyFJ/kZbpnDfgu6HUMVfFumh4UcrlWMNoaQtHLHcvFTT/IX0
+   jXt6XJtnE/UJq2y8beSCTV0kAg0rBLXod7YY1sL86qGEBag2vh+Vbuyx9
+   bgonZ3K7HyK70vWeuRDB/RGwMar4cqrlx48DTCZuajTrYrdH7Ooy8SCBR
+   Mi2ZKsy+v5+3nwLFzK6Zf1NnQeGhYsIIwHPvsO4ViQOa7Yqn5X2Oq3sRH
+   Bx3JsS6R7S/gIV0tcB+O9rmrKOfiKvyALQtgMbHBQpiegqfq4Zd2xoTsR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="5465827"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="436797321"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 14:06:19 -0800
+   d="scan'208";a="5465827"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 14:57:19 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="7065558"
+   d="scan'208";a="7104872"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Feb 2024 14:06:17 -0800
+  by orviesa005.jf.intel.com with ESMTP; 11 Feb 2024 14:57:19 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZHxn-0006mS-0j;
-	Sun, 11 Feb 2024 22:06:15 +0000
-Date: Mon, 12 Feb 2024 06:05:24 +0800
+	id 1rZIlA-0006nm-0C;
+	Sun, 11 Feb 2024 22:57:16 +0000
+Date: Mon, 12 Feb 2024 06:56:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chengming Zhou <zhouchengming@bytedance.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Yosry Ahmed <yosryahmed@google.com>, Nhat Pham <nphamcs@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org,
-	Chengming Zhou <zhouchengming@bytedance.com>
-Subject: Re: [PATCH 1/2] mm/zswap: global lru and shrinker shared by all
- zswap_pools
-Message-ID: <202402120503.HRNkoWyq-lkp@intel.com>
-References: <20240210-zswap-global-lru-v1-1-853473d7b0da@bytedance.com>
+To: Adam Ford <aford173@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH V4 2/6] phy: freescale: add Samsung HDMI PHY
+Message-ID: <202402120610.umG204mj-lkp@intel.com>
+References: <20240210204606.11944-3-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,79 +58,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240210-zswap-global-lru-v1-1-853473d7b0da@bytedance.com>
+In-Reply-To: <20240210204606.11944-3-aford173@gmail.com>
 
-Hi Chengming,
+Hi Adam,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 191d97734e41a5c9f90a2f6636fdd335ae1d435d]
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on arm64/for-next/core arm/for-next arm/fixes kvmarm/next rockchip/for-next soc/for-next linus/master v6.8-rc3 next-20240209]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chengming-Zhou/mm-zswap-global-lru-and-shrinker-shared-by-all-zswap_pools/20240211-220028
-base:   191d97734e41a5c9f90a2f6636fdd335ae1d435d
-patch link:    https://lore.kernel.org/r/20240210-zswap-global-lru-v1-1-853473d7b0da%40bytedance.com
-patch subject: [PATCH 1/2] mm/zswap: global lru and shrinker shared by all zswap_pools
-config: i386-randconfig-054-20240212 (https://download.01.org/0day-ci/archive/20240212/202402120503.HRNkoWyq-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402120503.HRNkoWyq-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Adam-Ford/dt-bindings-phy-add-binding-for-the-i-MX8MP-HDMI-PHY/20240211-044836
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240210204606.11944-3-aford173%40gmail.com
+patch subject: [PATCH V4 2/6] phy: freescale: add Samsung HDMI PHY
+config: arc-randconfig-r123-20240211 (https://download.01.org/0day-ci/archive/20240212/202402120610.umG204mj-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240212/202402120610.umG204mj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402120503.HRNkoWyq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402120610.umG204mj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/phy/freescale/phy-fsl-samsung-hdmi.c:372:27: sparse: sparse: symbol 'common_phy_cfg' was not declared. Should it be static?
+   drivers/phy/freescale/phy-fsl-samsung-hdmi.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
->> mm/zswap.c:1300:35: error: use of undeclared identifier 'pool'
-    1300 |         nr_backing = get_zswap_pool_size(pool) >> PAGE_SHIFT;
-         |                                          ^
-   1 error generated.
+vim +/common_phy_cfg +372 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
 
-
-vim +/pool +1300 mm/zswap.c
-
-b5ba474f3f5187 Nhat Pham      2023-11-30  1283  
-b5ba474f3f5187 Nhat Pham      2023-11-30  1284  static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
-b5ba474f3f5187 Nhat Pham      2023-11-30  1285  		struct shrink_control *sc)
-b5ba474f3f5187 Nhat Pham      2023-11-30  1286  {
-b5ba474f3f5187 Nhat Pham      2023-11-30  1287  	struct mem_cgroup *memcg = sc->memcg;
-b5ba474f3f5187 Nhat Pham      2023-11-30  1288  	struct lruvec *lruvec = mem_cgroup_lruvec(memcg, NODE_DATA(sc->nid));
-b5ba474f3f5187 Nhat Pham      2023-11-30  1289  	unsigned long nr_backing, nr_stored, nr_freeable, nr_protected;
-b5ba474f3f5187 Nhat Pham      2023-11-30  1290  
-501a06fe8e4c18 Nhat Pham      2023-12-07  1291  	if (!zswap_shrinker_enabled || !mem_cgroup_zswap_writeback_enabled(memcg))
-b5ba474f3f5187 Nhat Pham      2023-11-30  1292  		return 0;
-b5ba474f3f5187 Nhat Pham      2023-11-30  1293  
-b5ba474f3f5187 Nhat Pham      2023-11-30  1294  #ifdef CONFIG_MEMCG_KMEM
-7d7ef0a4686abe Yosry Ahmed    2023-11-29  1295  	mem_cgroup_flush_stats(memcg);
-b5ba474f3f5187 Nhat Pham      2023-11-30  1296  	nr_backing = memcg_page_state(memcg, MEMCG_ZSWAP_B) >> PAGE_SHIFT;
-b5ba474f3f5187 Nhat Pham      2023-11-30  1297  	nr_stored = memcg_page_state(memcg, MEMCG_ZSWAPPED);
-b5ba474f3f5187 Nhat Pham      2023-11-30  1298  #else
-b5ba474f3f5187 Nhat Pham      2023-11-30  1299  	/* use pool stats instead of memcg stats */
-b5ba474f3f5187 Nhat Pham      2023-11-30 @1300  	nr_backing = get_zswap_pool_size(pool) >> PAGE_SHIFT;
-bf414d6ae81ba2 Chengming Zhou 2024-02-11  1301  	nr_stored = atomic_read(&zswap.nr_stored);
-b5ba474f3f5187 Nhat Pham      2023-11-30  1302  #endif
-b5ba474f3f5187 Nhat Pham      2023-11-30  1303  
-b5ba474f3f5187 Nhat Pham      2023-11-30  1304  	if (!nr_stored)
-b5ba474f3f5187 Nhat Pham      2023-11-30  1305  		return 0;
-b5ba474f3f5187 Nhat Pham      2023-11-30  1306  
-b5ba474f3f5187 Nhat Pham      2023-11-30  1307  	nr_protected =
-b5ba474f3f5187 Nhat Pham      2023-11-30  1308  		atomic_long_read(&lruvec->zswap_lruvec_state.nr_zswap_protected);
-bf414d6ae81ba2 Chengming Zhou 2024-02-11  1309  	nr_freeable = list_lru_shrink_count(&zswap.list_lru, sc);
-b5ba474f3f5187 Nhat Pham      2023-11-30  1310  	/*
-b5ba474f3f5187 Nhat Pham      2023-11-30  1311  	 * Subtract the lru size by an estimate of the number of pages
-b5ba474f3f5187 Nhat Pham      2023-11-30  1312  	 * that should be protected.
-b5ba474f3f5187 Nhat Pham      2023-11-30  1313  	 */
-b5ba474f3f5187 Nhat Pham      2023-11-30  1314  	nr_freeable = nr_freeable > nr_protected ? nr_freeable - nr_protected : 0;
-b5ba474f3f5187 Nhat Pham      2023-11-30  1315  
-b5ba474f3f5187 Nhat Pham      2023-11-30  1316  	/*
-b5ba474f3f5187 Nhat Pham      2023-11-30  1317  	 * Scale the number of freeable pages by the memory saving factor.
-b5ba474f3f5187 Nhat Pham      2023-11-30  1318  	 * This ensures that the better zswap compresses memory, the fewer
-b5ba474f3f5187 Nhat Pham      2023-11-30  1319  	 * pages we will evict to swap (as it will otherwise incur IO for
-b5ba474f3f5187 Nhat Pham      2023-11-30  1320  	 * relatively small memory saving).
-b5ba474f3f5187 Nhat Pham      2023-11-30  1321  	 */
-b5ba474f3f5187 Nhat Pham      2023-11-30  1322  	return mult_frac(nr_freeable, nr_backing, nr_stored);
-b5ba474f3f5187 Nhat Pham      2023-11-30  1323  }
-b5ba474f3f5187 Nhat Pham      2023-11-30  1324  
+   371	
+ > 372	const struct reg_settings common_phy_cfg[] = {
+   373		{ PHY_REG_00, 0x00 }, { PHY_REG_01, 0xd1 },
+   374		{ PHY_REG_08, 0x4f }, { PHY_REG_09, 0x30 },
+   375		{ PHY_REG_10, 0x33 }, { PHY_REG_11, 0x65 },
+   376		/* REG12 pixclk specific */
+   377		/* REG13 pixclk specific */
+   378		/* REG14 pixclk specific */
+   379		{ PHY_REG_15, 0x80 }, { PHY_REG_16, 0x6c },
+   380		{ PHY_REG_17, 0xf2 }, { PHY_REG_18, 0x67 },
+   381		{ PHY_REG_19, 0x00 }, { PHY_REG_20, 0x10 },
+   382		/* REG21 pixclk specific */
+   383		{ PHY_REG_22, 0x30 }, { PHY_REG_23, 0x32 },
+   384		{ PHY_REG_24, 0x60 }, { PHY_REG_25, 0x8f },
+   385		{ PHY_REG_26, 0x00 }, { PHY_REG_27, 0x00 },
+   386		{ PHY_REG_28, 0x08 }, { PHY_REG_29, 0x00 },
+   387		{ PHY_REG_30, 0x00 }, { PHY_REG_31, 0x00 },
+   388		{ PHY_REG_32, 0x00 }, { PHY_REG_33, 0x80 },
+   389		{ PHY_REG_34, 0x00 }, { PHY_REG_35, 0x00 },
+   390		{ PHY_REG_36, 0x00 }, { PHY_REG_37, 0x00 },
+   391		{ PHY_REG_38, 0x00 }, { PHY_REG_39, 0x00 },
+   392		{ PHY_REG_40, 0x00 }, { PHY_REG_41, 0xe0 },
+   393		{ PHY_REG_42, 0x83 }, { PHY_REG_43, 0x0f },
+   394		{ PHY_REG_44, 0x3E }, { PHY_REG_45, 0xf8 },
+   395		{ PHY_REG_46, 0x00 }, { PHY_REG_47, 0x00 }
+   396	};
+   397	
 
 -- 
 0-DAY CI Kernel Test Service
