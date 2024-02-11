@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF295C60B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 19:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5629E5F484
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 22:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707678131; cv=none; b=RRqlibr+gANHrYv7LRQBt79JIiSR4y0vjE4QqHilk06AHa2WUS56F/SnATboTaOiLTx3kf/dLGLBUCwnFtPprm0yBpyqlCicFIqJ6ubTdohjWFftbH5IzUemgJGMNvUW8XIfJSrYTNMVqWucjJwbZBT2OJeLImg8u+BEJTkKr4U=
+	t=1707689183; cv=none; b=WWRYZ7HEJxztTRA0oocUerA5o/oUnKmC/kdGVjsX1BB/Ri6Oq/blHgYSQ8NMWQcN8XYg/cblzQOXbzeEPOX9BN+EYlHX1zPru6o9AsU4UGKEeTVZVs282hs2ZRcki6eHlLrKt2fVSBbX5fDdYqBbyfnSFt7Mwm0AvPBKFtVv9YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707678131; c=relaxed/simple;
-	bh=ne+I1lVvIggr9Ct6CO9zOzMdMZ2Eb6zOcxpa0xPq5/Q=;
+	s=arc-20240116; t=1707689183; c=relaxed/simple;
+	bh=0lt0/3dAV6b4iKc8faBrQmffiQNwh2AB2q1QDWvfliM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Je8v3LNIh+dU/9VJN4VNVhgm7aRCZbxQnrO2ijsSJmhSCM01+puA/DBMR/MJnNL+jr81RZ3A5yn0ebjnMbvkcDTTAFaBdsSQEoxSXlD3zf/O9D1N8nPqMaKxra9YZInFt5lFqMfSD5raxZYI0yZUkmGQHKHOTdI1KvyIZOADviI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HPF5UWo6; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=EHBNmWQOyexgHw9hQ0Cru5X9XWotM1L9awW1xHzLJ9Jp+Rm87yLKVt9I92jHsc1gIMt3YPf0rlwYtMUo5Tt41kp3XXZAF/ptJXnzqiiq+9wXzppFm59oVqAHVyiIkYBx2P274vGzSMIHAcsD9AfGEngDkUsl/i8p0KHvAjDtb/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VWOlRobX; arc=none smtp.client-ip=192.55.52.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPF5UWo6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VWOlRobX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707678128; x=1739214128;
+  t=1707689180; x=1739225180;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ne+I1lVvIggr9Ct6CO9zOzMdMZ2Eb6zOcxpa0xPq5/Q=;
-  b=HPF5UWo6BqDvzLra6alWKatkQCzidq77Ct31nxVEzyyHyuzltR8lfI45
-   v3Af61LxKSfB6R/dTdqwaFoP4sYi3yfBFVlN+rOXt3iQSUlDPSf7vq5Bw
-   XI/eoEvjNuMRQ+/Phpf0Il0uxgsDXg5SBNuUUty12tj97RZG0k0CDVu1b
-   CvA4SNnlBaNFFDfBPPa6W+DxSBlHDEbqyebECWxDronfJuHGuhWBga8Lz
-   i/dqoBbTIckKw88DbLlCT0DUTrGasQlZwbtlCF24BVazhoCEAIAi3F/uz
-   dPmVZSJ/HaNZJBaM3tfD3Oj7l3InpWZgK0uFGkZB3DPU3Uh0x+XJ/SGJm
+  bh=0lt0/3dAV6b4iKc8faBrQmffiQNwh2AB2q1QDWvfliM=;
+  b=VWOlRobXbFFEcM+YtcRvSYcvSIPo2fmZYQcv5zEnjGMOgYAU3XkcHm2r
+   sn9GPGxnM0Yw57FLQc3Fcvpnn9kuUBP+d4vxXWtKmNVNapg4VUIEz2hxj
+   L/sSrX/mbgyDVbWzITy8fQf4by6pw9+G2QOBlWhhrelQlKRL8rL7z3poH
+   ag6fs0mMXAAGz4h0eFZG7Yc3UwIBfmtHIZeI0koqgG/YiY8uE5InHmLSx
+   qjJ2kMExXj5GPhKuPpaNjQyUrfsXtmzHvTbvNj9sgkwNBP/4GWrdvEK9i
+   1h7fmu8V9gBiQhhVXGHbHlc/gAW8Bx0V0wFqBaiqJSD4MMkwuWu4H7oiw
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="4618796"
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="436797321"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="4618796"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 11:02:08 -0800
+   d="scan'208";a="436797321"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 14:06:19 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="2811533"
+   d="scan'208";a="7065558"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Feb 2024 11:02:06 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 11 Feb 2024 14:06:17 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZF5X-0006ja-0D;
-	Sun, 11 Feb 2024 19:02:03 +0000
-Date: Mon, 12 Feb 2024 03:01:46 +0800
+	id 1rZHxn-0006mS-0j;
+	Sun, 11 Feb 2024 22:06:15 +0000
+Date: Mon, 12 Feb 2024 06:05:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: Chengming Zhou <zhouchengming@bytedance.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -55,7 +55,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Chengming Zhou <zhouchengming@bytedance.com>
 Subject: Re: [PATCH 1/2] mm/zswap: global lru and shrinker shared by all
  zswap_pools
-Message-ID: <202402120226.TK7G37U9-lkp@intel.com>
+Message-ID: <202402120503.HRNkoWyq-lkp@intel.com>
 References: <20240210-zswap-global-lru-v1-1-853473d7b0da@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -77,32 +77,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Chengming-Zhou/mm-zswap-g
 base:   191d97734e41a5c9f90a2f6636fdd335ae1d435d
 patch link:    https://lore.kernel.org/r/20240210-zswap-global-lru-v1-1-853473d7b0da%40bytedance.com
 patch subject: [PATCH 1/2] mm/zswap: global lru and shrinker shared by all zswap_pools
-config: x86_64-randconfig-013-20240211 (https://download.01.org/0day-ci/archive/20240212/202402120226.TK7G37U9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402120226.TK7G37U9-lkp@intel.com/reproduce)
+config: i386-randconfig-054-20240212 (https://download.01.org/0day-ci/archive/20240212/202402120503.HRNkoWyq-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402120503.HRNkoWyq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402120226.TK7G37U9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402120503.HRNkoWyq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/zswap.c: In function 'zswap_shrinker_count':
->> mm/zswap.c:1300:42: error: 'pool' undeclared (first use in this function); did you mean 'zpool'?
+>> mm/zswap.c:1300:35: error: use of undeclared identifier 'pool'
     1300 |         nr_backing = get_zswap_pool_size(pool) >> PAGE_SHIFT;
-         |                                          ^~~~
-         |                                          zpool
-   mm/zswap.c:1300:42: note: each undeclared identifier is reported only once for each function it appears in
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [y]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=y] && EXPERT [=y] && !COMPILE_TEST [=n]
+         |                                          ^
+   1 error generated.
 
 
-vim +1300 mm/zswap.c
+vim +/pool +1300 mm/zswap.c
 
 b5ba474f3f5187 Nhat Pham      2023-11-30  1283  
 b5ba474f3f5187 Nhat Pham      2023-11-30  1284  static unsigned long zswap_shrinker_count(struct shrinker *shrinker,
