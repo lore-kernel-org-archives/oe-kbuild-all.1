@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B2259B4F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 14:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AA11E519
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 14:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707661323; cv=none; b=XBZt1v8YkLb7iUhQUFYQC/iVU3yLvJGR6kCxubuGXi/XqkESbiiFfzt2Tlae4whCRoUE6f+ccxckT8jkNHZ2jXhxoSi0DYNXJKafw96pQEUtV9Px479GNtXnU9l0jhIfLi2wSEfLWVY1MH8sJRWxUIQf/YNsov+eq7LnI9o+zlM=
+	t=1707662522; cv=none; b=LtF/dP1Ht9xSKOjDw3q1dgqmyFIAsahUr3Se2S0zpLkyr6ToH910CLKSVJP8EIxVXTWGeBcy0CoL4lN+TDsiVuuoJs1NwKt9+jHhECQAF8MvodHbMuge/VZewcX5Os45RxK1PBZKiT+fzKsPTIOFHvVu8hxDS3FUwOm7bzBWP7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707661323; c=relaxed/simple;
-	bh=VQSEZqtNZ7vVjfA4wnoXlpHMftDcqPa1/7R5lDIAnwo=;
+	s=arc-20240116; t=1707662522; c=relaxed/simple;
+	bh=qz/wr7U8OpfCyQuL/j6prxWgMX+97A8stc56eEcOhGM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dp7i7TYhyhSO7YrdTpBuu+Itj9lxOf9yVp5qyVcxWtwYQbqTafZyTdBQJrvQ2EWMCRp0XhJ1pJ1xQPMO6BWCFb+RjsDZbmIxtGsoqIizDZbVokQZoh4iCezjNZYWxC6jcytGqJ7Wh9+XjiZkOlf17GxoGhvh3Eakr/R4t8/jux0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k3Mi0d+i; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=lnnoQjJ803TLDELuN3FVmO2gfxEdKETkiwc9ErjnfBn7Oeee3XDhMC0E7Y/oMaIPwnqu53QlsYywfrJ2hEO6wen+k9i1rBhHx7R045xhiFkVoEVYE4GZ1IM00TdPOom+zHZvCKM4ED/LN8FUhr5DpK9n1k2F/1ITPsJ3fLS0CfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fVnQC1Dr; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k3Mi0d+i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fVnQC1Dr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707661321; x=1739197321;
+  t=1707662520; x=1739198520;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VQSEZqtNZ7vVjfA4wnoXlpHMftDcqPa1/7R5lDIAnwo=;
-  b=k3Mi0d+iX2DYdMvMq+Yq5ENHNKzNsy0M3Ym+RuxQFJK8YR00k9qfGR4x
-   j+Zh4FVtQj9NWlgA+V5FxfFvcDM4WH2tAiBmsc9N1lGV8JXXgQyJAp9FX
-   7JQ25OO3sQ/0R4+gPN4agJDnuPh2FdIZovr3ZYw22nbFD70HwWExOJaBt
-   MB3154I8aQFbckkIQ+E/5Yr1LPuhs7rF/gSAwf89qGO6300h6gjXXV52U
-   JODlFDZq91In3MJHgJNQxdeDndwNfoFgkIbKJ7JyGmvgZRY2YQ32I2l9E
-   zIGWlW2EkMwhmCI8qSHZz7AwrNNwgR9hlqXonOXFS6o3d01BpAbRA3aLY
+  bh=qz/wr7U8OpfCyQuL/j6prxWgMX+97A8stc56eEcOhGM=;
+  b=fVnQC1Dr169hBX05mqZgwWjWCZSjQOKxfmZkEEJoLON3gK2Qo3uT6XnN
+   uP7sTosN1uCKGVmoBbVw6JjqyZ23Ng2zgmtm2s+nClGtMPDaGwTULNMmt
+   VGST1sdMfkKmZegqy6BWdL+qj5wt6LF+ffm/5zmB2FFa0w2KQFFH+w5+P
+   OC5kYQQnKf9k3cp2ecYK3epo5NkRr+b5pjaI+PFtqtryeX75Yugczu+9T
+   cq3X1FCBU1u4vEZ3C145T5ODERJ/Hpb47nL/o+3xoXx2+l463bFc0gAnV
+   5rFKVUO7c74n4YNc+gf87RtE2h2BaYg/NDBE5kaIAmnxNG09G9koRjslr
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="5443329"
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="1512167"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="5443329"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 06:22:00 -0800
+   d="scan'208";a="1512167"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 06:42:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="934867621"
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="934867621"
+   d="scan'208";a="2344927"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2024 06:21:58 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 11 Feb 2024 06:41:58 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZAiS-0006b0-1C;
-	Sun, 11 Feb 2024 14:21:56 +0000
-Date: Sun, 11 Feb 2024 22:21:24 +0800
+	id 1rZB1o-0006bW-2J;
+	Sun, 11 Feb 2024 14:41:56 +0000
+Date: Sun, 11 Feb 2024 22:41:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 17/17]
- drivers/gpu/drm/drm_privacy_screen_x86.c:69:15: sparse: sparse: symbol
- 'privacy_screen_dev' was not declared. Should it be static?
-Message-ID: <202402112204.SnaBulTU-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: drivers/scsi/esp_scsi.c:(.text.scsi_esp_register+0x2ac): undefined
+ reference to `scsi_add_host_with_dma'
+Message-ID: <202402112222.Gl0udKyU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,142 +59,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   c8eb5e6a425e08d0bccf05a4215a5327c57c939c
-commit: 48cd81f48b5b21913f796d27b1a43b8dc04e6f2f [17/17] CHROMIUM: drm: privacy screen for drallion hack
-config: i386-randconfig-062-20240211 (https://download.01.org/0day-ci/archive/20240211/202402112204.SnaBulTU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402112204.SnaBulTU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7521f258ea303c827434c101884b62a2b137a942
+commit: 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
+date:   1 year, 9 months ago
+config: mips-randconfig-r005-20220616 (https://download.01.org/0day-ci/archive/20240211/202402112222.Gl0udKyU-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402112222.Gl0udKyU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402112204.SnaBulTU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402112222.Gl0udKyU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_privacy_screen_x86.c:69:15: sparse: sparse: symbol 'privacy_screen_dev' was not declared. Should it be static?
->> drivers/gpu/drm/drm_privacy_screen_x86.c:166:6: sparse: sparse: symbol 'privacy_screen_present' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/privacy_screen_dev +69 drivers/gpu/drm/drm_privacy_screen_x86.c
-
-    64	
-    65	static const guid_t chromeos_privacy_screen_dsm_guid =
-    66		GUID_INIT(0xc7033113, 0x8720, 0x4ceb, 0x90, 0x90, 0x9d, 0x52, 0xb3,
-    67			  0xe5, 0x2d, 0x73);
-    68	
-  > 69	struct device *privacy_screen_dev;
-    70	
-    71	static void chromeos_privacy_screen_get_hw_state(
-    72		struct drm_privacy_screen *drm_privacy_screen)
-    73	{
-    74		union acpi_object *obj;
-    75		acpi_handle handle;
-    76		struct device *privacy_screen =
-    77			drm_privacy_screen_get_drvdata(drm_privacy_screen);
-    78	
-    79		handle = acpi_device_handle(to_acpi_device(privacy_screen));
-    80		obj = acpi_evaluate_dsm(handle,
-    81					&chromeos_privacy_screen_dsm_guid,
-    82					PRIV_SCRN_DSM_REVID,
-    83					PRIV_SCRN_DSM_FN_GET_STATUS,
-    84					NULL);
-    85		if (!obj) {
-    86			dev_err(privacy_screen,
-    87				"_DSM failed to get privacy-screen state\n");
-    88			return;
-    89		}
-    90	
-    91		if (obj->type != ACPI_TYPE_INTEGER)
-    92			dev_err(privacy_screen,
-    93				"Bad _DSM to get privacy-screen state\n");
-    94		else if (obj->integer.value == 1) {
-    95			drm_privacy_screen->sw_state = PRIVACY_SCREEN_ENABLED;
-    96			drm_privacy_screen->hw_state = PRIVACY_SCREEN_ENABLED;
-    97	
-    98		} else {
-    99			drm_privacy_screen->sw_state = PRIVACY_SCREEN_DISABLED;
-   100			drm_privacy_screen->hw_state = PRIVACY_SCREEN_DISABLED;
-   101		}
-   102		ACPI_FREE(obj);
-   103	}
-   104	static int chromeos_privacy_screen_set_sw_state(
-   105		struct drm_privacy_screen *drm_privacy_screen,
-   106		enum drm_privacy_screen_status state)
-   107	{
-   108		union acpi_object *obj = NULL;
-   109		acpi_handle handle;
-   110		struct device *privacy_screen =
-   111			drm_privacy_screen_get_drvdata(drm_privacy_screen);
-   112	
-   113		handle = acpi_device_handle(to_acpi_device(privacy_screen));
-   114	
-   115		if (state == PRIVACY_SCREEN_DISABLED) {
-   116			obj = acpi_evaluate_dsm(
-   117				handle, &chromeos_privacy_screen_dsm_guid,
-   118				PRIV_SCRN_DSM_REVID,
-   119				PRIV_SCRN_DSM_FN_DISABLE,
-   120				NULL);
-   121		} else if (state == PRIVACY_SCREEN_ENABLED) {
-   122			obj = acpi_evaluate_dsm(
-   123				handle,
-   124				&chromeos_privacy_screen_dsm_guid,
-   125				PRIV_SCRN_DSM_REVID,
-   126				PRIV_SCRN_DSM_FN_ENABLE,
-   127				NULL);
-   128		} else {
-   129			dev_err(privacy_screen,
-   130				"Bad attempt to set privacy-screen status to %u\n",
-   131				state);
-   132			return -EINVAL;
-   133		}
-   134	
-   135		if (!obj) {
-   136			dev_err(privacy_screen,
-   137				"_DSM failed to set privacy-screen state\n");
-   138			return -EIO;
-   139		}
-   140	
-   141		drm_privacy_screen->sw_state = state;
-   142		drm_privacy_screen->hw_state = state;
-   143		ACPI_FREE(obj);
-   144		return 0;
-   145	}
-   146	
-   147	static const struct drm_privacy_screen_ops chromeos_privacy_screen_ops = {
-   148		.get_hw_state = chromeos_privacy_screen_get_hw_state,
-   149		.set_sw_state = chromeos_privacy_screen_set_sw_state,
-   150	};
-   151	
-   152	static int match_privacy_screen(struct device *dev, void *data)
-   153	{
-   154		struct acpi_device *adev = to_acpi_device(dev);
-   155	
-   156		u64 addr = acpi_device_adr(adev);
-   157	
-   158		if (addr == DRALLION_PRIVACY_SCREEN_ADDR) {
-   159			privacy_screen_dev = dev;
-   160			return 1;
-   161		}
-   162	
-   163		return 0;
-   164	}
-   165	
- > 166	bool privacy_screen_present(struct device *privacy_screen)
-   167	{
-   168		acpi_handle handle = acpi_device_handle(to_acpi_device(privacy_screen));
-   169	
-   170		if (!handle)
-   171			return false;
-   172	
-   173		if (!acpi_check_dsm(handle, &chromeos_privacy_screen_dsm_guid, 1,
-   174				    BIT(PRIV_SCRN_DSM_FN_GET_STATUS) |
-   175					BIT(PRIV_SCRN_DSM_FN_ENABLE) |
-   176					BIT(PRIV_SCRN_DSM_FN_DISABLE)))
-   177			return false;
-   178	
-   179		return true;
-   180	}
-   181	
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_setsync':
+   drivers/scsi/esp_scsi.c:(.text.esp_setsync+0x198): undefined reference to `spi_display_xfer_agreement'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_msgin_extended':
+   drivers/scsi/esp_scsi.c:(.text.esp_msgin_extended+0x120): undefined reference to `spi_populate_sync_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_msgin_extended+0x2f4): undefined reference to `spi_populate_sync_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `scsi_esp_register':
+>> drivers/scsi/esp_scsi.c:(.text.scsi_esp_register+0x2ac): undefined reference to `scsi_add_host_with_dma'
+>> mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.scsi_esp_register+0x2d0): undefined reference to `scsi_scan_host'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `scsi_esp_unregister':
+>> drivers/scsi/esp_scsi.c:(.text.scsi_esp_unregister+0x2c): undefined reference to `scsi_remove_host'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `dev_to_shost':
+   drivers/scsi/esp_scsi.c:(.text.dev_to_shost+0x18): undefined reference to `scsi_is_host_device'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_slave_configure':
+   drivers/scsi/esp_scsi.c:(.text.esp_slave_configure+0x4c): undefined reference to `scsi_change_queue_depth'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_slave_configure+0x90): undefined reference to `spi_dv_device'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_init':
+   drivers/scsi/esp_scsi.c:(.init.text+0x24): undefined reference to `spi_attach_transport'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_data_bytes_sent':
+   drivers/scsi/esp_scsi.c:(.text.esp_data_bytes_sent+0x284): undefined reference to `scsi_kmap_atomic_sg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_data_bytes_sent+0x2a8): undefined reference to `scsi_kunmap_atomic_sg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_unmap_dma.isra.0':
+   drivers/scsi/esp_scsi.c:(.text.esp_unmap_dma.isra.0+0x3c): undefined reference to `scsi_dma_unmap'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_reset_cleanup':
+   drivers/scsi/esp_scsi.c:(.text.esp_reset_cleanup+0xe8): undefined reference to `__starget_for_each_device'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_reset_cleanup+0x158): undefined reference to `scsi_done'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_reset_cleanup+0x1ec): undefined reference to `scsi_done'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_eh_abort_handler':
+   drivers/scsi/esp_scsi.c:(.text.esp_eh_abort_handler+0x190): undefined reference to `scsi_done'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_reconnect':
+   drivers/scsi/esp_scsi.c:(.text.esp_reconnect+0xe4): undefined reference to `__scsi_device_lookup_by_target'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_msgin_process':
+   drivers/scsi/esp_scsi.c:(.text.esp_msgin_process+0x290): undefined reference to `spi_populate_sync_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_maybe_execute_command.part.0':
+   drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0xd4): undefined reference to `spi_populate_tag_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0x638): undefined reference to `scsi_dma_map'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0x6c4): undefined reference to `spi_populate_width_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.c:(.text.esp_maybe_execute_command.part.0+0x728): undefined reference to `spi_populate_sync_msg'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_cmd_is_done':
+   drivers/scsi/esp_scsi.c:(.text.esp_cmd_is_done+0x178): undefined reference to `scsi_done'
+   mips64-linux-ld: drivers/scsi/esp_scsi.o: in function `esp_process_event':
+   drivers/scsi/esp_scsi.c:(.text.esp_process_event+0x884): undefined reference to `scsi_track_queue_full'
+   mips64-linux-ld: drivers/scsi/jazz_esp.o: in function `esp_jazz_probe':
+   drivers/scsi/jazz_esp.c:(.text.esp_jazz_probe+0x34): undefined reference to `scsi_host_alloc'
+   mips64-linux-ld: drivers/scsi/jazz_esp.c:(.text.esp_jazz_probe+0x94): undefined reference to `scsi_host_put'
+   mips64-linux-ld: drivers/scsi/jazz_esp.o: in function `esp_jazz_remove':
+   drivers/scsi/jazz_esp.c:(.text.esp_jazz_remove+0x5c): undefined reference to `scsi_host_put'
 
 -- 
 0-DAY CI Kernel Test Service
