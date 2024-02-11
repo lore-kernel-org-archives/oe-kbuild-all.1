@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128AE4403
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 01:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E67185B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 02:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707616427; cv=none; b=u4aEQe5bLUqtHw95EutbM4AseO/SFD/Jzw9mBs9P27EEEQEQFpKL0ryke24DUgSMesMQ+AQlx5uDMNCJDfxZWGyTMxhzcTtjPCZNVytdr349XCDQEfVS2KVg9MEorECXFc0hjqR+XvQf7fA1UdjPOQELvvPzxPmfi/cG8zyTgNA=
+	t=1707617028; cv=none; b=YC40GkKYwFGv18A96W3zlb8r68rDQHBePxRUQatCCP/rDwseQbceo+xc0nCRzRFnqsfC/+Czdz2v1uM7vKy/+MnxPQ3c/9Ywz6SfMaSVe3xmQeeL57GGjuiYTvjLA+UNX0roSP2SLjP2E9k1QoVbI5ex/iF6GDDsqZLcOM9SF80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707616427; c=relaxed/simple;
-	bh=XshEh6lmXHSokHvCGMHV5XU1fZmOu6WVqPRHiOn5mxo=;
+	s=arc-20240116; t=1707617028; c=relaxed/simple;
+	bh=0KHNYYwZuWk92VhOm7k0q95ijj5D9AyzjBI7oeZefxQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uPJgaNF+G1S4hV0FWWNtMdZ4RCWEw50Tu9gaF8GyIM3fyTf/kjftrSYOueIWSFjzRKlFenOejk3cli8LaR1wuXqt3LXb1GTyVLe2XaiB9t0B4TfXDXSmJq0rLCYFhSuozSw25dgnHS/uW9MVomJf90obMqWSFg1/wG0y4SWrus0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qp+vF+6f; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=I0LsqjtEZbr9DUDRDhI3JOizeTb3plANjLehC6Yf9BGIQ68L5skThD6Fsxu30FtSxtX5r79yuiHrX8jFSamKQEGVaxzbu7SIevIs48tgZRaLCjwnU4sbZTOny5nzJ6jQ19c1GNDp/dyLZ/obBMhlZYQ3QO4etvmhsW53YgEpBU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TUHxBqSp; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qp+vF+6f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUHxBqSp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707616426; x=1739152426;
+  t=1707617027; x=1739153027;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XshEh6lmXHSokHvCGMHV5XU1fZmOu6WVqPRHiOn5mxo=;
-  b=Qp+vF+6fzHrVoKQbcctWhbMifMWh+o63upliJ20vnVEnBzMSEqyhZ997
-   JQw8d12haq1qiFpUTeau7NmZPYh5Q4R7XytWLdDmchnFso1gKhUaRy3jh
-   s8PRde+vfIsVfWlLcIFB8nd5tMDA8kUW9mAzo9Hl0FmVCh/fYUyoDAPtK
-   jdf7P+sKcCdOKir//olwSBWPT1cSllPFF3jW9wlsPsiGaO3wg8FRRtldP
-   n35p3oUGt2gTkkaak/hlBOdayJwXOoYpsJaJSyV3prw0AxXcUWg3G4D26
-   Xb/8wBbEfUjmQjQMSAB0FOh0w5VZrxy2Obj5avwy2vErbyG+jyEQpe883
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="1474441"
+  bh=0KHNYYwZuWk92VhOm7k0q95ijj5D9AyzjBI7oeZefxQ=;
+  b=TUHxBqSpqydFtAqY+IbsmOa76vz468BARGe3Op0Zs2ewpRrhLW/w7hWv
+   XU4Taaiw4Zr/p0nMB5ht3h/bxTp9HDV5F6cY9EJZNKnBZBt8BHcKbwlEH
+   lYlszdgs9grZ+PbYsFCllwU18et7OmqcsPq82W+qHfjKcrqsbMnPcY1tg
+   SUGj14pPHb55UYSieLzPosBm0itJ79U7OaXMForthUNSozq7FdsAc7q8W
+   XRh2aTJTPN8vkUgQIu1LgcBOy5guk73Peu4Nv996oY81T1gtxjdfIO1b1
+   9UgN3nZl/uZYvJeFLIfjnPeEvuNB1nu4WXJLfCprAQvymHhSl+SN6V6Ly
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="1490726"
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="1474441"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 17:53:45 -0800
+   d="scan'208";a="1490726"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 18:03:46 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="25486487"
+   d="scan'208";a="39713940"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Feb 2024 17:53:44 -0800
+  by orviesa001.jf.intel.com with ESMTP; 10 Feb 2024 18:03:44 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rYz2M-0006Fi-01;
-	Sun, 11 Feb 2024 01:53:42 +0000
-Date: Sun, 11 Feb 2024 09:52:56 +0800
+	id 1rYzC2-0006Fs-0L;
+	Sun, 11 Feb 2024 02:03:42 +0000
+Date: Sun, 11 Feb 2024 10:03:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mic:wip-audit 12/12] powerpc-linux-ld: lsm_audit.c:undefined
- reference to `lockdown_reasons'
-Message-ID: <202402110911.6aHxruo6-lkp@intel.com>
+To: Hamish Martin <hamish.martin@alliedtelesis.co.nz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: drivers/uio/uio.c:520:21: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202402111048.4XHz0rkp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,23 +59,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git wip-audit
-head:   87033059ff9ee7214eabf93e7cacf1d0ec5e9454
-commit: 87033059ff9ee7214eabf93e7cacf1d0ec5e9454 [12/12] WIP: Add audit support for Landlock
-config: powerpc-xes_mpc85xx_defconfig (https://download.01.org/0day-ci/archive/20240211/202402110911.6aHxruo6-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402110911.6aHxruo6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a5b6244cf87c50358f5562b8f07f7ac35fc7f6b0
+commit: a93e7b331568227500186a465fee3c2cb5dffd1f uio: Prevent device destruction while fds are open
+date:   6 years ago
+config: x86_64-randconfig-x051-20230705 (https://download.01.org/0day-ci/archive/20240211/202402111048.4XHz0rkp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402111048.4XHz0rkp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402110911.6aHxruo6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402111048.4XHz0rkp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/uio/uio.c:520:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __poll_t [usertype] ret @@     got int @@
+   drivers/uio/uio.c:520:21: sparse:     expected restricted __poll_t [usertype] ret
+   drivers/uio/uio.c:520:21: sparse:     got int
+   drivers/uio/uio.c:852: warning: expecting prototype for uio_register_device(). Prototype was for __uio_register_device() instead
 
-   powerpc-linux-ld: security/lsm_audit.o: in function `audit_log_lsm_data':
-   lsm_audit.c:(.text+0x8be): undefined reference to `lockdown_reasons'
->> powerpc-linux-ld: lsm_audit.c:(.text+0x8c2): undefined reference to `lockdown_reasons'
+vim +520 drivers/uio/uio.c
+
+   510	
+   511	static __poll_t uio_poll(struct file *filep, poll_table *wait)
+   512	{
+   513		struct uio_listener *listener = filep->private_data;
+   514		struct uio_device *idev = listener->dev;
+   515		__poll_t ret = 0;
+   516		unsigned long flags;
+   517	
+   518		spin_lock_irqsave(&idev->info_lock, flags);
+   519		if (!idev->info || !idev->info->irq)
+ > 520			ret = -EIO;
+   521		spin_unlock_irqrestore(&idev->info_lock, flags);
+   522	
+   523		if (ret)
+   524			return ret;
+   525	
+   526		poll_wait(filep, &idev->wait, wait);
+   527		if (listener->event_count != atomic_read(&idev->event))
+   528			return EPOLLIN | EPOLLRDNORM;
+   529		return 0;
+   530	}
+   531	
 
 -- 
 0-DAY CI Kernel Test Service
