@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD9E186F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 04:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306AB168AB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Feb 2024 04:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707625192; cv=none; b=gTnr2uDyGxj9D11LUZ1fpmEsrXei6QRcYXE19NR722JJFOHXSwLFSeWjmZWDkxJSi4Cwnpw9h0sPnkiiQ8BWeSn9+XF8bHyC9D9aR4+XSa8UlDQm6ReNaX1tTICVhwY5NFVSHSiVBHwC7oHt6lg5GEh778I/RsXtaAj7S6Ef/Y0=
+	t=1707626451; cv=none; b=czu/nIv+1LcjZnxYRD2hhAewHqdm4Gm0diffQpAa8oGKrG+5L+1071L0Vt6VyccOsn/QObrdyNLb1PQc7HtxnTYAVf0pRP+3ADAGLRb2vzCQNyfowweRsvoGKxiZcnHL0F9iKXGE3uv7CnbWCkRYeaZRD3oGu8hwr5rw2vorwyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707625192; c=relaxed/simple;
-	bh=HuE/qn9uO4Mak3wb7u3vZhiBv+6UYRAGaV1V4lIuL0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VoSyMI1nGf9RCZpsuSM27JcUAvm6oeDR5bujnEhhRVm6oFGSCdSrKcCR04s5Ip3cIuSWFt3vVx7HPnUsaf3/slj6kSFW7hfBTqBOitXYTDdkx0p0b/GNUpgDDLn+5YxpdV7Zz579x6NAflyhiwR4CkpbniGKTZ/qcDWiDj68WCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WhuREhkN; arc=none smtp.client-ip=192.55.52.88
+	s=arc-20240116; t=1707626451; c=relaxed/simple;
+	bh=CownNAVPfNsIPeF32dr33D4llG6r8gmboNGzmlzbGtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KyxuL4jeZKwD9uV20PCYd9vVGDQ4BQT87xYknqpqIj/mBznKjchfimuy+o6m/f8GjSjv4RuIfSNEg0OAwafqyxJn+NTJD46O0Pbw2GKboJ9alc2iwrlm7drYCPewOCVovmSBSfUcCHeLJNticjWVXIXPjJcmhuWA7AS3BiAfKzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IsyQ/sBY; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WhuREhkN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IsyQ/sBY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707625190; x=1739161190;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HuE/qn9uO4Mak3wb7u3vZhiBv+6UYRAGaV1V4lIuL0U=;
-  b=WhuREhkNtB2O6qHGVR+E46PamqHHfzu3HOwyCJXxlgtf0XuvF+pAWrk1
-   4nglJiL8u9bkE2uE40rsYrKwR+FoiBpGULVneQw3rZcKjmMgWlDTDesxp
-   dLyhmAVdWIM/9c9ngf1TE27wA761FUH7JbJbdDup20oqM4tOQzPjees5e
-   mbBcD3zw50HN6v6ooo6T42SAExyma8IboSUovy6oXC3eON6Y8RsiPRP/o
-   BQy0c4kOnNkz+KPQJsa3VBokZYHKq1XF6YXiwk1Kusi1hMnWljG+43TUL
-   te03d5tW5Ypzy9sk7RoLZBY4GdWpO4cvz08mqy5NjP4IuRYHabOq+OGoA
+  t=1707626449; x=1739162449;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CownNAVPfNsIPeF32dr33D4llG6r8gmboNGzmlzbGtQ=;
+  b=IsyQ/sBYk6FRbDPFDIfRKSb485fnnKEGc/DPIPX+4/Kt+z4q5mQKBeUo
+   qGJsZuKHck2PIKNebCNzyDQOzDr1+vg/MFqH4oRwi12lJCwIb/z432SCp
+   NkImpaqKVnOI3NWAgo3JAGJrUfSVfOKo4ZHBBLt6eZnMI3lVbON0F9bIf
+   BQTsoZCIBjHqH+A1WVyUTLMmpMgEFss6+xcMKnxN6XDLOvn2iwsMZgQ5Y
+   ho31huRTw50ejr6hNc+7ig5MbmWTL1dvnbOtAtNwRls7ds3gfU5fjAkIE
+   DUx2SAr0qIc1tLXeA+fnH5j2HLZs4NwylT1xACr1WCNsXA4BZEbeKrGXO
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="436747868"
+X-IronPort-AV: E=McAfee;i="6600,9927,10980"; a="12334778"
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="436747868"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 20:19:49 -0800
+   d="scan'208";a="12334778"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2024 20:40:48 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,260,1701158400"; 
-   d="scan'208";a="2588419"
+   d="scan'208";a="33364385"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Feb 2024 20:19:46 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Feb 2024 20:40:47 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZ1Jg-0006Jc-0q;
-	Sun, 11 Feb 2024 04:19:44 +0000
-Date: Sun, 11 Feb 2024 12:19:20 +0800
+	id 1rZ1e0-0006KI-1m;
+	Sun, 11 Feb 2024 04:40:44 +0000
+Date: Sun, 11 Feb 2024 12:40:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacky Huang <ychuang570808@gmail.com>, linus.walleij@linaro.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, p.zabel@pengutronix.de, j.neuschaefer@gmx.net
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ychuang3@nuvoton.com,
-	schung@nuvoton.com
-Subject: Re: [PATCH v4 4/4] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO
- driver
-Message-ID: <202402111204.to88Twuu-lkp@intel.com>
-References: <20240206025223.35147-5-ychuang570808@gmail.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: drivers/thermal/thermal_of.c:487:24: warning: returning 'long int'
+ from a function with return type 'struct thermal_zone_device *' makes
+ pointer from integer without a cast
+Message-ID: <202402111258.zSHkL26j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,73 +60,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240206025223.35147-5-ychuang570808@gmail.com>
 
-Hi Jacky,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next robh/for-next linus/master v6.8-rc3 next-20240209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Huang/dt-bindings-reset-Add-syscon-to-nuvoton-ma35d1-system-management-node/20240206-105502
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20240206025223.35147-5-ychuang570808%40gmail.com
-patch subject: [PATCH v4 4/4] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO driver
-config: powerpc-randconfig-r122-20240208 (https://download.01.org/0day-ci/archive/20240211/202402111204.to88Twuu-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20240211/202402111204.to88Twuu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   1cc7a914a31bd41feb404b644539a007f99b4f00
+commit: af0c508eaaf052006a183dab9c3a2994615942d1 thermal: core: Store zone ops in struct thermal_zone_device
+date:   13 hours ago
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20240211/202402111258.zSHkL26j-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240211/202402111258.zSHkL26j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402111204.to88Twuu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402111258.zSHkL26j-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pinctrl/nuvoton/pinctrl-ma35d1.c:14:
-   drivers/pinctrl/nuvoton/pinctrl-ma35.h:46:31: warning: declaration of 'struct platform_device' will not be visible outside of this function [-Wvisibility]
-   int ma35_pinctrl_probe(struct platform_device *pdev, const struct ma35_pinctrl_soc_info *info);
-                                 ^
-   drivers/pinctrl/nuvoton/pinctrl-ma35d1.c:1770:40: warning: declaration of 'struct platform_device' will not be visible outside of this function [-Wvisibility]
-   static int ma35d1_pinctrl_probe(struct platform_device *pdev)
-                                          ^
-   drivers/pinctrl/nuvoton/pinctrl-ma35d1.c:1772:28: error: incompatible pointer types passing 'struct platform_device *' to parameter of type 'struct platform_device *' [-Werror,-Wincompatible-pointer-types]
-           return ma35_pinctrl_probe(pdev, &ma35d1_pinctrl_info);
-                                     ^~~~
-   drivers/pinctrl/nuvoton/pinctrl-ma35.h:46:48: note: passing argument to parameter 'pdev' here
-   int ma35_pinctrl_probe(struct platform_device *pdev, const struct ma35_pinctrl_soc_info *info);
-                                                  ^
-   drivers/pinctrl/nuvoton/pinctrl-ma35d1.c:1780:31: error: variable has incomplete type 'struct platform_driver'
-   static struct platform_driver ma35d1_pinctrl_driver = {
-                                 ^
-   drivers/pinctrl/nuvoton/pinctrl-ma35d1.c:1780:15: note: forward declaration of 'struct platform_driver'
-   static struct platform_driver ma35d1_pinctrl_driver = {
-                 ^
->> drivers/pinctrl/nuvoton/pinctrl-ma35d1.c:1791:9: error: implicit declaration of function 'platform_driver_register' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           return platform_driver_register(&ma35d1_pinctrl_driver);
-                  ^
-   2 warnings and 3 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ADB_CUDA
-   Depends on [n]: MACINTOSH_DRIVERS [=n] && (ADB [=n] || PPC_PMAC [=y]) && !PPC_PMAC64 [=n]
-   Selected by [y]:
-   - PPC_PMAC [=y] && PPC_BOOK3S [=y] && CPU_BIG_ENDIAN [=y] && POWER_RESET [=y] && PPC32 [=y]
+   drivers/thermal/thermal_of.c: In function 'thermal_of_zone_register':
+>> drivers/thermal/thermal_of.c:487:24: warning: returning 'long int' from a function with return type 'struct thermal_zone_device *' makes pointer from integer without a cast [-Wint-conversion]
+     487 |                 return PTR_ERR(np);
+         |                        ^~~~~~~~~~~
+   drivers/thermal/thermal_of.c:493:24: warning: returning 'long int' from a function with return type 'struct thermal_zone_device *' makes pointer from integer without a cast [-Wint-conversion]
+     493 |                 return PTR_ERR(trips);
+         |                        ^~~~~~~~~~~~~~
 
 
-vim +/platform_driver_register +1791 drivers/pinctrl/nuvoton/pinctrl-ma35d1.c
+vim +487 drivers/thermal/thermal_of.c
 
-  1788	
-  1789	static int __init ma35d1_pinctrl_init(void)
-  1790	{
-> 1791		return platform_driver_register(&ma35d1_pinctrl_driver);
-  1792	}
-  1793	arch_initcall(ma35d1_pinctrl_init);
-  1794	
+   449	
+   450	/**
+   451	 * thermal_of_zone_register - Register a thermal zone with device node
+   452	 * sensor
+   453	 *
+   454	 * The thermal_of_zone_register() parses a device tree given a device
+   455	 * node sensor and identifier. It searches for the thermal zone
+   456	 * associated to the couple sensor/id and retrieves all the thermal
+   457	 * zone properties and registers new thermal zone with those
+   458	 * properties.
+   459	 *
+   460	 * @sensor: A device node pointer corresponding to the sensor in the device tree
+   461	 * @id: An integer as sensor identifier
+   462	 * @data: A private data to be stored in the thermal zone dedicated private area
+   463	 * @ops: A set of thermal sensor ops
+   464	 *
+   465	 * Return: a valid thermal zone structure pointer on success.
+   466	 * 	- EINVAL: if the device tree thermal description is malformed
+   467	 *	- ENOMEM: if one structure can not be allocated
+   468	 *	- Other negative errors are returned by the underlying called functions
+   469	 */
+   470	static struct thermal_zone_device *thermal_of_zone_register(struct device_node *sensor, int id, void *data,
+   471								    const struct thermal_zone_device_ops *ops)
+   472	{
+   473		struct thermal_zone_device_ops of_ops = *ops;
+   474		struct thermal_zone_device *tz;
+   475		struct thermal_trip *trips;
+   476		struct thermal_zone_params tzp = {};
+   477		struct device_node *np;
+   478		const char *action;
+   479		int delay, pdelay;
+   480		int ntrips;
+   481		int ret;
+   482	
+   483		np = of_thermal_zone_find(sensor, id);
+   484		if (IS_ERR(np)) {
+   485			if (PTR_ERR(np) != -ENODEV)
+   486				pr_err("Failed to find thermal zone for %pOFn id=%d\n", sensor, id);
+ > 487			return PTR_ERR(np);
+   488		}
+   489	
+   490		trips = thermal_of_trips_init(np, &ntrips);
+   491		if (IS_ERR(trips)) {
+   492			pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
+   493			return PTR_ERR(trips);
+   494		}
+   495	
+   496		ret = thermal_of_monitor_init(np, &delay, &pdelay);
+   497		if (ret) {
+   498			pr_err("Failed to initialize monitoring delays from %pOFn\n", np);
+   499			goto out_kfree_trips;
+   500		}
+   501	
+   502		thermal_of_parameters_init(np, &tzp);
+   503	
+   504		of_ops.bind = thermal_of_bind;
+   505		of_ops.unbind = thermal_of_unbind;
+   506	
+   507		ret = of_property_read_string(np, "critical-action", &action);
+   508		if (!ret)
+   509			if (!of_ops.critical && !strcasecmp(action, "reboot"))
+   510				of_ops.critical = thermal_zone_device_critical_reboot;
+   511	
+   512		tz = thermal_zone_device_register_with_trips(np->name, trips, ntrips,
+   513							     data, &of_ops, &tzp,
+   514							     pdelay, delay);
+   515		if (IS_ERR(tz)) {
+   516			ret = PTR_ERR(tz);
+   517			pr_err("Failed to register thermal zone %pOFn: %d\n", np, ret);
+   518			goto out_kfree_trips;
+   519		}
+   520	
+   521		ret = thermal_zone_device_enable(tz);
+   522		if (ret) {
+   523			pr_err("Failed to enabled thermal zone '%s', id=%d: %d\n",
+   524			       tz->type, tz->id, ret);
+   525			thermal_of_zone_unregister(tz);
+   526			return ERR_PTR(ret);
+   527		}
+   528	
+   529		return tz;
+   530	
+   531	out_kfree_trips:
+   532		kfree(trips);
+   533	
+   534		return ERR_PTR(ret);
+   535	}
+   536	
 
 -- 
 0-DAY CI Kernel Test Service
