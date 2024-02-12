@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E334629A5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 03:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9AD149E12
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 03:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707707124; cv=none; b=WprhmAQxPG/3lRikEMxSefRMlK50NXyjY7vEmC5wdACsDnTTuOHKTlbI3UuirkAXFY2PFKGUAdGIoN3KknItafcx2c5jOcxALK0igrTOCLmni9OlxP6qdoWq8fAlVbyo/vGoyh84R/3ixObIoarrvXZkkUMUtWzGVOfkm6pYZgc=
+	t=1707707727; cv=none; b=loYN23mMFPy6lH+RU+/+0diepwX8SrmaqKfXGdtE+Yo+IJ3f6K/7jA5nrlskNP//3zjuzUvJAG0sRFXdZnkiKt5ag/5sKyYXeAJM4Z5G+hH8CezJS/8L2NS8lDz8/dohpIW3ScH8Sz43ahvZp1b4SN2eDvxIDfsLrC8rBB5xric=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707707124; c=relaxed/simple;
-	bh=LJbwCQG5s8jn4AXP4+jfliDtKiD27kZfUu6R0S9TAOE=;
+	s=arc-20240116; t=1707707727; c=relaxed/simple;
+	bh=wDROlH0ag1yrC+0K3q64ed//6juynqzXUx/k3kVpTE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aTT1re2U38hXkLucHT4/0UDNhX9iBNQt1Dx32u5fhyWNzXXyuP0Uit0XUme2vqd11AcU/A6QLZLz7KVsW1T/YT4ETdhUxM3Yc0XzmxkMPP9sY3WN1yiIHBxjx/7RAcqmH08CQLoUeZvnFbL1jLNtC+pqqtPAv9W+ickfkrxZ9p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V86Z2Lje; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=tyrxHHiF+PVBbuEeW2yNcc5EKhDm1IliWdC/rvzed6ZwW+7QPhL8kL+0HjOCPDPnOnv3hJ2dhNnJXr0s1hYvFACuw2r7pXRk7uV67aIRFiGPxpUmITuUZiMu+cho7LlgtFhlHpvsMBC0jaEgPlsho8fKeCyySMICEHc3nX7jBQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DGdqFm/P; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V86Z2Lje"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DGdqFm/P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707707121; x=1739243121;
+  t=1707707725; x=1739243725;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LJbwCQG5s8jn4AXP4+jfliDtKiD27kZfUu6R0S9TAOE=;
-  b=V86Z2Lje0lnbpo5ybalhwbuJ4u3TIA+zv9BYOg9YqB0/BDw2BmHpw1JJ
-   SmOFQko+198dk+mcxk5qWFjzgbx9u3hoa7xlRV8UPgc/dlITYM5FLECmC
-   OJo9eXB+wPxedW6LCgxST77pVt/zzANYoSoNCFhDeK/8LHtk9JRst9aXw
-   aMBWaRYyvTNlmKzYWKji+rLzLRgKL2P1pTQKBiY82cTa5luhMAFd1f244
-   ocX9aZ4biSqSnpWMphUpLag3PnUiTidnhHkIwY8xYp3vePE3ZXj8EPLT9
-   2Az8A3EdZVyjlwBxypkScgebveut5D4ylDfhrcx6jyZ9Q86dHysaYmTWl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1545419"
-X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="1545419"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 19:05:20 -0800
+  bh=wDROlH0ag1yrC+0K3q64ed//6juynqzXUx/k3kVpTE8=;
+  b=DGdqFm/PPBusF/02iLhcPBSmqi0OuPqv3HBdNUq0qETdla1OhWMRYY1r
+   05jMg10in/Oa7TK/sQR4zZMB7IoR5w6zTGW697re2rYL1ZWvDSNMhxggV
+   yrEfKTDm+z3Et+h/TKZaqCoVuwEWjI6Q2v0pA3e+agmfjy77Fx8RDzTwX
+   OwPC2foo3gDTObKWrCAkOWViEN7kCSBeQIwryeeJPzy7G5o6dpIDgcnzZ
+   Bsy4Z4c+XHRR/VUfzVnVcVvi/8YbrpXDJjcCk+IyjXkT4s11wEfB64rRE
+   ZUNkiOh1flWG2qoOJVlV0nEwzUT7kCFj58tUu8y+qt35cOSvWHzi44925
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="5506229"
+X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
+   d="scan'208";a="5506229"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 19:15:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,261,1701158400"; 
-   d="scan'208";a="2867686"
+   d="scan'208";a="2797672"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Feb 2024 19:05:19 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 11 Feb 2024 19:15:23 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZMdA-0006sk-1j;
-	Mon, 12 Feb 2024 03:05:16 +0000
-Date: Mon, 12 Feb 2024 11:04:37 +0800
+	id 1rZMmv-0006sw-0S;
+	Mon, 12 Feb 2024 03:15:21 +0000
+Date: Mon, 12 Feb 2024 11:15:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Subject: [rafael-pm:bleeding-edge 77/80]
- drivers/thermal/thermal_of.c:487:9-16: WARNING: ERR_CAST can be used with np
-Message-ID: <202402121043.uk6ySvwU-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:bitmap-split 1/2] drivers/iommu/tegra-smmu.c:1121:14:
+ warning: incompatible integer to pointer conversion assigning to 'unsigned
+ long *' from 'int'
+Message-ID: <202402121100.QFvWbwAi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,111 +59,167 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   f48788def3dc3b44ce2aed41c78692873b23030d
-commit: cced01e7b1ef041514785f311601fa0897eb186e [77/80] thermal: core: Store zone ops in struct thermal_zone_device
-config: x86_64-randconfig-101-20240212 (https://download.01.org/0day-ci/archive/20240212/202402121043.uk6ySvwU-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://github.com/norov/linux bitmap-split
+head:   66ecb308874cc02d98589cc983af0ac5a5f9f7e4
+commit: 23228578687634d7bb126bd87e3750780f409e66 [1/2] aaa
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240212/202402121100.QFvWbwAi-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402121100.QFvWbwAi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402121043.uk6ySvwU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402121100.QFvWbwAi-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/thermal/thermal_of.c:487:9-16: WARNING: ERR_CAST can be used with np
->> drivers/thermal/thermal_of.c:493:9-16: WARNING: ERR_CAST can be used with trips
+All warnings (new ones prefixed by >>):
 
-vim +487 drivers/thermal/thermal_of.c
+   drivers/iommu/tegra-smmu.c:1121:16: error: implicit declaration of function 'devm_bitmap_zalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           smmu->asids = devm_bitmap_zalloc(dev, soc->num_asids, GFP_KERNEL);
+                         ^
+   drivers/iommu/tegra-smmu.c:1121:16: note: did you mean 'iova_bitmap_alloc'?
+   include/linux/iova_bitmap.h:28:35: note: 'iova_bitmap_alloc' declared here
+   static inline struct iova_bitmap *iova_bitmap_alloc(unsigned long iova,
+                                     ^
+>> drivers/iommu/tegra-smmu.c:1121:14: warning: incompatible integer to pointer conversion assigning to 'unsigned long *' from 'int' [-Wint-conversion]
+           smmu->asids = devm_bitmap_zalloc(dev, soc->num_asids, GFP_KERNEL);
+                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
+--
+   drivers/irqchip/irq-ls-scfg-msi.c:362:19: error: implicit declaration of function 'devm_bitmap_zalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           msi_data->used = devm_bitmap_zalloc(&pdev->dev, msi_data->irqs_num, GFP_KERNEL);
+                            ^
+   drivers/irqchip/irq-ls-scfg-msi.c:362:19: note: did you mean 'iova_bitmap_alloc'?
+   include/linux/iova_bitmap.h:28:35: note: 'iova_bitmap_alloc' declared here
+   static inline struct iova_bitmap *iova_bitmap_alloc(unsigned long iova,
+                                     ^
+>> drivers/irqchip/irq-ls-scfg-msi.c:362:17: warning: incompatible integer to pointer conversion assigning to 'unsigned long *' from 'int' [-Wint-conversion]
+           msi_data->used = devm_bitmap_zalloc(&pdev->dev, msi_data->irqs_num, GFP_KERNEL);
+                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
+--
+   drivers/pci/controller/pcie-iproc-msi.c:262:10: error: implicit declaration of function 'bitmap_find_free_region' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           hwirq = bitmap_find_free_region(msi->bitmap, msi->nr_msi_vecs,
+                   ^
+   drivers/pci/controller/pcie-iproc-msi.c:290:2: error: implicit declaration of function 'bitmap_release_region' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           bitmap_release_region(msi->bitmap, hwirq,
+           ^
+   drivers/pci/controller/pcie-iproc-msi.c:591:16: error: implicit declaration of function 'devm_bitmap_zalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           msi->bitmap = devm_bitmap_zalloc(pcie->dev, msi->nr_msi_vecs,
+                         ^
+   drivers/pci/controller/pcie-iproc-msi.c:591:16: note: did you mean 'bitmap_zalloc'?
+   include/linux/bitmap-core.h:22:16: note: 'bitmap_zalloc' declared here
+   unsigned long *bitmap_zalloc(unsigned int nbits, gfp_t flags);
+                  ^
+>> drivers/pci/controller/pcie-iproc-msi.c:591:14: warning: incompatible integer to pointer conversion assigning to 'unsigned long *' from 'int' [-Wint-conversion]
+           msi->bitmap = devm_bitmap_zalloc(pcie->dev, msi->nr_msi_vecs,
+                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 3 errors generated.
+--
+   drivers/pci/controller/dwc/pcie-designware-ep.c:691:22: error: implicit declaration of function 'devm_bitmap_zalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           ep->ib_window_map = devm_bitmap_zalloc(dev, pci->num_ib_windows,
+                               ^
+   drivers/pci/controller/dwc/pcie-designware-ep.c:691:22: note: did you mean 'bitmap_zalloc'?
+   include/linux/bitmap-core.h:22:16: note: 'bitmap_zalloc' declared here
+   unsigned long *bitmap_zalloc(unsigned int nbits, gfp_t flags);
+                  ^
+>> drivers/pci/controller/dwc/pcie-designware-ep.c:691:20: warning: incompatible integer to pointer conversion assigning to 'unsigned long *' from 'int' [-Wint-conversion]
+           ep->ib_window_map = devm_bitmap_zalloc(dev, pci->num_ib_windows,
+                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware-ep.c:696:20: warning: incompatible integer to pointer conversion assigning to 'unsigned long *' from 'int' [-Wint-conversion]
+           ep->ob_window_map = devm_bitmap_zalloc(dev, pci->num_ob_windows,
+                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings and 1 error generated.
 
-   449	
-   450	/**
-   451	 * thermal_of_zone_register - Register a thermal zone with device node
-   452	 * sensor
-   453	 *
-   454	 * The thermal_of_zone_register() parses a device tree given a device
-   455	 * node sensor and identifier. It searches for the thermal zone
-   456	 * associated to the couple sensor/id and retrieves all the thermal
-   457	 * zone properties and registers new thermal zone with those
-   458	 * properties.
-   459	 *
-   460	 * @sensor: A device node pointer corresponding to the sensor in the device tree
-   461	 * @id: An integer as sensor identifier
-   462	 * @data: A private data to be stored in the thermal zone dedicated private area
-   463	 * @ops: A set of thermal sensor ops
-   464	 *
-   465	 * Return: a valid thermal zone structure pointer on success.
-   466	 * 	- EINVAL: if the device tree thermal description is malformed
-   467	 *	- ENOMEM: if one structure can not be allocated
-   468	 *	- Other negative errors are returned by the underlying called functions
-   469	 */
-   470	static struct thermal_zone_device *thermal_of_zone_register(struct device_node *sensor, int id, void *data,
-   471								    const struct thermal_zone_device_ops *ops)
-   472	{
-   473		struct thermal_zone_device_ops of_ops = *ops;
-   474		struct thermal_zone_device *tz;
-   475		struct thermal_trip *trips;
-   476		struct thermal_zone_params tzp = {};
-   477		struct device_node *np;
-   478		const char *action;
-   479		int delay, pdelay;
-   480		int ntrips;
-   481		int ret;
-   482	
-   483		np = of_thermal_zone_find(sensor, id);
-   484		if (IS_ERR(np)) {
-   485			if (PTR_ERR(np) != -ENODEV)
-   486				pr_err("Failed to find thermal zone for %pOFn id=%d\n", sensor, id);
- > 487			return ERR_PTR(PTR_ERR(np));
-   488		}
-   489	
-   490		trips = thermal_of_trips_init(np, &ntrips);
-   491		if (IS_ERR(trips)) {
-   492			pr_err("Failed to find trip points for %pOFn id=%d\n", sensor, id);
- > 493			return ERR_PTR(PTR_ERR(trips));
-   494		}
-   495	
-   496		ret = thermal_of_monitor_init(np, &delay, &pdelay);
-   497		if (ret) {
-   498			pr_err("Failed to initialize monitoring delays from %pOFn\n", np);
-   499			goto out_kfree_trips;
-   500		}
-   501	
-   502		thermal_of_parameters_init(np, &tzp);
-   503	
-   504		of_ops.bind = thermal_of_bind;
-   505		of_ops.unbind = thermal_of_unbind;
-   506	
-   507		ret = of_property_read_string(np, "critical-action", &action);
-   508		if (!ret)
-   509			if (!of_ops.critical && !strcasecmp(action, "reboot"))
-   510				of_ops.critical = thermal_zone_device_critical_reboot;
-   511	
-   512		tz = thermal_zone_device_register_with_trips(np->name, trips, ntrips,
-   513							     data, &of_ops, &tzp,
-   514							     pdelay, delay);
-   515		if (IS_ERR(tz)) {
-   516			ret = PTR_ERR(tz);
-   517			pr_err("Failed to register thermal zone %pOFn: %d\n", np, ret);
-   518			goto out_kfree_trips;
-   519		}
-   520	
-   521		ret = thermal_zone_device_enable(tz);
-   522		if (ret) {
-   523			pr_err("Failed to enabled thermal zone '%s', id=%d: %d\n",
-   524			       tz->type, tz->id, ret);
-   525			thermal_of_zone_unregister(tz);
-   526			return ERR_PTR(ret);
-   527		}
-   528	
-   529		return tz;
-   530	
-   531	out_kfree_trips:
-   532		kfree(trips);
-   533	
-   534		return ERR_PTR(ret);
-   535	}
-   536	
+
+vim +1121 drivers/iommu/tegra-smmu.c
+
+d1313e7896e932 Thierry Reding     2015-01-23  1098  
+89184651631713 Thierry Reding     2014-04-16  1099  struct tegra_smmu *tegra_smmu_probe(struct device *dev,
+89184651631713 Thierry Reding     2014-04-16  1100  				    const struct tegra_smmu_soc *soc,
+89184651631713 Thierry Reding     2014-04-16  1101  				    struct tegra_mc *mc)
+89184651631713 Thierry Reding     2014-04-16  1102  {
+89184651631713 Thierry Reding     2014-04-16  1103  	struct tegra_smmu *smmu;
+89184651631713 Thierry Reding     2014-04-16  1104  	u32 value;
+89184651631713 Thierry Reding     2014-04-16  1105  	int err;
+0760e8faa960f8 Hiroshi Doyu       2012-06-25  1106  
+89184651631713 Thierry Reding     2014-04-16  1107  	smmu = devm_kzalloc(dev, sizeof(*smmu), GFP_KERNEL);
+89184651631713 Thierry Reding     2014-04-16  1108  	if (!smmu)
+89184651631713 Thierry Reding     2014-04-16  1109  		return ERR_PTR(-ENOMEM);
+0760e8faa960f8 Hiroshi Doyu       2012-06-25  1110  
+765a9d1d02b2f5 Nicolin Chen       2021-02-18  1111  	/*
+765a9d1d02b2f5 Nicolin Chen       2021-02-18  1112  	 * This is a bit of a hack. Ideally we'd want to simply return this
+48a7c5080a28ab Robin Murphy       2022-08-15  1113  	 * value. However iommu_device_register() will attempt to add
+48a7c5080a28ab Robin Murphy       2022-08-15  1114  	 * all devices to the IOMMU before we get that far. In order
+765a9d1d02b2f5 Nicolin Chen       2021-02-18  1115  	 * not to rely on global variables to track the IOMMU instance, we
+765a9d1d02b2f5 Nicolin Chen       2021-02-18  1116  	 * set it here so that it can be looked up from the .probe_device()
+765a9d1d02b2f5 Nicolin Chen       2021-02-18  1117  	 * callback via the IOMMU device's .drvdata field.
+765a9d1d02b2f5 Nicolin Chen       2021-02-18  1118  	 */
+765a9d1d02b2f5 Nicolin Chen       2021-02-18  1119  	mc->smmu = smmu;
+765a9d1d02b2f5 Nicolin Chen       2021-02-18  1120  
+89374244a43e51 Christophe JAILLET 2021-09-26 @1121  	smmu->asids = devm_bitmap_zalloc(dev, soc->num_asids, GFP_KERNEL);
+89184651631713 Thierry Reding     2014-04-16  1122  	if (!smmu->asids)
+89184651631713 Thierry Reding     2014-04-16  1123  		return ERR_PTR(-ENOMEM);
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1124  
+7f4c9176f760f4 Thierry Reding     2017-10-12  1125  	INIT_LIST_HEAD(&smmu->groups);
+89184651631713 Thierry Reding     2014-04-16  1126  	mutex_init(&smmu->lock);
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1127  
+89184651631713 Thierry Reding     2014-04-16  1128  	smmu->regs = mc->regs;
+89184651631713 Thierry Reding     2014-04-16  1129  	smmu->soc = soc;
+89184651631713 Thierry Reding     2014-04-16  1130  	smmu->dev = dev;
+89184651631713 Thierry Reding     2014-04-16  1131  	smmu->mc = mc;
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1132  
+82fa58e81d9edc Nicolin Chen       2020-09-11  1133  	smmu->pfn_mask =
+82fa58e81d9edc Nicolin Chen       2020-09-11  1134  		BIT_MASK(mc->soc->num_address_bits - SMMU_PTE_SHIFT) - 1;
+804cb54cbb3dda Thierry Reding     2015-03-27  1135  	dev_dbg(dev, "address bits: %u, PFN mask: %#lx\n",
+804cb54cbb3dda Thierry Reding     2015-03-27  1136  		mc->soc->num_address_bits, smmu->pfn_mask);
+d5c152c3409ac1 Nicolin Chen       2020-09-17  1137  	smmu->tlb_mask = (1 << fls(smmu->soc->num_tlb_lines)) - 1;
+11cec15bf3fb49 Thierry Reding     2015-08-06  1138  	dev_dbg(dev, "TLB lines: %u, mask: %#lx\n", smmu->soc->num_tlb_lines,
+11cec15bf3fb49 Thierry Reding     2015-08-06  1139  		smmu->tlb_mask);
+804cb54cbb3dda Thierry Reding     2015-03-27  1140  
+89184651631713 Thierry Reding     2014-04-16  1141  	value = SMMU_PTC_CONFIG_ENABLE | SMMU_PTC_CONFIG_INDEX_MAP(0x3f);
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1142  
+89184651631713 Thierry Reding     2014-04-16  1143  	if (soc->supports_request_limit)
+89184651631713 Thierry Reding     2014-04-16  1144  		value |= SMMU_PTC_CONFIG_REQ_LIMIT(8);
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1145  
+89184651631713 Thierry Reding     2014-04-16  1146  	smmu_writel(smmu, value, SMMU_PTC_CONFIG);
+39abf8aa7dfad0 Hiroshi Doyu       2012-08-02  1147  
+89184651631713 Thierry Reding     2014-04-16  1148  	value = SMMU_TLB_CONFIG_HIT_UNDER_MISS |
+11cec15bf3fb49 Thierry Reding     2015-08-06  1149  		SMMU_TLB_CONFIG_ACTIVE_LINES(smmu);
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1150  
+89184651631713 Thierry Reding     2014-04-16  1151  	if (soc->supports_round_robin_arbitration)
+89184651631713 Thierry Reding     2014-04-16  1152  		value |= SMMU_TLB_CONFIG_ROUND_ROBIN_ARBITRATION;
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1153  
+89184651631713 Thierry Reding     2014-04-16  1154  	smmu_writel(smmu, value, SMMU_TLB_CONFIG);
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1155  
+b8fe03827b192a Russell King       2015-07-27  1156  	smmu_flush_ptc_all(smmu);
+89184651631713 Thierry Reding     2014-04-16  1157  	smmu_flush_tlb(smmu);
+89184651631713 Thierry Reding     2014-04-16  1158  	smmu_writel(smmu, SMMU_CONFIG_ENABLE, SMMU_CONFIG);
+89184651631713 Thierry Reding     2014-04-16  1159  	smmu_flush(smmu);
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1160  
+89184651631713 Thierry Reding     2014-04-16  1161  	tegra_smmu_ahb_enable();
+7a31f6f48bb6e3 Hiroshi DOYU       2011-11-17  1162  
+0b480e44700614 Joerg Roedel       2017-08-09  1163  	err = iommu_device_sysfs_add(&smmu->iommu, dev, NULL, dev_name(dev));
+0b480e44700614 Joerg Roedel       2017-08-09  1164  	if (err)
+0b480e44700614 Joerg Roedel       2017-08-09  1165  		return ERR_PTR(err);
+0b480e44700614 Joerg Roedel       2017-08-09  1166  
+2d471b20c55e13 Robin Murphy       2021-04-01  1167  	err = iommu_device_register(&smmu->iommu, &tegra_smmu_ops, dev);
+48a7c5080a28ab Robin Murphy       2022-08-15  1168  	if (err) {
+48a7c5080a28ab Robin Murphy       2022-08-15  1169  		iommu_device_sysfs_remove(&smmu->iommu);
+48a7c5080a28ab Robin Murphy       2022-08-15  1170  		return ERR_PTR(err);
+48a7c5080a28ab Robin Murphy       2022-08-15  1171  	}
+96302d89a03524 Joerg Roedel       2017-08-30  1172  
+d1313e7896e932 Thierry Reding     2015-01-23  1173  	if (IS_ENABLED(CONFIG_DEBUG_FS))
+d1313e7896e932 Thierry Reding     2015-01-23  1174  		tegra_smmu_debugfs_init(smmu);
+d1313e7896e932 Thierry Reding     2015-01-23  1175  
+89184651631713 Thierry Reding     2014-04-16  1176  	return smmu;
+89184651631713 Thierry Reding     2014-04-16  1177  }
+d1313e7896e932 Thierry Reding     2015-01-23  1178  
+
+:::::: The code at line 1121 was first introduced by commit
+:::::: 89374244a43e51137ade6d22849ef73876f94a2b iommu/tegra-smmu: Use devm_bitmap_zalloc when applicable
+
+:::::: TO: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
