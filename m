@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CE239AFE;
-	Mon, 12 Feb 2024 12:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9335E3A1BC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 13:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707741733; cv=none; b=G6HoIp9GexXfQKnuecajkauWvw9mPAVfDGrJn/rvnNHAF30z5NpCNiZJcsFy693Uw4Oxaoudblyzxa5XRYmJh0Bo7T97M+9hx0YLn1ktGXhPTZotwoEJDuJ7p0Mftqi0b0TEb1TkXYnaQ/fJwWVNSqHqrX5jMgRqB/Y6tQ1+7xs=
+	t=1707743533; cv=none; b=Vhs9P8s8A9+k5lNsuhGpnmWVqc2EdAG0iEQUuoEZTGvezbRGHpoAct5A0CCJqBuih6kYrJxgP0NBUCTeMsBtklcTU8YoZ/6xewoVtchDBnErZNoJCHilLH6YC0N/r7iIQGgrUyjnVv3dm/yh+KESEtbNf94mQcgiP4ERZBs7b+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707741733; c=relaxed/simple;
-	bh=8ahY7c+eV6OLZtiYet7sguCFreXtMvOFOJFoSm+eyWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=slYS5neo0ESyYfraZtp0z8WNJJ2uiMMuyQ8FYoqtZEbmmw7JT++yFrLXvIOneVK58JkJ3X492xmLnPNE9sjXbyygvgrOb/VNOmhq+rAchL982Xh0Q+hN9I280N4UvBQVY7YczdfOtqzoaPzITm02LalFBEFFP7Ybb/bcudzl9Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhAr2a1z; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1707743533; c=relaxed/simple;
+	bh=10z6cdPX5X+iDSkWJPn5PzUPkdrF0gqsXw5u1Zgn980=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KR58WABRygm2NXDl/gtsRLf9Lx+8Nwl0YPdv2wuUnzN1XL3J+3s/KITQMpiR7kKPs7H1Q0C7KuLqPsYjFIy0Iec1A+5Az/qTyr36TJjTiQlzzVHo4nHbLt3wbjaB2w1nFYeYnYycXbKrEBAdu1YXGLvmQhqNeKhcplNWYvFm5Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2KlatJ/; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhAr2a1z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2KlatJ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707741732; x=1739277732;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8ahY7c+eV6OLZtiYet7sguCFreXtMvOFOJFoSm+eyWA=;
-  b=OhAr2a1zudDe+srQcMEyPrqoTBqF8itN2WXhYZ2j8dlkBkcmppr2a8nu
-   bx0uWEwVGRbSSFWxyZKbB9B02r5nf+SGxxceVJx3wqUB6vCOMgA7pzqMA
-   ZCG/hgGfXSr6m76S0bdhQ95TA+dnjmtOhe+zZAM3GsTtIUpQJ9XtgAZ8m
-   Ipf1/XuktPhwjVtsxi+7sOfgMDlfujw6FiO8O6qjKlswh9KBChhumLX73
-   nsi3rujMHK/XjA4FHr7UP56OlOupciyUI3OmpiUIVu0o+HTZmpmGd+XLa
-   hNJoYIOqH6YmsPkqc/is8sZBJprKvE7OnVQGT5nyis1MMXMjiuJIzzU/x
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1868510"
+  t=1707743531; x=1739279531;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=10z6cdPX5X+iDSkWJPn5PzUPkdrF0gqsXw5u1Zgn980=;
+  b=R2KlatJ/WrE582gdE8xf9k9xx0as7GCVhzh4zo4FOZO1gH4Yx8+PUo+/
+   flFifNryJZY1w8zqa09M9YwjgQohgde//Fq+5slyvIfJTAtncjhrGQI20
+   mQHlSFcmsdpBa2aSfHzG6bC2Thm/4EBOLOoUVipl4kauoi86p49XmDuc1
+   Y5hDPWxH0+w4ZMasKxWYDWG5OPf+LEXTgeelzwkof/cocuum4+rO2FT1A
+   ar5nG7FWGg+XmW+JoMBDNw42+lF0g+iv1JI89y5pJ69SGjuQxvcYULlVe
+   uHS+6zDxk/u1Ip8+TRLKxpKuUPaxRq3op/IZdGqlTbr9sMYsgDO4bl6u+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="5495552"
 X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; 
-   d="scan'208";a="1868510"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 04:42:11 -0800
+   d="scan'208";a="5495552"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 05:12:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; 
-   d="scan'208";a="7209497"
+   d="scan'208";a="7232816"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Feb 2024 04:42:09 -0800
+  by orviesa005.jf.intel.com with ESMTP; 12 Feb 2024 05:12:09 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZVdO-000780-2d;
-	Mon, 12 Feb 2024 12:42:06 +0000
-Date: Mon, 12 Feb 2024 20:41:15 +0800
+	id 1rZW6R-00078S-03;
+	Mon, 12 Feb 2024 13:12:07 +0000
+Date: Mon, 12 Feb 2024 21:11:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Max Kellermann <max.kellermann@ionos.com>
-Subject: Re: [PATCH v4 02/35] include: remove unnecessary #include directives
-Message-ID: <202402122015.7dytzCz3-lkp@intel.com>
-References: <20240211231518.349442-3-max.kellermann@ionos.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fsnotify-perf 3/3]
+ include/linux/fsnotify_backend.h:506:60: error: 'struct super_block' has no
+ member named 's_fsnotify_marks'
+Message-ID: <202402122144.9Dm8i10y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,83 +58,174 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240211231518.349442-3-max.kellermann@ionos.com>
 
-Hi Max,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20240209]
-[cannot apply to drm-misc/drm-misc-next media-tree/master mkp-scsi/for-next linus/master v6.8-rc4 v6.8-rc3 v6.8-rc2 v6.8-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-add-missing-includes/20240212-072756
-base:   next-20240209
-patch link:    https://lore.kernel.org/r/20240211231518.349442-3-max.kellermann%40ionos.com
-patch subject: [PATCH v4 02/35] include: remove unnecessary #include directives
-config: arm-randconfig-004-20240212 (https://download.01.org/0day-ci/archive/20240212/202402122015.7dytzCz3-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project c08b90c50bcac9f3f563c79491c8dbcbe7c3b574)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402122015.7dytzCz3-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux fsnotify-perf
+head:   36091a66bd764d918cf5fcc5797bc82b878a2bfe
+commit: 36091a66bd764d918cf5fcc5797bc82b878a2bfe [3/3] fsnotify: move s_fsnotify_connectors into sb connector
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240212/202402122144.9Dm8i10y-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402122144.9Dm8i10y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402122015.7dytzCz3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402122144.9Dm8i10y-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_modeset_lock.c:87:6: error: call to undeclared function 'stack_trace_save'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      87 |         n = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
-         |             ^
-   drivers/gpu/drm/drm_modeset_lock.c:87:6: note: did you mean 'stack_depot_save'?
-   include/linux/stackdepot.h:132:22: note: 'stack_depot_save' declared here
-     132 | depot_stack_handle_t stack_depot_save(unsigned long *entries,
-         |                      ^
->> drivers/gpu/drm/drm_modeset_lock.c:104:2: error: call to undeclared function 'stack_trace_snprint'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     104 |         stack_trace_snprint(buf, PAGE_SIZE, entries, nr_entries, 2);
-         |         ^
-   drivers/gpu/drm/drm_modeset_lock.c:104:2: note: did you mean 'stack_depot_snprint'?
-   include/linux/stackdepot.h:163:5: note: 'stack_depot_snprint' declared here
-     163 | int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
-         |     ^
-   2 errors generated.
+   In file included from <command-line>:
+   include/linux/fsnotify_backend.h: In function 'fsnotify_sb_connector':
+>> include/linux/fsnotify_backend.h:506:60: error: 'struct super_block' has no member named 's_fsnotify_marks'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                            ^~
+   include/linux/compiler_types.h:415:23: note: in definition of macro '__compiletime_assert'
+     415 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:506:48: note: in expansion of macro 'READ_ONCE'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:506:60: error: 'struct super_block' has no member named 's_fsnotify_marks'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                            ^~
+   include/linux/compiler_types.h:415:23: note: in definition of macro '__compiletime_assert'
+     415 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:506:48: note: in expansion of macro 'READ_ONCE'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:506:60: error: 'struct super_block' has no member named 's_fsnotify_marks'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                            ^~
+   include/linux/compiler_types.h:415:23: note: in definition of macro '__compiletime_assert'
+     415 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:506:48: note: in expansion of macro 'READ_ONCE'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:506:60: error: 'struct super_block' has no member named 's_fsnotify_marks'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                            ^~
+   include/linux/compiler_types.h:415:23: note: in definition of macro '__compiletime_assert'
+     415 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:506:48: note: in expansion of macro 'READ_ONCE'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:506:60: error: 'struct super_block' has no member named 's_fsnotify_marks'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                            ^~
+   include/linux/compiler_types.h:415:23: note: in definition of macro '__compiletime_assert'
+     415 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
+     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fsnotify_backend.h:506:48: note: in expansion of macro 'READ_ONCE'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                ^~~~~~~~~
+>> include/linux/fsnotify_backend.h:506:60: error: 'struct super_block' has no member named 's_fsnotify_marks'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                            ^~
+   include/linux/compiler_types.h:391:27: note: in definition of macro '__unqual_scalar_typeof'
+     391 |                 _Generic((x),                                           \
+         |                           ^
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   include/linux/fsnotify_backend.h:506:48: note: in expansion of macro 'READ_ONCE'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                ^~~~~~~~~
+   In file included from arch/alpha/include/asm/rwonce.h:33,
+                    from include/linux/compiler.h:251,
+                    from include/linux/array_size.h:5,
+                    from include/linux/string.h:5,
+                    from fs/open.c:8:
+>> include/linux/fsnotify_backend.h:506:60: error: 'struct super_block' has no member named 's_fsnotify_marks'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                            ^~
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   include/linux/fsnotify_backend.h:506:48: note: in expansion of macro 'READ_ONCE'
+     506 |         struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+         |                                                ^~~~~~~~~
+   In file included from fs/open.c:12:
+   include/linux/fsnotify.h: In function 'fsnotify_access':
+   include/linux/fsnotify.h:392:9: error: implicit declaration of function 'fsnotify_file'; did you mean 'fsnotify_link'? [-Werror=implicit-function-declaration]
+     392 |         fsnotify_file(file, FS_ACCESS);
+         |         ^~~~~~~~~~~~~
+         |         fsnotify_link
+   cc1: some warnings being treated as errors
 
 
-vim +/stack_trace_save +87 drivers/gpu/drm/drm_modeset_lock.c
+vim +506 include/linux/fsnotify_backend.h
 
-35cf03508d8466 Rob Clark        2016-11-14   80  
-cd06ab2fd48f2c Jani Nikula      2021-10-01   81  #if IS_ENABLED(CONFIG_DRM_DEBUG_MODESET_LOCK)
-bcae3af286f49b Stephen Rothwell 2021-10-18   82  static noinline depot_stack_handle_t __drm_stack_depot_save(void)
-cd06ab2fd48f2c Jani Nikula      2021-10-01   83  {
-cd06ab2fd48f2c Jani Nikula      2021-10-01   84  	unsigned long entries[8];
-cd06ab2fd48f2c Jani Nikula      2021-10-01   85  	unsigned int n;
-cd06ab2fd48f2c Jani Nikula      2021-10-01   86  
-cd06ab2fd48f2c Jani Nikula      2021-10-01  @87  	n = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
-cd06ab2fd48f2c Jani Nikula      2021-10-01   88  
-cd06ab2fd48f2c Jani Nikula      2021-10-01   89  	return stack_depot_save(entries, n, GFP_NOWAIT | __GFP_NOWARN);
-cd06ab2fd48f2c Jani Nikula      2021-10-01   90  }
-cd06ab2fd48f2c Jani Nikula      2021-10-01   91  
-bcae3af286f49b Stephen Rothwell 2021-10-18   92  static void __drm_stack_depot_print(depot_stack_handle_t stack_depot)
-cd06ab2fd48f2c Jani Nikula      2021-10-01   93  {
-cd06ab2fd48f2c Jani Nikula      2021-10-01   94  	struct drm_printer p = drm_debug_printer("drm_modeset_lock");
-cd06ab2fd48f2c Jani Nikula      2021-10-01   95  	unsigned long *entries;
-cd06ab2fd48f2c Jani Nikula      2021-10-01   96  	unsigned int nr_entries;
-cd06ab2fd48f2c Jani Nikula      2021-10-01   97  	char *buf;
-cd06ab2fd48f2c Jani Nikula      2021-10-01   98  
-cd06ab2fd48f2c Jani Nikula      2021-10-01   99  	buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
-cd06ab2fd48f2c Jani Nikula      2021-10-01  100  	if (!buf)
-cd06ab2fd48f2c Jani Nikula      2021-10-01  101  		return;
-cd06ab2fd48f2c Jani Nikula      2021-10-01  102  
-cd06ab2fd48f2c Jani Nikula      2021-10-01  103  	nr_entries = stack_depot_fetch(stack_depot, &entries);
-cd06ab2fd48f2c Jani Nikula      2021-10-01 @104  	stack_trace_snprint(buf, PAGE_SIZE, entries, nr_entries, 2);
-cd06ab2fd48f2c Jani Nikula      2021-10-01  105  
-cd06ab2fd48f2c Jani Nikula      2021-10-01  106  	drm_printf(&p, "attempting to lock a contended lock without backoff:\n%s", buf);
-cd06ab2fd48f2c Jani Nikula      2021-10-01  107  
-cd06ab2fd48f2c Jani Nikula      2021-10-01  108  	kfree(buf);
-cd06ab2fd48f2c Jani Nikula      2021-10-01  109  }
-2dba5eb1c73b6b Vlastimil Babka  2022-01-21  110  
+   502	
+   503	static inline struct fsnotify_sb_connector *fsnotify_sb_connector(
+   504								struct super_block *sb)
+   505	{
+ > 506		struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
+   507	
+   508		if (!conn)
+   509			return NULL;
+   510	
+   511		return container_of(conn, struct fsnotify_sb_connector, fsn_conn);
+   512	}
+   513	
 
 -- 
 0-DAY CI Kernel Test Service
