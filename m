@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EDA5680;
-	Mon, 12 Feb 2024 05:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC1D3D62
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 08:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707715115; cv=none; b=oE9l3+l7m7YH72W2WEGG89E4V/PcBePQCzmbvx9e4r0ozAprUoCT+a5zYqEKs1XYGoipTcaabyljf+ntM+SHwMx+c6vPOFW7g7hSSkkzeMFAer8RYlLrnftQmghZ4lBuXML887wf0HKIDr7BlYbIAy5nhwI5WVISgQQTdVlLrNI=
+	t=1707725869; cv=none; b=qhZ+pHVh4pcfvC4Rhk7ddSJhDytzcRRwT/KF1xkECrHyiSNhVn0DSzmwMXCOeOePbnPdlQhOagWUS73AhJCh2/m/0wkB+yaXhIzJvSj1fSEMnvnLLB4g01znhvyxRcWAhXj1sgwiZs1634UpE9EmrRH1fQ2gMCJKTnGwAPoi2Kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707715115; c=relaxed/simple;
-	bh=KLZZMTyCIpkRQaeXCIxr/JJ16x+kKWm9YsrvXvu9+ls=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CRGwgnV5L1w6/J9nCaeLhQiq28moEnFYzdvY2LjkHTW7SOlhQSgdjzJngbG3BMBzvI+c6tOQaF64LQEdTFG7Dwg6w5Sh8Kmqmbxr7vcv24tXK/3/Qlcop6A16lliAX9vxXNuJhVOWNVULlGSG/YDS6KOE5ihaTVrR1MmnWftr1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FN7ddHFo; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707725869; c=relaxed/simple;
+	bh=tOIPNw4dNbIPeVbG3nByvllBJfybEKyRu13UE5L0Cd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=EIrarYrnyAdi5q5cbfi5QYFIWvurCiEWMw0eC39z5LEswawr3zSiYZ3BMAY04CYly2WYDtmoPPqpuE/cD2mySP/+p9AXraZnL93K5RbisfvLqleaS5Z2cqxPLJdIaY/drK+ldKABVX5a/Wv0xo78TwoEP2NTvlBU9D5SAS9hyRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aqFMaDc9; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FN7ddHFo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707715114; x=1739251114;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KLZZMTyCIpkRQaeXCIxr/JJ16x+kKWm9YsrvXvu9+ls=;
-  b=FN7ddHFoDtcrR66yWDgzD+1vOo22tPiw9YQedoLWsu1yZUqXRaVwXtB2
-   rfrOW26nBlr1hckVIMovL8G2N4Wu5JXIWuixyGkhINUhyLfzQ0mU2qEVe
-   BKVyGvLETiyrztiCyNLnis90s8rSvBbTc32OjUWI8IcI85qWnXzmcRFb2
-   aYo1BTqsoi4Txzs4UmJioaycp/eeIX46KTFVLX+y5sP9vI2riWhbRVNE4
-   m/DT2OMkRSxObcg9Yl3FzlVTPeCc5OwAmhthw5mtMfxJGLeeCA+XlWe78
-   9nPfi5aSuWo3Q3Qpt2U7+6Omf2nK4kyKpU3XBNVb8WFTTM992Lc1FmI3k
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1822083"
-X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="1822083"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 21:18:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="825713368"
-X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="825713368"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 Feb 2024 21:18:29 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rZOi3-0006we-05;
-	Mon, 12 Feb 2024 05:18:27 +0000
-Date: Mon, 12 Feb 2024 13:18:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Max Kellermann <max.kellermann@ionos.com>
-Subject: Re: [PATCH v4 03/35] include: reduce header dependencies by using
- "*_types.h"
-Message-ID: <202402121320.iojukTeD-lkp@intel.com>
-References: <20240211231518.349442-4-max.kellermann@ionos.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aqFMaDc9"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-55f279dca99so4166297a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 00:17:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707725866; x=1708330666; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IgRlFVad8LwIhP5jpZKETMsb6daw55MtLMHfKSOgg7c=;
+        b=aqFMaDc9yqdp5kuXdc+shxVgI7z32vxE6hpaX9Ar8JH4ssqD3k8fMToWIudGEpNmuo
+         kzAcHCtw2l1ohu/u2rR7THjIZBqlACM0Qt562CUUHJjjl5hK/3lcRTy6jAUMP+oAoFL5
+         CnDu4ZWu759X9aAcVoxTQAxvG7NaLV48gvm0RLIZjO+lhlPKgp1SlCjVVZgbSWAainqZ
+         0FY/jPN6hH/SVLEnarA5Q4PupUbIZN16DwUbfdeyofuqZFLmyhGWkc1qJkKcBBXaDdNR
+         32VJ4hN8Gj0yemj5r3PJAtTcJ5Qq92GI4rs/nXNYDWiY1tVCprGwFs7x42UO/cFNXpL0
+         KJ7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707725866; x=1708330666;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IgRlFVad8LwIhP5jpZKETMsb6daw55MtLMHfKSOgg7c=;
+        b=UWV+XdGTZaWOKaHYKSMt3bbVEXOCnndaCA9Bw2j7l1fJHVX91EreYFumea9E7r6jLB
+         8lgTrks0xlp9EJC+jxKT+jLzh7MpGo5qur+VFSyCHS3bFJCgLX8cjMa3dmFMPN+cr0q1
+         O14HYBgeJuM+RajQAOkMiFAYfEfwGbIES7lJU+lJEI9mKuZUyxufep9+ybnREQa+we6c
+         IUZCfY4URi25s0D0v2Bf3FtVZymuxyIowWyEli5yK8JTvNnq9EBngGtVRdlpxOHHJkTn
+         oakM724W04U1UbFFcNSe31jzAcvAvJw+1VYOopdZ1cft1tuGxpZwL9lm85JVSoPY9b3y
+         CndA==
+X-Gm-Message-State: AOJu0YzQ4moF3V0YgClrNVVPiKNTQMRQjM8RUyi6a3GQ70Q8ri7tzB2J
+	8+JxRM3oxcglcaNYdv0ELFQRLRgot4P6qfs/FYU1DqJSpOYDLmTpIZtHcCaJick=
+X-Google-Smtp-Source: AGHT+IFhzNR3hgdBD/mnCMKuG1BgHLbkCR5vTiQsXZ5H3Eb0NydIX8xbWHz53/LNTiM3sGYggui9Ew==
+X-Received: by 2002:aa7:c71a:0:b0:560:ea74:a679 with SMTP id i26-20020aa7c71a000000b00560ea74a679mr3582158edq.5.1707725866330;
+        Mon, 12 Feb 2024 00:17:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX+bdymo+XkURNN2y3EbZ/jsCpvOyKu/b7kSnFBkbqgd7diDwNr5qp9P5vNBX2LMK4ZJxeBPVMy6jadExOWHhSaEMNXh03eSHvJCDXk+sIfrWkaodtMXIVcNSnJ6JlqUUkbXSeb8pYt1PWjqBuK7OLWdjD76SiFm9cRxF2f
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id b6-20020aa7c906000000b00560ba66587csm2462955edt.13.2024.02.12.00.17.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 00:17:46 -0800 (PST)
+Date: Mon, 12 Feb 2024 11:17:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Eric Woudstra <ericwouds@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net-next 2/2] net: phy: air_en8811h: Add the Airoha
+ EN8811H PHY driver
+Message-ID: <20977ba9-0cdd-4f5d-a203-64b01af2acfb@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,53 +66,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240211231518.349442-4-max.kellermann@ionos.com>
+In-Reply-To: <20240206194751.1901802-3-ericwouds@gmail.com>
 
-Hi Max,
+Hi Eric,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20240209]
-[cannot apply to drm-misc/drm-misc-next media-tree/master mkp-scsi/for-next linus/master v6.8-rc4 v6.8-rc3 v6.8-rc2 v6.8-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-add-missing-includes/20240212-072756
-base:   next-20240209
-patch link:    https://lore.kernel.org/r/20240211231518.349442-4-max.kellermann%40ionos.com
-patch subject: [PATCH v4 03/35] include: reduce header dependencies by using "*_types.h"
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240212/202402121320.iojukTeD-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402121320.iojukTeD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Woudstra/dt-bindings-net-airoha-en8811h-Add-en8811h-serdes-polarity/20240207-035021
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240206194751.1901802-3-ericwouds%40gmail.com
+patch subject: [PATCH net-next 2/2] net: phy: air_en8811h: Add the Airoha EN8811H PHY driver
+config: sh-randconfig-r081-20240211 (https://download.01.org/0day-ci/archive/20240211/202402110805.r1KRiKtL-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402121320.iojukTeD-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402110805.r1KRiKtL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/phy/air_en8811h.c:560 air_led_hw_control_set() error: testing array offset 'index' after use.
 
-   In file included from drivers/mtd/chips/cfi_probe.c:19:
-   In file included from include/linux/mtd/cfi.h:13:
->> include/linux/mtd/flashchip.h:16:10: fatal error: 'linux/wait_types.h' file not found
-   #include <linux/wait_types.h>
-            ^~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+vim +/index +560 drivers/net/phy/air_en8811h.c
 
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  551  static int air_led_hw_control_set(struct phy_device *phydev, u8 index,
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  552  				  unsigned long rules)
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  553  {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  554  	struct en8811h_priv *priv = phydev->priv;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  555  	u16 on = 0, blink = 0;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  556  	int ret;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  557  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  558  	priv->led[index].rules = rules;
+                                                         ^^^^^^
+out of bounds
 
-vim +16 include/linux/mtd/flashchip.h
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  559  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06 @560  	if (index >= EN8811H_LED_COUNT)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-     9	
-    10	/* For spinlocks. sched.h includes spinlock.h from whichever directory it
-    11	 * happens to be in - so we don't have to care whether we're on 2.2, which
-    12	 * has asm/spinlock.h, or 2.4, which has linux/spinlock.h
-    13	 */
-    14	#include <linux/sched.h>
-    15	#include <linux/mutex_types.h>
-  > 16	#include <linux/wait_types.h>
-    17	
+Too late.  priv->led[] has EN8811H_LED_COUNT elements.
+
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  561  		return -EINVAL;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  562  
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  563  	if (rules & (BIT(TRIGGER_NETDEV_LINK_10)   | BIT(TRIGGER_NETDEV_LINK))) {
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  564  		on |= AIR_PHY_LED_ON_LINK10;
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  565  		if (rules & BIT(TRIGGER_NETDEV_RX))
+3fe47bc0b949e7 Eric Woudstra 2024-02-06  566  			blink |= AIR_PHY_LED_BLINK_10RX;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
