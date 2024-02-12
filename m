@@ -1,206 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5758481C2;
-	Mon, 12 Feb 2024 19:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E094C615
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 20:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707767816; cv=none; b=LOJnC4R0PhLk/TjGDSub7gZe1Y2Z89CqBKuWfkrelnKNa+MMeDjQQ0xJ7Naqm57B+wfdVy2WK/yH/DOdursNl4+0NGqkwbsmJm34M8oOTaRYMUHep7pIBhLhBCvhuD4mYX1Dbp7Mb5c2+iwU7K1PRN/wz8NiAZhuwSsDuSuILvE=
+	t=1707770816; cv=none; b=qLS2P/Fa2WiVlUSLYw5Bn+Ysn+QTJWy76KjxZLrWFIkxYKnXooaGSyRTYfnySGQRFe03XM0XuLwfb9b1AxLos9fCqV13VtF8HZZB/VvQ9I8TMQTv0/KFvYs7cZxC2CW/ExPMG/faZt20psbi/32iwB2RnH8mM2GgNbz+sQEs490=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707767816; c=relaxed/simple;
-	bh=VbiWwUlRwFGEs9WFueIKvPJkqFyBrhzz4cOYE4POKHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qmPMn/fE9K18SqbmyzWjPiyzDtxB2nvv85HGnKJVH0BLXB61RV8T2F3JcJx41RdYSyLDQoh1gK/OnPm+RXtzqduLHab0l1c29duCGQDrVNEyN24o0XN6F75J/zrdiiWyoNHbHfGosZYSYS0grgZROXvukdFnbkTmJU+IrQ8tqP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjIgjePG; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1707770816; c=relaxed/simple;
+	bh=43rYMnzoKxs+g1rFQoFJuws32YY+vCTRr/KVq4oGhIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E0k6jmH48mBX7vDcVHXy5YcmAfna3GTIhXT+LLXqIJfZuBJIabTeX1U/ZkkmX4/HB89x3REf5jjOvd94NlaY3z++DpFiTX2urC2cCOHXLRK8HamveB73Fdx1ZLFUfCHpLjroSoBeyJMnYX5wXqM6seyTZ4kFd9XQRYL/lttPfN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ve+dsnyw; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjIgjePG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ve+dsnyw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707767814; x=1739303814;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VbiWwUlRwFGEs9WFueIKvPJkqFyBrhzz4cOYE4POKHY=;
-  b=WjIgjePGgReMaUlODe6zZvGNM0Ryup60UlnFsi7eLBkGKjCmRS5lMeft
-   DpcoN4lPSNwujcS9cZWMVsnxDq1rvZwKznWr1giRqbCj1NLBvVzodVem8
-   Vmo/eV2EpK5CTL6x9dICKX+PTlSMDiVZASdssl+d5xdNv2ip+mnND55Ni
-   rAV/DROdgXaX1l1Dx2UuDiUyDNbxODcYlSvnLaMHoRpRuQUhqn+cgR+NT
-   HvwRvQczFuF7a9iAaosW9hcfkBV7fm1hOo47zIdUNZppVs6glrdmPxUtT
-   eMSvw1+mTIBFVIuEfp1SnoqR0r92eTbpoAgtz5RzwCrcbxGWItibj0428
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1898409"
+  t=1707770814; x=1739306814;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=43rYMnzoKxs+g1rFQoFJuws32YY+vCTRr/KVq4oGhIQ=;
+  b=Ve+dsnywscUXw/KSbLQYdP885bMdseS/0Pdse3l0cjxS9/8sdhDKULJh
+   BxjNPfqyo00x/yKzzCczLUphGvcXgDb6HJwnBzbTN3XiQA5eGZqeB1wFh
+   wvBAB31UzgCO8pTZwci/zIqURmGliCJwvMoHBI4cXlITRAJ0hh3Gc79rn
+   w/OWJFssNZ5+QIqbfpNgpQ3AigGrrX2dc3bkQgNU7KDWRsR61NI9ONu7W
+   ovVS5MtSNut1DCHmsvdhrchUyx84AkKpJSIewOfzQGDRBglSluZ29KGBl
+   kPqarPaCqX7hhRWM8I+MjMzfvnc/rARu150tYOU5l43GwK6VNLBFaWGQ1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27210516"
 X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; 
-   d="scan'208";a="1898409"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 11:56:53 -0800
+   d="scan'208";a="27210516"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 12:46:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,155,1705392000"; 
-   d="scan'208";a="2986160"
+   d="scan'208";a="7321571"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Feb 2024 11:56:50 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 12 Feb 2024 12:46:51 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZcQ3-0007LE-12;
-	Mon, 12 Feb 2024 19:56:47 +0000
-Date: Tue, 13 Feb 2024 03:56:06 +0800
+	id 1rZdCS-0007ME-37;
+	Mon, 12 Feb 2024 20:46:48 +0000
+Date: Tue, 13 Feb 2024 04:46:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
-	kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
-	daniel@ffwll.ch, airlied@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/7] fbdev: Do not include <linux/backlight.h> in header
-Message-ID: <202402130346.2iGNwgDE-lkp@intel.com>
-References: <20240212101712.23675-3-tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Luca Coelho <luciano.coelho@intel.com>
+Subject: [drm-misc:for-linux-next 40/49]
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:317:48: error: passing argument
+ 1 of 'drm_err_printer' from incompatible pointer type
+Message-ID: <202402130446.4SBrCdZH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240212101712.23675-3-tzimmermann@suse.de>
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.8-rc4 next-20240212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-nouveau-Include-linux-backlight-h/20240212-181930
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240212101712.23675-3-tzimmermann%40suse.de
-patch subject: [PATCH 2/7] fbdev: Do not include <linux/backlight.h> in header
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240213/202402130346.2iGNwgDE-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project c08b90c50bcac9f3f563c79491c8dbcbe7c3b574)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402130346.2iGNwgDE-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   247f2ee4498cfcaf18b3c3486dffd2302d56fc17
+commit: 5e0c04c8c40b69ab165d52964433859d8b666376 [40/49] drm/print: make drm_err_printer() device specific by using drm_err()
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240213/202402130446.4SBrCdZH-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402130446.4SBrCdZH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402130346.2iGNwgDE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402130446.4SBrCdZH-lkp@intel.com/
+
+Note: the drm-misc/for-linux-next HEAD 247f2ee4498cfcaf18b3c3486dffd2302d56fc17 builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/fbtft/fb_ssd1351.c:192:26: error: call to undeclared function 'bl_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     192 |         struct fbtft_par *par = bl_get_data(bd);
-         |                                 ^
->> drivers/staging/fbtft/fb_ssd1351.c:192:20: error: incompatible integer to pointer conversion initializing 'struct fbtft_par *' with an expression of type 'int' [-Wint-conversion]
-     192 |         struct fbtft_par *par = bl_get_data(bd);
-         |                           ^     ~~~~~~~~~~~~~~~
->> drivers/staging/fbtft/fb_ssd1351.c:197:21: error: incomplete definition of type 'struct backlight_device'
-     197 |                       __func__, bd->props.power, bd->props.fb_blank);
-         |                                 ~~^
-   drivers/staging/fbtft/fbtft.h:433:43: note: expanded from macro 'fbtft_par_dbg'
-     433 |                 dev_info((par)->info->device, format, ##arg);  \
-         |                                                         ^~~
-   include/linux/dev_printk.h:150:67: note: expanded from macro 'dev_info'
-     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                          ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   include/linux/fb.h:20:8: note: forward declaration of 'struct backlight_device'
-      20 | struct backlight_device;
-         |        ^
-   drivers/staging/fbtft/fb_ssd1351.c:197:38: error: incomplete definition of type 'struct backlight_device'
-     197 |                       __func__, bd->props.power, bd->props.fb_blank);
-         |                                                  ~~^
-   drivers/staging/fbtft/fbtft.h:433:43: note: expanded from macro 'fbtft_par_dbg'
-     433 |                 dev_info((par)->info->device, format, ##arg);  \
-         |                                                         ^~~
-   include/linux/dev_printk.h:150:67: note: expanded from macro 'dev_info'
-     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                          ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   include/linux/fb.h:20:8: note: forward declaration of 'struct backlight_device'
-      20 | struct backlight_device;
-         |        ^
->> drivers/staging/fbtft/fb_ssd1351.c:199:8: error: call to undeclared function 'backlight_is_blank'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     199 |         on = !backlight_is_blank(bd);
-         |               ^
->> drivers/staging/fbtft/fb_ssd1351.c:206:35: error: variable has incomplete type 'const struct backlight_ops'
-     206 | static const struct backlight_ops bl_ops = {
-         |                                   ^
-   drivers/staging/fbtft/fb_ssd1351.c:206:21: note: forward declaration of 'struct backlight_ops'
-     206 | static const struct backlight_ops bl_ops = {
-         |                     ^
->> drivers/staging/fbtft/fb_ssd1351.c:213:30: error: variable has incomplete type 'struct backlight_properties'
-     213 |         struct backlight_properties bl_props = { 0, };
-         |                                     ^
-   drivers/staging/fbtft/fb_ssd1351.c:213:9: note: forward declaration of 'struct backlight_properties'
-     213 |         struct backlight_properties bl_props = { 0, };
-         |                ^
->> drivers/staging/fbtft/fb_ssd1351.c:215:18: error: use of undeclared identifier 'BACKLIGHT_RAW'
-     215 |         bl_props.type = BACKLIGHT_RAW;
-         |                         ^
->> drivers/staging/fbtft/fb_ssd1351.c:218:7: error: call to undeclared function 'backlight_device_register'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     218 |         bd = backlight_device_register(dev_driver_string(par->info->device),
-         |              ^
-   drivers/staging/fbtft/fb_ssd1351.c:218:7: note: did you mean '__root_device_register'?
-   include/linux/device.h:1143:16: note: '__root_device_register' declared here
-    1143 | struct device *__root_device_register(const char *name, struct module *owner);
-         |                ^
-   9 errors generated.
+   drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c: In function 'xe_gt_tlb_invalidation_wait':
+>> drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:317:48: error: passing argument 1 of 'drm_err_printer' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     317 |         struct drm_printer p = drm_err_printer(__func__);
+         |                                                ^~~~~~~~
+         |                                                |
+         |                                                const char *
+   In file included from include/drm/ttm/ttm_resource.h:34,
+                    from include/drm/ttm/ttm_device.h:30,
+                    from drivers/gpu/drm/xe/xe_device_types.h:13,
+                    from drivers/gpu/drm/xe/xe_device.h:15,
+                    from drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:9:
+   include/drm/drm_print.h:247:69: note: expected 'struct drm_device *' but argument is of type 'const char *'
+     247 | static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+         |                                                  ~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:317:32: error: too few arguments to function 'drm_err_printer'
+     317 |         struct drm_printer p = drm_err_printer(__func__);
+         |                                ^~~~~~~~~~~~~~~
+   include/drm/drm_print.h:247:34: note: declared here
+     247 | static inline struct drm_printer drm_err_printer(struct drm_device *drm,
+         |                                  ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +197 drivers/staging/fbtft/fb_ssd1351.c
+vim +/drm_err_printer +317 drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
 
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  189  
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  190  static int update_onboard_backlight(struct backlight_device *bd)
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  191  {
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31 @192  	struct fbtft_par *par = bl_get_data(bd);
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  193  	bool on;
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  194  
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  195  	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  196  		      "%s: power=%d, fb_blank=%d\n",
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31 @197  		      __func__, bd->props.power, bd->props.fb_blank);
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  198  
-66d653c37228cb Stephen Kitt     2022-06-07 @199  	on = !backlight_is_blank(bd);
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  200  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  201  	write_reg(par, 0xB5, on ? 0x03 : 0x02);
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  202  
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  203  	return 0;
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  204  }
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  205  
-23801e3438f6ce Mike Rapoport    2015-09-03 @206  static const struct backlight_ops bl_ops = {
-23801e3438f6ce Mike Rapoport    2015-09-03  207  	.update_status = update_onboard_backlight,
-23801e3438f6ce Mike Rapoport    2015-09-03  208  };
-23801e3438f6ce Mike Rapoport    2015-09-03  209  
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  210  static void register_onboard_backlight(struct fbtft_par *par)
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  211  {
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  212  	struct backlight_device *bd;
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31 @213  	struct backlight_properties bl_props = { 0, };
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  214  
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31 @215  	bl_props.type = BACKLIGHT_RAW;
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  216  	bl_props.power = FB_BLANK_POWERDOWN;
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  217  
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31 @218  	bd = backlight_device_register(dev_driver_string(par->info->device),
-333c7b940526be Leonardo Brás    2018-08-07  219  				       par->info->device, par, &bl_ops,
-333c7b940526be Leonardo Brás    2018-08-07  220  				       &bl_props);
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  221  	if (IS_ERR(bd)) {
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  222  		dev_err(par->info->device,
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  223  			"cannot register backlight device (%ld)\n",
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  224  			PTR_ERR(bd));
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  225  		return;
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  226  	}
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  227  	par->info->bl_dev = bd;
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  228  
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  229  	if (!par->fbtftops.unregister_backlight)
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  230  		par->fbtftops.unregister_backlight = fbtft_unregister_backlight;
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  231  }
-883daf0a5c35c8 Thomas Petazzoni 2014-12-31  232  
+a9351846d94568 Matthew Brost  2023-01-17  302  
+c6b0948ff8d084 Matthew Brost  2023-01-20  303  /**
+c6b0948ff8d084 Matthew Brost  2023-01-20  304   * xe_gt_tlb_invalidation_wait - Wait for TLB to complete
+c6b0948ff8d084 Matthew Brost  2023-01-20  305   * @gt: graphics tile
+c6b0948ff8d084 Matthew Brost  2023-01-20  306   * @seqno: seqno to wait which was returned from xe_gt_tlb_invalidation
+c6b0948ff8d084 Matthew Brost  2023-01-20  307   *
+c6b0948ff8d084 Matthew Brost  2023-01-20  308   * Wait for 200ms for a TLB invalidation to complete, in practice we always
+c6b0948ff8d084 Matthew Brost  2023-01-20  309   * should receive the TLB invalidation within 200ms.
+c6b0948ff8d084 Matthew Brost  2023-01-20  310   *
+c6b0948ff8d084 Matthew Brost  2023-01-20  311   * Return: 0 on success, -ETIME on TLB invalidation timeout
+c6b0948ff8d084 Matthew Brost  2023-01-20  312   */
+a9351846d94568 Matthew Brost  2023-01-17  313  int xe_gt_tlb_invalidation_wait(struct xe_gt *gt, int seqno)
+a9351846d94568 Matthew Brost  2023-01-17  314  {
+a9351846d94568 Matthew Brost  2023-01-17  315  	struct xe_device *xe = gt_to_xe(gt);
+a9351846d94568 Matthew Brost  2023-01-17  316  	struct xe_guc *guc = &gt->uc.guc;
+ebb00b285bef8b Pallavi Mishra 2023-11-01 @317  	struct drm_printer p = drm_err_printer(__func__);
+a9351846d94568 Matthew Brost  2023-01-17  318  	int ret;
+a9351846d94568 Matthew Brost  2023-01-17  319  
+a9351846d94568 Matthew Brost  2023-01-17  320  	/*
+a9351846d94568 Matthew Brost  2023-01-17  321  	 * XXX: See above, this algorithm only works if seqno are always in
+a9351846d94568 Matthew Brost  2023-01-17  322  	 * order
+a9351846d94568 Matthew Brost  2023-01-17  323  	 */
+a9351846d94568 Matthew Brost  2023-01-17  324  	ret = wait_event_timeout(guc->ct.wq,
+a9351846d94568 Matthew Brost  2023-01-17  325  				 tlb_invalidation_seqno_past(gt, seqno),
+38224c00d9c284 Matthew Brost  2023-01-24  326  				 TLB_TIMEOUT);
+a9351846d94568 Matthew Brost  2023-01-17  327  	if (!ret) {
+a5cecbac92d5a5 Nirmoy Das     2023-05-05  328  		drm_err(&xe->drm, "gt%d: TLB invalidation time'd out, seqno=%d, recv=%d\n",
+a5cecbac92d5a5 Nirmoy Das     2023-05-05  329  			gt->info.id, seqno, gt->tlb_invalidation.seqno_recv);
+ebb00b285bef8b Pallavi Mishra 2023-11-01  330  		xe_guc_ct_print(&guc->ct, &p, true);
+a9351846d94568 Matthew Brost  2023-01-17  331  		return -ETIME;
+a9351846d94568 Matthew Brost  2023-01-17  332  	}
+a9351846d94568 Matthew Brost  2023-01-17  333  
+a9351846d94568 Matthew Brost  2023-01-17  334  	return 0;
+a9351846d94568 Matthew Brost  2023-01-17  335  }
+a9351846d94568 Matthew Brost  2023-01-17  336  
+
+:::::: The code at line 317 was first introduced by commit
+:::::: ebb00b285bef8bcdc46ac4e344d5748539bdd213 drm/xe: Dump CTB during TLB timeout
+
+:::::: TO: Pallavi Mishra <pallavi.mishra@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
