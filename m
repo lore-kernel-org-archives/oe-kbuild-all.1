@@ -1,109 +1,141 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2E33A8EB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 13:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660133FE35
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 13:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707743874; cv=none; b=tnVmFFN97XqYTYgMCLQilW5B7LokF3VBD/xUYtj/4egDYxRt4V9Vv4xzADdMKPq6XbJUk7ITxsSC8TB8oXspkMc0IdOlieF12xEA6T/j5pB8H78O0RM3Tu+N7hqyIXBqwMUrFm2y4b7qSC9KhBE/PIJxZ0N5cT/MpvbjtT6yvOA=
+	t=1707744254; cv=none; b=Mo+gJ+pocEVvqBV88yrf2Q6yWJKRVHEUpiwRBQIS7VeKRAfU8rBs1+RINMNAh6le7XrLi+ULqUiqpxvLzjoAOPmU6DgUNfbn83/i4PY67OOc5L6oUD1Qtd4IeYCl/KcV8ge1OfTcGnqoIF2ffnAskHckHv3zM41Z0LXnM6w7Rf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707743874; c=relaxed/simple;
-	bh=q4qP82FOXPBJyfTKqkI7kEs7ZoU8FcrMrDnPTekYs18=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pouNnpFk4R5cERCOn95EmNVXOHIBLM8tQKF44HImjxDFuhFUXm5CO7k3BYJo6q9nvly40wlhLh5zaLskNNtv4JAdhZ0F/HatwSSfz7hn3BUqdncx8CtYH0IJ92SBexu8YITI6o56KU1CSsY/VYkCMK5myHirQ5qikHouyjMaiU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=dXMxg4GE; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1707744254; c=relaxed/simple;
+	bh=Q5uUBgxlPpL5D1/fFk+uf3vs4k8tqnf8rCkbOvIl+mI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JWT9MQKamg1eWScqI2sQFYNIQLskVotxVh4sfCZkG+03YJDco2zYiR40mKj4W2EGD0MRmYdug+74uYo72L0DO0M6p9VrFvxlbRdXlHlRrX1W1atDrjJfj9ruhTObAowAWMjZVa8IQWWuKoWDI+hvjVU2hIpLBI2Qu0Ysu8F3Xjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VwY58yeE; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="dXMxg4GE"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d932f6ccfaso21026545ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 05:17:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1707743872; x=1708348672; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Qm/YqX9uEOdb2kQB3M409FAVZ5tf5xIwSXUTJ0MefI4=;
-        b=dXMxg4GEBu98PlmyiUdus/7ffOiXI28cNQCE/ZeIHT+6yyL36T6y2ETXih728ylziM
-         Hl+FSif/d1uvEx7qZGTQRXwRGoX77J21Mi/OzGGJxsdFxvS9SRyXEk8jtouPi48Db/s/
-         FwI5WBk9CFvSn/qy0qoRynmAqJ3ZzoKg3gmn/9i9yT4Gvqs5dccrEOOHaNM3uc1O5PEB
-         8cUMPluuTHX7+0y5mAkh5uMkrW/57TW/43VVx96+k9w40KXLrg8x1g4JfXiu8Z0h2BaH
-         iCkScEn2jocsz8u4P8U+et33/GqnqFKTgM6qpYf3TyD1fFXd6hwtUxFtsQrAtrl0nQMt
-         VkgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707743872; x=1708348672;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qm/YqX9uEOdb2kQB3M409FAVZ5tf5xIwSXUTJ0MefI4=;
-        b=J37KzVQqa3lSqmTuVmkRrw8H6dPdC/WHKzH19i1gSZWzsC/rEUXwen8lyz7Qee5+1t
-         jiqxn9QocXrtpgOVwlAMDFjTskhQDU5e20zynh19+k2rRd851JbaFsqbeojyWqqA5bSH
-         EHSY5YT26MFLyA8eZE0t/MDkjq+dsWl/r7T9hmrj5bZ/a9a+usPJlJhz+fEcH78xoHPW
-         4/gLe/bW8HIsvJLuExYCe+N/PWZSJ5QsnbL/25lMgn53tJ2GajNM8GW7xSawKEassCx3
-         0tyPmtMF9/OhniEO8/A7VUpY3TWXr0dXF/Qvy/K3+5W102PwOTVsSwUqXtEN0TdaFEWG
-         PEPw==
-X-Gm-Message-State: AOJu0YzgEqK0pxbJQ+DMRMEspyL+PMQ/d+t9LpVdMBvQk/oLu3fJm/av
-	2F0P0CZHbaabC+OZ084qp7DpQ1JoLtEZ/Zh4Wra2c8X+o/UFDUFdSZhW2tZoLFk=
-X-Google-Smtp-Source: AGHT+IG4i2F8jes8SWyhPU9KzSPg92BHLobuOB60eNJ5XoqdtqSJy2pk8QJ2bS+RXJDsRCu4HUKbeg==
-X-Received: by 2002:a17:902:d2d2:b0:1d8:f071:5067 with SMTP id n18-20020a170902d2d200b001d8f0715067mr7055492plc.35.1707743872372;
-        Mon, 12 Feb 2024 05:17:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWx1ihhn9KToX8YItEUX78cWAXU6fzVhUpXmF9/mp/4ogkpwNeWJ0edTGMaQ49NRdbv/u7fJmam54FIUEF9MaKPo0HZj174f2iFwvoAHTiUKQmu28RQEVHt06PGaAFhYYss1cA9fhM7z/VCyOEn38AZyQwQaChYyr2ECUm0zjU5c6c2fwdKlI6kWMH0OEfCqszPbQA/1tLAqJ7YWhiuLLWM7HKOJT6GlS5dmU5qxU84KLM7w0ZzMfwChA==
-Received: from [10.255.183.165] ([139.177.225.230])
-        by smtp.gmail.com with ESMTPSA id q13-20020a170902c74d00b001d963d963aasm323858plq.308.2024.02.12.05.17.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 05:17:51 -0800 (PST)
-Message-ID: <f4143532-ece4-413a-ab59-45f91cfe66d9@bytedance.com>
-Date: Mon, 12 Feb 2024 21:17:45 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VwY58yeE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707744253; x=1739280253;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q5uUBgxlPpL5D1/fFk+uf3vs4k8tqnf8rCkbOvIl+mI=;
+  b=VwY58yeEQbfo7FoNPpgg2Qfc/ePQl0ThmS8vVVOkSyRSFCkek6DqTInR
+   UV1TiTs7JlWoaw8Yit0B6d/ROpjYocWiCgDXewxenDxVnr3c/YoyHVVLW
+   65dkwmUeW1BT0fUD5CvzLCjIRRxMbzDI/7fnosRN60m0YrJrKT01xOCT/
+   z8j8UXsk5S4L+5kvSO0rLQMAJmD2pZt1NxQi2Pow6lCc5+FOH41vmXZtt
+   TcToXMVdhOKWj3KSh6oHYTZz3rjXWGIhVNh1Hxwlcpjl7swkw1eMIE0v3
+   1PeXPX41LJGd5uE+Wss4o7WwfRP8CNDOoTz93wFFzLtZcc8qlqGxXgzdG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1845184"
+X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; 
+   d="scan'208";a="1845184"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 05:24:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; 
+   d="scan'208";a="2979810"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 12 Feb 2024 05:24:10 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rZWI3-00079C-2t;
+	Mon, 12 Feb 2024 13:24:07 +0000
+Date: Mon, 12 Feb 2024 21:23:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fsnotify-perf 3/3] fs/notify/fanotify/../fsnotify.h:42:9:
+ error: implicit declaration of function 'fsnotify_obj_sb'; did you mean
+ 'fsnotify_conn_sb'?
+Message-ID: <202402122127.lH6JuFKZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] mm/zswap: global lru and shrinker shared by all
- zswap_pools
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>,
- Nhat Pham <nphamcs@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-kernel@vger.kernel.org
-References: <20240210-zswap-global-lru-v1-1-853473d7b0da@bytedance.com>
- <202402120226.TK7G37U9-lkp@intel.com>
-From: Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <202402120226.TK7G37U9-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2024/2/12 03:01, kernel test robot wrote:
-> Hi Chengming,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on 191d97734e41a5c9f90a2f6636fdd335ae1d435d]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Chengming-Zhou/mm-zswap-global-lru-and-shrinker-shared-by-all-zswap_pools/20240211-220028
-> base:   191d97734e41a5c9f90a2f6636fdd335ae1d435d
-> patch link:    https://lore.kernel.org/r/20240210-zswap-global-lru-v1-1-853473d7b0da%40bytedance.com
-> patch subject: [PATCH 1/2] mm/zswap: global lru and shrinker shared by all zswap_pools
-> config: x86_64-randconfig-013-20240211 (https://download.01.org/0day-ci/archive/20240212/202402120226.TK7G37U9-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402120226.TK7G37U9-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402120226.TK7G37U9-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    mm/zswap.c: In function 'zswap_shrinker_count':
->>> mm/zswap.c:1300:42: error: 'pool' undeclared (first use in this function); did you mean 'zpool'?
->     1300 |         nr_backing = get_zswap_pool_size(pool) >> PAGE_SHIFT;
+tree:   https://github.com/amir73il/linux fsnotify-perf
+head:   36091a66bd764d918cf5fcc5797bc82b878a2bfe
+commit: 36091a66bd764d918cf5fcc5797bc82b878a2bfe [3/3] fsnotify: move s_fsnotify_connectors into sb connector
+config: i386-buildonly-randconfig-003-20240212 (https://download.01.org/0day-ci/archive/20240212/202402122127.lH6JuFKZ-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402122127.lH6JuFKZ-lkp@intel.com/reproduce)
 
-Forgot to test with !CONFIG_MEMCG_KMEM, need to change to zswap_pool_total_size here.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402122127.lH6JuFKZ-lkp@intel.com/
 
-Thanks.
+All error/warnings (new ones prefixed by >>):
+
+   In file included from fs/notify/fanotify/../fsnotify.h:6,
+                    from fs/notify/fanotify/fanotify_user.c:26:
+   include/linux/fsnotify.h: In function 'fsnotify_access':
+   include/linux/fsnotify.h:392:2: error: implicit declaration of function 'fsnotify_file'; did you mean 'fsnotify_link'? [-Werror=implicit-function-declaration]
+     392 |  fsnotify_file(file, FS_ACCESS);
+         |  ^~~~~~~~~~~~~
+         |  fsnotify_link
+   In file included from fs/notify/fanotify/fanotify_user.c:26:
+   fs/notify/fanotify/../fsnotify.h: In function 'fsnotify_conn_sb':
+>> fs/notify/fanotify/../fsnotify.h:42:9: error: implicit declaration of function 'fsnotify_obj_sb'; did you mean 'fsnotify_conn_sb'? [-Werror=implicit-function-declaration]
+      42 |  return fsnotify_obj_sb(conn->obj);
+         |         ^~~~~~~~~~~~~~~
+         |         fsnotify_conn_sb
+>> fs/notify/fanotify/../fsnotify.h:42:9: warning: returning 'int' from a function with return type 'struct super_block *' makes pointer from integer without a cast [-Wint-conversion]
+      42 |  return fsnotify_obj_sb(conn->obj);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +42 fs/notify/fanotify/../fsnotify.h
+
+     4	
+     5	#include <linux/list.h>
+   > 6	#include <linux/fsnotify.h>
+     7	#include <linux/srcu.h>
+     8	#include <linux/types.h>
+     9	
+    10	#include "../mount.h"
+    11	
+    12	static inline struct inode *fsnotify_connp_inode(fsnotify_connp_t *connp)
+    13	{
+    14		return container_of(connp, struct inode, i_fsnotify_marks);
+    15	}
+    16	
+    17	static inline struct mount *fsnotify_connp_mount(fsnotify_connp_t *connp)
+    18	{
+    19		return container_of(connp, struct mount, mnt_fsnotify_marks);
+    20	}
+    21	
+    22	static inline struct super_block *fsnotify_connp_sb(fsnotify_connp_t *connp)
+    23	{
+    24		return container_of(connp, struct super_block, s_fsnotify_marks);
+    25	}
+    26	
+    27	static inline struct inode *fsnotify_conn_inode(
+    28					struct fsnotify_mark_connector *conn)
+    29	{
+    30		return fsnotify_connp_inode(conn->obj);
+    31	}
+    32	
+    33	static inline struct mount *fsnotify_conn_mount(
+    34					struct fsnotify_mark_connector *conn)
+    35	{
+    36		return fsnotify_connp_mount(conn->obj);
+    37	}
+    38	
+    39	static inline struct super_block *fsnotify_conn_sb(
+    40					struct fsnotify_mark_connector *conn)
+    41	{
+  > 42		return fsnotify_obj_sb(conn->obj);
+    43	}
+    44	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
