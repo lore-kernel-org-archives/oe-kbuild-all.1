@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175343D542
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 13:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E2A848E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 14:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707745455; cv=none; b=SaA+g2HS7gxIuY12zCUa0AIqlzINz1BLTo43afCd4uYmcj4HzMKHj40o5A2lch1yR4dL6K+yiKn2HQk6xGMYUiFysrIyh3z5eXNcpJzcXmOb9PaAfV77q7ftMq7kHswJ5W48itwsJuXsN+PJ+r7amI10IxQy5vCBow3Yxkg07sU=
+	t=1707747869; cv=none; b=P/R3QBuKbjHSlnXblIL07Ta0ePiH5s/I/BfYZfMFRHu56o9VEZftv3xOncEZLAcdKa0WsJp3UlrUl4BGAINCGaWTN45CMC3tGIsKKp+PCXvTlEfiU/KsMG6Y4EMU+Z7Blvyw6twuoQpHoCPGqjkdOticMcvjMB9M5zC0m0gdDlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707745455; c=relaxed/simple;
-	bh=44Hyalzv9oNfcQI4ezsj5GksGzqagasguIxf1shJfsA=;
+	s=arc-20240116; t=1707747869; c=relaxed/simple;
+	bh=R9XDUXINM68qM1/VtLNnHy1h47UATlY7+7V3xn93f80=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=peKvVjhu38SDpj5jBLoLFbIsGSr5L5VY2oNN6Ff5/5GqDkZhuC5ksC3kaIC9mIJovCt1A5WTMet+Ih7QxWbsqVH6AySb6IEx47e2IJDw+42qkmKDhMwqMufvCL/s6y04Um8SNpe/SEJznsI4S5ePJorqhrSQjFEBGOWvvVMv104=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9DdlQKH; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=RbWQ9eE994xCY6p1+gRVAwEbWO79pxyRxF1xKRy490BcpcFBXCP24FmN84D12ZjTMIqGszJxCoInRP1xnQH86yFxFE4JeHA0pvc+9Lpur2gt+TFTosrxyx15uTG3PUE1UEHQBZvxn7rmMQT/b7zMx1KD3bprd1CGqapuzwj55Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ktt5fy2q; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9DdlQKH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ktt5fy2q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707745453; x=1739281453;
+  t=1707747866; x=1739283866;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=44Hyalzv9oNfcQI4ezsj5GksGzqagasguIxf1shJfsA=;
-  b=I9DdlQKHwWUJFlvyUgmc4SGuYfaNy4MhUAuhS6IDgP9O21MEaOgzZGmm
-   VoRRFgg+DiTqdgOKmlbr/4kUJU2naAwN23YdaHbbds+uhvpwluErT/rfQ
-   lileABzUaD6GwixPrITjUMcdGEY+My4Bl8fa28GnaedY5vUVmbizfbVU6
-   BEu5nsXdvdT89YaEz32uuVCxD/KCLORiuDGagJd4fNAgAAhwZoylZPNR4
-   Epw9LmpAzrDLoU9QaAtYN3aRPtqMAr48qW4urU+6lBCbyDoKl7WMcquwp
-   F1Bfd5V0KgPnERjyPKo4o2ZrnSKK5bTofWy7+Rw54BTpBk11ojUCpyv5z
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="4690267"
+  bh=R9XDUXINM68qM1/VtLNnHy1h47UATlY7+7V3xn93f80=;
+  b=Ktt5fy2qvD4WOHW4+uFrShrS5CSqLN83JNTL9F9nmeTct+XuaoZIbiAu
+   yNUTELR40vp1mgX4Bj9+a4eSVtuUaCcCoF2KSB5hB4blcIB5VxMapEMVN
+   RGC/e1NWiPCHXo1YoauZTHLMurYFX+IJq2NnMAUkQ7JYB3gk/cuODESYB
+   RUC9xVKp2OzTs0AAgGwudv29/JhI1mEdWxi9X9Mf50+0ytcKLACIkXvEP
+   Uhu9gAbZXAnSyoU3M0ZUV6kTE9PxeCeEcHDqx13t/Al3Viw3wvdKPWygQ
+   dShSs4xzx4wQWRBtd6FWte8ePBzjTxvOJSCcj4h4inpG8PyykmJ3+tVOu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="12283139"
 X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; 
-   d="scan'208";a="4690267"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 05:44:11 -0800
+   d="scan'208";a="12283139"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 06:24:13 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,264,1705392000"; 
-   d="scan'208";a="2564531"
+   d="scan'208";a="2601046"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Feb 2024 05:44:10 -0800
+  by orviesa009.jf.intel.com with ESMTP; 12 Feb 2024 06:24:12 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZWbQ-00079S-0D;
-	Mon, 12 Feb 2024 13:44:08 +0000
-Date: Mon, 12 Feb 2024 21:43:28 +0800
+	id 1rZXE9-0007AU-2w;
+	Mon, 12 Feb 2024 14:24:09 +0000
+Date: Mon, 12 Feb 2024 22:23:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Amir Goldstein <amir73il@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:fsnotify-perf 2/3] include/linux/fsnotify.h:386:2: error:
- call to undeclared function 'fsnotify_file'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202402122117.GXjTcFgy-lkp@intel.com>
+Subject: [amir73il:fsnotify-perf 2/3] fs/notify/mark.c:164:44: error: use of
+ undeclared identifier 'FSNOTIFY_CONTENT_EVENTS'; did you mean
+ 'FSNOTIFY_EVENT_DENTRY'?
+Message-ID: <202402122214.6mxUsVWT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,19 +62,20 @@ Content-Disposition: inline
 tree:   https://github.com/amir73il/linux fsnotify-perf
 head:   36091a66bd764d918cf5fcc5797bc82b878a2bfe
 commit: 73565ecb39b003c9e458e58abeca8bab87ea8ecf [2/3] fsnotify: optimize the case of no content event watchers
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240212/202402122117.GXjTcFgy-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402122117.GXjTcFgy-lkp@intel.com/reproduce)
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240212/202402122214.6mxUsVWT-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project c08b90c50bcac9f3f563c79491c8dbcbe7c3b574)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402122214.6mxUsVWT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402122117.GXjTcFgy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402122214.6mxUsVWT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/open.c:12:
->> include/linux/fsnotify.h:386:2: error: call to undeclared function 'fsnotify_file'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   In file included from fs/notify/mark.c:77:
+   In file included from fs/notify/fsnotify.h:6:
+   include/linux/fsnotify.h:386:2: error: call to undeclared function 'fsnotify_file'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      386 |         fsnotify_file(file, FS_ACCESS);
          |         ^
    include/linux/fsnotify.h:394:2: error: call to undeclared function 'fsnotify_file'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
@@ -86,26 +87,40 @@ All errors (new ones prefixed by >>):
    include/linux/fsnotify.h:418:2: error: call to undeclared function 'fsnotify_file'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      418 |         fsnotify_file(file, mask);
          |         ^
-   4 errors generated.
+>> fs/notify/mark.c:164:44: error: use of undeclared identifier 'FSNOTIFY_CONTENT_EVENTS'; did you mean 'FSNOTIFY_EVENT_DENTRY'?
+     164 |         u32 new_watchers = new_mask & ~old_mask & FSNOTIFY_CONTENT_EVENTS;
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                                   FSNOTIFY_EVENT_DENTRY
+   include/linux/fsnotify_backend.h:298:2: note: 'FSNOTIFY_EVENT_DENTRY' declared here
+     298 |         FSNOTIFY_EVENT_DENTRY,
+         |         ^
+   5 errors generated.
 
 
-vim +/fsnotify_file +386 include/linux/fsnotify.h
+vim +164 fs/notify/mark.c
 
-116b9731ad7614 Amir Goldstein 2019-05-26  380  
-0eeca28300df11 Robert Love    2005-07-12  381  /*
-0eeca28300df11 Robert Love    2005-07-12  382   * fsnotify_access - file was read
-0eeca28300df11 Robert Love    2005-07-12  383   */
-2a12a9d7814631 Eric Paris     2009-12-17  384  static inline void fsnotify_access(struct file *file)
-0eeca28300df11 Robert Love    2005-07-12  385  {
-eae36a2b8324c9 Amir Goldstein 2020-03-19 @386  	fsnotify_file(file, FS_ACCESS);
-ecf081d1a73b07 Eric Paris     2009-12-17  387  }
-0eeca28300df11 Robert Love    2005-07-12  388  
-
-:::::: The code at line 386 was first introduced by commit
-:::::: eae36a2b8324c9dd0a66b2ae32abd4a456e49c39 fsnotify: factor helpers fsnotify_dentry() and fsnotify_file()
-
-:::::: TO: Amir Goldstein <amir73il@gmail.com>
-:::::: CC: Jan Kara <jack@suse.cz>
+   155	
+   156	/*
+   157	 * To avoid the performance penalty of rare case of sb/mount content event
+   158	 * watchers in the hot io path, taint sb if such watchers are added.
+   159	 */
+   160	static void fsnotify_update_sb_watchers(struct fsnotify_mark_connector *conn,
+   161						u32 old_mask, u32 new_mask)
+   162	{
+   163		struct super_block *sb = fsnotify_connector_sb(conn);
+ > 164		u32 new_watchers = new_mask & ~old_mask & FSNOTIFY_CONTENT_EVENTS;
+   165	
+   166		if (conn->type == FSNOTIFY_OBJ_TYPE_INODE || !sb || !new_watchers)
+   167			return;
+   168	
+   169		/*
+   170		 * TODO: We need to take sb conn->lock to set FS_MNT_CONTENT_WATCHED
+   171		 * in sb->s_fsnotify_mask, but if this is a recalc of mount mark mask,
+   172		 * it is not sure that we have an sb connector attached yet.
+   173		 */
+   174		sb->s_iflags |= SB_I_CONTENT_WATCHED;
+   175	}
+   176	
 
 -- 
 0-DAY CI Kernel Test Service
