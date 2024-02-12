@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E8C4694
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 03:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8996023C9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 04:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707710192; cv=none; b=uji3feq9MVWuxQWwWePCYIKi/U1hJiZ+Vqzhp/HlOy9hQVfDSxcOEzBB8a1Crm/FSUtMnDXH/wyKcoNrYLPQEoM2O2AtsEpMcMh3k4jQ2RcNksKWrXKJC+KiKMA4cdibeisk3sSnPbnFETWziwQrQjClR83uJAlW6TRmhuGu7rA=
+	t=1707711392; cv=none; b=ncyyEr/AuvFpIccUUjKuGhOLfN+7Ofhw7wrSkQcJP6or0a82vbbtEvFemgW86jchu18joTt49ZC5RWpMGvbVu/2/pATleyA9frufnP2QibwsYa4jnLvornLICidbxNHH8QAEEKEnlTrcYDXrKLaqVxWfL9+FW+YWw2jFwU9mEXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707710192; c=relaxed/simple;
-	bh=A4MxOKydhK2D4lZnGkKga+h+MkQ6vwlVIvb/uPDHRP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jZjP+mY8fYahPBROK9HVdbdep2SeKDPtq+yDs10gQlSuOI880wZTlUfk6z5d9dxJcqyo47+TtOHW9y0l3gAtHhzmOH6jtDPinyf0WOf5SPWehCcKCc6wdYH33G8kJXW9SANwcuIpSCaqjv0aDp+1wARyRf/jsSmBSrcrAIxTjPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xdd6t8gu; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1707711392; c=relaxed/simple;
+	bh=cNv6wmO4uE87B+19zl8R1jip/GvDeTUusFtUmHEueRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pVFG4WomIWo5hpn/ngIo+baErSJx0kgasGn7I7LKPcp2nB3a52iB+yd/bQMd3zKGaVUdwJt6qfz93i9oTvGezGt+E8RKz4La0K6mHpkhL9me8CL7wf6lTvO32FPQCd8jCUpcSlCO6UQ5LBZaAqeHObjZ5ZJVP8/8YYiSxYCGyt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lv6hoCUm; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xdd6t8gu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lv6hoCUm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707710190; x=1739246190;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A4MxOKydhK2D4lZnGkKga+h+MkQ6vwlVIvb/uPDHRP0=;
-  b=Xdd6t8guKnhOLlkq+SdpRMT7ZakBE78nI+k9cWCiXO3TJ4QQ2moFJ6ir
-   7TTH4LNRprPxdb40mWdk59Y+/JlhpBN082Z7XMu5eIxhTDwPbDRg8XpWA
-   n2fCJPjRu4nLm72xWCUFG1eP+YeKAwEl6uxKCz6qMfy1VTQlobRcfaAnr
-   db/oo/h+miwHjA6WQxmVp5bCqFtOadejlj10qlA1h0T0n0atpMTrJeLNv
-   n52PPB4JY5zh93XB7gRJRkFO6IsXZY5CSR/7MUVu8sk0oZJh7Wm2IFMSf
-   xcRPznMfJpLOQkE/zZ8GP7rHlAJb00xTtLlB2LF7b/WIgp4xbRNhHG8zY
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="13046958"
+  t=1707711390; x=1739247390;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cNv6wmO4uE87B+19zl8R1jip/GvDeTUusFtUmHEueRw=;
+  b=lv6hoCUmhqoVp6j6ToSu4C2lNusfgnuKZu6ICn5sHducVJhPAhsXwaz4
+   excqV5B0Hyiu7jyGh7AnUbCMD2ONzp0FEqGONv01ws0N1sxrzsZOpZ4S5
+   jj3Sq2VaskJWplYaUlzyIoe5GiG9leifGBoChU4v3YhMa1njH49AcZbTS
+   vrpK0JCoy7kcvGcucY+rGKFvecH7xmCaE0qCZ4ofEla08af2TCcrVfRxT
+   bVyKKzzINHg35HkGsmYcrlWlURoPYgRmhFKJfXTrBvrZ+yN7b0hwABh7M
+   kqfU11Rti0E1IzBFUxBLme09JIuC3U5yh36xPoPhcE73E5rc+aGQzin+q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1529016"
 X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="13046958"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 19:56:30 -0800
+   d="scan'208";a="1529016"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 20:16:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="934982006"
 X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="934982006"
+   d="scan'208";a="2790849"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2024 19:56:27 -0800
+  by orviesa007.jf.intel.com with ESMTP; 11 Feb 2024 20:16:28 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZNQf-0006ty-0L;
-	Mon, 12 Feb 2024 03:56:25 +0000
-Date: Mon, 12 Feb 2024 11:55:39 +0800
+	id 1rZNk1-0006ug-2A;
+	Mon, 12 Feb 2024 04:16:25 +0000
+Date: Mon, 12 Feb 2024 12:15:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>
-Subject: [rafael-pm:testing 44/61] kernel/power/energy_model.c:113:15:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202402121149.SmoySn7a-lkp@intel.com>
+To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Max Kellermann <max.kellermann@ionos.com>
+Subject: Re: [PATCH v4 03/35] include: reduce header dependencies by using
+ "*_types.h"
+Message-ID: <202402121235.LLT92dIZ-lkp@intel.com>
+References: <20240211231518.349442-4-max.kellermann@ionos.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,70 +60,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240211231518.349442-4-max.kellermann@ionos.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git testing
-head:   c3c4923f2082353762e8f46dec6e3b0f165a1606
-commit: ca0fc871f16f4bef746b5ba814b67afb59119700 [44/61] PM: EM: Introduce runtime modifiable table
-config: x86_64-randconfig-122-20240211 (https://download.01.org/0day-ci/archive/20240212/202402121149.SmoySn7a-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402121149.SmoySn7a-lkp@intel.com/reproduce)
+Hi Max,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240209]
+[cannot apply to drm-misc/drm-misc-next media-tree/master mkp-scsi/for-next linus/master v6.8-rc4 v6.8-rc3 v6.8-rc2 v6.8-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-add-missing-includes/20240212-072756
+base:   next-20240209
+patch link:    https://lore.kernel.org/r/20240211231518.349442-4-max.kellermann%40ionos.com
+patch subject: [PATCH v4 03/35] include: reduce header dependencies by using "*_types.h"
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240212/202402121235.LLT92dIZ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402121235.LLT92dIZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402121149.SmoySn7a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402121235.LLT92dIZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/power/energy_model.c:113:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
-   kernel/power/energy_model.c:113:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:113:15: sparse:     got struct em_perf_table *
->> kernel/power/energy_model.c:114:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *table @@
-   kernel/power/energy_model.c:114:15: sparse:     expected void const *objp
-   kernel/power/energy_model.c:114:15: sparse:     got struct em_perf_table [noderef] __rcu *table
->> kernel/power/energy_model.c:119:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
-   kernel/power/energy_model.c:119:19: sparse:     expected struct callback_head *head
-   kernel/power/energy_model.c:119:19: sparse:     got struct callback_head [noderef] __rcu *
->> kernel/power/energy_model.c:130:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got void * @@
-   kernel/power/energy_model.c:130:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:130:15: sparse:     got void *
-   kernel/power/energy_model.c:195:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:195:9: sparse:     expected void const *
-   kernel/power/energy_model.c:195:9: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:195:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:195:9: sparse:     expected void const *
-   kernel/power/energy_model.c:195:9: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:195:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:195:9: sparse:     expected void *p
-   kernel/power/energy_model.c:195:9: sparse:     got struct em_perf_state [noderef] __rcu *
+All warnings (new ones prefixed by >>):
 
-vim +113 kernel/power/energy_model.c
+   In file included from include/linux/flex_proportions.h:11,
+                    from lib/flex_proportions.c:36:
+   include/linux/percpu_counter.h: In function 'percpu_counter_add':
+   include/linux/percpu_counter.h:191:9: error: implicit declaration of function 'local_irq_save' [-Werror=implicit-function-declaration]
+     191 |         local_irq_save(flags);
+         |         ^~~~~~~~~~~~~~
+   include/linux/percpu_counter.h:193:9: error: implicit declaration of function 'local_irq_restore' [-Werror=implicit-function-declaration]
+     193 |         local_irq_restore(flags);
+         |         ^~~~~~~~~~~~~~~~~
+>> include/linux/percpu_counter.h:191:9: warning: 'flags' is used uninitialized [-Wuninitialized]
+     191 |         local_irq_save(flags);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu_counter.h:189:23: note: 'flags' was declared here
+     189 |         unsigned long flags;
+         |                       ^~~~~
+   cc1: some warnings being treated as errors
 
-   108	
-   109	static void em_destroy_table_rcu(struct rcu_head *rp)
-   110	{
-   111		struct em_perf_table __rcu *table;
-   112	
- > 113		table = container_of(rp, struct em_perf_table, rcu);
- > 114		kfree(table);
-   115	}
-   116	
-   117	static void em_free_table(struct em_perf_table __rcu *table)
-   118	{
- > 119		call_rcu(&table->rcu, em_destroy_table_rcu);
-   120	}
-   121	
-   122	static struct em_perf_table __rcu *
-   123	em_allocate_table(struct em_perf_domain *pd)
-   124	{
-   125		struct em_perf_table __rcu *table;
-   126		int table_size;
-   127	
-   128		table_size = sizeof(struct em_perf_state) * pd->nr_perf_states;
-   129	
- > 130		table = kzalloc(sizeof(*table) + table_size, GFP_KERNEL);
-   131		return table;
-   132	}
-   133	
+
+vim +/flags +191 include/linux/percpu_counter.h
+
+80188b0d77d742 Dave Chinner   2015-05-29  185  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  186  static inline void
+20e89767096392 Peter Zijlstra 2007-10-16  187  percpu_counter_add(struct percpu_counter *fbc, s64 amount)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  188  {
+88ad32a799ddc9 Manfred Spraul 2022-12-16  189  	unsigned long flags;
+88ad32a799ddc9 Manfred Spraul 2022-12-16  190  
+88ad32a799ddc9 Manfred Spraul 2022-12-16 @191  	local_irq_save(flags);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  192  	fbc->count += amount;
+88ad32a799ddc9 Manfred Spraul 2022-12-16  193  	local_irq_restore(flags);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  194  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  195  
 
 -- 
 0-DAY CI Kernel Test Service
