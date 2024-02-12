@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B3339AFC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 12:21:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CE239AFE;
+	Mon, 12 Feb 2024 12:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707740473; cv=none; b=PDjRron/sAGuJ+2HWsDgvTqOLvhDWLK5SJelynYs4pQCHslWvL4Wt3dEkhJg+UTHpLfvEWDlbySeZvN4rJY0iKbQcgrmRq/HNk+BmG058XN32UF7MFXRYwpvnD605uWu+DdLl0Vxe6ehpZBG9z0mFGwZiznikGDvrogOjUCPl3w=
+	t=1707741733; cv=none; b=G6HoIp9GexXfQKnuecajkauWvw9mPAVfDGrJn/rvnNHAF30z5NpCNiZJcsFy693Uw4Oxaoudblyzxa5XRYmJh0Bo7T97M+9hx0YLn1ktGXhPTZotwoEJDuJ7p0Mftqi0b0TEb1TkXYnaQ/fJwWVNSqHqrX5jMgRqB/Y6tQ1+7xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707740473; c=relaxed/simple;
-	bh=EqRSx4arArHqCJq3JYeQDEnG4ZNsTMfLl46Jh3FHV4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZYGMh0/WlcH2pbCDMt3ctdgDky5wxrqdcZEoPQJVtNgCWJvsGzaH3aV7jbhvT81P0e36hi0Bu123jVz2VMgXPyOKtiEhelLCWTI0jeM/MoBcpYTNO5Ym3vM3RDRQcjesiblayf8rAdnruexdLAK0lGUeBB1ci4Y3D+4Dxw3l6Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GodMRKmI; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1707741733; c=relaxed/simple;
+	bh=8ahY7c+eV6OLZtiYet7sguCFreXtMvOFOJFoSm+eyWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=slYS5neo0ESyYfraZtp0z8WNJJ2uiMMuyQ8FYoqtZEbmmw7JT++yFrLXvIOneVK58JkJ3X492xmLnPNE9sjXbyygvgrOb/VNOmhq+rAchL982Xh0Q+hN9I280N4UvBQVY7YczdfOtqzoaPzITm02LalFBEFFP7Ybb/bcudzl9Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhAr2a1z; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GodMRKmI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhAr2a1z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707740471; x=1739276471;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EqRSx4arArHqCJq3JYeQDEnG4ZNsTMfLl46Jh3FHV4Q=;
-  b=GodMRKmIGM+pk1GPE/foJBdL1e/m+N+SDJZDzLlFIuI2p0qGML34Hufm
-   yC+ESZyfkO/LXDMcIfIi67f2BO3Qv4WE/yGe8N5daynm8Is1gkq4xXUeI
-   1uq2+u3+BtzUtRXeBppc87MqlgIyj06dQrLTnKrWi58a5oKJTVJUxDL0X
-   cl2J1l9N4STcusS7n2xPQGblTYChlQqKQX0ypZ0goak7lRFcplF1CXdMy
-   ZbaSDNg1nM8cUMMURnz+X3OiWKOEYh541edH35uYPdsLfCFGr03CLdRQV
-   XaSx+E19pmqJZQneaV9aeW0EPSh4nSMpaUHkhIbYbRcyfadUelPnF3CqF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="2058755"
+  t=1707741732; x=1739277732;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8ahY7c+eV6OLZtiYet7sguCFreXtMvOFOJFoSm+eyWA=;
+  b=OhAr2a1zudDe+srQcMEyPrqoTBqF8itN2WXhYZ2j8dlkBkcmppr2a8nu
+   bx0uWEwVGRbSSFWxyZKbB9B02r5nf+SGxxceVJx3wqUB6vCOMgA7pzqMA
+   ZCG/hgGfXSr6m76S0bdhQ95TA+dnjmtOhe+zZAM3GsTtIUpQJ9XtgAZ8m
+   Ipf1/XuktPhwjVtsxi+7sOfgMDlfujw6FiO8O6qjKlswh9KBChhumLX73
+   nsi3rujMHK/XjA4FHr7UP56OlOupciyUI3OmpiUIVu0o+HTZmpmGd+XLa
+   hNJoYIOqH6YmsPkqc/is8sZBJprKvE7OnVQGT5nyis1MMXMjiuJIzzU/x
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1868510"
 X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; 
-   d="scan'208";a="2058755"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 04:21:10 -0800
+   d="scan'208";a="1868510"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2024 04:42:11 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,263,1705392000"; 
-   d="scan'208";a="2542408"
+   d="scan'208";a="7209497"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Feb 2024 04:21:09 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 12 Feb 2024 04:42:09 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZVJ4-00077e-1r;
-	Mon, 12 Feb 2024 12:21:06 +0000
-Date: Mon, 12 Feb 2024 20:20:54 +0800
+	id 1rZVdO-000780-2d;
+	Mon, 12 Feb 2024 12:42:06 +0000
+Date: Mon, 12 Feb 2024 20:41:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>
-Subject: [linux-next:master 4686/6082] kernel/power/energy_model.c:135:19:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202402122047.yDhRZmM4-lkp@intel.com>
+To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Max Kellermann <max.kellermann@ionos.com>
+Subject: Re: [PATCH v4 02/35] include: remove unnecessary #include directives
+Message-ID: <202402122015.7dytzCz3-lkp@intel.com>
+References: <20240211231518.349442-3-max.kellermann@ionos.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,65 +59,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240211231518.349442-3-max.kellermann@ionos.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ae00c445390b349e070a64dc62f08aa878db7248
-commit: ffcf9bce7af02a21fb73738999de1e3d4fde5aca [4686/6082] PM: EM: Add functions for memory allocations for new EM tables
-config: x86_64-randconfig-122-20240211 (https://download.01.org/0day-ci/archive/20240212/202402122047.yDhRZmM4-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402122047.yDhRZmM4-lkp@intel.com/reproduce)
+Hi Max,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20240209]
+[cannot apply to drm-misc/drm-misc-next media-tree/master mkp-scsi/for-next linus/master v6.8-rc4 v6.8-rc3 v6.8-rc2 v6.8-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-add-missing-includes/20240212-072756
+base:   next-20240209
+patch link:    https://lore.kernel.org/r/20240211231518.349442-3-max.kellermann%40ionos.com
+patch subject: [PATCH v4 02/35] include: remove unnecessary #include directives
+config: arm-randconfig-004-20240212 (https://download.01.org/0day-ci/archive/20240212/202402122015.7dytzCz3-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project c08b90c50bcac9f3f563c79491c8dbcbe7c3b574)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402122015.7dytzCz3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402122047.yDhRZmM4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402122015.7dytzCz3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/power/energy_model.c:113:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
-   kernel/power/energy_model.c:113:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:113:15: sparse:     got struct em_perf_table *
-   kernel/power/energy_model.c:114:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *table @@
-   kernel/power/energy_model.c:114:15: sparse:     expected void const *objp
-   kernel/power/energy_model.c:114:15: sparse:     got struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:122:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
-   kernel/power/energy_model.c:122:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:122:15: sparse:     got struct em_perf_table *
-   kernel/power/energy_model.c:124:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
-   kernel/power/energy_model.c:124:19: sparse:     expected struct callback_head *head
-   kernel/power/energy_model.c:124:19: sparse:     got struct callback_head [noderef] __rcu *
->> kernel/power/energy_model.c:135:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
-   kernel/power/energy_model.c:135:19: sparse:     expected struct kref *kref
-   kernel/power/energy_model.c:135:19: sparse:     got struct kref [noderef] __rcu *
-   kernel/power/energy_model.c:153:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got void * @@
-   kernel/power/energy_model.c:153:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:153:15: sparse:     got void *
-   kernel/power/energy_model.c:157:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
-   kernel/power/energy_model.c:157:20: sparse:     expected struct kref *kref
-   kernel/power/energy_model.c:157:20: sparse:     got struct kref [noderef] __rcu *
-   kernel/power/energy_model.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:223:9: sparse:     expected void const *
-   kernel/power/energy_model.c:223:9: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:223:9: sparse:     expected void const *
-   kernel/power/energy_model.c:223:9: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:223:9: sparse:     expected void *p
-   kernel/power/energy_model.c:223:9: sparse:     got struct em_perf_state [noderef] __rcu *
+All errors (new ones prefixed by >>):
 
-vim +135 kernel/power/energy_model.c
+>> drivers/gpu/drm/drm_modeset_lock.c:87:6: error: call to undeclared function 'stack_trace_save'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      87 |         n = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
+         |             ^
+   drivers/gpu/drm/drm_modeset_lock.c:87:6: note: did you mean 'stack_depot_save'?
+   include/linux/stackdepot.h:132:22: note: 'stack_depot_save' declared here
+     132 | depot_stack_handle_t stack_depot_save(unsigned long *entries,
+         |                      ^
+>> drivers/gpu/drm/drm_modeset_lock.c:104:2: error: call to undeclared function 'stack_trace_snprint'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     104 |         stack_trace_snprint(buf, PAGE_SIZE, entries, nr_entries, 2);
+         |         ^
+   drivers/gpu/drm/drm_modeset_lock.c:104:2: note: did you mean 'stack_depot_snprint'?
+   include/linux/stackdepot.h:163:5: note: 'stack_depot_snprint' declared here
+     163 | int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
+         |     ^
+   2 errors generated.
 
-   126	
-   127	/**
-   128	 * em_table_free() - Handles safe free of the EM table when needed
-   129	 * @table : EM table which is going to be freed
-   130	 *
-   131	 * No return values.
-   132	 */
-   133	void em_table_free(struct em_perf_table __rcu *table)
-   134	{
- > 135		kref_put(&table->kref, em_release_table_kref);
-   136	}
-   137	
+
+vim +/stack_trace_save +87 drivers/gpu/drm/drm_modeset_lock.c
+
+35cf03508d8466 Rob Clark        2016-11-14   80  
+cd06ab2fd48f2c Jani Nikula      2021-10-01   81  #if IS_ENABLED(CONFIG_DRM_DEBUG_MODESET_LOCK)
+bcae3af286f49b Stephen Rothwell 2021-10-18   82  static noinline depot_stack_handle_t __drm_stack_depot_save(void)
+cd06ab2fd48f2c Jani Nikula      2021-10-01   83  {
+cd06ab2fd48f2c Jani Nikula      2021-10-01   84  	unsigned long entries[8];
+cd06ab2fd48f2c Jani Nikula      2021-10-01   85  	unsigned int n;
+cd06ab2fd48f2c Jani Nikula      2021-10-01   86  
+cd06ab2fd48f2c Jani Nikula      2021-10-01  @87  	n = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
+cd06ab2fd48f2c Jani Nikula      2021-10-01   88  
+cd06ab2fd48f2c Jani Nikula      2021-10-01   89  	return stack_depot_save(entries, n, GFP_NOWAIT | __GFP_NOWARN);
+cd06ab2fd48f2c Jani Nikula      2021-10-01   90  }
+cd06ab2fd48f2c Jani Nikula      2021-10-01   91  
+bcae3af286f49b Stephen Rothwell 2021-10-18   92  static void __drm_stack_depot_print(depot_stack_handle_t stack_depot)
+cd06ab2fd48f2c Jani Nikula      2021-10-01   93  {
+cd06ab2fd48f2c Jani Nikula      2021-10-01   94  	struct drm_printer p = drm_debug_printer("drm_modeset_lock");
+cd06ab2fd48f2c Jani Nikula      2021-10-01   95  	unsigned long *entries;
+cd06ab2fd48f2c Jani Nikula      2021-10-01   96  	unsigned int nr_entries;
+cd06ab2fd48f2c Jani Nikula      2021-10-01   97  	char *buf;
+cd06ab2fd48f2c Jani Nikula      2021-10-01   98  
+cd06ab2fd48f2c Jani Nikula      2021-10-01   99  	buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
+cd06ab2fd48f2c Jani Nikula      2021-10-01  100  	if (!buf)
+cd06ab2fd48f2c Jani Nikula      2021-10-01  101  		return;
+cd06ab2fd48f2c Jani Nikula      2021-10-01  102  
+cd06ab2fd48f2c Jani Nikula      2021-10-01  103  	nr_entries = stack_depot_fetch(stack_depot, &entries);
+cd06ab2fd48f2c Jani Nikula      2021-10-01 @104  	stack_trace_snprint(buf, PAGE_SIZE, entries, nr_entries, 2);
+cd06ab2fd48f2c Jani Nikula      2021-10-01  105  
+cd06ab2fd48f2c Jani Nikula      2021-10-01  106  	drm_printf(&p, "attempting to lock a contended lock without backoff:\n%s", buf);
+cd06ab2fd48f2c Jani Nikula      2021-10-01  107  
+cd06ab2fd48f2c Jani Nikula      2021-10-01  108  	kfree(buf);
+cd06ab2fd48f2c Jani Nikula      2021-10-01  109  }
+2dba5eb1c73b6b Vlastimil Babka  2022-01-21  110  
 
 -- 
 0-DAY CI Kernel Test Service
