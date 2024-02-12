@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8996023C9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 04:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8F653A1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Feb 2024 05:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707711392; cv=none; b=ncyyEr/AuvFpIccUUjKuGhOLfN+7Ofhw7wrSkQcJP6or0a82vbbtEvFemgW86jchu18joTt49ZC5RWpMGvbVu/2/pATleyA9frufnP2QibwsYa4jnLvornLICidbxNHH8QAEEKEnlTrcYDXrKLaqVxWfL9+FW+YWw2jFwU9mEXU=
+	t=1707715113; cv=none; b=WYLplI+e56O++hfAXgXNAT/9dn5cqKx1IUU0d4t5Dqihy7kSerDNzpLE932EMyyTprDWi0gk+ytHkxjYEXTSBOguSkHMxZWuoCxdyMJ51e7QsFLR2OjlkEw6wqYFeK5uNp773ojRbh1Rf93+3x47dGoQY1fuaonPdaY8XOXS/4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707711392; c=relaxed/simple;
-	bh=cNv6wmO4uE87B+19zl8R1jip/GvDeTUusFtUmHEueRw=;
+	s=arc-20240116; t=1707715113; c=relaxed/simple;
+	bh=2DQA2t5zjSMgSB2FkWMWFSMv7WUcbUD4cW+LescWdME=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pVFG4WomIWo5hpn/ngIo+baErSJx0kgasGn7I7LKPcp2nB3a52iB+yd/bQMd3zKGaVUdwJt6qfz93i9oTvGezGt+E8RKz4La0K6mHpkhL9me8CL7wf6lTvO32FPQCd8jCUpcSlCO6UQ5LBZaAqeHObjZ5ZJVP8/8YYiSxYCGyt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lv6hoCUm; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=jK7dGOzyYNXRc45RoIQGsKgIu4QJdR5j/7XdDrX9SwlYAC+1BGAS67iyTWSH4qNCrdJp8U3lM1wuExBZElXcahpKjvHSc8UJP5w6hN+7+K8YhBftSJ4jlsyfaMbn8MGdO7skHatvgVI6JNrbJjB0EkLHgAmglR/6/owOsDiF0Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BjbvUrd+; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lv6hoCUm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BjbvUrd+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707711390; x=1739247390;
+  t=1707715111; x=1739251111;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cNv6wmO4uE87B+19zl8R1jip/GvDeTUusFtUmHEueRw=;
-  b=lv6hoCUmhqoVp6j6ToSu4C2lNusfgnuKZu6ICn5sHducVJhPAhsXwaz4
-   excqV5B0Hyiu7jyGh7AnUbCMD2ONzp0FEqGONv01ws0N1sxrzsZOpZ4S5
-   jj3Sq2VaskJWplYaUlzyIoe5GiG9leifGBoChU4v3YhMa1njH49AcZbTS
-   vrpK0JCoy7kcvGcucY+rGKFvecH7xmCaE0qCZ4ofEla08af2TCcrVfRxT
-   bVyKKzzINHg35HkGsmYcrlWlURoPYgRmhFKJfXTrBvrZ+yN7b0hwABh7M
-   kqfU11Rti0E1IzBFUxBLme09JIuC3U5yh36xPoPhcE73E5rc+aGQzin+q
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1529016"
+  bh=2DQA2t5zjSMgSB2FkWMWFSMv7WUcbUD4cW+LescWdME=;
+  b=BjbvUrd++GZidm4Z0XUd1Vx470PdzTpB3X8rhRt5xu0w2HIW5/gCI7P5
+   ukXeowTxxbJzJTmBbaBQw6nPhYn5K91IfXhoA/2AVNuukVgCrmT90RCgu
+   ee8dRNuvtg+CCPVolgAU/bYMiWrOQ9zoq5hKbUMFA7pMqV/jfhNggtX01
+   SHosXfjSv6ED/JcP5u0f2PHX1IoZbB9QVMKubdhMo+47VyrpN7Bwn5emt
+   2xpzB7jdWXunHisqTV32TfVqQJ7FdvOTFNN1B1/siaheYLq8Nve5bf+kt
+   xCmeVMJKRc1clJFywW+hDe2AEOLhHxvtlTAPnO2ziQNlLLnjJSPWCIvoX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="1822081"
 X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="1529016"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 20:16:29 -0800
+   d="scan'208";a="1822081"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2024 21:18:31 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10981"; a="825713369"
 X-IronPort-AV: E=Sophos;i="6.05,262,1701158400"; 
-   d="scan'208";a="2790849"
+   d="scan'208";a="825713369"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Feb 2024 20:16:28 -0800
+  by orsmga001.jf.intel.com with ESMTP; 11 Feb 2024 21:18:29 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZNk1-0006ug-2A;
-	Mon, 12 Feb 2024 04:16:25 +0000
-Date: Mon, 12 Feb 2024 12:15:58 +0800
+	id 1rZOi2-0006wc-39;
+	Mon, 12 Feb 2024 05:18:26 +0000
+Date: Mon, 12 Feb 2024 13:18:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: Max Kellermann <max.kellermann@ionos.com>, linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev,
 	Max Kellermann <max.kellermann@ionos.com>
 Subject: Re: [PATCH v4 03/35] include: reduce header dependencies by using
  "*_types.h"
-Message-ID: <202402121235.LLT92dIZ-lkp@intel.com>
+Message-ID: <202402121329.hvXatE8Z-lkp@intel.com>
 References: <20240211231518.349442-4-max.kellermann@ionos.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,9 +65,9 @@ In-Reply-To: <20240211231518.349442-4-max.kellermann@ionos.com>
 
 Hi Max,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on next-20240209]
+[auto build test ERROR on next-20240209]
 [cannot apply to drm-misc/drm-misc-next media-tree/master mkp-scsi/for-next linus/master v6.8-rc4 v6.8-rc3 v6.8-rc2 v6.8-rc4]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -76,48 +77,36 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/include-ad
 base:   next-20240209
 patch link:    https://lore.kernel.org/r/20240211231518.349442-4-max.kellermann%40ionos.com
 patch subject: [PATCH v4 03/35] include: reduce header dependencies by using "*_types.h"
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240212/202402121235.LLT92dIZ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402121235.LLT92dIZ-lkp@intel.com/reproduce)
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240212/202402121329.hvXatE8Z-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240212/202402121329.hvXatE8Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402121235.LLT92dIZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402121329.hvXatE8Z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/flex_proportions.h:11,
-                    from lib/flex_proportions.c:36:
-   include/linux/percpu_counter.h: In function 'percpu_counter_add':
-   include/linux/percpu_counter.h:191:9: error: implicit declaration of function 'local_irq_save' [-Werror=implicit-function-declaration]
-     191 |         local_irq_save(flags);
-         |         ^~~~~~~~~~~~~~
-   include/linux/percpu_counter.h:193:9: error: implicit declaration of function 'local_irq_restore' [-Werror=implicit-function-declaration]
-     193 |         local_irq_restore(flags);
-         |         ^~~~~~~~~~~~~~~~~
->> include/linux/percpu_counter.h:191:9: warning: 'flags' is used uninitialized [-Wuninitialized]
-     191 |         local_irq_save(flags);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu_counter.h:189:23: note: 'flags' was declared here
-     189 |         unsigned long flags;
-         |                       ^~~~~
-   cc1: some warnings being treated as errors
+   In file included from include/linux/mtd/cfi.h:13,
+                    from drivers/mtd/chips/cfi_probe.c:19:
+>> include/linux/mtd/flashchip.h:16:10: fatal error: linux/wait_types.h: No such file or directory
+      16 | #include <linux/wait_types.h>
+         |          ^~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +/flags +191 include/linux/percpu_counter.h
+vim +16 include/linux/mtd/flashchip.h
 
-80188b0d77d742 Dave Chinner   2015-05-29  185  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  186  static inline void
-20e89767096392 Peter Zijlstra 2007-10-16  187  percpu_counter_add(struct percpu_counter *fbc, s64 amount)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  188  {
-88ad32a799ddc9 Manfred Spraul 2022-12-16  189  	unsigned long flags;
-88ad32a799ddc9 Manfred Spraul 2022-12-16  190  
-88ad32a799ddc9 Manfred Spraul 2022-12-16 @191  	local_irq_save(flags);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  192  	fbc->count += amount;
-88ad32a799ddc9 Manfred Spraul 2022-12-16  193  	local_irq_restore(flags);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  194  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  195  
+     9	
+    10	/* For spinlocks. sched.h includes spinlock.h from whichever directory it
+    11	 * happens to be in - so we don't have to care whether we're on 2.2, which
+    12	 * has asm/spinlock.h, or 2.4, which has linux/spinlock.h
+    13	 */
+    14	#include <linux/sched.h>
+    15	#include <linux/mutex_types.h>
+  > 16	#include <linux/wait_types.h>
+    17	
 
 -- 
 0-DAY CI Kernel Test Service
