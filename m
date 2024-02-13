@@ -1,54 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A37D5F575
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 16:07:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5DA5F577
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 16:07:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707840422; cv=none; b=usfClYU28I0lIKTYls5T4zFhwbNPam74t1ISbZQStkCLpAeyk/9zbQWkT1827jus8vLlLBtUylIEHDr501NQNVnCINENjABOZU2QZNLhXg6obUz9vas7Jncywgd3wBNmQRGDKiOKNdzXCWgytoLb7pW2rLyarC1i0X0PfjH3EP0=
+	t=1707840424; cv=none; b=FIBC75NNcHqITiwJEhmHl+mq2gunkZlgqpTnwJlxzjYtd/I1nBTmRR0BjEQjJj6QWl19QecNRjOSNqidqm2uRdB2kx4tum+o8Y9AFCkeL46nc1N3WzlMMQ1vEmZ0PrgxdWwZvjzz3brZflL31H3aQJL40RZWQAP1rHn+SfZYWE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707840422; c=relaxed/simple;
-	bh=h+gkLdefHzj2UcaLGpsV7HJKRkcnpdqDDW6GDRTJjoQ=;
+	s=arc-20240116; t=1707840424; c=relaxed/simple;
+	bh=nmjIcymCKahLtJENupGUcHlTAtLG/KczObTiK9d2xpo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a3frBEgnQ2wNNqG1xaIs+0TzaWPlNNmQ5T1BE54FdwDU8X6VS1vEYIB8AxH2nqN3614AyrkNm76MMcaZW5ImR/hfCx6y7XR1/WnR/lnEwm0UHXrti4xTA7JVTM6EEMuyKEJncEjVYK7m1QCIGyefJKfQ05xlBXZrf/aWtaBrsdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lb1pAZah; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=QbQZ7P2GbC1CDwne3n5ZxYzO6guPW8CPVGstnRJyoIMZtsqpHphfgwqh9RvaoN2sPAdyeqb/V9/lzMo0h68wuu+Jfmrn3TStVbUwx5HU15nRgRtvwQPDRUXMm5wBSnsehLYqHXtM8gH/YXBU6gsQxgBvVKj5TdexW2l5mu9zpPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PwmKfF2a; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lb1pAZah"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PwmKfF2a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707840421; x=1739376421;
+  t=1707840423; x=1739376423;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h+gkLdefHzj2UcaLGpsV7HJKRkcnpdqDDW6GDRTJjoQ=;
-  b=Lb1pAZah5nARZ3YUMGFurYB+rUzASkos/npG4jBh+8gJgltKjpF8JFvF
-   xUetzFP22IyDchtVinNDVlbCQ61AubU+Vn6RUGFXbdHb+U2xQ6c3TxuNk
-   tzNLB6pCIzXkpjYQaCTPK0QbMsaCT+iPMVMvkQmUHZoj24EXxgIRf4mKX
-   iBVRrK8LjAEru35SZ+lYBxExm1gG4Z3CrOqPgDKMk0AXy1GUarOBb4PlG
-   QMxu/V1zmezL21uIO/x85PB9xUQTH2Yl1gvqv5T5f5Hty3oxAlr8mqZ4O
-   vpQ37rZAlsnkQlnBeD7i6n1LjRhbrWVLEOYmt3qGWeXQQDorguzo86Mu5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1997393"
+  bh=nmjIcymCKahLtJENupGUcHlTAtLG/KczObTiK9d2xpo=;
+  b=PwmKfF2aoiGw27I68D4YU1d6U4OoXTYkCV2KgprszwPjUmHOU2eOlany
+   v3xBNNad4yTGzXOPhPQS7uHYjQVN09DbmK1QeoCNsBkRPdERcW1DIG3lA
+   LRs0akRm7pnJkbBLxSU48bWFiZnVQGU/Ql/CexuDEFAk73qcoPW/91QZN
+   pthG6BkYHVuBB7fQVmK6CyzGS2B3F9AGZ/geP2Vt/bAKt1tYtdrc1maQR
+   PVCMUc5yjfkbkEUPxLEsenQyuFzD4R8ePximYsDu4/Nv3vWwQ8VmAxij+
+   3y59N7ExPS35ADq9r/RoAD5iYO8NF/qXw4SRRKmugKtNycOeBFjmlOFAU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1997397"
 X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="1997393"
+   d="scan'208";a="1997397"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 08:06:59 -0800
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 08:07:00 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="3290092"
+   d="scan'208";a="3290096"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 13 Feb 2024 08:06:58 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rZvJ9-0007rK-2T;
+	id 1rZvJ9-0007rM-2X;
 	Tue, 13 Feb 2024 16:06:55 +0000
-Date: Wed, 14 Feb 2024 00:06:10 +0800
+Date: Wed, 14 Feb 2024 00:06:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:health-monitoring 569/572] fs/xfs/xfs_healthmon.c:318:2:
- warning: label at end of compound statement is a C2x extension
-Message-ID: <202402132354.z5WWflOq-lkp@intel.com>
+To: Michal Kubiak <michal.kubiak@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexander Lobakin <aleksander.lobakin@intel.com>
+Subject: [alobakin:idpf-libie-new 60/63]
+ drivers/net/ethernet/intel/idpf/idpf_xdp.c:290:30-77: WARNING avoid newline
+ at end of message in NL_SET_ERR_MSG_MOD
+Message-ID: <202402140050.5vu3xoSM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,48 +60,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git health-monitoring
-head:   9f39f2084cebe475618d869d62b32230a7729b0d
-commit: 54d827a535b03f718b188ecd3a79abebe47fa20e [569/572] xfs: report metadata health events through healthmon
-config: i386-buildonly-randconfig-004-20240213 (https://download.01.org/0day-ci/archive/20240213/202402132354.z5WWflOq-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402132354.z5WWflOq-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux idpf-libie-new
+head:   523ccbdcd2be0fd8d7790a993bf83e9fbfc531e1
+commit: d4d56eee3a987070ae86f10e9468b6e6c2f3ad8d [60/63] idpf: implement XDP_SETUP_PROG in ndo_bpf for splitq
+config: i386-randconfig-051-20240213 (https://download.01.org/0day-ci/archive/20240214/202402140050.5vu3xoSM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402132354.z5WWflOq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402140050.5vu3xoSM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/idpf/idpf_xdp.c:290:30-77: WARNING avoid newline at end of message in NL_SET_ERR_MSG_MOD
+   drivers/net/ethernet/intel/idpf/idpf_xdp.c:283:29-81: WARNING avoid newline at end of message in NL_SET_ERR_MSG_MOD
 
->> fs/xfs/xfs_healthmon.c:318:2: warning: label at end of compound statement is a C2x extension [-Wc2x-extensions]
-     318 |         }
-         |         ^
-   1 warning generated.
+vim +290 drivers/net/ethernet/intel/idpf/idpf_xdp.c
 
-
-vim +318 fs/xfs/xfs_healthmon.c
-
-   302	
-   303	static inline enum xfs_healthmon_domain
-   304	health_update_to_domain(
-   305		enum xfs_health_update_domain	domain)
-   306	{
-   307		switch (domain) {
-   308		case XFS_HEALTHUP_FS:
-   309			return XFS_HEALTHMON_FS;
-   310		case XFS_HEALTHUP_RT:
-   311			return XFS_HEALTHMON_RT;
-   312		case XFS_HEALTHUP_AG:
-   313			return XFS_HEALTHMON_AG;
-   314		case XFS_HEALTHUP_INODE:
-   315			return XFS_HEALTHMON_INODE;
-   316		case XFS_HEALTHUP_RTGROUP:
-   317			/* static checking */
- > 318		}
-   319		return XFS_HEALTHMON_RTGROUP;
-   320	}
-   321	
+   241	
+   242	/**
+   243	 * idpf_xdp_setup_prog - Add or remove XDP eBPF program
+   244	 * @vport: vport to setup XDP for
+   245	 * @prog: XDP program
+   246	 * @extack: netlink extended ack
+   247	 */
+   248	static int
+   249	idpf_xdp_setup_prog(struct idpf_vport *vport, struct bpf_prog *prog,
+   250			    struct netlink_ext_ack *extack)
+   251	{
+   252		struct idpf_netdev_priv *np = netdev_priv(vport->netdev);
+   253		bool needs_reconfig, vport_is_up;
+   254		struct bpf_prog **current_prog;
+   255		u16 idx = vport->idx;
+   256		int err;
+   257	
+   258		vport_is_up = np->state == __IDPF_VPORT_UP;
+   259	
+   260		current_prog = &vport->adapter->vport_config[idx]->user_config.xdp_prog;
+   261		needs_reconfig = !!(*current_prog) != !!prog;
+   262	
+   263		if (!needs_reconfig) {
+   264			idpf_copy_xdp_prog_to_qs(vport, prog);
+   265			idpf_assign_bpf_prog(current_prog, prog);
+   266	
+   267			return 0;
+   268		}
+   269	
+   270		if (!vport_is_up) {
+   271			idpf_send_delete_queues_msg(vport);
+   272		} else {
+   273			set_bit(IDPF_VPORT_DEL_QUEUES, vport->flags);
+   274			idpf_vport_stop(vport);
+   275		}
+   276	
+   277		idpf_deinit_rss(vport);
+   278	
+   279		idpf_assign_bpf_prog(current_prog, prog);
+   280	
+   281		err = idpf_xdp_reconfig_queues(vport);
+   282		if (err) {
+   283			NL_SET_ERR_MSG_MOD(extack, "Could not reconfigure the queues after XDP setup\n");
+   284			return err;
+   285		}
+   286	
+   287		if (vport_is_up) {
+   288			err = idpf_vport_open(vport, false);
+   289			if (err) {
+ > 290				NL_SET_ERR_MSG_MOD(extack, "Could not re-open the vport after XDP setup\n");
+   291				return err;
+   292			}
+   293		}
+   294	
+   295		return 0;
+   296	}
+   297	
 
 -- 
 0-DAY CI Kernel Test Service
