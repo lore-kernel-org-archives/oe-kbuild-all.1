@@ -1,72 +1,200 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3A3182A1;
-	Tue, 13 Feb 2024 08:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C5018627
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 08:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707813174; cv=none; b=I8+w9TMcdGhG3f7yiNILXTfF0kdaTF5eVcp5NENvV78H/0Ab9gCt0kvWMVt/fuk4Q8+z27kYvHHBg3DlFQ1d5w6XxKy8PCYjEZa8OnJa9HhyRJp39h3WA+oPZQqzG0OoyKaVk0tiISV82nwKqrkUa7TbbgnZqTHImnvSpznEf/c=
+	t=1707813633; cv=none; b=E8mMYeYujgMu/DCVEyZ9qOPrIx5sx1q6zL/G5jgvv9WzuDxCRsXGM3mZ2aO9YxQWg57Ez6e5t0f06Bvx0E4RxE8+NmyqUXnqf6u4WZ7Twbjj75seMt4r0u0zPuTr3BWUI5dDDDRorGio3Jkr6OaJoyLPjgWaGUh6Bi0PzAhmf2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707813174; c=relaxed/simple;
-	bh=vOIDoSydCH//8pVOasWDQUh0fzIXQwR4wuHoEzBECMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZaAEoyTTwe13uRp8rOWgs15uhR3I04XJDcaLFOB+ia48uFjtjVxv02+M9mVv81xB3+xVnC2oHTqid0h+IBLX/tX2UbqvaZsGZeReEhkImzJyPkGUFHeTW1z4YnVhxetgOh9ahEUspZFsKrM+jjQXticAsItUIL3/wzO3Gwgu8l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de; spf=fail smtp.mailfrom=denx.de; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=denx.de
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 69C761C007F; Tue, 13 Feb 2024 09:32:49 +0100 (CET)
-Date: Tue, 13 Feb 2024 09:32:49 +0100
-From: Pavel Machek <pavel@denx.de>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: cip-dev@lists.cip-project.org,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Pavel Machek <pavel@denx.de>, Biju Das <biju.das.jz@bp.renesas.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5.10.y-cip] cache: Kconfig: Add dependency for RISCV on
- AX45MP_L2_CACHE config
-Message-ID: <ZcspMaCweLlpXES0@duo.ucw.cz>
-References: <20240212121914.38493-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1707813633; c=relaxed/simple;
+	bh=tp6cuJikOwkd/uSEFgy8YwwuuKYIxq5a+om5uZQlL4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OV9B9foUukvqkuK5YXQAbJF9oLccelAzmhYWcYyza6miNzOs1SQqrmgo21mjIH3IgJJOv1smdTuprpB5l4uyPX7KYRQ1g6ZQHyHCqWbxTb45dRfo52tkj1YYpHRYxOnp1BnSx8uS+3zjayZ8C6GRHfPy1/PIRX14KuEjWioOtQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=budt7rGV; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="budt7rGV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707813632; x=1739349632;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tp6cuJikOwkd/uSEFgy8YwwuuKYIxq5a+om5uZQlL4Q=;
+  b=budt7rGV0S4HkKFZhordGePSWd3OhJXdRARaE/9yhf+uKqZD9GCfzS0L
+   j3njW6KUXL5RJ0eR16ZdkTr/2ob6xrX1cyo8acrM2nSolaOGfwmczfqYh
+   ObTDooMY9EbJ+26Tw2kngGkUHeLiUgkQBCbNGrMoq3Rm7/3bEV72fGmgq
+   Bp2BnT1VJidy/3Dzzn1AI5UcNp20a0MNscAlA9ExQgRflih/HTMUEvKI9
+   aTuzu0diQILsUcdM/o6P/dCb9Pjig0SssPuqVZPXEeOsik65PX1rJeBxC
+   c8j8qxrWRjqIOI3P5PjhGLwTvpkpnq6XCK+scs3iWgh2B1gzxojguQykR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="19224857"
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
+   d="scan'208";a="19224857"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 00:40:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
+   d="scan'208";a="3146864"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 13 Feb 2024 00:40:30 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rZoL5-0007c6-18;
+	Tue, 13 Feb 2024 08:40:27 +0000
+Date: Tue, 13 Feb 2024 16:39:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 76/104]
+ drivers/thermal/intel/intel_pch_thermal.c:235:52: warning: passing argument
+ 2 of 'pch_wpt_add_acpi_psv_trip' makes integer from pointer without a cast
+Message-ID: <202402131654.p66Sf4bH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="F1Ah9b1UnUoleVi5"
-Content-Disposition: inline
-In-Reply-To: <20240212121914.38493-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-
---F1Ah9b1UnUoleVi5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   536723ad19c051cec0b5fa9793100f26c70b28d0
+commit: 8c6e2196a852052fa1696cfe86d1da366f725b19 [76/104] thermal: intel: Discard trip tables after zone registration
+config: i386-buildonly-randconfig-003-20240213 (https://download.01.org/0day-ci/archive/20240213/202402131654.p66Sf4bH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402131654.p66Sf4bH-lkp@intel.com/reproduce)
 
-> csr_write() is available only for RISC-V which caused build issues with
-> randconfig for ax45mp_cache.c. To avoid this issue add a RISCV dependency
-> on AX45MP_L2_CACHE config.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402131654.p66Sf4bH-lkp@intel.com/
 
-Looks good to me, thanks. I will apply it soon if it passes testing
-and if there are no other comments.
+All warnings (new ones prefixed by >>):
 
-Best regards,
-								Pavel
---=20
-DENX Software Engineering GmbH,        Managing Director: Erika Unter
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+   drivers/thermal/intel/intel_pch_thermal.c: In function 'intel_pch_thermal_probe':
+>> drivers/thermal/intel/intel_pch_thermal.c:235:52: warning: passing argument 2 of 'pch_wpt_add_acpi_psv_trip' makes integer from pointer without a cast [-Wint-conversion]
+     235 |         nr_trips += pch_wpt_add_acpi_psv_trip(ptd, &ptd_trips[nr_trips]);
+         |                                                    ^~~~~~~~~~~~~~~~~~~~
+         |                                                    |
+         |                                                    struct thermal_trip *
+   drivers/thermal/intel/intel_pch_thermal.c:114:74: note: expected 'int' but argument is of type 'struct thermal_trip *'
+     114 | static int pch_wpt_add_acpi_psv_trip(struct pch_thermal_device *ptd, int trip)
+         |                                                                      ~~~~^~~~
 
---F1Ah9b1UnUoleVi5
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+vim +/pch_wpt_add_acpi_psv_trip +235 drivers/thermal/intel/intel_pch_thermal.c
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZcspMQAKCRAw5/Bqldv6
-8gXoAJ4wb2wwmFE8HTZ+YIwVQUfg5/EtNQCghQ6ZQuBDjiJMWKi7367p9gOIDHk=
-=t0Mt
------END PGP SIGNATURE-----
+   158	
+   159	static int intel_pch_thermal_probe(struct pci_dev *pdev,
+   160					   const struct pci_device_id *id)
+   161	{
+   162		struct thermal_trip ptd_trips[PCH_MAX_TRIPS] = { 0 };
+   163		enum pch_board_ids board_id = id->driver_data;
+   164		struct pch_thermal_device *ptd;
+   165		int nr_trips = 0;
+   166		u16 trip_temp;
+   167		u8 tsel;
+   168		int err;
+   169	
+   170		ptd = devm_kzalloc(&pdev->dev, sizeof(*ptd), GFP_KERNEL);
+   171		if (!ptd)
+   172			return -ENOMEM;
+   173	
+   174		pci_set_drvdata(pdev, ptd);
+   175		ptd->pdev = pdev;
+   176	
+   177		err = pci_enable_device(pdev);
+   178		if (err) {
+   179			dev_err(&pdev->dev, "failed to enable pci device\n");
+   180			return err;
+   181		}
+   182	
+   183		err = pci_request_regions(pdev, driver_name);
+   184		if (err) {
+   185			dev_err(&pdev->dev, "failed to request pci region\n");
+   186			goto error_disable;
+   187		}
+   188	
+   189		ptd->hw_base = pci_ioremap_bar(pdev, 0);
+   190		if (!ptd->hw_base) {
+   191			err = -ENOMEM;
+   192			dev_err(&pdev->dev, "failed to map mem base\n");
+   193			goto error_release;
+   194		}
+   195	
+   196		/* Check if BIOS has already enabled thermal sensor */
+   197		if (WPT_TSEL_ETS & readb(ptd->hw_base + WPT_TSEL)) {
+   198			ptd->bios_enabled = true;
+   199			goto read_trips;
+   200		}
+   201	
+   202		tsel = readb(ptd->hw_base + WPT_TSEL);
+   203		/*
+   204		 * When TSEL's Policy Lock-Down bit is 1, TSEL become RO.
+   205		 * If so, thermal sensor cannot enable. Bail out.
+   206		 */
+   207		if (tsel & WPT_TSEL_PLDB) {
+   208			dev_err(&ptd->pdev->dev, "Sensor can't be enabled\n");
+   209			err = -ENODEV;
+   210			goto error_cleanup;
+   211		}
+   212	
+   213		writeb(tsel|WPT_TSEL_ETS, ptd->hw_base + WPT_TSEL);
+   214		if (!(WPT_TSEL_ETS & readb(ptd->hw_base + WPT_TSEL))) {
+   215			dev_err(&ptd->pdev->dev, "Sensor can't be enabled\n");
+   216			err = -ENODEV;
+   217			goto error_cleanup;
+   218		}
+   219	
+   220	read_trips:
+   221		trip_temp = readw(ptd->hw_base + WPT_CTT);
+   222		trip_temp &= 0x1FF;
+   223		if (trip_temp) {
+   224			ptd_trips[nr_trips].temperature = GET_WPT_TEMP(trip_temp);
+   225			ptd_trips[nr_trips++].type = THERMAL_TRIP_CRITICAL;
+   226		}
+   227	
+   228		trip_temp = readw(ptd->hw_base + WPT_PHL);
+   229		trip_temp &= 0x1FF;
+   230		if (trip_temp) {
+   231			ptd_trips[nr_trips].temperature = GET_WPT_TEMP(trip_temp);
+   232			ptd_trips[nr_trips++].type = THERMAL_TRIP_HOT;
+   233		}
+   234	
+ > 235		nr_trips += pch_wpt_add_acpi_psv_trip(ptd, &ptd_trips[nr_trips]);
+   236	
+   237		ptd->tzd = thermal_zone_device_register_with_trips(board_names[board_id],
+   238								   ptd_trips, nr_trips,
+   239								   ptd, &tzd_ops,
+   240								   NULL, 0, 0);
+   241		if (IS_ERR(ptd->tzd)) {
+   242			dev_err(&pdev->dev, "Failed to register thermal zone %s\n",
+   243				board_names[board_id]);
+   244			err = PTR_ERR(ptd->tzd);
+   245			goto error_cleanup;
+   246		}
+   247		err = thermal_zone_device_enable(ptd->tzd);
+   248		if (err)
+   249			goto err_unregister;
+   250	
+   251		return 0;
+   252	
+   253	err_unregister:
+   254		thermal_zone_device_unregister(ptd->tzd);
+   255	error_cleanup:
+   256		iounmap(ptd->hw_base);
+   257	error_release:
+   258		pci_release_regions(pdev);
+   259	error_disable:
+   260		pci_disable_device(pdev);
+   261		dev_err(&pdev->dev, "pci device failed to probe\n");
+   262		return err;
+   263	}
+   264	
 
---F1Ah9b1UnUoleVi5--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
