@@ -1,56 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C5018627
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 08:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CACF20B2C;
+	Tue, 13 Feb 2024 08:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707813633; cv=none; b=E8mMYeYujgMu/DCVEyZ9qOPrIx5sx1q6zL/G5jgvv9WzuDxCRsXGM3mZ2aO9YxQWg57Ez6e5t0f06Bvx0E4RxE8+NmyqUXnqf6u4WZ7Twbjj75seMt4r0u0zPuTr3BWUI5dDDDRorGio3Jkr6OaJoyLPjgWaGUh6Bi0PzAhmf2g=
+	t=1707814199; cv=none; b=ZiL9Lgga7s/dHLYL3t7gN66ws7CPSv1D71z8cn7bW/wgONsvS4s9LLYN1s6V/ZIhOhU8kM9kN98yVo/0MpnkDo0tGgT9sU2hR2+FDbw9kbOAnAivrxOL6aXYOk9nqFsqV4YsV+dXSgKsuwkqooZudFs2Xav8TmPKCDbXImUrM1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707813633; c=relaxed/simple;
-	bh=tp6cuJikOwkd/uSEFgy8YwwuuKYIxq5a+om5uZQlL4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OV9B9foUukvqkuK5YXQAbJF9oLccelAzmhYWcYyza6miNzOs1SQqrmgo21mjIH3IgJJOv1smdTuprpB5l4uyPX7KYRQ1g6ZQHyHCqWbxTb45dRfo52tkj1YYpHRYxOnp1BnSx8uS+3zjayZ8C6GRHfPy1/PIRX14KuEjWioOtQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=budt7rGV; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="budt7rGV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707813632; x=1739349632;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tp6cuJikOwkd/uSEFgy8YwwuuKYIxq5a+om5uZQlL4Q=;
-  b=budt7rGV0S4HkKFZhordGePSWd3OhJXdRARaE/9yhf+uKqZD9GCfzS0L
-   j3njW6KUXL5RJ0eR16ZdkTr/2ob6xrX1cyo8acrM2nSolaOGfwmczfqYh
-   ObTDooMY9EbJ+26Tw2kngGkUHeLiUgkQBCbNGrMoq3Rm7/3bEV72fGmgq
-   Bp2BnT1VJidy/3Dzzn1AI5UcNp20a0MNscAlA9ExQgRflih/HTMUEvKI9
-   aTuzu0diQILsUcdM/o6P/dCb9Pjig0SssPuqVZPXEeOsik65PX1rJeBxC
-   c8j8qxrWRjqIOI3P5PjhGLwTvpkpnq6XCK+scs3iWgh2B1gzxojguQykR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="19224857"
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="19224857"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 00:40:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,156,1705392000"; 
-   d="scan'208";a="3146864"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Feb 2024 00:40:30 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rZoL5-0007c6-18;
-	Tue, 13 Feb 2024 08:40:27 +0000
-Date: Tue, 13 Feb 2024 16:39:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org
-Subject: [rafael-pm:bleeding-edge 76/104]
- drivers/thermal/intel/intel_pch_thermal.c:235:52: warning: passing argument
- 2 of 'pch_wpt_add_acpi_psv_trip' makes integer from pointer without a cast
-Message-ID: <202402131654.p66Sf4bH-lkp@intel.com>
+	s=arc-20240116; t=1707814199; c=relaxed/simple;
+	bh=sadaPCdmwkHHMrHeq/JKhLMCFklg7Qow7J7JVWooHss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gn9m9Qb6/Bevbq1W3QwxGYqEOSli7p+U/zXUzdS2AR/yzRdY0rclWFLBKXUo127PeF8porVhhW6O0r4Orkd5/UHOe58tHJ1SBDkr48cPxshjOiFUGx0KQz4NUZcD+RUvDoW514a3sU8FreptEbshD6isRBYnuEYQH+7IucKcSyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68DFEDA7;
+	Tue, 13 Feb 2024 00:50:36 -0800 (PST)
+Received: from pluto (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 943EA3F5A1;
+	Tue, 13 Feb 2024 00:49:53 -0800 (PST)
+Date: Tue, 13 Feb 2024 08:49:51 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	sudeep.holla@arm.com, vincent.guittot@linaro.org,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com, souvik.chakravarty@arm.com
+Subject: Re: [PATCH 06/11] firmware: arm_scmi: Implement Clock
+ .is_notify_supported callback
+Message-ID: <ZcstL8tRVKIUFoBr@pluto>
+References: <20240212123233.1230090-7-cristian.marussi@arm.com>
+ <202402131047.2NVZWHma-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,142 +39,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202402131047.2NVZWHma-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   536723ad19c051cec0b5fa9793100f26c70b28d0
-commit: 8c6e2196a852052fa1696cfe86d1da366f725b19 [76/104] thermal: intel: Discard trip tables after zone registration
-config: i386-buildonly-randconfig-003-20240213 (https://download.01.org/0day-ci/archive/20240213/202402131654.p66Sf4bH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402131654.p66Sf4bH-lkp@intel.com/reproduce)
+On Tue, Feb 13, 2024 at 10:58:23AM +0800, kernel test robot wrote:
+> Hi Cristian,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on soc/for-next]
+> [also build test ERROR on linus/master v6.8-rc4 next-20240212]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402131654.p66Sf4bH-lkp@intel.com/
+Hi,
 
-All warnings (new ones prefixed by >>):
+this series, as stated in the cover-letter, is based off the current tip of
 
-   drivers/thermal/intel/intel_pch_thermal.c: In function 'intel_pch_thermal_probe':
->> drivers/thermal/intel/intel_pch_thermal.c:235:52: warning: passing argument 2 of 'pch_wpt_add_acpi_psv_trip' makes integer from pointer without a cast [-Wint-conversion]
-     235 |         nr_trips += pch_wpt_add_acpi_psv_trip(ptd, &ptd_trips[nr_trips]);
-         |                                                    ^~~~~~~~~~~~~~~~~~~~
-         |                                                    |
-         |                                                    struct thermal_trip *
-   drivers/thermal/intel/intel_pch_thermal.c:114:74: note: expected 'int' but argument is of type 'struct thermal_trip *'
-     114 | static int pch_wpt_add_acpi_psv_trip(struct pch_thermal_device *ptd, int trip)
-         |                                                                      ~~~~^~~~
+	sudeep/for-next/scmi/updates
 
+and particularly needs commit:
 
-vim +/pch_wpt_add_acpi_psv_trip +235 drivers/thermal/intel/intel_pch_thermal.c
+	9c5bc650031e firmware: arm_scmi: Rework clock domain info lookups
 
-   158	
-   159	static int intel_pch_thermal_probe(struct pci_dev *pdev,
-   160					   const struct pci_device_id *id)
-   161	{
-   162		struct thermal_trip ptd_trips[PCH_MAX_TRIPS] = { 0 };
-   163		enum pch_board_ids board_id = id->driver_data;
-   164		struct pch_thermal_device *ptd;
-   165		int nr_trips = 0;
-   166		u16 trip_temp;
-   167		u8 tsel;
-   168		int err;
-   169	
-   170		ptd = devm_kzalloc(&pdev->dev, sizeof(*ptd), GFP_KERNEL);
-   171		if (!ptd)
-   172			return -ENOMEM;
-   173	
-   174		pci_set_drvdata(pdev, ptd);
-   175		ptd->pdev = pdev;
-   176	
-   177		err = pci_enable_device(pdev);
-   178		if (err) {
-   179			dev_err(&pdev->dev, "failed to enable pci device\n");
-   180			return err;
-   181		}
-   182	
-   183		err = pci_request_regions(pdev, driver_name);
-   184		if (err) {
-   185			dev_err(&pdev->dev, "failed to request pci region\n");
-   186			goto error_disable;
-   187		}
-   188	
-   189		ptd->hw_base = pci_ioremap_bar(pdev, 0);
-   190		if (!ptd->hw_base) {
-   191			err = -ENOMEM;
-   192			dev_err(&pdev->dev, "failed to map mem base\n");
-   193			goto error_release;
-   194		}
-   195	
-   196		/* Check if BIOS has already enabled thermal sensor */
-   197		if (WPT_TSEL_ETS & readb(ptd->hw_base + WPT_TSEL)) {
-   198			ptd->bios_enabled = true;
-   199			goto read_trips;
-   200		}
-   201	
-   202		tsel = readb(ptd->hw_base + WPT_TSEL);
-   203		/*
-   204		 * When TSEL's Policy Lock-Down bit is 1, TSEL become RO.
-   205		 * If so, thermal sensor cannot enable. Bail out.
-   206		 */
-   207		if (tsel & WPT_TSEL_PLDB) {
-   208			dev_err(&ptd->pdev->dev, "Sensor can't be enabled\n");
-   209			err = -ENODEV;
-   210			goto error_cleanup;
-   211		}
-   212	
-   213		writeb(tsel|WPT_TSEL_ETS, ptd->hw_base + WPT_TSEL);
-   214		if (!(WPT_TSEL_ETS & readb(ptd->hw_base + WPT_TSEL))) {
-   215			dev_err(&ptd->pdev->dev, "Sensor can't be enabled\n");
-   216			err = -ENODEV;
-   217			goto error_cleanup;
-   218		}
-   219	
-   220	read_trips:
-   221		trip_temp = readw(ptd->hw_base + WPT_CTT);
-   222		trip_temp &= 0x1FF;
-   223		if (trip_temp) {
-   224			ptd_trips[nr_trips].temperature = GET_WPT_TEMP(trip_temp);
-   225			ptd_trips[nr_trips++].type = THERMAL_TRIP_CRITICAL;
-   226		}
-   227	
-   228		trip_temp = readw(ptd->hw_base + WPT_PHL);
-   229		trip_temp &= 0x1FF;
-   230		if (trip_temp) {
-   231			ptd_trips[nr_trips].temperature = GET_WPT_TEMP(trip_temp);
-   232			ptd_trips[nr_trips++].type = THERMAL_TRIP_HOT;
-   233		}
-   234	
- > 235		nr_trips += pch_wpt_add_acpi_psv_trip(ptd, &ptd_trips[nr_trips]);
-   236	
-   237		ptd->tzd = thermal_zone_device_register_with_trips(board_names[board_id],
-   238								   ptd_trips, nr_trips,
-   239								   ptd, &tzd_ops,
-   240								   NULL, 0, 0);
-   241		if (IS_ERR(ptd->tzd)) {
-   242			dev_err(&pdev->dev, "Failed to register thermal zone %s\n",
-   243				board_names[board_id]);
-   244			err = PTR_ERR(ptd->tzd);
-   245			goto error_cleanup;
-   246		}
-   247		err = thermal_zone_device_enable(ptd->tzd);
-   248		if (err)
-   249			goto err_unregister;
-   250	
-   251		return 0;
-   252	
-   253	err_unregister:
-   254		thermal_zone_device_unregister(ptd->tzd);
-   255	error_cleanup:
-   256		iounmap(ptd->hw_base);
-   257	error_release:
-   258		pci_release_regions(pdev);
-   259	error_disable:
-   260		pci_disable_device(pdev);
-   261		dev_err(&pdev->dev, "pci device failed to probe\n");
-   262		return err;
-   263	}
-   264	
+from there, since it contains the missing scmi_clock_domain_lookup().
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Not_sure/dont_known if there is any way to convey this "based-on-branch"
+info to your/any CI at the moment.
+
+Thanks,
+Cristian
+
+> url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Check-for-notification-support/20240212-203727
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+> patch link:    https://lore.kernel.org/r/20240212123233.1230090-7-cristian.marussi%40arm.com
+> patch subject: [PATCH 06/11] firmware: arm_scmi: Implement Clock .is_notify_supported callback
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240213/202402131047.2NVZWHma-lkp@intel.com/config)
+> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project c08b90c50bcac9f3f563c79491c8dbcbe7c3b574)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402131047.2NVZWHma-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402131047.2NVZWHma-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/firmware/arm_scmi/clock.c:853:8: error: call to undeclared function 'scmi_clock_domain_lookup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>      853 |         clk = scmi_clock_domain_lookup(ci, src_id);
+>          |               ^
+> >> drivers/firmware/arm_scmi/clock.c:853:6: error: incompatible integer to pointer conversion assigning to 'struct scmi_clock_info *' from 'int' [-Wint-conversion]
+>      853 |         clk = scmi_clock_domain_lookup(ci, src_id);
+>          |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    2 errors generated.
+> 
+> 
+> vim +/scmi_clock_domain_lookup +853 drivers/firmware/arm_scmi/clock.c
+> 
+>    842	
+>    843	static bool scmi_clk_notify_supported(const struct scmi_protocol_handle *ph,
+>    844					      u8 evt_id, u32 src_id)
+>    845	{
+>    846		bool supported;
+>    847		struct scmi_clock_info *clk;
+>    848		struct clock_info *ci = ph->get_priv(ph);
+>    849	
+>    850		if (evt_id >= ARRAY_SIZE(evt_2_cmd))
+>    851			return false;
+>    852	
+>  > 853		clk = scmi_clock_domain_lookup(ci, src_id);
+>    854		if (IS_ERR(clk))
+>    855			return false;
+>    856	
+>    857		if (evt_id == SCMI_EVENT_CLOCK_RATE_CHANGED)
+>    858			supported = clk->rate_changed_notifications;
+>    859		else
+>    860			supported = clk->rate_change_requested_notifications;
+>    861	
+>    862		return supported;
+>    863	}
+>    864	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
