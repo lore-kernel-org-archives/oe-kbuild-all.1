@@ -1,157 +1,124 @@
-Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0A7612EA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 20:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.114.26.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA93D627F4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 21:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707857052; cv=none; b=C2m4Z0+AKOHx5eSX06Go5Y1Cvv9PN+4WW7hmhtcT1gHiLVAPmgwNpV59y7nDWonVN2LlKZJtjl3iMz767g7FubZAfj03w+Kt3AdyB08bveN+65sM1cdM6zT5NtnHoVyCjw4ohHQ97TvMheqFFd26V71+GDuepJKKwwNUScnG4v8=
+	t=1707858981; cv=none; b=OmB5ssOKhmhVPBu+uBMF6rtFKdayFd2xx0P1mKQ3BGnW/vCsB9yN1liKWFL25b33G1DOnLbJK5JM9v+JcA8WSqL/cNINwrjK+64zTO3XTV4xKFUyi3Pq15cfsOC33rDDC+JPWqqjWOp9f1WN8c6Ma1rkQUB/wv5GTFbSCoysbQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707857052; c=relaxed/simple;
-	bh=yUo9DUCia3ar+m9KYjMGC2jGiaN/K1370cCPMLE9D+g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EoOrRBvciMp29q3/mBVCfMiPGa0S3DF31ErMlZWmw7pYmllJmplmBpbgAYo9gbzHTguNDYjKcDyAFOB2ksLL8tCe4dfBYnpyZDflp3BZWeqaShxJpaXTvyIO0kxIBfTtSXBYd4jnI0xZ7vdgBFWIu2gK6ouLABL5jLXZgrAEI04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=n6tQqiQh; arc=none smtp.client-ip=167.114.26.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	s=arc-20240116; t=1707858981; c=relaxed/simple;
+	bh=70aOWZb2as+h/oFF9yERAyk5l+enGnLqVYb+kh+qAx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ggj4tcRwSAVxgfnX1LFfeysVTJnm72p/CLNwvAHfbbayMK3eh25YY8H1VOIpJyklxahZ1IFmWOq4TEq7cXAZ+KIH8Zq0DCC5x2mOkR18ihzCpFHDP8S2jCfcNgEF7Uw6gdk4193Nh64dFxMwDDQ5q8ERW/Jcmgny+L5RESEloFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KI8uCoUI; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="n6tQqiQh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-	s=smtpout1; t=1707857049;
-	bh=yUo9DUCia3ar+m9KYjMGC2jGiaN/K1370cCPMLE9D+g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n6tQqiQhY/iYiGGtSq5QCt963/B9nm5PZBYJU3rj38L9Z/NreOlNA71CXtOcIpcC4
-	 D4Q9G+c7BV903n2ROt9GxzWBUkb2SezhGwXt2ukpb8STVQREcuwTGPWcREgYgSK8Vi
-	 x73udNIfb75Gv05MHxomb16NoD86LpmWMkleZKOVfcxzySYHMGkEK13GOJ0CTtU5Jb
-	 8QYfYxPSjvmEuTOKzi3ujd915YIp+xuQ7Vb7/IDRpuP1UmBNM6SJdA3ZYnxYi4mPKJ
-	 r/lQlXN7dqzKefA0xOYb70hPP45UBBBK8loUWnQbdWRl4pB/bEsipLosyvutUopvID
-	 v8y3skAAK55bQ==
-Received: from [172.16.0.134] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4TZCwn3MQCzYPm;
-	Tue, 13 Feb 2024 15:44:09 -0500 (EST)
-Message-ID: <5806e90f-a4b2-4f74-9cf6-5fc10a303ba7@efficios.com>
-Date: Tue, 13 Feb 2024 15:44:09 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KI8uCoUI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707858980; x=1739394980;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=70aOWZb2as+h/oFF9yERAyk5l+enGnLqVYb+kh+qAx4=;
+  b=KI8uCoUIGbHlb8n9t0Ly6MSYlGgiu2GB41J0rNBM1JNZujm1cBS1MGbI
+   C5lRXHWkcZ3NUInSwFJs0Nv/KYnLLeEe4OfonOpZlorH0rIIqsrMiPep6
+   Ha/u/rM79RNCqGKXo+aPvPLP1ZF3fKdsZN5N2ZvcBgHe/gP7HMcLyyUEP
+   Tn/FfKZ47cWSVYi83JlZG81adJsr4utUtDm65Gy3NTWsI1sq8TBe5+ar5
+   I+4Zz7pSfciUG/f7bR8uv1o5j8hRmoqCzds2HMWfWwsMTFCZvu44zw9SJ
+   7IDl2oIhUoovQ1vjfmsOs9KgAuHm2TbHw1YMqEepN0FpTz0EyHZM3hMdm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="19300548"
+X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
+   d="scan'208";a="19300548"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 13:16:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
+   d="scan'208";a="7576918"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 13 Feb 2024 13:16:13 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ra08R-00083s-0R;
+	Tue, 13 Feb 2024 21:16:11 +0000
+Date: Wed, 14 Feb 2024 05:15:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, ville.syrjala@linux.intel.com,
+	pekka.paalanen@collabora.com, contact@emersion.fr,
+	harry.wentland@amd.com, mwen@igalia.com, jadahl@redhat.com,
+	sebastian.wick@redhat.com, shashank.sharma@amd.com,
+	agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com,
+	aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com,
+	daniel@ffwll.ch, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+	quic_abhinavk@quicinc.com, arthurgrillo@riseup.net,
+	marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+	sean@poorly.run, Uma Shankar <uma.shankar@intel.com>
+Subject: Re: [PATCH 01/28] [NOT FOR REVIEW] drm: color pipeline base work
+Message-ID: <202402140432.nUFiOWYE-lkp@intel.com>
+References: <20240213064835.139464-2-uma.shankar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 5601/6082] drivers/md/dm.c:2131:undefined
- reference to `set_dax_nocache'
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- kernel test robot <lkp@intel.com>, Dan Williams <dan.j.williams@intel.com>
-References: <202402131351.a0FZOgEG-lkp@intel.com>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <202402131351.a0FZOgEG-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213064835.139464-2-uma.shankar@intel.com>
 
-On 2024-02-13 00:12, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   ae00c445390b349e070a64dc62f08aa878db7248
-> commit: 9af4599a77df42dba7f32c76a97a19f5703f44b7 [5601/6082] dm: cleanup alloc_dax() error handling
-> config: openrisc-randconfig-r011-20221209 (https://download.01.org/0day-ci/archive/20240213/202402131351.a0FZOgEG-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402131351.a0FZOgEG-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402131351.a0FZOgEG-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     or1k-linux-ld: drivers/md/dm.o: in function `alloc_dev':
->>> drivers/md/dm.c:2131:(.text+0x9f34): undefined reference to `set_dax_nocache'
->>> drivers/md/dm.c:2131:(.text+0x9f34): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `set_dax_nocache'
->>> or1k-linux-ld: drivers/md/dm.c:2132:(.text+0x9f3c): undefined reference to `set_dax_nomc'
->>> drivers/md/dm.c:2132:(.text+0x9f3c): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `set_dax_nomc'
->     pahole: .tmp_vmlinux.btf: Invalid argument
->     .btf.vmlinux.bin.o: file not recognized: file format not recognized
+Hi Uma,
 
-It comes as a surprise that a call to set_dax_nocache() from within a
-branch provably never taken ends up keeping a reference to the missing
-symbol. I would have expected compiler optimizations to remove the call
-to the missing symbol altogether, but maybe I'm expecting too much.
+kernel test robot noticed the following build warnings:
 
-Basically here we have:
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next next-20240213]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-CONFIG_DAX=n
+url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-color-pipeline-base-work/20240213-144544
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240213064835.139464-2-uma.shankar%40intel.com
+patch subject: [PATCH 01/28] [NOT FOR REVIEW] drm: color pipeline base work
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240214/202402140432.nUFiOWYE-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402140432.nUFiOWYE-lkp@intel.com/reproduce)
 
-static inline struct dax_device *alloc_dax(void *private,
-                 const struct dax_operations *ops)
-{
-         return ERR_PTR(-EOPNOTSUPP);
-}
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402140432.nUFiOWYE-lkp@intel.com/
 
-static struct mapped_device *alloc_dev(int minor)
-{
-[...]
-         dax_dev = alloc_dax(md, &dm_dax_ops);
-         if (IS_ERR(dax_dev)) {
-                 if (PTR_ERR(dax_dev) != -EOPNOTSUPP)
-                         goto bad;
-         } else {
-                 set_dax_nocache(dax_dev);
-                 set_dax_nomc(dax_dev);
-                 md->dax_dev = dax_dev;
-                 if (dax_add_host(dax_dev, md->disk))
-                         goto bad;
-         }
+All warnings (new ones prefixed by >>):
 
-The simple fix would be something like this, but I would like to
-understand why we observe this specifically on openrisc and loongarch
-(https://lore.kernel.org/oe-kbuild-all/202402140037.wGfA1kqX-lkp@intel.com/).
+>> drivers/gpu/drm/drm_colorop.c:268: warning: Function parameter or struct member 'type' not described in 'drm_get_colorop_curve_1d_type_name'
+   drivers/gpu/drm/drm_colorop.c:268: warning: Excess function parameter 'range' description in 'drm_get_colorop_curve_1d_type_name'
 
-diff --git a/include/linux/dax.h b/include/linux/dax.h
-index df2d52b8a245..9d3e3327af4c 100644
---- a/include/linux/dax.h
-+++ b/include/linux/dax.h
-@@ -63,6 +63,8 @@ void kill_dax(struct dax_device *dax_dev);
-  void dax_write_cache(struct dax_device *dax_dev, bool wc);
-  bool dax_write_cache_enabled(struct dax_device *dax_dev);
-  bool dax_synchronous(struct dax_device *dax_dev);
-+void set_dax_nocache(struct dax_device *dax_dev);
-+void set_dax_nomc(struct dax_device *dax_dev);
-  void set_dax_synchronous(struct dax_device *dax_dev);
-  size_t dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
-  		void *addr, size_t bytes, struct iov_iter *i);
-@@ -105,6 +107,12 @@ static inline bool dax_synchronous(struct dax_device *dax_dev)
-  {
-  	return true;
-  }
-+static inline void set_dax_nocache(struct dax_device *dax_dev)
-+{
-+}
-+static inline void set_dax_nomc(struct dax_device *dax_dev)
-+{
-+}
-  static inline void set_dax_synchronous(struct dax_device *dax_dev)
-  {
-  }
-@@ -120,9 +128,6 @@ static inline size_t dax_recovery_write(struct dax_device *dax_dev,
-  }
-  #endif
-  
--void set_dax_nocache(struct dax_device *dax_dev);
--void set_dax_nomc(struct dax_device *dax_dev);
--
-  struct writeback_control;
-  #if defined(CONFIG_BLOCK) && defined(CONFIG_FS_DAX)
-  int dax_add_host(struct dax_device *dax_dev, struct gendisk *disk);
 
-Thanks,
+vim +268 drivers/gpu/drm/drm_colorop.c
 
-Mathieu
-
+   259	
+   260	/**
+   261	 * drm_get_colorop_curve_1d_type_name - return a string for 1D curve type
+   262	 * @range: 1d curve type to compute name of
+   263	 *
+   264	 * In contrast to the other drm_get_*_name functions this one here returns a
+   265	 * const pointer and hence is threadsafe.
+   266	 */
+   267	const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type type)
+ > 268	{
+   269		if (WARN_ON(type >= ARRAY_SIZE(colorop_curve_1d_type_name)))
+   270			return "unknown";
+   271	
+   272		return colorop_curve_1d_type_name[type];
+   273	}
+   274	
 
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
