@@ -1,184 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2073.outbound.protection.outlook.com [40.107.22.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE1A37710
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 11:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707825472; cv=none; b=XU6w7/+Yp8VD4gTxez/L3MX9JMG0bn5uJ98jJzdg0PBCT2He+rRno4g64vU841xRvxB6iX3FCj/UCxRayj5w6A4gzYZCQ/5e6t6Bs4YM5QUYFusJhz8LJftF/jOIdYJSyLhI7HsEOxtE5IHgHnNGz9u0HvP3rbEdcCK3eh5eAto=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707825472; c=relaxed/simple;
-	bh=zCi0/8QCwrodvYnJpEPkyRVQpl/IXXCzu6mJMZnoYRg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FfI26UqvAg4QD1RpysF82xDekoSW8Bezpf26VjPdx6eljCM2Rt+0o3hntNnWSn3A0iaxrPYSNWqrhXZDFDFDgf2WgssK/AcX6/jK9oz7Jlzsg1SXwsMIhm8rGrXVvGjetOhtRbWiHq22K9Q8rsB+I6RJDe+2UFl7dzNgb7ijkZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhqwsfkS; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66403B189
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 12:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.73
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707825945; cv=fail; b=M7AThdkf8xU9x5znmn8IS3wqxincCmV42QkbtPIkLqPbJOkO4W/VXF6DZa8a2auq7vI22rghNxYEQutXxETi0pJ+8kGKXGUcR5z/KSzrSzbwpcFNpkhIsKxht2LYsap4r/BoObIrExqSe8xHsOKpxUb8KMQtv2kqiKG38PaAOmQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707825945; c=relaxed/simple;
+	bh=CN1b8xoe7cpbyoSRtIsU4NYeQWFGOs/R0MCIlRqhE2I=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UMuvyjhvAkjui/j5PCZAZ9WvtYix79lO72OCNfhnMdUGVhA8D6qIh5tptVNWqUA56Bde3pU6PIdgjIBcefdoZORdEqRf3xTqCFCuZtiTlb6TVrAJQK+KY8Y1EHPk6tJfW6xCGXWxKGkMDThPzhHlyRKU9AMVgYU1R9CBLKBAJ9k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prevas.dk; spf=pass smtp.mailfrom=prevas.dk; dkim=pass (1024-bit key) header.d=prevas.dk header.i=@prevas.dk header.b=DyhvOknf; arc=fail smtp.client-ip=40.107.22.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prevas.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prevas.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhqwsfkS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707825471; x=1739361471;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zCi0/8QCwrodvYnJpEPkyRVQpl/IXXCzu6mJMZnoYRg=;
-  b=YhqwsfkSZ/QTssSnLffBrAxuZSmt7x4reFLOF8DNLgslu5xNjtJNE6gi
-   EA+KtdO+QWNUZjdkCSStk9ZqLYfHRMfesXJokASprhyOndmbqi+XjEC2O
-   402wmECxWBUFlQLgBhweyPh161Qfxplo8oama65rY1Cslc5xtKuTvKsy5
-   pRa3PlSzODvbydEyQ9/DgHUmyDlkTaTkNuamuMi3ODQ8EWmMTmkz0jcjg
-   EmLzIZPHgwhCqEl+bMZY+d833zs7Wa/MNOSsg81ANz9LS7p4KN7cDAS6A
-   wcghdGZUNBaR4gwWsXbZBX6tca9/55ijgGbIlfxybGUEXTFrP/u35DZ80
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="4792929"
-X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="4792929"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 03:57:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,157,1705392000"; 
-   d="scan'208";a="2910679"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 Feb 2024 03:57:49 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rZrQ1-0007hm-2a;
-	Tue, 13 Feb 2024 11:57:45 +0000
-Date: Tue, 13 Feb 2024 19:57:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Likun Gao <Likun.Gao@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Hawking Zhang <Hawking.Zhang@amd.com>
-Subject: [linux-next:master 6193/6424]
- drivers/gpu/drm/amd/amdgpu/ih_v7_0.c:392: warning: Function parameter or
- struct member 'ih' not described in 'ih_v7_0_get_wptr'
-Message-ID: <202402131939.ajKHyCog-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=prevas.dk header.i=@prevas.dk header.b="DyhvOknf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Cka0eMeInZwutuQvbVzBwSx1m3Wt5a8HDZomkKUxG+JAvSTDr2IMg6qmRD2Y54ERIepPhD226X2aq2pZNfOyTWYByWrFpb1wXofh66VA5tNURCk+/qfW0S2WKpstimonJNPio4oPLriwoDoQxVCy/PnWrV7gEpryCY+wyh+JZWD+PCX02g/XbalJLf88GgispwQcgOUW+j7oYYt5k6ArizqROhSt05AoYoB/biqHXruwrBi//RCV55//TwUcZ7ZmSbikWFZa0yxMyMONBcvmPJj+djAV0LAjtAhRcJXWOIa86dm5xAjSesof8C6aVV3laGBwUyem0NgUMssTTeBxew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ETeww57Q3OFZVmQF4aaJeatIL7382mxM6FX8aWlKfE0=;
+ b=CvpDcRLsJRaK8CNe4N9hNgbvuHSvTST0NcDWFubO3W6i0B5GkF/2/flh1abrBQG5qAKpVMkw5T+TptouT1lQDN3j7hjeqMO8JevaiOvTqTRq551B3gAt2zLa2QJBaVMk1rvRZ6a0pRHJY9OU1RjMCWOck1KsysCpS9DPoBbGAbNsYxRbsN6t0uRg4gsPng5qoJY/zYFCV5VofmmV1moLKUBFAB4ZPnti53RLYvpoc3J7gr/AGeNWIKKhbVyEu7d4AhRdfW8kq/Sd0gSQ7QiOvwfNHVcHMs6RG/OsgLyDtgPebO7WTYvhXYIipGwdbbHDcup/HYPZsOIXBJaG4Nc9KA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ETeww57Q3OFZVmQF4aaJeatIL7382mxM6FX8aWlKfE0=;
+ b=DyhvOknfHowv/QpgkBpluxL2W0O8tOaRDnZmAvvHIfYbJXYkgT4TNzeYjemvjB0reu7diEdSZOPDB8UPAykvuhbUuB7F+WBqbpN1BUtbCuuzS/NWfWTWQlv/X8+ZDJSlWhH6BEqpwMGHJpiznd5oHebqv3S3pI1Wp88j20wLZiY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=prevas.dk;
+Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:45a::14)
+ by AS8PR10MB7399.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:614::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.28; Tue, 13 Feb
+ 2024 12:05:38 +0000
+Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f059:23ad:b039:15de]) by DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f059:23ad:b039:15de%7]) with mapi id 15.20.7270.033; Tue, 13 Feb 2024
+ 12:05:32 +0000
+Message-ID: <6e776c69-12fd-470f-b3ce-dd9f91bacde5@prevas.dk>
+Date: Tue, 13 Feb 2024 13:05:29 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: lib/vsprintf.c:1528:9: warning: function 'va_format' might be a
+ candidate for 'gnu_printf' format attribute
+Content-Language: en-US, da
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ kernel test robot <lkp@intel.com>
+Cc: Petr Mladek <pmladek@suse.com>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+References: <202401111051.dDNWAfKw-lkp@intel.com>
+ <Za0iLa7akcaML096@smile.fi.intel.com>
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+In-Reply-To: <Za0iLa7akcaML096@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MM0P280CA0003.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:a::14) To DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:45a::14)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR10MB7100:EE_|AS8PR10MB7399:EE_
+X-MS-Office365-Filtering-Correlation-Id: fba0f973-7e0d-41cd-e234-08dc2c8c13aa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	x3OSX8mOiuJlTHAyIr1KLwwurQZ3reJIV+ghbz7FzpbnTMWkAF5eUdVKDMde7yDbAMKLlXOH4mc4JoiJBQ0PsXerPaJbURpITGYLDjt6XPEKqgD5tSdb88zORGVhrtxD1WNFE++CXX3CSim3Y6F4vGgXDKkeZ/8VqRQIFgSxh40oFVr4Czx0Db9/aD1GoELVANS16taC59Wmk25EYfrsduXg21uxuY+8pZu+nXWzC8ZNQIoJF1CDLVCvpsyEK3SlHj9rKtNFqGHaILYdx5ESqhwZPJbSJg7hQPU9odBdKbraFi4DssZbmIcZw7U9nzg2mIaIHlqOqOHEzR2qSBhxqciON757zZfMwRWCVxugOOayPGh1tDW8h4FqNxsu5fqeQNLqkHajR69/zehWUn7ieIxGJ8VygzNTxLlAWs1KSCc8A36uegk3UxMsa0dMwozyarL3Q+/LDjT8OxYGdzlW32pn7mJFNGvr6j61fAoLV4RrPJ84k1OdaeEmifgYoo3Viuq5lm5iA/ZRHNjJatFu9d98lp8X3csyH86vVdeBiAWWfDN9XJAx3UyLD6ePzf0E
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(39850400004)(376002)(346002)(366004)(230922051799003)(230273577357003)(451199024)(186009)(64100799003)(1800799012)(8676002)(31686004)(26005)(41300700001)(2616005)(31696002)(4326008)(66946007)(66556008)(8976002)(2906002)(44832011)(5660300002)(66476007)(8936002)(110136005)(478600001)(6486002)(83380400001)(54906003)(316002)(6666004)(6506007)(966005)(6512007)(86362001)(38100700002)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cjVMaHVpYjN5VHhzTitzOCthcDY5R25NcDN3L1p2L3hyakhhNjVrS1dERVJk?=
+ =?utf-8?B?cWlOR2JCbHRFc3o2NnVBWWRyZHhoOWlpVXpFUDZ5ZUkyd3pEeU5xUkVLcHpV?=
+ =?utf-8?B?VkpybzUzRUNUVE9SVDFEUFdKVnlxb1E1eG03cFI5ZWlSRFRhVWw0SkdLdlo0?=
+ =?utf-8?B?VjFVdElUQWxtTjRwNENxL3kzcXN6NmZhdzdnbzBDRTF6aXJOQmowVmNwVUdF?=
+ =?utf-8?B?UnVqKzh2MVIyRks2dkFLMDJKMkM4RUtvWTBWcGRHd0k0OXNSVTBWenR6ZkJ3?=
+ =?utf-8?B?dUhjc25ISDkxTW5xUnkxTEZRWWg0RjZSaGlwNHVnYTZObHV5WTlnMWtVaWpD?=
+ =?utf-8?B?cVhjZXlaL2JuRlFZSkhkejhaRlcxWmUrVEkyVHl4S0ZLbGZ0dHlOa3k2aWRs?=
+ =?utf-8?B?elpNdkFXU3I1Q3FsTzN4a3hpWnkwbHVONytvWWlsL1dnd3JIMkFoaWtwcUE2?=
+ =?utf-8?B?bHQ2RU5uS01KUS9zWEplbGdFTVNGczhncmFDNUFpaVhjTWhsTkRnV3B0K0Fl?=
+ =?utf-8?B?dERLZW1jY24veVZUTjRuVElueVFuMXdvUXV6ODNqSDV3MGh6VGgrVlYvay84?=
+ =?utf-8?B?SFBIbHlNR01lOXhqeFpmK09LYTQrcEljSHNRM3dLWnVDc3p6Vm1LdWF1bGQ1?=
+ =?utf-8?B?NWVEOHpGVWRRaWJvOWpIa1RaWWNDT3MvMXdITFA3VnA2NkowK1FNV2owWlUv?=
+ =?utf-8?B?b0dnQ1hBSExmMzJvNkxOT0c0R01hbldlblJ4NndyN1NRQmpJMWE1L3lobWVv?=
+ =?utf-8?B?YjB6bm1DbEpMU25uTFdFWTNVZm9pOTlmZ1llaUJJbmNZdUl1MU5xN1EvelUx?=
+ =?utf-8?B?dVZVaWNhU1NjOE53MjZCbUNjZFlTdVdDdHNkd1c4dXQ4Q1FlcDVwMUpsdGcx?=
+ =?utf-8?B?KzYvYnJReXlFYnVWd3RLMncySnhrOXcydzJpODBwWWdpaWFqOE1weEgwT1hI?=
+ =?utf-8?B?U0FjMDk2UjB6RVNGZnhvNFloVk1VTlVXZW5URWdDQ3J6a2F5a25MUDRTOWww?=
+ =?utf-8?B?WW9XcEQ3cXA1aElpMFo2bkgydWRPdk9sSVNHYytLTm1NdERvZlNEY0tzMkFo?=
+ =?utf-8?B?UTRiaXF1S2dwNGt1ODhmWE1yV21saVNOWDNhU1NSdS9rYnllZ3BueVhwQXJJ?=
+ =?utf-8?B?d3JneDVtSFVLT09hQytyejRCaFJuYU94OWRienFzeWZxazVjVHlnanBoNHRL?=
+ =?utf-8?B?K1VjaldXUHFnMUJ6UnhVN1BWNXBXM2JLOCt4ejhNRzUvaXo0T2owWFZIT1V3?=
+ =?utf-8?B?QXErNnJ0NDlKa05vNmh1Z004TkFsd09OTzQ0RTlpcnNuZDVnRFJpQTNMOXk5?=
+ =?utf-8?B?RkpzVkptQWJEdStEMEo0bXdzZkRYajdLUjhYSE1PQytNVUVWTldqbHV6TVA0?=
+ =?utf-8?B?VFlwSEkxT2tFY1RpNGtCdVJsK3poUFRPVzJ0RHZCMGpjZXZqclFkd2thMDhB?=
+ =?utf-8?B?YkVYbzUrNDJ3bDB5Mk9RNVhEdDIrY2hkbWEvbkdUT25mZktqM2k0YWV0Rksw?=
+ =?utf-8?B?ckFrVnBPYmJqSkU5cFpud1dPS083VVVyNmQrWGtXbGJOWmhqVmJDbnpCYW81?=
+ =?utf-8?B?Y1lJODlQMXFNK1g3Y3NFbURoclVwdWE1ZVlpeHpJTmdCZ3Z4T2tpVnVCRFBn?=
+ =?utf-8?B?ZzZWMUJNVzlDV0luc1NTQ1NHN2pFSURBL3FrbjhqenFWMnA3c09ua3JTbXRF?=
+ =?utf-8?B?akVIdXZ4YlBXL24vNGVybFJ1TFBqMmU5L29aR2RpVDhCL1dDZW82QURvdDVH?=
+ =?utf-8?B?Qlp2QkhKN0lJTlp4enRUUGNacXZSZ0J2NXBiL2E3NHhLNVFKdkZXZmt2eDFh?=
+ =?utf-8?B?TFFEWXk1cmoxQ01SMnJoZXdqNjZGT3lRdUc5NjJBclY2ellZMlBPLzR4SjV5?=
+ =?utf-8?B?UURNNzVSdjJxM01LQm1UYjQwbFBiYThIMC9QQ3VDdFZ1TVEwaHN2Y3lTTXA2?=
+ =?utf-8?B?UGJoeC8xNEpLSTdhNFNvSFVXUGNwbGdrTTNkT0wwWmd5aWJOVUVJMlZIZjF4?=
+ =?utf-8?B?RllCR21wV1FaTHZBUTMzUDRSc1lYT09Wem9SNlJNY0ZBTjhoeGkyUnFCSHpj?=
+ =?utf-8?B?T1FqSnBNenJEd1ppOExQL0QrVUpjZEJIT2EzUjRTY1o3RWlvdjFpRDdOV3d3?=
+ =?utf-8?B?U29jR0RZV1JSZm95WmxDdm0yWmF4eU5iNmZ6eHo5Z3VjSW1vdjdydjQvM1Zs?=
+ =?utf-8?B?V3c9PQ==?=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: fba0f973-7e0d-41cd-e234-08dc2c8c13aa
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2024 12:05:32.3195
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: REJ+TSs9NKX/sROCdZb9zp6O14pqd75w9OvoVJcUpxBo4feL3XW+lZt68nm0a1/L20xrnCLZ9bCO+sVhmwevav+NqV5K279l5SgdkndB+Ug=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB7399
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   46d4e2eb58e14c8935fa0e27d16d4c62ef82849a
-commit: 12443fc53e7d7fad52cb4b534dea6be525d05d62 [6193/6424] drm/amdgpu: Add ih v7_0 ip block support
-config: arm-randconfig-001-20240213 (https://download.01.org/0day-ci/archive/20240213/202402131939.ajKHyCog-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402131939.ajKHyCog-lkp@intel.com/reproduce)
+On 21/01/2024 14.54, Andy Shevchenko wrote:
+> On Thu, Jan 11, 2024 at 10:33:09AM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   acc657692aed438e9931438f8c923b2b107aebf9
+>> commit: 45c3e93d751ea50861c796da3cbfc848fa6ddf55 vsprintf: Factor out %pV handler as va_format()
+>> date:   4 years, 9 months ago
+> 
+> Blast from the past?!
+> 
+> ..
+> 
+>>    lib/vsprintf.c: In function 'va_format':
+>>>> lib/vsprintf.c:1528:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+>>     1528 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+>>          |         ^~~
+> 
+> This might be still valid, but I have no idea how to properly fix it.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402131939.ajKHyCog-lkp@intel.com/
+It's a bogus warning, and the fix belongs in the compiler. When
+vsnprintf() is called, but neither the format arg nor the va_list arg
+are direct arguments to the caller (and the va_list is not built from
+actual varargs using va_start()), there's absolutely no way a __printf
+attribute could be appropriate.
 
-All warnings (new ones prefixed by >>):
+IDK if we can shut up the test robot by locally disabling the
+Wsuggest-attribute with some pragma.
 
->> drivers/gpu/drm/amd/amdgpu/ih_v7_0.c:392: warning: Function parameter or struct member 'ih' not described in 'ih_v7_0_get_wptr'
->> drivers/gpu/drm/amd/amdgpu/ih_v7_0.c:432: warning: Function parameter or struct member 'ih' not described in 'ih_v7_0_irq_rearm'
->> drivers/gpu/drm/amd/amdgpu/ih_v7_0.c:458: warning: Function parameter or struct member 'ih' not described in 'ih_v7_0_set_rptr'
+Rasmus
 
-
-vim +392 drivers/gpu/drm/amd/amdgpu/ih_v7_0.c
-
-   379	
-   380	/**
-   381	 * ih_v7_0_get_wptr - get the IH ring buffer wptr
-   382	 *
-   383	 * @adev: amdgpu_device pointer
-   384	 *
-   385	 * Get the IH ring buffer wptr from either the register
-   386	 * or the writeback memory buffer.  Also check for
-   387	 * ring buffer overflow and deal with it.
-   388	 * Returns the value of the wptr.
-   389	 */
-   390	static u32 ih_v7_0_get_wptr(struct amdgpu_device *adev,
-   391				      struct amdgpu_ih_ring *ih)
- > 392	{
-   393		u32 wptr, tmp;
-   394		struct amdgpu_ih_regs *ih_regs;
-   395	
-   396		wptr = le32_to_cpu(*ih->wptr_cpu);
-   397		ih_regs = &ih->ih_regs;
-   398	
-   399		if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
-   400			goto out;
-   401	
-   402		wptr = RREG32_NO_KIQ(ih_regs->ih_rb_wptr);
-   403		if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
-   404			goto out;
-   405		wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
-   406	
-   407		/* When a ring buffer overflow happen start parsing interrupt
-   408		 * from the last not overwritten vector (wptr + 32). Hopefully
-   409		 * this should allow us to catch up.
-   410		 */
-   411		tmp = (wptr + 32) & ih->ptr_mask;
-   412		dev_warn(adev->dev, "IH ring buffer overflow "
-   413			 "(0x%08X, 0x%08X, 0x%08X)\n",
-   414			 wptr, ih->rptr, tmp);
-   415		ih->rptr = tmp;
-   416	
-   417		tmp = RREG32_NO_KIQ(ih_regs->ih_rb_cntl);
-   418		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
-   419		WREG32_NO_KIQ(ih_regs->ih_rb_cntl, tmp);
-   420	out:
-   421		return (wptr & ih->ptr_mask);
-   422	}
-   423	
-   424	/**
-   425	 * ih_v7_0_irq_rearm - rearm IRQ if lost
-   426	 *
-   427	 * @adev: amdgpu_device pointer
-   428	 *
-   429	 */
-   430	static void ih_v7_0_irq_rearm(struct amdgpu_device *adev,
-   431				       struct amdgpu_ih_ring *ih)
- > 432	{
-   433		uint32_t v = 0;
-   434		uint32_t i = 0;
-   435		struct amdgpu_ih_regs *ih_regs;
-   436	
-   437		ih_regs = &ih->ih_regs;
-   438	
-   439		/* Rearm IRQ / re-write doorbell if doorbell write is lost */
-   440		for (i = 0; i < MAX_REARM_RETRY; i++) {
-   441			v = RREG32_NO_KIQ(ih_regs->ih_rb_rptr);
-   442			if ((v < ih->ring_size) && (v != ih->rptr))
-   443				WDOORBELL32(ih->doorbell_index, ih->rptr);
-   444			else
-   445				break;
-   446		}
-   447	}
-   448	
-   449	/**
-   450	 * ih_v7_0_set_rptr - set the IH ring buffer rptr
-   451	 *
-   452	 * @adev: amdgpu_device pointer
-   453	 *
-   454	 * Set the IH ring buffer rptr.
-   455	 */
-   456	static void ih_v7_0_set_rptr(struct amdgpu_device *adev,
-   457				       struct amdgpu_ih_ring *ih)
- > 458	{
-   459		struct amdgpu_ih_regs *ih_regs;
-   460	
-   461		if (ih->use_doorbell) {
-   462			/* XXX check if swapping is necessary on BE */
-   463			*ih->rptr_cpu = ih->rptr;
-   464			WDOORBELL32(ih->doorbell_index, ih->rptr);
-   465	
-   466			if (amdgpu_sriov_vf(adev))
-   467				ih_v7_0_irq_rearm(adev, ih);
-   468		} else {
-   469			ih_regs = &ih->ih_regs;
-   470			WREG32(ih_regs->ih_rb_rptr, ih->rptr);
-   471		}
-   472	}
-   473	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
