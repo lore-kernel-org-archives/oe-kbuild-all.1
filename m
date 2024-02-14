@@ -1,67 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9E68F40
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Feb 2024 03:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57716C126
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Feb 2024 05:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707880695; cv=none; b=oVbUwEJD4MidPT4uJsD7tYWYJukXJdlLs/osDlYT58x18BoSoKDVpolQpzCZTH1Acq28/ItHvqVhiCktfbPYZpgQxiOyK2HlgO2iDvVH/uXRNK7q1szqXw5e4bPcQEblUsARU1Hup9V7ve5/WJa4bxdVqUaHcuhhW/Xxb0ngPtE=
+	t=1707886997; cv=none; b=rU+yp/MmhjV150MzmUU0nf7GK0Mw90P5fpvMQeVNEABzfDXIYd6h8TsHeCYZr0TB4UDzb7HP5dOpL3zidFRhDf6gYogEmv9MgIFM449PJthzbUabvhDwIDKtPMgwN5kLzrK9Zp2tm9V7s3xv3/9L03ZLA/L/yEpTg/xTjVgeSVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707880695; c=relaxed/simple;
-	bh=bLs6qvIQvelBnVFr2iLJ+E8oY0Lgk4r6haReuBVcFiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oInni1FITa72b8KfZ9C4VZEoVB4h6OYPwtwZ3vt+Y/V9WmNLFbL5xRWKQbSC9VuHFaISpYP2pj0uK818iOYMR82PPzfFi8/FGUx7/Y8gXrSLlrb/E4PrPQZ2uEPSVK49bFGKnOtrt9z7v2AatcLBDRVMLmQifUyu1pgghL9C//M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnDAuaGF; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1707886997; c=relaxed/simple;
+	bh=/xHws/G9bHCaleMZO8eW/k7iIx8FUIMQh3NqaGQ76+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WjB4braMUdxF4kHPqzHWxyizwehw5nJxg7Xu9L+B5ulX5IgP37BpvHbxLw+rIX7TirQkvyWaxk8/yXuC1BY5DDV/rIG3eVaV1t1MeeLmBsD84RGiBmUd79omlvbkXI6ysOeR8JaWig+NIO5jyJPbewXRm8Q7tIldC7Fr/OosJhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dMre4pUM; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnDAuaGF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dMre4pUM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707880693; x=1739416693;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bLs6qvIQvelBnVFr2iLJ+E8oY0Lgk4r6haReuBVcFiU=;
-  b=dnDAuaGFw7GqDhRZ0c1l/k0cZz7RwL0y1nYQ35HMK+GWreRd0ZbYH/2u
-   o0ny5w8tLE/WqNdwvqpKuNinVFOs4OzVRXAJctWIhpK3da2c2zpbyT1hS
-   yUOt7n7aj0SPKsGeGmlOyB6Ie/3xeeoVeBnLbjUTmiHWIOQj1qemAndzb
-   M85qQbuM9b1FwBN2PT83c/wJUfr9mvh9q+RpG9HDK185iQ0ae/OHQWw+F
-   VuTSfX3/wkEZe34PEeBTPtyFOGEjdjYgn6Nqlulh4HtaNaqEFsD7BfgVy
-   6VEkVExifjU6RT2Gd1dpk1OMsgswECvC7wiI/lucAhU3hwHRnK73xaDPq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="13302453"
-X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
-   d="scan'208";a="13302453"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 19:18:12 -0800
+  t=1707886995; x=1739422995;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/xHws/G9bHCaleMZO8eW/k7iIx8FUIMQh3NqaGQ76+g=;
+  b=dMre4pUMtWSMAt2Sp+N4S99YLPfrmJ+SD8EtkQC2J4n8rLVuvT3x/VE1
+   uD4z4/5JKdMcdYzfkx1V+IbUeid+DIk8jdYbA0Zo1tNzQj7GHVgMCwNxd
+   7udbhGO9VLg0HMchvHTozx8WaVE3Hr9RAAwHIhgX9aRND5vRX1EqHXiar
+   lbnIoptPtmO5OaN9YPKodnFmT1QpMiSrQxF1mCL6Co/8xGI5CmCWxLDAV
+   yL2Iqk/T5vmfAWCR1+dZwMms9hcVz2MdCroWR7wK4YqEntBsvWASiNTMe
+   /YMTmn2t/U7h3Yrf7zgqUOPV3Wn2XdD7dNXCQmEmWxrsXr0a10pnQq/pi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="12640672"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="12640672"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 21:03:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
-   d="scan'208";a="3364522"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="7744447"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Feb 2024 19:18:06 -0800
+  by orviesa005.jf.intel.com with ESMTP; 13 Feb 2024 21:03:13 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ra5md-0008Fu-1e;
-	Wed, 14 Feb 2024 03:18:03 +0000
-Date: Wed, 14 Feb 2024 11:17:08 +0800
+	id 1ra7QM-0008To-1h;
+	Wed, 14 Feb 2024 05:03:10 +0000
+Date: Wed, 14 Feb 2024 13:02:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ankur Arora <ankur.a.arora@oracle.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, tglx@linutronix.de, peterz@infradead.org,
-	torvalds@linux-foundation.org, paulmck@kernel.org,
-	akpm@linux-foundation.org, luto@kernel.org, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mingo@redhat.com,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	willy@infradead.org, mgorman@suse.de, jpoimboe@kernel.org,
-	mark.rutland@arm.com, jgross@suse.com, andrew.cooper3@citrix.com,
-	bristot@kernel.org, mathieu.desnoyers@efficios.com,
-	geert@linux-m68k.org, glaubitz@physik.fu-berlin.de,
-	anton.ivanov@cambridgegreys.com, mattst88@gmail.com,
-	krypton@ulrich-teichert.org, rostedt@goodmis.org,
-	David.Laight@aculab.com, richard@nod.at, mjguzik@gmail.com
-Subject: Re: [PATCH 03/30] thread_info: tif_need_resched() now takes
- resched_t as param
-Message-ID: <202402141055.evTx8Q0K-lkp@intel.com>
-References: <20240213055554.1802415-4-ankur.a.arora@oracle.com>
+To: Vincent Whitchurch <vincent.whitchurch@axis.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: pcap-dbus.o:undefined reference to `dbus_message_demarshal'
+Message-ID: <202402141220.du4OnWhF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,78 +57,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240213055554.1802415-4-ankur.a.arora@oracle.com>
 
-Hi Ankur,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on paulmck-rcu/dev]
-[also build test WARNING on tip/core/entry linus/master v6.8-rc4 next-20240213]
-[cannot apply to tip/sched/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ankur-Arora/preempt-introduce-CONFIG_PREEMPT_AUTO/20240213-140748
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
-patch link:    https://lore.kernel.org/r/20240213055554.1802415-4-ankur.a.arora%40oracle.com
-patch subject: [PATCH 03/30] thread_info: tif_need_resched() now takes resched_t as param
-config: x86_64-buildonly-randconfig-002-20240213 (https://download.01.org/0day-ci/archive/20240214/202402141055.evTx8Q0K-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7e90b5c295ec1e47c8ad865429f046970c549a66
+commit: 10f4c9b9a33b7df000f74fa0d896351fb1a61e6a x86/asm: Fix build of UML with KASAN
+date:   5 months ago
+config: um-randconfig-002-20240213 (https://download.01.org/0day-ci/archive/20240214/202402141220.du4OnWhF-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402141055.evTx8Q0K-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402141220.du4OnWhF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402141055.evTx8Q0K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402141220.du4OnWhF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: mwait_idle+0xd: call to tif_resched.constprop.0() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: poll_idle+0x2c: call to tif_resched.constprop.0() leaves .noinstr.text section
-
-
-objdump-func vmlinux.o mwait_idle:
-0000 0000000000000060 <mwait_idle>:
-0000   60:	53                   	push   %rbx
-0001   61:	48 8b 1c 25 00 00 00 00 	mov    0x0,%rbx	65: R_X86_64_32S	pcpu_hot
-0009   69:	80 4b 02 20          	orb    $0x20,0x2(%rbx)
-000d   6d:	e8 00 00 00 00       	call   72 <mwait_idle+0x12>	6e: R_X86_64_PC32	.text+0xfe73c
-0012   72:	48 63 f0             	movslq %eax,%rsi
-0015   75:	48 0f a3 33          	bt     %rsi,(%rbx)
-0019   79:	72 3a                	jb     b5 <mwait_idle+0x55>
-001b   7b:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 82 <mwait_idle+0x22>	7e: R_X86_64_PC32	boot_cpu_data+0x6c
-0022   82:	48 0f ba e0 27       	bt     $0x27,%rax
-0027   87:	72 46                	jb     cf <mwait_idle+0x6f>
-0029   89:	31 d2                	xor    %edx,%edx
-002b   8b:	48 89 d8             	mov    %rbx,%rax
-002e   8e:	48 89 d1             	mov    %rdx,%rcx
-0031   91:	0f 01 c8             	monitor %rax,%ecx,%edx
-0034   94:	48 0f a3 33          	bt     %rsi,(%rbx)
-0038   98:	72 1b                	jb     b5 <mwait_idle+0x55>
-003a   9a:	8b 05 00 00 00 00    	mov    0x0(%rip),%eax        # a0 <mwait_idle+0x40>	9c: R_X86_64_PC32	mds_idle_clear-0x4
-0040   a0:	85 c0                	test   %eax,%eax
-0042   a2:	7e 07                	jle    ab <mwait_idle+0x4b>
-0044   a4:	0f 00 2d 00 00 00 00 	verw   0x0(%rip)        # ab <mwait_idle+0x4b>	a7: R_X86_64_PC32	.rodata+0x15cd2
-004b   ab:	31 c0                	xor    %eax,%eax
-004d   ad:	48 89 c1             	mov    %rax,%rcx
-0050   b0:	fb                   	sti
-0051   b1:	0f 01 c9             	mwait  %eax,%ecx
-0054   b4:	fa                   	cli
-0055   b5:	48 8b 04 25 00 00 00 00 	mov    0x0,%rax	b9: R_X86_64_32S	pcpu_hot
-005d   bd:	80 60 02 df          	andb   $0xdf,0x2(%rax)
-0061   c1:	5b                   	pop    %rbx
-0062   c2:	31 c0                	xor    %eax,%eax
-0064   c4:	31 d2                	xor    %edx,%edx
-0066   c6:	31 c9                	xor    %ecx,%ecx
-0068   c8:	31 f6                	xor    %esi,%esi
-006a   ca:	e9 00 00 00 00       	jmp    cf <mwait_idle+0x6f>	cb: R_X86_64_PLT32	__x86_return_thunk-0x4
-006f   cf:	0f ae f0             	mfence
-0072   d2:	0f ae 3b             	clflush (%rbx)
-0075   d5:	0f ae f0             	mfence
-0078   d8:	eb af                	jmp    89 <mwait_idle+0x29>
-007a   da:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_write':
+>> pcap-dbus.o:(.text+0x247ff): undefined reference to `dbus_message_demarshal'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24815): undefined reference to `dbus_connection_send'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x2481e): undefined reference to `dbus_connection_flush'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24826): undefined reference to `dbus_message_unref'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24874): undefined reference to `dbus_error_free'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_read':
+>> pcap-dbus.o:(.text+0x248c0): undefined reference to `dbus_connection_pop_message'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x248e2): undefined reference to `dbus_connection_pop_message'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x248f8): undefined reference to `dbus_connection_read_write'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24962): undefined reference to `dbus_message_is_signal'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x2497e): undefined reference to `dbus_message_marshal'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x249e6): undefined reference to `dbus_free'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_cleanup':
+>> pcap-dbus.o:(.text+0x24a4c): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_activate':
+>> pcap-dbus.o:(.text+0x24af6): undefined reference to `dbus_connection_open'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24b0e): undefined reference to `dbus_bus_register'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24bfc): undefined reference to `dbus_bus_add_match'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24c04): undefined reference to `dbus_error_is_set'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24c4b): undefined reference to `dbus_bus_get'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24c7c): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24c8d): undefined reference to `dbus_bus_add_match'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24c95): undefined reference to `dbus_error_is_set'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24cce): undefined reference to `dbus_error_free'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24cda): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24d06): undefined reference to `dbus_bus_get'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24d42): undefined reference to `dbus_error_free'
+>> /usr/bin/ld: pcap-dbus.o:(.text+0x24d55): undefined reference to `dbus_connection_set_max_received_size'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24d66): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24ddc): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24e1a): undefined reference to `dbus_error_free'
+>> collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
