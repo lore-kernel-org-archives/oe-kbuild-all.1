@@ -1,55 +1,39 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE672F23;
-	Wed, 14 Feb 2024 14:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33CC384FC8;
+	Wed, 14 Feb 2024 18:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707921357; cv=none; b=aOUogLimCDbQY83GiGKSk6IZmJQBGqP3s9sw8r4q6eIgx5a6ysiiUXvF7FhWOkt8NIcm0OBoZvljiY9+gjMreJirT2L5x2QaRZKtwxlTn+riQCI3yPa2VSOyPtRLFxu4At6zfcOzToRcFPV62tWGCnjyxZ0N08EH7/n/ANpVpBk=
+	t=1707934896; cv=none; b=PtK26Xxb1tuAYDqag1oyduFsER9fb+YavtPdPxa+vZDV9oN7VfgEYu+2YP4NYsKjrlH2ZFEg8XbCfrXoDGSKx5xoxlNsa/BWrEFzW9aHUSoF58BPKdI9cikpT6ZCdyJrbM+0c/OHykTE0Kjz1qSVBbQScuei8i4EEb8/Zvfmx1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707921357; c=relaxed/simple;
-	bh=lajX3V/+e43N7d8XoI10P6vDu013k6EqiZ4gVuzz+eM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ofavdtBX6M7C/Eocvxc+RJ3ZjyUTspBA0rAhHibEdEVR3R7qWbzJQUxdFs0m1p8s6DWUczGrDbMJ0gyHTRhKiqoOs2lyC310eVj+WmykYaE0cMo7ZIqKVB4vDg8WyfvbauXgEryzfgLb7nPllM21pOoZz3RTPHFmV0vdRaQVoso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XvNtpjwl; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XvNtpjwl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707921356; x=1739457356;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lajX3V/+e43N7d8XoI10P6vDu013k6EqiZ4gVuzz+eM=;
-  b=XvNtpjwl/adbp/ha3HLF98T0rksePmNToRtTiPQO1U3/eKxsi9IZ4wvr
-   ExHXsoY+gXPdRoYro+4KsxRxrjDLwfjtYzNqvrkqDubJHm+MlKObIsXe3
-   3Fx+92R5rrIDYOxfFx2D1aIuw5LEhILbY9SB6VfGKRsgPxWrYqtn7Mz2+
-   xoaRsfQ5BLaQXMu2Iq7WkpLlH4fGt35F7xJyvxZ0LTRMf3JY9OlcCY7O1
-   2S0gVZ6/WX/fuTwKrrD4tF8AuJ1drIqlVE4FSxIfHIhClYiMvb/HWJrkW
-   DbGgBHKxGt4V1jfV8wCLstAQBWER5k/oa02DsWwjpBid1OllVfRjtfThA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1875547"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="1875547"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 06:35:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="40695236"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Feb 2024 06:35:54 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1raGMY-0008po-1R;
-	Wed, 14 Feb 2024 14:35:50 +0000
-Date: Wed, 14 Feb 2024 22:35:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jfern:dlserver-feb-fixes 1/9] kernel/sched/fair.c:8535:9: warning:
- incompatible integer to pointer conversion returning 'int' from a function
- with result type 'struct task_struct *'
-Message-ID: <202402142202.wl4IpWoW-lkp@intel.com>
+	s=arc-20240116; t=1707934896; c=relaxed/simple;
+	bh=fVtRJgko8Y94qf0CWO9az0MkYE3hGijFPfGtUp+w/4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WQ/ypiA+CrTyYsL2bBeQ5abw5k0EJFvcH9nDQnPgh7gLlEiZ0KgMKfsyv8G1wcecC5wjDTdXcvEEvd3/olf6Wj8xel3y3kwluM+BlUp1co/X8Rguhy5nq3471I5WKChNxnT8rBsZANxxBtJHNoubZWsnV+CBOkAMFaj/jvB8UQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FDDD1FB;
+	Wed, 14 Feb 2024 10:22:14 -0800 (PST)
+Received: from pluto (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AF65B3F7B4;
+	Wed, 14 Feb 2024 10:21:31 -0800 (PST)
+Date: Wed, 14 Feb 2024 18:21:29 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Nikunj Kela <quic_nkela@quicinc.com>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
+	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, quic_sibis@quicinc.com,
+	souvik.chakravarty@arm.com
+Subject: Re: [PATCH 06/11] firmware: arm_scmi: Implement Clock
+ .is_notify_supported callback
+Message-ID: <Zc0EqV69sg6Dqnti@pluto>
+References: <20240212123233.1230090-7-cristian.marussi@arm.com>
+ <202402131047.2NVZWHma-lkp@intel.com>
+ <ZcstL8tRVKIUFoBr@pluto>
+ <fc28f615-eaaf-459a-96e2-fce104f77fe7@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,67 +42,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <fc28f615-eaaf-459a-96e2-fce104f77fe7@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git dlserver-feb-fixes
-head:   a81d7e41130fa46e91bde4dd820f673250934286
-commit: 60503246d2cf0d7b91d18325cb21c24c13f1d40d [1/9] sched/core: Add clearing of ->dl_server in put_prev_task_balance()
-config: powerpc-mpc834x_itxgp_defconfig (https://download.01.org/0day-ci/archive/20240214/202402142202.wl4IpWoW-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402142202.wl4IpWoW-lkp@intel.com/reproduce)
+On Tue, Feb 13, 2024 at 10:24:48AM -0800, Nikunj Kela wrote:
+> 
+> On 2/13/2024 12:49 AM, Cristian Marussi wrote:
+> > On Tue, Feb 13, 2024 at 10:58:23AM +0800, kernel test robot wrote:
+> > > Hi Cristian,
+> > > 
+> > > kernel test robot noticed the following build errors:
+> > > 
+> > > [auto build test ERROR on soc/for-next]
+> > > [also build test ERROR on linus/master v6.8-rc4 next-20240212]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > 
+> > Hi,
+> > 
+> > this series, as stated in the cover-letter, is based off the current tip of
+> > 
+> > 	sudeep/for-next/scmi/updates
+> > 
+> > and particularly needs commit:
+> > 
+> > 	9c5bc650031e firmware: arm_scmi: Rework clock domain info lookups
+> > 
+> > from there, since it contains the missing scmi_clock_domain_lookup().
+> > 
+> > Not_sure/dont_known if there is any way to convey this "based-on-branch"
+> > info to your/any CI at the moment.
+> > 
+> > Thanks,
+> > Cristian
+> Maybe add supdeep's tree in MAINTAINERS and use 'base-commit'.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402142202.wl4IpWoW-lkp@intel.com/
+Thanks Nikunj, I'll try with base-commit.
+Cristian
 
-All warnings (new ones prefixed by >>):
-
-   kernel/sched/fair.c:8535:9: error: implicit declaration of function 'pick_task_fair' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           return pick_task_fair(dl_se->rq);
-                  ^
->> kernel/sched/fair.c:8535:9: warning: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct task_struct *' [-Wint-conversion]
-           return pick_task_fair(dl_se->rq);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:13122:6: warning: no previous prototype for function 'free_fair_sched_group' [-Wmissing-prototypes]
-   void free_fair_sched_group(struct task_group *tg) { }
-        ^
-   kernel/sched/fair.c:13122:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void free_fair_sched_group(struct task_group *tg) { }
-   ^
-   static 
-   kernel/sched/fair.c:13124:5: warning: no previous prototype for function 'alloc_fair_sched_group' [-Wmissing-prototypes]
-   int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-       ^
-   kernel/sched/fair.c:13124:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-   ^
-   static 
-   kernel/sched/fair.c:13129:6: warning: no previous prototype for function 'online_fair_sched_group' [-Wmissing-prototypes]
-   void online_fair_sched_group(struct task_group *tg) { }
-        ^
-   kernel/sched/fair.c:13129:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void online_fair_sched_group(struct task_group *tg) { }
-   ^
-   static 
-   kernel/sched/fair.c:13131:6: warning: no previous prototype for function 'unregister_fair_sched_group' [-Wmissing-prototypes]
-   void unregister_fair_sched_group(struct task_group *tg) { }
-        ^
-   kernel/sched/fair.c:13131:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void unregister_fair_sched_group(struct task_group *tg) { }
-   ^
-   static 
-   5 warnings and 1 error generated.
-
-
-vim +8535 kernel/sched/fair.c
-
-  8532	
-  8533	static struct task_struct *fair_server_pick_task(struct sched_dl_entity *dl_se)
-  8534	{
-> 8535		return pick_task_fair(dl_se->rq);
-  8536	}
-  8537	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Check-for-notification-support/20240212-203727
+> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+> > > patch link:    https://lore.kernel.org/r/20240212123233.1230090-7-cristian.marussi%40arm.com
+> > > patch subject: [PATCH 06/11] firmware: arm_scmi: Implement Clock .is_notify_supported callback
+> > > config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240213/202402131047.2NVZWHma-lkp@intel.com/config)
+> > > compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project c08b90c50bcac9f3f563c79491c8dbcbe7c3b574)
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240213/202402131047.2NVZWHma-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202402131047.2NVZWHma-lkp@intel.com/
+> > > 
+> > > All errors (new ones prefixed by >>):
+> > > 
+> > > > > drivers/firmware/arm_scmi/clock.c:853:8: error: call to undeclared function 'scmi_clock_domain_lookup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> > >       853 |         clk = scmi_clock_domain_lookup(ci, src_id);
+> > >           |               ^
+> > > > > drivers/firmware/arm_scmi/clock.c:853:6: error: incompatible integer to pointer conversion assigning to 'struct scmi_clock_info *' from 'int' [-Wint-conversion]
+> > >       853 |         clk = scmi_clock_domain_lookup(ci, src_id);
+> > >           |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >     2 errors generated.
+> > > 
+> > > 
+> > > vim +/scmi_clock_domain_lookup +853 drivers/firmware/arm_scmi/clock.c
+> > > 
+> > >     842	
+> > >     843	static bool scmi_clk_notify_supported(const struct scmi_protocol_handle *ph,
+> > >     844					      u8 evt_id, u32 src_id)
+> > >     845	{
+> > >     846		bool supported;
+> > >     847		struct scmi_clock_info *clk;
+> > >     848		struct clock_info *ci = ph->get_priv(ph);
+> > >     849	
+> > >     850		if (evt_id >= ARRAY_SIZE(evt_2_cmd))
+> > >     851			return false;
+> > >     852	
+> > >   > 853		clk = scmi_clock_domain_lookup(ci, src_id);
+> > >     854		if (IS_ERR(clk))
+> > >     855			return false;
+> > >     856	
+> > >     857		if (evt_id == SCMI_EVENT_CLOCK_RATE_CHANGED)
+> > >     858			supported = clk->rate_changed_notifications;
+> > >     859		else
+> > >     860			supported = clk->rate_change_requested_notifications;
+> > >     861	
+> > >     862		return supported;
+> > >     863	}
+> > >     864	
+> > > 
+> > > -- 
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
