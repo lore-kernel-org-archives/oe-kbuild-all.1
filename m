@@ -1,54 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B5833EA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Feb 2024 05:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE78D30B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Feb 2024 05:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707889458; cv=none; b=ctEAjEf5AwNQwdyT5Md8SI7tniIIV4wXwkbIWitcsjuJAZ1tQ7ZCI6TW5hBOmlsSgx6Uvxlo5Ex+SADRJy+T1qNF64MadhVuA/Xqa+0/FdQyX/Fa1UVL56nJfkA5/+Gz6UK1knekxTAlzXgxN+K/ML1FgMPQNwp2NhKQ0rsuxrI=
+	t=1707890320; cv=none; b=E62C7erC5B/3fEFz/HJ5PN020xUnZNE1xK8k54pQ0TClQsGMd7ROE/WJUDMI1Tmn0BKo8LO+meQP/dpc1KTM2duz/PYRPSB8Nl4Ug4CF/ZBPALcQc0FpO2EJuYocGJm0knpNlTaiicMAyY25QA18KKPW8Vi6JJ4MOKnlrEn+gbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707889458; c=relaxed/simple;
-	bh=H3x+Tu/KUfIIvKBCAtwFdznjT/Eao+QusDRfpypQgsg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fe8bNGL8pmp8pTzDLcx7T0wRYeUGix20vL4hWZmEXHwpDxSrTRJiKjDTCpk+eFdfFyV/OR096D36tmAtBxjgkblPgDDYZuupEwqL87v5AHFrFooEi3E3oMFjVU7iA63LkWJ1iIfcVxADiAGd5UgbwPANxbMLFMcmsVwI06fLGgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gHLncSwx; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707890320; c=relaxed/simple;
+	bh=ZcqxcjQxDebT5CbvXKPEB85P6WxkC7BjuKlGqRqGBgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ac8Fb6ors68T5zMBNCHyY86DyfS8UYgtFWH9PP1g8cTAQuQKXB7RgPdjS7rRpuUwOXIvoKDEy8t67uymAjWcHGpmxB9whyDTD/K4F9G0cDrkxCJrBBCdMyowMlcAN5Zyo9C5lwmacPoo7W/UyvmNdAZZn2xcvGH8Cxj5CXMn7Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s333MwRI; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gHLncSwx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707889457; x=1739425457;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H3x+Tu/KUfIIvKBCAtwFdznjT/Eao+QusDRfpypQgsg=;
-  b=gHLncSwx8AYBFYIy9fAWnWPvGHIdsRDGwKEK2Yv3p8/DxXofeSs4CgWG
-   48UHBIfL84Hvc/lu+/ufsl12YIW+PceLXa4yDrhXMiBBLynrgzjUlRSXy
-   /3F0B4/obIo/77gKIbcaRfd7tbl8u2csikgQXY05HCDM+cHsgIDPS9ttz
-   GXHnj4JfFQr3pyLCd1S8Q4lOv44c+VqsqAStDNq+6KeQowzF1UIQgkBme
-   ZsPBnRBBZzq08cm0G9oh3uOBeupvTJij+zAkqhOBj1F+8akCkE7QXc5NX
-   OFigXq6xT/t+r9EZGFoS1xP1z42X62JBUjNfvP1jy/RcGqYmfVm01v5JU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1792425"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="1792425"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 21:44:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="7741521"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Feb 2024 21:44:14 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ra844-0008Vs-1b;
-	Wed, 14 Feb 2024 05:44:12 +0000
-Date: Wed, 14 Feb 2024 13:43:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s333MwRI"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1d91397bd22so39210735ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 21:58:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707890318; x=1708495118; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nY08EkkPJUeVUObPeyFdb1hWJ0D/OitTX82rprubt28=;
+        b=s333MwRIRHCakkF3lzashF2BCSFoMLdcpfF2D7IO1pIZghEnMc7HrpoIHdV5wCqYn2
+         AZu1hB3BZ7QW+zcOSyP/1BdUmXp0A26ThxQS9l+CueMb1sckUHeA9WO07Wb9+Jisnq50
+         a2yIM/ubXksIiY88jvxY+l0mzP7xpDCfebiZ3FRGMaeDLx1Amkllmtvher0aDSMYR8MS
+         1G00R5QdDRseEzzkc16rB2a7Z+7WtgAhppl1JAnuq+KJt5w8HqhFVI5TdzndiC2t72JO
+         VcGcNReJQu92yqqFiRXBdMlkWPjTNvlQX02yHSEUHqGt/DGUiBuBvAcBg1FYKgc9UORt
+         3Usw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707890318; x=1708495118;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nY08EkkPJUeVUObPeyFdb1hWJ0D/OitTX82rprubt28=;
+        b=c6aJGTpyv+GU9Q+lrqEHfaC3TomRAsL4qYaeinyapv4cMYGCEqgYlioioWKE8C6/tj
+         1K5di7qhP3kbTAgPoR0O0P+IhL8zzLme8g0+Osatid+nBfxt3q1NYBfn+lf6n/7SVOMR
+         8j47gprWQF5oS6mAHBPk0e0+5Ai+9B988SmpRk7+3o+DVIGjRsY+C/x1lnHIJk+DLFEf
+         U1rDPKjtBOcy6tnApHSAr1naqdpZdeCBXpeNdO9uOKSKsNiIihDy+XbRwSEJXoCCBpZE
+         kjV/WaWSgv/EEU4pq5eITSHolp9QOc08Xng8cOPevZed9DDu5fGPvPgYlVmAEG3au32V
+         eOKQ==
+X-Gm-Message-State: AOJu0YzsH1bsI8JOVXkvx2XUO90ne+9DldtfHV0rMIRs/ZVSBf4IPbyV
+	ux9rrYbHqGhvOM6lL8JJ3hhlhkh2wMVr/EpXzakIjBIGnT/4creo/sJAmWShZP0=
+X-Google-Smtp-Source: AGHT+IGhQ7H2Zp/0O/Pg0ufvkyGVHSn7dTBcgVXoYEUm94RfKCVKGGx5r5Tk819uhm7fp8LAAnNK2A==
+X-Received: by 2002:a17:902:708c:b0:1d8:f071:5067 with SMTP id z12-20020a170902708c00b001d8f0715067mr1822353plk.35.1707890318439;
+        Tue, 13 Feb 2024 21:58:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUiv7v0g/VUOGhVZtdAvl5qwTiaKnmJDlU0BzdcWc+GYFLjbNOKuuavSx1zq806FNjT0Zzka810dkxtLaZqvb2fLatR1+EYjNH9LAsE+txrDrs96kKtbwN97fDiH4oex5XGySkqeA==
+Received: from localhost ([122.172.83.95])
+        by smtp.gmail.com with ESMTPSA id jk5-20020a170903330500b001db4f25b168sm859730plb.255.2024.02.13.21.58.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 21:58:37 -0800 (PST)
+Date: Wed, 14 Feb 2024 11:28:36 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/opp/debugfs.c:48:54: warning: '%d' directive output may be
- truncated writing between 1 and 11 bytes into a region of size 8
-Message-ID: <202402141313.81ltVF5g-lkp@intel.com>
+Subject: Re: drivers/opp/debugfs.c:48:54: warning: '%d' directive output may
+ be truncated writing between 1 and 11 bytes into a region of size 8
+Message-ID: <20240214055836.c5i3zmkhdllldwon@vireshk-i7>
+References: <202402141313.81ltVF5g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,88 +67,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202402141313.81ltVF5g-lkp@intel.com>
 
-Hi Viresh,
+On 14-02-24, 13:43, kernel test robot wrote:
+> Hi Viresh,
+> 
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   7e90b5c295ec1e47c8ad865429f046970c549a66
+> commit: 46f48aca2e5aef3f430e95d1a5fb68227ec8ec85 OPP: Fix missing debugfs supply directory for OPPs
+> date:   5 years ago
+> config: x86_64-buildonly-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20240214/202402141313.81ltVF5g-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402141313.81ltVF5g-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402141313.81ltVF5g-lkp@intel.com/
 
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7e90b5c295ec1e47c8ad865429f046970c549a66
-commit: 46f48aca2e5aef3f430e95d1a5fb68227ec8ec85 OPP: Fix missing debugfs supply directory for OPPs
-date:   5 years ago
-config: x86_64-buildonly-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20240214/202402141313.81ltVF5g-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402141313.81ltVF5g-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402141313.81ltVF5g-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/opp/debugfs.c: In function 'opp_debug_create_one':
->> drivers/opp/debugfs.c:48:54: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 8 [-Wformat-truncation=]
-      48 |                 snprintf(name, sizeof(name), "supply-%d", i);
-         |                                                      ^~
-   In function 'opp_debug_create_supplies',
-       inlined from 'opp_debug_create_one' at drivers/opp/debugfs.c:119:7:
-   drivers/opp/debugfs.c:48:46: note: directive argument in the range [-2147483644, 2147483646]
-      48 |                 snprintf(name, sizeof(name), "supply-%d", i);
-         |                                              ^~~~~~~~~~~
-   drivers/opp/debugfs.c:48:17: note: 'snprintf' output between 9 and 19 bytes into a destination of size 15
-      48 |                 snprintf(name, sizeof(name), "supply-%d", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +48 drivers/opp/debugfs.c
-
-deaa51465105a7 drivers/base/power/opp/debugfs.c Viresh Kumar 2015-11-11  37  
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  38  static bool opp_debug_create_supplies(struct dev_pm_opp *opp,
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  39  				      struct opp_table *opp_table,
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  40  				      struct dentry *pdentry)
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  41  {
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  42  	struct dentry *d;
-1fae788ed640e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2017-05-23  43  	int i;
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  44  
-1fae788ed640e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2017-05-23  45  	for (i = 0; i < opp_table->regulator_count; i++) {
-d741029a239040 drivers/opp/debugfs.c            Arvind Yadav 2017-09-21  46  		char name[15];
-d741029a239040 drivers/opp/debugfs.c            Arvind Yadav 2017-09-21  47  
-d741029a239040 drivers/opp/debugfs.c            Arvind Yadav 2017-09-21 @48  		snprintf(name, sizeof(name), "supply-%d", i);
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  49  
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  50  		/* Create per-opp directory */
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  51  		d = debugfs_create_dir(name, pdentry);
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  52  
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  53  		if (!d)
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  54  			return false;
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  55  
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  56  		if (!debugfs_create_ulong("u_volt_target", S_IRUGO, d,
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  57  					  &opp->supplies[i].u_volt))
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  58  			return false;
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  59  
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  60  		if (!debugfs_create_ulong("u_volt_min", S_IRUGO, d,
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  61  					  &opp->supplies[i].u_volt_min))
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  62  			return false;
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  63  
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  64  		if (!debugfs_create_ulong("u_volt_max", S_IRUGO, d,
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  65  					  &opp->supplies[i].u_volt_max))
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  66  			return false;
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  67  
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  68  		if (!debugfs_create_ulong("u_amp", S_IRUGO, d,
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  69  					  &opp->supplies[i].u_amp))
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  70  			return false;
-1fae788ed640e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2017-05-23  71  	}
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  72  
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  73  	return true;
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  74  }
-dfbe4678d709e2 drivers/base/power/opp/debugfs.c Viresh Kumar 2016-12-01  75  
-
-:::::: The code at line 48 was first introduced by commit
-:::::: d741029a2390406d4d94279ae5b346831a9e61e6 PM / OPP: Use snprintf() to avoid kasprintf() and kfree()
-
-:::::: TO: Arvind Yadav <arvind.yadav.cs@gmail.com>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+I have informed this earlier too, this report is incorrect and applies
+to a very old commit.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+viresh
