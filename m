@@ -1,66 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125F3B642;
-	Wed, 14 Feb 2024 02:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0602BBA22
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Feb 2024 02:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707878827; cv=none; b=XkC1S8p68juERllToDbgPLEI+ODGxzhJzWZEr2qqpJ99iQ+1EreBDzjYbDI2BrxMaYFE1piI9Q76OCkLlrRQR0S6J5b3ASL98GCChnLt9EX2nvU6uDyqDcLEXBFSyjPkcKNwv4oDmSUOKPQwH0lmLGwM4BNivcjwx07WGILSPgg=
+	t=1707879429; cv=none; b=H76V93Z4OeGJFudWvvfL64fnB2QeXi8mGaDzXipY81qwXCPcEl8Jh1TDclzLSSoYV235VmRHTXNY4sWPjCMwNtaYoYsMTeJgkg8o+aSYPwupznPXauXDhAcrBwL8j83fPJO1R8Wgedc1l3ImxsXXVpHyQTW4po2vhAhH1D5QfBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707878827; c=relaxed/simple;
-	bh=xaoRT3hyyhCIw73e6wBC1dBj93aQsZiOCh3esJJmyS0=;
+	s=arc-20240116; t=1707879429; c=relaxed/simple;
+	bh=ZItv8oA7eXQZp0Qu6xV0kwdtHxsME37l4NKNWnd0vao=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N6wBCtL06tenk8MXCkOCI0Bd1vtyFoPQhUk42frd50iCdGq7xx1qxWUpTAMCOG8VUa1lyXCM4lXNB8bz5Fvmx/9dqhYgB1RQWmmQIz9/BI/MiDulfgJb0ADkuhszySTtIZzuUIwRCbOxOwq117wHu92DoS4aKocb7JRQRD8jJEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nF3bsTtj; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=AusNFzvEkvT10yBpPTgaZ1IJ3yAqhHFMObspP67aoFo+j74/OhNGHv7CC+/kB0nc8M2KKuaz1O7k6ZA0F6pGvB2nm8rD2S7XhaRf6gwmCgOPV05o4ycyEMFe/REDLIAVGlkue0wRTZXBNvh4hFS5udgP5zpgYBAy8Js8mNQcakE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d08N6oUE; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nF3bsTtj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d08N6oUE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707878825; x=1739414825;
+  t=1707879427; x=1739415427;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xaoRT3hyyhCIw73e6wBC1dBj93aQsZiOCh3esJJmyS0=;
-  b=nF3bsTtjaRUhFQjjnpYJ0EUYtXR7f28RLhNcRRxfA16AVbYDyb/mGR/X
-   bSj3O5AfGgk6Kml338PzmSvtGgYcYinRHqhEY3oX0Pta03+immzd7sHBB
-   ltBaRzt9uIkIyZeIkGj4AUmhT3LODDsIRzPmeNZIZJMKYvEjlISdeRU7s
-   giJjKpqYwjXfCr/T5Z9N1gpj+dpuK1DOzVJXHyapC/nPSTdbZ1TAH92mD
-   we5b30gZAiXj9pRbtIIsWjhkW0O8R0tkuUw+firJaIlXQnv/yWxFE8CaV
-   ECFrAi1hrJC21M7/c1rS7h8UT5dMy4bdaYlvh/kRtppiIe8pNRtSfaZoq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27360964"
+  bh=ZItv8oA7eXQZp0Qu6xV0kwdtHxsME37l4NKNWnd0vao=;
+  b=d08N6oUEVZn2e1FxvK4J3CkwWz6SXFsTAyQqNklCcBervzVhRTXu7Bdu
+   1PcjV7amu144zLeesLqmRHQh2OEy1lYf/lkccpU0oU85F9a71u+gUjxB9
+   xvE3SG/r+zNWuxVfxfxnNc0flDo7TqoJA/M4Y5g7P+BvTvwyymdO+9eB6
+   iRNMD1X3E9WNCfVPZlgrUWYljol98VHbvS2fsWhp7i6hFHvuF1KVxu48/
+   D+cSTrhRa2V+IBrxWb0fSB8sfa62i4x8wUGkmc3C2C31yP+dLu4GTqsGX
+   wXDIhlHx2hFxhq/Q+CNC6ZlRzFYCROZZ6ciO1N8HkDq6bu86I7N8WTGuz
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1785141"
 X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
-   d="scan'208";a="27360964"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 18:47:04 -0800
+   d="scan'208";a="1785141"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 18:57:06 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
-   d="scan'208";a="26233177"
+   d="scan'208";a="7708035"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Feb 2024 18:46:58 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 13 Feb 2024 18:57:05 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ra5IV-0008Ek-0v;
-	Wed, 14 Feb 2024 02:46:55 +0000
-Date: Wed, 14 Feb 2024 10:46:19 +0800
+	id 1ra5SJ-0008Fg-1N;
+	Wed, 14 Feb 2024 02:57:03 +0000
+Date: Wed, 14 Feb 2024 10:56:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
-	contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
-	jadahl@redhat.com, sebastian.wick@redhat.com,
-	shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
-	mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com,
-	victoria@system76.com, daniel@ffwll.ch, quic_naseer@quicinc.com,
-	quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
-	arthurgrillo@riseup.net, marcan@marcan.st, Liviu.Dudau@arm.com,
-	sashamcintosh@google.com, sean@poorly.run,
-	Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [PATCH 01/28] [NOT FOR REVIEW] drm: color pipeline base work
-Message-ID: <202402141056.LzCSLaOT-lkp@intel.com>
-References: <20240213064835.139464-2-uma.shankar@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 4/4] media: ivsc: csi: Use IPU bridge
+Message-ID: <202402141003.GR4DOSY3-lkp@intel.com>
+References: <20240213130815.382792-5-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,101 +58,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240213064835.139464-2-uma.shankar@intel.com>
+In-Reply-To: <20240213130815.382792-5-sakari.ailus@linux.intel.com>
 
-Hi Uma,
+Hi Sakari,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next next-20240213]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc4]
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master linus/master v6.8-rc4 next-20240213]
+[cannot apply to sailus-media-tree/streams]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-color-pipeline-base-work/20240213-144544
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240213064835.139464-2-uma.shankar%40intel.com
-patch subject: [PATCH 01/28] [NOT FOR REVIEW] drm: color pipeline base work
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240214/202402141056.LzCSLaOT-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402141056.LzCSLaOT-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-ipu-bridge-Add-ov01a10-in-Dell-XPS-9315/20240213-211311
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240213130815.382792-5-sakari.ailus%40linux.intel.com
+patch subject: [PATCH v2 4/4] media: ivsc: csi: Use IPU bridge
+config: i386-randconfig-006-20240214 (https://download.01.org/0day-ci/archive/20240214/202402141003.GR4DOSY3-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402141003.GR4DOSY3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402141056.LzCSLaOT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402141003.GR4DOSY3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/tests/drm_fixp_test.c:11:59: warning: overflow in expression; result is 9223372036854775807 with type 'long long' [-Winteger-overflow]
-      11 |         KUNIT_EXPECT_EQ(test, 0x7fffffffffffffffll, ((1LL << 63) - 1));
-         |                                                                  ^
-   1 warning generated.
---
->> drivers/gpu/drm/vkms/vkms_composer.c:95:5: warning: no previous prototype for function 'lerp_u16' [-Wmissing-prototypes]
-      95 | u16 lerp_u16(u16 a, u16 b, s64 t)
-         |     ^
-   drivers/gpu/drm/vkms/vkms_composer.c:95:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      95 | u16 lerp_u16(u16 a, u16 b, s64 t)
-         | ^
-         | static 
->> drivers/gpu/drm/vkms/vkms_composer.c:105:5: warning: no previous prototype for function 'get_lut_index' [-Wmissing-prototypes]
-     105 | s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
-         |     ^
-   drivers/gpu/drm/vkms/vkms_composer.c:105:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     105 | s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
-         | ^
-         | static 
->> drivers/gpu/drm/vkms/vkms_composer.c:167:6: warning: no previous prototype for function 'apply_3x4_matrix' [-Wmissing-prototypes]
-     167 | void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_color_ctm_3x4 *matrix)
-         |      ^
-   drivers/gpu/drm/vkms/vkms_composer.c:167:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     167 | void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_color_ctm_3x4 *matrix)
-         | ^
-         | static 
-   3 warnings generated.
---
->> drivers/gpu/drm/vkms/vkms_colorop.c:11:1: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
-      11 | const int vkms_initialize_tf_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
-         | ^~~~~
->> drivers/gpu/drm/vkms/vkms_colorop.c:11:11: warning: no previous prototype for function 'vkms_initialize_tf_pipeline' [-Wmissing-prototypes]
-      11 | const int vkms_initialize_tf_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
-         |           ^
-   drivers/gpu/drm/vkms/vkms_colorop.c:11:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      11 | const int vkms_initialize_tf_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
-         |       ^
-         | static 
->> drivers/gpu/drm/vkms/vkms_colorop.c:80:5: warning: no previous prototype for function 'vkms_initialize_colorops' [-Wmissing-prototypes]
-      80 | int vkms_initialize_colorops(struct drm_plane *plane)
-         |     ^
-   drivers/gpu/drm/vkms/vkms_colorop.c:80:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      80 | int vkms_initialize_colorops(struct drm_plane *plane)
-         | ^
-         | static 
-   3 warnings generated.
+>> drivers/media/pci/intel/ivsc/mei_csi.c:30:10: fatal error: media/ipu6-pci-table.h: No such file or directory
+    #include <media/ipu6-pci-table.h>
+             ^~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +11 drivers/gpu/drm/tests/drm_fixp_test.c
+vim +30 drivers/media/pci/intel/ivsc/mei_csi.c
 
-     8	
-     9	static void drm_test_sm2fixp(struct kunit *test)
-    10	{
-  > 11		KUNIT_EXPECT_EQ(test, 0x7fffffffffffffffll, ((1LL << 63) - 1));
-    12	
-    13		/* 1 */
-    14		KUNIT_EXPECT_EQ(test, drm_int2fixp(1), drm_sm2fixp(1ull << DRM_FIXED_POINT));
-    15	
-    16		/* -1 */
-    17		KUNIT_EXPECT_EQ(test, drm_int2fixp(-1), drm_sm2fixp((1ull << 63) | (1ull << DRM_FIXED_POINT)));
-    18	
-    19		/* 0.5 */
-    20		KUNIT_EXPECT_EQ(test, drm_fixp_from_fraction(1, 2), drm_sm2fixp(1ull << (DRM_FIXED_POINT - 1)));
-    21	
-    22		/* -0.5 */
-    23		KUNIT_EXPECT_EQ(test, drm_fixp_from_fraction(-1, 2), drm_sm2fixp((1ull << 63) | (1ull << (DRM_FIXED_POINT - 1))));
-    24	
+    28	
+    29	#include <media/ipu-bridge.h>
+  > 30	#include <media/ipu6-pci-table.h>
+    31	#include <media/v4l2-async.h>
+    32	#include <media/v4l2-ctrls.h>
+    33	#include <media/v4l2-fwnode.h>
+    34	#include <media/v4l2-subdev.h>
+    35	
 
 -- 
 0-DAY CI Kernel Test Service
