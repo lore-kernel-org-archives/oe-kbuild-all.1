@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AB163127
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Feb 2024 23:40:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7A47F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Feb 2024 00:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707867625; cv=none; b=m+EC7Wb0SFAP9YLlpo58OxwHIgFxp5+BbNWLhujOSl1rdrNiHs+V3Kyz7jdIh45sLhTqyl3Wc6MuXg+Bf2ktk39hpQP5EVDZQspn1BzLgbsNJDO6ZlS9mm0aMHK4drdfEoZ3SZ0mNUBPxS4CBm1MZtw0kcnPFCByi7EbJANN2WU=
+	t=1707870086; cv=none; b=pFRt+nAegpc4xNMLx+Z7xQ6h/zoQBZOBigmlb/t6thaZXo+cxybXedk3qb6obAOHUhfG6JRO3iZVO5j6Ww2/RmQI76Y0Z7p5kwgZ61+iCK01NKqfyjcOvp4BAQE65FOlrkv1Opkdt81LzxHys3M1570ZqzZKXFl2Gc/4MpB90VE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707867625; c=relaxed/simple;
-	bh=ixD7N2yn+uwJYiROprOI4raNXxb+TxwvKbmmYK/SU0Y=;
+	s=arc-20240116; t=1707870086; c=relaxed/simple;
+	bh=2Pf4pkm6vHY3Dl4ivfJxn2VGM+ualKkTtFa1SzkrhgI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G7oMgD5cT2x4IfUcB6Ot5HL8x1Oyc3sv5JeDuf2L99yUsJWvDYP29fvj879gH2i5AGUDfRmAypAKa9O9Uz6RcMtuKckR65QhhAOHxeB8pjyOmBZrLcXBvJdVWGHDYfk4QxppNppoT6Dn8DvhainMPl+ZgU07vwcSPPDaL+Ae4E4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dYceXvMe; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=fLRQNyiw4DOWABNRhPgJj08PO9mKR0Fgxgkh48itaGGmyCn3uh+LtUPcGz6X0hSSPCQoaGQHovfabNMwHXTzZ0dOSEFcrU8TUDcjdTpV7hmBL31VtkD6nkIGu0Osa6IvKp7du329XsPS5mqmPJOTCKBnYWc/IX5p0YYxV99ZLNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+cATfEf; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dYceXvMe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+cATfEf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707867623; x=1739403623;
+  t=1707870083; x=1739406083;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ixD7N2yn+uwJYiROprOI4raNXxb+TxwvKbmmYK/SU0Y=;
-  b=dYceXvMeepVOabp9weaBg/NLsegdxvdM8Lu05qgnraz5q803oJkG+TG7
-   G0dcGqQF3/qgJ8gunjzwo+CgcE02+WwEUFeEfYwoFpJfkPrEX4dgsHEuY
-   GviXh/f7UAWWAB+Kg1dZ+Zo5d0S5znBxhOLz40K8+yRZH5XGCb9qER0+y
-   yqRhPboYnQOFwdpdCUuvbTIY/3dpHXORf5ENodHRXli9lketX4WVG8Fs+
-   wjkRBk5uIXMdhKh1AtphR1MY05hpED4bdnffpdNCALnmD8kg5o8ymhzfC
-   5EM7sQc0RKp1TT9KiXy1en8ZI5BKBoH4nrEb9pAaUa10PZj1rB502/Kqz
+  bh=2Pf4pkm6vHY3Dl4ivfJxn2VGM+ualKkTtFa1SzkrhgI=;
+  b=U+cATfEf6MeHlrp3ztt4T67RR4KbHngjMsrP+4PaENahX4DMcBjqVtBM
+   FkD/Q3zKz8LoAi7SpGH4EM/qXD4x543vo7pBvs6lTBA2DWcE/MBbfGP1z
+   MeMGkc+n/cdGj6LJnjmeVT838/7XBX5WKmC34qvnMWin2q+/ncw4LouS2
+   qS8rkKRBbxMxWMSCkvcY7ZkQyA0oc4H8fvKQ05frO1SKaYzBR3UiD2wyZ
+   sa7jpZXOn2Q24QUfPq9sydg5CHHv6IQbmGjt7Z4NrVGtoxEnOzApZjnY1
+   ynOZnJ+2aeVOQWk5zANuJDB2UYYb+H34veeEy9fTHGN+PyUs7Q+yHRc7W
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="12620488"
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="24378363"
 X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
-   d="scan'208";a="12620488"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 15:40:21 -0800
+   d="scan'208";a="24378363"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 16:21:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
-   d="scan'208";a="7681683"
+   d="scan'208";a="3005910"
 Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Feb 2024 15:40:21 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 13 Feb 2024 16:21:22 -0800
 Received: from kbuild by 01f0647817ea with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ra2Nu-00089Y-0N;
-	Tue, 13 Feb 2024 23:40:18 +0000
-Date: Wed, 14 Feb 2024 07:40:13 +0800
+	id 1ra31c-0008Au-04;
+	Wed, 14 Feb 2024 00:21:20 +0000
+Date: Wed, 14 Feb 2024 08:20:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:fsnotify-perf 3/5]
- include/linux/fsnotify_backend.h:504:48: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202402140721.wpsybKbh-lkp@intel.com>
+Subject: [djwong-xfs:health-monitoring 566/572] fs/xfs/xfs_health.c:299:16:
+ warning: variable 'old_mask' set but not used
+Message-ID: <202402140839.zRaokPCt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,69 +58,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/amir73il/linux fsnotify-perf
-head:   7ca5d81f2ffa3303ed4c1d54af3248f38b5a1576
-commit: 2ccb035f66111d6c6208ff895cdb945d5776e920 [3/5] fsnotify: attach sb connector for the lifetime of sb
-config: x86_64-randconfig-122-20240213 (https://download.01.org/0day-ci/archive/20240214/202402140721.wpsybKbh-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402140721.wpsybKbh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git health-monitoring
+head:   9f39f2084cebe475618d869d62b32230a7729b0d
+commit: ced935343ef643076b416ff722db4fa86187026e [566/572] xfs: create hooks for monitoring health updates
+config: x86_64-randconfig-161-20240214 (https://download.01.org/0day-ci/archive/20240214/202402140839.zRaokPCt-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402140839.zRaokPCt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402140721.wpsybKbh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402140839.zRaokPCt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/notify/fsnotify.c:386:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/notify/fsnotify.c:386:16: sparse:    struct fsnotify_mark_connector [noderef] __rcu *
-   fs/notify/fsnotify.c:386:16: sparse:    struct fsnotify_mark_connector *
-   fs/notify/fsnotify.c:388:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/notify/fsnotify.c:388:24: sparse:    struct hlist_node [noderef] __rcu *
-   fs/notify/fsnotify.c:388:24: sparse:    struct hlist_node *
-   fs/notify/fsnotify.c:398:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/notify/fsnotify.c:398:24: sparse:    struct hlist_node [noderef] __rcu *
-   fs/notify/fsnotify.c:398:24: sparse:    struct hlist_node *
-   fs/notify/fsnotify.c:563:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector **connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:563:38: sparse:     expected struct fsnotify_mark_connector **connp
-   fs/notify/fsnotify.c:563:38: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:566:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector **connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:566:46: sparse:     expected struct fsnotify_mark_connector **connp
-   fs/notify/fsnotify.c:566:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:570:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector **connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:570:46: sparse:     expected struct fsnotify_mark_connector **connp
-   fs/notify/fsnotify.c:570:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:574:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector **connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:574:46: sparse:     expected struct fsnotify_mark_connector **connp
-   fs/notify/fsnotify.c:574:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c: note: in included file:
->> include/linux/fsnotify_backend.h:504:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsnotify_mark_connector *conn @@     got struct fsnotify_mark_connector [noderef] __rcu * @@
-   include/linux/fsnotify_backend.h:504:48: sparse:     expected struct fsnotify_mark_connector *conn
-   include/linux/fsnotify_backend.h:504:48: sparse:     got struct fsnotify_mark_connector [noderef] __rcu *
---
-   fs/notify/mark.c:599:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsnotify_mark_connector [noderef] __rcu *__new @@     got struct fsnotify_mark_connector *[assigned] conn @@
-   fs/notify/mark.c:599:13: sparse:     expected struct fsnotify_mark_connector [noderef] __rcu *__new
-   fs/notify/mark.c:599:13: sparse:     got struct fsnotify_mark_connector *[assigned] conn
-   fs/notify/mark.c:339:9: sparse: sparse: context imbalance in 'fsnotify_put_mark' - unexpected unlock
-   fs/notify/mark.c:619:39: sparse: sparse: context imbalance in 'fsnotify_grab_connector' - different lock contexts for basic block
-   fs/notify/mark.c: note: in included file:
->> include/linux/fsnotify_backend.h:504:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsnotify_mark_connector *conn @@     got struct fsnotify_mark_connector [noderef] __rcu * @@
-   include/linux/fsnotify_backend.h:504:48: sparse:     expected struct fsnotify_mark_connector *conn
-   include/linux/fsnotify_backend.h:504:48: sparse:     got struct fsnotify_mark_connector [noderef] __rcu *
-   fs/notify/mark.c:718:20: sparse: sparse: context imbalance in 'fsnotify_add_mark_list' - unexpected unlock
-   fs/notify/mark.c:798:25: sparse: sparse: context imbalance in 'fsnotify_find_mark' - unexpected unlock
-   fs/notify/mark.c:872:17: sparse: sparse: context imbalance in 'fsnotify_destroy_marks' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +504 include/linux/fsnotify_backend.h
+   fs/xfs/xfs_health.c: In function 'xfs_fs_mark_sick':
+>> fs/xfs/xfs_health.c:299:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     299 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_fs_mark_corrupt':
+   fs/xfs/xfs_health.c:318:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     318 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_fs_mark_healthy':
+   fs/xfs/xfs_health.c:338:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     338 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_rt_mark_sick':
+   fs/xfs/xfs_health.c:373:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     373 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_rt_mark_corrupt':
+   fs/xfs/xfs_health.c:392:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     392 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_rt_mark_healthy':
+   fs/xfs/xfs_health.c:412:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     412 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_ag_mark_sick':
+   fs/xfs/xfs_health.c:464:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     464 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_ag_mark_corrupt':
+   fs/xfs/xfs_health.c:483:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     483 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_ag_mark_healthy':
+   fs/xfs/xfs_health.c:503:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     503 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_rtgroup_mark_sick':
+   fs/xfs/xfs_health.c:555:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     555 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_rtgroup_mark_corrupt':
+   fs/xfs/xfs_health.c:574:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     574 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_rtgroup_mark_healthy':
+   fs/xfs/xfs_health.c:595:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     595 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_inode_mark_sick':
+   fs/xfs/xfs_health.c:631:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     631 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_inode_mark_corrupt':
+   fs/xfs/xfs_health.c:659:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     659 |  unsigned int  old_mask;
+         |                ^~~~~~~~
+   fs/xfs/xfs_health.c: In function 'xfs_inode_mark_healthy':
+   fs/xfs/xfs_health.c:688:16: warning: variable 'old_mask' set but not used [-Wunused-but-set-variable]
+     688 |  unsigned int  old_mask;
+         |                ^~~~~~~~
 
-   500	
-   501	static inline struct fsnotify_sb_connector *fsnotify_sb_connector(
-   502								struct super_block *sb)
-   503	{
- > 504		struct fsnotify_mark_connector *conn = READ_ONCE(sb->s_fsnotify_marks);
-   505	
-   506		return conn ? FSN_SB_CONN(conn) : NULL;
-   507	}
-   508	
+
+vim +/old_mask +299 fs/xfs/xfs_health.c
+
+   292	
+   293	/* Mark unhealthy per-fs metadata. */
+   294	void
+   295	xfs_fs_mark_sick(
+   296		struct xfs_mount	*mp,
+   297		unsigned int		mask)
+   298	{
+ > 299		unsigned int		old_mask;
+   300	
+   301		ASSERT(!(mask & ~XFS_SICK_FS_ALL));
+   302		trace_xfs_fs_mark_sick(mp, mask);
+   303	
+   304		spin_lock(&mp->m_sb_lock);
+   305		old_mask = mp->m_fs_sick;
+   306		mp->m_fs_sick |= mask;
+   307		spin_unlock(&mp->m_sb_lock);
+   308	
+   309		xfs_fs_health_update_hook(mp, XFS_HEALTHUP_SICK, old_mask, mask);
+   310	}
+   311	
 
 -- 
 0-DAY CI Kernel Test Service
