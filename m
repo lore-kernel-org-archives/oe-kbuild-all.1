@@ -1,57 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCF96A349
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Feb 2024 21:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DF42595
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Feb 2024 21:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708033356; cv=none; b=h5R1mFwGc7wEPS80wzdiqG8x+xu3b0fL0pha8dfZe0MEyg+LLsCll54+5zZmNRnUq0CmNgTC8YaDdElpHMgudi3GDga20zMRu/yQu9tR9+oExuqYTdT3RyGA1bYGZCh+Uu1cwmhZUrz4NsIPIdk/x/cD468C8HccdhddyQ3j14k=
+	t=1708033997; cv=none; b=qPv+xtOw+AdlTENK2UFsSuCQWac/YhtyLD+/Kf5tebpzqoS5XJcnwgzctv3FiSIpAYEvp74SDkQ7csBQ1OA4VcerSKgWYpF1yyaudtzsGEcXKi9y8B8Fu5v5Ti0WXJH2/jCs0T9DWsWnfqWov2Q/UpzkDPtpPOCLOdAk175n+pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708033356; c=relaxed/simple;
-	bh=u7eJ9oD6rfGT/t89U70vxMsyL1Dfwz/FgrWYzFBcieI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nWaBQVy+Iqq9JQhRaYi4HBXQSd8MbLu48kRcYc5xqP5fZwB2kXQV9I8O0rw0wJLB2gqPJEx5ehraBFWzwbJCPRuASt5IVcw7bOG94+tuCg06y+ip4lGTdLl5mtpw2C4Gz1TXNgAPuG5Y0f0Tk+8og0HcOPUeb9rs8xqgvp/uCE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/wm/VaZ; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1708033997; c=relaxed/simple;
+	bh=aSh60wTJA+toy9sciDuJdbd8hPJLLMqTOKmaz1OVkJw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J6SpGzHTLDCunVzl8jjd4047FSW3Q7jzTKTMExQDoTKxjHJZaq9HIg+kWW6NbyEJSuOXQSn7l2gGKnWZ7JqKBjP2N2jag9Ycu29K8p+WZ10zNrZDFED9gcYBcucRrK4YpBGv3e52InqnZez3bC0NXyx/U9hWvEWe/UAtNU8YWOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZhSqLPtC; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/wm/VaZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZhSqLPtC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708033354; x=1739569354;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u7eJ9oD6rfGT/t89U70vxMsyL1Dfwz/FgrWYzFBcieI=;
-  b=R/wm/VaZHyGENntV8SNmx1260ekd+coo7SPnhf8WgIEfPIsrOQ8WcMPf
-   r7A3xSs95zWe1m01xp63NdAzAn6f0vLkQR2qIto4SIDyqEDVMmHok9s0p
-   76JVCrSfpRxYMaPIn1GOwLTsITbiXVgaHUAPWoU/bFNnk6Xun4HNngJJB
-   gWasUEV3yG2BoNNHvxrPPRAouSt+MPkvkaGgcKACTCgAUNf5BJjj9U1pq
-   OyXW5MDi4K3Bg8EmlsHLWr2cI5kqoaCak9cjUGZvP9jkLPlwR4PlLcceX
-   5H1nF/FBQvyEsiVvMS0wg1hr7t7+Quq5/eUN77uR21B1v9SEmBlmGD7mk
+  t=1708033995; x=1739569995;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aSh60wTJA+toy9sciDuJdbd8hPJLLMqTOKmaz1OVkJw=;
+  b=ZhSqLPtCdcVYPDeSLMsi3Gn8H3hphmKbtwwmh0/eQQ5oquQ9bcL779wx
+   eQ+1ntgXU1mD7EQ4me5N9of29/TO2vvOsCIP88p2ytzlDfb1d7lqs/417
+   tWOnT9EX5qVcpfKvtX4rKvRWlMsZh/S0QueZQvCf3guGcsEl0uVHVkQng
+   O470FOF+a39qcyaC3tblkiNxOef7QQgr5FHwoSttUTGmLopcbHo6GZw8J
+   lHIv5xOXKrpHgj+WW70Yk8tJBJ62xQ381qnlorX7GmLqaLy8QEd+Cv15q
+   9iXXRvs1/pewK32Q/HLUZFf5QxKG+K1PWEeVn/n+6F7Ybfc7UbfF9uKUi
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="5980336"
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="27607392"
 X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
-   d="scan'208";a="5980336"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 13:42:21 -0800
+   d="scan'208";a="27607392"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 13:53:14 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
-   d="scan'208";a="3825246"
+   d="scan'208";a="8313681"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Feb 2024 13:42:20 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 15 Feb 2024 13:53:13 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rajUn-0000mk-2a;
-	Thu, 15 Feb 2024 21:42:17 +0000
-Date: Fri, 16 Feb 2024 05:41:33 +0800
+	id 1rajf6-0000n6-1Y;
+	Thu, 15 Feb 2024 21:52:57 +0000
+Date: Fri, 16 Feb 2024 05:52:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 2/2] i915/pmu: Cleanup pending events on unbind
-Message-ID: <202402160519.aioEuNOJ-lkp@intel.com>
-References: <20240213180302.47266-3-umesh.nerlige.ramappa@intel.com>
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linuxppc:next-test 4/11] arch/powerpc/kernel/setup-common.c:420:22:
+ sparse: sparse: incorrect type in assignment (different base types)
+Message-ID: <202402160558.7tGRjPaN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,76 +57,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240213180302.47266-3-umesh.nerlige.ramappa@intel.com>
 
-Hi Umesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Umesh-Nerlige-Ramappa/i915-pmu-Add-pmu_teardown-helper/20240214-020605
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240213180302.47266-3-umesh.nerlige.ramappa%40intel.com
-patch subject: [PATCH 2/2] i915/pmu: Cleanup pending events on unbind
-config: x86_64-randconfig-121-20240214 (https://download.01.org/0day-ci/archive/20240216/202402160519.aioEuNOJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240216/202402160519.aioEuNOJ-lkp@intel.com/reproduce)
+tree:   https://github.com/linuxppc/linux next-test
+head:   14ce0dbb562713bc058ad16d281db355757e6ec0
+commit: 9832de654499f0bf797a3719c4d4c5bd401f18f5 [4/11] powerpc/smp: Factor out assign_threads()
+config: powerpc-randconfig-r132-20240215 (https://download.01.org/0day-ci/archive/20240216/202402160558.7tGRjPaN-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240216/202402160558.7tGRjPaN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402160519.aioEuNOJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402160558.7tGRjPaN-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/i915_pmu.c:1405:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
-   drivers/gpu/drm/i915/i915_pmu.c:1405:44: sparse:     expected struct file *file
-   drivers/gpu/drm/i915/i915_pmu.c:1405:44: sparse:     got struct file [noderef] __rcu *
-   drivers/gpu/drm/i915/i915_pmu.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/fdtable.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>> arch/powerpc/kernel/setup-common.c:420:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] hwid @@     got unsigned int [usertype] @@
+   arch/powerpc/kernel/setup-common.c:420:22: sparse:     expected restricted __be32 [usertype] hwid
+   arch/powerpc/kernel/setup-common.c:420:22: sparse:     got unsigned int [usertype]
+>> arch/powerpc/kernel/setup-common.c:426:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] hwid @@
+   arch/powerpc/kernel/setup-common.c:426:37: sparse:     expected unsigned int [usertype]
+   arch/powerpc/kernel/setup-common.c:426:37: sparse:     got restricted __be32 [usertype] hwid
 
-vim +1405 drivers/gpu/drm/i915/i915_pmu.c
+vim +420 arch/powerpc/kernel/setup-common.c
 
-  1385	
-  1386	static void close_event_file(struct perf_event *event)
-  1387	{
-  1388		unsigned int max_open_fds, fd;
-  1389		struct files_struct *files;
-  1390		struct task_struct *task;
-  1391		struct fdtable *fdt;
-  1392	
-  1393		task = event->owner;
-  1394		if (!task)
-  1395			return;
-  1396	
-  1397		files = task->files;
-  1398		if (!files)
-  1399			return;
-  1400	
-  1401		spin_lock(&files->file_lock);
-  1402		fdt = files_fdtable(files);
-  1403		max_open_fds = __open_files(fdt);
-  1404		for (fd = 0; fd < max_open_fds; fd++) {
-> 1405			struct file *file = fdt->fd[fd];
-  1406	
-  1407			if (!file || file->private_data != event)
-  1408				continue;
-  1409	
-  1410			rcu_assign_pointer(fdt->fd[fd], NULL);
-  1411			__clear_bit(fd, fdt->open_fds);
-  1412			__clear_bit(fd / BITS_PER_LONG, fdt->full_fds_bits);
-  1413			if (fd < files->next_fd)
-  1414				files->next_fd = fd;
-  1415			filp_close(file, files);
-  1416			break;
-  1417		}
-  1418		spin_unlock(&files->file_lock);
-  1419	}
-  1420	
+   413	
+   414	static int assign_threads(unsigned int cpu, unsigned int nthreads, bool present,
+   415				  const __be32 *hw_ids)
+   416	{
+   417		for (int i = 0; i < nthreads && cpu < nr_cpu_ids; i++) {
+   418			__be32 hwid;
+   419	
+ > 420			hwid = be32_to_cpu(hw_ids[i]);
+   421	
+   422			DBG("    thread %d -> cpu %d (hard id %d)\n", i, cpu, hwid);
+   423	
+   424			set_cpu_present(cpu, present);
+   425			set_cpu_possible(cpu, true);
+ > 426			cpu_to_phys_id[cpu] = hwid;
+   427			cpu++;
+   428		}
+   429	
+   430		return cpu;
+   431	}
+   432	
 
 -- 
 0-DAY CI Kernel Test Service
