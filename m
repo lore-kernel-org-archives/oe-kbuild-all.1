@@ -1,72 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23B811183
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 05:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C05314265
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 05:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708059863; cv=none; b=XprWBqfHg0HRO5G3+PccvfZ4aAeQ4BXmZcIzaaLZSCOH/EWksjY5SvsSSpIVYcH03U2SwbesRq3gsxOgXdf2lf7h8ZPGKGiaHt9TS0erLYaXHU4LAfXCowNLDGAZ5fEU/pzXp5Yd8xE/re3tl2H4hqFWxNEaSWmxi0XvNucHX+I=
+	t=1708063046; cv=none; b=ZF0KWtZkg+m0O7OvuHJ+kL/YSLa6soYLHOu3zIU3LJEK43PwXytcRGJ2U4RiZqDiuc5TBeAJW7OtThUZjpxNQbifZzHiwGdwEa3bOi5/2TQSyfmh52o6vk9xAk7Ft+Hc/QYyZ7YkdXoENHRD3d0GWeuM567CPiW5Hya1u1DrzEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708059863; c=relaxed/simple;
-	bh=mvd4+ES9H4+E9FF2CWmYJA4SeFWwPFFspFFuFegVVh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sCVJfU+Suw7F+LVOiIsWC7zWTqcIyo5WjuSOYy0UDBCeaTt7YjDXIE7XjL0fMomA+3D7c4rDIWGKtzAxXQuGOXM76lOs/nHYQRDgmbo+/vxPxG2uclYryfaCKCposVmKt89g0F4Rp3DDNz5MIQnugOLSIwC6R2UNOpmGB+dvkSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEbKhf86; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1708063046; c=relaxed/simple;
+	bh=bMjY8WD9GNw3lqtDH2pBllR2wVsPOwf42LVfzneKmsI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=O4l23+1ZO9InF6unoKlUFaNpUc/nDfYzPiLvAqDzzRxXb6I+ql7zxVkkZveFpNoriL/7RE48zEVl1Alcjc/chHIaIWy0hdRL8Op9jwM0VvG9DTi4i8kY8ioOklk3WFFzbkmyB2MqdCTiNzIl7Dxyai9+/mYAjZSAKHRYMsw9MBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UguO+ymm; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEbKhf86"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UguO+ymm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708059862; x=1739595862;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mvd4+ES9H4+E9FF2CWmYJA4SeFWwPFFspFFuFegVVh4=;
-  b=jEbKhf862ItoEj6j4DWJjHfsp5k5FAWZ48quhUD0oDFQAaTjjXjgBGPB
-   JXyu7B3nZ/VmoE3nSN3SElQrRGK+3c5pKtP6ZM7eTHU+mO2Quo88o43bS
-   pH9rh4TBE4CKkdbcRdnDl9PllfcfEHlOTz8p3KzFkOFnpGT60lHnl/uGD
-   p90qCT9cH2Le8IhhF4p3JRv2QfACioPHWz6wPrMTgMed3aOuYtn0JQqT7
-   HtPZCGjplAUH4ECYu/ZiADyb3JoxrZvHm4d5Sgu/vpoL8fSb7nKvpoNwL
-   gFefVdO5B0Gqh8yo+pERSC0oXT/vt/WQgzOUw7ii+JONYZ8g8f3jCviap
+  t=1708063044; x=1739599044;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bMjY8WD9GNw3lqtDH2pBllR2wVsPOwf42LVfzneKmsI=;
+  b=UguO+ymmuRjefQj0pHRa6KCiQB4dIta7I1XxMMOqOO8KJQb3bS3KB2um
+   I1nkugOX74JnfT6N0vydnacLvQRw/NxhZJILfcGPFv/P183Ec7YIltRU3
+   5BM9p5bzCEGWzCZqZKPAS2RwMbKS2brikgq8kNtGH5BrbHhaTOUEL9JMD
+   lxH8a8tJGS8l2uwoMnWa5wdf8LA7msom+ds1wpggJ94a5GklDn4j9/IG6
+   9z2KYpgnK3P6neaIbncSpJOzu/yyQ5yQyVSow2wLGQuur87oV0cPWrcd1
+   4k564PIKSH5gcp/k/Sjs46qNMSZH5qgkbdxDEOw7o5+Mx1UTwDCXVRDys
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="5148359"
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2324246"
 X-IronPort-AV: E=Sophos;i="6.06,163,1705392000"; 
-   d="scan'208";a="5148359"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 21:04:21 -0800
+   d="scan'208";a="2324246"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 21:57:23 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,163,1705392000"; 
-   d="scan'208";a="34532258"
+   d="scan'208";a="8447507"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 15 Feb 2024 21:04:15 -0800
+  by orviesa004.jf.intel.com with ESMTP; 15 Feb 2024 21:57:22 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1raqOT-00010S-0h;
-	Fri, 16 Feb 2024 05:04:13 +0000
-Date: Fri, 16 Feb 2024 13:03:49 +0800
+	id 1rarDN-00011U-2L;
+	Fri, 16 Feb 2024 05:57:01 +0000
+Date: Fri, 16 Feb 2024 13:55:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
-	linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Melissa Wen <mwen@igalia.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-Message-ID: <202402161205.v9d7IYpg-lkp@intel.com>
-References: <20240214215756.6530-2-mario.limonciello@amd.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 34/44] kernel/sched/fair_eevdf.c:12923:32:
+ error: 'struct rq' has no member named 'cfs_tasks'
+Message-ID: <202402161341.D85P5SDG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,132 +58,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
 
-Hi Mario,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
-patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_ATY128-0-0 (https://download.01.org/0day-ci/archive/20240216/202402161205.v9d7IYpg-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240216/202402161205.v9d7IYpg-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   f0ad352e8fc4195bce44c3227c84dc084608600f
+commit: 33508a693bdea05c8d33b4b664c19ce2886b8033 [34/44] CHROMIUM: sched: dynamically switch between cfs and eevdf
+config: i386-randconfig-004-20240214 (https://download.01.org/0day-ci/archive/20240216/202402161341.D85P5SDG-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240216/202402161341.D85P5SDG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402161205.v9d7IYpg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402161341.D85P5SDG-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_ATY128
-   .config:233:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:335:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:336:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:437:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:511:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
-   .config:613:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:620:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:705:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:719:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:766:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
-   .config:774:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:791:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:825:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:840:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:871:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:875:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:894:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:903:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:905:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:1160:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1246:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1287:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:1411:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1517:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
-   .config:1543:warning: symbol value 'n' invalid for WATCHDOG_OPEN_TIMEOUT
-   .config:1547:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1739:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1833:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:1972:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2263:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2304:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2383:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:2500:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2535:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2622:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2808:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2904:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:2906:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2928:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:2945:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
-   .config:2952:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:3033:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
-   .config:3058:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3075:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3098:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3339:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3430:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3434:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
-   .config:3476:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3596:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3678:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3697:warning: symbol value 'n' invalid for VERBOSE_MCHECK_ON
-   .config:3699:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:3745:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3756:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:4000:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:4019:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:4118:warning: symbol value 'n' invalid for CMA_AREAS
-   .config:4145:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4176:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4290:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4465:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4574:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:4596:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4702:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:4979:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:5060:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5079:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5216:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:5237:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5330:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5347:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5434:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5517:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:5609:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5638:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5728:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5736:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5759:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:5922:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:5956:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
-   .config:6051:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6218:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6236:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6337:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:6588:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6732:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:6783:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:6793:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:6801:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:6860:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:6968:warning: symbol value 'n' invalid for RIONET_TX_SIZE
-   .config:6999:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
-   .config:7132:warning: symbol value 'n' invalid for SCSI_MESH_RESET_DELAY_MS
-   .config:7173:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7195:warning: symbol value 'n' invalid for LOCKDEP_BITS
-   .config:7306:warning: symbol value 'n' invalid for OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:7367:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
-   .config:7497:warning: symbol value 'n' invalid for PSTORE_DEFAULT_KMSG_BYTES
-   .config:7540:warning: symbol value 'n' invalid for PANEL_LCD
+All errors (new ones prefixed by >>):
+
+   kernel/sched/fair_eevdf.c:708:6: warning: no previous prototype for 'update_entity_lag' [-Wmissing-prototypes]
+     708 | void update_entity_lag(struct cfs_rq *cfs_rq, struct sched_entity *se)
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/sched/fair_eevdf.c: In function 'update_curr_se':
+   kernel/sched/fair_eevdf.c:1244:42: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+    1244 |                 struct sched_statistics *stats;
+         |                                          ^~~~~
+   kernel/sched/fair_eevdf.c: In function 'update_stats_wait_start':
+   kernel/sched/fair_eevdf.c:1312:34: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+    1312 |         struct sched_statistics *stats;
+         |                                  ^~~~~
+   kernel/sched/fair_eevdf.c: In function 'update_stats_wait_end':
+   kernel/sched/fair_eevdf.c:1332:34: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+    1332 |         struct sched_statistics *stats;
+         |                                  ^~~~~
+   kernel/sched/fair_eevdf.c: In function 'update_stats_enqueue_sleeper':
+   kernel/sched/fair_eevdf.c:1376:34: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+    1376 |         struct sched_statistics *stats;
+         |                                  ^~~~~
+   kernel/sched/fair_eevdf.c: In function 'set_next_entity':
+   kernel/sched/fair_eevdf.c:5250:42: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+    5250 |                 struct sched_statistics *stats;
+         |                                          ^~~~~
+   kernel/sched/fair_eevdf.c: At top level:
+   kernel/sched/fair_eevdf.c:6257:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
+    6257 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+         |      ^~~~~~~~~~~~~~~~~~
+   kernel/sched/fair_eevdf.c:12774:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
+   12774 | void free_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair_eevdf.c:12776:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
+   12776 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair_eevdf.c:12781:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
+   12781 | void online_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair_eevdf.c:12783:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
+   12783 | void unregister_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair_eevdf.c:12894:5: warning: no previous prototype for 'scheduler_switch_eevdf' [-Wmissing-prototypes]
+   12894 | int scheduler_switch_eevdf(void *arg)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair_eevdf.c: In function 'scheduler_switch_eevdf':
+>> kernel/sched/fair_eevdf.c:12923:32: error: 'struct rq' has no member named 'cfs_tasks'
+   12923 |                 cfs_tasks = &rq->cfs_tasks;
+         |                                ^~
+   kernel/sched/fair_eevdf.c: At top level:
+   kernel/sched/fair_eevdf.c:12955:5: warning: no previous prototype for 'sched_use_eevdf' [-Wmissing-prototypes]
+   12955 | int sched_use_eevdf(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~
+
+
+vim +12923 kernel/sched/fair_eevdf.c
+
+ 12893	
+ 12894	int scheduler_switch_eevdf(void *arg)
+ 12895	{
+ 12896		unsigned int use_eevdf = (unsigned int)((size_t) arg);
+ 12897		int cpu;
+ 12898		struct task_struct *p;
+ 12899		struct rq *rq;
+ 12900		int num_deq;
+ 12901		struct list_head* cpu_list;
+ 12902		struct list_head* cfs_tasks;
+ 12903		struct rq_flags rf;
+ 12904	
+ 12905		// 1. Remove all the scheduling entities from all rq.
+ 12906		// 2. Change the use_eevdf rq flags.
+ 12907		// 3. Add all the entities removed back to the rqs.
+ 12908		lockdep_assert_irqs_disabled();
+ 12909	
+ 12910		if (use_eevdf == sysctl_sched_use_eevdf)
+ 12911			return 0;
+ 12912	
+ 12913		// Dequeue all the tasks
+ 12914		for_each_cpu(cpu, cpu_possible_mask) {
+ 12915			num_deq = 0;
+ 12916			cpu_list = &per_cpu(eevdf_switch_tasks, (cpu));
+ 12917	
+ 12918			INIT_LIST_HEAD(cpu_list);
+ 12919			// Since this is running in a stop_machine we don't need to take the
+ 12920			// lock, but to make lockdep_asserts happy.
+ 12921			rq = cpu_rq(cpu);
+ 12922			rq_lock(rq, &rf);
+ 12923			cfs_tasks = &rq->cfs_tasks;
+ 12924			while(!list_empty(cfs_tasks)) {
+ 12925				p = list_first_entry(cfs_tasks, struct task_struct, se.group_node);
+ 12926				num_deq++;
+ 12927				dequeue_task(rq, p, DEQUEUE_SAVE);
+ 12928				list_add(&p->se.group_node, cpu_list);
+ 12929			}
+ 12930			if (rb_first_cached(&rq->cfs.tasks_timeline) || rq->cfs.nr_running)
+ 12931				pr_err("unexpected tasks on rq: num_deq=%d, cfs_rq->nr_running=%d\n",
+ 12932						num_deq, rq->cfs.nr_running);
+ 12933			rq_unlock(rq, &rf);
+ 12934		}
+ 12935	
+ 12936		// Switch the EEVDF flag
+ 12937		sysctl_sched_use_eevdf = use_eevdf;
+ 12938	
+ 12939		// Enqueue all the taks back into the rqs
+ 12940		for_each_cpu(cpu, cpu_possible_mask) {
+ 12941			cpu_list = &per_cpu(eevdf_switch_tasks, (cpu));
+ 12942			rq = cpu_rq(cpu);
+ 12943			rq_lock(rq, &rf);
+ 12944			while(!list_empty(cpu_list)) {
+ 12945				p = list_first_entry(cpu_list, struct task_struct, se.group_node);
+ 12946				list_del(&p->se.group_node);
+ 12947				enqueue_task(rq, p, ENQUEUE_RESTORE);
+ 12948			}
+ 12949			rq_unlock(rq, &rf);
+ 12950		}
+ 12951	
+ 12952		return 0;
+ 12953	}
+ 12954	
 
 -- 
 0-DAY CI Kernel Test Service
