@@ -1,82 +1,55 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C40219E5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 14:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7670912FF8E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 15:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708095083; cv=none; b=VhHP4eSM1E9qYRBS1EozjyTUPkoTheuCbPxcnxiYCmj3A1moqoIwwXNmXfku1zEARXGsVR22UbCaTTXY58NnvQsnGrgeBELD9lLYi3PZKUVYGwuvLztmpScvho4uk9Fqu9UpkqLF9vvfvyd4RP1QO3IevSrJfTslm8TNV7cKKKg=
+	t=1708097355; cv=none; b=pUE1NVcqTmA5iBCgGd0YKfLjby34h1LZc6F3Cn1WrgUDbnp6ZEAkNg0mg8AcEGoeIrB8DvMJc4HLUpHaMtVFfi24kFXjQVhp8AHX2gxSuIiD5U+RbPcJSJ8kQPwWwXmQ0hKlnqhpZ/uQ6dI3LeIE/sPFCzgACOO7eDTs521N9jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708095083; c=relaxed/simple;
-	bh=SGwVA7jMVSbvvDHTffwv5oCa/6gX4jfOg1di2egfBnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rWElCo9T2G2qUrRSvgTkx0bB2SmPYdDMUJm50OHWA0y4oAEk4d7KsHexy8K8ysi7A4sC1nHNY632J5KEFnAZBO1ETJQvB4fs7Z0Kt/6xrSqdgYDNclDPHqBienwvMcD5Wke1F5St+46Aiwj5GU3wUguYU/4QTg/Lh0rwk19tAQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kvtCmIQr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3/hli3d9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=slBOHnvz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7oVGm0YR; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708097355; c=relaxed/simple;
+	bh=cDGnAIznmV7dXCT/TkyBGmvmN4LxQXTrGN0kjdhTaG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qsbfGzCF8IG5gLstEAt0gvfMgMr+UmAAolYMDh75HPi9eaNE0pL0TQcNkQv1g2wmcwWWmcH4v96GM09tpJGQcgDVXAfSwltLNmI+GdQT5KVz+10JWbVSJDwbIm5VFtzqh6dTnt5zgngdQn4wml2xyionVmIyOUJdeCGJI4TmnGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PTcWEsAq; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kvtCmIQr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3/hli3d9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="slBOHnvz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7oVGm0YR"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 154562228F;
-	Fri, 16 Feb 2024 14:51:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708095080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9VDQzybE+AB48V03Evvf+HDBXrkVAl5buF0XjJQVx8=;
-	b=kvtCmIQrxAWv4mH8OydUTOM6/mPa7HW8vTN46ngeg84emPs4pflz93LrDhR16m8DYnifrm
-	iNCawyZ6Qo65y0D7b3oCwpUTZ3P/cpF/VA8DLCRg7v48es7dSMAFV3Z+OsLfy/ypV6W9mE
-	FApXInAozR3b6HhynQxODFbiJykcc0I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708095080;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9VDQzybE+AB48V03Evvf+HDBXrkVAl5buF0XjJQVx8=;
-	b=3/hli3d9qe0yAGViKS9t8d2ikWsUogeCuwp8d/7BS1xRNxAlcXhc+CKVBKQFSguPK6hNWv
-	3sD0Msmgn4LoL7BA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708095079; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9VDQzybE+AB48V03Evvf+HDBXrkVAl5buF0XjJQVx8=;
-	b=slBOHnvznVulzwihlfttbpUFsrwHZ8KdyYXbygKK/mmFpCcznleRFbUsmxSU5t5l12jTEH
-	DxMeMqaTsUnrx/h8ZQ3xunkjY3h031tGIG5z+TZmG11bQqI6zNqTytoivNvGvzJO1wy+iC
-	hSbuTi+y2wB2VoLFxfEaDDk2wCkWsFE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708095079;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9VDQzybE+AB48V03Evvf+HDBXrkVAl5buF0XjJQVx8=;
-	b=7oVGm0YRF/2MUD3XS4znDS9T8DftMF11+zFntIiFAiXqefmxZd3KdLPTJMJI7sw81PgXdc
-	GLAbG43EjF4VstDQ==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C055713343;
-	Fri, 16 Feb 2024 14:51:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id KJlELGZ2z2WFPQAAn2gu4w
-	(envelope-from <osalvador@suse.de>); Fri, 16 Feb 2024 14:51:18 +0000
-Date: Fri, 16 Feb 2024 15:52:28 +0100
-From: Oscar Salvador <osalvador@suse.de>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 6971/7658] mm/page_owner.c:860 stack_print()
- warn: unsigned 'nr_entries' is never less than zero.
-Message-ID: <Zc92rFbBLLcp5gl6@localhost.localdomain>
-References: <202402162252.FpEa3ZUY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PTcWEsAq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708097353; x=1739633353;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cDGnAIznmV7dXCT/TkyBGmvmN4LxQXTrGN0kjdhTaG4=;
+  b=PTcWEsAqEDJCiNJSKyY/I3XDsP2kJaOMa4jaaTgiK5QFmS+NvkwmXcN6
+   re54GfT86e/4tlRqKaRvQnyfAoYt6iZbFQ1IdsqihLYPYwvYNSSx1s7eo
+   6ZpjWlShH/Feweg8/khGqJBcVshHmUwcTS66BQu+nnsi3m/PSWAT7SYDO
+   YQOzi1z6X4QKUi2UcSlFe3B3+b5+X+puVUXCCJbl3P79pFQTqtSrvtBU1
+   8e8tbPpP9dEjwKbnYW3PDulokKB5FEYjp6mkGqLmXNsTrEZiDKOj7nScN
+   MmAsKJTgUJUs/Xvm38FFWR132YF4xa63DOi9sUny3cGs1jS1Nx5eOu/G2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="2094541"
+X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
+   d="scan'208";a="2094541"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 07:29:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
+   d="scan'208";a="4256276"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 16 Feb 2024 07:29:12 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rb09B-0001O0-2A;
+	Fri, 16 Feb 2024 15:29:05 +0000
+Date: Fri, 16 Feb 2024 23:28:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1]
+ arch/arm64/kvm/hyp/nvhe/hyp-main.c:56:6: warning: no previous prototype for
+ '__pkvm_unmask_serror'
+Message-ID: <202402162349.YQga25nD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,62 +58,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202402162252.FpEa3ZUY-lkp@intel.com>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-0.94 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.84)[85.24%]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -0.94
 
-On Fri, Feb 16, 2024 at 10:26:36PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   d37e1e4c52bc60578969f391fb81f947c3e83118
-> commit: 3a6bc36161369a1772af565b59c6e290ee189afc [6971/7658] mm,page_owner: display all stacks and their count
-> config: x86_64-randconfig-161-20240215 (https://download.01.org/0day-ci/archive/20240216/202402162252.FpEa3ZUY-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402162252.FpEa3ZUY-lkp@intel.com/
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   f16d68f570b8c6c3e0d2e7f6c1aaf546e93e34cd
+commit: 9793ef67e848bc2bb24fb5097353abad9a7fce5e [1/1] ANDROID: KVM: arm64: Add pKVM module register_unmask_serror
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240216/202402162349.YQga25nD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240216/202402162349.YQga25nD-lkp@intel.com/reproduce)
 
-Thanks
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402162349.YQga25nD-lkp@intel.com/
 
->  > 860		if (!nr_entries || nr_entries < 0 ||
+All warnings (new ones prefixed by >>):
 
-I'll add a fixup.
+>> arch/arm64/kvm/hyp/nvhe/hyp-main.c:56:6: warning: no previous prototype for '__pkvm_unmask_serror' [-Wmissing-prototypes]
+      56 | void __pkvm_unmask_serror(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:43: warning: initialized field overwritten [-Woverride-init]
+     454 |         [ESR_ELx_EC_WFx]                = handle_pvm_entry_wfx,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:43: note: (near initialization for 'entry_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:455:43: warning: initialized field overwritten [-Woverride-init]
+     455 |         [ESR_ELx_EC_HVC64]              = handle_pvm_entry_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:455:43: note: (near initialization for 'entry_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:456:43: warning: initialized field overwritten [-Woverride-init]
+     456 |         [ESR_ELx_EC_SYS64]              = handle_pvm_entry_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:456:43: note: (near initialization for 'entry_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:457:43: warning: initialized field overwritten [-Woverride-init]
+     457 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_entry_iabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:457:43: note: (near initialization for 'entry_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:458:43: warning: initialized field overwritten [-Woverride-init]
+     458 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_entry_dabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:458:43: note: (near initialization for 'entry_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:43: warning: initialized field overwritten [-Woverride-init]
+     463 |         [ESR_ELx_EC_WFx]                = handle_pvm_exit_wfx,
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:43: note: (near initialization for 'exit_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:464:43: warning: initialized field overwritten [-Woverride-init]
+     464 |         [ESR_ELx_EC_HVC64]              = handle_pvm_exit_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:464:43: note: (near initialization for 'exit_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:43: warning: initialized field overwritten [-Woverride-init]
+     465 |         [ESR_ELx_EC_SYS64]              = handle_pvm_exit_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:43: note: (near initialization for 'exit_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:43: warning: initialized field overwritten [-Woverride-init]
+     466 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_exit_iabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:43: note: (near initialization for 'exit_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:467:43: warning: initialized field overwritten [-Woverride-init]
+     467 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_exit_dabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:467:43: note: (near initialization for 'exit_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:43: warning: initialized field overwritten [-Woverride-init]
+     476 |         [ESR_ELx_EC_IABT_LOW]           = handle_vm_exit_abt,
+         |                                           ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:43: note: (near initialization for 'exit_hyp_vm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:477:43: warning: initialized field overwritten [-Woverride-init]
+     477 |         [ESR_ELx_EC_DABT_LOW]           = handle_vm_exit_abt,
+         |                                           ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:477:43: note: (near initialization for 'exit_hyp_vm_handlers[36]')
 
->    861		    refcount_read(&stack_record->count) < 2)
->    862			return 0;
->    863	
->    864		for (i = 0; i < nr_entries; i++)
->    865			seq_printf(m, " %pS\n", (void *)entries[i]);
->    866		seq_printf(m, "stack_count: %d\n\n", refcount_read(&stack_record->count));
->    867	
->    868		return 0;
->    869	}
->    870	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+
+vim +/__pkvm_unmask_serror +56 arch/arm64/kvm/hyp/nvhe/hyp-main.c
+
+    55	
+  > 56	void __pkvm_unmask_serror(void)
+    57	{
+    58		u64 hcr = read_sysreg(HCR_EL2);
+    59	
+    60		if (!unmask_serror || !unmask_serror())
+    61			return;
+    62	
+    63		write_sysreg(hcr | HCR_AMO, HCR_EL2);
+    64		asm volatile("msr daifclr, #4");
+    65		isb();
+    66	}
+    67	
 
 -- 
-Oscar Salvador
-SUSE Labs
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
