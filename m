@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DD6D53B;
-	Fri, 16 Feb 2024 01:54:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0C3DDA8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 02:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708048490; cv=none; b=p4VtW6SpDMjB+/QqlA6GSTHVqcQ0REowfl8M9FA2eRiLfCSZu9nm8GhvGm8Y0aH77LRLPWN+SGC7Qo0xqFR6DUONLMzCzH6/OEmFvPu8W9KJ53LDkfsxGPLG0rALaNTKeH2Odxl3G/noBkQWO76GNiIOw9B/gvdMfkxcn6w7J+s=
+	t=1708049096; cv=none; b=MBzJ+HLzw6amf0pvaoSb12zjPVIh8x5n7j+9JcAA15yfLSpgdoEFeWoJOCAXacp3NTJDzUYzSJCMs0ctaYy8npXlzlJlSNxPzOCqPZnJ8mST4h2m0ou5QgRJJP3jvCUb4v5md/ARXmhyvH0Om3iBaub10AF0Y98nHiEpHHGdjNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708048490; c=relaxed/simple;
-	bh=ELe4LEal0dJOP+F2HGkC1aCnEIJ8KzGDyQcgMtnRmzo=;
+	s=arc-20240116; t=1708049096; c=relaxed/simple;
+	bh=LGpcNQKrSe7EF6naq2gOW1OPe0Si2oHIG0SJECsCT0E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lmoXZiS0uyiYQmk9s0c91uTcsTzn+qp51KJTHlrrhDVWbfU6crChJGjTpjB3kJ49GuNG/ld5pgWXQyFY8xjwMtWBhWHim3r+BmnFP+h5E/82wUZM93L0OzShnLr90K6CvMdlmy5AdAXVAmnVTIVNOCZSvTzKPGNVxA3G+ZJIBsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ARpnzarS; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=htYGqGednLrZiUK8Pg0cx8ZO100sHP15rvJKjJMm/MKOgq1AzJRSyRgY4I/r7f+/TEZIxDo/Xis0TWiIoQ/xSVT/UZ8N6FzhP7+nU803Wr8GdtVQ+opQDPPMBHtMOTD/JxuE0AGov91jg8qu+4RWKuqdGv5t1TfegHWe8qHAetU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WkmODcSk; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ARpnzarS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WkmODcSk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708048488; x=1739584488;
+  t=1708049095; x=1739585095;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ELe4LEal0dJOP+F2HGkC1aCnEIJ8KzGDyQcgMtnRmzo=;
-  b=ARpnzarS0tDPKEngruzmYpF/Lu6AoOjY/3/daoS+fGtLaAhkc28MmG0f
-   +5RpFD0JZFQ58/mLzP8hMn9DYr/o0U2KqB+UYR1gr26zuRawsOIsc86t1
-   Ldod9UtbFVicdg4cfiyBLrdDzwC/u+g7NJVZEhYzFpqBfloFDGyytWAcu
-   co82yd+GEaByn800lsbm/kWCcqcT4YKIaoZNH8DFtj1iAzkxIo6DEqPPC
-   Ka7/togHWagEvqhmxpdXszw/Mlfb0Ci/pNrkvPWI5R58Hl6k+WwsM+ed2
-   9cinSiXvur8kpy8yYVbSmocHVjpbyrhj9PE5U/BBabNKnsMemMR9u1c9X
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2026568"
+  bh=LGpcNQKrSe7EF6naq2gOW1OPe0Si2oHIG0SJECsCT0E=;
+  b=WkmODcSkMTGyRTaPsxpDa+yC3vAxUvgOn7n9M3aY0LgBkgFQNUKPclQB
+   EDluiyqF1YuHHOCmH5FLSGQ1/T41ZB74sr1m+3lEvYIF9ZYm0fnRN0sVk
+   rzsQtt535BCdGt6KfGMCYifYZP3o9De81kj5got8xHJ3nfer6yrFZgG6w
+   Ir8g4XwKqt6L8WapElU2aOAfeES41PrC25eCi3cVgWDrNezRi1pGEup11
+   X48Rg/OeRZ2jHAiuAqXx7S31BtlDV5YLsSlyr17EwTK0qOVt/ceyVPCue
+   tzWciLugHy/K62yGfhpooFmNhTwkBsrnud1nBvxPm6IVLkO2qJVqdjEm3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2573377"
 X-IronPort-AV: E=Sophos;i="6.06,163,1705392000"; 
-   d="scan'208";a="2026568"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 17:54:44 -0800
+   d="scan'208";a="2573377"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 18:04:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,163,1705392000"; 
-   d="scan'208";a="3793970"
+   d="scan'208";a="3733048"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 15 Feb 2024 17:54:38 -0800
+  by orviesa009.jf.intel.com with ESMTP; 15 Feb 2024 18:04:48 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ranQo-0000vw-1g;
-	Fri, 16 Feb 2024 01:54:34 +0000
-Date: Fri, 16 Feb 2024 09:53:09 +0800
+	id 1ranad-0000w8-2X;
+	Fri, 16 Feb 2024 02:04:37 +0000
+Date: Fri, 16 Feb 2024 10:03:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ross Philipson <ross.philipson@oracle.com>,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ross.philipson@oracle.com, dpsmith@apertussolutions.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-	dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
-	nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
-	davem@davemloft.net, kanth.ghatraju@oracle.com,
-	trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v8 14/15] x86: Secure Launch late initcall platform module
-Message-ID: <202402160909.BRTtBK7T-lkp@intel.com>
-References: <20240214221847.2066632-15-ross.philipson@oracle.com>
+To: Ben Cheatham <Benjamin.Cheatham@amd.com>, dan.j.williams@intel.com,
+	jonathan.cameron@huawei.com, rafael@kernel.org, james.morse@arm.com,
+	tony.luck@intel.com, bp@alien8.de
+Cc: oe-kbuild-all@lists.linux.dev, dave@stogolabs.net, dave.jiang@intel.com,
+	alison.schofield@intel.com, vishal.l.verma@intel.com,
+	ira.weiny@intel.com, linux-cxl@vger.kernel.org,
+	linux-acpi@vger.kernel.org, benjamin.cheatham@amd.com
+Subject: Re: [PATCH v12 1/3] EINJ: Migrate to a platform driver
+Message-ID: <202402160943.hkW7hhUs-lkp@intel.com>
+References: <20240214200709.777166-2-Benjamin.Cheatham@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,106 +63,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240214221847.2066632-15-ross.philipson@oracle.com>
+In-Reply-To: <20240214200709.777166-2-Benjamin.Cheatham@amd.com>
 
-Hi Ross,
+Hi Ben,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.8-rc4 next-20240215]
-[cannot apply to tip/x86/core]
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on linus/master rafael-pm/acpi-bus v6.8-rc4 next-20240215]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ross-Philipson/x86-boot-Place-kernel_info-at-a-fixed-offset/20240215-064712
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20240214221847.2066632-15-ross.philipson%40oracle.com
-patch subject: [PATCH v8 14/15] x86: Secure Launch late initcall platform module
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20240216/202402160909.BRTtBK7T-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240216/202402160909.BRTtBK7T-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Cheatham/EINJ-Migrate-to-a-platform-driver/20240215-041027
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20240214200709.777166-2-Benjamin.Cheatham%40amd.com
+patch subject: [PATCH v12 1/3] EINJ: Migrate to a platform driver
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240216/202402160943.hkW7hhUs-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240216/202402160943.hkW7hhUs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402160909.BRTtBK7T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402160943.hkW7hhUs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from arch/x86/kernel/slmodule.c:28:
-   In file included from include/linux/slaunch.h:185:
-   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
-     167 |         int mapping_size;
-         |             ^
->> arch/x86/kernel/slmodule.c:352:4: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     352 |                         default:
-         |                         ^
-   arch/x86/kernel/slmodule.c:352:4: note: insert 'break;' to avoid fall-through
-     352 |                         default:
-         |                         ^
-         |                         break; 
-   2 warnings generated.
-
-
-vim +352 arch/x86/kernel/slmodule.c
-
-   313	
-   314	static void slaunch_tpm20_extend_event(struct tpm_chip *tpm, void __iomem *txt,
-   315					       struct tcg_pcr_event2_head *event)
-   316	{
-   317		u16 *alg_id_field = (u16 *)((u8 *)event + sizeof(struct tcg_pcr_event2_head));
-   318		struct tpm_digest *digests;
-   319		u8 *dptr;
-   320		u32 i, j;
-   321		int ret;
-   322	
-   323		digests = kcalloc(tpm->nr_allocated_banks, sizeof(*digests),
-   324				  GFP_KERNEL);
-   325		if (!digests)
-   326			slaunch_txt_reset(txt, "Failed to allocate array of digests\n",
-   327					  SL_ERROR_GENERIC);
-   328	
-   329		for (i = 0; i < tpm->nr_allocated_banks; i++)
-   330			digests[i].alg_id = tpm->allocated_banks[i].alg_id;
-   331	
-   332		/* Early SL code ensured there was a max count of 2 digests */
-   333		for (i = 0; i < event->count; i++) {
-   334			dptr = (u8 *)alg_id_field + sizeof(u16);
-   335	
-   336			for (j = 0; j < tpm->nr_allocated_banks; j++) {
-   337				if (digests[j].alg_id != *alg_id_field)
-   338					continue;
-   339	
-   340				switch (digests[j].alg_id) {
-   341				case TPM_ALG_SHA256:
-   342					memcpy(&digests[j].digest[0], dptr,
-   343					       SHA256_DIGEST_SIZE);
-   344					alg_id_field = (u16 *)((u8 *)alg_id_field +
-   345						SHA256_DIGEST_SIZE + sizeof(u16));
-   346					break;
-   347				case TPM_ALG_SHA1:
-   348					memcpy(&digests[j].digest[0], dptr,
-   349					       SHA1_DIGEST_SIZE);
-   350					alg_id_field = (u16 *)((u8 *)alg_id_field +
-   351						SHA1_DIGEST_SIZE + sizeof(u16));
- > 352				default:
-   353					break;
-   354				}
-   355			}
-   356		}
-   357	
-   358		ret = tpm_pcr_extend(tpm, event->pcr_idx, digests);
-   359		if (ret) {
-   360			pr_err("Error extending TPM20 PCR, result: %d\n", ret);
-   361			slaunch_txt_reset(txt, "Failed to extend TPM20 PCR\n",
-   362					  SL_ERROR_TPM_EXTEND);
-   363		}
-   364	
-   365		kfree(digests);
-   366	}
-   367	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+>> WARNING: modpost: vmlinux: section mismatch in reference: einj_driver+0x10 (section: .data) -> einj_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm64/crypto/crct10dif-ce.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm64/crypto/aes-neon-bs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-imx27.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-mediatek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-visconti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mediatek-gen3.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/lpass-gfm-sm8250.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/mediatek/mtk-cmdq-helper.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/xen/xen-pciback/xen-pciback.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/pcs/pcs_xpcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/mscc/mscc_ocelot_switch_lib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/qualcomm/emac/qcom-emac.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/qualcomm/rmnet/rmnet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/stmicro/stmmac/dwmac-altr-socfpga.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/edac/layerscape_edac_mod.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/ufs/host/ufs-qcom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/sa2ul.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm_cspmu/arm_cspmu_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hte/hte-tegra194-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mtk-adsp-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/mediatek/mt8195/snd-sof-mt8195.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-of.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
 
 -- 
 0-DAY CI Kernel Test Service
