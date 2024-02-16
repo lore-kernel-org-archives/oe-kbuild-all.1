@@ -1,72 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EF81292C9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 13:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7072512BEBA;
+	Fri, 16 Feb 2024 13:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708089186; cv=none; b=gA7ymzxHoIZrNdRM/QA7Stg/GQpypw78Fmmeg+aHWZkQ4NHnxIkXMQz1PHK0JLKVn2ZLwgvYAoDFibVPmMLvrnIgAr3nSEZTNl8xjdJHZ2AbHq+S1kaOnwqALnFmoDi7spT+coa9m/t2+pCj4Qej0NPfRhUsHny7d4lIn/VNmD0=
+	t=1708091098; cv=none; b=qRkeTRWTO0h4UMzT2Igx/nIw2aQtpnqdhQS0XUwaN8YO+P/n+WrI5oGbQ0xtscf1cHT5GPNP+lQCIzy21d+12TcqRI4yYzN1IHbGLFD/lUYXSGxbkdl6+atiM65VoPbHY7jrp5GI2kmDMPV8GOcotugOQ3hXf6biOKdEaIMyB5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708089186; c=relaxed/simple;
-	bh=w7PxYeL2YJi5lLDMuxgVxDRatSZggnbIIYFFi/StyVM=;
+	s=arc-20240116; t=1708091098; c=relaxed/simple;
+	bh=8pF4PgIdUhtgmQ5Ea6PVGdWy0r0h3BhEyg2W1sBoKDU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p2IIsUiaFtfOKTQG7OPcN8ePHtWgDRMHgU9mj8M6FnCqGw5A5sn3GWNSBT6fXybIFUZunHVSJlv5ZODiP/7uz3MKDFh6trY6ZdzdIQF5iCpt7d8mJWrYHGFgTWPnPnAva75pskZfSuHZgnbuE8685IJTcV7i/7USox8TOdFE3WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KuW8kuqu; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMBavWCKGCXT9MdsRrK6tgDD6KNE0JHvIAxKDiJ4+ckb/vz8pK2MfnK3AiCXwcGXL1dlKKxbWIjolCBYRgyRKafF+4Yk+shpdjmy3u34jmYYnWco3yq4iL6NbjPZ4JcuWCRoNq6PDmQyH9NXVF24aeI4pDFD6rCfL0mDmeofH4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i6yCXIDB; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KuW8kuqu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6yCXIDB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708089184; x=1739625184;
+  t=1708091096; x=1739627096;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=w7PxYeL2YJi5lLDMuxgVxDRatSZggnbIIYFFi/StyVM=;
-  b=KuW8kuqumCgs4pEGCg0r4HBIpEejyxHUy5UvcPJZu4LtOAw+esxTK0mZ
-   NzyZA4fChutSdGnPj5zWcGhbHaLw7HR1VWX+vU/kQgchQ5muWIrWMiI6U
-   HIwZmBtWRrUoouma4dIzG+Dn9B6pi2R73elqaFr63V1U7tsI+tyobNPpZ
-   5Y7EV4UGYgJ8RYvHhW3fLDlZhHOU4aRS/31toQt2/NEMLbdKpkR8MMMDt
-   m/1966WFO7SeFNXoKMkORMOIChZhuiDcDM0oxLKXPFEqBd0m67bEALi87
-   LCEwUTxA2ZO6zZ9z9Q9pRMyu406zxEfra11fsbVnf+o7gsIVNLXiBHcbM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2083624"
+  bh=8pF4PgIdUhtgmQ5Ea6PVGdWy0r0h3BhEyg2W1sBoKDU=;
+  b=i6yCXIDBDsK8ZqCnyEy4W8PAHDAK9xnuriEd3anzZtNN33XftMouu8Qj
+   8i3Unf2Kz4/NZTr1hmbpbod5U+2j8hp7Ir+vKaH6Suo/R7xUd52rU5Hx8
+   iJ9L/r3bQ7QhvXAL0WoaX3ubZ5d9dIxyaHKGnEgpQE29xSmY4akMT6QQk
+   lTM2Sp1zXLEvV0jxXHhMOXlLFyYRe7DU1A+k2urnA40pWL2UErbb94mMK
+   yus8oPYNe9Rn7nWHkdgwepugDJUXFtfTHC0qABDQ/vJU8ADuhadtgF7xu
+   DspeK7s2q/QwvBNs2239zcUJmpaF2p9YnMJr+QXp5xbL6IieaI2W2+5/6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2124466"
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="2083624"
+   d="scan'208";a="2124466"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 05:13:03 -0800
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 05:44:55 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="3801537"
+   d="scan'208";a="3809981"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Feb 2024 05:12:58 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 16 Feb 2024 05:44:51 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ray1N-0001IA-17;
-	Fri, 16 Feb 2024 13:12:54 +0000
-Date: Fri, 16 Feb 2024 21:12:06 +0800
+	id 1rayWG-0001JE-0f;
+	Fri, 16 Feb 2024 13:44:48 +0000
+Date: Fri, 16 Feb 2024 21:43:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Subject: Re: [PATCH v5 2/3] drm/stm: lvds: add new STM32 LVDS Display
- Interface Transmitter driver
-Message-ID: <202402162038.HP7VzIHX-lkp@intel.com>
-References: <20240206-lvds-v5-2-bd16797b0f09@foss.st.com>
+To: Ben Cheatham <Benjamin.Cheatham@amd.com>, dan.j.williams@intel.com,
+	jonathan.cameron@huawei.com, rafael@kernel.org, james.morse@arm.com,
+	tony.luck@intel.com, bp@alien8.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, dave@stogolabs.net,
+	dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com,
+	linux-cxl@vger.kernel.org, linux-acpi@vger.kernel.org,
+	benjamin.cheatham@amd.com
+Subject: Re: [PATCH v12 1/3] EINJ: Migrate to a platform driver
+Message-ID: <202402162148.vGukSly8-lkp@intel.com>
+References: <20240214200709.777166-2-Benjamin.Cheatham@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,70 +64,215 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240206-lvds-v5-2-bd16797b0f09@foss.st.com>
+In-Reply-To: <20240214200709.777166-2-Benjamin.Cheatham@amd.com>
 
-Hi Raphael,
+Hi Ben,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bb3bc3eac316b7c388733e625cc2343131b69dee]
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on linus/master rafael-pm/acpi-bus v6.8-rc4 next-20240216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raphael-Gallais-Pou/dt-bindings-display-add-STM32-LVDS-device/20240206-194740
-base:   bb3bc3eac316b7c388733e625cc2343131b69dee
-patch link:    https://lore.kernel.org/r/20240206-lvds-v5-2-bd16797b0f09%40foss.st.com
-patch subject: [PATCH v5 2/3] drm/stm: lvds: add new STM32 LVDS Display Interface Transmitter driver
-config: arm-randconfig-r132-20240214 (https://download.01.org/0day-ci/archive/20240216/202402162038.HP7VzIHX-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20240216/202402162038.HP7VzIHX-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Cheatham/EINJ-Migrate-to-a-platform-driver/20240215-041027
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20240214200709.777166-2-Benjamin.Cheatham%40amd.com
+patch subject: [PATCH v12 1/3] EINJ: Migrate to a platform driver
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240216/202402162148.vGukSly8-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240216/202402162148.vGukSly8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402162038.HP7VzIHX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402162148.vGukSly8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/stm/lvds.c:318:17: sparse: sparse: symbol 'lvds_bitmap_jeida_rgb888' was not declared. Should it be static?
->> drivers/gpu/drm/stm/lvds.c:335:17: sparse: sparse: symbol 'lvds_bitmap_vesa_rgb888' was not declared. Should it be static?
-   drivers/gpu/drm/stm/lvds.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/stackdepot.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/lvds_bitmap_jeida_rgb888 +318 drivers/gpu/drm/stm/lvds.c
-
-   308	
-   309	/*
-   310	 * Expected JEIDA-RGB888 data to be sent in LSB format
-   311	 *	    bit6 ............................bit0
-   312	 * CHAN0   {ONE, ONE, ZERO, ZERO, ZERO, ONE, ONE}
-   313	 * CHAN1   {G2,  R7,  R6,   R5,   R4,   R3,  R2}
-   314	 * CHAN2   {B3,  B2,  G7,   G6,   G5,   G4,  G3}
-   315	 * CHAN3   {DE,  VS,  HS,   B7,   B6,   B5,  B4}
-   316	 * CHAN4   {CE,  B1,  B0,   G1,   G0,   R1,  R0}
-   317	 */
- > 318	enum lvds_pixel lvds_bitmap_jeida_rgb888[5][7] = {
-   319		{ PIX_ONE, PIX_ONE, PIX_ZER, PIX_ZER, PIX_ZER, PIX_ONE, PIX_ONE },
-   320		{ PIX_G_2, PIX_R_7, PIX_R_6, PIX_R_5, PIX_R_4, PIX_R_3, PIX_R_2 },
-   321		{ PIX_B_3, PIX_B_2, PIX_G_7, PIX_G_6, PIX_G_5, PIX_G_4, PIX_G_3 },
-   322		{ PIX_D_E, PIX_V_S, PIX_H_S, PIX_B_7, PIX_B_6, PIX_B_5, PIX_B_4 },
-   323		{ PIX_C_E, PIX_B_1, PIX_B_0, PIX_G_1, PIX_G_0, PIX_R_1, PIX_R_0 }
-   324	};
-   325	
-   326	/*
-   327	 * Expected VESA-RGB888 data to be sent in LSB format
-   328	 *	    bit6 ............................bit0
-   329	 * CHAN0   {ONE, ONE, ZERO, ZERO, ZERO, ONE, ONE}
-   330	 * CHAN1   {G0,  R5,  R4,   R3,   R2,   R1,  R0}
-   331	 * CHAN2   {B1,  B0,  G5,   G4,   G3,   G2,  G1}
-   332	 * CHAN3   {DE,  VS,  HS,   B5,   B4,   B3,  B2}
-   333	 * CHAN4   {CE,  B7,  B6,   G7,   G6,   R7,  R6}
-   334	 */
- > 335	enum lvds_pixel lvds_bitmap_vesa_rgb888[5][7] = {
-   336		{ PIX_ONE, PIX_ONE, PIX_ZER, PIX_ZER, PIX_ZER, PIX_ONE, PIX_ONE },
-   337		{ PIX_G_0, PIX_R_5, PIX_R_4, PIX_R_3, PIX_R_2, PIX_R_1, PIX_R_0 },
-   338		{ PIX_B_1, PIX_B_0, PIX_G_5, PIX_G_4, PIX_G_3, PIX_G_2, PIX_G_1 },
-   339		{ PIX_D_E, PIX_V_S, PIX_H_S, PIX_B_5, PIX_B_4, PIX_B_3, PIX_B_2 },
-   340		{ PIX_C_E, PIX_B_7, PIX_B_6, PIX_G_7, PIX_G_6, PIX_R_7, PIX_R_6 }
-   341	};
-   342	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/events/intel/intel-uncore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/events/intel/intel-cstate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/events/rapl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kernel/cpu/mce/mce-inject.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/crypto/crc32-pclmul.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kvm/kvm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kvm/kvm-intel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kvm/kvm-amd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/hwpoison-inject.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp855.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp864.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp874.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp932.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_euc-jp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1250.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1251.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-3.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-7.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-inuit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/isofs/isofs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in block/t10-pi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_kmp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_bm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_fsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/pci-pf-stub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+>> WARNING: modpost: drivers/acpi/apei/einj: section mismatch in reference: einj_driver+0x10 (section: .data) -> einj_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/acpi_tad.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/platform_profile.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/nfit/nfit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ioat/ioatdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/xen/xen-evtchn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/xen/xen-privcmd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_gsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/tlclk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/i915/kvmgt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/brd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/null_blk/null_blk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/hmem/dax_hmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/kmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/isci/isci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/asus_atk0110.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/intel_soc_dts_iosf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_rapl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_rfim.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_mbox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_wt_req.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_wt_hint.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_power_floor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-chicony.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gyration.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-dj.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tmff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/intel-ish-hid/intel-ishtp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-vbtn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-rst.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/amilo-rfkill.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/classmate-laptop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_e820.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
 
 -- 
 0-DAY CI Kernel Test Service
