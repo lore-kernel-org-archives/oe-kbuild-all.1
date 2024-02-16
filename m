@@ -1,72 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0267145FE6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 21:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1511F1482FC;
+	Fri, 16 Feb 2024 22:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708118345; cv=none; b=THKJX+sYfkiXwcYToiv870579OVW3hZ+j2BCXyQ/3VXTbb1bRsNI1YnrZzLekryJSgRuBKO/Yj+1dUCcCkr2S+cmyQuuvm25fWtOBg6jinefEMS3pGKDu7O1g2vn2dEgllbkqVyzZcJtVC091y/TbpSnaX9Z6fgO6qWBQNFlrFQ=
+	t=1708120820; cv=none; b=q4LD9//RmbakGrkSH01IrMMV7QSZF+lEqR02Ljn30ShaF+aF9frmegfCT/FZK7jcxiW6nnWWnuKeeONR5jMvYcS6G+Xu5Wp4nMNR4FS0kthMTiRLzrpOrO+MfYr+dl/xxarWB6z4q3FPUJYTDHc8TVY2/+Afwj/1gGlcJwru8s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708118345; c=relaxed/simple;
-	bh=Wew+CW4tKdINP5Tg/pRZDgVR1S7k1tpLboeBWPBTKIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=shJr8hF6To7MfkioRhPNQw6rQX5SJfuGiApx/DyDCQv+UlfnXs39aiCoQFEuoLafs5IbPKBaZqNXSyumkts7aSegvSSptGDAddaTGiaQVt8KXrnYx6kumNM5Irk2CIN/VepJu/f+oDhHuqKMTr//ZrcLEvxGzid8qQ8tMmvDV0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dwnhhII5; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1708120820; c=relaxed/simple;
+	bh=J4IIxXtt+OgzD7+kQFH3KhUlKL9XxEev1TjRoQUA3zE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FeN5tjmyiTHJmNaaSiSR9V3qp99bUjXSrUMXZKPM2MmgZ/fOt1PppJRXscef15fYlixGLTgYTM1BVimDTEaPZgDRqRLu9JrWvRjMC+uztq/6zXOq8kIn66JdPrdI+q8pT/oFsvkq5dArGxOxywIqnjw+BC3Nk/PlZ2ezY7at68Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=midR6Xkd; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dwnhhII5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="midR6Xkd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708118344; x=1739654344;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Wew+CW4tKdINP5Tg/pRZDgVR1S7k1tpLboeBWPBTKIE=;
-  b=dwnhhII5MEBCt0/s8cIOsPXAP+pSPlGGqs4704Y3hPh+5MxzRLzTM84U
-   1NmqTAl693Wq33Ywv3r5MX1f4Lz/KtieurHMwuxhRxtuPfR9AZcLt4WT6
-   LShmU+5iChCjpTnvt0Ic6SqqFddCcmFmoWf6B/NJs2iG741UATt7fRCpN
-   3EfYAp5bKjchy+locPJHIb3Ci8dLL++cQGCj06MpfHXNnpuHwAZMkZX8g
-   OKAMj5Fnwf3GZRSUrbuWxJ25Qmp4ChsQi+GdqEH34Nib/VvuAHpRUJQko
-   saMkV90Prjo/GP2t/vqWe++mCp9HCnEqwSqAacENmil0fPlZlX/yBmnnw
+  t=1708120818; x=1739656818;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J4IIxXtt+OgzD7+kQFH3KhUlKL9XxEev1TjRoQUA3zE=;
+  b=midR6Xkd23C6bJjHPDlyjVEfX4+Jf2l9Em3AcM3KfvYqL6p5fM5JdkPx
+   CNKIw4MEr5zJAXliugWHz13N+d9mih/AAmWzA+wnEco+C7OODi9HzMUwA
+   BL9ZsYKkSJiANWRrzgFVkJWgL4pDoBQ5I6h3QMEhr5JQ/aF7aLoZ5h2i3
+   usiOJf58GucJH7anc/H3SHghLTQBLvq6DMExM3dhPjDcoYYvx1E2YUPAL
+   gIRP6P718BJCNWMabctZt04RpNRBrDBkQS4qLks7C28TGHaLG9s3tLL+k
+   kxR8wbIfpoY+Ek5Tf6Egn14XUoP+PCVv9u0RCpw779Uy8ZrjnSag+KYi9
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="2377623"
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="2124867"
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="2377623"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 13:19:04 -0800
+   d="scan'208";a="2124867"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 14:00:17 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="3996861"
+   d="scan'208";a="4334016"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 16 Feb 2024 13:18:58 -0800
+  by orviesa008.jf.intel.com with ESMTP; 16 Feb 2024 14:00:14 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rb5bj-0001cC-1f;
-	Fri, 16 Feb 2024 21:18:55 +0000
-Date: Sat, 17 Feb 2024 05:18:06 +0800
+	id 1rb6Fc-0001du-1L;
+	Fri, 16 Feb 2024 22:00:11 +0000
+Date: Sat, 17 Feb 2024 05:59:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
-	linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Melissa Wen <mwen@igalia.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-Message-ID: <202402170543.qd0JRj6h-lkp@intel.com>
-References: <20240214215756.6530-2-mario.limonciello@amd.com>
+To: Shiji Yang <yangshiji66@outlook.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Kalle Valo <kvalo@kernel.org>
+Subject: drivers/net/wireless/ralink/rt2x00/rt2800lib.c:10349:13: error:
+ stack frame size (2200) exceeds limit (2048) in 'rt2800_calibration_rt6352'
+Message-ID: <202402170517.CsuVrcjo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,132 +58,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
 
-Hi Mario,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
-patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_SH_MOBILE_LCDC-0-0 (https://download.01.org/0day-ci/archive/20240217/202402170543.qd0JRj6h-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240217/202402170543.qd0JRj6h-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   683b783c2093e0172738f899ba188bc406b0595f
+commit: cca74bed37af1c8217bcd8282d9b384efdbf73bd wifi: rt2x00: rework MT7620 PA/LNA RF calibration
+date:   4 months ago
+config: x86_64-sof-customedconfig-memory-debug-defconfig (https://download.01.org/0day-ci/archive/20240217/202402170517.CsuVrcjo-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402170517.CsuVrcjo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402170543.qd0JRj6h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402170517.CsuVrcjo-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_SH_MOBILE_LCDC
-   .config:92:warning: symbol value 'n' invalid for AIC7XXX_DEBUG_MASK
-   .config:218:warning: symbol value 'n' invalid for RAPIDIO_DISC_TIMEOUT
-   .config:242:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:259:warning: symbol value 'n' invalid for FAT_DEFAULT_CODEPAGE
-   .config:339:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:341:warning: symbol value 'n' invalid for PANEL_PROFILE
-   .config:352:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:432:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:610:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:616:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:717:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:755:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:784:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:805:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:807:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:825:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:864:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:886:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:894:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:896:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:988:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
-   .config:1124:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1150:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1237:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1303:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:1396:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1533:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1723:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1759:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:1805:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:1981:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2132:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2232:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2278:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2512:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2520:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2599:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2785:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2883:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:2884:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2894:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:2908:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:2924:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
-   .config:2931:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:3032:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3059:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3068:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3282:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3397:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3400:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
-   .config:3410:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
-   .config:3443:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3560:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3580:warning: symbol value 'n' invalid for SCSI_MESH_RESET_DELAY_MS
-   .config:3610:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3668:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:3680:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3693:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:3752:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
-   .config:3932:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:4071:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4138:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4250:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4394:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4425:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:4508:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:4550:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4931:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:5013:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5035:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5172:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:5188:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5279:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5297:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5359:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:5361:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5550:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5576:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:5583:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5677:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5683:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5706:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:6004:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6113:warning: symbol value 'n' invalid for SND_MAX_CARDS
-   .config:6170:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6171:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6246:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:6545:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6684:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:6702:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:6725:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:6734:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:6747:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:6873:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
-   .config:7082:warning: symbol value 'n' invalid for LOCKDEP_BITS
-   .config:7112:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7150:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:7153:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
-   .config:7244:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
-   .config:7262:warning: symbol value 'n' invalid for RIONET_TX_SIZE
+All errors (new ones prefixed by >>):
+
+   drivers/net/wireless/ralink/rt2x00/rt2800lib.c:4108:13: error: stack frame size (5496) exceeds limit (2048) in 'rt2800_config_channel' [-Werror,-Wframe-larger-than]
+    4108 | static void rt2800_config_channel(struct rt2x00_dev *rt2x00dev,
+         |             ^
+   drivers/net/wireless/ralink/rt2x00/rt2800lib.c:7194:13: error: stack frame size (4760) exceeds limit (2048) in 'rt2800_init_bbp' [-Werror,-Wframe-larger-than]
+    7194 | static void rt2800_init_bbp(struct rt2x00_dev *rt2x00dev)
+         |             ^
+   drivers/net/wireless/ralink/rt2x00/rt2800lib.c:10693:13: error: stack frame size (8504) exceeds limit (2048) in 'rt2800_init_rfcsr' [-Werror,-Wframe-larger-than]
+    10693 | static void rt2800_init_rfcsr(struct rt2x00_dev *rt2x00dev)
+          |             ^
+   drivers/net/wireless/ralink/rt2x00/rt2800lib.c:3432:13: error: stack frame size (2264) exceeds limit (2048) in 'rt2800_config_channel_rf55xx' [-Werror,-Wframe-larger-than]
+    3432 | static void rt2800_config_channel_rf55xx(struct rt2x00_dev *rt2x00dev,
+         |             ^
+   drivers/net/wireless/ralink/rt2x00/rt2800lib.c:10425:13: error: stack frame size (6840) exceeds limit (2048) in 'rt2800_init_rfcsr_6352' [-Werror,-Wframe-larger-than]
+    10425 | static void rt2800_init_rfcsr_6352(struct rt2x00_dev *rt2x00dev)
+          |             ^
+>> drivers/net/wireless/ralink/rt2x00/rt2800lib.c:10349:13: error: stack frame size (2200) exceeds limit (2048) in 'rt2800_calibration_rt6352' [-Werror,-Wframe-larger-than]
+    10349 | static void rt2800_calibration_rt6352(struct rt2x00_dev *rt2x00dev)
+          |             ^
+   drivers/net/wireless/ralink/rt2x00/rt2800lib.c:9527:13: error: stack frame size (2648) exceeds limit (2048) in 'rt2800_loft_iq_calibration' [-Werror,-Wframe-larger-than]
+    9527 | static void rt2800_loft_iq_calibration(struct rt2x00_dev *rt2x00dev)
+         |             ^
+   7 errors generated.
+
+
+vim +/rt2800_calibration_rt6352 +10349 drivers/net/wireless/ralink/rt2x00/rt2800lib.c
+
+ 10348	
+ 10349	static void rt2800_calibration_rt6352(struct rt2x00_dev *rt2x00dev)
+ 10350	{
+ 10351		u32 reg;
+ 10352	
+ 10353		if (rt2x00_has_cap_external_pa(rt2x00dev) ||
+ 10354		    rt2x00_has_cap_external_lna_bg(rt2x00dev))
+ 10355			rt2800_restore_rf_bbp_rt6352(rt2x00dev);
+ 10356	
+ 10357		rt2800_r_calibration(rt2x00dev);
+ 10358		rt2800_rf_self_txdc_cal(rt2x00dev);
+ 10359		rt2800_rxdcoc_calibration(rt2x00dev);
+ 10360		rt2800_bw_filter_calibration(rt2x00dev, true);
+ 10361		rt2800_bw_filter_calibration(rt2x00dev, false);
+ 10362		rt2800_loft_iq_calibration(rt2x00dev);
+ 10363	
+ 10364		/* missing DPD calibration for internal PA devices */
+ 10365	
+ 10366		rt2800_rxdcoc_calibration(rt2x00dev);
+ 10367		rt2800_rxiq_calibration(rt2x00dev);
+ 10368	
+ 10369		if (!rt2x00_has_cap_external_pa(rt2x00dev) &&
+ 10370		    !rt2x00_has_cap_external_lna_bg(rt2x00dev))
+ 10371			return;
+ 10372	
+ 10373		if (rt2x00_has_cap_external_pa(rt2x00dev)) {
+ 10374			reg = rt2800_register_read(rt2x00dev, RF_CONTROL3);
+ 10375			reg |= 0x00000101;
+ 10376			rt2800_register_write(rt2x00dev, RF_CONTROL3, reg);
+ 10377	
+ 10378			reg = rt2800_register_read(rt2x00dev, RF_BYPASS3);
+ 10379			reg |= 0x00000101;
+ 10380			rt2800_register_write(rt2x00dev, RF_BYPASS3, reg);
+ 10381		}
+ 10382	
+ 10383		if (rt2x00_has_cap_external_lna_bg(rt2x00dev)) {
+ 10384			rt2800_rfcsr_write_chanreg(rt2x00dev, 14, 0x66);
+ 10385			rt2800_rfcsr_write_chanreg(rt2x00dev, 17, 0x20);
+ 10386			rt2800_rfcsr_write_chanreg(rt2x00dev, 18, 0x42);
+ 10387		}
+ 10388	
+ 10389		if (rt2x00_has_cap_external_pa(rt2x00dev)) {
+ 10390			rt2800_rfcsr_write_chanreg(rt2x00dev, 43, 0x73);
+ 10391			rt2800_rfcsr_write_chanreg(rt2x00dev, 44, 0x73);
+ 10392			rt2800_rfcsr_write_chanreg(rt2x00dev, 45, 0x73);
+ 10393			rt2800_rfcsr_write_chanreg(rt2x00dev, 46, 0x27);
+ 10394			rt2800_rfcsr_write_chanreg(rt2x00dev, 47, 0xc8);
+ 10395			rt2800_rfcsr_write_chanreg(rt2x00dev, 48, 0xa4);
+ 10396			rt2800_rfcsr_write_chanreg(rt2x00dev, 49, 0x05);
+ 10397			rt2800_rfcsr_write_chanreg(rt2x00dev, 54, 0x27);
+ 10398			rt2800_rfcsr_write_chanreg(rt2x00dev, 55, 0xc8);
+ 10399			rt2800_rfcsr_write_chanreg(rt2x00dev, 56, 0xa4);
+ 10400			rt2800_rfcsr_write_chanreg(rt2x00dev, 57, 0x05);
+ 10401			rt2800_rfcsr_write_chanreg(rt2x00dev, 58, 0x27);
+ 10402			rt2800_rfcsr_write_chanreg(rt2x00dev, 59, 0xc8);
+ 10403			rt2800_rfcsr_write_chanreg(rt2x00dev, 60, 0xa4);
+ 10404			rt2800_rfcsr_write_chanreg(rt2x00dev, 61, 0x05);
+ 10405		}
+ 10406	
+ 10407		if (rt2x00_has_cap_external_pa(rt2x00dev))
+ 10408			rt2800_rfcsr_write_dccal(rt2x00dev, 05, 0x00);
+ 10409	
+ 10410		if (rt2x00_has_cap_external_lna_bg(rt2x00dev)) {
+ 10411			rt2800_bbp_write(rt2x00dev, 75, 0x68);
+ 10412			rt2800_bbp_write(rt2x00dev, 76, 0x4c);
+ 10413			rt2800_bbp_write(rt2x00dev, 79, 0x1c);
+ 10414			rt2800_bbp_write(rt2x00dev, 80, 0x0c);
+ 10415			rt2800_bbp_write(rt2x00dev, 82, 0xb6);
+ 10416		}
+ 10417	
+ 10418		if (rt2x00_has_cap_external_pa(rt2x00dev)) {
+ 10419			rt2800_register_write(rt2x00dev, TX0_RF_GAIN_CORRECT, 0x36303636);
+ 10420			rt2800_register_write(rt2x00dev, TX0_RF_GAIN_ATTEN, 0x6c6c6b6c);
+ 10421			rt2800_register_write(rt2x00dev, TX1_RF_GAIN_ATTEN, 0x6c6c6b6c);
+ 10422		}
+ 10423	}
+ 10424	
 
 -- 
 0-DAY CI Kernel Test Service
