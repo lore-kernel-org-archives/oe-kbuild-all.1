@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAA91350C9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 18:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A2B182AE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 21:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708107916; cv=none; b=YYbmNUcei3n9wOn8HC45Sm+hwQTtRVAQi5KmC2S/I2DihCvgkJcYz80jMRw23NaWL1Es7lkNRdtK+S91d+/V+J9wjqgnoka3/vXa0dmL3fb4wO5tB9CIuk4z+XTWzPo90LOPWoJjdtpts53r1IwoyOtGLDLvDeUodqhEziQMA5E=
+	t=1708117682; cv=none; b=Pb+mq2emlRRecB7dFIUjm4RO9HWWuqN5o6zoCKVIRJ6n5f+mIVdBGyS+5CfCy3amETMZhuMb2QLy4ldAO90kBr7dmvjE2FaEp0hqej1Z84OaogC3+nqawRKnr3FwnFXuSEfTvGDDiQm4dXgUizBOO6YLqfOv/+tAZCWNup7H2ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708107916; c=relaxed/simple;
-	bh=DOxnNP69L+uOYhHE7iO0B5EICXQp5z0lcE9Ulq5UR+A=;
+	s=arc-20240116; t=1708117682; c=relaxed/simple;
+	bh=4ez7D6iFJ7DLibVq7aKdkhtpDWkXwFrfCRiGPbgR1lE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZpF2aCJNzDrzXNaKHMPLIZpKS9alX6ub7q5UgzFH6BF2v7XVppgul5GqTsUChXs6Xf5eSEuMWoU8n5o4Qvihcdj7vU2KTBWP0W4MAe9nh5JZ333AJEwJ696O7PjTv4MhM7b/9CBP3/8c7KuxFb9B7fBniw1B8yazCUKYAKnyyUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KSuZsAhf; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=JVK3L3vmhyQs7NnPreQhuq5KLpt7SR5+ghhF/Au18rofDKty97ihKfQl2ieMnRz7+3KzL0oE5Wo9dDQkbNNNIPFbuJg1RChAa9vR10Ug82QUAFvBBJorh1QXdJRGwkdPHNMIPiBLANWWVOdPPIVW5pQgnSalWJ9jf2Dn8YApzqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cXNIJWgv; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KSuZsAhf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXNIJWgv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708107913; x=1739643913;
+  t=1708117680; x=1739653680;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DOxnNP69L+uOYhHE7iO0B5EICXQp5z0lcE9Ulq5UR+A=;
-  b=KSuZsAhfINYjThu3PE49CSHroNHNlJJlcGJL8mtJ+9lyQufv+2AkrYt6
-   1oqe/+51SkznnnJdTq4++ROsuz+5tFmb5Z99woXpjDXdAE1ocZkah99Fd
-   5cwdJnNad4Yk9coVnECDtKHGWQQILxjA36LgxQAtd6P1gNpskG8WXRwdt
-   xIpdM7EArn9ipHgKJF9eC8P+YEw2BIDMDX7cVNpNZ07E47rr2thQNefc0
-   lpCUIcMH/O0E+WjG6xAlC3N1eGJXM9WCchQnEfrPiKpS7GZ6E7eq0Diu4
-   Y65fUzRXNll9Q/XZtUIZgJTTjy7Hx9Y8Ou0B5Tn9eQFcxV/5xhv3PGB9C
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="2118090"
+  bh=4ez7D6iFJ7DLibVq7aKdkhtpDWkXwFrfCRiGPbgR1lE=;
+  b=cXNIJWgvbBs1JM+yZXMqMyAuYcBPBkPYx/DoNPr6OcSL3Kvfo39t9AYZ
+   F9JQQFtmZPvGr6+uDD+LOGT1Z4VXUbc1oRIU0tAaS4qMbY1U5CGqUS9kK
+   haTY8EirY6RhiOL5YaOvjDbpmwdezKW/nEvapRmxe8cCXNGnd5ylrBOPs
+   rKVQWGBzFsDpO4toHPpKrXEjq88ugGiPRdE+MzHkqfQ3BqQEJ+hdgD9qi
+   8nfpgMU/Wp4N454CP6+6nJX1hkdUTx6ztnaSuu9av96mtIYmqydcqu34S
+   yw03lBxUb9QUyyadYP1H8RYCwUUypTNjBl04lg9mQAWggAOHGF+Z0n+wm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="13365224"
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="2118090"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 10:25:13 -0800
+   d="scan'208";a="13365224"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 13:07:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="912402291"
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="912402291"
+   d="scan'208";a="8614361"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 16 Feb 2024 10:25:11 -0800
+  by orviesa005.jf.intel.com with ESMTP; 16 Feb 2024 13:07:58 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rb2tZ-0001Xk-0v;
-	Fri, 16 Feb 2024 18:25:09 +0000
-Date: Sat, 17 Feb 2024 02:24:41 +0800
+	id 1rb5R5-0001c0-1I;
+	Fri, 16 Feb 2024 21:07:55 +0000
+Date: Sat, 17 Feb 2024 05:07:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/powerpc/include/asm/cmpxchg.h:241:47: sparse: sparse: cast
- truncates bits from constant value (8000000000000000 becomes 0)
-Message-ID: <202402170208.0xYZculA-lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tj-wq:disable_work-v1 49/58] kernel/workqueue.c:2179: warning:
+ Function parameter or struct member 'irq_flags' not described in
+ 'work_grab_pending'
+Message-ID: <202402170556.urV1F4Ou-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,64 +59,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0f1dd5e91e2ba3990143645faff2bcce2d99778e
-commit: 453924de6212ac159f946b75c6b59918e2e30944 afs: Overhaul invalidation handling to better support RO volumes
-date:   7 weeks ago
-config: powerpc64-randconfig-r111-20240216 (https://download.01.org/0day-ci/archive/20240217/202402170208.0xYZculA-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240217/202402170208.0xYZculA-lkp@intel.com/reproduce)
+Hi Tejun,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git disable_work-v1
+head:   87c101f9516935a88f4c3f01c743d206bfb3bf65
+commit: 8f991cee12e0fcd53fee55d3c9d2746d5ef9f4a1 [49/58] workqueue: Factor out work_grab_pending() from __cancel_work_sync()
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240217/202402170556.urV1F4Ou-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402170556.urV1F4Ou-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402170208.0xYZculA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402170556.urV1F4Ou-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/afs/callback.c: note: in included file (through arch/powerpc/include/asm/pgtable-be-types.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/mmu.h, ...):
->> arch/powerpc/include/asm/cmpxchg.h:241:47: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   arch/powerpc/include/asm/cmpxchg.h:243:48: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   fs/afs/callback.c:146:22: sparse: sparse: context imbalance in 'afs_lookup_volume_rcu' - different lock contexts for basic block
---
-   fs/afs/rotate.c: note: in included file (through arch/powerpc/include/asm/pgtable-be-types.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/mmu.h, ...):
->> arch/powerpc/include/asm/cmpxchg.h:241:47: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   arch/powerpc/include/asm/cmpxchg.h:243:48: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   fs/afs/rotate.c:655:42: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +241 arch/powerpc/include/asm/cmpxchg.h
+>> kernel/workqueue.c:2179: warning: Function parameter or struct member 'irq_flags' not described in 'work_grab_pending'
 
-ae3a197e3d0bfe David Howells 2012-03-28  235  
-ae3a197e3d0bfe David Howells 2012-03-28  236  static __always_inline unsigned long
-26760fc19a7e66 Boqun Feng    2015-12-15  237  __xchg_relaxed(void *ptr, unsigned long x, unsigned int size)
-ae3a197e3d0bfe David Howells 2012-03-28  238  {
-ae3a197e3d0bfe David Howells 2012-03-28  239  	switch (size) {
-d0563a1297e234 Pan Xinhui    2016-04-27  240  	case 1:
-d0563a1297e234 Pan Xinhui    2016-04-27 @241  		return __xchg_u8_relaxed(ptr, x);
-d0563a1297e234 Pan Xinhui    2016-04-27  242  	case 2:
-d0563a1297e234 Pan Xinhui    2016-04-27  243  		return __xchg_u16_relaxed(ptr, x);
-ae3a197e3d0bfe David Howells 2012-03-28  244  	case 4:
-26760fc19a7e66 Boqun Feng    2015-12-15  245  		return __xchg_u32_relaxed(ptr, x);
-ae3a197e3d0bfe David Howells 2012-03-28  246  #ifdef CONFIG_PPC64
-ae3a197e3d0bfe David Howells 2012-03-28  247  	case 8:
-26760fc19a7e66 Boqun Feng    2015-12-15  248  		return __xchg_u64_relaxed(ptr, x);
-ae3a197e3d0bfe David Howells 2012-03-28  249  #endif
-ae3a197e3d0bfe David Howells 2012-03-28  250  	}
-068550631fbe0b Andrzej Hajda 2023-01-18  251  	BUILD_BUG_ON_MSG(1, "Unsupported size for __xchg_relaxed");
-ae3a197e3d0bfe David Howells 2012-03-28  252  	return x;
-ae3a197e3d0bfe David Howells 2012-03-28  253  }
-9eaa82935dccb7 Mark Rutland  2021-05-25  254  #define arch_xchg_local(ptr,x)						     \
-ae3a197e3d0bfe David Howells 2012-03-28  255    ({									     \
-ae3a197e3d0bfe David Howells 2012-03-28  256       __typeof__(*(ptr)) _x_ = (x);					     \
-26760fc19a7e66 Boqun Feng    2015-12-15  257       (__typeof__(*(ptr))) __xchg_local((ptr),				     \
-26760fc19a7e66 Boqun Feng    2015-12-15  258       		(unsigned long)_x_, sizeof(*(ptr))); 			     \
-ae3a197e3d0bfe David Howells 2012-03-28  259    })
-ae3a197e3d0bfe David Howells 2012-03-28  260  
 
-:::::: The code at line 241 was first introduced by commit
-:::::: d0563a1297e234ed37f6b51c2e9321accebd1839 powerpc: Implement {cmp}xchg for u8 and u16
+vim +2179 kernel/workqueue.c
 
-:::::: TO: Pan Xinhui <xinhui.pan@linux.vnet.ibm.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+  2163	
+  2164	/**
+  2165	 * work_grab_pending - steal work item from worklist and disable irq
+  2166	 * @work: work item to steal
+  2167	 * @cflags: %WORK_CANCEL_ flags
+  2168	 *
+  2169	 * Grab PENDING bit of @work. @work can be in any stable state - idle, on timer
+  2170	 * or on worklist.
+  2171	 *
+  2172	 * Must be called in process context. IRQ is disabled on return. The caller is
+  2173	 * responsible for re-enabling it using local_irq_enable().
+  2174	 *
+  2175	 * Returns %true if @work was pending. %false if idle.
+  2176	 */
+  2177	static bool work_grab_pending(struct work_struct *work, u32 cflags,
+  2178				      unsigned long *irq_flags)
+> 2179	{
+  2180		struct cwt_wait cwait;
+  2181		int ret;
+  2182	
+  2183		might_sleep();
+  2184	repeat:
+  2185		ret = try_to_grab_pending(work, cflags, irq_flags);
+  2186		if (likely(ret >= 0))
+  2187			return ret;
+  2188		if (ret != -ENOENT)
+  2189			goto repeat;
+  2190	
+  2191		/*
+  2192		 * Someone is already canceling. Wait for it to finish. flush_work()
+  2193		 * doesn't work for PREEMPT_NONE because we may get woken up between
+  2194		 * @work's completion and the other canceling task resuming and clearing
+  2195		 * CANCELING - flush_work() will return false immediately as @work is no
+  2196		 * longer busy, try_to_grab_pending() will return -ENOENT as @work is
+  2197		 * still being canceled and the other canceling task won't be able to
+  2198		 * clear CANCELING as we're hogging the CPU.
+  2199		 *
+  2200		 * Let's wait for completion using a waitqueue. As this may lead to the
+  2201		 * thundering herd problem, use a custom wake function which matches
+  2202		 * @work along with exclusive wait and wakeup.
+  2203		 */
+  2204		init_wait(&cwait.wait);
+  2205		cwait.wait.func = cwt_wakefn;
+  2206		cwait.work = work;
+  2207	
+  2208		prepare_to_wait_exclusive(&wq_cancel_waitq, &cwait.wait,
+  2209					  TASK_UNINTERRUPTIBLE);
+  2210		if (work_is_canceling(work))
+  2211			schedule();
+  2212		finish_wait(&wq_cancel_waitq, &cwait.wait);
+  2213	
+  2214		goto repeat;
+  2215	}
+  2216	
 
 -- 
 0-DAY CI Kernel Test Service
