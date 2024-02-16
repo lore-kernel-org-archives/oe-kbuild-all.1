@@ -1,55 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7670912FF8E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 15:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC991133422
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 17:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708097355; cv=none; b=pUE1NVcqTmA5iBCgGd0YKfLjby34h1LZc6F3Cn1WrgUDbnp6ZEAkNg0mg8AcEGoeIrB8DvMJc4HLUpHaMtVFfi24kFXjQVhp8AHX2gxSuIiD5U+RbPcJSJ8kQPwWwXmQ0hKlnqhpZ/uQ6dI3LeIE/sPFCzgACOO7eDTs521N9jI=
+	t=1708103554; cv=none; b=SYOiR6NHZf2Jay2d8kqe/Ku/4UaeP1P2hnS2muxLzPwi93qoy80kjvc9NlHQeHI9l+H4YosTM1yYTEGh6DHqqYnHNh7+1sYH5mAgKA734e1YNvKyblIlAL3ryil+0o1puqRfBREvnqk+h69V+mzhx6l8BOuKy6RnCjcyPnJZVPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708097355; c=relaxed/simple;
-	bh=cDGnAIznmV7dXCT/TkyBGmvmN4LxQXTrGN0kjdhTaG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qsbfGzCF8IG5gLstEAt0gvfMgMr+UmAAolYMDh75HPi9eaNE0pL0TQcNkQv1g2wmcwWWmcH4v96GM09tpJGQcgDVXAfSwltLNmI+GdQT5KVz+10JWbVSJDwbIm5VFtzqh6dTnt5zgngdQn4wml2xyionVmIyOUJdeCGJI4TmnGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PTcWEsAq; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1708103554; c=relaxed/simple;
+	bh=K6UtEVBR6uRkR+4SVn/AX4Wfv7U6gUrkLF6U4slDXBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TOAqmxTylrhqkvKvtwlBfkeNst0m6BeFVfmGUGy7VUI/O6dzPi9m8D2qnK6SwsT9del9/iLiH/iCbY5FttUFiiFohTv+Cn7XKnDSSlwywdTOYm5VSYo6B1Gy8AKF/Xf0cFE4dfuqRycVR2n5nIeM/XZwc4SEK4IqlH8/Rg0rifw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NUXSu/1N; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PTcWEsAq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NUXSu/1N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708097353; x=1739633353;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cDGnAIznmV7dXCT/TkyBGmvmN4LxQXTrGN0kjdhTaG4=;
-  b=PTcWEsAqEDJCiNJSKyY/I3XDsP2kJaOMa4jaaTgiK5QFmS+NvkwmXcN6
-   re54GfT86e/4tlRqKaRvQnyfAoYt6iZbFQ1IdsqihLYPYwvYNSSx1s7eo
-   6ZpjWlShH/Feweg8/khGqJBcVshHmUwcTS66BQu+nnsi3m/PSWAT7SYDO
-   YQOzi1z6X4QKUi2UcSlFe3B3+b5+X+puVUXCCJbl3P79pFQTqtSrvtBU1
-   8e8tbPpP9dEjwKbnYW3PDulokKB5FEYjp6mkGqLmXNsTrEZiDKOj7nScN
-   MmAsKJTgUJUs/Xvm38FFWR132YF4xa63DOi9sUny3cGs1jS1Nx5eOu/G2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="2094541"
+  t=1708103553; x=1739639553;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K6UtEVBR6uRkR+4SVn/AX4Wfv7U6gUrkLF6U4slDXBs=;
+  b=NUXSu/1N/vW1KLvReHYoLqbUVRPc/GPoh1Ko91S2lys0Hz0B/g37d9Iy
+   JfcPkDToj9yM3YwobGg7nurFNLuDB+0IZJVouq6g+YpE3L3YZtYjtLVIF
+   fGOqgIPB/LxANv4YnacYTvnUk+vOETZotMg+tjC8Y4OUxSmqynPHe9zul
+   nJ3KdM5Hrb7mJVzTrGfGE4ZTdVyfnbcrxNcIdFShg11VHFwb4G1TCVPtT
+   EoDBN2LLJ6SrGtLBk44N836+8vPOO8Mk0qKeA91goNhkPGYpXUZicNOpF
+   LSRxlvrKHu5/gq8w8myWKHl0inaon3CTGtzWFTGjt5KsxruJj1Se9Vw+C
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="12782910"
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="2094541"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 07:29:12 -0800
+   d="scan'208";a="12782910"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 09:12:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="4256276"
+   d="scan'208";a="8486686"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 16 Feb 2024 07:29:12 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 16 Feb 2024 09:11:59 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rb09B-0001O0-2A;
-	Fri, 16 Feb 2024 15:29:05 +0000
-Date: Fri, 16 Feb 2024 23:28:38 +0800
+	id 1rb1kV-0001UC-29;
+	Fri, 16 Feb 2024 17:11:48 +0000
+Date: Sat, 17 Feb 2024 01:11:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- arch/arm64/kvm/hyp/nvhe/hyp-main.c:56:6: warning: no previous prototype for
- '__pkvm_unmask_serror'
-Message-ID: <202402162349.YQga25nD-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+	linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	"open list:ACPI" <linux-acpi@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Melissa Wen <mwen@igalia.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
+Message-ID: <202402170047.miJMtqIc-lkp@intel.com>
+References: <20240214215756.6530-2-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,89 +75,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   f16d68f570b8c6c3e0d2e7f6c1aaf546e93e34cd
-commit: 9793ef67e848bc2bb24fb5097353abad9a7fce5e [1/1] ANDROID: KVM: arm64: Add pKVM module register_unmask_serror
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240216/202402162349.YQga25nD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240216/202402162349.YQga25nD-lkp@intel.com/reproduce)
+Hi Mario,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
+patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
+config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_RIVA-0-0 (https://download.01.org/0day-ci/archive/20240217/202402170047.miJMtqIc-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240217/202402170047.miJMtqIc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402162349.YQga25nD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402170047.miJMtqIc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> arch/arm64/kvm/hyp/nvhe/hyp-main.c:56:6: warning: no previous prototype for '__pkvm_unmask_serror' [-Wmissing-prototypes]
-      56 | void __pkvm_unmask_serror(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:43: warning: initialized field overwritten [-Woverride-init]
-     454 |         [ESR_ELx_EC_WFx]                = handle_pvm_entry_wfx,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:454:43: note: (near initialization for 'entry_hyp_pvm_handlers[1]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:455:43: warning: initialized field overwritten [-Woverride-init]
-     455 |         [ESR_ELx_EC_HVC64]              = handle_pvm_entry_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:455:43: note: (near initialization for 'entry_hyp_pvm_handlers[22]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:456:43: warning: initialized field overwritten [-Woverride-init]
-     456 |         [ESR_ELx_EC_SYS64]              = handle_pvm_entry_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:456:43: note: (near initialization for 'entry_hyp_pvm_handlers[24]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:457:43: warning: initialized field overwritten [-Woverride-init]
-     457 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_entry_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:457:43: note: (near initialization for 'entry_hyp_pvm_handlers[32]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:458:43: warning: initialized field overwritten [-Woverride-init]
-     458 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_entry_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:458:43: note: (near initialization for 'entry_hyp_pvm_handlers[36]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:43: warning: initialized field overwritten [-Woverride-init]
-     463 |         [ESR_ELx_EC_WFx]                = handle_pvm_exit_wfx,
-         |                                           ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:43: note: (near initialization for 'exit_hyp_pvm_handlers[1]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:464:43: warning: initialized field overwritten [-Woverride-init]
-     464 |         [ESR_ELx_EC_HVC64]              = handle_pvm_exit_hvc64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:464:43: note: (near initialization for 'exit_hyp_pvm_handlers[22]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:43: warning: initialized field overwritten [-Woverride-init]
-     465 |         [ESR_ELx_EC_SYS64]              = handle_pvm_exit_sys64,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:43: note: (near initialization for 'exit_hyp_pvm_handlers[24]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:43: warning: initialized field overwritten [-Woverride-init]
-     466 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_exit_iabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:43: note: (near initialization for 'exit_hyp_pvm_handlers[32]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:467:43: warning: initialized field overwritten [-Woverride-init]
-     467 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_exit_dabt,
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:467:43: note: (near initialization for 'exit_hyp_pvm_handlers[36]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:43: warning: initialized field overwritten [-Woverride-init]
-     476 |         [ESR_ELx_EC_IABT_LOW]           = handle_vm_exit_abt,
-         |                                           ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:43: note: (near initialization for 'exit_hyp_vm_handlers[32]')
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:477:43: warning: initialized field overwritten [-Woverride-init]
-     477 |         [ESR_ELx_EC_DABT_LOW]           = handle_vm_exit_abt,
-         |                                           ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:477:43: note: (near initialization for 'exit_hyp_vm_handlers[36]')
-
-
-vim +/__pkvm_unmask_serror +56 arch/arm64/kvm/hyp/nvhe/hyp-main.c
-
-    55	
-  > 56	void __pkvm_unmask_serror(void)
-    57	{
-    58		u64 hcr = read_sysreg(HCR_EL2);
-    59	
-    60		if (!unmask_serror || !unmask_serror())
-    61			return;
-    62	
-    63		write_sysreg(hcr | HCR_AMO, HCR_EL2);
-    64		asm volatile("msr daifclr, #4");
-    65		isb();
-    66	}
-    67	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_RIVA
+   .config:69:warning: symbol value 'n' invalid for FAT_DEFAULT_CODEPAGE
+   .config:240:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
+   .config:307:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
+   .config:328:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
+   .config:359:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
+   .config:429:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
+   .config:612:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
+   .config:613:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
+   .config:702:warning: symbol value 'n' invalid for VGA_ARB_MAX_GPUS
+   .config:715:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
+   .config:789:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
+   .config:793:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
+   .config:811:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
+   .config:830:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
+   .config:855:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
+   .config:877:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
+   .config:893:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
+   .config:901:warning: symbol value 'n' invalid for NET_EMATCH_STACK
+   .config:903:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
+   .config:1095:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
+   .config:1130:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
+   .config:1159:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
+   .config:1238:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
+   .config:1397:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
+   .config:1524:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
+   .config:1528:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
+   .config:1726:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
+   .config:1763:warning: symbol value 'n' invalid for SCSI_MESH_RESET_DELAY_MS
+   .config:1817:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
+   .config:2048:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
+   .config:2143:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
+   .config:2237:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
+   .config:2290:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
+   .config:2523:warning: symbol value 'n' invalid for PANEL_PARPORT
+   .config:2568:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
+   .config:2606:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
+   .config:2707:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
+   .config:2779:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
+   .config:2791:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
+   .config:2888:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
+   .config:2910:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
+   .config:2934:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
+   .config:2968:warning: symbol value 'n' invalid for DUMMY_CONSOLE_ROWS
+   .config:3008:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
+   .config:3038:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
+   .config:3078:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
+   .config:3203:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
+   .config:3248:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
+   .config:3294:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
+   .config:3407:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
+   .config:3455:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
+   .config:3570:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
+   .config:3636:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
+   .config:3708:warning: symbol value 'n' invalid for DE2104X_DSL
+   .config:3721:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
+   .config:3787:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
+   .config:3964:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
+   .config:4094:warning: symbol value 'n' invalid for CMA_AREAS
+   .config:4105:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
+   .config:4149:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
+   .config:4235:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
+   .config:4264:warning: symbol value 'n' invalid for RIONET_RX_SIZE
+   .config:4416:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
+   .config:4524:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
+   .config:4565:warning: symbol value 'n' invalid for IBM_EMAC_TXB
+   .config:4948:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
+   .config:4975:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
+   .config:5029:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
+   .config:5051:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
+   .config:5209:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
+   .config:5298:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
+   .config:5316:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
+   .config:5323:warning: symbol value 'n' invalid for PANEL_PROFILE
+   .config:5384:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
+   .config:5424:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
+   .config:5570:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
+   .config:5574:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
+   .config:5605:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
+   .config:5694:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
+   .config:5702:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
+   .config:5724:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
+   .config:5929:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
+   .config:6021:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
+   .config:6127:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
+   .config:6186:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
+   .config:6198:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
+   .config:6321:warning: symbol value 'n' invalid for VERBOSE_MCHECK_ON
+   .config:6560:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
+   .config:6580:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
+   .config:6708:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
+   .config:6757:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
+   .config:6760:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
+   .config:6777:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
+   .config:7048:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
+   .config:7062:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
+   .config:7140:warning: symbol value 'n' invalid for IBM_EMAC_RXB
+   .config:7148:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
+   .config:7167:warning: symbol value 'n' invalid for RIONET_TX_SIZE
+   .config:7172:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
+   .config:7266:warning: symbol value 'n' invalid for LOCKDEP_BITS
 
 -- 
 0-DAY CI Kernel Test Service
