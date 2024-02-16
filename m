@@ -1,58 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD1B12E7E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 05:57:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC8414A89
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Feb 2024 06:28:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708063081; cv=none; b=l53fFe8w74fCg64R2+vkkumHk9E+J7lTyDT02pWhnwkH+CB2v6/MAD5jzwt6HmysSe+xdmNTBDnx0acXDPUDf9LWJhGNh4xUtWa0p1N0G0w+odhjZ4mIj5oF+n6Rl18yXhXTrvsOQjaq5wQD2mM+uG3jhE34abQLWdRKRXO12ro=
+	t=1708064899; cv=none; b=ACLUoiHeVdRATSQYpCEPMG3AZ1fbdXhQrQqCKCpysaK7esJemOc4ySHehvc+k2XlclHRIAyb9U0uEN0vih9D4bTjRQrT41bbrvdZwAhTWjU1nvUEb3xthH+EddGD6487DA9GZx/Y2QHYJcLS1SvKtKc6UIbc2kGjLdGL6FNnc9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708063081; c=relaxed/simple;
-	bh=To8rxNtvjOmYhFNTBOIVIfsDBjaC5/YQ+5fV2PrFl6k=;
+	s=arc-20240116; t=1708064899; c=relaxed/simple;
+	bh=PbeeG3h44jrQVBOQd8KCaxyLJls+aXY1LijLCw2zZW0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aWvlhqQgUq4XxrNSHiW5wS6kwUKw4hh4NA4MMawpvqViLZ+nCgJ8rx+46o5vT+BeXThTyF/fTRhWZGZQZyvSK88Gn+G0N/7EnWvyTqrHOs+BOpHnwQFUNmWyHtZH85BIny75KWUSu8RYo0wqqafMxwzSC9/H4kioqkJdLeYNAJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0CaD3o4; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=VGPRMzXEVEGCwkUkT0NwzK9qAMblKRtwIf8g28190gK/mCPA+22XGmMqMOglGNikdB05zu8wWOXUr3EL+MvxJUBzLbkG/W0U0aqS40XpbciYqaSHCZCapq7BtVmTXKyeeVNlNxPpjERJ/XQG1BrXjKmkolGZQlHhdcuf4TlMfQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IrUrTK51; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0CaD3o4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IrUrTK51"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708063079; x=1739599079;
+  t=1708064897; x=1739600897;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=To8rxNtvjOmYhFNTBOIVIfsDBjaC5/YQ+5fV2PrFl6k=;
-  b=K0CaD3o4BimvJFplmejz5Z8fPiftwA7JRRxEpFnqLuaVq4+HV2wL0HUf
-   WUm8sHly0e5pU+/JMYQoG35XGl0956KPASxjg3bYftskXJWPQy/lfeq9y
-   tvCsu9t4EynOkw7cJJqXndGfmOMTMV8k0Q2YT1j4KuVdZ3X+XykGOTILs
-   QhcHwmn9jtJN6LafjDCVIovctEIDL4tM6cXdlkivUm5zGaTOV08NOKkOn
-   GBdjdhYhLDMvHUAwYu6OKY0ibCC3ceMT6nkXtwrXA/FvfH6AZzoW7VmWD
-   8FShntKBPThZmsxIuijdv+8NSAjeX57KZFm7PC2kEXD/tyOYftobyXOVa
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2090826"
+  bh=PbeeG3h44jrQVBOQd8KCaxyLJls+aXY1LijLCw2zZW0=;
+  b=IrUrTK51bEF8LyWeC5H0KHGQWzBojK3HIvmD56f3lWGjsjehaehC9HJI
+   K1+HEdYG427xZRBJSc6O8gmQSzOpNKhzgq59I+0ZcADEUDTqvDEhhNF7n
+   JsFIGstqh9/KYeAyoCM71u74mEVtzxCeu3Zx7F+bu1BCDtQlEuNm2pEse
+   ZnKNT5sTK64mbQFevBtgSm8TnO46gjWLLUWSTWQY8UDuhqHddrgbt7k7R
+   mNwU/Udm8FwApek68BRNdeCprr3jPgotgqTfRZaMQKE0HoJi5ZsboZbH7
+   0N5DqkmDAqt9QChtJ12Ca4ANd8haJpd2BfJu8FFQg5ma3mLx8X6HyI2GR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2093839"
 X-IronPort-AV: E=Sophos;i="6.06,163,1705392000"; 
-   d="scan'208";a="2090826"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 21:57:58 -0800
+   d="scan'208";a="2093839"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 22:28:16 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,163,1705392000"; 
-   d="scan'208";a="8404611"
+   d="scan'208";a="3842396"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Feb 2024 21:57:56 -0800
+  by orviesa010.jf.intel.com with ESMTP; 15 Feb 2024 22:28:14 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rarDp-00011W-3D;
-	Fri, 16 Feb 2024 05:57:25 +0000
-Date: Fri, 16 Feb 2024 13:55:55 +0800
+	id 1rarhY-00012W-24;
+	Fri, 16 Feb 2024 06:28:05 +0000
+Date: Fri, 16 Feb 2024 14:27:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Subject: [linux-next:master 6591/7658]
- drivers/gpu/drm/tests/drm_buddy_test.c:(.text.drm_test_buddy_alloc_contiguous+0xb0):
- undefined reference to `__umoddi3'
-Message-ID: <202402161359.FurKTCOZ-lkp@intel.com>
+To: Pratyush Yadav <p.yadav@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Jai Luthra <j-luthra@ti.com>, Vaishnav Achath <vaishnav.a@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 287/382] cdns-csi2rx.c:(.text+0xc8):
+ relocation truncated to fit: R_NIOS2_CALL26 against
+ `phy_mipi_dphy_get_default_config_for_hsclk'
+Message-ID: <202402161444.pzZB0eHe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +60,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d37e1e4c52bc60578969f391fb81f947c3e83118
-commit: a64056bb5a3215bd31c8ce17d609ba0f4d5c55ea [6591/7658] drm/tests/drm_buddy: add alloc_contiguous test
-config: mips-randconfig-r001-20221018 (https://download.01.org/0day-ci/archive/20240216/202402161359.FurKTCOZ-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240216/202402161359.FurKTCOZ-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   bdebf4319d95b46edd39be72d937d1e0086865fe
+commit: f892c1ab1a9175a9d59ecd6e62654014937e72a5 [287/382] media: cadence: csi2rx: Add external DPHY support
+config: nios2-randconfig-r111-20240215 (https://download.01.org/0day-ci/archive/20240216/202402161444.pzZB0eHe-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240216/202402161444.pzZB0eHe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402161359.FurKTCOZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402161444.pzZB0eHe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mips-linux-ld: drivers/gpu/drm/tests/drm_buddy_test.o: in function `$L24':
->> drivers/gpu/drm/tests/drm_buddy_test.c:(.text.drm_test_buddy_alloc_contiguous+0xb0): undefined reference to `__umoddi3'
+   nios2-linux-ld: drivers/media/platform/cadence/cdns-csi2rx.o: in function `csi2rx_configure_external_dphy':
+   cdns-csi2rx.c:(.text+0xc8): undefined reference to `phy_mipi_dphy_get_default_config_for_hsclk'
+>> cdns-csi2rx.c:(.text+0xc8): relocation truncated to fit: R_NIOS2_CALL26 against `phy_mipi_dphy_get_default_config_for_hsclk'
 
 -- 
 0-DAY CI Kernel Test Service
