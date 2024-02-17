@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C074657BE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 22:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D617E59C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 22:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708209904; cv=none; b=MEMbKiVIQxaH7U+OmfA6DhGNRW5DWBtutY5L/Jo2fby13s7FxZBl3a4YEs23pN1DS2l/qb7AztJurJjaBVVdPsDb/H5xaik22XcaR3TV9sxwuSeXcoQVgWlgniCdbJTeMW/H3bm0EFRBSDLohG86l8/JYxaVKMY1SNIYMr11k4Y=
+	t=1708210529; cv=none; b=rnPu4BzkUtxLFhXPiPtHcHBzjHTZfrHZmJKq2bg6c/YFdlobX0L8eobfcO6D03Z40HAdY/pnWlStFzox+HOj5eNg7tqx3TL+zZl2hY6lSQ0afO+h59Q47w5CyfYL9PwJirrH7fZmMgkXSYjmDMqMSRZ0S4q/MCGEvRPh0JwcDg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708209904; c=relaxed/simple;
-	bh=44ghp+jALDrLwZm8OPwPqSDVt36wJWx8NRTXSVtNb4c=;
+	s=arc-20240116; t=1708210529; c=relaxed/simple;
+	bh=DyPNRB/WbMwBqFeFLSf/ovSJ33+2qL3GwpJuEGHT8kk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zr26Uh/FayKXTBGg9pObRyVVm9YAUmz7roGdZa00pdbxnDhdFuVZBqjD/g/+6NLFOi1I3PsP6PV0OVFKE2tto5qwpPjqLLxS8aT4RVz7xjJS3S/w2fYR08Lfu0uuZv8OuhOdhpYg4LAidYWylL5H3e602W0KeaI3GXjIqZTnC/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5CnUVIj; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1vPWbX274KeCydMFAhmc45a3ZNGZJfNjElJ+iYtpqMlm/szIMCQ+kh3/V95VnwJHQLe0ZdnMejE5By798TFWByURrTCqYgPvf06kwvDizrvqR3ZREcsqaDRHK++YczYykh6wSDtHfdX1KVX+MywgiGvBGATa5Yi60gs2aFs7kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZSyWyGbQ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5CnUVIj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZSyWyGbQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708209903; x=1739745903;
+  t=1708210527; x=1739746527;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=44ghp+jALDrLwZm8OPwPqSDVt36wJWx8NRTXSVtNb4c=;
-  b=C5CnUVIjq0CPIfvpGgRyewyLCNjDQRZy7HWXQQ2jg+t7LzVTn9xfTQMp
-   snzNAv0GYy1IQ6mKFxu6dleLoJHWVo90xUSwDwveyNM03nV9E94vJdt+l
-   giMKjbDCqAkEYwjKd92r1tkV9tFvdCWcM5OFYTNV8P7r5Rvt0OTSNbHoL
-   mf26IjJnfK07Rch4t6zelBp4T3PGGUPOb4yLg+gc+1vYT9RGtozijxSIy
-   ikkKjdC1A59ZIXm2GKFE1O1S4dbzPAJqIFTRfaA2HCa2Qb+Le2KzXjBM3
-   2OiUWLanhkXsASDAeutkM7Ex2onGDfNUXb7E1Hr85YASCqxOUmou09BZ3
+  bh=DyPNRB/WbMwBqFeFLSf/ovSJ33+2qL3GwpJuEGHT8kk=;
+  b=ZSyWyGbQn6p3nDFcI9GYNm9cvnK7TAep6UT1bD4oxG0v4Z1KmK882fCH
+   jCLNcNjJk7+TNRzxQGasNlpwbOmbF+gmOElH+hQbLU8VLYyY0EiQ7yVbr
+   zexQSP/W9qYomCLw3NVqTFtKP8KIOclUSjJSY5N0yntw2ow5jDdvR4bpe
+   mj3ExNoXiDmEIbCSwU1Q7R/IBDLrZVbBK+FaQ1OmavD8Aa74Z4+i9da8e
+   GS5kWhjsSBM08UPZLRAzQP6UEhhJWjb2uIzcXh3YCFZ8i/m0lcsmVc4D2
+   5M88r2e3GQjQbs+bne/BOYpSBykiobitUDxugJU8t/RgFZ+F54h/MFzYM
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2429573"
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="24783291"
 X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="2429573"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 14:45:02 -0800
+   d="scan'208";a="24783291"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 14:55:27 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="912610037"
 X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="4210103"
+   d="scan'208";a="912610037"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 17 Feb 2024 14:45:01 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 17 Feb 2024 14:55:25 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbTQX-0002YC-39;
-	Sat, 17 Feb 2024 22:44:58 +0000
-Date: Sun, 18 Feb 2024 06:44:37 +0800
+	id 1rbTaU-0002YS-2u;
+	Sat, 17 Feb 2024 22:55:17 +0000
+Date: Sun, 18 Feb 2024 06:55:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ben Cheatham <Benjamin.Cheatham@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH 6/6] pcie/cxl_timeout: Add CXL.mem Timeout &
  Isolation interrupt support
-Message-ID: <202402180605.q2KA3Ka5-lkp@intel.com>
+Message-ID: <202402180622.1be97Nrp-lkp@intel.com>
 References: <20240215194048.141411-7-Benjamin.Cheatham@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -76,53 +77,37 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Cheatham/cxl-core-Add
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
 patch link:    https://lore.kernel.org/r/20240215194048.141411-7-Benjamin.Cheatham%40amd.com
 patch subject: [RFC PATCH 6/6] pcie/cxl_timeout: Add CXL.mem Timeout & Isolation interrupt support
-config: i386-randconfig-005-20240217 (https://download.01.org/0day-ci/archive/20240218/202402180605.q2KA3Ka5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402180605.q2KA3Ka5-lkp@intel.com/reproduce)
+config: i386-randconfig-016-20240217 (https://download.01.org/0day-ci/archive/20240218/202402180622.1be97Nrp-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402180622.1be97Nrp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402180605.q2KA3Ka5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402180622.1be97Nrp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/cxl/core/port.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:114: first defined here
-   ld: drivers/cxl/core/port.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:115: first defined here
    ld: drivers/cxl/core/regs.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:114: first defined here
+>> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
    ld: drivers/cxl/core/regs.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:115: first defined here
+>> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
    ld: drivers/cxl/core/mbox.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:114: first defined here
+>> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
    ld: drivers/cxl/core/mbox.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:115: first defined here
+>> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
    ld: drivers/cxl/core/pci.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:114: first defined here
+>> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
    ld: drivers/cxl/core/pci.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:115: first defined here
+>> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
    ld: drivers/cxl/core/cdat.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:114: first defined here
+>> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
    ld: drivers/cxl/core/cdat.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:115: first defined here
-   ld: drivers/cxl/pci.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:114: first defined here
-   ld: drivers/cxl/pci.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:115: first defined here
-   ld: drivers/cxl/mem.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:114: first defined here
-   ld: drivers/cxl/mem.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:115: first defined here
+>> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
    ld: drivers/cxl/port.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:114: first defined here
+>> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
    ld: drivers/cxl/port.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:115: first defined here
-   ld: drivers/perf/cxl_pmu.o: in function `pcie_cxlt_register_dport':
-   drivers/perf/../cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:114: first defined here
-   ld: drivers/perf/cxl_pmu.o: in function `pcie_cxlt_unregister_dport':
-   drivers/perf/../cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/pci/pcie/portdrv.o:drivers/pci/pcie/../../cxl/cxlpci.h:115: first defined here
+>> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
 
 
 vim +114 drivers/cxl/cxlpci.h
