@@ -1,56 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C715965BCA;
-	Sat, 17 Feb 2024 13:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F287AE57
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 13:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708176557; cv=none; b=bsHKSenWaGj40YY34aDJ+Kc9uLj1n13COU2Vi9L/Uf2FI+8p+nE/Ja3YeBM0aIjqJeXzwsCkFHqAWlEzbJSd8BfGIiY7uJedhEl5vGpXYt+4f6qDiGpOuvMBae6YO1lhpEwV42wRVUZBuQGuotz8F3bhvFT5+xutiY3NsZSgnis=
+	t=1708177748; cv=none; b=ZrEkKp9hGrFrMEtvJoNp7B7XhCqNs5M4V1gBdGrMn/slJok7UDzyKA3joQtM2qjy/ifpMS9egVEN6OMVVNDhBFmDYOBpZfzsR5tBnMnMUJ3SBUL2TlWz9hhYw/joRDikAC/1WDBR7AhzjnmCUdM3qSQ7Iq8YlmEoz1NsP6jmxIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708176557; c=relaxed/simple;
-	bh=UPO4XDeeLeKBKvWG5+wcq/CBzK+rogHoWPya1ehfmbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=poAHkNpaFYRvO5ARcHkwPGJJsN6CDa9/pQPxb4jKjwjAt41Ur6IpOFu8ET/SAQWVIrrMlTFaJZZPlflODA46OviGhBPUvYn04Ypb2CKlbD3dZ4Xv9dw6piD/pMJrYXpSMkBnaNPzJyHH1hlob/o9sxlJ4TNoehUhhfJnz6Ds0TE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACgJ1Xi5; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1708177748; c=relaxed/simple;
+	bh=Sy3rNKIx5Ui639NRais+KmPpwAJj9NL8Ysw1j/NJYXI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iJjqrVYUa/AhLoYLpwgzcRzI4Iny0z/ADNw9jjFkLMswBYSPME0d7n0hQfM2s6B953YfHj9LCbINYR8RFPytfnT2WdTPKDSdO22j60oTh9pooR9wMSo6naP3xlSlV1RqlZLyDcABUWaiFSLp2g5dGwkvFW+B5WxL4aQljniUX5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxKK0Afe; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACgJ1Xi5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxKK0Afe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708176555; x=1739712555;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UPO4XDeeLeKBKvWG5+wcq/CBzK+rogHoWPya1ehfmbQ=;
-  b=ACgJ1Xi5QjlmJdKCfUhD7vwcBmbd/y4Q5ad5BFewrjK9m3IJl0K9GHka
-   0G16mdMAxUJZS4SEgPKWp8z2HOGzcQd2+qXwqYJXCKhSEuPd/Wau5C89j
-   uyVbVrFXSCLqyO2TJl9U6/jRNjBDqfos8hMrCzoH1S2YZY/wxAiUwputw
-   K7kfcWhkGyYOY7l6epVoUYsmEstlQ6BrqQngKVPwyFvIUFiOw53+VwmA4
-   cH5Kfh+io2B4OqcBtqiqnsDBeUn7uVHvrv+FdWSdZfmQMVVYsVXJnBXUZ
-   n/4a7kggqHC/CXm3Jpr67mU7QDxN8XZcsOzkQpLda14mxmKWRp7EiMvh9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="13405658"
+  t=1708177746; x=1739713746;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Sy3rNKIx5Ui639NRais+KmPpwAJj9NL8Ysw1j/NJYXI=;
+  b=YxKK0AfeMyLYhD4UH480fz8NuuRX0BJcbDgAX0xeyNgShBrLvhWl32u2
+   Cw2AEMOXG8WnUzvnbkyGEk//KGw6iB9cp1GpkQGqS6z/EYalM/6qK60FY
+   26xvXfT4QWf6GpvNRGFpzG5VDd6878zJatMgA2zgF+J6AUZfKtlIuhG/+
+   WD6Q+0obMCiDCa04tjhRfM/EElpATHBrX/A8xb+b9xr4K65Rz2emvr+JA
+   gC+ovszMAq2fBJBBjY2ZyWRFnQuqV1nT5efXy8i+gvUAAG7aRZ3iC2ui+
+   tk330rM6XfHIwDTZuYpL51hTNBN9HGGS6cjrR/JkJ7Lk4UF8alwshWdnt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="2428381"
 X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="13405658"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 05:29:15 -0800
+   d="scan'208";a="2428381"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 05:49:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="4107570"
+   d="scan'208";a="8700226"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 17 Feb 2024 05:29:14 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 17 Feb 2024 05:49:01 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbKkh-00028k-19;
-	Sat, 17 Feb 2024 13:29:11 +0000
-Date: Sat, 17 Feb 2024 21:27:07 +0800
+	id 1rbL3i-00029c-0q;
+	Sat, 17 Feb 2024 13:48:55 +0000
+Date: Sat, 17 Feb 2024 21:48:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Suren Baghdasaryan <surenb@google.com>
-Subject: [surenbaghdasaryan:memalloc_prof_v4 2/37]
- arch/arm/kernel/traps.c:962:6: warning: no previous prototype for function
- 'arch_sync_kernel_mappings'
-Message-ID: <202402172125.Hq5GC5yb-lkp@intel.com>
+To: Md Sadre Alam <quic_mdalam@quicinc.com>, andersson@kernel.org,
+	konrad.dybcio@linaro.org, broonie@kernel.org, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	manivannan.sadhasivam@linaro.org, linux-arm-msm@vger.kernel.org,
+	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
+	quic_varada@quicinc.com, quic_mdalam@quicinc.com
+Subject: Re: [PATCH 3/5] spi: spi-qpic: Add qpic spi nand driver support
+Message-ID: <202402172116.yfeRMLEF-lkp@intel.com>
+References: <20240215134856.1313239-4-quic_mdalam@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,56 +65,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240215134856.1313239-4-quic_mdalam@quicinc.com>
 
-tree:   https://github.com/surenbaghdasaryan/linux.git memalloc_prof_v4
-head:   23633d13a520a9f34caf0f1a13820660b95406b5
-commit: d55de34a38a9b226f04758efc2a7949bf81e39fc [2/37] asm-generic/io.h: Kill vmalloc.h dependency
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240217/202402172125.Hq5GC5yb-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402172125.Hq5GC5yb-lkp@intel.com/reproduce)
+Hi Md,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20240215]
+[also build test WARNING on linus/master v6.8-rc4]
+[cannot apply to mtd/nand/next broonie-spi/for-next robh/for-next v6.8-rc4 v6.8-rc3 v6.8-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/spi-dt-bindings-add-binding-doc-for-spi-qpic-snand/20240215-215348
+base:   next-20240215
+patch link:    https://lore.kernel.org/r/20240215134856.1313239-4-quic_mdalam%40quicinc.com
+patch subject: [PATCH 3/5] spi: spi-qpic: Add qpic spi nand driver support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240217/202402172116.yfeRMLEF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402172116.yfeRMLEF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402172125.Hq5GC5yb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402172116.yfeRMLEF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm/kernel/traps.c:962:6: warning: no previous prototype for function 'arch_sync_kernel_mappings' [-Wmissing-prototypes]
-   void arch_sync_kernel_mappings(unsigned long start, unsigned long end)
-        ^
-   arch/arm/kernel/traps.c:962:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void arch_sync_kernel_mappings(unsigned long start, unsigned long end)
-   ^
-   static 
-   1 warning generated.
+   drivers/spi/spi-qpic-snand.c: In function 'qpic_snand_ecc_init_ctx_pipelined':
+   drivers/spi/spi-qpic-snand.c:161:14: warning: variable 'ecc_user' set but not used [-Wunused-but-set-variable]
+     161 |         bool ecc_user = false;
+         |              ^~~~~~~~
+   drivers/spi/spi-qpic-snand.c:160:42: warning: variable 'desired_correction' set but not used [-Wunused-but-set-variable]
+     160 |         int step_size = 0, strength = 0, desired_correction = 0, steps;
+         |                                          ^~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-qpic-snand.c: In function 'qpic_snand_read_oob':
+   drivers/spi/spi-qpic-snand.c:399:13: warning: variable 'oob_buf' set but not used [-Wunused-but-set-variable]
+     399 |         u8 *oob_buf;
+         |             ^~~~~~~
+   drivers/spi/spi-qpic-snand.c: In function 'snandc_check_error':
+   drivers/spi/spi-qpic-snand.c:452:37: warning: variable 'erased' set but not used [-Wunused-but-set-variable]
+     452 |         bool serial_op_err = false, erased;
+         |                                     ^~~~~~
+   drivers/spi/spi-qpic-snand.c: In function 'qpic_snand_write_page_cache':
+>> drivers/spi/spi-qpic-snand.c:682:30: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     682 |                 snandc->wbuf = op->data.buf.out;
+         |                              ^
+>> drivers/spi/spi-qpic-snand.c:675:30: warning: variable 's_op' set but not used [-Wunused-but-set-variable]
+     675 |         struct qpic_snand_op s_op = {};
+         |                              ^~~~
 
 
-vim +/arch_sync_kernel_mappings +962 arch/arm/kernel/traps.c
+vim +/const +682 drivers/spi/spi-qpic-snand.c
 
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  946  
-d31e23aff011d9 Ard Biesheuvel 2022-01-10  947  #ifndef CONFIG_ARM_LPAE
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  948  /*
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  949   * Normally, we rely on the logic in do_translation_fault() to update stale PMD
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  950   * entries covering the vmalloc space in a task's page tables when it first
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  951   * accesses the region in question. Unfortunately, this is not sufficient when
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  952   * the task stack resides in the vmalloc region, as do_translation_fault() is a
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  953   * C function that needs a stack to run.
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  954   *
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  955   * So we need to ensure that these PMD entries are up to date *before* the MM
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  956   * switch. As we already have some logic in the MM switch path that takes care
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  957   * of this, let's trigger it by bumping the counter every time the core vmalloc
-d31e23aff011d9 Ard Biesheuvel 2022-01-10  958   * code modifies a PMD entry in the vmalloc region. Use release semantics on
-d31e23aff011d9 Ard Biesheuvel 2022-01-10  959   * the store so that other CPUs observing the counter's new value are
-d31e23aff011d9 Ard Biesheuvel 2022-01-10  960   * guaranteed to see the updated page table entries as well.
-a1c510d0adc604 Ard Biesheuvel 2021-09-23  961   */
-a1c510d0adc604 Ard Biesheuvel 2021-09-23 @962  void arch_sync_kernel_mappings(unsigned long start, unsigned long end)
-
-:::::: The code at line 962 was first introduced by commit
-:::::: a1c510d0adc604bb143c86052bc5be48cbcfa17c ARM: implement support for vmap'ed stacks
-
-:::::: TO: Ard Biesheuvel <ardb@kernel.org>
-:::::: CC: Ard Biesheuvel <ardb@kernel.org>
+   671	
+   672	static int qpic_snand_write_page_cache(struct qcom_nand_controller *snandc,
+   673					       const struct spi_mem_op *op)
+   674	{
+ > 675		struct qpic_snand_op s_op = {};
+   676		u32 cmd;
+   677	
+   678		cmd = qpic_snand_cmd_mapping(snandc, op->cmd.opcode);
+   679		s_op.cmd_reg = cmd;
+   680	
+   681		if (op->cmd.opcode == SPINAND_PROGRAM_LOAD) {
+ > 682			snandc->wbuf = op->data.buf.out;
+   683			snandc->wlen = op->data.nbytes;
+   684		}
+   685	
+   686		return 0;
+   687	}
+   688	
 
 -- 
 0-DAY CI Kernel Test Service
