@@ -1,123 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598641C2AD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 20:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280231CF83
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 20:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708200721; cv=none; b=EoMLJX0zeqKZ0Il6Ob7A++iMhVqv4LYgV0afyDIo1AilC1njH2k6J54LHjvKkM5GiRDwdCtxPqi9atqkbPw9szg1Unpw2DTCTqD09gY4Iz34H5aq24csdVf5BTxgpxhOe4IO1BRwbqUrqyCz4XANGk8WE4/hhsw6xGcG6ZP3eQ0=
+	t=1708202328; cv=none; b=goXENrNOP7LRuIVJLyQNgm7NDmdxqICHMbQRyrawtQIDlUU8fntW1ApZUsqr8Jyf2xwvd7PrRNBV5a6jXU6Pn0LQ0TyXTq0MKv7NfVdPphAamF4nWiOKYAazcLTB95JP7SGssXE4sUhlfqMODUMl3PuGXWtHVrr0cb1w5FhD9FA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708200721; c=relaxed/simple;
-	bh=n345o+jlymw4I+gukg98Hzuwg9cn/QxSP1Pt8COtXiQ=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=dZNxfg3XzlbtFGVS5v+nEj23lgS2vMaYT9Du0rnF4w6sscGW+KWbSZR8HoGolQ5B3PYqMxHU6VQGfTkZ0YTWq7EL4v4srvhWGn58X0auW51dbOPrCcRif2TPONe+QBzi4bl1Sf8d0IGc4/LOHNOCgX7vA7MUP+f+Ia7ABkt+95A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t6BqmzF2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708202328; c=relaxed/simple;
+	bh=y+fVO4j8MrghHv8krnKdwckTGuNiqe4HgqZ7M9Al3g8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q33N6QWSIL9xiLRx5ZCjFuVLAHp3E2aRMol+npPhL2mdQYCbvwOTwUUPt4jLbzvVjslsYNrACwP7+v2gRCY8Ge7paJ2OyDV9ib1upcWe3rqET4FOHcl4949PfqG13LcflHHxG0Wdix13MTreVI0ECvRj6TDNFbOJQ0gC6z6S4M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MPYo/4pJ; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t6BqmzF2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A018DC43390
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 20:12:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708200720;
-	bh=n345o+jlymw4I+gukg98Hzuwg9cn/QxSP1Pt8COtXiQ=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-	b=t6BqmzF2Xyk1+62fchdMo+PFz9wavX1WhooG9EwVH+NP44fF+Q0Gqgw8YpG6GBnLv
-	 8Djokn9YjmZQjTkEtwYV1t6aME3JbPoEwvp+x7Ix8CDMwgWcxnH6fAEv8SVOzAwJG1
-	 PPhasA7xxd2vXIxDTy2hJQNE51BAPxqeYSCdndd5Wq5T4BdXtfhdl7/X6ZGaF0PIOv
-	 ZO7flZULAPLdcauSUvAkmfG0wi+RXwAcV+AQib7WX/MmPySP2j7I4GIUz6diR8V55c
-	 t2cl7n84qh7got7/nYWMMBB8upZq5AYuXP2kK8lT4eWgPUUOXqAdH/RkHAZzS1Py1p
-	 0TsfpGoqg8epA==
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailauth.nyi.internal (Postfix) with ESMTP id 8305827C005B;
-	Sat, 17 Feb 2024 15:11:59 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Sat, 17 Feb 2024 15:11:59 -0500
-X-ME-Sender: <xms:DxPRZdJrz6_F2wggPbW0myqE0ljo52iCNnyjx7lWPQwsWc4KIsArRg>
-    <xme:DxPRZZKwvf9W1c3CKkUmAzgdHGrkdNpMoghH1wd4UAlraAYBRxOYZMwArzVaRvD-K
-    Z0pPZzIGuliXBCUa0o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeggddufeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
-    grthhtvghrnhephedvtdeuvefhveevgefhgfefveelieeluddufeevueehtdejjeegheeg
-    heekkeetnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptddurdhorhhgnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhguodhmvghs
-    mhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedtvdegqddvkeejtddtvd
-    eigedqrghrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:DxPRZVuyX6o7jDrJzUKZi7q9KgM4RkeYPBxLuWIlFiT4auRP0YCffA>
-    <xmx:DxPRZeYexB9EASLyxiWM0sG0r6zToy7aAW7ACflfJDTmnqMclzDKRA>
-    <xmx:DxPRZUaQj-adAzrzHSYXWI0ouL8gGWAorEJ9iLgliPyXI3ez2NVTBg>
-    <xmx:DxPRZfzgDVQG36LFBDoXNBKVp-Jags2Zqb917eDbMJT8R65K3mvxcQ>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 4BB61B6008D; Sat, 17 Feb 2024 15:11:59 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MPYo/4pJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708202327; x=1739738327;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y+fVO4j8MrghHv8krnKdwckTGuNiqe4HgqZ7M9Al3g8=;
+  b=MPYo/4pJTv1cJl66aiFU8sxaSIhwJSOHCm0YRZ/XgBp3uQNZ//iBUNh0
+   8+z5ZGeQYqC6wd4T29xQZR4rPzHjw/UIa9WXruhZ829E3OsI5WdzkS6vw
+   B0TpS4UV72sHI2bVeaZfoXzE+i3uv5luz+rXwCVonHbwNSEviGHVmJ6y8
+   GDWiPT9oQPFMLT6FiHfx82OJj4Fo3lDSUJnwuZkIi15CezBXjMkh5HIwr
+   OSZiKsvoOiww1tLUHLd01t4d3cb4fqqEya8ywGdcA12w73EwUwOsJQocZ
+   wgqTRZo4+Zt3VWdVOeUyiOYxumgOII9Jje8Pee1tlpyQO3QmeZ6+YnFeU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2443271"
+X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
+   d="scan'208";a="2443271"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 12:38:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
+   d="scan'208";a="8724417"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 17 Feb 2024 12:38:45 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rbRSD-0002Ug-0K;
+	Sat, 17 Feb 2024 20:38:36 +0000
+Date: Sun, 18 Feb 2024 04:38:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:spdm-future 12/18] lib/spdm_requester.c:1576:13: warning:
+ unused variable 'rc'
+Message-ID: <202402180455.dv029WGd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <606284da-1700-4186-80ec-8a4cd85586fc@app.fastmail.com>
-In-Reply-To: <202402180247.kvG7qcpX-lkp@intel.com>
-References: <202402180247.kvG7qcpX-lkp@intel.com>
-Date: Sat, 17 Feb 2024 21:11:38 +0100
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "kernel test robot" <lkp@intel.com>,
- "Niklas Schnelle" <schnelle@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [niks:has_ioport_v6 19/19] include/asm-generic/io.h:625:15: error: call to
- '_outl' declared with attribute error: outl() requires CONFIG_HAS_IOPORT
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Feb 17, 2024, at 19:09, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git 
-> has_ioport_v6
-> head:   0cc26afe6244fe307926528550a4de09c1e5846e
-> commit: 0cc26afe6244fe307926528550a4de09c1e5846e [19/19] 
-> asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
-> config: um-allyesconfig 
-> (https://download.01.org/0day-ci/archive/20240218/202402180247.kvG7qcpX-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20240218/202402180247.kvG7qcpX-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202402180247.kvG7qcpX-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    lib/iomap.c:156:5: warning: no previous prototype for 
-> 'ioread64_lo_hi' [-Wmissing-prototypes]
->      156 | u64 ioread64_lo_hi(const void __iomem *addr)
->          |     ^~~~~~~~~~~~~~
+tree:   https://github.com/l1k/linux spdm-future
+head:   1a9221ee0ae5a61b66e4577483c9af52f30c31b5
+commit: ad45bf7bd4ce4b039779ecf95047c4b4c1dc0c55 [12/18] PCI/CMA: Expose in sysfs whether devices are authenticated
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240218/202402180455.dv029WGd-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402180455.dv029WGd-lkp@intel.com/reproduce)
 
-arch/um now has some limited ioport support, so I think what
-we want here is
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402180455.dv029WGd-lkp@intel.com/
 
-diff --git a/arch/um/Kconfig b/arch/um/Kconfig
-index b5e179360534..7cce19a22692 100644
---- a/arch/um/Kconfig
-+++ b/arch/um/Kconfig
-@@ -47,12 +47,13 @@ config NO_IOMEM
- config UML_IOMEM_EMULATION
-        bool
-        select INDIRECT_IOMEM
-+       select HAS_IOPORT
-        select GENERIC_PCI_IOMAP
-        select GENERIC_IOMAP
-        select NO_GENERIC_PCI_IOPORT_MAP
- 
- config NO_IOPORT_MAP
--       def_bool y
-+       def_bool !UML_IOMEM_EMULATION
- 
- config ISA
-        bool
+All warnings (new ones prefixed by >>):
 
-      Arnd
+   lib/spdm_requester.c: In function 'authenticated_show':
+>> lib/spdm_requester.c:1576:13: warning: unused variable 'rc' [-Wunused-variable]
+    1576 |         int rc;
+         |             ^~
+
+
+vim +/rc +1576 lib/spdm_requester.c
+
+  1571	
+  1572	static ssize_t authenticated_show(struct device *dev,
+  1573					  struct device_attribute *attr, char *buf)
+  1574	{
+  1575		struct spdm_state *spdm_state = dev_to_spdm_state(dev);
+> 1576		int rc;
+  1577	
+  1578		if (IS_ERR(spdm_state))
+  1579			return PTR_ERR(spdm_state);
+  1580	
+  1581		return sysfs_emit(buf, "%u\n", spdm_state->authenticated);
+  1582	}
+  1583	static DEVICE_ATTR_RW(authenticated);
+  1584	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
