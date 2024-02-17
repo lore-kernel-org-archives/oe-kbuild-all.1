@@ -1,72 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC281B813
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 01:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD201B7E5;
+	Sat, 17 Feb 2024 02:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708133735; cv=none; b=Dw3pR3XAwuw3csV7jo7aTZ8/Wb2HCb3Uzqbhr3FdkWXGA5QNrKPaZ0NjUVt5PlgrHJ0vqCSjipagtKvdNL3mQh7mIZH3l6k0V/Pand9gkZZkbsqLgZiUIr595U+OtRrtsdTo3hxhTfY+qw5M1BioOiKef9i3RlTYdVJxCDcFbRE=
+	t=1708136247; cv=none; b=SVA1k2CZ/UcSnOruWV7z40LRFY006Re+Tw0BzNYyFoBAO9TDQW/a80KFCm960n6uDBkEem6C8cTSs+CqVYsoruvK3wMnGukZ2UKLgpDDvdvDJltZRGeTJ6j4Yh8AYqlslzUApq65/d7gLGRMZEZq+DpcM0g3lrYGOzPWqigRfMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708133735; c=relaxed/simple;
-	bh=tJeR/H25Fovx8yHdDib038WHOER0afSpQWRaKY3w+iE=;
+	s=arc-20240116; t=1708136247; c=relaxed/simple;
+	bh=YE/PvgNqkcihxiMRO2BPM1Ruk9GX/CIFkqUWtcWCyyI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PFrSXRXeFvnO1n/aXFgt54jumu1kVkMya/gYdZVfXflAA+7Ks2b2ZHRtBbKE3VJRDLnmu1+vI96ZcZMWTlVIsdvgpAZx453qn4Tc+fCiUsp7YKXkgwDA7rE8HV/xmaaFFuAEGxXInUGdmd7Ipo/DPDei3Llcems6KG2/cRHiirg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GeYbBpvj; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=HlpfGvOTx2OuuDNmdBbIFHehtrwggk7q3P6/nUNa8SoagWQ2V8BjYfOlhYwKJqNqyWzy9iKS3bvgsOM5OgYLN7AGMEadH+65M2LExhYv7AKTS0x0hCUPbfaSahZZ9L05FrEojSi2WF8cqjWZSPud7WTKPg/eMSYwmE1fWwUQxhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eiUAZnPW; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GeYbBpvj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eiUAZnPW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708133733; x=1739669733;
+  t=1708136244; x=1739672244;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tJeR/H25Fovx8yHdDib038WHOER0afSpQWRaKY3w+iE=;
-  b=GeYbBpvjp/F5xKq1zf4XbHncUb0JWr9c99WYWVl1LBPmYxcTFasTMngS
-   ie3nAoKGrAhw2+3nxWVKh+aI2gidz0iqxAOJEJ+1wOYWaa0powfxu/WwI
-   ld7PubqEBWD8aL7+vYhxL0RWWIZpisLFXUDqYltChtGdP1qN0a2kN3Ban
-   oilXKRcjxYjd1CipjUVTMZem5soLRr78g8TFnDH4jLQbgWkuuSRbpyYxZ
-   cikNADrA+XHvd25lIbLU29xQ0kG5ps+wTf3ong6AC1QEaeablxZfePcF0
-   4gcPbTRp+Q3ASjG1x4G7wbgyLD7XhoBNy9jloYMFWuwN+mcJSXAmw6npE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="19803082"
+  bh=YE/PvgNqkcihxiMRO2BPM1Ruk9GX/CIFkqUWtcWCyyI=;
+  b=eiUAZnPWuuRkSiODA0G/FrV+8+0rGTtEpeIXmb8yVZ+6e2vD3lFSiVHs
+   JK9g9aF5VVTE+fNlOZdCv8gZ2qW03uJPsIaS8Z+yknMuNitpodd4Zf9FG
+   u3sxruKdXu5FDlcZQlCcnMyNJSadOwzkhgJ6W7Htb4qCiEYHByz1M+frI
+   W9joCpygMk9OOg8XAmnv+GvLAhePe24cjzvUp3Uz+BGsfthjmMYjSi5hh
+   uxt30tus6gnQWxpoMtN40iNAwjTy1wBrwMN3iTFG/Mu0El6aJnMqb0cZp
+   fJ8bKNN4fEegJ0K6xHNv3b+DNK3tLouuXXK7VnK6voJCItL9L/bdB2elv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="12907738"
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="19803082"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 17:35:32 -0800
+   d="scan'208";a="12907738"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 18:17:23 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="4378886"
+   d="scan'208";a="3973389"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 16 Feb 2024 17:35:27 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 16 Feb 2024 18:17:21 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rb9bu-0001kB-1k;
-	Sat, 17 Feb 2024 01:35:23 +0000
-Date: Sat, 17 Feb 2024 09:34:54 +0800
+	id 1rbAGV-0001l6-1D;
+	Sat, 17 Feb 2024 02:17:19 +0000
+Date: Sat, 17 Feb 2024 10:16:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
-	linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Melissa Wen <mwen@igalia.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-Message-ID: <202402170903.pSlAhO5F-lkp@intel.com>
-References: <20240214215756.6530-2-mario.limonciello@amd.com>
+To: Vinicius Costa Gomes <vinicius.gomes@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v3 5/5] overlayfs: Optimize credentials usage
+Message-ID: <202402171018.wLqzCOn5-lkp@intel.com>
+References: <20240216051640.197378-6-vinicius.gomes@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,132 +58,306 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
+In-Reply-To: <20240216051640.197378-6-vinicius.gomes@intel.com>
 
-Hi Mario,
+Hi Vinicius,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.8-rc4 next-20240216]
+[cannot apply to mszeredi-vfs/overlayfs-next mszeredi-vfs/next vfs-idmapping/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
-patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_SSD1307-0-0 (https://download.01.org/0day-ci/archive/20240217/202402170903.pSlAhO5F-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240217/202402170903.pSlAhO5F-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vinicius-Costa-Gomes/cleanup-Fix-discarded-const-warning-when-defining-lock-guard/20240216-132100
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20240216051640.197378-6-vinicius.gomes%40intel.com
+patch subject: [RFC v3 5/5] overlayfs: Optimize credentials usage
+config: i386-buildonly-randconfig-003-20240216 (https://download.01.org/0day-ci/archive/20240217/202402171018.wLqzCOn5-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402171018.wLqzCOn5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402170903.pSlAhO5F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402171018.wLqzCOn5-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_SSD1307
-   .config:254:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:268:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
-   .config:441:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:460:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:610:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:619:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:645:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:757:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:758:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
-   .config:800:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:834:warning: symbol value 'n' invalid for DUMMY_CONSOLE_ROWS
-   .config:844:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:858:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:882:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:894:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:903:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:915:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:917:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:942:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:1062:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:1143:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1173:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1281:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1324:warning: symbol value 'n' invalid for VERBOSE_MCHECK_ON
-   .config:1453:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1605:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1659:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
-   .config:1755:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1881:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:2135:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:2155:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2172:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2315:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2317:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2557:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2643:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2791:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2831:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2932:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2954:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:2972:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
-   .config:2978:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:3082:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3119:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3212:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:3341:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3400:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3454:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3457:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
-   .config:3497:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3617:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3726:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3797:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3808:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:3841:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:3941:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:4058:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:4147:warning: symbol value 'n' invalid for CMA_AREAS
-   .config:4204:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4206:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4318:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4534:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4541:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:4625:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4651:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:5011:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:5062:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:5094:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5116:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5272:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5365:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5381:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5516:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5649:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5678:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5764:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5773:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5798:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:5814:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:6093:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6259:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6263:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:6639:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6767:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:6786:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:6896:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:6900:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:6903:warning: symbol value 'n' invalid for RIONET_TX_SIZE
-   .config:6912:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:7200:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
-   .config:7232:warning: symbol value 'n' invalid for OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:7250:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
-   .config:7278:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7421:warning: symbol value 'n' invalid for LOCKDEP_BITS
-   .config:7426:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
-   .config:7604:warning: symbol value 'n' invalid for RCU_FANOUT
-   .config:7657:warning: symbol value 'n' invalid for PANEL_LCD
-   .config:7780:warning: symbol value 'n' invalid for KDB_CONTINUE_CATASTROPHIC
-   .config:7944:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_RINGSIZE
-   .config:8034:warning: symbol value 'n' invalid for MTDRAM_TOTAL_SIZE
+All errors (new ones prefixed by >>):
+
+>> fs/overlayfs/file.c:435:3: error: cannot jump from this goto statement to its label
+     435 |                 goto out_unlock;
+         |                 ^
+   fs/overlayfs/file.c:437:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     437 |         guard(cred)(ovl_creds(file_inode(file)->i_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:210:1: note: expanded from here
+     210 | __UNIQUE_ID_guard291
+         | ^
+   fs/overlayfs/file.c:431:3: error: cannot jump from this goto statement to its label
+     431 |                 goto out_unlock;
+         |                 ^
+   fs/overlayfs/file.c:437:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     437 |         guard(cred)(ovl_creds(file_inode(file)->i_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:210:1: note: expanded from here
+     210 | __UNIQUE_ID_guard291
+         | ^
+   fs/overlayfs/file.c:498:3: error: cannot jump from this goto statement to its label
+     498 |                 goto out_unlock;
+         |                 ^
+   fs/overlayfs/file.c:501:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     501 |         guard(cred)(ovl_creds(file_inode(file_out)->i_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:228:1: note: expanded from here
+     228 | __UNIQUE_ID_guard293
+         | ^
+   fs/overlayfs/file.c:493:3: error: cannot jump from this goto statement to its label
+     493 |                 goto out_unlock;
+         |                 ^
+   fs/overlayfs/file.c:501:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     501 |         guard(cred)(ovl_creds(file_inode(file_out)->i_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:228:1: note: expanded from here
+     228 | __UNIQUE_ID_guard293
+         | ^
+   fs/overlayfs/file.c:488:4: error: cannot jump from this goto statement to its label
+     488 |                         goto out_unlock;
+         |                         ^
+   fs/overlayfs/file.c:501:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     501 |         guard(cred)(ovl_creds(file_inode(file_out)->i_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+--
+>> fs/overlayfs/inode.c:78:4: error: cannot jump from this goto statement to its label
+      78 |                         goto out_put_write;
+         |                         ^
+   fs/overlayfs/inode.c:81:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+      81 |                 guard(cred)(ovl_creds(dentry->d_sb));
+         |                 ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:244:1: note: expanded from here
+     244 | __UNIQUE_ID_guard286
+         | ^
+   1 error generated.
+--
+>> fs/overlayfs/namei.c:989:3: error: cannot jump from this goto statement to its label
+     989 |                 goto out;
+         |                 ^
+   fs/overlayfs/namei.c:991:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     991 |         guard(cred)(ovl_creds(dentry->d_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:237:1: note: expanded from here
+     237 | __UNIQUE_ID_guard287
+         | ^
+   1 error generated.
+--
+>> fs/overlayfs/dir.c:892:3: error: cannot jump from this goto statement to its label
+     892 |                 goto out;
+         |                 ^
+   fs/overlayfs/dir.c:894:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     894 |         guard(cred)(ovl_creds(dentry->d_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:25:1: note: expanded from here
+      25 | __UNIQUE_ID_guard299
+         | ^
+   fs/overlayfs/dir.c:888:3: error: cannot jump from this goto statement to its label
+     888 |                 goto out;
+         |                 ^
+   fs/overlayfs/dir.c:894:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     894 |         guard(cred)(ovl_creds(dentry->d_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:25:1: note: expanded from here
+      25 | __UNIQUE_ID_guard299
+         | ^
+   fs/overlayfs/dir.c:883:4: error: cannot jump from this goto statement to its label
+     883 |                         goto out;
+         |                         ^
+   fs/overlayfs/dir.c:894:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     894 |         guard(cred)(ovl_creds(dentry->d_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:25:1: note: expanded from here
+      25 | __UNIQUE_ID_guard299
+         | ^
+   3 errors generated.
+--
+>> fs/overlayfs/util.c:1167:3: error: cannot jump from this goto statement to its label
+    1167 |                 goto out_unlock;
+         |                 ^
+   fs/overlayfs/util.c:1172:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1172 |         guard(cred)(ovl_creds(dentry->d_sb));
+         |         ^
+   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
+     164 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+     180 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:19:1: note: expanded from here
+      19 | __UNIQUE_ID_guard284
+         | ^
+   1 error generated.
+
+
+vim +435 fs/overlayfs/file.c
+
+2f502839e85ab2 Miklos Szeredi       2018-07-18  419  
+aab8848cee5eca Miklos Szeredi       2018-07-18  420  static long ovl_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
+aab8848cee5eca Miklos Szeredi       2018-07-18  421  {
+aab8848cee5eca Miklos Szeredi       2018-07-18  422  	struct inode *inode = file_inode(file);
+aab8848cee5eca Miklos Szeredi       2018-07-18  423  	struct fd real;
+aab8848cee5eca Miklos Szeredi       2018-07-18  424  	int ret;
+aab8848cee5eca Miklos Szeredi       2018-07-18  425  
+23a8ce16419a30 Amir Goldstein       2022-10-17  426  	inode_lock(inode);
+23a8ce16419a30 Amir Goldstein       2022-10-17  427  	/* Update mode */
+23a8ce16419a30 Amir Goldstein       2022-10-17  428  	ovl_copyattr(inode);
+23a8ce16419a30 Amir Goldstein       2022-10-17  429  	ret = file_remove_privs(file);
+23a8ce16419a30 Amir Goldstein       2022-10-17  430  	if (ret)
+23a8ce16419a30 Amir Goldstein       2022-10-17  431  		goto out_unlock;
+23a8ce16419a30 Amir Goldstein       2022-10-17  432  
+aab8848cee5eca Miklos Szeredi       2018-07-18  433  	ret = ovl_real_fdget(file, &real);
+aab8848cee5eca Miklos Szeredi       2018-07-18  434  	if (ret)
+23a8ce16419a30 Amir Goldstein       2022-10-17 @435  		goto out_unlock;
+aab8848cee5eca Miklos Szeredi       2018-07-18  436  
+d98e0bce422c37 Vinicius Costa Gomes 2024-02-15  437  	guard(cred)(ovl_creds(file_inode(file)->i_sb));
+aab8848cee5eca Miklos Szeredi       2018-07-18  438  	ret = vfs_fallocate(real.file, mode, offset, len);
+aab8848cee5eca Miklos Szeredi       2018-07-18  439  
+aab8848cee5eca Miklos Szeredi       2018-07-18  440  	/* Update size */
+c002728f608183 Amir Goldstein       2023-09-27  441  	ovl_file_modified(file);
+aab8848cee5eca Miklos Szeredi       2018-07-18  442  
+aab8848cee5eca Miklos Szeredi       2018-07-18  443  	fdput(real);
+aab8848cee5eca Miklos Szeredi       2018-07-18  444  
+23a8ce16419a30 Amir Goldstein       2022-10-17  445  out_unlock:
+23a8ce16419a30 Amir Goldstein       2022-10-17  446  	inode_unlock(inode);
+23a8ce16419a30 Amir Goldstein       2022-10-17  447  
+aab8848cee5eca Miklos Szeredi       2018-07-18  448  	return ret;
+aab8848cee5eca Miklos Szeredi       2018-07-18  449  }
+aab8848cee5eca Miklos Szeredi       2018-07-18  450  
 
 -- 
 0-DAY CI Kernel Test Service
