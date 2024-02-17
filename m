@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E04A323D;
-	Sat, 17 Feb 2024 03:00:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D7918E02
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 03:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708138812; cv=none; b=GMDsGO1UTdu5MdPq+abOV0tMp6pah0NVjyjZoOxJpMcFmxGfqP1Af8evOchDEEOiV/SSiQb8qFIi/Vn6K5FWrVQq8r20Pxr4SorJc/xlf6mRwoeM4n8zYOciFSE/ACYOeD6nVsHOWGBl1oB3qY6JRQ+Ii1agshpY+JSdHN8mtZU=
+	t=1708139470; cv=none; b=AimVvYEibZhVzlcWMVI0PJx3CMXNOXZe6GD8mJsptZdrUbOpbMxWjooc7/iz5msifB+27LLejGFjkVR1gbdP1KsjXJhyMVDByGJzWciAppQunDPD0+TXJgDGeVB0ynndWmaqkVu3Y2HlsW+lGUCH3p5BiMHgd20UlZeInwadnas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708138812; c=relaxed/simple;
-	bh=84csLGvqqmXqt6H3TZzIxxlRdyYsJCHQCvgVH6+LUms=;
+	s=arc-20240116; t=1708139470; c=relaxed/simple;
+	bh=p7msdvsEGIUkSY3TVwuYnfU9OVOoWKpUDcF525aM/ds=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eEouhWN6E8rm3C6KCqD/EYQ6Aikp1iBiAWBe/P6tY4c/jzfeBSPvBXu6YCodiBqwx+mfZb70eK4HedVZHbmp7clne9gL7wgX6q7karyX6YlVu82IYfk2Jx0Hy+5fEiHsQf7xXDmxeFmWrFglK6+rcvhH1WGJxlioFHzKHKGd9J8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ld7fi9RO; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=I5EgKSRLEc6Xo2lL/t1rvulhspSm+4z1TyGohBWe5CyRqEV9YLEVApc4WGgxXKlEUVhdP4h6ZQAQKejM/EwTdGOLNqFoOv9y27RiljYLzHI8rnpOOWUTks5IAiTDShX39Yri2tsyLOm27JTcRPCO88leEQMKq7JIHqvadWVbzu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z2/D54ES; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ld7fi9RO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2/D54ES"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708138810; x=1739674810;
+  t=1708139469; x=1739675469;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=84csLGvqqmXqt6H3TZzIxxlRdyYsJCHQCvgVH6+LUms=;
-  b=ld7fi9ROEbjcAovTX82q3bKp+1ranEcTtAYcCnsQB4/OofYUvdCL0Bwc
-   qURNlTILxqu0U2rVFn4Ylww3U1hOyOz79XOpLXg7uZNZB5CdCwufgqBrJ
-   zmEb3tJVrSjArt2n1Hu3gNnGe4FPtgt3bFm6kGXD3ChITojYDLK+Rru3h
-   LjuZ55yXG4SXg9JGe+ByuKYsG2ayOQQyrh626pM5yvOUMXGOMseQScGyq
-   oR7AN8HkOzO9OS0NUfnYl/d+yEMp6zGBbcI9wvmSdDu5YUw85rmESh7o5
-   Qd4Ebien9f/FRf8Qtx2Il0L4wb7O+yxQ5eGH/QJRCILgpLLw9DK5VFLrw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="2412656"
+  bh=p7msdvsEGIUkSY3TVwuYnfU9OVOoWKpUDcF525aM/ds=;
+  b=Z2/D54ESqDx4UDdWup11pYQSgdSCsCR8cHIC+yzB5ZPi5qSUfNOuAve3
+   9hQMKbKaZvFKgOE2JLv05/0DD5uyWOYzK0ZVnbtuPqUb8FmrBt3RMV4QT
+   0CxQqCMUZrhcBaBsro6H0mfGcwHpCm826rcV+P8LnYQPQ0gOeviYQzxQc
+   D9fkKimGeMQv7/k3tE/3aKqstTNMl4Rw8YVNQDr+TLrGH6EKxlbVyEZd7
+   HUyRNYLjRq/4UULTdQbQNU+VUK73ZYMwyzft4cLR0wHkBg4nrEOqYimlb
+   46hnLCtBx50eTiRrckxypQ5yeWxbxpUurVPNxj0K2Scg5VzafyuTtAPFR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="19806922"
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="2412656"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 19:00:08 -0800
+   d="scan'208";a="19806922"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 19:11:08 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="4054085"
+   d="scan'208";a="35051248"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 16 Feb 2024 19:00:07 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 16 Feb 2024 19:11:07 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbAvs-0001ma-2V;
-	Sat, 17 Feb 2024 03:00:04 +0000
-Date: Sat, 17 Feb 2024 10:59:37 +0800
+	id 1rbB6W-0001mi-2y;
+	Sat, 17 Feb 2024 03:11:04 +0000
+Date: Sat, 17 Feb 2024 11:10:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 16/19] fs/nfsd/nfs4proc.c:3684:14: error: invalid
- application of 'sizeof' to an incomplete type 'const struct
- nfsd4_operation[]'
-Message-ID: <202402171015.IYhf84Cn-lkp@intel.com>
+To: Thomas Bertschinger <tahbertschinger@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 109/113]
+ fs/bcachefs/bcachefs_format.h:254:1: warning: alignment 1 of 'struct bkey'
+ is less than 4
+Message-ID: <202402171108.TzcVdtks-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,51 +60,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
-head:   05763530d2b11348b74009c4f2206c1a556669aa
-commit: 2613ba513429796e9c167eee3362484647a44811 [16/19] nfsd: wire up GET_DIR_DELEGATION handling
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240217/202402171015.IYhf84Cn-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402171015.IYhf84Cn-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   f83873b0f3d124973127c44a3b7c9489d1c9cd57
+commit: 9a555a741e807275c320807babd3f42efb8fee90 [109/113] bcachefs: omit alignment attribute on big endian struct bkey
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240217/202402171108.TzcVdtks-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402171108.TzcVdtks-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402171015.IYhf84Cn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402171108.TzcVdtks-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/nfsd/nfs4proc.c:3513:14: error: use of undeclared identifier 'nfsd4_get_dir_delegation'
-    3513 |                 .op_func = nfsd4_get_dir_delegation,
-         |                            ^
->> fs/nfsd/nfs4proc.c:3684:14: error: invalid application of 'sizeof' to an incomplete type 'const struct nfsd4_operation[]'
-    3684 |         if (opnum < ARRAY_SIZE(nfsd4_ops))
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
->> fs/nfsd/nfs4proc.c:3205:37: warning: tentative array definition assumed to have one element
-    3205 | static const struct nfsd4_operation nfsd4_ops[] = {
-         |                                     ^
-   1 warning and 2 errors generated.
+   In file included from fs/bcachefs/bcachefs.h:209,
+                    from fs/bcachefs/backpointers.c:2:
+>> fs/bcachefs/bcachefs_format.h:254:1: warning: alignment 1 of 'struct bkey' is less than 4 [-Wpacked-not-aligned]
+     254 | ;
+         | ^
+   fs/bcachefs/bcachefs_format.h:221:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
+     221 |         struct bversion version;
+         |                         ^~~~~~~
 
 
-vim +3684 fs/nfsd/nfs4proc.c
+vim +254 fs/bcachefs/bcachefs_format.h
 
-07d1f8020738ba J. Bruce Fields 2014-03-06  3681  
-f1c7f79b6ab4f7 Adrian Bunk     2008-08-08  3682  static const char *nfsd4_op_name(unsigned opnum)
-b001a1b6aa9609 Benny Halevy    2008-07-02  3683  {
-b001a1b6aa9609 Benny Halevy    2008-07-02 @3684  	if (opnum < ARRAY_SIZE(nfsd4_ops))
-b001a1b6aa9609 Benny Halevy    2008-07-02  3685  		return nfsd4_ops[opnum].op_name;
-b001a1b6aa9609 Benny Halevy    2008-07-02  3686  	return "unknown_operation";
-b001a1b6aa9609 Benny Halevy    2008-07-02  3687  }
-b001a1b6aa9609 Benny Halevy    2008-07-02  3688  
-
-:::::: The code at line 3684 was first introduced by commit
-:::::: b001a1b6aa960949a24c2cdc28257dfcc9428d74 nfsd: dprint operation names
-
-:::::: TO: Benny Halevy <bhalevy@panasas.com>
-:::::: CC: J. Bruce Fields <bfields@citi.umich.edu>
+   208	
+   209		/* Type of the value */
+   210		__u8		type;
+   211	
+   212	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+   213		__u8		pad[1];
+   214	
+   215		struct bversion	version;
+   216		__u32		size;		/* extent size, in sectors */
+   217		struct bpos	p;
+   218	#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+   219		struct bpos	p;
+   220		__u32		size;		/* extent size, in sectors */
+   221		struct bversion	version;
+   222	
+   223		__u8		pad[1];
+   224	#endif
+   225	} __packed
+   226	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+   227	/*
+   228	 * The big-endian version of bkey can't be compiled by rustc with the "aligned"
+   229	 * attr since it doesn't allow types to have both "packed" and "aligned" attrs.
+   230	 * So for Rust compatibility, don't include this. It can be included in the LE
+   231	 * version because the "packed" attr is redundant in that case.
+   232	 *
+   233	 * History: (quoting Kent)
+   234	 *
+   235	 * Specifically, when i was designing bkey, I wanted the header to be no
+   236	 * bigger than necessary so that bkey_packed could use the rest. That means that
+   237	 * decently offten extent keys will fit into only 8 bytes, instead of spilling over
+   238	 * to 16.
+   239	 *
+   240	 * But packed_bkey treats the part after the header - the packed section -
+   241	 * as a single multi word, variable length integer. And bkey, the unpacked
+   242	 * version, is just a special case version of a bkey_packed; all the packed
+   243	 * bkey code will work on keys in any packed format, the in-memory
+   244	 * representation of an unpacked key also is just one type of packed key...
+   245	 *
+   246	 * So that constrains the key part of a bkig endian bkey to start right
+   247	 * after the header.
+   248	 *
+   249	 * If we ever do a bkey_v2 and need to expand the hedaer by another byte for
+   250	 * some reason - that will clean up this wart.
+   251	 */
+   252	__aligned(8)
+   253	#endif
+ > 254	;
+   255	
 
 -- 
 0-DAY CI Kernel Test Service
