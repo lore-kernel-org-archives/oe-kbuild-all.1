@@ -1,57 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D617E59C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 22:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E658004E;
+	Sat, 17 Feb 2024 23:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708210529; cv=none; b=rnPu4BzkUtxLFhXPiPtHcHBzjHTZfrHZmJKq2bg6c/YFdlobX0L8eobfcO6D03Z40HAdY/pnWlStFzox+HOj5eNg7tqx3TL+zZl2hY6lSQ0afO+h59Q47w5CyfYL9PwJirrH7fZmMgkXSYjmDMqMSRZ0S4q/MCGEvRPh0JwcDg8=
+	t=1708211861; cv=none; b=ljYNZufU6vUHe6wdsZKb8wwIB3pszPW7zhT/i9YwGNba5fSe6ZQ0jGMFSCRD1TXqZGJZwWWDtM0T9r5Y+ASSJBrUviL7+DkNRTZ0/dlMKNm3b/HFBHSDcrGbZ/FVcy8L7QKEB2FJTk3VBiFdOzOaD6qRCWAZTIP21RhGOUwtcLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708210529; c=relaxed/simple;
-	bh=DyPNRB/WbMwBqFeFLSf/ovSJ33+2qL3GwpJuEGHT8kk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f1vPWbX274KeCydMFAhmc45a3ZNGZJfNjElJ+iYtpqMlm/szIMCQ+kh3/V95VnwJHQLe0ZdnMejE5By798TFWByURrTCqYgPvf06kwvDizrvqR3ZREcsqaDRHK++YczYykh6wSDtHfdX1KVX+MywgiGvBGATa5Yi60gs2aFs7kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZSyWyGbQ; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1708211861; c=relaxed/simple;
+	bh=5p7U8x9q2Wtf/FCRQ0S+ocYKEI8DCrcwz3npP5ABtMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Kd5pIhhEoQJocnXo7mZ7+LnJcXZwfgOTzBCUd6GDIZv3/9AExgUEnF9GIE08cZ/FpSC08BKQ8HJyQZbxsdLw99/agbCR7uMv/mIXNG3XPbvNxvqmTPdeBpGp7nb+TtdQ4gCtZ8Guo6vawCwLlsRhbR0KCd1FkcBayth19H4cVFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJrww0RN; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZSyWyGbQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJrww0RN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708210527; x=1739746527;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DyPNRB/WbMwBqFeFLSf/ovSJ33+2qL3GwpJuEGHT8kk=;
-  b=ZSyWyGbQn6p3nDFcI9GYNm9cvnK7TAep6UT1bD4oxG0v4Z1KmK882fCH
-   jCLNcNjJk7+TNRzxQGasNlpwbOmbF+gmOElH+hQbLU8VLYyY0EiQ7yVbr
-   zexQSP/W9qYomCLw3NVqTFtKP8KIOclUSjJSY5N0yntw2ow5jDdvR4bpe
-   mj3ExNoXiDmEIbCSwU1Q7R/IBDLrZVbBK+FaQ1OmavD8Aa74Z4+i9da8e
-   GS5kWhjsSBM08UPZLRAzQP6UEhhJWjb2uIzcXh3YCFZ8i/m0lcsmVc4D2
-   5M88r2e3GQjQbs+bne/BOYpSBykiobitUDxugJU8t/RgFZ+F54h/MFzYM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="24783291"
+  t=1708211852; x=1739747852;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5p7U8x9q2Wtf/FCRQ0S+ocYKEI8DCrcwz3npP5ABtMU=;
+  b=eJrww0RNmTJap6O5avZA2fmfB1mX1iUImoo6FQuBBJYuRvHK0wEHEjHZ
+   zIHTdlg+UlPthhsVxEtXIhNclMnLAeTzrA3W4QDCG0wvIh7tSLL3Fy4c2
+   S/3LYx1bfASa6rAZzHGtDuTtznozMZuaIIA5qKhjKI/TrsmfY7wMUZchD
+   ayr4fuswbhTqyh4UkhaOqYaqAwNmcn8mKZE5VbuXkdrmd+mPWh8gncusM
+   XmJi1PQLREyBK60y+MwOkS2o31ZMU5L74Hy0vFMm2O/qiV+uJWc9JieHd
+   2CoZgcZ38oJfY57wKEnPESE0rNjSq1tv2GdwxCAIeyFArp+aH1R8UKqzv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="12945405"
 X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="24783291"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 14:55:27 -0800
+   d="scan'208";a="12945405"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 15:17:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="912610037"
 X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="912610037"
+   d="scan'208";a="4436283"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Feb 2024 14:55:25 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 17 Feb 2024 15:17:29 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbTaU-0002YS-2u;
-	Sat, 17 Feb 2024 22:55:17 +0000
-Date: Sun, 18 Feb 2024 06:55:13 +0800
+	id 1rbTvz-0002aA-0l;
+	Sat, 17 Feb 2024 23:17:27 +0000
+Date: Sun, 18 Feb 2024 07:17:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Cheatham <Benjamin.Cheatham@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 6/6] pcie/cxl_timeout: Add CXL.mem Timeout &
- Isolation interrupt support
-Message-ID: <202402180622.1be97Nrp-lkp@intel.com>
-References: <20240215194048.141411-7-Benjamin.Cheatham@amd.com>
+To: Dorcas Anono Litunya <anonolitunya@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [hverkuil-media-tree:outreachy-vivid 46/46]
+ drivers/media/test-drivers/vivid/vivid-core.c:1745:20: warning: unused
+ variable 'dev'
+Message-ID: <202402180727.u4BJhiyO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,76 +59,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240215194048.141411-7-Benjamin.Cheatham@amd.com>
 
-Hi Ben,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus cxl/next cxl/pending linus/master v6.8-rc4 next-20240216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Cheatham/cxl-core-Add-CXL-Timeout-Isolation-capability-parsing/20240216-034328
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240215194048.141411-7-Benjamin.Cheatham%40amd.com
-patch subject: [RFC PATCH 6/6] pcie/cxl_timeout: Add CXL.mem Timeout & Isolation interrupt support
-config: i386-randconfig-016-20240217 (https://download.01.org/0day-ci/archive/20240218/202402180622.1be97Nrp-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402180622.1be97Nrp-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/hverkuil/media_tree.git outreachy-vivid
+head:   3aac2c4bb29abd8505942e3ccd6a51fb7b754fdc
+commit: 3aac2c4bb29abd8505942e3ccd6a51fb7b754fdc [46/46] media: vivid: Implement workqueue to prevent race conditions
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240218/202402180727.u4BJhiyO-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402180727.u4BJhiyO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402180622.1be97Nrp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402180727.u4BJhiyO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/cxl/core/regs.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
-   ld: drivers/cxl/core/regs.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
-   ld: drivers/cxl/core/mbox.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
-   ld: drivers/cxl/core/mbox.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
-   ld: drivers/cxl/core/pci.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
-   ld: drivers/cxl/core/pci.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
-   ld: drivers/cxl/core/cdat.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
-   ld: drivers/cxl/core/cdat.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
-   ld: drivers/cxl/port.o: in function `pcie_cxlt_register_dport':
->> drivers/cxl/cxlpci.h:114: multiple definition of `pcie_cxlt_register_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:114: first defined here
-   ld: drivers/cxl/port.o: in function `pcie_cxlt_unregister_dport':
->> drivers/cxl/cxlpci.h:115: multiple definition of `pcie_cxlt_unregister_dport'; drivers/cxl/core/port.o:drivers/cxl/cxlpci.h:115: first defined here
+>> drivers/media/test-drivers/vivid/vivid-core.c:1745:20: warning: unused variable 'dev' [-Wunused-variable]
+           struct vivid_dev *dev = container_of(work, struct vivid_dev, update_hdmi_ctrl_work);
+                             ^
+   1 warning generated.
 
 
-vim +114 drivers/cxl/cxlpci.h
+vim +/dev +1745 drivers/media/test-drivers/vivid/vivid-core.c
 
-   100	
-   101	int devm_cxl_port_enumerate_dports(struct cxl_port *port);
-   102	struct cxl_dev_state;
-   103	int cxl_hdm_decode_init(struct cxl_dev_state *cxlds, struct cxl_hdm *cxlhdm,
-   104				struct cxl_endpoint_dvsec_info *info);
-   105	void read_cdat_data(struct cxl_port *port);
-   106	void cxl_cor_error_detected(struct pci_dev *pdev);
-   107	pci_ers_result_t cxl_error_detected(struct pci_dev *pdev,
-   108					    pci_channel_state_t state);
-   109	
-   110	#ifdef CONFIG_PCIE_CXL_TIMEOUT
-   111	int pcie_cxlt_register_dport(struct cxl_dport *dport);
-   112	void pcie_cxlt_unregister_dport(struct cxl_dport *dport);
-   113	#else
- > 114	int pcie_cxlt_register_dport(void *dport) { return -ENXIO; }
- > 115	void pcie_cxlt_unregister_dport(void *dport) {}
-   116	#endif
-   117	
+  1742	
+  1743	static void update_hdmi_ctrls_work_handler(struct work_struct *work)
+  1744	{
+> 1745		struct vivid_dev *dev = container_of(work, struct vivid_dev, update_hdmi_ctrl_work);
+  1746		u64 skip_mask;
+  1747	
+  1748		spin_lock(&hdmi_output_skip_mask_lock);
+  1749		skip_mask = hdmi_to_output_menu_skip_mask;
+  1750		spin_unlock(&hdmi_output_skip_mask_lock);
+  1751		for (int i = 0; i < n_devs && vivid_devs[i]; i++) {
+  1752			for (int j = 0; j < vivid_devs[i]->num_hdmi_inputs; j++) {
+  1753				struct v4l2_ctrl *c = vivid_devs[i]->ctrl_hdmi_to_output[j];
+  1754	
+  1755				v4l2_ctrl_modify_range(c, c->minimum, c->maximum,
+  1756						       skip_mask & ~(1ULL << c->cur.val),
+  1757						       c->default_value);
+  1758			}
+  1759		}
+  1760	}
+  1761	
 
 -- 
 0-DAY CI Kernel Test Service
