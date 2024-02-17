@@ -1,67 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C054EB4C;
-	Sat, 17 Feb 2024 10:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646F82C6A4;
+	Sat, 17 Feb 2024 13:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708166682; cv=none; b=eceiAY5rnw6eTQC3Q4BsWYbxvHBU5R9EzZ0oM+fv8LOMXir6wlQd0urnnSxd5O42Lv31iuo2JdRw+XynrxR5n1PAOzpYpOsd+2iZTwermPYbKRA6fuqHKyh7U/jKvyqTdzSJNzSo/EI6dryHc/HBu4GJp5/kuoYRy+fixyuFcYk=
+	t=1708175888; cv=none; b=iO67EBWO6KJCfS9C1QgEwOYECOWTzX1RtKv2O1a1JqDxOQHLUttFtWdcdvQYoa2jTD2ArdJNFids1cXbGWBavuZPgrIqicl19/AN5324Tnv7uwcbqwxc7J48jCAZQKbL9YcpGM8XYoAqGatRarKg65eJmj1IlxrOpoFIOxwhINo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708166682; c=relaxed/simple;
-	bh=2ifbzFAXWssrFO5luB1vG3zFui4ZRF6yEfmf37hguT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EWVUcc/+6kWeMuR4QIF55Qu+s7MuiW6546sR3C9gGjK0gwLOKwTMbFd0FLIxtd2xj4fwF1Ttv6n9W9IEUH9B9Z6rvIEbr2iEGSNYD54kBoAv7uRMJFqiYrSZehizPt8Bnt0MJZsm0wQ+mSfinyeao9ETLdUJbl/SHPB+0ZFHeb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gCfLW60F; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1708175888; c=relaxed/simple;
+	bh=4oM+VVwcRaPugThV+ZldUxgA9FOz49VXrMX/eIDPPq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qJ786c3geYYWnulICiU8nb2U3Q6hgfA8lZc6vD9DCBakblR9Zpig81Z3csSQflExn0wA255wRk69XvCQsewPnbf5f3V3V2+66tmX0YLL/0RPJhN2KJrq8y+rtm6uXgble2ZoCnw7zBudOJPKLwJvyxmYTiG+pZYCJSVifKC8LIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ERmvG3lB; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gCfLW60F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ERmvG3lB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708166680; x=1739702680;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2ifbzFAXWssrFO5luB1vG3zFui4ZRF6yEfmf37hguT4=;
-  b=gCfLW60F2swbzHP3G6scQ7KchgYEbxYHpO+vY6DDVsAQFffn6+VxX/o7
-   1lyPsIi9833q2XyDqvZglmf4fquxb5smCqQI4xliH6CM3GU6kVeSrDlMK
-   cjy7Is7KQ0uSTCbkevPLyWEMUuCI3whWvrmQJdt5QUMq8uLuP5dP7Ysre
-   Y5UqC8IlE/4XR8j74V95AQhMvyCiYD9ahPPlCVfk7EUMUn9ITHGUfVRem
-   iEjQ6Zw0IB4PmD9xmAsfamBEUtVMNxth5ZPr/TjfnfSmMjj+pN+T0mMyS
-   LormpwkJd2WM880Y4/i/Ci6HIXr0vnfn2QnAiOzvOBuPu5NeLIstLGD/N
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="2170741"
+  t=1708175886; x=1739711886;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4oM+VVwcRaPugThV+ZldUxgA9FOz49VXrMX/eIDPPq0=;
+  b=ERmvG3lBBxBgWoEELeH7+w+jEiD40Ig8Wm2nLXDwOKZuVHRbkr1OOb63
+   xYtZxtPs55yEUb5nvyYeQDduqJ9z41/aWqJrc/biJVUOZNYgvfZQV08Qs
+   9FZYCFGP/xAUlgBVlIJPgQdxmxh2j1QnL2ig9ti7WXlRe3VjjmeHxI0ez
+   E6jvllMFcMF8m9ZLkGwBelclNDj7u6+xqG5a8CeM+CQtpiq1f+MTuIEjC
+   8pZehKrnWzJP448jY+6Q0n3akinrZTXfqxsZimOKVZnYloqjvMUajmuTt
+   3bP0+bGm5U8wkZJD9bsRxljyAQP0qNtOlZsMRi1+WG2r2LnkWvPqRbGIb
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="6126858"
 X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="2170741"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 02:44:40 -0800
+   d="scan'208";a="6126858"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 05:18:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="935983314"
 X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="935983314"
+   d="scan'208";a="4055398"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Feb 2024 02:44:36 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 17 Feb 2024 05:18:03 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbIBK-00023C-2e;
-	Sat, 17 Feb 2024 10:44:32 +0000
-Date: Sat, 17 Feb 2024 18:43:36 +0800
+	id 1rbKZm-00027w-1P;
+	Sat, 17 Feb 2024 13:17:57 +0000
+Date: Sat, 17 Feb 2024 21:16:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
-	netdev@vger.kernel.org
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
-	Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH net-next 1/3] net: mdio: mdio-bcm-unimac: Manage clock
- around I/O accesses
-Message-ID: <202402171801.J560K7Fo-lkp@intel.com>
-References: <20240216184237.259954-2-florian.fainelli@broadcom.com>
+	Suren Baghdasaryan <surenb@google.com>
+Subject: [surenbaghdasaryan:memalloc_prof_v4 30/37] mm/nommu.c:260: warning:
+ expecting prototype for vmalloc_node(). Prototype was for
+ vmalloc_node_noprof() instead
+Message-ID: <202402172155.QMan8AdY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,128 +59,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240216184237.259954-2-florian.fainelli@broadcom.com>
 
-Hi Florian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/net-mdio-mdio-bcm-unimac-Manage-clock-around-I-O-accesses/20240217-024738
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240216184237.259954-2-florian.fainelli%40broadcom.com
-patch subject: [PATCH net-next 1/3] net: mdio: mdio-bcm-unimac: Manage clock around I/O accesses
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240217/202402171801.J560K7Fo-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402171801.J560K7Fo-lkp@intel.com/reproduce)
+tree:   https://github.com/surenbaghdasaryan/linux.git memalloc_prof_v4
+head:   23633d13a520a9f34caf0f1a13820660b95406b5
+commit: 6720e180dd2c9151eec11e2d63bb2408cf2184b4 [30/37] mm: vmalloc: Enable memory allocation profiling
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240217/202402172155.QMan8AdY-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402172155.QMan8AdY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402171801.J560K7Fo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402172155.QMan8AdY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/mdio/mdio-bcm-unimac.c:286:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (IS_ERR(priv->clk))
-               ^~~~~~~~~~~~~~~~~
-   drivers/net/mdio/mdio-bcm-unimac.c:313:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/net/mdio/mdio-bcm-unimac.c:286:2: note: remove the 'if' if its condition is always false
-           if (IS_ERR(priv->clk))
-           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/mdio/mdio-bcm-unimac.c:243:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   1 warning generated.
+>> mm/nommu.c:260: warning: expecting prototype for vmalloc_node(). Prototype was for vmalloc_node_noprof() instead
+>> mm/nommu.c:278: warning: expecting prototype for vzalloc_node(). Prototype was for vzalloc_node_noprof() instead
 
 
-vim +286 drivers/net/mdio/mdio-bcm-unimac.c
+vim +260 mm/nommu.c
 
-   235	
-   236	static int unimac_mdio_probe(struct platform_device *pdev)
-   237	{
-   238		struct unimac_mdio_pdata *pdata = pdev->dev.platform_data;
-   239		struct unimac_mdio_priv *priv;
-   240		struct device_node *np;
-   241		struct mii_bus *bus;
-   242		struct resource *r;
-   243		int ret;
-   244	
-   245		np = pdev->dev.of_node;
-   246	
-   247		priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-   248		if (!priv)
-   249			return -ENOMEM;
-   250	
-   251		r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   252		if (!r)
-   253			return -EINVAL;
-   254	
-   255		/* Just ioremap, as this MDIO block is usually integrated into an
-   256		 * Ethernet MAC controller register range
-   257		 */
-   258		priv->base = devm_ioremap(&pdev->dev, r->start, resource_size(r));
-   259		if (!priv->base) {
-   260			dev_err(&pdev->dev, "failed to remap register\n");
-   261			return -ENOMEM;
-   262		}
-   263	
-   264		if (of_property_read_u32(np, "clock-frequency", &priv->clk_freq))
-   265			priv->clk_freq = 0;
-   266	
-   267		priv->mii_bus = mdiobus_alloc();
-   268		if (!priv->mii_bus)
-   269			return -ENOMEM;
-   270	
-   271		bus = priv->mii_bus;
-   272		bus->priv = priv;
-   273		if (pdata) {
-   274			bus->name = pdata->bus_name;
-   275			priv->wait_func = pdata->wait_func;
-   276			priv->wait_func_data = pdata->wait_func_data;
-   277			bus->phy_mask = ~pdata->phy_mask;
-   278			priv->clk = pdata->clk;
-   279		} else {
-   280			bus->name = "unimac MII bus";
-   281			priv->wait_func_data = priv;
-   282			priv->wait_func = unimac_mdio_poll;
-   283			priv->clk = devm_clk_get_optional(&pdev->dev, NULL);
-   284		}
-   285	
- > 286		if (IS_ERR(priv->clk))
-   287			goto out_mdio_free;
-   288	
-   289		bus->parent = &pdev->dev;
-   290		bus->read = unimac_mdio_read;
-   291		bus->write = unimac_mdio_write;
-   292		bus->reset = unimac_mdio_reset;
-   293		snprintf(bus->id, MII_BUS_ID_SIZE, "%s-%d", pdev->name, pdev->id);
-   294	
-   295		ret = unimac_mdio_clk_set(priv);
-   296		if (ret)
-   297			goto out_mdio_free;
-   298	
-   299		ret = of_mdiobus_register(bus, np);
-   300		if (ret) {
-   301			dev_err(&pdev->dev, "MDIO bus registration failed\n");
-   302			goto out_mdio_free;
-   303		}
-   304	
-   305		platform_set_drvdata(pdev, priv);
-   306	
-   307		dev_info(&pdev->dev, "Broadcom UniMAC MDIO bus\n");
-   308	
-   309		return 0;
-   310	
-   311	out_mdio_free:
-   312		mdiobus_free(bus);
-   313		return ret;
-   314	}
-   315	
+e1ca7788dec677 Dave Young      2010-10-26  247  
+e1ca7788dec677 Dave Young      2010-10-26  248  /**
+e1ca7788dec677 Dave Young      2010-10-26  249   * vmalloc_node - allocate memory on a specific node
+e1ca7788dec677 Dave Young      2010-10-26  250   * @size:	allocation size
+e1ca7788dec677 Dave Young      2010-10-26  251   * @node:	numa node
+e1ca7788dec677 Dave Young      2010-10-26  252   *
+e1ca7788dec677 Dave Young      2010-10-26  253   * Allocate enough pages to cover @size from the page level
+e1ca7788dec677 Dave Young      2010-10-26  254   * allocator and map them into contiguous kernel virtual space.
+e1ca7788dec677 Dave Young      2010-10-26  255   *
+e1ca7788dec677 Dave Young      2010-10-26  256   * For tight control over page level allocator and protection flags
+e1ca7788dec677 Dave Young      2010-10-26  257   * use __vmalloc() instead.
+e1ca7788dec677 Dave Young      2010-10-26  258   */
+6720e180dd2c91 Kent Overstreet 2023-07-09  259  void *vmalloc_node_noprof(unsigned long size, int node)
+f61388822a6040 Andrew Morton   2006-02-28 @260  {
+6720e180dd2c91 Kent Overstreet 2023-07-09  261  	return vmalloc_noprof(size);
+f61388822a6040 Andrew Morton   2006-02-28  262  }
+6720e180dd2c91 Kent Overstreet 2023-07-09  263  EXPORT_SYMBOL(vmalloc_node_noprof);
+e1ca7788dec677 Dave Young      2010-10-26  264  
+e1ca7788dec677 Dave Young      2010-10-26  265  /**
+e1ca7788dec677 Dave Young      2010-10-26  266   * vzalloc_node - allocate memory on a specific node with zero fill
+e1ca7788dec677 Dave Young      2010-10-26  267   * @size:	allocation size
+e1ca7788dec677 Dave Young      2010-10-26  268   * @node:	numa node
+e1ca7788dec677 Dave Young      2010-10-26  269   *
+e1ca7788dec677 Dave Young      2010-10-26  270   * Allocate enough pages to cover @size from the page level
+e1ca7788dec677 Dave Young      2010-10-26  271   * allocator and map them into contiguous kernel virtual space.
+e1ca7788dec677 Dave Young      2010-10-26  272   * The memory allocated is set to zero.
+e1ca7788dec677 Dave Young      2010-10-26  273   *
+e1ca7788dec677 Dave Young      2010-10-26  274   * For tight control over page level allocator and protection flags
+e1ca7788dec677 Dave Young      2010-10-26  275   * use __vmalloc() instead.
+e1ca7788dec677 Dave Young      2010-10-26  276   */
+6720e180dd2c91 Kent Overstreet 2023-07-09  277  void *vzalloc_node_noprof(unsigned long size, int node)
+e1ca7788dec677 Dave Young      2010-10-26 @278  {
+6720e180dd2c91 Kent Overstreet 2023-07-09  279  	return vzalloc_noprof(size);
+e1ca7788dec677 Dave Young      2010-10-26  280  }
+6720e180dd2c91 Kent Overstreet 2023-07-09  281  EXPORT_SYMBOL(vzalloc_node_noprof);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  282  
+
+:::::: The code at line 260 was first introduced by commit
+:::::: f61388822a6040ff462c5f7260daa0f1017f2db0 [PATCH] nommu: implement vmalloc_node()
+
+:::::: TO: Andrew Morton <akpm@osdl.org>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
