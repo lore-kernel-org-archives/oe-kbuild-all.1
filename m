@@ -1,57 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CED1C36;
-	Sat, 17 Feb 2024 00:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC281B813
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 01:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708128187; cv=none; b=fDnlePOAMu85jSu+TLQwNXnZPWLA5081kpT1d6j5xd1STmdq4otto22wAI7BJv/hWrpxsP5Aj+vyj/ykOkRlRHNBf6lQITa4Wnko20OQsM5KLkPYrMGogb0IXtb+Dku3p752OyeHGhqFzphlgNUTUdUrc2ohIsPn8mfqOu7W6Tk=
+	t=1708133735; cv=none; b=Dw3pR3XAwuw3csV7jo7aTZ8/Wb2HCb3Uzqbhr3FdkWXGA5QNrKPaZ0NjUVt5PlgrHJ0vqCSjipagtKvdNL3mQh7mIZH3l6k0V/Pand9gkZZkbsqLgZiUIr595U+OtRrtsdTo3hxhTfY+qw5M1BioOiKef9i3RlTYdVJxCDcFbRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708128187; c=relaxed/simple;
-	bh=TWz44F2ZNw+AgUXqzS6iNm/VAQClI4R2NMSsnPODE9c=;
+	s=arc-20240116; t=1708133735; c=relaxed/simple;
+	bh=tJeR/H25Fovx8yHdDib038WHOER0afSpQWRaKY3w+iE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VtnLfVJYsZX0aRUu102ehq+Af4DsjaTFrho+QvrME3S20ECYrV1Sbd7XdN3YZtXDijdjSvPfdGSwc0Xn1WQVhxToqYdjd6h/Anpq9R38ppRcEexOx3r4BhKi2Pa6W43NvTMhS9VVTDQpDW3h2KlWv0mNfr6Oh4W3MuWenhUuf3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kqg1ceVA; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=PFrSXRXeFvnO1n/aXFgt54jumu1kVkMya/gYdZVfXflAA+7Ks2b2ZHRtBbKE3VJRDLnmu1+vI96ZcZMWTlVIsdvgpAZx453qn4Tc+fCiUsp7YKXkgwDA7rE8HV/xmaaFFuAEGxXInUGdmd7Ipo/DPDei3Llcems6KG2/cRHiirg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GeYbBpvj; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kqg1ceVA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GeYbBpvj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708128186; x=1739664186;
+  t=1708133733; x=1739669733;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TWz44F2ZNw+AgUXqzS6iNm/VAQClI4R2NMSsnPODE9c=;
-  b=Kqg1ceVA/h1L8ydEDgQPBDm/xrp+DTGY7cozTurNqsRUCTNM4+cshY+d
-   g1DLW1wcXgqQFcQOjNDSKVYtVQJQ9wwkaXmS53HoItNJbE0hEOVurhC+i
-   e2Fn/IOv7iCmO5HgKmgV9qM03kmmeKIc2j7GBbt6FNWijicdt5vBywWWW
-   o+ZMgXZaRvLboG/xLF7TRQ2JrtHudLV8bsY7xC30/3diXLUjrMutOQUhB
-   6tauAdTwIQiJmuYNI9cDHwWGbO4bhvDD7VwslptZroljmrQBX5G761KXs
-   o200Bqp03rVtodZ7Ko6NxcQX1Wdm73PHdAb/vpr1w+PlRgpfZBx3Rlt2l
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="19695172"
+  bh=tJeR/H25Fovx8yHdDib038WHOER0afSpQWRaKY3w+iE=;
+  b=GeYbBpvjp/F5xKq1zf4XbHncUb0JWr9c99WYWVl1LBPmYxcTFasTMngS
+   ie3nAoKGrAhw2+3nxWVKh+aI2gidz0iqxAOJEJ+1wOYWaa0powfxu/WwI
+   ld7PubqEBWD8aL7+vYhxL0RWWIZpisLFXUDqYltChtGdP1qN0a2kN3Ban
+   oilXKRcjxYjd1CipjUVTMZem5soLRr78g8TFnDH4jLQbgWkuuSRbpyYxZ
+   cikNADrA+XHvd25lIbLU29xQ0kG5ps+wTf3ong6AC1QEaeablxZfePcF0
+   4gcPbTRp+Q3ASjG1x4G7wbgyLD7XhoBNy9jloYMFWuwN+mcJSXAmw6npE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="19803082"
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="19695172"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 16:02:53 -0800
+   d="scan'208";a="19803082"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 17:35:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="34764566"
+   d="scan'208";a="4378886"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 16 Feb 2024 16:02:50 -0800
+  by orviesa008.jf.intel.com with ESMTP; 16 Feb 2024 17:35:27 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rb8AK-0001hM-1f;
-	Sat, 17 Feb 2024 00:02:48 +0000
-Date: Sat, 17 Feb 2024 08:02:38 +0800
+	id 1rb9bu-0001kB-1k;
+	Sat, 17 Feb 2024 01:35:23 +0000
+Date: Sat, 17 Feb 2024 09:34:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/4] drm/ttm: Consider hitch moves within bulk sublist
- moves
-Message-ID: <202402170714.cflOUDkj-lkp@intel.com>
-References: <20240216131446.101961-4-thomas.hellstrom@linux.intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+	linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	"open list:ACPI" <linux-acpi@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Melissa Wen <mwen@igalia.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
+Message-ID: <202402170903.pSlAhO5F-lkp@intel.com>
+References: <20240214215756.6530-2-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,94 +75,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240216131446.101961-4-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
 
-Hi Thomas,
+Hi Mario,
 
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-tip/drm-tip next-20240216]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc4]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Allow-TTM-LRU-list-nodes-of-different-types/20240216-211801
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240216131446.101961-4-thomas.hellstrom%40linux.intel.com
-patch subject: [PATCH 3/4] drm/ttm: Consider hitch moves within bulk sublist moves
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240217/202402170714.cflOUDkj-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240217/202402170714.cflOUDkj-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
+patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
+config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_SSD1307-0-0 (https://download.01.org/0day-ci/archive/20240217/202402170903.pSlAhO5F-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240217/202402170903.pSlAhO5F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402170714.cflOUDkj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402170903.pSlAhO5F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/ttm/ttm_resource.c:545:20: warning: incompatible pointer to integer conversion assigning to 'u64' (aka 'unsigned long long') from 'u64 *' (aka 'unsigned long long *'); remove & [-Wint-conversion]
-                   cursor->bulk_age = &bulk->age;
-                                    ^ ~~~~~~~~~~
->> drivers/gpu/drm/ttm/ttm_resource.c:551:23: warning: comparison between pointer and integer ('u64' (aka 'unsigned long long') and 'u64 *' (aka 'unsigned long long *')) [-Wpointer-integer-compare]
-           if (cursor->bulk_age == &bulk->age)
-               ~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +545 drivers/gpu/drm/ttm/ttm_resource.c
-
-   517	
-   518	/* Adjust to a bulk sublist being bumped while traversing it.*/
-   519	static bool
-   520	ttm_resource_cursor_check_bulk(struct ttm_resource_cursor *cursor,
-   521				       struct ttm_lru_item *next_lru)
-   522	{
-   523		struct ttm_resource *next = ttm_lru_item_to_res(next_lru);
-   524		struct ttm_lru_bulk_move *bulk = NULL;
-   525		struct ttm_buffer_object *bo = next->bo;
-   526	
-   527		lockdep_assert_held(&cursor->man->bdev->lru_lock);
-   528		if (bo && bo->resource == next)
-   529			bulk = bo->bulk_move;
-   530	
-   531		if (!bulk) {
-   532			ttm_resource_cursor_clear_bulk(cursor);
-   533			return false;
-   534		}
-   535	
-   536		/*
-   537		 * We encountered a bulk sublist. Record its age and
-   538		 * set a hitch after the sublist.
-   539		 */
-   540		if (cursor->bulk != bulk) {
-   541			struct ttm_lru_bulk_move_pos *pos =
-   542				ttm_lru_bulk_move_pos(bulk, next);
-   543	
-   544			cursor->bulk = bulk;
- > 545			cursor->bulk_age = &bulk->age;
-   546			list_move(&cursor->bulk_hitch.link, &pos->last->lru.link);
-   547			return false;
-   548		}
-   549	
-   550		/* Continue iterating down the bulk sublist */
- > 551		if (cursor->bulk_age == &bulk->age)
-   552			return false;
-   553	
-   554		/*
-   555		 * The bulk sublist in which we had a hitch has moved and the
-   556		 * hitch moved with it. Restart iteration from a previously
-   557		 * set hitch after the bulk_move, and remove that backup
-   558		 * hitch.
-   559		 */
-   560		list_move(&cursor->hitch.link, &cursor->bulk_hitch.link);
-   561		ttm_resource_cursor_clear_bulk(cursor);
-   562	
-   563		return true;
-   564	}
-   565	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_SSD1307
+   .config:254:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
+   .config:268:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
+   .config:441:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
+   .config:460:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
+   .config:610:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
+   .config:619:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
+   .config:645:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
+   .config:757:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
+   .config:758:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
+   .config:800:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
+   .config:834:warning: symbol value 'n' invalid for DUMMY_CONSOLE_ROWS
+   .config:844:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
+   .config:858:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
+   .config:882:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
+   .config:894:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
+   .config:903:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
+   .config:915:warning: symbol value 'n' invalid for NET_EMATCH_STACK
+   .config:917:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
+   .config:942:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
+   .config:1062:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
+   .config:1143:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
+   .config:1173:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
+   .config:1281:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
+   .config:1324:warning: symbol value 'n' invalid for VERBOSE_MCHECK_ON
+   .config:1453:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
+   .config:1605:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
+   .config:1659:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
+   .config:1755:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
+   .config:1881:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
+   .config:2135:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
+   .config:2155:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
+   .config:2172:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
+   .config:2315:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
+   .config:2317:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
+   .config:2557:warning: symbol value 'n' invalid for PANEL_PARPORT
+   .config:2643:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
+   .config:2791:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
+   .config:2831:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
+   .config:2932:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
+   .config:2954:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
+   .config:2972:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
+   .config:2978:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
+   .config:3082:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
+   .config:3119:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
+   .config:3212:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
+   .config:3341:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
+   .config:3400:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
+   .config:3454:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
+   .config:3457:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
+   .config:3497:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
+   .config:3617:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
+   .config:3726:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
+   .config:3797:warning: symbol value 'n' invalid for DE2104X_DSL
+   .config:3808:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
+   .config:3841:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
+   .config:3941:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
+   .config:4058:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
+   .config:4147:warning: symbol value 'n' invalid for CMA_AREAS
+   .config:4204:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
+   .config:4206:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
+   .config:4318:warning: symbol value 'n' invalid for RIONET_RX_SIZE
+   .config:4534:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
+   .config:4541:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
+   .config:4625:warning: symbol value 'n' invalid for IBM_EMAC_TXB
+   .config:4651:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
+   .config:5011:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
+   .config:5062:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
+   .config:5094:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
+   .config:5116:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
+   .config:5272:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
+   .config:5365:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
+   .config:5381:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
+   .config:5516:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
+   .config:5649:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
+   .config:5678:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
+   .config:5764:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
+   .config:5773:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
+   .config:5798:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
+   .config:5814:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
+   .config:6093:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
+   .config:6259:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
+   .config:6263:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
+   .config:6639:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
+   .config:6767:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
+   .config:6786:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
+   .config:6896:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
+   .config:6900:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
+   .config:6903:warning: symbol value 'n' invalid for RIONET_TX_SIZE
+   .config:6912:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
+   .config:7200:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
+   .config:7232:warning: symbol value 'n' invalid for OMAP2_DSS_MIN_FCK_PER_PCK
+   .config:7250:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
+   .config:7278:warning: symbol value 'n' invalid for IBM_EMAC_RXB
+   .config:7421:warning: symbol value 'n' invalid for LOCKDEP_BITS
+   .config:7426:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
+   .config:7604:warning: symbol value 'n' invalid for RCU_FANOUT
+   .config:7657:warning: symbol value 'n' invalid for PANEL_LCD
+   .config:7780:warning: symbol value 'n' invalid for KDB_CONTINUE_CATASTROPHIC
+   .config:7944:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_RINGSIZE
+   .config:8034:warning: symbol value 'n' invalid for MTDRAM_TOTAL_SIZE
 
 -- 
 0-DAY CI Kernel Test Service
