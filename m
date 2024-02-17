@@ -1,55 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C0F1D681
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 16:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6137C1D681
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 16:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708188995; cv=none; b=ZLfRhhLEQIGD61qbWEqsB+9MJp9MzYC2INi6UtyRMS0zN3kDiLWpUDcqyJCVR21EQh/iy5WJkuhx2NJ4i2QZmg704ECjBC7+YwHkazPOakD34DsCx5s3iVi1IhYFLrjZlueIqbHbPiFQcNsG3+BUFy0fopQOzhJPJzUNatMozuw=
+	t=1708189000; cv=none; b=Uc3dufLn0ddjGJbOODoiKYfFvlhfmH+TTY0OoRmXzU6J58psZWjdFkQSGvGhW+V0nc50jKgPj0HUNIxkiDTzEmjSTs4d0WWcweIVy5psf3bMMLz8yVvOwUNsFajvtfw03TKVzYc7dG9aalJL38QNkSmxkwce7tLD1mZias3twT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708188995; c=relaxed/simple;
-	bh=guxYdloOBtgELXn+/kEtSPpi9sBvdZQ+4Ltzx/QGDWY=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fqIEHFk/Yw+iCSTkTX/vq9Sxiv492t4Bwg61bWW5b/OcI5QFkNnK7jMERBZj2UFfOijGhmL64bEaPS9yNPcCmoGGLo0Swq8AnWlp8b/p3DYxyhvO7VVIL/SqBsrXvCyBHGBySnor8iACTc1k0h0CDUaJU09jYzOrDDswwgeP8CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaGxf5lA; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1708189000; c=relaxed/simple;
+	bh=hHHwDi6AfO5jRRRPcJuMu5ugy9TlN2ID1venVAURWGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WOAFo1/pOt7F6Upme5btf6mmvqNEhe3jjy6Na7Ep/swMYzM9kG3hjHAUiC92/Kn/tg9hHoXVBEDYTDpl3eHJMik8AfNpnefiHpkEJnUKI7A9c7jImaPkOmjX46emdDm+/5QdELiDrkDu06vt5+YqD7IeRpdG32U7rxxfZ2YrAoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e4Vff+K7; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaGxf5lA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e4Vff+K7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708188993; x=1739724993;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=guxYdloOBtgELXn+/kEtSPpi9sBvdZQ+4Ltzx/QGDWY=;
-  b=kaGxf5lApEFIP0c1IJSGITBeUJU9iAhRfwDCQoWosTyVZOISIFVJhU/y
-   9h18wRZ9S9wTDezX0FfTlzBAv3AxfrL2pi7CZeZmO7ZJhf4R+s98MslMH
-   QX6Bq0Jzx+8vTR7/vC0KcAM9nsRN4sUDSmcYRDktJlbarY51jfIPqxCmw
-   gx7It65rWx8SVplHoD2mFJ3KWXVtqdxUztBaiwc6gzg6j43QNHTQhXQUO
-   ZpTj1ZGLzOsXQ/IiHzoUHJc24miZfSPRc4AYE/b6STQWjplWYMcQqXXJs
-   soueO2PCr9QlxQafLgtBrHNIfgkPKvxL9hkvSnTzcxakCa/bQLOA7ASw/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2457752"
+  t=1708188998; x=1739724998;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hHHwDi6AfO5jRRRPcJuMu5ugy9TlN2ID1venVAURWGc=;
+  b=e4Vff+K7VoCM9eidjOxNcoOs7P8zBwYdKEaHDb0ogZC5qllAKhQ8BPJh
+   /tmEJWmOy+W30gQyv8mzSAAahDrz7oSMC+Cc5OgUEygmQ/MaVn792ipX1
+   CXvTQIhQqj02vB4UZ+WyHL5Kf3EdAIzb2antVnzq0R/C3yJ+8UOOAjXMP
+   ySXMO2egtzUus3WUGNDiHr09R44v+t15Hz2ejfbhzsnyhUfUTG8eqlAri
+   RVlUjb9z/fgOIzXUV4ElGUPOrsIC1UAO2Zrjx2Jlvqop5Jlf4dfojWnEE
+   V/kvCYGvTV1WfdJqGbjLN9p774zYvRqaaBQz6kh5on990wMEINyp5zUFV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2174292"
 X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="2457752"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 08:56:32 -0800
+   d="scan'208";a="2174292"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 08:56:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="4393099"
+   d="scan'208";a="4165471"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Feb 2024 08:56:30 -0800
+  by orviesa010.jf.intel.com with ESMTP; 17 Feb 2024 08:56:31 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbNzI-0002I6-1Z;
+	id 1rbNzI-0002I9-1i;
 	Sat, 17 Feb 2024 16:56:28 +0000
 Date: Sun, 18 Feb 2024 00:56:07 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Udit Kumar <u-kumar1@ti.com>
-Subject: [ti:ti-linux-6.1.y-wip 17/22]
- drivers/media/platform/ti/vpe/vip.c:866:15: warning: variable 'list_length'
- set but not used
-Message-ID: <202402180051.Mvs0JU8q-lkp@intel.com>
+To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, ville.syrjala@linux.intel.com,
+	pekka.paalanen@collabora.com, contact@emersion.fr,
+	harry.wentland@amd.com, mwen@igalia.com, jadahl@redhat.com,
+	sebastian.wick@redhat.com, shashank.sharma@amd.com,
+	agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com,
+	aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com,
+	daniel@ffwll.ch, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+	quic_abhinavk@quicinc.com, arthurgrillo@riseup.net,
+	marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+	sean@poorly.run, Uma Shankar <uma.shankar@intel.com>
+Subject: Re: [PATCH 01/28] [NOT FOR REVIEW] drm: color pipeline base work
+Message-ID: <202402180051.37wkwgMx-lkp@intel.com>
+References: <20240213064835.139464-2-uma.shankar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,49 +68,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240213064835.139464-2-uma.shankar@intel.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.1.y-wip
-head:   77aa27cbdca359bf0735b36ada464ec65b520943
-commit: 349aa3a70de7331db179f559221d795c01ff77fe [17/22] media: ti-vpe: Add the VIP driver
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240218/202402180051.Mvs0JU8q-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402180051.Mvs0JU8q-lkp@intel.com/reproduce)
+Hi Uma,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next next-20240216]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.8-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-color-pipeline-base-work/20240213-144544
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20240213064835.139464-2-uma.shankar%40intel.com
+patch subject: [PATCH 01/28] [NOT FOR REVIEW] drm: color pipeline base work
+config: x86_64-randconfig-161-20240213 (https://download.01.org/0day-ci/archive/20240218/202402180051.37wkwgMx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402180051.Mvs0JU8q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402180051.37wkwgMx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/drm_atomic.c:825 drm_atomic_plane_print_state() warn: inconsistent indenting
 
->> drivers/media/platform/ti/vpe/vip.c:866:15: warning: variable 'list_length' set but not used [-Wunused-but-set-variable]
-           unsigned int list_length;
-                        ^
->> drivers/media/platform/ti/vpe/vip.c:3541:36: warning: variable 'bus' set but not used [-Wunused-but-set-variable]
-           struct v4l2_mbus_config_parallel *bus;
-                                             ^
->> drivers/media/platform/ti/vpe/vip.c:3837:18: warning: variable 'pinctrl' set but not used [-Wunused-but-set-variable]
-           struct pinctrl *pinctrl;
-                           ^
-   3 warnings generated.
+vim +825 drivers/gpu/drm/drm_atomic.c
 
-
-vim +/list_length +866 drivers/media/platform/ti/vpe/vip.c
-
-   861	
-   862	static void populate_desc_list(struct vip_stream *stream)
-   863	{
-   864		struct vip_port *port = stream->port;
-   865		struct vip_dev *dev = port->dev;
- > 866		unsigned int list_length;
-   867	
-   868		stream->desc_next = stream->desc_list.buf.addr;
-   869		add_stream_dtds(stream);
-   870	
-   871		list_length = stream->desc_next - stream->desc_list.buf.addr;
-   872		vpdma_map_desc_buf(dev->shared->vpdma, &stream->desc_list.buf);
-   873	}
-   874	
+   799	
+   800	static void drm_atomic_plane_print_state(struct drm_printer *p,
+   801			const struct drm_plane_state *state)
+   802	{
+   803		struct drm_plane *plane = state->plane;
+   804		struct drm_rect src  = drm_plane_state_src(state);
+   805		struct drm_rect dest = drm_plane_state_dest(state);
+   806	
+   807		drm_printf(p, "plane[%u]: %s\n", plane->base.id, plane->name);
+   808		drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
+   809		drm_printf(p, "\tfb=%u\n", state->fb ? state->fb->base.id : 0);
+   810		if (state->fb)
+   811			drm_framebuffer_print_info(p, 2, state->fb);
+   812		drm_printf(p, "\tcrtc-pos=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&dest));
+   813		drm_printf(p, "\tsrc-pos=" DRM_RECT_FP_FMT "\n", DRM_RECT_FP_ARG(&src));
+   814		drm_printf(p, "\trotation=%x\n", state->rotation);
+   815		drm_printf(p, "\tnormalized-zpos=%x\n", state->normalized_zpos);
+   816		drm_printf(p, "\tcolor-encoding=%s\n",
+   817			   drm_get_color_encoding_name(state->color_encoding));
+   818		drm_printf(p, "\tcolor-range=%s\n",
+   819			   drm_get_color_range_name(state->color_range));
+   820		drm_printf(p, "\tcolor_mgmt_changed=%d\n", state->color_mgmt_changed);
+   821	#if 0
+   822	       drm_printf(p, "\tcolor-pipeline=%s\n",
+   823	                  drm_get_color_pipeline_name(state->color_pipeline));
+   824	#else
+ > 825	       drm_printf(p, "\tcolor-pipeline=%d\n",
+   826	                  state->color_pipeline ? state->color_pipeline->base.id : 0);
+   827	#endif
+   828	
+   829	
+   830		if (plane->funcs->atomic_print_state)
+   831			plane->funcs->atomic_print_state(p, state);
+   832	}
+   833	
 
 -- 
 0-DAY CI Kernel Test Service
