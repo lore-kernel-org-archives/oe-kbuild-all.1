@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E2D7D409
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 19:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9349425757
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 19:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708197270; cv=none; b=qpyIN/3acJ+TJnYh1n8I/EVJE+wHUJJxiFk1stx1cz6EyS/qVmQzzy+1r50cELAlrrMiViKR6kGKaCumyuf9Qi0CrJ18+7KhydW7i7LO9A9SZZCleV7+mYidMgqpHEe67NebxUuZ8xzLsJtYsdK8w/S5gIjDcC9sEbsv4Ctkcas=
+	t=1708197929; cv=none; b=cvIA1Xux1PopSIg+RVUt8CbipeN/e1+jL4xqmqTtz+FJSnM5sIm9hi6N7yAFZrB+78VeFXlFfN9b9wxTL6pGWU8VEJLBcg4t/sYglPQpfQmt364HMktzpMdzLe79y4ef/8kEwr6ag7f7mhr2Z4zUk8mDjRknI1jwrP02hYVlfXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708197270; c=relaxed/simple;
-	bh=tlJWS12Yes/MFess8mTzr6No3txuh/QDekUdE+ykk0I=;
+	s=arc-20240116; t=1708197929; c=relaxed/simple;
+	bh=N7RW0LCHY28o76+vSnPUT3Oiej8k9h2Gd4o+C0ZcoGM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bkGlDPOXqAFbMwKsYNS7y01xR3Ecjl34biUJJJIKLHc6yNIgrRbepL0vomKjDRGKawBvVXSEDEBmJwzIuWjXQNA1o20SE3AweHxeoN85wpipI06ICI7ncIMUMz1J3oSDA/NG3HzG3L8SoqUE4YdjIJA2Z0fl/UtqNtvKl21Iw3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E2zi6nNk; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=SnIuv19kNbJGg3wCh6cuS8xKS27cR1mhnY2i9XM4Qi1Yvih/g6f2mQVPCci06qEQ6vWg8Q23rH6Ca96CZqMtzTnKU3KZfF4X7kzWKtiA9nDRSXyw/GknuRQbBdEA0uV5mTv5fZedhnzumLfAyc/+E0i+v+9SonfsTyVFtDGs2vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KfiC1jlk; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E2zi6nNk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KfiC1jlk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708197267; x=1739733267;
+  t=1708197928; x=1739733928;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tlJWS12Yes/MFess8mTzr6No3txuh/QDekUdE+ykk0I=;
-  b=E2zi6nNkMr9lZPitom0VTrZKZ0hswwDwG5OxUQbcUqFoBb+HPV7WF3y2
-   58d0kgNt/8wmh0KgMngRd3Lm0wEwQjjopfnL6Pp7g/xtCSB6GtuuHy3JR
-   2L3ou4ohJG2e3dgmjB2pJHyMBdfDPETvwACSyms8tYgIch3lG/WWC49vC
-   RwAUqD/Oimv5jKIBVx0FyjVZr3LWAJpJ7u3IUh5MOZF/vnVdllcm6LNOJ
-   G+WXg7H/lK4zKVNKZZf9oO5NHo97Fmlc+6hZ9Kjmn0mb0rZk7ya6BcrRU
-   CKk5qRxnAFresL39Y2DLRFL0puieY8UaLpyVkdge+/COnHIDT/T7z9E5O
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2217420"
+  bh=N7RW0LCHY28o76+vSnPUT3Oiej8k9h2Gd4o+C0ZcoGM=;
+  b=KfiC1jlkCV7BP3byUqrUau/7sSMy6TBvFvGmbb/3QCr++qnJXXoqKvM8
+   3Yyg+MjwziDBktm73vDHmq4Svm6Sfn8U9IZMEX7IUdTEFVToyv02XLh/Y
+   BIi0YvGfpBa49W6kiRjHnMd2eWiZTbYT7AQjKxQl4G98m30MJa316/j7w
+   OTfKx4i1UWlTZnDkLhFy2TkG6PKS97cLzC3A9US2PI3IVGnYsyp4AYFgw
+   1lMC0k6FkaRWXo1VPSZHabtn4a8B4F3w+zsHb2M9xFI+0Dprn+TIIhXAK
+   q1iGZPZTlEvDroEuaSvlYsyjPGfbdJjPtzIx5y+TB76JTEEEEdptFVkaZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2175164"
 X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="2217420"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 11:14:27 -0800
+   d="scan'208";a="2175164"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 11:25:27 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="826750232"
 X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="4478082"
+   d="scan'208";a="826750232"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 17 Feb 2024 11:14:24 -0800
+  by orsmga001.jf.intel.com with ESMTP; 17 Feb 2024 11:25:25 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbQ8R-0002Qs-2o;
-	Sat, 17 Feb 2024 19:14:10 +0000
-Date: Sun, 18 Feb 2024 03:13:50 +0800
+	id 1rbQJO-0002Ru-33;
+	Sat, 17 Feb 2024 19:25:22 +0000
+Date: Sun, 18 Feb 2024 03:24:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>, akpm@linux-foundation.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Max Kellermann <max.kellermann@ionos.com>
-Subject: Re: [PATCH v1 14/14] include: reduce dependencies on linux/mm.h
-Message-ID: <202402180247.nziZ7rAH-lkp@intel.com>
-References: <20240215145602.1371274-15-max.kellermann@ionos.com>
+To: Yang Xiwen via B4 Relay <devnull+forbidden405.outlook.com@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 2/4] clk: hisilicon: add CRG driver for Hi3798MV200
+ SoC
+Message-ID: <202402180302.v3sQLlUW-lkp@intel.com>
+References: <20240216-clk-mv200-v1-2-a29ace29e636@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,373 +60,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240215145602.1371274-15-max.kellermann@ionos.com>
+In-Reply-To: <20240216-clk-mv200-v1-2-a29ace29e636@outlook.com>
 
-Hi Max,
+Hi Yang,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on next-20240215]
-[cannot apply to akpm-mm/mm-everything char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus powerpc/next powerpc/fixes linus/master v6.8-rc4 v6.8-rc3 v6.8-rc2 v6.8-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 8d3dea210042f54b952b481838c1e7dfc4ec751d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/drivers-add-missing-includes-on-linux-mm-h-and-others/20240215-225853
-base:   next-20240215
-patch link:    https://lore.kernel.org/r/20240215145602.1371274-15-max.kellermann%40ionos.com
-patch subject: [PATCH v1 14/14] include: reduce dependencies on linux/mm.h
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240218/202402180247.nziZ7rAH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402180247.nziZ7rAH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Xiwen-via-B4-Relay/dt-binding-clock-histb-clock-Add-missing-common-clock-and-Hi3798MV200-specific-clock-definition/20240216-193926
+base:   8d3dea210042f54b952b481838c1e7dfc4ec751d
+patch link:    https://lore.kernel.org/r/20240216-clk-mv200-v1-2-a29ace29e636%40outlook.com
+patch subject: [PATCH RFC 2/4] clk: hisilicon: add CRG driver for Hi3798MV200 SoC
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240218/202402180302.v3sQLlUW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402180302.v3sQLlUW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402180247.nziZ7rAH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402180302.v3sQLlUW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kfifo.h:42,
-                    from include/linux/tty_port.h:5,
-                    from include/linux/tty.h:12,
-                    from lib/bust_spinlocks.c:15:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   include/linux/scatterlist.h:189:25: error: implicit declaration of function 'virt_to_page'; did you mean 'virt_to_phys'? [-Werror=implicit-function-declaration]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~
-         |                         virt_to_phys
->> include/linux/scatterlist.h:189:25: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   include/linux/scatterlist.h: In function 'sg_phys':
-   include/linux/scatterlist.h:389:16: error: implicit declaration of function 'page_to_phys'; did you mean 'page_to_pfn'? [-Werror=implicit-function-declaration]
-     389 |         return page_to_phys(sg_page(sg)) + sg->offset;
-         |                ^~~~~~~~~~~~
-         |                page_to_pfn
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/kfifo.h:42,
-                    from lib/kfifo.c:14:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   include/linux/scatterlist.h:189:25: error: implicit declaration of function 'virt_to_page'; did you mean 'virt_to_phys'? [-Werror=implicit-function-declaration]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~
-         |                         virt_to_phys
->> include/linux/scatterlist.h:189:25: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   include/linux/scatterlist.h: In function 'sg_phys':
-   include/linux/scatterlist.h:389:16: error: implicit declaration of function 'page_to_phys'; did you mean 'page_to_pfn'? [-Werror=implicit-function-declaration]
-     389 |         return page_to_phys(sg_page(sg)) + sg->offset;
-         |                ^~~~~~~~~~~~
-         |                page_to_pfn
-   lib/kfifo.c: In function 'setup_sgl_buf':
->> lib/kfifo.c:310:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     310 |         page = virt_to_page(buf);
-         |              ^
-   lib/kfifo.c:319:23: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     319 |                 npage = virt_to_page(buf);
-         |                       ^
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/dmapool.h:14,
-                    from include/linux/pci.h:1654,
-                    from lib/iomap.c:7:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   include/linux/scatterlist.h:189:25: error: implicit declaration of function 'virt_to_page'; did you mean 'virt_to_phys'? [-Werror=implicit-function-declaration]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~
-         |                         virt_to_phys
->> include/linux/scatterlist.h:189:25: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   include/linux/scatterlist.h: In function 'sg_phys':
-   include/linux/scatterlist.h:389:16: error: implicit declaration of function 'page_to_phys'; did you mean 'page_to_pfn'? [-Werror=implicit-function-declaration]
-     389 |         return page_to_phys(sg_page(sg)) + sg->offset;
-         |                ^~~~~~~~~~~~
-         |                page_to_pfn
-   In file included from include/linux/pci.h:2688:
-   include/linux/dma-mapping.h: In function 'dma_free_noncoherent':
->> include/linux/dma-mapping.h:331:35: warning: passing argument 3 of 'dma_free_pages' makes pointer from integer without a cast [-Wint-conversion]
-     331 |         dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
-         |                                   ^~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   int
-   include/linux/dma-mapping.h:316:67: note: expected 'struct page *' but argument is of type 'int'
-     316 | void dma_free_pages(struct device *dev, size_t size, struct page *page,
-         |                                                      ~~~~~~~~~~~~~^~~~
-   include/linux/dma-mapping.h: In function 'dma_map_single_attrs':
->> include/linux/dma-mapping.h:342:40: warning: passing argument 2 of 'dma_map_page_attrs' makes pointer from integer without a cast [-Wint-conversion]
-     342 |         return dma_map_page_attrs(dev, virt_to_page(ptr), offset_in_page(ptr),
-         |                                        ^~~~~~~~~~~~~~~~~
-         |                                        |
-         |                                        int
-   include/linux/dma-mapping.h:105:64: note: expected 'struct page *' but argument is of type 'int'
-     105 | dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
-         |                                                   ~~~~~~~~~~~~~^~~~
-   lib/iomap.c: At top level:
-   lib/iomap.c:156:5: warning: no previous prototype for 'ioread64_lo_hi' [-Wmissing-prototypes]
-     156 | u64 ioread64_lo_hi(const void __iomem *addr)
-         |     ^~~~~~~~~~~~~~
-   lib/iomap.c:163:5: warning: no previous prototype for 'ioread64_hi_lo' [-Wmissing-prototypes]
-     163 | u64 ioread64_hi_lo(const void __iomem *addr)
-         |     ^~~~~~~~~~~~~~
-   lib/iomap.c:170:5: warning: no previous prototype for 'ioread64be_lo_hi' [-Wmissing-prototypes]
-     170 | u64 ioread64be_lo_hi(const void __iomem *addr)
-         |     ^~~~~~~~~~~~~~~~
-   lib/iomap.c:178:5: warning: no previous prototype for 'ioread64be_hi_lo' [-Wmissing-prototypes]
-     178 | u64 ioread64be_hi_lo(const void __iomem *addr)
-         |     ^~~~~~~~~~~~~~~~
-   lib/iomap.c:264:6: warning: no previous prototype for 'iowrite64_lo_hi' [-Wmissing-prototypes]
-     264 | void iowrite64_lo_hi(u64 val, void __iomem *addr)
-         |      ^~~~~~~~~~~~~~~
-   lib/iomap.c:272:6: warning: no previous prototype for 'iowrite64_hi_lo' [-Wmissing-prototypes]
-     272 | void iowrite64_hi_lo(u64 val, void __iomem *addr)
-         |      ^~~~~~~~~~~~~~~
-   lib/iomap.c:280:6: warning: no previous prototype for 'iowrite64be_lo_hi' [-Wmissing-prototypes]
-     280 | void iowrite64be_lo_hi(u64 val, void __iomem *addr)
-         |      ^~~~~~~~~~~~~~~~~
-   lib/iomap.c:288:6: warning: no previous prototype for 'iowrite64be_hi_lo' [-Wmissing-prototypes]
-     288 | void iowrite64be_hi_lo(u64 val, void __iomem *addr)
-         |      ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/virtio.h:7,
-                    from arch/um/drivers/virtio_uml.c:27:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   include/linux/scatterlist.h:189:25: error: implicit declaration of function 'virt_to_page'; did you mean 'virt_to_phys'? [-Werror=implicit-function-declaration]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~
-         |                         virt_to_phys
->> include/linux/scatterlist.h:189:25: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   include/linux/scatterlist.h: In function 'sg_phys':
-   include/linux/scatterlist.h:389:16: error: implicit declaration of function 'page_to_phys'; did you mean 'page_to_pfn'? [-Werror=implicit-function-declaration]
-     389 |         return page_to_phys(sg_page(sg)) + sg->offset;
-         |                ^~~~~~~~~~~~
-         |                page_to_pfn
-   In file included from include/linux/virtio.h:12:
-   include/linux/dma-mapping.h: In function 'dma_free_noncoherent':
->> include/linux/dma-mapping.h:331:35: warning: passing argument 3 of 'dma_free_pages' makes pointer from integer without a cast [-Wint-conversion]
-     331 |         dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
-         |                                   ^~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   int
-   include/linux/dma-mapping.h:316:67: note: expected 'struct page *' but argument is of type 'int'
-     316 | void dma_free_pages(struct device *dev, size_t size, struct page *page,
-         |                                                      ~~~~~~~~~~~~~^~~~
-   include/linux/dma-mapping.h: In function 'dma_map_single_attrs':
->> include/linux/dma-mapping.h:342:40: warning: passing argument 2 of 'dma_map_page_attrs' makes pointer from integer without a cast [-Wint-conversion]
-     342 |         return dma_map_page_attrs(dev, virt_to_page(ptr), offset_in_page(ptr),
-         |                                        ^~~~~~~~~~~~~~~~~
-         |                                        |
-         |                                        int
-   include/linux/dma-mapping.h:105:64: note: expected 'struct page *' but argument is of type 'int'
-     105 | dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
-         |                                                   ~~~~~~~~~~~~~^~~~
-   In file included from arch/um/include/asm/thread_info.h:15,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/um/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from arch/um/drivers/virtio_uml.c:23:
-   arch/um/drivers/virtio_uml.c: In function 'vhost_user_set_mem_table':
-   arch/um/drivers/virtio_uml.c:678:54: error: 'end_iomem' undeclared (first use in this function)
-     678 |                 rc = vhost_user_init_mem_region(__pa(end_iomem), highmem,
-         |                                                      ^~~~~~~~~
-   arch/um/include/asm/page.h:105:58: note: in definition of macro '__pa'
-     105 | #define __pa(virt) uml_to_phys((void *) (unsigned long) (virt))
-         |                                                          ^~~~
-   arch/um/drivers/virtio_uml.c:678:54: note: each undeclared identifier is reported only once for each function it appears in
-     678 |                 rc = vhost_user_init_mem_region(__pa(end_iomem), highmem,
-         |                                                      ^~~~~~~~~
-   arch/um/include/asm/page.h:105:58: note: in definition of macro '__pa'
-     105 | #define __pa(virt) uml_to_phys((void *) (unsigned long) (virt))
-         |                                                          ^~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/dmapool.h:14,
-                    from include/linux/pci.h:1654,
-                    from arch/um/drivers/virt-pci.c:7:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   include/linux/scatterlist.h:189:25: error: implicit declaration of function 'virt_to_page'; did you mean 'virt_to_phys'? [-Werror=implicit-function-declaration]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~
-         |                         virt_to_phys
->> include/linux/scatterlist.h:189:25: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   include/linux/scatterlist.h: In function 'sg_phys':
-   include/linux/scatterlist.h:389:16: error: implicit declaration of function 'page_to_phys'; did you mean 'page_to_pfn'? [-Werror=implicit-function-declaration]
-     389 |         return page_to_phys(sg_page(sg)) + sg->offset;
-         |                ^~~~~~~~~~~~
-         |                page_to_pfn
-   In file included from include/linux/pci.h:2688:
-   include/linux/dma-mapping.h: In function 'dma_free_noncoherent':
->> include/linux/dma-mapping.h:331:35: warning: passing argument 3 of 'dma_free_pages' makes pointer from integer without a cast [-Wint-conversion]
-     331 |         dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
-         |                                   ^~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   int
-   include/linux/dma-mapping.h:316:67: note: expected 'struct page *' but argument is of type 'int'
-     316 | void dma_free_pages(struct device *dev, size_t size, struct page *page,
-         |                                                      ~~~~~~~~~~~~~^~~~
-   include/linux/dma-mapping.h: In function 'dma_map_single_attrs':
->> include/linux/dma-mapping.h:342:40: warning: passing argument 2 of 'dma_map_page_attrs' makes pointer from integer without a cast [-Wint-conversion]
-     342 |         return dma_map_page_attrs(dev, virt_to_page(ptr), offset_in_page(ptr),
-         |                                        ^~~~~~~~~~~~~~~~~
-         |                                        |
-         |                                        int
-   include/linux/dma-mapping.h:105:64: note: expected 'struct page *' but argument is of type 'int'
-     105 | dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
-         |                                                   ~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/dma-mapping.h:11,
-                    from include/linux/comedi/comedidev.h:13,
-                    from drivers/comedi/comedi_buf.c:12:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   include/linux/scatterlist.h:189:25: error: implicit declaration of function 'virt_to_page'; did you mean 'virt_to_phys'? [-Werror=implicit-function-declaration]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~
-         |                         virt_to_phys
->> include/linux/scatterlist.h:189:25: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-     189 |         sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-         |                         ^~~~~~~~~~~~~~~~~
-         |                         |
-         |                         int
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   include/linux/scatterlist.h: In function 'sg_phys':
-   include/linux/scatterlist.h:389:16: error: implicit declaration of function 'page_to_phys'; did you mean 'page_to_pfn'? [-Werror=implicit-function-declaration]
-     389 |         return page_to_phys(sg_page(sg)) + sg->offset;
-         |                ^~~~~~~~~~~~
-         |                page_to_pfn
-   include/linux/dma-mapping.h: In function 'dma_free_noncoherent':
->> include/linux/dma-mapping.h:331:35: warning: passing argument 3 of 'dma_free_pages' makes pointer from integer without a cast [-Wint-conversion]
-     331 |         dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
-         |                                   ^~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   int
-   include/linux/dma-mapping.h:316:67: note: expected 'struct page *' but argument is of type 'int'
-     316 | void dma_free_pages(struct device *dev, size_t size, struct page *page,
-         |                                                      ~~~~~~~~~~~~~^~~~
-   include/linux/dma-mapping.h: In function 'dma_map_single_attrs':
->> include/linux/dma-mapping.h:342:40: warning: passing argument 2 of 'dma_map_page_attrs' makes pointer from integer without a cast [-Wint-conversion]
-     342 |         return dma_map_page_attrs(dev, virt_to_page(ptr), offset_in_page(ptr),
-         |                                        ^~~~~~~~~~~~~~~~~
-         |                                        |
-         |                                        int
-   include/linux/dma-mapping.h:105:64: note: expected 'struct page *' but argument is of type 'int'
-     105 | dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
-         |                                                   ~~~~~~~~~~~~~^~~~
-   drivers/comedi/comedi_buf.c: In function 'comedi_buf_map_kref_release':
->> drivers/comedi/comedi_buf.c:41:51: warning: passing argument 1 of 'ClearPageReserved' makes pointer from integer without a cast [-Wint-conversion]
-      41 |                                 ClearPageReserved(virt_to_page(buf->virt_addr));
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                   |
-         |                                                   int
-   In file included from include/linux/mmzone.h:23,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from drivers/comedi/comedi_buf.c:11:
-   include/linux/page-flags.h:390:59: note: expected 'struct page *' but argument is of type 'int'
-     390 | static __always_inline void ClearPage##uname(struct page *page)         \
-         |                                              ~~~~~~~~~~~~~^~~~
-   include/linux/page-flags.h:424:9: note: in expansion of macro 'CLEARPAGEFLAG'
-     424 |         CLEARPAGEFLAG(uname, lname, policy)
-         |         ^~~~~~~~~~~~~
-   include/linux/page-flags.h:492:1: note: in expansion of macro 'PAGEFLAG'
-     492 | PAGEFLAG(Reserved, reserved, PF_NO_COMPOUND)
-         | ^~~~~~~~
-   drivers/comedi/comedi_buf.c: In function 'comedi_buf_map_alloc':
->> drivers/comedi/comedi_buf.c:124:41: warning: passing argument 1 of 'SetPageReserved' makes pointer from integer without a cast [-Wint-conversion]
-     124 |                         SetPageReserved(virt_to_page(buf->virt_addr));
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         int
-   include/linux/page-flags.h:383:57: note: expected 'struct page *' but argument is of type 'int'
-     383 | static __always_inline void SetPage##uname(struct page *page)           \
-         |                                            ~~~~~~~~~~~~~^~~~
-   include/linux/page-flags.h:423:9: note: in expansion of macro 'SETPAGEFLAG'
-     423 |         SETPAGEFLAG(uname, lname, policy)                               \
-         |         ^~~~~~~~~~~
-   include/linux/page-flags.h:492:1: note: in expansion of macro 'PAGEFLAG'
-     492 | PAGEFLAG(Reserved, reserved, PF_NO_COMPOUND)
-         | ^~~~~~~~
-   drivers/comedi/comedi_buf.c: In function '__comedi_buf_alloc':
->> drivers/comedi/comedi_buf.c:178:34: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     178 |                         pages[i] = virt_to_page(buf->virt_addr);
-         |                                  ^
-   drivers/comedi/comedi_buf.c:18:41: error: 'PAGE_KERNEL' undeclared (first use in this function)
-      18 | #define COMEDI_PAGE_PROTECTION          PAGE_KERNEL
-         |                                         ^~~~~~~~~~~
-   drivers/comedi/comedi_buf.c:183:44: note: in expansion of macro 'COMEDI_PAGE_PROTECTION'
-     183 |                                            COMEDI_PAGE_PROTECTION);
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/comedi/comedi_buf.c:18:41: note: each undeclared identifier is reported only once for each function it appears in
-      18 | #define COMEDI_PAGE_PROTECTION          PAGE_KERNEL
-         |                                         ^~~~~~~~~~~
-   drivers/comedi/comedi_buf.c:183:44: note: in expansion of macro 'COMEDI_PAGE_PROTECTION'
-     183 |                                            COMEDI_PAGE_PROTECTION);
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-..
+>> drivers/clk/hisilicon/crg-hi3798mv200.c:189:11: error: 'HI3798MV200_USB3_REF_CLK' undeclared here (not in a function); did you mean 'HI3798MV200_GMACIF_CLK'?
+     189 |         { HI3798MV200_USB3_REF_CLK, "clk_u3_ref", "125m",
+         |           ^~~~~~~~~~~~~~~~~~~~~~~~
+         |           HI3798MV200_GMACIF_CLK
 
 
-vim +/sg_set_page +189 include/linux/scatterlist.h
+vim +189 drivers/clk/hisilicon/crg-hi3798mv200.c
 
-82f66fbef58de4 Jens Axboe    2007-10-22  175  
-18dabf473e1585 Jens Axboe    2007-10-22  176  /**
-18dabf473e1585 Jens Axboe    2007-10-22  177   * sg_set_buf - Set sg entry to point at given data
-18dabf473e1585 Jens Axboe    2007-10-22  178   * @sg:		 SG entry
-18dabf473e1585 Jens Axboe    2007-10-22  179   * @buf:	 Data
-18dabf473e1585 Jens Axboe    2007-10-22  180   * @buflen:	 Data length
-18dabf473e1585 Jens Axboe    2007-10-22  181   *
-18dabf473e1585 Jens Axboe    2007-10-22  182   **/
-82f66fbef58de4 Jens Axboe    2007-10-22  183  static inline void sg_set_buf(struct scatterlist *sg, const void *buf,
-d32311fed70d12 Herbert Xu    2005-09-17  184  			      unsigned int buflen)
-d32311fed70d12 Herbert Xu    2005-09-17  185  {
-ac4e97abce9b80 Rusty Russell 2013-05-30  186  #ifdef CONFIG_DEBUG_SG
-ac4e97abce9b80 Rusty Russell 2013-05-30  187  	BUG_ON(!virt_addr_valid(buf));
-ac4e97abce9b80 Rusty Russell 2013-05-30  188  #endif
-642f149031d704 Jens Axboe    2007-10-24 @189  	sg_set_page(sg, virt_to_page(buf), buflen, offset_in_page(buf));
-d32311fed70d12 Herbert Xu    2005-09-17  190  }
-d32311fed70d12 Herbert Xu    2005-09-17  191  
+   116	
+   117	static const struct hisi_gate_clock hi3798mv200_gate_clks[] = {
+   118		/* UART */
+   119		{ HISTB_UART2_CLK, "clk_uart2", "75m",
+   120			CLK_SET_RATE_PARENT, 0x68, 4, 0, },
+   121		{ HISTB_UART3_CLK, "clk_uart3", "75m",
+   122			CLK_SET_RATE_PARENT, 0x68, 6, 0, },
+   123		/* I2C */
+   124		{ HISTB_I2C0_CLK, "clk_i2c0", NULL,
+   125			CLK_SET_RATE_PARENT, 0x6c, 4, 0, },
+   126		{ HISTB_I2C1_CLK, "clk_i2c1", NULL,
+   127			CLK_SET_RATE_PARENT, 0x6c, 8, 0, },
+   128		{ HISTB_I2C2_CLK, "clk_i2c2", NULL,
+   129			CLK_SET_RATE_PARENT, 0x6c, 12, 0, },
+   130		/* SDIO */
+   131		{ HISTB_SDIO0_BIU_CLK, "clk_sdio0_biu", "200m",
+   132			CLK_SET_RATE_PARENT, 0x9c, 0, 0, },
+   133		{ HISTB_SDIO0_CIU_CLK, "clk_sdio0_ciu", "sdio0_mux",
+   134			CLK_SET_RATE_PARENT, 0x9c, 1, 0, },
+   135		{ HISTB_SDIO1_BIU_CLK, "clk_sdio1_biu", "200m",
+   136			CLK_SET_RATE_PARENT, 0x28c, 0, 0, },
+   137		{ HISTB_SDIO1_CIU_CLK, "clk_sdio1_ciu", "sdio1_mux",
+   138			CLK_SET_RATE_PARENT, 0x28c, 1, 0, },
+   139		/* EMMC */
+   140		{ HISTB_MMC_BIU_CLK, "clk_mmc_biu", "200m",
+   141			CLK_SET_RATE_PARENT, 0xa0, 0, 0, },
+   142		{ HISTB_MMC_CIU_CLK, "clk_mmc_ciu", "mmc_mux",
+   143			CLK_SET_RATE_PARENT, 0xa0, 1, 0, },
+   144		/* Ethernet */
+   145		{ HI3798MV200_GMAC_CLK, "clk_gmac", NULL,
+   146			CLK_SET_RATE_PARENT, 0xcc, 2, 0, },
+   147		{ HI3798MV200_GMACIF_CLK, "clk_gmacif", NULL,
+   148			CLK_SET_RATE_PARENT, 0xcc, 0, 0, },
+   149		{ HI3798MV200_FEMAC_CLK, "clk_femac", NULL,
+   150			CLK_SET_RATE_PARENT, 0xd0, 1, 0, },
+   151		{ HI3798MV200_FEMACIF_CLK, "clk_femacif", NULL,
+   152			CLK_SET_RATE_PARENT, 0xd0, 0, 0, },
+   153		{ HI3798MV200_FEPHY_CLK, "clk_fephy", NULL,
+   154			CLK_SET_RATE_PARENT, 0x388, 0, 0, },
+   155		/* COMBPHY0 */
+   156		{ HISTB_COMBPHY0_CLK, "clk_combphy0", "combphy0_mux",
+   157			CLK_SET_RATE_PARENT, 0x188, 0, 0, },
+   158		/* USB2 */
+   159		{ HISTB_USB2_BUS_CLK, "clk_u2_bus", "clk_ahb",
+   160			CLK_SET_RATE_PARENT, 0xb8, 0, 0, },
+   161		{ HISTB_USB2_PHY_CLK, "clk_u2_phy", "60m",
+   162			CLK_SET_RATE_PARENT, 0xb8, 4, 0, },
+   163		{ HISTB_USB2_12M_CLK, "clk_u2_12m", "12m",
+   164			CLK_SET_RATE_PARENT, 0xb8, 2, 0 },
+   165		{ HISTB_USB2_48M_CLK, "clk_u2_48m", "48m",
+   166			CLK_SET_RATE_PARENT, 0xb8, 1, 0 },
+   167		{ HISTB_USB2_UTMI0_CLK, "clk_u2_utmi0", "60m",
+   168			CLK_SET_RATE_PARENT, 0xb8, 5, 0 },
+   169		{ HISTB_USB2_UTMI1_CLK, "clk_u2_utmi1", "60m",
+   170			CLK_SET_RATE_PARENT, 0xb8, 6, 0 },
+   171		{ HISTB_USB2_OTG_UTMI_CLK, "clk_u2_otg_utmi", "60m",
+   172			CLK_SET_RATE_PARENT, 0xb8, 3, 0 },
+   173		{ HISTB_USB2_PHY1_REF_CLK, "clk_u2_phy1_ref", "24m",
+   174			CLK_SET_RATE_PARENT, 0xbc, 0, 0 },
+   175		{ HISTB_USB2_PHY2_REF_CLK, "clk_u2_phy2_ref", "24m",
+   176			CLK_SET_RATE_PARENT, 0xbc, 2, 0 },
+   177		/* USB3 bus */
+   178		{ HISTB_USB3_GM_CLK, "clk_u3_gm", "clk_ahb",
+   179			CLK_SET_RATE_PARENT, 0xb0, 6, 0 },
+   180		{ HISTB_USB3_GS_CLK, "clk_u3_gs", "clk_ahb",
+   181			CLK_SET_RATE_PARENT, 0xb0, 5, 0 },
+   182		{ HISTB_USB3_BUS_CLK, "clk_u3_bus", "clk_ahb",
+   183			CLK_SET_RATE_PARENT, 0xb0, 0, 0 },
+   184		/* USB3 ctrl */
+   185		{ HISTB_USB3_SUSPEND_CLK, "clk_u3_suspend", NULL,
+   186			CLK_SET_RATE_PARENT, 0xb0, 2, 0 },
+   187		{ HISTB_USB3_PIPE_CLK, "clk_u3_pipe", NULL,
+   188			CLK_SET_RATE_PARENT, 0xb0, 3, 0 },
+ > 189		{ HI3798MV200_USB3_REF_CLK, "clk_u3_ref", "125m",
+   190			CLK_SET_RATE_PARENT, 0xb0, 1, 0 },
+   191		{ HISTB_USB3_UTMI_CLK, "clk_u3_utmi", "60m",
+   192			CLK_SET_RATE_PARENT, 0xb0, 4, 0 },
+   193		/* Watchdog */
+   194		{ HISTB_WDG0_CLK, "clk_wdg0", "24m",
+   195			CLK_SET_RATE_PARENT, 0x178, 0, 0 },
+   196	};
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
