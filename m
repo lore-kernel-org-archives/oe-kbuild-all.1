@@ -1,166 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79292320E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 20:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598641C2AD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 20:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708200463; cv=none; b=oIj5G6StB+M+d69nBOrXy1pbbTUek23WKi8LOxx1fwut7sowujdKl5vqGyFDEjuFfRT4APF7Y7C5tzL1eUEoTWXJ0ECe3fZavtFtSJOkt6lZknQXi5+MA+1WbmXpxlNVDPktxy33czxQsHiGg624pXzs+RtjhVRWUwCsqbaBQ8g=
+	t=1708200721; cv=none; b=EoMLJX0zeqKZ0Il6Ob7A++iMhVqv4LYgV0afyDIo1AilC1njH2k6J54LHjvKkM5GiRDwdCtxPqi9atqkbPw9szg1Unpw2DTCTqD09gY4Iz34H5aq24csdVf5BTxgpxhOe4IO1BRwbqUrqyCz4XANGk8WE4/hhsw6xGcG6ZP3eQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708200463; c=relaxed/simple;
-	bh=/69HW9NzBJsJX+iI5iUdtA0unbwpwPW5fq7scXx+J5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hn54m8xYm6TG0AQ6/Bfvocg0znUmtQOyzxIpnZQdDdPi/N+8V+7Os9iVJCK9nEiXgpO9H7qcc+JRo17e6EE8r96x+hY7dUlBeNAj8CB8GTg7AmjpS24HQJt8OGBaltf0jjeK8k7aTkxA5yctZgsR7P4fz+17OIGSbNYb3Ql5h38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JEomp9Ix; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708200721; c=relaxed/simple;
+	bh=n345o+jlymw4I+gukg98Hzuwg9cn/QxSP1Pt8COtXiQ=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=dZNxfg3XzlbtFGVS5v+nEj23lgS2vMaYT9Du0rnF4w6sscGW+KWbSZR8HoGolQ5B3PYqMxHU6VQGfTkZ0YTWq7EL4v4srvhWGn58X0auW51dbOPrCcRif2TPONe+QBzi4bl1Sf8d0IGc4/LOHNOCgX7vA7MUP+f+Ia7ABkt+95A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t6BqmzF2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JEomp9Ix"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708200461; x=1739736461;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/69HW9NzBJsJX+iI5iUdtA0unbwpwPW5fq7scXx+J5o=;
-  b=JEomp9IxilrusFwFmY5Gvs+SI/7xj3nq73bwW/4turY6J1iDtecBAbeW
-   Fjm0ytzMzUHgkeQdUc3fJVwa5yvEuWymRGQH1HZnmB4uixZv9o3GCiaif
-   c3Bz4U5utU5gO/vdg+4gr0QDj9C3lVboAgI9JUQIo6gFThkdLBqfqikuf
-   LqFMHUUKR/xK9evTiovBjxrEGVs8VmHzMRCSS3tL4VPQHqKPYgE6Lk0ug
-   OzsEz2AAjrjZC37uhuuWGfqtukgH5jkAsZvJKLhSvN11KvZ0/ky9xde/I
-   fszQgpUhTnLntvYafdYBkMCR7R59pSzcPe8ctxmnJIyZ9M0IwZ2d5ejNv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2180182"
-X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="2180182"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 12:07:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,167,1705392000"; 
-   d="scan'208";a="8727084"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Feb 2024 12:07:35 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rbQyC-0002Te-24;
-	Sat, 17 Feb 2024 20:07:32 +0000
-Date: Sun, 18 Feb 2024 04:06:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ross Philipson <ross.philipson@oracle.com>,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ross.philipson@oracle.com,
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
-	ardb@kernel.org, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
-	nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
-	davem@davemloft.net, kanth.ghatraju@oracle.com,
-	trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v8 15/15] x86: EFI stub DRTM launch support for Secure
- Launch
-Message-ID: <202402180324.a3PqEegg-lkp@intel.com>
-References: <20240214221847.2066632-16-ross.philipson@oracle.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t6BqmzF2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A018DC43390
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Feb 2024 20:12:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708200720;
+	bh=n345o+jlymw4I+gukg98Hzuwg9cn/QxSP1Pt8COtXiQ=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+	b=t6BqmzF2Xyk1+62fchdMo+PFz9wavX1WhooG9EwVH+NP44fF+Q0Gqgw8YpG6GBnLv
+	 8Djokn9YjmZQjTkEtwYV1t6aME3JbPoEwvp+x7Ix8CDMwgWcxnH6fAEv8SVOzAwJG1
+	 PPhasA7xxd2vXIxDTy2hJQNE51BAPxqeYSCdndd5Wq5T4BdXtfhdl7/X6ZGaF0PIOv
+	 ZO7flZULAPLdcauSUvAkmfG0wi+RXwAcV+AQib7WX/MmPySP2j7I4GIUz6diR8V55c
+	 t2cl7n84qh7got7/nYWMMBB8upZq5AYuXP2kK8lT4eWgPUUOXqAdH/RkHAZzS1Py1p
+	 0TsfpGoqg8epA==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailauth.nyi.internal (Postfix) with ESMTP id 8305827C005B;
+	Sat, 17 Feb 2024 15:11:59 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Sat, 17 Feb 2024 15:11:59 -0500
+X-ME-Sender: <xms:DxPRZdJrz6_F2wggPbW0myqE0ljo52iCNnyjx7lWPQwsWc4KIsArRg>
+    <xme:DxPRZZKwvf9W1c3CKkUmAzgdHGrkdNpMoghH1wd4UAlraAYBRxOYZMwArzVaRvD-K
+    Z0pPZzIGuliXBCUa0o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeggddufeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
+    grthhtvghrnhephedvtdeuvefhveevgefhgfefveelieeluddufeevueehtdejjeegheeg
+    heekkeetnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptddurdhorhhgnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhguodhmvghs
+    mhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedtvdegqddvkeejtddtvd
+    eigedqrghrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:DxPRZVuyX6o7jDrJzUKZi7q9KgM4RkeYPBxLuWIlFiT4auRP0YCffA>
+    <xmx:DxPRZeYexB9EASLyxiWM0sG0r6zToy7aAW7ACflfJDTmnqMclzDKRA>
+    <xmx:DxPRZUaQj-adAzrzHSYXWI0ouL8gGWAorEJ9iLgliPyXI3ez2NVTBg>
+    <xmx:DxPRZfzgDVQG36LFBDoXNBKVp-Jags2Zqb917eDbMJT8R65K3mvxcQ>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 4BB61B6008D; Sat, 17 Feb 2024 15:11:59 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240214221847.2066632-16-ross.philipson@oracle.com>
+Message-Id: <606284da-1700-4186-80ec-8a4cd85586fc@app.fastmail.com>
+In-Reply-To: <202402180247.kvG7qcpX-lkp@intel.com>
+References: <202402180247.kvG7qcpX-lkp@intel.com>
+Date: Sat, 17 Feb 2024 21:11:38 +0100
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "kernel test robot" <lkp@intel.com>,
+ "Niklas Schnelle" <schnelle@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [niks:has_ioport_v6 19/19] include/asm-generic/io.h:625:15: error: call to
+ '_outl' declared with attribute error: outl() requires CONFIG_HAS_IOPORT
+Content-Type: text/plain
 
-Hi Ross,
+On Sat, Feb 17, 2024, at 19:09, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git 
+> has_ioport_v6
+> head:   0cc26afe6244fe307926528550a4de09c1e5846e
+> commit: 0cc26afe6244fe307926528550a4de09c1e5846e [19/19] 
+> asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
+> config: um-allyesconfig 
+> (https://download.01.org/0day-ci/archive/20240218/202402180247.kvG7qcpX-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): 
+> (https://download.01.org/0day-ci/archive/20240218/202402180247.kvG7qcpX-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202402180247.kvG7qcpX-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    lib/iomap.c:156:5: warning: no previous prototype for 
+> 'ioread64_lo_hi' [-Wmissing-prototypes]
+>      156 | u64 ioread64_lo_hi(const void __iomem *addr)
+>          |     ^~~~~~~~~~~~~~
 
-kernel test robot noticed the following build errors:
+arch/um now has some limited ioport support, so I think what
+we want here is
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.8-rc4 next-20240216]
-[cannot apply to tip/x86/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+diff --git a/arch/um/Kconfig b/arch/um/Kconfig
+index b5e179360534..7cce19a22692 100644
+--- a/arch/um/Kconfig
++++ b/arch/um/Kconfig
+@@ -47,12 +47,13 @@ config NO_IOMEM
+ config UML_IOMEM_EMULATION
+        bool
+        select INDIRECT_IOMEM
++       select HAS_IOPORT
+        select GENERIC_PCI_IOMAP
+        select GENERIC_IOMAP
+        select NO_GENERIC_PCI_IOPORT_MAP
+ 
+ config NO_IOPORT_MAP
+-       def_bool y
++       def_bool !UML_IOMEM_EMULATION
+ 
+ config ISA
+        bool
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ross-Philipson/x86-boot-Place-kernel_info-at-a-fixed-offset/20240215-064712
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20240214221847.2066632-16-ross.philipson%40oracle.com
-patch subject: [PATCH v8 15/15] x86: EFI stub DRTM launch support for Secure Launch
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240218/202402180324.a3PqEegg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402180324.a3PqEegg-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402180324.a3PqEegg-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In function 'efi_secure_launch',
-       inlined from 'efi_stub_entry' at drivers/firmware/efi/libstub/x86-stub.c:990:2:
->> drivers/firmware/efi/libstub/x86-stub.c:861:9: error: inconsistent operand constraints in an 'asm'
-     861 |         asm volatile ("jmp *%%rax"
-         |         ^~~
-
-
-vim +/asm +861 drivers/firmware/efi/libstub/x86-stub.c
-
-   813	
-   814	static void efi_secure_launch(struct boot_params *boot_params)
-   815	{
-   816		struct slr_entry_uefi_config *uefi_config;
-   817		struct slr_uefi_cfg_entry *uefi_entry;
-   818		struct slr_entry_dl_info *dlinfo;
-   819		efi_guid_t guid = SLR_TABLE_GUID;
-   820		struct slr_table *slrt;
-   821		u64 memmap_hi;
-   822		void *table;
-   823		u8 buf[64] = {0};
-   824	
-   825		table = get_efi_config_table(guid);
-   826	
-   827		/*
-   828		 * The presence of this table indicated a Secure Launch
-   829		 * is being requested.
-   830		 */
-   831		if (!table)
-   832			return;
-   833	
-   834		slrt = (struct slr_table *)table;
-   835	
-   836		if (slrt->magic != SLR_TABLE_MAGIC)
-   837			return;
-   838	
-   839		/* Add config information to measure the UEFI memory map */
-   840		uefi_config = (struct slr_entry_uefi_config *)buf;
-   841		uefi_config->hdr.tag = SLR_ENTRY_UEFI_CONFIG;
-   842		uefi_config->hdr.size = sizeof(*uefi_config) + sizeof(*uefi_entry);
-   843		uefi_config->revision = SLR_UEFI_CONFIG_REVISION;
-   844		uefi_config->nr_entries = 1;
-   845		uefi_entry = (struct slr_uefi_cfg_entry *)(buf + sizeof(*uefi_config));
-   846		uefi_entry->pcr = 18;
-   847		uefi_entry->cfg = boot_params->efi_info.efi_memmap;
-   848		memmap_hi = boot_params->efi_info.efi_memmap_hi;
-   849		uefi_entry->cfg |= memmap_hi << 32;
-   850		uefi_entry->size = boot_params->efi_info.efi_memmap_size;
-   851		memcpy(&uefi_entry->evt_info[0], "Measured UEFI memory map",
-   852			strlen("Measured UEFI memory map"));
-   853	
-   854		if (slr_add_entry(slrt, (struct slr_entry_hdr *)uefi_config))
-   855			return;
-   856	
-   857		/* Jump through DL stub to initiate Secure Launch */
-   858		dlinfo = (struct slr_entry_dl_info *)
-   859			slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_DL_INFO);
-   860	
- > 861		asm volatile ("jmp *%%rax"
-   862			      : : "a" (dlinfo->dl_handler), "D" (&dlinfo->bl_context));
-   863	}
-   864	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      Arnd
