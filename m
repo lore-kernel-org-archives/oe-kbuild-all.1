@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A88149E0A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Feb 2024 12:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0608331A66
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Feb 2024 13:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708260554; cv=none; b=nMdTawIa+TPAQ908NuVrO6j/YTK0NXo0yWdIh1z7od76NkSEWVMLA6ITohhq9KJO6Qs1HlxeEAwNpKlWeLZSUS4q/XzWHaG1XD+Zw9/qXZaZzSxSTlJYpTYn6TZJqEGZPh26JXXeZ62RDPWXfOHwYxoIN+9AtUthHr6Jcjl6EMw=
+	t=1708261261; cv=none; b=jlFtbjMYNzP+Nvdo+DRJIQIzKLTmj40nIrB7BjwnQ/b/UMSIqsjnX/7gW5Apfje3Apk7i846emAL5eZBIT6StdqK4BO6JHoqFtlIryfShqm7y+u6i6gxxMFNW+raJXfWmgpqOnSNAIpcgLhOiVQ54EW/TRQDdUrdiZulAX6woxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708260554; c=relaxed/simple;
-	bh=YKq6xVZ+KmvZ4Qw02J5lPH9e3VAutaCzjqCZSDADR3Y=;
+	s=arc-20240116; t=1708261261; c=relaxed/simple;
+	bh=DcHNN+AuFBiEfX/xEyBnl5ukMBIHy6kUijjTyjVynYo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mqw8w2bRy+bjU2QeoTN7ZcbqFEl6lJ8ZMrqA5b29v436eVFaHlZzi63r0nt/LeAbtEhBxr++PSngPntfXCNZ15n8v4oh2IZtmN4xbCw+yaDJUHn/dmLmO+xW1ak+Yxd8TeyFgRJyb5b6eZbb5jpODl3eAakBJciUcy3j8kbANo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bgZ6ddZr; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=Sa5/i7DDQca3WGAvabk3zsiEtNg2SbaJ08ariEZgqwk6XrhCrGGC5hc/QUA09Wjpi8ug9kbujLr96XP22swLun9MDn/iYz0nrrhBLP+915fWaXbTqh0SHL6Vh/MclpuuWodHB8D7Jys8lv2PHhb3i9sPt5l0lYe1I1PggtkU7WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zg+9IxZn; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bgZ6ddZr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zg+9IxZn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708260552; x=1739796552;
+  t=1708261259; x=1739797259;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YKq6xVZ+KmvZ4Qw02J5lPH9e3VAutaCzjqCZSDADR3Y=;
-  b=bgZ6ddZryS3H5A15Xtut5DcezA+OS7R6ry3ssic2d6uSpVtR8KZTgilT
-   UHCA1npPD1b33Sv2PTtK1sw9JiWJZGGZXp+/EnNUQ4BqyvtqbpNozogyN
-   a5YNUTqtevo97cn9QQ5diUgXurjb/RrR2/mu2PKPFGTr3Gc2IG2bDVAym
-   Fu+OvLxr09M7ylAVgDvy38sqQxUdh99EOl3C47TmV3aYMiZIvzd0nx18e
-   foV8R1UTBo3tSsj5eGbwB7NpCwPJW/ycm8FpCrQ3FbUqPrwZa+WKw5Vgs
-   wXFrkWID+0Eok5Bskfcf3LOBwMoNwbbXLazeVtG3cJuRgxAoU8TWrdayC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2485113"
+  bh=DcHNN+AuFBiEfX/xEyBnl5ukMBIHy6kUijjTyjVynYo=;
+  b=Zg+9IxZnp4nsEyTgbcOIDIlPwI+8PJdAhMHSYoDiWo+nYy9Dwi+eFfDB
+   vHE9IUCMcpmHTbmLekkM50upv9B7/rzj/cH8ZyR5wIGLfmY8C4koUtqFF
+   J6Gi9xgu9wtOvhX2PK2zfIMDLUtpIgTbgT0Uz+AvSVIW8P72UGNZweUKt
+   E34RpSi+9B2FRG3XVwPu08Hph3r7tJpX7V8UwC7AHzwpxLb8YzlInvkf8
+   TivT5s7994yY7kTMJvYPJfk1L/rEXw1ZlUuOOgKQ7NROQcKrJ4SxxSbNM
+   ozC9bWbsYiR3tOxgOQ96gm5SU/wFP+l08h/PLghHJMU9RFK6sOLLY81OV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="27792770"
 X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="2485113"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 04:49:11 -0800
+   d="scan'208";a="27792770"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 05:00:58 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="27416135"
+   d="scan'208";a="4304865"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Feb 2024 04:49:09 -0800
+  by orviesa010.jf.intel.com with ESMTP; 18 Feb 2024 05:00:57 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbgb3-00031S-01;
-	Sun, 18 Feb 2024 12:48:45 +0000
-Date: Sun, 18 Feb 2024 20:48:01 +0800
+	id 1rbgmC-00031q-2D;
+	Sun, 18 Feb 2024 13:00:27 +0000
+Date: Sun, 18 Feb 2024 20:58:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Siddharth Vadapalli <s-vadapalli@ti.com>
 Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
 	Udit Kumar <u-kumar1@ti.com>
 Subject: [ti:ti-linux-6.1.y-wip 10/22]
- drivers/net/ethernet/ti/cpsw-proxy-client.c:1753:20: warning: address of
- 'virt_port->virt_port_tx_chan' will always evaluate to 'true'
-Message-ID: <202402182058.On0jzxD1-lkp@intel.com>
+ drivers/net/ethernet/ti/cpsw-proxy-client.c:1753:29: warning: the comparison
+ will always evaluate as 'true' for the address of 'virt_port_tx_chan' will
+ never be NULL
+Message-ID: <202402182009.OWMy4ndK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,37 +64,46 @@ Content-Disposition: inline
 tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-6.1.y-wip
 head:   77aa27cbdca359bf0735b36ada464ec65b520943
 commit: 5f1b32f6bd1b9f1dd56eb4f062c5080dcd76f5cf [10/22] net: ethernet: ti: cpsw-proxy-client: Switch to ATTACH Request
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240218/202402182058.On0jzxD1-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402182058.On0jzxD1-lkp@intel.com/reproduce)
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240218/202402182009.OWMy4ndK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402182009.OWMy4ndK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402182058.On0jzxD1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402182009.OWMy4ndK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/ti/cpsw-proxy-client.c:472:6: warning: variable 'response_status' set but not used [-Wunused-but-set-variable]
+   drivers/net/ethernet/ti/cpsw-proxy-client.c: In function 'cpsw_proxy_client_cb':
+   drivers/net/ethernet/ti/cpsw-proxy-client.c:472:13: warning: variable 'response_status' set but not used [-Wunused-but-set-variable]
      472 |         int response_status, ret = 0;
-         |             ^
->> drivers/net/ethernet/ti/cpsw-proxy-client.c:1753:20: warning: address of 'virt_port->virt_port_tx_chan' will always evaluate to 'true' [-Wpointer-bool-conversion]
+         |             ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/ti/cpsw-proxy-client.c: In function 'cpsw_proxy_client_detach':
+>> drivers/net/ethernet/ti/cpsw-proxy-client.c:1753:29: warning: the comparison will always evaluate as 'true' for the address of 'virt_port_tx_chan' will never be NULL [-Waddress]
     1753 |                         if (&virt_port->virt_port_tx_chan &&
-         |                              ~~~~~~~~~~~^~~~~~~~~~~~~~~~~ ~~
->> drivers/net/ethernet/ti/cpsw-proxy-client.c:1754:39: warning: address of 'virt_port->virt_port_tx_chan->is_valid' will always evaluate to 'true' [-Wpointer-bool-conversion]
+         |                             ^
+   drivers/net/ethernet/ti/cpsw-proxy-client.c:86:41: note: 'virt_port_tx_chan' declared here
+      86 |         struct cpsw_proxy_tx_chan       virt_port_tx_chan[CPSW_PROXY_CLIENT_MAX_TX_QUEUES];
+         |                                         ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/ti/cpsw-proxy-client.c:1753:59: warning: the comparison will always evaluate as 'true' for the address of 'is_valid' will never be NULL [-Waddress]
     1753 |                         if (&virt_port->virt_port_tx_chan &&
-         |                                                           ~~
-    1754 |                             &virt_port->virt_port_tx_chan->is_valid) {
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
->> drivers/net/ethernet/ti/cpsw-proxy-client.c:1770:20: warning: address of 'virt_port->virt_port_rx_chan' will always evaluate to 'true' [-Wpointer-bool-conversion]
+         |                                                           ^~
+   drivers/net/ethernet/ti/cpsw-proxy-client.c:60:41: note: 'is_valid' declared here
+      60 |         bool                            is_valid;
+         |                                         ^~~~~~~~
+>> drivers/net/ethernet/ti/cpsw-proxy-client.c:1770:29: warning: the comparison will always evaluate as 'true' for the address of 'virt_port_rx_chan' will never be NULL [-Waddress]
     1770 |                         if (&virt_port->virt_port_rx_chan &&
-         |                              ~~~~~~~~~~~^~~~~~~~~~~~~~~~~ ~~
->> drivers/net/ethernet/ti/cpsw-proxy-client.c:1771:39: warning: address of 'virt_port->virt_port_rx_chan->is_valid' will always evaluate to 'true' [-Wpointer-bool-conversion]
+         |                             ^
+   drivers/net/ethernet/ti/cpsw-proxy-client.c:87:41: note: 'virt_port_rx_chan' declared here
+      87 |         struct cpsw_proxy_rx_chan       virt_port_rx_chan[CPSW_PROXY_CLIENT_MAX_RX_QUEUES];
+         |                                         ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/ti/cpsw-proxy-client.c:1770:59: warning: the comparison will always evaluate as 'true' for the address of 'is_valid' will never be NULL [-Waddress]
     1770 |                         if (&virt_port->virt_port_rx_chan &&
-         |                                                           ~~
-    1771 |                             &virt_port->virt_port_rx_chan->is_valid) {
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
-   5 warnings generated.
+         |                                                           ^~
+   drivers/net/ethernet/ti/cpsw-proxy-client.c:79:41: note: 'is_valid' declared here
+      79 |         bool                            is_valid;
+         |                                         ^~~~~~~~
 
 
 vim +1753 drivers/net/ethernet/ti/cpsw-proxy-client.c
@@ -125,7 +135,7 @@ vim +1753 drivers/net/ethernet/ti/cpsw-proxy-client.c
   1751			/* Free TX DMA Channel */
   1752			for (j = 0; j < virt_port->num_tx_chan; j++) {
 > 1753				if (&virt_port->virt_port_tx_chan &&
-> 1754				    &virt_port->virt_port_tx_chan->is_valid) {
+  1754				    &virt_port->virt_port_tx_chan->is_valid) {
   1755					virt_port->curr_tx_chan_idx = j;
   1756					ret = cpsw_proxy_client_send_request(common, virt_port,
   1757									     virt_port->virt_port_token,
@@ -142,7 +152,7 @@ vim +1753 drivers/net/ethernet/ti/cpsw-proxy-client.c
   1768			/* Free RX DMA Flow */
   1769			for (j = 0; j < virt_port->num_rx_chan; j++) {
 > 1770				if (&virt_port->virt_port_rx_chan &&
-> 1771				    &virt_port->virt_port_rx_chan->is_valid) {
+  1771				    &virt_port->virt_port_rx_chan->is_valid) {
   1772					virt_port->curr_rx_chan_idx = j;
   1773					ret = cpsw_proxy_client_send_request(common, virt_port,
   1774									     virt_port->virt_port_token,
