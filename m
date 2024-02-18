@@ -1,56 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003E0149E15
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Feb 2024 08:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8805A6AD7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Feb 2024 08:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708243501; cv=none; b=oLZZS0wUOvQzXgI4EvZRtXaVKG0k13J9/tqxyvtnNSXmhUvwVkDY8B3u+7JB/Cqp7g22/zsd3qeLD7tfmVCdvocDo8kzFZT0jrVqo1B1yFIgfr3M0R4A4Inb6bBfVW2Bn6HbxA2QBzWPOuwWVulGLvXvi7AeDW0Q0H00vHGtnwc=
+	t=1708243553; cv=none; b=aDi2W9DxoY1e0krO7IQxeP1284t7tkpePLVkjiXEHYkqZJCFA653Pt7Ljz7ud6u5wEuFu4D4Iw/TuYJBBt6a8D9XWTqHWViR10a9RYVfFlSyNGXlc4xMlq4k81q7JWfXicxcyLX5IGPuuBSq/8nNqOUK28vQr3LE2aehbUENMys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708243501; c=relaxed/simple;
-	bh=nXqtrdNHmrxIDqrMuWjltzRwb8x8pMN7v0q2CPa01/o=;
+	s=arc-20240116; t=1708243553; c=relaxed/simple;
+	bh=ttnZGnH/KEDMCu9kI5+L2dr0PEX11yWRxMG0Mkdt0AQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jjK7iQ1/g3clI+9vDtd4SnhKfSEAjQMLAhZtqlz1QXsGF6IcD+NIM4O14PuEI4o0XPSEaHKifXhH6EjtsGymoZ3IlSrwK0caHmdSvZmSDyQymMKOT56TIoybXCVw/lesmQzi9siYazmSNsPRRg/p7xFEaHoQj04BsjK9P/Cw/kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CxFaenEN; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=gfb5+MR+MSB0HuUvZUYZng450aFzxvdMSojOTtgqCArWWNTwQCS8EVpa+wngcYEuT/IRdPZiAQ1qp4N8nUKzuhIZWsahwE9GtXoV0rRZNG4iltCuXY16PMpOe+wXbeTgyEKQ+P+v9HBcCIrqyrwRlPm4/fkPVRaa1mvDJ11SIfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=enSBJw6Y; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxFaenEN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="enSBJw6Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708243500; x=1739779500;
+  t=1708243552; x=1739779552;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nXqtrdNHmrxIDqrMuWjltzRwb8x8pMN7v0q2CPa01/o=;
-  b=CxFaenENS2IlhzoccPz0pVMrS6DoOQQZ0c1TiKcc4dX8m2vq5Yylm20Y
-   V+oRyvr6rgccrpZnjYHs81TJ1WqvytLoUwHuM839D0MLgjD+J9F3T2NVb
-   Kewuj4OKhKDU3/PaqH6xqsSssIiLG0XQKjs/s+cjTvpVDsaPd+vy0My2L
-   Ft2diOUnDjInBsq6mYcXVq/Pkz4egRK1VW0B9jPWMrmYxZsOPdOcKPLGS
-   bf57xPa8YGRAday0IoLmt4vHKoEDXXKRyizffBStIuF5YU9j1WKhpRKtz
-   7ZSQVjvLuw6HvWj+GaqXNuyPQ5Ha91VG7VcfyNrOpHCmmKUw/0CWkmbPM
+  bh=ttnZGnH/KEDMCu9kI5+L2dr0PEX11yWRxMG0Mkdt0AQ=;
+  b=enSBJw6YmZZQELyM4/Hnsfl2eo2X4GBb+Ei+dzQlIs9NGkhOifNPSp7q
+   qRAMr/ky6WYuCBl4n1W0KIoeU8n/aQTL0q/YEArgdJFSQCF5TYX7xH2R9
+   8Eg9xw7qH168oWLMCf/ut2DF7NV4KkHl6lOPP4yJhtVuErLw6LjPqcgmu
+   zA9wE472PQSG/qYZLs+Do19CKZNDyIb8Szu3m3pjT12N4xNQ7Y/0WCGNZ
+   DD/ey3RcHDUe+blAFWyg3nlLhQ1ExQgKgVL5kGexfoJaMOsJ8/BhzIChC
+   8dKxdG1uWDPkO7RijInQROJv5sIUEjfZOwfzdjnH+8Umtr7EUG3cZvUVo
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="13732288"
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="6109382"
 X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="13732288"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 00:04:59 -0800
+   d="scan'208";a="6109382"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 00:05:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="826820588"
 X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="826820588"
+   d="scan'208";a="8904608"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 18 Feb 2024 00:04:57 -0800
+  by orviesa004.jf.intel.com with ESMTP; 18 Feb 2024 00:05:46 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbc9p-0002sm-0S;
-	Sun, 18 Feb 2024 08:04:23 +0000
-Date: Sun, 18 Feb 2024 16:02:59 +0800
+	id 1rbcAR-0002sq-05;
+	Sun, 18 Feb 2024 08:05:10 +0000
+Date: Sun, 18 Feb 2024 16:03:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petr Tesarik <petrtesarik@huaweicloud.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 7/8] KEYS: Run PGP key parser in a sandbox
-Message-ID: <202402181524.uHqB4eFB-lkp@intel.com>
-References: <20240216152435.1575-8-petrtesarik@huaweicloud.com>
+To: Yang Xiwen via B4 Relay <devnull+forbidden405.outlook.com@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Igor Opaniuk <igor.opaniuk@linaro.org>,
+	tianshuliang <tianshuliang@hisilicon.com>,
+	David Yang <mmyangfl@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	Yang Xiwen <forbidden405@outlook.com>
+Subject: Re: [PATCH 1/3] mmc: dw_mmc: add support for hi3798mv200
+Message-ID: <202402181540.H4Ose96P-lkp@intel.com>
+References: <20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,48 +67,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240216152435.1575-8-petrtesarik@huaweicloud.com>
+In-Reply-To: <20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6@outlook.com>
 
-Hi Petr,
+Hi Yang,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on herbert-crypto-2.6/master soc/for-next linus/master v6.8-rc4 next-20240216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 8d3dea210042f54b952b481838c1e7dfc4ec751d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Petr-Tesarik/mpi-Introduce-mpi_key_length/20240216-233743
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20240216152435.1575-8-petrtesarik%40huaweicloud.com
-patch subject: [RFC 7/8] KEYS: Run PGP key parser in a sandbox
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240218/202402181524.uHqB4eFB-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402181524.uHqB4eFB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Xiwen-via-B4-Relay/mmc-dw_mmc-add-support-for-hi3798mv200/20240216-014744
+base:   8d3dea210042f54b952b481838c1e7dfc4ec751d
+patch link:    https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6%40outlook.com
+patch subject: [PATCH 1/3] mmc: dw_mmc: add support for hi3798mv200
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20240218/202402181540.H4Ose96P-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402181540.H4Ose96P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402181524.uHqB4eFB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402181540.H4Ose96P-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> crypto/asymmetric_keys/pgp_public_key.c:13:10: fatal error: linux/sbm.h: No such file or directory
-      13 | #include <linux/sbm.h>
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
+   drivers/mmc/host/dw_mmc-hi3798mv200.c: In function 'dw_mci_hi3798mv200_init':
+>> drivers/mmc/host/dw_mmc-hi3798mv200.c:178:36: error: passing argument 1 of 'mmc_of_parse_clk_phase' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     178 |         mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
+         |                                ~~~~^~~~~
+         |                                    |
+         |                                    struct device *
+   In file included from drivers/mmc/host/dw_mmc-hi3798mv200.c:11:
+   include/linux/mmc/host.h:542:46: note: expected 'struct mmc_host *' but argument is of type 'struct device *'
+     542 | void mmc_of_parse_clk_phase(struct mmc_host *host,
+         |                             ~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +13 crypto/asymmetric_keys/pgp_public_key.c
+vim +/mmc_of_parse_clk_phase +178 drivers/mmc/host/dw_mmc-hi3798mv200.c
 
-  > 13	#include <linux/sbm.h>
-    14	#include <keys/asymmetric-subtype.h>
-    15	#include <keys/asymmetric-parser.h>
-    16	#include <crypto/hash.h>
-    17	#include <crypto/public_key.h>
-    18	
+   168	
+   169	static int dw_mci_hi3798mv200_init(struct dw_mci *host)
+   170	{
+   171		struct dw_mci_hi3798mv200_priv *priv;
+   172		struct device_node *np = host->dev->of_node;
+   173	
+   174		priv = devm_kzalloc(host->dev, sizeof(*priv), GFP_KERNEL);
+   175		if (!priv)
+   176			return -ENOMEM;
+   177	
+ > 178		mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
+   179	
+   180		priv->sample_clk = devm_clk_get_enabled(host->dev, "ciu-sample");
+   181		if (IS_ERR(priv->sample_clk)) {
+   182			dev_err(host->dev, "failed to get enabled ciu-sample clock\n");
+   183			return PTR_ERR(priv->sample_clk);
+   184		}
+   185	
+   186		priv->drive_clk = devm_clk_get_enabled(host->dev, "ciu-drive");
+   187		if (IS_ERR(priv->drive_clk)) {
+   188			dev_err(host->dev, "failed to get enabled ciu-drive clock\n");
+   189			return PTR_ERR(priv->drive_clk);
+   190		}
+   191	
+   192		priv->sap_dll_reg = syscon_regmap_lookup_by_phandle(np, "hisilicon,sap-dll-reg");
+   193		if (IS_ERR(priv->sap_dll_reg)) {
+   194			dev_err(host->dev, "failed to get sap-dll-reg\n");
+   195			return PTR_ERR(priv->sap_dll_reg);
+   196		}
+   197	
+   198		host->priv = priv;
+   199		return 0;
+   200	}
+   201	
 
 -- 
 0-DAY CI Kernel Test Service
