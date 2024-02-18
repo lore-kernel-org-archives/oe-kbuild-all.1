@@ -1,138 +1,213 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01olkn2031.outbound.protection.outlook.com [40.92.52.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F61EADA;
-	Sun, 18 Feb 2024 08:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708244125; cv=none; b=GGWBsMmkq8fwn6iagOu6fWG3PvAs0ujYjqlsm0YNg/K4NRkOp76O37Y0KRgQ86qpXgofn/bxUktMU1rGIV2xrpIMo3NHzEMJBGW7oHzJ7PV6jR9chqDWs/k+mlTsPZ1+kKe5lTICQD3TbWF4fydsVzK/sRq91Ym3XeM2GBzbpRY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708244125; c=relaxed/simple;
-	bh=nIUi3+5qE2Fu+BpbvRSLMr1JZHmcSqsOnohOrMctUSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MWM+eb99wJcC7GQ21d4UdUoDzRbI9Y4Ygv++qeKBg5vxkd4fqYXRfNEoJH7EBzlqTPLoPWsIhsbtiZinQ6VpM3wxXQHCUjOunNNnvFyViP5JUP0NGaltO+8G6yCqcPc+Azw/0ytNBq4sTvjVYIXraoRPYBGEcZSnpS6Iv2kCkhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e0q2WsUM; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F378BDDB8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Feb 2024 08:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.52.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708244486; cv=fail; b=jLhkPhbh6ybseU36X4jJuob13iOJRWwLj77Wc4Yb5ZhqDjH9KsxUdhPRlckLYf0H4ru8asZRE5kuo3T9r2Ue9BXky9B5XqRRaE8Twza2/a2nDEF+r/IGn6GLQ7B1vWwLgL/8Q3NN4wqPNp2uivFnr9pDkldLLWxL77jBuQdAqgc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708244486; c=relaxed/simple;
+	bh=LvCGYYp7hQVTmc6WoBgY3W3XpwUxai6CQF3T3MUkXOQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YFeWAW0bM+eJHTTF4TiTQteDTwcbT3RdOVsbHt2yihlRJ7JcY4Q9x5jvX1WR6aZVtkVtzpvw35aDeOHDIcGTniLXt7Ab9fFlPbjhLwiYr+1DdcB5puzYsnozSDP4XqhbwQ/8FhuHNy6Xnkj8BslVjeFcak3BFdV3GjeEqBUr19w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=BQeZKqBt; arc=fail smtp.client-ip=40.92.52.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0q2WsUM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708244124; x=1739780124;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nIUi3+5qE2Fu+BpbvRSLMr1JZHmcSqsOnohOrMctUSA=;
-  b=e0q2WsUMnMpsT8ZRkKNNfpe/cP8B2Ynvtxsj25mCfoDv9qXrLFNJkFxQ
-   qW47CJXfL6HlHrL5zJEjg5ypI+NVXu4UsfvdoJ/rGbBTfVODEXN0Oxk9q
-   i56H9Jodie6W5wv4iv3K5cTOlUj5FniNmGtHNYe2pg8usELz+7LcwmDFc
-   8DWHTvjgLqMoVgolQbn4WY5vnMgbLmYbEH9OYD02rOGhFkFJCBo4/kzKY
-   8z6Wl0D8ee+axhBTq7LUxUy6TkNzEKfPgnvntCKM6tVH/GJ5Bq+kEebwT
-   dJ0r+uegW8kwh1NIRpgDBn00o4iYlQI/YQoLBLN32voEkqZGLV/Y1SxN1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2199079"
-X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="2199079"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 00:15:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="35259770"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Feb 2024 00:15:18 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rbcKR-0002tA-2n;
-	Sun, 18 Feb 2024 08:15:15 +0000
-Date: Sun, 18 Feb 2024 16:14:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Md Sadre Alam <quic_mdalam@quicinc.com>, andersson@kernel.org,
-	konrad.dybcio@linaro.org, broonie@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	manivannan.sadhasivam@linaro.org, linux-arm-msm@vger.kernel.org,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	quic_srichara@quicinc.com, quic_varada@quicinc.com,
-	quic_mdalam@quicinc.com
-Subject: Re: [PATCH 3/5] spi: spi-qpic: Add qpic spi nand driver support
-Message-ID: <202402181614.N6WuWtRU-lkp@intel.com>
-References: <20240215134856.1313239-4-quic_mdalam@quicinc.com>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="BQeZKqBt"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gc2AlIEZdHCFQ2JU4VOa9o5wXz3HgeBaLv81qRQBrB0VmtSouh1yYKUjJvxnxE2DDSZM71AQV/3JjGWZ/4eQsDQJJS1pJS88Eig3HcT35u0HVvrmZYwZq+KggEsKsMAkfP3QU2Gr3/9faFK4BuduL79YMT+mF7qMm0WntymWCaqMQkjrcVDtzphe/OW+PHkCQcCBHYzvgtQVMiJB/kfnnJvLS/k94vZjAnQFLFjaJtqvS1hH+u+A7fzmCG0XyLnrzXg3KscjWwKgdYl9unCmrHimnmzpp9tDk79tv7bkQA0KC3QD+gjBuKb+5JTJpmabk08THyFiYbKb9sP+j1hZ+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VQX7GTnjol7CphCdvGTFqsrOM3LqaI2OHgyQhIhlHms=;
+ b=IJYGrWl4l85iXeV2S/UwaWi7agE2s/9y5xM6fG8Vv37Fe6VFmP/ctHIB5NKhtkNdch+F+Y8v1UxZyIfVcMxjImEOhZuXhT4pbXWX1+DZVjAmr/jPrneIiRPSyltzygfEe+0FPGRWg/5SAR9o96C6jCpscTPwnaqjYLK8mMToJMZZ1sRhz64k2UT1c9Z38vv/YG2jfjT7yMfu3bk50+xgLvVI4ZWntFKC0loLjyKZN+XhamcgPUGnp4utmxO0ktv2ienUxh1FzkpBfFQJO9HyBR1fBtnenPPKq6i+dLzIQChicv/fYkizhe0eIdaoHhnG0XExrltWCA819GDG+/PUnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VQX7GTnjol7CphCdvGTFqsrOM3LqaI2OHgyQhIhlHms=;
+ b=BQeZKqBtOqBllVxibhcxt6tIkfZY+T5+M++dtSdL4Xmn/D7PtcC5Dz1gnRUWJz5JApLQKT/1KPevo8xTpuWjb8Dm1DTA1VcYNk/7F0HeR1qCib60mKloCZwwdI6oxecaYZVBsxX7Pi7Mh0FdKyo/LebRVXFJV8N6FnqwmAoXYrtWD6TfAF3SLzSUraUt8KVPSHKWckugBZltWBVWCafnn/JqUnUOi7ApIQsaqNI7xdt+I7qwza9xGUmvaFMdM1Uck5Twf0T+r8O0XRNHL8cHsfrAzM5y3839pUgWTKV25kFHBcQhTpkWjMA86OqHBMvtnApMhgRQMZ4NPQ8Vp0A/BQ==
+Received: from SEZPR06MB6959.apcprd06.prod.outlook.com (2603:1096:101:1ed::14)
+ by SI2PR06MB5113.apcprd06.prod.outlook.com (2603:1096:4:1a8::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.31; Sun, 18 Feb
+ 2024 08:21:18 +0000
+Received: from SEZPR06MB6959.apcprd06.prod.outlook.com
+ ([fe80::9a6b:d813:8f4b:cba1]) by SEZPR06MB6959.apcprd06.prod.outlook.com
+ ([fe80::9a6b:d813:8f4b:cba1%4]) with mapi id 15.20.7292.029; Sun, 18 Feb 2024
+ 08:21:17 +0000
+Message-ID:
+ <SEZPR06MB695945299705B6E8BF0E326296522@SEZPR06MB6959.apcprd06.prod.outlook.com>
+Date: Sun, 18 Feb 2024 16:21:13 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] mmc: dw_mmc: add support for hi3798mv200
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>,
+ Yang Xiwen via B4 Relay <devnull+forbidden405.outlook.com@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Jaehoon Chung
+ <jh80.chung@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Igor Opaniuk <igor.opaniuk@linaro.org>,
+ tianshuliang <tianshuliang@hisilicon.com>, David Yang <mmyangfl@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6@outlook.com>
+ <202402181540.H4Ose96P-lkp@intel.com>
+From: Yang Xiwen <forbidden405@outlook.com>
+In-Reply-To: <202402181540.H4Ose96P-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TMN:
+ [rd+/2oLvLELvw/34LI0iRjT41XkaphkIiTSqYyAOZI4dLGx5pFG3NN0R+a7C0jNhH6ZpYue3wNg=]
+X-ClientProxiedBy: TYCP286CA0072.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31a::20) To SEZPR06MB6959.apcprd06.prod.outlook.com
+ (2603:1096:101:1ed::14)
+X-Microsoft-Original-Message-ID:
+ <fed14e44-6b36-424e-86b7-b85e61ab1cb8@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240215134856.1313239-4-quic_mdalam@quicinc.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB6959:EE_|SI2PR06MB5113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69453715-b438-4816-03f3-08dc305a945c
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	zgkTp04Di8CfwwkE3lZANwKSYZqNbGB2lARIQSsyTrMIXhJJB/tKfsPGTy/zz5WG7xSfm/1DyrLffMeYY58uxeDfJAGUXiy76Ksk0ZFHeB1758L6vtaHC7ONRu17h20W1gDDLj7xjYi8/M6nlIymeoIxsdc6+pBGG4GohVB1fxyAbIpiprog9MnxlNhHCYb2TohB5nIsUrMqYZX0T9jfp1l2ghdxjUNcy3gdDynEemrzkyAF/+DHjpyeC5V9seLTHB0DA2ThxLFR31X9186LC2EtNFANGlWEFhnOqJAwpZbUIyffOEt/XD2Ml8NIgQ/Mc/InnGwiyyYOoMQkyYsQqkP9ieVPz46T3181LpIbUr6i9EmscOWMvg0ugWededMdJr0GSvNvnrucRN5APsa2wO/7kbiOLHnXFGLzvl9HQJW3HdHCre0G4AinHU1XtF05JerakBgUf04a5qaPEs5CV13IaezM84DYYpNhu2PLuXn525tA7rK55cV2okPiH4O13wjG+rWIYgRXCXaGjS7Anb+pdB094QaLCoaUBRcO/E0wJCdDig+4DMayMHKNNP6TxrzpYnEMiQb6rxrnIBP1Ai8ApRChiefHNMjw5UvLX+Gtg/Pfa4PH7V3bKNdvwh2IeiAavAcG7hjvWx0MfiA/Xw==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dlJYK1Jwdis4dnFrQzRXVlp1bjl6dHlqZkJnem5lSTBXU01ad3hQOU5aaW9r?=
+ =?utf-8?B?eThHSWxHL05aUTErSExIWTEySDMrMUtJNVpZWVJLUHhNaVBIZXUzS0FkTnhn?=
+ =?utf-8?B?NVJTMFZ4ZFAwcUhSTzJHdVJvQVRyenNpaGx2Qi8wZVgvd3NCRklNK2FDN0FU?=
+ =?utf-8?B?MkJkNThRczREem9ZYTNFbTFCM0tYSFpEVGNrcTB5Wk5OWk9FMU9ZaFZrTmx2?=
+ =?utf-8?B?N0pQQllsUEgrM1hpL2h3S3JJOUgwOTlxTUlnRUNKQlY4ZE83TWdpS1BVQVJm?=
+ =?utf-8?B?QUVRVXVOeXhSM1IrSEtaZmxibUdua210UExqSlZOVC95SFNxeElodUJBVnk2?=
+ =?utf-8?B?aVNwM2xkODFsZE1wOUhBRm5nT1ZneEdtWm5kVzZGc0V6V3IyUFY3dlFFZXhj?=
+ =?utf-8?B?VTY5L0RKL2hSNHJvQU5JUEx1ZEdkckhOMDBOeDVVTHNpUlY2U1pNNUM3Y2lZ?=
+ =?utf-8?B?akkrWnF3dndxVU5yNTRDMTgzZ0ZWWDdTRVNDaFYrTUEvZkVCbWpPT3RHVHRX?=
+ =?utf-8?B?MHZ1UEtsVlNRZjYvUE1UaHZxdlBNdmR3ZEVjckFPK3V3Rm5wQmI1Zm9kdWtI?=
+ =?utf-8?B?eXNYYkppNEdmL0xrVjRnUkF1bFJjbzFmdlJEd0FoZzNnbU1oYW1peUZyL2cv?=
+ =?utf-8?B?eTI3YXR0MmJOU0JHOEpLWU8yd0JibzFEZGlqZWF5RXZ0cTZnSU41S1BqcENT?=
+ =?utf-8?B?RjlPV1BLdGxvWU8zSWR3L3hnRmVvVG9vMURlU2JaTVc0NktwdzdUZVVZNllH?=
+ =?utf-8?B?NXVsUVczcUhERzZoT0RldzhYT0hocUE0aE1vUjZmY1F3MmxpTGtJYUZsVWpZ?=
+ =?utf-8?B?ZFlUQVlLN25iQ1FsLzlBMmZWOUhxRWpvZWpHT0lBdEV5T2EvSWdaOFhzWnVu?=
+ =?utf-8?B?M2MxVkVJczZGNW1aTzlpeWtOQkJuVmJpWWdUbHYzbkE1SDBCOUtQWmovWlRz?=
+ =?utf-8?B?MjNVRjZwOEE4UXZEWlNnNnkrWTRZZ212MXZrVUg0RHoyS2h5VkxsN0RJR2Mw?=
+ =?utf-8?B?VGtXSm91M2MvcjhCOTZ6eFpFTURVNHRJd0tWVjhuRzBWRFg2eENiT2tPdWFV?=
+ =?utf-8?B?NHF2VVdLYmZkTGdRbnJmS0tNWi9TcTFPaEpDVDJaVkxRckNZdXhXSUt0MEN4?=
+ =?utf-8?B?b21Xcm5od09hc3A0RHhMaVFqQkhFbGZBOEdaUjF5VUhBUVVFTzl4Skxpb21x?=
+ =?utf-8?B?eExUSjdrU054MCt1eGcrNDZxMlFnZU9SZ3ZBekIwNUp0OXZoZDArWlRLejYy?=
+ =?utf-8?B?YXJLS1R4UmFjZ0dQeldkdjEyZjQzOVlsazZsR3FLMFQxNDRLTndwSFVub1JN?=
+ =?utf-8?B?ZlFRYkZTand5a0lKb01UOWxwT0ZWcDNLTGQyR3o0SE5tSTF0eVV0ZGMrWXVK?=
+ =?utf-8?B?UHNxR09PY1lKcXlhT3BHYVZBdk9jY0IzSWlMZWs0dk4xVStnV2oxN0lhd3kv?=
+ =?utf-8?B?czY2dzl6QmlaUCtva01YNmlWeFNGZkc2RmtMTXQzSy8vbXQybmJyTTBSZitp?=
+ =?utf-8?B?N0wyMERHZllpNkdGampmb1hRV2phek1QR3FDUndFUzIxM3RrOTYwaGZNT3lK?=
+ =?utf-8?B?Tk5NTVludVJzQUdMOW53VmtLU2puYkEzcUtJR0dNYUVYZmdZZ1Nhc2VoUnZR?=
+ =?utf-8?B?amZsc1AvYkhWV3FTSWNCQTdJOXhCZ0szQnVJb2dwNnIyQ25wMThvUktEVnJB?=
+ =?utf-8?B?cU5wbjJOUHFTWXN1OEZWQ1MxcEZIUjluUWNOc0EzZWF1SE43RC9ST3VCOWRl?=
+ =?utf-8?Q?cNOgjUuPkV5IExzVDbtJBUhHgtH+a4idmksqWx8?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69453715-b438-4816-03f3-08dc305a945c
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB6959.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2024 08:21:17.5484
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB5113
 
-Hi Md,
+On 2/18/2024 4:03 PM, kernel test robot wrote:
+> Hi Yang,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on 8d3dea210042f54b952b481838c1e7dfc4ec751d]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Xiwen-via-B4-Relay/mmc-dw_mmc-add-support-for-hi3798mv200/20240216-014744
+> base:   8d3dea210042f54b952b481838c1e7dfc4ec751d
+> patch link:    https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6%40outlook.com
+> patch subject: [PATCH 1/3] mmc: dw_mmc: add support for hi3798mv200
+> config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20240218/202402181540.H4Ose96P-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402181540.H4Ose96P-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402181540.H4Ose96P-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     drivers/mmc/host/dw_mmc-hi3798mv200.c: In function 'dw_mci_hi3798mv200_init':
+>>> drivers/mmc/host/dw_mmc-hi3798mv200.c:178:36: error: passing argument 1 of 'mmc_of_parse_clk_phase' from incompatible pointer type [-Werror=incompatible-pointer-types]
+>       178 |         mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
+>           |                                ~~~~^~~~~
+>           |                                    |
+>           |                                    struct device *
+>     In file included from drivers/mmc/host/dw_mmc-hi3798mv200.c:11:
+>     include/linux/mmc/host.h:542:46: note: expected 'struct mmc_host *' but argument is of type 'struct device *'
+>       542 | void mmc_of_parse_clk_phase(struct mmc_host *host,
+>           |                             ~~~~~~~~~~~~~~~~~^~~~
+>     cc1: some warnings being treated as errors
+>
+>
+> vim +/mmc_of_parse_clk_phase +178 drivers/mmc/host/dw_mmc-hi3798mv200.c
+>
+>     168	
+>     169	static int dw_mci_hi3798mv200_init(struct dw_mci *host)
+>     170	{
+>     171		struct dw_mci_hi3798mv200_priv *priv;
+>     172		struct device_node *np = host->dev->of_node;
+>     173	
+>     174		priv = devm_kzalloc(host->dev, sizeof(*priv), GFP_KERNEL);
+>     175		if (!priv)
+>     176			return -ENOMEM;
+>     177	
+>   > 178		mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
 
-kernel test robot noticed the following build errors:
+Please note that this patch is depending on another patch[1].
 
-[auto build test ERROR on next-20240215]
-[also build test ERROR on linus/master v6.8-rc4]
-[cannot apply to mtd/nand/next broonie-spi/for-next robh/for-next v6.8-rc4 v6.8-rc3 v6.8-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/spi-dt-bindings-add-binding-doc-for-spi-qpic-snand/20240215-215348
-base:   next-20240215
-patch link:    https://lore.kernel.org/r/20240215134856.1313239-4-quic_mdalam%40quicinc.com
-patch subject: [PATCH 3/5] spi: spi-qpic: Add qpic spi nand driver support
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240218/202402181614.N6WuWtRU-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402181614.N6WuWtRU-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402181614.N6WuWtRU-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/spi/spi-qpic-snand.c:161:7: warning: variable 'ecc_user' set but not used [-Wunused-but-set-variable]
-           bool ecc_user = false;
-                ^
-   drivers/spi/spi-qpic-snand.c:160:35: warning: variable 'desired_correction' set but not used [-Wunused-but-set-variable]
-           int step_size = 0, strength = 0, desired_correction = 0, steps;
-                                            ^
-   drivers/spi/spi-qpic-snand.c:399:6: warning: variable 'oob_buf' set but not used [-Wunused-but-set-variable]
-           u8 *oob_buf;
-               ^
-   drivers/spi/spi-qpic-snand.c:452:30: warning: variable 'erased' set but not used [-Wunused-but-set-variable]
-           bool serial_op_err = false, erased;
-                                       ^
->> drivers/spi/spi-qpic-snand.c:682:16: error: assigning to 'u8 *' (aka 'unsigned char *') from 'const void *const' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-                   snandc->wbuf = op->data.buf.out;
-                                ^ ~~~~~~~~~~~~~~~~
-   4 warnings and 1 error generated.
+[1]: 
+https://lore.kernel.org/linux-mmc/ae876e697ba16ba2925ec217c6b4e3d8ffea4ab3.camel@codeconstruct.com.au/T/#t
 
 
-vim +682 drivers/spi/spi-qpic-snand.c
+Ulf, what do think about picking that patch in this patch set? So that 
+the dependencies can be resolved.
 
-   671	
-   672	static int qpic_snand_write_page_cache(struct qcom_nand_controller *snandc,
-   673					       const struct spi_mem_op *op)
-   674	{
-   675		struct qpic_snand_op s_op = {};
-   676		u32 cmd;
-   677	
-   678		cmd = qpic_snand_cmd_mapping(snandc, op->cmd.opcode);
-   679		s_op.cmd_reg = cmd;
-   680	
-   681		if (op->cmd.opcode == SPINAND_PROGRAM_LOAD) {
- > 682			snandc->wbuf = op->data.buf.out;
-   683			snandc->wlen = op->data.nbytes;
-   684		}
-   685	
-   686		return 0;
-   687	}
-   688	
+>     179	
+>     180		priv->sample_clk = devm_clk_get_enabled(host->dev, "ciu-sample");
+>     181		if (IS_ERR(priv->sample_clk)) {
+>     182			dev_err(host->dev, "failed to get enabled ciu-sample clock\n");
+>     183			return PTR_ERR(priv->sample_clk);
+>     184		}
+>     185	
+>     186		priv->drive_clk = devm_clk_get_enabled(host->dev, "ciu-drive");
+>     187		if (IS_ERR(priv->drive_clk)) {
+>     188			dev_err(host->dev, "failed to get enabled ciu-drive clock\n");
+>     189			return PTR_ERR(priv->drive_clk);
+>     190		}
+>     191	
+>     192		priv->sap_dll_reg = syscon_regmap_lookup_by_phandle(np, "hisilicon,sap-dll-reg");
+>     193		if (IS_ERR(priv->sap_dll_reg)) {
+>     194			dev_err(host->dev, "failed to get sap-dll-reg\n");
+>     195			return PTR_ERR(priv->sap_dll_reg);
+>     196		}
+>     197	
+>     198		host->priv = priv;
+>     199		return 0;
+>     200	}
+>     201	
+>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Yang Xiwen
+
