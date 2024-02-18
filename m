@@ -1,64 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8805A6AD7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Feb 2024 08:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15AAEF9CF;
+	Sun, 18 Feb 2024 08:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708243553; cv=none; b=aDi2W9DxoY1e0krO7IQxeP1284t7tkpePLVkjiXEHYkqZJCFA653Pt7Ljz7ud6u5wEuFu4D4Iw/TuYJBBt6a8D9XWTqHWViR10a9RYVfFlSyNGXlc4xMlq4k81q7JWfXicxcyLX5IGPuuBSq/8nNqOUK28vQr3LE2aehbUENMys=
+	t=1708244121; cv=none; b=MgKBPnaBvOWTzuZtnOR9JGiHOXIS/wb2JLdllkj8MhkqfzxRY1s5Jv9iqGOGIKpS214yIO+iGdBq0t5/pTOvdG/oE+KY6RRcomARM3Y1ncJb3koeMR5rgPum63QcaupU2ey/xEXERykhDS+n8eW2t002wtianoUGF5GXxpGlPMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708243553; c=relaxed/simple;
-	bh=ttnZGnH/KEDMCu9kI5+L2dr0PEX11yWRxMG0Mkdt0AQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gfb5+MR+MSB0HuUvZUYZng450aFzxvdMSojOTtgqCArWWNTwQCS8EVpa+wngcYEuT/IRdPZiAQ1qp4N8nUKzuhIZWsahwE9GtXoV0rRZNG4iltCuXY16PMpOe+wXbeTgyEKQ+P+v9HBcCIrqyrwRlPm4/fkPVRaa1mvDJ11SIfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=enSBJw6Y; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1708244121; c=relaxed/simple;
+	bh=WYzmBNpH6cGczEIpfsWVPnXKFuEzrstvirYrXLCIkqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gCvuYXUFVElJgxR2fNvniBfJaRY3hyC3hTte7JgEGkMJmNEBUk7kcPjICoM1JYRNaEGN/FWlN3DSuzxW62IeiUiiOaAhNJuTjloqdMt62GkfjwXnlDhUEavmh1WM+px5tzqSuj2NiALPlmsLqbGx1VGstEp9Dm54uNvrV0ZiMP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfW+Kjge; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="enSBJw6Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfW+Kjge"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708243552; x=1739779552;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ttnZGnH/KEDMCu9kI5+L2dr0PEX11yWRxMG0Mkdt0AQ=;
-  b=enSBJw6YmZZQELyM4/Hnsfl2eo2X4GBb+Ei+dzQlIs9NGkhOifNPSp7q
-   qRAMr/ky6WYuCBl4n1W0KIoeU8n/aQTL0q/YEArgdJFSQCF5TYX7xH2R9
-   8Eg9xw7qH168oWLMCf/ut2DF7NV4KkHl6lOPP4yJhtVuErLw6LjPqcgmu
-   zA9wE472PQSG/qYZLs+Do19CKZNDyIb8Szu3m3pjT12N4xNQ7Y/0WCGNZ
-   DD/ey3RcHDUe+blAFWyg3nlLhQ1ExQgKgVL5kGexfoJaMOsJ8/BhzIChC
-   8dKxdG1uWDPkO7RijInQROJv5sIUEjfZOwfzdjnH+8Umtr7EUG3cZvUVo
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="6109382"
+  t=1708244120; x=1739780120;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WYzmBNpH6cGczEIpfsWVPnXKFuEzrstvirYrXLCIkqo=;
+  b=jfW+KjgeuejzzGo8TrqV9T3I/PQgc485+MiSpP6Gi8qYcjGUScTKO4dM
+   jgssWnNFhnGhrMncszJFlgR1RoKFesUQEnBJsw2BZk4iw/uYyq3MSi1Vv
+   vx/rPveXvIG53pkX4KZ3rpbxqufxJVyFYEZpS8Aj7wTqZ5GCrU2p2LoPh
+   eJ6DkH8ITPDueypfxXVQeTZIE1ZXAEiMe6kO6MJzGin2F4WaFre3a4cvx
+   IOAItFT8jDWgAaOeAJkRnS2J2YLY/vLqseFBJVs/CJd3GmlBwv72L1Pky
+   CcYexXtJCPfPWq/nwxTDHAWXtvsPQ1oFbRmfX7Dq0tCuzUa2t6vTRadJD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10987"; a="2197458"
 X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="6109382"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 00:05:51 -0800
+   d="scan'208";a="2197458"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 00:15:20 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,168,1705392000"; 
-   d="scan'208";a="8904608"
+   d="scan'208";a="8882060"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 18 Feb 2024 00:05:46 -0800
+  by orviesa003.jf.intel.com with ESMTP; 18 Feb 2024 00:15:18 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbcAR-0002sq-05;
-	Sun, 18 Feb 2024 08:05:10 +0000
-Date: Sun, 18 Feb 2024 16:03:00 +0800
+	id 1rbcKR-0002t8-2W;
+	Sun, 18 Feb 2024 08:15:15 +0000
+Date: Sun, 18 Feb 2024 16:14:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yang Xiwen via B4 Relay <devnull+forbidden405.outlook.com@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Igor Opaniuk <igor.opaniuk@linaro.org>,
-	tianshuliang <tianshuliang@hisilicon.com>,
-	David Yang <mmyangfl@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	Yang Xiwen <forbidden405@outlook.com>
-Subject: Re: [PATCH 1/3] mmc: dw_mmc: add support for hi3798mv200
-Message-ID: <202402181540.H4Ose96P-lkp@intel.com>
-References: <20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6@outlook.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Suren Baghdasaryan <surenb@google.com>
+Subject: [surenbaghdasaryan:memalloc_prof_v4 49/49]
+ include/linux/mm.h:3116:6: error: call to undeclared function
+ 'mem_alloc_profiling_enabled'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202402181620.v9zvCTpl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,78 +60,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6@outlook.com>
 
-Hi Yang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8d3dea210042f54b952b481838c1e7dfc4ec751d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Xiwen-via-B4-Relay/mmc-dw_mmc-add-support-for-hi3798mv200/20240216-014744
-base:   8d3dea210042f54b952b481838c1e7dfc4ec751d
-patch link:    https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6%40outlook.com
-patch subject: [PATCH 1/3] mmc: dw_mmc: add support for hi3798mv200
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20240218/202402181540.H4Ose96P-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402181540.H4Ose96P-lkp@intel.com/reproduce)
+tree:   https://github.com/surenbaghdasaryan/linux.git memalloc_prof_v4
+head:   a9e8134c559030b55a98c4be4b3efaf0604c4e57
+commit: a9e8134c559030b55a98c4be4b3efaf0604c4e57 [49/49] fixup: move mem_alloc_profiling_enabled() to be checked earlier
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240218/202402181620.v9zvCTpl-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402181620.v9zvCTpl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402181540.H4Ose96P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402181620.v9zvCTpl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/mmc/host/dw_mmc-hi3798mv200.c: In function 'dw_mci_hi3798mv200_init':
->> drivers/mmc/host/dw_mmc-hi3798mv200.c:178:36: error: passing argument 1 of 'mmc_of_parse_clk_phase' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     178 |         mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
-         |                                ~~~~^~~~~
-         |                                    |
-         |                                    struct device *
-   In file included from drivers/mmc/host/dw_mmc-hi3798mv200.c:11:
-   include/linux/mmc/host.h:542:46: note: expected 'struct mmc_host *' but argument is of type 'struct device *'
-     542 | void mmc_of_parse_clk_phase(struct mmc_host *host,
-         |                             ~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+   In file included from arch/arm/kernel/asm-offsets.c:12:
+>> include/linux/mm.h:3116:6: error: call to undeclared function 'mem_alloc_profiling_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3116 |         if (mem_alloc_profiling_enabled()) {
+         |             ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:116: arch/arm/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1199: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/mmc_of_parse_clk_phase +178 drivers/mmc/host/dw_mmc-hi3798mv200.c
+vim +/mem_alloc_profiling_enabled +3116 include/linux/mm.h
 
-   168	
-   169	static int dw_mci_hi3798mv200_init(struct dw_mci *host)
-   170	{
-   171		struct dw_mci_hi3798mv200_priv *priv;
-   172		struct device_node *np = host->dev->of_node;
-   173	
-   174		priv = devm_kzalloc(host->dev, sizeof(*priv), GFP_KERNEL);
-   175		if (!priv)
-   176			return -ENOMEM;
-   177	
- > 178		mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
-   179	
-   180		priv->sample_clk = devm_clk_get_enabled(host->dev, "ciu-sample");
-   181		if (IS_ERR(priv->sample_clk)) {
-   182			dev_err(host->dev, "failed to get enabled ciu-sample clock\n");
-   183			return PTR_ERR(priv->sample_clk);
-   184		}
-   185	
-   186		priv->drive_clk = devm_clk_get_enabled(host->dev, "ciu-drive");
-   187		if (IS_ERR(priv->drive_clk)) {
-   188			dev_err(host->dev, "failed to get enabled ciu-drive clock\n");
-   189			return PTR_ERR(priv->drive_clk);
-   190		}
-   191	
-   192		priv->sap_dll_reg = syscon_regmap_lookup_by_phandle(np, "hisilicon,sap-dll-reg");
-   193		if (IS_ERR(priv->sap_dll_reg)) {
-   194			dev_err(host->dev, "failed to get sap-dll-reg\n");
-   195			return PTR_ERR(priv->sap_dll_reg);
-   196		}
-   197	
-   198		host->priv = priv;
-   199		return 0;
-   200	}
-   201	
+  3109	
+  3110	extern void reserve_bootmem_region(phys_addr_t start,
+  3111					   phys_addr_t end, int nid);
+  3112	
+  3113	/* Free the reserved page into the buddy system, so it gets managed. */
+  3114	static inline void free_reserved_page(struct page *page)
+  3115	{
+> 3116		if (mem_alloc_profiling_enabled()) {
+  3117			union codetag_ref *ref = get_page_tag_ref(page);
+  3118	
+  3119			if (ref) {
+  3120				set_codetag_empty(ref);
+  3121				put_page_tag_ref(ref);
+  3122			}
+  3123		}
+  3124		ClearPageReserved(page);
+  3125		init_page_count(page);
+  3126		__free_page(page);
+  3127		adjust_managed_page_count(page, 1);
+  3128	}
+  3129	#define free_highmem_page(page) free_reserved_page(page)
+  3130	
 
 -- 
 0-DAY CI Kernel Test Service
