@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47610EAE8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 04:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F3F3FF4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 05:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708315307; cv=none; b=ql1kQIKy3PHv1Pjsa9nQJmNq2tsMcR0WrD+e5Xej+sS8HEt5V43V8X1cy4ewzk5Wq/uXwaMbpFletissqDv75kuZ9/CuYaq/Cuy8vau3LAZKGrPtIUHJnjf3UA3i95OGSwX3qIk86rNHp4IZNDCsaScosofw6EYVIyzMnZSQ9Oo=
+	t=1708318984; cv=none; b=XMihjxKHtyeBDfySjx/72BsdwhG5MbOs+6D52PaXK3Xi4qVF3jO8bxV4Or+UMjhlRpoXXYU6oOkH71bhU5ZT/2c73dZbJM2wNcdiBl/bMN1S37HiGICyeYfj3i5zFNuU57ga19B1dPacq33FJAXjI2HmUSOgCLND6gDL8nHC0HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708315307; c=relaxed/simple;
-	bh=qn9alZWjSiBKYRwKEghmXMy1+jBtL1No/omGxQ//o1o=;
+	s=arc-20240116; t=1708318984; c=relaxed/simple;
+	bh=i4g3fPQnoIqi0jkXlz1nDbUhT5eT+Jt69tOW2F8S28k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g3SwPQzitDhi4IPjrRwZ8RWF2BQkmzAkCOeRMQnzkfq5qPdz/fBWuCczUK1w7hjOu5qIMhktmEu0nAq4tNba5TSdLFVBGQEEZtBJq5VlLUpauk9DPifQiuWEkrNrhUTYi+TpciDP/3qGORyjROLsFDSUbQKJ1wemqwo/WG6AqD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HacaZ0On; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=o0SwpM/4g0zZPwTieIxY6O7PDSiORXPGMCmtLvv3Es3AvuJ8RTAoICkkZqINfj7B1jSrJWBxwBFCYSZzg3znwZJgEBjIhSmEKJJQnxzdeQDrSe/aQtPwaLz/1Ld6KCgtlkCD2DWnExsSS2xdr54UK8p8mAD4Vc3S2rDhqAvMo4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DVrAS2yj; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HacaZ0On"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DVrAS2yj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708315305; x=1739851305;
+  t=1708318982; x=1739854982;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qn9alZWjSiBKYRwKEghmXMy1+jBtL1No/omGxQ//o1o=;
-  b=HacaZ0OncUCl5R5Bn6wr6MXThKWaEr77cPR9BLYL/We2ZX+Gie6rWZPt
-   HBpSy6s5fe6CyZyTOrDxuPUo5gyXJ/K67lGVXUsWph6nfndVNl4X6KDJP
-   TqQK6kIjovtEfT4xazYfNOzOBIe6KsvP+95k0Y/kPctYRrUbx7KG5yGa2
-   Hyja8rKy1Wbux5uX0ICLI4usQ8JY/NuklthS7ONUzuZO/DHikTw+myULg
-   P0HlBvKDDn1am6vga5ZspuSuPJPxaQVFpGPY+j2p5j/bNnifHS7LDDXUb
-   icOjNKTxlnENExFvb2Muu79xL0O6jYArPoI46xoaiDJmBjfi7+sCspbKB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2243879"
+  bh=i4g3fPQnoIqi0jkXlz1nDbUhT5eT+Jt69tOW2F8S28k=;
+  b=DVrAS2yjrB7AG/aGfB4YjHVDLweoZQjsgud2iWwB2JERLltd9IPIGnbp
+   wZq/6G1bRSoSdL5T1fl8uRn1ZP2fbdSkdyw22qNnT6GRvI42Er/hkSgcb
+   Fowm8v2PurauFVCzQzQED1Ee3zQk+CFM9M0uVXQzJ45iq98zTUkf/I7Xf
+   LJZVIDB+SRBTHjCroRFH7x6xyjz9auiLqOuQSNRGXhwzlYVgfmq1dVUnS
+   XkGHjeRfrdA9z5hG/UlNzCC7RBXj7g/3gigDjBp+ssSypVKKrenl4a4qw
+   dfsFqpBLhXoZbhFZs77QIVpbs+po6vq/WjJOfKsB5pMMHIaF+3W9wxQRM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="19910965"
 X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="2243879"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 20:01:44 -0800
+   d="scan'208";a="19910965"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 21:03:01 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="4765927"
+   d="scan'208";a="4532098"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 18 Feb 2024 20:01:43 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 18 Feb 2024 21:03:00 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbuqa-0003VS-0b;
-	Mon, 19 Feb 2024 04:01:40 +0000
-Date: Mon, 19 Feb 2024 12:01:27 +0800
+	id 1rbvnu-0003XC-0S;
+	Mon, 19 Feb 2024 05:02:58 +0000
+Date: Mon, 19 Feb 2024 13:02:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Alexei Starovoitov <ast@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 19/62] kernel/sched/fair_eevdf.c:663:6:
- sparse: sparse: symbol 'update_entity_lag' was not declared. Should it be
- static?
-Message-ID: <202402191129.E3FZEMxS-lkp@intel.com>
+Subject: [ast-bpf:arena 18/20]
+ tools/testing/selftests/bpf/prog_tests/arena_list.c:49:23: error: 'struct
+ arena_list' has no member named 'arena'
+Message-ID: <202402191246.bYaTaQdS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,88 +59,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   81ba8c6abf5aa0bcc26dac46b109f519060b5fe5
-commit: a115e5d67e8707fd4f6ac76edf1fb6c719dbc72f [19/62] BACKPORT: sched/fair: Add lag based placement
-config: x86_64-randconfig-123-20240218 (https://download.01.org/0day-ci/archive/20240219/202402191129.E3FZEMxS-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191129.E3FZEMxS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git arena
+head:   4e726b87a660bf893d79aaea4e22f1bc9fc03774
+commit: aa31e8a044a62529f5afa3275d63b5019142c901 [18/20] selftests/bpf: Add bpf_arena_list test.
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191246.bYaTaQdS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402191129.E3FZEMxS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402191246.bYaTaQdS-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/fair_eevdf.c:663:6: sparse: sparse: symbol 'update_entity_lag' was not declared. Should it be static?
-   kernel/sched/fair_eevdf.c:995:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair_eevdf.c:995:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair_eevdf.c:995:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair_eevdf.c:1031:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair_eevdf.c:1031:34: sparse:     expected struct sched_entity *se
-   kernel/sched/fair_eevdf.c:1031:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair_eevdf.c:11621:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair_eevdf.c:11621:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair_eevdf.c:11621:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair_eevdf.c:5969:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair_eevdf.c:5969:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair_eevdf.c:5969:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair_eevdf.c:6229:1: sparse: sparse: symbol '__pcpu_scope_load_balance_mask' was not declared. Should it be static?
-   kernel/sched/fair_eevdf.c:6230:1: sparse: sparse: symbol '__pcpu_scope_select_idle_mask' was not declared. Should it be static?
-   kernel/sched/fair_eevdf.c:7285:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair_eevdf.c:7285:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair_eevdf.c:7285:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair_eevdf.c:7466:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair_eevdf.c:7466:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair_eevdf.c:7466:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair_eevdf.c:7656:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair_eevdf.c:7656:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair_eevdf.c:7656:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair_eevdf.c:7954:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair_eevdf.c:7954:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair_eevdf.c:7954:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair_eevdf.c:9005:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair_eevdf.c:9005:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair_eevdf.c:9005:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair_eevdf.c:9547:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair_eevdf.c:9547:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair_eevdf.c:9547:22: sparse:    struct task_struct *
-   kernel/sched/fair_eevdf.c:10910:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair_eevdf.c:10910:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair_eevdf.c:10910:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair_eevdf.c:10568:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair_eevdf.c:10568:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair_eevdf.c:10568:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair_eevdf.c:11006:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair_eevdf.c:11006:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair_eevdf.c:11006:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair_eevdf.c:5898:35: sparse: sparse: marked inline, but without a definition
-   kernel/sched/fair_eevdf.c: note: in included file:
-   kernel/sched/sched.h:2067:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2067:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2067:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2232:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2232:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2232:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2067:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2067:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2067:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2067:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2067:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2067:25: sparse:    struct task_struct *
+All errors (new ones prefixed by >>):
 
-vim +/update_entity_lag +663 kernel/sched/fair_eevdf.c
+   In file included from tools/testing/selftests/bpf/prog_tests/arena_list.c:3:
+   tools/testing/selftests/bpf/prog_tests/arena_list.c: In function 'test_arena_list_add_del':
+>> tools/testing/selftests/bpf/prog_tests/arena_list.c:49:23: error: 'struct arena_list' has no member named 'arena'
+      49 |         ASSERT_EQ(skel->arena->arena_sum, expected_sum, "__arena sum of elems");
+         |                       ^~
+   tools/testing/selftests/bpf/test_progs.h:239:16: note: in definition of macro 'ASSERT_EQ'
+     239 |         typeof(actual) ___act = (actual);                               \
+         |                ^~~~~~
+>> tools/testing/selftests/bpf/prog_tests/arena_list.c:49:23: error: 'struct arena_list' has no member named 'arena'
+      49 |         ASSERT_EQ(skel->arena->arena_sum, expected_sum, "__arena sum of elems");
+         |                       ^~
+   tools/testing/selftests/bpf/test_progs.h:239:34: note: in definition of macro 'ASSERT_EQ'
+     239 |         typeof(actual) ___act = (actual);                               \
+         |                                  ^~~~~~
+   tools/testing/selftests/bpf/prog_tests/arena_list.c:50:23: error: 'struct arena_list' has no member named 'arena'
+      50 |         ASSERT_EQ(skel->arena->test_val, cnt + 1, "num of elems");
+         |                       ^~
+   tools/testing/selftests/bpf/test_progs.h:239:16: note: in definition of macro 'ASSERT_EQ'
+     239 |         typeof(actual) ___act = (actual);                               \
+         |                ^~~~~~
+   tools/testing/selftests/bpf/prog_tests/arena_list.c:50:23: error: 'struct arena_list' has no member named 'arena'
+      50 |         ASSERT_EQ(skel->arena->test_val, cnt + 1, "num of elems");
+         |                       ^~
+   tools/testing/selftests/bpf/test_progs.h:239:34: note: in definition of macro 'ASSERT_EQ'
+     239 |         typeof(actual) ___act = (actual);                               \
+         |                                  ^~~~~~
+   tools/testing/selftests/bpf/prog_tests/arena_list.c:57:23: error: 'struct arena_list' has no member named 'arena'
+      57 |         ASSERT_EQ(skel->arena->arena_sum, expected_sum, "__arena sum of elems");
+         |                       ^~
+   tools/testing/selftests/bpf/test_progs.h:239:16: note: in definition of macro 'ASSERT_EQ'
+     239 |         typeof(actual) ___act = (actual);                               \
+         |                ^~~~~~
+   tools/testing/selftests/bpf/prog_tests/arena_list.c:57:23: error: 'struct arena_list' has no member named 'arena'
+      57 |         ASSERT_EQ(skel->arena->arena_sum, expected_sum, "__arena sum of elems");
+         |                       ^~
+   tools/testing/selftests/bpf/test_progs.h:239:34: note: in definition of macro 'ASSERT_EQ'
+     239 |         typeof(actual) ___act = (actual);                               \
+         |                                  ^~~~~~
 
-   659	
-   660	/*
-   661	 * lag_i = S - s_i = w_i * (V - v_i)
-   662	 */
- > 663	void update_entity_lag(struct cfs_rq *cfs_rq, struct sched_entity *se)
-   664	{
-   665		SCHED_WARN_ON(!se->on_rq);
-   666		se->vlag = avg_vruntime(cfs_rq) - se->vruntime;
-   667	}
-   668	
+
+vim +49 tools/testing/selftests/bpf/prog_tests/arena_list.c
+
+   > 3	#include <test_progs.h>
+     4	#include <sys/mman.h>
+     5	#include <network_helpers.h>
+     6	
+     7	#define PAGE_SIZE 4096
+     8	
+     9	#include "bpf_arena_list.h"
+    10	#include "arena_list.skel.h"
+    11	
+    12	struct elem {
+    13		struct arena_list_node node;
+    14		__u64 value;
+    15	};
+    16	
+    17	static int list_sum(struct arena_list_head *head)
+    18	{
+    19		struct elem __arena *n;
+    20		int sum = 0;
+    21	
+    22		list_for_each_entry(n, head, node)
+    23			sum += n->value;
+    24		return sum;
+    25	}
+    26	
+    27	static void test_arena_list_add_del(int cnt)
+    28	{
+    29		LIBBPF_OPTS(bpf_test_run_opts, opts);
+    30		struct arena_list *skel;
+    31		int expected_sum = (u64)cnt * (cnt - 1) / 2;
+    32		int ret, sum;
+    33	
+    34		skel = arena_list__open_and_load();
+    35		if (!ASSERT_OK_PTR(skel, "arena_list__open_and_load"))
+    36			return;
+    37	
+    38		skel->bss->cnt = cnt;
+    39		ret = bpf_prog_test_run_opts(bpf_program__fd(skel->progs.arena_list_add), &opts);
+    40		ASSERT_OK(ret, "ret_add");
+    41		ASSERT_OK(opts.retval, "retval");
+    42		if (skel->bss->skip) {
+    43			printf("%s:SKIP:compiler doesn't support arena_cast\n", __func__);
+    44			test__skip();
+    45			goto out;
+    46		}
+    47		sum = list_sum(skel->bss->list_head);
+    48		ASSERT_EQ(sum, expected_sum, "sum of elems");
+  > 49		ASSERT_EQ(skel->arena->arena_sum, expected_sum, "__arena sum of elems");
+    50		ASSERT_EQ(skel->arena->test_val, cnt + 1, "num of elems");
+    51	
+    52		ret = bpf_prog_test_run_opts(bpf_program__fd(skel->progs.arena_list_del), &opts);
+    53		ASSERT_OK(ret, "ret_del");
+    54		sum = list_sum(skel->bss->list_head);
+    55		ASSERT_EQ(sum, 0, "sum of list elems after del");
+    56		ASSERT_EQ(skel->bss->list_sum, expected_sum, "sum of list elems computed by prog");
+    57		ASSERT_EQ(skel->arena->arena_sum, expected_sum, "__arena sum of elems");
+    58	out:
+    59		arena_list__destroy(skel);
+    60	}
+    61	
 
 -- 
 0-DAY CI Kernel Test Service
