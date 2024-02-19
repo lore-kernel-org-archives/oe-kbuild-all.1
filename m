@@ -1,72 +1,55 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2791D210F9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 08:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F71C1400D;
+	Mon, 19 Feb 2024 09:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708330940; cv=none; b=LXpdZ4plU/xkdYRyBCLY+6a0jKUNFyeRucXYKt7GabZiBq/YAFOGxrBLBUeq+m02W+36OIBsL+HSkKReU92NyM1Rg/rwmbevw0xxPTRMoQtN6f+pLxPIBBMqYQlLDciCsoHtzBhv0s/rh4ypksvTvyq1PsHEfo5i82of8+UM3yg=
+	t=1708334046; cv=none; b=ZjZMZkt5pmeAKGknjX2lUMfrBj1QR3OG/Mi2QUHDSvW4tku97L0wiuNyBgUtWFAxtRV0PJthccCKp/LBFXYIdBK7WqkjfH1QII6Bc3q/otVmDnXdB+YjPbxYwXAMjRey6Y3TvmpTpN8+YwpYa8ucn0N9RzubUyEW+CMjXRoM4EM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708330940; c=relaxed/simple;
-	bh=nGitsSxjPk+gBIGLQ3qxvow1rCE7hQe9MOGZfZ0PH3w=;
+	s=arc-20240116; t=1708334046; c=relaxed/simple;
+	bh=paVoYDPWcew6QlZkce/3cG+rwPF1QL/PQGJga6kD7wo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=P0XatHxSHvVHJ4dg71SP1KxD93/EyvzjjBK8MtpafiB1+J9KMJfl7B9/AjuF0CQ/OjlwAB5puVwl1GDLdZ7JQgQCcXDE1TU0XCwbqxp+7p0HK64QK5GQN2F8llQG6gT1cLOevcoC+u8RhGPmAKEPD146JpMT6LiYQ4ebwALf7TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TovorWg8; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Cvci6KdhTA1VQEnmL4avOdDuMd8w5TdXt5/2scmPrGsi6ZN0AGPqQOaTjn18LEGmOeKQsbHIcHL7hs2BMKr97eonAOstmeVXL/rKEtQtRbbgDS2g8/x0lC1mV6rFyxmCKwb0tG2yBFUm/N1gg0HlRIDcTVKfrF5zmy9f0DsDmww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=coV5CitO; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TovorWg8"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a3e5d82ad86so118459666b.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 00:22:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708330936; x=1708935736; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aJawKhMKgZfK3H+o45cb6KDvj97UBnzXFXRTiTe4vLc=;
-        b=TovorWg8er2FldWvG5yeA+uVKat09JLqamMWedhwWaLWPbepP4t21CtEnniFSP+zUc
-         2NUNM40RQXtX7ws5wzlN1bfO4UrUF/mAYcXTYJLtFNWREnArfIqSn2sooPjnvx/FWWBN
-         uWKXTM7l0ZNMhD1EyRC/8lQGZ1ASVGajq2o6rU+bCS9fowhV1n52w/g95y2UEYkV5Zhq
-         DKono4T6HNRroRV6zgRRWrobdOS5cp41EvV23mEiPtRb5dJvBkgdZS9yzkSYxry8zIUl
-         L0nGGxR47wO1tKvzJ9JUpACJSsskhjjNFfm5eLsJywkFRE7eKTaehJHxmpBvAfUfZifT
-         RB1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708330936; x=1708935736;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aJawKhMKgZfK3H+o45cb6KDvj97UBnzXFXRTiTe4vLc=;
-        b=poJU10xAcPpl+MBEZbhd3JRbp8d90zAbBt/EEoFQ0MYEHiy3w+cS1L0r+eU9YD3nr6
-         qIUx/N5Y0WmELRHDTqnCixx1AGIIG02Us2Q7YxGONgmjhrjma9cJcsERrf26Alhw40Fu
-         FhABvRWsheipvbnARu0JyunWio8CZM5SHN4KeiyzTvbppj9ZYOqQFJR7fQXZspAikXJW
-         Fo7CyiWS+2/jDasEqGAro5JPzrXfojTnFCUe1VuuNfxvEMiEDLyOwDkzxk82rDTbIXP8
-         WcsT3cXX1C1C18JB6OTuXr2PxO2ob+pTHKNIXNrgL6BJ7brctzwwkxivaQBvct9DRFgM
-         GH2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWHGg5j1oa95Z4XLLdFGHGj5qxtUHnJMsP/JxG8WDEXgx7YJovr/cicOmBSMlJ8DdKqCh1bSH5yfvUfnkHfb3kN9i/qtqXPPeNpl1jvfQ==
-X-Gm-Message-State: AOJu0Yz8HOT2EvFQltnLIdVNRWHa2etKPQipdUoAsMQAdxa02dCnIx6K
-	oF8ymyWr+BBPRIKlZQ+TdbXCUMZYnBv61r0z5O2X6NeTweesocJgWR3l133jk2Q=
-X-Google-Smtp-Source: AGHT+IGl/ITfmjq0RpjNkokRRLvKEhrU7NvfHwqSMU7MFfOC3zR13Xzxi+jsjB0P34SMxHIUAdW/cQ==
-X-Received: by 2002:a17:906:1388:b0:a3e:79f7:d218 with SMTP id f8-20020a170906138800b00a3e79f7d218mr2415837ejc.43.1708330936473;
-        Mon, 19 Feb 2024 00:22:16 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id y2-20020a170906470200b00a3d0dd84276sm2685297ejq.184.2024.02.19.00.22.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 00:22:16 -0800 (PST)
-Date: Mon, 19 Feb 2024 11:22:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jeremy Kerr <jk@codeconstruct.com.au>,
-	netdev@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Liang Chen <liangchen.linux@gmail.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Subject: Re: [PATCH net-next 06/11] net: mctp: provide a more specific tag
- allocation ioctl
-Message-ID: <95174361-e247-4792-866b-d77152659fd6@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="coV5CitO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708334044; x=1739870044;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=paVoYDPWcew6QlZkce/3cG+rwPF1QL/PQGJga6kD7wo=;
+  b=coV5CitOsy9FTDAvWerzLUvUNKoRaASOwMAVLcPjI2omLHtouqiaqpsj
+   kfHFjZU3mSmrUTPVOIgoqmi566m/I410DyBKF7JJDXeh0/6hrbjWMitCO
+   IXKKUwLtd50Kqm61v0jfTcgRDBfIhCaX/VxxX/KoivXa0ZcE4ww3Gd7O9
+   iVmBHS00JBn7BlHg9tGnpxmE4PGyby/hto0/fq9VRnXStIaJno6E3Mq6u
+   GuU8A0DvNn392Y54Ia3JAKnT4Eh1l30UEQf7Jm1khYWG9b/V+MEhrdKk9
+   e9blPBiGd03t5f8QetLuKe+F0VVVt1Yrk/LKUGM3FKm+bqe7poBPtV+d8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2549083"
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
+   d="scan'208";a="2549083"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 01:14:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
+   d="scan'208";a="4816254"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 19 Feb 2024 01:14:02 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rbzip-0003fm-2N;
+	Mon, 19 Feb 2024 09:13:59 +0000
+Date: Mon, 19 Feb 2024 17:13:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-for-sev-v5 15/15]
+ include/linux/page-flags-layout.h:58:35: error: function-like macro
+ 'pgtable_l5_enabled' is not defined
+Message-ID: <202402191750.AbTaoKAO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,76 +58,229 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <424009ba3e320ae93eb6bd44ef5e474aa5c9221f.1708071380.git.jk@codeconstruct.com.au>
 
-Hi Jeremy,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-mctp-avoid-confusion-over-local-peer-dest-source-addresses/20240216-163203
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/424009ba3e320ae93eb6bd44ef5e474aa5c9221f.1708071380.git.jk%40codeconstruct.com.au
-patch subject: [PATCH net-next 06/11] net: mctp: provide a more specific tag allocation ioctl
-config: parisc-randconfig-r081-20240218 (https://download.01.org/0day-ci/archive/20240218/202402181713.OQAPBmZC-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-for-sev-v5
+head:   898f9ed1b1d5f7b57f90237d9f91263e3a5bdc82
+commit: 898f9ed1b1d5f7b57f90237d9f91263e3a5bdc82 [15/15] x86/startup_64: Drop global variables keeping track of LA57 state
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240219/202402191750.AbTaoKAO-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191750.AbTaoKAO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402181713.OQAPBmZC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402191750.AbTaoKAO-lkp@intel.com/
 
-smatch warnings:
-net/mctp/af_mctp.c:389 mctp_ioctl_tag_copy_from_user() warn: was && intended here instead of ||?
+All error/warnings (new ones prefixed by >>):
 
-vim +389 net/mctp/af_mctp.c
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   In file included from include/linux/spinlock.h:60:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/x86/include/asm/thread_info.h:53:
+   In file included from arch/x86/include/asm/cpufeature.h:5:
+   In file included from arch/x86/include/asm/processor.h:21:
+   In file included from arch/x86/include/asm/pgtable_types.h:353:
+>> include/asm-generic/pgtable-nop4d.h:11:9: warning: 'P4D_SHIFT' macro redefined [-Wmacro-redefined]
+      11 | #define P4D_SHIFT               PGDIR_SHIFT
+         |         ^
+   arch/x86/include/asm/pgtable_64_types.h:59:9: note: previous definition is here
+      59 | #define P4D_SHIFT               39
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   In file included from include/linux/spinlock.h:60:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/x86/include/asm/thread_info.h:53:
+   In file included from arch/x86/include/asm/cpufeature.h:5:
+   In file included from arch/x86/include/asm/processor.h:21:
+   In file included from arch/x86/include/asm/pgtable_types.h:353:
+>> include/asm-generic/pgtable-nop4d.h:12:9: warning: 'PTRS_PER_P4D' macro redefined [-Wmacro-redefined]
+      12 | #define PTRS_PER_P4D            1
+         |         ^
+   arch/x86/include/asm/pgtable_64_types.h:65:9: note: previous definition is here
+      65 | #define PTRS_PER_P4D            (pgtable_l5_enabled() ? 512 : 1)
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   In file included from include/linux/spinlock.h:60:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/x86/include/asm/thread_info.h:53:
+   In file included from arch/x86/include/asm/cpufeature.h:5:
+   In file included from arch/x86/include/asm/processor.h:21:
+   In file included from arch/x86/include/asm/pgtable_types.h:353:
+>> include/asm-generic/pgtable-nop4d.h:13:9: warning: 'P4D_SIZE' macro redefined [-Wmacro-redefined]
+      13 | #define P4D_SIZE                (1UL << P4D_SHIFT)
+         |         ^
+   arch/x86/include/asm/pgtable_64_types.h:66:9: note: previous definition is here
+      66 | #define P4D_SIZE                (_AC(1, UL) << P4D_SHIFT)
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   In file included from include/linux/spinlock.h:60:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/x86/include/asm/thread_info.h:53:
+   In file included from arch/x86/include/asm/cpufeature.h:5:
+   In file included from arch/x86/include/asm/processor.h:21:
+   In file included from arch/x86/include/asm/pgtable_types.h:353:
+>> include/asm-generic/pgtable-nop4d.h:14:9: warning: 'P4D_MASK' macro redefined [-Wmacro-redefined]
+      14 | #define P4D_MASK                (~(P4D_SIZE-1))
+         |         ^
+   arch/x86/include/asm/pgtable_64_types.h:67:9: note: previous definition is here
+      67 | #define P4D_MASK                (~(P4D_SIZE - 1))
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:17:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:20:
+>> include/linux/page-flags-layout.h:58:35: warning: 'pgtable_l5_enabled' is not defined, evaluates to 0 [-Wundef]
+      58 | #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_SHIFT \
+         |                                   ^
+   include/linux/page-flags-layout.h:53:25: note: expanded from macro 'SECTIONS_WIDTH'
+      53 | #define SECTIONS_WIDTH          SECTIONS_SHIFT
+         |                                 ^
+   include/linux/page-flags-layout.h:31:25: note: expanded from macro 'SECTIONS_SHIFT'
+      31 | #define SECTIONS_SHIFT  (MAX_PHYSMEM_BITS - SECTION_SIZE_BITS)
+         |                          ^
+   arch/x86/include/asm/sparsemem.h:29:28: note: expanded from macro 'MAX_PHYSMEM_BITS'
+      29 | # define MAX_PHYSMEM_BITS       (pgtable_l5_enabled() ? 52 : 46)
+         |                                  ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:17:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:20:
+>> include/linux/page-flags-layout.h:58:35: error: function-like macro 'pgtable_l5_enabled' is not defined
+   include/linux/page-flags-layout.h:53:25: note: expanded from macro 'SECTIONS_WIDTH'
+      53 | #define SECTIONS_WIDTH          SECTIONS_SHIFT
+         |                                 ^
+   include/linux/page-flags-layout.h:31:25: note: expanded from macro 'SECTIONS_SHIFT'
+      31 | #define SECTIONS_SHIFT  (MAX_PHYSMEM_BITS - SECTION_SIZE_BITS)
+         |                          ^
+   arch/x86/include/asm/sparsemem.h:29:28: note: expanded from macro 'MAX_PHYSMEM_BITS'
+      29 | # define MAX_PHYSMEM_BITS       (pgtable_l5_enabled() ? 52 : 46)
+         |                                  ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:17:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:20:
+   include/linux/page-flags-layout.h:93:35: warning: 'pgtable_l5_enabled' is not defined, evaluates to 0 [-Wundef]
+      93 | #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
+         |                                   ^
+   include/linux/page-flags-layout.h:53:25: note: expanded from macro 'SECTIONS_WIDTH'
+      53 | #define SECTIONS_WIDTH          SECTIONS_SHIFT
+         |                                 ^
+   include/linux/page-flags-layout.h:31:25: note: expanded from macro 'SECTIONS_SHIFT'
+      31 | #define SECTIONS_SHIFT  (MAX_PHYSMEM_BITS - SECTION_SIZE_BITS)
+         |                          ^
+   arch/x86/include/asm/sparsemem.h:29:28: note: expanded from macro 'MAX_PHYSMEM_BITS'
+      29 | # define MAX_PHYSMEM_BITS       (pgtable_l5_enabled() ? 52 : 46)
+         |                                  ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:17:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:20:
+   include/linux/page-flags-layout.h:93:35: error: function-like macro 'pgtable_l5_enabled' is not defined
+   include/linux/page-flags-layout.h:53:25: note: expanded from macro 'SECTIONS_WIDTH'
+      53 | #define SECTIONS_WIDTH          SECTIONS_SHIFT
+         |                                 ^
+   include/linux/page-flags-layout.h:31:25: note: expanded from macro 'SECTIONS_SHIFT'
+      31 | #define SECTIONS_SHIFT  (MAX_PHYSMEM_BITS - SECTION_SIZE_BITS)
+         |                          ^
+   arch/x86/include/asm/sparsemem.h:29:28: note: expanded from macro 'MAX_PHYSMEM_BITS'
+      29 | # define MAX_PHYSMEM_BITS       (pgtable_l5_enabled() ? 52 : 46)
+         |                                  ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:17:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:20:
+   include/linux/page-flags-layout.h:104:35: warning: 'pgtable_l5_enabled' is not defined, evaluates to 0 [-Wundef]
+     104 | #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
+         |                                   ^
+   include/linux/page-flags-layout.h:53:25: note: expanded from macro 'SECTIONS_WIDTH'
+      53 | #define SECTIONS_WIDTH          SECTIONS_SHIFT
+         |                                 ^
+   include/linux/page-flags-layout.h:31:25: note: expanded from macro 'SECTIONS_SHIFT'
+      31 | #define SECTIONS_SHIFT  (MAX_PHYSMEM_BITS - SECTION_SIZE_BITS)
+         |                          ^
+   arch/x86/include/asm/sparsemem.h:29:28: note: expanded from macro 'MAX_PHYSMEM_BITS'
+      29 | # define MAX_PHYSMEM_BITS       (pgtable_l5_enabled() ? 52 : 46)
+         |                                  ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:17:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:20:
+   include/linux/page-flags-layout.h:104:35: error: function-like macro 'pgtable_l5_enabled' is not defined
+   include/linux/page-flags-layout.h:53:25: note: expanded from macro 'SECTIONS_WIDTH'
+      53 | #define SECTIONS_WIDTH          SECTIONS_SHIFT
+         |                                 ^
+   include/linux/page-flags-layout.h:31:25: note: expanded from macro 'SECTIONS_SHIFT'
+      31 | #define SECTIONS_SHIFT  (MAX_PHYSMEM_BITS - SECTION_SIZE_BITS)
+         |                          ^
+   arch/x86/include/asm/sparsemem.h:29:28: note: expanded from macro 'MAX_PHYSMEM_BITS'
+      29 | # define MAX_PHYSMEM_BITS       (pgtable_l5_enabled() ? 52 : 46)
+         |                                  ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
 
-28828bad95a357 Jeremy Kerr 2024-02-16  356  static int mctp_ioctl_tag_copy_from_user(unsigned long arg,
-28828bad95a357 Jeremy Kerr 2024-02-16  357  					 struct mctp_ioc_tag_ctl2 *ctl,
-28828bad95a357 Jeremy Kerr 2024-02-16  358  					 bool tagv2)
-28828bad95a357 Jeremy Kerr 2024-02-16  359  {
-28828bad95a357 Jeremy Kerr 2024-02-16  360  	struct mctp_ioc_tag_ctl ctl_compat;
-28828bad95a357 Jeremy Kerr 2024-02-16  361  	unsigned long size;
-28828bad95a357 Jeremy Kerr 2024-02-16  362  	void *ptr;
-28828bad95a357 Jeremy Kerr 2024-02-16  363  	int rc;
-28828bad95a357 Jeremy Kerr 2024-02-16  364  
-28828bad95a357 Jeremy Kerr 2024-02-16  365  	if (tagv2) {
-28828bad95a357 Jeremy Kerr 2024-02-16  366  		size = sizeof(*ctl);
-28828bad95a357 Jeremy Kerr 2024-02-16  367  		ptr = ctl;
-28828bad95a357 Jeremy Kerr 2024-02-16  368  	} else {
-28828bad95a357 Jeremy Kerr 2024-02-16  369  		size = sizeof(ctl_compat);
-28828bad95a357 Jeremy Kerr 2024-02-16  370  		ptr = &ctl_compat;
-28828bad95a357 Jeremy Kerr 2024-02-16  371  	}
-28828bad95a357 Jeremy Kerr 2024-02-16  372  
-28828bad95a357 Jeremy Kerr 2024-02-16  373  	rc = copy_from_user(ptr, (void __user *)arg, size);
-28828bad95a357 Jeremy Kerr 2024-02-16  374  	if (rc)
-28828bad95a357 Jeremy Kerr 2024-02-16  375  		return -EFAULT;
-28828bad95a357 Jeremy Kerr 2024-02-16  376  
-28828bad95a357 Jeremy Kerr 2024-02-16  377  	if (!tagv2) {
-28828bad95a357 Jeremy Kerr 2024-02-16  378  		/* compat, using defaults for new fields */
-28828bad95a357 Jeremy Kerr 2024-02-16  379  		ctl->net = MCTP_INITIAL_DEFAULT_NET;
-28828bad95a357 Jeremy Kerr 2024-02-16  380  		ctl->peer_addr = ctl_compat.peer_addr;
-28828bad95a357 Jeremy Kerr 2024-02-16  381  		ctl->local_addr = MCTP_ADDR_ANY;
-28828bad95a357 Jeremy Kerr 2024-02-16  382  		ctl->flags = ctl_compat.flags;
-28828bad95a357 Jeremy Kerr 2024-02-16  383  		ctl->tag = ctl_compat.tag;
-28828bad95a357 Jeremy Kerr 2024-02-16  384  	}
-28828bad95a357 Jeremy Kerr 2024-02-16  385  
-28828bad95a357 Jeremy Kerr 2024-02-16  386  	if (ctl->flags)
-28828bad95a357 Jeremy Kerr 2024-02-16  387  		return -EINVAL;
-28828bad95a357 Jeremy Kerr 2024-02-16  388  
-28828bad95a357 Jeremy Kerr 2024-02-16 @389  	if (!(ctl->local_addr != MCTP_ADDR_ANY ||
-28828bad95a357 Jeremy Kerr 2024-02-16  390  	      ctl->local_addr != MCTP_ADDR_NULL))
-28828bad95a357 Jeremy Kerr 2024-02-16  391  		return -EINVAL;
 
-Should be &&.  This function will always return -EINVAL.  I haven't
-looked at the context outside of this automatically generated email but
-it suggests a failure in our test process.
+vim +/pgtable_l5_enabled +58 include/linux/page-flags-layout.h
 
-28828bad95a357 Jeremy Kerr 2024-02-16  392  
-28828bad95a357 Jeremy Kerr 2024-02-16  393  	return 0;
-28828bad95a357 Jeremy Kerr 2024-02-16  394  }
+bbeae5b05ef6e4 Peter Zijlstra 2013-02-22  57  
+ec1c86b25f4bdd Yu Zhao        2022-09-18 @58  #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_SHIFT \
+ec1c86b25f4bdd Yu Zhao        2022-09-18  59  	<= BITS_PER_LONG - NR_PAGEFLAGS
+bbeae5b05ef6e4 Peter Zijlstra 2013-02-22  60  #define NODES_WIDTH		NODES_SHIFT
+1587db62d8c0db Yu Zhao        2021-04-29  61  #elif defined(CONFIG_SPARSEMEM_VMEMMAP)
+bbeae5b05ef6e4 Peter Zijlstra 2013-02-22  62  #error "Vmemmap: No space for nodes field in page flags"
+1587db62d8c0db Yu Zhao        2021-04-29  63  #else
+bbeae5b05ef6e4 Peter Zijlstra 2013-02-22  64  #define NODES_WIDTH		0
+bbeae5b05ef6e4 Peter Zijlstra 2013-02-22  65  #endif
+bbeae5b05ef6e4 Peter Zijlstra 2013-02-22  66  
+
+:::::: The code at line 58 was first introduced by commit
+:::::: ec1c86b25f4bdd9dce6436c0539d2a6ae676e1c4 mm: multi-gen LRU: groundwork
+
+:::::: TO: Yu Zhao <yuzhao@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
