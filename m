@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5555163
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 00:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66E3366
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 00:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708301826; cv=none; b=YZF4arw+DvHpwQ/SatUhM8ybNpr0t2XjuqGY8KSKU6GLioI3OsJmkip7WOkvVG9LDSNi5t9y9VwftgLOs+wBl4YKvayGt4ZtokVrY/3jE8A1PVBGPIJ5h6sv2FUTlueMpmSK/U5/p4IP6dC4ucdKcNNGO6HiYqZ7/CgHsRDe4EE=
+	t=1708303029; cv=none; b=OU7m/VnLwZyc804qWREUZ/9++etORMd+SBYXXfaLgadjkDQiGRmHOh/ssBlkcrJzKQq+DOIvU4TUbjvFx1VTgReYkMNG80cxZpNBdjHnroR/Tg751SjoEaQ3cW8TvX4DawSSfWJFAzpnZswUQDOBVJcwkD9gT44LJmEy6g5cHxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708301826; c=relaxed/simple;
-	bh=AOzkdkui+7drJ+NwS7YCH/4EsQiHqNPwNbyItpr8pns=;
+	s=arc-20240116; t=1708303029; c=relaxed/simple;
+	bh=OqVAF6K8hh+2d2FiTbNoOFfzwaN3i9pwfxEnfO0YRu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qGQlj3Tk4qt7VVyDpExaXMWyg/8F+tIlteE0rkDAvQDv4sKJZZRvD9KXzlOCGc7PZ447lbQn5esJU8zB08KvYkq4dD2IkATuHIBWyI4Vg+zdpUtbSqUTMUOfjCRvryIqN8h1xPaocnsaLx8/gV9rdIJRkPOIigh1jNJjH/TZIUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVjErbmv; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=U0S+xPSfo3r1fr5/eK+tmo/clgm0eXT3FqWGYSpCV0C20kDV2TuV1WsIyGtR5j1IaL2CIahXyjRei5gnsdJ/+rGeukU9nDblevPUsAwP/57nvd0xBE25hUQg0MyLZtuEx1V5rcX5Qqz+TDe9yBQbbFcn83pYoE5scOaYi86/OSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SI76FwkP; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVjErbmv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SI76FwkP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708301825; x=1739837825;
+  t=1708303028; x=1739839028;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AOzkdkui+7drJ+NwS7YCH/4EsQiHqNPwNbyItpr8pns=;
-  b=aVjErbmvInns+PYBwL+V+v9evjJtETG0lm5iWdTbmExhtmI2uYwdIyCA
-   L3h5bP/iFT1oUfpv5JiU/ucJO5NbklC0xMyH4Diu0o3lVGg4tfbN0nZT+
-   HUaZPZV4TRE7V/JfW57ePeTkLrZT8VM5i9QFxSvRNLP+4zOMGzTIG8CLd
-   sAjPEMUaokHXFuHF+kI0LvhrUtzMUP1kS67I+m+tGoeNs3IhCMdluMRxT
-   w0RuvLw4eoJfhxTEmIBb//D7EvYDXYn3UjI3aPP7OkrywycW4Ke+nQ1RJ
-   CHjo/oKqN+yb1teZGMp1ESAnZqrOCto39oMYNnC3G0Wx20REIijhGEBPB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2495297"
+  bh=OqVAF6K8hh+2d2FiTbNoOFfzwaN3i9pwfxEnfO0YRu4=;
+  b=SI76FwkPhnDsinyLdZdyZ/aeDU6QQmb0YoJh11iUgf8My/CZbyz6tobX
+   o4ZUNPWV3A1SpX+VgKMB54ZHwN7QmiI9bPH8XzynPJ4hj6XldDOqrp1LW
+   rEyIe6+UlH0W4vFBjzkaaROUXKyBoxJkxkFNGmN9w8Yvjf6mqp6f8i8Aw
+   NCqxmQVQT/g1YcnXR5yUsIeRf4meERCrXq13KXVbGR3/XO4/0uO4lSi9w
+   fTAXt7mRRAOusOFLWVt9cFNI12Cs8kXgNH44TulyuBtJirf+n16txv7bu
+   Wo06tFk9u7z2vbK/WiumXpBESfU0q9kAthIXYvcE5FhE0OcfypXCOMHg0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2804250"
 X-IronPort-AV: E=Sophos;i="6.06,169,1705392000"; 
-   d="scan'208";a="2495297"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 16:17:04 -0800
+   d="scan'208";a="2804250"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 16:37:07 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,169,1705392000"; 
-   d="scan'208";a="4694086"
+   d="scan'208";a="4735275"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 18 Feb 2024 16:17:03 -0800
+  by orviesa008.jf.intel.com with ESMTP; 18 Feb 2024 16:37:05 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rbrLA-0003Nu-1Y;
-	Mon, 19 Feb 2024 00:17:00 +0000
-Date: Mon, 19 Feb 2024 08:16:27 +0800
+	id 1rbreZ-0003Og-0M;
+	Mon, 19 Feb 2024 00:37:03 +0000
+Date: Mon, 19 Feb 2024 08:36:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Johannes Berg <johannes.berg@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: include/linux/compiler_types.h:358:45: error: call to
  '__compiletime_assert_947' declared with attribute error: BUILD_BUG_ON
  failed: sizeof(struct ieee80211_rx_status) > sizeof(skb->cb)
-Message-ID: <202402190836.mzLKZdHY-lkp@intel.com>
+Message-ID: <202402190801.9ZnFahvB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,14 +67,14 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   b401b621758e46812da61fa58a67c3fd8d91de0d
 commit: f66c48af7a110c0d694c4ac4a1257affb272a2ea mac80211: support minimal EHT rate reporting on RX
 date:   1 year, 1 month ago
-config: arm-randconfig-003-20240218 (https://download.01.org/0day-ci/archive/20240219/202402190836.mzLKZdHY-lkp@intel.com/config)
+config: arm-randconfig-003-20240218 (https://download.01.org/0day-ci/archive/20240219/202402190801.9ZnFahvB-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402190836.mzLKZdHY-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402190801.9ZnFahvB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402190836.mzLKZdHY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402190801.9ZnFahvB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
