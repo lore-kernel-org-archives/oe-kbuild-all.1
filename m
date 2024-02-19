@@ -1,56 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8D55238
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 18:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E0B4CDFD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 18:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708367496; cv=none; b=IMCzpJy7IrGq488bnAx6eUwnunvRgOLCwAKf5hiJk++tFQXSyjH9Wjyk0Dh9bKCT2st5sMSywr0TJTrvRGVasWwrbpKcN8DL3hQlwLdUEnmhAffLZ7tf935tDw5ZwMZni+gFODmWFwQwcSlal8+SQr5vskR3URs6J964x6yICGU=
+	t=1708368156; cv=none; b=tmQzo6wZdmVJQFQD/QGxy+vkDS2CpY/+VgsbCVblQwYkHiIW/ZCdMXIyML4yjy0gGhAVRD1cegOvG5LDzbBYJL1Qh9IhuQknFf/dHsS/+DUq/O9OhmGEJPpjCLB6JFpPKipA4zgmHRHqBq789yBh+FCKpasAi/Z9KFsykTv+sqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708367496; c=relaxed/simple;
-	bh=aO029ytUt0mLxLL3v6iP0oabTxdycaBM8mRxl/FX+mw=;
+	s=arc-20240116; t=1708368156; c=relaxed/simple;
+	bh=9uUd9LrHCpG4quaufBsXEBoYDhhQ7BMvMMujM+1I/5s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gWLC82s+cJOHaBMbBwb8dumwiS/qU8fcEnfLLXm7gach9L1zST3zjFg9+8hcUX4zGVE5HqZSs20FN3i3nrzbje3k5th12UQ7q0sMeHfta9Up5GCfxWwC1aG/fpHxsbI/0Z1pyGxuogvbOYSgfY38w4i3Fvz0zyMVg1D6R3XTfKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6ZG54Mp; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=p4c3xYleWavQXJLIBBwIFw1nKHe2KE5nEYKIuXXBZZWQtItrTTc1r56M98x8kvANH9obnOT5lSg2DUUgsGlRp7Sekvq38RB54JJwziu2MrhIRVEqIMKHQxRYMLb9OsEoOfclIV0voSuU1rkNDzL/dEJss1b7C2c0pDZZRInUpVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsveKdaJ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6ZG54Mp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsveKdaJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708367494; x=1739903494;
+  t=1708368154; x=1739904154;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aO029ytUt0mLxLL3v6iP0oabTxdycaBM8mRxl/FX+mw=;
-  b=J6ZG54MpCtSbZlHp7MtPRhUSYjwEimzt8ZFOJiOH+d8zkh7IFwsY5dqA
-   V0BHMCigZ8kegkGmwLu2Xok0vxJ8Mz8c2OHN9dKinNRm/Zhl/2MF7OdN4
-   7b9/+WdvoaWUnBMVX5XOjWqScXh0U9XKDEvLwcbiVZMkNi/zQc7g4Xgg7
-   QTZNzcxxSua4EnPjc6jICYRMhur2CnT1soAbzOwOyLG/7Ecx6bvYzVKbv
-   81vmWMTwd3Yj/Tp85UtzVGtGpLyQwahpIRoZatxze/wM4u6/WZuohFXH/
-   ODSvyEmCLUBm3xQPl1FssM002x8rZOAhxoF1yvao7LF9Cdt9m4E7LIaqO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="24916919"
+  bh=9uUd9LrHCpG4quaufBsXEBoYDhhQ7BMvMMujM+1I/5s=;
+  b=dsveKdaJ91mPzElU6g38q2Go4aa6qK3MeyCdnF+FzUsZKRqx33nCwwPP
+   xo0xN0qjDAYXekgpvK83iMaNiAAzs9nR8+0O3Hqa3eSQW/6btIzpYW2Nm
+   GpoGSxBkIwbvE/CH4jwuC64IdtKOHE6LifzYiySdsp4NBtpQffQCdue2E
+   PWGBI77poapBBAGQ5OaqE5r6kWdBAG1zQs30hEM8jplaIG8Eq0vQIFSQW
+   PraYnGlGRWmAjLms+ol7ClIou5GG7YtKEBVNG0Nj0iaDZoXHIi8wj3D6a
+   o/uJ19rRezw94quakACB+8TwTDP7S3mwjcVFk53FnX/JChfWIUiMXO/Fd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13855113"
 X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="24916919"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 10:31:33 -0800
+   d="scan'208";a="13855113"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 10:42:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="912919424"
 X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="912919424"
+   d="scan'208";a="4526465"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Feb 2024 10:31:32 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 19 Feb 2024 10:42:32 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rc8QJ-00040M-2y;
-	Mon, 19 Feb 2024 18:31:28 +0000
-Date: Tue, 20 Feb 2024 02:31:17 +0800
+	id 1rc8b0-00040Y-0Q;
+	Mon, 19 Feb 2024 18:42:30 +0000
+Date: Tue, 20 Feb 2024 02:41:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned-zwp 644/675]
- drivers/block/null_blk/main.c:1906:47: error: passing argument 2 of
- 'null_init_zoned_dev' from incompatible pointer type
-Message-ID: <202402200245.HT2H0cFT-lkp@intel.com>
+To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/hwtracing/intel_th/core.c:838: warning: Excess function
+ parameter 'irq' description in 'intel_th_alloc'
+Message-ID: <202402200202.TzVSNB1m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,161 +58,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-zwp
-head:   f24bc80ab52b7ee42fc7bf25c58ea582b7879fd0
-commit: c4b8120038fb9990e313c6431d06f9745f1038db [644/675] null-blk-fix
-config: arm-randconfig-001-20240219 (https://download.01.org/0day-ci/archive/20240220/202402200245.HT2H0cFT-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402200245.HT2H0cFT-lkp@intel.com/reproduce)
+Hi Alexander,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b401b621758e46812da61fa58a67c3fd8d91de0d
+commit: 62a593022c32380d040303a5e3d6b67fd9c415bc intel_th: Communicate IRQ via resource
+date:   4 years, 10 months ago
+config: x86_64-buildonly-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20240220/202402200202.TzVSNB1m-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402200202.TzVSNB1m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402200245.HT2H0cFT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402200202.TzVSNB1m-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/block/null_blk/main.c: In function 'null_add_dev':
->> drivers/block/null_blk/main.c:1906:47: error: passing argument 2 of 'null_init_zoned_dev' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1906 |                 rv = null_init_zoned_dev(dev, &lim);
-         |                                               ^~~~
-         |                                               |
-         |                                               struct queue_limits *
-   In file included from drivers/block/null_blk/main.c:12:
-   drivers/block/null_blk/null_blk.h:147:61: note: expected 'struct request_queue *' but argument is of type 'struct queue_limits *'
-     147 |                                       struct request_queue *q)
-         |                                       ~~~~~~~~~~~~~~~~~~~~~~^
-   cc1: some warnings being treated as errors
+   drivers/hwtracing/intel_th/core.c:838: warning: Function parameter or member 'drvdata' not described in 'intel_th_alloc'
+   drivers/hwtracing/intel_th/core.c:838: warning: Function parameter or member 'ndevres' not described in 'intel_th_alloc'
+>> drivers/hwtracing/intel_th/core.c:838: warning: Excess function parameter 'irq' description in 'intel_th_alloc'
 
 
-vim +/null_init_zoned_dev +1906 drivers/block/null_blk/main.c
+vim +838 drivers/hwtracing/intel_th/core.c
 
-  1869	
-  1870	static int null_add_dev(struct nullb_device *dev)
-  1871	{
-  1872		struct queue_limits lim = {
-  1873			.logical_block_size	= dev->blocksize,
-  1874			.physical_block_size	= dev->blocksize,
-  1875			.max_hw_sectors		= dev->max_sectors,
-  1876		};
-  1877	
-  1878		struct nullb *nullb;
-  1879		int rv;
-  1880	
-  1881		rv = null_validate_conf(dev);
-  1882		if (rv)
-  1883			return rv;
-  1884	
-  1885		nullb = kzalloc_node(sizeof(*nullb), GFP_KERNEL, dev->home_node);
-  1886		if (!nullb) {
-  1887			rv = -ENOMEM;
-  1888			goto out;
-  1889		}
-  1890		nullb->dev = dev;
-  1891		dev->nullb = nullb;
-  1892	
-  1893		spin_lock_init(&nullb->lock);
-  1894	
-  1895		rv = setup_queues(nullb);
-  1896		if (rv)
-  1897			goto out_free_nullb;
-  1898	
-  1899		rv = null_setup_tagset(nullb);
-  1900		if (rv)
-  1901			goto out_cleanup_queues;
-  1902	
-  1903		if (dev->virt_boundary)
-  1904			lim.virt_boundary_mask = PAGE_SIZE - 1;
-  1905		if (dev->zoned) {
-> 1906			rv = null_init_zoned_dev(dev, &lim);
-  1907			if (rv)
-  1908				goto out_cleanup_tags;
-  1909		}
-  1910		null_config_discard(nullb, &lim);
-  1911	
-  1912		nullb->disk = blk_mq_alloc_disk(nullb->tag_set, &lim, nullb);
-  1913		if (IS_ERR(nullb->disk)) {
-  1914			rv = PTR_ERR(nullb->disk);
-  1915			goto out_cleanup_zone;
-  1916		}
-  1917		nullb->q = nullb->disk->queue;
-  1918	
-  1919		if (dev->mbps) {
-  1920			set_bit(NULLB_DEV_FL_THROTTLED, &dev->flags);
-  1921			nullb_setup_bwtimer(nullb);
-  1922		}
-  1923	
-  1924		if (dev->cache_size > 0) {
-  1925			set_bit(NULLB_DEV_FL_CACHE, &nullb->dev->flags);
-  1926			blk_queue_write_cache(nullb->q, true, true);
-  1927		}
-  1928	
-  1929		nullb->q->queuedata = nullb;
-  1930		blk_queue_flag_set(QUEUE_FLAG_NONROT, nullb->q);
-  1931	
-  1932		mutex_lock(&lock);
-  1933		rv = ida_alloc(&nullb_indexes, GFP_KERNEL);
-  1934		if (rv < 0) {
-  1935			mutex_unlock(&lock);
-  1936			goto out_cleanup_disk;
-  1937		}
-  1938		nullb->index = rv;
-  1939		dev->index = rv;
-  1940		mutex_unlock(&lock);
-  1941	
-  1942		if (config_item_name(&dev->group.cg_item)) {
-  1943			/* Use configfs dir name as the device name */
-  1944			snprintf(nullb->disk_name, sizeof(nullb->disk_name),
-  1945				 "%s", config_item_name(&dev->group.cg_item));
-  1946		} else {
-  1947			sprintf(nullb->disk_name, "nullb%d", nullb->index);
-  1948		}
-  1949	
-  1950		set_capacity(nullb->disk,
-  1951			((sector_t)nullb->dev->size * SZ_1M) >> SECTOR_SHIFT);
-  1952		nullb->disk->major = null_major;
-  1953		nullb->disk->first_minor = nullb->index;
-  1954		nullb->disk->minors = 1;
-  1955		nullb->disk->fops = &null_ops;
-  1956		nullb->disk->private_data = nullb;
-  1957		strscpy_pad(nullb->disk->disk_name, nullb->disk_name, DISK_NAME_LEN);
-  1958	
-  1959		if (nullb->dev->zoned) {
-  1960			rv = null_register_zoned_dev(nullb);
-  1961			if (rv)
-  1962				goto out_ida_free;
-  1963		}
-  1964	
-  1965		rv = add_disk(nullb->disk);
-  1966		if (rv)
-  1967			goto out_ida_free;
-  1968	
-  1969		mutex_lock(&lock);
-  1970		list_add_tail(&nullb->list, &nullb_list);
-  1971		mutex_unlock(&lock);
-  1972	
-  1973		pr_info("disk %s created\n", nullb->disk_name);
-  1974	
-  1975		return 0;
-  1976	
-  1977	out_ida_free:
-  1978		ida_free(&nullb_indexes, nullb->index);
-  1979	out_cleanup_disk:
-  1980		put_disk(nullb->disk);
-  1981	out_cleanup_zone:
-  1982		null_free_zoned_dev(dev);
-  1983	out_cleanup_tags:
-  1984		if (nullb->tag_set == &nullb->__tag_set)
-  1985			blk_mq_free_tag_set(nullb->tag_set);
-  1986	out_cleanup_queues:
-  1987		kfree(nullb->queues);
-  1988	out_free_nullb:
-  1989		kfree(nullb);
-  1990		dev->nullb = NULL;
-  1991	out:
-  1992		return rv;
-  1993	}
-  1994	
+39f4034693b7c7 Alexander Shishkin 2015-09-22  828  
+39f4034693b7c7 Alexander Shishkin 2015-09-22  829  /**
+39f4034693b7c7 Alexander Shishkin 2015-09-22  830   * intel_th_alloc() - allocate a new Intel TH device and its subdevices
+39f4034693b7c7 Alexander Shishkin 2015-09-22  831   * @dev:	parent device
+db73a059de00ee Alexander Shishkin 2019-05-03  832   * @devres:	resources indexed by th_mmio_idx
+39f4034693b7c7 Alexander Shishkin 2015-09-22  833   * @irq:	irq number
+39f4034693b7c7 Alexander Shishkin 2015-09-22  834   */
+39f4034693b7c7 Alexander Shishkin 2015-09-22  835  struct intel_th *
+3321371b5d6484 Alexander Shishkin 2017-08-18  836  intel_th_alloc(struct device *dev, struct intel_th_drvdata *drvdata,
+62a593022c3238 Alexander Shishkin 2019-05-03  837  	       struct resource *devres, unsigned int ndevres)
+39f4034693b7c7 Alexander Shishkin 2015-09-22 @838  {
+62a593022c3238 Alexander Shishkin 2019-05-03  839  	int err, r, nr_mmios = 0;
+39f4034693b7c7 Alexander Shishkin 2015-09-22  840  	struct intel_th *th;
+661b0df8489a35 Alexander Shishkin 2017-08-23  841  
+39f4034693b7c7 Alexander Shishkin 2015-09-22  842  	th = kzalloc(sizeof(*th), GFP_KERNEL);
+39f4034693b7c7 Alexander Shishkin 2015-09-22  843  	if (!th)
+39f4034693b7c7 Alexander Shishkin 2015-09-22  844  		return ERR_PTR(-ENOMEM);
+39f4034693b7c7 Alexander Shishkin 2015-09-22  845  
+39f4034693b7c7 Alexander Shishkin 2015-09-22  846  	th->id = ida_simple_get(&intel_th_ida, 0, 0, GFP_KERNEL);
+39f4034693b7c7 Alexander Shishkin 2015-09-22  847  	if (th->id < 0) {
+39f4034693b7c7 Alexander Shishkin 2015-09-22  848  		err = th->id;
+39f4034693b7c7 Alexander Shishkin 2015-09-22  849  		goto err_alloc;
+39f4034693b7c7 Alexander Shishkin 2015-09-22  850  	}
+39f4034693b7c7 Alexander Shishkin 2015-09-22  851  
+39f4034693b7c7 Alexander Shishkin 2015-09-22  852  	th->major = __register_chrdev(0, 0, TH_POSSIBLE_OUTPUTS,
+39f4034693b7c7 Alexander Shishkin 2015-09-22  853  				      "intel_th/output", &intel_th_output_fops);
+39f4034693b7c7 Alexander Shishkin 2015-09-22  854  	if (th->major < 0) {
+39f4034693b7c7 Alexander Shishkin 2015-09-22  855  		err = th->major;
+39f4034693b7c7 Alexander Shishkin 2015-09-22  856  		goto err_ida;
+39f4034693b7c7 Alexander Shishkin 2015-09-22  857  	}
+62a593022c3238 Alexander Shishkin 2019-05-03  858  	th->irq = -1;
+39f4034693b7c7 Alexander Shishkin 2015-09-22  859  	th->dev = dev;
+3321371b5d6484 Alexander Shishkin 2017-08-18  860  	th->drvdata = drvdata;
+39f4034693b7c7 Alexander Shishkin 2015-09-22  861  
+db73a059de00ee Alexander Shishkin 2019-05-03  862  	for (r = 0; r < ndevres; r++)
+62a593022c3238 Alexander Shishkin 2019-05-03  863  		switch (devres[r].flags & IORESOURCE_TYPE_BITS) {
+62a593022c3238 Alexander Shishkin 2019-05-03  864  		case IORESOURCE_MEM:
+62a593022c3238 Alexander Shishkin 2019-05-03  865  			th->resource[nr_mmios++] = devres[r];
+62a593022c3238 Alexander Shishkin 2019-05-03  866  			break;
+62a593022c3238 Alexander Shishkin 2019-05-03  867  		case IORESOURCE_IRQ:
+62a593022c3238 Alexander Shishkin 2019-05-03  868  			if (th->irq == -1)
+62a593022c3238 Alexander Shishkin 2019-05-03  869  				th->irq = devres[r].start;
+62a593022c3238 Alexander Shishkin 2019-05-03  870  			break;
+62a593022c3238 Alexander Shishkin 2019-05-03  871  		default:
+62a593022c3238 Alexander Shishkin 2019-05-03  872  			dev_warn(dev, "Unknown resource type %lx\n",
+62a593022c3238 Alexander Shishkin 2019-05-03  873  				 devres[r].flags);
+62a593022c3238 Alexander Shishkin 2019-05-03  874  			break;
+62a593022c3238 Alexander Shishkin 2019-05-03  875  		}
+62a593022c3238 Alexander Shishkin 2019-05-03  876  
+62a593022c3238 Alexander Shishkin 2019-05-03  877  	th->num_resources = nr_mmios;
+a753bfcfdb1f31 Alexander Shishkin 2017-08-10  878  
+d7b1787161b78a Alexander Shishkin 2016-02-15  879  	dev_set_drvdata(dev, th);
+d7b1787161b78a Alexander Shishkin 2016-02-15  880  
+142dfeb2020960 Alexander Shishkin 2016-06-22  881  	pm_runtime_no_callbacks(dev);
+142dfeb2020960 Alexander Shishkin 2016-06-22  882  	pm_runtime_put(dev);
+142dfeb2020960 Alexander Shishkin 2016-06-22  883  	pm_runtime_allow(dev);
+142dfeb2020960 Alexander Shishkin 2016-06-22  884  
+a753bfcfdb1f31 Alexander Shishkin 2017-08-10  885  	err = intel_th_populate(th);
+a753bfcfdb1f31 Alexander Shishkin 2017-08-10  886  	if (err) {
+a753bfcfdb1f31 Alexander Shishkin 2017-08-10  887  		/* free the subdevices and undo everything */
+a753bfcfdb1f31 Alexander Shishkin 2017-08-10  888  		intel_th_free(th);
+a753bfcfdb1f31 Alexander Shishkin 2017-08-10  889  		return ERR_PTR(err);
+a753bfcfdb1f31 Alexander Shishkin 2017-08-10  890  	}
+39f4034693b7c7 Alexander Shishkin 2015-09-22  891  
+39f4034693b7c7 Alexander Shishkin 2015-09-22  892  	return th;
+39f4034693b7c7 Alexander Shishkin 2015-09-22  893  
+39f4034693b7c7 Alexander Shishkin 2015-09-22  894  err_ida:
+39f4034693b7c7 Alexander Shishkin 2015-09-22  895  	ida_simple_remove(&intel_th_ida, th->id);
+39f4034693b7c7 Alexander Shishkin 2015-09-22  896  
+39f4034693b7c7 Alexander Shishkin 2015-09-22  897  err_alloc:
+39f4034693b7c7 Alexander Shishkin 2015-09-22  898  	kfree(th);
+39f4034693b7c7 Alexander Shishkin 2015-09-22  899  
+39f4034693b7c7 Alexander Shishkin 2015-09-22  900  	return ERR_PTR(err);
+39f4034693b7c7 Alexander Shishkin 2015-09-22  901  }
+39f4034693b7c7 Alexander Shishkin 2015-09-22  902  EXPORT_SYMBOL_GPL(intel_th_alloc);
+39f4034693b7c7 Alexander Shishkin 2015-09-22  903  
+
+:::::: The code at line 838 was first introduced by commit
+:::::: 39f4034693b7c7bd1fe4cb58c93259d600f55561 intel_th: Add driver infrastructure for Intel(R) Trace Hub devices
+
+:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
