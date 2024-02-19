@@ -1,98 +1,141 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E7236AF1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 13:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20B03612C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 13:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708349906; cv=none; b=fM2wHojHvkpOAXhLk9IdpZ0+hDECTo90a6Z1Fv2Ctj3zqlZdrtHRCxYcqUoiZhoOq7Uz4wOeDLgWJ4Sk51L3F1WDOVXNtnJZx2q/Sqj11JiaqX8Wl3I2xWtiJ25r36/seH8OIaM7YpSP8Yrf3d222DozkMYsi3MC8kmdEnS7BeA=
+	t=1708350818; cv=none; b=F0VlmY7xVTMliSmc4wRJRedY2GFr3SU8JjvhLjGxe3FTOgNq+nuUOv+3B3o5/v65U3bsC7KJvqMUvp/ddKECSEPanAhKY6gEibGq/XPxEBoiUNpNHUlTNZoJ49mh5E9orpshlz8lF7KhHMpjXY8Hr79XmtheL4hAFMkrG2tJPOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708349906; c=relaxed/simple;
-	bh=uXtloTODejeczT3hmpK/OszWWM0X66OMlgizKFtkQcs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=BO1fV0EEqIn+4CgXRDd7FZtValm9Znm1h2CsOjLBQQZ/Tnz4ykv26DPQiQsbR3hNYZum66lCiqYylYMk5k8vL6uiU2LHyTyuEqtAAgNhslXpFD0gOTxsQRr1ggIyFAWBxbC5RaWFjbvTbyWYixZmp8FuPOTWAoWPJcsnRl8ZUA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SsgbLSGl; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1708350818; c=relaxed/simple;
+	bh=mjCeAIQZv6m3D3psvqDPNKm1MymqtEETfxNpQ8BvHoM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Z7AydNt/Tk/TgbBbUy1VfZrQg9q/03yEPRn/YjaaF7VbdIzYNz8E/bu+i5kgVS5YMh4iLrc3LdDXDXHgZtpNIMwarvku6nL9fwBwcQZ22IwAPIyyO/bp2DvUcnGIIhXJuuh8acmEqRN55nfoUrgOmeMolqxF7Gwy5aEntjtRMg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=YXVvc6ki; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=KbJioyej; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SsgbLSGl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708349903;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eI5pUS//j1G9Ldqcb3gOpJW7c8MeqvPPadxwJhyD4Mk=;
-	b=SsgbLSGlxogWO+W+yarL/aGBcljqlMAx5a4Kqpcr6n7gUgAGUh22l3OlbXg+rG/z+dvIE+
-	0ozpWmRDFqmvPFG1RK3dXlTigSFtlYaWQ7eaJ1y0FkNHX5iv+aa8G2LDevlNFNrdT7dwre
-	1svQ70HmPzEQt2VdwM7H+obsAKAuviQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-660-Dwjf2CkZODKz7wabux4vmg-1; Mon, 19 Feb 2024 08:38:21 -0500
-X-MC-Unique: Dwjf2CkZODKz7wabux4vmg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="YXVvc6ki";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="KbJioyej"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6162E85A58A;
-	Mon, 19 Feb 2024 13:38:21 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.2])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9200240C9444;
-	Mon, 19 Feb 2024 13:38:20 +0000 (UTC)
-Date: Mon, 19 Feb 2024 21:38:17 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Paul Gazzillo <paul@pgazz.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E53BE21747;
+	Mon, 19 Feb 2024 13:53:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708350815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iWgx8ZUrqNvRYMebTBHKWkfDEjmiK2tptdVH4AjyYtY=;
+	b=YXVvc6ki+BbBR0BE/vR1JOoFmujkPZDgv7Jk9X2GPIpfKcVZ5vrWKBkB0gDpOe+S1UMzEp
+	b17aNUQS6vTQJMI1mYRYLXxuRWLRxbVgIqocQj5v6ylGt1tcZZ4jj12X333DaSAd5NIorM
+	rzIS7CaoUW+ONHtuHCtA2kSkMRl0Ok4=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708350814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iWgx8ZUrqNvRYMebTBHKWkfDEjmiK2tptdVH4AjyYtY=;
+	b=KbJioyej9rk6fekZDPu2bjoJqFGs3fxeyhyM8L8IGb+vGbsMlvHLEDEiydaRp04KEdwjcq
+	HAzCVc/npxIV4qksMQy4OoBdTmQlQq6Fsm7Rf8d/7fXx1TiMjd+91t5mGO5glDBXcu/Yfd
+	HPf5zq5SEtZuwjusVCJ+SyBzRTdbE8A=
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 66CC513585;
+	Mon, 19 Feb 2024 13:53:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id 3ETgCl5d02XgCwAAn2gu4w
+	(envelope-from <mpdesouza@suse.com>); Mon, 19 Feb 2024 13:53:34 +0000
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+To: Marcos Paulo de Souza <mpdesouza@suse.com>
 Cc: kernel test robot <lkp@intel.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Petr Mladek <pmladek@suse.com>,
+	Joe Lawrence <joe.lawrence@redhat.com>,
 	oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-unstable 82/320] kismet: WARNING: unmet direct
- dependencies detected for CRASH_DUMP when selected by FA_DUMP
-Message-ID: <ZdNZybp3lMM1+I+V@MiWiFi-R3L-srv>
-References: <202402171431.MzqHz3g2-lkp@intel.com>
- <ZdL+sSSFghXttSqR@MiWiFi-R3L-srv>
- <20240219132142.bdusrf3kcbqtv4ff@dev.opentheblackbox.net>
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	live-patching@vger.kernel.org
+Subject: Re: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
+Date: Mon, 19 Feb 2024 10:53:22 -0300
+Message-ID: <20240219135325.2280-1-mpdesouza@suse.com>
+X-Mailer: git-send-email 2.42.1
+In-Reply-To: <20240219121522.23480-1-mpdesouza@suse.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240219132142.bdusrf3kcbqtv4ff@dev.opentheblackbox.net>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [1.90 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 RCPT_COUNT_TWELVE(0.00)[12];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Level: *
+X-Spam-Score: 1.90
+X-Spam-Flag: NO
 
-On 02/19/24 at 08:21am, Paul Gazzillo wrote:
-> On 02/19/2024, Baoquan He wrote:
-> > On 02/17/24 at 02:48pm, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> > > head:   9951769060d8f5eb001acaca67c1439d2cfe1c6b
-> > > commit: a5af0b602e5ecb379fd2470669654a6abe7e97a2 [82/320] crash: clean up kdump related config items
-> > > config: powerpc-kismet-CONFIG_CRASH_DUMP-CONFIG_FA_DUMP-0-0 (https://download.01.org/0day-ci/archive/20240217/202402171431.MzqHz3g2-lkp@intel.com/config)
-> > > reproduce: (https://download.01.org/0day-ci/archive/20240217/202402171431.MzqHz3g2-lkp@intel.com/reproduce)
-> > 
-> > When I tried the step 1 of reproducer, I got failure on installing the
-> > kmax. Is there other ways I can reproduce the issue? Or have you tested
-> > the latest linux-next/master because there's some udpate about the
-> > config items change?
-> > 
-> > -------
-> >  # 1. reproduce by kismet
-> >     # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-> >     kismet --linux-ksrc=linux --selectees CONFIG_CRASH_DUMP --selectors CONFIG_FA_DUMP -a=powerpc
-> > -------
-> > 
+On Mon, 19 Feb 2024 09:15:15 -0300 Marcos Paulo de Souza <mpdesouza@suse.com> wrote:
+
+> On Mon, 19 Feb 2024 14:35:16 +0800 kernel test robot <lkp@intel.com> wrote:
 > 
-> I am able to install on a fairly fresh x86 ubuntu 23.10 installation.
-> Could you let me know the platform and OS you are building on?
+> > Hi Marcos,
+> > 
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on 345e8abe4c355bc24bab3f4a5634122e55be8665]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/selftests-lib-mk-Do-not-process-TEST_GEN_MODS_DIR/20240216-021601
+> > base:   345e8abe4c355bc24bab3f4a5634122e55be8665
+> > patch link:    https://lore.kernel.org/r/20240215-lp-selftests-fixes-v1-1-89f4a6f5cddc%40suse.com
+> > patch subject: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191417.XULH88Ct-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202402191417.XULH88Ct-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> > >> make[3]: *** /lib/modules/5.9.0-2-amd64/build: No such file or directory.  Stop.
+> 
+> We should ask the kernel test robot machine owners to install kernel-devel
+> package in order to have this fixed.
 
-Thanks, I took the building on fedora 39.
+Or maybe ask them to change the reproducer to specify KDIR to the git tree,
+instead of /lib/modules/?
 
 > 
-> As for changes to config items, I will look into that.
-> 
-
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
