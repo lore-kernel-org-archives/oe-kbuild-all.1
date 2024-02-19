@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C790B17BD2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 20:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8963C36
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 23:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708375983; cv=none; b=bTrY4ql7QoB1sQ/XdO2FB9UwMVakauYFpT9GXYG08/cTbi9/SY3GkeLwUXHRL3qU4E+SbRazM+WNbcmqTdovd7LUs9RPGVsbCB2ysK3o8zYVpdiQl4iyutQUtjh6yU6R6OWDfkqX4T36uEn7xqwPfwAE1ABZoHvIib/11VVnWqw=
+	t=1708385980; cv=none; b=qDXL7IueryZ1cLlUwTStZ9HtL2XI/3O1oqKz6BpAmD8oYKVRa33AGWWyZsx2abU0gKEyLDYg5ghAGJ9Wwoayjnm6G76u/Rc/G3dL9HkZAv/OJNU/bBPq2b/sIER2bzDHUjq66mFqqX48LxhV6z6FvxxeK9Nt8AgGB0AENSEMNDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708375983; c=relaxed/simple;
-	bh=qCGWTx6++kab0pPB6OrQ4V4VhzGqD5QEz+jZrC5AO/s=;
+	s=arc-20240116; t=1708385980; c=relaxed/simple;
+	bh=jjbbUlQL2K4ablfUlNXmfjPOcXIwVki9G2m+eqz/fdQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HEkQHZTP9WUwZMSkEnhNUbPAqezqmoaqoQfGR0Wr866WKimXL6YntBqLf+EbNqZOofMJLHk10ud4Av2Q5alJ8f0Dghb8kQ/Aj3nwy346EklHSWltsJDnDqiqBIAy7v+4pUZrsuvBIkIN1QOC8dZFEUPH51633ZGjdiFfkrPiR7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nxl9Llc0; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Oq+yPxScDe747UFSLdDog/bOgKSSUJLNY0cVDaxppe60YxpZWtc9CEpGy/yLmnmN4vpAFJO/mQL3N+dA1ezgmkok63f1SVb8HrBZNxkBFuKnT5gZkDEIsU4vuLiNaSd/wxfAAkPnIbqtttK8XBvxbDBkEu9i/gd0ecBw6zmuQZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibKZudPG; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nxl9Llc0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibKZudPG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708375982; x=1739911982;
+  t=1708385978; x=1739921978;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qCGWTx6++kab0pPB6OrQ4V4VhzGqD5QEz+jZrC5AO/s=;
-  b=nxl9Llc0PQUvsp80s4uqhDG9TCMcoANWUsZlWFbYVssZbfxZrABy+hKX
-   A+KVv3XuqPCkPPy3QX64LF11G3BGTaS64hUOKspa06bERVc83G9czMKgw
-   F2+9Gt4XlwtqvwfvNN0qWa5D0q64QZDQjw/wbiJ83PVdYRcCwgKy1m6vk
-   94w3XK3uz0frv0bZFgHOx7qf3o0rCVHQ49tTGCeU451CwaAZauXHGl2ec
-   59wVmRJ9APfnQQuyBZ7WXs/dS/t34FjsbMvC9avZsNIRUPmMYH1j09riE
-   cpJtMgusZrIZSHda/aA4EP7bJPqS+c8cCwYYN7Tx46EIVYBoviXLwSVAB
+  bh=jjbbUlQL2K4ablfUlNXmfjPOcXIwVki9G2m+eqz/fdQ=;
+  b=ibKZudPGI7/qYN+tkAgrcu6lK4qC1rBkPnIfT6h3esVMoXaaRndshwSC
+   /vBdEZQbyt0o6mpZarBKSgKBN9wcoV2Tv7j7vw2NyhL+zI4/Bf6jLMDAv
+   sw1qMSGIAurMjqERDgPn/9iUCkzm9crE1TfN0OhYE/7w+z+kYTmPtlbaa
+   e75TqsBREoSjLHWnFdaf1FHq2T551DUyfaJL5B0tNOUyulJz1Ye4IXSnJ
+   iQcUnr8gGkIRTJZ8v0GbGi0BEhe37L2+gM9Imphp4xolvxIMSslFn26Pa
+   5wLeV995F1XJ+7QfxeOnDIpd9gqzzoJ4ujpFTe4kW5WdpfHzvWhml4Eu9
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2330063"
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13101167"
 X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
-   d="scan'208";a="2330063"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 12:53:00 -0800
+   d="scan'208";a="13101167"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 15:39:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="936339221"
 X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
-   d="scan'208";a="936339221"
+   d="scan'208";a="35380449"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2024 12:52:59 -0800
+  by orviesa002.jf.intel.com with ESMTP; 19 Feb 2024 15:39:36 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcAdF-00043W-1N;
-	Mon, 19 Feb 2024 20:52:57 +0000
-Date: Tue, 20 Feb 2024 04:52:23 +0800
+	id 1rcDET-00048W-11;
+	Mon, 19 Feb 2024 23:39:33 +0000
+Date: Tue, 20 Feb 2024 07:39:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, wangyuan <wangyuan46@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 21582/21628]
- include/linux/uaccess.h:112:17: warning: 'qp_ctx' may be used uninitialized
-Message-ID: <202402200406.0uniupLa-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 33/62] kernel/sched/fair_eevdf.c:28:5:
+ sparse: sparse: symbol 'sysctl_sched_use_eevdf' was not declared. Should it
+ be static?
+Message-ID: <202402200759.jhEzI1fs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,87 +60,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   94f199d2ce0118d64c47192cef7247cf30560eba
-commit: 267bce716c1008522c3b8ddbeac8d3c65514e98f [21582/21628] crypto: hisilicon/qm - drop unnecessary IS_ENABLE(CONFIG_NUMA) check
-config: arm64-randconfig-003-20240218 (https://download.01.org/0day-ci/archive/20240220/202402200406.0uniupLa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402200406.0uniupLa-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   81ba8c6abf5aa0bcc26dac46b109f519060b5fe5
+commit: d110cb090ea029fee70c2a512f58306682bad476 [33/62] CHROMIUM: sched: Make EEVDF changes conditional
+config: x86_64-randconfig-123-20240218 (https://download.01.org/0day-ci/archive/20240220/202402200759.jhEzI1fs-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402200759.jhEzI1fs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402200406.0uniupLa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402200759.jhEzI1fs-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+sparse warnings: (new ones prefixed by >>)
+>> kernel/sched/fair_eevdf.c:28:5: sparse: sparse: symbol 'sysctl_sched_use_eevdf' was not declared. Should it be static?
+   kernel/sched/fair_eevdf.c:708:6: sparse: sparse: symbol 'update_entity_lag' was not declared. Should it be static?
+   kernel/sched/fair_eevdf.c:1268:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair_eevdf.c:1268:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair_eevdf.c:1268:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair_eevdf.c:1305:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair_eevdf.c:1305:34: sparse:     expected struct sched_entity *se
+   kernel/sched/fair_eevdf.c:1305:34: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair_eevdf.c:11975:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair_eevdf.c:11975:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair_eevdf.c:11975:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair_eevdf.c:6309:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair_eevdf.c:6309:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair_eevdf.c:6309:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair_eevdf.c:6569:1: sparse: sparse: symbol '__pcpu_scope_load_balance_mask' was not declared. Should it be static?
+   kernel/sched/fair_eevdf.c:6570:1: sparse: sparse: symbol '__pcpu_scope_select_idle_mask' was not declared. Should it be static?
+   kernel/sched/fair_eevdf.c:7625:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair_eevdf.c:7625:20: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair_eevdf.c:7625:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair_eevdf.c:7806:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair_eevdf.c:7806:9: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/fair_eevdf.c:7806:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair_eevdf.c:7996:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair_eevdf.c:7996:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair_eevdf.c:7996:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair_eevdf.c:8304:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair_eevdf.c:8304:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair_eevdf.c:8304:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair_eevdf.c:9359:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair_eevdf.c:9359:40: sparse:     expected struct sched_domain *child
+   kernel/sched/fair_eevdf.c:9359:40: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/fair_eevdf.c:9901:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair_eevdf.c:9901:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair_eevdf.c:9901:22: sparse:    struct task_struct *
+   kernel/sched/fair_eevdf.c:11264:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair_eevdf.c:11264:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair_eevdf.c:11264:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair_eevdf.c:10922:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair_eevdf.c:10922:44: sparse:     expected struct sched_domain *sd_parent
+   kernel/sched/fair_eevdf.c:10922:44: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair_eevdf.c:11360:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair_eevdf.c:11360:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair_eevdf.c:11360:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair_eevdf.c:6235:35: sparse: sparse: marked inline, but without a definition
+   kernel/sched/fair_eevdf.c: note: in included file:
+   kernel/sched/sched.h:2068:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2234:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2234:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2234:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2068:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2068:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct *
 
-All warnings (new ones prefixed by >>):
+vim +/sysctl_sched_use_eevdf +28 kernel/sched/fair_eevdf.c
 
-   In file included from include/linux/poll.h:12,
-                    from include/linux/rtc.h:52,
-                    from include/linux/efi.h:20,
-                    from arch/arm64/include/asm/acpi.h:15,
-                    from include/acpi/acpi_io.h:7,
-                    from include/linux/acpi.h:47,
-                    from drivers/crypto/hisilicon/qm.c:4:
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'hisi_qm_uacce_ioctl' at drivers/crypto/hisilicon/qm.c:2280:7:
->> include/linux/uaccess.h:112:17: warning: 'qp_ctx' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler.h:265,
-                    from arch/arm64/include/asm/memory.h:24,
-                    from arch/arm64/include/asm/page.h:52,
-                    from drivers/crypto/hisilicon/qm.c:3:
-   include/linux/kasan-checks.h: In function 'hisi_qm_uacce_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/crypto/hisilicon/qm.c:2277:28: note: 'qp_ctx' declared here
-    2277 |         struct hisi_qp_ctx qp_ctx;
-         |                            ^~~~~~
-   drivers/crypto/hisilicon/qm.c:3322: warning: Excess function parameter 'ce' description in 'qm_hw_error_init'
-   drivers/crypto/hisilicon/qm.c:3322: warning: Excess function parameter 'nfe' description in 'qm_hw_error_init'
-   drivers/crypto/hisilicon/qm.c:3322: warning: Excess function parameter 'fe' description in 'qm_hw_error_init'
-   drivers/crypto/hisilicon/qm.c:3322: warning: Excess function parameter 'msi' description in 'qm_hw_error_init'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for UACCE
-   Depends on [n]: IOMMU_API [=n]
-   Selected by [y]:
-   - CRYPTO_DEV_HISI_QM [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && ARM64 [=y] && PCI [=y]
-
-
-vim +/qp_ctx +112 include/linux/uaccess.h
-
-d597580d373774 Al Viro        2017-03-20  104  
-d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
-d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  108  {
-d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
-9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
-9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
-d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  114  	}
-d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
-d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
-d597580d373774 Al Viro        2017-03-20  117  	return res;
-d597580d373774 Al Viro        2017-03-20  118  }
-d597580d373774 Al Viro        2017-03-20  119  #else
-d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  122  #endif
-d597580d373774 Al Viro        2017-03-20  123  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+    24	
+    25	/*
+    26	 * Use EEVDF scheduler
+    27	 */
+  > 28	int sysctl_sched_use_eevdf = 0;
+    29	
 
 -- 
 0-DAY CI Kernel Test Service
