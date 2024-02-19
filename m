@@ -1,86 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285462C1A5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 11:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2F22C857
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 12:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708342650; cv=none; b=Kro1YSFuYVvAgI4YsbZ2PfHIlFmDqKOheOEiLZIiY5hmTnrJdw2NfYbhM+wH17zgcFmcrk8fdn9Jxa2VwkFDetT3pqIzcInp8etxZbNeg87kImjoAUrhXsb6bc06cZIJQTa7+DYUBlNekBYHZQMevuIOf1ve/5j2kdUL+mbswoI=
+	t=1708344933; cv=none; b=nRj8zWtbmJX7L9PVlqaGAz09hoRFa7UjAAIKlmOzJ7r3MdIoXgWcNOErEKF5MnGTWWtj50E2/OaUFXwX+DuDYdeBpCpKxk91ubvb/iOyMz1CHtD4ThekH7sCsE/OPKqyCn4kl/ARPaX9a9zH6GSDwG2TV1vvJeQJDg+dpP+K0Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708342650; c=relaxed/simple;
-	bh=ZM4S4Pw5+t0i0hvcMLpWHR8CsIJzaYwoNRTk5Cb1vNw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oxmYxcfATfh/lZG+t971Mp7+OgfvXdNfBOsQKVh+vLcixAtifMXXuG88UPSspgKN/vPjfylBtDtWFQz703NaN0l0baSc/PF89eUrQ5OYw6ej1s2ZaROfn2hX9+KY8dDoMgy1tDolQB7RRuQmbm84WM1nVTi3biwQmLB5MWRRaEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZbg2K6m; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708344933; c=relaxed/simple;
+	bh=4/80kqu59ojPf2xu9XBas1zF7Yd9ILlbUXiuDiIiooI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gRc5+reiG56n/XuWQtoeGOjWyKY4V5xQPFl66+Xq6v+N8+U6OQyg92jQtYiTbIiunCCtiAH7H8OZlsmVFyrdiHcK1RcF/oPLFttfH5+G4XschcDL4RyMVijCTYU4lJK240qiuluJqgBn7AqkPFdSyt3WsY/SerFXpb3WpwFfYxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=RC5TooIH; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=RC5TooIH; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZbg2K6m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708342648; x=1739878648;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZM4S4Pw5+t0i0hvcMLpWHR8CsIJzaYwoNRTk5Cb1vNw=;
-  b=RZbg2K6mf9v7sVFmhhOHRwAIpRUdoGL02AdBiUCJGdWjHvqW41cH4zYy
-   5/4yyF2iQ1M3GA2ad3f9ufpUvWzDJGUV/9kmzGpsI/BS5tksB18uW892X
-   IaKmb5/iMoQquVz/H+n1KMpWRMHs8y7tTzVlz3rauSvzlgI/dCTcpieaF
-   JQ2kp+MVZO1w5grv7bQEjWBO6pfyMpc4K6uoQPBjD3kZH2VcR42NQPZMt
-   x86b2zn+FUzS3J52Y7yaLG8zQOSBOwdBwrA7bv2kLJXZ/d9UfKu1+g+Nc
-   gpowfBrD+S159bRxzrm9mQwDKeumedSnenZJfSwKBuE5xxYA0mO/sS6yk
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="19845282"
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="19845282"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 03:37:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="9056931"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Feb 2024 03:37:26 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rc1xQ-0003kE-04;
-	Mon, 19 Feb 2024 11:37:23 +0000
-Date: Mon, 19 Feb 2024 19:36:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 7560/7658] powerpc64le-linux-ld: warning: orphan
- section `.bss..Lubsan_data71' from `kernel/ptrace.o' being placed in section
- `.bss..Lubsan_data71'
-Message-ID: <202402191918.e1Bz6P1w-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="RC5TooIH";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="RC5TooIH"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1D0C8210F0;
+	Mon, 19 Feb 2024 12:15:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708344929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+w8ujSvz1Ruvq/dzi3FKWELvzxTHBrWqsYdRFvTNrIQ=;
+	b=RC5TooIHv1XRqKQoF/oySItPCh3W+QScKH3c1jVaqUjFchYhMvJWRfKa5KDhZALezbdVt9
+	Ifv66E6JJLzq5S+EXjvrfZ7vjMJ7MwCsbRjUmAEV/vZtxBcAmZwrG1eCpggnRi9b40SfAY
+	9UwbEf8gpe6wW7wg3iuhBAxFTGdTy8Q=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708344929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+w8ujSvz1Ruvq/dzi3FKWELvzxTHBrWqsYdRFvTNrIQ=;
+	b=RC5TooIHv1XRqKQoF/oySItPCh3W+QScKH3c1jVaqUjFchYhMvJWRfKa5KDhZALezbdVt9
+	Ifv66E6JJLzq5S+EXjvrfZ7vjMJ7MwCsbRjUmAEV/vZtxBcAmZwrG1eCpggnRi9b40SfAY
+	9UwbEf8gpe6wW7wg3iuhBAxFTGdTy8Q=
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 9258313585;
+	Mon, 19 Feb 2024 12:15:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id kdXKFWBG02WtdAAAn2gu4w
+	(envelope-from <mpdesouza@suse.com>); Mon, 19 Feb 2024 12:15:28 +0000
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Marcos Paulo de Souza <mpdesouza@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Petr Mladek <pmladek@suse.com>,
+	Joe Lawrence <joe.lawrence@redhat.com>,
+	oe-kbuild-all@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	live-patching@vger.kernel.org
+Subject: Re: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
+Date: Mon, 19 Feb 2024 09:15:15 -0300
+Message-ID: <20240219121522.23480-1-mpdesouza@suse.com>
+X-Mailer: git-send-email 2.42.1
+In-Reply-To: <202402191417.XULH88Ct-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=RC5TooIH
+X-Spamd-Result: default: False [4.69 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 DWL_DNSWL_BLOCKED(0.00)[suse.com:dkim];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 DKIM_TRACE(0.00)[suse.com:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[12];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,intel.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[10.18%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 4.69
+X-Rspamd-Queue-Id: 1D0C8210F0
+X-Spam-Level: ****
+X-Spam-Flag: NO
+X-Spamd-Bar: ++++
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   35a4fdde2466b9d90af297f249436a270ef9d30e
-commit: ce3220bfdf4c1961582456c43744cd48978e310e [7560/7658] Merge branch 'main' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
-config: powerpc64-randconfig-r012-20220414 (https://download.01.org/0day-ci/archive/20240219/202402191918.e1Bz6P1w-lkp@intel.com/config)
-compiler: powerpc64le-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191918.e1Bz6P1w-lkp@intel.com/reproduce)
+On Mon, 19 Feb 2024 14:35:16 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402191918.e1Bz6P1w-lkp@intel.com/
+> Hi Marcos,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 345e8abe4c355bc24bab3f4a5634122e55be8665]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/selftests-lib-mk-Do-not-process-TEST_GEN_MODS_DIR/20240216-021601
+> base:   345e8abe4c355bc24bab3f4a5634122e55be8665
+> patch link:    https://lore.kernel.org/r/20240215-lp-selftests-fixes-v1-1-89f4a6f5cddc%40suse.com
+> patch subject: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191417.XULH88Ct-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402191417.XULH88Ct-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> make[3]: *** /lib/modules/5.9.0-2-amd64/build: No such file or directory.  Stop.
 
-All warnings (new ones prefixed by >>):
+We should ask the kernel test robot machine owners to install kernel-devel
+package in order to have this fixed.
 
->> powerpc64le-linux-ld: warning: orphan section `.bss..Lubsan_data71' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data71'
->> powerpc64le-linux-ld: warning: orphan section `.bss..Lubsan_data96' from `fs/overlayfs/copy_up.o' being placed in section `.bss..Lubsan_data96'
->> powerpc64le-linux-ld: warning: orphan section `.bss..Lubsan_data71' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data71'
->> powerpc64le-linux-ld: warning: orphan section `.bss..Lubsan_data96' from `fs/overlayfs/copy_up.o' being placed in section `.bss..Lubsan_data96'
->> powerpc64le-linux-ld: warning: orphan section `.bss..Lubsan_data71' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data71'
->> powerpc64le-linux-ld: warning: orphan section `.bss..Lubsan_data96' from `fs/overlayfs/copy_up.o' being placed in section `.bss..Lubsan_data96'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
