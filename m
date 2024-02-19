@@ -1,65 +1,55 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AB33CF48
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 16:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373BE40BE7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 17:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708358582; cv=none; b=u1QkQpsw8tJYeUBKKDfsbYcfzgRl/AYD2IxGZZDtMnLYzAE2BHTMe7J+epardgJ8inZvI1aMaPcfVLnuRr0Zcx324ln3ntbzUlzDoFNtCmrYI2KoDnu/watFeY8DVHdzCpJJ8EzUptU93u0U1n2uiWwhQ79pgY9JaFzE28ZdC1s=
+	t=1708362611; cv=none; b=tMcrE6qyQL/F1auLeTqQoJTxjg6qMuMAUc6ubhZgI7fvAZmOgbJy2qg2q9CF/Deu6/9pXCg/jIlsKgzX8XcQcRAgEfPFMsYlfsUAdKfAFygBuNdVHnNBxGL5j/Pe6hHs1UkHI/GSCmltPXpvd5k0B3v1QAcm1r/NGkgAbIDF2uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708358582; c=relaxed/simple;
-	bh=H7a7oxGIhcPoePflp6S4fyhD8pvwns8xgugWsQFM2lo=;
+	s=arc-20240116; t=1708362611; c=relaxed/simple;
+	bh=UvclqoCLwD438AhM9ORT2oKNcK0hn2FSX5K8H24b4FQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cZxYfPMDMZ8VuLcjU+GjZfyUAkCy2vGZKyLE54sqUUZejCwEe2VWiv/EM825Y7PaC5CMcG0MYgOx1UOhkkmcQet36L9yTlxDqk3eiKo9r8pot2MThflPbl+ycpUr9A4y8snoR+Gq1i0RMto8fpzXVrsxkIwBT9jjYtR1UXR4Hrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lRL3/ISR; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=qc4xoGlTJ6THmlOuRVbrJtBVtSWIqw3nHAhJ6ig59HXWIA5EDf4AyPecAm8SIulEwVpnzg4snMwqvaJfCv0UIXAduEnUSIlRIzRAF/HxGjWJfgQHgYWH6nf+0HIgQnvyAB+YZXIv6uLz+dd2sPmeTvoOVwsCsVU9rcgEJKVQOBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gy5rse+F; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lRL3/ISR"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5649eb3ab68so1024508a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 08:02:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708358578; x=1708963378; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=flIDH9HO3xRQn7HXwVHxFPU5p6Nmkq+1BWuk0uOwwP4=;
-        b=lRL3/ISRG2cqPO64F6zgJRhwKn2mBqJ3LxaKv5BhTmXcVoY+0phUWRY+ZgK/DcodbG
-         wBE3g8FuoE9rnZZDTqj941dJ/WHDkfe6lLSPamiIduP94wiPUs7pa9Krck1UKgEtaUvi
-         lzbORKFKlQVBYWN1b3bswvjRH1lcescEol/hVNTQDuKA35QUutIYZiFMciA2yWHj1yZr
-         DvcBtO50HZJVbIO0FWmTo1GzQf+YNwPOOzQo1+o9kkHkoem2bo2HjFMZgR6Ufu7reh8k
-         rcFa5ZQxzQ+tIJzp+5BWrRwIoH67x97T2JTdDFJk846OMdeiv48h0NOphtHGoDHvud4u
-         13lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708358578; x=1708963378;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=flIDH9HO3xRQn7HXwVHxFPU5p6Nmkq+1BWuk0uOwwP4=;
-        b=uxlhUBLBw6oOf1NBXLJGGiFzbMjBUIbhO2BKLqGeLjeLx9tn2RjBsHGoQ3UBV9UCxO
-         /w3PBVfIHlF9uXpE3Ii79sdqLSwqwcmUJPjQgh/ND7B5hRogthw8ISrIXH5j6KoITr1C
-         KQ5NeSIkkNTL308qGxr+RVtIcb/t99SEGmwfIl58Agfs/w6q7wmaJ53olDC/QSIZ7H2r
-         2/V6xB8Jqynp3kUdJDGezdB8v7XkVnisOSqlpMNJSK8bXH3LcxaQlfl9NZCi+8ubl95B
-         NxoIKaxrhDDlXC+Iu/kNOOI6BHBX5selNy7ycCm5MgD7EydCajL62QXM0ZJ8CelIeZ2H
-         D4qA==
-X-Forwarded-Encrypted: i=1; AJvYcCVW7r6C1DcMlWz7VvGKCbBwYA5UnEk7zT2ex5+oI99I/5gd0cgakXvvgCS0almanvuTcqxKPF5kFmfDyay2rgtLcPueIGFNcJ3W6o53pw==
-X-Gm-Message-State: AOJu0YzcOLiCxEazgDyvAiRGANb5+lTSXAi6Iwax7T2XWZ0PT9UIPdbn
-	hA16+SU3jSy6IpIIWhgBx8xtUvwKya8GYVlf0jLVnJ6+xRZHcop99jvMX0rrx98=
-X-Google-Smtp-Source: AGHT+IE+YaDuZFmXjPwyrRtGnEplalyw3dM+flqDJX0KkpO+iwdZ4pAD3NzGtUm3A059UMZMqNelCA==
-X-Received: by 2002:a17:906:2b50:b0:a3e:9d49:6c8c with SMTP id b16-20020a1709062b5000b00a3e9d496c8cmr1654211ejg.36.1708358578349;
-        Mon, 19 Feb 2024 08:02:58 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id un8-20020a170907cb8800b00a3df7003552sm3075785ejc.32.2024.02.19.08.02.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 08:02:58 -0800 (PST)
-Date: Mon, 19 Feb 2024 19:02:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Dorcas Anono Litunya <anonolitunya@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [hverkuil-media-tree:outreachy-vivid-v6.7 12/12]
- drivers/media/test-drivers/vivid/vivid-core.c:2200 vivid_init() error:
- uninitialized symbol 'ret'.
-Message-ID: <2e9c4286-653a-4520-a90d-39bd6636990c@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gy5rse+F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708362609; x=1739898609;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UvclqoCLwD438AhM9ORT2oKNcK0hn2FSX5K8H24b4FQ=;
+  b=Gy5rse+FujrvQcKCWX8GCNPhnCeLps4HnjhQ90j6TPVU4Z9jVeh5Hg5t
+   jIy6secB+Ln0rBJ4yzppgcHSM5tzBxx5E/xjMNgUxgbSm7rgSn/I4TfZM
+   uKTQuPeRjXtyFmXStGyhR5fcElVf2XvwBN65QAiPzXUZBA8j8PPOuJyeo
+   XKtkIMRxRUeOtR9/IINgc3rIr2WUCvghzWDeYdZx2YgtZb+YgcJTacAYk
+   9qFqe3n0cucxp4P+T3BsdyE6MMROU6t510+bvVsaaMnzOZ5JDY0piUxmw
+   IrdnNIsIoiSK+nGAd5bGF9Dc23q6f7sl9TldtWhVcnn1hCTXMRgn9MPY/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2315237"
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
+   d="scan'208";a="2315237"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 09:10:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
+   d="scan'208";a="4933405"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 19 Feb 2024 09:10:07 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rc79Y-0003xO-2Z;
+	Mon, 19 Feb 2024 17:10:04 +0000
+Date: Tue, 20 Feb 2024 01:08:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.2.x-imx 4863/17898]
+ drivers/soc/imx/rpmsg_life_cycle.c:126:13: error: 'pm_suspend_target_state'
+ undeclared
+Message-ID: <202402200134.2fMfdR9j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,71 +59,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git outreachy-vivid-v6.7
-head:   4bc7849217d6c105cb59d78e9995b8e129f0deaf
-commit: 4bc7849217d6c105cb59d78e9995b8e129f0deaf [12/12] media: vivid: Update menu controls for HDMI in multiple instance
-config: nios2-randconfig-r071-20240219 (https://download.01.org/0day-ci/archive/20240219/202402192316.fyBF9GDv-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
+Hi Dong,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.2.x-imx
+head:   4e3fc5471376a15279ee5c99e791a7c7b065cbc1
+commit: d76441df9683065e8b622bc0cdf725ba3b2db0fd [4863/17898] Merge branch 'rpmsg/next' into next
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20240220/202402200134.2fMfdR9j-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402200134.2fMfdR9j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402192316.fyBF9GDv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402200134.2fMfdR9j-lkp@intel.com/
 
-New smatch warnings:
-drivers/media/test-drivers/vivid/vivid-core.c:2200 vivid_init() error: uninitialized symbol 'ret'.
+All errors (new ones prefixed by >>):
 
-vim +/ret +2200 drivers/media/test-drivers/vivid/vivid-core.c
+   drivers/soc/imx/rpmsg_life_cycle.c: In function 'rpmsg_lifecycle_pm_notify':
+>> drivers/soc/imx/rpmsg_life_cycle.c:126:13: error: 'pm_suspend_target_state' undeclared (first use in this function)
+     126 |         if (pm_suspend_target_state != PM_SUSPEND_MEM)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/imx/rpmsg_life_cycle.c:126:13: note: each undeclared identifier is reported only once for each function it appears in
 
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2159  static int __init vivid_init(void)
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2160  {
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2161  	int count = FIXED_MENU_ITEMS;
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2162  	int ret;
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2163  
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2164  	for (int i = 0; i < n_devs; i++) {
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2165  		if (!(node_types[i] & (1 << 8)))
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2166  			continue;
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2167  		for (int j = 0, k = 0; j < num_outputs[i] &&
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2168  		     count < MAX_MENU_ITEMS; ++j) {
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2169  			if (!(output_types[i] & BIT(j)))
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2170  				continue;
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2171  			vivid_ctrl_hdmi_to_output_strings[count] =
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2172  				kmalloc(MAX_STRING_LENGTH, GFP_KERNEL);
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2173  			if (!vivid_ctrl_hdmi_to_output_strings[count])
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2174  				goto cleanup;
 
-"ret" is uninitialized
+vim +/pm_suspend_target_state +126 drivers/soc/imx/rpmsg_life_cycle.c
 
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2175  			if (n_devs == 1) {
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2176  				snprintf(vivid_ctrl_hdmi_to_output_strings[count],
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2177  					 MAX_STRING_LENGTH, "HDMI %d", k);
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2178  			} else {
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2179  				snprintf(vivid_ctrl_hdmi_to_output_strings[count],
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2180  					 MAX_STRING_LENGTH, "HDMI %03d-%d", i, k);
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2181  			}
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2182  			k++;
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2183  			count++;
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2184  		}
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2185  	}
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2186  	ret = platform_device_register(&vivid_pdev);
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2187  	if (ret)
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2188  		goto cleanup;
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2189  	ret = platform_driver_register(&vivid_pdrv);
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2190  	if (ret) {
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2191  		platform_device_unregister(&vivid_pdev);
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2192  		goto cleanup;
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2193  	}
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2194  	return ret;
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2195  
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2196  cleanup:
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2197  	for (int i = FIXED_MENU_ITEMS; i < MAX_MENU_ITEMS; i++)
-4bc7849217d6c1 drivers/media/test-drivers/vivid/vivid-core.c Dorcas Anono Litunya 2024-02-06  2198  		kfree(vivid_ctrl_hdmi_to_output_strings[i]);
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2199  
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13 @2200  	return ret;
-f46d740fb02589 drivers/media/platform/vivid/vivid-core.c     Hans Verkuil         2015-03-13  2201  }
+ef6386e70ae4cf Jacky Bai 2021-09-23  119  
+fb9fd020919b41 Jacky Bai 2021-10-18  120  static int __maybe_unused rpmsg_lifecycle_pm_notify(bool enter)
+fb9fd020919b41 Jacky Bai 2021-10-18  121  {
+fb9fd020919b41 Jacky Bai 2021-10-18  122  	struct pm_rpmsg_data msg = {};
+fb9fd020919b41 Jacky Bai 2021-10-18  123  	int ret;
+fb9fd020919b41 Jacky Bai 2021-10-18  124  
+fb9fd020919b41 Jacky Bai 2021-10-18  125  	/* Only need to do lifecycle notify when APD enter mem(HW PD) mode */
+fb9fd020919b41 Jacky Bai 2021-10-18 @126  	if (pm_suspend_target_state != PM_SUSPEND_MEM)
+fb9fd020919b41 Jacky Bai 2021-10-18  127  		return 0;
+fb9fd020919b41 Jacky Bai 2021-10-18  128  
+fb9fd020919b41 Jacky Bai 2021-10-18  129  	msg.data = enter ? PM_RPMSG_SUSPEND : PM_RPMSG_ACTIVE;
+fb9fd020919b41 Jacky Bai 2021-10-18  130  	msg.header.cate = IMX_RMPSG_LIFECYCLE;
+fb9fd020919b41 Jacky Bai 2021-10-18  131  	msg.header.major = IMX_RMPSG_MAJOR;
+fb9fd020919b41 Jacky Bai 2021-10-18  132  	msg.header.minor = IMX_RMPSG_MINOR;
+fb9fd020919b41 Jacky Bai 2021-10-18  133  	msg.header.type = PM_RPMSG_TYPE;
+fb9fd020919b41 Jacky Bai 2021-10-18  134  	msg.header.cmd = PM_RPMSG_MODE;
+fb9fd020919b41 Jacky Bai 2021-10-18  135  
+fb9fd020919b41 Jacky Bai 2021-10-18  136  	reinit_completion(&cmd_complete);
+fb9fd020919b41 Jacky Bai 2021-10-18  137  
+fb9fd020919b41 Jacky Bai 2021-10-18  138  	ret = rpmsg_send(life_cycle_rpdev->ept, &msg, sizeof(struct pm_rpmsg_data));
+fb9fd020919b41 Jacky Bai 2021-10-18  139  	if (ret) {
+fb9fd020919b41 Jacky Bai 2021-10-18  140  		dev_err(&life_cycle_rpdev->dev, "rpmsg send failed:%d\n", ret);
+fb9fd020919b41 Jacky Bai 2021-10-18  141  		return ret;
+fb9fd020919b41 Jacky Bai 2021-10-18  142  	}
+fb9fd020919b41 Jacky Bai 2021-10-18  143  
+fb9fd020919b41 Jacky Bai 2021-10-18  144  	ret = wait_for_completion_timeout(&cmd_complete,
+fb9fd020919b41 Jacky Bai 2021-10-18  145  					msecs_to_jiffies(RPMSG_TIMEOUT));
+fb9fd020919b41 Jacky Bai 2021-10-18  146  	if (!ret) {
+fb9fd020919b41 Jacky Bai 2021-10-18  147  		dev_err(&life_cycle_rpdev->dev, "rpmsg_send timeout!\n");
+fb9fd020919b41 Jacky Bai 2021-10-18  148  		return -ETIMEDOUT;
+fb9fd020919b41 Jacky Bai 2021-10-18  149  	}
+fb9fd020919b41 Jacky Bai 2021-10-18  150  
+fb9fd020919b41 Jacky Bai 2021-10-18  151  	return 0;
+fb9fd020919b41 Jacky Bai 2021-10-18  152  }
+fb9fd020919b41 Jacky Bai 2021-10-18  153  
+
+:::::: The code at line 126 was first introduced by commit
+:::::: fb9fd020919b41006aab5e892c5c2cb804071cb0 LF-6607-01 soc: imx: Add suspend/resume lifecycle sync support on imx8ulp
+
+:::::: TO: Jacky Bai <ping.bai@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
