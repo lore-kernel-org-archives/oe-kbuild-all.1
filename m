@@ -1,142 +1,227 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF52208C6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 07:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B19B20B04
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 07:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708326229; cv=none; b=NKq+USyKU02PASYHPuoD8PE1fSncXDMyssMYlsdKwApW8SdziuWX9LFmoFiJXaRF1k0IcVmeWChY4nNZAlC03W2y/2B6qjJsmMm8jC4DsS1SBjg7jOWVJ3VM791kjgU8m8KNnbhkHVnR1K1f50QGN3z+RrUjtJCh7/o1pXw+7GQ=
+	t=1708326589; cv=none; b=UyaSdC9cJ7TXURT1Fcl5O9EPq1heRPlHiyS+A2RvzCbGBwmSLW6dj5lIuVnKf5MwZaCVDhOD+BoaOLpdHManVqPamzdWP2zNchopeyNNclB403sGQDuSR2Pf5etu10b4Lbisy0wm3AixVzfWdQWAR1oQFUal1GONv4XqndyYJsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708326229; c=relaxed/simple;
-	bh=zb4HotHoJYoYLWU4szVhgyAvTSz2Rc0cbbOhErMLDCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=kHae1E1Ezk5jD9L1u9gD2o+vWrOdV6EGVjBRcNSx6Lr8fA9CYaacW8eH7hWJTpfLe6Lh6EdO+HwDX5YFpp1mVK9By5VxhvpfnmFsMzyRYgChWy1UGxXK1owtVRCvSX0ceHTmq8+EYiqxXZqr0zV7nvdte6TsQp/s0VOYDb8MOJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MTfccRJm; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708326589; c=relaxed/simple;
+	bh=p9Xv/Rv727pqdJDPO71/ZWy2YKDvZMcUUSE73rP1/PY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=UeQsJTZRbGz2HyMC2w8LB2t14ZyRZ6s4s8ELgraR+Jwy42EFneeKWr5e9KUvmnKYtw7nZmJlq/IzKI7ge8nqMyVUyB/QTQuENEIfAoNa9mcjGEapbRAKgxdM/iqWjJwFbrT7ZxWrzinPVdU4Xot6hdinUqixQml3CKfrIHVhgQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aTFHjqQs; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MTfccRJm"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a3e6f79e83dso100794766b.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Feb 2024 23:03:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708326226; x=1708931026; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hyAX9FR/e1lxZ9EWXTkkj3yByqhkafcG5pIWW80rioo=;
-        b=MTfccRJm/Qg1/XbX+de3q/HFisSW41asRsVV0FCcyPUVkShvIVmZYPYE7zjrPm9dxI
-         k6yHbo+MH6BsjdjqUgQxB3bjkeknF9gBmvauF4O6dyIxGzTovCzd+7v4QNhP2mokNQfx
-         fp/mSJ9J1zfVMuHv4a0NjXvT9UZIEXyNPPMMYbA0xuIfcQbBbYVef+YlrCQlMVUtPmYJ
-         7+CxW8WtC632BdPsTnaDV8eqgjzHJQG1fTPqw2AgnL/q6zwlSW179J9Stfqzw5tSPvUO
-         YhJ4EhJb/odY6mTfZM+X+oIMcdXWrV5sqUuh0vjePCc3Ph9Of+6pWk+QdOYVAI94LNjK
-         LUZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708326226; x=1708931026;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hyAX9FR/e1lxZ9EWXTkkj3yByqhkafcG5pIWW80rioo=;
-        b=mHpMEI2aksokr80PCJ+TfnFE02/KJPVlb/Om8EeFhhJAyeRI+YJCgVQC6Txl95GGk6
-         HfhoGQJo07LOv30OmLjR2zibiDLKDEb0GY1NwUXExvQQdTPFexe/5/w+1cbSRvxqE2Yl
-         uKLd4Qyq4ecUAT8lLJxcKks82p38qqhKItbfIaE22yElgdu6n6FdlObqKrXOJc99Zk7O
-         D5qdw0LKoWtOSh0gLxJUvHA0so1v4F9UYOjFj6lO3i10fOOKLeADyBGfBu2tap/dj6sl
-         kQRBIhvbQ74EJVXr+8aHYezZy39uIbcZMkZGDNiGaE6SEg/WQGcJHXdZW7bQXWJhi62t
-         VaPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWTtzZiE+thNS1OqHe6P7yJd6diCn/4+YbKd/WCOuPKZHwTlvamtVITGSkB6ZBVbp9+vhkp0yMniW69YCQHLw+sEyWhtu1jCrzgpOcpoA==
-X-Gm-Message-State: AOJu0YykiOTt6yiFNgMb8r8h/VTHqBLlNcZIlI9hWkEwzg4NtuknGR+u
-	uapDtx3AT1JM7JtK86gwnOy/SwsMlk+hG8XumGhTqFdrmSgEqgm8EfFfpAL1RBc=
-X-Google-Smtp-Source: AGHT+IEsxAWeQ+mhBjaepfrAEM0XIvEaEP4hFbQZduopYeBkNXbXxVTrkXou0hqc7E5vnqL62xFQIQ==
-X-Received: by 2002:a17:906:c9c6:b0:a3e:272e:7b98 with SMTP id hk6-20020a170906c9c600b00a3e272e7b98mr3058874ejb.40.1708326225687;
-        Sun, 18 Feb 2024 23:03:45 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id rs6-20020a170907890600b00a3e48deecd4sm1744095ejc.222.2024.02.18.23.03.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Feb 2024 23:03:45 -0800 (PST)
-Date: Mon, 19 Feb 2024 10:03:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
-Subject: Re: [PATCH 4/6] drm/i915/psr: Silence period and lfps half cycle
-Message-ID: <022eff5e-47ca-41d6-a3f5-24ebd5d92f5b@moroto.mountain>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aTFHjqQs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708326585;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TnZc3R3EtPJw7VjpT6RcySf5PSwmJoHPgUA70A0vURw=;
+	b=aTFHjqQsljEpYpYCnk6U6lmqVTlfYZHm8hySEiu2qVZPrMj4hKbbyb7rdFUhAtxCyKJ7nO
+	ffXepijbdOpqox3Htgd65u8JM6kbjj0Op4ZKkjICYyP0KqRULgAeTa6X1iLfFkJGWdCEHo
+	VyjupFJyZw7+9PqS8VQOxQ2MG/DcJhg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-189-LyHBsneXPviVmQTZjbuqMw-1; Mon, 19 Feb 2024 02:09:42 -0500
+X-MC-Unique: LyHBsneXPviVmQTZjbuqMw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6BC583538C;
+	Mon, 19 Feb 2024 07:09:41 +0000 (UTC)
+Received: from localhost (unknown [10.72.116.2])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B6E4492BC6;
+	Mon, 19 Feb 2024 07:09:40 +0000 (UTC)
+Date: Mon, 19 Feb 2024 15:09:37 +0800
+From: Baoquan He <bhe@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-unstable 82/320] kismet: WARNING: unmet direct
+ dependencies detected for CRASH_DUMP when selected by FA_DUMP
+Message-ID: <ZdL+sSSFghXttSqR@MiWiFi-R3L-srv>
+References: <202402171431.MzqHz3g2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <202402171431.MzqHz3g2-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240215104934.2395239-5-jouni.hogander@intel.com>
 
-Hi Jouni,
+On 02/17/24 at 02:48pm, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> head:   9951769060d8f5eb001acaca67c1439d2cfe1c6b
+> commit: a5af0b602e5ecb379fd2470669654a6abe7e97a2 [82/320] crash: clean up kdump related config items
+> config: powerpc-kismet-CONFIG_CRASH_DUMP-CONFIG_FA_DUMP-0-0 (https://download.01.org/0day-ci/archive/20240217/202402171431.MzqHz3g2-lkp@intel.com/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20240217/202402171431.MzqHz3g2-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
+When I tried the step 1 of reproducer, I got failure on installing the
+kmax. Is there other ways I can reproduce the issue? Or have you tested
+the latest linux-next/master because there's some udpate about the
+config items change?
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+-------
+ # 1. reproduce by kismet
+    # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+    kismet --linux-ksrc=linux --selectees CONFIG_CRASH_DUMP --selectors CONFIG_FA_DUMP -a=powerpc
+-------
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jouni-H-gander/drm-display-Add-missing-aux-less-alpm-wake-related-bits/20240215-185209
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240215104934.2395239-5-jouni.hogander%40intel.com
-patch subject: [PATCH 4/6] drm/i915/psr: Silence period and lfps half cycle
-config: i386-randconfig-141-20240217 (https://download.01.org/0day-ci/archive/20240217/202402171830.n4hwR2iD-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402171830.n4hwR2iD-lkp@intel.com/
+======
+      kextractors/kextractor-3.19/bconf.tab.c: In function â€˜enter_if_branchâ€™:
+      kextractors/kextractor-3.19/bconf.tab.c:150:5: error: implicit declaration of function â€˜bconferrorâ€™; did you mean â€˜ferrorâ€™? [-Wimplicit-function-declaration]
+        150 |     bconferror("MAX_IF_DEPTH exceeded");
+            |     ^~~~~~~~~~
+            |     ferror
+      kextractors/kextractor-3.19/bconf.tab.c: At top level:
+      kextractors/kextractor-3.19/bconf.tab.c:2064:1: error: return type defaults to â€˜intâ€™ [-Wimplicit-int]
+       2064 | bconf_parse(char *file)
+            | ^~~~~~~~~~~
+      kextractors/kextractor-3.19/bconf.tab.c:2107:1: error: return type defaults to â€˜intâ€™ [-Wimplicit-int]
+       2107 | bconf_test_lexer(char *file)
+            | ^~~~~~~~~~~~~~~~
+      kextractors/kextractor-3.19/bconf.tab.c:2119:1: error: return type defaults to â€˜intâ€™ [-Wimplicit-int]
+       2119 | bconferror(char *msg) {
+            | ^~~~~~~~~~
+      error: command '/usr/lib64/ccache/gcc' failed with exit code 1
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+  ERROR: Failed building wheel for kmax
+Failed to build kmax
+ERROR: Could not build wheels for kmax, which is required to install pyproject.toml-based projects
+=================
 
-smatch warnings:
-drivers/gpu/drm/i915/display/intel_psr.c:1253 _lnl_compute_aux_less_alpm_params() error: uninitialized symbol 'silence_period'.
 
-vim +/silence_period +1253 drivers/gpu/drm/i915/display/intel_psr.c
-
-e4870a4a3cd051 Jouni Högander 2024-02-15  1235  static int _lnl_compute_aux_less_alpm_params(struct intel_dp *intel_dp,
-e4870a4a3cd051 Jouni Högander 2024-02-15  1236  					     struct intel_crtc_state *crtc_state)
-e4870a4a3cd051 Jouni Högander 2024-02-15  1237  {
-e4870a4a3cd051 Jouni Högander 2024-02-15  1238  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-410818227325ec Jouni Högander 2024-02-15  1239  	int aux_less_wake_time, aux_less_wake_lines, switch_to_active_lines,
-410818227325ec Jouni Högander 2024-02-15  1240  		silence_period, lfps_half_cycle;
-e4870a4a3cd051 Jouni Högander 2024-02-15  1241  
-e4870a4a3cd051 Jouni Högander 2024-02-15  1242  	aux_less_wake_time =
-e4870a4a3cd051 Jouni Högander 2024-02-15  1243  		_lnl_compute_aux_less_wake_time(crtc_state->port_clock / 1000);
-e4870a4a3cd051 Jouni Högander 2024-02-15  1244  	aux_less_wake_lines = intel_usecs_to_scanlines(&crtc_state->hw.adjusted_mode,
-e4870a4a3cd051 Jouni Högander 2024-02-15  1245  						       aux_less_wake_time);
-e4870a4a3cd051 Jouni Högander 2024-02-15  1246  
-e31171d1611687 Jouni Högander 2024-02-15  1247  	switch_to_active_lines =
-e31171d1611687 Jouni Högander 2024-02-15  1248  		intel_usecs_to_scanlines(
-e31171d1611687 Jouni Högander 2024-02-15  1249  			&crtc_state->hw.adjusted_mode,
-e31171d1611687 Jouni Högander 2024-02-15  1250  			_lnl_compute_switch_to_active_time(crtc_state->port_clock / 1000));
-e31171d1611687 Jouni Högander 2024-02-15  1251  
-410818227325ec Jouni Högander 2024-02-15  1252  	if (aux_less_wake_lines > 32 || switch_to_active_lines > 32 ||
-410818227325ec Jouni Högander 2024-02-15 @1253  	    silence_period > 256 || silence_period < 0 ||
-                                                            ^^^^^^^^^^^^^^          ^^^^^^^^^^^^^^
-Uninitialized
-
-410818227325ec Jouni Högander 2024-02-15  1254  	    !_lnl_get_silence_period_and_lfps_half_cycle(intel_dp->link_rate,
-410818227325ec Jouni Högander 2024-02-15  1255  							 &silence_period,
-410818227325ec Jouni Högander 2024-02-15  1256  							 &lfps_half_cycle))
-e4870a4a3cd051 Jouni Högander 2024-02-15  1257  		return false;
-e4870a4a3cd051 Jouni Högander 2024-02-15  1258  
-e31171d1611687 Jouni Högander 2024-02-15  1259  	if (i915->display.params.psr_safest_params) {
-e4870a4a3cd051 Jouni Högander 2024-02-15  1260  		aux_less_wake_lines = 32;
-e31171d1611687 Jouni Högander 2024-02-15  1261  		switch_to_active_lines = 32;
-e31171d1611687 Jouni Högander 2024-02-15  1262  	}
-e4870a4a3cd051 Jouni Högander 2024-02-15  1263  
-e4870a4a3cd051 Jouni Högander 2024-02-15  1264  	intel_dp->psr.alpm_parameters.aux_less_wake_lines = aux_less_wake_lines;
-e31171d1611687 Jouni Högander 2024-02-15  1265  	intel_dp->psr.alpm_parameters.switch_to_active_lines = switch_to_active_lines;
-410818227325ec Jouni Högander 2024-02-15  1266  	intel_dp->psr.alpm_parameters.silence_period_sym_clocks = silence_period;
-410818227325ec Jouni Högander 2024-02-15  1267  	intel_dp->psr.alpm_parameters.lfps_half_cycle_num_of_syms = lfps_half_cycle;
-e4870a4a3cd051 Jouni Högander 2024-02-15  1268  
-e4870a4a3cd051 Jouni Högander 2024-02-15  1269  	return true;
-e4870a4a3cd051 Jouni Högander 2024-02-15  1270  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402171431.MzqHz3g2-lkp@intel.com/
+> 
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for CRASH_DUMP when selected by FA_DUMP
+>    .config:33:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
+>    .config:80:warning: symbol value 'n' invalid for PHYSICAL_START
+>    .config:254:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
+>    .config:400:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
+>    .config:407:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_16550_PHYSADDR
+>    .config:443:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
+>    .config:458:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
+>    .config:550:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_HVSI_VTERMNO
+>    .config:577:warning: symbol value 'n' invalid for PAGE_OFFSET
+>    .config:631:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
+>    .config:652:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
+>    .config:665:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
+>    .config:709:warning: symbol value 'n' invalid for DATA_SHIFT
+>    .config:777:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
+>    .config:839:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
+>    .config:887:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
+>    .config:901:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
+>    .config:938:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
+>    .config:956:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
+>    .config:964:warning: symbol value 'n' invalid for NET_EMATCH_STACK
+>    .config:966:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
+>    .config:980:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
+>    .config:1141:warning: symbol value 'n' invalid for X86_AMD_PSTATE_DEFAULT_MODE
+>    .config:1242:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
+>    .config:1322:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
+>    .config:1440:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
+>    .config:1504:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
+>    .config:1590:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
+>    .config:1641:warning: symbol value 'n' invalid for LOWMEM_CAM_NUM
+>    .config:1679:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
+>    .config:1755:warning: symbol value 'n' invalid for PPC_MEMCONS_OUTPUT_SIZE
+>    .config:1841:warning: symbol value 'n' invalid for LOWMEM_SIZE
+>    .config:1848:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
+>    .config:1864:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
+>    .config:1972:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
+>    .config:2260:warning: symbol value 'n' invalid for SND_HDA_PREALLOC_SIZE
+>    .config:2331:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
+>    .config:2376:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
+>    .config:2426:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
+>    .config:2461:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
+>    .config:2592:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
+>    .config:2712:warning: symbol value 'n' invalid for PANEL_PARPORT
+>    .config:2756:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
+>    .config:2810:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
+>    .config:2993:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
+>    .config:3021:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
+>    .config:3128:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
+>    .config:3150:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
+>    .config:3171:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
+>    .config:3178:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
+>    .config:3276:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
+>    .config:3293:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
+>    .config:3332:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
+>    .config:3564:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
+>    .config:3680:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
+>    .config:3699:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
+>    .config:3703:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
+>    .config:3747:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
+>    .config:3875:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
+>    .config:3883:warning: symbol value 'n' invalid for THREAD_SHIFT
+>    .config:3931:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
+>    .config:3985:warning: symbol value 'n' invalid for PPC_MEMCONS_INPUT_SIZE
+>    .config:4007:warning: symbol value 'n' invalid for DE2104X_DSL
+>    .config:4020:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
+>    .config:4332:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
+>    .config:4406:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
+>    .config:4483:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
+>    .config:4603:warning: symbol value 'n' invalid for RIONET_RX_SIZE
+>    .config:4764:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
+>    .config:4880:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
+>    .config:4930:warning: symbol value 'n' invalid for IBM_EMAC_TXB
+>    .config:5329:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_CPM_ADDR
+>    .config:5334:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
+>    .config:5419:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
+>    .config:5443:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
+>    .config:5605:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
+>    .config:5620:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
+>    .config:5639:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
+>    .config:5704:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
+>    .config:5722:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
+>    .config:5809:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
+>    .config:5999:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
+>    .config:6030:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
+>    .config:6127:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
+>    .config:6134:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
+>    .config:6241:warning: symbol value 'n' invalid for SND_MAX_CARDS
+>    .config:6397:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
+>    .config:6477:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
+>    .config:6630:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
+>    .config:6651:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
+>    .config:6797:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
+>    .config:7057:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
+>    .config:7181:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
+>    .config:7189:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
+>    .config:7200:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
+>    .config:7219:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
+>    .config:7359:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
+>    .config:7465:warning: symbol value 'n' invalid for RIONET_TX_SIZE
+>    .config:7545:warning: symbol value 'n' invalid for LOCKDEP_BITS
+>    .config:7577:warning: symbol value 'n' invalid for IBM_EMAC_RXB
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
