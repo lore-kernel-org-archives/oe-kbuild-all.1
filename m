@@ -1,143 +1,170 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2F22C857
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 12:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2843B21103;
+	Mon, 19 Feb 2024 12:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708344933; cv=none; b=nRj8zWtbmJX7L9PVlqaGAz09hoRFa7UjAAIKlmOzJ7r3MdIoXgWcNOErEKF5MnGTWWtj50E2/OaUFXwX+DuDYdeBpCpKxk91ubvb/iOyMz1CHtD4ThekH7sCsE/OPKqyCn4kl/ARPaX9a9zH6GSDwG2TV1vvJeQJDg+dpP+K0Sg=
+	t=1708345640; cv=none; b=YRMaWyfc8YN5i0R0VIcquD+NdrBIfssBNj3RPHtiJDgb8TlxgLvkaVDYOVqlCKRlkc9SJmtR/FUigmA1aCBJgzfaTsKUGLGvJhQNGZ6CVnS4i7Kq3cpBJ3w4KGeqJF8WtyJYEwgmn8bla7YawotWK3r5lQPLz9l606P1mk0zjks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708344933; c=relaxed/simple;
-	bh=4/80kqu59ojPf2xu9XBas1zF7Yd9ILlbUXiuDiIiooI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gRc5+reiG56n/XuWQtoeGOjWyKY4V5xQPFl66+Xq6v+N8+U6OQyg92jQtYiTbIiunCCtiAH7H8OZlsmVFyrdiHcK1RcF/oPLFttfH5+G4XschcDL4RyMVijCTYU4lJK240qiuluJqgBn7AqkPFdSyt3WsY/SerFXpb3WpwFfYxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=RC5TooIH; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=RC5TooIH; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1708345640; c=relaxed/simple;
+	bh=wjZw+mWJBR/kGq3Uc+1DZLRkxqifdShqnWAT4YCy3W8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PnV+35/l1FdPhDJ7/lp6B0vg5LKhTFtrbkrICSvjcDtSpkdXDcubGy3AzLS5n3FZnxENgbfmYfGV3lyZjl7XqE9462jyeElEtGHN/zNSjSwjv8HJtn84POh7Rttl5Fo6M9hWcuL4/hUDq/dqISKCrqopo8mXGrERiiFdo+DM4ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=taKnRuL1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="RC5TooIH";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="RC5TooIH"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1D0C8210F0;
-	Mon, 19 Feb 2024 12:15:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708344929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+w8ujSvz1Ruvq/dzi3FKWELvzxTHBrWqsYdRFvTNrIQ=;
-	b=RC5TooIHv1XRqKQoF/oySItPCh3W+QScKH3c1jVaqUjFchYhMvJWRfKa5KDhZALezbdVt9
-	Ifv66E6JJLzq5S+EXjvrfZ7vjMJ7MwCsbRjUmAEV/vZtxBcAmZwrG1eCpggnRi9b40SfAY
-	9UwbEf8gpe6wW7wg3iuhBAxFTGdTy8Q=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708344929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+w8ujSvz1Ruvq/dzi3FKWELvzxTHBrWqsYdRFvTNrIQ=;
-	b=RC5TooIHv1XRqKQoF/oySItPCh3W+QScKH3c1jVaqUjFchYhMvJWRfKa5KDhZALezbdVt9
-	Ifv66E6JJLzq5S+EXjvrfZ7vjMJ7MwCsbRjUmAEV/vZtxBcAmZwrG1eCpggnRi9b40SfAY
-	9UwbEf8gpe6wW7wg3iuhBAxFTGdTy8Q=
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 9258313585;
-	Mon, 19 Feb 2024 12:15:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id kdXKFWBG02WtdAAAn2gu4w
-	(envelope-from <mpdesouza@suse.com>); Mon, 19 Feb 2024 12:15:28 +0000
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Marcos Paulo de Souza <mpdesouza@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Miroslav Benes <mbenes@suse.cz>,
-	Petr Mladek <pmladek@suse.com>,
-	Joe Lawrence <joe.lawrence@redhat.com>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	live-patching@vger.kernel.org
-Subject: Re: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
-Date: Mon, 19 Feb 2024 09:15:15 -0300
-Message-ID: <20240219121522.23480-1-mpdesouza@suse.com>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <202402191417.XULH88Ct-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="taKnRuL1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE9CFC433F1;
+	Mon, 19 Feb 2024 12:27:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708345639;
+	bh=wjZw+mWJBR/kGq3Uc+1DZLRkxqifdShqnWAT4YCy3W8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=taKnRuL1BdTEPmcAkix1YrJfWe0NSXrx1QPP3+hwp0hsKkylMuo4/QMRgZnrlM5qH
+	 FLbKpFGDGbfVykoqDJ3b/2XtdUe5KdgI0khlGlGIl481RFuL1gJn4y7EAJWoOfNADk
+	 VXTacMjtmP6iUsMIw1dwzV1xTNWdUzQDDYkyNIk7NjcZx3+ogVSy0Va+i6whO04BFW
+	 vs5kgZ6YGRESnLD0S/wzTDYo94fZ5PKDxCzsV8Uokdh+zRgjXDTgA3ad2Lte+Jg+f3
+	 jQDEkIOBAaPhL3Z3waxc7PaZ78gvjI6jr7SC9qOo8iH7KvZ7MVaV29xO9yXg9piKNQ
+	 yQ2KCXuit0Hyw==
+Message-ID: <956ebf94-62ef-4e67-893e-86586a980883@kernel.org>
+Date: Mon, 19 Feb 2024 13:27:09 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=RC5TooIH
-X-Spamd-Result: default: False [4.69 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 DWL_DNSWL_BLOCKED(0.00)[suse.com:dkim];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_TWELVE(0.00)[12];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,intel.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[10.18%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: 4.69
-X-Rspamd-Queue-Id: 1D0C8210F0
-X-Spam-Level: ****
-X-Spam-Flag: NO
-X-Spamd-Bar: ++++
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] mmc: dw_mmc: add support for hi3798mv200
+Content-Language: en-US
+To: Yang Xiwen <forbidden405@outlook.com>, kernel test robot <lkp@intel.com>,
+ Yang Xiwen via B4 Relay <devnull+forbidden405.outlook.com@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Jaehoon Chung
+ <jh80.chung@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Igor Opaniuk <igor.opaniuk@linaro.org>,
+ tianshuliang <tianshuliang@hisilicon.com>, David Yang <mmyangfl@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6@outlook.com>
+ <202402181540.H4Ose96P-lkp@intel.com>
+ <SEZPR06MB695945299705B6E8BF0E326296522@SEZPR06MB6959.apcprd06.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <SEZPR06MB695945299705B6E8BF0E326296522@SEZPR06MB6959.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 19 Feb 2024 14:35:16 +0800 kernel test robot <lkp@intel.com> wrote:
+On 18/02/2024 09:21, Yang Xiwen wrote:
+> On 2/18/2024 4:03 PM, kernel test robot wrote:
+>> Hi Yang,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on 8d3dea210042f54b952b481838c1e7dfc4ec751d]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Xiwen-via-B4-Relay/mmc-dw_mmc-add-support-for-hi3798mv200/20240216-014744
+>> base:   8d3dea210042f54b952b481838c1e7dfc4ec751d
+>> patch link:    https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v1-1-7d46db845ae6%40outlook.com
+>> patch subject: [PATCH 1/3] mmc: dw_mmc: add support for hi3798mv200
+>> config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20240218/202402181540.H4Ose96P-lkp@intel.com/config)
+>> compiler: hppa-linux-gcc (GCC) 13.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240218/202402181540.H4Ose96P-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202402181540.H4Ose96P-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     drivers/mmc/host/dw_mmc-hi3798mv200.c: In function 'dw_mci_hi3798mv200_init':
+>>>> drivers/mmc/host/dw_mmc-hi3798mv200.c:178:36: error: passing argument 1 of 'mmc_of_parse_clk_phase' from incompatible pointer type [-Werror=incompatible-pointer-types]
+>>       178 |         mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
+>>           |                                ~~~~^~~~~
+>>           |                                    |
+>>           |                                    struct device *
+>>     In file included from drivers/mmc/host/dw_mmc-hi3798mv200.c:11:
+>>     include/linux/mmc/host.h:542:46: note: expected 'struct mmc_host *' but argument is of type 'struct device *'
+>>       542 | void mmc_of_parse_clk_phase(struct mmc_host *host,
+>>           |                             ~~~~~~~~~~~~~~~~~^~~~
+>>     cc1: some warnings being treated as errors
+>>
+>>
+>> vim +/mmc_of_parse_clk_phase +178 drivers/mmc/host/dw_mmc-hi3798mv200.c
+>>
+>>     168	
+>>     169	static int dw_mci_hi3798mv200_init(struct dw_mci *host)
+>>     170	{
+>>     171		struct dw_mci_hi3798mv200_priv *priv;
+>>     172		struct device_node *np = host->dev->of_node;
+>>     173	
+>>     174		priv = devm_kzalloc(host->dev, sizeof(*priv), GFP_KERNEL);
+>>     175		if (!priv)
+>>     176			return -ENOMEM;
+>>     177	
+>>   > 178		mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
+> 
+> Please note that this patch is depending on another patch[1].
+> 
+> [1]: 
+> https://lore.kernel.org/linux-mmc/ae876e697ba16ba2925ec217c6b4e3d8ffea4ab3.camel@codeconstruct.com.au/T/#t
+> 
 
-> Hi Marcos,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on 345e8abe4c355bc24bab3f4a5634122e55be8665]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/selftests-lib-mk-Do-not-process-TEST_GEN_MODS_DIR/20240216-021601
-> base:   345e8abe4c355bc24bab3f4a5634122e55be8665
-> patch link:    https://lore.kernel.org/r/20240215-lp-selftests-fixes-v1-1-89f4a6f5cddc%40suse.com
-> patch subject: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191417.XULH88Ct-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402191417.XULH88Ct-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> make[3]: *** /lib/modules/5.9.0-2-amd64/build: No such file or directory.  Stop.
+You did not provide any links to dependencies in cover letter nor in
+patch changelog. You included on purpose, which is nice and correct, the
+base commit:
 
-We should ask the kernel test robot machine owners to install kernel-devel
-package in order to have this fixed.
+	base-commit: 8d3dea210042f54b952b481838c1e7dfc4ec751d
 
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+which does not include above commit apparently.
+
+How anyone can guess it and test your patches?
+
+Please send with proper dependencies marked.
+
+Best regards,
+Krzysztof
+
