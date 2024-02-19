@@ -1,217 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923E436125
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 14:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A82376EC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 15:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708352057; cv=none; b=XM35LeYAtqqzmSCxafe9vTs0eQVkuMWM13bPhOUSeeH/6NRped7IWz8mkdL/AHIDjs7zYg/ZfCxQ4FAx+dyuy7lSSpBlJNFEBwfETZr6pb2nj5QaFqxvMZk77jjTVA9PDXZ4yEbv3EO7hN3AIGiBGckPxQQPCaguCwbT/yIRwRk=
+	t=1708354934; cv=none; b=onsP1YD6fuiENJBrkCbMjEkHEPk5PKnL+tXRWXvUfmHb3v0GwAPITjR3uwCvxzvTDqBqgk3lr3Br/CqUgUvA4CGcL9qqUGqPJhfM+FQGyMJuivs2iretHvwxmm4+rPe6BKdhcATea1TCP2wcW2dEOCTHw0wJue5hAotGGQDi/is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708352057; c=relaxed/simple;
-	bh=NJaWwP5Tys0f5W07K+1fnSvWdZxalzRMRoucMpp0PTY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EpiNyIbvuk4nZMphQ1b8DDu2wTPnUopPQHDcUBFCelNJdvBQi5TqeeDLYMSWVy5MH+oyOd88BOPo5Y7cEiUnYNqGcvxps/oA7Fe+ALM0lK7CyWUoiNCSEvpTMwvDfm0t8dFgHBBM0gb1hyAoCVOqmuEPQx1uWu0FKU1iSTfBMQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NY+jrbRd; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708354934; c=relaxed/simple;
+	bh=O3y98vy+HTyaQGWfW4dWSnDOzYyEXHCwUsTsowSN8Kw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qX3gm8+pmRDnf5eXmPF7lnavjrORVVcqjKhqNDnc6qb0hga7LU3/SDQuUx2Qv0BNkoson2YHt1Nvq/zB1I/WcHp0Qw740FzxzLnsHPfwHOnyp8wt/yPJ3ng+pYeirESAFeBOc7XhoNUfmv0JpRxhClqsjWwp3aQ8Hc5efvPXlrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=aeZe7OHV; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NY+jrbRd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708352055; x=1739888055;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NJaWwP5Tys0f5W07K+1fnSvWdZxalzRMRoucMpp0PTY=;
-  b=NY+jrbRdFPkAysJFBswLniggN4DGiCU+X7NXZ0caAGSezxbshFppl/WG
-   Oh3R4cpdmYfV08hiuVceYlZPIDPdaFPNTRvqZoBE75vQrR1ohSZ7FZ/Xu
-   akmeRjsdRtGRYwljv4uB2KmInRRA0E3V7i576omRGBTy8OdcjziCEUqDf
-   NSVFDa+vAz51LepCrom78XLXXsyRyyiP755wy8U6s+nbIfxBS90VmPBSc
-   jjuzGTuPNGf662RFWWs2/luCYDEssgrJx7xVJkBuxdtwbalDmP45Wg6Vl
-   RiVN7+P0J+ZlcSeWYrsStl2TFcGi+LcqCpVbNXFnIrvT+1tOi+pR4KRFk
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="19963798"
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="19963798"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 06:14:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="9100942"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Feb 2024 06:14:14 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rc4PL-0003po-2s;
-	Mon, 19 Feb 2024 14:14:11 +0000
-Date: Mon, 19 Feb 2024 22:11:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="aeZe7OHV"
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41JEQQj1004850;
+	Mon, 19 Feb 2024 15:02:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=xxn0wtOlwyBvtQeyJN5ZK2QlQ6m98QyyGOzVdwahSgA=;
+ b=aeZe7OHVJhll/8XpBR5LwakhC0UUwjejZsDgkr8APA81/GVxJOgAxGAp0d4FCtQyA70Q
+ 4auLKbSH5fXpQjBEvljtNDtEKoo2lNtBbE0WIwe6tLp+qES07NQwtiRCeHQ5O66V9+ts
+ IY6TmWq3ECh6pmdlzCP8qoGfMvbx5EBqXwqL6xfAjJfIQEgt482/YuWgZeMj1/ECC7Jy
+ LEueM6jqiWoqgq1A2pVkki6iv1z1nkSaQYfBoPAt5n/oMRB8yCv/qVtHJ046faBQu+Jk
+ oRESIJJ920PqXty2qFlYRm/1rfa4PVlzte7d4HWwAUEqwmFb6ckjjLTUmd+2ddcr+lq/ uw== 
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wc81baewg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 19 Feb 2024 15:02:04 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41JEcHr9017265;
+	Mon, 19 Feb 2024 15:02:03 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wb8mm1qda-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 19 Feb 2024 15:02:03 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41JF1xOj2687662
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 19 Feb 2024 15:02:01 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0D12B20040;
+	Mon, 19 Feb 2024 15:01:59 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BD2692004F;
+	Mon, 19 Feb 2024 15:01:58 +0000 (GMT)
+Received: from [9.179.1.42] (unknown [9.179.1.42])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 19 Feb 2024 15:01:58 +0000 (GMT)
+Message-ID: <4d329c6d7b399f41c56659ad5e0b00322485eeb8.camel@linux.ibm.com>
+Subject: Re: [niks:has_ioport_v6 19/19] include/asm-generic/io.h:625:15:
+ error: call to '_outl' declared with attribute error: outl() requires
+ CONFIG_HAS_IOPORT
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@kernel.org>, kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned-zwp 644/675]
- drivers/block/null_blk/main.c:1906:33: error: incompatible pointer types
- passing 'struct queue_limits *' to parameter of type 'struct request_queue
- *'
-Message-ID: <202402192200.Zkl0lcKO-lkp@intel.com>
+Date: Mon, 19 Feb 2024 16:01:58 +0100
+In-Reply-To: <606284da-1700-4186-80ec-8a4cd85586fc@app.fastmail.com>
+References: <202402180247.kvG7qcpX-lkp@intel.com>
+	 <606284da-1700-4186-80ec-8a4cd85586fc@app.fastmail.com>
+Autocrypt: addr=schnelle@linux.ibm.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: R8V8lUqP8vuY8pPp0HWu7obfxkOBkJ99
+X-Proofpoint-GUID: R8V8lUqP8vuY8pPp0HWu7obfxkOBkJ99
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-19_11,2024-02-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
+ clxscore=1011 phishscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311290000 definitions=main-2402190112
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-zwp
-head:   f24bc80ab52b7ee42fc7bf25c58ea582b7879fd0
-commit: c4b8120038fb9990e313c6431d06f9745f1038db [644/675] null-blk-fix
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240219/202402192200.Zkl0lcKO-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402192200.Zkl0lcKO-lkp@intel.com/reproduce)
+On Sat, 2024-02-17 at 21:11 +0100, Arnd Bergmann wrote:
+> On Sat, Feb 17, 2024, at 19:09, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git=
+=20
+> > has_ioport_v6
+> > head:   0cc26afe6244fe307926528550a4de09c1e5846e
+> > commit: 0cc26afe6244fe307926528550a4de09c1e5846e [19/19]=20
+> > asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=3Dn
+> > config: um-allyesconfig=20
+> > (https://download.01.org/0day-ci/archive/20240218/202402180247.kvG7qcpX=
+-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=3D1 build):=20
+> > (https://download.01.org/0day-ci/archive/20240218/202402180247.kvG7qcpX=
+-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new=20
+> > version of
+> > the same patch/commit), kindly add following tags
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes:=20
+> > https://lore.kernel.org/oe-kbuild-all/202402180247.kvG7qcpX-lkp@intel.c=
+om/
+> >=20
+> > All errors (new ones prefixed by >>):
+> >=20
+> >    lib/iomap.c:156:5: warning: no previous prototype for=20
+> > 'ioread64_lo_hi' [-Wmissing-prototypes]
+> >      156 | u64 ioread64_lo_hi(const void __iomem *addr)
+> >          |     ^~~~~~~~~~~~~~
+>=20
+> arch/um now has some limited ioport support, so I think what
+> we want here is
+>=20
+> diff --git a/arch/um/Kconfig b/arch/um/Kconfig
+> index b5e179360534..7cce19a22692 100644
+> --- a/arch/um/Kconfig
+> +++ b/arch/um/Kconfig
+> @@ -47,12 +47,13 @@ config NO_IOMEM
+>  config UML_IOMEM_EMULATION
+>         bool
+>         select INDIRECT_IOMEM
+> +       select HAS_IOPORT
+>         select GENERIC_PCI_IOMAP
+>         select GENERIC_IOMAP
+>         select NO_GENERIC_PCI_IOPORT_MAP
+>=20=20
+>  config NO_IOPORT_MAP
+> -       def_bool y
+> +       def_bool !UML_IOMEM_EMULATION
+>=20=20
+>  config ISA
+>         bool
+>=20
+>       Arnd
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402192200.Zkl0lcKO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Thanks you. I've added two commits for this and the hexagon change.
+With those I'm now at 21 commits vs master and linux-next. What do you
+think is the best course of action for upstreaming these? I'm guessing
+per subsystem commits and separate patch mails for each?
 
->> drivers/block/null_blk/main.c:1906:33: error: incompatible pointer types passing 'struct queue_limits *' to parameter of type 'struct request_queue *' [-Werror,-Wincompatible-pointer-types]
-    1906 |                 rv = null_init_zoned_dev(dev, &lim);
-         |                                               ^~~~
-   drivers/block/null_blk/null_blk.h:147:33: note: passing argument to parameter 'q' here
-     147 |                                       struct request_queue *q)
-         |                                                             ^
-   1 error generated.
-
-
-vim +1906 drivers/block/null_blk/main.c
-
-  1869	
-  1870	static int null_add_dev(struct nullb_device *dev)
-  1871	{
-  1872		struct queue_limits lim = {
-  1873			.logical_block_size	= dev->blocksize,
-  1874			.physical_block_size	= dev->blocksize,
-  1875			.max_hw_sectors		= dev->max_sectors,
-  1876		};
-  1877	
-  1878		struct nullb *nullb;
-  1879		int rv;
-  1880	
-  1881		rv = null_validate_conf(dev);
-  1882		if (rv)
-  1883			return rv;
-  1884	
-  1885		nullb = kzalloc_node(sizeof(*nullb), GFP_KERNEL, dev->home_node);
-  1886		if (!nullb) {
-  1887			rv = -ENOMEM;
-  1888			goto out;
-  1889		}
-  1890		nullb->dev = dev;
-  1891		dev->nullb = nullb;
-  1892	
-  1893		spin_lock_init(&nullb->lock);
-  1894	
-  1895		rv = setup_queues(nullb);
-  1896		if (rv)
-  1897			goto out_free_nullb;
-  1898	
-  1899		rv = null_setup_tagset(nullb);
-  1900		if (rv)
-  1901			goto out_cleanup_queues;
-  1902	
-  1903		if (dev->virt_boundary)
-  1904			lim.virt_boundary_mask = PAGE_SIZE - 1;
-  1905		if (dev->zoned) {
-> 1906			rv = null_init_zoned_dev(dev, &lim);
-  1907			if (rv)
-  1908				goto out_cleanup_tags;
-  1909		}
-  1910		null_config_discard(nullb, &lim);
-  1911	
-  1912		nullb->disk = blk_mq_alloc_disk(nullb->tag_set, &lim, nullb);
-  1913		if (IS_ERR(nullb->disk)) {
-  1914			rv = PTR_ERR(nullb->disk);
-  1915			goto out_cleanup_zone;
-  1916		}
-  1917		nullb->q = nullb->disk->queue;
-  1918	
-  1919		if (dev->mbps) {
-  1920			set_bit(NULLB_DEV_FL_THROTTLED, &dev->flags);
-  1921			nullb_setup_bwtimer(nullb);
-  1922		}
-  1923	
-  1924		if (dev->cache_size > 0) {
-  1925			set_bit(NULLB_DEV_FL_CACHE, &nullb->dev->flags);
-  1926			blk_queue_write_cache(nullb->q, true, true);
-  1927		}
-  1928	
-  1929		nullb->q->queuedata = nullb;
-  1930		blk_queue_flag_set(QUEUE_FLAG_NONROT, nullb->q);
-  1931	
-  1932		mutex_lock(&lock);
-  1933		rv = ida_alloc(&nullb_indexes, GFP_KERNEL);
-  1934		if (rv < 0) {
-  1935			mutex_unlock(&lock);
-  1936			goto out_cleanup_disk;
-  1937		}
-  1938		nullb->index = rv;
-  1939		dev->index = rv;
-  1940		mutex_unlock(&lock);
-  1941	
-  1942		if (config_item_name(&dev->group.cg_item)) {
-  1943			/* Use configfs dir name as the device name */
-  1944			snprintf(nullb->disk_name, sizeof(nullb->disk_name),
-  1945				 "%s", config_item_name(&dev->group.cg_item));
-  1946		} else {
-  1947			sprintf(nullb->disk_name, "nullb%d", nullb->index);
-  1948		}
-  1949	
-  1950		set_capacity(nullb->disk,
-  1951			((sector_t)nullb->dev->size * SZ_1M) >> SECTOR_SHIFT);
-  1952		nullb->disk->major = null_major;
-  1953		nullb->disk->first_minor = nullb->index;
-  1954		nullb->disk->minors = 1;
-  1955		nullb->disk->fops = &null_ops;
-  1956		nullb->disk->private_data = nullb;
-  1957		strscpy_pad(nullb->disk->disk_name, nullb->disk_name, DISK_NAME_LEN);
-  1958	
-  1959		if (nullb->dev->zoned) {
-  1960			rv = null_register_zoned_dev(nullb);
-  1961			if (rv)
-  1962				goto out_ida_free;
-  1963		}
-  1964	
-  1965		rv = add_disk(nullb->disk);
-  1966		if (rv)
-  1967			goto out_ida_free;
-  1968	
-  1969		mutex_lock(&lock);
-  1970		list_add_tail(&nullb->list, &nullb_list);
-  1971		mutex_unlock(&lock);
-  1972	
-  1973		pr_info("disk %s created\n", nullb->disk_name);
-  1974	
-  1975		return 0;
-  1976	
-  1977	out_ida_free:
-  1978		ida_free(&nullb_indexes, nullb->index);
-  1979	out_cleanup_disk:
-  1980		put_disk(nullb->disk);
-  1981	out_cleanup_zone:
-  1982		null_free_zoned_dev(dev);
-  1983	out_cleanup_tags:
-  1984		if (nullb->tag_set == &nullb->__tag_set)
-  1985			blk_mq_free_tag_set(nullb->tag_set);
-  1986	out_cleanup_queues:
-  1987		kfree(nullb->queues);
-  1988	out_free_nullb:
-  1989		kfree(nullb);
-  1990		dev->nullb = NULL;
-  1991	out:
-  1992		return rv;
-  1993	}
-  1994	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Niklas
