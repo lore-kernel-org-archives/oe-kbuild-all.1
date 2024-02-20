@@ -1,438 +1,219 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799B31E860
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 01:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79625171AA;
+	Tue, 20 Feb 2024 01:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708391632; cv=none; b=ZQbBK30evfRmpxqaxK4MghzZ1N2ZK60gMMB0TsVwxqgE7bBxU80Ftt6z1PwBXLY0heov9fGxdsUxgZhYxoobReJfB3Bdcznbi+Y7UP2rMaBL6A/QakBgMmBbrY4i2WqUNdvsxbeG18yMGdUZQi8EIVDOD/KwdYkHdgoURQg5Ois=
+	t=1708391792; cv=none; b=EOzTdDTl5NPhkbzQWDuFfYCnHLl+FbIz//30p7txvmILI51GcXCxE+/dpPJXTVgEgkX4WIUhzfy6XGNOcYt1cUro9CLF6eCK/GSXsBeHar9krTBedm728lNjx2NDKZ/Gmy/xnWBnSocLDXF+UG2GkdiOvEPDvLw2VqpeAVUOxk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708391632; c=relaxed/simple;
-	bh=evVrKAoe8OPyTNMo4y2AI6/jwtFkhNUM5czR6d5DesU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fk3Z9tzUa0PUsz8S/BWYlMlPw9kKiDMXMIy/EsGYhMdR5SNgY24lv7VLwLj/mimjtujidyOXTxiAyymLj9I4UZXH/usDkodcCy481IEORSGvjB5hNBJBAkT/62bCW6PM8HBwtzRRNU2EeW/VgceQcW9itmf+q/bFEvTBjChZAiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMFIKgid; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708391792; c=relaxed/simple;
+	bh=Ks64e+HVFsMUXnwea7cDFfNMmf7ADzTLXbEx7qK+sQE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HWKTeiiUMFruR4fUHHERNEOF6kBBSpW/Obcbfz2t1jnHUmb0br1EnT3CJa5iOXPIkYfa1pQxwtC0J4sT7Szf+hSiiS3EwsICTZptMB1jZRSJp76GJIVu+Wv5ZEHqc4cQiSoumWDX1fdgRc80mRHzPtQC9reKe0DIhUwdwQUDmTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b=bIUcAKYc; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMFIKgid"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708391629; x=1739927629;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=evVrKAoe8OPyTNMo4y2AI6/jwtFkhNUM5czR6d5DesU=;
-  b=UMFIKgidxzDycBxc5VGJtE0lkLZyeTPjWerE/KtsSybN9kQbsEFd63fl
-   W05n1R7zftmuOvXDB5FQm+UciNomrbmG8fHASwxsjL7roxWuMoqs++23I
-   ef+VR++VuUT5WcdwM1Uo4ZXKqXHxutVyUPevySoAnTHN5L3Y2D9nnQ97M
-   TjLCY810RoOvdRgwZKEkRr/wcvBdr8SZLOFP2vEKe0rw+Blt2PaiNHyOr
-   fsbbMAxfb/XcMLWNBfMu5wyTI7Z3ton78FpCf2Iq7GdRB1/FiAn7eoLpl
-   WeAAWv4A2k4xC0oEnycPmHK135Jj/e0WVq4pzorvotQ29zwDvWwMyRAZW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2612173"
-X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
-   d="scan'208";a="2612173"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 17:13:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
-   d="scan'208";a="4523557"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Feb 2024 17:13:45 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rcEhb-0004Au-0D;
-	Tue, 20 Feb 2024 01:13:43 +0000
-Date: Tue, 20 Feb 2024 09:13:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: [linux-next:master 5080/5901] WARNING: modpost: vmlinux: section
- mismatch in reference: rk3036_codec_platform_probe+0x3c (section: .text) ->
- (unknown) (section: .init.text)
-Message-ID: <202402200927.wRiGRrqw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b="bIUcAKYc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
+	s=s31663417; t=1708391781; x=1708996581; i=quwenruo.btrfs@gmx.com;
+	bh=Ks64e+HVFsMUXnwea7cDFfNMmf7ADzTLXbEx7qK+sQE=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=bIUcAKYcTvwI0irl7utWvP7L6B5k9DpfjqV6/YcpOwxSSPj2qzC95WgGhG1zEJtN
+	 smXeRXdLsKt5A61DReQd4fTp7gCF6aWL7aVwB8XigxnjWzve9Tfz/SNFteJkUe91t
+	 xWJ/+/HH+y1GvhKDQCiwewPVYMqZSCUzyz2ILgBxaVsPDiAugV9hcD8xee0ffZ47a
+	 KHRnwZPldiImhp7DKSxDSOUgMc8wlEHQwLJi6ngettghyy1vToGg1UtMNnknhUDvE
+	 u/H46vm3ZMNkp3Qobf/ltnZaO5kB/GRGQGHgVdyAQRxMLIyp2ZG5pqXJHHkVZicYd
+	 HYSW2pzpb6+IYFBuyw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.0.219] ([159.196.52.54]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MRTN9-1rGyIq021F-00NUpF; Tue, 20
+ Feb 2024 02:16:21 +0100
+Message-ID: <549a5778-ee2f-4520-9147-f09854a50948@gmx.com>
+Date: Tue, 20 Feb 2024 11:46:17 +1030
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] btrfs: subpage: introduce helpers to handle subpage
+ delalloc locking
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Qu Wenruo <wqu@suse.com>,
+ linux-btrfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+References: <02f5ad17b6415670bea37433c8ca332a06253315.1708322044.git.wqu@suse.com>
+ <202402200823.Su3xBnia-lkp@intel.com>
+From: Qu Wenruo <quwenruo.btrfs@gmx.com>
+Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
+ BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCY00iVQUJDToH
+ pgAKCRDCPZHzoSX+qNKACACkjDLzCvcFuDlgqCiS4ajHAo6twGra3uGgY2klo3S4JespWifr
+ BLPPak74oOShqNZ8yWzB1Bkz1u93Ifx3c3H0r2vLWrImoP5eQdymVqMWmDAq+sV1Koyt8gXQ
+ XPD2jQCrfR9nUuV1F3Z4Lgo+6I5LjuXBVEayFdz/VYK63+YLEAlSowCF72Lkz06TmaI0XMyj
+ jgRNGM2MRgfxbprCcsgUypaDfmhY2nrhIzPUICURfp9t/65+/PLlV4nYs+DtSwPyNjkPX72+
+ LdyIdY+BqS8cZbPG5spCyJIlZonADojLDYQq4QnufARU51zyVjzTXMg5gAttDZwTH+8LbNI4
+ mm2YzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
+ CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
+ /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
+ GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
+ q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
+ ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCY00ibgUJDToHvwAK
+ CRDCPZHzoSX+qK6vB/9yyZlsS+ijtsvwYDjGA2WhVhN07Xa5SBBvGCAycyGGzSMkOJcOtUUf
+ tD+ADyrLbLuVSfRN1ke738UojphwkSFj4t9scG5A+U8GgOZtrlYOsY2+cG3R5vjoXUgXMP37
+ INfWh0KbJodf0G48xouesn08cbfUdlphSMXujCA8y5TcNyRuNv2q5Nizl8sKhUZzh4BascoK
+ DChBuznBsucCTAGrwPgG4/ul6HnWE8DipMKvkV9ob1xJS2W4WJRPp6QdVrBWJ9cCdtpR6GbL
+ iQi22uZXoSPv/0oUrGU+U5X4IvdnvT+8viPzszL5wXswJZfqfy8tmHM85yjObVdIG6AlnrrD
+In-Reply-To: <202402200823.Su3xBnia-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:j4Ps9b/qnXdzhxu60gfMCsU2QkhUwueb7dNEHgVuuG/eDcbVSO8
+ 2ZBawLQjp/rEcz7TU/StriRCmJJPSFhya7ctbLXV5i0jK1pX7d/Rwc59Swv5vJzNxwOzcQh
+ 3sgKaK5u/tqGTE2Nd5y5N//eMhnWTb5YbwaU5rK4Te5qaT0f7a/YHOtLKwHgJXgN4PSs0ql
+ aJ136ID/usidYfUCP3p2g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:eQGl0hFGnIw=;Jf/HmagBqFMtcZCmYukZmEQhIl6
+ AxdfyzDzsTrwFULByG1sVTPWMeCM2lbueTxglko6Juap5l8IXabcLMNuAZbc5t3t6lz6OvIah
+ j+P/Xpk2wviFEWW+F6xxP0ShUhRcxnFfuc3Diat5YwYAz7weogHI8yplGHmXtecZyQ7wJCHYC
+ 25UUk9PofNV10Mfom3kK3D/d9f8o9Q9ErqUbnLkDBB6o4uK1bjolimnAEg2vByY1w8vj/Bza6
+ 5W6dpoZyzC5AaiReOUI4uuItrkvONy9lc0Y5u6KtALsZclQnzsTtTvz3uOV0/21r0N0Fs8qmI
+ WyCvIGA9S55uheg9D4rKsMjOnoD4KDJdo1M/4F568IbXg/HP4N6cnHbbLWpnal2hJHQJdD69y
+ IPRipYe9WZ42Et1Nm9TWL1QOq14iPLqZJkcDT4nuOM2egh4PsxuowT6cHpvTLShVmNwWLumfg
+ vkuBbcQTl0bmoBEzH6vlJhLmOEaBOkIzYwozQOguQ69lX+MgH8apwJ5nnIFKK62i7GLK8e5Km
+ irRpwdZniDBWQTBmVhnkZ0MBQWFDPY6FqMVES5jI+48qv5BAECAJqB8yfF1dK2eGUMgLV6smZ
+ OwXS1oKSypiERkwofIgDfPOPLyRrtzZYaGeHQKQcK9CUcTVGFg491qvHvZ8zoxiW/b+MDTJPR
+ LevZYMHKKiMnN4el2Oz+yqlTSwBszSEX1OUvPj30Qed6COLjioxbpfHssdt914C3c7pVvu/yj
+ AhcmAQY8Sqla0pQoDIKKvXLJWj4AFZpy5X0CCCg04OI6n/DT4HebzPbMVUyzZPs0wcoUWgIwy
+ kwuBVGQ+0cESdp6vb/v1+RlalxMZKtKvVy7THVigdfQUA=
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   35a4fdde2466b9d90af297f249436a270ef9d30e
-commit: 8815435afd3c2277045e83a106d97a82dd39b5be [5080/5901] mm/memory: optimize fork() with PTE-mapped THP
-config: riscv-randconfig-r022-20230818 (https://download.01.org/0day-ci/archive/20240220/202402200927.wRiGRrqw-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402200927.wRiGRrqw-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402200927.wRiGRrqw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+=E5=9C=A8 2024/2/20 11:22, kernel test robot =E5=86=99=E9=81=93:
+> Hi Qu,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on kdave/for-next]
+> [also build test ERROR on linus/master v6.8-rc5 next-20240219]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
 
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mtpav_probe+0x3e4 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_portman_probe+0x382 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mpu401_probe+0xdc (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_vx_setup_firmware+0x1c2 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_ad1889_probe.isra.0+0x17c (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_atiixp_probe.isra.0+0x31c (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_atiixp_probe.isra.0+0x2ca (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_bt87x_probe.isra.0+0x54 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_bt87x_probe.isra.0+0x490 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_cmipci_probe+0x158 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_cs4281_probe.isra.0+0x4f0 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_audiopci_probe.isra.0+0x48e (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_intel8x0_probe+0x470 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_intel8x0m_probe+0x3c6 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_rme32_probe.isra.0+0x1b0 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_rme96_probe.isra.0+0x1b0 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_via82xx_probe+0x4fa (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_via82xx_probe+0x332 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_vortex_probe.isra.0+0x450 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_vortex_probe.isra.0+0x438 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_vortex_probe.isra.0+0xb52 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_aw2_probe+0x2be (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_card_cs46xx_probe+0x254 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_cs46xx_playback_hw_params+0x10e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: add_symbol.constprop.0+0x84 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: add_symbols.constprop.0+0x104 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_async_init.isra.0+0x40 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_async_init.isra.0+0xa0 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_async_init.isra.0+0xd6 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_scb_and_task_init+0x54 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_scb_and_task_init+0xc0 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_scb_and_task_init+0xf6 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_scb_and_task_init+0x12c (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_scb_and_task_init+0x162 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_create_generic_scb+0x34 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_create_pcm_reader_scb.constprop.0+0xb4 (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs46xx_dsp_create_src_task_scb+0x15c (section: .text) -> lzo_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: lola_probe+0x168 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_lx6464es_probe+0x1ea (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_echo_probe+0x3a8 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_echo_midi_output_trigger+0x10a (section: .text) -> crypto_authenc_esn_module_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_echo_probe+0x4ba (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_echo_probe+0x46a (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_echo_probe+0x2b6 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_echo_probe+0x2e8 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_echo_probe+0x2b8 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hda_codec_driver_probe+0x156 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_hda_gen_build_controls+0x84 (section: .text) -> crypto_authenc_module_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_hda_gen_free+0x74 (section: .text) -> lzorle_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_hda_gen_free+0x9e (section: .text) -> lzorle_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: ca0132_build_controls+0xa64 (section: .text) -> crypto_authenc_module_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hda_intel_init_chip+0x10a (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: azx_probe_continue.isra.0+0x76 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: azx_probe+0x58 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: azx_probe+0x35a (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: azx_probe+0x454 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_nm256_probe+0x532 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: configure_pcie_bridge+0x4e (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __oxygen_pci_probe+0x638 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: pcxhr_probe+0x5ee (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: pcxhr_dsp_load+0x2d6 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_card_riptide_probe.isra.0+0x4ac (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_rme9652_probe+0x186 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_hdsp_create_alsa_devices+0x18c (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_hdsp_probe+0x140 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: __snd_card_ymfpci_probe+0x608 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_vx222_probe+0x2aa (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_usbmidi_disconnect+0x5a (section: .text) -> crypto_authenc_esn_module_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_us122l_probe+0x118 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hiface_chip_probe+0x194 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: bcd2000_probe+0x1e8 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: podhd_init+0x176 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: podhd_startup+0xa2 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: line6_toneport_disconnect+0x44 (section: .text) -> lzorle_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: line6_toneport_disconnect+0x66 (section: .text) -> lzorle_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: toneport_init+0x102 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: variax_startup+0xb0 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_at73c213_probe+0x2a8 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_soc_bind_card+0x85e (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_soc_add_component+0x1f4 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: _snd_soc_dapm_mutex_assert_held_c+0x2c (section: .text) -> crypto_authenc_esn_module_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_soc_dapm_nc_pin+0x26 (section: .text) -> crct10dif_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_soc_jack_report+0x110 (section: .text) -> crct10dif_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_soc_component_disable_pin+0x20 (section: .text) -> crct10dif_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: _snd_soc_dpcm_mutex_assert_held_r+0x2e (section: .text) -> crypto_authenc_esn_module_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: adau17x1_set_dai_sysclk+0xee (section: .text) -> crypto_authenc_module_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: aw88395_request_firmware_file+0x1f8 (section: .text) -> crypto_authenc_esn_module_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs35l33_set_tdm_slot+0x1c2 (section: .text) -> crypto_authenc_module_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: cs35l56_remove+0x5a (section: .text) -> crypto_authenc_esn_module_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: da7219_probe+0xb6 (section: .text) -> crypto_authenc_module_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: da7219_aad_irq_thread+0x3b8 (section: .text) -> crct10dif_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: da7219_aad_suspend+0x9e (section: .text) -> crct10dif_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: da7219_aad_exit+0x72 (section: .text) -> crypto_authenc_esn_module_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: es8328_resume+0x20 (section: .text) -> lzo_mod_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hdac_hdmi_port_dapm_update+0x70 (section: .text) -> crct10dif_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: hdac_hdmi_jack_port_init+0x3ca (section: .text) -> crct10dif_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_dai_set_fmt+0xc6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_dai_set_fmt+0xca (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_remove+0x18 (section: .text) -> pgtable_cache_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_probe+0x18 (section: .text) -> pgtable_cache_init (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x3c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x90 (section: .text) -> set_debug_rodata (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x9c (section: .text) -> set_debug_rodata (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0xba (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0xc6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0xca (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0xdc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0xe6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0xea (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0xfa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x106 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x10a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x118 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x13a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x144 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x14a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x158 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x162 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x166 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x17a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x188 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x19e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x1b4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x1d0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x1dc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x1e0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x1e4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x1f2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x200 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x214 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_platform_probe+0x240 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_set_bias_level+0x18 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_set_bias_level+0x1e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: rk3036_codec_set_bias_level+0x7a (section: .text) -> early_hostname (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0x36 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0x52 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0x84 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0x88 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0x92 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0x96 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0x9e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0xb4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0xc0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0xca (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0xde (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0xe8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0xec (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_probe+0xfa (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_set_bias_level+0x24 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_set_bias_level+0x2a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_set_bias_level+0x2e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_set_bias_level+0x5c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_set_bias_level+0x64 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_set_bias_level+0x72 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_set_bias_level+0x96 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_set_bias_level+0xc2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_set_bias_level+0xe2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_dev_probe+0x24 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x2c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x30 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x3a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x3e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x48 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x56 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x72 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x7c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x86 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x8e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x92 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0x9c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0xa8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0xb4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0xd6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0xda (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0xde (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0xe2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4740_codec_hw_params+0xe6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x46 (section: .text) -> early_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x4a (section: .text) -> initrd_load (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x50 (section: .text) -> initrd_load (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x56 (section: .text) -> initrd_load (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x70 (section: .text) -> initrd_load (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x7e (section: .text) -> initrd_load (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0xa4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0xac (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0xe6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0xf6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x108 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x10c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x110 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x136 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x146 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x160 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x184 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x18c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x1c6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x1d6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x1e8 (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x1ec (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x1f0 (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x216 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x22a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x232 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x250 (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_out_stage_enable+0x27a (section: .text) -> no_initrd (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_io_wait+0x32 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_io_wait+0x38 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_io_wait+0x68 (section: .text) -> early_initrdmem (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_io_wait+0x7c (section: .text) -> early_initrdmem (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_io_wait+0x80 (section: .text) -> no_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_io_wait+0x84 (section: .text) -> no_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_io_wait+0xac (section: .text) -> early_initrdmem (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_io_wait+0xf2 (section: .text) -> early_initrdmem (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x36 (section: .text) -> early_initrdmem (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x56 (section: .text) -> early_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x88 (section: .text) -> early_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x8c (section: .text) -> early_initrdmem (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x94 (section: .text) -> early_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x98 (section: .text) -> early_initrdmem (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0xa0 (section: .text) -> early_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0xb8 (section: .text) -> early_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0xc4 (section: .text) -> initrd_load (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0xc8 (section: .text) -> initrd_load (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0xdc (section: .text) -> early_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0xe8 (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0xf2 (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x106 (section: .text) -> early_initrdmem (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x110 (section: .text) -> early_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x114 (section: .text) -> early_initrd (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_probe+0x122 (section: .text) -> early_initrdmem (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_reg_write+0x26 (section: .text) -> initrd_load (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_reg_read+0x2a (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_reg_read+0x70 (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_set_bias_level+0x22 (section: .text) -> initrd_load (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_set_bias_level+0x3a (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_set_bias_level+0x42 (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_set_bias_level+0x9c (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_set_bias_level+0xb8 (section: .text) -> error (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_dev_probe+0x2a (section: .text) -> eat (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_dev_probe+0x3e (section: .text) -> eat (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x28 (section: .text) -> read_into (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x38 (section: .text) -> do_start (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x3c (section: .text) -> do_skip (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x48 (section: .text) -> do_reset (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x6a (section: .text) -> clean_path (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x6e (section: .text) -> do_symlink (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x74 (section: .text) -> write_buffer (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x7e (section: .text) -> flush_buffer (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x82 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x8e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0xa6 (section: .text) -> retain_initrd_param (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0xb6 (section: .text) -> initramfs_async_setup (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0xc4 (section: .text) -> flush_buffer (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x170 (section: .text) -> do_collect (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x1bc (section: .text) -> unpack_to_rootfs (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x1d0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x1dc (section: .text) -> flush_buffer (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4725b_codec_hw_params+0x206 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4760_codec_shutdown+0x34 (section: .text) -> crct10dif_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: jz4770_codec_shutdown+0x34 (section: .text) -> crct10dif_mod_fini (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: lm49453_hw_params+0x22 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: lm49453_hw_params+0x30 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: lm49453_hw_params+0x3e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: lm49453_i2c_probe+0x44 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: lm49453_i2c_probe+0x56 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: madera_dai_set_sysclk+0x1a8 (section: .text) -> crypto_authenc_module_exit (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_volatile_reg+0x1e (section: .text) -> efi_set_mapping_permissions (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_volatile_reg+0x26 (section: .text) -> get_pte_virt_early (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_volatile_reg+0x6a (section: .text) -> get_pte_virt_early (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_i2c_remove+0x1c (section: .text) -> set_permissions (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0x1c (section: .text) -> efi_create_mapping (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0x2c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0x50 (section: .text) -> set_permissions (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0x6e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0x80 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0x9a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0xb4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0xce (section: .text) -> efi_create_mapping (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0xe6 (section: .text) -> set_permissions (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: snd_mask_min+0xfa (section: .text) -> efi_create_mapping (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dac_event+0x22 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dac_event+0x28 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dac_event+0x2e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dac_event+0x66 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dac_event+0x78 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dac_event+0x80 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dac_event+0x94 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dac_event+0xa4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x16a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x182 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x196 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x1b2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x1cc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x1e0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x1f4 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x20a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x242 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x256 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x272 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_probe+0x286 (section: .text) -> efi_create_mapping (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x2c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x42 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x46 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x50 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x54 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x7a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x86 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x8a (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x9c (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0xbe (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0xd0 (section: .text) -> efi_create_mapping (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0xd6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0xe2 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0xe6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0xea (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x106 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x118 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x15e (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x174 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x186 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x198 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x1e6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_set_fmt+0x1f8 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_tdm_slot+0xa6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_tdm_slot+0xfe (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x36 (section: .text) -> efi_set_mapping_permissions (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x6c (section: .text) -> efi_set_mapping_permissions (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0xc6 (section: .text) -> efi_set_mapping_permissions (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0xe6 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x10e (section: .text) -> efi_set_mapping_permissions (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x120 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x128 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x1da (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x1f0 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x220 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x2dc (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98927_dai_hw_params+0x322 (section: .text) -> (unknown) (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x2ca (section: .text) -> gigantic_pages_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x2d2 (section: .text) -> gigantic_pages_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x2d6 (section: .text) -> gigantic_pages_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x2de (section: .text) -> gigantic_pages_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x2ea (section: .text) -> gigantic_pages_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x2f2 (section: .text) -> gigantic_pages_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x2f6 (section: .text) -> arch_hugetlb_valid_size (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x300 (section: .text) -> arch_hugetlb_valid_size (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x30c (section: .text) -> gigantic_pages_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x314 (section: .text) -> arch_hugetlb_valid_size (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_sdw_dai_hw_params+0x320 (section: .text) -> gigantic_pages_init (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: max98373_io_init+0x34 (section: .text) -> arch_hugetlb_valid_size (section: .init.text)
-..
+This is applied without the previous preparation patches.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PADATA
-   Depends on [n]: SMP [=n]
-   Selected by [y]:
-   - HUGETLBFS [=y] && (X86 || SPARC64 || ARCH_SUPPORTS_HUGETLBFS [=y] || BROKEN [=n]) && (SYSFS [=y] || SYSCTL [=n])
+Is it possible to teach LKP to fetch from certain branch other than
+applying them directly to for-next?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Do I need certain keyword in the cover letter?
+
+Thanks,
+Qu
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-m=
+ake-__extent_writepage_io-to-write-specified-range-only/20240219-141053
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git =
+for-next
+> patch link:    https://lore.kernel.org/r/02f5ad17b6415670bea37433c8ca332=
+a06253315.1708322044.git.wqu%40suse.com
+> patch subject: [PATCH 3/4] btrfs: subpage: introduce helpers to handle s=
+ubpage delalloc locking
+> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/2024022=
+0/202402200823.Su3xBnia-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arch=
+ive/20240220/202402200823.Su3xBnia-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
+sion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402200823.Su3xBnia-lk=
+p@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     fs/btrfs/subpage.c: In function 'btrfs_folio_set_writer_lock':
+>>> fs/btrfs/subpage.c:758:60: error: 'struct btrfs_subpage_info' has no m=
+ember named 'locked_offset'; did you mean 'checked_offset'?
+>       758 |         start_bit =3D subpage_calc_start_bit(fs_info, folio,=
+ locked, start, len);
+>           |                                                            ^=
+~~~~~
+>     fs/btrfs/subpage.c:374:45: note: in definition of macro 'subpage_cal=
+c_start_bit'
+>       374 |         start_bit +=3D fs_info->subpage_info->name##_offset;=
+              \
+>           |                                             ^~~~
+>     fs/btrfs/subpage.c: In function 'btrfs_subpage_find_writer_locked':
+>     fs/btrfs/subpage.c:785:70: error: 'struct btrfs_subpage_info' has no=
+ member named 'locked_offset'; did you mean 'checked_offset'?
+>       785 |         const int start_bit =3D subpage_calc_start_bit(fs_in=
+fo, folio, locked,
+>           |                                                             =
+         ^~~~~~
+>     fs/btrfs/subpage.c:374:45: note: in definition of macro 'subpage_cal=
+c_start_bit'
+>       374 |         start_bit +=3D fs_info->subpage_info->name##_offset;=
+              \
+>           |                                             ^~~~
+>     fs/btrfs/subpage.c:787:55: error: 'struct btrfs_subpage_info' has no=
+ member named 'locked_offset'; did you mean 'checked_offset'?
+>       787 |         const int locked_bitmap_start =3D subpage_info->lock=
+ed_offset;
+>           |                                                       ^~~~~~=
+~~~~~~~
+>           |                                                       checke=
+d_offset
+>
+>
+> vim +758 fs/btrfs/subpage.c
+>
+>     736
+>     737	/*
+>     738	 * This is for folio already locked by plain lock_page()/folio_l=
+ock(), which
+>     739	 * doesn't have any subpage awareness.
+>     740	 *
+>     741	 * This would populate the involved subpage ranges so that subpa=
+ge helpers can
+>     742	 * properly unlock them.
+>     743	 */
+>     744	void btrfs_folio_set_writer_lock(const struct btrfs_fs_info *fs_=
+info,
+>     745					 struct folio *folio, u64 start, u32 len)
+>     746	{
+>     747		struct btrfs_subpage *subpage;
+>     748		unsigned long flags;
+>     749		int start_bit;
+>     750		int nbits;
+>     751		int ret;
+>     752
+>     753		ASSERT(folio_test_locked(folio));
+>     754		if (unlikely(!fs_info) || !btrfs_is_subpage(fs_info, folio->map=
+ping))
+>     755			return;
+>     756
+>     757		subpage =3D folio_get_private(folio);
+>   > 758		start_bit =3D subpage_calc_start_bit(fs_info, folio, locked, st=
+art, len);
+>     759		nbits =3D len >> fs_info->sectorsize_bits;
+>     760		spin_lock_irqsave(&subpage->lock, flags);
+>     761		/* Target range should not yet be locked. */
+>     762		ASSERT(bitmap_test_range_all_zero(subpage->bitmaps, start_bit, =
+nbits));
+>     763		bitmap_set(subpage->bitmaps, start_bit, nbits);
+>     764		ret =3D atomic_add_return(nbits, &subpage->writers);
+>     765		ASSERT(ret <=3D fs_info->subpage_info->bitmap_nr_bits);
+>     766		spin_unlock_irqrestore(&subpage->lock, flags);
+>     767	}
+>     768
+>
