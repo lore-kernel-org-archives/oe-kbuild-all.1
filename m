@@ -1,101 +1,205 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C361D627EE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 08:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0DD629E6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 09:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708419149; cv=none; b=lmFBvpttPC1NK6X3vjuUXDKvwGhwgSU6fWOLNH2MSv5PqLC7i3b4W4X/XS9bxHRO84T11BcpKJuzNX78x5E/DmLOohSVzgaObW+Ya+YxaLuWRP5gTcG6Inge2UzrXWTCStgO4cAGHZVUpblmTUMIbXH3PFOzt4ZtOjGfk0SMwLA=
+	t=1708420216; cv=none; b=D5msM/sX+P/vxL7NjdZcRDkTkacPtXgXkgieLO/j0PYhCY68hWRsJJ4Oev39OXoWJKKE27GHBKD3d9sdRKgnY+cjnbENy3/VIHE46l8GMGkNfT1iV5ZwZM0wJ3ZzGtk9MZTz2JJu82yHSNQBDRULI4+t/uR0pFpiiGHeOA7hR+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708419149; c=relaxed/simple;
-	bh=84/50ogRKq4NqCABO2SkIOswTxcj5oGBiY4sDJh1WIM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xw0quqSJuR9eD83LLxd445fq/U5CyOFMX6YaWU2tQipE7nganSGQ+OTxb193INr8ChlUDJV4bnuXPpyGXEtHe1X18LU7jQQiiUUC0U5n9BXj91Pgt45qShl1Up9uFiUFpMZv1J+ObnK0PsjFw/3R9jEKItI7GYNsNAC/BLjn/F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jhiDHmTV; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708420216; c=relaxed/simple;
+	bh=L2f7mmDjQ55CMiT4j+EvhgL2QDdg7W+zVB6CmKBTVMI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VgpvvIAZIR7pob32s09DPKdpp1cGoSh/qXIt9Rj5GWqUbsv7nRUDu9KwwKFYAU17R0Sgja5FjK/ozcJAvqQWXaPQS/IBpBDdis9y7zg539QFARnKiqbDjkBBRlz/PBJpBP16wR3j0mDu7gDWukcztAopJ6MsBRVe4DYbsiiZnmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LgthCB5A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=V5CqyRa8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LgthCB5A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=V5CqyRa8; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jhiDHmTV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708419147; x=1739955147;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=84/50ogRKq4NqCABO2SkIOswTxcj5oGBiY4sDJh1WIM=;
-  b=jhiDHmTVlHcUmbqhtlqKsVEV+zffsH2COdOsLK1nBfQEnZb6ILtQeFyw
-   8U0Fb983KAEQjG8jzRuXGmcEDwtLqS8BY6KMvpRi8yB6ok8S1Uz8qZWRP
-   yiwXwncVJxXOABR8rN081BdWXB08xj9XX+Z6ZhMEGb8JDNHs/Pj4BqB64
-   DtqBgf65o03jOP8rKiXru/9Rgok+JKhgWOYQFlkzNxIV/C0B/LnksGe3i
-   KXPm04xWzA8534JnZhiTETRE9Wn/klcAIpk/VuzuwD/fQtqSOqQsNXcmj
-   aNG1TYifeTnfld+92J+cJaLigKPMXDn2zVOnoHnVKyOxtQ5EqHXuEb007
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="24970478"
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="24970478"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 00:52:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="27878609"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Feb 2024 00:52:24 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rcLr4-0004Mi-0N;
-	Tue, 20 Feb 2024 08:52:08 +0000
-Date: Tue, 20 Feb 2024 16:51:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: [tip:smp/core 3/4] kernel/cpu.c:3110:9: error: expected identifier
- or '(' before '=' token
-Message-ID: <202402201650.PKfPkpwx-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LgthCB5A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V5CqyRa8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LgthCB5A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V5CqyRa8"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DDE461FD7D;
+	Tue, 20 Feb 2024 09:10:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708420210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=kPdL6CVcTlIemwxkK73Uuqptr350RyQ/02hpnd+rggQ=;
+	b=LgthCB5A/eYLygBGFmWlYirXnF6g3/JoEcFLc8peWYz4y6ISH9+b1/bUtZMdppwkXBKBF8
+	OrqRpi/8IXnUlqFrsh7Xu/uHlwV53fGrpipNTGLhjGNL8NfqFA99ez3MbEX8IydUKkhQLM
+	0GvG9RUBMZG4koVoRslRnQ6nTtW+HgQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708420210;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=kPdL6CVcTlIemwxkK73Uuqptr350RyQ/02hpnd+rggQ=;
+	b=V5CqyRa8BjP726Kq5SZ1R08eKjnSST1FmlpRHrKBJ7YOSK63ONw0NCnBgG8CDwDrMkuu9I
+	hqBNDQihI5qAzjAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708420210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=kPdL6CVcTlIemwxkK73Uuqptr350RyQ/02hpnd+rggQ=;
+	b=LgthCB5A/eYLygBGFmWlYirXnF6g3/JoEcFLc8peWYz4y6ISH9+b1/bUtZMdppwkXBKBF8
+	OrqRpi/8IXnUlqFrsh7Xu/uHlwV53fGrpipNTGLhjGNL8NfqFA99ez3MbEX8IydUKkhQLM
+	0GvG9RUBMZG4koVoRslRnQ6nTtW+HgQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708420210;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=kPdL6CVcTlIemwxkK73Uuqptr350RyQ/02hpnd+rggQ=;
+	b=V5CqyRa8BjP726Kq5SZ1R08eKjnSST1FmlpRHrKBJ7YOSK63ONw0NCnBgG8CDwDrMkuu9I
+	hqBNDQihI5qAzjAg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 69D09139EF;
+	Tue, 20 Feb 2024 09:10:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id QAVhGHJs1GX7YgAAn2gu4w
+	(envelope-from <tzimmermann@suse.de>); Tue, 20 Feb 2024 09:10:10 +0000
+Message-ID: <929a159f-f6dd-49d3-b6b5-70ab7450ab19@suse.de>
+Date: Tue, 20 Feb 2024 10:10:09 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sparc: Fix undefined reference to fb_is_primary_device
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>,
+ "David S. Miller" <davem@davemloft.net>, Helge Deller <deller@gmx.de>,
+ sparclinux@vger.kernel.org
+References: <20240220003433.3316148-1-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240220003433.3316148-1-javierm@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=LgthCB5A;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=V5CqyRa8
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-6.50 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-3.00)[100.00%];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 FREEMAIL_ENVRCPT(0.00)[gmx.de];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,intel.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[intel.com,lists.linux.dev,gaisler.com,arndb.de,davemloft.net,gmx.de,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -6.50
+X-Rspamd-Queue-Id: DDE461FD7D
+X-Spam-Flag: NO
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git smp/core
-head:   b57b4126dd3bb69db876ae7b271307ab7e0458b9
-commit: da92df490eeab7a97a3390ff32e0ae091e0dc2eb [3/4] cpu: Mark cpu_possible_mask as __ro_after_init
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240220/202402201650.PKfPkpwx-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402201650.PKfPkpwx-lkp@intel.com/reproduce)
+Hi
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402201650.PKfPkpwx-lkp@intel.com/
+Am 20.02.24 um 01:34 schrieb Javier Martinez Canillas:
+> Commit 55bffc8170bb ("fbdev: Split frame buffer support in FB and FB_CORE
+> symbols") added a new FB_CORE Kconfig symbol, that can be enabled to only
+> have fbcon/VT and DRM fbdev emulation, but without support for any legacy
+> fbdev driver.
+>
+> Unfortunately, it missed to change a CONFIG_FB in arch/sparc/Makefile and
+> that leads to the following linking error in some sparc64 configurations:
+>
+>     sparc64-linux-ld: drivers/video/fbdev/core/fbcon.o: in function `fbcon_fb_registered':
+>>> fbcon.c:(.text+0x4f60): undefined reference to `fb_is_primary_device'
+> Fixes: 55bffc8170bb ("fbdev: Split frame buffer support in FB and FB_CORE symbols")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/r/202401290306.IV8rhJ02-lkp@intel.com/
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>
+> I don't have a sparc64 toolchain to test this patch, but I'm pretty sure
+> that this is the correct fix for the linking error reported by the robot.
+>
+>   arch/sparc/video/Makefile | 2 +-
 
-All errors (new ones prefixed by >>):
+I think you also have to fix arch/sparc/Makefile.
 
->> kernel/cpu.c:3110:9: error: expected identifier or '(' before '=' token
-    3110 |         = {CPU_BITS_ALL};
-         |         ^
+Best regards
+Thomas
 
-
-vim +3110 kernel/cpu.c
-
-b3199c025d1646 Rusty Russell    2008-12-30  3107  
-b3199c025d1646 Rusty Russell    2008-12-30  3108  #ifdef CONFIG_INIT_ALL_POSSIBLE
-da92df490eeab7 Alexey Dobriyan  2024-02-05  3109  struct cpumask __cpu_possible_mask __ro_after_init;
-c4c54dd1caf139 Rasmus Villemoes 2016-01-20 @3110  	= {CPU_BITS_ALL};
-b3199c025d1646 Rusty Russell    2008-12-30  3111  #else
-da92df490eeab7 Alexey Dobriyan  2024-02-05  3112  struct cpumask __cpu_possible_mask __ro_after_init;
-b3199c025d1646 Rusty Russell    2008-12-30  3113  #endif
-4b804c85dc37db Rasmus Villemoes 2016-01-20  3114  EXPORT_SYMBOL(__cpu_possible_mask);
-b3199c025d1646 Rusty Russell    2008-12-30  3115  
-
-:::::: The code at line 3110 was first introduced by commit
-:::::: c4c54dd1caf1393c529e7ea1f18b4342c796a49c kernel/cpu.c: change type of cpu_possible_bits and friends
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
+> index 6baddbd58e4d..d4d83f1702c6 100644
+> --- a/arch/sparc/video/Makefile
+> +++ b/arch/sparc/video/Makefile
+> @@ -1,3 +1,3 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+>   
+> -obj-$(CONFIG_FB) += fbdev.o
+> +obj-$(CONFIG_FB_CORE) += fbdev.o
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
