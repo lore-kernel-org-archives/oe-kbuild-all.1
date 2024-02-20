@@ -1,79 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from dggsgout12.his.huawei.com (unknown [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CD0664B6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 11:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AF0657DE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 12:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708427572; cv=none; b=Mq4p2kPPVR4aDe35aixydNYMc7JUeh/Cm8FzGXoOu7d774N51YBd2H8UtWYohK3AShTy90cA0NbckMeF3KKXif+e2ERKUxzQ+KKKdNIV1cv19JphL623JrAQOP3Ror+ri7boeQCJW+4FHvREegLffsXOWMmMGHL1VLu8FbZEAN0=
+	t=1708432047; cv=none; b=VNk0npcU3MznGVfREkr63d/mToVd+CL5pXLTN/M6uSMn5CKxxAB/0p5FWOXwY3dmuRZw6skuQB5uZpORECvFU++nQJWi2hBrk8DBq+CVqj+ss+tR5GrQp5mqG845HcurK9Nnl4A7Jl8kNDiWSEZTO8myHS1ib8X3l5SeYFaNehI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708427572; c=relaxed/simple;
-	bh=WsXsmpjsK4Tr+jbYY25ctW5IOach35TTfKZWzsyg7LY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=iYrdPL7t+rGUSThB4/GuZPL0Z3hRQolakMZpzY5NbV8xU609l71p8vkxUf003BVL6gu0Uav6Vfic8R8jSMU0givh35U1VU3cnSVc+fk460LU+I7ElV25zKzA3ansZBeBlHFvyl7PO3wuMZaVAsOH53C6PHTN//ExMW/DK+VUI+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZG+SQLNr; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZG+SQLNr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708427570; x=1739963570;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=WsXsmpjsK4Tr+jbYY25ctW5IOach35TTfKZWzsyg7LY=;
-  b=ZG+SQLNrF1hv+6jDDB75TuXLQdKVKY/HsPjYUBJa6OP+40frNYiCf4R1
-   kLAYX5E0EbQoaN6phCJIfTiBajgMCzRFLW+zFRU49FNHI0MAoSm3Ay7Ra
-   kWZeXxZhu4MavtFO+sm2TdYpVOR1LFFVhloZDZWd85oZFevz91GcsAyoe
-   a7C4M0rv7N9rpB/wXr4T+xlAq6A8fXKtzWnlM4uhqPaiMIWYSRMluLtrV
-   746qCr3u4oOfu8FkXIyqETWqtxlLAl8y0EiJvYXphbfj9PMpd2X1QQ09x
-   V8skb5PYp/cVG02LJdC66hZp+PNa82OpjOB4c6q7BWY41iV5wWM5O8WA+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2649354"
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="2649354"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 03:12:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="9366342"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Feb 2024 03:12:48 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rcO3J-0004SC-27;
-	Tue, 20 Feb 2024 11:12:45 +0000
-Date: Tue, 20 Feb 2024 19:11:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] accel/ivpu: Don't enable any tiles by default on VPU40xx
-Message-ID: <ZdSI8jt-_-ddpCAY@7f826eaa0bf8>
+	s=arc-20240116; t=1708432047; c=relaxed/simple;
+	bh=71ZA9CBF48Rq8EQ+Tvb9rXsWDLMMNDTL1iz93c3jvkc=;
+	h=Subject:From:To:Cc:References:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=r+v79+fmfVqL23D+cuaZCYMg6mxRClGiYxoi6dLWAb9Q/iISsfMO938L2hxtmyhsgZZaYa3Mfb7so0e+yaLLR4EegmR1ETuHFRsa+qaRleqqM8RIogbkKVqxSop/T8enkIRF14g6gL4TeA1CNJMTxWuqEOGYWggGOkCPvWpMpTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4TfJZC5H2Pz4f3jR1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 20:27:15 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id ABAA81A016E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 20:27:20 +0800 (CST)
+Received: from [10.174.178.55] (unknown [10.174.178.55])
+	by APP1 (Coremail) with SMTP id cCh0CgBXKBGkmtRlQcBmEg--.23538S3;
+	Tue, 20 Feb 2024 20:27:17 +0800 (CST)
+Subject: Re: ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function
+ kallsyms_lookup_name: .text+0x90): relocation R_RISCV_PCREL_HI20 out of
+ range: -524416 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huaweicloud.com>
+To: kernel test robot <lkp@intel.com>, Zhen Lei <thunder.leizhen@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Luis Chamberlain <mcgrof@kernel.org>
+References: <202402061302.HkByW9x0-lkp@intel.com>
+ <bd30f81c-9e6a-578e-d496-6b7f355a3b79@huaweicloud.com>
+Message-ID: <efdec661-628f-2f6e-cd3e-c66a915d3aa2@huaweicloud.com>
+Date: Tue, 20 Feb 2024 20:27:15 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240220110830.1439719-1-jacek.lawrynowicz@linux.intel.com>
+In-Reply-To: <bd30f81c-9e6a-578e-d496-6b7f355a3b79@huaweicloud.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:cCh0CgBXKBGkmtRlQcBmEg--.23538S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxCF48Wr15Kw4DAryDtw45GFg_yoW5WFy5pF
+	4DJa90yF4kKr1Syws7K398Ca45tw4DJa1fGa4DJr1UZrWDZr10va4Igw45AF9Fkrn2krWr
+	Zrs2qa4SkFyUZaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUyCb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
+	j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
+	kEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAK
+	I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+	0EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+	7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UE-erUUUUU=
+X-CM-SenderInfo: hwkx0vthuozvpl2kv046kxt4xhlfz01xgou0bp/
 
-Hi,
 
-Thanks for your patch.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+On 2024/2/18 10:08, Leizhen (ThunderTown) wrote:
+> 
+> 
+> On 2024/2/6 13:19, kernel test robot wrote:
+>> Hi Zhen,
+>>
+>> FYI, the error/warning still remains.
+> 
+> I'm trying to reproduce it. But I'm having a little trouble getting
+> the environment ready.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+Sorry, I tried but it was not reproduced. I made the following two changes
+to the steps in the 'reproduce' link:
+1. Put linux and lkp-tests in two directories of the same level. Because:
+   $ git fetch --no-tags linus master
+   error: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403
+   fatal: error reading section header 'acknowledgments'
+2. Compiler was specified by following the prompts.
+   COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-17 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+   COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-17 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] accel/ivpu: Don't enable any tiles by default on VPU40xx
-Link: https://lore.kernel.org/stable/20240220110830.1439719-1-jacek.lawrynowicz%40linux.intel.com
+Image is finally generated, so there should be no problem with the above steps being adjusted:
+$ ls build_dir/arch/riscv/boot/
+dts  Image  loader  loader.bin  loader.lds  loader.o
+
+By the way, all the symbols to be reported "relocation R_RISCV_PCREL_HI20 out of range" is
+generated by the tool kallsyms (scripts/kallsyms.c). So, it seems that the tool kallsyms
+have not been executed. And this error is not caused by my patches.
+
+> 
+>>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   54be6c6c5ae8e0d93a6c4641cb7528eb0b6ba478
+>> commit: 60443c88f3a89fd303a9e8c0e84895910675c316 kallsyms: Improve the performance of kallsyms_lookup_name()
+>> date:   1 year, 3 months ago
+>> config: riscv-randconfig-r064-20240120 (https://download.01.org/0day-ci/archive/20240206/202402061302.HkByW9x0-lkp@intel.com/config)
+>> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402061302.HkByW9x0-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202402061302.HkByW9x0-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>>> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_name: .text+0x90): relocation R_RISCV_PCREL_HI20 out of range: -524416 is not in [-524288, 524287]; references kallsyms_seqs_of_names
+>>    >>> referenced by kallsyms.c
+>>    >>> defined in vmlinux.a(kernel/kallsyms.o)
+>>
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
+Regards,
+  Zhen Lei
 
