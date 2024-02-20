@@ -1,142 +1,162 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91975C618
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 08:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AB85CDF3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 08:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708417604; cv=none; b=cvU2Nh+bd+jH+q1EWwNDnslqArSQdOxeY8CweXr43J2XvMEfKTKPBw1bGjSpSVFVZjqCrhpPoVAnMqv8L71uoIBlFLcZ+IUsAWkqESqdq7d07CfqOUgS0rcRj76vbwHh2YhYr7O5S40oX4ieIuOmNtgG1cKoeUJchcMucA7KBRo=
+	t=1708417871; cv=none; b=UXXrGZlf2qdMmoEPT3Xr813whz8qm7hgDp4F1FwTeu6aujR+IL9c1JzlbcDJ9viLQyE9kwPFKSes4fETuWYGGAytf/ylAw4SP/LVFqY7ZRuvgr6NXJsCiMoFsX72lE9HIXYYBUVrOKxJ804WkP4ec+vRidPGn0hz3slop+pOdD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708417604; c=relaxed/simple;
-	bh=DQ1EMONEQg+hyOeWsVI197jFrB7eEBnObZDQNOV6pBk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HDPi35wwU6bkB7rCdPIz57AHeqUvLSQMVHeUg9eI9hLqmaygjjEBhXCvaHxv6wGAC6/6L9Rwo4t182HQuZO+VaJRA5fq1mrMKqrX8evmF5uMMuRM66UG7D6mX1xj+goSPG5LYerbhpEHe72fl88TY1tZZ97+0ty60lU4f6JMNRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LSBJH2ut; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1708417871; c=relaxed/simple;
+	bh=z+ya6S79kXt1F9acGghW+fwOJyEHYJ6/iTaudsflj6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Lj6nXYNDFhzfzSe8XLTnBXUjXnCWmD3Gc7zpPETYrhDqUZVDtCJwdnLyqvgHf7kI+OhT9vfO2402VwVuNGT30e0czucRSNVevjvl3AsQVZ44ULXecdGPZKym+E9yQF8GFrbBXOp921E5r7FwsHuDpVRRYjND/AKH1HBZcs6aTsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lJCE7jpi; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LSBJH2ut"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d23d301452so21025161fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 00:26:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lJCE7jpi"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-55a5e7fa471so5261889a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 00:31:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1708417600; x=1709022400; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uSGLHi46/BCGaJHFcy5mvilGU1yxYp2IJrJsOciQ/ZU=;
-        b=LSBJH2utpYYa0sXFpnahw77aVFOZ6yBmCgqrk/sdLfnL3pC60CHikWEsq60J9KG9AP
-         Vhw+UAEi1FsxibgTAHAi5lm6nl1zUSWRMS1rcF5BLLjWgOkUOI//EWn7FtoTOQBSnbzV
-         qDjumDj0d4iVuQau8j4/vrM96d9jT5P4HggDcCK7jAmXWWA7DZ6tQHBcf0iZ7BAl+6g6
-         i4xtPNTXERtzO5Sw8a9bfp/BNMsylPF8n9ZyubGk91rrKk/h75PsC51hR45eV8k9/wZu
-         EqfBrNZ6ZAhXSmPJAaARzbFm634YPcJ/WM2eVI/xYFlABt/9ULzgn7wXfSWAOqUAcFCl
-         ku+g==
+        d=linaro.org; s=google; t=1708417868; x=1709022668; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2ab/JTj1QFpZ37QZKffvrycyGpJUjaXceXuFCIRH5HM=;
+        b=lJCE7jpiCrAgDB30EzOM0uDKq+BNMvh/JddiDkGGeN1MtEVfrowaPItxuhZxLLsetO
+         0EcAqmKU1RKy0tP1GyEabVbZF234mhIg+QVP86S2f4Gt3dJ/uSqQtfvUpDUVlJpOvkbS
+         clB/xTLtFNxK+a6eBkLrEQcVynna+Knp3R4PRi7zWFELBZa8SEYO4aVggOwpCxp5mSb5
+         w+cCd8NONyDR2lGZSHlLH8wMss7iJrudsMHzD/Aoh2NmNtGQJcCIpigcj/jOrYg3Zc1F
+         67n+NahLyjaPOQ26jb1O97pS0lL/9r6scY3O1FF+4KC0ldwONvV3FyKYHXF+pJ80m9Q8
+         zp/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708417600; x=1709022400;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uSGLHi46/BCGaJHFcy5mvilGU1yxYp2IJrJsOciQ/ZU=;
-        b=frr6CVmTek3HEKu9rFNCtJ5KIGHsPwApCJWwaB7aeQqt4kjkvt4UN6MrCo6/YrttAA
-         1nxto2ahYKvsIoRzE6Nd7OV3AVf4/PXgVrXMk7smFqBtDO4Zq89/ZS9NPY8WCdm20XoZ
-         oy3gzsuThnTFiPIn2ayUwlufIiWGHthooQhmpMf4r6HR8a9Qhp7rJenQCH09Aigz5lRA
-         nF+opzoS20R53jkWuKkRlFpV31l+drOUyuFvc5lyv+0dmpOp6h8XYHoq+Wv5XnpNweKO
-         p0XfOekKx4pqfHUDxkUsdvmhTslu78kN1mG5fzy+jpG5iHgOHH7vi5jYcBpvIxVYg2Ws
-         idvg==
-X-Forwarded-Encrypted: i=1; AJvYcCX0KdQr3qhnHockTAcHjpCG+c0iOT86uFKFHGZrsByPlg5b/ha+L+JHnQZpIhDX6APnHCI+AvaleFGkg4EXWFJc0RUIkY+zS/k8Qbd6tA==
-X-Gm-Message-State: AOJu0YyNXspxUThQS15IDFKrR+B3hUCNDrGJnQLkbqQmXuOTd8r9C2Oq
-	GA3mApBkaZ/JoYPghCV9EZyWmkhjTcYZXkEuPhvGhEhL7Uj8yr6OsG+H/2uP5Ks=
-X-Google-Smtp-Source: AGHT+IH+7KU4pxvMJsVYL6NIzH/IO6pQ83GJAuMYQ6ErXdZdwWTzlctIMQi/JWfLyWBnLG8AEgdKVg==
-X-Received: by 2002:a05:651c:1a07:b0:2d2:399c:df25 with SMTP id by7-20020a05651c1a0700b002d2399cdf25mr4020755ljb.16.1708417599877;
-        Tue, 20 Feb 2024 00:26:39 -0800 (PST)
-Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
-        by smtp.gmail.com with ESMTPSA id sw8-20020a17090b2c8800b0029732fc0154sm6905301pjb.3.2024.02.20.00.26.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 00:26:39 -0800 (PST)
-Message-ID: <f4a2d37d-33fc-426d-975e-5408ada21710@suse.com>
-Date: Tue, 20 Feb 2024 18:56:33 +1030
+        d=1e100.net; s=20230601; t=1708417868; x=1709022668;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2ab/JTj1QFpZ37QZKffvrycyGpJUjaXceXuFCIRH5HM=;
+        b=mRNAW5jOUKddhKb9GrtJyPr6vDIqBGPgBZZoyCxWOwCKSgANZKrSNe9mNM3LPn/DJV
+         eSv7m3UdRBS7jLV0Wbfff/E7hT4FgBXNAUz6Nj3XQtIrrqf0K7PA2rIaQGPvLNI5ZVX4
+         LEzvxKsLsIlgyDg0VCwVoJpLhD/i2jLylBBN69F85pl0kiiGBF8vi1YVx+GKdagibrh5
+         wNZkfZJg+9zh3MwTHc5YFSHFRhHMgv28/moDLHpp9NCh/adf2wV1Y3XB5ra2tc5I9AEb
+         sr6HGwGDDLsy/8f+S/fIwzOSW2ugvCxY6UFt67AT1Zap1UUQQ4nSUEoPESbGORsCROUx
+         y6PA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKkXfp8Fp4o0itIew6cyK2cxmHXw3IoOFhnwRk4oxp4QXKxXy60ZrSB+T1rkMOpSETYtnUfDm+Jhz5vBJDTC3+oKXHf1u3wnqPpkZhpg==
+X-Gm-Message-State: AOJu0YwvdkD1rlX38Obg791RSJ0XZfcgG4/dmedeE0ljz45knn0BH/XL
+	vEO/M/tSRkCn285oq8uzpF+W41Sf3Wu2KOcQZknVaIaO+disuETSsjMo0AbERMk=
+X-Google-Smtp-Source: AGHT+IGAaEhaVOGHApuf34csO4rKG4tigNNuFaXUxWuI/pXCnkkn8Z9Z0GKlxKZe6WSivDK0AuUr0A==
+X-Received: by 2002:a17:906:60f:b0:a3e:b8ac:288f with SMTP id s15-20020a170906060f00b00a3eb8ac288fmr2516737ejb.4.1708417867681;
+        Tue, 20 Feb 2024 00:31:07 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id tz3-20020a170907c78300b00a3e0b7e7217sm3633463ejc.48.2024.02.20.00.31.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Feb 2024 00:31:07 -0800 (PST)
+Date: Tue, 20 Feb 2024 11:31:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Eddie James <eajames@linux.ibm.com>,
+	linux-fsi@lists.ozlabs.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	andi.shyti@kernel.org, eajames@linux.ibm.com, alistair@popple.id.au,
+	joel@jms.id.au, jk@ozlabs.org, sboyd@kernel.org,
+	mturquette@baylibre.com, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
+Subject: Re: [PATCH 12/33] fsi: core: Allow cfam device type aliases
+Message-ID: <13393c19-6de5-427d-8b4a-2e50cfe9459f@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] btrfs: subpage: introduce helpers to handle subpage
- delalloc locking
-Content-Language: en-US
-To: Yujie Liu <yujie.liu@intel.com>, Qu Wenruo <quwenruo.btrfs@gmx.com>
-Cc: kernel test robot <lkp@intel.com>, linux-btrfs@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev
-References: <02f5ad17b6415670bea37433c8ca332a06253315.1708322044.git.wqu@suse.com>
- <202402200823.Su3xBnia-lkp@intel.com>
- <549a5778-ee2f-4520-9147-f09854a50948@gmx.com> <ZdRbi3gumI2fGhUq@yujie-X299>
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJVBQkNOgemAAoJEMI9kfOh
- Jf6oapEH/3r/xcalNXMvyRODoprkDraOPbCnULLPNwwp4wLP0/nKXvAlhvRbDpyx1+Ht/3gW
- p+Klw+S9zBQemxu+6v5nX8zny8l7Q6nAM5InkLaD7U5OLRgJ0O1MNr/UTODIEVx3uzD2X6MR
- ECMigQxu9c3XKSELXVjTJYgRrEo8o2qb7xoInk4mlleji2rRrqBh1rS0pEexImWphJi+Xgp3
- dxRGHsNGEbJ5+9yK9Nc5r67EYG4bwm+06yVT8aQS58ZI22C/UeJpPwcsYrdABcisd7dddj4Q
- RhWiO4Iy5MTGUD7PdfIkQ40iRcQzVEL1BeidP8v8C4LVGmk4vD1wF6xTjQRKfXHOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJuBQkNOge/AAoJEMI9kfOhJf6o
- rq8H/3LJmWxL6KO2y/BgOMYDZaFWE3TtdrlIEG8YIDJzIYbNIyQ4lw61RR+0P4APKstsu5VJ
- 9E3WR7vfxSiOmHCRIWPi32xwbkD5TwaA5m2uVg6xjb5wbdHm+OhdSBcw/fsg19aHQpsmh1/Q
- bjzGi56yfTxxt9R2WmFIxe6MIDzLlNw3JG42/ark2LOXywqFRnOHgFqxygoMKEG7OcGy5wJM
- AavA+Abj+6XoedYTwOKkwq+RX2hvXElLZbhYlE+npB1WsFYn1wJ22lHoZsuJCLba5lehI+//
- ShSsZT5Tlfgi92e9P7y+I/OzMvnBezAll+p/Ly2YczznKM5tV0gboCWeusM=
-In-Reply-To: <ZdRbi3gumI2fGhUq@yujie-X299>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240215220759.976998-13-eajames@linux.ibm.com>
 
+Hi Eddie,
 
+kernel test robot noticed the following build warnings:
 
-在 2024/2/20 18:28, Yujie Liu 写道:
-> Hi Qu,
-> 
-> On Tue, Feb 20, 2024 at 11:46:17AM +1030, Qu Wenruo wrote:
->> 在 2024/2/20 11:22, kernel test robot 写道:
->>> Hi Qu,
->>>
->>> kernel test robot noticed the following build errors:
->>>
->>> [auto build test ERROR on kdave/for-next]
->>> [also build test ERROR on linus/master v6.8-rc5 next-20240219]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>
->> This is applied without the previous preparation patches.
->>
->> Is it possible to teach LKP to fetch from certain branch other than
->> applying them directly to for-next?
->>
->> Do I need certain keyword in the cover letter?
-> 
-> Sorry for applying this patchset on an incorrect base. If the cover
-> letter mentions that the patches has already been pushed to a certain
-> branch, usually we will skip the patchset and directly test that branch,
-> but seems the bot didn't recognize that there is a github link in the
-> cover letter. We will investigate this and fix it ASAP.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-My guess is, I'm using github's branch URL in the cover letter:
+url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/dt-bindings-clock-ast2600-Add-FSI-clock/20240216-061934
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240215220759.976998-13-eajames%40linux.ibm.com
+patch subject: [PATCH 12/33] fsi: core: Allow cfam device type aliases
+config: arm64-randconfig-r081-20240216 (https://download.01.org/0day-ci/archive/20240220/202402201532.dvENQrDs-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
 
-   https://github.com/adam900710/linux/tree/subpage_delalloc
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402201532.dvENQrDs-lkp@intel.com/
 
-I guess I should go something more traditional like?
+smatch warnings:
+drivers/fsi/fsi-core.c:919 __fsi_get_new_minor() error: testing array offset 'type' after use.
 
-   https://github.com/adam900710/linux.git subpage_delalloc
+vim +/type +919 drivers/fsi/fsi-core.c
 
-Thanks,
-Qu
-> 
-> Best Regards,
-> Yujie
+3f4ac5b0b27f16 Eddie James            2024-02-15  894  static int __fsi_get_new_minor(struct fsi_slave *slave, struct device_node *np,
+3f4ac5b0b27f16 Eddie James            2024-02-15  895  			       enum fsi_dev_type type, dev_t *out_dev, int *out_index)
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  896  {
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  897  	int cid = slave->chip_id;
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  898  	int id;
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  899  
+3f4ac5b0b27f16 Eddie James            2024-02-15  900  	if (np) {
+3f4ac5b0b27f16 Eddie James            2024-02-15  901  		int aid = of_alias_get_id(np, fsi_dev_type_names[type]);
+                                                                                                                 ^^^^
+if type >= 4 we are in trouble
+
+3f4ac5b0b27f16 Eddie James            2024-02-15  902  
+3f4ac5b0b27f16 Eddie James            2024-02-15  903  		if (aid >= 0) {
+3f4ac5b0b27f16 Eddie James            2024-02-15  904  			/* Use the same scheme as the legacy numbers. */
+3f4ac5b0b27f16 Eddie James            2024-02-15  905  			id = (aid << 2) | type;
+3f4ac5b0b27f16 Eddie James            2024-02-15  906  			id = ida_alloc_range(&fsi_minor_ida, id, id, GFP_KERNEL);
+3f4ac5b0b27f16 Eddie James            2024-02-15  907  			if (id >= 0) {
+3f4ac5b0b27f16 Eddie James            2024-02-15  908  				*out_index = aid;
+3f4ac5b0b27f16 Eddie James            2024-02-15  909  				*out_dev = fsi_base_dev + id;
+3f4ac5b0b27f16 Eddie James            2024-02-15  910  				return 0;
+3f4ac5b0b27f16 Eddie James            2024-02-15  911  			}
+3f4ac5b0b27f16 Eddie James            2024-02-15  912  
+3f4ac5b0b27f16 Eddie James            2024-02-15  913  			if (id != -ENOSPC)
+3f4ac5b0b27f16 Eddie James            2024-02-15  914  				return id;
+3f4ac5b0b27f16 Eddie James            2024-02-15  915  		}
+3f4ac5b0b27f16 Eddie James            2024-02-15  916  	}
+3f4ac5b0b27f16 Eddie James            2024-02-15  917  
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  918  	/* Check if we qualify for legacy numbering */
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20 @919  	if (cid >= 0 && cid < 16 && type < 4) {
+                                                                                    ^^^^^^^^
+checked too late
+
+641511bfcc5e01 Eddie James            2023-06-12  920  		/*
+641511bfcc5e01 Eddie James            2023-06-12  921  		 * Try reserving the legacy number, which has 0 - 0x3f reserved
+641511bfcc5e01 Eddie James            2023-06-12  922  		 * in the ida range. cid goes up to 0xf and type contains two
+641511bfcc5e01 Eddie James            2023-06-12  923  		 * bits, so construct the id with the below two bit shift.
+641511bfcc5e01 Eddie James            2023-06-12  924  		 */
+641511bfcc5e01 Eddie James            2023-06-12  925  		id = (cid << 2) | type;
+85f4e899de32ba Eddie James            2023-06-12  926  		id = ida_alloc_range(&fsi_minor_ida, id, id, GFP_KERNEL);
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  927  		if (id >= 0) {
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  928  			*out_index = fsi_adjust_index(cid);
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  929  			*out_dev = fsi_base_dev + id;
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  930  			return 0;
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  931  		}
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  932  		/* Other failure */
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  933  		if (id != -ENOSPC)
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  934  			return id;
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  935  		/* Fallback to non-legacy allocation */
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  936  	}
+85f4e899de32ba Eddie James            2023-06-12  937  	id = ida_alloc_range(&fsi_minor_ida, FSI_CHAR_LEGACY_TOP,
+85f4e899de32ba Eddie James            2023-06-12  938  			     FSI_CHAR_MAX_DEVICES - 1, GFP_KERNEL);
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  939  	if (id < 0)
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  940  		return id;
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  941  	*out_index = fsi_adjust_index(id);
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  942  	*out_dev = fsi_base_dev + id;
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  943  	return 0;
+0ab5fe5374743d Benjamin Herrenschmidt 2018-06-20  944  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
