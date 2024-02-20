@@ -1,242 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09DC59B57
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 06:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708410545; cv=fail; b=Ht4r8g+EE0yjt+hF1o5lnZj+816jMW6+ab9lGGCzYCOmWEKfKV25JFlrS8Xso/HfaaVyvpHdle6Q4hhVxaXzOO75rkhecBI3h5cw5lGkvdzMop/JtPuCHkXo+Sk3eCKgNBV1bvU6+kkv3/6wO03QSF9fDJX+czbopGHGnjjSmtM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708410545; c=relaxed/simple;
-	bh=Hg2vo2ALovQdU/4HKbbnsEekZ0d6n+PrIfxfakLcHAA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bOH9SipLDW9xrm61JS+JPFS3OiO94rUPMEzWJbE65AX94X9RLWWSNA9eEuaUX+sjM0dSy6MZIUrd/RBra8BZ1MtZ/9B4ryuAvGzFLbSiEJghzCpAvXt477LUqB3pkM3ATsLLPY4jU2RenNDELiwhEpwF1pnyiuBQRsxpDwkiVhY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RnP4z1Bo; arc=fail smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061931EB46
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 06:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708411546; cv=none; b=Mv1RpWVMSl6FVCjEXwuuBM0MeM97Nm/rhBKzR+T8J25EimkkrOtXuGfInVrEUWI2+zGKxKv1DI+YT2cjDm8WZa7BTifvWVqxf8JhjkhnInzkIW0VFt7HY9K28tr9APNqgH49GYZcZBLuMrn5eLGsN6xomNH1pZF6Z8R19785ee4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708411546; c=relaxed/simple;
+	bh=UlplrlZiMTBNJmRAQeFK17V8E3MVS5AXL8l87/GML48=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uGHA8TX0G76Cdtcqta67KydgBiLhwsmrM/vDoQi32kvcpZb5uo9fcoC2VoCVQvn5CEip/D24jS3gKXSE186/qdoBSbKhkkdDj1E5wwE8nYPGn78oxMcNwFvuAiQdGtz2g8cv/SOBV14lr5TlP/1vrwl6AZ6zboXjV/mic9naEZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NhOa+HXY; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RnP4z1Bo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NhOa+HXY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708410543; x=1739946543;
+  t=1708411545; x=1739947545;
   h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=Hg2vo2ALovQdU/4HKbbnsEekZ0d6n+PrIfxfakLcHAA=;
-  b=RnP4z1Bor5CTgnEFWQ2fdWLFakybBINm3gH+Z9k7tkPUkhXAHFAtVoNS
-   zTZbtY8jp+ZiXrsPwBGtkT7nIPINwgaAdYhcx0zb10lNj54fDa9kE3k/D
-   7zYfKyIX0iU4O3JPd5Z14taVeIcSbdObUzHUzsF6bWzDgUDoQtDxiAIj9
-   s/QRJUq+zroST/4gMCRJQcedanTSD7WbH/GrhRYYaTE24k+4FBeHoeA46
-   nZcR0zRu/cVr3YZ3Pm2fQ04w3u9xL8mLBGBb/nLGt0eelJoMKDYBnTg2n
-   95hBrc29YW1cpYpd4KFkcirNV/CssWGDH16XvMLoDmdVyEPXVqAO3fdg6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13125157"
+   mime-version:in-reply-to;
+  bh=UlplrlZiMTBNJmRAQeFK17V8E3MVS5AXL8l87/GML48=;
+  b=NhOa+HXYIKce+5WdeJ8h40bAF/vBc+16sKmrl5QYaDheuAzAvEfqr7E4
+   Kpgwbq9p2RWJ872GmdupUOM7t+cxydTyn7dcOUV7vHkGrqI6Y9Ao4Px9R
+   9rknVLYmBmGbVPpgtFlL0RnxP9zXqEtWYCEcza6Dk+RNVKWJuD4N4R18c
+   UX3jde8kKwoJ8H9syh9nU1QuKQimSKkh+GKCetw/Xc69nTZ1mZ7tw+6AF
+   ntQM1Nn28nCBdr6G+Q/c0zPY3Gk86hxH1fDGpZZYnkbYHjzFx9sR/AsSA
+   L2dZ7/I3/JWH4Pq/jtnqXU/LnerpUw41kROFVIsK0L21xQCDNFijBiVqn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="24959315"
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="13125157"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 22:29:01 -0800
+   d="scan'208";a="24959315"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 22:45:44 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="4972632"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Feb 2024 22:29:01 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 19 Feb 2024 22:28:59 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 19 Feb 2024 22:28:59 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 19 Feb 2024 22:28:59 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 19 Feb 2024 22:28:59 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KEnfKQWoqUrTa0DwBdwScHzL6B43fT6LGTm81YUe94Fvf/iHgfSms6VlJMSOFN5PyxNST6HJV3gI9ar/wFDRs85ilTjJaQFbkO8DXNnbTqMKXpUmOR8B7dlFdMYbE+jNGsHhaQ6U2ZQCB322Bd+n6tsHGsoTSw9p94jhPj73JOHE+qPesMNS/VtnjauUBXkftCmTILuQVRSXik7DWGjVLf3zAluLMPbIUHUa5bgh2kFe/okFNxrtM3Vd3bTCBUU+oPOPLfZARvH5cIXgMKOV7sRogGkKxB8XhuPsJSjKzh0keQzM4na/cwVyFBkSnhzKw3fC4bloM7ZcI5DKIbBiGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=imMhRJ5n1FMHlv2VYoS+snq+oLSVdxMS/4m62Pmiti0=;
- b=cvwFFp1IudTbYeqlvJ5pT0U4pq5Nw7osEsViHIZHL2eJ/OI5Mz/WoiEagyWxsGF4W9I2za9qX9Gw3c5bJkq3xeKt6KqNROoaF2Nxz3ZF8gT4ipDv+Cub1hh1JyhOdp3jEc7R5cto2aoGkMjNpKwGG18QhrtQDAlsD5nTfovlWsdQ1skmrRDLJngxvwDD9FNkqCcupoua3hII2O0sl+cefDSItLt2aMd+J7EeLja1PYDArCNRC+DJGYkHa18mEJDQe9EZESYvJlwISJra/U4a9f0nOse+PGqIOVKEcnMRFIwZHyd+NlXmCx6saflZBs2HAxB5lTwwzBKXcKBxgKRrhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SJ0PR11MB5152.namprd11.prod.outlook.com (2603:10b6:a03:2ae::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Tue, 20 Feb
- 2024 06:28:57 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b99c:f603:f176:aca]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b99c:f603:f176:aca%5]) with mapi id 15.20.7292.029; Tue, 20 Feb 2024
- 06:28:57 +0000
-Date: Tue, 20 Feb 2024 14:22:02 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Baoquan He <bhe@redhat.com>
-CC: kernel test robot <lkp@intel.com>, Paul Gazzillo <paul@pgazz.com>, "Necip
- Fazil Yildiran" <fazilyildiran@gmail.com>, <oe-kbuild-all@lists.linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List
-	<linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-unstable 82/320] kismet: WARNING: unmet direct
- dependencies detected for CRASH_DUMP when selected by FA_DUMP
-Message-ID: <ZdRFCu3Uohd6wtml@yujie-X299>
-References: <202402171431.MzqHz3g2-lkp@intel.com>
- <ZdL+sSSFghXttSqR@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZdL+sSSFghXttSqR@MiWiFi-R3L-srv>
-X-ClientProxiedBy: SI1PR02CA0025.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::13) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="35708692"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 19 Feb 2024 22:45:41 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rcJsh-0004I4-31;
+	Tue, 20 Feb 2024 06:45:34 +0000
+Date: Tue, 20 Feb 2024 14:45:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH 06/10] riscv/vdso: Use generic union vdso_data_store
+Message-ID: <202402201410.g0YeFhx8-lkp@intel.com>
+References: <20240219153939.75719-7-anna-maria@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SJ0PR11MB5152:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a82cb6b-5d0d-418e-e5f7-08dc31dd3792
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eu9sBB00n5WJS2PPwbdvMvGASqdlcT9imKz94GsuR8v9mx223URXMYzPK6F0HXt2PBNsc/fayUuYr2qArh05l6o+O8LYPoLqZ1yfcbdyQC31VFi/0Tat14PyBvDtkM59DuylEBw7u5dXl97J2T8Jc5reE8/6WiZ5walv33v3ly5jFTVvwy9va4IMId5Ug41DQuT15DueMWjm07MGOqCk7b1Rcga2XQrOsFhWbj8Y7DwFeyUmgmIpDabe1KQMGnHaYD86HMzpEJit6wbMzJRGA+aRpmmTo+0UZ+IiL9KFlyiF5qvuuXv4slNeflP3l4tmYj/r06V1D3Z0kNL8kPMZGas0phTCbGNdQCGjC3YanBz7Uh4WuU5JrpK1j68q2CdfybXsNSBpssSPbPcb4ZOltQVd8cbKXnSjALO2A6ymo9qGDcSCpsmlhmSFrr3T0K/7U7Ghl0lwyoODoHM99BF47aFnjYINKezTtm2kBNrT6fx/kkDFDyDxGrlGt4ouaztbIIloRUqW96A/qt6S1f0nznJqS7yg/s4HMvJbWaBMa6Zu1LNXUM0bj0HlzhjxlgK4
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(230273577357003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ckk2eFVsRWlEbkVqK3V2Q3drOEY4M1pJOXNSbW12cTZ6Mnc0RFNIOFN5YkpW?=
- =?utf-8?B?Umlya2RHTk8wN3lmQzlXUHpKdFpBSFpEVGttYnJ3VTJuWmRVb3ZCWHlHMk9S?=
- =?utf-8?B?ZmhTSW1zdFIwL0dzZHB3UTJFLzJjeXZVc0pGSXB4ZnN2bnNSK2JLOVFsa2Zt?=
- =?utf-8?B?Y1BTbXZuVnAraWY4VXhCUHZ5bzgxSTd6VmlmandvVGhhZ1RPWUJCdi94OGJn?=
- =?utf-8?B?L0U5OTVVZE9PejB4bi83NHd6U0h1Q25ONVpWWjFkUDZseU5KRm93SEVtVkhG?=
- =?utf-8?B?QkpTQ2U3SjZjTWwyUWtpSDRJQWtCTndvQ2h2cTZIUCt5dEQ5ak1sQnVzYzQ3?=
- =?utf-8?B?OGlYTWxtVkhtRHRvL09iUE1vL2o2VTZ6U21XcXlMSjFvOWRGaVplaklmL3Rl?=
- =?utf-8?B?cHF3Y3NnOUZidEJuOVNkVXFqc01JM1QyUUxnaVJHZGg3Q2gwVDJ0L09hS1VP?=
- =?utf-8?B?M2hDRW9DV2w1MGlzT3J3T0FzZ3BReE01ZXR0ZnYxb09YVEtRbDJkbXRjdm1M?=
- =?utf-8?B?d2x0MWplZUpMcWR4VnZZaTRpM2tDeE5ybVRrSHZid0p3ZFU4TXM4d2x2cnN6?=
- =?utf-8?B?V1Vmd1VlaVhrR2M1cmI5TnRTVEVtU1R0M3AzRDNJNWxqVHNkZkdkZFhtdk9v?=
- =?utf-8?B?dHhFY0Npc0ZVOEJqSE54ME1XSzhQdkI1Ym5yeEROVThvQkM4bmVzczJBcHl5?=
- =?utf-8?B?U29tQ1dlQkNMUUoxVW9vRTQ3cGpBZWJHUU9HT0Mzc21NdFpXYzEzb3lYQ2N4?=
- =?utf-8?B?bFZQa1E5eXA5Wi82R285WEVXbWh4L1J1dG5PYkoza05HTTdIbUJZNDZvRzlU?=
- =?utf-8?B?cWJHcEljc1ZOL1BtdW5SVy8vbjF1dTdsODdKc1RGQXNla0NYZWZHYld6Z1kx?=
- =?utf-8?B?Y3l0V2xMeUwzMWRqbkF2a2VDclhuWTd0V0pQcXZIYkc1WStaOWV2Z050VFZI?=
- =?utf-8?B?aUFpK293NDlTekp1QWF4U1RhcVdmRVFaTTd3eXIxc3hyUWJHTkdLcTBNdkpP?=
- =?utf-8?B?MDFHZVVsQjVkTUtYVmxSMjZ6SjMxOE1DeHZLZlMvajU2cmlpRWhzN1pNYUQ1?=
- =?utf-8?B?cDBIVHVPMThGdkk5Ky9HRHZvVUtwTXUxam5Qbkd3ODFaMVdvSTMvTElVL1Na?=
- =?utf-8?B?RnlJMVE2TTB1MzdVSlFPM1hWWTkrcWJ3UjFvZE1XdHEwdmljK3BTMndDZ1VY?=
- =?utf-8?B?dHRhT2NpWFRZSExRdDc0V1IvRkUzL05sVy9LTWNDbVNGMmdlWmpybGdPVHlN?=
- =?utf-8?B?VjROVVFkREQzTXhDZ1JFL3RLVHJOWnhUUzU2WlJrOEpaZHR0VDEyTDZid3Zm?=
- =?utf-8?B?R1JzZXljdHJuRTFGNGVWd09adC9HS0lxWGQ3RjRMQ21rTTBSTmc0KzNYN3VG?=
- =?utf-8?B?ZVVobUhhc2d5aUF0MUcyYm9Cb1AzbjhFMWlEdERvSWpwOFlnaXUrV2lia0Uv?=
- =?utf-8?B?RTJzdlVqek9jRC84Mit0U1NiK3U4aW5xejRhcWcxUTFGV01PamJBN0VQL0xJ?=
- =?utf-8?B?d1AxSUlSWnpUL2VVaCtPMHJTVjYvYzBVd0lVci90ZE11dXR3UFFlNVBId0Q5?=
- =?utf-8?B?cksyMHZOYmRJZVZlaWFJYmNWc1VNVityOU94OXFmS0JnZklWS0wzbTJmT0lP?=
- =?utf-8?B?cDY4ek5aeUVGR2tBSlRYZ0MvSUIyZVEzSi81a0ZJSGNDRXU0d3hWcXVuMWx1?=
- =?utf-8?B?MlF3bml1RW9UejQwQU9Fa0h2SlpkRjlCMlR6NFNMREdZMktySUhEVTJhQ3Nz?=
- =?utf-8?B?TXZUcVZ5SXErVkNjMldwcmNIRm82VzVudHNGWTdGL3h6VDcvNTYvMFhCeWJm?=
- =?utf-8?B?bGJVWjg2NHQ1OW5DdVJ4TUJWS1JPeFNML0NsUmdBcEpkVEJvSW9iZHpyc3pz?=
- =?utf-8?B?czdRekdKTGxHSXV1M09mellrVjZKNUd1VkJTeVc3cmVjMm9tbTYrcjJuQUdY?=
- =?utf-8?B?cFZwYWNUT1BUVDdpNFRNYWt3NnVIWmd4NDkwa1pDS2JodkYycUcvMlgvemQ0?=
- =?utf-8?B?UHhwNW1US1gwajNBUGNtQWFScTV0ZzU1bXE0MVNFUnUyOENIZytWUWR1Znhv?=
- =?utf-8?B?VDBBYkhLd0tkdlJ4MGFoRG1BVlk1bzAxSkhPc0phYXFNUW5kc0hQcWlrMEgz?=
- =?utf-8?Q?kf7WGJr+nmWfg7aUMrMKgahFt?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a82cb6b-5d0d-418e-e5f7-08dc31dd3792
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 06:28:57.2424
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dpDRkZCXjfSfNdc8KytTvU3shBC365QeJfUSLder3mWaIaZgKfvfBOtMpdZHJ1qt+fBRRm4XyUpIJYCBAJAhng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5152
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240219153939.75719-7-anna-maria@linutronix.de>
 
-Hi Baoquan,
+Hi Anna-Maria,
 
-On Mon, Feb 19, 2024 at 03:09:37PM +0800, Baoquan He wrote:
-> On 02/17/24 at 02:48pm, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> > head:   9951769060d8f5eb001acaca67c1439d2cfe1c6b
-> > commit: a5af0b602e5ecb379fd2470669654a6abe7e97a2 [82/320] crash: clean up kdump related config items
-> > config: powerpc-kismet-CONFIG_CRASH_DUMP-CONFIG_FA_DUMP-0-0 (https://download.01.org/0day-ci/archive/20240217/202402171431.MzqHz3g2-lkp@intel.com/config)
-> > reproduce: (https://download.01.org/0day-ci/archive/20240217/202402171431.MzqHz3g2-lkp@intel.com/reproduce)
-> 
-> When I tried the step 1 of reproducer, I got failure on installing the
-> kmax. Is there other ways I can reproduce the issue? Or have you tested
-> the latest linux-next/master because there's some udpate about the
-> config items change?
+kernel test robot noticed the following build errors:
 
-It is not necessary to install kmax to reproduce the issue. You can
-choose either 1 or 2 to reproduce it. We will update the wording to make
-this clearer.
+[auto build test ERROR on s390/features]
+[also build test ERROR on kees/for-next/execve arm64/for-next/core linus/master v6.8-rc5 next-20240219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If kmax installation failure is blocking method 1, could you please try
-method 2 to see if the issue can be reproduced?
+url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Maria-Behnsen/vdso-helpers-Fix-grammar-in-comments/20240219-234251
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+patch link:    https://lore.kernel.org/r/20240219153939.75719-7-anna-maria%40linutronix.de
+patch subject: [PATCH 06/10] riscv/vdso: Use generic union vdso_data_store
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240220/202402201410.g0YeFhx8-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402201410.g0YeFhx8-lkp@intel.com/reproduce)
 
-$ wget https://download.01.org/0day-ci/archive/20240217/202402171431.MzqHz3g2-lkp@intel.com/config -O .config
-$ make ARCH=powerpc olddefconfig
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402201410.g0YeFhx8-lkp@intel.com/
 
-WARNING: unmet direct dependencies detected for CRASH_DUMP
-  Depends on [n]: ARCH_SUPPORTS_CRASH_DUMP [=y] && KEXEC_CORE [=n]
-  Selected by [y]:
-  - FA_DUMP [=y] && PPC64 [=y] && (PPC_RTAS [=y] || PPC_POWERNV [=y])
+All errors (new ones prefixed by >>):
 
-Best Regards,
-Yujie
+>> arch/riscv/kernel/vdso.c:34:31: error: initialization of 'struct vdso_data *' from incompatible pointer type 'struct vdso_data (*)[2]' [-Werror=incompatible-pointer-types]
+      34 | struct vdso_data *vdso_data = &vdso_data_store.data;
+         |                               ^
+   cc1: some warnings being treated as errors
 
-> 
-> -------
->  # 1. reproduce by kismet
->     # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
->     kismet --linux-ksrc=linux --selectees CONFIG_CRASH_DUMP --selectors CONFIG_FA_DUMP -a=powerpc
-> -------
-> 
-> 
-> ======
->       kextractors/kextractor-3.19/bconf.tab.c: In function ‘enter_if_branch’:
->       kextractors/kextractor-3.19/bconf.tab.c:150:5: error: implicit declaration of function ‘bconferror’; did you mean ‘ferror’? [-Wimplicit-function-declaration]
->         150 |     bconferror("MAX_IF_DEPTH exceeded");
->             |     ^~~~~~~~~~
->             |     ferror
->       kextractors/kextractor-3.19/bconf.tab.c: At top level:
->       kextractors/kextractor-3.19/bconf.tab.c:2064:1: error: return type defaults to ‘int’ [-Wimplicit-int]
->        2064 | bconf_parse(char *file)
->             | ^~~~~~~~~~~
->       kextractors/kextractor-3.19/bconf.tab.c:2107:1: error: return type defaults to ‘int’ [-Wimplicit-int]
->        2107 | bconf_test_lexer(char *file)
->             | ^~~~~~~~~~~~~~~~
->       kextractors/kextractor-3.19/bconf.tab.c:2119:1: error: return type defaults to ‘int’ [-Wimplicit-int]
->        2119 | bconferror(char *msg) {
->             | ^~~~~~~~~~
->       error: command '/usr/lib64/ccache/gcc' failed with exit code 1
->       [end of output]
->   
->   note: This error originates from a subprocess, and is likely not a problem with pip.
->   ERROR: Failed building wheel for kmax
-> Failed to build kmax
-> ERROR: Could not build wheels for kmax, which is required to install pyproject.toml-based projects
-> =================
-> 
-> 
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202402171431.MzqHz3g2-lkp@intel.com/
-> > 
-> > kismet warnings: (new ones prefixed by >>)
-> > >> kismet: WARNING: unmet direct dependencies detected for CRASH_DUMP when selected by FA_DUMP
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> > 
-> 
-> 
+
+vim +34 arch/riscv/kernel/vdso.c
+
+78a743cd82a35c Tong Tiangen       2021-09-01  32  
+2f3f68e0423414 Anna-Maria Behnsen 2024-02-19  33  static union vdso_data_store vdso_data_store __page_aligned_data;
+ad5d1122b82fbd Vincent Chen       2020-06-09 @34  struct vdso_data *vdso_data = &vdso_data_store.data;
+76d2a0493a17d4 Palmer Dabbelt     2017-07-10  35  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
