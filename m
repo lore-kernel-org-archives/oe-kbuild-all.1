@@ -1,229 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94024C60
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 00:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C7123BC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 00:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708388513; cv=none; b=bj4G9ih6P5dDFMipyZ8LKiFNrWI+Z6zjBd0GkKRE6eIqLJJIEvkxd9nlig/wOxW03w6w6BCkS+LX+mPijTxK3brIkFouX1u9mHAvqHKRamP3Kc/y8Fe5lVrl+H9D0PydSFCVSJ8yv0vW0HpFWwoQiNr/52ESAs35nr80cpwUSg8=
+	t=1708389290; cv=none; b=YfLJwPq52/iluicldoPVmttUeDUlhBSDPnZUa/m3VqO+kdgeKafBkK2SwkBlhKY87Y6setP7GctQlowWHFZzo/NRPnQ2j1ZYYTw6X28v+UFaJmZDPBw83WvBRuwn+5VadxkvHblct2ulvDln+yuBGxJUX9WSDE3FKXEYhwCxaG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708388513; c=relaxed/simple;
-	bh=yWL9+crD7ozhyXtdUplwtrHE2vBN684Ax3/F37eopcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f/gnMK9Wlp67LWwdg0oMPHmImhE/BBz+7iAwpQQWTRKb3c0xgpNv/yiqy6gLJ1oIMLZvtdL1ngi72oANXwtRkUvuKoPvBkjGtwZxYxY4+E9DynE+4JkWmLSHJqHz6igSOES9bDbOsz44glI9kuY263W7gBFJwqgCnJsoXgYopq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iDngcxln; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708389290; c=relaxed/simple;
+	bh=twysEfuQ4T/0w/2qh6F2Tm91ScgbJMClrcyBk8mU50U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J92BtKkuveKTL5WHZeBVJmiNaWgPScoczZbq7kXrcwRmlFHQdak5U7Ihb9Ear8BrQsw+uJrJNmSPR1xfggNqe5MRXnjQTSqHmr7t6+VTa8RVcdleAFpPl+3BSJM0YLKmC+9jWDOpgSDvnuJtyPzwf8cAwunO8bGqd3azVXRTNDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bzW8n8NL; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iDngcxln"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708388511; x=1739924511;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yWL9+crD7ozhyXtdUplwtrHE2vBN684Ax3/F37eopcU=;
-  b=iDngcxlnvSgFvUUI4rzM3/XsvscI/XLG3L7O/PEdALdcRfezqVGlL2gM
-   qdYr/i9v8ElsajKat9u3VDi3pjsPIQjbx6fm6itwM+CeoeiXuCVZ6n8Dg
-   Tnm4LDdY5l5iA0PJwjenCjd/aPRLm7DNEmASU/deGCWLAYeLgvbAq+ZF2
-   J+MXOwkNIUmStgj5fkTuaKHI1yTBlSqFXYJvLgUMQ6USaLy6gPjl4y2At
-   4DQkjsfU8NhkZHVJ7LWIrclQyIumUkUZCrpZghflcY4Q3X2aYDS7tSIEb
-   cDzqr3Yq3z9/DM8WT+Va3c6GVVFV879n4D52uDJZDl+Luqiul/rYRPxk4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13875033"
-X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
-   d="scan'208";a="13875033"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 16:21:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
-   d="scan'208";a="4996627"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 19 Feb 2024 16:21:45 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rcDtG-00049W-0k;
-	Tue, 20 Feb 2024 00:21:42 +0000
-Date: Tue, 20 Feb 2024 08:20:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jeff LaBundy <jeff@labundy.com>
-Cc: oe-kbuild-all@lists.linux.dev, catalin.popescu@leica-geosystems.com,
-	mark.satterthwaite@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>
-Subject: Re: [PATCH v8 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <202402200849.ABf6sZnr-lkp@intel.com>
-References: <20240219101221.129750-4-kamel.bouhara@bootlin.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bzW8n8NL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708389284;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=uJszGoDmcJ/e3cfaUrhP/NITyUlid6+ei0fLVW+ftlI=;
+	b=bzW8n8NLXGrE0OfhLwnfm0Swp/rhHEzZd//wvbdtw9XdjgEy6nSyjKeFXOVjd/GG/mjB3E
+	a/JEt2uU3eBb2oi2qNhMJP1Gv7Jg+op0ZNFQ+0SSo18zzIh47B9Ql5TlLd/W8YIXNw0xVu
+	UKCzmqy4R/chg8bCkHB+OzVnVs6YsyQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-628-l6CfZHNUP-OaFarQLeCrzQ-1; Mon, 19 Feb 2024 19:34:41 -0500
+X-MC-Unique: l6CfZHNUP-OaFarQLeCrzQ-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-41225d3b3d1so23871785e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 16:34:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708389280; x=1708994080;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uJszGoDmcJ/e3cfaUrhP/NITyUlid6+ei0fLVW+ftlI=;
+        b=Q6RhxIKj24AMYS4HLLXxeae1tCH1hoKh41CWgIbwEUrmyhBXohOp0hFwk3WjiSAEh5
+         QQ4+meznigiN5khp//KHBQJmvylVOqZq4+NQw+/8cFpREZXZmRqZZY2VMUX4KFm1Tam5
+         7d8jcLhJlzu6KjR7vZ3IbRxarlYEJhFgAD/TBoM17tOOwGYmc0h4d4Qu1zvj8Sg1VZlD
+         MGiRmX+vpysLInLkP+RsRnAOBtOi/so3ozxIvLRoZ9XG1RDDxMBuKeHHVQQ0g3ZdTxzQ
+         gflnhHt/sKyHHRwF6qVjji6m3P6unVznK0cmfWLDQ7+85kGptE7R4K02DCVlK4xKwbFf
+         MyDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVO3+2ZD5WnAJ4SinnxxXOH7j64VFpmPbsnYhpB4T5vaX0wWKBkT2Gtk1S+Kjcx8TKm7xAzUU7InP/6cFtaR01ksbwC5hImA3A+kQvr5w==
+X-Gm-Message-State: AOJu0YwwDqgjEazGo3cV7MedB9p1K/KqTwMZyTJfPeDKoJbQcsyLPac7
+	7lxPbMhy5t+iiKErEtBuZFbaK0YIKtGDx/IH/r1EimFdw4KYauKQFTjfu2KIilztLnmzTngAN2a
+	NqqCFTWKL9e9SE2Dnm+JL4gnRUGrbF5iKe0lHgMlmzrIDBm3K7dzy7Z5fbwpusZo=
+X-Received: by 2002:a05:600c:198f:b0:412:6d41:920d with SMTP id t15-20020a05600c198f00b004126d41920dmr434589wmq.38.1708389280277;
+        Mon, 19 Feb 2024 16:34:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGscKC/h+165pWPIQGiFVK1k+j+cPntLp690DOup1A66feMphWpMObuy7g/A9wibrQFwsUJhA==
+X-Received: by 2002:a05:600c:198f:b0:412:6d41:920d with SMTP id t15-20020a05600c198f00b004126d41920dmr434581wmq.38.1708389279984;
+        Mon, 19 Feb 2024 16:34:39 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id l12-20020a05600c4f0c00b004122b7a680dsm12803198wmq.21.2024.02.19.16.34.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 16:34:39 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Helge Deller <deller@gmx.de>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	sparclinux@vger.kernel.org
+Subject: [PATCH] sparc: Fix undefined reference to fb_is_primary_device
+Date: Tue, 20 Feb 2024 01:34:30 +0100
+Message-ID: <20240220003433.3316148-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240219101221.129750-4-kamel.bouhara@bootlin.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Hi Kamel,
+Commit 55bffc8170bb ("fbdev: Split frame buffer support in FB and FB_CORE
+symbols") added a new FB_CORE Kconfig symbol, that can be enabled to only
+have fbcon/VT and DRM fbdev emulation, but without support for any legacy
+fbdev driver.
 
-kernel test robot noticed the following build errors:
+Unfortunately, it missed to change a CONFIG_FB in arch/sparc/Makefile and
+that leads to the following linking error in some sparc64 configurations:
 
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus robh/for-next krzk-dt/for-next linus/master v6.8-rc5 next-20240219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+   sparc64-linux-ld: drivers/video/fbdev/core/fbcon.o: in function `fbcon_fb_registered':
+>> fbcon.c:(.text+0x4f60): undefined reference to `fb_is_primary_device'
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kamel-Bouhara/dt-bindings-vendor-prefixes-Add-TouchNetix-AS/20240219-181550
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20240219101221.129750-4-kamel.bouhara%40bootlin.com
-patch subject: [PATCH v8 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-config: i386-buildonly-randconfig-002-20240220 (https://download.01.org/0day-ci/archive/20240220/202402200849.ABf6sZnr-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402200849.ABf6sZnr-lkp@intel.com/reproduce)
+Fixes: 55bffc8170bb ("fbdev: Split frame buffer support in FB and FB_CORE symbols")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/r/202401290306.IV8rhJ02-lkp@intel.com/
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402200849.ABf6sZnr-lkp@intel.com/
+I don't have a sparc64 toolchain to test this patch, but I'm pretty sure
+that this is the correct fix for the linking error reported by the robot.
 
-All errors (new ones prefixed by >>):
+ arch/sparc/video/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   In file included from include/linux/device.h:15:0,
-                    from drivers/input/touchscreen/touchnetix_axiom.c:17:
-   drivers/input/touchscreen/touchnetix_axiom.c: In function 'axiom_process_u41_report_target':
->> drivers/input/touchscreen/touchnetix_axiom.c:332:18: error: 'slot' undeclared (first use in this function); did you mean 'sget'?
-      target->index, slot, target->present,
-                     ^
-   include/linux/dev_printk.h:129:34: note: in definition of macro 'dev_printk'
-      _dev_printk(level, dev, fmt, ##__VA_ARGS__);  \
-                                     ^~~~~~~~~~~
-   drivers/input/touchscreen/touchnetix_axiom.c:331:2: note: in expansion of macro 'dev_dbg'
-     dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u, y:%u, z:%d\n",
-     ^~~~~~~
-   drivers/input/touchscreen/touchnetix_axiom.c:332:18: note: each undeclared identifier is reported only once for each function it appears in
-      target->index, slot, target->present,
-                     ^
-   include/linux/dev_printk.h:129:34: note: in definition of macro 'dev_printk'
-      _dev_printk(level, dev, fmt, ##__VA_ARGS__);  \
-                                     ^~~~~~~~~~~
-   drivers/input/touchscreen/touchnetix_axiom.c:331:2: note: in expansion of macro 'dev_dbg'
-     dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u, y:%u, z:%d\n",
-     ^~~~~~~
-
-
-vim +332 drivers/input/touchscreen/touchnetix_axiom.c
-
-   289	
-   290	/*
-   291	 * Support function to axiom_process_u41_report.
-   292	 * Generates input-subsystem events for every target.
-   293	 * After calling this function the caller shall issue
-   294	 * a Sync to the input sub-system.
-   295	 */
-   296	static bool axiom_process_u41_report_target(struct axiom_data *ts,
-   297						    struct axiom_target_report *target)
-   298	{
-   299		struct input_dev *input_dev = ts->input_dev;
-   300		struct axiom_u41_target *target_prev_state;
-   301		enum axiom_target_state current_state;
-   302		int id;
-   303	
-   304		/* Verify the target index */
-   305		if (target->index >= AXIOM_U41_MAX_TARGETS) {
-   306			dev_err(ts->dev, "Invalid target index! %u\n", target->index);
-   307			return false;
-   308		}
-   309	
-   310		target_prev_state = &ts->targets[target->index];
-   311	
-   312		current_state = AXIOM_TARGET_STATE_NOT_PRESENT;
-   313	
-   314		if (target->present) {
-   315			if (target->z >= 0)
-   316				current_state = AXIOM_TARGET_STATE_TOUCHING;
-   317			else if (target->z > AXIOM_PROX_LEVEL && target->z < 0)
-   318				current_state = AXIOM_TARGET_STATE_HOVER;
-   319			else if (target->z == AXIOM_PROX_LEVEL)
-   320				current_state = AXIOM_TARGET_STATE_PROX;
-   321		}
-   322	
-   323		if (target_prev_state->state == current_state &&
-   324		    target_prev_state->x == target->x &&
-   325		    target_prev_state->y == target->y &&
-   326		    target_prev_state->z == target->z)
-   327			return false;
-   328	
-   329		id = target->index;
-   330	
-   331		dev_dbg(ts->dev, "U41 Target T%u, slot:%u present:%u, x:%u, y:%u, z:%d\n",
- > 332			target->index, slot, target->present,
-   333			target->x, target->y, target->z);
-   334	
-   335		switch (current_state) {
-   336		case AXIOM_TARGET_STATE_NOT_PRESENT:
-   337		case AXIOM_TARGET_STATE_PROX:
-   338			if (!target_prev_state->insert)
-   339				break;
-   340			target_prev_state->insert = false;
-   341	
-   342			if (!id)
-   343				input_report_key(input_dev, BTN_TOUCH, 0);
-   344	
-   345			input_mt_report_slot_inactive(input_dev);
-   346			/*
-   347			 * make sure the previous coordinates are
-   348			 * all off screen when the finger comes back
-   349			 */
-   350			target->x = 65535;
-   351			target->y = 65535;
-   352			target->z = AXIOM_PROX_LEVEL;
-   353			break;
-   354		case AXIOM_TARGET_STATE_HOVER:
-   355		case AXIOM_TARGET_STATE_TOUCHING:
-   356			target_prev_state->insert = true;
-   357			input_report_abs(input_dev, ABS_MT_TRACKING_ID, id);
-   358			input_report_abs(input_dev, ABS_MT_POSITION_X, target->x);
-   359			input_report_abs(input_dev, ABS_MT_POSITION_Y, target->y);
-   360	
-   361			if (current_state == AXIOM_TARGET_STATE_TOUCHING) {
-   362				input_report_abs(input_dev, ABS_MT_DISTANCE, 0);
-   363				input_report_abs(input_dev, ABS_DISTANCE, 0);
-   364				input_report_abs(input_dev, ABS_MT_PRESSURE, target->z);
-   365				input_report_abs(input_dev, ABS_PRESSURE, target->z);
-   366			} else {
-   367				input_report_abs(input_dev, ABS_MT_DISTANCE, -target->z);
-   368				input_report_abs(input_dev, ABS_DISTANCE, -target->z);
-   369				input_report_abs(input_dev, ABS_MT_PRESSURE, 0);
-   370				input_report_abs(input_dev, ABS_PRESSURE, 0);
-   371			}
-   372	
-   373			if (!id)
-   374				input_report_key(input_dev, BTN_TOUCH, (current_state ==
-   375						 AXIOM_TARGET_STATE_TOUCHING));
-   376			break;
-   377		default:
-   378			break;
-   379		}
-   380	
-   381		target_prev_state->state = current_state;
-   382		target_prev_state->x = target->x;
-   383		target_prev_state->y = target->y;
-   384		target_prev_state->z = target->z;
-   385	
-   386		return true;
-   387	}
-   388	
-
+diff --git a/arch/sparc/video/Makefile b/arch/sparc/video/Makefile
+index 6baddbd58e4d..d4d83f1702c6 100644
+--- a/arch/sparc/video/Makefile
++++ b/arch/sparc/video/Makefile
+@@ -1,3 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+-obj-$(CONFIG_FB) += fbdev.o
++obj-$(CONFIG_FB_CORE) += fbdev.o
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
