@@ -1,98 +1,164 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC31A482D0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 05:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C40751037
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 05:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708405362; cv=none; b=S9EqbJU0656kYoByXOPtl5DVkqWg7QEqTdDErRY7EaFq5LuuDMe6ZxTlqzL44OiiU/xKqGHmMyW8mo2UJwy9hnYprHXWiEpTbRx041tzBiY7H60yRmsY+fT3oj1zZzomQX4URfSSYC4eO/qaX8KRvaqYdH6jq6HiWLoUYTMUTo8=
+	t=1708406107; cv=none; b=olY9mCZ2faS6VZZl26Kc02SFIgztRhx160E58DSxP4bNXUO8+QK1Hli36Ltclpvr2qZL3HnkjuEf1knVvlzj+ZkJjtw9XhLfjo1Va4NQUCCJ1X99eNoF/Hn9Wyu7oZazZhbPLMYPoHQMq8YIvAET3vhpYo70vqRTvUwfzK+un1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708405362; c=relaxed/simple;
-	bh=gqL8oZRHifrqGZHF8xp6E+/yy3okuTLGI0TSHFTg2Qg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=fIvEfmAyYE8aEudlq/VgLExdiliXLxRfnV2guUmHK9aX88jCe4At57XMc9FwEAf599ZHFMUkKKhUjG9gnUaf5BI/y8fVHpgH/msJugynlu2Vo1KKS4Gbim3Gk0522iYuktnbRRVjK0ivyKEiLoIufZkRSSQv19ewUQeQd7h8NPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RcuuDop9; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1708406107; c=relaxed/simple;
+	bh=lJ5eHoDO1q2KH+q2LYf17Mns667I/8oNXkiqviWmwUM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FfTtd9KHn3qCoekz+TV94OP8QyhgsXYSq+6NadyJqqnctMd07R2LGyAsA5/wVpt6qQJk3/waVXbn6wp0yQsZM87oh9ia/59uN+PfAC/2birBtPs/tPAP5U9ZSbXoSKEBPHrugjTB/DQTJvg9VgLQDau9Sd0Ch2JgUNqe0c3rPlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Fbzeltl4; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RcuuDop9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708405359;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5wjOrE2NdtYQGAgg3CY0wTj7LktEuVDWyM8Ip+zBOaY=;
-	b=RcuuDop9PcHLbdNOW8YkgXh+BD0IfFNnXQTTo3px+i4RjZszHKF0cABL65yK2wBOvKBFLB
-	q4Rfu9n5U8mA2fvSBlCudD6Dz5nwcd/WwqH9fWYntQYnhxuT80QwCnllPUGCYtTO/E74KK
-	IX6FV3UY/tpEe77A2m5JhgperTYNWgA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-122-WjXl6MreMRiuWD0G0UdYgA-1; Tue, 20 Feb 2024 00:02:34 -0500
-X-MC-Unique: WjXl6MreMRiuWD0G0UdYgA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A73AF101FA2C;
-	Tue, 20 Feb 2024 05:02:33 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.2])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E7B4640C9444;
-	Tue, 20 Feb 2024 05:02:32 +0000 (UTC)
-Date: Tue, 20 Feb 2024 13:02:29 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Paul Gazzillo <paul@pgazz.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-unstable 82/320] kismet: WARNING: unmet direct
- dependencies detected for CRASH_DUMP when selected by FA_DUMP
-Message-ID: <ZdQyZYQY4XR8V4in@MiWiFi-R3L-srv>
-References: <202402171431.MzqHz3g2-lkp@intel.com>
- <ZdL+sSSFghXttSqR@MiWiFi-R3L-srv>
- <20240219132142.bdusrf3kcbqtv4ff@dev.opentheblackbox.net>
- <ZdNZybp3lMM1+I+V@MiWiFi-R3L-srv>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fbzeltl4"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-564d332bd73so40155a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 21:15:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708406103; x=1709010903; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YHI3KbpgapQRx9GIeYIL4HFsWQEAsBDxc3rS4slc7Po=;
+        b=Fbzeltl4CUCkk7KCuRq+SSYZMfZXOKAm5NiA+xRFBjgC4ctoqWV/ydZYI08TncKsx6
+         J1VaxxVvDR9SSjyY4wm3l/dPGu1oKP/B4lv5/qs71QUqyOvevzUXNaF15DYlQiAAEaAb
+         ygt+87+US6r7EYG83JiWBzxN0v4phAKx2jc8u7JNbcYdDf9fMYUL6L9f/JxTelwPAi4j
+         rFkIXaOgAZ5NeZTqB0M0QpWRBd/CRDguhkiFYLUtyJMGpqsv3aur3KloS/NUwHlQ5QMH
+         9qmR044ah1khBafdmvs0oeYZH3eLoKgXsIflWKdKjxsY7RlTUbMojB7o5XPpdJwUtb6P
+         BaeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708406103; x=1709010903;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YHI3KbpgapQRx9GIeYIL4HFsWQEAsBDxc3rS4slc7Po=;
+        b=MSp3557LVTe+Q5wd9oJsiv7J4wjuV+LVVMdJgtXi01uhDDBNoHPJwfbxyrxMv8TUjP
+         /LDsFFpSJMfzxzAJToL7DEzfutrJsnbb9ykHOecXv+CeFI7fUoZulJmbDA/UcX6LwxPM
+         Jke9EbAaUrBro536XOFgnHHVu0OqS9wt4p1bieOzRW0UhCo0eu/EpEHJ2l32GZFFSGdg
+         yXIYEf4oDm/cAfKV6olfnAvBi0mvihDvdThzru9lMf6TiK4Js9koLP0dosZ9uDRmJpWf
+         OPn6QY55fTVAxo2UF/eUFBb2j9Fchfl5Tl+dcfbohzBt/WTpt3EP0y8QdHWVtCdSdt2T
+         pQyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbdCiNHpnoYtj67VI88iRQByoUCSY//38CjmsV/XGYB2ABnKXn/UEFnty/OEY1HTLsBdQBZsavzXDuYX1kpSceDXoXOC4U18p3VNz3qg==
+X-Gm-Message-State: AOJu0YyvT5ilBaf4yDTrJCPz9obueXfL7Ndoy0jnJGWlsL+z/itBTbu2
+	jNadpQoX1TrSUuASubaLApi/zgltEKmZoN9C9zUvxswx/Xcgj+I5zexnFQYfOOc=
+X-Google-Smtp-Source: AGHT+IEP+YoDwhEuY+D6G+dXMKEyvqAlvZi4hY8lJrZDhcxGQJ8Ux5nlJYdTcRxw5vTTdsfSLRVSEQ==
+X-Received: by 2002:a17:906:b352:b0:a3e:6463:2fc7 with SMTP id cd18-20020a170906b35200b00a3e64632fc7mr3948486ejb.4.1708406103676;
+        Mon, 19 Feb 2024 21:15:03 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id cu11-20020a170906ba8b00b00a3ee5c19ee5sm523401ejd.109.2024.02.19.21.15.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 21:15:03 -0800 (PST)
+Date: Tue, 20 Feb 2024 08:15:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org
+Subject: [linusw-gpio:b4/descriptors-regulators 3/6]
+ drivers/regulator/da9055-regulator.c:481 da9055_gpio_init() error:
+ uninitialized symbol 'ret'.
+Message-ID: <64de8aad-9b6a-4c6c-b02c-58c163d4aadf@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ZdNZybp3lMM1+I+V@MiWiFi-R3L-srv>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 02/19/24 at 09:38pm, Baoquan He wrote:
-> On 02/19/24 at 08:21am, Paul Gazzillo wrote:
-> > On 02/19/2024, Baoquan He wrote:
-> > > On 02/17/24 at 02:48pm, kernel test robot wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> > > > head:   9951769060d8f5eb001acaca67c1439d2cfe1c6b
-> > > > commit: a5af0b602e5ecb379fd2470669654a6abe7e97a2 [82/320] crash: clean up kdump related config items
-> > > > config: powerpc-kismet-CONFIG_CRASH_DUMP-CONFIG_FA_DUMP-0-0 (https://download.01.org/0day-ci/archive/20240217/202402171431.MzqHz3g2-lkp@intel.com/config)
-> > > > reproduce: (https://download.01.org/0day-ci/archive/20240217/202402171431.MzqHz3g2-lkp@intel.com/reproduce)
-> > > 
-> > > When I tried the step 1 of reproducer, I got failure on installing the
-> > > kmax. Is there other ways I can reproduce the issue? Or have you tested
-> > > the latest linux-next/master because there's some udpate about the
-> > > config items change?
-> > > 
-> > > -------
-> > >  # 1. reproduce by kismet
-> > >     # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-> > >     kismet --linux-ksrc=linux --selectees CONFIG_CRASH_DUMP --selectors CONFIG_FA_DUMP -a=powerpc
-> > > -------
-> > > 
-> > 
-> > I am able to install on a fairly fresh x86 ubuntu 23.10 installation.
-> > Could you let me know the platform and OS you are building on?
-> 
-> Thanks, I took the building on fedora 39.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git b4/descriptors-regulators
+head:   70f1ac1c0e32e3d7fb546eac70f113bd57b659fa
+commit: db93c3de09384ee1d48a99bb103a49938f80e046 [3/6] regulator: da9055: Fully convert to GPIO descriptors
+config: nios2-randconfig-r071-20240219 (https://download.01.org/0day-ci/archive/20240220/202402200604.tilWhpaa-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
 
-Forgot saying it's on x86_64. I usually run lkp testing on x86.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402200604.tilWhpaa-lkp@intel.com/
+
+smatch warnings:
+drivers/regulator/da9055-regulator.c:481 da9055_gpio_init() error: uninitialized symbol 'ret'.
+
+vim +/ret +481 drivers/regulator/da9055-regulator.c
+
+db93c3de09384e Linus Walleij 2024-02-15  415  static int da9055_gpio_init(struct device *dev,
+db93c3de09384e Linus Walleij 2024-02-15  416  			    struct da9055_regulator *regulator,
+f6130be652d0b4 Ashish Jangam 2012-11-01  417  			    struct regulator_config *config,
+f6130be652d0b4 Ashish Jangam 2012-11-01  418  			    struct da9055_pdata *pdata, int id)
+f6130be652d0b4 Ashish Jangam 2012-11-01  419  {
+f6130be652d0b4 Ashish Jangam 2012-11-01  420  	struct da9055_regulator_info *info = regulator->info;
+db93c3de09384e Linus Walleij 2024-02-15  421  	struct gpio_desc *ren;
+db93c3de09384e Linus Walleij 2024-02-15  422  	struct gpio_desc *ena;
+db93c3de09384e Linus Walleij 2024-02-15  423  	struct gpio_desc *rsel;
+db93c3de09384e Linus Walleij 2024-02-15  424  	int ret;
+f6130be652d0b4 Ashish Jangam 2012-11-01  425  
+db93c3de09384e Linus Walleij 2024-02-15  426  	/* Look for "regulator-enable-gpios" GPIOs in the regulator node */
+db93c3de09384e Linus Walleij 2024-02-15  427  	ren = devm_gpiod_get_optional(dev, "regulator-enable", GPIOD_IN);
+
+If both devm_gpiod_get_optional() calls return NULL then "ret" ends up
+being uninitialized.
+
+db93c3de09384e Linus Walleij 2024-02-15  428  	if (IS_ERR(ren))
+db93c3de09384e Linus Walleij 2024-02-15  429  		return PTR_ERR(ren);
+8b61a28d616a34 Adam Thomson  2014-02-06  430  
+db93c3de09384e Linus Walleij 2024-02-15  431  	if (ren) {
+db93c3de09384e Linus Walleij 2024-02-15  432  		/* This GPIO is not optional at this point */
+db93c3de09384e Linus Walleij 2024-02-15  433  		ena = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
+db93c3de09384e Linus Walleij 2024-02-15  434  		if (IS_ERR(ena))
+db93c3de09384e Linus Walleij 2024-02-15  435  			return PTR_ERR(ena);
+f6130be652d0b4 Ashish Jangam 2012-11-01  436  
+db93c3de09384e Linus Walleij 2024-02-15  437  		config->ena_gpiod = ena;
+f6130be652d0b4 Ashish Jangam 2012-11-01  438  
+f6130be652d0b4 Ashish Jangam 2012-11-01  439  		/*
+f6130be652d0b4 Ashish Jangam 2012-11-01  440  		 * GPI pin is muxed with regulator to control the
+f6130be652d0b4 Ashish Jangam 2012-11-01  441  		 * regulator state.
+f6130be652d0b4 Ashish Jangam 2012-11-01  442  		 */
+db93c3de09384e Linus Walleij 2024-02-15  443  		gpiod_set_consumer_name(ren, "DA9055 ren GPI");
+f6130be652d0b4 Ashish Jangam 2012-11-01  444  
+f6130be652d0b4 Ashish Jangam 2012-11-01  445  		/*
+f6130be652d0b4 Ashish Jangam 2012-11-01  446  		 * Let the regulator know that its state is controlled
+f6130be652d0b4 Ashish Jangam 2012-11-01  447  		 * through GPI.
+f6130be652d0b4 Ashish Jangam 2012-11-01  448  		 */
+f6130be652d0b4 Ashish Jangam 2012-11-01  449  		ret = da9055_reg_update(regulator->da9055, info->conf.reg,
+f6130be652d0b4 Ashish Jangam 2012-11-01  450  					DA9055_E_GPI_MASK,
+f6130be652d0b4 Ashish Jangam 2012-11-01  451  					pdata->reg_ren[id]
+f6130be652d0b4 Ashish Jangam 2012-11-01  452  					<< DA9055_E_GPI_SHIFT);
+f6130be652d0b4 Ashish Jangam 2012-11-01  453  		if (ret < 0)
+db93c3de09384e Linus Walleij 2024-02-15  454  			return ret;
+f6130be652d0b4 Ashish Jangam 2012-11-01  455  	}
+f6130be652d0b4 Ashish Jangam 2012-11-01  456  
+db93c3de09384e Linus Walleij 2024-02-15  457  	/* Look for "regulator-select-gpios" GPIOs in the regulator node */
+db93c3de09384e Linus Walleij 2024-02-15  458  	rsel = devm_gpiod_get_optional(dev, "regulator-select", GPIOD_IN);
+db93c3de09384e Linus Walleij 2024-02-15  459  	if (IS_ERR(rsel))
+db93c3de09384e Linus Walleij 2024-02-15  460  		return PTR_ERR(rsel);
+f6130be652d0b4 Ashish Jangam 2012-11-01  461  
+db93c3de09384e Linus Walleij 2024-02-15  462  	if (rsel) {
+f6130be652d0b4 Ashish Jangam 2012-11-01  463  		regulator->reg_rselect = pdata->reg_rsel[id];
+f6130be652d0b4 Ashish Jangam 2012-11-01  464  
+f6130be652d0b4 Ashish Jangam 2012-11-01  465  		/*
+f6130be652d0b4 Ashish Jangam 2012-11-01  466  		 * GPI pin is muxed with regulator to select the
+f6130be652d0b4 Ashish Jangam 2012-11-01  467  		 * regulator register set A/B for voltage ramping.
+f6130be652d0b4 Ashish Jangam 2012-11-01  468  		 */
+db93c3de09384e Linus Walleij 2024-02-15  469  		gpiod_set_consumer_name(rsel, "DA9055 rsel GPI");
+f6130be652d0b4 Ashish Jangam 2012-11-01  470  
+f6130be652d0b4 Ashish Jangam 2012-11-01  471  		/*
+f6130be652d0b4 Ashish Jangam 2012-11-01  472  		 * Let the regulator know that its register set A/B
+f6130be652d0b4 Ashish Jangam 2012-11-01  473  		 * will be selected through GPI for voltage ramping.
+f6130be652d0b4 Ashish Jangam 2012-11-01  474  		 */
+f6130be652d0b4 Ashish Jangam 2012-11-01  475  		ret = da9055_reg_update(regulator->da9055, info->conf.reg,
+f6130be652d0b4 Ashish Jangam 2012-11-01  476  					DA9055_V_GPI_MASK,
+f6130be652d0b4 Ashish Jangam 2012-11-01  477  					pdata->reg_rsel[id]
+f6130be652d0b4 Ashish Jangam 2012-11-01  478  					<< DA9055_V_GPI_SHIFT);
+f6130be652d0b4 Ashish Jangam 2012-11-01  479  	}
+f6130be652d0b4 Ashish Jangam 2012-11-01  480  
+f6130be652d0b4 Ashish Jangam 2012-11-01 @481  	return ret;
+f6130be652d0b4 Ashish Jangam 2012-11-01  482  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
