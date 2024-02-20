@@ -1,57 +1,39 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6FC41AAC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 22:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44D4763E8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 22:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708467283; cv=none; b=RaoAr/p6TReZeibknmoSTHCce+wk8BWxQS1oFw2WuHyFtpRi5RNwPx5GcRrNlR3SKVN/ssVYKxPmaaWceAO9MjFxmX8aclTgEQSgi+SNswckItWxRxJrt5o7PwB4wIAniQbAXeIEnPNqytlO7ZbY79YE4tZWW19i4y8RUVPxJ7c=
+	t=1708468462; cv=none; b=p4e/X4gs5Jg3mKfIsL7r2n9K3UYrCQDL6gTbjpy76YgFO2p+w3nYfmjc1jEkU54TX3WLtf3W1MPNJqesKjpLx1zmb+Cjo1DEZPbRejbpj2GzAGK8ZP1+5NQ/F50oyYR64wZedUgicSXCtW6H6xe/ldVPinOMeNbAe8SLYmKutvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708467283; c=relaxed/simple;
-	bh=ZcAgG6kvQhsC9m6bmx9Pcc97f+FHLjIL0PygQJBSyNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sNYEb4xqNFT5GtLZUwDxNGFLYpy58lqe3Dmm5/IQ9Rtya+gxhN8SjudkGtXWnl9j5/xUixDXuah4L7s5jE4GcvgP18pfJfn+nGZ/dCfpnDPsvfsPg1EGjLoRbf12hk6O2ZT0pOE7gHGLtRcgi63Y9MnVLiAtl12JLeE5GAMM/KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YBPMQtVg; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708468462; c=relaxed/simple;
+	bh=J6m0q0nq3jixj14MDGNC8OsGffarS1SciNipiKv04OE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SVelTlv1sn7762I0o+GYHH4kdAjJiyN6PDd0J3ZK5Y86hwL78cSEs4dgUIuWoC2DKdcLOZOz7f4oDzCRWfTuwEubSZh4i6J8SZdSXyUsiPJDL/yqd5c6LwEA2BxusaC2xN1q/74sQURTdpZ5EOQjtvy4ARRS0HJzgbEC4tDG248=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TmMinULv; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YBPMQtVg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708467281; x=1740003281;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZcAgG6kvQhsC9m6bmx9Pcc97f+FHLjIL0PygQJBSyNo=;
-  b=YBPMQtVglOqeSJypY4+D3baMddRFSJTZp8/lu9YxgBRrlTXZEinbxloE
-   Ec7IxW15J72td6TcbQUYFBMy9QE9mtgtLIRADE83z+mvNlif4JfLWASB7
-   HlEhTASnHbPLD5AtopOowmQvy3QD/Gh1ZbZlfXCSlvU5e/5vk9jmK61vp
-   O8WwP+YwzbRL0WzYHjcU6A8fkh2nrjlzMAgjWpBiwaikWfQdjZqY1U2qx
-   5WjAnLPItJkrRtjt8xPgE2eTdYD6ZnSblFVv2/JEJfABwBPKH1a6dovma
-   hBXt+vAv49Q9AFHy10oIoXWsATIKLEmzA82D/H3zG/+4I6pRULaBU24Yv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="13224145"
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="13224145"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 14:14:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="5076417"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Feb 2024 14:14:39 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rcYNp-0004qe-1S;
-	Tue, 20 Feb 2024 22:14:37 +0000
-Date: Wed, 21 Feb 2024 06:14:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/WFAMNAE-next20240215 1/1]
- kernel/bpf/core.c:2440:29: sparse: sparse: incompatible types in comparison
- expression (different base types):
-Message-ID: <202402210653.mABjvUDs-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TmMinULv"
+Date: Tue, 20 Feb 2024 17:34:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708468452;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hb/vuf96wBfbCn47mBhLeWkIbFauKXmJv6i+aRjTqI0=;
+	b=TmMinULvUtZJP/WhjdeFn8BVC+KBBYo08xXBkLdu+DJf1OrsUmSYTy5Z14Hzf9M0ntWtrA
+	kRz/GSix9WrCz3YL70MRe2lLbEKz6ZJGvy5bLULmlwMrc6fShO1jjyu/nlLdO8LesodPmR
+	JogOnv0Ne7tV1vmfnRVjUFzsX0D63Ds=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: kernel test robot <lkp@intel.com>
+Cc: Suren Baghdasaryan <surenb@google.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [surenbaghdasaryan:memalloc_prof_v4 28/36] mm/z3fold.c:923:25:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <lqhpmam42cg4it36b2ikuzxc43s4q6rrtxuxr2r5i4xot4m3wl@ieamqc6pxak4>
+References: <202402210511.ByC178AG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,51 +42,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202402210511.ByC178AG-lkp@intel.com>
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/WFAMNAE-next20240215
-head:   3fedbc527c5726b876207557fb133a5e558c1898
-commit: 89595f31005e412f450050f66a1b11c54cec99f8 [1/1] treewide: Address -Wflexible-array-member-not-at-end warnings
-config: x86_64-randconfig-121-20240220 (https://download.01.org/0day-ci/archive/20240221/202402210653.mABjvUDs-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240221/202402210653.mABjvUDs-lkp@intel.com/reproduce)
+On Wed, Feb 21, 2024 at 05:42:17AM +0800, kernel test robot wrote:
+> tree:   https://github.com/surenbaghdasaryan/linux.git memalloc_prof_v4
+> head:   ce0668442c846ef25854d37e252ccbfec2a35241
+> commit: 0ea8081a7fd7a604cad1195c80f82b015381aa0d [28/36] mm: percpu: enable per-cpu allocation tagging
+> config: x86_64-randconfig-123-20240220 (https://download.01.org/0day-ci/archive/20240221/202402210511.ByC178AG-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240221/202402210511.ByC178AG-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402210511.ByC178AG-lkp@intel.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402210653.mABjvUDs-lkp@intel.com/
+All the sparse warnings I've looked at so far from the memalloc_prof
+branch were false positives - they were also present in mainline.
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/core.c:236:49: sparse: sparse: arithmetics on pointers to functions
-   kernel/bpf/core.c:1986:43: sparse: sparse: arithmetics on pointers to functions
-   kernel/bpf/core.c:1991:48: sparse: sparse: arithmetics on pointers to functions
->> kernel/bpf/core.c:2440:29: sparse: sparse: incompatible types in comparison expression (different base types):
-   kernel/bpf/core.c:2440:29: sparse:    struct bpf_prog_array *
-   kernel/bpf/core.c:2440:29: sparse:    struct bpf_prog_array_tag *
-   kernel/bpf/core.c:2461:29: sparse: sparse: incompatible types in comparison expression (different base types):
-   kernel/bpf/core.c:2461:29: sparse:    struct bpf_prog_array *
-   kernel/bpf/core.c:2461:29: sparse:    struct bpf_prog_array_tag *
-   kernel/bpf/core.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/xdp.h, ...):
-   include/trace/events/xdp.h:321:1: sparse: sparse: Using plain integer as NULL pointer
-   include/trace/events/xdp.h:348:1: sparse: sparse: Using plain integer as NULL pointer
-   include/trace/events/xdp.h:382:1: sparse: sparse: Using plain integer as NULL pointer
-
-vim +2440 kernel/bpf/core.c
-
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2437  
-54e9c9d4b506b6 Stanislav Fomichev 2019-05-28  2438  void bpf_prog_array_free(struct bpf_prog_array *progs)
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2439  {
-46531a30364bd4 Pavel Begunkov     2022-01-27 @2440  	if (!progs || progs == &bpf_empty_prog_array.hdr)
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2441  		return;
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2442  	kfree_rcu(progs, rcu);
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2443  }
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2444  
-
-:::::: The code at line 2440 was first introduced by commit
-:::::: 46531a30364bd483bfa1b041c15d42a196e77e93 cgroup/bpf: fast path skb BPF filtering
-
-:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Is there something that could be tweaked in the 0day code to fix these?
