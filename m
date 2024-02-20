@@ -1,64 +1,55 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C40751037
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 05:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF644482D1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 05:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708406107; cv=none; b=olY9mCZ2faS6VZZl26Kc02SFIgztRhx160E58DSxP4bNXUO8+QK1Hli36Ltclpvr2qZL3HnkjuEf1knVvlzj+ZkJjtw9XhLfjo1Va4NQUCCJ1X99eNoF/Hn9Wyu7oZazZhbPLMYPoHQMq8YIvAET3vhpYo70vqRTvUwfzK+un1g=
+	t=1708407844; cv=none; b=dn2XDsW6Q/7cpuDdxSN3LZLqARsT17OVn2LJ9y2VWX65/HYEOu7hCz010ZBU1gWpnevHUHsVOFyPOhGXHswt8YNZHIWwPS7jRHAZQn0lHI9Y9vZBbq6Idzuq9iBZFbVfb4Za/eUy9ZZJ5lzUKn435cyMvm55dXRXMuy3dn2UhpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708406107; c=relaxed/simple;
-	bh=lJ5eHoDO1q2KH+q2LYf17Mns667I/8oNXkiqviWmwUM=;
+	s=arc-20240116; t=1708407844; c=relaxed/simple;
+	bh=XkSPG+HabMoixWW6a8N1XRyXg5zvDtHP3+lOuJ6g7Gc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FfTtd9KHn3qCoekz+TV94OP8QyhgsXYSq+6NadyJqqnctMd07R2LGyAsA5/wVpt6qQJk3/waVXbn6wp0yQsZM87oh9ia/59uN+PfAC/2birBtPs/tPAP5U9ZSbXoSKEBPHrugjTB/DQTJvg9VgLQDau9Sd0Ch2JgUNqe0c3rPlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Fbzeltl4; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=uF6VRI04F1g4lWVSKs4RWHsaoR0sSVhP2D7ZkkGo26U4EimLvOompityOAuEMDU+5NIMR2kvTVu4/ckyGnd5SKQ7XQRujrOB2Mzms4hn3fYUtd2jYkyWN9b+vb1xaQ6mtEg3tr2PMozooZhzoY1dDf0d6X0FZlfiFPex5mSwxts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iiRWU2CI; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fbzeltl4"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-564d332bd73so40155a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Feb 2024 21:15:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708406103; x=1709010903; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YHI3KbpgapQRx9GIeYIL4HFsWQEAsBDxc3rS4slc7Po=;
-        b=Fbzeltl4CUCkk7KCuRq+SSYZMfZXOKAm5NiA+xRFBjgC4ctoqWV/ydZYI08TncKsx6
-         J1VaxxVvDR9SSjyY4wm3l/dPGu1oKP/B4lv5/qs71QUqyOvevzUXNaF15DYlQiAAEaAb
-         ygt+87+US6r7EYG83JiWBzxN0v4phAKx2jc8u7JNbcYdDf9fMYUL6L9f/JxTelwPAi4j
-         rFkIXaOgAZ5NeZTqB0M0QpWRBd/CRDguhkiFYLUtyJMGpqsv3aur3KloS/NUwHlQ5QMH
-         9qmR044ah1khBafdmvs0oeYZH3eLoKgXsIflWKdKjxsY7RlTUbMojB7o5XPpdJwUtb6P
-         BaeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708406103; x=1709010903;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YHI3KbpgapQRx9GIeYIL4HFsWQEAsBDxc3rS4slc7Po=;
-        b=MSp3557LVTe+Q5wd9oJsiv7J4wjuV+LVVMdJgtXi01uhDDBNoHPJwfbxyrxMv8TUjP
-         /LDsFFpSJMfzxzAJToL7DEzfutrJsnbb9ykHOecXv+CeFI7fUoZulJmbDA/UcX6LwxPM
-         Jke9EbAaUrBro536XOFgnHHVu0OqS9wt4p1bieOzRW0UhCo0eu/EpEHJ2l32GZFFSGdg
-         yXIYEf4oDm/cAfKV6olfnAvBi0mvihDvdThzru9lMf6TiK4Js9koLP0dosZ9uDRmJpWf
-         OPn6QY55fTVAxo2UF/eUFBb2j9Fchfl5Tl+dcfbohzBt/WTpt3EP0y8QdHWVtCdSdt2T
-         pQyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUbdCiNHpnoYtj67VI88iRQByoUCSY//38CjmsV/XGYB2ABnKXn/UEFnty/OEY1HTLsBdQBZsavzXDuYX1kpSceDXoXOC4U18p3VNz3qg==
-X-Gm-Message-State: AOJu0YyvT5ilBaf4yDTrJCPz9obueXfL7Ndoy0jnJGWlsL+z/itBTbu2
-	jNadpQoX1TrSUuASubaLApi/zgltEKmZoN9C9zUvxswx/Xcgj+I5zexnFQYfOOc=
-X-Google-Smtp-Source: AGHT+IEP+YoDwhEuY+D6G+dXMKEyvqAlvZi4hY8lJrZDhcxGQJ8Ux5nlJYdTcRxw5vTTdsfSLRVSEQ==
-X-Received: by 2002:a17:906:b352:b0:a3e:6463:2fc7 with SMTP id cd18-20020a170906b35200b00a3e64632fc7mr3948486ejb.4.1708406103676;
-        Mon, 19 Feb 2024 21:15:03 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id cu11-20020a170906ba8b00b00a3ee5c19ee5sm523401ejd.109.2024.02.19.21.15.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 21:15:03 -0800 (PST)
-Date: Tue, 20 Feb 2024 08:15:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org
-Subject: [linusw-gpio:b4/descriptors-regulators 3/6]
- drivers/regulator/da9055-regulator.c:481 da9055_gpio_init() error:
- uninitialized symbol 'ret'.
-Message-ID: <64de8aad-9b6a-4c6c-b02c-58c163d4aadf@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iiRWU2CI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708407843; x=1739943843;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XkSPG+HabMoixWW6a8N1XRyXg5zvDtHP3+lOuJ6g7Gc=;
+  b=iiRWU2CIq1VRC8yLUtwwYVoa9Pr2F2TwCWZcinJDcDT0t9i12N90tHEL
+   pNtEPOvg7O8GIYC7zShmzqzfCE1je1vnQOnDuFIBDLqxNRnm0ORdmu7U1
+   WCpQuKttrFUglYL3GWqdD3kAq7kYWs7YbODL2UJu6lfW8g6D3g49REiuP
+   7/egNLkP9J4j26v/Apd6TY65n2s9SDZ1DPgJOa8midPbxMulTsgtdQvpo
+   s0iF6lpDm0a3x3Yw/r6gW2AaUjDWlLLlhkvfxX/JmgDmBr9x/hxOmi3Vs
+   2Kj+h1IEKp33sOSREymiHTTT+zn+rDB3BMUqfanN4a+90HZLVwRdjG68P
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="2360950"
+X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
+   d="scan'208";a="2360950"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 21:44:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,171,1705392000"; 
+   d="scan'208";a="4918320"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 19 Feb 2024 21:44:00 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rcIun-0004Ga-0l;
+	Tue, 20 Feb 2024 05:43:44 +0000
+Date: Tue, 20 Feb 2024 13:42:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.8-rc5-esp32 36/48]
+ drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:274:34: warning: unused
+ variable 'esp_wifi_shmem_match'
+Message-ID: <202402201324.vxOQoG4z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,97 +59,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git b4/descriptors-regulators
-head:   70f1ac1c0e32e3d7fb546eac70f113bd57b659fa
-commit: db93c3de09384ee1d48a99bb103a49938f80e046 [3/6] regulator: da9055: Fully convert to GPIO descriptors
-config: nios2-randconfig-r071-20240219 (https://download.01.org/0day-ci/archive/20240220/202402200604.tilWhpaa-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.8-rc5-esp32
+head:   0a3bc9a6486ba4ea87994cf3225f1084bf3aedfa
+commit: 46a44f9b7339ff74f54aaad7e4d20bb94f429103 [36/48] esp_wifi: add IPC transport
+config: hexagon-randconfig-r051-20240220 (https://download.01.org/0day-ci/archive/20240220/202402201324.vxOQoG4z-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240220/202402201324.vxOQoG4z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402200604.tilWhpaa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402201324.vxOQoG4z-lkp@intel.com/
 
-smatch warnings:
-drivers/regulator/da9055-regulator.c:481 da9055_gpio_init() error: uninitialized symbol 'ret'.
+All warnings (new ones prefixed by >>):
 
-vim +/ret +481 drivers/regulator/da9055-regulator.c
+   In file included from drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:10:
+   In file included from include/linux/of_address.h:7:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:10:
+   In file included from include/linux/of_address.h:7:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:10:
+   In file included from include/linux/of_address.h:7:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/net/wireless/espressif/esp32-ng/esp_shmem.c:274:34: warning: unused variable 'esp_wifi_shmem_match' [-Wunused-const-variable]
+     274 | static const struct of_device_id esp_wifi_shmem_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+   7 warnings generated.
 
-db93c3de09384e Linus Walleij 2024-02-15  415  static int da9055_gpio_init(struct device *dev,
-db93c3de09384e Linus Walleij 2024-02-15  416  			    struct da9055_regulator *regulator,
-f6130be652d0b4 Ashish Jangam 2012-11-01  417  			    struct regulator_config *config,
-f6130be652d0b4 Ashish Jangam 2012-11-01  418  			    struct da9055_pdata *pdata, int id)
-f6130be652d0b4 Ashish Jangam 2012-11-01  419  {
-f6130be652d0b4 Ashish Jangam 2012-11-01  420  	struct da9055_regulator_info *info = regulator->info;
-db93c3de09384e Linus Walleij 2024-02-15  421  	struct gpio_desc *ren;
-db93c3de09384e Linus Walleij 2024-02-15  422  	struct gpio_desc *ena;
-db93c3de09384e Linus Walleij 2024-02-15  423  	struct gpio_desc *rsel;
-db93c3de09384e Linus Walleij 2024-02-15  424  	int ret;
-f6130be652d0b4 Ashish Jangam 2012-11-01  425  
-db93c3de09384e Linus Walleij 2024-02-15  426  	/* Look for "regulator-enable-gpios" GPIOs in the regulator node */
-db93c3de09384e Linus Walleij 2024-02-15  427  	ren = devm_gpiod_get_optional(dev, "regulator-enable", GPIOD_IN);
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ESP32_IPC
+   Depends on [n]: OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - MTD_ESP32 [=y] && MTD [=y]
+   - ESP32_WIFI_SHMEM [=y] && NETDEVICES [=y] && WLAN [=y] && WLAN_VENDOR_ESPRESSIF [=y]
 
-If both devm_gpiod_get_optional() calls return NULL then "ret" ends up
-being uninitialized.
 
-db93c3de09384e Linus Walleij 2024-02-15  428  	if (IS_ERR(ren))
-db93c3de09384e Linus Walleij 2024-02-15  429  		return PTR_ERR(ren);
-8b61a28d616a34 Adam Thomson  2014-02-06  430  
-db93c3de09384e Linus Walleij 2024-02-15  431  	if (ren) {
-db93c3de09384e Linus Walleij 2024-02-15  432  		/* This GPIO is not optional at this point */
-db93c3de09384e Linus Walleij 2024-02-15  433  		ena = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
-db93c3de09384e Linus Walleij 2024-02-15  434  		if (IS_ERR(ena))
-db93c3de09384e Linus Walleij 2024-02-15  435  			return PTR_ERR(ena);
-f6130be652d0b4 Ashish Jangam 2012-11-01  436  
-db93c3de09384e Linus Walleij 2024-02-15  437  		config->ena_gpiod = ena;
-f6130be652d0b4 Ashish Jangam 2012-11-01  438  
-f6130be652d0b4 Ashish Jangam 2012-11-01  439  		/*
-f6130be652d0b4 Ashish Jangam 2012-11-01  440  		 * GPI pin is muxed with regulator to control the
-f6130be652d0b4 Ashish Jangam 2012-11-01  441  		 * regulator state.
-f6130be652d0b4 Ashish Jangam 2012-11-01  442  		 */
-db93c3de09384e Linus Walleij 2024-02-15  443  		gpiod_set_consumer_name(ren, "DA9055 ren GPI");
-f6130be652d0b4 Ashish Jangam 2012-11-01  444  
-f6130be652d0b4 Ashish Jangam 2012-11-01  445  		/*
-f6130be652d0b4 Ashish Jangam 2012-11-01  446  		 * Let the regulator know that its state is controlled
-f6130be652d0b4 Ashish Jangam 2012-11-01  447  		 * through GPI.
-f6130be652d0b4 Ashish Jangam 2012-11-01  448  		 */
-f6130be652d0b4 Ashish Jangam 2012-11-01  449  		ret = da9055_reg_update(regulator->da9055, info->conf.reg,
-f6130be652d0b4 Ashish Jangam 2012-11-01  450  					DA9055_E_GPI_MASK,
-f6130be652d0b4 Ashish Jangam 2012-11-01  451  					pdata->reg_ren[id]
-f6130be652d0b4 Ashish Jangam 2012-11-01  452  					<< DA9055_E_GPI_SHIFT);
-f6130be652d0b4 Ashish Jangam 2012-11-01  453  		if (ret < 0)
-db93c3de09384e Linus Walleij 2024-02-15  454  			return ret;
-f6130be652d0b4 Ashish Jangam 2012-11-01  455  	}
-f6130be652d0b4 Ashish Jangam 2012-11-01  456  
-db93c3de09384e Linus Walleij 2024-02-15  457  	/* Look for "regulator-select-gpios" GPIOs in the regulator node */
-db93c3de09384e Linus Walleij 2024-02-15  458  	rsel = devm_gpiod_get_optional(dev, "regulator-select", GPIOD_IN);
-db93c3de09384e Linus Walleij 2024-02-15  459  	if (IS_ERR(rsel))
-db93c3de09384e Linus Walleij 2024-02-15  460  		return PTR_ERR(rsel);
-f6130be652d0b4 Ashish Jangam 2012-11-01  461  
-db93c3de09384e Linus Walleij 2024-02-15  462  	if (rsel) {
-f6130be652d0b4 Ashish Jangam 2012-11-01  463  		regulator->reg_rselect = pdata->reg_rsel[id];
-f6130be652d0b4 Ashish Jangam 2012-11-01  464  
-f6130be652d0b4 Ashish Jangam 2012-11-01  465  		/*
-f6130be652d0b4 Ashish Jangam 2012-11-01  466  		 * GPI pin is muxed with regulator to select the
-f6130be652d0b4 Ashish Jangam 2012-11-01  467  		 * regulator register set A/B for voltage ramping.
-f6130be652d0b4 Ashish Jangam 2012-11-01  468  		 */
-db93c3de09384e Linus Walleij 2024-02-15  469  		gpiod_set_consumer_name(rsel, "DA9055 rsel GPI");
-f6130be652d0b4 Ashish Jangam 2012-11-01  470  
-f6130be652d0b4 Ashish Jangam 2012-11-01  471  		/*
-f6130be652d0b4 Ashish Jangam 2012-11-01  472  		 * Let the regulator know that its register set A/B
-f6130be652d0b4 Ashish Jangam 2012-11-01  473  		 * will be selected through GPI for voltage ramping.
-f6130be652d0b4 Ashish Jangam 2012-11-01  474  		 */
-f6130be652d0b4 Ashish Jangam 2012-11-01  475  		ret = da9055_reg_update(regulator->da9055, info->conf.reg,
-f6130be652d0b4 Ashish Jangam 2012-11-01  476  					DA9055_V_GPI_MASK,
-f6130be652d0b4 Ashish Jangam 2012-11-01  477  					pdata->reg_rsel[id]
-f6130be652d0b4 Ashish Jangam 2012-11-01  478  					<< DA9055_V_GPI_SHIFT);
-f6130be652d0b4 Ashish Jangam 2012-11-01  479  	}
-f6130be652d0b4 Ashish Jangam 2012-11-01  480  
-f6130be652d0b4 Ashish Jangam 2012-11-01 @481  	return ret;
-f6130be652d0b4 Ashish Jangam 2012-11-01  482  }
+vim +/esp_wifi_shmem_match +274 drivers/net/wireless/espressif/esp32-ng/esp_shmem.c
+
+   273	
+ > 274	static const struct of_device_id esp_wifi_shmem_match[] = {
+   275		{
+   276			.compatible = "esp,esp32-wifi-shmem",
+   277		}, {},
+   278	};
+   279	MODULE_DEVICE_TABLE(of, esp_wifi_shmem_match);
+   280	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
