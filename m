@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E8F69962
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 14:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616AF7FBB2;
+	Wed, 21 Feb 2024 14:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708525162; cv=none; b=UCsYv7Bo8DaTQi+mSjWc0CJEgphMQQc1LsB4jR0nBdRNYIHWESkwv+AWAxfiMweq4RvalZvgI5foPODho3+7KiAZ9UvwFRNVvLvMB73fcdXB40Rl8vb3ERnycEdZtoQ1bfqoeVJGMH+F6ccXLlrHg+tY6Uw+HvrMs68whlGf8io=
+	t=1708526467; cv=none; b=ZquJNgrS7K+VSHIhepNFbVUpEr3gAv4yT2zcek8K7Fnx9pboRvur7WgWJ7PS1bBKzM/hJHrmgzcjaDfhbVVJr0CkVEv5vYhx2KziI3f7iCziFA0EcV8vSjIlIyytygwviejZMy27fDGpAVIc0dOPi3sFcgxg5PxNjYXqwjMtW54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708525162; c=relaxed/simple;
-	bh=pBP4apZEIb1BfKNb3zOTB1MGhktsRwpxUnHa99kXSi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZWCGkTrjFo6GVLUJTArkIQ7WRWQ0WEJcV3RMrswUXu80fLHTj4/dy+HTsE8tsj8IZwz8UQM26qt5/wS6g+//tyoqwIJEhIrQSZ0Z4OR9TmS7xZLaxs+tXzc+q3heqysc5EuSHz6MmuhtjU5UqdZ2k56USmscwOOmd3PH0hKQPcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEiH24lQ; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1708526467; c=relaxed/simple;
+	bh=QnHhlO2Ltz+C4UWOZtQO0HpQdNmddWzbb878w4DoRMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Aykiy9PDOZ5VkkYCA10tgotn/GWe4YG/0MH8/7OsCXu1FoGmlVoXz50pkdGyWRvJFN64Ki5Fd1XYdIvNYosab5/6J/1Y9ih5SPa9MrMLG+QY0vdzi/uZ7CAE/3bKvwrvHRuRHzW0wyMQAHiAK18Lsn7T9Stecc/BkuYtJapqNMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Blw0Jy2c; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEiH24lQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Blw0Jy2c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708525159; x=1740061159;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pBP4apZEIb1BfKNb3zOTB1MGhktsRwpxUnHa99kXSi8=;
-  b=hEiH24lQoLUcWGjscdt0R9nB/F5dveWGHhloVHH/r3eyB0ygzx/V8W1k
-   l7/y+OA29+8rC6G2UG3wGOXdLCGm/3xcLnu+AUu0HPbk4y1yQdXz3O5Cr
-   OnSip6Zm7sV9Fd0u4WCim8LSnm/7YcC/usT7EwxxkqkQzRD9ddC+2rO3/
-   j5B0lh0qb7cKqfuV+K6c5BTuoSDjx59vc/nzwxNJRAEhx3BR7TiaFvcMX
-   6QX95b+FlBI9b3vm9FLPxS0qOAOVpSuPIiKZsRRG7D6Jc5pl6zcc3hJ5a
-   U9jHxcz57vt6dO5pOtPzOD/lNtmVKLrnMWbq2rfAXhkfrxrHh6yfcTR9B
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="25149093"
+  t=1708526465; x=1740062465;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QnHhlO2Ltz+C4UWOZtQO0HpQdNmddWzbb878w4DoRMM=;
+  b=Blw0Jy2cW4QbQuDBdQexL/r/3xynyIUigc7BSDTqvjE88bxLVZOCkrhF
+   0fpBN3G+Sjh4zF/75e6ZqiCv64+aA2WUN4lvXm8YUquG0YlXEuMREk45u
+   juJgro3hJVEBK5aB+VOhntDwZgBXv8WWAGuIVh8RdHm2Qzo+BVCNDv5ck
+   y9A1ZfMILNAIZPuWk4uGDXHtD5Mf1m6UZ0ulq8rJhMHwjZr5YJz6YK1hK
+   4pZG7CvipkgaEuxQC9Ar6XrAL5gmWFVcRbnp7jhFRG1/iYeIMFftTLELm
+   FRDilguYYdArVmjC2rOQ6FW1x++CeikvUOnCqUOPfFPYzKYcTp2aNGLhk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="14098709"
 X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="25149093"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 06:19:19 -0800
+   d="scan'208";a="14098709"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 06:41:04 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="28298325"
+   d="scan'208";a="9850125"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Feb 2024 06:19:17 -0800
+  by orviesa005.jf.intel.com with ESMTP; 21 Feb 2024 06:41:03 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcnRD-0005Om-19;
-	Wed, 21 Feb 2024 14:19:08 +0000
-Date: Wed, 21 Feb 2024 22:18:06 +0800
+	id 1rcnmF-0005Pc-26;
+	Wed, 21 Feb 2024 14:40:54 +0000
+Date: Wed, 21 Feb 2024 22:40:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Justin Iurman <justin.iurman@uliege.be>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, dsahern@kernel.org,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	linux-kernel@vger.kernel.org, justin.iurman@uliege.be
-Subject: Re: [PATCH net-next 2/3] ioam6: multicast event
-Message-ID: <202402212253.mfysd5E1-lkp@intel.com>
-References: <20240220194444.36127-3-justin.iurman@uliege.be>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Gregory Price <gourry.memverge@gmail.com>
+Subject: [gmprice:weighted_interleave-next 6/6] drivers/base/node.c:220:16:
+ error: use of undeclared identifier 'ACCESS_COORDINATE_CPU'
+Message-ID: <202402212259.mzfa2fFm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,73 +58,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240220194444.36127-3-justin.iurman@uliege.be>
 
-Hi Justin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on a6e0cb150c514efba4aaba4069927de43d80bb59]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Iurman/uapi-ioam6-API-for-netlink-multicast-events/20240221-034623
-base:   a6e0cb150c514efba4aaba4069927de43d80bb59
-patch link:    https://lore.kernel.org/r/20240220194444.36127-3-justin.iurman%40uliege.be
-patch subject: [PATCH net-next 2/3] ioam6: multicast event
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20240221/202402212253.mfysd5E1-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240221/202402212253.mfysd5E1-lkp@intel.com/reproduce)
+tree:   https://github.com/gmprice/linux weighted_interleave-next
+head:   8e917672b7b0fd84a6d95297abf937b61cc16015
+commit: 8e917672b7b0fd84a6d95297abf937b61cc16015 [6/6] mm/mempolicy: introduce system default interleave weights
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240221/202402212259.mzfa2fFm-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240221/202402212259.mzfa2fFm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402212253.mfysd5E1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402212259.mzfa2fFm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/ipv6/ioam6.c: In function 'ioam6_event':
->> net/ipv6/ioam6.c:657:9: warning: enumeration value 'IOAM6_EVENT_UNSPEC' not handled in switch [-Wswitch]
-     657 |         switch (type) {
-         |         ^~~~~~
+>> drivers/base/node.c:220:16: error: use of undeclared identifier 'ACCESS_COORDINATE_CPU'
+     220 |         if (access == ACCESS_COORDINATE_CPU) {
+         |                       ^
+   1 error generated.
 
 
-vim +/IOAM6_EVENT_UNSPEC +657 net/ipv6/ioam6.c
+vim +/ACCESS_COORDINATE_CPU +220 drivers/base/node.c
 
-   638	
-   639	void ioam6_event(enum ioam6_event_type type, struct net *net, gfp_t gfp,
-   640			 void *opt, unsigned int opt_len)
-   641	{
-   642		struct nlmsghdr *nlh;
-   643		struct sk_buff *skb;
-   644	
-   645		if (!genl_has_listeners(&ioam6_genl_family, net,
-   646					IOAM6_GENL_EV_GRP_OFFSET))
-   647			return;
-   648	
-   649		skb = nlmsg_new(NLMSG_DEFAULT_SIZE, gfp);
-   650		if (!skb)
-   651			return;
-   652	
-   653		nlh = genlmsg_put(skb, 0, 0, &ioam6_genl_family, 0, type);
-   654		if (!nlh)
-   655			goto nla_put_failure;
-   656	
- > 657		switch (type) {
-   658		case IOAM6_EVENT_TRACE:
-   659			if (ioam6_event_put_trace(skb, (struct ioam6_trace_hdr *)opt,
-   660						  opt_len))
-   661				goto nla_put_failure;
-   662			break;
-   663		}
-   664	
-   665		genlmsg_end(skb, nlh);
-   666		genlmsg_multicast_netns(&ioam6_genl_family, net, skb, 0,
-   667					IOAM6_GENL_EV_GRP_OFFSET, gfp);
-   668		return;
-   669	
-   670	nla_put_failure:
-   671		nlmsg_free(skb);
-   672	}
-   673	
+   187	
+   188	/**
+   189	 * node_set_perf_attrs - Set the performance values for given access class
+   190	 * @nid: Node identifier to be set
+   191	 * @coord: Heterogeneous memory performance coordinates
+   192	 * @access: The access class the for the given attributes
+   193	 */
+   194	void node_set_perf_attrs(unsigned int nid, struct access_coordinate *coord,
+   195				 unsigned int access)
+   196	{
+   197		struct node_access_nodes *c;
+   198		struct node *node;
+   199		int i;
+   200	
+   201		if (WARN_ON_ONCE(!node_online(nid)))
+   202			return;
+   203	
+   204		node = node_devices[nid];
+   205		c = node_init_node_access(node, access);
+   206		if (!c)
+   207			return;
+   208	
+   209		c->coord = *coord;
+   210		for (i = 0; access_attrs[i] != NULL; i++) {
+   211			if (sysfs_add_file_to_group(&c->dev.kobj, access_attrs[i],
+   212						    "initiators")) {
+   213				pr_info("failed to add performance attribute to node %d\n",
+   214					nid);
+   215				break;
+   216			}
+   217		}
+   218	
+   219		/* When setting CPU access coordinates, update mempolicy */
+ > 220		if (access == ACCESS_COORDINATE_CPU) {
+   221			if (mempolicy_set_node_perf(nid, coord))
+   222				pr_info("failed to set node%d mempolicy attrs\n", nid);
+   223		}
+   224	}
+   225	
 
 -- 
 0-DAY CI Kernel Test Service
