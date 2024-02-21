@@ -1,57 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FA784FAD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 18:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE3C84055
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 18:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708538673; cv=none; b=ndm0ILd6pd4lnjAKJbUYT2SgXhtG0Yy2/Co2P1QcqhELtnz/cyFePervJ/RtqDyB0FoC4ZTNMpBMUaO/BVQJjRnBXpK8BiEIa64glx2UT/I0eBLXhmWR2zUKGpTk8Y9donoMzfWJodgv0uI5et4/AIXly/jajUUcLvNSXlQ/7HI=
+	t=1708538683; cv=none; b=XfVkWY6JCBMIqDOhTe0Kmzo8G9PfiYd3BjRjK5Sx0DQKMIw4QcLriEwMOpGcyGB8KpOpvex+VjkS+V8l0txaMyKXv+m0yWKvM7USA1O8dqOhOwrx4TDjYLUtUiVU7F5LUvMgY7Y8U1Fp/d8TLt33tMIyuyJ/NoFY7nJp1nOpl5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708538673; c=relaxed/simple;
-	bh=MZwScxEds7KTnV15Ks6h1rvU4dcAWzuwDdQwycVWvU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BqnUx795GFHkgRE2w+HrvROiv6vKYjYGl+w6qdPIq+4nWsRysGhQp5lsxAhFvCjE2jw3W1vLfMYI7Qv2uxMNUnG3VO0HJVCVfahQDpE8nd5t3k/ZXLWZL8DWAOVYEYrcmu59FIwKvJNwgBD54R/X5kTYZcT8DeIW15Ce4k9l2b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ihrdg7u5; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1708538683; c=relaxed/simple;
+	bh=N3hyQeCD6IQBf8tWP+/hKiWNxUyx+FYv+Qik7aMVPn8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RfVru2FI34IFWdF1gnKooEWaYgGHXIGXUV9TJ5W3heK2enSNcKFxXf2wxdLM1IEtuEgMstOrAOm3ChbLhRh7iIADikiq9gZumjXIyYXmPl6aHtvrxtPYp4LRBpWb/zQKPm6ptrcZoIbYBVNq8awPBMoBcoh2vSu9atrcAZB2cts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQt+VtgO; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ihrdg7u5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQt+VtgO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708538671; x=1740074671;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MZwScxEds7KTnV15Ks6h1rvU4dcAWzuwDdQwycVWvU8=;
-  b=Ihrdg7u5IfXFsAnNRmIZ/O8La3Ve6GF1rSEevqC/HHCUDi3eWeouwMDk
-   uyaw6L64ygvqfqxoCH70/ZQUqAqxnzGDg2kEAvpuCfUc2bLh1K1mwbXPo
-   i/RN2TFjb/EAc9i6aRc+mYUZ2PQh8s2MBHNosUSLpn4NeQMDrBTmAKooj
-   MZVcSCR4LNRavDFWx86zGGgkHjpe+MO8xNU//ZF1qhPiZuWdee9tRIZKT
-   AlfrbvcDuHWhP4s06iPWfngFdC0XRfaqz+YJ7PLkBdieKx+4x+TYhG0hN
-   NezysJssN/Jzom+yyC6n2iBufEYs/GkODyrZ+CvTh/s3XidyzWXLbYeT2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="2628972"
+  t=1708538682; x=1740074682;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N3hyQeCD6IQBf8tWP+/hKiWNxUyx+FYv+Qik7aMVPn8=;
+  b=cQt+VtgOuFecBhjBLeA3z/jGGPVXZmbLde5sBJSHaaT2GciMMyexjCB+
+   QE5hqZ0mXZfuY5jJ5hX3kVqkKDPG5oDLbC7D4fMdEbYoQD1aVQFgFg7hs
+   DUdWpdmFO9MS+0/U+UInzOc72wArD2Uzzflq3ol1aU8PSrg5PBDMxFbTr
+   /AEePP6XLzsvzPLvTlnUkIYeyZhd6Sh14OZqqd5V59sb/j4pWMOnvsmw6
+   HEkoR2D4f9xcFAbDNb4A1kcb7MpsmTEZzStaSmvaCcube+GAVUuk4TKnx
+   UHcmpVVROOrPNxJ8sZiQYcK/IXe7BHNQbdYlnxTENJSByCTh6+FDfRN0s
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13845913"
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="2628972"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 10:04:31 -0800
+   d="scan'208";a="13845913"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 10:04:33 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="35998466"
+   d="scan'208";a="5420455"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 21 Feb 2024 10:04:29 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 21 Feb 2024 10:04:29 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcqxH-0005Ze-0x;
-	Wed, 21 Feb 2024 18:04:27 +0000
-Date: Thu, 22 Feb 2024 02:04:08 +0800
+	id 1rcqwz-0005ZM-24;
+	Wed, 21 Feb 2024 18:04:26 +0000
+Date: Thu, 22 Feb 2024 02:04:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Kubiak <michal.kubiak@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexander Lobakin <aleksander.lobakin@intel.com>
-Subject: [alobakin:idpf-libie-new 68/68]
- drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1748: warning: Function
- parameter or struct member 'qs' not described in
- 'idpf_send_config_rx_queue_set_msg'
-Message-ID: <202402220235.5ZvqJ7dQ-lkp@intel.com>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	antoniu.miclaus@analog.com, alexandre.belloni@bootlin.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
+	Zeynep Arslanbenzer <Zeynep.Arslanbenzer@analog.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: Re: [PATCH v7 1/2] drivers: rtc: add max313xx series rtc driver
+Message-ID: <202402220139.EmXyZO4Q-lkp@intel.com>
+References: <20240219221827.3821415-2-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,66 +66,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240219221827.3821415-2-chris.packham@alliedtelesis.co.nz>
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   e058b964b74edf5cc9f7d67fd001d30bcfa00508
-commit: 1f9963b67f75c3f6bb19d0185f99df47e6878cef [68/68] idpf: add vc functions to manage selected queues
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240222/202402220235.5ZvqJ7dQ-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220235.5ZvqJ7dQ-lkp@intel.com/reproduce)
+Hi Chris,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on linus/master v6.8-rc5 next-20240221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/drivers-rtc-add-max313xx-series-rtc-driver/20240220-062057
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20240219221827.3821415-2-chris.packham%40alliedtelesis.co.nz
+patch subject: [PATCH v7 1/2] drivers: rtc: add max313xx series rtc driver
+config: x86_64-randconfig-123-20240220 (https://download.01.org/0day-ci/archive/20240222/202402220139.EmXyZO4Q-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220139.EmXyZO4Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402220235.5ZvqJ7dQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402220139.EmXyZO4Q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/rtc/rtc-max31335.c:727:22: sparse: sparse: symbol 'max313xx_clk_init' was not declared. Should it be static?
+>> drivers/rtc/rtc-max31335.c:750:21: sparse: sparse: symbol 'max313xx_nvmem_cfg' was not declared. Should it be static?
 
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1748: warning: Function parameter or struct member 'qs' not described in 'idpf_send_config_rx_queue_set_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1748: warning: Excess function parameter 'qp' description in 'idpf_send_config_rx_queue_set_msg'
+vim +/max313xx_clk_init +727 drivers/rtc/rtc-max31335.c
 
-
-vim +1748 drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-
-  1736	
-  1737	/**
-  1738	 * idpf_send_config_rx_queue_set_msg - Send virtchnl config rx queues
-  1739	 * message for selected rx queues only.
-  1740	 * @qp: params of the Rx queues
-  1741	 *
-  1742	 * Send config queues virtchnl message for queues contained in 'qs' array.
-  1743	 * The 'qs' array can contain Rx queues (or buffer queues) only.
-  1744	 *
-  1745	 * Return: 0 on success, -errno on failure.
-  1746	 */
-  1747	static int idpf_send_config_rx_queue_set_msg(const struct idpf_queue_set *qs)
-> 1748	{
-  1749		struct virtchnl2_rxq_info *qi __free(kfree) = NULL;
-  1750		struct idpf_chunked_msg_params params = {
-  1751			.vc_op		= VIRTCHNL2_OP_CONFIG_RX_QUEUES,
-  1752			.prepare_msg	= idpf_prepare_cfg_rxqs_msg,
-  1753			.config_sz	= sizeof(struct virtchnl2_config_rx_queues),
-  1754			.chunk_sz	= sizeof(*qi),
-  1755		};
-  1756	
-  1757		qi = kcalloc(qs->num, sizeof(*qi), GFP_KERNEL);
-  1758		if (!qi)
-  1759			return -ENOMEM;
-  1760	
-  1761		params.chunks = qi;
-  1762	
-  1763		for (u32 i = 0; i < qs->num; i++) {
-  1764			if (qs->qs[i].type == VIRTCHNL2_QUEUE_TYPE_RX)
-  1765				idpf_fill_rxq_config_chunk(qs->vport, qs->qs[i].rxq,
-  1766							   &qi[params.num_chunks++]);
-  1767			else if (qs->qs[i].type == VIRTCHNL2_QUEUE_TYPE_RX_BUFFER)
-  1768				idpf_fill_bufq_config_chunk(qs->vport, qs->qs[i].bufq,
-  1769							    &qi[params.num_chunks++]);
-  1770		}
-  1771	
-  1772		return idpf_send_chunked_msg(qs->vport, &params);
-  1773	}
-  1774	
+   726	
+ > 727	struct clk_init_data max313xx_clk_init = {
+   728		.name = "max313xx-clkout",
+   729		.ops = &max313xx_clkout_ops,
+   730	};
+   731	
+   732	static int max313xx_nvmem_reg_read(void *priv, unsigned int offset,
+   733					   void *val, size_t bytes)
+   734	{
+   735		struct max313xx *rtc = priv;
+   736		unsigned int reg = rtc->chip->ram_reg + offset;
+   737	
+   738		return regmap_bulk_read(rtc->regmap, reg, val, bytes);
+   739	}
+   740	
+   741	static int max313xx_nvmem_reg_write(void *priv, unsigned int offset,
+   742					    void *val, size_t bytes)
+   743	{
+   744		struct max313xx *rtc = priv;
+   745		unsigned int reg = rtc->chip->ram_reg + offset;
+   746	
+   747		return regmap_bulk_write(rtc->regmap, reg, val, bytes);
+   748	}
+   749	
+ > 750	struct nvmem_config max313xx_nvmem_cfg = {
+   751		.reg_read = max313xx_nvmem_reg_read,
+   752		.reg_write = max313xx_nvmem_reg_write,
+   753		.word_size = 8,
+   754	};
+   755	
 
 -- 
 0-DAY CI Kernel Test Service
