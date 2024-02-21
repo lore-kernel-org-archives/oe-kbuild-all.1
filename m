@@ -1,55 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C255B5D1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 17:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863107BB00;
+	Wed, 21 Feb 2024 17:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708536078; cv=none; b=FA+GUXROw9Rd961QtkUM6Lxx5Hy7WEzV7QicTgHO8dMqtm1LzVUBWvZRo1Quf8SX3ZV7rVT51hZjoFak7J2odK4W3INWky7/53ciKd9Kfkf1p198VfW+0PN52t5xOzkOMwfNjafklqI59EMn6alDB8xgZL1hD2EK+D24b7fgKVg=
+	t=1708536679; cv=none; b=LVJWzEgcxJ6QFeljNf0cCx0II9hu/DfPyhaJyJn0BSiLhyCFN0N/J/oY2icLtOTyBSGeNKjF4i9iSmWNhzC+tK3Exahv7QMpgrfm5z+XIO/iXOlows9OSTRkhxDoZSVSoTn+H8F6AeEYSpPNmtMkkCQJ82ZF7RgUJO49NOD1Bec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708536078; c=relaxed/simple;
-	bh=tGTMdk1BzwcbrSt4BtEA/1O92NcPYICRw95ixpWM8eA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XneYaPgwvJPuhS/i3ufqVtrKgQ6Vaxd9TNPyrN+AmvZC8I9oJIEWXNxYJVnO959tH9m3QcDadw0F0XYtvPQ/R/wGLWuFiTXY6RQd9o83y9WH4CT9qpAF2HXLi75MbYfe3VTYhvjtsp8VBW3szHc2UNb0FNz+XZgOVJUMiw32n3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQqgBvgz; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1708536679; c=relaxed/simple;
+	bh=x4m0ZIEdqBXtWBesysoHgAjQIPLTEUcC/b3cdm0G0oU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gNjjVIuMDLJSkfIU9eY2wr7GeVaNhtzLLstJhI5oKQS1fSLacyOgYUWv4SOOVwBIEP+B6COIkQtrDTGZxgrs41ErwMKn04+6s4ncK5jmqUDIGBaMbVUuBoaSMGeE6I572EZCH4MGsPI+U/WwsL+VMj63osl3oRicvDyIsss7L1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CBIp/lFd; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQqgBvgz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CBIp/lFd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708536072; x=1740072072;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tGTMdk1BzwcbrSt4BtEA/1O92NcPYICRw95ixpWM8eA=;
-  b=VQqgBvgzMQwdZMjgeO9sKQvp/f80LZ/is/LwlsFTppbqcoCZnTceFI8V
-   8f59Tqr0H7YOKSwx5CRbcPtRJauJrYwN1TSczaCSblYI3KYFpdNQuXTqQ
-   K4p2jhzMNKliEt8l4uGI177ABdHf0eKP5nBFGNIHguYrv21Yhuc4WYnA8
-   8reAO6LI1jrbLD6zVNNLNxrilURxvHoozhNDGt7cb73cAuY8aSh3se9mM
-   ARagC0wNAkiyedNavHHm+oCZhO42CN1hiVASTY5TrnT5cwEQemB7Tb2t+
-   0ycvkzCwpuGHPWrcZwoP2Z2GInkh4HJz6RpI2HhhBpk065UcjR4LJXako
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13332268"
+  t=1708536679; x=1740072679;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x4m0ZIEdqBXtWBesysoHgAjQIPLTEUcC/b3cdm0G0oU=;
+  b=CBIp/lFdBqB8d3vMyZ82FvnrGzNGLuKYvqFa58nKCTraIKvLpqx9W1pf
+   VWK28IIfQHRYUJdwRAVkjzWOV7/o5QEq8bNbEuwTc8YwaKyDup5qJFbkW
+   IXcpG6TRKIkQiquhjTeo3+dyTFlkGj5IWStPT7wRZqNxqJFbbc5BA3eD6
+   Vr7R1bfm473Cneo8ZWPFnBvFIKqzS94quzVsvW+JU6y3uf1DGH7JOoDhq
+   Ep43/fcbZr4tcGFJBBvth88cl3F9EpjLs0qntXDKJLXbmunqxbm6RQRly
+   IRBDIS8g0/omdlXabKZT3HxLozrAqQTJIvOBVx/aGP8hnDzwxHaM5MhIb
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="25177043"
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="13332268"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 09:21:11 -0800
+   d="scan'208";a="25177043"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 09:31:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="913340395"
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="827382575"
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="913340395"
+   d="scan'208";a="827382575"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2024 09:21:10 -0800
+  by orsmga001.jf.intel.com with ESMTP; 21 Feb 2024 09:31:15 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcqHM-0005XM-1d;
-	Wed, 21 Feb 2024 17:21:08 +0000
-Date: Thu, 22 Feb 2024 01:20:30 +0800
+	id 1rcqR0-0005Xw-22;
+	Wed, 21 Feb 2024 17:31:08 +0000
+Date: Thu, 22 Feb 2024 01:30:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 18/23] error[E0425]: cannot find
- function `has_capability_noaudit` in crate `bindings`
-Message-ID: <202402220113.FdnbBGOA-lkp@intel.com>
+To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+	muchun.song@linux.dev,
+	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Subject: Re: [PATCH 1/3] mm/memory: Change vmf_anon_prepare() to be non-static
+Message-ID: <202402220109.SIlFdfQ5-lkp@intel.com>
+References: <20240220231424.126600-2-vishal.moola@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,26 +62,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240220231424.126600-2-vishal.moola@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   e49421f9a1de2b7abd3ad10ad1f326d96ad507de
-commit: 2e4f09314cedd8936fcf20656b6807be6185b211 [18/23] ANDROID: rust_binder: add priority inheritance
-config: x86_64-buildonly-randconfig-001-20240221 (https://download.01.org/0day-ci/archive/20240222/202402220113.FdnbBGOA-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220113.FdnbBGOA-lkp@intel.com/reproduce)
+Hi Vishal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.8-rc5 next-20240221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/mm-memory-Change-vmf_anon_prepare-to-be-non-static/20240221-071907
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240220231424.126600-2-vishal.moola%40gmail.com
+patch subject: [PATCH 1/3] mm/memory: Change vmf_anon_prepare() to be non-static
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240222/202402220109.SIlFdfQ5-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220109.SIlFdfQ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402220113.FdnbBGOA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402220109.SIlFdfQ5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `has_capability_noaudit` in crate `bindings`
-   --> rust/kernel/task.rs:219:28
-   |
-   219 |         unsafe { bindings::has_capability_noaudit(self.0.get(), capability) }
-   |                            ^^^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+>> mm/memory.c:3283:12: warning: no previous prototype for function 'vmf_anon_prepare' [-Wmissing-prototypes]
+   vm_fault_t vmf_anon_prepare(struct vm_fault *vmf)
+              ^
+   mm/memory.c:3283:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   vm_fault_t vmf_anon_prepare(struct vm_fault *vmf)
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/vmf_anon_prepare +3283 mm/memory.c
+
+  3282	
+> 3283	vm_fault_t vmf_anon_prepare(struct vm_fault *vmf)
+  3284	{
+  3285		struct vm_area_struct *vma = vmf->vma;
+  3286	
+  3287		if (likely(vma->anon_vma))
+  3288			return 0;
+  3289		if (vmf->flags & FAULT_FLAG_VMA_LOCK) {
+  3290			vma_end_read(vma);
+  3291			return VM_FAULT_RETRY;
+  3292		}
+  3293		if (__anon_vma_prepare(vma))
+  3294			return VM_FAULT_OOM;
+  3295		return 0;
+  3296	}
+  3297	
 
 -- 
 0-DAY CI Kernel Test Service
