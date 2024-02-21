@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5239785953;
-	Wed, 21 Feb 2024 18:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E319185C58
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 19:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708540588; cv=none; b=hWV1L6+0CbfnRapppe8ZaTmOHn1NZmczCj4rR5Vr7V8vY8UXUk/CK0YGI9i0NZp0gP3100mMeyAd2JnWV+lhksdvkTPPFf6xyj3Pb30T9Nro2YpMzDT7Eq/PzdQbYlXaE0lVIReLX4c/4dBRUaMDtBvryueghFjQvhbNzcnT17Q=
+	t=1708544298; cv=none; b=AqGNO5kIjDAB+QlZMuCHplcavN2tyU+o88Ha8o7gd3pli3LcpCHk8+lwP7hYBPJXgQhLrQBhyYWlUn0pq2yDspIpZSiizrCvWfU/6+gNhkgwhmlLRxtGwIbQqLq6/BavkAOv/B1fsR3gaKuleUUx9bpjEALe4ME92Nysubf+cMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708540588; c=relaxed/simple;
-	bh=7N4L3Y3cAcWAplEGy0JO21LC6UAVz5g9p7ywNrvVMKI=;
+	s=arc-20240116; t=1708544298; c=relaxed/simple;
+	bh=j2hyT32Z+CHnHObDPjKK9F3++oQu/n8hJRgF7S31qi0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TzvWr6Zm+6eSOLbH86oXlmeyfpGO7ExgSd1xXlhyIiEB2bF1oGo9Xbjrt5lPSJA5WHuIWyclO79l30qHz3nML6JZ3cZ/e46+ihs3Li1vvhwM8J2jpKxUPb2R8C0hcI86MHZkkyQbsYTcl4/r6Rfm14P0kxf9188SHHizY4q0mJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=amfDYwSU; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=iW1z1zU5mHpzLK9N8Zt3SJPAhPBVJVBTAEFPEoTgzqwUelLff46/V+B8SNqeKi0InPpTTd6o8FqinywES0HjD733L2aVsOAtz899rNCFoVzFKMJDS4vMRYytDnMlD5VosPdY08NifaGNagRS3sO49TOseYzgIIv4UvVCo7llsUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aIQR9A/l; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="amfDYwSU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aIQR9A/l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708540586; x=1740076586;
+  t=1708544297; x=1740080297;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7N4L3Y3cAcWAplEGy0JO21LC6UAVz5g9p7ywNrvVMKI=;
-  b=amfDYwSUOmvPLKyjK9w+NlggzSOuAKIbp962dBYMmSZLFtys4lTH7qWP
-   WW4sGekcUdPE4knt8oxr1GTcIbZJqCx197jBTEobgjP6W1mfa3ZAkd3Cl
-   WSZuMmc7RNAjcDvv3JyNyo7Q3GxPHUkJKB5rwn1VUsOsIZZQZ5DLQJ6hO
-   dK3Chjvi7Wz8gA9UP7OwWhLaf8ccB0jTHDMttLxCzei0kIBdLqPbk5HFJ
-   RCvMk+VKNYMVVlJHq6q3cUBRdSuP4IguzWCNs5EGovtdzYTDRUwXwDjcU
-   yH612Ve0NtT3iGbV2e1/YRJxboqpCj4dmY6BqszpaMwODp9BK7SLZlNIg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="2869300"
+  bh=j2hyT32Z+CHnHObDPjKK9F3++oQu/n8hJRgF7S31qi0=;
+  b=aIQR9A/ld0Y88lZoHSlo8eXsLOMnl3v8/muQiFsLPokSUhuIKycVOFnJ
+   IZLrH5Ry9JJtRVnAl28agSXVcByIRUpLKdSkLqSrGtBs8cEBWhPTD4hnI
+   Jgy20EMlrTCHHG6jTpFRjmUkbsNiK0R5ur8X8UY3+eTqXVpvTvOftkJxv
+   ZFznR2Xy7eo47E+g4V9QcOOL/e4KMJuXK/AMfZg4iDCvFu2cdFGX2Bj0B
+   as7LA1E8GMWw2O6SNcZB5TUXj0IfFitsHjxXjNLaqGbKMm1OaIj+gqMZD
+   PCLW1pF0hy/+8VsbyHG279sU0ffa0h5XF9CqObE20jG+9L5r/5WIl9wIo
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="20165531"
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="2869300"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 10:36:25 -0800
+   d="scan'208";a="20165531"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 11:38:16 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="36013256"
+   d="scan'208";a="5446532"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 21 Feb 2024 10:36:24 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 21 Feb 2024 11:38:14 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcrRz-0005bE-1W;
-	Wed, 21 Feb 2024 18:36:15 +0000
-Date: Thu, 22 Feb 2024 02:35:48 +0800
+	id 1rcsQ0-0005fM-0h;
+	Wed, 21 Feb 2024 19:38:12 +0000
+Date: Thu, 22 Feb 2024 03:37:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
-Subject: Re: [PATCH v2 5/6] drm/i915/psr: Enable ALPM for eDP Panel replay
-Message-ID: <202402220225.2eViN531-lkp@intel.com>
-References: <20240220121045.2156004-6-jouni.hogander@intel.com>
+To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, muchun.song@linux.dev,
+	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Subject: Re: [PATCH 1/3] mm/memory: Change vmf_anon_prepare() to be non-static
+Message-ID: <202402220352.930oDAQ6-lkp@intel.com>
+References: <20240220231424.126600-2-vishal.moola@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,87 +60,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240220121045.2156004-6-jouni.hogander@intel.com>
+In-Reply-To: <20240220231424.126600-2-vishal.moola@gmail.com>
 
-Hi Jouni,
+Hi Vishal,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-tip/drm-tip drm/drm-next next-20240221]
-[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.8-rc5]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.8-rc5 next-20240221]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jouni-H-gander/drm-display-Add-missing-aux-less-alpm-wake-related-bits/20240220-201356
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240220121045.2156004-6-jouni.hogander%40intel.com
-patch subject: [PATCH v2 5/6] drm/i915/psr: Enable ALPM for eDP Panel replay
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20240222/202402220225.2eViN531-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220225.2eViN531-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/mm-memory-Change-vmf_anon_prepare-to-be-non-static/20240221-071907
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240220231424.126600-2-vishal.moola%40gmail.com
+patch subject: [PATCH 1/3] mm/memory: Change vmf_anon_prepare() to be non-static
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240222/202402220352.930oDAQ6-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220352.930oDAQ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402220225.2eViN531-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402220352.930oDAQ6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_psr.c:1705:3: warning: variable 'alpm_ctl' is uninitialized when used here [-Wuninitialized]
-    1705 |                 alpm_ctl |= ALPM_CTL_ALPM_ENABLE |
-         |                 ^~~~~~~~
-   drivers/gpu/drm/i915/display/intel_psr.c:1699:14: note: initialize the variable 'alpm_ctl' to silence this warning
-    1699 |         u32 alpm_ctl;
-         |                     ^
-         |                      = 0
-   1 warning generated.
+>> mm/memory.c:3283:12: warning: no previous prototype for 'vmf_anon_prepare' [-Wmissing-prototypes]
+    3283 | vm_fault_t vmf_anon_prepare(struct vm_fault *vmf)
+         |            ^~~~~~~~~~~~~~~~
 
 
-vim +/alpm_ctl +1705 drivers/gpu/drm/i915/display/intel_psr.c
+vim +/vmf_anon_prepare +3283 mm/memory.c
 
-  1693	
-  1694	static void lnl_alpm_configure(struct intel_dp *intel_dp)
-  1695	{
-  1696		struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
-  1697		enum transcoder cpu_transcoder = intel_dp->psr.transcoder;
-  1698		struct intel_psr *psr = &intel_dp->psr;
-  1699		u32 alpm_ctl;
-  1700	
-  1701		if (DISPLAY_VER(dev_priv) < 20)
-  1702			return;
-  1703	
-  1704		if (intel_dp->psr.panel_replay_enabled && intel_dp_is_edp(intel_dp)) {
-> 1705			alpm_ctl |= ALPM_CTL_ALPM_ENABLE |
-  1706				ALPM_CTL_ALPM_AUX_LESS_ENABLE |
-  1707				ALPM_CTL_AUX_LESS_SLEEP_HOLD_TIME_50_SYMBOLS;
-  1708	
-  1709			intel_de_write(dev_priv, PORT_ALPM_CTL(cpu_transcoder),
-  1710				       PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE |
-  1711				       PORT_ALPM_CTL_MAX_PHY_SWING_SETUP(15) |
-  1712				       PORT_ALPM_CTL_MAX_PHY_SWING_HOLD(0) |
-  1713				       PORT_ALPM_CTL_SILENCE_PERIOD(
-  1714					       psr->alpm_parameters.silence_period_sym_clocks));
-  1715	
-  1716			intel_de_write(dev_priv, PORT_ALPM_LFPS_CTL(cpu_transcoder),
-  1717				       PORT_ALPM_LFPS_CTL_LFPS_CYCLE_COUNT(10) |
-  1718				       PORT_ALPM_LFPS_CTL_LFPS_HALF_CYCLE_DURATION(
-  1719					       psr->alpm_parameters.lfps_half_cycle_num_of_syms) |
-  1720				       PORT_ALPM_LFPS_CTL_FIRST_LFPS_HALF_CYCLE_DURATION(
-  1721					       psr->alpm_parameters.lfps_half_cycle_num_of_syms) |
-  1722				       PORT_ALPM_LFPS_CTL_LAST_LFPS_HALF_CYCLE_DURATION(
-  1723					       psr->alpm_parameters.lfps_half_cycle_num_of_syms));
-  1724		} else {
-  1725			alpm_ctl = ALPM_CTL_EXTENDED_FAST_WAKE_ENABLE |
-  1726				ALPM_CTL_EXTENDED_FAST_WAKE_TIME(psr->alpm_parameters.fast_wake_lines);
-  1727		}
-  1728	
-  1729		alpm_ctl |= ALPM_CTL_ALPM_ENTRY_CHECK(psr->alpm_parameters.check_entry_lines);
-  1730	
-  1731		intel_de_write(dev_priv, ALPM_CTL(cpu_transcoder), alpm_ctl);
-  1732	}
-  1733	
+  3282	
+> 3283	vm_fault_t vmf_anon_prepare(struct vm_fault *vmf)
+  3284	{
+  3285		struct vm_area_struct *vma = vmf->vma;
+  3286	
+  3287		if (likely(vma->anon_vma))
+  3288			return 0;
+  3289		if (vmf->flags & FAULT_FLAG_VMA_LOCK) {
+  3290			vma_end_read(vma);
+  3291			return VM_FAULT_RETRY;
+  3292		}
+  3293		if (__anon_vma_prepare(vma))
+  3294			return VM_FAULT_OOM;
+  3295		return 0;
+  3296	}
+  3297	
 
 -- 
 0-DAY CI Kernel Test Service
