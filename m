@@ -1,111 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA03A3FE48
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 11:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF53523D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 12:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708513243; cv=none; b=d3nkofIGCbgu/BbKMnvVkniE8fFKoOfg2UhySdlFky7TtQD9IC/Yfw2hOnwVm/sezmO2tO7yn6SvLl8Eur0EEY+0UUvinWau1QuZhYaBuUNrlr0hT4xqdnyCjAQUzmcMSdzNzuEwMjwB6qEwvMNdheAIniwLHaVOo0mhaKCbE78=
+	t=1708518392; cv=none; b=Cxh/ohZjjpBBG/dk7XboCBtHMBOJ21PJsEGN7aPle4cQKp6+ZQz1OOAQFoYvffxQU2Inr1kO6xPyjprSw0qR+l0ScksubXWRxW8jI+yqzmHq0ReZj1E2sHsFnPKgjYz6CtM+F11664nss3K5dtb/M1rBShWnebph5ogIQP9bsuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708513243; c=relaxed/simple;
-	bh=qA8JPCBqDgI4LlxkapJfE4Y8ISpdU5KRd7NC/zbmLME=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=txx5pHXn5uQKYmq7fTQqwt341bKvU1MzbRDyQgqGCS+dmWgRriyUOzdN/uRjTaLJSdhZ2hgoYOSwNap0AHOarBM5DMFgIRVMUnR8LW673XDSsS9O8BfwGD1lFoNTi8RfGfXhd8lPpixnwaTgYNZCw/K2lJHXbkQLJojIT2B+l+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hGHijXhT; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708518392; c=relaxed/simple;
+	bh=zfSCybRmbb/lrtG9gfA1Ai/ZsUMy3YqqpsG1e7POSyM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fbUy1NKmcFxjl0l0slB3zk4Geh7YPMKghoSpV/vnSlXsoRk07JYuO3JbMiXxKIxzuUaqZPo4WLEhd85uRk0qtW18uRoUwY59D3bH5CCSOuVnfEzV9QeXr2y4OfI2IcRVbuY9cy7fXYq7xpvCrAIQUdzu9PB4AbVr2Qdfk+0no8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=iRWuvZVc; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=iRWuvZVc; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGHijXhT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708513242; x=1740049242;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qA8JPCBqDgI4LlxkapJfE4Y8ISpdU5KRd7NC/zbmLME=;
-  b=hGHijXhTtcyoXomhvrXuYIxhMakbJw8tzXumwcSxfX8y+Tmi3iTbJitq
-   fe6uuEI91nWbm7/E09mE+fNAjGBu3Dhkk4B7E9qF3ZjqCYm1WRr8U5JNm
-   dCKpK3dUtv/Zfn1q5w4/TFo7cYDa/QaoceH0mAhz66GrzGjB39crgxhys
-   hdXcZM+5uOBr1Za0dKBIdImWWWVdhaf/TlMLRB2SkzKXSHe4wVXz4LgJE
-   rvrFiDZIN3UbOT+oUAXuznQ9ClXTeoGnFHWugsSWlib/+w2tYXcoHSLMQ
-   bMjOr6PQgi37vtZG9lV1Bg8yubJVsI01vkW+1ad8blUafJ8YMF62y8Svt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="2803858"
-X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="2803858"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 03:00:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="5397398"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Feb 2024 03:00:41 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rckKm-0005GS-03;
-	Wed, 21 Feb 2024 11:00:25 +0000
-Date: Wed, 21 Feb 2024 19:00:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:b4/slab-cleanup-flags 3/4] fs/proc/inode.c:99:49: sparse:
- sparse: restricted slab_flags_t degrades to integer
-Message-ID: <202402211803.Lmf1ANXx-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="iRWuvZVc";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="iRWuvZVc"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6E8A01FB5D;
+	Wed, 21 Feb 2024 12:26:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708518388; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2nm0QM3k1zWdm3vn93j0VrJgcVj1uHSl3xw8GClBQ9Q=;
+	b=iRWuvZVcgB3QZv4oa/f7wkeTod9VaDkgrmYiuj2bk33Rr7tt+vjatq1ZNoB3dr7UWwNKrW
+	EIv+FAd1fWq+Y6GqgVrsEkSP7L0bTrbZkjFMatP2tVo/uuo3nTjmonM1tr8pyjzZ7ZXXmx
+	1uiRI33cLVCTPD2UeCdJg+Y7egTCeNg=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708518388; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2nm0QM3k1zWdm3vn93j0VrJgcVj1uHSl3xw8GClBQ9Q=;
+	b=iRWuvZVcgB3QZv4oa/f7wkeTod9VaDkgrmYiuj2bk33Rr7tt+vjatq1ZNoB3dr7UWwNKrW
+	EIv+FAd1fWq+Y6GqgVrsEkSP7L0bTrbZkjFMatP2tVo/uuo3nTjmonM1tr8pyjzZ7ZXXmx
+	1uiRI33cLVCTPD2UeCdJg+Y7egTCeNg=
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id DA109139D1;
+	Wed, 21 Feb 2024 12:26:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id zYQyKPPr1WUMMAAAn2gu4w
+	(envelope-from <mpdesouza@suse.com>); Wed, 21 Feb 2024 12:26:27 +0000
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Marcos Paulo de Souza <mpdesouza@suse.com>,
+	kernel test robot <lkp@intel.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Petr Mladek <pmladek@suse.com>,
+	Joe Lawrence <joe.lawrence@redhat.com>,
+	oe-kbuild-all@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	live-patching@vger.kernel.org
+Subject: Re: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
+Date: Wed, 21 Feb 2024 09:26:23 -0300
+Message-ID: <20240221122624.30549-1-mpdesouza@suse.com>
+X-Mailer: git-send-email 2.42.1
+In-Reply-To: <c3ee4083-fca7-43cc-b955-3b7e4faed2b0@linuxfoundation.org>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: 0.70
+X-Spamd-Result: default: False [0.70 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[12];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,intel.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git b4/slab-cleanup-flags
-head:   95c527f4e5dd5245977e9625ec6e1197dc0e733b
-commit: 9cd1bbdf6848577e2e1c1a3cab62dbe91b993439 [3/4] mm, slab: use an enum to define SLAB_ cache creation flags
-config: sparc-randconfig-r111-20240221 (https://download.01.org/0day-ci/archive/20240221/202402211803.Lmf1ANXx-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240221/202402211803.Lmf1ANXx-lkp@intel.com/reproduce)
+On Tue, 20 Feb 2024 17:19:54 -0700 Shuah Khan <skhan@linuxfoundation.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402211803.Lmf1ANXx-lkp@intel.com/
+> On 2/19/24 06:53, Marcos Paulo de Souza wrote:
+> > On Mon, 19 Feb 2024 09:15:15 -0300 Marcos Paulo de Souza <mpdesouza@suse.com> wrote:
+> > 
+> >> On Mon, 19 Feb 2024 14:35:16 +0800 kernel test robot <lkp@intel.com> wrote:
+> >>
+> >>> Hi Marcos,
+> >>>
+> >>> kernel test robot noticed the following build errors:
+> >>>
+> >>> [auto build test ERROR on 345e8abe4c355bc24bab3f4a5634122e55be8665]
+> >>>
+> >>> url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/selftests-lib-mk-Do-not-process-TEST_GEN_MODS_DIR/20240216-021601
+> >>> base:   345e8abe4c355bc24bab3f4a5634122e55be8665
+> >>> patch link:    https://lore.kernel.org/r/20240215-lp-selftests-fixes-v1-1-89f4a6f5cddc%40suse.com
+> >>> patch subject: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
+> >>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> >>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191417.XULH88Ct-lkp@intel.com/reproduce)
+> >>>
+> >>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> >>> the same patch/commit), kindly add following tags
+> >>> | Reported-by: kernel test robot <lkp@intel.com>
+> >>> | Closes: https://lore.kernel.org/oe-kbuild-all/202402191417.XULH88Ct-lkp@intel.com/
+> >>>
+> >>> All errors (new ones prefixed by >>):
+> >>>
+> >>>>> make[3]: *** /lib/modules/5.9.0-2-amd64/build: No such file or directory.  Stop.
+> >>
+> >> We should ask the kernel test robot machine owners to install kernel-devel
+> >> package in order to have this fixed.
+> > 
+> > Or maybe ask them to change the reproducer to specify KDIR to the git tree,
+> > instead of /lib/modules/?
+> > 
+> 
+> This would be a regression to automated test rings. Do you have any other
+> solutions?
 
-sparse warnings: (new ones prefixed by >>)
-   fs/proc/inode.c:55:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/proc/inode.c:55:17: sparse:    struct ctl_table_header [noderef] __rcu *
-   fs/proc/inode.c:55:17: sparse:    struct ctl_table_header *
->> fs/proc/inode.c:99:49: sparse: sparse: restricted slab_flags_t degrades to integer
->> fs/proc/inode.c:98:77: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted slab_flags_t [usertype] flags @@     got unsigned int @@
-   fs/proc/inode.c:117:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_node *node @@     got struct hlist_node [noderef] __rcu * @@
+I would say that we could skip the these tests if kernel-devel package is not
+installed. Would it be acceptable? At least we would avoid such issues like this
+in the future as well.
 
-vim +99 fs/proc/inode.c
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16   92  
-195b8cf0689554 Alexey Dobriyan  2018-04-10   93  void __init proc_init_kmemcache(void)
-^1da177e4c3f41 Linus Torvalds   2005-04-16   94  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16   95  	proc_inode_cachep = kmem_cache_create("proc_inode_cache",
-^1da177e4c3f41 Linus Torvalds   2005-04-16   96  					     sizeof(struct proc_inode),
-fffb60f93ce588 Paul Jackson     2006-03-24   97  					     0, (SLAB_RECLAIM_ACCOUNT|
-5d097056c9a017 Vladimir Davydov 2016-01-14  @98  						SLAB_MEM_SPREAD|SLAB_ACCOUNT|
-5d097056c9a017 Vladimir Davydov 2016-01-14  @99  						SLAB_PANIC),
-20c2df83d25c6a Paul Mundt       2007-07-20  100  					     init_once);
-195b8cf0689554 Alexey Dobriyan  2018-04-10  101  	pde_opener_cache =
-195b8cf0689554 Alexey Dobriyan  2018-04-10  102  		kmem_cache_create("pde_opener", sizeof(struct pde_opener), 0,
-2acddbe8168967 Alexey Dobriyan  2018-04-10  103  				  SLAB_ACCOUNT|SLAB_PANIC, NULL);
-b4884f23331ae3 Alexey Dobriyan  2018-04-10  104  	proc_dir_entry_cache = kmem_cache_create_usercopy(
-2d6e4e822ad817 Alexey Dobriyan  2018-08-21  105  		"proc_dir_entry", SIZEOF_PDE, 0, SLAB_PANIC,
-2d6e4e822ad817 Alexey Dobriyan  2018-08-21  106  		offsetof(struct proc_dir_entry, inline_name),
-2d6e4e822ad817 Alexey Dobriyan  2018-08-21  107  		SIZEOF_PDE_INLINE_NAME, NULL);
-2d6e4e822ad817 Alexey Dobriyan  2018-08-21  108  	BUILD_BUG_ON(sizeof(struct proc_dir_entry) >= SIZEOF_PDE);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  109  }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  110  
-
-:::::: The code at line 99 was first introduced by commit
-:::::: 5d097056c9a017a3b720849efb5432f37acabbac kmemcg: account certain kmem allocations to memcg
-
-:::::: TO: Vladimir Davydov <vdavydov@virtuozzo.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> We could remove livepatch from default test until these changes are made
+> to test ring environments?
+> 
+> thanks,
+> -- Shuah
