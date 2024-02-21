@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84755394
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 10:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9A836AF1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 10:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708511784; cv=none; b=Mvw/WtOEOLFR5XMxI0JQ43pGOn9rKXRIv+DmVxCzHYulH4GgPeS69Jr2ls/FCrbNeRjlLhLyS/TUT95TwVfg7tRSTeP0OHlXRqPTNKpIftvzP0oWXmKHSR6WL1HMmFkd28PD6D3GEOjd1+7Wf9bcsU6hf93KQgsGWmiTFCPohvA=
+	t=1708511975; cv=none; b=d+6nWMWCf2kGKuOR39QoJq3s7n8XgdvOvoOUIIMletRL444UY6tMl8zA82QCPvDpPQ0Y53/Gwx2QJIXHh4F8NTi8jFcSHuNnWAv6qeib913q2rRvQaw7uoq4MJH/BTMr/uuY1KCp9aIA7xmHbVczKJH3JGwpy+XRAastcTH+kp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708511784; c=relaxed/simple;
-	bh=6QoZZwNT/IaP75xaqlbUIXjkll9bSRndR8d2Z4+e7xs=;
+	s=arc-20240116; t=1708511975; c=relaxed/simple;
+	bh=xILmrnobn+p5gqFyC+n9FBC7LBi9lgVrfx/+q+USuTI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JQV4t/Mo0RS4uwYIKkowHuQfGomMJOEECAr55d9ZIHZ3yjtD7/OQJz8uJ2RjBuEZ0jar9/jExt4hgetqKeRliTToF058hW974Lnp+sykSEucHkoavfcqimTUwnhX7nAY3ZdIZZJ0QAeVKC5DYt459VrQxr95BtoOzSvjrXvSu9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E0LuF0Hz; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=KDK8ARQlD5gENB5XNmm0hXjwv5t82B3TblzbIHJncE+wL6ubqQzDQasM8W8j3zwiLUsJvZYrhPUT3mfkJlsZZ5UCrP7SNXLUgvyt6VmMzDYdJWdq6aSa4gzF49M3Jz7FFhCVebDjYt2P7XuJxWpw4YFr+9PZ3L0fsAat8psV/ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A0KnIooJ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E0LuF0Hz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A0KnIooJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708511783; x=1740047783;
+  t=1708511973; x=1740047973;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6QoZZwNT/IaP75xaqlbUIXjkll9bSRndR8d2Z4+e7xs=;
-  b=E0LuF0HzwvqnxrRTFQ8vpYlhNONVbryLJjZ+AT5QP6I9hyLRmvDI7PX1
-   I2B9405p0k1II62rmdcP/3dbt78xYrAZ6fWTbVJjI6AnLqz34wyAwEjYF
-   QheqDvlPvBjqizwPtcU2odSzkMwVE5j4qYJj05Rk0GopbjDyMYuDmEY1/
-   6lq50QffW/aHDrubKBG5cslGBb9YPIK+Adm7wVgCIoG6ljWxZWDrydMUs
-   iF5tKW/CsGBh9Qo4sVKJnCR8oIKFzHAEa5tPQPVA2vvwpb9nvzD8gfmlG
-   ui1HEg7WjPpZMSlfRhVPP+iR7VZM3z0g7pZWqzbv76nNiTVdtMeiOf7d3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="13365045"
+  bh=xILmrnobn+p5gqFyC+n9FBC7LBi9lgVrfx/+q+USuTI=;
+  b=A0KnIooJnz8V4GQUazHwr4uwmjcrl1Ruy3blcW4Rj18ax0BPbf6vwlOp
+   LSvZ1MJNDIwsOaS57UrgiTxPPl3yXdqDpF3o39iseJIm0Us60NWIqRSoD
+   qy/Pdkm0xSg2y4Eqind42YhkjNTiVIP+Dep508ewHg1eWB5YqJl7SCCwO
+   Ivz+i5MjaCDQxzfjBnq/Kpi8hU3gyZbzm5Y5p+JNTRG8z3nqYrEaqHZov
+   Fb88QcDZwa3u+xaiB7urXZC+hYvJvy8BKUeoykQbKkEVt4xALKfB/EoIk
+   fZ2tK0XV2uDkWdJ5GdUlfE3Uoy07/DC/SE6WamOS81nV/sh08vk4jRE8T
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="13284005"
 X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="13365045"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 02:36:22 -0800
+   d="scan'208";a="13284005"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 02:39:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,175,1705392000"; 
-   d="scan'208";a="9782616"
+   d="scan'208";a="5456600"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 21 Feb 2024 02:36:21 -0800
+  by orviesa006.jf.intel.com with ESMTP; 21 Feb 2024 02:39:31 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcjut-0005Fa-1U;
-	Wed, 21 Feb 2024 10:34:49 +0000
-Date: Wed, 21 Feb 2024 18:28:06 +0800
+	id 1rck0U-0005G8-2l;
+	Wed, 21 Feb 2024 10:39:21 +0000
+Date: Wed, 21 Feb 2024 18:38:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Michal Kubiak <michal.kubiak@intel.com>
-Subject: [alobakin:idpf-libie-new 64/68]
- drivers/net/ethernet/intel/idpf/idpf_xdp.c:237: warning: Function parameter
- or struct member '_xdpq' not described in 'idpf_clean_xdp_irq'
-Message-ID: <202402211809.xJXlC1Tn-lkp@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Gregory Price <gourry.memverge@gmail.com>
+Subject: [gmprice:weighted_interleave-next 6/6] drivers/base/node.c:220:23:
+ error: 'ACCESS_COORDINATE_CPU' undeclared
+Message-ID: <202402211846.TzoQtcsx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,123 +59,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   1f9963b67f75c3f6bb19d0185f99df47e6878cef
-commit: c1d59af0da217466634e9d93ed6ab70453e631a8 [64/68] idpf: add support for XDP on Rx
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240221/202402211809.xJXlC1Tn-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240221/202402211809.xJXlC1Tn-lkp@intel.com/reproduce)
+tree:   https://github.com/gmprice/linux weighted_interleave-next
+head:   8e917672b7b0fd84a6d95297abf937b61cc16015
+commit: 8e917672b7b0fd84a6d95297abf937b61cc16015 [6/6] mm/mempolicy: introduce system default interleave weights
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240221/202402211846.TzoQtcsx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240221/202402211846.TzoQtcsx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402211809.xJXlC1Tn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402211846.TzoQtcsx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/idpf/idpf_xdp.c:237: warning: Function parameter or struct member '_xdpq' not described in 'idpf_clean_xdp_irq'
->> drivers/net/ethernet/intel/idpf/idpf_xdp.c:237: warning: Function parameter or struct member 'budget' not described in 'idpf_clean_xdp_irq'
->> drivers/net/ethernet/intel/idpf/idpf_xdp.c:237: warning: Excess function parameter 'xdpq' description in 'idpf_clean_xdp_irq'
+   drivers/base/node.c: In function 'node_set_perf_attrs':
+>> drivers/base/node.c:220:23: error: 'ACCESS_COORDINATE_CPU' undeclared (first use in this function)
+     220 |         if (access == ACCESS_COORDINATE_CPU) {
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/base/node.c:220:23: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +237 drivers/net/ethernet/intel/idpf/idpf_xdp.c
+vim +/ACCESS_COORDINATE_CPU +220 drivers/base/node.c
 
-   229	
-   230	/**
-   231	 * idpf_clean_xdp_irq - Reclaim a batch of TX resources from completed XDP_TX
-   232	 * @xdpq: XDP Tx queue
-   233	 *
-   234	 * Returns number of cleaned descriptors.
-   235	 */
-   236	static u32 idpf_clean_xdp_irq(void *_xdpq, u32 budget)
- > 237	{
-   238		struct idpf_tx_queue *xdpq = _xdpq;
-   239		struct idpf_compl_queue *complq = xdpq->complq;
-   240		struct libeth_sq_onstack_stats ss = { };
-   241		struct libeth_tx_comp_params cp = {
-   242			.dev	= xdpq->dev,
-   243			.ss	= &ss,
-   244			.napi	= true,
-   245		};
-   246		u32 tx_ntc = xdpq->next_to_clean;
-   247		u32 ntc = complq->next_to_clean;
-   248		u32 tx_cnt = xdpq->desc_count;
-   249		bool gen_flag, done = false;
-   250		struct xdp_frame_bulk bq;
-   251		u32 head, done_frames;
-   252	
-   253		gen_flag = test_bit(__IDPF_Q_GEN_CHK, complq->flags);
-   254	
-   255		for ( ; ; ) {
-   256			const struct idpf_splitq_4b_tx_compl_desc *desc;
-   257			int ctype;
-   258	
-   259			desc = &complq->comp_4b[ntc];
-   260	
-   261			ctype = idpf_xdp_parse_compl_desc(desc, gen_flag);
-   262			if (likely(ctype == IDPF_TXD_COMPLT_RS)) {
-   263				head = le16_to_cpu(desc->q_head_compl_tag.q_head);
-   264				done_frames = head > tx_ntc ? head - tx_ntc :
-   265							      head + tx_cnt - tx_ntc;
-   266				done = true;
-   267	
-   268				goto fetch_next_desc;
-   269			}
-   270	
-   271			switch (ctype) {
-   272			case IDPF_TXD_COMPLT_SW_MARKER:
-   273				idpf_tx_handle_sw_marker(xdpq);
-   274				break;
-   275			case -ENODATA:
-   276				goto exit_xdp_irq;
-   277			case -EINVAL:
-   278				break;
-   279			default:
-   280				netdev_WARN_ONCE(complq->netdev,
-   281						 "unsupported completion type: %d\n",
-   282						 ctype);
-   283				break;
-   284			}
-   285	
-   286	fetch_next_desc:
-   287			if (unlikely(++ntc == complq->desc_count)) {
-   288				ntc = 0;
-   289				gen_flag = !gen_flag;
-   290				change_bit(__IDPF_Q_GEN_CHK, complq->flags);
-   291			}
-   292	
-   293			if (done_frames >= budget)
-   294				break;
-   295		}
-   296	
-   297	exit_xdp_irq:
-   298		complq->next_to_clean = ntc;
-   299	
-   300		if (unlikely(!done))
-   301			return 0;
-   302	
-   303		xdp_frame_bulk_init(&bq);
-   304		cp.bq = &bq;
-   305	
-   306		for (u32 i = 0; i < done_frames; i++) {
-   307			libeth_xdp_complete_tx_buf(&xdpq->tx_buf[tx_ntc], &cp);
-   308	
-   309			if (unlikely(++tx_ntc == tx_cnt))
-   310				tx_ntc = 0;
-   311		}
-   312	
-   313		xdp_flush_frame_bulk(&bq);
-   314	
-   315		xdpq->next_to_clean = tx_ntc;
-   316		xdpq->pending -= done_frames;
-   317		xdpq->xdp_tx -= cp.xdp_tx;
-   318	
-   319		libeth_sq_napi_stats_add((struct libeth_sq_stats *)&xdpq->q_stats,
-   320					 &ss);
-   321	
-   322		return done_frames;
-   323	}
-   324	
+   187	
+   188	/**
+   189	 * node_set_perf_attrs - Set the performance values for given access class
+   190	 * @nid: Node identifier to be set
+   191	 * @coord: Heterogeneous memory performance coordinates
+   192	 * @access: The access class the for the given attributes
+   193	 */
+   194	void node_set_perf_attrs(unsigned int nid, struct access_coordinate *coord,
+   195				 unsigned int access)
+   196	{
+   197		struct node_access_nodes *c;
+   198		struct node *node;
+   199		int i;
+   200	
+   201		if (WARN_ON_ONCE(!node_online(nid)))
+   202			return;
+   203	
+   204		node = node_devices[nid];
+   205		c = node_init_node_access(node, access);
+   206		if (!c)
+   207			return;
+   208	
+   209		c->coord = *coord;
+   210		for (i = 0; access_attrs[i] != NULL; i++) {
+   211			if (sysfs_add_file_to_group(&c->dev.kobj, access_attrs[i],
+   212						    "initiators")) {
+   213				pr_info("failed to add performance attribute to node %d\n",
+   214					nid);
+   215				break;
+   216			}
+   217		}
+   218	
+   219		/* When setting CPU access coordinates, update mempolicy */
+ > 220		if (access == ACCESS_COORDINATE_CPU) {
+   221			if (mempolicy_set_node_perf(nid, coord))
+   222				pr_info("failed to set node%d mempolicy attrs\n", nid);
+   223		}
+   224	}
+   225	
 
 -- 
 0-DAY CI Kernel Test Service
