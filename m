@@ -1,241 +1,237 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44A439AF3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 05:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708493477; cv=none; b=dsLQa0/phsmJvVcikM4muVo/VTWvJ8WtRXro/9zHQ1ZWwOuZCM8M9rWaRXBenshHnygX31VCsFQh0G/RAZD66SjQmrRkFUFX7SrA3/EBce3Ob3yCaGqDPJNchlOltnkBQQWRuPB0eZ04xbYxDpUWeYi8p7q/FkUGzSpCo7UyKD4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708493477; c=relaxed/simple;
-	bh=4kNUkPSsZ6NwsVXrjkUeOW8afEalspPvKs5WE0LwN4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=DG6pYDGJqV5g/8ZM3ply9EZeHysry+PBHawAPp/jgxPpfO2zba1TkRi3f7tQ+yaTF9eVPCIvUNT1LneiXP4BGBNpe1PASQYnjm68RI7hW6NvCdXcjk7xqe7j0HuDZS9LrhYOj2oXUbBGmVT8GdDkpOF5fee5apXI0FwQ08ohOB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dfGoshA8; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE43C38F9B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 06:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708495340; cv=fail; b=bxRvjpyiJM/7za0f1dmrBBgeUYTFNqVwdPc/3R3fyy80M9XLX3oNEpQrAP2IQCeUspvdrNTnflJD3i2RKRQWdgW9v9l16yeMxPiZmuxMyz8e/zG7qBmUQSAGgsmKLEvqqfweEaaQ/QtyhekVv6g/MA4NGtkNQCPtBvtShnzUe2Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708495340; c=relaxed/simple;
+	bh=Bu6GJmY0FYMHyGWZKJKtthGYhmuE71ZJYlsVnai0BSI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=nHBi4FDdrVccIjgIeqKuA4dV1lou2+OHq4hAYwKWCx2OQkWHdXqcialsGs+ongXmbCj9TMu7YChC2m49LqNAmGWI18fH9EvjXK4FEreTPY6o3kehUNx2xyvX45bUoplS8WBuEeTEG2BlO4f3gcH4HjVYK/vPEpQkqBHhUrDPZ6w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fcyrvipi; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dfGoshA8"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a3566c0309fso732604966b.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 21:31:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708493473; x=1709098273; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ee8UGbAfInlRw0mmY32iabqom41XT4N0g5e35WXpWiI=;
-        b=dfGoshA82bpyJrQkx2/KUf5Ns5/nDrjl+ef0xnm1RWBdTesjaFkOms/mUSxKBrVnav
-         zs2icsa2oB7bYODdBpSUUFnEkg33NEGOlUzAQgiwFutSRFgy5eImjQpDyjZ12MGqb1vX
-         WBl5igrentqm2NQw+uxMC1LvRf/ZP8Po1CgT01zXxIASeUUIxuUi7LuuXE93SALOHrd0
-         2/SJQmA9nGIfW/x2ovnKXTYJngietosPfeFudAs6qh8/FrRFgCngFK2xSvAU2XJyMTrx
-         Fakz/M1cFSPucvjJCFcDNXiHgvCq4H6+xYd/UDwU0NpmBsQEi68LixzpJty7xXWLeAgW
-         2vDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708493473; x=1709098273;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ee8UGbAfInlRw0mmY32iabqom41XT4N0g5e35WXpWiI=;
-        b=ZZVLtRYG+N1/ROBlla5deAbPY5vcZ55nVp3rvNnF3n0gX0Ng0RQ9Me5YomULzeR9va
-         mB24Di1ly5oSkgvVh8wlhVNaqZ7hxBfHNLpfftC8zPgA8ZVz/Rh7jhYQcOSH820y/K+w
-         nw9VHr7nDAaii+fzhWzG6NTEkOKDBsh/HOUC3n+ImK99sKldSRPjuxTxIOs9j8ehTth6
-         5t1PQ9diOea+g+J3h9XZpJeNWMj18DpQRRNPj6qDxWbxRnMFH8szvtY1MQOYFLz2pirF
-         /ecu7mgKi/oOcmhc4wtqAi2PLkVpeD+IJOXueWPM1TOUtMJeXUdIR0yDvf56HiSNYAEf
-         F9Kg==
-X-Forwarded-Encrypted: i=1; AJvYcCWDCqlDOhYDkeq1Zs7J2AGIEYmM7iyIaoHtQGQvi75t+O5uEb3ErIep1y7o33BbuzdqEUdqg82oNqFya9KCaoMSNoieyPQeFHHmO3bCtQ==
-X-Gm-Message-State: AOJu0YwvGpnixErjyEfTILWDyM6m6srfGhswb42jRC+hS5teQfFlmcmW
-	ylxYX8aLd/Rji0DGA47Oy21IzPdIziUDrdO+QAQYFMvMluyMmmPoxf3zSGVWljw=
-X-Google-Smtp-Source: AGHT+IEq1eFtTNdd/bmaa3GnlDQllZezHXuoSDlWDXRfmFI1MDpUwA5PpLIhedjCVEADYrw9jNbQjg==
-X-Received: by 2002:a17:906:b18e:b0:a3e:8972:4404 with SMTP id w14-20020a170906b18e00b00a3e89724404mr4985261ejy.9.1708493473094;
-        Tue, 20 Feb 2024 21:31:13 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ov28-20020a170906fc1c00b00a3cf9b832eesm4587301ejb.40.2024.02.20.21.31.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 21:31:12 -0800 (PST)
-Date: Wed, 21 Feb 2024 08:31:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Menglong Dong <dongmenglong.8@bytedance.com>,
-	andrii@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ast@kernel.org,
-	daniel@iogearbox.net, martin.lau@linux.dev, eddyz87@gmail.com,
-	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org,
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-	thinker.li@gmail.com, dongmenglong.8@bytedance.com,
-	zhoufeng.zf@bytedance.com, davemarchevsky@fb.com, dxu@dxuuu.xyz,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH bpf-next 2/5] bpf: tracing: support to attach program to
- multi hooks
-Message-ID: <d0607bff-b589-4548-98e1-a94d227b4e93@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcyrvipi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708495338; x=1740031338;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=Bu6GJmY0FYMHyGWZKJKtthGYhmuE71ZJYlsVnai0BSI=;
+  b=fcyrvipiYLFHk2Fbc+qmVIAnbUSaiIOcH6mYcx5z6NUegCkqTiR6/vlk
+   MkbHCV+5KdjE4B0Yrjy+l8FhoPvMHmBt0lPswdxXJkqzrjIoVb2tkLicL
+   oGlBG2Ct61OLqp9KxLGlHN33LiaWgV7TnsqurYi3Ge6Y7G2cu+dho+daj
+   sdC6lAW+FqZMh/mVVv+xhKYb8M1mKu/ODjHUmtycISPLZppmw5MLubL1/
+   aM6IeAaMsBEMY2Ms8jLiNfQeiKDmMJZuVm18gInqE2bM3R2yqYcKaFXa7
+   MprAPJjPaR/RgFAPE+AApl56pax+Jqk7j+YlE6JgTP/7j5oD5QiIl2Ynd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="28079549"
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="28079549"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 22:02:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="4997604"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Feb 2024 22:02:17 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 20 Feb 2024 22:02:17 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 20 Feb 2024 22:02:17 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 20 Feb 2024 22:01:56 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QfwEzV9it0mCCTxhoKZvC5mb4xIYA9S4Ur6P2Y3fQKeVXtx26N9F7zVnmrnipSbFoiXgB0VQTDzbjs8bBUdzdbKOlk6jmFDxG+qwWOsqHCRQRZBYDqM5S4DA7PzRes0orj/qTjzf+KHHJHMM/gpy4levgJYo9HQ8wtQj0IWO8XLDI4wf5T6ywEnrfYIStJUxUyevOxs+UpLFjSGvEhfQkCCetIM6jtzeiPorStDJUlCwRDqIFNpmKVRAIq3KQfWT/qt3e4q3/gsXFpzGQH6Jj6qZQnGEd99GNkS9VTIH7mplkQfRl0bw9IMEjSGWM+va7j6qDXiySMIZezxfOeaVAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bu6GJmY0FYMHyGWZKJKtthGYhmuE71ZJYlsVnai0BSI=;
+ b=CMipwRaURO95KatcfFSNR9XNLid7H6nR+NMoRvYo/mAfyvwd2W8g17FLrym5UyAG8XfKFcB4KkVji0RCwXMeu0nE8UI0o3EhPZwYvXzrkQuD+9uBRuz6ppfbizYPJXDtQiW+SB7xa1Nny4xq+KFDdgWQg2ennGdyYcIpRdBFgOGehrDJSJ/z8viIBf049EHXjAmL8SNrlmjTFNop/V/RI1ddzL0OOjJpXO/E820z0afuwQxPlLrNXT0aZYChohFK1REkfMrBikVNTBgznl1sqjJqi5XthQmMA6gPiU2nDw/YxpfworgQF6FRvfSD4dfVD4956pgprsEOhKeFpquRKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by CH0PR11MB8236.namprd11.prod.outlook.com (2603:10b6:610:184::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.22; Wed, 21 Feb
+ 2024 06:01:54 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::b99c:f603:f176:aca]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::b99c:f603:f176:aca%5]) with mapi id 15.20.7316.018; Wed, 21 Feb 2024
+ 06:01:54 +0000
+From: "Liu, Yujie" <yujie.liu@intel.com>
+To: "viresh.kumar@linaro.org" <viresh.kumar@linaro.org>, lkp <lkp@intel.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Subject: Re: drivers/opp/debugfs.c:48:54: warning: '%d' directive output may
+ be truncated writing between 1 and 11 bytes into a region of size 8
+Thread-Topic: drivers/opp/debugfs.c:48:54: warning: '%d' directive output may
+ be truncated writing between 1 and 11 bytes into a region of size 8
+Thread-Index: AQHaXwjhMITOKfOb40e201rEHXAh5rEJV6AAgAr/UwA=
+Date: Wed, 21 Feb 2024 06:01:54 +0000
+Message-ID: <b41c6cdb78c96d5f4a909fc13c253ef0d8576c86.camel@intel.com>
+References: <202402141313.81ltVF5g-lkp@intel.com>
+	 <20240214055836.c5i3zmkhdllldwon@vireshk-i7>
+In-Reply-To: <20240214055836.c5i3zmkhdllldwon@vireshk-i7>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.44.4-0ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR11MB6392:EE_|CH0PR11MB8236:EE_
+x-ms-office365-filtering-correlation-id: 122a87c8-9ebb-4c9a-8920-08dc32a29abe
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bvyr3ZGFzLo3gsrR8Y1ne9yFg4+Y23iZTe7dQLTwLMKyCAoFNRZobFCh1MtsWVe1x5+VF62JH4jgPvhNhA2XQj7+jrDvxIQfX6BrC43H4PTJkwZVe0wwp2v0qVk/P1a0VexAf7OHUQalUK/i8VhNBo+FweCdDDeSH3Uri0NOmIH6DoHdOfAGSsrTeWDQFhU+h80wK9abBt4neM34uofZ84+zjWk6wwiPplfB5Z1EPUwywjevljdf07ROIXOmXNlvC0Vm+xOUIYQ0bhVMXML2+cWRyXN7V4Y7QZyjNABDh/2xEGqGyOMBXUVu8pL6kv+gZr5Po0yZ3pIeWOk5UDv5Dmi/yz6xIAS6jslRrfKJNkv9cMaywUWBdqO2qvkjEharPFo3/hMaKPY5sHzw01195IxNXhbNp4X16S9fQBhp9txAb/ezDauRYqYDG0uo6veH613e8ln6LOlYykeFElA8DKbCZ/FxI7oS1wLTMnuBPG0qG912Q1QcIkQJ4SUICVeKfAvVs6zKrBlZGDBYcumw6/9eABA3bWLmVN74SKtWYoct69iucXSKXiOd0Y75vUgbzh4nA1mLwHozkeLigKB1++QPtdpFfDnRHZYll97FKT4=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(230273577357003)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UzY5em9QVVM5VEQrRXVWaTlUOCtNenNqaEx3T05ZY2xpYVdTOFlHeXBNRmQ3?=
+ =?utf-8?B?czJnMXQ2UmtnL1g3MUFlQS8wZDdhM1dSMHJUckpBblJLeWV0ZnlZU2RnNmp4?=
+ =?utf-8?B?U0t0bnR4cFYybldRZ1Z3WXNtMWtuc0lzNnZpTE4xOVU0dUFMYUFRSkR2OG5O?=
+ =?utf-8?B?dS9LVnhEcTdMQWtWbzFNMEszMFQvZ2wzWFZ2amMxWlZvRHpSRnZyaHQ4ZUF4?=
+ =?utf-8?B?dWhLWTNvQWI3bGppelZuZmFweUZ2NTFUNVc2b3ljWENMRG5Gb09vbzFGRmVZ?=
+ =?utf-8?B?TktiZThHdnExc3JKNlFFZ1NNNGN5WG9IOGJBdGxqWHpxRVhWR0s4Zm1peUVS?=
+ =?utf-8?B?NEEybE16WTcyZm91T2RxVi9iYTJ2b1Z1cVVhVys4ejNMWURzak9RVDNJQkVK?=
+ =?utf-8?B?Rk9NMENzYXRqdUlBZXBSck9QT3BoNFF3L2ZlTktiWmpnS014bkVEdldPVmVR?=
+ =?utf-8?B?RGRvOTFTOW9XaFJVdHh6bVdwb3lXQUlJOWM1THUvb2Ryb2JQUTl6MG9paDQw?=
+ =?utf-8?B?eVg5Um9EaHpyazREbnhkWng0UUdnNk5qd1o0ZmJNTFFkamxKMXdiSks2UU5r?=
+ =?utf-8?B?ckExSDlYZFFPQTljSURBUDVONUNOS3I2YmVKakhMTGw3TzRDUnNKaWsvdXBF?=
+ =?utf-8?B?dTkwRlZPWG1QbGNOWG0xMTB1SnlaT2lhbXl5OFgyZnlPMm01aEJ0KzZFMjRs?=
+ =?utf-8?B?STlwVkdxelZ0S0dUcVoybDU3MmpvRjlmR09BM1lxZXc1Q1FIS3BVSThwM1pk?=
+ =?utf-8?B?WU1DL3BWN2ZseittcVMwY0QzemtPL3gxSkRsdWZLb1N3cThFYVhacnVacDhs?=
+ =?utf-8?B?T2x6ZURSblllcFZOZTJmSFdKRnVBNmppVjNLVXZ1UWMyM00yTlVCQytDcFBq?=
+ =?utf-8?B?dUw3RmVSdHZmdDNHZHhWdFdBTzgrZ1dSditnbm83MnRLOGlRaVZvdG9HaHZ5?=
+ =?utf-8?B?WkxxQ25kODNFVG9zS3dnejI5dDV4MndBTDVjdEdYWUtoZnZuZGhITndqdEEx?=
+ =?utf-8?B?N082OUZDUTFQa2wxa2pnYmRrMU9ESXpNOWpzVldxUURzU3V6ek02VlJNVzZp?=
+ =?utf-8?B?WjVVV25HblJ1YlZxQ1ZpMjZUWTJxaXdFQWZXZVV3MS9UdW1uUHA0RXVYeWR4?=
+ =?utf-8?B?Q21UM0lvR1E3encrVm5KMnUxTE1PTkJZNDFRc2JPNFFzb2JFT0JueWtVQTVT?=
+ =?utf-8?B?QVdNd1JwSkM3b3pQMGFPZ0xuaUNCVHlqMEc2WGs1RENsQmtkZFIzU043S3lt?=
+ =?utf-8?B?bGxLUXhlVmR1MmlBRUJMbEJoeW1rd3NZaEoyTUN6aWZqKzVCR1grK1N4a1pQ?=
+ =?utf-8?B?OGZCWjd1aUJ6ZXNoZ1Z2VDk3bWwvVExPSGthdmtBbkhlOUJqQUd3aXhKTjlz?=
+ =?utf-8?B?QkFkRmJlUmo3Zy84Z2k0aFBVNHpJbEthcGxWUGFBQkllMUltVllGa083Y21C?=
+ =?utf-8?B?YWg0TWduVmR3WEYzNzJ5K1lOL0xtK2U4YWoyL3ZjRVg3R3N1NzFVZXFIeFRk?=
+ =?utf-8?B?ZEQvQzBPMDF2V25vVG1nMlJ1ZzdpK0pqbmtTTlRURVpjc3RKaVl4bjhjb2Jx?=
+ =?utf-8?B?ck1SMkJIUjFqeURxSVFsamtUQTduYzJrWDZ6Y0ZRL0hIMzdBbVJQYW81Zmxs?=
+ =?utf-8?B?THRHZTNPZktKcVQ4UW5DdGlkSEVEU2w0SlU5VWQzUUlUaG15Ylk0MEFuVm4v?=
+ =?utf-8?B?QmtGZnJZZ2RKMjBtSGh2bFltcWNvdWltUmUxaklyblNSMHJDQ2VvWWRrN2Jl?=
+ =?utf-8?B?Y3lDYUVDUWdoRUcyMHkxaWU1eE9zQUpWaUF3b3RTK2hLRjVUSE5vb2ptREtr?=
+ =?utf-8?B?MVNabzJKTlR1U2MxWEV4SFQ2bEYxa1kveEpkNjFsTWJVZC9xN3UrdDl5b0NM?=
+ =?utf-8?B?QVVkMlRpbitTN3k5eDFuZmpNUjhHamxqc3QzWmh2QjdOejNUOHp6U2gzczhy?=
+ =?utf-8?B?WS9kdTlnNWdLckd2SDR3S2RlWGpRYlZiRSs0Q283NERkNjdqT2pSdVBkMGYw?=
+ =?utf-8?B?NU1qYmlzWU1MSTFNMmhZOENnZ0pwY3gxTkVoekdLeW5tTjB0cE9seVN1Qjc2?=
+ =?utf-8?B?Ty9RNEVHTjNpRG1NUFZrZllRR1hIbXl3Y0ROWUFSd2hpNDFNQVJDWGh5VDNW?=
+ =?utf-8?Q?SO6clyefshSKMKH5E6kqp44rG?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A2FB6D0C115B054499BB4CD8A9489EF0@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240220035105.34626-3-dongmenglong.8@bytedance.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 122a87c8-9ebb-4c9a-8920-08dc32a29abe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2024 06:01:54.1656
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 40agpPr9scCtWHEUnjRlXamEwtrP0dwbWVI4OwKbY06rOklAZlvw6i9z/eYwwtLzMJgOcNloKVFQVkpHChiXJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB8236
+X-OriginatorOrg: intel.com
 
-Hi Menglong,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/bpf-tracing-add-support-to-record-and-check-the-accessed-args/20240220-115317
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240220035105.34626-3-dongmenglong.8%40bytedance.com
-patch subject: [PATCH bpf-next 2/5] bpf: tracing: support to attach program to multi hooks
-config: m68k-randconfig-r071-20240220 (https://download.01.org/0day-ci/archive/20240221/202402210534.siGKEfus-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402210534.siGKEfus-lkp@intel.com/
-
-smatch warnings:
-kernel/bpf/syscall.c:3325 bpf_tracing_prog_attach() warn: passing zero to 'PTR_ERR'
-kernel/bpf/syscall.c:3485 bpf_tracing_prog_attach() error: uninitialized symbol 'link'.
-
-vim +/PTR_ERR +3325 kernel/bpf/syscall.c
-
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3255  static int bpf_tracing_prog_attach(struct bpf_prog *prog,
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3256  				   int tgt_prog_fd,
-2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3257  				   u32 btf_id,
-2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3258  				   u64 bpf_cookie)
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3259  {
-a3b80e1078943d Andrii Nakryiko        2020-04-28  3260  	struct bpf_link_primer link_primer;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3261  	struct bpf_prog *tgt_prog = NULL;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3262  	struct bpf_trampoline *tr = NULL;
-5f80eb32851d7a Menglong Dong          2024-02-20  3263  	struct btf *attach_btf = NULL;
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3264  	struct bpf_tracing_link *link;
-5f80eb32851d7a Menglong Dong          2024-02-20  3265  	struct module *mod = NULL;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3266  	u64 key = 0;
-a3b80e1078943d Andrii Nakryiko        2020-04-28  3267  	int err;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3268  
-9e4e01dfd3254c KP Singh               2020-03-29  3269  	switch (prog->type) {
-9e4e01dfd3254c KP Singh               2020-03-29  3270  	case BPF_PROG_TYPE_TRACING:
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3271  		if (prog->expected_attach_type != BPF_TRACE_FENTRY &&
-be8704ff07d237 Alexei Starovoitov     2020-01-20  3272  		    prog->expected_attach_type != BPF_TRACE_FEXIT &&
-9e4e01dfd3254c KP Singh               2020-03-29  3273  		    prog->expected_attach_type != BPF_MODIFY_RETURN) {
-9e4e01dfd3254c KP Singh               2020-03-29  3274  			err = -EINVAL;
-9e4e01dfd3254c KP Singh               2020-03-29  3275  			goto out_put_prog;
-9e4e01dfd3254c KP Singh               2020-03-29  3276  		}
-9e4e01dfd3254c KP Singh               2020-03-29  3277  		break;
-9e4e01dfd3254c KP Singh               2020-03-29  3278  	case BPF_PROG_TYPE_EXT:
-9e4e01dfd3254c KP Singh               2020-03-29  3279  		if (prog->expected_attach_type != 0) {
-9e4e01dfd3254c KP Singh               2020-03-29  3280  			err = -EINVAL;
-9e4e01dfd3254c KP Singh               2020-03-29  3281  			goto out_put_prog;
-9e4e01dfd3254c KP Singh               2020-03-29  3282  		}
-9e4e01dfd3254c KP Singh               2020-03-29  3283  		break;
-9e4e01dfd3254c KP Singh               2020-03-29  3284  	case BPF_PROG_TYPE_LSM:
-9e4e01dfd3254c KP Singh               2020-03-29  3285  		if (prog->expected_attach_type != BPF_LSM_MAC) {
-9e4e01dfd3254c KP Singh               2020-03-29  3286  			err = -EINVAL;
-9e4e01dfd3254c KP Singh               2020-03-29  3287  			goto out_put_prog;
-9e4e01dfd3254c KP Singh               2020-03-29  3288  		}
-9e4e01dfd3254c KP Singh               2020-03-29  3289  		break;
-9e4e01dfd3254c KP Singh               2020-03-29  3290  	default:
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3291  		err = -EINVAL;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3292  		goto out_put_prog;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3293  	}
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3294  
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3295  	if (tgt_prog_fd) {
-5f80eb32851d7a Menglong Dong          2024-02-20  3296  		if (!btf_id) {
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3297  			err = -EINVAL;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3298  			goto out_put_prog;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3299  		}
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3300  		tgt_prog = bpf_prog_get(tgt_prog_fd);
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3301  		if (IS_ERR(tgt_prog)) {
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3302  			tgt_prog = NULL;
-5f80eb32851d7a Menglong Dong          2024-02-20  3303  			/* tgt_prog_fd is the fd of the kernel module BTF */
-5f80eb32851d7a Menglong Dong          2024-02-20  3304  			attach_btf = btf_get_by_fd(tgt_prog_fd);
-5f80eb32851d7a Menglong Dong          2024-02-20  3305  			if (IS_ERR(attach_btf)) {
-5f80eb32851d7a Menglong Dong          2024-02-20  3306  				attach_btf = NULL;
-5f80eb32851d7a Menglong Dong          2024-02-20  3307  				err = -EINVAL;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3308  				goto out_put_prog;
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3309  			}
-5f80eb32851d7a Menglong Dong          2024-02-20  3310  			if (!btf_is_kernel(attach_btf)) {
-5f80eb32851d7a Menglong Dong          2024-02-20  3311  				btf_put(attach_btf);
-5f80eb32851d7a Menglong Dong          2024-02-20  3312  				err = -EOPNOTSUPP;
-5f80eb32851d7a Menglong Dong          2024-02-20  3313  				goto out_put_prog;
-5f80eb32851d7a Menglong Dong          2024-02-20  3314  			}
-5f80eb32851d7a Menglong Dong          2024-02-20  3315  		} else if (prog->type == BPF_PROG_TYPE_TRACING &&
-5f80eb32851d7a Menglong Dong          2024-02-20  3316  			   tgt_prog->type == BPF_PROG_TYPE_TRACING) {
-5f80eb32851d7a Menglong Dong          2024-02-20  3317  			prog->aux->attach_tracing_prog = true;
-5f80eb32851d7a Menglong Dong          2024-02-20  3318  		}
-5f80eb32851d7a Menglong Dong          2024-02-20  3319  		key = bpf_trampoline_compute_key(tgt_prog, attach_btf,
-5f80eb32851d7a Menglong Dong          2024-02-20  3320  						 btf_id);
-5f80eb32851d7a Menglong Dong          2024-02-20  3321  	} else if (btf_id) {
-5f80eb32851d7a Menglong Dong          2024-02-20  3322  		attach_btf = bpf_get_btf_vmlinux();
-5f80eb32851d7a Menglong Dong          2024-02-20  3323  		if (IS_ERR(attach_btf)) {
-5f80eb32851d7a Menglong Dong          2024-02-20  3324  			attach_btf = NULL;
-                                                                                ^^^^^^^^^^^^^^^^^^
-This needs to be done after the "err = " assignment on the next line.
-
-5f80eb32851d7a Menglong Dong          2024-02-20 @3325  			err = PTR_ERR(attach_btf);
-                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Here.
-
-5f80eb32851d7a Menglong Dong          2024-02-20  3326  			goto out_unlock;
-5f80eb32851d7a Menglong Dong          2024-02-20  3327  		}
-5f80eb32851d7a Menglong Dong          2024-02-20  3328  		if (!attach_btf) {
-5f80eb32851d7a Menglong Dong          2024-02-20  3329  			err = -EINVAL;
-5f80eb32851d7a Menglong Dong          2024-02-20  3330  			goto out_unlock;
-
-"link" is not initialized on this goto path so it leads to an
-uninitialized variable warning.
-
-5f80eb32851d7a Menglong Dong          2024-02-20  3331  		}
-5f80eb32851d7a Menglong Dong          2024-02-20  3332  		btf_get(attach_btf);
-5f80eb32851d7a Menglong Dong          2024-02-20  3333  		key = bpf_trampoline_compute_key(NULL, attach_btf, btf_id);
-5f80eb32851d7a Menglong Dong          2024-02-20  3334  	} else {
-5f80eb32851d7a Menglong Dong          2024-02-20  3335  		attach_btf = prog->aux->attach_btf;
-5f80eb32851d7a Menglong Dong          2024-02-20  3336  		/* get the reference of the btf for bpf link */
-5f80eb32851d7a Menglong Dong          2024-02-20  3337  		if (attach_btf)
-5f80eb32851d7a Menglong Dong          2024-02-20  3338  			btf_get(attach_btf);
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3339  	}
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3340  
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3341  	link = kzalloc(sizeof(*link), GFP_USER);
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3342  	if (!link) {
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3343  		err = -ENOMEM;
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3344  		goto out_put_prog;
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3345  	}
-f7e0beaf39d386 Kui-Feng Lee           2022-05-10  3346  	bpf_link_init(&link->link.link, BPF_LINK_TYPE_TRACING,
-f2e10bff16a0fd Andrii Nakryiko        2020-04-28  3347  		      &bpf_tracing_link_lops, prog);
-f2e10bff16a0fd Andrii Nakryiko        2020-04-28  3348  	link->attach_type = prog->expected_attach_type;
-2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3349  	link->link.cookie = bpf_cookie;
-70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3350  
-
-[ snip ]
-
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3474  	prog->aux->dst_trampoline = NULL;
-5f80eb32851d7a Menglong Dong          2024-02-20  3475  	prog->aux->mod = NULL;
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3476  	mutex_unlock(&prog->aux->dst_mutex);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3477  
-a3b80e1078943d Andrii Nakryiko        2020-04-28  3478  	return bpf_link_settle(&link_primer);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3479  out_unlock:
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3480  	if (tr && tr != prog->aux->dst_trampoline)
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3481  		bpf_trampoline_put(tr);
-5f80eb32851d7a Menglong Dong          2024-02-20  3482  	if (mod && mod != prog->aux->mod)
-5f80eb32851d7a Menglong Dong          2024-02-20  3483  		module_put(mod);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3484  	mutex_unlock(&prog->aux->dst_mutex);
-3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29 @3485  	kfree(link);
-                                                                      ^^^^
-
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3486  out_put_prog:
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3487  	if (tgt_prog_fd && tgt_prog)
-4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3488  		bpf_prog_put(tgt_prog);
-5f80eb32851d7a Menglong Dong          2024-02-20  3489  	btf_put(attach_btf);
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3490  	return err;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  3491  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+SGkgVmlyZXNoLA0KDQpPbiBXZWQsIDIwMjQtMDItMTQgYXQgMTE6MjggKzA1MzAsIFZpcmVzaCBL
+dW1hciB3cm90ZToNCj4gT24gMTQtMDItMjQsIDEzOjQzLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
+ZToNCj4gPiBIaSBWaXJlc2gsDQo+ID4gDQo+ID4gRllJLCB0aGUgZXJyb3Ivd2FybmluZyBzdGls
+bCByZW1haW5zLg0KPiA+IA0KPiA+IHRyZWU6wqDCoCBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1
+Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXTCoG1hc3Rlcg0KPiA+IGhl
+YWQ6wqDCoCA3ZTkwYjVjMjk1ZWMxZTQ3YzhhZDg2NTQyOWYwNDY5NzBjNTQ5YTY2DQo+ID4gY29t
+bWl0OiA0NmY0OGFjYTJlNWFlZjNmNDMwZTk1ZDFhNWZiNjgyMjdlYzhlYzg1IE9QUDogRml4IG1p
+c3NpbmcgZGVidWdmcyBzdXBwbHkgZGlyZWN0b3J5IGZvciBPUFBzDQo+ID4gZGF0ZTrCoMKgIDUg
+eWVhcnMgYWdvDQo+ID4gY29uZmlnOiB4ODZfNjQtYnVpbGRvbmx5LXJhbmRjb25maWctMDAxLTIw
+MjMxMDEyIChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyNDAyMTQv
+MjAyNDAyMTQxMzEzLjgxbHRWRjVnLWxrcEBpbnRlbC5jb20vY29uZmlnKQ0KPiA+IGNvbXBpbGVy
+OiBnY2MtMTIgKERlYmlhbiAxMi4yLjAtMTQpIDEyLjIuMA0KPiA+IHJlcHJvZHVjZSAodGhpcyBp
+cyBhIFc9MSBidWlsZCk6IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUv
+MjAyNDAyMTQvMjAyNDAyMTQxMzEzLjgxbHRWRjVnLWxrcEBpbnRlbC5jb20vcmVwcm9kdWNlKQ0K
+PiA+IA0KPiA+IElmIHlvdSBmaXggdGhlIGlzc3VlIGluIGEgc2VwYXJhdGUgcGF0Y2gvY29tbWl0
+IChpLmUuIG5vdCBqdXN0IGEgbmV3IHZlcnNpb24gb2YNCj4gPiB0aGUgc2FtZSBwYXRjaC9jb21t
+aXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWdzDQo+ID4gPiBSZXBvcnRlZC1ieToga2VybmVs
+IHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+DQo+ID4gPiBDbG9zZXM6IGh0dHBzOi8vbG9yZS5r
+ZXJuZWwub3JnL29lLWtidWlsZC1hbGwvMjAyNDAyMTQxMzEzLjgxbHRWRjVnLWxrcEBpbnRlbC5j
+b20vDQo+IA0KPiBJIGhhdmUgaW5mb3JtZWQgdGhpcyBlYXJsaWVyIHRvbywgdGhpcyByZXBvcnQg
+aXMgaW5jb3JyZWN0IGFuZCBhcHBsaWVzDQo+IHRvIGEgdmVyeSBvbGQgY29tbWl0Lg0KDQpSZWFs
+bHkgc29ycnkgZm9yIG5vdCByZXNwb25kaW5nIHRpbWVseSB0byB0aGUgcXVlc3Rpb25zIGluIHRo
+ZQ0KZm9sbG93aW5nIHJlcG9ydHM6DQoNClsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwv
+MjAyMzExMDYxODQ3LkJPdGZVbWJRLWxrcEBpbnRlbC5jb20vDQpbMl0gaHR0cHM6Ly9sb3JlLmtl
+cm5lbC5vcmcvYWxsLzIwMjMxMjE3MDYwOC5zOXhJNFRRYi1sa3BAaW50ZWwuY29tLw0KDQpXZSBz
+ZWUgdGhhdCB0aGlzIHN0aWxsIGhhcHBlbnMgb24gdGhlIGxhdGVzdCBtYWlubGluZSByYyByZWdh
+cmRsZXNzIG9mDQp4ODZfNjQgb3IgYXJtNjQgYXJjaC4gUGxlYXNlIG5vdGUgdGhhdCB0aGlzIGlz
+IGEgIlc9MSIgd2FybmluZy4gSW4gb3VyDQp0ZXN0cywgaXQgY2FuIGJlIHJlcHJvZHVjZWQgd2l0
+aCBnY2MtMTIgYW5kIGdjYy0xMywgYnV0IG5vdCB3aXRoIG90aGVyDQp2ZXJzaW9ucyBvZiBnY2Mu
+DQoNCiQgZ2l0IGNoZWNrb3V0IHY2LjgtcmM1IA0KSEVBRCBpcyBub3cgYXQgYjQwMWI2MjE3NThl
+NCBMaW51eCA2LjgtcmM1DQoNCiQgd2dldCBodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNp
+L2FyY2hpdmUvMjAyNDAyMTQvMjAyNDAyMTQxMzEzLjgxbHRWRjVnLWxrcEBpbnRlbC5jb20vY29u
+ZmlnIC1PIC5jb25maWcNCg0KJCBtYWtlIENDPWdjYy0xMiBXPTEgLWo3MiBBUkNIPXg4Nl82NCBv
+bGRkZWZjb25maWcNCiQgbWFrZSBDQz1nY2MtMTIgVz0xIC1qNzIgQVJDSD14ODZfNjQgZHJpdmVy
+cy9vcHAvZGVidWdmcy5vDQouLi4NCmRyaXZlcnMvb3BwL2RlYnVnZnMuYzogSW4gZnVuY3Rpb24g
+J29wcF9kZWJ1Z19jcmVhdGVfb25lJzoNCmRyaXZlcnMvb3BwL2RlYnVnZnMuYzoxMDU6NTQ6IGVy
+cm9yOiAnJWQnIGRpcmVjdGl2ZSBvdXRwdXQgbWF5IGJlIHRydW5jYXRlZCB3cml0aW5nIGJldHdl
+ZW4gMSBhbmQgMTEgYnl0ZXMgaW50byBhIHJlZ2lvbiBvZiBzaXplIDggWy1XZXJyb3I9Zm9ybWF0
+LXRydW5jYXRpb249XQ0KICAxMDUgfCAgICAgICAgICAgICAgICAgc25wcmludGYobmFtZSwgc2l6
+ZW9mKG5hbWUpLCAic3VwcGx5LSVkIiwgaSk7DQogICAgICB8ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn4NCkluIGZ1bmN0aW9uICdvcHBfZGVi
+dWdfY3JlYXRlX3N1cHBsaWVzJywNCiAgICBpbmxpbmVkIGZyb20gJ29wcF9kZWJ1Z19jcmVhdGVf
+b25lJyBhdCBkcml2ZXJzL29wcC9kZWJ1Z2ZzLmM6MTYzOjI6DQpkcml2ZXJzL29wcC9kZWJ1Z2Zz
+LmM6MTA1OjQ2OiBub3RlOiBkaXJlY3RpdmUgYXJndW1lbnQgaW4gdGhlIHJhbmdlIFstMjE0NzQ4
+MzY0NCwgMjE0NzQ4MzY0Nl0NCiAgMTA1IHwgICAgICAgICAgICAgICAgIHNucHJpbnRmKG5hbWUs
+IHNpemVvZihuYW1lKSwgInN1cHBseS0lZCIsIGkpOw0KICAgICAgfCAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fg0KZHJpdmVycy9vcHAvZGVi
+dWdmcy5jOjEwNToxNzogbm90ZTogJ3NucHJpbnRmJyBvdXRwdXQgYmV0d2VlbiA5IGFuZCAxOSBi
+eXRlcyBpbnRvIGEgZGVzdGluYXRpb24gb2Ygc2l6ZSAxNQ0KICAxMDUgfCAgICAgICAgICAgICAg
+ICAgc25wcmludGYobmFtZSwgc2l6ZW9mKG5hbWUpLCAic3VwcGx5LSVkIiwgaSk7DQogICAgICB8
+ICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fg0KDQokIG1ha2UgQ1JPU1NfQ09NUElMRT1hYXJjaDY0LWxpbnV4LWdudS0gQ0M9YWFyY2g2
+NC1saW51eC1nbnUtZ2NjLTEyIFc9MSAtajcyIEFSQ0g9YXJtNjQgb2xkZGVmY29uZmlnDQokIG1h
+a2UgQ1JPU1NfQ09NUElMRT1hYXJjaDY0LWxpbnV4LWdudS0gQ0M9YWFyY2g2NC1saW51eC1nbnUt
+Z2NjLTEyIFc9MSAtajcyIEFSQ0g9YXJtNjQgZHJpdmVycy9vcHAvZGVidWdmcy5vDQouLi4NCmRy
+aXZlcnMvb3BwL2RlYnVnZnMuYzogSW4gZnVuY3Rpb24gJ29wcF9kZWJ1Z19jcmVhdGVfb25lJzoN
+CmRyaXZlcnMvb3BwL2RlYnVnZnMuYzoxMDU6NTQ6IGVycm9yOiAnJWQnIGRpcmVjdGl2ZSBvdXRw
+dXQgbWF5IGJlIHRydW5jYXRlZCB3cml0aW5nIGJldHdlZW4gMSBhbmQgMTEgYnl0ZXMgaW50byBh
+IHJlZ2lvbiBvZiBzaXplIDggWy1XZXJyb3I9Zm9ybWF0LXRydW5jYXRpb249XQ0KICAxMDUgfCAg
+ICAgICAgICAgICAgICAgc25wcmludGYobmFtZSwgc2l6ZW9mKG5hbWUpLCAic3VwcGx5LSVkIiwg
+aSk7DQogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgXn4NCkluIGZ1bmN0aW9uICdvcHBfZGVidWdfY3JlYXRlX3N1cHBsaWVzJywNCiAg
+ICBpbmxpbmVkIGZyb20gJ29wcF9kZWJ1Z19jcmVhdGVfb25lJyBhdCBkcml2ZXJzL29wcC9kZWJ1
+Z2ZzLmM6MTYzOjI6DQpkcml2ZXJzL29wcC9kZWJ1Z2ZzLmM6MTA1OjQ2OiBub3RlOiBkaXJlY3Rp
+dmUgYXJndW1lbnQgaW4gdGhlIHJhbmdlIFstMjE0NzQ4MzY0NCwgMjE0NzQ4MzY0Nl0NCiAgMTA1
+IHwgICAgICAgICAgICAgICAgIHNucHJpbnRmKG5hbWUsIHNpemVvZihuYW1lKSwgInN1cHBseS0l
+ZCIsIGkpOw0KICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBefn5+fn5+fn5+fg0KZHJpdmVycy9vcHAvZGVidWdmcy5jOjEwNToxNzogbm90ZTogJ3Nu
+cHJpbnRmJyBvdXRwdXQgYmV0d2VlbiA5IGFuZCAxOSBieXRlcyBpbnRvIGEgZGVzdGluYXRpb24g
+b2Ygc2l6ZSAxNQ0KICAxMDUgfCAgICAgICAgICAgICAgICAgc25wcmludGYobmFtZSwgc2l6ZW9m
+KG5hbWUpLCAic3VwcGx5LSVkIiwgaSk7DQogICAgICB8ICAgICAgICAgICAgICAgICBefn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KDQpXZSBhcmUgbm90IHN1cmUg
+aWYgdGhpcyBpcyBhIHJlYWwgcHJvYmxlbSBvciBhIGNvbXBpbGVyIHNob3J0Y29taW5nDQp0aGF0
+IGdjYyBjYWxjdWxhdGVzIGFuIGluY29ycmVjdCBzaXplLiBNaWdodCBuZWVkIGdjYyBleHBlcnRz
+IHRvIHRha2UgYQ0KbG9vay4NCg0KUmVnYXJkbGVzcywgd2Ugd2lsbCBjb25maWd1cmUgdGhlIGJv
+dCB0byBpZ25vcmUgdGhpcyBpc3N1ZSB0byBhdm9pZA0KZnVydGhlciBib3RoZXJpbmcgeW91IHdp
+dGggZHVwbGljYXRlIHJlcG9ydHMuDQoNCkJlc3QgUmVnYXJkcywNCll1amllDQo=
