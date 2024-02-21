@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863107BB00;
-	Wed, 21 Feb 2024 17:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D5081737
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 17:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708536679; cv=none; b=LVJWzEgcxJ6QFeljNf0cCx0II9hu/DfPyhaJyJn0BSiLhyCFN0N/J/oY2icLtOTyBSGeNKjF4i9iSmWNhzC+tK3Exahv7QMpgrfm5z+XIO/iXOlows9OSTRkhxDoZSVSoTn+H8F6AeEYSpPNmtMkkCQJ82ZF7RgUJO49NOD1Bec=
+	t=1708537397; cv=none; b=iqHQq4PC4OPUsaL3k1lJp9rXt7JgjA78Z4mjfGrMcK7KhWA89mFfFtAXish6piwjDGmVspu3LAauuQarx48ckay7uUr92JwORS0qZvtls0vCju+pGU9mFITfY3uuX7lHPvfkHEG73JEJ2CwL9Yi3qe02rhQ1TirMVqHPuUB+s9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708536679; c=relaxed/simple;
-	bh=x4m0ZIEdqBXtWBesysoHgAjQIPLTEUcC/b3cdm0G0oU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gNjjVIuMDLJSkfIU9eY2wr7GeVaNhtzLLstJhI5oKQS1fSLacyOgYUWv4SOOVwBIEP+B6COIkQtrDTGZxgrs41ErwMKn04+6s4ncK5jmqUDIGBaMbVUuBoaSMGeE6I572EZCH4MGsPI+U/WwsL+VMj63osl3oRicvDyIsss7L1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CBIp/lFd; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1708537397; c=relaxed/simple;
+	bh=HFjG881lGNg06q4sPERHHloRMTId3j01N8n0czE7+PI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BsxKkEmwMeWJuIMubhbTBOKg7UzcKDX6BZDvQLTwxOazbkZPY6oOqXGy29X/riyojH5ATQQ6kEwS5PTk3KB5eNfUGOuF97OX95UVFxZ6+D2e0Ty3GIKyznAmjOZ/6HBxYx5vrAcaUj5gg+2ETn2V/DHJcjN5p0hZQljZbz2Xdaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zt+bVF2i; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CBIp/lFd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zt+bVF2i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708536679; x=1740072679;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x4m0ZIEdqBXtWBesysoHgAjQIPLTEUcC/b3cdm0G0oU=;
-  b=CBIp/lFdBqB8d3vMyZ82FvnrGzNGLuKYvqFa58nKCTraIKvLpqx9W1pf
-   VWK28IIfQHRYUJdwRAVkjzWOV7/o5QEq8bNbEuwTc8YwaKyDup5qJFbkW
-   IXcpG6TRKIkQiquhjTeo3+dyTFlkGj5IWStPT7wRZqNxqJFbbc5BA3eD6
-   Vr7R1bfm473Cneo8ZWPFnBvFIKqzS94quzVsvW+JU6y3uf1DGH7JOoDhq
-   Ep43/fcbZr4tcGFJBBvth88cl3F9EpjLs0qntXDKJLXbmunqxbm6RQRly
-   IRBDIS8g0/omdlXabKZT3HxLozrAqQTJIvOBVx/aGP8hnDzwxHaM5MhIb
+  t=1708537395; x=1740073395;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HFjG881lGNg06q4sPERHHloRMTId3j01N8n0czE7+PI=;
+  b=Zt+bVF2ieh5Ms6qcu47eLOWDrt2y+Cz0etfYvhRg4eU/8A2QuqG4QPjY
+   ZUSIczJUgpjdcY9ItL3m/4wECbHl03U0qhrz4h7oupi+8dDZmmG803rc/
+   8+N01ikbrA9bwf7zqq4cHI3XybojN88hYq/t4qjx9vstkPIHWOCgsDyQ6
+   n+B1is5zhlz9TAHj6i+b4VfmKKXMTIplZOWt9KGUQ8d/CG1QhSsbBJ2tF
+   8IQVVaA7hTdisBhLwT+Vi6vZYuvRoMmvInjylUbt2y+yAQaGoRU3it0bR
+   D1INUTgsdlF1wkBNGaWRgvjXtDhMZtN8/k3EnbHNRXZP7Fsy1beHSHmYb
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="25177043"
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="14136877"
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="25177043"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 09:31:18 -0800
+   d="scan'208";a="14136877"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 09:43:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="827382575"
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="827382575"
+   d="scan'208";a="9769344"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 21 Feb 2024 09:31:15 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 21 Feb 2024 09:42:59 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcqR0-0005Xw-22;
-	Wed, 21 Feb 2024 17:31:08 +0000
-Date: Thu, 22 Feb 2024 01:30:42 +0800
+	id 1rcqcC-0005YK-1t;
+	Wed, 21 Feb 2024 17:42:49 +0000
+Date: Thu, 22 Feb 2024 01:42:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	muchun.song@linux.dev,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-Subject: Re: [PATCH 1/3] mm/memory: Change vmf_anon_prepare() to be non-static
-Message-ID: <202402220109.SIlFdfQ5-lkp@intel.com>
-References: <20240220231424.126600-2-vishal.moola@gmail.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: net/toa/toa.c:255:45: warning: unused variable 'ipv6_specific_p'
+Message-ID: <202402220136.DXHjoS1J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +59,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240220231424.126600-2-vishal.moola@gmail.com>
 
-Hi Vishal,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.8-rc5 next-20240221]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/mm-memory-Change-vmf_anon_prepare-to-be-non-static/20240221-071907
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240220231424.126600-2-vishal.moola%40gmail.com
-patch subject: [PATCH 1/3] mm/memory: Change vmf_anon_prepare() to be non-static
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240222/202402220109.SIlFdfQ5-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220109.SIlFdfQ5-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
+date:   2 years, 11 months ago
+config: x86_64-buildonly-randconfig-004-20240221 (https://download.01.org/0day-ci/archive/20240222/202402220136.DXHjoS1J-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220136.DXHjoS1J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402220109.SIlFdfQ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402220136.DXHjoS1J-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memory.c:3283:12: warning: no previous prototype for function 'vmf_anon_prepare' [-Wmissing-prototypes]
-   vm_fault_t vmf_anon_prepare(struct vm_fault *vmf)
-              ^
-   mm/memory.c:3283:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   vm_fault_t vmf_anon_prepare(struct vm_fault *vmf)
-   ^
-   static 
-   1 warning generated.
+   net/toa/toa.c: In function 'hook_toa_functions':
+>> net/toa/toa.c:255:45: warning: unused variable 'ipv6_specific_p' [-Wunused-variable]
+     255 |         struct inet_connection_sock_af_ops *ipv6_specific_p;
+         |                                             ^~~~~~~~~~~~~~~
+>> net/toa/toa.c:253:27: warning: unused variable 'inet6_stream_ops_p' [-Wunused-variable]
+     253 |         struct proto_ops *inet6_stream_ops_p;
+         |                           ^~~~~~~~~~~~~~~~~~
+   net/toa/toa.c: In function 'unhook_toa_functions':
+   net/toa/toa.c:295:45: warning: unused variable 'ipv6_specific_p' [-Wunused-variable]
+     295 |         struct inet_connection_sock_af_ops *ipv6_specific_p;
+         |                                             ^~~~~~~~~~~~~~~
+   net/toa/toa.c:293:27: warning: unused variable 'inet6_stream_ops_p' [-Wunused-variable]
+     293 |         struct proto_ops *inet6_stream_ops_p;
+         |                           ^~~~~~~~~~~~~~~~~~
 
 
-vim +/vmf_anon_prepare +3283 mm/memory.c
+vim +/ipv6_specific_p +255 net/toa/toa.c
 
-  3282	
-> 3283	vm_fault_t vmf_anon_prepare(struct vm_fault *vmf)
-  3284	{
-  3285		struct vm_area_struct *vma = vmf->vma;
-  3286	
-  3287		if (likely(vma->anon_vma))
-  3288			return 0;
-  3289		if (vmf->flags & FAULT_FLAG_VMA_LOCK) {
-  3290			vma_end_read(vma);
-  3291			return VM_FAULT_RETRY;
-  3292		}
-  3293		if (__anon_vma_prepare(vma))
-  3294			return VM_FAULT_OOM;
-  3295		return 0;
-  3296	}
-  3297	
+   243	
+   244	/*
+   245	 * HOOK FUNCS 
+   246	 */
+   247	
+   248	/* replace the functions with our functions */
+   249	static inline int
+   250	hook_toa_functions(void)
+   251	{
+   252		struct proto_ops *inet_stream_ops_p;
+ > 253		struct proto_ops *inet6_stream_ops_p;
+   254		struct inet_connection_sock_af_ops *ipv4_specific_p;
+ > 255		struct inet_connection_sock_af_ops *ipv6_specific_p;
+   256	
+   257		/* hook inet_getname for ipv4 */
+   258		inet_stream_ops_p = (struct proto_ops *)&inet_stream_ops;
+   259		inet_stream_ops_p->getname = inet_getname_toa;
+   260		TOA_INFO("CPU [%u] hooked inet_getname <%p> --> <%p>\n", smp_processor_id(), inet_getname,
+   261			 inet_stream_ops_p->getname);
+   262	
 
 -- 
 0-DAY CI Kernel Test Service
