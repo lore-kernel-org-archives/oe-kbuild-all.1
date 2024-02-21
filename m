@@ -1,187 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A85528382;
-	Wed, 21 Feb 2024 03:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44A439AF3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 05:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708486505; cv=none; b=p71oV6l5RXjnQ5RFsbfKv86sQtUKU2cdfWhrPNySAn1Ec2RsXtqIh4iHsVGA9pms6dTTxUdgHg6ujKxUz4QmzoMwtC2f1gOdNebK2arn0DvPkdmw/FOkNC6dfWs/Aij0QnS3jnVpZPjKmPVm47RxJ6xQYybFuYD8YJT7KV3B8kA=
+	t=1708493477; cv=none; b=dsLQa0/phsmJvVcikM4muVo/VTWvJ8WtRXro/9zHQ1ZWwOuZCM8M9rWaRXBenshHnygX31VCsFQh0G/RAZD66SjQmrRkFUFX7SrA3/EBce3Ob3yCaGqDPJNchlOltnkBQQWRuPB0eZ04xbYxDpUWeYi8p7q/FkUGzSpCo7UyKD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708486505; c=relaxed/simple;
-	bh=tman+kaW9xJ6NOB9RVijG/WgK2n+oftu2CHeCDpTDgw=;
+	s=arc-20240116; t=1708493477; c=relaxed/simple;
+	bh=4kNUkPSsZ6NwsVXrjkUeOW8afEalspPvKs5WE0LwN4c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KqGja4ODNb1DLQs9yGbL+0WfZLMXHXugUTwy3VjkkVAy8gl7CtMlDs0A/xGxSH/mGMfqbmT6vG12XS4TLsqe7qt9sLI8oqJzPNFHCmem86Zmd5Tx9XHqsqD3dXNnD8RD3KYMmgwARzFr0G8ZtLKT6ml60LLCvkktSWN+fXypdKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQ80S+QP; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=DG6pYDGJqV5g/8ZM3ply9EZeHysry+PBHawAPp/jgxPpfO2zba1TkRi3f7tQ+yaTF9eVPCIvUNT1LneiXP4BGBNpe1PASQYnjm68RI7hW6NvCdXcjk7xqe7j0HuDZS9LrhYOj2oXUbBGmVT8GdDkpOF5fee5apXI0FwQ08ohOB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dfGoshA8; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQ80S+QP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708486503; x=1740022503;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tman+kaW9xJ6NOB9RVijG/WgK2n+oftu2CHeCDpTDgw=;
-  b=PQ80S+QPe/ZAuoJzHz5K/AILG/4YHCN1X2lvpqRQ14wDcf+Y4DpjU0VK
-   jqi5Z5K9yI4B+X/FICum/vCRjTdAS6YB3yE6w9DS3DOAXvgPhLCLvzc8D
-   yAkLrdo+QflqgAlelWFZ5RObi8Yc5L9ZhtGHCbxDMgEnEMGQTyzGsOPJ4
-   0ZIzM7Fa3BjJI19y14oDBQquPtVDXvjE7oAXqpjZIiH+KrC9qCdjmLLHH
-   B3jqOQgPPhx6d2cr7MOHL2Elh1fz9XeoDcC6sxzZgs8cLTTfw+ornUgFT
-   G3zowBUZVJ04UNqBYx9t+ygQfxOpFtRy5eG1QYKdpSgegQEQjt347OEl4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="6445065"
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="6445065"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 19:35:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
-   d="scan'208";a="4971877"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Feb 2024 19:35:01 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rcdNq-0004yc-1A;
-	Wed, 21 Feb 2024 03:34:58 +0000
-Date: Wed, 21 Feb 2024 11:32:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/WFAMNAE-next20240215 1/1]
- kernel/bpf/core.c:2440:22: warning: comparison of distinct pointer types
- ('struct bpf_prog_array *' and 'struct bpf_prog_array_hdr *')
-Message-ID: <202402211137.ShMIWxpm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dfGoshA8"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a3566c0309fso732604966b.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 21:31:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708493473; x=1709098273; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ee8UGbAfInlRw0mmY32iabqom41XT4N0g5e35WXpWiI=;
+        b=dfGoshA82bpyJrQkx2/KUf5Ns5/nDrjl+ef0xnm1RWBdTesjaFkOms/mUSxKBrVnav
+         zs2icsa2oB7bYODdBpSUUFnEkg33NEGOlUzAQgiwFutSRFgy5eImjQpDyjZ12MGqb1vX
+         WBl5igrentqm2NQw+uxMC1LvRf/ZP8Po1CgT01zXxIASeUUIxuUi7LuuXE93SALOHrd0
+         2/SJQmA9nGIfW/x2ovnKXTYJngietosPfeFudAs6qh8/FrRFgCngFK2xSvAU2XJyMTrx
+         Fakz/M1cFSPucvjJCFcDNXiHgvCq4H6+xYd/UDwU0NpmBsQEi68LixzpJty7xXWLeAgW
+         2vDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708493473; x=1709098273;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ee8UGbAfInlRw0mmY32iabqom41XT4N0g5e35WXpWiI=;
+        b=ZZVLtRYG+N1/ROBlla5deAbPY5vcZ55nVp3rvNnF3n0gX0Ng0RQ9Me5YomULzeR9va
+         mB24Di1ly5oSkgvVh8wlhVNaqZ7hxBfHNLpfftC8zPgA8ZVz/Rh7jhYQcOSH820y/K+w
+         nw9VHr7nDAaii+fzhWzG6NTEkOKDBsh/HOUC3n+ImK99sKldSRPjuxTxIOs9j8ehTth6
+         5t1PQ9diOea+g+J3h9XZpJeNWMj18DpQRRNPj6qDxWbxRnMFH8szvtY1MQOYFLz2pirF
+         /ecu7mgKi/oOcmhc4wtqAi2PLkVpeD+IJOXueWPM1TOUtMJeXUdIR0yDvf56HiSNYAEf
+         F9Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCWDCqlDOhYDkeq1Zs7J2AGIEYmM7iyIaoHtQGQvi75t+O5uEb3ErIep1y7o33BbuzdqEUdqg82oNqFya9KCaoMSNoieyPQeFHHmO3bCtQ==
+X-Gm-Message-State: AOJu0YwvGpnixErjyEfTILWDyM6m6srfGhswb42jRC+hS5teQfFlmcmW
+	ylxYX8aLd/Rji0DGA47Oy21IzPdIziUDrdO+QAQYFMvMluyMmmPoxf3zSGVWljw=
+X-Google-Smtp-Source: AGHT+IEq1eFtTNdd/bmaa3GnlDQllZezHXuoSDlWDXRfmFI1MDpUwA5PpLIhedjCVEADYrw9jNbQjg==
+X-Received: by 2002:a17:906:b18e:b0:a3e:8972:4404 with SMTP id w14-20020a170906b18e00b00a3e89724404mr4985261ejy.9.1708493473094;
+        Tue, 20 Feb 2024 21:31:13 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ov28-20020a170906fc1c00b00a3cf9b832eesm4587301ejb.40.2024.02.20.21.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Feb 2024 21:31:12 -0800 (PST)
+Date: Wed, 21 Feb 2024 08:31:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Menglong Dong <dongmenglong.8@bytedance.com>,
+	andrii@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ast@kernel.org,
+	daniel@iogearbox.net, martin.lau@linux.dev, eddyz87@gmail.com,
+	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
+	jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org,
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+	thinker.li@gmail.com, dongmenglong.8@bytedance.com,
+	zhoufeng.zf@bytedance.com, davemarchevsky@fb.com, dxu@dxuuu.xyz,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH bpf-next 2/5] bpf: tracing: support to attach program to
+ multi hooks
+Message-ID: <d0607bff-b589-4548-98e1-a94d227b4e93@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240220035105.34626-3-dongmenglong.8@bytedance.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/WFAMNAE-next20240215
-head:   b50c399b249bcb0fdc709e812b4e87519937299d
-commit: 3fedbc527c5726b876207557fb133a5e558c1898 [1/1] treewide: Address -Wflexible-array-member-not-at-end warnings
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240221/202402211137.ShMIWxpm-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240221/202402211137.ShMIWxpm-lkp@intel.com/reproduce)
+Hi Menglong,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/bpf-tracing-add-support-to-record-and-check-the-accessed-args/20240220-115317
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240220035105.34626-3-dongmenglong.8%40bytedance.com
+patch subject: [PATCH bpf-next 2/5] bpf: tracing: support to attach program to multi hooks
+config: m68k-randconfig-r071-20240220 (https://download.01.org/0day-ci/archive/20240221/202402210534.siGKEfus-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402211137.ShMIWxpm-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402210534.siGKEfus-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/bpf/syscall.c:3325 bpf_tracing_prog_attach() warn: passing zero to 'PTR_ERR'
+kernel/bpf/syscall.c:3485 bpf_tracing_prog_attach() error: uninitialized symbol 'link'.
 
-   In file included from kernel/bpf/core.c:21:
-   In file included from include/linux/filter.h:9:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/bpf/core.c:21:
-   In file included from include/linux/filter.h:9:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/bpf/core.c:21:
-   In file included from include/linux/filter.h:9:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> kernel/bpf/core.c:2440:22: warning: comparison of distinct pointer types ('struct bpf_prog_array *' and 'struct bpf_prog_array_hdr *') [-Wcompare-distinct-pointer-types]
-    2440 |         if (!progs || progs == &bpf_empty_prog_array.hdr)
-         |                       ~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2461:22: warning: comparison of distinct pointer types ('struct bpf_prog_array *' and 'struct bpf_prog_array_hdr *') [-Wcompare-distinct-pointer-types]
-    2461 |         if (!progs || progs == &bpf_empty_prog_array.hdr)
-         |                       ~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
-   14 warnings generated.
+vim +/PTR_ERR +3325 kernel/bpf/syscall.c
 
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3255  static int bpf_tracing_prog_attach(struct bpf_prog *prog,
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3256  				   int tgt_prog_fd,
+2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3257  				   u32 btf_id,
+2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3258  				   u64 bpf_cookie)
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3259  {
+a3b80e1078943d Andrii Nakryiko        2020-04-28  3260  	struct bpf_link_primer link_primer;
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3261  	struct bpf_prog *tgt_prog = NULL;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3262  	struct bpf_trampoline *tr = NULL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3263  	struct btf *attach_btf = NULL;
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3264  	struct bpf_tracing_link *link;
+5f80eb32851d7a Menglong Dong          2024-02-20  3265  	struct module *mod = NULL;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3266  	u64 key = 0;
+a3b80e1078943d Andrii Nakryiko        2020-04-28  3267  	int err;
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3268  
+9e4e01dfd3254c KP Singh               2020-03-29  3269  	switch (prog->type) {
+9e4e01dfd3254c KP Singh               2020-03-29  3270  	case BPF_PROG_TYPE_TRACING:
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3271  		if (prog->expected_attach_type != BPF_TRACE_FENTRY &&
+be8704ff07d237 Alexei Starovoitov     2020-01-20  3272  		    prog->expected_attach_type != BPF_TRACE_FEXIT &&
+9e4e01dfd3254c KP Singh               2020-03-29  3273  		    prog->expected_attach_type != BPF_MODIFY_RETURN) {
+9e4e01dfd3254c KP Singh               2020-03-29  3274  			err = -EINVAL;
+9e4e01dfd3254c KP Singh               2020-03-29  3275  			goto out_put_prog;
+9e4e01dfd3254c KP Singh               2020-03-29  3276  		}
+9e4e01dfd3254c KP Singh               2020-03-29  3277  		break;
+9e4e01dfd3254c KP Singh               2020-03-29  3278  	case BPF_PROG_TYPE_EXT:
+9e4e01dfd3254c KP Singh               2020-03-29  3279  		if (prog->expected_attach_type != 0) {
+9e4e01dfd3254c KP Singh               2020-03-29  3280  			err = -EINVAL;
+9e4e01dfd3254c KP Singh               2020-03-29  3281  			goto out_put_prog;
+9e4e01dfd3254c KP Singh               2020-03-29  3282  		}
+9e4e01dfd3254c KP Singh               2020-03-29  3283  		break;
+9e4e01dfd3254c KP Singh               2020-03-29  3284  	case BPF_PROG_TYPE_LSM:
+9e4e01dfd3254c KP Singh               2020-03-29  3285  		if (prog->expected_attach_type != BPF_LSM_MAC) {
+9e4e01dfd3254c KP Singh               2020-03-29  3286  			err = -EINVAL;
+9e4e01dfd3254c KP Singh               2020-03-29  3287  			goto out_put_prog;
+9e4e01dfd3254c KP Singh               2020-03-29  3288  		}
+9e4e01dfd3254c KP Singh               2020-03-29  3289  		break;
+9e4e01dfd3254c KP Singh               2020-03-29  3290  	default:
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3291  		err = -EINVAL;
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3292  		goto out_put_prog;
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3293  	}
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3294  
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3295  	if (tgt_prog_fd) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3296  		if (!btf_id) {
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3297  			err = -EINVAL;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3298  			goto out_put_prog;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3299  		}
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3300  		tgt_prog = bpf_prog_get(tgt_prog_fd);
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3301  		if (IS_ERR(tgt_prog)) {
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3302  			tgt_prog = NULL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3303  			/* tgt_prog_fd is the fd of the kernel module BTF */
+5f80eb32851d7a Menglong Dong          2024-02-20  3304  			attach_btf = btf_get_by_fd(tgt_prog_fd);
+5f80eb32851d7a Menglong Dong          2024-02-20  3305  			if (IS_ERR(attach_btf)) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3306  				attach_btf = NULL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3307  				err = -EINVAL;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3308  				goto out_put_prog;
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3309  			}
+5f80eb32851d7a Menglong Dong          2024-02-20  3310  			if (!btf_is_kernel(attach_btf)) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3311  				btf_put(attach_btf);
+5f80eb32851d7a Menglong Dong          2024-02-20  3312  				err = -EOPNOTSUPP;
+5f80eb32851d7a Menglong Dong          2024-02-20  3313  				goto out_put_prog;
+5f80eb32851d7a Menglong Dong          2024-02-20  3314  			}
+5f80eb32851d7a Menglong Dong          2024-02-20  3315  		} else if (prog->type == BPF_PROG_TYPE_TRACING &&
+5f80eb32851d7a Menglong Dong          2024-02-20  3316  			   tgt_prog->type == BPF_PROG_TYPE_TRACING) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3317  			prog->aux->attach_tracing_prog = true;
+5f80eb32851d7a Menglong Dong          2024-02-20  3318  		}
+5f80eb32851d7a Menglong Dong          2024-02-20  3319  		key = bpf_trampoline_compute_key(tgt_prog, attach_btf,
+5f80eb32851d7a Menglong Dong          2024-02-20  3320  						 btf_id);
+5f80eb32851d7a Menglong Dong          2024-02-20  3321  	} else if (btf_id) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3322  		attach_btf = bpf_get_btf_vmlinux();
+5f80eb32851d7a Menglong Dong          2024-02-20  3323  		if (IS_ERR(attach_btf)) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3324  			attach_btf = NULL;
+                                                                                ^^^^^^^^^^^^^^^^^^
+This needs to be done after the "err = " assignment on the next line.
 
-vim +2440 kernel/bpf/core.c
+5f80eb32851d7a Menglong Dong          2024-02-20 @3325  			err = PTR_ERR(attach_btf);
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Here.
 
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2437  
-54e9c9d4b506b6 Stanislav Fomichev 2019-05-28  2438  void bpf_prog_array_free(struct bpf_prog_array *progs)
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2439  {
-46531a30364bd4 Pavel Begunkov     2022-01-27 @2440  	if (!progs || progs == &bpf_empty_prog_array.hdr)
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2441  		return;
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2442  	kfree_rcu(progs, rcu);
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2443  }
-324bda9e6c5add Alexei Starovoitov 2017-10-02  2444  
+5f80eb32851d7a Menglong Dong          2024-02-20  3326  			goto out_unlock;
+5f80eb32851d7a Menglong Dong          2024-02-20  3327  		}
+5f80eb32851d7a Menglong Dong          2024-02-20  3328  		if (!attach_btf) {
+5f80eb32851d7a Menglong Dong          2024-02-20  3329  			err = -EINVAL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3330  			goto out_unlock;
 
-:::::: The code at line 2440 was first introduced by commit
-:::::: 46531a30364bd483bfa1b041c15d42a196e77e93 cgroup/bpf: fast path skb BPF filtering
+"link" is not initialized on this goto path so it leads to an
+uninitialized variable warning.
 
-:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+5f80eb32851d7a Menglong Dong          2024-02-20  3331  		}
+5f80eb32851d7a Menglong Dong          2024-02-20  3332  		btf_get(attach_btf);
+5f80eb32851d7a Menglong Dong          2024-02-20  3333  		key = bpf_trampoline_compute_key(NULL, attach_btf, btf_id);
+5f80eb32851d7a Menglong Dong          2024-02-20  3334  	} else {
+5f80eb32851d7a Menglong Dong          2024-02-20  3335  		attach_btf = prog->aux->attach_btf;
+5f80eb32851d7a Menglong Dong          2024-02-20  3336  		/* get the reference of the btf for bpf link */
+5f80eb32851d7a Menglong Dong          2024-02-20  3337  		if (attach_btf)
+5f80eb32851d7a Menglong Dong          2024-02-20  3338  			btf_get(attach_btf);
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3339  	}
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3340  
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3341  	link = kzalloc(sizeof(*link), GFP_USER);
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3342  	if (!link) {
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3343  		err = -ENOMEM;
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3344  		goto out_put_prog;
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3345  	}
+f7e0beaf39d386 Kui-Feng Lee           2022-05-10  3346  	bpf_link_init(&link->link.link, BPF_LINK_TYPE_TRACING,
+f2e10bff16a0fd Andrii Nakryiko        2020-04-28  3347  		      &bpf_tracing_link_lops, prog);
+f2e10bff16a0fd Andrii Nakryiko        2020-04-28  3348  	link->attach_type = prog->expected_attach_type;
+2fcc82411e74e5 Kui-Feng Lee           2022-05-10  3349  	link->link.cookie = bpf_cookie;
+70ed506c3bbcfa Andrii Nakryiko        2020-03-02  3350  
+
+[ snip ]
+
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3474  	prog->aux->dst_trampoline = NULL;
+5f80eb32851d7a Menglong Dong          2024-02-20  3475  	prog->aux->mod = NULL;
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3476  	mutex_unlock(&prog->aux->dst_mutex);
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3477  
+a3b80e1078943d Andrii Nakryiko        2020-04-28  3478  	return bpf_link_settle(&link_primer);
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3479  out_unlock:
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3480  	if (tr && tr != prog->aux->dst_trampoline)
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3481  		bpf_trampoline_put(tr);
+5f80eb32851d7a Menglong Dong          2024-02-20  3482  	if (mod && mod != prog->aux->mod)
+5f80eb32851d7a Menglong Dong          2024-02-20  3483  		module_put(mod);
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29  3484  	mutex_unlock(&prog->aux->dst_mutex);
+3aac1ead5eb6b7 Toke Høiland-Jørgensen 2020-09-29 @3485  	kfree(link);
+                                                                      ^^^^
+
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3486  out_put_prog:
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3487  	if (tgt_prog_fd && tgt_prog)
+4a1e7c0c63e02d Toke Høiland-Jørgensen 2020-09-29  3488  		bpf_prog_put(tgt_prog);
+5f80eb32851d7a Menglong Dong          2024-02-20  3489  	btf_put(attach_btf);
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3490  	return err;
+fec56f5890d93f Alexei Starovoitov     2019-11-14  3491  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
