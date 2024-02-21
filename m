@@ -1,118 +1,106 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4798A47
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 00:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D5C1851
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Feb 2024 01:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708474798; cv=none; b=o3KMNdpSMK4iZqszlFvLhwFyIiW8rjK95Oin6kxp8hGVDGp9S+BM0/mFxTmj8Uk82czBi6bK2HMNsNMGtlEaZXTiw1rNvt9fooKP1eqVXqK/VEpNt8+JqACLeeqFTLogcY5opJZRkMmp4ntggDsqXQSsV8/6F3NPZAxySDfdrKQ=
+	t=1708477385; cv=none; b=PlKdr7hHlSEejbc6d5K1swV/Ze4i3kHgekc2uLy3b/Mq0R++JZr704M/HU7qh+mqi+JOLMflMZFBxeaU62PFSgbFpkzjfhDxZsZCM1JA8/tMfufnXgAmRfemNqVNJxhkn9wl9XwMA9DmYBMNSv7U79chWktIzZ9vUgp1l4tGUkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708474798; c=relaxed/simple;
-	bh=K7QkEMeFgCEOBDdteVUHDL15AVxzWVVyz5SmmokOZXs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eOO9yoD0hFu1xXBzUZCydUNAB5NxUHNJjXhKx2cGt+PSnJQPeZcAlp/mA67QFXksycDco0dA5f9qiOrRQv/PKwZ57xsUfFMtFbXMICIOzO5hhuQwoUPRT7SasbsrO3/QSC0lYNu0kYHjhanD2zjyWDSj8u1wexEIhOats6GLkR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iCcTpdM1; arc=none smtp.client-ip=209.85.166.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1708477385; c=relaxed/simple;
+	bh=RGFza6xuUdV2LBwRXQ+QnCq560jWcGs0kSxQc6SEGk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Jz1kz1fX5FFPPI7WAqHVkewCncHmeyaNeE0JIFGCfr9+vMTYqcI4cg1OO9JFg0PiQatTY0R3gTEDaR1cLFYWMrAuoo0gKNZJ/9LkYkF6UgCWWlQBtQpl55QUnOSCgyRhi+IfDjpXSt4cS1r5WPKWwhEI+iEzYzYyLYluFLGyuW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gJdlZdVG; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iCcTpdM1"
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7c49c979b5dso99598039f.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Feb 2024 16:19:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708474796; x=1709079596; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1SSchokFBeolQFf43F1Ki91lkNWxa302wO4DNZKIww8=;
-        b=iCcTpdM1Xf1kUgL3qmz4SWysTLWEa8RJlU/GJrsPT+Np8wb3ps3E2G9DcMaO4FGyxE
-         gdzH51p+mFGGonMz1bubDHD8UAOv5DM76eLBz9kc3NP8Yn7zYkdDtLrXTwsSjZtod0KV
-         xs9Zi9RRA8G0cLjMNK0uLuyhI78bHBR4qcbBo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708474796; x=1709079596;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1SSchokFBeolQFf43F1Ki91lkNWxa302wO4DNZKIww8=;
-        b=T6zhFSxdjHaLRGmTA7wa4gXFBOadiKRVQbm7SPLpdXNwN13jI9CZVNgos8+qYZx8fF
-         FBXeLc5xuYGZ30JCtyShhRmH1NYNFtXTvMck3EYEEc94CwgvgcxwhPZmdgT13DrWqFPa
-         faw+BF/a3MtCEJvqmEUFtYDNT7aUTGnl7E1h8O+dpH97gYf+/ebSceig32Vc+CxnaxzE
-         3so1L05v+E/+/P4TlRmtf7mnRHV960WN62VEATqEr9rjq/rwlhQ4eS11iSXkh9dUiQoc
-         YWu7/Ws1sI15m2sSjEzseeqEChG7wkDopGFSrnDOZb+GENTG48sbtIxnkqwLEe3HpQpx
-         LD9g==
-X-Forwarded-Encrypted: i=1; AJvYcCWZJ6HiOrHzGFlkZfKByV3XVwsvcDDx50QBOqlU49iwUrROK4alTrtbMvnxLnKVRBukGx+hD2Uv7ykc5cbaImfunTeYtlVU2NKoV7ENew==
-X-Gm-Message-State: AOJu0Yz48nS6sbaRe80oPtDkS2NJZuhx4UuJ5PiZLq+MUTbezyzRrgBE
-	gPbQb3An5K5YyeHu78vi3QhXMnngrEw7cwSyV1Dm5172ULjAeodEEqY4ng/R+jc=
-X-Google-Smtp-Source: AGHT+IHjKllnuZm8GTJktzvD7k1+Fmvk1+TpjJvDUR7WXcS/dDJj3/rdo98ETt9VO7T5uUrGvECeJg==
-X-Received: by 2002:a05:6602:f15:b0:7c7:28f7:cc81 with SMTP id hl21-20020a0566020f1500b007c728f7cc81mr11052980iob.1.1708474795830;
-        Tue, 20 Feb 2024 16:19:55 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id d5-20020a056602280500b007c73e9033fcsm1884269ioe.2.2024.02.20.16.19.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 16:19:55 -0800 (PST)
-Message-ID: <c3ee4083-fca7-43cc-b955-3b7e4faed2b0@linuxfoundation.org>
-Date: Tue, 20 Feb 2024 17:19:54 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gJdlZdVG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708477384; x=1740013384;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RGFza6xuUdV2LBwRXQ+QnCq560jWcGs0kSxQc6SEGk0=;
+  b=gJdlZdVGr8cwl64cmNipfT5hj5IK+BXexNWrf8+1Gr4L3cwh5PfX+nH8
+   /XPkwoEX56+xd2lxLzUNj6T16kiILwk7EIRzOVquNpulivpiVqBIe7jWd
+   Nx08wq2jzv0BcvlJkJ8l2bs+8aIk4Jn3pznc26ODMk1v2C3dVJU9P8NEg
+   58IziyQ+o2agoU/+BROkTA647sxrbLZ4HZIEAzRvx4UNWppC+uu+dIWZx
+   zGDT971kMUeSmCUrzAaIiMIgRToVzxlU3zrLLmCWKw2LLBEpP1z8dVSG1
+   Ql552UYLNcqX8/a2DkhNpZ7i9FGrZLNgrF62VK18ziGTcKmh0OM7ryuUK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="25078283"
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="25078283"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 17:03:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="4854733"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 20 Feb 2024 17:03:00 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rcb0j-0004ud-1B;
+	Wed, 21 Feb 2024 01:02:57 +0000
+Date: Wed, 21 Feb 2024 09:02:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 13/14]
+ arch/arm64/kvm/hyp/nvhe/pkvm.c:578:42: warning: variable 'vcpu_mc' set but
+ not used
+Message-ID: <202402210818.qOHyRfoI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
-Content-Language: en-US
-To: Marcos Paulo de Souza <mpdesouza@suse.com>
-Cc: kernel test robot <lkp@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
- oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, live-patching@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20240219135325.2280-1-mpdesouza@suse.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240219135325.2280-1-mpdesouza@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2/19/24 06:53, Marcos Paulo de Souza wrote:
-> On Mon, 19 Feb 2024 09:15:15 -0300 Marcos Paulo de Souza <mpdesouza@suse.com> wrote:
-> 
->> On Mon, 19 Feb 2024 14:35:16 +0800 kernel test robot <lkp@intel.com> wrote:
->>
->>> Hi Marcos,
->>>
->>> kernel test robot noticed the following build errors:
->>>
->>> [auto build test ERROR on 345e8abe4c355bc24bab3f4a5634122e55be8665]
->>>
->>> url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/selftests-lib-mk-Do-not-process-TEST_GEN_MODS_DIR/20240216-021601
->>> base:   345e8abe4c355bc24bab3f4a5634122e55be8665
->>> patch link:    https://lore.kernel.org/r/20240215-lp-selftests-fixes-v1-1-89f4a6f5cddc%40suse.com
->>> patch subject: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
->>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191417.XULH88Ct-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202402191417.XULH88Ct-lkp@intel.com/
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>>> make[3]: *** /lib/modules/5.9.0-2-amd64/build: No such file or directory.  Stop.
->>
->> We should ask the kernel test robot machine owners to install kernel-devel
->> package in order to have this fixed.
-> 
-> Or maybe ask them to change the reproducer to specify KDIR to the git tree,
-> instead of /lib/modules/?
-> 
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   b1dc7ef48b6a01e0608710e47201b1182d801183
+commit: 42a3c8cb2d770a3fcb69cfe4dcdc2063fad96046 [13/14] ANDROID: KVM: arm64: Use hyp_alloc for pVMs sve_state
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240221/202402210818.qOHyRfoI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240221/202402210818.qOHyRfoI-lkp@intel.com/reproduce)
 
-This would be a regression to automated test rings. Do you have any other
-solutions?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402210818.qOHyRfoI-lkp@intel.com/
 
-We could remove livepatch from default test until these changes are made
-to test ring environments?
+All warnings (new ones prefixed by >>):
 
-thanks,
--- Shuah
+   arch/arm64/kvm/hyp/nvhe/pkvm.c: In function 'teardown_sve_state':
+>> arch/arm64/kvm/hyp/nvhe/pkvm.c:578:42: warning: variable 'vcpu_mc' set but not used [-Wunused-but-set-variable]
+     578 |                 struct kvm_hyp_memcache *vcpu_mc;
+         |                                          ^~~~~~~
 
+
+vim +/vcpu_mc +578 arch/arm64/kvm/hyp/nvhe/pkvm.c
+
+725625afc485fe Marc Zyngier      2022-04-04  572  
+9251f19da0f66c Fuad Tabba        2023-03-23  573  static void teardown_sve_state(struct pkvm_hyp_vcpu *hyp_vcpu)
+9251f19da0f66c Fuad Tabba        2023-03-23  574  {
+9251f19da0f66c Fuad Tabba        2023-03-23  575  	void *sve_state = hyp_vcpu->vcpu.arch.sve_state;
+9251f19da0f66c Fuad Tabba        2023-03-23  576  
+9251f19da0f66c Fuad Tabba        2023-03-23  577  	if (sve_state) {
+9251f19da0f66c Fuad Tabba        2023-03-23 @578  		struct kvm_hyp_memcache *vcpu_mc;
+9251f19da0f66c Fuad Tabba        2023-03-23  579  
+9251f19da0f66c Fuad Tabba        2023-03-23  580  		vcpu_mc = &hyp_vcpu->vcpu.arch.pkvm_memcache;
+42a3c8cb2d770a Vincent Donnefort 2024-02-19  581  		hyp_free(sve_state);
+9251f19da0f66c Fuad Tabba        2023-03-23  582  	}
+9251f19da0f66c Fuad Tabba        2023-03-23  583  }
+9251f19da0f66c Fuad Tabba        2023-03-23  584  
+
+:::::: The code at line 578 was first introduced by commit
+:::::: 9251f19da0f66c8f8b6ff259752e6f767966200f ANDROID: KVM: arm64: Donate the memory for the guest SVE state for protected VMs
+
+:::::: TO: Fuad Tabba <tabba@google.com>
+:::::: CC: Fuad Tabba <tabba@google.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
