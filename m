@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0F9125CE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 05:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C681426C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 06:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708580870; cv=none; b=K8UK3MDcz/Bok03cIElRlB89gVsT22xjDt0Fyj/Bh9ApyvYC3wDdfxVMr35FqRKnY8nnj0vuco4O9yzLRDOsB3oiBA2V9bsHfKDdy6S3v+dfXH2rdZ1lp4whi3o5D58sZMMzRfc6aoenwpr0jey60CAcGK89Eqxz+S4+fiuptsQ=
+	t=1708582796; cv=none; b=PXqjr8J4zlf76EDWvludmgk0T8zTlAQ6xThfcxjy6JGYREYgiQNJcEwrkkhiKAnyH86SjewHBxVNRNtqTvv0Lb1XF5C8Quw1rZgAa1e291T6FiGhNJyGJ4O13hMacNlnPYrpXCjp40eKW0OMo9uZKOWiwTScHyTgZuSEP9IKuoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708580870; c=relaxed/simple;
-	bh=CRBb/w5XlXgxD6lb9h/c1XIS2Yl83ALQ5VibLj+uf7o=;
+	s=arc-20240116; t=1708582796; c=relaxed/simple;
+	bh=hVVAq2ieM1Fuux9bIPxUfUMkLxX86ftQyLkfA3u46r0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lmtYEMygwxCI4e+CxEdNfxSsNkad/LeuIWLCPfuAcNBCn92WzOsw2fQ8Rn1MLbVCzEdCCcVJzUe08g4i3jyBNHbQB6Art1yw7e+RyZ33a/qaRJmYma/mFRZ43BV5QtcTZlf4f+PIThQ3cspV2Zk/9fQkgJ/yMRASVAPAm7pIo3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hdJNs68+; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=NqNg+honV8mgB77b29Frb0muwokBdX9Bbtzin0qmFGrZYYI3vIADeyAJp/JstmkXyDDUvYMjZupdZJBNXZCieUmHVOONeopTYMnzgCVClZZsbS4UivNUuh5lC2mmwbs2yoEbnat/0XJlK/mpLuLf6o7RIz8hH8+1dcd7qis3NHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dqEPJaxt; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hdJNs68+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dqEPJaxt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708580868; x=1740116868;
+  t=1708582794; x=1740118794;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CRBb/w5XlXgxD6lb9h/c1XIS2Yl83ALQ5VibLj+uf7o=;
-  b=hdJNs68+lCIFGG0cpgZbcc+uuas7CSn74sJCL2wthiz+HaMjbN/zlnHK
-   hGHMXqZu93UCl426dv1nzNu0RmYbu4lc0VrycQTFcSj6OhbyROJLg0Ghj
-   bmQIunP2K1LpmY17CjaH9U/cVVFTUwjSBqH2XK3gpMBEnPoax6b0/tyzB
-   29mDbl2yDy8SqnfpyCzWmuuSOyBKQgDy0s5gTfmbp6zR7htygLakGDx/a
-   O3c8V0FuoEmTqF6aZY6MVkkplYG9nKoN/oAgTDfKQahJwGXEpRlseHv+o
-   6ho1FkpTJgtzDCr5LYEm94qd/pK/JO1EwcepizzsQ+UATSxjsujGL9T4B
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="2657213"
+  bh=hVVAq2ieM1Fuux9bIPxUfUMkLxX86ftQyLkfA3u46r0=;
+  b=dqEPJaxt2Xlo2JLiWhjeKY52DXzBhM5nXS9ZSY93qCxvMQLQ4FsMBtqF
+   fDe+U5z2iXGPB+iiLSlpV0CY+a2unxjUb8UxGcZYqi8/ePXf0hrf0evqq
+   cl8MVx7MpyMWXPCcxfTpgcnxZi9ayJUYArznL5n2XIr+FoGvK33GDoicR
+   5mhpWJUzBAXMcwteO0szS/MfzrBxxVjFGi3WjwPnb2foQsEmxmFSVCnvh
+   1JFfL1QSUHR1WAqKBU0PImm1/2FIsahrQdfilVMAO5cDFtCjIULvEnlH1
+   aEwzEc3y9V9VM4XnzIW69mNkJAokA8pKW5jkkF2rxUv5sYqWO0lVhn5Zw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13347650"
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="2657213"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 21:47:47 -0800
+   d="scan'208";a="13347650"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 22:19:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="10015686"
+   d="scan'208";a="42871973"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Feb 2024 21:47:44 -0800
+  by orviesa001.jf.intel.com with ESMTP; 21 Feb 2024 22:19:49 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rd1vp-00061g-24;
-	Thu, 22 Feb 2024 05:47:41 +0000
-Date: Thu, 22 Feb 2024 13:46:46 +0800
+	id 1rd2Qs-00062a-2d;
+	Thu, 22 Feb 2024 06:19:46 +0000
+Date: Thu, 22 Feb 2024 14:19:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
 	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
 	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
 	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: versioncheck: ./drivers/scsi/megaraid/megaraid_sas.h: 2789: need
- linux/version.h
-Message-ID: <202402221315.HxlaAYiI-lkp@intel.com>
+Subject: versioncheck: ./drivers/net/ethernet/intel/e1000e/intel/kcompat.c:
+ 2558: need linux/version.h
+Message-ID: <202402221422.oZAuoTke-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,14 +63,14 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
 head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: 66d5176831fdaf15f3fc3690a5a9047dec2a0cfc driver: update megaraid_sas to 07.721.02.00
-date:   1 year, 2 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20240222/202402221315.HxlaAYiI-lkp@intel.com/reproduce)
+commit: f219393fa69408fc55e023efbf174c3c0347abac driver: update e1000e to 3.8.4
+date:   12 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20240222/202402221422.oZAuoTke-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402221315.HxlaAYiI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402221422.oZAuoTke-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -119,6 +119,8 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/net/ethernet/huawei/hinic/hinic_main.c: 3394: need linux/version.h
    ./drivers/net/ethernet/huawei/hinic/hinic_tx.c: 1368: need linux/version.h
    ./drivers/net/ethernet/huawei/hinic/ossl_knl_linux.c: 497: need linux/version.h
+>> ./drivers/net/ethernet/intel/e1000e/intel/kcompat.c: 2558: need linux/version.h
+>> ./drivers/net/ethernet/intel/e1000e/intel/kcompat_ethtool.c: 1150: need linux/version.h
    ./drivers/net/ethernet/intel/i40e/kcompat.c: 2759: need linux/version.h
    ./drivers/net/ethernet/intel/iavf/kcompat.c: 2495: need linux/version.h
    ./drivers/net/ethernet/intel/ixgbe/kcompat.c: 2964: need linux/version.h
@@ -142,9 +144,9 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/scsi/lpfc/lpfc_init.c: 16102: need linux/version.h
    ./drivers/scsi/lpfc/lpfc_scsi.c: 7667: need linux/version.h
    ./drivers/scsi/lpfc/lpfc_sli.c: 22519: need linux/version.h
->> ./drivers/scsi/megaraid/megaraid_sas.h: 2789: need linux/version.h
->> ./drivers/scsi/megaraid/megaraid_sas_debugfs.c: 28 linux/version.h not needed.
->> ./drivers/scsi/megaraid/megaraid_sas_fp.c: 33 linux/version.h not needed.
+   ./drivers/scsi/megaraid/megaraid_sas.h: 2789: need linux/version.h
+   ./drivers/scsi/megaraid/megaraid_sas_debugfs.c: 28 linux/version.h not needed.
+   ./drivers/scsi/megaraid/megaraid_sas_fp.c: 33 linux/version.h not needed.
    ./drivers/scsi/mpt3sas/mpt3sas_base.h: 2490: need linux/version.h
    ./drivers/scsi/mpt3sas/mpt3sas_config.c: 46 linux/version.h not needed.
    ./drivers/scsi/mpt3sas/mpt3sas_debugfs.c: 43 linux/version.h not needed.
