@@ -1,54 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792144C73
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 00:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D8D10E3;
+	Thu, 22 Feb 2024 00:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708560039; cv=none; b=DBNzue30Obiy/Y5s3BoLVtGu0yvezjwhBjSESonyAhjJ1LeUsyOFU7PosRjY6nOf+cbMEndekVjPzbvlAwa3Vb8tCY58Oqk+hUC/XskK5Ol8TKxrOlBbzZ3M1mKqC0VNVKES5D8xL5ZFJ3fOowLOm+gCaslhKp1/VlT5xaGqils=
+	t=1708562574; cv=none; b=PrMG4avm8jDzSf0dhp8X6O4Xwbq8ZchntyZiQkPWRl07xlFnYaksIiNz0X8rp3dfwh+y+cFAOPSyM6kRXERashtmqkOK+VNoyK7H+eHisD0rffclerLhWZ8BnPXYbXigTaNhggvIkIyAnsFh00VqwT8OH6xp25vvzf93azhSirg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708560039; c=relaxed/simple;
-	bh=vIAUWffbpsiwmNW8GGLAf6g3DAhxpOWqsQ1hJDciehQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i3SdwSbq++KmpHjsWH3GK1okgu12mo5nOrts5adPBF2A8XXKllSBpDd2jD3HpcPTU7mghSwM2eKq0HTq2FbQfcoYjTmj6a1AupR+lFevCug3W8hmNoD5x9TAk01+Vc0W14T0q9ffAvcWG+RoebpurofrqD9aZ40iFnk6nEcthQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0Ui/M6k; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1708562574; c=relaxed/simple;
+	bh=unr6Fw4Z0s4+ZYa+4poq5kOzCrgRM3YCVCVpsJdM1h8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n76kLXMqAq9Kh4QB1/fGx/zacusGZWsm8phWGOyQJD08p47lOZHpwG6cPhHoe9trUz0mcdMfCEegxxHCw8drd7Z/X/YUd1qoYdiqUd4Jp9C780hDyrxbHnZ40aabpgtzxJOgC+WGwSrpwx5WbIgmCVTCKKKVEjCsUiUXB3LJ7IA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyyZh4Yn; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0Ui/M6k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyyZh4Yn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708560038; x=1740096038;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vIAUWffbpsiwmNW8GGLAf6g3DAhxpOWqsQ1hJDciehQ=;
-  b=Q0Ui/M6kHRwBV1GEDGp8Xm/H5klRKF8lXEDuU0EuI50+lsDM1+ADSFOc
-   6VxY5UtIKNByhwWcsaNxg6XbBZeEX5vh4npnybFvtWO2j/xsJSoTbXU80
-   ctzeSPk5GpLx4g/LE9Qqg8GULzq+ChfipD9aCYXM6WhyF7IMyWuGPfVJ9
-   +W4+9LspHp9aeqXtpKi6hEjeB9BnbgVLn7Eq9NFzFseMGIv0tWDKuhkZc
-   xr6DnRM5domdU2b3l5RQ6uWRMbiQls7gWR+m9l9SAXAYykEPjjHGUCqiT
-   LVw1qThDUq875QVPbtQI+XVHnHicWZS73WZUYjyXbJRI5c4PXh7vgRVMq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="2866228"
+  t=1708562572; x=1740098572;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=unr6Fw4Z0s4+ZYa+4poq5kOzCrgRM3YCVCVpsJdM1h8=;
+  b=kyyZh4Yn5/sXD+tlt4AyRSA2oYBFT48x5TVscPNvmgguLGKg+NZzodAu
+   yARgBF8HZC0kZdyoF4iAfiOa+o3EoMSVzBxAZhPSWFOkVUCCcVMaZ2Fit
+   WkF7BFYi3n+h0adJxzijqG/Dit8NYpPmapKKjE6vEh8ZkwOE2NJsWHmt/
+   4XeUS59kgWIX8HK0ePwD13KOUB6lswwh48NuGDk6abBf4I9kbjFoCanHa
+   FiZmYr5xQshq4hKtxXKyDruqGtMdkGxEUc5J+rDDdBJq/iC8D3PexpY1n
+   20BfJZ5zPWb4UIuWH3e2gtp4tu0OLiP5yW1x/y21nIaSnYgqiYfDNZBbM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13315818"
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="2866228"
+   d="scan'208";a="13315818"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 16:00:27 -0800
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 16:42:51 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="5458136"
+   d="scan'208";a="5464982"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Feb 2024 16:00:25 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 21 Feb 2024 16:42:49 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcwVW-0005o0-2L;
-	Thu, 22 Feb 2024 00:00:17 +0000
-Date: Thu, 22 Feb 2024 08:00:08 +0800
+	id 1rcxAV-0005pY-1W;
+	Thu, 22 Feb 2024 00:42:39 +0000
+Date: Thu, 22 Feb 2024 08:42:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mlankhorst:xe 1/9] kernel/printk/printk.c:2965:1: sparse: sparse:
- symbol 'printk_legacy_map' was not declared. Should it be static?
-Message-ID: <202402220701.67E1l038-lkp@intel.com>
+To: Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
+Subject: Re: [PATCH 2/3] drm/i915/psr: Improve fast and IO wake lines
+ calculation
+Message-ID: <202402220859.K3oSmRCi-lkp@intel.com>
+References: <20240221075322.2764209-3-jouni.hogander@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,47 +62,200 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240221075322.2764209-3-jouni.hogander@intel.com>
 
-tree:   git://people.freedesktop.org/~mlankhorst/linux xe
-head:   3058d3ef744fec22fe3ecb11754cb0c7849ccb15
-commit: 11eba233922d88a72241f11043ba4cbc60f5a244 [1/9] rc4-rt4
-config: x86_64-randconfig-122-20240221 (https://download.01.org/0day-ci/archive/20240222/202402220701.67E1l038-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220701.67E1l038-lkp@intel.com/reproduce)
+Hi Jouni,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-tip/drm-tip next-20240221]
+[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.8-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jouni-H-gander/drm-i915-display-Add-aux-function-pointer-for-fast-wake-sync-pulse-count/20240221-160220
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240221075322.2764209-3-jouni.hogander%40intel.com
+patch subject: [PATCH 2/3] drm/i915/psr: Improve fast and IO wake lines calculation
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240222/202402220859.K3oSmRCi-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402220859.K3oSmRCi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402220701.67E1l038-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402220859.K3oSmRCi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/printk/printk.c:489:6: sparse: sparse: symbol 'have_nbcon_console' was not declared. Should it be static?
->> kernel/printk/printk.c:2965:1: sparse: sparse: symbol 'printk_legacy_map' was not declared. Should it be static?
-   kernel/printk/printk.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
-   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-   kernel/printk/printk.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +/printk_legacy_map +2965 kernel/printk/printk.c
+   In file included from drivers/gpu/drm/i915/display/intel_psr.c:28:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo_types.h:9:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/i915/display/intel_psr.c:28:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo_types.h:9:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/i915/display/intel_psr.c:28:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15:
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo.h:11:
+   In file included from drivers/gpu/drm/xe/xe_bo_types.h:9:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/gpu/drm/i915/display/intel_psr.c:1182:6: warning: variable 'io_wake_time' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1182 |         if (intel_dp->get_aux_fw_sync_len) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_psr.c:1203:34: note: uninitialized use occurs here
+    1203 |                 &crtc_state->hw.adjusted_mode, io_wake_time);
+         |                                                ^~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_psr.c:1182:2: note: remove the 'if' if its condition is always false
+    1182 |         if (intel_dp->get_aux_fw_sync_len) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1183 |                 int io_wake_time = get_io_wake_time(intel_dp, crtc_state);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1184 |                 int tfw_exit_latency = 20; /* eDP spec */
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1185 |                 int phy_wake = 4;          /* eDP spec */
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1186 |                 int preamble = 8;          /* eDP spec */
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1187 |                 int precharge = intel_dp->get_aux_fw_sync_len() - preamble;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1188 | 
+    1189 |                 io_wake_time = max(precharge, io_wake_time) + preamble +
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1190 |                         phy_wake + tfw_exit_latency;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1191 |                 fast_wake_time = precharge + preamble + phy_wake +
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1192 |                         tfw_exit_latency;
+         |                         ~~~~~~~~~~~~~~~~~
+    1193 | 
+    1194 |                 /* TODO: Check how we can use ALPM_CTL fast wake extended field */
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1195 |                 max_wake_lines = 12;
+         |                 ~~~~~~~~~~~~~~~~~~~~
+    1196 |         } else {
+         |         ~~~~~~
+   drivers/gpu/drm/i915/display/intel_psr.c:1179:33: note: initialize the variable 'io_wake_time' to silence this warning
+    1179 |         int io_wake_lines, io_wake_time, fast_wake_lines, fast_wake_time;
+         |                                        ^
+         |                                         = 0
+   13 warnings generated.
 
-  2950	
-  2951	/*
-  2952	 * Legacy console printing from printk() caller context does not respect
-  2953	 * raw_spinlock/spinlock nesting. For !PREEMPT_RT the lockdep warning is a
-  2954	 * false positive. For PREEMPT_RT the false positive condition does not
-  2955	 * occur.
-  2956	 *
-  2957	 * This map is used to establish LD_WAIT_SLEEP context for the console write
-  2958	 * callbacks when legacy printing to avoid false positive lockdep complaints,
-  2959	 * thus allowing lockdep to continue to function for real issues.
-  2960	 */
-  2961	#ifdef CONFIG_PREEMPT_RT
-  2962	static inline void printk_legacy_lock_map_acquire_try(void) { }
-  2963	static inline void printk_legacy_lock_map_release(void) { }
-  2964	#else
-> 2965	DEFINE_WAIT_OVERRIDE_MAP(printk_legacy_map, LD_WAIT_SLEEP);
-  2966	
+
+vim +1182 drivers/gpu/drm/i915/display/intel_psr.c
+
+  1174	
+  1175	static bool _compute_alpm_params(struct intel_dp *intel_dp,
+  1176					 struct intel_crtc_state *crtc_state)
+  1177	{
+  1178		struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+  1179		int io_wake_lines, io_wake_time, fast_wake_lines, fast_wake_time;
+  1180		u8 max_wake_lines;
+  1181	
+> 1182		if (intel_dp->get_aux_fw_sync_len) {
+  1183			int io_wake_time = get_io_wake_time(intel_dp, crtc_state);
+  1184			int tfw_exit_latency = 20; /* eDP spec */
+  1185			int phy_wake = 4;	   /* eDP spec */
+  1186			int preamble = 8;	   /* eDP spec */
+  1187			int precharge = intel_dp->get_aux_fw_sync_len() - preamble;
+  1188	
+  1189			io_wake_time = max(precharge, io_wake_time) + preamble +
+  1190				phy_wake + tfw_exit_latency;
+  1191			fast_wake_time = precharge + preamble + phy_wake +
+  1192				tfw_exit_latency;
+  1193	
+  1194			/* TODO: Check how we can use ALPM_CTL fast wake extended field */
+  1195			max_wake_lines = 12;
+  1196		} else {
+  1197			io_wake_time = 50;
+  1198			fast_wake_time = 32;
+  1199			max_wake_lines = 8;
+  1200		}
+  1201	
+  1202		io_wake_lines = intel_usecs_to_scanlines(
+  1203			&crtc_state->hw.adjusted_mode, io_wake_time);
+  1204		fast_wake_lines = intel_usecs_to_scanlines(
+  1205			&crtc_state->hw.adjusted_mode, fast_wake_time);
+  1206	
+  1207		if (io_wake_lines > max_wake_lines ||
+  1208		    fast_wake_lines > max_wake_lines)
+  1209			return false;
+  1210	
+  1211		if (!_lnl_compute_alpm_params(intel_dp, crtc_state))
+  1212			return false;
+  1213	
+  1214		if (i915->display.params.psr_safest_params)
+  1215			io_wake_lines = fast_wake_lines = max_wake_lines;
+  1216	
+  1217		/* According to Bspec lower limit should be set as 7 lines. */
+  1218		intel_dp->psr.alpm_parameters.io_wake_lines = max(io_wake_lines, 7);
+  1219		intel_dp->psr.alpm_parameters.fast_wake_lines = max(fast_wake_lines, 7);
+  1220	
+  1221		return true;
+  1222	}
+  1223	
 
 -- 
 0-DAY CI Kernel Test Service
