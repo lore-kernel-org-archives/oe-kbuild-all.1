@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7038C17C9B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 23:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7355199AD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 23:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708644642; cv=none; b=aUIRJFx8e851cwWbqEfobE3CkLfK8oY4SgJCnnxZ1t28jjrgDEtE1a148099Y12y0GwpRh7LMIVxdbiyurwh2DDV8F0MJEnXZXJJApVNH97YvVgoyxyFDnqb1sikrHXTvNdPc6VR6K6ndoQY5XvoKArG9M9xlEeFEb9rl0nrC9s=
+	t=1708646057; cv=none; b=AizGNHWWgkdTfImuW7AQ38vK/UAr9PX38AvZsGHCkUaC4tMD07vZdBoa0Vb9J9JRRW3z6mrWe8hAHJ78JONVG9ciN4UL4v62f4K3IRL7mRf1kvDnQyOEJNFkW6uvXqegcTv/ey5zduM/SMM44F9zk/xeVIJdtZSfPOVozYdxHrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708644642; c=relaxed/simple;
-	bh=KIZKKY40/mg0K3C8pfuj1XIIaih8/yElyyuKqz0IDzQ=;
+	s=arc-20240116; t=1708646057; c=relaxed/simple;
+	bh=kI8KGm7PKoKHiyMVtYnxyJ3GOa7bw7fxwpwLJMZfjKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZJMjy8xM4y+7mY3npvcSblfpvOvqXEMFh1AMEtoXzmaaa9+e+yT0scrOAm9H29pMl7eYzojAj7Y39DsDhWrjA+MD+Jt9yA9kOekSlT7QYiG0XCaS3htUqvD9m5E9d2JIbd/umTecJI+tvHc8YO2m1qhI0AW3nYFRXnR8gI196KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKj453y1; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=mnqT34aHk+CitY0QAIk79xw6Zbw21X0TlvRk7jiJldrBqHIyzEivElPkq68ZZ+CptGVax6sgn67+MTgPzHGAxXqN2j4ZFGr9aoMMrE5+f8J0CBmLIOz9zmxi+NcKt6qrZn27UVkEAiqflzDSzkfSuOHpHY4AnmPN2CDBRfz5bvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7QsBswg; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKj453y1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7QsBswg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708644639; x=1740180639;
+  t=1708646055; x=1740182055;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KIZKKY40/mg0K3C8pfuj1XIIaih8/yElyyuKqz0IDzQ=;
-  b=UKj453y1Ff3OxSHQYZCY0GW+kclevgwQvLWaaXC0TKXfG1WmWpsRlmhF
-   IvyWPy8NHm0+Ijca+JvBuqEGmDiNWRTwGt7tJ/lgDD3X54uy9/07ie4GZ
-   Gf6gA47w3bxt16P0bq7Sb2tPMnWuwq+lqkSbNNB4GYe3ZxLL7THTAAUww
-   AwedjX67V113WWs6dUoHUNW56SyP8oCz8pOXFlYp2n1UVVE0gm0L8Zklq
-   01N1NPQh9VzF7//UBh3yqdRWFBkBXbjrdoK0ekwwfXRygx/NSQjWrYouW
-   vncIZ5klPT4w1obtd7Wl1VH6x0kVWnnp/+rIxfADVr6J3uPU8f2HvrorW
+  bh=kI8KGm7PKoKHiyMVtYnxyJ3GOa7bw7fxwpwLJMZfjKw=;
+  b=i7QsBswgIuKafnky0D7q+9ALc+9PrWnCr7TeV9nuhVT75gz7Vsn8W4QG
+   hA7Mq2BJqp7Uo6/sXcXLkl7SX7foa1NBus0WjdOc8RC+hwrKnDvxc9T0o
+   pjNTf/+o/W/pVTQdM+AuCpyWpBoAg+SyYAQtcYvzYELxo9VUukki86m+O
+   LieKLdfElbsoKe/vwA7TrB+MMwZ8H+bmR1VZxk2fNpiqIksRQKFsafx8q
+   1R7/yeVxQdCdXOHiXZ4Fc4C+SkUVSfLCCST/+2jrRZ282WN2D1+cEIpox
+   Vu8lamBDqNR4AOGvnhGhykzl3ADJaLsf+e0vv9M4ioyRpa+KIvypnE/jd
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="6692005"
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="25386544"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="6692005"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 15:30:38 -0800
+   d="scan'208";a="25386544"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 15:52:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="936921318"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="936921318"
+   d="scan'208";a="10259529"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2024 15:30:37 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 22 Feb 2024 15:52:39 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdIWR-0006my-1h;
-	Thu, 22 Feb 2024 23:30:35 +0000
-Date: Fri, 23 Feb 2024 07:30:14 +0800
+	id 1rdIrl-0006o0-0Z;
+	Thu, 22 Feb 2024 23:52:37 +0000
+Date: Fri, 23 Feb 2024 07:52:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
+To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
+	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
+	yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:vectorized-scrub 171/290]
- fs/xfs/libxfs/xfs_exchmaps.h:53:41: warning: conversion from 'long long
- unsigned int' to 'long unsigned int' changes value from
- '9223372036854775808' to '0'
-Message-ID: <202402230705.tZp0MKd7-lkp@intel.com>
+Subject: mm/memcontrol.c:3528:15: warning: no previous prototype for function
+ 'mem_cgroup_pagecache_get_reclaim_pages'
+Message-ID: <202402230751.6Mr6df7B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,124 +61,194 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
-head:   c89b9c47d9854d63bcf3b735701f0e3f46e84015
-commit: 83540962578dd4512531df68089f37dc104007ac [171/290] xfs: condense extended attributes after a mapping exchange operation
-config: i386-randconfig-003-20240222 (https://download.01.org/0day-ci/archive/20240223/202402230705.tZp0MKd7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240223/202402230705.tZp0MKd7-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
+head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
+commit: 06d37efeef4689ee10a610bbe91d85de62b88d6c mm: pagecache limit per cgroup support
+date:   2 years, 4 months ago
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240223/202402230751.6Mr6df7B-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240223/202402230751.6Mr6df7B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402230705.tZp0MKd7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402230751.6Mr6df7B-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from fs/xfs/xfs_trace.h:5180,
-                    from fs/xfs/xfs_trace.c:50:
-   fs/xfs/./xfs_trace.h: In function 'trace_raw_output_xfs_exchrange_class':
-   fs/xfs/xfs_exchrange.h:10:41: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '9223372036854775808' to '0' [-Woverflow]
-      10 | #define XFS_EXCHRANGE_UPD_CMTIME1       (1ULL << 63)
-         |                                         ^
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   fs/xfs/./xfs_trace.h:4894:9: note: in expansion of macro 'TP_printk'
-    4894 |         TP_printk("dev %d:%d flags %s bytecount 0x%llx "
-         |         ^~~~~~~~~
-   fs/xfs/./xfs_trace.h:4898:20: note: in expansion of macro '__print_flags'
-    4898 |                    __print_flags(__entry->flags, "|", XFS_EXCHRANGE_FLAGS_STRS),
-         |                    ^~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:4857:11: note: in expansion of macro 'XFS_EXCHRANGE_UPD_CMTIME1'
-    4857 |         { XFS_EXCHRANGE_UPD_CMTIME1,    "CMTIME1" }, \
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:4898:55: note: in expansion of macro 'XFS_EXCHRANGE_FLAGS_STRS'
-    4898 |                    __print_flags(__entry->flags, "|", XFS_EXCHRANGE_FLAGS_STRS),
-         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_exchrange.h:11:41: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '4611686018427387904' to '0' [-Woverflow]
-      11 | #define XFS_EXCHRANGE_UPD_CMTIME2       (1ULL << 62)
-         |                                         ^
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   fs/xfs/./xfs_trace.h:4894:9: note: in expansion of macro 'TP_printk'
-    4894 |         TP_printk("dev %d:%d flags %s bytecount 0x%llx "
-         |         ^~~~~~~~~
-   fs/xfs/./xfs_trace.h:4898:20: note: in expansion of macro '__print_flags'
-    4898 |                    __print_flags(__entry->flags, "|", XFS_EXCHRANGE_FLAGS_STRS),
-         |                    ^~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:4858:11: note: in expansion of macro 'XFS_EXCHRANGE_UPD_CMTIME2'
-    4858 |         { XFS_EXCHRANGE_UPD_CMTIME2,    "CMTIME2" }, \
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:4898:55: note: in expansion of macro 'XFS_EXCHRANGE_FLAGS_STRS'
-    4898 |                    __print_flags(__entry->flags, "|", XFS_EXCHRANGE_FLAGS_STRS),
-         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_exchrange.h:14:41: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '2305843009213693952' to '0' [-Woverflow]
-      14 | #define XFS_EXCHRANGE_CHECK_FRESH2      (1ULL << 61)
-         |                                         ^
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   fs/xfs/./xfs_trace.h:4894:9: note: in expansion of macro 'TP_printk'
-    4894 |         TP_printk("dev %d:%d flags %s bytecount 0x%llx "
-         |         ^~~~~~~~~
-   fs/xfs/./xfs_trace.h:4898:20: note: in expansion of macro '__print_flags'
-    4898 |                    __print_flags(__entry->flags, "|", XFS_EXCHRANGE_FLAGS_STRS),
-         |                    ^~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:4859:11: note: in expansion of macro 'XFS_EXCHRANGE_CHECK_FRESH2'
-    4859 |         { XFS_EXCHRANGE_CHECK_FRESH2,   "FRESH2" }
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:4898:55: note: in expansion of macro 'XFS_EXCHRANGE_FLAGS_STRS'
-    4898 |                    __print_flags(__entry->flags, "|", XFS_EXCHRANGE_FLAGS_STRS),
-         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h: In function 'trace_raw_output_xfs_exchmaps_estimate_class':
->> fs/xfs/libxfs/xfs_exchmaps.h:53:41: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '9223372036854775808' to '0' [-Woverflow]
-      53 | #define XFS_EXCHMAPS_INO2_SHORTFORM     (1ULL << 63)
-         |                                         ^
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   fs/xfs/./xfs_trace.h:5026:9: note: in expansion of macro 'TP_printk'
-    5026 |         TP_printk("dev %d:%d ino1 0x%llx fileoff1 0x%llx ino2 0x%llx fileoff2 0x%llx fsbcount 0x%llx flags (%s) bcount1 0x%llx rtbcount1 0x%llx bcount2 0x%llx rtbcount2 0x%llx resblks 0x%llx nr_exchanges %llu",
-         |         ^~~~~~~~~
-   fs/xfs/./xfs_trace.h:5031:19: note: in expansion of macro '__print_flags'
-    5031 |                   __print_flags(__entry->flags, "|", XFS_EXCHMAPS_STRINGS),
-         |                   ^~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:4803:11: note: in expansion of macro 'XFS_EXCHMAPS_INO2_SHORTFORM'
-    4803 |         { XFS_EXCHMAPS_INO2_SHORTFORM,          "INO2_SF" }
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:5031:54: note: in expansion of macro 'XFS_EXCHMAPS_STRINGS'
-    5031 |                   __print_flags(__entry->flags, "|", XFS_EXCHMAPS_STRINGS),
-         |                                                      ^~~~~~~~~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h: In function 'trace_raw_output_xfs_exchmaps_intent_class':
->> fs/xfs/libxfs/xfs_exchmaps.h:53:41: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '9223372036854775808' to '0' [-Woverflow]
-      53 | #define XFS_EXCHMAPS_INO2_SHORTFORM     (1ULL << 63)
-         |                                         ^
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   fs/xfs/./xfs_trace.h:5076:9: note: in expansion of macro 'TP_printk'
-    5076 |         TP_printk("dev %d:%d ino1 0x%llx fileoff1 0x%llx ino2 0x%llx fileoff2 0x%llx fsbcount 0x%llx flags (%s) isize1 0x%llx newisize1 0x%llx isize2 0x%llx newisize2 0x%llx",
-         |         ^~~~~~~~~
-   fs/xfs/./xfs_trace.h:5081:19: note: in expansion of macro '__print_flags'
-    5081 |                   __print_flags(__entry->flags, "|", XFS_EXCHMAPS_STRINGS),
-         |                   ^~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:4803:11: note: in expansion of macro 'XFS_EXCHMAPS_INO2_SHORTFORM'
-    4803 |         { XFS_EXCHMAPS_INO2_SHORTFORM,          "INO2_SF" }
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/./xfs_trace.h:5081:54: note: in expansion of macro 'XFS_EXCHMAPS_STRINGS'
-    5081 |                   __print_flags(__entry->flags, "|", XFS_EXCHMAPS_STRINGS),
-         |                                                      ^~~~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c:3414:73: warning: variable 'pre_used' set but not used [-Wunused-but-set-variable]
+    3414 |         unsigned long pages_used, pages_max, pages_reclaimed, goal_pages_used, pre_used;
+         |                                                                                ^
+>> mm/memcontrol.c:3528:15: warning: no previous prototype for function 'mem_cgroup_pagecache_get_reclaim_pages' [-Wmissing-prototypes]
+    3528 | unsigned long mem_cgroup_pagecache_get_reclaim_pages(struct mem_cgroup *memcg)
+         |               ^
+   mm/memcontrol.c:3528:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3528 | unsigned long mem_cgroup_pagecache_get_reclaim_pages(struct mem_cgroup *memcg)
+         | ^
+         | static 
+   mm/memcontrol.c:3551:21: warning: unused variable 'pre' [-Wunused-variable]
+    3551 |         unsigned long max, pre, pages_max;
+         |                            ^~~
+   mm/memcontrol.c:3566:6: warning: unused variable 'err' [-Wunused-variable]
+    3566 |         int err, ret = 0;
+         |             ^~~
+   mm/memcontrol.c:3572:30: warning: variable 'max' is uninitialized when used here [-Wuninitialized]
+    3572 |         xchg(&memcg->pagecache.max, max);
+         |                                     ^~~
+   include/asm-generic/atomic-instrumented.h:1648:22: note: expanded from macro 'xchg'
+    1648 |         arch_xchg(__ai_ptr, __VA_ARGS__);                               \
+         |                             ^~~~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h:78:45: note: expanded from macro 'arch_xchg'
+      78 | #define arch_xchg(ptr, v)       __xchg_op((ptr), (v), xchg, "")
+         |                                                   ^
+   arch/x86/include/asm/cmpxchg.h:44:39: note: expanded from macro '__xchg_op'
+      44 |                 __typeof__ (*(ptr)) __ret = (arg);                      \
+         |                                              ^~~
+   mm/memcontrol.c:3565:19: note: initialize the variable 'max' to silence this warning
+    3565 |         unsigned long max, pages_reclaimed;
+         |                          ^
+         |                           = 0
+   5 warnings generated.
 
 
-vim +53 fs/xfs/libxfs/xfs_exchmaps.h
+vim +/mem_cgroup_pagecache_get_reclaim_pages +3528 mm/memcontrol.c
 
-    51	
-    52	/* Try to convert inode2 from block to short format at the end, if possible. */
-  > 53	#define XFS_EXCHMAPS_INO2_SHORTFORM	(1ULL << 63)
-    54	
+  3410	
+  3411	unsigned int vm_pagecache_limit_retry_times;
+  3412	void mem_cgroup_shrink_pagecache(struct mem_cgroup *memcg, gfp_t gfp_mask)
+  3413	{
+> 3414		unsigned long pages_used, pages_max, pages_reclaimed, goal_pages_used, pre_used;
+  3415		unsigned int retry_times = 0;
+  3416		unsigned int limit_retry_times;
+  3417	
+  3418		if (!memcg || mem_cgroup_is_root(memcg))
+  3419			return;
+  3420	
+  3421		pages_max = READ_ONCE(memcg->pagecache.max);
+  3422		if (pages_max == PAGE_COUNTER_MAX || vm_pagecache_limit_global)
+  3423			return;
+  3424	
+  3425		if (gfp_mask & __GFP_ATOMIC)
+  3426			return;
+  3427	
+  3428		if (unlikely(should_force_charge()))
+  3429			return;
+  3430	
+  3431		if (unlikely(current->flags & PF_MEMALLOC))
+  3432			return;
+  3433	
+  3434		if (unlikely(task_in_memcg_oom(current)))
+  3435			return;
+  3436	
+  3437		if (!gfpflags_allow_blocking(gfp_mask))
+  3438			return;
+  3439	
+  3440		pages_used = page_counter_read(&memcg->pagecache);
+  3441		limit_retry_times = READ_ONCE(vm_pagecache_limit_retry_times);
+  3442		goal_pages_used = (100 - READ_ONCE(memcg->pagecache_reclaim_ratio)) * pages_max / 100;
+  3443		goal_pages_used = max_t(unsigned long, MIN_PAGECACHE_PAGES, goal_pages_used);
+  3444	
+  3445		if (pages_used > pages_max) {
+  3446			memcg_memory_event(memcg, MEMCG_PAGECACHE_MAX);
+  3447			while (pages_used > goal_pages_used) {
+  3448				if (fatal_signal_pending(current))
+  3449					break;
+  3450	
+  3451				pre_used = pages_used;
+  3452				pages_reclaimed = shrink_page_cache_memcg(gfp_mask, memcg, pages_used - goal_pages_used);
+  3453	
+  3454				if (limit_retry_times == 0)
+  3455					goto next_shrink;
+  3456	
+  3457				if (pages_reclaimed == 0) {
+  3458					congestion_wait(BLK_RW_ASYNC, HZ/10);
+  3459					retry_times++;
+  3460				} else
+  3461					retry_times = 0;
+  3462	
+  3463				if (retry_times > limit_retry_times) {
+  3464					memcg_memory_event(memcg, MEMCG_PAGECACHE_OOM);
+  3465					mem_cgroup_out_of_memory(memcg, GFP_KERNEL, 0);
+  3466					break;
+  3467				}
+  3468	
+  3469	next_shrink:
+  3470				pages_used = page_counter_read(&memcg->pagecache);
+  3471				cond_resched();
+  3472			}
+  3473		}
+  3474	}
+  3475	
+  3476	static u64 pagecache_reclaim_ratio_read(struct cgroup_subsys_state *css,
+  3477						struct cftype *cft)
+  3478	{
+  3479		struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+  3480	
+  3481		return memcg->pagecache_reclaim_ratio;
+  3482	}
+  3483	
+  3484	static ssize_t pagecache_reclaim_ratio_write(struct kernfs_open_file *of,
+  3485					char *buf, size_t nbytes, loff_t off)
+  3486	{
+  3487		struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+  3488		u64 reclaim_ratio;
+  3489		int ret;
+  3490		unsigned long nr_pages;
+  3491	
+  3492		buf = strstrip(buf);
+  3493		if (!buf)
+  3494			return -EINVAL;
+  3495	
+  3496		ret = kstrtou64(buf, 0, &reclaim_ratio);
+  3497		if (ret)
+  3498			return ret;
+  3499	
+  3500		if ((reclaim_ratio > 0) && (reclaim_ratio < 100)) {
+  3501			memcg->pagecache_reclaim_ratio = reclaim_ratio;
+  3502			return nbytes;
+  3503		} else if (reclaim_ratio == 100) {
+  3504			nr_pages = page_counter_read(&memcg->pagecache);
+  3505			shrink_page_cache_memcg(GFP_KERNEL, memcg, nr_pages);
+  3506			return nbytes;
+  3507		}
+  3508	
+  3509		return -EINVAL;
+  3510	}
+  3511	
+  3512	static u64 pagecache_current_read(struct cgroup_subsys_state *css,
+  3513					struct cftype *cft)
+  3514	{
+  3515		struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+  3516	
+  3517		return (u64)page_counter_read(&memcg->pagecache) * PAGE_SIZE;
+  3518	}
+  3519	
+  3520	static u64 memory_pagecache_max_read(struct cgroup_subsys_state *css,
+  3521					struct cftype *cft)
+  3522	{
+  3523		struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+  3524	
+  3525		return memcg->pagecache_max_ratio;
+  3526	}
+  3527	
+> 3528	unsigned long mem_cgroup_pagecache_get_reclaim_pages(struct mem_cgroup *memcg)
+  3529	{
+  3530		unsigned long goal_pages_used, pages_used, pages_max;
+  3531	
+  3532		if ((!memcg) || (mem_cgroup_is_root(memcg)))
+  3533			return 0;
+  3534	
+  3535		pages_max = READ_ONCE(memcg->pagecache.max);
+  3536		if (pages_max == PAGE_COUNTER_MAX)
+  3537			return 0;
+  3538	
+  3539		goal_pages_used = (100 - READ_ONCE(memcg->pagecache_reclaim_ratio)) * pages_max / 100;
+  3540		goal_pages_used = max_t(unsigned long, MIN_PAGECACHE_PAGES, goal_pages_used);
+  3541		pages_used = page_counter_read(&memcg->pagecache);
+  3542	
+  3543		return pages_used > pages_max ? pages_used - goal_pages_used : 0;
+  3544	}
+  3545	
 
 -- 
 0-DAY CI Kernel Test Service
