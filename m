@@ -1,55 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FF114B815
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 20:24:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57ED629CEA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 20:34:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708633445; cv=none; b=ZK8zPZtUcFMofUHxuo/3ftzU6Z/Yf2NbZp9hvCcbDXEd1QFS/gMKc/d8ZU6mG8HXrC4FjPxN1UdmQOOU8gpoMbKFBM9Sdc4BJSDqtZGleJTMvD+QGOFAO7rfTmS2oipMRPpSfiROHzU1znB/iulN4G0pQ1BRkxjvarCzV5GHiHI=
+	t=1708634067; cv=none; b=ZvPYFgA0Zb0PSLYdsrCyBboVRFWa3RtmKLs0jALEMBj+Yr87fs6dP9G8h4Mmz8WPVVFKt93hDIvW5ih7eAaYMkenMxuFrGuqDQdrUaMXnPPkuBZfVIuKVaXSOdWL9VenOnUfiV1JA/lXtDI+Gyb1l/Zv2V8bDOz8yl5iZ8O6m3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708633445; c=relaxed/simple;
-	bh=72oBv4CFT1wp9+83xsn8JmxuKv/9lHQUWeANNr7ELIM=;
+	s=arc-20240116; t=1708634067; c=relaxed/simple;
+	bh=XV3XtNmk1rLqA9pWexMVzg3cWtGVbvk/xP9jVQ60UBw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AxYiQeHZmjCYsLilLyyf4v8M3N2rdiFgwg/UJJLO/uC4fOVxYV6w/7ZkFSTrb8pFbSpFxut8KPAkXazuIziVp1++cN1SWPlIiiIvAQ0trcx17gCBhYQSNUjYs7P7mOiTVS+XSjIP6Q9fJ1cL8DK4EE5GRYSFZrz4wMC+u/2Z4Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jedoi7SO; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=A96cBTxWU3liLgR0xcaqP3ZjrwscvYu9b4rAIoxgejiUaJQtBe4qyBFb7Zm+4xVsSrG2feE1LKIuCIPyVWZxoxE9FlC23BwnNF3lB4AfulFFZvJ5QhhhNfvysCd0TztVUEvAtOdsxi4HCa+gK6SNsVOFLEbAe2M546kd1shQRuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BsrezVh9; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jedoi7SO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BsrezVh9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708633444; x=1740169444;
+  t=1708634066; x=1740170066;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=72oBv4CFT1wp9+83xsn8JmxuKv/9lHQUWeANNr7ELIM=;
-  b=jedoi7SO0eWQ0wRDx8K8SkplYoFveMXkT+tcIzXCIEghb+z2AwMEzI0w
-   gqP283+EVPQ0IiftRoO8eZ8Tegb/6sNAzZiQC4SQ1vOUrFTsua6cAl59l
-   7JC5iNRR8n0Pmd7LE27kGGwxbCuJiQ6K4LGOeCsQRcoCVMv3pfvBQjC7X
-   AemA/YbcbjnlIGP8bo46I+zQhlAUKOIRU3eAM7m9uan335rBteMYRUea6
-   T33zl03zJCaY2i+ZrNO9WjX2ZKU0eGTTpJiP8d332s7wPeezPZuC3X+C/
-   LAmLfF/Z0HK2ZNfUevHvFH/rTDc4Bb/uu5x9Dbteg1XejGh92R4I5IwhS
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="3035486"
+  bh=XV3XtNmk1rLqA9pWexMVzg3cWtGVbvk/xP9jVQ60UBw=;
+  b=BsrezVh9Mzu2zVrRSABHuY1CCHxWbClqiFY7/SB87Nr8RY7RUkakfKQL
+   RIh9+CW7NS1wEg4Xcn++ExbR9Xhw4yGGgZ1w+NI9G4lGvZJfdJUMb+RlZ
+   2ia8QdgtM77ARczdEaXzgmIDUKpkL/hZnfD8DNC1ypfcuHt5krjMWYyTy
+   R14qmAlpNXdBrvUzxOAU6E7rNqXFDa/nqhLHyu6+SWJvnCwj+mVeGdIzI
+   dSqqLbgO+xHWhvmznSF3UNv2va30sauCjMQ7pKipn2BEGQz+oE5OVj//B
+   YPglObh6nvM6erO3InZEOFy91O3zNixXXsDioaaE3IPd5K8PF4DaxRs97
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="3036710"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="3035486"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 12:23:25 -0800
+   d="scan'208";a="3036710"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 12:34:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="827600231"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="827600231"
+   d="scan'208";a="36638986"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 22 Feb 2024 12:23:23 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 22 Feb 2024 12:34:23 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdFbE-0006gO-2M;
-	Thu, 22 Feb 2024 20:23:20 +0000
-Date: Fri, 23 Feb 2024 04:22:52 +0800
+	id 1rdFlt-0006h2-04;
+	Thu, 22 Feb 2024 20:34:21 +0000
+Date: Fri, 23 Feb 2024 04:33:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sforshee:fscaps-vfsid 12/26] include/linux/security.h:965:12:
- warning: 'security_inode_remove_fscaps' defined but not used
-Message-ID: <202402230453.ENH8sPlt-lkp@intel.com>
+To: Ronnie Sahlberg <lsahlber@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Steve French <stfrench@microsoft.com>,
+	"Paulo Alcantara (SUSE)" <pc@cjr.nz>
+Subject: include/linux/fortify-string.h:586:17: error: call to
+ '__write_overflow' declared with attribute error: detected write beyond size
+ of object (1st parameter)
+Message-ID: <202402230419.nO2R7P95-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,101 +61,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sforshee/linux.git fscaps-vfsid
-head:   5ce094a334396397b1fc55565f035ffd4c68e612
-commit: e1b4b67006eba055ec2e37b6ea358c12c244284d [12/26] security: add hooks for set/get/remove of fscaps
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240223/202402230453.ENH8sPlt-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240223/202402230453.ENH8sPlt-lkp@intel.com/reproduce)
+Hi Ronnie,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   39133352cbed6626956d38ed72012f49b0421e7b
+commit: 2f6f19c7aaad5005dc75298a413eb0243c5d312d cifs: fix regression in very old smb1 mounts
+date:   1 year, 4 months ago
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20240223/202402230419.nO2R7P95-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240223/202402230419.nO2R7P95-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402230453.ENH8sPlt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402230419.nO2R7P95-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:93,
-                    from kernel/time/time.c:33:
->> include/linux/security.h:965:12: warning: 'security_inode_remove_fscaps' defined but not used [-Wunused-function]
-     965 | static int security_inode_remove_fscaps(struct mnt_idmap *idmap,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/security.h:959:12: warning: 'security_inode_get_fscaps' defined but not used [-Wunused-function]
-     959 | static int security_inode_get_fscaps(struct mnt_idmap *idmap,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/security.h:952:13: warning: 'security_inode_post_set_fscaps' defined but not used [-Wunused-function]
-     952 | static void security_inode_post_set_fscaps(struct mnt_idmap *idmap,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
-     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
-     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
-     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
-     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-   kernel/time/hrtimer.c: In function '__run_hrtimer':
-   kernel/time/hrtimer.c:1652:14: warning: variable 'expires_in_hardirq' set but not used [-Wunused-but-set-variable]
-    1652 |         bool expires_in_hardirq;
-         |              ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:93,
-                    from kernel/time/hrtimer.c:30:
-   include/linux/security.h: At top level:
->> include/linux/security.h:965:12: warning: 'security_inode_remove_fscaps' defined but not used [-Wunused-function]
-     965 | static int security_inode_remove_fscaps(struct mnt_idmap *idmap,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/security.h:959:12: warning: 'security_inode_get_fscaps' defined but not used [-Wunused-function]
-     959 | static int security_inode_get_fscaps(struct mnt_idmap *idmap,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/security.h:952:13: warning: 'security_inode_post_set_fscaps' defined but not used [-Wunused-function]
-     952 | static void security_inode_post_set_fscaps(struct mnt_idmap *idmap,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from arch/mips/include/asm/processor.h:15,
+                    from arch/mips/include/asm/thread_info.h:16,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/mips/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/cifs/connect.c:8:
+   In function 'strcpy',
+       inlined from 'CIFSTCon' at fs/cifs/connect.c:3949:3:
+>> include/linux/fortify-string.h:586:17: error: call to '__write_overflow' declared with attribute error: detected write beyond size of object (1st parameter)
+     586 |                 __write_overflow();
+         |                 ^~~~~~~~~~~~~~~~~~
 
 
-vim +/security_inode_remove_fscaps +965 include/linux/security.h
+vim +/__write_overflow +586 include/linux/fortify-string.h
 
-   944	
-   945	static inline int security_inode_set_fscaps(struct mnt_idmap *idmap,
-   946						    struct dentry *dentry,
-   947						    const struct vfs_caps *caps,
-   948						    int flags)
-   949	{
-   950		return 0;
-   951	}
- > 952	static void security_inode_post_set_fscaps(struct mnt_idmap *idmap,
-   953						   struct dentry *dentry,
-   954						   const struct vfs_caps *caps,
-   955						   int flags)
-   956	{
-   957	}
-   958	
- > 959	static int security_inode_get_fscaps(struct mnt_idmap *idmap,
-   960					     struct dentry *dentry)
-   961	{
-   962		return 0;
-   963	}
-   964	
- > 965	static int security_inode_remove_fscaps(struct mnt_idmap *idmap,
-   966						struct dentry *dentry)
-   967	{
-   968		return 0;
-   969	}
-   970	
+a28a6e860c6cf2 Francis Laniel 2021-02-25  569  
+f68f2ff91512c1 Kees Cook      2021-04-20  570  /* Defined after fortified strlen to reuse it. */
+92df138a8d663c Kees Cook      2022-02-08  571  __FORTIFY_INLINE __diagnose_as(__builtin_strcpy, 1, 2)
+281d0c962752fb Kees Cook      2022-02-08  572  char *strcpy(char * const POS p, const char * const POS q)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  573  {
+9f7d69c5cd2390 Kees Cook      2022-09-19  574  	size_t p_size = __member_size(p);
+9f7d69c5cd2390 Kees Cook      2022-09-19  575  	size_t q_size = __member_size(q);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  576  	size_t size;
+a28a6e860c6cf2 Francis Laniel 2021-02-25  577  
+f68f2ff91512c1 Kees Cook      2021-04-20  578  	/* If neither buffer size is known, immediately give up. */
+fa35198f39571b Kees Cook      2022-09-19  579  	if (__builtin_constant_p(p_size) &&
+fa35198f39571b Kees Cook      2022-09-19  580  	    __builtin_constant_p(q_size) &&
+fa35198f39571b Kees Cook      2022-09-19  581  	    p_size == SIZE_MAX && q_size == SIZE_MAX)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  582  		return __underlying_strcpy(p, q);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  583  	size = strlen(q) + 1;
+072af0c638dc8a Kees Cook      2021-08-02  584  	/* Compile-time check for const size overflow. */
+fa35198f39571b Kees Cook      2022-09-19  585  	if (__compiletime_lessthan(p_size, size))
+072af0c638dc8a Kees Cook      2021-08-02 @586  		__write_overflow();
+072af0c638dc8a Kees Cook      2021-08-02  587  	/* Run-time check for dynamic size overflow. */
+a28a6e860c6cf2 Francis Laniel 2021-02-25  588  	if (p_size < size)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  589  		fortify_panic(__func__);
+f68f2ff91512c1 Kees Cook      2021-04-20  590  	__underlying_memcpy(p, q, size);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  591  	return p;
+a28a6e860c6cf2 Francis Laniel 2021-02-25  592  }
+a28a6e860c6cf2 Francis Laniel 2021-02-25  593  
+
+:::::: The code at line 586 was first introduced by commit
+:::::: 072af0c638dc8a5c7db2edc4dddbd6d44bee3bdb fortify: Fix dropped strcpy() compile-time write overflow check
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
