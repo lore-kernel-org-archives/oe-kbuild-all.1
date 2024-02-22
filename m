@@ -1,106 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mx.msync.work (mx.msync.work [62.182.159.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA01A18AE8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 08:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29AC2BB10
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 08:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.182.159.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708591599; cv=none; b=lN7Y2AQhkArcI6MPI4pLjnzGJdsUOcLT9iic1HLHG0LbMQM78b7QsytO/DwDN32tBdXBC2diBXBa7piyMyXLVAQYJsWgdJVtHjhFyoRiH/ht13l36DBcqJBnpmE4pz5/tNwAYsbRG4EwX24VnZHez5CjXQO4Jkq7p073ekBr2RA=
+	t=1708591623; cv=none; b=H41n/ZuEp72SmsuhE7UdREN/1ZJopHvTs7BSFt8A6aA47J9FP1UAK/afzTRGnzWocWRT52FQJ2gLuHsu7a7h7r95P3G7sQspZsg3uXuvE3VyV2mhj0lPADfO3/lka9KBLD4mQYW5mu+QqGzdZZ5+Py5KGnfNSgBNw6qTKltc9g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708591599; c=relaxed/simple;
-	bh=97f/yA/P3x7nnlJrVgpqa5wARXH286UZeH0IbXFLq+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=az4NgrYuWaZdAX4fw0dfS+UNyA2Dk+2jaEIAPjnqiTUfRiN6UAMF3C+Hsp7DVwhi/Bs7cCKbZQYDNGOoMFqkimIF588ScncOfmJmLVJ1KjEBKGfk2oxBNXDs+RRwDrim7Lq3RDHRLnoYa2p5AOCYlhrEAEKwEWaojRKNmrm9wVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TGUoRrBe; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708591623; c=relaxed/simple;
+	bh=MOul7ErOlWpjXnFjZIeLDDx5Cyk2pRkzCt3A0Ne8lVM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gFWRrST/4pt0HYNdr5Yk6sLW6m6vcUB+JsjETrxLBUH+/DaO/8CxOzlJeNuaT4ge/eC0nBJ6APatN6MXqZQ0vHVOBjA6gkelrqHBgHqh2qqB23nNGbNt06UAsOgp0RvINcaWAlhATc7OnOg1m5ppPH/yByX6zvyAYGj95YIGlAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=lexina.in; spf=pass smtp.mailfrom=lexina.in; dkim=pass (2048-bit key) header.d=lexina.in header.i=@lexina.in header.b=t3k1AkUk; arc=none smtp.client-ip=62.182.159.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=lexina.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lexina.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TGUoRrBe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708591597; x=1740127597;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=97f/yA/P3x7nnlJrVgpqa5wARXH286UZeH0IbXFLq+8=;
-  b=TGUoRrBe9ixQNVSm4BhkD2rmeYMZD14DDGk48ItuqexBLm8VtXhw77/Q
-   DsJDSKtnvj8bfl6ByVKkYkbqkdmJQ3dKu7mvscVJrjdZEDK2sttN08Fii
-   K9p55nO++Y9lNtpiiI/uyXCdNo4CjpdlZnV1tkEi0H459c+Tkp3kf+XxC
-   PEqzXDoZTn10dcasc7c2eSn57d7YJVlx2DZGFAc6D9WwBhufR5E8PRpsS
-   YDaWzoFeh8LHDAF/s7AnqkYZqT0lU8KwWRbqCQ8v/spEJY+We5/kLpZ8o
-   X4mBI/9125IKuMvSaTfWRXOZI8/RLCQf4zObaM0B5sRUC60p+1k/RaxUV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="6580882"
-X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="6580882"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 00:46:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="5319376"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 22 Feb 2024 00:46:33 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rd4hO-00068y-0J;
-	Thu, 22 Feb 2024 08:45:28 +0000
-Date: Thu, 22 Feb 2024 16:44:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: kernel/bpf/arraymap.c:481:5: warning: no previous prototype for
- function 'array_map_mmap'
-Message-ID: <202402221644.OqTCUvdz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=lexina.in header.i=@lexina.in header.b="t3k1AkUk"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1BEC21145D8;
+	Thu, 22 Feb 2024 08:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lexina.in; s=dkim;
+	t=1708591613; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+	bh=mkwao/Eo5HsXt33cPrj25cBHf9f0LM2OJqHCNPBQoQk=;
+	b=t3k1AkUk93ro0Ha1DPQNiZFeqgLomxTYKcAOxje6QiAdWw51Uzna9GrUk980vJL0c2IFHn
+	FvTKp1PMbJFrWNc3X2/jN1KTnOf237CShPYYyzddXxFIFyyQfogOIKtXkDzyNDek5cEe+v
+	V60hi+9OjpdAc1RB6wzkYra0g/xXbLjgrG4r/i3xczjo+pCywI4v91kS3sWnA9r0mRGwSG
+	28ePQQ3ajLTRE5zS7XIA+eFrBXMYOCzCh4oOSGvBY9f1uWfcUNKcXJy9T9vcKNgyJjTwdL
+	B3NJDQXn6VUdIS/me1HU6ebpIUsZJ/GFYakXXKNnRNKHU/47rn1roMOlruGRqQ==
+Message-ID: <16891eb5-ee2e-4b0d-a82d-517adf028474@lexina.in>
+Date: Thu, 22 Feb 2024 11:46:46 +0300
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] soc: amlogic: meson-gx-socinfo-sm: Add Amlogic
+ secure-monitor SoC Information driver
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev
+References: <20240221143654.544444-3-adeep@lexina.in>
+ <202402221322.ifGMGQa6-lkp@intel.com>
+Content-Language: en-US, ru-RU
+From: Viacheslav <adeep@lexina.in>
+Autocrypt: addr=adeep@lexina.in; keydata=
+ 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
+In-Reply-To: <202402221322.ifGMGQa6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
-head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: baf209a9c2de44e08631b16d89b30a77bc186b79 bpf: Add mmap() support for BPF_MAP_TYPE_ARRAY
-date:   2 years, 11 months ago
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240222/202402221644.OqTCUvdz-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402221644.OqTCUvdz-lkp@intel.com/reproduce)
+Hi!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402221644.OqTCUvdz-lkp@intel.com/
+Will be fixed in next version with new Kconfig dependencies:
 
-All warnings (new ones prefixed by >>):
+     depends on (ARM64 && ARCH_MESON || COMPILE_TEST) && MESON_SM=y
+     default ARCH_MESON && MESON_SM
 
->> kernel/bpf/arraymap.c:481:5: warning: no previous prototype for function 'array_map_mmap' [-Wmissing-prototypes]
-     481 | int array_map_mmap(struct bpf_map *map, struct vm_area_struct *vma)
-         |     ^
-   kernel/bpf/arraymap.c:481:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     481 | int array_map_mmap(struct bpf_map *map, struct vm_area_struct *vma)
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/array_map_mmap +481 kernel/bpf/arraymap.c
-
-   480	
- > 481	int array_map_mmap(struct bpf_map *map, struct vm_area_struct *vma)
-   482	{
-   483		struct bpf_array *array = container_of(map, struct bpf_array, map);
-   484		pgoff_t pgoff = PAGE_ALIGN(sizeof(*array)) >> PAGE_SHIFT;
-   485	
-   486		if (!(map->map_flags & BPF_F_MMAPABLE))
-   487			return -EINVAL;
-   488	
-   489		return remap_vmalloc_range(vma, array_map_vmalloc_addr(array), pgoff);
-   490	}
-   491	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+22/02/2024 08.35, kernel test robot wrote:
+> Hi Viacheslav,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 9fc1ccccfd8d53dc7936fe6d633f2373fc9f62e8]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Viacheslav-Bocharov/soc-amlogic-meson-gx-socinfo-move-common-code-to-header-file/20240221-224803
+> base:   9fc1ccccfd8d53dc7936fe6d633f2373fc9f62e8
+> patch link:    https://lore.kernel.org/r/20240221143654.544444-3-adeep%40lexina.in
+> patch subject: [PATCH v2 2/3] soc: amlogic: meson-gx-socinfo-sm: Add Amlogic secure-monitor SoC Information driver
+> config: arm64-randconfig-002-20240222 (https://download.01.org/0day-ci/archive/20240222/202402221322.ifGMGQa6-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402221322.ifGMGQa6-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402221322.ifGMGQa6-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+>     aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+>     aarch64-linux-ld: drivers/soc/amlogic/meson-gx-socinfo-sm.o: in function `socinfo_get_chipid':
+>>> meson-gx-socinfo-sm.c:(.text+0xac): undefined reference to `meson_sm_call_read'
+>     aarch64-linux-ld: drivers/soc/amlogic/meson-gx-socinfo-sm.o: in function `meson_gx_socinfo_sm_probe':
+>>> meson-gx-socinfo-sm.c:(.text+0x438): undefined reference to `meson_sm_get'
+> 
