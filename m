@@ -1,54 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CC612FB12
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 13:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CA24D137;
+	Thu, 22 Feb 2024 13:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708606860; cv=none; b=cjk+Sb4I6s8q65zm35792/YDnt0ZWL0qB8jOddlBg16d68eMMgMJ0Ru39hmlF5jEBxiQF9FjYHPdi8KfbS83cIRGl0Ahg7ZS4H14w5c3fuDWi7JRjtFhYB/zlOJgbkZA/DNEYDGFU/y9cofqoL++92eic7vc+mTgHwodEvI1cuY=
+	t=1708608157; cv=none; b=e2iCUQrykREL5CxbcMpun8pMUZAcKt2t/BNygx4eSZNFJUEtb4bJ6GYtbKj9qCDBNQlGwJT3nh2cfO1VOQ4QLCxhMpSC4F3WGI1s4rLeX2kaUrBJedVWi+1KIkf12x9qXzGujNvRIzU8rFg0ZFefJlf7GbZleGvXsM1CQ8oGJ1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708606860; c=relaxed/simple;
-	bh=yq60SXhKJhQ3jQvXB/4G8p8BFmOPnvVaaMmfcdPXwMM=;
+	s=arc-20240116; t=1708608157; c=relaxed/simple;
+	bh=1ldgqO5GgIpYhaVkvZBWaimVHDAm3MiDk1t7Zg26Bo4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DIBkT6qV+hR/Lv4eVhtu4ACHkEreYR7dM5BbNfBpbfZ73+OMUXxIVnlfuG/sGFYDWKIFvVDNBoYjSkYwfa+wGGTmezB635bOtqGuZT8cvYxgkqbt3re7HbSe3rr1JkPEp9IhcdJkDoY3by7GY0zrHD4A3BAfLG3g/Ooa2W5lbY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BQ2OnT8n; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=XBoe9JHSmuZl1Fs1kTuZbLrkKkFjiPeQSx/40UdiHYcW3AH0BbjvAuC5KbqAWHx988XSHrslDMykulAw0OHN51VUXTfqCZV4FhrbtoKZKzyhnsH+OlacKdwZFBu1Voed0K7wG27Z0pxMSxLukj50r+p6UiJqDBMUOXQv0KWU8k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wazj6nhc; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BQ2OnT8n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wazj6nhc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708606858; x=1740142858;
+  t=1708608155; x=1740144155;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yq60SXhKJhQ3jQvXB/4G8p8BFmOPnvVaaMmfcdPXwMM=;
-  b=BQ2OnT8npXh8KLVMZRvVedfOGJmljgSISwSlL5l4SYGGAWrjFmZaD2Bg
-   Lhhd69PxtYq6PbJBPUer8uGiMrUrijGCx6eL+RhTjJhlsvbefKa8+kCmo
-   +LgC11ewvO1WPJcdBUWgIr0uFqJink+DNVgN0hBiWgKaY8hgnFGEXprmN
-   dKMP/DC7OxGyhmeicA9o2n06loEEWMmlE0osgonTiwtvJe/3mO13xtcgg
-   sZCTKWINKZoELTlxxAaSwUoW/B2qKuV5xAqOaglyOXZ4r6cHgWNUfW4GG
-   8p+0OdRxYx+ZZIfhFPp3Uvb3bYbJKTFG5KZTQn/7z4w6IswMDsT6sHwiz
+  bh=1ldgqO5GgIpYhaVkvZBWaimVHDAm3MiDk1t7Zg26Bo4=;
+  b=Wazj6nhc2RyUi5oQxIDA9BYPddKcTw1PPXN+y7ql4KLmjWkGHZnJWBOt
+   jHjBTmaXioXsE0R3ccQwWkwb3MNq8OlRoCDCJc7H9Hgx3lc3z98EBhpLZ
+   cueoRD2qXMN3jMQRu4sYzHsUpR+qgzRhY+fhCkDuL8tY0B+VuAvhL5JA3
+   c7JuJgjyK2iObgPMYv00HuP4eXZUj6aDko2Iw0m6UKzlotE0ZIgPIYhK2
+   AR7hjjx4+eFLJJPoRxUpdnnIMvTJLTbR4DP6YywV73xSetw59OD0RqXKc
+   2GvObSnQAJf3RxN0OtKhctySthBpJAEga+CYOPi5oAH6YHD7AiKa/LcT1
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="6606727"
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="25291998"
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="6606727"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 05:00:53 -0800
+   d="scan'208";a="25291998"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 05:22:35 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="5874120"
+   d="scan'208";a="10068959"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 22 Feb 2024 05:00:51 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 22 Feb 2024 05:22:33 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rd8gy-0006KW-1S;
-	Thu, 22 Feb 2024 13:00:48 +0000
-Date: Thu, 22 Feb 2024 21:00:28 +0800
+	id 1rd91y-0006LV-3B;
+	Thu, 22 Feb 2024 13:22:30 +0000
+Date: Thu, 22 Feb 2024 21:22:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liao Chen <liaochen4@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2392/3331] arch/arm64/kernel/ipi_nmi.c:39:9:
- error: implicit declaration of function '__printk_safe_enter'
-Message-ID: <202402222006.PH9PlsbP-lkp@intel.com>
+To: Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>
+Subject: [cel:nfsd-5.15.y 41/47] samples/fanotify/fs-monitor.c:68:42:
+ warning: format specifies type 'unsigned long long' but the argument has
+ type '__u64' (aka 'unsigned long')
+Message-ID: <202402222113.AqmDAqAx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,41 +61,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   0b30804544e281a67d384ea10249544d92a69e2f
-commit: 5e3e94b1477ca3f6cb47ae8137a4a99fe0ef6147 [2392/3331] arm64: Add non nmi ipi backtrace support
-config: arm64-randconfig-r064-20240222 (https://download.01.org/0day-ci/archive/20240222/202402222006.PH9PlsbP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402222006.PH9PlsbP-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-5.15.y
+head:   a5aab01194d8736b0d197129d1202ac94e67ede6
+commit: 88586fc1009fee86a38c041aed71d2e51a4f2f82 [41/47] orDate: Mon Oct 25 16:27:45 2021 -0300
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240222/202402222113.AqmDAqAx-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402222113.AqmDAqAx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402222006.PH9PlsbP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402222113.AqmDAqAx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/arm64/kernel/ipi_nmi.c: In function 'ipi_cpu_backtrace':
->> arch/arm64/kernel/ipi_nmi.c:39:9: error: implicit declaration of function '__printk_safe_enter' [-Werror=implicit-function-declaration]
-      39 |         __printk_safe_enter();
-         |         ^~~~~~~~~~~~~~~~~~~
->> arch/arm64/kernel/ipi_nmi.c:41:9: error: implicit declaration of function '__printk_safe_exit' [-Werror=implicit-function-declaration]
-      41 |         __printk_safe_exit();
-         |         ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> samples/fanotify/fs-monitor.c:68:42: warning: format specifies type 'unsigned long long' but the argument has type '__u64' (aka 'unsigned long') [-Wformat]
+      68 |                         printf("unexpected FAN MARK: %llx\n", event->mask);
+         |                                                      ~~~~     ^~~~~~~~~~~
+         |                                                      %lx
+   1 warning generated.
+   /usr/bin/ld: unrecognised emulation mode: elf64ppc
+   Supported emulations: elf_x86_64 elf32_x86_64 elf_i386 elf_iamcu i386pep i386pe
+   clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 
-vim +/__printk_safe_enter +39 arch/arm64/kernel/ipi_nmi.c
+vim +68 samples/fanotify/fs-monitor.c
 
-    35	
-    36	#ifdef CONFIG_NON_NMI_IPI_BACKTRACE
-    37	static void ipi_cpu_backtrace(void *info)
-    38	{
-  > 39		__printk_safe_enter();
-    40		nmi_cpu_backtrace(get_irq_regs());
-  > 41		__printk_safe_exit();
-    42	}
-    43	
+    55	
+    56	static void handle_notifications(char *buffer, int len)
+    57	{
+    58		struct fanotify_event_metadata *event =
+    59			(struct fanotify_event_metadata *) buffer;
+    60		struct fanotify_event_info_header *info;
+    61		struct fanotify_event_info_error *err;
+    62		struct fanotify_event_info_fid *fid;
+    63		int off;
+    64	
+    65		for (; FAN_EVENT_OK(event, len); event = FAN_EVENT_NEXT(event, len)) {
+    66	
+    67			if (event->mask != FAN_FS_ERROR) {
+  > 68				printf("unexpected FAN MARK: %llx\n", event->mask);
+    69				goto next_event;
+    70			}
+    71	
+    72			if (event->fd != FAN_NOFD) {
+    73				printf("Unexpected fd (!= FAN_NOFD)\n");
+    74				goto next_event;
+    75			}
+    76	
+    77			printf("FAN_FS_ERROR (len=%d)\n", event->event_len);
+    78	
+    79			for (off = sizeof(*event) ; off < event->event_len;
+    80			     off += info->len) {
+    81				info = (struct fanotify_event_info_header *)
+    82					((char *) event + off);
+    83	
+    84				switch (info->info_type) {
+    85				case FAN_EVENT_INFO_TYPE_ERROR:
+    86					err = (struct fanotify_event_info_error *) info;
+    87	
+    88					printf("\tGeneric Error Record: len=%d\n",
+    89					       err->hdr.len);
+    90					printf("\terror: %d\n", err->error);
+    91					printf("\terror_count: %d\n", err->error_count);
+    92					break;
+    93	
+    94				case FAN_EVENT_INFO_TYPE_FID:
+    95					fid = (struct fanotify_event_info_fid *) info;
+    96	
+    97					printf("\tfsid: %x%x\n",
+    98					       fid->fsid.val[0], fid->fsid.val[1]);
+    99					print_fh((struct file_handle *) &fid->handle);
+   100					break;
+   101	
+   102				default:
+   103					printf("\tUnknown info type=%d len=%d:\n",
+   104					       info->info_type, info->len);
+   105				}
+   106			}
+   107	next_event:
+   108			printf("---\n\n");
+   109		}
+   110	}
+   111	
 
 -- 
 0-DAY CI Kernel Test Service
