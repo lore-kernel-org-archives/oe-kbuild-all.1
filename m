@@ -1,57 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3E122EEF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 09:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550083FB29
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 11:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708595937; cv=none; b=i0d5l7N8oXx2NGF/hZyae2HBfanCJ8DvGBeDXbo+HfnKJYCdVpnZrv0l33h3uaORAsls7FfQptLv/xjBEcYaSPyYG/LSRalOmB9tVOx/L8hMy4k9MqJZ7juzEDg4IFvq8ZX7vjpf+DutkaiaHczIOJ7MgmYJ1LO7YlwmMiB4qyU=
+	t=1708599737; cv=none; b=q+6K7psSzIa8RTfMciC6gCFKaabnhDjdeyH4PLZNd261iIz9GmyQTfG33DAT+pLMb57nwZjclWs9Fv3XHsS33MVG7/AZCOx6tV5YxgqsF2gTLpAfEJADZZSLlAhrADqsn2g9UEWPGVKRYzg2vdnDBU8K7BXLaIGOs1kQGu3Npo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708595937; c=relaxed/simple;
-	bh=NBUtaGBsq3vKLhFksNedKSmDIzCWauIMUneem4nIunk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PkoKYe4bgIwbAfKQkrXRUMhMxNVqUxqM2adZXbs7kuPXD4Yc32MyIjYzThBWQnlaViMeuU2uiKd/cs59IIzEyd9bdKR0ClmaW54abbtqCOWC5gjIzUovRoTYAFGqHG74GAXtLMuc8lFCyuhg4A/daos8z7F3T5eDxNcTh0QTgSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pv87byfp; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1708599737; c=relaxed/simple;
+	bh=OVOk4RhIEc0k7TSecJD8kDaA2nGJ6pApQKcMqlr9SD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hfX8+lnY4RnTFF2WfhuRoNinQTSxjehl+jKirD4BvMM4PEQOD+jos6wmXoWDnj6poMsR1aSJL5nN6s++uka/jN5KlMN55aoQNkZ91JpsWgyqQbO85mhh1B0KmjhwL4ADKR6QORLlqEtO8zrc6cS6yTGoHveD6LRnDqhon3mRhL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V5Z6LsFt; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pv87byfp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5Z6LsFt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708595936; x=1740131936;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NBUtaGBsq3vKLhFksNedKSmDIzCWauIMUneem4nIunk=;
-  b=Pv87byfp4RgfQqUnkZGwvvfYuZ/kL7iixF1PI93O/Z+4Zjx0DSl7X3cy
-   QEhY5SBis54FANThFIs9yIRdCXADtcQoFSXJ6T4UT4FdBoXc/WstO/v5p
-   UZhwOlci7Gq5iHQ32Jf6sy2ar24qMW5Nnnj9hOAlCkPbJpH6bcnwR0FoZ
-   DxTZKcrRQbjLXoCYCl/45ZQUAB/zeBQik21JQlxzhIZWs7DIf2swe4ZRk
-   5hsAWOJAR40Yu2yURDa75Ntjv1ZLbwE0uJkc8Hq+PLkR2L3DNlzAhjFNz
-   AppLSVkRtjP3dti7z/F7kIKHg8NFux77vvo23sb3KJoOgTcHOw4xgA97q
+  t=1708599735; x=1740135735;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OVOk4RhIEc0k7TSecJD8kDaA2nGJ6pApQKcMqlr9SD0=;
+  b=V5Z6LsFtGtjQy/V5Jd7gz/hOdla/lZwerTYf12W8hvBNdoFtml0NHv4P
+   B2EEoQPlqGC7dly/haG+jasgjSHjhd8PzJ9bKEgJGG1Z41sfbb+pmG/sx
+   j+qqQNDpyhtbwFHI1eeXcUQ6G1eKwHd6oeAxNKS7o83LgkLB/xe3eQS0O
+   uVdbqraGatLLCwmbIKqiz2/iwqxOO2csZ8+Goyvc21YrH1My+Nvw0EyfL
+   d9/Ndr3c+2Vq7ynqqnpx8Ta+AyZsIDMP1/8pWgiVZPXS2gm3EWIwiDAjg
+   3JPnMOoYYR9t+i9ZiGY8MBLQxA96OG3pl04NtLqZsXjOQYTpKjfDKkIaY
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="13431009"
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="2957370"
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="13431009"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 01:58:55 -0800
+   d="scan'208";a="2957370"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 03:02:14 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="5433636"
+   d="scan'208";a="36472291"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 22 Feb 2024 01:58:53 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 22 Feb 2024 03:02:09 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rd5qs-0006CG-1H;
-	Thu, 22 Feb 2024 09:58:50 +0000
-Date: Thu, 22 Feb 2024 17:58:47 +0800
+	id 1rd6q6-0006Ei-2E;
+	Thu, 22 Feb 2024 11:02:06 +0000
+Date: Thu, 22 Feb 2024 19:01:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Durrant <pdurrant@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Sean Christopherson <seanjc@google.com>,
-	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [linux-next:master 7475/8619] arch/x86/kvm/xen.c:660:46: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202402221721.mhF8MNVh-lkp@intel.com>
+To: andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
+	konrad.dybcio@linaro.org, manivannan.sadhasivam@linaro.org,
+	conor+dt@kernel.org, quic_nitegupt@quicinc.com
+Cc: oe-kbuild-all@lists.linux.dev, quic_shazhuss@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
+	quic_krichai@quicinc.com, quic_vbadigan@quicinc.com,
+	Nitesh Gupta <nitegupt@quicinc.com>,
+	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, linux-arm-msm@vger.kernel.org,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] PCI: qcom: Add support for detecting controller
+ level PCIe errors
+Message-ID: <202402221838.5n7vo0Jo-lkp@intel.com>
+References: <20240221140405.28532-4-root@hu-msarkar-hyd.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,135 +72,240 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240221140405.28532-4-root@hu-msarkar-hyd.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4893c639cc3659cefaa675bf1e59f4e7571afb5c
-commit: 01a871852b1133fc5f611ad7c0c072870c90aede [7475/8619] KVM: x86/xen: allow shared_info to be mapped by fixed HVA
-config: x86_64-randconfig-121-20240221 (https://download.01.org/0day-ci/archive/20240222/202402221721.mhF8MNVh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402221721.mhF8MNVh-lkp@intel.com/reproduce)
+Hi root,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus robh/for-next mani-mhi/mhi-next linus/master v6.8-rc5 next-20240221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/root/dt-bindings-PCI-qcom-Add-global-irq-support-for-SA8775p/20240221-220722
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240221140405.28532-4-root%40hu-msarkar-hyd.qualcomm.com
+patch subject: [PATCH v1 3/3] PCI: qcom: Add support for detecting controller level PCIe errors
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20240222/202402221838.5n7vo0Jo-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402221838.5n7vo0Jo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402221721.mhF8MNVh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402221838.5n7vo0Jo-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/xen.c:660:46: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __user *hva @@     got void * @@
-   arch/x86/kvm/xen.c:660:46: sparse:     expected void [noderef] __user *hva
-   arch/x86/kvm/xen.c:660:46: sparse:     got void *
-   arch/x86/kvm/xen.c:452:9: sparse: sparse: context imbalance in 'kvm_xen_update_runstate_guest' - unexpected unlock
-   arch/x86/kvm/xen.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
-   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+All warnings (new ones prefixed by >>):
 
-vim +660 arch/x86/kvm/xen.c
+   drivers/pci/controller/dwc/pcie-qcom.c: In function 'qcom_pcie_error_report_show':
+>> drivers/pci/controller/dwc/pcie-qcom.c:1751:63: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'u32' {aka 'unsigned int'} [-Wformat=]
+    1751 |                         len += sysfs_emit_at(buf, len, "%s: %lu\n",
+         |                                                             ~~^
+         |                                                               |
+         |                                                               long unsigned int
+         |                                                             %u
+    1752 |                                         pcie_fault_string[i],
+    1753 |                                         pcie_fault[i]);
+         |                                         ~~~~~~~~~~~~~          
+         |                                                   |
+         |                                                   u32 {aka unsigned int}
+   drivers/pci/controller/dwc/pcie-qcom.c:1756:47: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'u32' {aka 'unsigned int'} [-Wformat=]
+    1756 |         len += sysfs_emit_at(buf, len, "%s: %lu\n",
+         |                                             ~~^
+         |                                               |
+         |                                               long unsigned int
+         |                                             %u
+    1757 |                                         pcie_fault_string[i],
+    1758 |                                         pcie->pcie_fault_total);
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             u32 {aka unsigned int}
+   drivers/pci/controller/dwc/pcie-qcom.c: In function 'qcom_pcie_probe':
+>> drivers/pci/controller/dwc/pcie-qcom.c:1902:9: warning: ignoring return value of 'sysfs_create_group' declared with attribute 'warn_unused_result' [-Wunused-result]
+    1902 |         sysfs_create_group(&pdev->dev.kobj, &qcom_pcie_attribute_group);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   615	
-   616	int kvm_xen_hvm_set_attr(struct kvm *kvm, struct kvm_xen_hvm_attr *data)
-   617	{
-   618		int r = -ENOENT;
-   619	
-   620	
-   621		switch (data->type) {
-   622		case KVM_XEN_ATTR_TYPE_LONG_MODE:
-   623			if (!IS_ENABLED(CONFIG_64BIT) && data->u.long_mode) {
-   624				r = -EINVAL;
-   625			} else {
-   626				mutex_lock(&kvm->arch.xen.xen_lock);
-   627				kvm->arch.xen.long_mode = !!data->u.long_mode;
-   628	
-   629				/*
-   630				 * Re-initialize shared_info to put the wallclock in the
-   631				 * correct place. Whilst it's not necessary to do this
-   632				 * unless the mode is actually changed, it does no harm
-   633				 * to make the call anyway.
-   634				 */
-   635				r = kvm->arch.xen.shinfo_cache.active ?
-   636					kvm_xen_shared_info_init(kvm) : 0;
-   637				mutex_unlock(&kvm->arch.xen.xen_lock);
-   638			}
-   639			break;
-   640	
-   641		case KVM_XEN_ATTR_TYPE_SHARED_INFO:
-   642		case KVM_XEN_ATTR_TYPE_SHARED_INFO_HVA: {
-   643			int idx;
-   644	
-   645			mutex_lock(&kvm->arch.xen.xen_lock);
-   646	
-   647			idx = srcu_read_lock(&kvm->srcu);
-   648	
-   649			if (data->type == KVM_XEN_ATTR_TYPE_SHARED_INFO) {
-   650				gfn_t gfn = data->u.shared_info.gfn;
-   651	
-   652				if (gfn == KVM_XEN_INVALID_GFN) {
-   653					kvm_gpc_deactivate(&kvm->arch.xen.shinfo_cache);
-   654					r = 0;
-   655				} else {
-   656					r = kvm_gpc_activate(&kvm->arch.xen.shinfo_cache,
-   657							     gfn_to_gpa(gfn), PAGE_SIZE);
-   658				}
-   659			} else {
- > 660				void __user * hva = (void *)data->u.shared_info.hva;
-   661	
-   662				if (!PAGE_ALIGNED(hva) || !access_ok(hva, PAGE_SIZE)) {
-   663					r = -EINVAL;
-   664				} else if (!hva) {
-   665					kvm_gpc_deactivate(&kvm->arch.xen.shinfo_cache);
-   666					r = 0;
-   667				} else {
-   668					r = kvm_gpc_activate_hva(&kvm->arch.xen.shinfo_cache,
-   669								 (unsigned long)hva, PAGE_SIZE);
-   670				}
-   671			}
-   672	
-   673			srcu_read_unlock(&kvm->srcu, idx);
-   674	
-   675			if (!r && kvm->arch.xen.shinfo_cache.active)
-   676				r = kvm_xen_shared_info_init(kvm);
-   677	
-   678			mutex_unlock(&kvm->arch.xen.xen_lock);
-   679			break;
-   680		}
-   681		case KVM_XEN_ATTR_TYPE_UPCALL_VECTOR:
-   682			if (data->u.vector && data->u.vector < 0x10)
-   683				r = -EINVAL;
-   684			else {
-   685				mutex_lock(&kvm->arch.xen.xen_lock);
-   686				kvm->arch.xen.upcall_vector = data->u.vector;
-   687				mutex_unlock(&kvm->arch.xen.xen_lock);
-   688				r = 0;
-   689			}
-   690			break;
-   691	
-   692		case KVM_XEN_ATTR_TYPE_EVTCHN:
-   693			r = kvm_xen_setattr_evtchn(kvm, data);
-   694			break;
-   695	
-   696		case KVM_XEN_ATTR_TYPE_XEN_VERSION:
-   697			mutex_lock(&kvm->arch.xen.xen_lock);
-   698			kvm->arch.xen.xen_version = data->u.xen_version;
-   699			mutex_unlock(&kvm->arch.xen.xen_lock);
-   700			r = 0;
-   701			break;
-   702	
-   703		case KVM_XEN_ATTR_TYPE_RUNSTATE_UPDATE_FLAG:
-   704			if (!sched_info_on()) {
-   705				r = -EOPNOTSUPP;
-   706				break;
-   707			}
-   708			mutex_lock(&kvm->arch.xen.xen_lock);
-   709			kvm->arch.xen.runstate_update_flag = !!data->u.runstate_update_flag;
-   710			mutex_unlock(&kvm->arch.xen.xen_lock);
-   711			r = 0;
-   712			break;
-   713	
-   714		default:
-   715			break;
-   716		}
-   717	
-   718		return r;
-   719	}
-   720	
+
+vim +1751 drivers/pci/controller/dwc/pcie-qcom.c
+
+  1739	
+  1740	static ssize_t qcom_pcie_error_report_show(struct device *dev,
+  1741			struct device_attribute *attr,
+  1742			char *buf)
+  1743	{
+  1744		unsigned int i;
+  1745		struct qcom_pcie *pcie = (struct qcom_pcie *)dev_get_drvdata(dev);
+  1746		u32 *pcie_fault = pcie->pcie_fault;
+  1747		size_t len = 0;
+  1748	
+  1749		for (i = 0; i < MAX_PCIE_SAFETY_FAULT; i++) {
+  1750			if (pcie_fault_string[i])
+> 1751				len += sysfs_emit_at(buf, len, "%s: %lu\n",
+  1752						pcie_fault_string[i],
+  1753						pcie_fault[i]);
+  1754		}
+  1755	
+  1756		len += sysfs_emit_at(buf, len, "%s: %lu\n",
+  1757						pcie_fault_string[i],
+  1758						pcie->pcie_fault_total);
+  1759	
+  1760		return len;
+  1761	}
+  1762	static DEVICE_ATTR_RO(qcom_pcie_error_report);
+  1763	
+  1764	static struct attribute *qcom_pcie_attrs[] = {
+  1765		&dev_attr_qcom_pcie_error_report.attr,
+  1766		NULL,
+  1767	};
+  1768	
+  1769	static const struct attribute_group qcom_pcie_attribute_group = {
+  1770		.attrs = qcom_pcie_attrs,
+  1771		.name = "qcom_pcie"
+  1772	};
+  1773	
+  1774	static void qcom_pcie_init_debugfs(struct qcom_pcie *pcie)
+  1775	{
+  1776		struct dw_pcie *pci = pcie->pci;
+  1777		struct device *dev = pci->dev;
+  1778		char *name;
+  1779	
+  1780		name = devm_kasprintf(dev, GFP_KERNEL, "%pOFP", dev->of_node);
+  1781		if (!name)
+  1782			return;
+  1783	
+  1784		pcie->debugfs = debugfs_create_dir(name, NULL);
+  1785		debugfs_create_devm_seqfile(dev, "link_transition_count", pcie->debugfs,
+  1786					    qcom_pcie_link_transition_count);
+  1787	}
+  1788	
+  1789	static int qcom_pcie_probe(struct platform_device *pdev)
+  1790	{
+  1791		const struct qcom_pcie_cfg *pcie_cfg;
+  1792		struct device *dev = &pdev->dev;
+  1793		struct qcom_pcie *pcie;
+  1794		struct dw_pcie_rp *pp;
+  1795		struct resource *res;
+  1796		struct dw_pcie *pci;
+  1797		int ret;
+  1798	
+  1799		pcie_cfg = of_device_get_match_data(dev);
+  1800		if (!pcie_cfg || !pcie_cfg->ops) {
+  1801			dev_err(dev, "Invalid platform data\n");
+  1802			return -EINVAL;
+  1803		}
+  1804	
+  1805		pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
+  1806		if (!pcie)
+  1807			return -ENOMEM;
+  1808	
+  1809		pci = devm_kzalloc(dev, sizeof(*pci), GFP_KERNEL);
+  1810		if (!pci)
+  1811			return -ENOMEM;
+  1812	
+  1813		pm_runtime_enable(dev);
+  1814		ret = pm_runtime_get_sync(dev);
+  1815		if (ret < 0)
+  1816			goto err_pm_runtime_put;
+  1817	
+  1818		pci->dev = dev;
+  1819		pci->ops = &dw_pcie_ops;
+  1820		pp = &pci->pp;
+  1821	
+  1822		pcie->pci = pci;
+  1823	
+  1824		pcie->cfg = pcie_cfg;
+  1825	
+  1826		pcie->reset = devm_gpiod_get_optional(dev, "perst", GPIOD_OUT_HIGH);
+  1827		if (IS_ERR(pcie->reset)) {
+  1828			ret = PTR_ERR(pcie->reset);
+  1829			goto err_pm_runtime_put;
+  1830		}
+  1831	
+  1832		pcie->global_irq = platform_get_irq_byname(pdev, "global");
+  1833		if (pcie->global_irq < 0) {
+  1834			ret = pcie->global_irq;
+  1835			goto err_pm_runtime_put;
+  1836		}
+  1837	
+  1838		ret = devm_request_threaded_irq(dev, pcie->global_irq, NULL,
+  1839					qcom_pcie_global_irq_thread,
+  1840					IRQF_ONESHOT,
+  1841					"global_irq", pcie);
+  1842		if (ret) {
+  1843			dev_err(dev, "Failed to request Global IRQ\n");
+  1844			goto err_pm_runtime_put;
+  1845		}
+  1846	
+  1847		pcie->parf = devm_platform_ioremap_resource_byname(pdev, "parf");
+  1848		if (IS_ERR(pcie->parf)) {
+  1849			ret = PTR_ERR(pcie->parf);
+  1850			goto err_pm_runtime_put;
+  1851		}
+  1852	
+  1853		pcie->elbi = devm_platform_ioremap_resource_byname(pdev, "elbi");
+  1854		if (IS_ERR(pcie->elbi)) {
+  1855			ret = PTR_ERR(pcie->elbi);
+  1856			goto err_pm_runtime_put;
+  1857		}
+  1858	
+  1859		/* MHI region is optional */
+  1860		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mhi");
+  1861		if (res) {
+  1862			pcie->mhi = devm_ioremap_resource(dev, res);
+  1863			if (IS_ERR(pcie->mhi)) {
+  1864				ret = PTR_ERR(pcie->mhi);
+  1865				goto err_pm_runtime_put;
+  1866			}
+  1867		}
+  1868	
+  1869		pcie->phy = devm_phy_optional_get(dev, "pciephy");
+  1870		if (IS_ERR(pcie->phy)) {
+  1871			ret = PTR_ERR(pcie->phy);
+  1872			goto err_pm_runtime_put;
+  1873		}
+  1874	
+  1875		ret = qcom_pcie_icc_init(pcie);
+  1876		if (ret)
+  1877			goto err_pm_runtime_put;
+  1878	
+  1879		ret = pcie->cfg->ops->get_resources(pcie);
+  1880		if (ret)
+  1881			goto err_pm_runtime_put;
+  1882	
+  1883		pp->ops = &qcom_pcie_dw_ops;
+  1884	
+  1885		ret = phy_init(pcie->phy);
+  1886		if (ret)
+  1887			goto err_pm_runtime_put;
+  1888	
+  1889		platform_set_drvdata(pdev, pcie);
+  1890	
+  1891		ret = dw_pcie_host_init(pp);
+  1892		if (ret) {
+  1893			dev_err(dev, "cannot initialize host\n");
+  1894			goto err_phy_exit;
+  1895		}
+  1896	
+  1897		qcom_pcie_icc_update(pcie);
+  1898	
+  1899		if (pcie->mhi)
+  1900			qcom_pcie_init_debugfs(pcie);
+  1901	
+> 1902		sysfs_create_group(&pdev->dev.kobj, &qcom_pcie_attribute_group);
+  1903	
+  1904		return 0;
+  1905	
+  1906	err_phy_exit:
+  1907		phy_exit(pcie->phy);
+  1908	err_pm_runtime_put:
+  1909		pm_runtime_put(dev);
+  1910		pm_runtime_disable(dev);
+  1911	
+  1912		return ret;
+  1913	}
+  1914	
 
 -- 
 0-DAY CI Kernel Test Service
