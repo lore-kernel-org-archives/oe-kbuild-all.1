@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6F73210
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 07:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0132B17BA5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Feb 2024 07:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708587268; cv=none; b=JYDImY0hsF1BgOut/Whsiel9myl4XjtNc8/fZvBPenyxD6je365+15/xoIW5EnjCuSLtcipK5Quroeo2u+b1yqAbQPwVU3tv0pi/BuZzttsi6hmjNDDMEitD2rbrKzhZ8pV7cwQZ72712kkMq7g7sMBmpQbzmlTN/4IMKa9Xd/k=
+	t=1708588401; cv=none; b=darQXdTfygyCGzaIw3g8iSUiCB9GMmDvztkCpTXx/qZsoJNIJlbKuiW8PLhLEw9cMYUmZOo36ubYV+qbRkRpzUIq55oX+PY/6sCP2g9RZngQ/yWeAQWFjPpdRbKizFwMpTTIqsbWfebytrBCM+Ct/1g/VekxBD2Z5nUdZPJN8rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708587268; c=relaxed/simple;
-	bh=qIjjRASZQuOpPiypkZ4z1TTvkn4Ti9H93DmPRe/Af5Y=;
+	s=arc-20240116; t=1708588401; c=relaxed/simple;
+	bh=OpWra/EZ0f3kN02EXvLkRDc0JSylAvQfhUnApbno8/A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gCI9bDBh994tJD21Mdfs+LXLd9vwTt4AKfBF8bzkqO5lwQSh8MJ2p98CFu+H7JPsHlh5Mu4h74Fm5Ke1fQSepXaVdFNvGc6AwRXwqhh/QHzspOaJh2Jx6fEshHpnJHXQCJCNunB1/yVeQhn6pX/geVd14Cz98dmqgjw2bSIWmpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=feBHFOCY; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=B4m8q/GlOlbEQdbaoqjLLux31qkGz9NK/ZM9WhQmpiw+JA+04UMR88IhJoOR13FtVLQyMt6ceiG5obAfl6Gxc0vQLkQ64a0gXYlHSSOOjnZhb739QkahycW6AKNO3/QQKH44XGRGl8aZ4SKyUEdTa03U9kBH0JUAZfM/o0MbmNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWTI03Dk; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="feBHFOCY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWTI03Dk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708587267; x=1740123267;
+  t=1708588398; x=1740124398;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qIjjRASZQuOpPiypkZ4z1TTvkn4Ti9H93DmPRe/Af5Y=;
-  b=feBHFOCYxS/5ir6rlEBBuylTno07f8b2pMn7aC+TPqBustV5pQLbLwsy
-   jGmJIw/NN2N2mBFCQbIIs/AtM/GAoz8JUGPcDJnVEiPwMQrayayW0zgAz
-   Lhvqzlx0Fa7Mrr1HrHJ+CroAMR6m0ESk+gA8rIE7ivAYmLj+4v9yak8+w
-   bZ/GrPi+UfWZilLzeM6J6b/uM4fxm+CSMNM8lN5xXJaS7uBK+6+H6cbrZ
-   SP6uTTakqmdzQbinGpWioT3TqiUG550KBSVrNR0nE+NmJgfwskwCBY+56
-   B3a6rRMLka9J+aneAH8yyzNLoW4Aa6nBGivFFnTA8p/nr8EssUimNYQ50
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="2657047"
+  bh=OpWra/EZ0f3kN02EXvLkRDc0JSylAvQfhUnApbno8/A=;
+  b=IWTI03DkcTC0OWi8OffuvmU+33TnqjE80qiv1rRqrXeXyH/q3n15KGJF
+   ytlLQ0ntfE51oppiOkwse10tqPO3ZbpGFKWR117RBqfob91PLDFiD8Isc
+   Y3/9VMOoYtUpLbr+CdZ+YxM7S3Fn3j/OiXe8ttOV37ppG38mq4pomRN34
+   FTundkMIkfNSQuwgYxI9kTS5ECtrLmltrPDsFOs2r6hFlV3XiAQ9PrSK5
+   bXRL+Aqv9212zS6ebqI3jBXu7LlgOBPZf5Y5qDyS0+2IBRDdUU8ltfDpd
+   EgobgDT4VtgqMLooiHwt1HBS1WsR/p15VHBIDhVN8G8SO5Ieq/fp/zniv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="20228152"
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="2657047"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 23:34:25 -0800
+   d="scan'208";a="20228152"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 23:53:18 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="827507925"
 X-IronPort-AV: E=Sophos;i="6.06,177,1705392000"; 
-   d="scan'208";a="5726078"
+   d="scan'208";a="827507925"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Feb 2024 23:34:22 -0800
+  by orsmga001.jf.intel.com with ESMTP; 21 Feb 2024 23:53:13 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rd3b1-00065n-1s;
-	Thu, 22 Feb 2024 07:34:19 +0000
-Date: Thu, 22 Feb 2024 15:27:29 +0800
+	id 1rd3qV-00065w-27;
+	Thu, 22 Feb 2024 07:53:10 +0000
+Date: Thu, 22 Feb 2024 15:49:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viacheslav Bocharov <adeep@lexina.in>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] soc: amlogic: meson-gx-socinfo-sm: Add Amlogic
- secure-monitor SoC Information driver
-Message-ID: <202402221557.ELxBYVKH-lkp@intel.com>
-References: <20240221143654.544444-3-adeep@lexina.in>
+To: Ben Cheatham <Benjamin.Cheatham@amd.com>, dan.j.williams@intel.com,
+	jonathan.cameron@huawei.com, rafael@kernel.org, james.morse@arm.com,
+	tony.luck@intel.com, bp@alien8.de
+Cc: oe-kbuild-all@lists.linux.dev, dave@stogolabs.net, dave.jiang@intel.com,
+	alison.schofield@intel.com, vishal.l.verma@intel.com,
+	ira.weiny@intel.com, linux-cxl@vger.kernel.org,
+	linux-acpi@vger.kernel.org, benjamin.cheatham@amd.com
+Subject: Re: [PATCH v13 2/4] EINJ: Add CXL error type support
+Message-ID: <202402221559.7ZWbaUpL-lkp@intel.com>
+References: <20240220221146.399209-3-Benjamin.Cheatham@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,35 +64,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240221143654.544444-3-adeep@lexina.in>
+In-Reply-To: <20240220221146.399209-3-Benjamin.Cheatham@amd.com>
 
-Hi Viacheslav,
+Hi Ben,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 9fc1ccccfd8d53dc7936fe6d633f2373fc9f62e8]
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on linus/master v6.8-rc5 next-20240221]
+[cannot apply to rafael-pm/acpi-bus rafael-pm/devprop]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Viacheslav-Bocharov/soc-amlogic-meson-gx-socinfo-move-common-code-to-header-file/20240221-224803
-base:   9fc1ccccfd8d53dc7936fe6d633f2373fc9f62e8
-patch link:    https://lore.kernel.org/r/20240221143654.544444-3-adeep%40lexina.in
-patch subject: [PATCH v2 2/3] soc: amlogic: meson-gx-socinfo-sm: Add Amlogic secure-monitor SoC Information driver
-config: xtensa-randconfig-r071-20240222 (https://download.01.org/0day-ci/archive/20240222/202402221557.ELxBYVKH-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402221557.ELxBYVKH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Cheatham/EINJ-Migrate-to-a-platform-driver/20240221-061359
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20240220221146.399209-3-Benjamin.Cheatham%40amd.com
+patch subject: [PATCH v13 2/4] EINJ: Add CXL error type support
+config: i386-buildonly-randconfig-004-20240221 (https://download.01.org/0day-ci/archive/20240222/202402221559.7ZWbaUpL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240222/202402221559.7ZWbaUpL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402221557.ELxBYVKH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402221559.7ZWbaUpL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   xtensa-linux-ld: drivers/soc/amlogic/meson-gx-socinfo-sm.o: in function `meson_gx_socinfo_sm_remove':
-   meson-gx-socinfo-sm.c:(.text+0x88): undefined reference to `meson_sm_get'
->> xtensa-linux-ld: meson-gx-socinfo-sm.c:(.text+0x8c): undefined reference to `meson_sm_call_read'
-   xtensa-linux-ld: drivers/soc/amlogic/meson-gx-socinfo-sm.o: in function `meson_gx_socinfo_sm_probe':
-   meson-gx-socinfo-sm.c:(.text+0x1b8): undefined reference to `meson_sm_get'
-   xtensa-linux-ld: meson-gx-socinfo-sm.c:(.text+0x243): undefined reference to `meson_sm_call_read'
+   ld: drivers/acpi/apei/einj-cxl.o: in function `einj_cxl_inject_error':
+>> einj-cxl.c:(.text+0x166): undefined reference to `pci_find_host_bridge'
 
 -- 
 0-DAY CI Kernel Test Service
