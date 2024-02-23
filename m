@@ -1,57 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AEC5CBD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 00:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E64B847E;
+	Fri, 23 Feb 2024 01:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708649451; cv=none; b=bYEVoSE9Gmba5Uh47zE7oatjRYQv4c8SpnL/U/gqmXPQAV5AUDarWXpEYSHVTt4T86aL/NE9fMnAoRheGzDRBraY03DRYa4+HUf+tpxtn6pClxoNLG6qb462uXE9LMSAAgwra/JfOxfEf/DRdX+3dYUIJOIa1gna5fsEMWRA0Ts=
+	t=1708651641; cv=none; b=EMI2RX7EjyZX7kTa7OsapJXACODXYrd9BgeYbxxeHzdOFcqk6SJWYAeT32AcB2m37i5TgRwRiPZWYp3Q9EEI8orEXAixtajRb1KluXuTmIxHPaQ3lbRYJ6sG6XObkQ7bJcUo18+1KGQ8xxzRBXVgxrELorPu1u5MIVDc4OAMY48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708649451; c=relaxed/simple;
-	bh=rjwYYQVl7wuLwXNJ96xcgvAV+2hAW1Xx5s11o1VuWHo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SSEPbdv2TWLWZoUXUP170VcNbXF2sWfOXQ+9b/49vwjFhCgvLMpgOf7/fg1GJb/KIQmtsrIlzvLK0fs0PymcgrvkEFB2YXFeJc6BFJV215qSCMwSZg+Nm2G2nYrp9YRWIfsvHwu9NVMC2LPIc00g/+P23qgpVKmHmiEighFzsRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iD12xz3p; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1708651641; c=relaxed/simple;
+	bh=VJfzL6GLEaZMoUqazrxisfj34PLQuSNA02WLHhDPT4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k51GId/7x0g2lyAM/cODCOtjRsx9owsz4xxkxecdRbn4e8Gy/iOR4sj4fMHR8kYfJMf7O8V1ZXq2XgABbrDiKUWXD+fRlrUbSDL9d1kDkyfHhiQZynb6/c1h24j7FprFj94eQWSow03Absk1tLZqpNhz8+VegRkiWZoMPsmCgK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LpdCZBp9; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iD12xz3p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LpdCZBp9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708649449; x=1740185449;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rjwYYQVl7wuLwXNJ96xcgvAV+2hAW1Xx5s11o1VuWHo=;
-  b=iD12xz3pK6vyLDb544dOuueuqPRrZxe/p2OsQ2mlhzlkwnixI3g4bIlZ
-   +TBWlqU15T/d9WRRpfBfY5b/RZ064hRMRn1LM4coJbnf2WRJXyMNto9ca
-   6qsY7gMNPG376lAnvJN5jHQTt5hvHv/YOL/Hcjq8UuMOSLoEMWPKQZOIf
-   Bt1/oPeKafk1cPBKefR9g1swqT7/okIgBjLAqHlXAoA0C09W3id44BvD7
-   Jr2ZJj2iJHP3JzbwVus79iLtO11G4pPe1ZR2vMSb6Fjv10J97dXn/hgNc
-   rWXEqb/q37tHmdyJVr2bCUg9L2wCFH6w8mMlApxbTRy0a7BYA4+4zCL4n
+  t=1708651638; x=1740187638;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VJfzL6GLEaZMoUqazrxisfj34PLQuSNA02WLHhDPT4k=;
+  b=LpdCZBp9dhFIIgtBdS4jFXFuqQKkaB2vJ/hsogVcQYEdTIm2tKSaQ3wS
+   8G5JCIyHVhU213hGOCea465UhwZgyodbLd4M/iDu1BGwQW45RAHNxLtu6
+   XesxHPmEeXlKuLwkNgMkfcrhlo0DinziUKifjYi9w+1u/b3wgmuw0S8MD
+   QIez8EIi682kcMnGnTjFUIyBbPqgcxnS1nYy5mNobPyZIQrEZDdLBvD4G
+   MT8ZOHJp5GzvK+3mXAjUU6mP7umP1knqUmICgxfc1wGDLEBo5KcXltXMa
+   jaZWpp67OG6EqS3IgostuJF2qH8x4Shbnpg6W6k6mxoW4UjS+9DMk+DQd
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="13633160"
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="14072583"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="13633160"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 16:50:48 -0800
+   d="scan'208";a="14072583"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 17:27:18 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="28896218"
+   d="scan'208";a="6192032"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Feb 2024 16:50:45 -0800
+  by orviesa008.jf.intel.com with ESMTP; 22 Feb 2024 17:27:11 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdJlz-0006ry-1W;
-	Fri, 23 Feb 2024 00:50:43 +0000
-Date: Fri, 23 Feb 2024 08:44:21 +0800
+	id 1rdKL6-0006vK-2c;
+	Fri, 23 Feb 2024 01:27:02 +0000
+Date: Fri, 23 Feb 2024 09:26:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: jasperwang@tencent.com, kaixuxia@tencent.com, frankjpliu@tencent.com,
-	kasong@tencent.com, sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, jason.zeng@intel.com, wu.zheng@intel.com,
-	yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:2781:13: warning:
- 'hns3_set_rx_skb_rss_type' defined but not used
-Message-ID: <202402230817.XXED7vlX-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de,
+	javierm@redhat.com, deller@gmx.de, suijingfeng@loongson.cn
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-sh@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-parisc@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH 2/3] arch: Remove struct fb_info from video helpers
+Message-ID: <202402230941.JZdvHHEX-lkp@intel.com>
+References: <20240221161431.8245-3-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,50 +72,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240221161431.8245-3-tzimmermann@suse.de>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009
-head:   3bf5c3f6e32e9cfe13f09bac3ae93b8e39d472c1
-commit: ba4d94dd5d526ab9b0081fb0af71fabe6aca8b6e Hawei TM280 ethernet card can't resolve ipip internal packet, this cause to packet hash to the same cpu. Mask the call of hns3_set_rx_skb_rss_type function, let protocal stack calculate hash value, this will scatter packet to different cpu.
-date:   1 year, 2 months ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240223/202402230817.XXED7vlX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240223/202402230817.XXED7vlX-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on deller-parisc/for-next arnd-asm-generic/master linus/master v6.8-rc5]
+[cannot apply to next-20240222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/arch-Select-fbdev-helpers-with-CONFIG_VIDEO/20240222-001622
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20240221161431.8245-3-tzimmermann%40suse.de
+patch subject: [PATCH 2/3] arch: Remove struct fb_info from video helpers
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240223/202402230941.JZdvHHEX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240223/202402230941.JZdvHHEX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402230817.XXED7vlX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402230941.JZdvHHEX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/hisilicon/hns3/hns3_enet.c:2781:13: warning: 'hns3_set_rx_skb_rss_type' defined but not used [-Wunused-function]
-    2781 | static void hns3_set_rx_skb_rss_type(struct hns3_enet_ring *ring,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   ld: vmlinux.o: in function `fbcon_select_primary':
+>> drivers/video/fbdev/core/fbcon.c:2944: undefined reference to `video_is_primary_device'
+   ld: vmlinux.o: in function `fb_io_mmap':
+   drivers/video/fbdev/core/fb_io_fops.c:164: undefined reference to `pgprot_framebuffer'
 
 
-vim +/hns3_set_rx_skb_rss_type +2781 drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
+vim +2944 drivers/video/fbdev/core/fbcon.c
 
-^590eaf1fec755 Kaixu Xia 2021-03-16  2780  
-^590eaf1fec755 Kaixu Xia 2021-03-16 @2781  static void hns3_set_rx_skb_rss_type(struct hns3_enet_ring *ring,
-^590eaf1fec755 Kaixu Xia 2021-03-16  2782  				     struct sk_buff *skb, u32 rss_hash)
-^590eaf1fec755 Kaixu Xia 2021-03-16  2783  {
-^590eaf1fec755 Kaixu Xia 2021-03-16  2784  	struct hnae3_handle *handle = ring->tqp->handle;
-^590eaf1fec755 Kaixu Xia 2021-03-16  2785  	enum pkt_hash_types rss_type;
-^590eaf1fec755 Kaixu Xia 2021-03-16  2786  
-^590eaf1fec755 Kaixu Xia 2021-03-16  2787  	if (rss_hash)
-^590eaf1fec755 Kaixu Xia 2021-03-16  2788  		rss_type = handle->kinfo.rss_type;
-^590eaf1fec755 Kaixu Xia 2021-03-16  2789  	else
-^590eaf1fec755 Kaixu Xia 2021-03-16  2790  		rss_type = PKT_HASH_TYPE_NONE;
-^590eaf1fec755 Kaixu Xia 2021-03-16  2791  
-^590eaf1fec755 Kaixu Xia 2021-03-16  2792  	skb_set_hash(skb, rss_hash, rss_type);
-^590eaf1fec755 Kaixu Xia 2021-03-16  2793  }
-^590eaf1fec755 Kaixu Xia 2021-03-16  2794  
-
-:::::: The code at line 2781 was first introduced by commit
-:::::: 590eaf1fec755215547690e787cc7d83f58ea948 Init Repo base on linux 5.4.32 long term, and add base tlinux kernel interfaces.
-
-:::::: TO: Kaixu Xia <kaixuxia@tencent.com>
-:::::: CC: Kaixu Xia <kaixuxia@tencent.com>
+  2939	
+  2940	#ifdef CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY
+  2941	static void fbcon_select_primary(struct fb_info *info)
+  2942	{
+  2943		if (!map_override && primary_device == -1 &&
+> 2944		    video_is_primary_device(info->device)) {
+  2945			int i;
+  2946	
+  2947			printk(KERN_INFO "fbcon: %s (fb%i) is primary device\n",
+  2948			       info->fix.id, info->node);
+  2949			primary_device = info->node;
+  2950	
+  2951			for (i = first_fb_vc; i <= last_fb_vc; i++)
+  2952				con2fb_map_boot[i] = primary_device;
+  2953	
+  2954			if (con_is_bound(&fb_con)) {
+  2955				printk(KERN_INFO "fbcon: Remapping primary device, "
+  2956				       "fb%i, to tty %i-%i\n", info->node,
+  2957				       first_fb_vc + 1, last_fb_vc + 1);
+  2958				info_idx = primary_device;
+  2959			}
+  2960		}
+  2961	
 
 -- 
 0-DAY CI Kernel Test Service
