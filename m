@@ -1,58 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773ED22EF5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 09:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EC558AC3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 09:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708680965; cv=none; b=U9eJOnjz60KrYT4Y1oR3xsn/to5irtfbAMUu1F9uJv6cA8kKoiSqz0s31ZYIbHB2Y3X9vsZ2+ZsLayqDFNkEFhssGj2aOiM803k6HjEHNJU5NjE7Ujwe/mX7npxg6DdsomabVK3FQcnZ1ZSgn1H3uL1ZDSkOWVEgi54PM8/vVnQ=
+	t=1708681639; cv=none; b=pTaTRObXI8h3F74qdpY4Jx2/U/b7lulWC5xKO0CM/HGpCrhdH0rAf2830uqBuPSZhzMgBnPC/hmGmT+VUdp6NuurdTyFtdwtSeCiLwOX0JiSDL9MUOUa7LysLLjkao2JjD6hYm0jZYYNFm1Iav92yZVnf0mCoKJSO58921XLTOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708680965; c=relaxed/simple;
-	bh=P62c/gW3qUy4OC1LLVXVfdGjVFXf5PvIZI0YSta30b4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/qBFWFyb1NkG6ffxAemnzQ9VMQqg2zI5lSZrLRB/gDLOmd643D6dO5wnE6LSuNnQmWCd+OPYY4fBZyKJqLqpuc+CcbTTqfFInVq7zNzzKGyCg3G8kN7h4RslfVFY2pRMd7yqvXfbuUCgHwpKjCqskhDoQiFZO2dy4N+9uNF1ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YX/q6T4D; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1708681639; c=relaxed/simple;
+	bh=Rt6ckNSmYobf07owV1oOk3uLlu9BtoPU4Rk0tDifgOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=oRnNKOQx08iYboSH4SG0DTN0mcILij0Kkn6j68E7OESJszy+oM2xUNn3VAXlDuOh21/UjbgZGnY9RFpwIho4gp62JLmV7G5zTINchyUJ8YOvKbS9sZmyAOnVaDgt2Bl/kIC4e3eqhEbkrMbAGT56njqPdaCKlf0M9ipU+GCTxt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1nZibiH; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YX/q6T4D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1nZibiH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708680960; x=1740216960;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=P62c/gW3qUy4OC1LLVXVfdGjVFXf5PvIZI0YSta30b4=;
-  b=YX/q6T4DhEakC9ULfFPKRLUfmBdlCsIZJR+wCCK6R2lXKSiOUWlzSh5o
-   5JfIbLa9Tx5R94Bgy8bjMFeOxRXHDEx7NpcFsbw/OFcuxETCptKH0INOG
-   PtTKlEoWficinYsfwZ8/a7fJ7MMq/g6ID8136NWttn8UxTByDSi2HGMNK
-   WajAfIkpOmvRmC2Ku23JQ5o6X9YVtqtiBRCVX6zc0g6uwAvDT3+6cf7SQ
-   Vm2BAgr/dFnxp3fU5G6++XXVifvu1FC0YpY9jSc9h/NbZsP0J7VU32usM
-   gEwwwvvjoOjIT3BwU5zDTs9P/NHWrdRixjkUG57fXdcVhiAdX4mLqViCf
+  t=1708681638; x=1740217638;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Rt6ckNSmYobf07owV1oOk3uLlu9BtoPU4Rk0tDifgOs=;
+  b=I1nZibiH2t5970h+F0f462+tHl0qyqhs/VUOqt8TA4qEVqQ2Kp4rj/EF
+   +lhdOUv4ZFlAg7w2eZGPhJhxyq/Zmgv6l6NSf9wWSzdPBMfTiUIfCyrBn
+   gCUVB4d3Pfa56HTiGqIuBGL/F2WkR9j7hm8q6WxClzLRcAQTTOgvc8nPr
+   hYOiQDgPJ1QyMMl0dq05JKUUuSzm2ZmmVyRBThsTVjHivte2CPJo11z8U
+   KyFOdQasfbt3iUYdD2GvcIrnUJ9FX6nr0k8OtkqWMLPhbFl/YXsJCuSZf
+   cfYi7qDRDwQQH+q44LP3mCVzSJIQuHDzQ+B0Lm9TR6SHnvWG8sgMINTgS
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="6799481"
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="2837981"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="6799481"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 01:35:59 -0800
+   d="scan'208";a="2837981"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 01:47:17 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="29019500"
+   d="scan'208";a="5831521"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Feb 2024 01:35:57 -0800
+  by orviesa010.jf.intel.com with ESMTP; 23 Feb 2024 01:47:16 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdRxh-0007Hc-1J;
-	Fri, 23 Feb 2024 09:35:33 +0000
-Date: Fri, 23 Feb 2024 17:35:12 +0800
+	id 1rdS8r-0007IE-05;
+	Fri, 23 Feb 2024 09:47:04 +0000
+Date: Fri, 23 Feb 2024 17:44:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	anthony.l.nguyen@intel.com, magnus.karlsson@intel.com,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-Subject: Re: [PATCH iwl-next 2/3] ice: avoid unnecessary devm_ usage
-Message-ID: <202402231718.8mWcBppj-lkp@intel.com>
-References: <20240222145025.722515-3-maciej.fijalkowski@intel.com>
+To: Nikhil V <quic_nprakash@quicinc.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] iommu: Avoid races around default domain allocations
+Message-ID: <Zdho6DA_H2a4j2pO@fdb2c0c3c270>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,85 +57,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240222145025.722515-3-maciej.fijalkowski@intel.com>
+In-Reply-To: <cbf1295589bd90083ad6f75a7fbced01f327c047.1708680521.git.quic_nprakash@quicinc.com>
 
-Hi Maciej,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on v6.8-rc5]
-[also build test WARNING on linus/master next-20240223]
-[cannot apply to tnguy-next-queue/dev-queue tnguy-net-queue/dev-queue horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/ice-do-not-disable-Tx-queues-twice-in-ice_down/20240222-225134
-base:   v6.8-rc5
-patch link:    https://lore.kernel.org/r/20240222145025.722515-3-maciej.fijalkowski%40intel.com
-patch subject: [PATCH iwl-next 2/3] ice: avoid unnecessary devm_ usage
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240223/202402231718.8mWcBppj-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240223/202402231718.8mWcBppj-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402231718.8mWcBppj-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/intel/ice/ice_common.c: In function 'ice_update_link_info':
->> drivers/net/ethernet/intel/ice/ice_common.c:3242:32: warning: variable 'hw' set but not used [-Wunused-but-set-variable]
-    3242 |                 struct ice_hw *hw;
-         |                                ^~
---
-   drivers/net/ethernet/intel/ice/ice_ethtool.c: In function 'ice_loopback_test':
->> drivers/net/ethernet/intel/ice/ice_ethtool.c:947:24: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-     947 |         struct device *dev;
-         |                        ^~~
-
-
-vim +/hw +3242 drivers/net/ethernet/intel/ice/ice_common.c
-
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3221  
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3222  /**
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3223   * ice_update_link_info - update status of the HW network link
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3224   * @pi: port info structure of the interested logical port
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3225   */
-5e24d5984c805c Tony Nguyen            2021-10-07  3226  int ice_update_link_info(struct ice_port_info *pi)
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3227  {
-092a33d4031205 Bruce Allan            2019-04-16  3228  	struct ice_link_status *li;
-5e24d5984c805c Tony Nguyen            2021-10-07  3229  	int status;
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3230  
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3231  	if (!pi)
-d54699e27d506f Tony Nguyen            2021-10-07  3232  		return -EINVAL;
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3233  
-092a33d4031205 Bruce Allan            2019-04-16  3234  	li = &pi->phy.link_info;
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3235  
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3236  	status = ice_aq_get_link_info(pi, true, NULL, NULL);
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3237  	if (status)
-092a33d4031205 Bruce Allan            2019-04-16  3238  		return status;
-092a33d4031205 Bruce Allan            2019-04-16  3239  
-092a33d4031205 Bruce Allan            2019-04-16  3240  	if (li->link_info & ICE_AQ_MEDIA_AVAILABLE) {
-092a33d4031205 Bruce Allan            2019-04-16  3241  		struct ice_aqc_get_phy_caps_data *pcaps;
-092a33d4031205 Bruce Allan            2019-04-16 @3242  		struct ice_hw *hw;
-092a33d4031205 Bruce Allan            2019-04-16  3243  
-092a33d4031205 Bruce Allan            2019-04-16  3244  		hw = pi->hw;
-f8543c3af0dcb2 Maciej Fijalkowski     2024-02-22  3245  		pcaps = kzalloc(sizeof(*pcaps), GFP_KERNEL);
-092a33d4031205 Bruce Allan            2019-04-16  3246  		if (!pcaps)
-d54699e27d506f Tony Nguyen            2021-10-07  3247  			return -ENOMEM;
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3248  
-d6730a871e68f1 Anirudh Venkataramanan 2021-03-25  3249  		status = ice_aq_get_phy_caps(pi, false, ICE_AQC_REPORT_TOPO_CAP_MEDIA,
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3250  					     pcaps, NULL);
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3251  
-f8543c3af0dcb2 Maciej Fijalkowski     2024-02-22  3252  		kfree(pcaps);
-092a33d4031205 Bruce Allan            2019-04-16  3253  	}
-092a33d4031205 Bruce Allan            2019-04-16  3254  
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3255  	return status;
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3256  }
-fcea6f3da546b9 Anirudh Venkataramanan 2018-03-20  3257  
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] iommu: Avoid races around default domain allocations
+Link: https://lore.kernel.org/stable/cbf1295589bd90083ad6f75a7fbced01f327c047.1708680521.git.quic_nprakash%40quicinc.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
