@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914FF38FA1;
-	Fri, 23 Feb 2024 22:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA2F22071
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 22:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708728073; cv=none; b=cuki8iDSXgUERmDWmtGM0ewiaK9zDiEu75ZewBGPhtS8AB7Fi+IDzIpM+gKmEg6N27MvVpNzko2FVrNdfJmeXo9MnYmbV0Yoe/5alz9V/byidxYdv3oCQ5LAxJnOOlz6we+iXR+iwi6imPQqpncVBfoWsB+GLWGQ1iN1i0pL3dQ=
+	t=1708728699; cv=none; b=FYglo9kxQ4gR/pMTj5RCbTIcGjMVl+Yp1Svyly2Do3ZabF5G6wJI+fqZGLZPAtnrjToGARzRoIc6fzJadGyyXBh0KNkhtdy+PPCAJd2Lbgssc4pPU5iKwZs/oL5lnkW4cRId9gC3efGm9p20bQakdjmSi1/esF09+MyLHecv6xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708728073; c=relaxed/simple;
-	bh=M9KvWFP79FSlwdzb3EPPAWvxhpQ6pdeQUdYnpVN5Fok=;
+	s=arc-20240116; t=1708728699; c=relaxed/simple;
+	bh=Mc357CVHrALPxH36XBhZd6gv5wG0eLnjO1BTu774TgA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G49gU8O6PnDuOgcTQd4G8jG79X8dJgCmE/BZUZLH0AQGE6cE0Db3PrQxMgy585Iiwk7uo8kBCPtVDMumecgmZao7rCzL9bBK6pSOzs43AdLXleL7+X9gPqrlnTkbfinAU2ROOLvmULG1Nvjh0yAtRWXCrMJ/uJBOZQ4Gm5esnu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kijkdk83; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dv4Qc6N1yaCyG5qbiqLdKcpBw06O+38BYF4kTuazlWpLmVAc8KyzFXpBBDOF6hZmqCLJX2BV5NbTrP7mRVBiTZXcUtCfZ/TzirW0VO+1TleFTXwtCxE3NiOJP0+96jvMvHYCC99QimLsAQOgAcZ+PqdPWbzPMOpEmjb8uU6fEPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEaItwDP; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kijkdk83"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEaItwDP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708728072; x=1740264072;
+  t=1708728697; x=1740264697;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=M9KvWFP79FSlwdzb3EPPAWvxhpQ6pdeQUdYnpVN5Fok=;
-  b=Kijkdk834pmEKEE7BgeQm93zC2NSzE1iZwuvX3fjAQK222Q0EVG56DLu
-   LHX+ex/ASKIZhBDg1OeZDAPLFNUtw8YtEyIl/HazIX+qMvv1+u0S86IoS
-   VtQ/LBr9OLLE4kQRI4mgFtKBxxErOnu16cIeiypLyKjDe1L6JUC4i+hce
-   s6kxJ4uCzhRLl7gIUblk5eCmIe73WT/QN91JyW8bDplMEZ4y37Ajbj3n+
-   BI+nt14ANlgwRsVLkYt+7pdYo+hg919/H1fhpibTdK99kTHhDq47BaQ6g
-   ovy4WImZ1YaFNGqgUPtgTDq5cIpQ4JfBXNqFUyGeRYj+q5ZPYxE3JcWzT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="13714257"
+  bh=Mc357CVHrALPxH36XBhZd6gv5wG0eLnjO1BTu774TgA=;
+  b=hEaItwDPF+oDN1AdK4O3zl0Uq83P+fMbkdtBhTbsWQkLHk1H8ex0WI7B
+   NZ5rrVq99t/N8Mg99ATHwt/kVor2RvQtRYF5VESmQne/dyNDcZEkTEfgv
+   Wtw7Jb/EunBMSpdXMSasNFHZOm1FFDKQpTPbzfhkjkfKyr1sJlKuqy9/W
+   4H6dTZ820dJm27vRegby+fdg8+avNIBOJyARMr7I2cJbLpqXlckMXT7OA
+   FrMYIeaAnJ/aWbL+bP4+AELS12M3WQyk8qI4f0kBUnsql4TGfMI9IQnRI
+   6gdso0Yg1XZN1eWF+ShXOGDJQ0SLm7nR/2IaNWAdFfIP53CoRNBef9ZI2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6013688"
 X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="13714257"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 14:41:10 -0800
+   d="scan'208";a="6013688"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 14:51:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="10601984"
+   d="scan'208";a="6194312"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Feb 2024 14:41:06 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 23 Feb 2024 14:51:34 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdeE4-0007yi-2H;
-	Fri, 23 Feb 2024 22:41:04 +0000
-Date: Sat, 24 Feb 2024 06:40:06 +0800
+	id 1rdeOA-0007z2-1p;
+	Fri, 23 Feb 2024 22:51:31 +0000
+Date: Sat, 24 Feb 2024 06:50:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Yang Xiwen via B4 Relay <devnull+forbidden405.outlook.com@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -51,12 +51,11 @@ To: Yang Xiwen via B4 Relay <devnull+forbidden405.outlook.com@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Yang Xiwen <forbidden405@outlook.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yang Xiwen <forbidden405@outlook.com>
 Subject: Re: [PATCH 2/2] drivers: bus: simple-pm-bus: Get and deassert resets
  exclusively
-Message-ID: <202402240646.IirqjDw8-lkp@intel.com>
+Message-ID: <202402240650.1O7vtd48-lkp@intel.com>
 References: <20240223-b4-bus-v1-2-2803c3ac4673@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -70,32 +69,33 @@ In-Reply-To: <20240223-b4-bus-v1-2-2803c3ac4673@outlook.com>
 
 Hi Yang,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 8d3dea210042f54b952b481838c1e7dfc4ec751d]
+[auto build test WARNING on 8d3dea210042f54b952b481838c1e7dfc4ec751d]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Xiwen-via-B4-Relay/dt-bindings-simple-pm-bus-Add-optional-resets/20240223-115400
 base:   8d3dea210042f54b952b481838c1e7dfc4ec751d
 patch link:    https://lore.kernel.org/r/20240223-b4-bus-v1-2-2803c3ac4673%40outlook.com
 patch subject: [PATCH 2/2] drivers: bus: simple-pm-bus: Get and deassert resets exclusively
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240224/202402240646.IirqjDw8-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project edd4aee4dd9b5b98b2576a6f783e4086173d902a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240646.IirqjDw8-lkp@intel.com/reproduce)
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240224/202402240650.1O7vtd48-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240650.1O7vtd48-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402240646.IirqjDw8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402240650.1O7vtd48-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/bus/simple-pm-bus.c:67:43: error: passing 'const struct device *' to parameter of type 'struct device *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+   drivers/bus/simple-pm-bus.c: In function 'simple_pm_bus_probe':
+>> drivers/bus/simple-pm-bus.c:67:50: warning: passing argument 1 of 'devm_reset_control_array_get' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
       67 |         bus->rsts = devm_reset_control_array_get(dev, false, true);
          |                                                  ^~~
-   include/linux/reset.h:192:45: note: passing argument to parameter 'dev' here
+   In file included from drivers/bus/simple-pm-bus.c:19:
+   include/linux/reset.h:192:45: note: expected 'struct device *' but argument is of type 'const struct device *'
      192 | devm_reset_control_array_get(struct device *dev, bool shared, bool optional)
-         |                                             ^
-   1 error generated.
+         |                              ~~~~~~~~~~~~~~~^~~
 
 
 vim +67 drivers/bus/simple-pm-bus.c
