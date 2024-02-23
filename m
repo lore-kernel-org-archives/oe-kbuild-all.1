@@ -1,159 +1,136 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BB5657A3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 11:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB2F78667;
+	Fri, 23 Feb 2024 11:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708687298; cv=none; b=DBr7hy1rqdvIxwd055MRre6uCI5Sewmz/3Rx9JlrpRbpMp/kP/fCrVny5QQMpSJd2RdRJc8fTZpIGXYyCwU2JEb67NRcon78skUSmuPw3uC7K29MNzqU5XrCh+SJ+e5wZNT73uflkB14XAQ4Yaz7tQW3iNdcjiwcGrF1dPqYFyE=
+	t=1708688002; cv=none; b=aqkeD/A8VNa788sdpZodBa5u8ShBqnRNd690Qw3Sd/thW/+/dnm/HAJs5Z5RKGwf68Iw5pceEEpnlMw2Fw8vhYJuedMe3WY/vfDvRwC1dg4sNMidV4MK5v+H6gURryiGbnrrseUv1GmMd7O8Q/xSprZFZ1sAOqkt4MkIlRVVtew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708687298; c=relaxed/simple;
-	bh=MGjiNoY5/PZus3tHurBrNW463HaZZAyrMoHg2GAQPfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=fImKH4Maz86+ito3f/Fj4v0WCYJNkYygdKH5rANW4uMkS7YUAb6+gcWPOPmGTkc2tSJkjkhcijtlC0r+o9rt/HAu5QZgB8+MARw/up3JpY0SS9NQ2uv4zFVMWqf6AU/McQyOWzNfJqNsa5bHUVYBaTujwEMWixZP77mgxFWacyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=elDSJsXp; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708688002; c=relaxed/simple;
+	bh=TcK+Iw2zld5U2RS8+AAnETRmCK3lZzzCa7IpNlIpdrM=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=tqrVFU2F14PHTaFUQfUPHUOTMw4hS4fpgkljiYWKpc6hOtMajG+aJn6Fu6fWC0TIIlh3awNlCnpfXSv1Mhvg6qMq93FAc9Jp8dhylzehDUrzvby6m4nrsbtGL2VzQ9bobw86q0W4I1ZB5N3//q8OR+p3WvgmViNeEEq1aWQuYxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rL0WYRj5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="elDSJsXp"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-412698ac6f9so1579045e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 03:21:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708687295; x=1709292095; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PIi3EjXiGTvmOHi052KsOnRzwJ+f4mQvPVKEwEMfxSE=;
-        b=elDSJsXpkqhJnO7L5Ol1w3Vumtc2XCeVUrxzBNj/f+wm9wag7JLA+D5wn1lYq06EGm
-         /V/pNmrBOV9MCcZUM/gtO+qxwOxPkr0ZdZwhTHZg5nOaT/0L9QbX38Ua6/JC7Lv/VM82
-         5C1VCI/C9lZp7EyLtpO15IYvVr6pPShJDDhbq6/OQ6pfMCTQ2PMl+VeXJxD3K3EtApP7
-         yGpFqn01CEhuI1yV2ewkX4bI1LrHDiR68NyVID1gID4bUke/dKHLw9mVNhBUB30HsRh2
-         7llvzjPnb8CpSYcmMdOIUtb6wB3eEG+fcRL8SKHV99XrW0YpdFWa/rgefHPJ8vLerLl/
-         1VZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708687295; x=1709292095;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PIi3EjXiGTvmOHi052KsOnRzwJ+f4mQvPVKEwEMfxSE=;
-        b=dXCh7xzh7jxEuu34+wvup/fnfvsWFGRrWfEqec39B2mxx0A2S4Xiakr/WHT0J3wiPN
-         W/G4Ibk8oZWpf3I7VYA9dva/UoAkK3TRctBYQ6Cgpz0fHlHRxaXq8BfCAzwfrwKG80zQ
-         GNWnQV9YN2J/4guaibrMZqj+bxcI80WPV4jBD+SM/Q7SGiU1XrYXXE5SWvGOHE7jHeTz
-         wC/Ie2yxDx57GMvYn3rRm29/mtKpDxT1yjPAfkWVC3MMXM915s/qZG5Zuch7MNobjWIX
-         8BIRUgWSdyFDF0ZUZMUY6x93hOAhDtGUdoN7lLckLJ00WPxo1mNqJqXseqFwLNfIXlef
-         dNKw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAhZgYmoL6+DFP/lEtOJP76Tg4R5Q1SMhATf9pCfgBNLTeWrTEgaffZSh6bdzhwfd7RCD0PytUjqNIk3pa7tM6J0/3ksIneOm1VFW+dA==
-X-Gm-Message-State: AOJu0YylrIgvy98KCWR5M42/7c78u2vDDk/h+U7aKf+6KCdjTewico4T
-	sSnqJql2LZYm26AcnmFoIFaLvc6YqOuzY0tMT+C9tcRdO5lME+bnaasKyuiy8a4=
-X-Google-Smtp-Source: AGHT+IG4bZr5EDo019kifBFU9QxI2IvQOaqdQNrKdAU6Y2UFtTCbZamMDyhboFxCGoxcWL3sjymYGw==
-X-Received: by 2002:adf:da41:0:b0:33d:7e9:9543 with SMTP id r1-20020adfda41000000b0033d07e99543mr1358279wrl.32.1708687294766;
-        Fri, 23 Feb 2024 03:21:34 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id b8-20020a5d4b88000000b0033cfc035940sm2426016wrt.34.2024.02.23.03.21.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 03:21:34 -0800 (PST)
-Date: Fri, 23 Feb 2024 14:21:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Joe Damato <jdamato@fastly.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Joe Damato <jdamato@fastly.com>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Stanislav Fomichev <sdf@google.com>,
-	Amritha Nambiar <amritha.nambiar@intel.com>,
-	Larysa Zaremba <larysa.zaremba@intel.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-Subject: Re: [PATCH net-next 1/2] netdev-genl: Add ifname for queue and NAPI
- APIs
-Message-ID: <5f3777e9-c056-4765-9d43-9338a11c1703@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rL0WYRj5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FD46C43394;
+	Fri, 23 Feb 2024 11:33:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708688002;
+	bh=TcK+Iw2zld5U2RS8+AAnETRmCK3lZzzCa7IpNlIpdrM=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+	b=rL0WYRj5M5K5hSRncrSWAAeJ4+vqwHZpD9E5SFTuVlEzAx8T7ZM7b44h8crUUcTbZ
+	 tx7WM/6i8ji8z4sWf+yEJ0AjwA7IdIaMXxT1i67EL19LFY/yECgUFFA6ihnU4WVVrq
+	 7Obki8/RxegVSleRfE1F7OEDWbpIXjoy6hQx1eUNZ+Why0Y3/PYPfJhgUbV9/+lZ1V
+	 GswAjfoQ49Rzw23Ul5ji7AeTrd5LIro5+/6o2fp2W7L4WEoP2ZSosXKmyhIFQYXJlE
+	 EoWLUPQVtXDXMc6LQrovq3M+XJwO03qu56kexKUqK9abKUxyn5rsOwG++/eg6D2URb
+	 7Ep9DdBsoIMtg==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfauth.nyi.internal (Postfix) with ESMTP id 27DFF1200066;
+	Fri, 23 Feb 2024 06:33:21 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 23 Feb 2024 06:33:21 -0500
+X-ME-Sender: <xms:gILYZTQgtF7EnfIGi6j_DWOw9hUgMliCKwVJHRCMupGhZsrHIKfVEw>
+    <xme:gILYZUyKhjegUy3pzUSANi6AWCu22NkCoSw0oC50vrfkQ2ep0zJo_KwiLx6ytQF5T
+    RuLzS2PM1a4S08_x_4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeeigddvlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtffrrg
+    htthgvrhhnpedvveeigfetudegveeiledvgfevuedvgfetgeefieeijeejffeggeehudeg
+    tdevheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidquddvkeehudejtddv
+    gedqvdekjedttddvieegqdgrrhhnugeppehkvghrnhgvlhdrohhrghesrghrnhgusgdrug
+    gv
+X-ME-Proxy: <xmx:gILYZY2C-eF67EaErq5p65cst5weL6F2OSyBaa_uDRP94U48S1RIMw>
+    <xmx:gILYZTCwZke92r2KUFUPwtYSar2o-HdSJUrHK9tWuthakIZnRDoczA>
+    <xmx:gILYZcjoh_EEdaW8Y18a9NxP8koF_AaP5JchDaGM64CBcqYivhgIIg>
+    <xmx:gYLYZftGzCXSlfBg-NAqsPl81kQdWwXSceBsWycmZlsiJlQgKsT8dtidI1g>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 940ADB6008D; Fri, 23 Feb 2024 06:33:20 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-153-g7e3bb84806-fm-20240215.007-g7e3bb848
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1708531057-67392-2-git-send-email-jdamato@fastly.com>
+Message-Id: <90459f4b-74b8-4e1a-9024-6536c7437a19@app.fastmail.com>
+In-Reply-To: <69c27b568d423e7784dcb6eb578253f5e5df8194.camel@linux.ibm.com>
+References: <202402180019.a2GWUA60-lkp@intel.com>
+ <7e9c8f49-4f95-4dcb-a038-36bb5c895b20@app.fastmail.com>
+ <69c27b568d423e7784dcb6eb578253f5e5df8194.camel@linux.ibm.com>
+Date: Fri, 23 Feb 2024 12:33:00 +0100
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Niklas Schnelle" <schnelle@linux.ibm.com>,
+ "kernel test robot" <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [niks:has_ioport_v6 19/19] lib/iomap.c:81:23: error: call to '_inb'
+ declared with 'error' attribute: inb()) requires CONFIG_HAS_IOPORT
+Content-Type: text/plain
 
-Hi Joe,
+On Fri, Feb 23, 2024, at 11:32, Niklas Schnelle wrote:
+> On Sat, 2024-02-17 at 21:05 +0100, Arnd Bergmann wrote:
+>> On Sat, Feb 17, 2024, at 17:13, kernel test robot wrote:
+>
+> Looking at this again I'm not sure. The IP_COND macro already selects
+> between MMIO and I/O port access. Shouldn't we have something like:
+>
+> #ifdef CONFIG_HAS_IOPORT
+> #define IO_COND(addr, is_pio, is_mmio) do {			\
+> 	unsigned long port = (unsigned long __force)addr;	\
+> 	if (port >= PIO_RESERVED) {				\
+> 		is_mmio;					\
+> 	} else if (port > PIO_OFFSET)
+> {				\
+> 		port &= PIO_MASK;				\
+> 		is_pio;					
+> 	\
+> 	} else							\
+> 		bad_io_access(port, #is_pio );			\
+> } while (0)
+> #else
+> #define IO_COND(addr, is_pio, is_mmio) is_mmio
+> #endif
 
-kernel test robot noticed the following build warnings:
+I think that would work, but we should never need it, as
+there should never be a configuration that has CONFIG_HAS_IOPORT=n
+but CONFIG_GENERIC_IOMAP=y.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/netdev-genl-Add-ifname-for-queue-and-NAPI-APIs/20240222-000134
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/1708531057-67392-2-git-send-email-jdamato%40fastly.com
-patch subject: [PATCH net-next 1/2] netdev-genl: Add ifname for queue and NAPI APIs
-config: i386-randconfig-141-20240222 (https://download.01.org/0day-ci/archive/20240223/202402231851.2NeORqwi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+For architectures that do not require special instructions for
+inb/outb, we get the defaults from asm-generic/io.h:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202402231851.2NeORqwi-lkp@intel.com/
+#ifndef CONFIG_GENERIC_IOMAP
+#ifndef ioread8
+#define ioread8 ioread8
+static inline u8 ioread8(const volatile void __iomem *addr)
+{
+        return readb(addr);
+}       
+#endif
 
-New smatch warnings:
-net/core/netdev-genl.c:388 netdev_nl_queue_get_doit() error: uninitialized symbol 'ifname'.
+#ifndef ioread16
+#define ioread16 ioread16
+static inline u16 ioread16(const volatile void __iomem *addr)
+{
+        return readw(addr);
+}
+#endif
 
-vim +/ifname +388 net/core/netdev-genl.c
+#ifndef ioread32
+#define ioread32 ioread32
+static inline u32 ioread32(const volatile void __iomem *addr)
+{
+        return readl(addr);
+}
+#endif
 
-bc877956272f05 Amritha Nambiar 2023-12-01  371  int netdev_nl_queue_get_doit(struct sk_buff *skb, struct genl_info *info)
-bc877956272f05 Amritha Nambiar 2023-12-01  372  {
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  373  	u32 q_id, q_type, ifindex;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  374  	struct net_device *netdev;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  375  	struct sk_buff *rsp;
-f340b224321fa6 Joe Damato      2024-02-21  376  	char *ifname;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  377  	int err;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  378  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  379  	if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_ID) ||
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  380  	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_TYPE) ||
-f340b224321fa6 Joe Damato      2024-02-21  381  	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_IFINDEX) ||
-f340b224321fa6 Joe Damato      2024-02-21  382  	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_IFNAME))
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  383  		return -EINVAL;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  384  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  385  	q_id = nla_get_u32(info->attrs[NETDEV_A_QUEUE_ID]);
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  386  	q_type = nla_get_u32(info->attrs[NETDEV_A_QUEUE_TYPE]);
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  387  	ifindex = nla_get_u32(info->attrs[NETDEV_A_QUEUE_IFINDEX]);
-f340b224321fa6 Joe Damato      2024-02-21 @388  	nla_strscpy(ifname, info->attrs[NETDEV_A_QUEUE_IFNAME], IFNAMSIZ);
-                                                                    ^^^^^^
-missing initialization
+This works equally well for targets that have no I/O port
+access at all and those that implement inl() as readl()
+with an offset anyway.
 
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  389  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  390  	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  391  	if (!rsp)
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  392  		return -ENOMEM;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  393  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  394  	rtnl_lock();
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  395  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  396  	netdev = __dev_get_by_index(genl_info_net(info), ifindex);
-f340b224321fa6 Joe Damato      2024-02-21  397  
-f340b224321fa6 Joe Damato      2024-02-21  398  	if (strcmp(netdev->name, ifname)) {
-f340b224321fa6 Joe Damato      2024-02-21  399  		err = -ENODEV;
-f340b224321fa6 Joe Damato      2024-02-21  400  	} else {
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  401  		if (netdev)
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  402  			err = netdev_nl_queue_fill(rsp, netdev, q_id, q_type, info);
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  403  		else
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  404  			err = -ENODEV;
-f340b224321fa6 Joe Damato      2024-02-21  405  	}
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  406  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  407  	rtnl_unlock();
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  408  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  409  	if (err)
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  410  		goto err_free_msg;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  411  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  412  	return genlmsg_reply(rsp, info);
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  413  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  414  err_free_msg:
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  415  	nlmsg_free(rsp);
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  416  	return err;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  417  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+    Arnd
