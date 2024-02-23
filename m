@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AA5143C4B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 19:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549AF14535B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 19:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708716523; cv=none; b=lYPx7ua6bo5WuYo0hZ8mJ+V1X24WTtUelu3D6GsL6YK8szo0y0epIO76BtZ8YVp5XWTfIxf4pFUB5V5fNx6lzfnDtdzHoPfQU8YP1y9TJRI6pUHRM5IM+jh3MZS5ZsGcP7ixjixVCqr9J24toTH7Q9uCx630G8HLqEZQnPRpT/g=
+	t=1708717856; cv=none; b=ouitTbjY2GElziUlh3okFmcRu7hBzJNATiYyeiLiWsBSAHn4HOL39kUQY31R3y4ZfKHvE+lVkieiELZB8R+b5fHWrJ3aNrVg7bi436WH9D3vHycmIk5Kkuq1EGYXeo0Nh0olnLNO/lqj8N2vQViy/XeLfqr2ShFZ8fD1IvzP6Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708716523; c=relaxed/simple;
-	bh=m4oATiFHPmrTyBQg7XV6dpKNGtj6pwcXZRd5vGhpkvc=;
+	s=arc-20240116; t=1708717856; c=relaxed/simple;
+	bh=cIZIEf0YSs2kcZlIle3z3zT8o8MV7cJXFShcyT/qqFs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kecQSZCy0VZLCay3cYdmUmvYGxYgutar7lC04UoKCmEboNj1ZHV4/ZkJNuG3nq+oAaIViWc/R7X6gxSYZ2Q+N05dQr2hFeeWxMMP+BBYiFEFS6OA9H513y+OyPAyL9Ega7rCJNjXGiXdUA+KHm6VriLduYqfU5rYgwuAw7NGnPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QEvUrE2Y; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=Ulr/qXixIyxTwsfRCM61GrPZbJ/9m+6eidJX3zoAhhmmpjNJknR2pOVPNNmDGGc2BlrlU49drqErgCThc1L8EB9+p6EQdcbLXaaenzZ6s/v7dT18h1mMMwclM60b377XY4GXeNX5UAhdroA0+NxrYMaRXXJ0yaRGVqgEJ9oJlRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FpmqZGW3; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QEvUrE2Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FpmqZGW3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708716521; x=1740252521;
+  t=1708717854; x=1740253854;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m4oATiFHPmrTyBQg7XV6dpKNGtj6pwcXZRd5vGhpkvc=;
-  b=QEvUrE2YNlLBia1x3AIk23ZX9su0dE+NsVg2Pu6CstjKOn26ICO9NrZW
-   Vpmooar884xBPS9KTEbzZh8xbrmWOl6QWiMejJ8qdHwemeZdPV/YC7iJS
-   dgN+CAOEAxUgfzjh77pSiiN2OGp9+4aprTO+LOS++44eXLziHzW+Yp3mH
-   kr9xR2VAJdkn2rjtGoZgcz1SD/uRx6fr9AeiDI6ljRpwLLrsYZE3fSIK7
-   Z8QD5MNzix1KFHPQ9IgmqBxn0kj+XE3e8Y2IF8b/A30FUvurasdcZkLPW
-   FiokftwpaPtFtLWefNVB8mQJCCHAzXfs/qFZgUchhcQHnmFYPG8IK/Cu3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="3191511"
+  bh=cIZIEf0YSs2kcZlIle3z3zT8o8MV7cJXFShcyT/qqFs=;
+  b=FpmqZGW3RNFX+Hf3YZXE3UuDRiiKqtAm8X530EE0e/Dv6F4Di+C+tdxE
+   xYMbo3b4kLzDt+A7T2vIon2ZLxxzl9eEMEDFRTC9s9GLkkKRiXX4kVafo
+   L1wQRsKcup5DU7Hms+BYZgKv+NPI5qpzSvE7eeMCN1aUWFR/rUwkHEXun
+   EaZnmX3rvmo9plsFUuec2RWw5THI5UxOoCDfBK/mzRpqxNjW8UZaFNKQy
+   CbeAb2GgnqrAUwMsBpTeFJdELAPmkWXRaRoT6biPjHmt19hDxBZFLcufG
+   5kHD+iHKLoaZSSZIDxT0XvK5WqhCG3B5lIpkpWEOPo7VJa3qLA+hS+xI9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="2936516"
 X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="3191511"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 11:28:41 -0800
+   d="scan'208";a="2936516"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 11:50:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="6483731"
+   d="scan'208";a="6158772"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 23 Feb 2024 11:28:39 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 23 Feb 2024 11:50:52 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdbDp-0007pY-0E;
-	Fri, 23 Feb 2024 19:28:37 +0000
-Date: Sat, 24 Feb 2024 03:27:46 +0800
+	id 1rdbZ7-0007qW-2R;
+	Fri, 23 Feb 2024 19:50:44 +0000
+Date: Sat, 24 Feb 2024 03:49:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zc/rx-latest 12/15] alpha-linux-ld:
- io_uring/net.c:1056:undefined reference to `io_zc_rx_recv'
-Message-ID: <202402240331.fOEhz42s-lkp@intel.com>
+Subject: [isilence:zc/rx-latest 12/15] sparc64-linux-ld: net.c:undefined
+ reference to `io_zc_rx_recv'
+Message-ID: <202402240319.vatf7xIY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +61,20 @@ Content-Disposition: inline
 tree:   https://github.com/isilence/linux zc/rx-latest
 head:   422e699712a532c85e16c4e6afda9d4d4164bdf3
 commit: f511e9239c22c8e0ef7cb773efb144aff2afeadc [12/15] io_uring: add io_recvzc request
-config: alpha-defconfig (https://download.01.org/0day-ci/archive/20240224/202402240331.fOEhz42s-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240331.fOEhz42s-lkp@intel.com/reproduce)
+config: sparc64-defconfig (https://download.01.org/0day-ci/archive/20240224/202402240319.vatf7xIY-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240319.vatf7xIY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402240331.fOEhz42s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402240319.vatf7xIY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   alpha-linux-ld: io_uring/net.o: in function `io_recvzc':
-   io_uring/net.c:1056:(.text+0x29a4): undefined reference to `io_zc_rx_recv'
->> alpha-linux-ld: io_uring/net.c:1056:(.text+0x29b0): undefined reference to `io_zc_rx_recv'
-   alpha-linux-ld: io_uring/net.c:1056:(.text+0x2b88): undefined reference to `io_zc_rx_recv'
-   alpha-linux-ld: io_uring/net.c:1056:(.text+0x2b90): undefined reference to `io_zc_rx_recv'
+   sparc64-linux-ld: io_uring/net.o: in function `io_recvzc':
+   net.c:(.text+0x21c8): undefined reference to `io_zc_rx_recv'
+>> sparc64-linux-ld: net.c:(.text+0x231c): undefined reference to `io_zc_rx_recv'
 
 -- 
 0-DAY CI Kernel Test Service
