@@ -1,75 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD621097D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 04:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5579611701
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 04:36:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708661772; cv=none; b=H8Bg1JB4dbO6SLoNCxXgpkhWNOeRBoNZKMuC24sa9WxCs2sd8EmE/FLQG7KK3yGc9e1+wEJcysu5OukiGMNEfyrcc3wRmebSZvgZQkT0oZTvQmjQADNshSWExHz4Z3Dohq6fmaioWWnyDGETqDFUKuXpj5IB45E9T4476l0fcOM=
+	t=1708663012; cv=none; b=LyajJOtEodaMWE2aHw+7o4oVfyLVLTTImYJayyLLaTD6cH2aHnJOksidc0gj0of8/N4l7/HoqQ1d3DsSZaIuaIzE4L8dpjfM5mNCROISUPWE7mP4+/6KK2GlbzsmzA7AxJ36lFMa6YJn3c1v+Pk9KyTw0X5dXAa5KDeezrNUhmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708661772; c=relaxed/simple;
-	bh=uQACqv/LN4pItI55fLVPYnrPZUxn/xcwGYiuzp+fwPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bOzCe+Wh/tqqtQnjIW5uuVD7hnJPP1YgjhBq1zgKmUgGuhiKcZeodA5IDkYx9r0n0KCSNFs6UdMOeKwQrNBhjdy2WRurEnI4rE2aTdwjGCAgb9u7tcpwrJ349DtcDQN4anf8S9fVpbp518efQQBYY24aaWwm3b/95mHGcapAFT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BFx9cQwu; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1708663012; c=relaxed/simple;
+	bh=PXUlE/VSeEx6aW8g7i4rX5GRC22UMDRXkz0YqFaqF60=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oScAPrSB50ModeX7MFPdYjEJcXJYgdrwfwQHa+Qqyiiwtn+DSyZyMv6Pb7VbrtWK3v8kv2F/ZF/fGy1w9j8svTfim9WbILMK7VkkKy+AHRDI3uzERyeVbT0OyLG+qhaT4h8hT5Q2TDKPJCD8g8XjIPjZJoNnK/72shs3eSsgKh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrkGIy2Y; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BFx9cQwu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrkGIy2Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708661769; x=1740197769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uQACqv/LN4pItI55fLVPYnrPZUxn/xcwGYiuzp+fwPs=;
-  b=BFx9cQwuYbhOl2zGW9MpBVBynH6SdmItn2FabY1HT0kP36ZdSbpdLq84
-   5+I1U0C+8o46mQeaQzkSmY4zPx1qxt+zRKdJm7cWS7W72TNAiy/iXMljb
-   t2xAH0vTGtaeQ7fLOZI1bHI4a+bJKeeeq3611P6kabChQ7uz7hQmEFMiy
-   fUhd+bXS6/1PqcUS4dKutcUj3/2igBKikVyUpMa4blyU9Vskdub+rLo0C
-   AFpBNJW1tiz9FvptdXfohWytiCdK/RFfCIyX8RiCeSJIqFdhZ4GUtt9qU
-   gVJtpJeP8MIGq6K/oNEaR++uNW9bPuOmgX726ChtGtjS4MdhFMvn5+MC3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="6744885"
+  t=1708663010; x=1740199010;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PXUlE/VSeEx6aW8g7i4rX5GRC22UMDRXkz0YqFaqF60=;
+  b=UrkGIy2YgPy5Dp531+xr9kesZ//A5UlqsMrUiYWl1g7mqH8T/oCWIFFN
+   duggw8QGAM4XPybTNtcf987ojMq+968leyNm+7Zd96zAOfSb69ln4SCS5
+   YscYvS0HCVKAwIU6tTe5DMpeU/lOvjndLfEzatmfLdrns+p3wOAMgGgph
+   PxFBNvP1IAOk+k6Rg1Ftw7p9B8/5pVdACqDdUtIrdL6l17chQWvZB1t9R
+   w/Xm8P7YZuTJIUXGPyhsHU5453kTDthHdetXjzl2ijBnJzxSS3wh4waZK
+   DzIw4Kn/mg1qvHTKFCgbbbdklrqUx6E/92Yo4zcVs56nYR70q4xTflrXB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="6746290"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="6744885"
+   d="scan'208";a="6746290"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 20:15:59 -0800
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 20:36:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="936999972"
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="937003627"
 X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="936999972"
+   d="scan'208";a="937003627"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2024 20:15:53 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2024 20:36:48 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdMyG-00073A-2W;
-	Fri, 23 Feb 2024 04:15:43 +0000
-Date: Fri, 23 Feb 2024 12:14:38 +0800
+	id 1rdNIU-00074c-2c;
+	Fri, 23 Feb 2024 04:36:36 +0000
+Date: Fri, 23 Feb 2024 12:35:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org, linux-tegra@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jiri Slaby <jirislaby@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Al Cooper <alcooperx@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v1 06/14] serial: 8250_bcm7271: Switch to use
- uart_read_port_properties()
-Message-ID: <202402231238.AWqLyIoM-lkp@intel.com>
-References: <20240221183442.4124354-7-andriy.shevchenko@linux.intel.com>
+To: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sforshee:fscaps-vfsid 12/26] include/linux/lsm_hook_defs.h:156:72:
+ error: expected expression before ';' token
+Message-ID: <202402231256.z7q8WuTX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,256 +58,212 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240221183442.4124354-7-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.8-rc5 next-20240222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/serial-core-Move-struct-uart_port-quirks-closer-to-possible-values/20240222-023850
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20240221183442.4124354-7-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 06/14] serial: 8250_bcm7271: Switch to use uart_read_port_properties()
-config: hexagon-randconfig-r123-20240222 (https://download.01.org/0day-ci/archive/20240223/202402231238.AWqLyIoM-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 36adfec155de366d722f2bac8ff9162289dcf06c)
-reproduce: (https://download.01.org/0day-ci/archive/20240223/202402231238.AWqLyIoM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sforshee/linux.git fscaps-vfsid
+head:   5ce094a334396397b1fc55565f035ffd4c68e612
+commit: e1b4b67006eba055ec2e37b6ea358c12c244284d [12/26] security: add hooks for set/get/remove of fscaps
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240223/202402231256.z7q8WuTX-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240223/202402231256.z7q8WuTX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402231238.AWqLyIoM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402231256.z7q8WuTX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/tty/serial/8250/8250_bcm7271.c:15:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/tty/serial/8250/8250_bcm7271.c:15:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/tty/serial/8250/8250_bcm7271.c:15:
-   In file included from include/linux/tty.h:11:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/tty/serial/8250/8250_bcm7271.c:938:22: warning: unused variable 'np' [-Wunused-variable]
-     938 |         struct device_node *np = pdev->dev.of_node;
-         |                             ^~
-   7 warnings generated.
+   In file included from security/bpf/hooks.c:13:
+>> include/linux/lsm_hook_defs.h:156:72: error: expected expression before ';' token
+     156 |          struct dentry *dentry, const struct vfs_caps *caps, int flags);
+         |                                                                        ^
 
 
-vim +/np +938 drivers/tty/serial/8250/8250_bcm7271.c
+vim +156 include/linux/lsm_hook_defs.h
 
-41a469482de257e Al Cooper       2021-03-25   933  
-41a469482de257e Al Cooper       2021-03-25   934  
-41a469482de257e Al Cooper       2021-03-25   935  static int brcmuart_probe(struct platform_device *pdev)
-41a469482de257e Al Cooper       2021-03-25   936  {
-41a469482de257e Al Cooper       2021-03-25   937  	struct resource *regs;
-41a469482de257e Al Cooper       2021-03-25  @938  	struct device_node *np = pdev->dev.of_node;
-41a469482de257e Al Cooper       2021-03-25   939  	const struct of_device_id *of_id = NULL;
-41a469482de257e Al Cooper       2021-03-25   940  	struct uart_8250_port *new_port;
-41a469482de257e Al Cooper       2021-03-25   941  	struct device *dev = &pdev->dev;
-41a469482de257e Al Cooper       2021-03-25   942  	struct brcmuart_priv *priv;
-41a469482de257e Al Cooper       2021-03-25   943  	struct clk *baud_mux_clk;
-41a469482de257e Al Cooper       2021-03-25   944  	struct uart_8250_port up;
-8a66b31a15966ea Colin Ian King  2021-07-19   945  	void __iomem *membase = NULL;
-41a469482de257e Al Cooper       2021-03-25   946  	resource_size_t mapbase = 0;
-41a469482de257e Al Cooper       2021-03-25   947  	int ret;
-41a469482de257e Al Cooper       2021-03-25   948  	int x;
-41a469482de257e Al Cooper       2021-03-25   949  	int dma_irq;
-41a469482de257e Al Cooper       2021-03-25   950  	static const char * const reg_names[REGS_MAX] = {
-41a469482de257e Al Cooper       2021-03-25   951  		"uart", "dma_rx", "dma_tx", "dma_intr2", "dma_arb"
-41a469482de257e Al Cooper       2021-03-25   952  	};
-41a469482de257e Al Cooper       2021-03-25   953  
-41a469482de257e Al Cooper       2021-03-25   954  	priv = devm_kzalloc(dev, sizeof(struct brcmuart_priv),
-41a469482de257e Al Cooper       2021-03-25   955  			GFP_KERNEL);
-41a469482de257e Al Cooper       2021-03-25   956  	if (!priv)
-41a469482de257e Al Cooper       2021-03-25   957  		return -ENOMEM;
-41a469482de257e Al Cooper       2021-03-25   958  
-41a469482de257e Al Cooper       2021-03-25   959  	of_id = of_match_node(brcmuart_dt_ids, np);
-41a469482de257e Al Cooper       2021-03-25   960  	if (!of_id || !of_id->data)
-41a469482de257e Al Cooper       2021-03-25   961  		priv->rate_table = brcmstb_rate_table;
-41a469482de257e Al Cooper       2021-03-25   962  	else
-41a469482de257e Al Cooper       2021-03-25   963  		priv->rate_table = of_id->data;
-41a469482de257e Al Cooper       2021-03-25   964  
-41a469482de257e Al Cooper       2021-03-25   965  	for (x = 0; x < REGS_MAX; x++) {
-41a469482de257e Al Cooper       2021-03-25   966  		regs = platform_get_resource_byname(pdev, IORESOURCE_MEM,
-41a469482de257e Al Cooper       2021-03-25   967  						reg_names[x]);
-41a469482de257e Al Cooper       2021-03-25   968  		if (!regs)
-41a469482de257e Al Cooper       2021-03-25   969  			break;
-41a469482de257e Al Cooper       2021-03-25   970  		priv->regs[x] =	devm_ioremap(dev, regs->start,
-41a469482de257e Al Cooper       2021-03-25   971  					     resource_size(regs));
-64b1510642f845d Wei Yongjun     2021-03-29   972  		if (!priv->regs[x])
-64b1510642f845d Wei Yongjun     2021-03-29   973  			return -ENOMEM;
-41a469482de257e Al Cooper       2021-03-25   974  		if (x == REGS_8250) {
-41a469482de257e Al Cooper       2021-03-25   975  			mapbase = regs->start;
-41a469482de257e Al Cooper       2021-03-25   976  			membase = priv->regs[x];
-41a469482de257e Al Cooper       2021-03-25   977  		}
-41a469482de257e Al Cooper       2021-03-25   978  	}
-41a469482de257e Al Cooper       2021-03-25   979  
-41a469482de257e Al Cooper       2021-03-25   980  	/* We should have just the uart base registers or all the registers */
-c77247a52be2359 Andy Shevchenko 2023-09-18   981  	if (x != 1 && x != REGS_MAX)
-c77247a52be2359 Andy Shevchenko 2023-09-18   982  		return dev_err_probe(dev, -EINVAL, "%s registers not specified\n",
-c77247a52be2359 Andy Shevchenko 2023-09-18   983  				     reg_names[x]);
-41a469482de257e Al Cooper       2021-03-25   984  
-41a469482de257e Al Cooper       2021-03-25   985  	/* if the DMA registers were specified, try to enable DMA */
-41a469482de257e Al Cooper       2021-03-25   986  	if (x > REGS_DMA_RX) {
-41a469482de257e Al Cooper       2021-03-25   987  		if (brcmuart_arbitration(priv, 1) == 0) {
-41a469482de257e Al Cooper       2021-03-25   988  			u32 txrev = 0;
-41a469482de257e Al Cooper       2021-03-25   989  			u32 rxrev = 0;
-41a469482de257e Al Cooper       2021-03-25   990  
-41a469482de257e Al Cooper       2021-03-25   991  			txrev = udma_readl(priv, REGS_DMA_RX, UDMA_RX_REVISION);
-41a469482de257e Al Cooper       2021-03-25   992  			rxrev = udma_readl(priv, REGS_DMA_TX, UDMA_TX_REVISION);
-41a469482de257e Al Cooper       2021-03-25   993  			if ((txrev >= UDMA_TX_REVISION_REQUIRED) &&
-41a469482de257e Al Cooper       2021-03-25   994  				(rxrev >= UDMA_RX_REVISION_REQUIRED)) {
-41a469482de257e Al Cooper       2021-03-25   995  
-41a469482de257e Al Cooper       2021-03-25   996  				/* Enable the use of the DMA hardware */
-41a469482de257e Al Cooper       2021-03-25   997  				priv->dma_enabled = true;
-41a469482de257e Al Cooper       2021-03-25   998  			} else {
-41a469482de257e Al Cooper       2021-03-25   999  				brcmuart_arbitration(priv, 0);
-41a469482de257e Al Cooper       2021-03-25  1000  				dev_err(dev,
-41a469482de257e Al Cooper       2021-03-25  1001  					"Unsupported DMA Hardware Revision\n");
-41a469482de257e Al Cooper       2021-03-25  1002  			}
-41a469482de257e Al Cooper       2021-03-25  1003  		} else {
-41a469482de257e Al Cooper       2021-03-25  1004  			dev_err(dev,
-41a469482de257e Al Cooper       2021-03-25  1005  				"Timeout arbitrating for UART DMA hardware\n");
-41a469482de257e Al Cooper       2021-03-25  1006  		}
-41a469482de257e Al Cooper       2021-03-25  1007  	}
-41a469482de257e Al Cooper       2021-03-25  1008  
-19010c5b7125670 Andy Shevchenko 2024-02-21  1009  	dev_dbg(dev, "DMA is %senabled\n", priv->dma_enabled ? "" : "not ");
-19010c5b7125670 Andy Shevchenko 2024-02-21  1010  
-19010c5b7125670 Andy Shevchenko 2024-02-21  1011  	memset(&up, 0, sizeof(up));
-19010c5b7125670 Andy Shevchenko 2024-02-21  1012  	up.port.type = PORT_BCM7271;
-19010c5b7125670 Andy Shevchenko 2024-02-21  1013  	up.port.dev = dev;
-19010c5b7125670 Andy Shevchenko 2024-02-21  1014  	up.port.mapbase = mapbase;
-19010c5b7125670 Andy Shevchenko 2024-02-21  1015  	up.port.membase = membase;
-19010c5b7125670 Andy Shevchenko 2024-02-21  1016  	up.port.handle_irq = brcmuart_handle_irq;
-19010c5b7125670 Andy Shevchenko 2024-02-21  1017  	up.port.flags = UPF_BOOT_AUTOCONF | UPF_FIXED_PORT | UPF_FIXED_TYPE;
-19010c5b7125670 Andy Shevchenko 2024-02-21  1018  	up.port.private_data = priv;
-19010c5b7125670 Andy Shevchenko 2024-02-21  1019  
-19010c5b7125670 Andy Shevchenko 2024-02-21  1020  	ret = uart_read_port_properties(&up.port, true);
-19010c5b7125670 Andy Shevchenko 2024-02-21  1021  	if (ret)
-19010c5b7125670 Andy Shevchenko 2024-02-21  1022  		goto release_dma;
-19010c5b7125670 Andy Shevchenko 2024-02-21  1023  
-19010c5b7125670 Andy Shevchenko 2024-02-21  1024  	up.port.regshift = 2;
-19010c5b7125670 Andy Shevchenko 2024-02-21  1025  	up.port.iotype = device_is_big_endian(dev) ? UPIO_MEM32BE : UPIO_MEM32;
-41a469482de257e Al Cooper       2021-03-25  1026  
-41a469482de257e Al Cooper       2021-03-25  1027  	/* See if a Baud clock has been specified */
-1f34e3defb5c0a0 Andy Shevchenko 2023-10-05  1028  	baud_mux_clk = devm_clk_get_optional_enabled(dev, "sw_baud");
-1f34e3defb5c0a0 Andy Shevchenko 2023-10-05  1029  	ret = PTR_ERR_OR_ZERO(baud_mux_clk);
-41a469482de257e Al Cooper       2021-03-25  1030  	if (ret)
-15ac1122fd6d4bf Doug Berger     2023-03-09  1031  		goto release_dma;
-1f34e3defb5c0a0 Andy Shevchenko 2023-10-05  1032  	if (baud_mux_clk) {
-1f34e3defb5c0a0 Andy Shevchenko 2023-10-05  1033  		dev_dbg(dev, "BAUD MUX clock found\n");
-1f34e3defb5c0a0 Andy Shevchenko 2023-10-05  1034  
-41a469482de257e Al Cooper       2021-03-25  1035  		priv->baud_mux_clk = baud_mux_clk;
-41a469482de257e Al Cooper       2021-03-25  1036  		init_real_clk_rates(dev, priv);
-19010c5b7125670 Andy Shevchenko 2024-02-21  1037  		up.port.uartclk = priv->default_mux_rate;
-1f34e3defb5c0a0 Andy Shevchenko 2023-10-05  1038  	} else {
-1f34e3defb5c0a0 Andy Shevchenko 2023-10-05  1039  		dev_dbg(dev, "BAUD MUX clock not specified\n");
-41a469482de257e Al Cooper       2021-03-25  1040  	}
-41a469482de257e Al Cooper       2021-03-25  1041  
-41a469482de257e Al Cooper       2021-03-25  1042  	/* setup HR timer */
-41a469482de257e Al Cooper       2021-03-25  1043  	hrtimer_init(&priv->hrt, CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
-41a469482de257e Al Cooper       2021-03-25  1044  	priv->hrt.function = brcmuart_hrtimer_func;
-41a469482de257e Al Cooper       2021-03-25  1045  
-41a469482de257e Al Cooper       2021-03-25  1046  	up.port.shutdown = brcmuart_shutdown;
-41a469482de257e Al Cooper       2021-03-25  1047  	up.port.startup = brcmuart_startup;
-41a469482de257e Al Cooper       2021-03-25  1048  	up.port.throttle = brcmuart_throttle;
-41a469482de257e Al Cooper       2021-03-25  1049  	up.port.unthrottle = brcmuart_unthrottle;
-41a469482de257e Al Cooper       2021-03-25  1050  	up.port.set_termios = brcmstb_set_termios;
-41a469482de257e Al Cooper       2021-03-25  1051  
-41a469482de257e Al Cooper       2021-03-25  1052  	if (priv->dma_enabled) {
-41a469482de257e Al Cooper       2021-03-25  1053  		priv->rx_size = RX_BUF_SIZE * RX_BUFS_COUNT;
-41a469482de257e Al Cooper       2021-03-25  1054  		priv->rx_bufs = dma_alloc_coherent(dev,
-41a469482de257e Al Cooper       2021-03-25  1055  						   priv->rx_size,
-41a469482de257e Al Cooper       2021-03-25  1056  						   &priv->rx_addr, GFP_KERNEL);
-c195438f1e84de8 Lad Prabhakar   2021-12-24  1057  		if (!priv->rx_bufs) {
-0e479b460e342c5 Lad Prabhakar   2022-01-05  1058  			ret = -ENOMEM;
-41a469482de257e Al Cooper       2021-03-25  1059  			goto err;
-c195438f1e84de8 Lad Prabhakar   2021-12-24  1060  		}
-41a469482de257e Al Cooper       2021-03-25  1061  		priv->tx_size = UART_XMIT_SIZE;
-41a469482de257e Al Cooper       2021-03-25  1062  		priv->tx_buf = dma_alloc_coherent(dev,
-41a469482de257e Al Cooper       2021-03-25  1063  						  priv->tx_size,
-41a469482de257e Al Cooper       2021-03-25  1064  						  &priv->tx_addr, GFP_KERNEL);
-c195438f1e84de8 Lad Prabhakar   2021-12-24  1065  		if (!priv->tx_buf) {
-0e479b460e342c5 Lad Prabhakar   2022-01-05  1066  			ret = -ENOMEM;
-41a469482de257e Al Cooper       2021-03-25  1067  			goto err;
-41a469482de257e Al Cooper       2021-03-25  1068  		}
-c195438f1e84de8 Lad Prabhakar   2021-12-24  1069  	}
-41a469482de257e Al Cooper       2021-03-25  1070  
-41a469482de257e Al Cooper       2021-03-25  1071  	ret = serial8250_register_8250_port(&up);
-41a469482de257e Al Cooper       2021-03-25  1072  	if (ret < 0) {
-c77247a52be2359 Andy Shevchenko 2023-09-18  1073  		dev_err_probe(dev, ret, "unable to register 8250 port\n");
-41a469482de257e Al Cooper       2021-03-25  1074  		goto err;
-41a469482de257e Al Cooper       2021-03-25  1075  	}
-41a469482de257e Al Cooper       2021-03-25  1076  	priv->line = ret;
-41a469482de257e Al Cooper       2021-03-25  1077  	new_port = serial8250_get_port(ret);
-41a469482de257e Al Cooper       2021-03-25  1078  	priv->up = &new_port->port;
-41a469482de257e Al Cooper       2021-03-25  1079  	if (priv->dma_enabled) {
-41a469482de257e Al Cooper       2021-03-25  1080  		dma_irq = platform_get_irq_byname(pdev,  "dma");
-41a469482de257e Al Cooper       2021-03-25  1081  		if (dma_irq < 0) {
-c77247a52be2359 Andy Shevchenko 2023-09-18  1082  			ret = dev_err_probe(dev, dma_irq, "no IRQ resource info\n");
-41a469482de257e Al Cooper       2021-03-25  1083  			goto err1;
-41a469482de257e Al Cooper       2021-03-25  1084  		}
-41a469482de257e Al Cooper       2021-03-25  1085  		ret = devm_request_irq(dev, dma_irq, brcmuart_isr,
-41a469482de257e Al Cooper       2021-03-25  1086  				IRQF_SHARED, "uart DMA irq", &new_port->port);
-41a469482de257e Al Cooper       2021-03-25  1087  		if (ret) {
-c77247a52be2359 Andy Shevchenko 2023-09-18  1088  			dev_err_probe(dev, ret, "unable to register IRQ handler\n");
-41a469482de257e Al Cooper       2021-03-25  1089  			goto err1;
-41a469482de257e Al Cooper       2021-03-25  1090  		}
-41a469482de257e Al Cooper       2021-03-25  1091  	}
-41a469482de257e Al Cooper       2021-03-25  1092  	platform_set_drvdata(pdev, priv);
-41a469482de257e Al Cooper       2021-03-25  1093  	brcmuart_init_debugfs(priv, dev_name(&pdev->dev));
-41a469482de257e Al Cooper       2021-03-25  1094  	return 0;
-41a469482de257e Al Cooper       2021-03-25  1095  
-41a469482de257e Al Cooper       2021-03-25  1096  err1:
-41a469482de257e Al Cooper       2021-03-25  1097  	serial8250_unregister_port(priv->line);
-41a469482de257e Al Cooper       2021-03-25  1098  err:
-41a469482de257e Al Cooper       2021-03-25  1099  	brcmuart_free_bufs(dev, priv);
-15ac1122fd6d4bf Doug Berger     2023-03-09  1100  release_dma:
-15ac1122fd6d4bf Doug Berger     2023-03-09  1101  	if (priv->dma_enabled)
-41a469482de257e Al Cooper       2021-03-25  1102  		brcmuart_arbitration(priv, 0);
-c195438f1e84de8 Lad Prabhakar   2021-12-24  1103  	return ret;
-41a469482de257e Al Cooper       2021-03-25  1104  }
-41a469482de257e Al Cooper       2021-03-25  1105  
+   109	
+   110	/* Needed for inode based security check */
+   111	LSM_HOOK(int, 0, path_notify, const struct path *path, u64 mask,
+   112		 unsigned int obj_type)
+   113	LSM_HOOK(int, 0, inode_alloc_security, struct inode *inode)
+   114	LSM_HOOK(void, LSM_RET_VOID, inode_free_security, struct inode *inode)
+   115	LSM_HOOK(int, -EOPNOTSUPP, inode_init_security, struct inode *inode,
+   116		 struct inode *dir, const struct qstr *qstr, struct xattr *xattrs,
+   117		 int *xattr_count)
+   118	LSM_HOOK(int, 0, inode_init_security_anon, struct inode *inode,
+   119		 const struct qstr *name, const struct inode *context_inode)
+   120	LSM_HOOK(int, 0, inode_create, struct inode *dir, struct dentry *dentry,
+   121		 umode_t mode)
+   122	LSM_HOOK(int, 0, inode_link, struct dentry *old_dentry, struct inode *dir,
+   123		 struct dentry *new_dentry)
+   124	LSM_HOOK(int, 0, inode_unlink, struct inode *dir, struct dentry *dentry)
+   125	LSM_HOOK(int, 0, inode_symlink, struct inode *dir, struct dentry *dentry,
+   126		 const char *old_name)
+   127	LSM_HOOK(int, 0, inode_mkdir, struct inode *dir, struct dentry *dentry,
+   128		 umode_t mode)
+   129	LSM_HOOK(int, 0, inode_rmdir, struct inode *dir, struct dentry *dentry)
+   130	LSM_HOOK(int, 0, inode_mknod, struct inode *dir, struct dentry *dentry,
+   131		 umode_t mode, dev_t dev)
+   132	LSM_HOOK(int, 0, inode_rename, struct inode *old_dir, struct dentry *old_dentry,
+   133		 struct inode *new_dir, struct dentry *new_dentry)
+   134	LSM_HOOK(int, 0, inode_readlink, struct dentry *dentry)
+   135	LSM_HOOK(int, 0, inode_follow_link, struct dentry *dentry, struct inode *inode,
+   136		 bool rcu)
+   137	LSM_HOOK(int, 0, inode_permission, struct inode *inode, int mask)
+   138	LSM_HOOK(int, 0, inode_setattr, struct dentry *dentry, struct iattr *attr)
+   139	LSM_HOOK(int, 0, inode_getattr, const struct path *path)
+   140	LSM_HOOK(int, 0, inode_setxattr, struct mnt_idmap *idmap,
+   141		 struct dentry *dentry, const char *name, const void *value,
+   142		 size_t size, int flags)
+   143	LSM_HOOK(void, LSM_RET_VOID, inode_post_setxattr, struct dentry *dentry,
+   144		 const char *name, const void *value, size_t size, int flags)
+   145	LSM_HOOK(int, 0, inode_getxattr, struct dentry *dentry, const char *name)
+   146	LSM_HOOK(int, 0, inode_listxattr, struct dentry *dentry)
+   147	LSM_HOOK(int, 0, inode_removexattr, struct mnt_idmap *idmap,
+   148		 struct dentry *dentry, const char *name)
+   149	LSM_HOOK(int, 0, inode_set_acl, struct mnt_idmap *idmap,
+   150		 struct dentry *dentry, const char *acl_name, struct posix_acl *kacl)
+   151	LSM_HOOK(int, 0, inode_get_acl, struct mnt_idmap *idmap,
+   152		 struct dentry *dentry, const char *acl_name)
+   153	LSM_HOOK(int, 0, inode_remove_acl, struct mnt_idmap *idmap,
+   154		 struct dentry *dentry, const char *acl_name)
+   155	LSM_HOOK(int, 0, inode_set_fscaps, struct mnt_idmap *idmap,
+ > 156		 struct dentry *dentry, const struct vfs_caps *caps, int flags);
+   157	LSM_HOOK(void, LSM_RET_VOID, inode_post_set_fscaps, struct mnt_idmap *idmap,
+   158		 struct dentry *dentry, const struct vfs_caps *caps, int flags);
+   159	LSM_HOOK(int, 0, inode_get_fscaps, struct mnt_idmap *idmap, struct dentry *dentry);
+   160	LSM_HOOK(int, 0, inode_remove_fscaps, struct mnt_idmap *idmap,
+   161		 struct dentry *dentry);
+   162	LSM_HOOK(int, 0, inode_need_killpriv, struct dentry *dentry)
+   163	LSM_HOOK(int, 0, inode_killpriv, struct mnt_idmap *idmap,
+   164		 struct dentry *dentry)
+   165	LSM_HOOK(int, -EOPNOTSUPP, inode_getsecurity, struct mnt_idmap *idmap,
+   166		 struct inode *inode, const char *name, void **buffer, bool alloc)
+   167	LSM_HOOK(int, -EOPNOTSUPP, inode_setsecurity, struct inode *inode,
+   168		 const char *name, const void *value, size_t size, int flags)
+   169	LSM_HOOK(int, 0, inode_listsecurity, struct inode *inode, char *buffer,
+   170		 size_t buffer_size)
+   171	LSM_HOOK(void, LSM_RET_VOID, inode_getsecid, struct inode *inode, u32 *secid)
+   172	LSM_HOOK(int, 0, inode_copy_up, struct dentry *src, struct cred **new)
+   173	LSM_HOOK(int, -EOPNOTSUPP, inode_copy_up_xattr, const char *name)
+   174	LSM_HOOK(int, 0, kernfs_init_security, struct kernfs_node *kn_dir,
+   175		 struct kernfs_node *kn)
+   176	LSM_HOOK(int, 0, file_permission, struct file *file, int mask)
+   177	LSM_HOOK(int, 0, file_alloc_security, struct file *file)
+   178	LSM_HOOK(void, LSM_RET_VOID, file_free_security, struct file *file)
+   179	LSM_HOOK(int, 0, file_ioctl, struct file *file, unsigned int cmd,
+   180		 unsigned long arg)
+   181	LSM_HOOK(int, 0, file_ioctl_compat, struct file *file, unsigned int cmd,
+   182		 unsigned long arg)
+   183	LSM_HOOK(int, 0, mmap_addr, unsigned long addr)
+   184	LSM_HOOK(int, 0, mmap_file, struct file *file, unsigned long reqprot,
+   185		 unsigned long prot, unsigned long flags)
+   186	LSM_HOOK(int, 0, file_mprotect, struct vm_area_struct *vma,
+   187		 unsigned long reqprot, unsigned long prot)
+   188	LSM_HOOK(int, 0, file_lock, struct file *file, unsigned int cmd)
+   189	LSM_HOOK(int, 0, file_fcntl, struct file *file, unsigned int cmd,
+   190		 unsigned long arg)
+   191	LSM_HOOK(void, LSM_RET_VOID, file_set_fowner, struct file *file)
+   192	LSM_HOOK(int, 0, file_send_sigiotask, struct task_struct *tsk,
+   193		 struct fown_struct *fown, int sig)
+   194	LSM_HOOK(int, 0, file_receive, struct file *file)
+   195	LSM_HOOK(int, 0, file_open, struct file *file)
+   196	LSM_HOOK(int, 0, file_truncate, struct file *file)
+   197	LSM_HOOK(int, 0, task_alloc, struct task_struct *task,
+   198		 unsigned long clone_flags)
+   199	LSM_HOOK(void, LSM_RET_VOID, task_free, struct task_struct *task)
+   200	LSM_HOOK(int, 0, cred_alloc_blank, struct cred *cred, gfp_t gfp)
+   201	LSM_HOOK(void, LSM_RET_VOID, cred_free, struct cred *cred)
+   202	LSM_HOOK(int, 0, cred_prepare, struct cred *new, const struct cred *old,
+   203		 gfp_t gfp)
+   204	LSM_HOOK(void, LSM_RET_VOID, cred_transfer, struct cred *new,
+   205		 const struct cred *old)
+   206	LSM_HOOK(void, LSM_RET_VOID, cred_getsecid, const struct cred *c, u32 *secid)
+   207	LSM_HOOK(int, 0, kernel_act_as, struct cred *new, u32 secid)
+   208	LSM_HOOK(int, 0, kernel_create_files_as, struct cred *new, struct inode *inode)
+   209	LSM_HOOK(int, 0, kernel_module_request, char *kmod_name)
+   210	LSM_HOOK(int, 0, kernel_load_data, enum kernel_load_data_id id, bool contents)
+   211	LSM_HOOK(int, 0, kernel_post_load_data, char *buf, loff_t size,
+   212		 enum kernel_load_data_id id, char *description)
+   213	LSM_HOOK(int, 0, kernel_read_file, struct file *file,
+   214		 enum kernel_read_file_id id, bool contents)
+   215	LSM_HOOK(int, 0, kernel_post_read_file, struct file *file, char *buf,
+   216		 loff_t size, enum kernel_read_file_id id)
+   217	LSM_HOOK(int, 0, task_fix_setuid, struct cred *new, const struct cred *old,
+   218		 int flags)
+   219	LSM_HOOK(int, 0, task_fix_setgid, struct cred *new, const struct cred * old,
+   220		 int flags)
+   221	LSM_HOOK(int, 0, task_fix_setgroups, struct cred *new, const struct cred * old)
+   222	LSM_HOOK(int, 0, task_setpgid, struct task_struct *p, pid_t pgid)
+   223	LSM_HOOK(int, 0, task_getpgid, struct task_struct *p)
+   224	LSM_HOOK(int, 0, task_getsid, struct task_struct *p)
+   225	LSM_HOOK(void, LSM_RET_VOID, current_getsecid_subj, u32 *secid)
+   226	LSM_HOOK(void, LSM_RET_VOID, task_getsecid_obj,
+   227		 struct task_struct *p, u32 *secid)
+   228	LSM_HOOK(int, 0, task_setnice, struct task_struct *p, int nice)
+   229	LSM_HOOK(int, 0, task_setioprio, struct task_struct *p, int ioprio)
+   230	LSM_HOOK(int, 0, task_getioprio, struct task_struct *p)
+   231	LSM_HOOK(int, 0, task_prlimit, const struct cred *cred,
+   232		 const struct cred *tcred, unsigned int flags)
+   233	LSM_HOOK(int, 0, task_setrlimit, struct task_struct *p, unsigned int resource,
+   234		 struct rlimit *new_rlim)
+   235	LSM_HOOK(int, 0, task_setscheduler, struct task_struct *p)
+   236	LSM_HOOK(int, 0, task_getscheduler, struct task_struct *p)
+   237	LSM_HOOK(int, 0, task_movememory, struct task_struct *p)
+   238	LSM_HOOK(int, 0, task_kill, struct task_struct *p, struct kernel_siginfo *info,
+   239		 int sig, const struct cred *cred)
+   240	LSM_HOOK(int, -ENOSYS, task_prctl, int option, unsigned long arg2,
+   241		 unsigned long arg3, unsigned long arg4, unsigned long arg5)
+   242	LSM_HOOK(void, LSM_RET_VOID, task_to_inode, struct task_struct *p,
+   243		 struct inode *inode)
+   244	LSM_HOOK(int, 0, userns_create, const struct cred *cred)
+   245	LSM_HOOK(int, 0, ipc_permission, struct kern_ipc_perm *ipcp, short flag)
+   246	LSM_HOOK(void, LSM_RET_VOID, ipc_getsecid, struct kern_ipc_perm *ipcp,
+   247		 u32 *secid)
+   248	LSM_HOOK(int, 0, msg_msg_alloc_security, struct msg_msg *msg)
+   249	LSM_HOOK(void, LSM_RET_VOID, msg_msg_free_security, struct msg_msg *msg)
+   250	LSM_HOOK(int, 0, msg_queue_alloc_security, struct kern_ipc_perm *perm)
+   251	LSM_HOOK(void, LSM_RET_VOID, msg_queue_free_security,
+   252		 struct kern_ipc_perm *perm)
+   253	LSM_HOOK(int, 0, msg_queue_associate, struct kern_ipc_perm *perm, int msqflg)
+   254	LSM_HOOK(int, 0, msg_queue_msgctl, struct kern_ipc_perm *perm, int cmd)
+   255	LSM_HOOK(int, 0, msg_queue_msgsnd, struct kern_ipc_perm *perm,
+   256		 struct msg_msg *msg, int msqflg)
+   257	LSM_HOOK(int, 0, msg_queue_msgrcv, struct kern_ipc_perm *perm,
+   258		 struct msg_msg *msg, struct task_struct *target, long type, int mode)
+   259	LSM_HOOK(int, 0, shm_alloc_security, struct kern_ipc_perm *perm)
+   260	LSM_HOOK(void, LSM_RET_VOID, shm_free_security, struct kern_ipc_perm *perm)
+   261	LSM_HOOK(int, 0, shm_associate, struct kern_ipc_perm *perm, int shmflg)
+   262	LSM_HOOK(int, 0, shm_shmctl, struct kern_ipc_perm *perm, int cmd)
+   263	LSM_HOOK(int, 0, shm_shmat, struct kern_ipc_perm *perm, char __user *shmaddr,
+   264		 int shmflg)
+   265	LSM_HOOK(int, 0, sem_alloc_security, struct kern_ipc_perm *perm)
+   266	LSM_HOOK(void, LSM_RET_VOID, sem_free_security, struct kern_ipc_perm *perm)
+   267	LSM_HOOK(int, 0, sem_associate, struct kern_ipc_perm *perm, int semflg)
+   268	LSM_HOOK(int, 0, sem_semctl, struct kern_ipc_perm *perm, int cmd)
+   269	LSM_HOOK(int, 0, sem_semop, struct kern_ipc_perm *perm, struct sembuf *sops,
+   270		 unsigned nsops, int alter)
+   271	LSM_HOOK(int, 0, netlink_send, struct sock *sk, struct sk_buff *skb)
+   272	LSM_HOOK(void, LSM_RET_VOID, d_instantiate, struct dentry *dentry,
+   273		 struct inode *inode)
+   274	LSM_HOOK(int, -EOPNOTSUPP, getselfattr, unsigned int attr,
+   275		 struct lsm_ctx __user *ctx, size_t *size, u32 flags)
+   276	LSM_HOOK(int, -EOPNOTSUPP, setselfattr, unsigned int attr,
+   277		 struct lsm_ctx *ctx, size_t size, u32 flags)
+   278	LSM_HOOK(int, -EINVAL, getprocattr, struct task_struct *p, const char *name,
+   279		 char **value)
+   280	LSM_HOOK(int, -EINVAL, setprocattr, const char *name, void *value, size_t size)
+   281	LSM_HOOK(int, 0, ismaclabel, const char *name)
+   282	LSM_HOOK(int, -EOPNOTSUPP, secid_to_secctx, u32 secid, char **secdata,
+   283		 u32 *seclen)
+   284	LSM_HOOK(int, 0, secctx_to_secid, const char *secdata, u32 seclen, u32 *secid)
+   285	LSM_HOOK(void, LSM_RET_VOID, release_secctx, char *secdata, u32 seclen)
+   286	LSM_HOOK(void, LSM_RET_VOID, inode_invalidate_secctx, struct inode *inode)
+   287	LSM_HOOK(int, 0, inode_notifysecctx, struct inode *inode, void *ctx, u32 ctxlen)
+   288	LSM_HOOK(int, 0, inode_setsecctx, struct dentry *dentry, void *ctx, u32 ctxlen)
+   289	LSM_HOOK(int, -EOPNOTSUPP, inode_getsecctx, struct inode *inode, void **ctx,
+   290		 u32 *ctxlen)
+   291	
 
 -- 
 0-DAY CI Kernel Test Service
