@@ -1,132 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982D4146E81
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 21:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CDF14CAA2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 22:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708725550; cv=none; b=XYy+diXNItS2diP2Q5x4OYCzSyF6ewKdwHiglvQhShD2/SS8UgI4xRc2WJwsqhFEWTfEzon2zplXtfGTCuOtFPoyoMBtqWX+jcesIYPOLLsaJoPoDL9z9wQXtcN/6LxC4WbeK+B+rqtWALS1zLF+hNqtgryAvUeqSNbyVn/1v80=
+	t=1708726044; cv=none; b=oPdgZ0y+mUKmYumhYjlF0GXAUgPAmktnWrMgS6yz9pOjJQGKgE1f+41LWkVaQC+RjBcbTUZ0KGP+LF8gku6CA0K3d9egJ7fmpBpn9TYwv/98JT4CubqmbOj5GmCDG3CLWSBwjhdkm6QKDsQxKGm6baqSJUbXZShmxH7Ic7TB8VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708725550; c=relaxed/simple;
-	bh=lIHsa651QWlwhH8I/beGsp7DZTCEf9FbTZ4cxiTaSVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gV8vJP7HsIauv6FCCrz15Tirrdgk1ednH333vii3E4ORGwEpJcBDwOR+KGN2blCojPhhv3Ln3odzVUJ4n3n1MlU2V3frntIQ0nQQCfK/cosaIzLb7T28hkKnOWjBLXPNN1kVIyVtgTv4RXsvF14V6DK5fju6oPXnA1dTydzOUA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ecNwpVnd; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708726044; c=relaxed/simple;
+	bh=0J6B8YE1odeNkLXVvb4YcSuTvRMJz2YgyoOVBHbe++c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sSx4fsQ3gqvxYha33bIs2YBwNgApDpZ4Q8hS45QGPnpZ1XKCjCwOMOMVEuZN0yBcA5QU9pyZSE7/ikWp+OSj+mMXCK7dGBws72szIG87VpnPRJXxD00ofPEBlBzPNK9Iy5rbnLvOlaaPEVkAOR2YzDJwXHW15eiCACENX1IQkxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Q4Nb2r7E; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ecNwpVnd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708725548; x=1740261548;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lIHsa651QWlwhH8I/beGsp7DZTCEf9FbTZ4cxiTaSVo=;
-  b=ecNwpVnd2DAhgDCBa/wnw9lisXXyk45NTIsRNMuyFdR4koNEwy62l0Cv
-   yFMOv3oh3zEVjB2keL4KCUgobCTGqVAWXAqo2TZtDyzLIbwz9x9npeQ8H
-   1zC61FpJ479GHgw19mAnXt4OY1LKOfrfhoQ6NjPpZ8cJU1HnPqZDtpB7e
-   B5NcgJ9Ws/BJPQp0X+01q+M9tOzU3JXI3MPggm/l/nisKwywgdbef9eYU
-   KtYTl4mhOUfy+qRxlGR/10akNU7yaTrgPXeZZXGxG5QQ9Sm5o4qeigHFb
-   7xNc7KG8Wjy5onBpbA6DTBCJj7jTAAAuLYcFEweLXP8lcPVsxZ5/3XNdp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6881381"
-X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="6881381"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 13:59:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="29218394"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Feb 2024 13:59:05 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rddZP-0007wG-1C;
-	Fri, 23 Feb 2024 21:59:03 +0000
-Date: Sat, 24 Feb 2024 05:58:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 26075/26659]
- drivers/gpu/drm/ttm/tests/ttm_device_test.c:179:36: warning: iteration 11
- invokes undefined behavior
-Message-ID: <202402240531.J6eLI1uC-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Q4Nb2r7E"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-365306a6455so682505ab.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 14:07:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1708726042; x=1709330842; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mERD5D5sAvS0twAioGZ9rpcPlzA/moYLeMlByp7P/lw=;
+        b=Q4Nb2r7E6yO31mel+ThDRmim0vuQWAZpIAgyYsfWYAp136IzcwzeeezxUswVl2tpN7
+         Mj/5/E5KZMdSRiP+iq/o72oNwyLcMkWZinGpfiDmxeGkYjBWDwvQ98Vo/xKAc3CmFumg
+         irsJFfPLkIGzVxaT2ec57eh9YOV9qfTNhIAts=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708726042; x=1709330842;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mERD5D5sAvS0twAioGZ9rpcPlzA/moYLeMlByp7P/lw=;
+        b=oGLT/VRi+4VbvQZ0wGeMxKxPBFEqJJGf5HOT15cADREiY1jJowOhakZCTOiq6xZofF
+         0FTJfCq5My2rNJy6vVtTJbQRXYopzPDX0CKdF7vn26v/7jYZjZScimzSEEVEigDe29rL
+         t818z3pJPx87/jCT0FzPx/D+Zh60cgoXbC/DGmEjHZm9h6424AYoWp1HvBIQjcsH6zvs
+         7cLLQXuYFVNTcrIz5Wq//DNLgrtTHdy6scCwZFRcbxhM+boE6wFpshNMLRmSqUFTyPbP
+         NnZagfn4Y/nZYkYe/UVzWpUUEXXDp0mhtBqTJf/Dzqr3ZM9QpBSLkt6BK5NsPRqfV5AQ
+         hdQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQbFoJ/pd5npRI2hJMT80EeKpDUFlwcnwTs7qLlFRKLg4u/Pou4pFu4rs+FDtO6HlCj5G2Ss9mRaPYS+9EwNySSAGgK+/3ruUV5cKoow==
+X-Gm-Message-State: AOJu0YzhK5GePuZylrkfBW4W+TqFSryEWvQShwGBKIL6+hwGjhxl4BLE
+	FCtsKNIhl/p1+026DQGaMMsqMV/7VkcrRJl7Y5j07SuHZmCKOCGxcY1e8fYwDqI=
+X-Google-Smtp-Source: AGHT+IFnB9+xh0h4j2A1kk4c08JZtvb/IeiX0Y9RRmFsLOsulElYLBu1y95CDfvMQBAy/TSWr/MEJw==
+X-Received: by 2002:a6b:da17:0:b0:7c7:a02d:f102 with SMTP id x23-20020a6bda17000000b007c7a02df102mr1287016iob.0.1708726042026;
+        Fri, 23 Feb 2024 14:07:22 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id j3-20020a05663822c300b00472f79e0001sm3950166jat.171.2024.02.23.14.07.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Feb 2024 14:07:21 -0800 (PST)
+Message-ID: <cf6b3ca2-3996-4ebd-858d-eb71a5bd3841@linuxfoundation.org>
+Date: Fri, 23 Feb 2024 15:07:20 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
+Content-Language: en-US
+To: Marcos Paulo de Souza <mpdesouza@suse.com>
+Cc: kernel test robot <lkp@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+ Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, live-patching@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240221220404.11585-1-mpdesouza@suse.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240221220404.11585-1-mpdesouza@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   7e3ada2cf0f205554b13ee75575c4125d972148c
-commit: bafcbea642d8a1cb2ef6e7ff3c1dd05d80a4d746 [26075/26659] UPSTREAM: drm/ttm/tests: Add tests for ttm_device
-config: i386-buildonly-randconfig-002-20240223 (https://download.01.org/0day-ci/archive/20240224/202402240531.J6eLI1uC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240531.J6eLI1uC-lkp@intel.com/reproduce)
+On 2/21/24 15:04, Marcos Paulo de Souza wrote:
+> On Wed, 21 Feb 2024 14:12:00 -0700 Shuah Khan <skhan@linuxfoundation.org> wrote:
+> 
+>> On 2/21/24 05:26, Marcos Paulo de Souza wrote:
+>>> On Tue, 20 Feb 2024 17:19:54 -0700 Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>>
+>>>> On 2/19/24 06:53, Marcos Paulo de Souza wrote:
+>>>>> On Mon, 19 Feb 2024 09:15:15 -0300 Marcos Paulo de Souza <mpdesouza@suse.com> wrote:
+>>>>>
+>>>>>> On Mon, 19 Feb 2024 14:35:16 +0800 kernel test robot <lkp@intel.com> wrote:
+>>>>>>
+>>>>>>> Hi Marcos,
+>>>>>>>
+>>>>>>> kernel test robot noticed the following build errors:
+>>>>>>>
+>>>>>>> [auto build test ERROR on 345e8abe4c355bc24bab3f4a5634122e55be8665]
+>>>>>>>
+>>>>>>> url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/selftests-lib-mk-Do-not-process-TEST_GEN_MODS_DIR/20240216-021601
+>>>>>>> base:   345e8abe4c355bc24bab3f4a5634122e55be8665
+>>>>>>> patch link:    https://lore.kernel.org/r/20240215-lp-selftests-fixes-v1-1-89f4a6f5cddc%40suse.com
+>>>>>>> patch subject: [PATCH 1/3] selftests: lib.mk: Do not process TEST_GEN_MODS_DIR
+>>>>>>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>>>>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240219/202402191417.XULH88Ct-lkp@intel.com/reproduce)
+>>>>>>>
+>>>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>>>>> the same patch/commit), kindly add following tags
+>>>>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202402191417.XULH88Ct-lkp@intel.com/
+>>>>>>>
+>>>>>>> All errors (new ones prefixed by >>):
+>>>>>>>
+>>>>>>>>> make[3]: *** /lib/modules/5.9.0-2-amd64/build: No such file or directory.  Stop.
+>>>>>>
+>>>>>> We should ask the kernel test robot machine owners to install kernel-devel
+>>>>>> package in order to have this fixed.
+>>>>>
+>>>>> Or maybe ask them to change the reproducer to specify KDIR to the git tree,
+>>>>> instead of /lib/modules/?
+>>>>>
+>>>>
+>>>> This would be a regression to automated test rings. Do you have any other
+>>>> solutions?
+>>>
+>>> I would say that we could skip the these tests if kernel-devel package is not
+>>> installed. Would it be acceptable? At least we would avoid such issues like this
+>>> in the future as well.
+>>>
+>>
+>> We have to check and skip build. Something we could do in the livepatch
+>> Makefile. Can you send patch for this - I will oull this in for next
+>> so we don't break test rings.
+> 
+> I added a new patch in the same patchset that would cover this, skipping the
+> build and test if kernel-devel is not installed. The patchset was sent earlier
+> today. Please check if the new patch fixes things on the build robot.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402240531.J6eLI1uC-lkp@intel.com/
+Did you send the patch to me so I can apply it on top of what I have in next?
 
-All warnings (new ones prefixed by >>):
+thanks,
+-- Shuah
 
-   drivers/gpu/drm/ttm/tests/ttm_device_test.c: In function 'ttm_device_init_pools':
->> drivers/gpu/drm/ttm/tests/ttm_device_test.c:179:36: warning: iteration 11 invokes undefined behavior [-Waggressive-loop-optimizations]
-     179 |                                 pt = pool->caching[i].orders[j];
-         |                                 ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_device_test.c:178:43: note: within this loop
-     178 |                         for (int j = 0; j <= MAX_ORDER; ++j) {
-
-
-vim +179 drivers/gpu/drm/ttm/tests/ttm_device_test.c
-
-   152	
-   153	static void ttm_device_init_pools(struct kunit *test)
-   154	{
-   155		struct ttm_test_devices *priv = test->priv;
-   156		const struct ttm_device_test_case *params = test->param_value;
-   157		struct ttm_device *ttm_dev;
-   158		struct ttm_pool *pool;
-   159		struct ttm_pool_type pt;
-   160		int err;
-   161	
-   162		ttm_dev = kunit_kzalloc(test, sizeof(*ttm_dev), GFP_KERNEL);
-   163		KUNIT_ASSERT_NOT_NULL(test, ttm_dev);
-   164	
-   165		err = ttm_device_kunit_init(priv, ttm_dev,
-   166					    params->use_dma_alloc,
-   167					    params->use_dma32);
-   168		KUNIT_ASSERT_EQ(test, err, 0);
-   169	
-   170		pool = &ttm_dev->pool;
-   171		KUNIT_ASSERT_NOT_NULL(test, pool);
-   172		KUNIT_EXPECT_PTR_EQ(test, pool->dev, priv->dev);
-   173		KUNIT_EXPECT_EQ(test, pool->use_dma_alloc, params->use_dma_alloc);
-   174		KUNIT_EXPECT_EQ(test, pool->use_dma32, params->use_dma32);
-   175	
-   176		if (params->pools_init_expected) {
-   177			for (int i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
-   178				for (int j = 0; j <= MAX_ORDER; ++j) {
- > 179					pt = pool->caching[i].orders[j];
-   180					KUNIT_EXPECT_PTR_EQ(test, pt.pool, pool);
-   181					KUNIT_EXPECT_EQ(test, pt.caching, i);
-   182					KUNIT_EXPECT_EQ(test, pt.order, j);
-   183	
-   184					if (params->use_dma_alloc)
-   185						KUNIT_ASSERT_FALSE(test,
-   186								   list_empty(&pt.pages));
-   187				}
-   188			}
-   189		}
-   190	
-   191		ttm_device_fini(ttm_dev);
-   192	}
-   193	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
