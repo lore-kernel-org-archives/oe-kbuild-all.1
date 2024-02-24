@@ -1,55 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764912581;
-	Sat, 24 Feb 2024 01:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F5DDF60
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Feb 2024 02:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708739584; cv=none; b=cicfHo2Mvy7TKpQMG5TtYmD6QacahUQ44yr1rsJ1DYsLAu3Bit+hdOMfxYdwSl7Mwb5v7ZtBcJNw09728VKNlptmUeWNSWUEos9p9gzqyOXi9Voz1mO3Ji+VKjMusywcQbZCh7fgFkPgcb6Y3TdXdASCFrKk7cPJ5i1QVWEWUDM=
+	t=1708740187; cv=none; b=HNCcjxw6pVaktBcsO+tJFGUeBKvvIdSwhYSENE6IsSs5hvcXKWi6Mmt0aGyHJ13iRdJ24nxa1hwUm4e4l8dkfSPIujSShSd2/0dBt7Mk4eE/HBexdYsP0oNaoNAdNHrqQ0lzCHNPUbE40G/rrCJKQRWSw8H+C8+Lfuk21RAfsz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708739584; c=relaxed/simple;
-	bh=TqfSwWvEqvaCt0tiTDF+Shtog97gbCmygS4E0/HxB7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MVHr4EFhjjJzvO1IMaOiwm02M8C+RgdVRKw1MBx2VppAG3EnAJM7dG/+QDopaiZ9gWiKQX7lhB0RGg7RO4FGPN7dLF/m54XyzTvGkgPfBbcO6MU61y3/WM9Z+DdSw/LDTdCUhIkkQjrWOw1ae1q/9Jez1LIX0Tqdw+UuwHNFn5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NycT1zJ3; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1708740187; c=relaxed/simple;
+	bh=PVcJD/080UG9t+/QtPvHXPFBLE1rt+Iv49dtKmvGCCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ITF+E451i/GitwH9OU7Wrv6F13ZBIMeCz9UcZvTnUIV3LSylkr/VmFb9RkHcRAPL1xjZUXrPL34u7VdUAzO/zxGhzsid6lArH0Dk8/NAMACC1TS3rVmrdsJlf/Jx01ho1PzQuGvJhQ0pQiAUlR0icb7lN1ZkJn2swPZT/ZS981g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mO7e49o1; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NycT1zJ3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mO7e49o1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708739583; x=1740275583;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TqfSwWvEqvaCt0tiTDF+Shtog97gbCmygS4E0/HxB7A=;
-  b=NycT1zJ3yMaEYJ2Dr6CwldGTZtivvvBAVBvY0cq7T8+5owi8CzAPVjqQ
-   Sf0MsCuKradFxuoJ58QTmDgI0D7XKpqHyV6FAwx8U50QypuHPDnN2JJwI
-   mapxZZfAosHimBHfMjFpRbGD8uNC1OYwBYxlaSJTj+xRSV0QEiSsY+Vjw
-   V+c9mGvK1z2NkdhaDPwduaGJt/9nz3GXc2k+XRd0DLqNRla7SL+sTPpUN
-   YEoBS7+9oCrVZ8wLG7GPVs8c40Osvzz2UQQCaicNzBmc33+seyc5BjQ4c
-   Pny8Df8ZzK9bs7RjloIKXtz6P72Y+74k/jM8dirZwIQo5P4zgYNoYGZ2h
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="25557136"
+  t=1708740185; x=1740276185;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PVcJD/080UG9t+/QtPvHXPFBLE1rt+Iv49dtKmvGCCE=;
+  b=mO7e49o1HEURl99qsNCqfXz2gY+G2jfBFTiyxvuD4ZBqWTmczpyF8ycK
+   HyV9/S1ex6aOVlsVhYCQd1ZcBao/BeQ5TfuBm88EcTJUOAlTPNv7BNDLB
+   YXUNo6H8imyacsbJs8cpLMMMUMWGFVtMSCR8Xl1LJh4k+cW/CN3CHdqiE
+   NPAo2ZjGzAB8YSzIGG7nryfb/Atc6iHwntHYF2bN4SO3mjjxL+AJWY7jB
+   L3KpKBnQ1/TgCjoFKPEzLz7Hr6YcNSk9Ug25uxo2/aMAvj+whrxHoeRtN
+   DMYRceDyyVG5RePHeW0YQxDFzxdhb0vBE5dWk71VVjpNgkV5IwKL7COtC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="2958090"
 X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="25557136"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 17:53:02 -0800
+   d="scan'208";a="2958090"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 18:03:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="6242241"
+   d="scan'208";a="5973195"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Feb 2024 17:53:00 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 23 Feb 2024 18:03:00 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdhDl-000860-2w;
-	Sat, 24 Feb 2024 01:52:57 +0000
-Date: Sat, 24 Feb 2024 09:52:11 +0800
+	id 1rdhNS-00086Y-0y;
+	Sat, 24 Feb 2024 02:02:58 +0000
+Date: Sat, 24 Feb 2024 10:02:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: ckkim <changkon12@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-5.15.y 108/204] drivers/media/i2c/lt8619c.c:124:11:
- warning: variable 'val' is uninitialized when used here
-Message-ID: <202402240923.dKmuxHcz-lkp@intel.com>
+To: Nilesh Javali <njavali@marvell.com>, martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	GR-QLogic-Storage-Upstream@marvell.com, agurumurthy@marvell.com,
+	sdeodhar@marvell.com, emilne@redhat.com, jmeneghi@redhat.com
+Subject: Re: [PATCH 03/11] qla2xxx: Split FCE|EFT trace control
+Message-ID: <202402240913.dFLbIVfU-lkp@intel.com>
+References: <20240223074514.8472-4-njavali@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,285 +60,212 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240223074514.8472-4-njavali@marvell.com>
 
-tree:   https://github.com/tobetter/linux odroid-5.15.y
-head:   200d2466033be9a082bfb81368de8a994e399a02
-commit: 17501341aae8821abf97050abc9620fb7769581f [108/204] ODROID-COMMON: Add LT8619C HDMI/Dual-mode DP receiver
-config: powerpc-randconfig-001-20240224 (https://download.01.org/0day-ci/archive/20240224/202402240923.dKmuxHcz-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project edd4aee4dd9b5b98b2576a6f783e4086173d902a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240923.dKmuxHcz-lkp@intel.com/reproduce)
+Hi Nilesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on f4469f3858352ad1197434557150b1f7086762a0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nilesh-Javali/qla2xxx-Prevent-command-send-on-chip-reset/20240223-154651
+base:   f4469f3858352ad1197434557150b1f7086762a0
+patch link:    https://lore.kernel.org/r/20240223074514.8472-4-njavali%40marvell.com
+patch subject: [PATCH 03/11] qla2xxx: Split FCE|EFT trace control
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240224/202402240913.dFLbIVfU-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240913.dFLbIVfU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402240923.dKmuxHcz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402240913.dFLbIVfU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/i2c/lt8619c.c:124:11: warning: variable 'val' is uninitialized when used here [-Wuninitialized]
-     124 |                           reg, val);
-         |                                ^~~
-   include/linux/dev_printk.h:150:67: note: expanded from macro 'dev_info'
-     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                          ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/media/i2c/lt8619c.c:100:13: note: initialize the variable 'val' to silence this warning
-     100 |         uint8_t val;
-         |                    ^
-         |                     = '\0'
->> drivers/media/i2c/lt8619c.c:308:6: warning: no previous prototype for function 'lt8619c_audio_init' [-Wmissing-prototypes]
-     308 | void lt8619c_audio_init(uint8_t audio_input)
-         |      ^
-   drivers/media/i2c/lt8619c.c:308:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     308 | void lt8619c_audio_init(uint8_t audio_input)
-         | ^
-         | static 
-   2 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_SOC_MPC5200_AC97
-   Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_MPC52xx [=y] && PPC_BESTCOMM [=n]
-   Selected by [y]:
-   - SND_MPC52xx_SOC_PCM030 [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_MPC5200_SIMPLE [=y]
+   drivers/scsi/qla2xxx/qla_init.c: In function 'qla2x00_setup_chip':
+>> drivers/scsi/qla2xxx/qla_init.c:4268:18: warning: variable 'fw_major_version' set but not used [-Wunused-but-set-variable]
+    4268 |         uint16_t fw_major_version;
+         |                  ^~~~~~~~~~~~~~~~
 
 
-vim +/val +124 drivers/media/i2c/lt8619c.c
+vim +/fw_major_version +4268 drivers/scsi/qla2xxx/qla_init.c
 
-    95	
-    96	static uint8_t lt8619c_reg_read(char reg)
-    97	{
-    98		uint8_t out_buf[2];
-    99		uint8_t in_buf[2];
-   100		uint8_t val;
-   101	
-   102		struct i2c_msg msgs[] = {
-   103			{
-   104				.addr = LT8619C_ADDR,
-   105				.flags = 0,
-   106				.len = 1,
-   107				.buf = out_buf,
-   108			},
-   109			{
-   110				.addr = LT8619C_ADDR,
-   111				.flags = I2C_M_RD,
-   112				.len = 1,
-   113				.buf = in_buf,
-   114			}
-   115		};
-   116	
-   117		out_buf[0] = reg;
-   118		out_buf[1] = 0;
-   119	
-   120		if (i2c_transfer(lt8619c->client->adapter, msgs, 2) == 2) {
-   121			val = in_buf[0];
-   122		} else {
-   123			dev_info(lt8619c->dev, "i2c 0x%02x 0x%02x read failed\n",
- > 124				  reg, val);
-   125		}
-   126	
-   127		return val;
-   128	}
-   129	
-   130	static int lt8619c_reg_write(uint8_t reg, uint8_t data)
-   131	{
-   132		uint8_t outbuf[2];
-   133		struct i2c_msg msg = {
-   134			.addr = LT8619C_ADDR,
-   135			.flags = 0,
-   136			.len = 2,
-   137			.buf = outbuf,
-   138		};
-   139	
-   140		outbuf[0] = reg;
-   141		outbuf[1] = data;
-   142	
-   143		if (i2c_transfer(lt8619c->client->adapter, &msg, 1) != 1)
-   144			dev_info(lt8619c->dev, "i2c 0x%02x 0x%02x write failed\n",
-   145				  reg, data);
-   146	
-   147		return 0;
-   148	}
-   149	
-   150	static int lt8619c_reg_write_bytes(uint8_t reg, uint8_t *data, uint16_t length)
-   151	{
-   152		uint8_t outbuf[256 + 1];
-   153		struct i2c_msg msg = {
-   154			.addr = LT8619C_ADDR,
-   155			.flags = 0,
-   156			.len = sizeof(outbuf),
-   157			.buf = outbuf,
-   158		};
-   159	
-   160		outbuf[0] = reg;
-   161		memcpy(outbuf + 1, data, length);
-   162	
-   163		if (i2c_transfer(lt8619c->client->adapter, &msg, 1) != 1)
-   164			dev_info(lt8619c->dev, "i2c write failed\n");
-   165	
-   166		return 0;
-   167	}
-   168	
-   169	static bool lt8619c_check_chipid(void)
-   170	{
-   171		unsigned int chip_id[3];
-   172	
-   173		lt8619c_reg_write(0xff, 0x60);
-   174	
-   175		chip_id[0] = lt8619c_reg_read(0x00);
-   176		chip_id[1] = lt8619c_reg_read(0x01);
-   177		chip_id[2] = lt8619c_reg_read(0x02);
-   178		dev_dbg(lt8619c->dev, "Read Chip : 0x%x, 0x%x, 0x%x\n",
-   179				chip_id[0], chip_id[1], chip_id[2]);
-   180	
-   181		if ((chip_id[0] == 0x16) && chip_id[1] == 0x04)
-   182			return true;
-   183		else
-   184			return false;
-   185	}
-   186	
-   187	static void lt8619c_setHPD(uint8_t level)
-   188	{
-   189		lt8619c_reg_write(0xff, 0x80);
-   190	
-   191		if (level)
-   192			lt8619c_reg_write(0x06, (lt8619c_reg_read(0x06) | 0x08));
-   193		else
-   194			lt8619c_reg_write(0x06, (lt8619c_reg_read(0x06) & 0xf7));
-   195	}
-   196	
-   197	static void lt8619c_edid_calc(uint8_t *pbuf, struct video_timing *timing)
-   198	{
-   199		uint16_t hblanking = 0;
-   200		uint16_t vblanking = 0;
-   201		uint16_t pixel_clk;
-   202	
-   203		pixel_clk = timing->pixel_clk / 10;
-   204	
-   205		if (pbuf == NULL || timing == NULL)
-   206			return;
-   207	
-   208		hblanking = timing->hfp + timing->hs + timing->hbp; /* H blanking */
-   209		vblanking = timing->vfp + timing->vs + timing->vbp; /* V blanking */
-   210	
-   211		pbuf[0] = pixel_clk % 256;
-   212		pbuf[1] = pixel_clk / 256;
-   213		pbuf[2] = timing->hact % 256;
-   214		pbuf[3] = hblanking % 256;
-   215		pbuf[4] = ((timing->hact / 256) << 4) + hblanking / 256;
-   216		pbuf[5] = timing->vact % 256;
-   217		pbuf[6] = vblanking % 256;
-   218		pbuf[7] = ((timing->vact / 256) << 4) + vblanking / 256;
-   219		pbuf[8] = timing->hfp % 256;
-   220		pbuf[9] = timing->hs % 256;
-   221		pbuf[10] = ((timing->vfp % 256) << 4) + timing->vs % 256;
-   222		pbuf[11] = ((timing->hfp/256) << 6) + ((timing->hs / 256) << 4)+
-   223			((timing->vfp / 256) << 2) + (timing->vs / 256);
-   224		pbuf[17] = 0x1c; /* progress negative vsync, negative hsync */
-   225	}
-   226	
-   227	static uint8_t lt8619c_edid_checksum(uint8_t block, uint8_t *buf)
-   228	{
-   229		uint8_t i = 0;
-   230		uint8_t checksum = 0;
-   231		uint8_t *pbuf = buf + 128 * block;
-   232	
-   233		if (pbuf == NULL || (pbuf + 127) == NULL)
-   234			return 0;
-   235	
-   236		for (i = 0, checksum = 0; i < 127 ; i++) {
-   237			checksum += pbuf[i];
-   238			checksum %= 256;
-   239		}
-   240		checksum = 256 - checksum;
-   241	
-   242		dev_info(lt8619c->dev, "EDID checksum 0x%x\n", checksum);
-   243	
-   244		return checksum;
-   245	}
-   246	
-   247	static void lt8619c_set_edid(uint8_t *edid_buf)
-   248	{
-   249		int ret = 0;
-   250	
-   251		lt8619c_reg_write(0xff, 0x80);
-   252		lt8619c_reg_write(0x8e, 0x07);
-   253		lt8619c_reg_write(0x8f, 0x00);
-   254	
-   255		if (edid_buf == NULL)
-   256			ret = lt8619c_reg_write_bytes(0x90, &onchip_edid[0], 256);
-   257		else
-   258			ret = lt8619c_reg_write_bytes(0x90, edid_buf, 256);
-   259	
-   260		if (ret)
-   261			dev_info(lt8619c->dev, "EDID Set write error\n");
-   262	
-   263		lt8619c_reg_write(0x8e, 0x02);
-   264	}
-   265	
-   266	static void lt8619c_rx_init(void)
-   267	{
-   268		lt8619c_reg_write(0xff, 0x80);
-   269		/* RGD_CLK_STABLE_OPT[1:0] */
-   270		lt8619c_reg_write(0x2c, (lt8619c_reg_read(0x2C)|0x30));
-   271	
-   272		lt8619c_reg_write(0xff, 0x60);
-   273		lt8619c_reg_write(0x04, 0xF2);
-   274		lt8619c_reg_write(0x83, 0x3F);
-   275		lt8619c_reg_write(0x80, 0x08); /* use xtal_clk as sys_clk */
-   276	#ifdef DDR_CLK
-   277		lt8619c_reg_write(0xa4, 0x14); /* 0x10:SDR clk,0x14: DDR clk */
-   278	#else
-   279		lt8619c_reg_write(0xa4, 0x10); /* 0x10:SDR clk,0x14: DDR clk */
-   280	#endif
-   281		dev_dbg(lt8619c->dev, "LT8619C output mode : %d\n", LT8619C_OUTPUTMODE);
-   282	
-   283		dev_info(lt8619c->dev, "\nLT8619C set to OUTPUT_RGB888");
-   284		lt8619c_reg_write(0xff, 0x60);
-   285		lt8619c_reg_write(0x07, 0xff);
-   286		lt8619c_reg_write(0xa8, 0x0f);
-   287		lt8619c_reg_write(0x60, 0x00);
-   288		lt8619c_reg_write(0x96, 0x71);
-   289		lt8619c_reg_write(0xa0, 0x50);
-   290		// 0x60A3=0x44:Phase adjust enable;0x60A3=0x30:PIN68
-   291		// switch to output PCLK(only use for U5);
-   292		lt8619c_reg_write(0xa3, 0x74);
-   293		//Phase code value: 0x20,0x28,0x21,0x29,0x22,0x2a,0x23,0x2b,0x24,0x2c
-   294		lt8619c_reg_write(0xa2, 0x29);
-   295		//RGB mapping control
-   296		lt8619c_reg_write(0x6d, 0x00);//0x07//00
-   297		//RGB high/low bit swap control
-   298		lt8619c_reg_write(0x6e, 0x00);
-   299		/* LT8619C_OUTPUTMODE == OUTPUT_RGB888 */
-   300	
-   301		lt8619c_reg_write(0xff, 0x60);
-   302		lt8619c_reg_write(0x0e, 0xfd);
-   303		lt8619c_reg_write(0x0e, 0xff);
-   304		lt8619c_reg_write(0x0d, 0xfc);
-   305		lt8619c_reg_write(0x0d, 0xff);
-   306	}
-   307	
- > 308	void lt8619c_audio_init(uint8_t audio_input)
-   309	{
-   310		if (audio_input == I2S_2CH) {
-   311			dev_dbg(lt8619c->dev, "Audio Init : Audio set to I2S_2CH\n");
-   312			lt8619c_reg_write(0xff, 0x60);
-   313			lt8619c_reg_write(0x4c, 0x00);
-   314		} else if (audio_input == SPDIF) {
-   315			dev_dbg(lt8619c->dev, "Audio Init : Audio set to SPDIF\n");
-   316			lt8619c_reg_write(0xff, 0x60);
-   317			lt8619c_reg_write(0x4c, 0x80);
-   318		} else {
-   319			dev_dbg(lt8619c->dev, "Audio Init : Error! Check Audio Mode\n");
-   320		}
-   321	
-   322		lt8619c_reg_write(0xff, 0x80);
-   323		lt8619c_reg_write(0x5d, 0xc9);
-   324		lt8619c_reg_write(0x07, 0x16);
-   325		lt8619c_reg_write(0x08, 0x80);
-   326	}
-   327	
+efa74a62aaa242 Quinn Tran          2023-07-14  4253  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4254  /**
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4255   * qla2x00_setup_chip() - Load and start RISC firmware.
+2db6228d9cd13b Bart Van Assche     2018-01-23  4256   * @vha: HA context
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4257   *
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4258   * Returns 0 on success.
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4259   */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4260  static int
+e315cd28b9ef0d Anirban Chakraborty 2008-11-06  4261  qla2x00_setup_chip(scsi_qla_host_t *vha)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4262  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4263  	int rval;
+0107109ed69c9e Andrew Vasquez      2005-07-06  4264  	uint32_t srisc_address = 0;
+e315cd28b9ef0d Anirban Chakraborty 2008-11-06  4265  	struct qla_hw_data *ha = vha->hw;
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4266  	struct device_reg_2xxx __iomem *reg = &ha->iobase->isp;
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4267  	unsigned long flags;
+dda772e8e3b983 Andrew Vasquez      2009-03-24 @4268  	uint16_t fw_major_version;
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4269  	int done_once = 0;
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4270  
+7ec0effd30bb4b Atul Deshmukh       2013-08-27  4271  	if (IS_P3P_TYPE(ha)) {
+a9083016a5314b Giridhar Malavali   2010-04-12  4272  		rval = ha->isp_ops->load_risc(vha, &srisc_address);
+14e303d98bcfe4 Andrew Vasquez      2010-07-23  4273  		if (rval == QLA_SUCCESS) {
+14e303d98bcfe4 Andrew Vasquez      2010-07-23  4274  			qla2x00_stop_firmware(vha);
+a9083016a5314b Giridhar Malavali   2010-04-12  4275  			goto enable_82xx_npiv;
+14e303d98bcfe4 Andrew Vasquez      2010-07-23  4276  		} else
+b963752f47c54a Giridhar Malavali   2010-05-28  4277  			goto failed;
+a9083016a5314b Giridhar Malavali   2010-04-12  4278  	}
+a9083016a5314b Giridhar Malavali   2010-04-12  4279  
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4280  	if (!IS_FWI2_CAPABLE(ha) && !IS_QLA2100(ha) && !IS_QLA2200(ha)) {
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4281  		/* Disable SRAM, Instruction RAM and GP RAM parity.  */
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4282  		spin_lock_irqsave(&ha->hardware_lock, flags);
+04474d3a1c9681 Bart Van Assche     2020-05-18  4283  		wrt_reg_word(&reg->hccr, (HCCR_ENABLE_PARITY + 0x0));
+04474d3a1c9681 Bart Van Assche     2020-05-18  4284  		rd_reg_word(&reg->hccr);
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4285  		spin_unlock_irqrestore(&ha->hardware_lock, flags);
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4286  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4287  
+18e7555a38eaad Andrew Vasquez      2009-06-03  4288  	qla81xx_mpi_sync(vha);
+18e7555a38eaad Andrew Vasquez      2009-06-03  4289  
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4290  execute_fw_with_lr:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4291  	/* Load firmware sequences */
+e315cd28b9ef0d Anirban Chakraborty 2008-11-06  4292  	rval = ha->isp_ops->load_risc(vha, &srisc_address);
+0107109ed69c9e Andrew Vasquez      2005-07-06  4293  	if (rval == QLA_SUCCESS) {
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4294  		ql_dbg(ql_dbg_init, vha, 0x00c9,
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4295  		    "Verifying Checksum of loaded RISC code.\n");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4296  
+e315cd28b9ef0d Anirban Chakraborty 2008-11-06  4297  		rval = qla2x00_verify_checksum(vha, srisc_address);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4298  		if (rval == QLA_SUCCESS) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4299  			/* Start firmware execution. */
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4300  			ql_dbg(ql_dbg_init, vha, 0x00ca,
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4301  			    "Starting firmware.\n");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4302  
+b0d6cabd355ae9 Himanshu Madhani    2015-12-17  4303  			if (ql2xexlogins)
+b0d6cabd355ae9 Himanshu Madhani    2015-12-17  4304  				ha->flags.exlogins_enabled = 1;
+b0d6cabd355ae9 Himanshu Madhani    2015-12-17  4305  
+99e1b683c4be3f Quinn Tran          2017-06-02  4306  			if (qla_is_exch_offld_enabled(vha))
+2f56a7f1b5d8cf Himanshu Madhani    2015-12-17  4307  				ha->flags.exchoffld_enabled = 1;
+2f56a7f1b5d8cf Himanshu Madhani    2015-12-17  4308  
+e315cd28b9ef0d Anirban Chakraborty 2008-11-06  4309  			rval = qla2x00_execute_fw(vha, srisc_address);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4310  			/* Retrieve firmware information. */
+dda772e8e3b983 Andrew Vasquez      2009-03-24  4311  			if (rval == QLA_SUCCESS) {
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4312  				/* Enable BPM support? */
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4313  				if (!done_once++ && qla24xx_detect_sfp(vha)) {
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4314  					ql_dbg(ql_dbg_init, vha, 0x00ca,
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4315  					    "Re-starting firmware -- BPM.\n");
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4316  					/* Best-effort - re-init. */
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4317  					ha->isp_ops->reset_chip(vha);
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4318  					ha->isp_ops->chip_diag(vha);
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4319  					goto execute_fw_with_lr;
+b0f18eee6fc1ee Andrew Vasquez      2020-02-26  4320  				}
+e4e3a2ce9556cc Quinn Tran          2017-08-23  4321  
+49db4d4e02aabc Quinn Tran          2020-09-03  4322  				if (IS_ZIO_THRESHOLD_CAPABLE(ha))
+8b4673ba3a1b99 Quinn Tran          2018-09-04  4323  					qla27xx_set_zio_threshold(vha,
+8b4673ba3a1b99 Quinn Tran          2018-09-04  4324  					    ha->last_zio_threshold);
+8b4673ba3a1b99 Quinn Tran          2018-09-04  4325  
+b0d6cabd355ae9 Himanshu Madhani    2015-12-17  4326  				rval = qla2x00_set_exlogins_buffer(vha);
+b0d6cabd355ae9 Himanshu Madhani    2015-12-17  4327  				if (rval != QLA_SUCCESS)
+b0d6cabd355ae9 Himanshu Madhani    2015-12-17  4328  					goto failed;
+b0d6cabd355ae9 Himanshu Madhani    2015-12-17  4329  
+2f56a7f1b5d8cf Himanshu Madhani    2015-12-17  4330  				rval = qla2x00_set_exchoffld_buffer(vha);
+2f56a7f1b5d8cf Himanshu Madhani    2015-12-17  4331  				if (rval != QLA_SUCCESS)
+2f56a7f1b5d8cf Himanshu Madhani    2015-12-17  4332  					goto failed;
+2f56a7f1b5d8cf Himanshu Madhani    2015-12-17  4333  
+a9083016a5314b Giridhar Malavali   2010-04-12  4334  enable_82xx_npiv:
+dda772e8e3b983 Andrew Vasquez      2009-03-24  4335  				fw_major_version = ha->fw_major_version;
+7ec0effd30bb4b Atul Deshmukh       2013-08-27  4336  				if (IS_P3P_TYPE(ha))
+3173167f015b77 Giridhar Malavali   2011-08-16  4337  					qla82xx_check_md_needed(vha);
+6246b8a1d26c7c Giridhar Malavali   2012-02-09  4338  				else
+6246b8a1d26c7c Giridhar Malavali   2012-02-09  4339  					rval = qla2x00_get_fw_version(vha);
+ca9e9c3eb118d0 Andrew Vasquez      2009-06-03  4340  				if (rval != QLA_SUCCESS)
+ca9e9c3eb118d0 Andrew Vasquez      2009-06-03  4341  					goto failed;
+2c3dfe3f6ad8da Seokmann Ju         2007-07-05  4342  				ha->flags.npiv_supported = 0;
+e315cd28b9ef0d Anirban Chakraborty 2008-11-06  4343  				if (IS_QLA2XXX_MIDTYPE(ha) &&
+4d0ea24769c815 Seokmann Ju         2007-09-20  4344  					 (ha->fw_attributes & BIT_2)) {
+2c3dfe3f6ad8da Seokmann Ju         2007-07-05  4345  					ha->flags.npiv_supported = 1;
+4d0ea24769c815 Seokmann Ju         2007-09-20  4346  					if ((!ha->max_npiv_vports) ||
+4d0ea24769c815 Seokmann Ju         2007-09-20  4347  					    ((ha->max_npiv_vports + 1) %
+eb66dc60be5a72 Andrew Vasquez      2007-11-12  4348  					    MIN_MULTI_ID_FABRIC))
+4d0ea24769c815 Seokmann Ju         2007-09-20  4349  						ha->max_npiv_vports =
+eb66dc60be5a72 Andrew Vasquez      2007-11-12  4350  						    MIN_MULTI_ID_FABRIC - 1;
+4d0ea24769c815 Seokmann Ju         2007-09-20  4351  				}
+03e8c680d9b3b6 Quinn Tran          2015-12-17  4352  				qla2x00_get_resource_cnts(vha);
+89c72f4245a851 Quinn Tran          2020-09-03  4353  				qla_init_iocb_limit(vha);
+d743de66754a66 Andrew Vasquez      2009-03-24  4354  
+8d93f5502221cc Chad Dupuis         2013-01-30  4355  				/*
+8d93f5502221cc Chad Dupuis         2013-01-30  4356  				 * Allocate the array of outstanding commands
+8d93f5502221cc Chad Dupuis         2013-01-30  4357  				 * now that we know the firmware resources.
+8d93f5502221cc Chad Dupuis         2013-01-30  4358  				 */
+8d93f5502221cc Chad Dupuis         2013-01-30  4359  				rval = qla2x00_alloc_outstanding_cmds(ha,
+8d93f5502221cc Chad Dupuis         2013-01-30  4360  				    vha->req);
+8d93f5502221cc Chad Dupuis         2013-01-30  4361  				if (rval != QLA_SUCCESS)
+8d93f5502221cc Chad Dupuis         2013-01-30  4362  					goto failed;
+8d93f5502221cc Chad Dupuis         2013-01-30  4363  
+ad0a0b01f088f6 Quinn Tran          2017-12-28  4364  				if (ql2xallocfwdump && !(IS_P3P_TYPE(ha)))
+e315cd28b9ef0d Anirban Chakraborty 2008-11-06  4365  					qla2x00_alloc_fw_dump(vha);
+ad0a0b01f088f6 Quinn Tran          2017-12-28  4366  
+cb06b8fc6fe492 Quinn Tran          2024-02-23  4367  				qla_enable_fce_trace(vha);
+cb06b8fc6fe492 Quinn Tran          2024-02-23  4368  				qla_enable_eft_trace(vha);
+3b6e5b9d5f4001 Chad Dupuis         2013-10-30  4369  			} else {
+3b6e5b9d5f4001 Chad Dupuis         2013-10-30  4370  				goto failed;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4371  			}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4372  		} else {
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4373  			ql_log(ql_log_fatal, vha, 0x00cd,
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4374  			    "ISP Firmware failed checksum.\n");
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4375  			goto failed;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4376  		}
+d83a80ee57f0cb Joe Carnuccio       2020-02-12  4377  
+d83a80ee57f0cb Joe Carnuccio       2020-02-12  4378  		/* Enable PUREX PASSTHRU */
+44d018577f1793 Quinn Tran          2021-06-23  4379  		if (ql2xrdpenable || ha->flags.scm_supported_f ||
+44d018577f1793 Quinn Tran          2021-06-23  4380  		    ha->flags.edif_enabled)
+d83a80ee57f0cb Joe Carnuccio       2020-02-12  4381  			qla25xx_set_els_cmds_supported(vha);
+c74d88a46865a9 Andrew Vasquez      2012-08-22  4382  	} else
+c74d88a46865a9 Andrew Vasquez      2012-08-22  4383  		goto failed;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4384  
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4385  	if (!IS_FWI2_CAPABLE(ha) && !IS_QLA2100(ha) && !IS_QLA2200(ha)) {
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4386  		/* Enable proper parity. */
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4387  		spin_lock_irqsave(&ha->hardware_lock, flags);
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4388  		if (IS_QLA2300(ha))
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4389  			/* SRAM parity */
+04474d3a1c9681 Bart Van Assche     2020-05-18  4390  			wrt_reg_word(&reg->hccr, HCCR_ENABLE_PARITY + 0x1);
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4391  		else
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4392  			/* SRAM, Instruction RAM and GP RAM parity */
+04474d3a1c9681 Bart Van Assche     2020-05-18  4393  			wrt_reg_word(&reg->hccr, HCCR_ENABLE_PARITY + 0x7);
+04474d3a1c9681 Bart Van Assche     2020-05-18  4394  		rd_reg_word(&reg->hccr);
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4395  		spin_unlock_irqrestore(&ha->hardware_lock, flags);
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4396  	}
+3db0652ef986f3 Andrew Vasquez      2008-01-31  4397  
+ecc89f25e225fa Joe Carnuccio       2019-03-12  4398  	if (IS_QLA27XX(ha) || IS_QLA28XX(ha))
+f3982d89317797 Chad Dupuis         2014-09-25  4399  		ha->flags.fac_supported = 1;
+f3982d89317797 Chad Dupuis         2014-09-25  4400  	else if (rval == QLA_SUCCESS && IS_FAC_REQUIRED(ha)) {
+1d2874de809a14 Joe Carnuccio       2009-03-24  4401  		uint32_t size;
+1d2874de809a14 Joe Carnuccio       2009-03-24  4402  
+1d2874de809a14 Joe Carnuccio       2009-03-24  4403  		rval = qla81xx_fac_get_sector_size(vha, &size);
+1d2874de809a14 Joe Carnuccio       2009-03-24  4404  		if (rval == QLA_SUCCESS) {
+1d2874de809a14 Joe Carnuccio       2009-03-24  4405  			ha->flags.fac_supported = 1;
+1d2874de809a14 Joe Carnuccio       2009-03-24  4406  			ha->fdt_block_size = size << 2;
+1d2874de809a14 Joe Carnuccio       2009-03-24  4407  		} else {
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4408  			ql_log(ql_log_warn, vha, 0x00ce,
+1d2874de809a14 Joe Carnuccio       2009-03-24  4409  			    "Unsupported FAC firmware (%d.%02d.%02d).\n",
+1d2874de809a14 Joe Carnuccio       2009-03-24  4410  			    ha->fw_major_version, ha->fw_minor_version,
+1d2874de809a14 Joe Carnuccio       2009-03-24  4411  			    ha->fw_subminor_version);
+1ca60e3b0dcbf1 Joe Carnuccio       2014-02-26  4412  
+0d6a536cb1fcab Joe Carnuccio       2022-01-09  4413  			if (IS_QLA83XX(ha)) {
+6246b8a1d26c7c Giridhar Malavali   2012-02-09  4414  				ha->flags.fac_supported = 0;
+6246b8a1d26c7c Giridhar Malavali   2012-02-09  4415  				rval = QLA_SUCCESS;
+6246b8a1d26c7c Giridhar Malavali   2012-02-09  4416  			}
+1d2874de809a14 Joe Carnuccio       2009-03-24  4417  		}
+1d2874de809a14 Joe Carnuccio       2009-03-24  4418  	}
+ca9e9c3eb118d0 Andrew Vasquez      2009-06-03  4419  failed:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4420  	if (rval) {
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4421  		ql_log(ql_log_fatal, vha, 0x00cf,
+7c3df1320e5e87 Saurav Kashyap      2011-07-14  4422  		    "Setup chip ****FAILED****.\n");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4423  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4424  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4425  	return (rval);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4426  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  4427  
 
 -- 
 0-DAY CI Kernel Test Service
