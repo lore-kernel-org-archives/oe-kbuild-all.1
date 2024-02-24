@@ -1,63 +1,55 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19855138A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Feb 2024 00:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50959EC7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Feb 2024 01:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708735525; cv=none; b=YyQYFRvTSeNcollLeueAss4VwV0iDik4OpNOrsJFjCC/JS3kymrBVN0DIlZBD6OCHIimiD2wAuKVqlBMQtRUQNXTDgGqxPruMx9EVBZEv6zK3/MQB7TxUGlKVHUiGULaafyJaAWMvkco/HTF4qd9bpT70Zo/KFZGLRmi2GZY9CU=
+	t=1708737666; cv=none; b=MbOQ6xu85DURV+bn7DcDJdlsZdFifJmOUbkgdoSX/lugY5wuC7Wq7JiBcX0d2hxl+8FlK/ne6n/+wWq1s9DGHqm2lc+SglwunFJtWfBEVPhi9860C/6pw1WEXpaeoeu11dozkmCvfs3lt1mRAGiWm6u0KjAY+dz6ptlQhQjvv0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708735525; c=relaxed/simple;
-	bh=wwBGta8rsYppsBWH1MK5Lu84ZHUUawgwg/LAReWcOsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z2C/1eXxotqdJRkIbUSPfqCrDiPGX+FjTccywUJN/GJdBjRf6694GYm3NCafa9gFSBaVcxURoycMeznrVHbaukGzsowORpCZffRc70JqWGhDrJfkwyeSrs6J+7lfQHzILgRJb834qi016NFGc30os5rL+Q0rfRH8c8LQCTgxu3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ix2hOwF3; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1708737666; c=relaxed/simple;
+	bh=H5g+ec8NnNuwHBckN1XYCAsZgi+mA2e51RsIxI5atYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=REeoceSfoKumP8A4+3pV0AXi3RN9grPOKHXYnwc+f06c6wkNZJJRYPH+EOH1NxEI0f+0YKiwfnCI36Tp400BJ7+GYaObunTyxhIMgw8mJnwXB/GkjdPUpTiipJRi1VW5LJM/KydIdCmO/eBKSnMeAsT2mxxXf5OChtujaU7c3O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fwLjgngl; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ix2hOwF3"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e45bd5014dso531020b3a.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Feb 2024 16:45:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1708735523; x=1709340323; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tUeKnR3LMixiFFyd8gyHkf5Tdbkx52LSxrPHT0BNkVU=;
-        b=ix2hOwF34t7E7ZNPvW5JaxFC7QVx8tBe5MYu23FabJ1WcjXhTcmgfKoAXVtcu/EJF4
-         Yzor9qdDDLYkX5/THxxrGDlHuYCVkC6C7UjxQT+1VC0mokgMc19ZYwJLfWacZlyRYfY6
-         kqCDye5IAHOvsJCghZ9MCtwSkFBxmRuakH3i4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708735523; x=1709340323;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tUeKnR3LMixiFFyd8gyHkf5Tdbkx52LSxrPHT0BNkVU=;
-        b=pR1Fe/VlUn/n0mzDOMF9/TpKCzyLs9wOBiMPjtxaUU+266xZYfYzCrFJP47vg20q0T
-         wUi4LkqKNzOaT5IXyFRWmIQ2o/kyH5tp0+ZIb3dRMqxuadGIi9GSwHSNBN/w2/7vDeMZ
-         8hEw/v5L6e2v9fdULH4ND3lF+hhELBRAU0naAenKBXSqPRp/VKqxHPK2ZE5Hk0G5DZ1v
-         2GDwDmALi6wnnMsr6K/N30F2uKIw+WnMH2SrjBqWq3YGw2sWJvba9mAxDvUthf0qxv9i
-         sbKe2qa8wH+qaaPcxwhgi+pD+hpeT+0oszxoxMndp/q16+XcV+JwIWJdm6Nwc4UZaCtg
-         YqNg==
-X-Gm-Message-State: AOJu0Yxp01TrTRs9d6SIXW2DhQgIH3T55g5wuTEtMNdr7jsTncC1pjmh
-	z2qutEUfX/g6ZAg4hyOgiqre863XcTF/KESTin9uOQ49Rc6xG9HHtTqhAR8KDQ==
-X-Google-Smtp-Source: AGHT+IG7BlDMOQj+8OSCrwtGtPQm3N2qjpWZIa3B5luiHj+fyLhP2wlMIDXrmivw7/Fg5agY1c5TNg==
-X-Received: by 2002:a05:6a00:9aa:b0:6e4:f307:f553 with SMTP id u42-20020a056a0009aa00b006e4f307f553mr1102375pfg.5.1708735523332;
-        Fri, 23 Feb 2024 16:45:23 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id y5-20020a62b505000000b006e4cb18123fsm77412pfe.84.2024.02.23.16.45.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 16:45:22 -0800 (PST)
-Date: Fri, 23 Feb 2024 16:45:22 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>
-Subject: Re: [kees:for-next/kspp 29/41] vmlinux.o: warning: objtool:
- vmw_port_hb_in+0x242: objtool isn't smart enough to handle this CFI
- save/restore combo
-Message-ID: <202402231632.D90831AE51@keescook>
-References: <202402240702.zJFNmahW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fwLjgngl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708737664; x=1740273664;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H5g+ec8NnNuwHBckN1XYCAsZgi+mA2e51RsIxI5atYw=;
+  b=fwLjgnglxyocflJ2dBdOcuCUzoLwo2gFdMR55kaR7JUGt766LLMndyDG
+   8TuNumOWYCg1bbXiodpgOi2Khp6vsONnwYxUPiyuuD2lgEhn5Fguh3ECw
+   Rtnn/mhDsEcqI/D17YeQJO0lDSybGVgQ7VUVHwbnyvaVCISE+WnBD7iv+
+   rja/Gse5kGNJ7+lxdjVhT4A+ZubGC/VwvCo+aaU7hAnmrvI+dFZZoXCIm
+   rIBNt0/imSTXVtXvlYGPyZ5FGlJc1ESmtENSVW9V84B47tulTR+yM/xNa
+   Fx4vs+jm0caNq1W6RlRtCjygB6zNWo/3tbAh45NAERIGI1rg5pMzG0M+f
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="3248374"
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="3248374"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 17:21:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="29260771"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 23 Feb 2024 17:21:02 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rdghz-00085E-2V;
+	Sat, 24 Feb 2024 01:20:56 +0000
+Date: Sat, 24 Feb 2024 09:20:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 17747/21632]
+ drivers/dax/pmem/.tmp_core.o: warning: objtool: missing symbol for section
+ .text
+Message-ID: <202402240932.WccokBnQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,51 +58,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202402240702.zJFNmahW-lkp@intel.com>
 
-On Sat, Feb 24, 2024 at 07:54:00AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/kspp
-> head:   09e0d17906598c77fc7831c2d257d573931952e8
-> commit: f394a8df5bf700bb265f631664fbfb1cb42b69ad [29/41] fortify: Split reporting and avoid passing string pointer
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   b97b63500af297c36f80416fd1f1193d227cf51a
+commit: 31251a62e6358cf3a099926bfecf4170263b4bf8 [17747/21632] Intel: device-dax: Add /sys/class/dax backwards compatibility
+config: x86_64-buildonly-randconfig-003-20240220 (https://download.01.org/0day-ci/archive/20240224/202402240932.WccokBnQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240932.WccokBnQ-lkp@intel.com/reproduce)
 
-Uhhh...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402240932.WccokBnQ-lkp@intel.com/
 
-> config: x86_64-randconfig-011-20240223 (https://download.01.org/0day-ci/archive/20240224/202402240702.zJFNmahW-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240702.zJFNmahW-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402240702.zJFNmahW-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> vmlinux.o: warning: objtool: vmw_port_hb_in+0x242: objtool isn't smart enough to handle this CFI save/restore combo
+All warnings (new ones prefixed by >>):
 
-What?
-
-> objdump-func vmlinux.o vmw_port_hb_in:
-> 0000 0000000002d10770 <vmw_port_hb_in>:
-> [...]
-> 01f4  2d10964:	48 b8 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%rax
-
-giant movabs is okay here?
-
-> [...]
-> 0242  2d109b2:	48 b8 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%rax
-
-but not here?
-
-Josh, Peter, can you give a clue about what's happened here? For
-added context, the referenced commit is changing a noreturn function
-prototype[1], which I know gets some special objtool handling, but it's
-converting a pointer arg to a u8... I can't imagine what has gone weird
-here. :P
-
--Kees
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=for-next/kspp&id=f394a8df5bf700bb265f631664fbfb1cb42b69ad
+>> drivers/dax/pmem/.tmp_core.o: warning: objtool: missing symbol for section .text
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
