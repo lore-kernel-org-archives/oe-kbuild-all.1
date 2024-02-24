@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C636C14B815;
-	Sat, 24 Feb 2024 07:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001922595
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Feb 2024 07:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708758175; cv=none; b=W9HAANw2j7P0rpSUXoiK7790pYj40bp4XFloacA8Bpi1HNX/+D4+zi92rGK3T0DvwGsWMy2nKzCrKr0V8lqN4EJ2dcPstVi4a27tk6p762aY8BvAMvFbKJ01lwnjA8GqTQBfYI5I+p7KV09Q8zUjs/VFL3GsX8Wecn0nMTsBqVk=
+	t=1708758798; cv=none; b=FxxW7hZ4/N4ogerFxsuFScCpl33Dks17HHqIH8FEO6WqFsenQ+ouKyJBNU9nZAsWRtG9Tg64ev17nbXvlxv2w+ggaUawSWwxq42SkX2OJELWaLb0cSWBe4DLOR8EQwx9hfyWYmPGGqPkuoCZb+xAbDza2+zuack1NoTfRikuWXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708758175; c=relaxed/simple;
-	bh=ewgWoyyrlZc65Eh9H3Uaui+6uhed6up8fez9ZJbXe74=;
+	s=arc-20240116; t=1708758798; c=relaxed/simple;
+	bh=MrIqehvEcvubV63NuzjYODZDb89QtrP3tTfqjqKZ1so=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gRKu35xpjPEyGIGwMsJh9jcLpdReraB/9kwCWeOK8P+J3kqU4jdaBc09UmvwtJXICIL47gGuPt/2L1DphDgqX5i1w/zuDcxdLhxR8LSLZBwLSuAqCANPc2alXZez8oM8q/+nftMGXQS4Lib0ceUeBrinpFbvpiBBjpvQc+pQspw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fr6cKfJJ; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=tmN/Lq0mhRzo+hbXEe8xSJYrCvP1UtjkxXStC0G+GA1c+QONPgIQ09ZdcjZUIyFhEbWOmzKMGW9tDOJjOpjsAes8LlnZHc8PQvl3j9vczm87P1k6rEfCGrdl1bgZeYGZVMGhkUlo2iXdoQ15KheyqaxEW6DJOdx849fWfcKx1u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBDceB4V; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fr6cKfJJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBDceB4V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708758173; x=1740294173;
+  t=1708758796; x=1740294796;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ewgWoyyrlZc65Eh9H3Uaui+6uhed6up8fez9ZJbXe74=;
-  b=Fr6cKfJJ0mQqv+6j7T2Oy64kHl5/uG0CcwBuC2obVYM3ejMtjjLGSmZE
-   DagUnGjQZogu+fn7fWfP2J9CIul0cgYv6qr+rHZ8mvzJ2eevxJW530HU4
-   7S2aHl6FdwcwGULfUqWJAGOI9vdRsNNlpCmfYMmA7nVkwRubV5G3aeGnD
-   iILua7CCtwV9OGxIN7rBL7XUorRiM2h9S4HiPnJGadyUKWOpT3MIFF/xc
-   Xmpsat8cLS6RccjXuBryqBoRh/GsOyIml21qv4ItCb23afWmGZ/YolLEb
-   MAffmhgQ9CqKi+ggVFjGQ48pGi+xpZgtVHsHrISODZKuB4QQ6WL2ZFJD3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6043858"
+  bh=MrIqehvEcvubV63NuzjYODZDb89QtrP3tTfqjqKZ1so=;
+  b=RBDceB4VBgGrBbIWeX2zU/PHNsONjiVq2dZeA5skovGg5YFb3SeuAZwk
+   tzlRNppb3dZeSO6EnkV6pJav3WBBBWTI9YXKDSrtF3srl9zMUM0+Avdxy
+   FNaP7s8ycc3YokxMvSZ7XpOmHhQcWta20I+GO5Gdu8fgmEndevp5CJtoa
+   ZuWXcdWN/6jD63GtO+x4nvXoRV8EwoInY4iR7w5FKNkw13vz8fViG4z7/
+   EVaEEEnezzloHHhH9iSSnYKHTZ1ZXz0c78k/q14UJ1e1QUu7xBGKMOOgi
+   zsqHaHcywZk9uPNBsdM+D7eI+1v/UrbNHpLtdNT6ZsWBDxiFHBeR//cQ7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6882385"
 X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="6043858"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 23:02:52 -0800
+   d="scan'208";a="6882385"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 23:13:15 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="6364952"
+   d="scan'208";a="6064473"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Feb 2024 23:02:51 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 23 Feb 2024 23:13:14 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdm3c-0008Jc-1y;
-	Sat, 24 Feb 2024 07:02:48 +0000
-Date: Sat, 24 Feb 2024 15:01:52 +0800
+	id 1rdmDg-0008K4-00;
+	Sat, 24 Feb 2024 07:13:12 +0000
+Date: Sat, 24 Feb 2024 15:12:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: "steve.jeong" <jkhpro1003@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-5.15.y 137/204] drivers/char/aml-gpiomem.c:128:22:
- error: implicit declaration of function 'phys_mem_access_prot'
-Message-ID: <202402241457.7xJjia9V-lkp@intel.com>
+To: kernel@openeuler.org, lishusen <lishusen2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3159/3388]
+ arch/arm64/include/asm/kvm_mmu.h:221:undefined reference to
+ `__kvm_nvhe_kvm_ncsnp_support'
+Message-ID: <202402241512.XOiHdLOg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,64 +59,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/tobetter/linux odroid-5.15.y
-head:   200d2466033be9a082bfb81368de8a994e399a02
-commit: 0a01b3c15e7c03cfbd687185d96a66d0cca87069 [137/204] ODROID-N2/C4: char: Add /dev/gpiomem device for rootless user GPIO access.
-config: hexagon-randconfig-001-20240224 (https://download.01.org/0day-ci/archive/20240224/202402241457.7xJjia9V-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402241457.7xJjia9V-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   0e6ac87df9e5122747ac5d9e7da9a45555f16374
+commit: 625086f87673687dc420e79c9fedff0c2d65cb49 [3159/3388] KVM: arm64: Add support for probing Hisi ncsnp capability
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240224/202402241512.XOiHdLOg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402241512.XOiHdLOg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402241457.7xJjia9V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402241512.XOiHdLOg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/char/aml-gpiomem.c:128:22: error: implicit declaration of function 'phys_mem_access_prot' [-Werror,-Wimplicit-function-declaration]
-           vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
-                               ^
-   drivers/char/aml-gpiomem.c:128:20: error: assigning to 'pgprot_t' from incompatible type 'int'
-           vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
-                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: in function `__clean_dcache_guest_page':
+>> arch/arm64/include/asm/kvm_mmu.h:221:(.hyp.text+0x6898): undefined reference to `__kvm_nvhe_kvm_ncsnp_support'
+   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__kvm_nvhe_kvm_ncsnp_support' which may bind externally can not be used when making a shared object; recompile with -fPIC
+>> arch/arm64/include/asm/kvm_mmu.h:221:(.hyp.text+0x6898): dangerous relocation: unsupported relocation
+>> aarch64-linux-ld: arch/arm64/include/asm/kvm_mmu.h:221:(.hyp.text+0x689c): undefined reference to `__kvm_nvhe_kvm_ncsnp_support'
+   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: in function `kvm_pgtable_stage2_flush':
+>> arch/arm64/kvm/hyp/nvhe/../pgtable.c:1345:(.hyp.text+0x10554): undefined reference to `__kvm_nvhe_kvm_ncsnp_support'
+   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__kvm_nvhe_kvm_ncsnp_support' which may bind externally can not be used when making a shared object; recompile with -fPIC
+>> arch/arm64/kvm/hyp/nvhe/../pgtable.c:1345:(.hyp.text+0x10554): dangerous relocation: unsupported relocation
+>> aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/../pgtable.c:1345:(.hyp.text+0x1056c): undefined reference to `__kvm_nvhe_kvm_ncsnp_support'
 
 
-vim +/phys_mem_access_prot +128 drivers/char/aml-gpiomem.c
+vim +221 arch/arm64/include/asm/kvm_mmu.h
 
-   111	
-   112	static int aml_gpiomem_mmap(struct file *file, struct vm_area_struct *vma)
-   113	{
-   114		int gpio_area = 0;
-   115		unsigned long start = vma->vm_pgoff << PAGE_SHIFT;
-   116		unsigned long end   = start + vma->vm_end - vma->vm_start;
-   117	
-   118		while (gpio_area < inst->gpio_area_count) {
-   119			if ((inst->gpio_regs_phys[gpio_area].start >= start) &&
-   120			    (inst->gpio_regs_phys[gpio_area].end   <= end))
-   121				goto found;
-   122			gpio_area++;
-   123		}
-   124	
-   125		return -EACCES;
-   126	
-   127	found:
- > 128		vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
-   129				vma->vm_end - vma->vm_start,
-   130				vma->vm_page_prot);
-   131	
-   132		vma->vm_ops = &aml_gpiomem_vm_ops;
-   133	
-   134		if (remap_pfn_range(vma, vma->vm_start,
-   135					vma->vm_pgoff,
-   136					vma->vm_end - vma->vm_start,
-   137					vma->vm_page_prot)) {
-   138			return -EAGAIN;
-   139		}
-   140	
-   141		return 0;
-   142	}
-   143	
+   212	
+   213	static inline void __clean_dcache_guest_page(void *va, size_t size)
+   214	{
+   215		/*
+   216		 * With FWB, we ensure that the guest always accesses memory using
+   217		 * cacheable attributes, and we don't have to clean to PoC when
+   218		 * faulting in pages. Furthermore, FWB implies IDC, so cleaning to
+   219		 * PoU is not required either in this case.
+   220		 */
+ > 221		if (kvm_ncsnp_support || cpus_have_const_cap(ARM64_HAS_STAGE2_FWB))
+   222			return;
+   223	
+   224		kvm_flush_dcache_to_poc(va, size);
+   225	}
+   226	
 
 -- 
 0-DAY CI Kernel Test Service
