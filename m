@@ -1,126 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE45314A0BE;
-	Fri, 23 Feb 2024 23:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C80B138A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Feb 2024 00:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708732782; cv=none; b=CrwhdUFAXgAhQW1lZIhuLXJ5lXIxc9v66HAbbw3e0CY9K/0K1rZ/SjZ+M0o7B2L0bo4QPaCpXCsgyft/rB9gsJedj9w1j7V2X8TPEzQ4lChRZz1szopZHKGuW0WrMtk/6hzgZmJ4eGemWj4vsKkzjAGZOk2jCIuWGyZKbr67r0o=
+	t=1708735215; cv=none; b=cSW4/CKFglB388k7ozlY6IcKISvZjbvZlt+VTedTrS0GbEQc4wVf/S7ZMbClLr7HooxdnLDpp9pJqoXZwbwP7dr5K/Y1qfHRiqg/J9XDNUZ3Zsj4f6QG9sgYQVem4I+GaaM7mBHRneD+/9aAN/1NNuVOa6bQUjRDU4FNqVe8D3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708732782; c=relaxed/simple;
-	bh=gDLGlkCYyEhaoTRahYmodXdF6/7GxZ+QC48jKPzm/MA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uslKlWJOuNVc1+mlGfTd5+walvhfiWME0OqccnZ2vDsdJbEcrpWkUe6kEWOOG3JU6rBQWUL6YUPjia7pwjxyEvY76wGesx1KlVveqyah8EmHP7cf8OVXkYbhhDCpLj4UenGSsuRAwbfrL5MvuebKCacI+HN0vniEqSeZO+PGLag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJw5nADy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708735215; c=relaxed/simple;
+	bh=ueg4t119Ok3eN0Ip+8VGpy3LnOhYXviLGy0nexGnZrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XO0uG11nAXp4XiANp1q47o3II/ffE/frwxuPnYvhzl0LMGBSHQa7neC+3w0flWvLG4Xk6GC4h44L2A8cAOFBMdokbb/3K2FsLWHQEfrDzZWj+2sc2XQv3NzfhAj0aS83Q4mt7Zqyv1VitjFkeYABXw/e+JyMH0LJc6ByW5LqOEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rpq4/Z8Z; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJw5nADy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 157C9C433F1;
-	Fri, 23 Feb 2024 23:59:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708732781;
-	bh=gDLGlkCYyEhaoTRahYmodXdF6/7GxZ+QC48jKPzm/MA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DJw5nADyr/bGGQqITLGA6JMO3vnQJ+YbwH8oIivXs9oGQmxq5QNDSXCDWdhavIOL+
-	 QHkxvqAoBw3afRtDztjc+KnxqaalL7nv+uZV9EbC2fjaKP5a04UEEdRicSnqeqHYEl
-	 2GsFlH3kCuF4BcVs6HLWNhr2WjpspUx+0Ewru7FZ2o3GQTJzBxPlavmeucg5hKgdQx
-	 HjuHIHLXv955Lqbm98WWFuFpWeL7r/roKXgVs4C1zKE8xswQ7smtJw/rSBis+MdoFg
-	 8jo4+duXLqv+59WujIJSHVZJC+dI5IzE+bRMzf1MdjDF7eY6pnrcdZCb87gshFE8qo
-	 z2QjvfST7rmyQ==
-Date: Fri, 23 Feb 2024 15:59:39 -0800
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Sumanth Korikkar <sumanthk@linux.ibm.com>
-Cc: kernel test robot <lkp@intel.com>, s-vadapalli@ti.com,
-	r-gunasekaran@ti.com, rogerq@kernel.org,
-	oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org,
-	Heiko Carstens <hca@linux.ibm.com>, iii@linux.ibm.com,
-	agordeev@linux.ibm.com, davem@davemloft.net,
-	naresh.kamboju@linaro.org
-Subject: Re: [s390:features 97/98] Unsupported relocation type: 21
-Message-ID: <20240223235939.abycpq35ydgahdz2@treble>
-References: <202402221404.T2TGs8El-lkp@intel.com>
- <ZdhtYc9THmX4Ddse@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rpq4/Z8Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708735213; x=1740271213;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ueg4t119Ok3eN0Ip+8VGpy3LnOhYXviLGy0nexGnZrA=;
+  b=Rpq4/Z8ZVLjtv7JRUonJknTHUoCtKUpa47S7Ey6T3hmdPrYfLkqeCH7h
+   JnxWjOeC2kj8bobSIJghF3dIqAN0tKQHsEmukBuLYJIgKkUj67cP/74un
+   dOZmqn08zvhHvfqoIxCSx5ERBfzWjNQZ7/ms3XZmA8TqWV+ZpzESqOgrg
+   +/wDGDeuEOqe+097yRRPtUJBUX/ez+NYbWmZLuCrxV0k7lbn6kMRRqcKq
+   VWpj+3VeJ7E2nzlkJix6DlBe2fn1q1VwRa7ILxpQr3GElJ4SBWwoHloXv
+   mjyvsf9Cssq3NwMokokQmlNcqkSclgeoSc0Zym08+Lp+XLisJ+hqbyo6C
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="20523439"
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="20523439"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 16:40:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="10631495"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 23 Feb 2024 16:40:11 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rdg5J-00082j-0s;
+	Sat, 24 Feb 2024 00:40:09 +0000
+Date: Sat, 24 Feb 2024 08:38:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dongjin Kim <tobetter@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tobetter:odroid-5.15.y 43/204]
+ drivers/gpu/drm/drm_mipi_dbi.c:76:17: warning: 'mipi_dbi_dcs_read_commands'
+ defined but not used
+Message-ID: <202402240813.kvhe0W58-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ZdhtYc9THmX4Ddse@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 23, 2024 at 11:03:13AM +0100, Sumanth Korikkar wrote:
-> In the random config generated by lkp test robot
-> 
->  CONFIG_TI_CPSW=m
->  CONFIG_TI_DAVINCI_EMAC=y
-> 
-> In drivers/net/ethernet/ti/Makefile:
->  11 obj-$(CONFIG_TI_DAVINCI_EMAC) += ti_davinci_emac.o
->  12 ti_davinci_emac-y := davinci_emac.o davinci_cpdma.o
->  ...
->  16 obj-$(CONFIG_TI_CPSW) += ti_cpsw.o
->  17 ti_cpsw-y := cpsw.o davinci_cpdma.o cpsw_ale.o cpsw_priv.o cpsw_sl.o cpsw_ethtool.o
-> 
-> Here davinci_cpdma.o is used in both   obj-$(CONFIG_TI_DAVINCI_EMAC) and
-> obj-$(CONFIG_TI_CPSW), one built as inbuilt and one built as module
-> correspondingly (randconfig)
-> 
-> This leads to conflict in Kbuild and results in linking  davinci_cpdma.o
-> in vmlinux.
-> * However, davinci_cpdma.o is built with -DMODULE -fPIC.
-> * vmlinux is built with -fno-PIE.
-> 
-> This leads to R_390_GOTENT and R_390_GOTDBL entries in vmlinux, which is
-> not expected when building kernel with -fno-PIE.
+tree:   https://github.com/tobetter/linux odroid-5.15.y
+head:   200d2466033be9a082bfb81368de8a994e399a02
+commit: f159783fdfea289ae7f9b6b62b71bb24e89631c9 [43/204] ODROID-COMMON: gpu/drm: Add new Tiny DRM driver with Ili9488
+config: nios2-randconfig-001-20240224 (https://download.01.org/0day-ci/archive/20240224/202402240813.kvhe0W58-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402240813.kvhe0W58-lkp@intel.com/reproduce)
 
-Nice.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402240813.kvhe0W58-lkp@intel.com/
 
-I suppose the current s390 memory model wouldn't support removing
--fPIC for modules?
+All warnings (new ones prefixed by >>):
 
-Otherwise each driver could get its own copy of the object file:
+>> drivers/gpu/drm/drm_mipi_dbi.c:76:17: warning: 'mipi_dbi_dcs_read_commands' defined but not used [-Wunused-const-variable=]
+      76 | static const u8 mipi_dbi_dcs_read_commands[] = {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-diff --git a/drivers/net/ethernet/ti/Makefile b/drivers/net/ethernet/ti/Makefile
-index d8590304f3df..ef6591b6a4c9 100644
---- a/drivers/net/ethernet/ti/Makefile
-+++ b/drivers/net/ethernet/ti/Makefile
-@@ -9,14 +9,14 @@ obj-$(CONFIG_TI_CPSW_SWITCHDEV) += cpsw-common.o
- 
- obj-$(CONFIG_TLAN) += tlan.o
- obj-$(CONFIG_TI_DAVINCI_EMAC) += ti_davinci_emac.o
--ti_davinci_emac-y := davinci_emac.o davinci_cpdma.o
-+ti_davinci_emac-y := davinci_emac.o emac_cpdma.o
- obj-$(CONFIG_TI_DAVINCI_MDIO) += davinci_mdio.o
- obj-$(CONFIG_TI_CPSW_PHY_SEL) += cpsw-phy-sel.o
- obj-$(CONFIG_TI_CPTS) += cpts.o
- obj-$(CONFIG_TI_CPSW) += ti_cpsw.o
--ti_cpsw-y := cpsw.o davinci_cpdma.o cpsw_ale.o cpsw_priv.o cpsw_sl.o cpsw_ethtool.o
-+ti_cpsw-y := cpsw.o cpsw_cpdma.o cpsw_ale.o cpsw_priv.o cpsw_sl.o cpsw_ethtool.o
- obj-$(CONFIG_TI_CPSW_SWITCHDEV) += ti_cpsw_new.o
--ti_cpsw_new-y := cpsw_switchdev.o cpsw_new.o davinci_cpdma.o cpsw_ale.o cpsw_sl.o cpsw_priv.o cpsw_ethtool.o
-+ti_cpsw_new-y := cpsw_switchdev.o cpsw_new.o cpsw_new_cpdma.o cpsw_ale.o cpsw_sl.o cpsw_priv.o cpsw_ethtool.o
- 
- obj-$(CONFIG_TI_KEYSTONE_NETCP) += keystone_netcp.o
- keystone_netcp-y := netcp_core.o cpsw_ale.o
-diff --git a/drivers/net/ethernet/ti/cpsw_cpdma.c b/drivers/net/ethernet/ti/cpsw_cpdma.c
-new file mode 100644
-index 000000000000..017156225e7f
---- /dev/null
-+++ b/drivers/net/ethernet/ti/cpsw_cpdma.c
-@@ -0,0 +1 @@
-+#include "davinci_cpdma.c"
-diff --git a/drivers/net/ethernet/ti/cpsw_new_cpdma.c b/drivers/net/ethernet/ti/cpsw_new_cpdma.c
-new file mode 100644
-index 000000000000..017156225e7f
---- /dev/null
-+++ b/drivers/net/ethernet/ti/cpsw_new_cpdma.c
-@@ -0,0 +1 @@
-+#include "davinci_cpdma.c"
-diff --git a/drivers/net/ethernet/ti/emac_cpdma.c b/drivers/net/ethernet/ti/emac_cpdma.c
-new file mode 100644
-index 000000000000..017156225e7f
---- /dev/null
-+++ b/drivers/net/ethernet/ti/emac_cpdma.c
-@@ -0,0 +1 @@
-+#include "davinci_cpdma.c"
+
+vim +/mipi_dbi_dcs_read_commands +76 drivers/gpu/drm/drm_mipi_dbi.c
+
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  75  
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22 @76  static const u8 mipi_dbi_dcs_read_commands[] = {
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  77  	MIPI_DCS_GET_DISPLAY_ID,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  78  	MIPI_DCS_GET_RED_CHANNEL,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  79  	MIPI_DCS_GET_GREEN_CHANNEL,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  80  	MIPI_DCS_GET_BLUE_CHANNEL,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  81  	MIPI_DCS_GET_DISPLAY_STATUS,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  82  	MIPI_DCS_GET_POWER_MODE,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  83  	MIPI_DCS_GET_ADDRESS_MODE,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  84  	MIPI_DCS_GET_PIXEL_FORMAT,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  85  	MIPI_DCS_GET_DISPLAY_MODE,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  86  	MIPI_DCS_GET_SIGNAL_MODE,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  87  	MIPI_DCS_GET_DIAGNOSTIC_RESULT,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  88  	MIPI_DCS_READ_MEMORY_START,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  89  	MIPI_DCS_READ_MEMORY_CONTINUE,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  90  	MIPI_DCS_GET_SCANLINE,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  91  	MIPI_DCS_GET_DISPLAY_BRIGHTNESS,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  92  	MIPI_DCS_GET_CONTROL_DISPLAY,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  93  	MIPI_DCS_GET_POWER_SAVE,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  94  	MIPI_DCS_GET_CABC_MIN_BRIGHTNESS,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  95  	MIPI_DCS_READ_DDB_START,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  96  	MIPI_DCS_READ_DDB_CONTINUE,
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  97  	0, /* sentinel */
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  98  };
+02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Trønnes 2017-01-22  99  
+
+:::::: The code at line 76 was first introduced by commit
+:::::: 02dd95fe316936269a52d6ccb971bb956412b40a drm/tinydrm: Add MIPI DBI support
+
+:::::: TO: Noralf Trønnes <noralf@tronnes.org>
+:::::: CC: Noralf Trønnes <noralf@tronnes.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
