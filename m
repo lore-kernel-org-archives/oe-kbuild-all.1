@@ -1,55 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001922595
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Feb 2024 07:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4944F1118F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Feb 2024 07:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708758798; cv=none; b=FxxW7hZ4/N4ogerFxsuFScCpl33Dks17HHqIH8FEO6WqFsenQ+ouKyJBNU9nZAsWRtG9Tg64ev17nbXvlxv2w+ggaUawSWwxq42SkX2OJELWaLb0cSWBe4DLOR8EQwx9hfyWYmPGGqPkuoCZb+xAbDza2+zuack1NoTfRikuWXA=
+	t=1708760132; cv=none; b=ImFO3AvTrrT6q1wDVHj7NeumqmqBtpzDyWWCve/3aSw6T/WCw8xS5mmF/rSdn2vzby5Aw89I/B3l3BT7CeR0j9bgLeVbBQFDZFVjPbpLqInexA17IAWe8lslC51+bkx2YC2hGjZDCkAnkFEdAtMzuCa3nCgTd4RPxMOEfxC7N7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708758798; c=relaxed/simple;
-	bh=MrIqehvEcvubV63NuzjYODZDb89QtrP3tTfqjqKZ1so=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tmN/Lq0mhRzo+hbXEe8xSJYrCvP1UtjkxXStC0G+GA1c+QONPgIQ09ZdcjZUIyFhEbWOmzKMGW9tDOJjOpjsAes8LlnZHc8PQvl3j9vczm87P1k6rEfCGrdl1bgZeYGZVMGhkUlo2iXdoQ15KheyqaxEW6DJOdx849fWfcKx1u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBDceB4V; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1708760132; c=relaxed/simple;
+	bh=q2/5MqZPz2HDD14dYiI1H5yCstXYofd3cv/H8+6ocWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uOwnbgr5atUvuEMluTbcBBUWvgVoZvLpByOQ4iLPgUkCgNuZp1A9XNoXi4UMku7yJVQA+cHFlLcPwLX7QCH0qBcdfMk3YGU9LqSn8YsJjHskUj0b+tehS1Qdu9YyYXkMzHmAmejkCqQNiavegLyxLu4wlKtQQAu4X568vHO8Nx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HHxUgCVd; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBDceB4V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHxUgCVd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708758796; x=1740294796;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MrIqehvEcvubV63NuzjYODZDb89QtrP3tTfqjqKZ1so=;
-  b=RBDceB4VBgGrBbIWeX2zU/PHNsONjiVq2dZeA5skovGg5YFb3SeuAZwk
-   tzlRNppb3dZeSO6EnkV6pJav3WBBBWTI9YXKDSrtF3srl9zMUM0+Avdxy
-   FNaP7s8ycc3YokxMvSZ7XpOmHhQcWta20I+GO5Gdu8fgmEndevp5CJtoa
-   ZuWXcdWN/6jD63GtO+x4nvXoRV8EwoInY4iR7w5FKNkw13vz8fViG4z7/
-   EVaEEEnezzloHHhH9iSSnYKHTZ1ZXz0c78k/q14UJ1e1QUu7xBGKMOOgi
-   zsqHaHcywZk9uPNBsdM+D7eI+1v/UrbNHpLtdNT6ZsWBDxiFHBeR//cQ7
+  t=1708760129; x=1740296129;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=q2/5MqZPz2HDD14dYiI1H5yCstXYofd3cv/H8+6ocWU=;
+  b=HHxUgCVdIuIVKmdZap7AHR0BAoekH5voFIdpgd8p/1bQlM0KDS6q0RCu
+   6xDaAg4Q/E5G7S1uimLHJzs7zEYlxbNltbDZur7e9C6vM1AHErK9R+HvW
+   5AS796TtPEdcMFUANQyrWalpu7eH6rgj8GD86WUxV3noBn6vxnnqtliR9
+   nBKQW0dJNlK3QTBZpM5KElwShQ1WZG5V+avsr3jnH2Ur8ZvdrevNsrMyk
+   Yho1WQlAEysSx2YdIl+/xF8XJ6YpXL+dDiVaI9X/oNqo0SKr1tgWX8eBP
+   8cTa2AF5l400U1cxRTtjPvpwzqkO2JbCTSCy4rPPRdJwfUbILv/0aRsvs
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6882385"
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6045026"
 X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="6882385"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 23:13:15 -0800
+   d="scan'208";a="6045026"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 23:35:28 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="6064473"
+   d="scan'208";a="6143052"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Feb 2024 23:13:14 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 23 Feb 2024 23:35:25 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdmDg-0008K4-00;
-	Sat, 24 Feb 2024 07:13:12 +0000
-Date: Sat, 24 Feb 2024 15:12:14 +0800
+	id 1rdmZ4-0008L2-2j;
+	Sat, 24 Feb 2024 07:35:20 +0000
+Date: Sat, 24 Feb 2024 15:34:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, lishusen <lishusen2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3159/3388]
- arch/arm64/include/asm/kvm_mmu.h:221:undefined reference to
- `__kvm_nvhe_kvm_ncsnp_support'
-Message-ID: <202402241512.XOiHdLOg-lkp@intel.com>
+To: marius.cristea@microchip.com, jic23@kernel.org, lars@metafoo.de,
+	robh+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
+	linux-hwmon@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	marius.cristea@microchip.com
+Subject: Re: [PATCH v5 1/2] dt-bindings: iio: adc: adding support for PAC193X
+Message-ID: <202402241545.xf7CnlPz-lkp@intel.com>
+References: <20240222164206.65700-2-marius.cristea@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,50 +63,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240222164206.65700-2-marius.cristea@microchip.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   0e6ac87df9e5122747ac5d9e7da9a45555f16374
-commit: 625086f87673687dc420e79c9fedff0c2d65cb49 [3159/3388] KVM: arm64: Add support for probing Hisi ncsnp capability
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240224/202402241512.XOiHdLOg-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402241512.XOiHdLOg-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b1a1eaf6183697b77f7243780a25f35c7c0c8bdf]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/marius-cristea-microchip-com/dt-bindings-iio-adc-adding-support-for-PAC193X/20240223-004332
+base:   b1a1eaf6183697b77f7243780a25f35c7c0c8bdf
+patch link:    https://lore.kernel.org/r/20240222164206.65700-2-marius.cristea%40microchip.com
+patch subject: [PATCH v5 1/2] dt-bindings: iio: adc: adding support for PAC193X
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240224/202402241545.xf7CnlPz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402241512.XOiHdLOg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402241545.xf7CnlPz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/iio/adc/microchip,pac1934.yaml:51:9: [warning] wrong indentation: expected 6 but found 8 (indentation)
 
-   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: in function `__clean_dcache_guest_page':
->> arch/arm64/include/asm/kvm_mmu.h:221:(.hyp.text+0x6898): undefined reference to `__kvm_nvhe_kvm_ncsnp_support'
-   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__kvm_nvhe_kvm_ncsnp_support' which may bind externally can not be used when making a shared object; recompile with -fPIC
->> arch/arm64/include/asm/kvm_mmu.h:221:(.hyp.text+0x6898): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: arch/arm64/include/asm/kvm_mmu.h:221:(.hyp.text+0x689c): undefined reference to `__kvm_nvhe_kvm_ncsnp_support'
-   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: in function `kvm_pgtable_stage2_flush':
->> arch/arm64/kvm/hyp/nvhe/../pgtable.c:1345:(.hyp.text+0x10554): undefined reference to `__kvm_nvhe_kvm_ncsnp_support'
-   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `__kvm_nvhe_kvm_ncsnp_support' which may bind externally can not be used when making a shared object; recompile with -fPIC
->> arch/arm64/kvm/hyp/nvhe/../pgtable.c:1345:(.hyp.text+0x10554): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/../pgtable.c:1345:(.hyp.text+0x1056c): undefined reference to `__kvm_nvhe_kvm_ncsnp_support'
+vim +51 Documentation/devicetree/bindings/iio/adc/microchip,pac1934.yaml
 
-
-vim +221 arch/arm64/include/asm/kvm_mmu.h
-
-   212	
-   213	static inline void __clean_dcache_guest_page(void *va, size_t size)
-   214	{
-   215		/*
-   216		 * With FWB, we ensure that the guest always accesses memory using
-   217		 * cacheable attributes, and we don't have to clean to PoC when
-   218		 * faulting in pages. Furthermore, FWB implies IDC, so cleaning to
-   219		 * PoU is not required either in this case.
-   220		 */
- > 221		if (kvm_ncsnp_support || cpus_have_const_cap(ARM64_HAS_STAGE2_FWB))
-   222			return;
-   223	
-   224		kvm_flush_dcache_to_poc(va, size);
-   225	}
-   226	
+     8	
+     9	maintainers:
+    10	  - Marius Cristea <marius.cristea@microchip.com>
+    11	
+    12	description: |
+    13	  This device is part of the Microchip family of Power Monitors with
+    14	  Accumulator.
+    15	  The datasheet for PAC1931, PAC1932, PAC1933 and PAC1934 can be found here:
+    16	    https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/PAC1931-Family-Data-Sheet-DS20005850E.pdf
+    17	
+    18	properties:
+    19	  compatible:
+    20	    enum:
+    21	      - microchip,pac1931
+    22	      - microchip,pac1932
+    23	      - microchip,pac1933
+    24	      - microchip,pac1934
+    25	
+    26	  reg:
+    27	    maxItems: 1
+    28	
+    29	  "#address-cells":
+    30	    const: 1
+    31	
+    32	  "#size-cells":
+    33	    const: 0
+    34	
+    35	  interrupts:
+    36	    maxItems: 1
+    37	
+    38	  slow-io-gpios:
+    39	    description:
+    40	      A GPIO used to trigger a change is sampling rate (lowering the chip power
+    41	      consumption). If configured in SLOW mode, if this pin is forced high,
+    42	      sampling rate is forced to eight samples/second. When it is forced low,
+    43	      the sampling rate is 1024 samples/second unless a different sample rate
+    44	      has been programmed.
+    45	
+    46	patternProperties:
+    47	  "^channel@[1-4]+$":
+    48	    type: object
+    49	    $ref: adc.yaml
+    50	    description:
+  > 51	        Represents the external channels which are connected to the ADC.
+    52	
+    53	    properties:
+    54	      reg:
+    55	        items:
+    56	          minimum: 1
+    57	          maximum: 4
+    58	
+    59	      shunt-resistor-micro-ohms:
+    60	        description:
+    61	          Value in micro Ohms of the shunt resistor connected between
+    62	          the SENSE+ and SENSE- inputs, across which the current is measured.
+    63	          Value is needed to compute the scaling of the measured current.
+    64	
+    65	    required:
+    66	      - reg
+    67	      - shunt-resistor-micro-ohms
+    68	
+    69	    unevaluatedProperties: false
+    70	
+    71	required:
+    72	  - compatible
+    73	  - reg
+    74	  - "#address-cells"
+    75	  - "#size-cells"
+    76	
 
 -- 
 0-DAY CI Kernel Test Service
