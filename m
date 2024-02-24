@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE40A17580
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Feb 2024 06:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C636C14B815;
+	Sat, 24 Feb 2024 07:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708755039; cv=none; b=urftcUgce3FBsWgRmPeOb2MH42thYXa3aEQpitWzFXK9M7doxe6gxRrkYGE//QCQTTAyLgZCWgdeQTUSQsbQ8B6rvAWegIFWwRLHgbqBLT3/wc7t86E00Y3n6CtKTCAEpliZvJp98YmojVRbISLYDhnOkNPSZsXfWA+NWWzXeCQ=
+	t=1708758175; cv=none; b=W9HAANw2j7P0rpSUXoiK7790pYj40bp4XFloacA8Bpi1HNX/+D4+zi92rGK3T0DvwGsWMy2nKzCrKr0V8lqN4EJ2dcPstVi4a27tk6p762aY8BvAMvFbKJ01lwnjA8GqTQBfYI5I+p7KV09Q8zUjs/VFL3GsX8Wecn0nMTsBqVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708755039; c=relaxed/simple;
-	bh=56HbaGKzBxQd/Q0wv5H0kGQuuGlQgnPdYfoQiNESNZc=;
+	s=arc-20240116; t=1708758175; c=relaxed/simple;
+	bh=ewgWoyyrlZc65Eh9H3Uaui+6uhed6up8fez9ZJbXe74=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SnhqAJu25vubyfXhLWjpWQ47zNAkf8IP/G4F8deSozE1Jzk9UvqCfjB6HCGhdfiLjXnUGdgsC1GrlFNggq5MRgCVMvJvy4oEGZxzNmisIP/gvAyNzKrNAd8Kezp7RZrADEUkto6ddO3CakES8gsrW47bRlO+CwEa4poMF525q4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m18uTfGw; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=gRKu35xpjPEyGIGwMsJh9jcLpdReraB/9kwCWeOK8P+J3kqU4jdaBc09UmvwtJXICIL47gGuPt/2L1DphDgqX5i1w/zuDcxdLhxR8LSLZBwLSuAqCANPc2alXZez8oM8q/+nftMGXQS4Lib0ceUeBrinpFbvpiBBjpvQc+pQspw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fr6cKfJJ; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m18uTfGw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fr6cKfJJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708755037; x=1740291037;
+  t=1708758173; x=1740294173;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=56HbaGKzBxQd/Q0wv5H0kGQuuGlQgnPdYfoQiNESNZc=;
-  b=m18uTfGwOg29ufcVi9/qkG+t2qNyrxtolYy4FckJQNIPG/BnnKMPbajY
-   yruLBFIlRYG/f+37buxxHcOxI4eK5nAXFMdCDSslpHutRMIRmLVjoWv8J
-   6/gRGhQkb7XK8nWjDmqhgSNfAFpkBmEllQkBWaPJSV0Z4j4Phmy5cjA0e
-   BRrlexT8t6SxPEFS2kWyoYYaXJDxEDzKD+MprOBfT9Ptn3xXrAu1OrjpP
-   NoPBYa8YzibR7NydzXc9IjaoIwKGhbkBmkIORAPHlZ7Jp1K45PtIZN+7D
-   OonCVMMER5Wl1EHhOEJfbIM14+u2vldHZA0qY0ECOi7IOgA/wqzl6kaE2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="2941530"
+  bh=ewgWoyyrlZc65Eh9H3Uaui+6uhed6up8fez9ZJbXe74=;
+  b=Fr6cKfJJ0mQqv+6j7T2Oy64kHl5/uG0CcwBuC2obVYM3ejMtjjLGSmZE
+   DagUnGjQZogu+fn7fWfP2J9CIul0cgYv6qr+rHZ8mvzJ2eevxJW530HU4
+   7S2aHl6FdwcwGULfUqWJAGOI9vdRsNNlpCmfYMmA7nVkwRubV5G3aeGnD
+   iILua7CCtwV9OGxIN7rBL7XUorRiM2h9S4HiPnJGadyUKWOpT3MIFF/xc
+   Xmpsat8cLS6RccjXuBryqBoRh/GsOyIml21qv4ItCb23afWmGZ/YolLEb
+   MAffmhgQ9CqKi+ggVFjGQ48pGi+xpZgtVHsHrISODZKuB4QQ6WL2ZFJD3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6043858"
 X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="2941530"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 22:10:36 -0800
+   d="scan'208";a="6043858"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 23:02:52 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="6132139"
+   d="scan'208";a="6364952"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Feb 2024 22:10:35 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 23 Feb 2024 23:02:51 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rdlF2-0008Hk-2X;
-	Sat, 24 Feb 2024 06:10:32 +0000
-Date: Sat, 24 Feb 2024 14:09:57 +0800
+	id 1rdm3c-0008Jc-1y;
+	Sat, 24 Feb 2024 07:02:48 +0000
+Date: Sat, 24 Feb 2024 15:01:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, zgzxx <zhangguangzhi3@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3267/3388]
- security/integrity/ima/ima_appraise.c:188:16: warning: no previous prototype
- for 'ima_get_hash_algo'
-Message-ID: <202402241446.c26kZvcP-lkp@intel.com>
+To: "steve.jeong" <jkhpro1003@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-5.15.y 137/204] drivers/char/aml-gpiomem.c:128:22:
+ error: implicit declaration of function 'phys_mem_access_prot'
+Message-ID: <202402241457.7xJjia9V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,80 +59,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   0e6ac87df9e5122747ac5d9e7da9a45555f16374
-commit: b3fef06570ef2b61dd7181e5c1d128bfcbf6b2ef [3267/3388] ima: Add parser of compact digest list
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240224/202402241446.c26kZvcP-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402241446.c26kZvcP-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-5.15.y
+head:   200d2466033be9a082bfb81368de8a994e399a02
+commit: 0a01b3c15e7c03cfbd687185d96a66d0cca87069 [137/204] ODROID-N2/C4: char: Add /dev/gpiomem device for rootless user GPIO access.
+config: hexagon-randconfig-001-20240224 (https://download.01.org/0day-ci/archive/20240224/202402241457.7xJjia9V-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402241457.7xJjia9V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402241446.c26kZvcP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402241457.7xJjia9V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> security/integrity/ima/ima_appraise.c:188:16: warning: no previous prototype for 'ima_get_hash_algo' [-Wmissing-prototypes]
-     188 | enum hash_algo ima_get_hash_algo(const struct evm_ima_xattr_data *xattr_value,
-         |                ^~~~~~~~~~~~~~~~~
+>> drivers/char/aml-gpiomem.c:128:22: error: implicit declaration of function 'phys_mem_access_prot' [-Werror,-Wimplicit-function-declaration]
+           vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
+                               ^
+   drivers/char/aml-gpiomem.c:128:20: error: assigning to 'pgprot_t' from incompatible type 'int'
+           vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
+                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +/ima_get_hash_algo +188 security/integrity/ima/ima_appraise.c
+vim +/phys_mem_access_prot +128 drivers/char/aml-gpiomem.c
 
-d79d72e02485c0 Mimi Zohar            2012-12-03  187  
-50f742dd91474e THOBY Simon           2021-08-16 @188  enum hash_algo ima_get_hash_algo(const struct evm_ima_xattr_data *xattr_value,
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  189  				 int xattr_len)
-d3634d0f426bde Dmitry Kasatkin       2013-04-25  190  {
-d3634d0f426bde Dmitry Kasatkin       2013-04-25  191  	struct signature_v2_hdr *sig;
-b4bfec7f4a8642 Seth Forshee          2016-08-01  192  	enum hash_algo ret;
-d3634d0f426bde Dmitry Kasatkin       2013-04-25  193  
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  194  	if (!xattr_value || xattr_len < 2)
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  195  		/* return default hash algo */
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  196  		return ima_hash_algo;
-d3634d0f426bde Dmitry Kasatkin       2013-04-25  197  
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  198  	switch (xattr_value->type) {
-398c42e2c46c88 Mimi Zohar            2021-11-24  199  	case IMA_VERITY_DIGSIG:
-398c42e2c46c88 Mimi Zohar            2021-11-24  200  		sig = (typeof(sig))xattr_value;
-398c42e2c46c88 Mimi Zohar            2021-11-24  201  		if (sig->version != 3 || xattr_len <= sizeof(*sig) ||
-398c42e2c46c88 Mimi Zohar            2021-11-24  202  		    sig->hash_algo >= HASH_ALGO__LAST)
-398c42e2c46c88 Mimi Zohar            2021-11-24  203  			return ima_hash_algo;
-398c42e2c46c88 Mimi Zohar            2021-11-24  204  		return sig->hash_algo;
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  205  	case EVM_IMA_XATTR_DIGSIG:
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  206  		sig = (typeof(sig))xattr_value;
-cb181da161963e THOBY Simon           2021-08-22  207  		if (sig->version != 2 || xattr_len <= sizeof(*sig)
-cb181da161963e THOBY Simon           2021-08-22  208  		    || sig->hash_algo >= HASH_ALGO__LAST)
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  209  			return ima_hash_algo;
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  210  		return sig->hash_algo;
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  211  	case IMA_XATTR_DIGEST_NG:
-650b29dbdf2caf Thiago Jung Bauermann 2019-06-11  212  		/* first byte contains algorithm id */
-650b29dbdf2caf Thiago Jung Bauermann 2019-06-11  213  		ret = xattr_value->data[0];
-b4bfec7f4a8642 Seth Forshee          2016-08-01  214  		if (ret < HASH_ALGO__LAST)
-b4bfec7f4a8642 Seth Forshee          2016-08-01  215  			return ret;
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  216  		break;
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  217  	case IMA_XATTR_DIGEST:
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  218  		/* this is for backward compatibility */
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  219  		if (xattr_len == 21) {
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  220  			unsigned int zero = 0;
-650b29dbdf2caf Thiago Jung Bauermann 2019-06-11  221  			if (!memcmp(&xattr_value->data[16], &zero, 4))
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  222  				return HASH_ALGO_MD5;
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  223  			else
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  224  				return HASH_ALGO_SHA1;
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  225  		} else if (xattr_len == 17)
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  226  			return HASH_ALGO_MD5;
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  227  		break;
-3ea7a56067e663 Dmitry Kasatkin       2013-08-12  228  	}
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  229  
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  230  	/* return default hash algo */
-1525b06d99b117 Dmitry Kasatkin       2014-10-30  231  	return ima_hash_algo;
-d3634d0f426bde Dmitry Kasatkin       2013-04-25  232  }
-d3634d0f426bde Dmitry Kasatkin       2013-04-25  233  
-
-:::::: The code at line 188 was first introduced by commit
-:::::: 50f742dd91474e7f4954bf88d094eede59783883 IMA: block writes of the security.ima xattr with unsupported algorithms
-
-:::::: TO: THOBY Simon <Simon.THOBY@viveris.fr>
-:::::: CC: Mimi Zohar <zohar@linux.ibm.com>
+   111	
+   112	static int aml_gpiomem_mmap(struct file *file, struct vm_area_struct *vma)
+   113	{
+   114		int gpio_area = 0;
+   115		unsigned long start = vma->vm_pgoff << PAGE_SHIFT;
+   116		unsigned long end   = start + vma->vm_end - vma->vm_start;
+   117	
+   118		while (gpio_area < inst->gpio_area_count) {
+   119			if ((inst->gpio_regs_phys[gpio_area].start >= start) &&
+   120			    (inst->gpio_regs_phys[gpio_area].end   <= end))
+   121				goto found;
+   122			gpio_area++;
+   123		}
+   124	
+   125		return -EACCES;
+   126	
+   127	found:
+ > 128		vma->vm_page_prot = phys_mem_access_prot(file, vma->vm_pgoff,
+   129				vma->vm_end - vma->vm_start,
+   130				vma->vm_page_prot);
+   131	
+   132		vma->vm_ops = &aml_gpiomem_vm_ops;
+   133	
+   134		if (remap_pfn_range(vma, vma->vm_start,
+   135					vma->vm_pgoff,
+   136					vma->vm_end - vma->vm_start,
+   137					vma->vm_page_prot)) {
+   138			return -EAGAIN;
+   139		}
+   140	
+   141		return 0;
+   142	}
+   143	
 
 -- 
 0-DAY CI Kernel Test Service
