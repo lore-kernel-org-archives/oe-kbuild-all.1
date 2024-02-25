@@ -1,193 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DDBEED9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 10:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631CAFC12;
+	Sun, 25 Feb 2024 11:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708857809; cv=none; b=ITBtPX7GuEINFzJBXdF9yLba1eljAy1cU5//+IBR8BKHlXAh/yICLrO5VPt47TgQjXhqp1GCQSevBbSecnuMET7IIOjbFVqv3raK/F88qcCVWiY51vEeq0BnDnyyvF/+R6RR+NfB6n1BGm5bOSOEZHxAKhjFjJTJM13wcK8wU/k=
+	t=1708858819; cv=none; b=auZOe1b6zh1fHAoexKp/XSVrIzBABfi+RzWekndQHIZsAF3B/4O5FDlWkv6jvxr7ukkm34YDTZzZDeQMhgFTDNn9GWYyXnrj9s2/DCvlSPGfSIsaTsTlBOBnzUSoF4kM81OmWNdu+EI6w8jQJvTB4dKp88haB4kH87LKDCs7108=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708857809; c=relaxed/simple;
-	bh=1owJuxW0vuygxdo56NpD8/mOSORdt+aM9yKt6nlv8MQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BBSG/S8gtms8QSsYfDas6wp1NMdDGd+izyfs/ZlnOrJfS321iJL9jCPtR+2z8mivuiE/qY6MJiaoF4oKScEtMPAs1O9OARjypLG4zkzxDyodeo4UMxNaG39sQFp7zXIFvnrFVyeHta5KwEKd+WfApQWPALXgHf+q4Psq+pwKot0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXJO/AxN; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708858819; c=relaxed/simple;
+	bh=TPnI/WXNcCMmfeVmKUsm0OY7YgLbHSON3ORAZy8zLpM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bOdXGdDRJAfGxsHXbXuN2jNSWqOfw4iPGjchHDHM3VkgPNfPGRJXG1ECBpj3dofCsCI9E4NuF+kKYdYEYk8Ye8CTuU5GZnJXndlkYUOQx9aSF3ANbWBvEgEL9ln/LEFxcx4DmrJmdlOTbmZUUne4fXgAgSgJrXe+Sr4MBckHCf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=uvRtF3ux; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eCRyDIMn; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXJO/AxN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708857807; x=1740393807;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1owJuxW0vuygxdo56NpD8/mOSORdt+aM9yKt6nlv8MQ=;
-  b=MXJO/AxNaHt9EabYRkuEbslgY1sZ3YdgWlz/ijF56fG3UnvzWEDFmTiS
-   imgQ1HQTkI/6u/OBCGvfV7q9awhQkmCiLqxu4ielQdmdNGxCT0K+qlCpJ
-   8ub7aGYHJf7ubaPhCyZdsDbrm0utd1B833kop+E6DEeTn7pnfZwybp1u4
-   63g/B/hQHXIJ9lAn4A3nTMF7RvW334u2yvGwcIWTF6a2O0wcPqmWjex4E
-   UVYn6sOjWes6DUhm4DjlAiLzUAGl+cGGUgoL7f5XE3d4ghWn5mrlSMG1K
-   qyHt6S6mIpGDK2ecnCl4xB27rg+oYozVt2Hosr889nHX2RBL+lp4b98wQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="14581026"
-X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="14581026"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 02:43:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="6288433"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 25 Feb 2024 02:43:25 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1reBy5-0009TI-1T;
-	Sun, 25 Feb 2024 10:42:59 +0000
-Date: Sun, 25 Feb 2024 18:42:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: ckkim <changkon12@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-5.15.y 108/204] drivers/media/i2c/lt8619c.c:233:42:
- warning: the comparison will always evaluate as 'false' for the pointer
- operand in 'pbuf + 127' must not be NULL
-Message-ID: <202402251842.i7PrDZvu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uvRtF3ux";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eCRyDIMn"
+From: Kurt Kanzenbach <kurt@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1708858816;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v/LyU8Ry/UGsRwRJP9YwVxnQ0z7yS85JFQaGyTFGP5k=;
+	b=uvRtF3uxTxZMc5ILzUBLwDI6DXoMDLB/ALL6Wkce2o+ysEJflb2SatMwpV085sm4dkxnbe
+	wHPJZmM12mBbY0nkSFJ3k+h7ETXwZ3aABEqlGeOvZyaBPldO9lxGRc0VjA7USqeaWQds+c
+	7OTDML88iQ6of+YmiErHdCKFX4O9OPfksYVymRyL1zPx2ues19smO8Gv2FcBkfEgSRruGt
+	YrYaW1nhQIR5fimySDAUsVJfFm8eBpIpJUAI0X4vSF6ryjmae68r+ullKKd8Lb62FVnGAl
+	Tj0OVwltK2t2G8h8/ioWGeq1p+GVpGxh+IqUZ6NwHuNEaq2ihvhgEcHwRmJCfQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1708858816;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v/LyU8Ry/UGsRwRJP9YwVxnQ0z7yS85JFQaGyTFGP5k=;
+	b=eCRyDIMnzLnsvvYZYqG6eVSNkiP2BIHdUqr5meGHabRcPwSMoAmKPg7dEOxceflEMiOmrK
+	ihu3/La28C2TV0Aw==
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Linux Memory
+ Management List <linux-mm@kvack.org>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew@lunn.ch>, Tony Nguyen <anthony.l.nguyen@intel.com>
+Subject: Re: [linux-next:master 6213/9575] igc_leds.c:undefined reference to
+ `devm_led_classdev_register_ext'
+In-Reply-To: <202402241123.p7RgyuiU-lkp@intel.com>
+References: <202402241123.p7RgyuiU-lkp@intel.com>
+Date: Sun, 25 Feb 2024 12:00:14 +0100
+Message-ID: <87sf1g7qrl.fsf@kurt.kurt.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
-tree:   https://github.com/tobetter/linux odroid-5.15.y
-head:   200d2466033be9a082bfb81368de8a994e399a02
-commit: 17501341aae8821abf97050abc9620fb7769581f [108/204] ODROID-COMMON: Add LT8619C HDMI/Dual-mode DP receiver
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240225/202402251842.i7PrDZvu-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402251842.i7PrDZvu-lkp@intel.com/reproduce)
+--=-=-=
+Content-Type: text/plain
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402251842.i7PrDZvu-lkp@intel.com/
+Hello,
 
-All warnings (new ones prefixed by >>):
+On Sat Feb 24 2024, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   33e1d31873f87d119e5120b88cd350efa68ef276
+> commit: ea578703b03d5d651b091c39f717dc829155b520 [6213/9575] igc: Add support for LEDs on i225/i226
+> config: um-randconfig-001-20240223 (https://download.01.org/0day-ci/archive/20240224/202402241123.p7RgyuiU-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240224/202402241123.p7RgyuiU-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202402241123.p7RgyuiU-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    /usr/bin/ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+>    /usr/bin/ld: drivers/net/ethernet/intel/igc/igc_leds.o: in function `igc_led_setup':
+>>> igc_leds.c:(.text+0x173): undefined reference to `devm_led_classdev_register_ext'
+>    clang-16: error: linker command failed with exit code 1 (use -v to see invocation)
 
-   drivers/media/i2c/lt8619c.c: In function 'lt8619c_edid_checksum':
->> drivers/media/i2c/lt8619c.c:233:42: warning: the comparison will always evaluate as 'false' for the pointer operand in 'pbuf + 127' must not be NULL [-Waddress]
-     233 |         if (pbuf == NULL || (pbuf + 127) == NULL)
-         |                                          ^~
-   drivers/media/i2c/lt8619c.c: At top level:
->> drivers/media/i2c/lt8619c.c:308:6: warning: no previous prototype for 'lt8619c_audio_init' [-Wmissing-prototypes]
-     308 | void lt8619c_audio_init(uint8_t audio_input)
-         |      ^~~~~~~~~~~~~~~~~~
+This is fixed by:
 
+ https://lore.kernel.org/netdev/20240222100324.453272-1-arnd@kernel.org/
 
-vim +233 drivers/media/i2c/lt8619c.c
+Thanks,
+Kurt
 
-   226	
-   227	static uint8_t lt8619c_edid_checksum(uint8_t block, uint8_t *buf)
-   228	{
-   229		uint8_t i = 0;
-   230		uint8_t checksum = 0;
-   231		uint8_t *pbuf = buf + 128 * block;
-   232	
- > 233		if (pbuf == NULL || (pbuf + 127) == NULL)
-   234			return 0;
-   235	
-   236		for (i = 0, checksum = 0; i < 127 ; i++) {
-   237			checksum += pbuf[i];
-   238			checksum %= 256;
-   239		}
-   240		checksum = 256 - checksum;
-   241	
-   242		dev_info(lt8619c->dev, "EDID checksum 0x%x\n", checksum);
-   243	
-   244		return checksum;
-   245	}
-   246	
-   247	static void lt8619c_set_edid(uint8_t *edid_buf)
-   248	{
-   249		int ret = 0;
-   250	
-   251		lt8619c_reg_write(0xff, 0x80);
-   252		lt8619c_reg_write(0x8e, 0x07);
-   253		lt8619c_reg_write(0x8f, 0x00);
-   254	
-   255		if (edid_buf == NULL)
-   256			ret = lt8619c_reg_write_bytes(0x90, &onchip_edid[0], 256);
-   257		else
-   258			ret = lt8619c_reg_write_bytes(0x90, edid_buf, 256);
-   259	
-   260		if (ret)
-   261			dev_info(lt8619c->dev, "EDID Set write error\n");
-   262	
-   263		lt8619c_reg_write(0x8e, 0x02);
-   264	}
-   265	
-   266	static void lt8619c_rx_init(void)
-   267	{
-   268		lt8619c_reg_write(0xff, 0x80);
-   269		/* RGD_CLK_STABLE_OPT[1:0] */
-   270		lt8619c_reg_write(0x2c, (lt8619c_reg_read(0x2C)|0x30));
-   271	
-   272		lt8619c_reg_write(0xff, 0x60);
-   273		lt8619c_reg_write(0x04, 0xF2);
-   274		lt8619c_reg_write(0x83, 0x3F);
-   275		lt8619c_reg_write(0x80, 0x08); /* use xtal_clk as sys_clk */
-   276	#ifdef DDR_CLK
-   277		lt8619c_reg_write(0xa4, 0x14); /* 0x10:SDR clk,0x14: DDR clk */
-   278	#else
-   279		lt8619c_reg_write(0xa4, 0x10); /* 0x10:SDR clk,0x14: DDR clk */
-   280	#endif
-   281		dev_dbg(lt8619c->dev, "LT8619C output mode : %d\n", LT8619C_OUTPUTMODE);
-   282	
-   283		dev_info(lt8619c->dev, "\nLT8619C set to OUTPUT_RGB888");
-   284		lt8619c_reg_write(0xff, 0x60);
-   285		lt8619c_reg_write(0x07, 0xff);
-   286		lt8619c_reg_write(0xa8, 0x0f);
-   287		lt8619c_reg_write(0x60, 0x00);
-   288		lt8619c_reg_write(0x96, 0x71);
-   289		lt8619c_reg_write(0xa0, 0x50);
-   290		// 0x60A3=0x44:Phase adjust enable;0x60A3=0x30:PIN68
-   291		// switch to output PCLK(only use for U5);
-   292		lt8619c_reg_write(0xa3, 0x74);
-   293		//Phase code value: 0x20,0x28,0x21,0x29,0x22,0x2a,0x23,0x2b,0x24,0x2c
-   294		lt8619c_reg_write(0xa2, 0x29);
-   295		//RGB mapping control
-   296		lt8619c_reg_write(0x6d, 0x00);//0x07//00
-   297		//RGB high/low bit swap control
-   298		lt8619c_reg_write(0x6e, 0x00);
-   299		/* LT8619C_OUTPUTMODE == OUTPUT_RGB888 */
-   300	
-   301		lt8619c_reg_write(0xff, 0x60);
-   302		lt8619c_reg_write(0x0e, 0xfd);
-   303		lt8619c_reg_write(0x0e, 0xff);
-   304		lt8619c_reg_write(0x0d, 0xfc);
-   305		lt8619c_reg_write(0x0d, 0xff);
-   306	}
-   307	
- > 308	void lt8619c_audio_init(uint8_t audio_input)
-   309	{
-   310		if (audio_input == I2S_2CH) {
-   311			dev_dbg(lt8619c->dev, "Audio Init : Audio set to I2S_2CH\n");
-   312			lt8619c_reg_write(0xff, 0x60);
-   313			lt8619c_reg_write(0x4c, 0x00);
-   314		} else if (audio_input == SPDIF) {
-   315			dev_dbg(lt8619c->dev, "Audio Init : Audio set to SPDIF\n");
-   316			lt8619c_reg_write(0xff, 0x60);
-   317			lt8619c_reg_write(0x4c, 0x80);
-   318		} else {
-   319			dev_dbg(lt8619c->dev, "Audio Init : Error! Check Audio Mode\n");
-   320		}
-   321	
-   322		lt8619c_reg_write(0xff, 0x80);
-   323		lt8619c_reg_write(0x5d, 0xc9);
-   324		lt8619c_reg_write(0x07, 0x16);
-   325		lt8619c_reg_write(0x08, 0x80);
-   326	}
-   327	
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
+
+iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmXbHb4THGt1cnRAbGlu
+dXRyb25peC5kZQAKCRDBk9HyqkZzghtQD/40fpCaCWYnxm6uD2U2aoh43TdDt4En
+B3vw0O7z1nciJP89Vom1lt9YfMNZ34OBrgr5VWbO8s9aL8MBFluJG2yx3RaT6JhW
+cxXHqXPFZ0anCdf4nx3KhlyJF/kGY3G2Wxf7dLWgKfPPjpAtW/8yFW9ijZ0DK7R2
+cVw43HUMO4/sIB1FlEanGMwj+oZQupAo9NXhdyw4ajXUj8YUmL8mObvaMfF3FGkd
+yep07Bjod0pXIFgZ1lvV9FgJK9rkwj09MA73yrWPYSWiCYQ5w7KzSY6DDntD3gWm
+5IXdEqF+T4peB7CMVREBS92p+TdxZ1iEaHOlsCJoyPHq9RmuHLxr75FA9q76Nwd7
+xVhuwl5HkcQSFLDmuESZqcVVE12NbMRa00M3r2aQXFVNxq3rVfgmLhf0KMk0yavG
+T2wfiXrd1OC0kVgO5/hIy0NTxH+MCDgG6SOK78qBaPiQnpyy7Qd4DedVu0X/Q49t
+UAONIrEWjkFTgJ/AZNQfrRAqHB4oAufjwpvKc2sV+Xxb1wh5fx6ksHtg1D6HRn3r
+5ZLnmwL+6HzpVa2YfMgO2u7gEZYv2/DSQNZ3fU+hqvzNOviRBfwX4EdDmRT0K/Vy
+7ALUDrUEr1uIyz010jnEsoPEbdQx5iHkJNv/VPYqkwy2w2MP/i2UhtqoHJTliPoy
+0hh7uQxWakchAw==
+=BSeT
+-----END PGP SIGNATURE-----
+--=-=-=--
