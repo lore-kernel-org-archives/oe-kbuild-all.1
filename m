@@ -1,57 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4827F101F2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 12:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB61A469E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 13:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708864053; cv=none; b=f78Pl4xUa2erel2rjcCg0szh41/Xo8olPGF953+SUS3LYtgAp+B8zHoGCbRuRTgeqHDD+YfyZm0X0j3waoW7CGpYs3Yc5TNrCaCMLqd3EHVmrB/0vNaLKWzzM8GSemuotajUrUmkr3W2AiLccZfT78omZVCzEHMLsk+V72KtIoM=
+	t=1708867178; cv=none; b=mvg9PLuQ0Inzh5K2Bvcdy88DhJezPz8e9jczDh1tKTG63a+bstViNfc8AflIGWxBvMhKxFW/lyQTlM7d8J6kTF24Ojw8QPPz1iW73LW3SLYiCKPn/wvcbJkrMwv+hweneQRmW3KS6chznb8La2f2r2QDPz1wUgCxQmYbSZk2F84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708864053; c=relaxed/simple;
-	bh=Ila8XHMHQS98EyyxVLd87jbwGM+TtuluuiUsbSskovY=;
+	s=arc-20240116; t=1708867178; c=relaxed/simple;
+	bh=Snah0oVeMCcnsCjZVynbp2eBkFkCX+vIzXf+VGQh/Vs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oyFtdcE7b0FFfOun8CXsgkGfT253pRw4KliQSBZrUznV2r/oGYeiF3zl0TCnHcX/uAwPdnvMvC2uDl0m4uYhvMji3qky+jDuwX9WVmHZfvkQY6oJNnze6p7NhjY9uPx2idBV9QXE0J34DGtUDSc5j3nTQ66FCvyHVXN+5cq9qaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RgekoWYw; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=TXoi1B3hgVI3b704tkGPStWwovh7ZTY17RVZkzteU9TR1jpNuH9KVeJUcehUjSYhUn3Jt2tfBZfiGBu8YNfzSO3TN3YOx7Hg+2GRMhqxJkOagVQu60I9JeZ2sgcjO7uNgq1EMfX+ngggmDfx5DKWwnZDOmV2rh4Py6GJch09Bcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLX/Q+bP; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgekoWYw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLX/Q+bP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708864051; x=1740400051;
+  t=1708867176; x=1740403176;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ila8XHMHQS98EyyxVLd87jbwGM+TtuluuiUsbSskovY=;
-  b=RgekoWYwhUIb5Klt1GkUWXBDXlYf8XpCN7YTzXRrwVYWJdUgocs/3lIR
-   Cz7q+UYAWLlfTPJ3WlLjXE/WY5P9M3G55fhJxfW71ccWX0OkzoG/Wyd7X
-   eRLlBJhHktSi+p1KGpPe6fjZ9BSuuDC0/OUXQ5321oHrRWm4zaqVFRUEx
-   DFeiiOmxDlx2gR62r6aC8H6qMYbKqqtUWiPuAKLwqgTRTzjqmR2Vzs26d
-   X/KThSMnsr4lBkGoOJF3cRKEIYk1AmMIy8E/1tFSHv5eTDJzenjuxHGvP
-   NmyK8XvlESw01bqEfZADppLF0cYUvnHxgP+He51NZD14xBZzuo8lHcBfp
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="6936084"
+  bh=Snah0oVeMCcnsCjZVynbp2eBkFkCX+vIzXf+VGQh/Vs=;
+  b=cLX/Q+bP3/YsI8Z7KZrOJrziHJWXa0DlR4qpuziMP+gigMFvSmihsuVS
+   SnPc10GzklBV9LtHZUveEIb269gZz/DLPqqsoiJVc0I3X8FbrDgRzB3U4
+   er3sAi+WV8za7tP6a5jyRLAJDEY7RFiZ39ONj6PYJneFYf+OofKxG4V4H
+   4qVPiwPkNMosYxw3iZ4YnNZGNf0hM8MRwh5qeSVnjc9EHOLb30Zv5bE7D
+   nigtQqDcKMF2UG2/1UFfCx4uaKOEtYIRtpif2U/IcyAp9kWki9fb5V/BT
+   uKNNWU1oTy0rSNPJY9s17uByLz9wy42zbuKe9hxTEX1kyE81sR9n0p5Ek
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="14284513"
 X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="6936084"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 04:27:30 -0800
+   d="scan'208";a="14284513"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 05:19:35 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="11096253"
+   d="scan'208";a="6895516"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 25 Feb 2024 04:27:29 -0800
+  by orviesa008.jf.intel.com with ESMTP; 25 Feb 2024 05:19:34 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1reDbK-0009WA-06;
-	Sun, 25 Feb 2024 12:27:26 +0000
-Date: Sun, 25 Feb 2024 20:27:15 +0800
+	id 1reEPj-0009XQ-0s;
+	Sun, 25 Feb 2024 13:19:31 +0000
+Date: Sun, 25 Feb 2024 21:19:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/WFAMNAE-next20240223 1/1] mm/mmu_gather.c:23:39:
- warning: comparison of distinct pointer types ('struct mmu_gather_batch *'
- and 'struct mmu_gather_batch_hdr *')
-Message-ID: <202402252018.GR2eyulM-lkp@intel.com>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:tick/keep-tick-on-hrt 13/15]
+ include/trace/events/timer.h:444:19: warning: format '%lu' expects argument
+ of type 'long unsigned int', but argument 4 has type 'long long int'
+Message-ID: <202402252158.FzKcxr3F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,76 +59,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/WFAMNAE-next20240223
-head:   b23fc9e6ff31f4ef9e8de5580963cf53579ef0d4
-commit: b23fc9e6ff31f4ef9e8de5580963cf53579ef0d4 [1/1] treewide: Address -Wflexible-array-member-not-at-end warnings
-config: x86_64-randconfig-161-20240225 (https://download.01.org/0day-ci/archive/20240225/202402252018.GR2eyulM-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402252018.GR2eyulM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git tick/keep-tick-on-hrt
+head:   9a7f9b220850f08cf58f16872c84b08bc461a806
+commit: 30beac287e56cba2668a905e56b9879f23972ae2 [13/15] trace: tick: Trace the restarting of tick (split)
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20240225/202402252158.FzKcxr3F-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402252158.FzKcxr3F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402252018.GR2eyulM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402252158.FzKcxr3F-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/mmu_gather.c:23:39: warning: comparison of distinct pointer types ('struct mmu_gather_batch *' and 'struct mmu_gather_batch_hdr *') [-Wcompare-distinct-pointer-types]
-      23 |         if (tlb->delayed_rmap && tlb->active != &tlb->local)
-         |                                  ~~~~~~~~~~~ ^  ~~~~~~~~~~~
-   mm/mmu_gather.c:148:13: error: incompatible pointer types assigning to 'struct mmu_gather_batch *' from 'struct mmu_gather_batch_hdr *' [-Werror,-Wincompatible-pointer-types]
-     148 |         for (batch = &tlb->local; batch && batch->nr; batch = batch->next)
-         |                    ^ ~~~~~~~~~~~
-   mm/mmu_gather.c:150:14: error: incompatible pointer types assigning to 'struct mmu_gather_batch *' from 'struct mmu_gather_batch_hdr *' [-Werror,-Wincompatible-pointer-types]
-     150 |         tlb->active = &tlb->local;
-         |                     ^ ~~~~~~~~~~~
-   mm/mmu_gather.c:387:18: error: incompatible pointer types assigning to 'struct mmu_gather_batch *' from 'struct mmu_gather_batch_hdr *' [-Werror,-Wincompatible-pointer-types]
-     387 |         tlb->active     = &tlb->local;
-         |                         ^ ~~~~~~~~~~~
-   1 warning and 3 errors generated.
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/events/timer.h:474,
+                    from kernel/time/timer.c:58:
+   include/trace/events/timer.h: In function 'trace_raw_output_tick_stop':
+>> include/trace/events/timer.h:444:19: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'long long int' [-Wformat=]
+     444 |         TP_printk("now=%llu.%06lu success=%d dependency=%s",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   include/trace/events/timer.h:426:1: note: in expansion of macro 'TRACE_EVENT'
+     426 | TRACE_EVENT(tick_stop,
+         | ^~~~~~~~~~~
+   include/trace/events/timer.h:444:9: note: in expansion of macro 'TP_printk'
+     444 |         TP_printk("now=%llu.%06lu success=%d dependency=%s",
+         |         ^~~~~~~~~
+   In file included from include/trace/trace_events.h:237:
+   include/trace/events/timer.h:444:33: note: format string is defined here
+     444 |         TP_printk("now=%llu.%06lu success=%d dependency=%s",
+         |                             ~~~~^
+         |                                 |
+         |                                 long unsigned int
+         |                             %06llu
+   include/trace/events/timer.h: In function 'trace_raw_output_tick_restart':
+   include/trace/events/timer.h:465:19: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'long long int' [-Wformat=]
+     465 |         TP_printk("now=%llu.%06lu expiry=%llu.%06lu",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   include/trace/events/timer.h:449:1: note: in expansion of macro 'TRACE_EVENT'
+     449 | TRACE_EVENT(tick_restart,
+         | ^~~~~~~~~~~
+   include/trace/events/timer.h:465:9: note: in expansion of macro 'TP_printk'
+     465 |         TP_printk("now=%llu.%06lu expiry=%llu.%06lu",
+         |         ^~~~~~~~~
+   include/trace/events/timer.h:465:33: note: format string is defined here
+     465 |         TP_printk("now=%llu.%06lu expiry=%llu.%06lu",
+         |                             ~~~~^
+         |                                 |
+         |                                 long unsigned int
+         |                             %06llu
+   include/trace/events/timer.h:465:19: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'long long int' [-Wformat=]
+     465 |         TP_printk("now=%llu.%06lu expiry=%llu.%06lu",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   include/trace/events/timer.h:449:1: note: in expansion of macro 'TRACE_EVENT'
+     449 | TRACE_EVENT(tick_restart,
+         | ^~~~~~~~~~~
+   include/trace/events/timer.h:465:9: note: in expansion of macro 'TP_printk'
+     465 |         TP_printk("now=%llu.%06lu expiry=%llu.%06lu",
+         |         ^~~~~~~~~
+   include/trace/events/timer.h:465:51: note: format string is defined here
+     465 |         TP_printk("now=%llu.%06lu expiry=%llu.%06lu",
+         |                                               ~~~~^
+         |                                                   |
+         |                                                   long unsigned int
+         |                                               %06llu
 
 
-vim +23 mm/mmu_gather.c
+vim +444 include/trace/events/timer.h
 
-952a31c9e6fa96 Martin Schwidefsky 2018-09-18  17  
-196d9d8bb71dea Peter Zijlstra     2018-09-03  18  static bool tlb_next_batch(struct mmu_gather *tlb)
-196d9d8bb71dea Peter Zijlstra     2018-09-03  19  {
-196d9d8bb71dea Peter Zijlstra     2018-09-03  20  	struct mmu_gather_batch *batch;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  21  
-c47454823bd4e3 Linus Torvalds     2022-12-06  22  	/* Limit batching if we have delayed rmaps pending */
-c47454823bd4e3 Linus Torvalds     2022-12-06 @23  	if (tlb->delayed_rmap && tlb->active != &tlb->local)
-5df397dec7c4c0 Linus Torvalds     2022-11-09  24  		return false;
-5df397dec7c4c0 Linus Torvalds     2022-11-09  25  
-196d9d8bb71dea Peter Zijlstra     2018-09-03  26  	batch = tlb->active;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  27  	if (batch->next) {
-196d9d8bb71dea Peter Zijlstra     2018-09-03  28  		tlb->active = batch->next;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  29  		return true;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  30  	}
-196d9d8bb71dea Peter Zijlstra     2018-09-03  31  
-196d9d8bb71dea Peter Zijlstra     2018-09-03  32  	if (tlb->batch_count == MAX_GATHER_BATCH_COUNT)
-196d9d8bb71dea Peter Zijlstra     2018-09-03  33  		return false;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  34  
-dcc1be119071f0 Lorenzo Stoakes    2023-03-13  35  	batch = (void *)__get_free_page(GFP_NOWAIT | __GFP_NOWARN);
-196d9d8bb71dea Peter Zijlstra     2018-09-03  36  	if (!batch)
-196d9d8bb71dea Peter Zijlstra     2018-09-03  37  		return false;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  38  
-196d9d8bb71dea Peter Zijlstra     2018-09-03  39  	tlb->batch_count++;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  40  	batch->next = NULL;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  41  	batch->nr   = 0;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  42  	batch->max  = MAX_GATHER_BATCH;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  43  
-196d9d8bb71dea Peter Zijlstra     2018-09-03  44  	tlb->active->next = batch;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  45  	tlb->active = batch;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  46  
-196d9d8bb71dea Peter Zijlstra     2018-09-03  47  	return true;
-196d9d8bb71dea Peter Zijlstra     2018-09-03  48  }
-196d9d8bb71dea Peter Zijlstra     2018-09-03  49  
-
-:::::: The code at line 23 was first introduced by commit
-:::::: c47454823bd4e3ab34ed3f795afd4479ab938a3f mm: mmu_gather: allow more than one batch of delayed rmaps
-
-:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   427	
+   428		TP_PROTO(int success, int dependency),
+   429	
+   430		TP_ARGS(success, dependency),
+   431	
+   432		TP_STRUCT__entry(
+   433			__field( int ,		success	)
+   434			__field( int ,		dependency )
+   435			__field( s64,		now	)
+   436		),
+   437	
+   438		TP_fast_assign(
+   439			__entry->success	= success;
+   440			__entry->dependency	= dependency;
+   441			__entry->now		= ktime_get();	// TODO: Look into using ktime_get_ts64 however this is not what tick-sched does.
+   442		),
+   443	
+ > 444		TP_printk("now=%llu.%06lu success=%d dependency=%s",
+   445				__entry->now / NSEC_PER_SEC, (__entry->now % NSEC_PER_SEC) / NSEC_PER_USEC,
+   446				__entry->success, show_tick_dep_name(__entry->dependency))
+   447	);
+   448	
 
 -- 
 0-DAY CI Kernel Test Service
