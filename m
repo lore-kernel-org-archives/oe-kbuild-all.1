@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276A210A03
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 12:07:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FFB8BEC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 12:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708862845; cv=none; b=utltwEnEmSzjZAatF2Ihan2wZbkKQvLCOBcoHBPEo32zvbdY4iDyjo3wRJqgxpjvJrk8GXzGNohugqEqsB16bcKW/hMTvZveipmicnNiHSiJX/bAPVGT39k0iPUupWwWr+rNo+sozR9Zd9xMfPFhb3CMbkKkU3cEI4eCjcgPSoU=
+	t=1708864053; cv=none; b=SIzsh6D5BA5zfm0xAlxE33bVTAsuy43HSYPObuHnyOgam43RLnjsmz8dRGM0zQvKeLrTRUkSAwkm3rb3e5JI9dVbWcBuuCD6plqp7/gucMovpqIaQcHXeZx7ReKuUsLBFIl98BJGMh48zLn1MREnyHUXCgoUOKuuxmArtR5hBc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708862845; c=relaxed/simple;
-	bh=zWF32DUBsnWecC7uE5dqCASntUILYpIKIQ0LqFiGGos=;
+	s=arc-20240116; t=1708864053; c=relaxed/simple;
+	bh=D9UwxQWMaqHvzvYrnzjQQObEKjSdqlxBWMQqFqvm0DQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d7fNzNptcMfumauT70Ru2VUDvZlJwxJQMP9U9xeZGkSw8OVVf9kEeJWxTp1qRl9jhm/wT8hODr9TqRR6gO3dhfZMlynjyppSLlUPJwr9BSCcMF8eNaKHZ7Glv0xhVBL45W86rl1L5467b+a6DKb+QZRCCijkHMMFOhXF6i3W358=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IlRMF0pT; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=JpP0quDxSuA+5tuhpPyKACjICyC4x4PKis7ar1StaQjhxrtUmSARauE4JDoGednN2sLBvKDj3IHdCUmMTtzFLpKYJATo8egNO+MOt5EYlZH3l68Ub+qTJ+lDWG9nzcsCxSPblVu3HJiies3ETDGiDtZAVlG/T2/21cMW4+JHy6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tg/JssXt; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlRMF0pT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tg/JssXt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708862843; x=1740398843;
+  t=1708864050; x=1740400050;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zWF32DUBsnWecC7uE5dqCASntUILYpIKIQ0LqFiGGos=;
-  b=IlRMF0pTcueGO7y96507WPLnuJ+zPo1nuKvy2Hp/yx50Hs9yLQ5d8m2C
-   l8KjqAL9f9m3/dAmwdRjB+z0TMTJoory81vA1eqNJx3X/jXffGIxBJhOg
-   +mBd9OZeTOkZa2EZWA7iTnOodXaFsl3+IRnUOs7xjwEtyTKDQHCbbxjZs
-   xnlxdGsXjSYCpRoiZUAI7enW9HMyZzD04gSo6VrH2swSNLjc9sOnz6V0m
-   2fMCZeUStjVv28oKoy4gQGScqjDLPBExj66Rm/kerZSOkqFSblPadVp0O
-   w3jHI8PsPAIvDz3TyxFR0LFwXgfy4cF5d1QylROQ8rk4+BzwbStH9SADG
+  bh=D9UwxQWMaqHvzvYrnzjQQObEKjSdqlxBWMQqFqvm0DQ=;
+  b=Tg/JssXtzD1HnLsUqlkHZtPdchW59THfNbjlVch1YcMdJi1CrrQLfqFt
+   Z5MCJbXwTvGtbbO/jITs2P2zd8n7gkQQ0H23mffNCUWsc3wx9xT5aaNKq
+   YeSfbEE+Vp9AqTjgkhqxN2WZoONkE92CfZQ/0qN+XfcQlY8CFyD1lac8z
+   vwsr5dQua3cV4HGmjL2J/i0CesS5oD8rK1uk9ScJMqaerHkMNsuwc40IW
+   +Xa/66yLBHP6aUzrItdbNiWwIMkeywmxI0Qo1hAV8IySVllOuHJn3n7U4
+   uMbiivNledYQeQ0ImNOFxd+v0m5LOqVYPsqiqqlz9LHkvkpDlwaSheH6+
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="3030812"
+X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="6098785"
 X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="3030812"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 04:07:20 -0800
+   d="scan'208";a="6098785"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 04:27:29 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="11076825"
+   d="scan'208";a="6309124"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 25 Feb 2024 04:07:18 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 25 Feb 2024 04:27:28 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1reDHo-0009Vg-1G;
-	Sun, 25 Feb 2024 12:07:16 +0000
-Date: Sun, 25 Feb 2024 20:06:24 +0800
+	id 1reDbJ-0009W8-3A;
+	Sun, 25 Feb 2024 12:27:26 +0000
+Date: Sun, 25 Feb 2024 20:27:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: [tiwai-sound:test/guard 50/70] sound/core/rawmidi.c:1012:6: error:
- cannot jump from this asm goto statement to one of its possible targets
-Message-ID: <202402251935.CGUH0Id9-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 13425/21632]
+ drivers/net/ethernet/huawei/hinic/hinic_hwif.c:649:65: sparse: sparse:
+ incorrect type in argument 4 (different base types)
+Message-ID: <202402252031.ls64imy6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,172 +59,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Takashi,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/guard
-head:   0ba3f403c3b7fdd2683aac6285903f92ba81c32d
-commit: 369c285f8405ec663691db39ec59a01c70f80ded [50/70] ALSA: rawmidi: Use guard() for locking
-config: powerpc-randconfig-r081-20240225 (https://download.01.org/0day-ci/archive/20240225/202402251935.CGUH0Id9-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402251935.CGUH0Id9-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   b97b63500af297c36f80416fd1f1193d227cf51a
+commit: 90f09a01314abe26de1a722d1b51c351d84e1f5b [13425/21632] net/hinic: Add support for X86 Arch
+config: x86_64-randconfig-122-20240218 (https://download.01.org/0day-ci/archive/20240225/202402252031.ls64imy6-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402252031.ls64imy6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402251935.CGUH0Id9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402252031.ls64imy6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:40:16: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:46:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int val @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:46:16: sparse:     expected unsigned int val
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:46:16: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:575:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *cfg_regs_base @@     got void *cfg_reg_base @@
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:575:29: sparse:     expected unsigned char [noderef] [usertype] __iomem *cfg_regs_base
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:575:29: sparse:     got void *cfg_reg_base
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:576:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *intr_regs_base @@     got void *intr_reg_base @@
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:576:30: sparse:     expected unsigned char [noderef] [usertype] __iomem *intr_regs_base
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:576:30: sparse:     got void *intr_reg_base
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:579:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *db_base @@     got void *db_base @@
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:579:23: sparse:     expected unsigned char [noderef] [usertype] __iomem *db_base
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:579:23: sparse:     got void *db_base
+>> drivers/net/ethernet/huawei/hinic/hinic_hwif.c:649:65: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted gfp_t [usertype] flag @@     got unsigned int flag @@
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:649:65: sparse:     expected restricted gfp_t [usertype] flag
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:649:65: sparse:     got unsigned int flag
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:664:65: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted gfp_t [usertype] flag @@     got unsigned int flag @@
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:664:65: sparse:     expected restricted gfp_t [usertype] flag
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:664:65: sparse:     got unsigned int flag
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:970:17: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:979:17: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:564: warning: Function parameter or member 'intr_reg_base' not described in 'hinic_init_hwif'
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:564: warning: Function parameter or member 'db_base_phy' not described in 'hinic_init_hwif'
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:564: warning: Function parameter or member 'db_base' not described in 'hinic_init_hwif'
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:564: warning: Function parameter or member 'dwqe_mapping' not described in 'hinic_init_hwif'
 
->> sound/core/rawmidi.c:1012:6: error: cannot jump from this asm goto statement to one of its possible targets
-           if (put_user(device, argp))
-               ^
-   arch/powerpc/include/asm/uaccess.h:66:5: note: expanded from macro 'put_user'
-                     __put_user(x, _pu_addr) : -EFAULT;                    \
-                     ^
-   arch/powerpc/include/asm/uaccess.h:48:3: note: expanded from macro '__put_user'
-                   __put_user_size_goto(__pu_val, __pu_addr, __pu_size, __pu_failed);      \
-                   ^
-   arch/powerpc/include/asm/uaccess.h:116:10: note: expanded from macro '__put_user_size_goto'
-           case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
-                   ^
-   arch/powerpc/include/asm/uaccess.h:86:2: note: expanded from macro '__put_user_asm_goto'
-           asm_volatile_goto(                                      \
-           ^
-   include/linux/compiler_types.h:366:33: note: expanded from macro 'asm_volatile_goto'
-   #define asm_volatile_goto(x...) asm goto(x)
-                                   ^
-   sound/core/rawmidi.c:996:6: note: possible target of asm goto statement
-           if (get_user(device, argp))
-               ^
-   arch/powerpc/include/asm/uaccess.h:295:5: note: expanded from macro 'get_user'
-                     __get_user(x, _gu_addr) :                             \
-                     ^
-   arch/powerpc/include/asm/uaccess.h:283:2: note: expanded from macro '__get_user'
-           __get_user_size_allowed(__gu_val, __gu_addr, __gu_size, __gu_err);      \
-           ^
-   arch/powerpc/include/asm/uaccess.h:201:16: note: expanded from macro '__get_user_size_allowed'
-                   break;                                                  \
-                                                                           ^
-   sound/core/rawmidi.c:1000:2: note: jump exits scope of variable with __attribute__((cleanup))
-           guard(mutex)(&register_mutex);
-           ^
-   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
-           CLASS(_name, __UNIQUE_ID(guard))
-                        ^
-   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
-   #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-                               ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-   #define __PASTE(a,b) ___PASTE(a,b)
-                        ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-   #define ___PASTE(a,b) a##b
-                         ^
-   <scratch space>:5:1: note: expanded from here
-   __UNIQUE_ID_guard309
-   ^
-   sound/core/rawmidi.c:996:6: error: cannot jump from this asm goto statement to one of its possible targets
-           if (get_user(device, argp))
-               ^
-   arch/powerpc/include/asm/uaccess.h:295:5: note: expanded from macro 'get_user'
-                     __get_user(x, _gu_addr) :                             \
-                     ^
-   arch/powerpc/include/asm/uaccess.h:283:2: note: expanded from macro '__get_user'
-           __get_user_size_allowed(__gu_val, __gu_addr, __gu_size, __gu_err);      \
-           ^
-   arch/powerpc/include/asm/uaccess.h:199:3: note: expanded from macro '__get_user_size_allowed'
-                   __get_user_size_goto(x, ptr, size, __gus_failed);       \
-                   ^
-   arch/powerpc/include/asm/uaccess.h:187:10: note: expanded from macro '__get_user_size_goto'
-           case 1: __get_user_asm_goto(x, (u8 __user *)ptr, label, "lbz"); break;  \
-                   ^
-   arch/powerpc/include/asm/uaccess.h:158:2: note: expanded from macro '__get_user_asm_goto'
-           asm_volatile_goto(                                      \
-           ^
-   include/linux/compiler_types.h:366:33: note: expanded from macro 'asm_volatile_goto'
-   #define asm_volatile_goto(x...) asm goto(x)
-                                   ^
-   sound/core/rawmidi.c:1012:6: note: possible target of asm goto statement
-           if (put_user(device, argp))
-               ^
-   arch/powerpc/include/asm/uaccess.h:66:5: note: expanded from macro 'put_user'
-                     __put_user(x, _pu_addr) : -EFAULT;                    \
-                     ^
-   arch/powerpc/include/asm/uaccess.h:52:9: note: expanded from macro '__put_user'
-                                                                   \
-                                                                   ^
-   sound/core/rawmidi.c:1000:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           guard(mutex)(&register_mutex);
-           ^
-   include/linux/cleanup.h:164:15: note: expanded from macro 'guard'
-           CLASS(_name, __UNIQUE_ID(guard))
-                        ^
-   include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
-   #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-                               ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-   #define __PASTE(a,b) ___PASTE(a,b)
-                        ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-   #define ___PASTE(a,b) a##b
-                         ^
-   <scratch space>:5:1: note: expanded from here
-   __UNIQUE_ID_guard309
-   ^
-   2 errors generated.
+vim +649 drivers/net/ethernet/huawei/hinic/hinic_hwif.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_SOC_MPC5200_AC97
-   Depends on [n]: SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_POWERPC_SOC [=m] && PPC_MPC52xx [=y] && PPC_BESTCOMM [=n]
-   Selected by [m]:
-   - SND_MPC52xx_SOC_EFIKA [=m] && SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_POWERPC_SOC [=m] && PPC_EFIKA [=y]
-   WARNING: unmet direct dependencies detected for ADB_CUDA
-   Depends on [n]: MACINTOSH_DRIVERS [=n] && (ADB [=n] || PPC_PMAC [=y]) && !PPC_PMAC64 [=n]
-   Selected by [y]:
-   - PPC_PMAC [=y] && PPC_BOOK3S [=y] && CPU_BIG_ENDIAN [=y] && POWER_RESET [=y] && PPC32 [=y]
+746ea35981b1f7 Xue 2019-01-30  640  
+746ea35981b1f7 Xue 2019-01-30  641  int hinic_dma_zalloc_coherent_align(void *dev_hdl, u64 size, u64 align,
+746ea35981b1f7 Xue 2019-01-30  642  				    unsigned int flag,
+746ea35981b1f7 Xue 2019-01-30  643  				    struct hinic_dma_addr_align *mem_align)
+746ea35981b1f7 Xue 2019-01-30  644  {
+746ea35981b1f7 Xue 2019-01-30  645  	void *vaddr, *align_vaddr;
+746ea35981b1f7 Xue 2019-01-30  646  	dma_addr_t paddr, align_paddr;
+746ea35981b1f7 Xue 2019-01-30  647  	u64 real_size = size;
+746ea35981b1f7 Xue 2019-01-30  648  
+746ea35981b1f7 Xue 2019-01-30 @649  	vaddr = dma_zalloc_coherent(dev_hdl, real_size, &paddr, flag);
+746ea35981b1f7 Xue 2019-01-30  650  	if (!vaddr)
+746ea35981b1f7 Xue 2019-01-30  651  		return -ENOMEM;
+746ea35981b1f7 Xue 2019-01-30  652  
+746ea35981b1f7 Xue 2019-01-30  653  	align_paddr = ALIGN(paddr, align);
+746ea35981b1f7 Xue 2019-01-30  654  	/* align */
+746ea35981b1f7 Xue 2019-01-30  655  	if (align_paddr == paddr) {
+746ea35981b1f7 Xue 2019-01-30  656  		align_vaddr = vaddr;
+746ea35981b1f7 Xue 2019-01-30  657  		goto out;
+746ea35981b1f7 Xue 2019-01-30  658  	}
+746ea35981b1f7 Xue 2019-01-30  659  
+746ea35981b1f7 Xue 2019-01-30  660  	dma_free_coherent(dev_hdl, real_size, vaddr, paddr);
+746ea35981b1f7 Xue 2019-01-30  661  
+746ea35981b1f7 Xue 2019-01-30  662  	/* realloc memory for align */
+746ea35981b1f7 Xue 2019-01-30  663  	real_size = size + align;
+746ea35981b1f7 Xue 2019-01-30  664  	vaddr = dma_zalloc_coherent(dev_hdl, real_size, &paddr, flag);
+746ea35981b1f7 Xue 2019-01-30  665  	if (!vaddr)
+746ea35981b1f7 Xue 2019-01-30  666  		return -ENOMEM;
+746ea35981b1f7 Xue 2019-01-30  667  
+746ea35981b1f7 Xue 2019-01-30  668  	align_paddr = ALIGN(paddr, align);
+746ea35981b1f7 Xue 2019-01-30  669  	align_vaddr = (void *)((u64)vaddr + (align_paddr - paddr));
+746ea35981b1f7 Xue 2019-01-30  670  
+746ea35981b1f7 Xue 2019-01-30  671  out:
+746ea35981b1f7 Xue 2019-01-30  672  	mem_align->real_size = (u32)real_size;
+746ea35981b1f7 Xue 2019-01-30  673  	mem_align->ori_vaddr = vaddr;
+746ea35981b1f7 Xue 2019-01-30  674  	mem_align->ori_paddr = paddr;
+746ea35981b1f7 Xue 2019-01-30  675  	mem_align->align_vaddr = align_vaddr;
+746ea35981b1f7 Xue 2019-01-30  676  	mem_align->align_paddr = align_paddr;
+746ea35981b1f7 Xue 2019-01-30  677  
+746ea35981b1f7 Xue 2019-01-30  678  	return 0;
+746ea35981b1f7 Xue 2019-01-30  679  }
+746ea35981b1f7 Xue 2019-01-30  680  
 
+:::::: The code at line 649 was first introduced by commit
+:::::: 746ea35981b1f77e988d48642409d73f0470b3eb net: hinic: Add Hardware Abstract Layer
 
-vim +1012 sound/core/rawmidi.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16   986  
-127ae6f6dad2ed Takashi Iwai   2023-05-23   987  /* ioctl to find the next device; either legacy or UMP depending on @find_ump */
-127ae6f6dad2ed Takashi Iwai   2023-05-23   988  static int snd_rawmidi_next_device(struct snd_card *card, int __user *argp,
-127ae6f6dad2ed Takashi Iwai   2023-05-23   989  				   bool find_ump)
-^1da177e4c3f41 Linus Torvalds 2005-04-16   990  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   991  {
-127ae6f6dad2ed Takashi Iwai   2023-05-23   992  	struct snd_rawmidi *rmidi;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   993  	int device;
-127ae6f6dad2ed Takashi Iwai   2023-05-23   994  	bool is_ump;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   995  
-127ae6f6dad2ed Takashi Iwai   2023-05-23   996  	if (get_user(device, argp))
-^1da177e4c3f41 Linus Torvalds 2005-04-16   997  		return -EFAULT;
-a7a13d0676335a Dan Carpenter  2010-09-09   998  	if (device >= SNDRV_RAWMIDI_DEVICES) /* next device is -1 */
-a7a13d0676335a Dan Carpenter  2010-09-09   999  		device = SNDRV_RAWMIDI_DEVICES - 1;
-369c285f8405ec Takashi Iwai   2024-02-21  1000  	guard(mutex)(&register_mutex);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1001  	device = device < 0 ? 0 : device + 1;
-127ae6f6dad2ed Takashi Iwai   2023-05-23  1002  	for (; device < SNDRV_RAWMIDI_DEVICES; device++) {
-127ae6f6dad2ed Takashi Iwai   2023-05-23  1003  		rmidi = snd_rawmidi_search(card, device);
-127ae6f6dad2ed Takashi Iwai   2023-05-23  1004  		if (!rmidi)
-127ae6f6dad2ed Takashi Iwai   2023-05-23  1005  			continue;
-127ae6f6dad2ed Takashi Iwai   2023-05-23  1006  		is_ump = rawmidi_is_ump(rmidi);
-127ae6f6dad2ed Takashi Iwai   2023-05-23  1007  		if (find_ump == is_ump)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1008  			break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1009  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1010  	if (device == SNDRV_RAWMIDI_DEVICES)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1011  		device = -1;
-127ae6f6dad2ed Takashi Iwai   2023-05-23 @1012  	if (put_user(device, argp))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1013  		return -EFAULT;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1014  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1015  }
-127ae6f6dad2ed Takashi Iwai   2023-05-23  1016  
-
-:::::: The code at line 1012 was first introduced by commit
-:::::: 127ae6f6dad2edb2201e27b7e6fa72994b537fad ALSA: rawmidi: Skip UMP devices at SNDRV_CTL_IOCTL_RAWMIDI_NEXT_DEVICE
-
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+:::::: TO: Xue <xuechaojing@huawei.com>
+:::::: CC: Xie XiuQi <xiexiuqi@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
