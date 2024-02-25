@@ -1,205 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496AF17C7F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 17:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281FF17551;
+	Sun, 25 Feb 2024 18:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708881630; cv=none; b=oiFaTSHOgV5E1QOoPZ3pfrUTS0owzwBIoMZVj7pok4APN1/g6FTC8cYuR5GxigYA0MNLbbhR8FRMlVCEAmPMQSo6vsZHgnM4SjdFj4ZUUFwiga19+5TwA0xs4cOMKkvRcI0rK1QDvhExaD2LZV1IUotTtpQXqr6XuLMgP+igqY4=
+	t=1708884136; cv=none; b=VG9A5stJSr77oLvlGyodOrRnvd7ZbrXkhm4d1fkZsajoEWDaumz/8a9eBPTFt3v1IGS2uHT5fZcLZ9oMNkNoQXrKmq91q0GvCT+S0tYVon74htVbTZGzTC+wcK6gUnKxr2cpnw4dBnB0lA9DKPQ7cP6nUgzmeY1NazlMIK7qrhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708881630; c=relaxed/simple;
-	bh=5BU9nwF0cBkNUCzRYOHjTZa9oaBIBsCc8NeQBh9Ykjg=;
+	s=arc-20240116; t=1708884136; c=relaxed/simple;
+	bh=WQ4k+cVAnhT15Z7wFi7deNZ+ISFJHpvAqziU5YWj4Z4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AjB6GxNHmz2odm3CMamsAASRLIZ8r2pB/QeDUPSfKz2ISaccMVXiDtqzyT2AugOOFyg3EjGCdedvN+V4x2Jrn3dO40GP+3XZCE0aIqdY/p9z3QlDVIvKf9qrqjYU/jFWlNeWzSh2tm5vuszxdhRbo5lOKmKcVe9RgXD8ExL4JDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/9O0y8P; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=rxjxRT8V4C1RhMRXLkVgeoHX68fIxYlb21NwYVmyjjuv0Iio9c7rqWewHcK7Uu+iHWtdC0qyBMatEB17jNPSCMnHycvavowsGCayvJUk8C/G5fHgnBzCrlxrHBJXSYHOBct10B48H54ZYqPQdSNwH1zoMKWmxsRtwYZUqgY//nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ft9PYwp+; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/9O0y8P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ft9PYwp+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708881628; x=1740417628;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5BU9nwF0cBkNUCzRYOHjTZa9oaBIBsCc8NeQBh9Ykjg=;
-  b=U/9O0y8PK1p0Cw5NQMHa2ZGC+lC85Xwalpt1G+HzHU8ZLot1RTwtKQfs
-   fXppqKf32IiDmIGt4RJ7iwLkPuoX0hGRrYS3RmXk2kKf1rlUuUX0yFTla
-   YDdycnxbQRESx22unt75bkO/uOsowHox8o/ugQt1pkYX0naZBN2EIlVYI
-   Ox9vLJ47neMh2yJ1h9R9KBqRz0VbItxe3wuOwR5rcMQQEDm9RAW6QoZVZ
-   7ikqojND7yl0IT8svngNaI8MaA+HOxyONSqaM8tUTEXhh6+FISvmH+Scs
-   O3SkkVntyeW7Izkob7/AjFNYD7BSr3zWNwaH20lzfZpu1sMcnUqeyEW2J
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3283566"
+  t=1708884135; x=1740420135;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WQ4k+cVAnhT15Z7wFi7deNZ+ISFJHpvAqziU5YWj4Z4=;
+  b=Ft9PYwp+o3/Vj7XKe4kN0+R748XD3lhuxsE6No8O8YMoLjcicfom/P0Y
+   OLNVziLeT0aWUXHGLTzfUKVVUlEhAOxTM0ZQFFqtqm0IBargqfjgE8btO
+   kqxTCDAQHaTTL67ZVvTuNnab5i1+yEeNgFNPAETN+EFPz0zCxR03ZXnbQ
+   bPxL2N0QX05FpV/JIhiS4zkVKLHAlgycUZ3GqZhHuHyyukbK6RkO/lbId
+   SCqqdp5fo94KTy4aG963t8Cs79SWAqOuPr8FyeCS6ZueM7YNkndqvlTIr
+   I2pQ/dLtREm6/Ea+kUmKN4ELOcJgAhcqLZ7wdjTCjdZQ4H5/6mXMxNAGO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="20612663"
 X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="3283566"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 09:20:28 -0800
+   d="scan'208";a="20612663"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 10:02:14 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="37230263"
+   d="scan'208";a="11088206"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 25 Feb 2024 09:20:26 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 25 Feb 2024 10:02:11 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1reIAq-0009ge-0q;
-	Sun, 25 Feb 2024 17:20:24 +0000
-Date: Mon, 26 Feb 2024 01:19:59 +0800
+	id 1reIpB-0009iS-0L;
+	Sun, 25 Feb 2024 18:02:07 +0000
+Date: Mon, 26 Feb 2024 02:01:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-block:drbd-blk-limits 5/16] drivers/md/raid0.c:396:7: warning:
- variable 'conf' is uninitialized when used here
-Message-ID: <202402260107.fb5L5XSm-lkp@intel.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [drm-misc:drm-misc-next 1/3]
+ drivers/gpu/drm/i915/display/intel_dp.c:4233:8: error: call to undeclared
+ function 'intel_dp_vsc_sdp_pack'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202402260120.eBo7nTYE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   git://git.infradead.org/users/hch/block.git drbd-blk-limits
-head:   952f67c787298e616a8aa5acc3f881d267e6c7b5
-commit: c3361ed114ad32d50e622fdf1e3f27d4a1dde8fb [5/16] md/raid0: use the atomic queue limit update APIs
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240226/202402260107.fb5L5XSm-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project edd4aee4dd9b5b98b2576a6f783e4086173d902a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402260107.fb5L5XSm-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   de8de2c8acb931ce6197a04376a7078ccf50e821
+commit: 47f419e07111acecab3b529d4ae31a28985f5b61 [1/3] drm/dp: move intel_dp_vsc_sdp_pack() to generic helper
+config: i386-buildonly-randconfig-003-20240225 (https://download.01.org/0day-ci/archive/20240226/202402260120.eBo7nTYE-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402260120.eBo7nTYE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402260107.fb5L5XSm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402260120.eBo7nTYE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the drm-misc/drm-misc-next HEAD de8de2c8acb931ce6197a04376a7078ccf50e821 builds fine.
+      It only hurts bisectability.
 
-   In file included from drivers/md/raid0.c:17:
-   In file included from include/trace/events/block.h:8:
-   In file included from include/linux/blktrace_api.h:5:
-   In file included from include/linux/blk-mq.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/md/raid0.c:17:
-   In file included from include/trace/events/block.h:8:
-   In file included from include/linux/blktrace_api.h:5:
-   In file included from include/linux/blk-mq.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/md/raid0.c:17:
-   In file included from include/trace/events/block.h:8:
-   In file included from include/linux/blktrace_api.h:5:
-   In file included from include/linux/blk-mq.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/md/raid0.c:396:7: warning: variable 'conf' is uninitialized when used here [-Wuninitialized]
-     396 |         if (!conf) {
-         |              ^~~~
-   drivers/md/raid0.c:385:21: note: initialize the variable 'conf' to silence this warning
-     385 |         struct r0conf *conf;
-         |                            ^
-         |                             = NULL
-   13 warnings generated.
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/display/intel_dp.c:4233:8: error: call to undeclared function 'intel_dp_vsc_sdp_pack'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4233 |         len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
+         |               ^
+   drivers/gpu/drm/i915/display/intel_dp.c:4233:8: note: did you mean 'drm_dp_vsc_sdp_pack'?
+   include/drm/display/drm_dp_helper.h:815:9: note: 'drm_dp_vsc_sdp_pack' declared here
+     815 | ssize_t drm_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+         |         ^
+   1 error generated.
 
 
-vim +/conf +396 drivers/md/raid0.c
+vim +/intel_dp_vsc_sdp_pack +4233 drivers/gpu/drm/i915/display/intel_dp.c
 
-   381	
-   382	static int raid0_run(struct mddev *mddev)
-   383	{
-   384		struct queue_limits lim;
-   385		struct r0conf *conf;
-   386		int ret;
-   387	
-   388		if (mddev->chunk_sectors == 0) {
-   389			pr_warn("md/raid0:%s: chunk size must be set.\n", mdname(mddev));
-   390			return -EINVAL;
-   391		}
-   392		if (md_check_no_bitmap(mddev))
-   393			return -EINVAL;
-   394	
-   395		/* if conf is not null, we are here after takeover */
- > 396		if (!conf) {
-   397			ret = create_strip_zones(mddev, &conf);
-   398			if (ret < 0)
-   399				return ret;
-   400			mddev->private = conf;
-   401		}
-   402	
-   403		blk_set_stacking_limits(&lim);
-   404		lim.max_hw_sectors = mddev->chunk_sectors;
-   405		lim.max_write_zeroes_sectors = mddev->chunk_sectors;
-   406		lim.io_min = mddev->chunk_sectors << 9;
-   407		lim.io_opt = lim.io_min * mddev->raid_disks;
-   408		mddev_stack_rdev_limits(mddev, &lim);
-   409		ret = queue_limits_set(mddev->queue, &lim);
-   410		if (ret)
-   411			goto out_free_conf;
-   412	
-   413		/* calculate array device size */
-   414		md_set_array_sectors(mddev, raid0_size(mddev, 0, 0));
-   415	
-   416		pr_debug("md/raid0:%s: md_size is %llu sectors.\n",
-   417			 mdname(mddev),
-   418			 (unsigned long long)mddev->array_sectors);
-   419	
-   420		dump_zones(mddev);
-   421	
-   422		ret = md_integrity_register(mddev);
-   423		if (ret)
-   424			goto out_free_conf;
-   425		return 0;
-   426	out_free_conf:
-   427		free_conf(mddev, conf);
-   428		return ret;
-   429	}
-   430	
+03c761b00c87d6 Gwan-gyeong Mun       2020-02-11  4223  
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4224  void intel_write_dp_vsc_sdp(struct intel_encoder *encoder,
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4225  			    const struct intel_crtc_state *crtc_state,
+9ce5884e513903 José Roberto de Souza 2021-09-22  4226  			    const struct drm_dp_vsc_sdp *vsc)
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4227  {
+7801f3b792b0fd Lucas De Marchi       2020-06-30  4228  	struct intel_digital_port *dig_port = enc_to_dig_port(encoder);
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4229  	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4230  	struct dp_sdp sdp = {};
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4231  	ssize_t len;
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4232  
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14 @4233  	len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4234  
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4235  	if (drm_WARN_ON(&dev_priv->drm, len < 0))
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4236  		return;
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4237  
+7801f3b792b0fd Lucas De Marchi       2020-06-30  4238  	dig_port->write_infoframe(encoder, crtc_state, DP_SDP_VSC,
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4239  					&sdp, len);
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4240  }
+cafac5a9836199 Gwan-gyeong Mun       2020-05-14  4241  
+
+:::::: The code at line 4233 was first introduced by commit
+:::::: cafac5a983619944afa639c53f0d5d885616a3d2 drm/i915/dp: Add compute routine for DP PSR VSC SDP
+
+:::::: TO: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
