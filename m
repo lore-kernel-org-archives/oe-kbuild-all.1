@@ -1,59 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0DB012E47;
-	Sun, 25 Feb 2024 12:07:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21B51095A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 12:07:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708862842; cv=none; b=JvO0vwojSdVAwALag6wnpsVGN+KUnERMU2tRoc8rlAJdFoVoW+O5RLBXwmWnF13QITk7uRMwt5Kr864bJ22wq8Ljoe0jUgoQo3F+U0ijzP8cb6eS+pI+R8wBqq9EyAJSHWI+pccCr3zc4WmFS6gjEt7Q/75L6BkgVp1mDftkXXo=
+	t=1708862844; cv=none; b=GVyVSO+M/wAoKhXeNblQewcSmWw4KNYxPkVhF5pocDXV/aoaid5krvs0ntuyBvYrBHM3x5SHeRYfjGxOUUdcXP/5ubJIY+9rCINbedgqH1VdGWvlkMyYI288wAPGKHYmpPqQ8KSqSYAh7z0T5TAY2LWpv+pTLDCkLZQBdIXoNE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708862842; c=relaxed/simple;
-	bh=Lsnp5Weg1Haxb9ZmDlzKnaA6TKEMU+sL7UaxIGxxqp4=;
+	s=arc-20240116; t=1708862844; c=relaxed/simple;
+	bh=PZAZn6+tmKA+l40YfSMKRni0fRt63kH4rektTLJ1qVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XLwR3wY/n1hIrcZ2AZ/BRI7B6/CHNpTfO47pCb3tbeBKM3GGufz0qMT2OpNdvwkzUrEQKYTet8bCtvskVcEGVxX81taOHuqV4ON1O/ogaTIUVbaw8aW5kKOi4NExNH5roQxQOBM36u6xocziT2hv/Ga1TKBmK5J4brll7NW6WpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fp4NxEhq; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=jsL+YmOsW2giPSqCKkocc6mAZkNMUjD/58WfMotwsXQGwXNWYB5OZXjGbdbKNOXX8Y4Vj1DLbYXF8ZttI5QHNxug4v94lLY4ybr/5wZMTSfQQ0FWmdli1EVWFxGonWjOCv6SflB0a/dB0zqMl0osFQ/907r8sNdP5OAWNh1YFqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IP5cb14o; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fp4NxEhq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IP5cb14o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708862841; x=1740398841;
+  t=1708862842; x=1740398842;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Lsnp5Weg1Haxb9ZmDlzKnaA6TKEMU+sL7UaxIGxxqp4=;
-  b=Fp4NxEhqPRHrJvwzhUtYlS+P7oHewrak2PDmU0SDDBap7kglhcRObeqC
-   eed92Y46tUY9n/hA1p/ivfoohTiEviEUfuXK2VZNDUq38DPRKvNCMqimL
-   FiENYvYKHCEP1WU0q/x6NiAj7miSAjVxSLxigPgqQhDOAX69PLYgRCWof
-   j42VBVO0t/YcdARavbcV5GX7T+djKE66jxfUEcu9WRTQ7QosIFr2iZhbv
-   nXRyYGbPBMmlivMPrSlZwIRIzIHeymmBYrABOle2pZYVEApCMhcZRq8cw
-   oDjezuTySoI5CgLF/1gboSue6kcFWgzEfUFjJXbCixTaI0eU6tXkhLqTB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="3030806"
+  bh=PZAZn6+tmKA+l40YfSMKRni0fRt63kH4rektTLJ1qVM=;
+  b=IP5cb14otEtRs9BZaRpjJMeg8RiODevkZ7SldCKA/cS0TSPNEXtsmiPU
+   NTB4v+ZWHcX0oQ/cDOgFQhXUudVzHmrfM0fqeDl4YPGlm4bPBjuqYRktP
+   fDGLSiXvYZhJvbrFA14b4Qk7ICZ1gMzmjODhdJctJdbfiegFhMhtJEecL
+   ZUezB5Z4OP7H3fSaI9kAT7snVZct+vpRmDzWBUHygxzqMrz2Yrjtx+RIk
+   R6XdiOPTu56Z4hZq36GwzUEdKhDSHpcmIWeJlN4wpuNndeEnawBerQR1Z
+   eavs1/xRo+hE3ltFyEUmdP8lFSmerZ2ndUs2+dbbMzQeN/QRvWjk2ZI2C
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="3030810"
 X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="3030806"
+   d="scan'208";a="3030810"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 04:07:20 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="11076823"
+   d="scan'208";a="11076824"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
   by orviesa004.jf.intel.com with ESMTP; 25 Feb 2024 04:07:18 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1reDHo-0009Vk-1O;
+	id 1reDHo-0009Vi-1K;
 	Sun, 25 Feb 2024 12:07:16 +0000
-Date: Sun, 25 Feb 2024 20:06:25 +0800
+Date: Sun, 25 Feb 2024 20:06:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/WFAMNAE-next20240223 1/1]
- drivers/rpmsg/qcom_glink_native.c:832:7: error: static assertion failed due
- to requirement '__builtin_types_compatible_p(struct glink_msg, struct
- glink_msg_hdr) || __builtin_types_compatible_p(struct glink_msg, void)':
- pointer type mismatch in container_o...
-Message-ID: <202402252045.eiZZhW0P-lkp@intel.com>
+To: Jai Luthra <j-luthra@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 1/6]
+ sound/soc/soc-generic-dmaengine-pcm.c:321:5: warning: no previous prototype
+ for 'dmaengine_pcm_prepare'
+Message-ID: <202402252049.lA7SFnhN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,95 +60,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/WFAMNAE-next20240223
-head:   b23fc9e6ff31f4ef9e8de5580963cf53579ef0d4
-commit: b23fc9e6ff31f4ef9e8de5580963cf53579ef0d4 [1/1] treewide: Address -Wflexible-array-member-not-at-end warnings
-config: arm-randconfig-003-20240225 (https://download.01.org/0day-ci/archive/20240225/202402252045.eiZZhW0P-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project edd4aee4dd9b5b98b2576a6f783e4086173d902a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402252045.eiZZhW0P-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   06aa44273378b04ac8e0185d373052806da1dfb7
+commit: 7ff6902b6e5082643c2d5dd34d34fc5a8e53d7d8 [1/6] HACK: ALSA: dmaengine: Synchronize dma channel in prepare()
+config: i386-buildonly-randconfig-006-20240225 (https://download.01.org/0day-ci/archive/20240225/202402252049.lA7SFnhN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402252049.lA7SFnhN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402252045.eiZZhW0P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402252049.lA7SFnhN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/rpmsg/qcom_glink_native.c:832:7: error: static assertion failed due to requirement '__builtin_types_compatible_p(struct glink_msg, struct glink_msg_hdr) || __builtin_types_compatible_p(struct glink_msg, void)': pointer type mismatch in container_of()
-     832 |                            container_of(&dcmd->msg, struct glink_msg, hdr), 0,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:20:16: note: expanded from macro 'container_of'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      22 |                       "pointer type mismatch in container_of()");       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:390:27: note: expanded from macro '__same_type'
-     390 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/rpmsg/qcom_glink_native.c:1692:9: error: static assertion failed due to requirement '__builtin_types_compatible_p(struct glink_msg, struct glink_msg_hdr) || __builtin_types_compatible_p(struct glink_msg, void)': pointer type mismatch in container_of()
-    1692 |                 msg = container_of(&dcmd->msg, struct glink_msg, hdr);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:20:16: note: expanded from macro 'container_of'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      22 |                       "pointer type mismatch in container_of()");       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:390:27: note: expanded from macro '__same_type'
-     390 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   2 errors generated.
+>> sound/soc/soc-generic-dmaengine-pcm.c:321:5: warning: no previous prototype for 'dmaengine_pcm_prepare' [-Wmissing-prototypes]
+     321 | int dmaengine_pcm_prepare(struct snd_soc_component *component,
+         |     ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +832 drivers/rpmsg/qcom_glink_native.c
+vim +/dmaengine_pcm_prepare +321 sound/soc/soc-generic-dmaengine-pcm.c
 
-   813	
-   814	static int qcom_glink_rx_defer(struct qcom_glink *glink, size_t extra)
-   815	{
-   816		struct glink_defer_cmd *dcmd;
-   817	
-   818		extra = ALIGN(extra, 8);
-   819	
-   820		if (qcom_glink_rx_avail(glink) < sizeof(struct glink_msg) + extra) {
-   821			dev_dbg(glink->dev, "Insufficient data in rx fifo");
-   822			return -ENXIO;
-   823		}
-   824	
-   825		dcmd = kzalloc(struct_size(dcmd, data, extra), GFP_ATOMIC);
-   826		if (!dcmd)
-   827			return -ENOMEM;
-   828	
-   829		INIT_LIST_HEAD(&dcmd->node);
-   830	
-   831		qcom_glink_rx_peek(glink,
- > 832				   container_of(&dcmd->msg, struct glink_msg, hdr), 0,
-   833				   sizeof(dcmd->msg) + extra);
-   834	
-   835		spin_lock(&glink->rx_lock);
-   836		list_add_tail(&dcmd->node, &glink->rx_queue);
-   837		spin_unlock(&glink->rx_lock);
-   838	
-   839		schedule_work(&glink->rx_work);
-   840		qcom_glink_rx_advance(glink, sizeof(dcmd->msg) + extra);
-   841	
-   842		return 0;
-   843	}
-   844	
+   320	
+ > 321	int dmaengine_pcm_prepare(struct snd_soc_component *component,
+   322				  struct snd_pcm_substream *substream)
+   323	{
+   324		return snd_dmaengine_pcm_prepare(substream);
+   325	}
+   326	
 
 -- 
 0-DAY CI Kernel Test Service
