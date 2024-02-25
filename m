@@ -1,205 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086D79445
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 10:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B43522E;
+	Sun, 25 Feb 2024 10:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708856461; cv=none; b=QTLSfRC2Ra0cAUBDWInTMcGPTtSG4mxQW+Qu04eQIqMNcBfKwIAT+s4Rjkcci3jRm/UN9kKntcrEZebLVnSH18m9nzaeeFz7Frf29Zvg5CU0jHXt9UJYDDGsohIxhuBI0T21tj7c2JVg/QQVBTxlHiLO868RACs2Qumx+i/Wj5c=
+	t=1708857204; cv=none; b=c4IT8BpFrLCNRNNX9p/mAY5z4u4pZvhW4oKKVznJWS5gYq3QaPlXMzb+7xe/FEKiswjK0FmhumuMWABKthSUnatnHBrPa+do8I4ZkAL9KxQFqXuXr4875+nGG7qnsVWfS/fzWCCCiE6ZhnKHVLdvgdG0u8ZTC7iZIdts4Bon0B8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708856461; c=relaxed/simple;
-	bh=xs3c2SY/UO+DW3aCMp8CBSc5dOPj8qdoCprt0m+JLbs=;
+	s=arc-20240116; t=1708857204; c=relaxed/simple;
+	bh=MIS2OZVcK2enIc5OkRuwOBRBa4Ya0fZw0aE+RzWGebw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a9/k4nONY3w07gy8qjL3Mkw1+Uetc6QyD9mErWe3iuasGxgTTF8HfZXkiIk/faIvzYQ0aRI6czVAJOUfFTH6CTYMSc2dlO/HJloH5CafRAqJXuhHUUuK54QxK6962cvSrqaiujmQ7w85BUv1qpv4NYHoPlEx+ylrvbKhXAYSn08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Khol8/Up; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=VwdGJhJPKogFPYk4Kx3e2Ee9p1zzhUXax1p9zUW51Ld6xr+ay5Xt4kwENFjm2YBjCj8jDAf3IQar/scLn65c7XHNt1veOnXg6zoycd2kwOV6Tphyu4CPGcdATQU8AASCn0B9FPqJ0qDCRkY75LCra5SuVR2cYBOLeOA6E8zUN8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DhjW5BFO; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Khol8/Up"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DhjW5BFO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708856460; x=1740392460;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=xs3c2SY/UO+DW3aCMp8CBSc5dOPj8qdoCprt0m+JLbs=;
-  b=Khol8/UpVUUI/ht2plB1svVZAh1M4LaBaJ3EkKuM40e6R+daB9cdIZhX
-   vdH7J6NQMu8/kwUK01kYMzw23xyJCvT1g4GqAEuS4DUtcwmoAqXQPb+Ta
-   dZFoeuPhZsh2QE3Py5yn0FCfcyQi4PsBo0JbX1a7JOOdDRDGARKWSqnoH
-   B3gQWzfG0OfxF8oqgNqXodKbF/EBB9dP6ebsgl0DgTBxU5FHssuCB/KLO
-   d7nFLCzjiqZ4T2VQCOae2ztcB5TaX3Ts2AML7bzvoGmF6P+MoRVzakI2L
-   1IxGnqouDY1B5uL+S2T0WrocOdb7pggYq/ps2Aemf/mENhs14AIDowGGf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="14579873"
+  t=1708857203; x=1740393203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MIS2OZVcK2enIc5OkRuwOBRBa4Ya0fZw0aE+RzWGebw=;
+  b=DhjW5BFO5iL0j2eU8lwozqQsZ4cxqXaBruGTOhiZLKYF5OnJDRBkcDEJ
+   EV5rkp/ft/mE2Y7rcSxvcSy+B9Lr+IN2PB2l+/0YrAO8E4MfCZqXO97RQ
+   0S6EVQU6fai7jWFNp+54tGbxXUNDj4weDh3AcOefzTWzWtMAmqRilEZdq
+   j3ROIOgFZBUKGBLc4RLPtCsC673EX5bwmUED0B57k3BEYe6gHCoF9VWep
+   DlqMLXEJaYrUjrGE3ibHA/KYkCkk4G0BOpxJnJq8oSYex2GUhjX9IlFTx
+   rKsqB2CrvvPqYhrxIC7bKKCIVUGfIYalyigMhClER+pljfZOvtQMWQttR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10994"; a="3285528"
 X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="14579873"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 02:20:59 -0800
+   d="scan'208";a="3285528"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 02:33:21 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,183,1705392000"; 
-   d="scan'208";a="6286254"
+   d="scan'208";a="11061266"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 25 Feb 2024 02:20:57 -0800
+  by orviesa004.jf.intel.com with ESMTP; 25 Feb 2024 02:33:20 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1reBcW-0009SS-0s;
-	Sun, 25 Feb 2024 10:20:40 +0000
-Date: Sun, 25 Feb 2024 18:19:50 +0800
+	id 1reBoX-0009Sw-2q;
+	Sun, 25 Feb 2024 10:32:59 +0000
+Date: Sun, 25 Feb 2024 18:31:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:4.14-main 5375/28369] net/dsa/slave.c:1256:26:
- warning: variable 'cpu_dp' set but not used
-Message-ID: <202402251841.BWr7Kzcl-lkp@intel.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 17/36] lib/kfifo.c:500:9: error: unterminated
+ function-like macro invocation
+Message-ID: <202402251854.AwWKaepA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 4.14-main
-head:   d8596a70452e988b924cced76234cb516485149d
-commit: a293bdb3d53aac4216fb379f84aa25aa65aaa3ef [5375/28369] [gmac] added second gmac
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20240225/202402251841.BWr7Kzcl-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402251841.BWr7Kzcl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   e82f2321b99bd2f2be296a5b11b13e4f93ccff16
+commit: 645f6bd2ca34618d51230ba60cc508b26131a814 [17/36] kfifo: add kfifo_out_linear{,_ptr}()
+config: i386-buildonly-randconfig-003-20240225 (https://download.01.org/0day-ci/archive/20240225/202402251854.AwWKaepA-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402251854.AwWKaepA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402251841.BWr7Kzcl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402251854.AwWKaepA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/workqueue.h:9,
-                    from include/linux/mm_types.h:16,
-                    from include/linux/fs.h:22,
-                    from include/linux/net.h:27,
-                    from include/linux/skbuff.h:29,
-                    from include/linux/if_ether.h:23,
-                    from include/linux/etherdevice.h:25,
-                    from net/dsa/slave.c:12:
-   include/linux/timer.h: In function 'timer_setup':
-   include/linux/timer.h:179:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
-     179 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
-         |                              ^
-   include/linux/timer.h:144:39: note: in definition of macro '__setup_timer'
-     144 |                 (_timer)->function = (_fn);                             \
-         |                                       ^~~
-   net/dsa/slave.c: In function 'dsa_slave_create':
->> net/dsa/slave.c:1256:26: warning: variable 'cpu_dp' set but not used [-Wunused-but-set-variable]
-    1256 |         struct dsa_port *cpu_dp;
-         |                          ^~~~~~
-   net/dsa/slave.c: In function 'dsa_cpu_port_get_strings':
-   net/dsa/slave.c:618:38: warning: '%.2d' directive output may be truncated writing between 2 and 4 bytes into a region of size 3 [-Wformat-truncation=]
-     618 |         snprintf(pfx, sizeof(pfx), "p%.2d", cpu_port);
-         |                                      ^~~~
-   net/dsa/slave.c:618:36: note: directive argument in the range [-128, 127]
-     618 |         snprintf(pfx, sizeof(pfx), "p%.2d", cpu_port);
-         |                                    ^~~~~~~
-   net/dsa/slave.c:618:9: note: 'snprintf' output between 4 and 6 bytes into a destination of size 4
-     618 |         snprintf(pfx, sizeof(pfx), "p%.2d", cpu_port);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/dsa/slave.c:1: warning: no structured comments found
+>> lib/kfifo.c:500:9: error: unterminated function-like macro invocation
+     500 |         return min(n, __kfifo_peek_n(fifo, recsize);
+         |                ^
+   include/linux/minmax.h:85:9: note: macro 'min' defined here
+      85 | #define min(x, y)       __careful_cmp(min, x, y)
+         |         ^
+>> lib/kfifo.c:612:1: error: expected expression
+     612 | 
+         | ^
+>> lib/kfifo.c:612:1: error: expected '}'
+   lib/kfifo.c:493:1: note: to match this '{'
+     493 | {
+         | ^
+   3 errors generated.
 
 
-vim +/cpu_dp +1256 net/dsa/slave.c
+vim +500 lib/kfifo.c
 
-2446254915a7d6 Florian Fainelli  2014-09-18  1248  
-4cfbf09cf97f26 Vivien Didelot    2017-08-05  1249  int dsa_slave_create(struct dsa_port *port, const char *name)
-91da11f870f00a Lennert Buytenhek 2008-10-07  1250  {
-4cfbf09cf97f26 Vivien Didelot    2017-08-05  1251  	struct dsa_switch *ds = port->ds;
-badf3ada60ab8f Florian Fainelli  2016-04-27  1252  	struct dsa_switch_tree *dst = ds->dst;
-83c0afaec7b730 Andrew Lunn       2016-06-04  1253  	struct net_device *master;
-91da11f870f00a Lennert Buytenhek 2008-10-07  1254  	struct net_device *slave_dev;
-91da11f870f00a Lennert Buytenhek 2008-10-07  1255  	struct dsa_slave_priv *p;
-a29342e7391152 Florian Fainelli  2017-06-13 @1256  	struct dsa_port *cpu_dp;
-91da11f870f00a Lennert Buytenhek 2008-10-07  1257  	int ret;
-91da11f870f00a Lennert Buytenhek 2008-10-07  1258  
-a29342e7391152 Florian Fainelli  2017-06-13  1259  	cpu_dp = ds->dst->cpu_dp;
-a293bdb3d53aac Frank Wunderlich  2018-06-30  1260  	master = ds->ports[port->upstream].ethernet;
-83c0afaec7b730 Andrew Lunn       2016-06-04  1261  
-55199df6d2af55 Florian Fainelli  2017-09-03  1262  	if (!ds->num_tx_queues)
-55199df6d2af55 Florian Fainelli  2017-09-03  1263  		ds->num_tx_queues = 1;
-55199df6d2af55 Florian Fainelli  2017-09-03  1264  
-55199df6d2af55 Florian Fainelli  2017-09-03  1265  	slave_dev = alloc_netdev_mqs(sizeof(struct dsa_slave_priv), name,
-55199df6d2af55 Florian Fainelli  2017-09-03  1266  				     NET_NAME_UNKNOWN, ether_setup,
-55199df6d2af55 Florian Fainelli  2017-09-03  1267  				     ds->num_tx_queues, 1);
-91da11f870f00a Lennert Buytenhek 2008-10-07  1268  	if (slave_dev == NULL)
-d87d6f44d7c125 Guenter Roeck     2015-02-24  1269  		return -ENOMEM;
-91da11f870f00a Lennert Buytenhek 2008-10-07  1270  
-f50f212749e8a2 Florian Fainelli  2017-01-30  1271  	slave_dev->features = master->vlan_features | NETIF_F_HW_TC;
-f50f212749e8a2 Florian Fainelli  2017-01-30  1272  	slave_dev->hw_features |= NETIF_F_HW_TC;
-7ad24ea4bf620a Wilfried Klaebe   2014-05-11  1273  	slave_dev->ethtool_ops = &dsa_slave_ethtool_ops;
-2fcc8005834a39 Bjørn Mork        2013-08-30  1274  	eth_hw_addr_inherit(slave_dev, master);
-0a5f107b6774aa Phil Sutter       2015-08-18  1275  	slave_dev->priv_flags |= IFF_NO_QUEUE;
-3e8a72d1dae374 Florian Fainelli  2014-08-27  1276  	slave_dev->netdev_ops = &dsa_slave_netdev_ops;
-9d47c0a2d958e0 Jiri Pirko        2015-05-10  1277  	slave_dev->switchdev_ops = &dsa_slave_switchdev_ops;
-8b1efc0f83f1f7 Jarod Wilson      2016-10-20  1278  	slave_dev->min_mtu = 0;
-8b1efc0f83f1f7 Jarod Wilson      2016-10-20  1279  	slave_dev->max_mtu = ETH_MAX_MTU;
-f37db85d0c1eb6 Florian Fainelli  2015-09-23  1280  	SET_NETDEV_DEVTYPE(slave_dev, &dsa_type);
-d442ad4ab1c86b Stephen Hemminger 2009-01-06  1281  
-448b4482c6713c Andrew Lunn       2015-05-06  1282  	netdev_for_each_tx_queue(slave_dev, dsa_slave_set_lockdep_class_one,
-448b4482c6713c Andrew Lunn       2015-05-06  1283  				 NULL);
-448b4482c6713c Andrew Lunn       2015-05-06  1284  
-4cfbf09cf97f26 Vivien Didelot    2017-08-05  1285  	SET_NETDEV_DEV(slave_dev, port->ds->dev);
-4cfbf09cf97f26 Vivien Didelot    2017-08-05  1286  	slave_dev->dev.of_node = port->dn;
-5075314e4e4b55 Alexander Duyck   2014-09-15  1287  	slave_dev->vlan_features = master->vlan_features;
-5075314e4e4b55 Alexander Duyck   2014-09-15  1288  
-5075314e4e4b55 Alexander Duyck   2014-09-15  1289  	p = netdev_priv(slave_dev);
-5f6b4e14cada6d Florian Fainelli  2017-08-03  1290  	p->stats64 = netdev_alloc_pcpu_stats(struct pcpu_sw_netstats);
-5f6b4e14cada6d Florian Fainelli  2017-08-03  1291  	if (!p->stats64) {
-5f6b4e14cada6d Florian Fainelli  2017-08-03  1292  		free_netdev(slave_dev);
-5f6b4e14cada6d Florian Fainelli  2017-08-03  1293  		return -ENOMEM;
-5f6b4e14cada6d Florian Fainelli  2017-08-03  1294  	}
-4cfbf09cf97f26 Vivien Didelot    2017-08-05  1295  	p->dp = port;
-f50f212749e8a2 Florian Fainelli  2017-01-30  1296  	INIT_LIST_HEAD(&p->mall_tc_list);
-39a7f2a4eb496c Andrew Lunn       2016-06-04  1297  	p->xmit = dst->tag_ops->xmit;
-a293bdb3d53aac Frank Wunderlich  2018-06-30  1298  	p->master = master;
-d442ad4ab1c86b Stephen Hemminger 2009-01-06  1299  
-0d8bcdd383b886 Florian Fainelli  2014-08-27  1300  	p->old_pause = -1;
-0d8bcdd383b886 Florian Fainelli  2014-08-27  1301  	p->old_link = -1;
-0d8bcdd383b886 Florian Fainelli  2014-08-27  1302  	p->old_duplex = -1;
-0d8bcdd383b886 Florian Fainelli  2014-08-27  1303  
-4cfbf09cf97f26 Vivien Didelot    2017-08-05  1304  	port->netdev = slave_dev;
-e804441cfe0b60 Florian Fainelli  2017-09-25  1305  
-e804441cfe0b60 Florian Fainelli  2017-09-25  1306  	netif_carrier_off(slave_dev);
-e804441cfe0b60 Florian Fainelli  2017-09-25  1307  
-e804441cfe0b60 Florian Fainelli  2017-09-25  1308  	ret = dsa_slave_phy_setup(p, slave_dev);
-e804441cfe0b60 Florian Fainelli  2017-09-25  1309  	if (ret) {
-e804441cfe0b60 Florian Fainelli  2017-09-25  1310  		netdev_err(master, "error %d setting up slave phy\n", ret);
-e804441cfe0b60 Florian Fainelli  2017-09-25  1311  		goto out_free;
-e804441cfe0b60 Florian Fainelli  2017-09-25  1312  	}
-e804441cfe0b60 Florian Fainelli  2017-09-25  1313  
-91da11f870f00a Lennert Buytenhek 2008-10-07  1314  	ret = register_netdev(slave_dev);
-91da11f870f00a Lennert Buytenhek 2008-10-07  1315  	if (ret) {
-a2ae6007a442d6 Joe Perches       2014-11-09  1316  		netdev_err(master, "error %d registering interface %s\n",
-a2ae6007a442d6 Joe Perches       2014-11-09  1317  			   ret, slave_dev->name);
-e804441cfe0b60 Florian Fainelli  2017-09-25  1318  		goto out_phy;
-91da11f870f00a Lennert Buytenhek 2008-10-07  1319  	}
-91da11f870f00a Lennert Buytenhek 2008-10-07  1320  
-e804441cfe0b60 Florian Fainelli  2017-09-25  1321  	return 0;
-91da11f870f00a Lennert Buytenhek 2008-10-07  1322  
-e804441cfe0b60 Florian Fainelli  2017-09-25  1323  out_phy:
-e804441cfe0b60 Florian Fainelli  2017-09-25  1324  	phy_disconnect(p->phy);
-e804441cfe0b60 Florian Fainelli  2017-09-25  1325  	if (of_phy_is_fixed_link(p->dp->dn))
-e804441cfe0b60 Florian Fainelli  2017-09-25  1326  		of_phy_deregister_fixed_link(p->dp->dn);
-e804441cfe0b60 Florian Fainelli  2017-09-25  1327  out_free:
-5f6b4e14cada6d Florian Fainelli  2017-08-03  1328  	free_percpu(p->stats64);
-0071f56e46dadb Andrew Lunn       2016-01-06  1329  	free_netdev(slave_dev);
-e804441cfe0b60 Florian Fainelli  2017-09-25  1330  	port->netdev = NULL;
-0071f56e46dadb Andrew Lunn       2016-01-06  1331  	return ret;
-0071f56e46dadb Andrew Lunn       2016-01-06  1332  }
-0071f56e46dadb Andrew Lunn       2016-01-06  1333  
-
-:::::: The code at line 1256 was first introduced by commit
-:::::: a29342e739115211615acc33616e547b2d3e0663 net: dsa: Associate slave network device with CPU port
-
-:::::: TO: Florian Fainelli <f.fainelli@gmail.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   490	
+   491	unsigned int __kfifo_out_linear_r(struct __kfifo *fifo,
+   492			unsigned int *tail, unsigned int n, size_t recsize)
+   493	{
+   494		if (fifo->in == fifo->out)
+   495			return 0;
+   496	
+   497		if (tail)
+   498			*tail = fifo->out + recsize;
+   499	
+ > 500		return min(n, __kfifo_peek_n(fifo, recsize);
+   501	}
+   502	EXPORT_SYMBOL(__kfifo_out_linear_r);
+   503	
+   504	unsigned int __kfifo_out_r(struct __kfifo *fifo, void *buf,
+   505			unsigned int len, size_t recsize)
+   506	{
+   507		unsigned int n;
+   508	
+   509		if (fifo->in == fifo->out)
+   510			return 0;
+   511	
+   512		len = kfifo_out_copy_r(fifo, buf, len, recsize, &n);
+   513		fifo->out += n + recsize;
+   514		return len;
+   515	}
+   516	EXPORT_SYMBOL(__kfifo_out_r);
+   517	
+   518	void __kfifo_skip_r(struct __kfifo *fifo, size_t recsize)
+   519	{
+   520		unsigned int n;
+   521	
+   522		n = __kfifo_peek_n(fifo, recsize);
+   523		fifo->out += n + recsize;
+   524	}
+   525	EXPORT_SYMBOL(__kfifo_skip_r);
+   526	
+   527	int __kfifo_from_user_r(struct __kfifo *fifo, const void __user *from,
+   528		unsigned long len, unsigned int *copied, size_t recsize)
+   529	{
+   530		unsigned long ret;
+   531	
+   532		len = __kfifo_max_r(len, recsize);
+   533	
+   534		if (len + recsize > kfifo_unused(fifo)) {
+   535			*copied = 0;
+   536			return 0;
+   537		}
+   538	
+   539		__kfifo_poke_n(fifo, len, recsize);
+   540	
+   541		ret = kfifo_copy_from_user(fifo, from, len, fifo->in + recsize, copied);
+   542		if (unlikely(ret)) {
+   543			*copied = 0;
+   544			return -EFAULT;
+   545		}
+   546		fifo->in += len + recsize;
+   547		return 0;
+   548	}
+   549	EXPORT_SYMBOL(__kfifo_from_user_r);
+   550	
+   551	int __kfifo_to_user_r(struct __kfifo *fifo, void __user *to,
+   552		unsigned long len, unsigned int *copied, size_t recsize)
+   553	{
+   554		unsigned long ret;
+   555		unsigned int n;
+   556	
+   557		if (fifo->in == fifo->out) {
+   558			*copied = 0;
+   559			return 0;
+   560		}
+   561	
+   562		n = __kfifo_peek_n(fifo, recsize);
+   563		if (len > n)
+   564			len = n;
+   565	
+   566		ret = kfifo_copy_to_user(fifo, to, len, fifo->out + recsize, copied);
+   567		if (unlikely(ret)) {
+   568			*copied = 0;
+   569			return -EFAULT;
+   570		}
+   571		fifo->out += n + recsize;
+   572		return 0;
+   573	}
+   574	EXPORT_SYMBOL(__kfifo_to_user_r);
+   575	
+   576	unsigned int __kfifo_dma_in_prepare_r(struct __kfifo *fifo,
+   577		struct scatterlist *sgl, int nents, unsigned int len, size_t recsize)
+   578	{
+   579		BUG_ON(!nents);
+   580	
+   581		len = __kfifo_max_r(len, recsize);
+   582	
+   583		if (len + recsize > kfifo_unused(fifo))
+   584			return 0;
+   585	
+   586		return setup_sgl(fifo, sgl, nents, len, fifo->in + recsize);
+   587	}
+   588	EXPORT_SYMBOL(__kfifo_dma_in_prepare_r);
+   589	
+   590	void __kfifo_dma_in_finish_r(struct __kfifo *fifo,
+   591		unsigned int len, size_t recsize)
+   592	{
+   593		len = __kfifo_max_r(len, recsize);
+   594		__kfifo_poke_n(fifo, len, recsize);
+   595		fifo->in += len + recsize;
+   596	}
+   597	EXPORT_SYMBOL(__kfifo_dma_in_finish_r);
+   598	
+   599	unsigned int __kfifo_dma_out_prepare_r(struct __kfifo *fifo,
+   600		struct scatterlist *sgl, int nents, unsigned int len, size_t recsize)
+   601	{
+   602		BUG_ON(!nents);
+   603	
+   604		len = __kfifo_max_r(len, recsize);
+   605	
+   606		if (len + recsize > fifo->in - fifo->out)
+   607			return 0;
+   608	
+   609		return setup_sgl(fifo, sgl, nents, len, fifo->out + recsize);
+   610	}
+   611	EXPORT_SYMBOL(__kfifo_dma_out_prepare_r);
+ > 612	
 
 -- 
 0-DAY CI Kernel Test Service
