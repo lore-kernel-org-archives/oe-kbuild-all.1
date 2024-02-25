@@ -1,110 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA3218EA2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 20:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C8B182AE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 21:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708891215; cv=none; b=DDoL8bs7rxV3QKMEy3mMub7wuT4luJLRRzd/24SpJMvhO97EkgIQ8ghDljXcvqAJZJLqT/WNDdAZhMTZN5Bc9zkoEMxwW0BCnrnFIDIZBm5DgCMyrurJbCcUNlA9p/TiSgHK4P2ThjuXHKyOK/kejBKHGvHtPSV/qlsGmA5KJMA=
+	t=1708895369; cv=none; b=FpKumtNIvVcsD4fgAGjm5zmnDispYhBFCmXQo1uD3vjqFoWc21kNfCJrI14dSZreGyOM/L6mD9Sz53WGLkx6vpI13wwnXfXCuxOzBg+UT93YGz2gMO6iLaVsX8SFHRSRGf7kruscClz7JPQyeUz5fLConPIxOkaPr/Gb6Am/x5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708891215; c=relaxed/simple;
-	bh=agnxck/hJprAWeCplemgcLq/LnSn+eF/626rlMt8ThM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Syc1bxUC+3gGYHsWGarHcnMfDUjFx1EjaMpXh2uKUdYWWkKsZ0lkuVU1Ylt5+/sesXFYJ/sd5I3GmLbcO0njdu+1Y9szEGyN4+liFnHxyJqajgSwSFynwk3AJ7y4iodRXsg3LjuTLFzH7Xv2+tntB66u+XIe1FyzIflMqZxZiZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMq1qlN3; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708895369; c=relaxed/simple;
+	bh=KxLjjiPdO5BSfpHwmwQBh+Es11VYdAo32mAuZXv/VO4=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=ZSbG2hOmfQicbBpXI8e/RavzViNGoN/nEtp4b2eJaS975oO0ZqVB4S5Rq24u4CdcbQGERwq1RypBkiHNYIm+U9Hgw2D7OifUXqJY0h1QiR6cpis3uf8Ii/Cd+ASJ7Q7sDnZ/Xt1Lm/zpLUqDFqaaFXc/IyjXCpizhw/aQ9id/U8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=SmvtRbvu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d/skpLJX; arc=none smtp.client-ip=64.147.123.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMq1qlN3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708891213; x=1740427213;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=agnxck/hJprAWeCplemgcLq/LnSn+eF/626rlMt8ThM=;
-  b=nMq1qlN3zQilxOL3xWxnzgl7v83yPT/+6aBgH1pryOdO4j8ohIMlgcKb
-   pinalGpDIbTHNjNKj5zOQJV2Y3jfW88RXupoVtuyMaszBjBZUEDcd6VoL
-   pkCIJTw2wEVKWtLtZ1vpCX7ths+U5UeU94+Nwf7bLsii4+Sj9395uEbxU
-   sqpenpMtcQsgcbUbwqI5HsSLKQlGTkLyW/e24bgYSG7UbhhOaATqbD0dA
-   C5VZ3Iy8OzACU1rIoJNMha+9KX912MQqeFlImUXG/0GMhr/eYBpLyGZLG
-   /5UZvJbta4jseJz7i7iTp4muP6GbB+FKFr7iwkWRXwFC1QPx2ztk7Hvw5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="25639169"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="25639169"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 12:00:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="29631215"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Feb 2024 12:00:10 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1reKfP-0009lU-2V;
-	Sun, 25 Feb 2024 20:00:07 +0000
-Date: Mon, 26 Feb 2024 03:59:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-block:drbd-blk-limits 2/16] block/blk-settings.c:910: warning:
- Function parameter or struct member 'pfx' not described in
- 'queue_limits_stack_bdev'
-Message-ID: <202402260333.svHvl4OJ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="SmvtRbvu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d/skpLJX"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 7DEF63200A11;
+	Sun, 25 Feb 2024 16:09:24 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Sun, 25 Feb 2024 16:09:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1708895364;
+	 x=1708981764; bh=OY2i2EUDC+ZAaeIXy8EvVGBWlezkkXmkf/G2a3j1Roc=; b=
+	SmvtRbvukAYq0kUAHn+53clW0pNmPX2ezigl98pVcAdv/E6gzxdOSgota8scDF0o
+	Jtvp2NMnDOKIuPgf4T3WUYkEvzD2L8/yEoW4S+0stvsIGxW1dU+0hQoUCRTk6Pz2
+	7koMEjELKzvnzHRAuMmhLn1CTcnK4Iag8+Ha8YayvC6C/Ipfs6I7nBqimeXSZz4X
+	aMQjvnqFHaoWZNzk0DcUjxjIcS90s7KR4nvuR6xMVt7GSNP8mEHXWcuI0fHdu1UE
+	mRRyOq9BnLfg1VQeSe9GMV6sXxmJOp3NDWmMtPvlN0B5dnfbkbcsltJau85vlAMP
+	axDKjdwE0A91YzufDneLAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1708895364; x=
+	1708981764; bh=OY2i2EUDC+ZAaeIXy8EvVGBWlezkkXmkf/G2a3j1Roc=; b=d
+	/skpLJX2AxsI/qmnr70gv8Zev2nbsfPFIp+kWqz/MUEp0DJ10Gm8ruLmD/EdwB7Y
+	Zltyn31mLyk0lX919YySS+peNk+ZP32Wti97NdkY6R6APGJCSKDnoeNqqf5o0MDS
+	kjmNxZI/EJNe9i6qgzaZy2eGCDjXANzg+KwFdP9I5a5VrDXupS+2LwBX5URWSxxP
+	XDnoZc8azlMSx/e2C+47A3l0lCgG2lRpnHPg16WKwF6gk2BGc6ioEubIjO4LAz2E
+	DtwMsdvYFEL9Dsfc0DamNcP1QiVAD/aECuROjxlL8pHju984KalDXUg2T5Drswye
+	D2X/vrM4rVpnYoLKF11tw==
+X-ME-Sender: <xms:g6zbZWXm3Rof2mqy3MDc58Drdg9Kc56ild2K-syoMPOiKzaFPfrQZA>
+    <xme:g6zbZSnzixD1Q8LhDrYxGlMJCKueNL1IjZoirN2dJaolagDWekp1GXmB8a84rDV4Q
+    q8htkXDm3Yu7BLNHL4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgedtgddugeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpefhvdehteehvdeltdegtdektdeuudeivdetjeehgeegvdetjedvveevjeff
+    geeuvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgu
+    sgdruggv
+X-ME-Proxy: <xmx:g6zbZaa2OXcM06uiGt8FGX90dTs-SYV6YQNJPfg5z6jyvt-M4BgmnQ>
+    <xmx:g6zbZdVUlzdmWw4TvOxO0WcJqbZrifHfvfNrHCoQQEenaW0-WB2udA>
+    <xmx:g6zbZQlBRsh0BPVKiIqZhVAHt4br2twC-avuacw-QhkzGB2vKPfdWg>
+    <xmx:hKzbZfu9E7lp7Rj9fyHLx5rstk0U_S7KDZTcTi4LQ13uv13k6REj9Q>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A841EB6008D; Sun, 25 Feb 2024 16:09:23 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-153-g7e3bb84806-fm-20240215.007-g7e3bb848
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-Id: <522ab6e6-97b4-472d-8a1e-a495a263dda3@app.fastmail.com>
+In-Reply-To: 
+ <CAHp75Vcm7wFKrUnt4qnRkUzcMqyqGVOsam-y6rHbYDjpPnSzyA@mail.gmail.com>
+References: <202402232058.4eDf4GRs-lkp@intel.com>
+ <CACRpkdZtwvZPB2=xW_SoV9DmjPQJZXyWRnwySDkEL1cDvoeGRw@mail.gmail.com>
+ <CAMRc=Mevhd4b0kUi-FrWkWUxSDkpcSb9NW0+JJJbkMmPyG-RZA@mail.gmail.com>
+ <CAHp75Vcm7wFKrUnt4qnRkUzcMqyqGVOsam-y6rHbYDjpPnSzyA@mail.gmail.com>
+Date: Sun, 25 Feb 2024 22:09:02 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Andy Shevchenko" <andy.shevchenko@gmail.com>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>
+Cc: "Linus Walleij" <linus.walleij@linaro.org>,
+ "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "Bartosz Golaszewski" <bartosz.golaszewski@linaro.org>
+Subject: Re: [brgl:gpio/for-next 42/47] gpio-mmio.c:undefined reference to `iowrite64'
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.infradead.org/users/hch/block.git drbd-blk-limits
-head:   952f67c787298e616a8aa5acc3f881d267e6c7b5
-commit: 7f26721db65aea89f1f7766c8ff82131e5a6ee71 [2/16] block: add a queue_limits_stack_bdev helper
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240226/202402260333.svHvl4OJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402260333.svHvl4OJ-lkp@intel.com/reproduce)
+On Sun, Feb 25, 2024, at 00:23, Andy Shevchenko wrote:
+> On Sat, Feb 24, 2024 at 8:57=E2=80=AFPM Bartosz Golaszewski <brgl@bgde=
+v.pl> wrote:
+>> On Sat, Feb 24, 2024 at 4:58=E2=80=AFPM Linus Walleij <linus.walleij@=
+linaro.org> wrote:
+>> > On Fri, Feb 23, 2024 at 1:44=E2=80=AFPM kernel test robot <lkp@inte=
+l.com> wrote:
+>> >
+>> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linu=
+x.git gpio/for-next
+>> > > head:   7bb5f3a7ca8856c5c1fa26a6e3f58a1254019dc0
+>> > > commit: 36e44186e0badfda499b65d4462c49783bf92314 [42/47] gpio: mm=
+io: Support 64-bit BE access
+>> > > config: um-allyesconfig (https://download.01.org/0day-ci/archive/=
+20240223/202402232058.4eDf4GRs-lkp@intel.com/config)
+>> >
+>> > UM Linux now again.
+>> >
+>> > gpio-mmio depends on HAS_IOMEM
+>> > and UM Linux has set HAS_IOMEM, but
+>> > also claims to support 64bit without providing the necessary 64bit
+>> > io-accessors.
+>> >
+>> > Maybe UM Linux need to be fixed?
+>>
+>> Nah, there were other reports for the same issues, at least for x86
+>> and alpha. I hope Andy will have some time to look into it early this
+>> week, otherwise we'll have to revert the offending patch.
+>
+> So, the problem is that those architectures do define GENERIC_IOMAP
+> which does NOT have implementations of ioread64*()/iowrite64*().
+>
+> Arnd, maybe you can shed a light on why it is so?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402260333.svHvl4OJ-lkp@intel.com/
+The problem here is that x86 cannot do 64-bit accesses
+to IORESOURCE_IO() mappings, so neither inq()/outq() nor
+ioread64()/iowrite64() can be implemented for it without
+splitting the access into two 32-bit ones.
 
-All warnings (new ones prefixed by >>):
+If you have the specification for the device that tries
+to use this, you should be able to work out whether
+the top or the bottom half of the 64-bit register comes
+first and replace it with a pair of 32-bit accesses that
+work on both I/O and memory space, see
+include/linux/io-64-nonatomic-{hi-lo,lo-hi}.h
 
-   block/blk-settings.c:281: warning: expecting prototype for queue_limits_commit_set(). Prototype was for queue_limits_set() instead
->> block/blk-settings.c:910: warning: Function parameter or struct member 'pfx' not described in 'queue_limits_stack_bdev'
+> And we have dead code like drivers/vfio/pci/vfio_pci_rdwr.c (the
+> part related to 64-bit IO accessors), which nobody tried.
 
+I could not figure out what that code is even trying to do,
+with its extra byteswap.
 
-vim +910 block/blk-settings.c
+> P.S. The workaround is to open code using readq()/writeq() [with
+> swab64() for BE].
 
-   893	
-   894	/**
-   895	 * queue_limits_stack_bdev - adjust queue_limits for stacked devices
-   896	 * @t:	the stacking driver limits (top device)
-   897	 * @bdev:  the underlying block device (bottom)
-   898	 * @offset:  offset to beginning of data within component device
-   899	 *
-   900	 * Description:
-   901	 *    This function is used by stacking drivers like MD and DM to ensure
-   902	 *    that all component devices have compatible block sizes and
-   903	 *    alignments.  The stacking driver must provide a queue_limits
-   904	 *    struct (top) and then iteratively call the stacking function for
-   905	 *    all component (bottom) devices.  The stacking function will
-   906	 *    attempt to combine the values and ensure proper alignment.
-   907	 */
-   908	void queue_limits_stack_bdev(struct queue_limits *t, struct block_device *bdev,
-   909			sector_t offset, const char *pfx)
- > 910	{
-   911		if (blk_stack_limits(t, &bdev_get_queue(bdev)->limits,
-   912				get_start_sect(bdev) + offset))
-   913			pr_notice("%s: Warning: Device %pg is misaligned\n",
-   914				pfx, bdev);
-   915	}
-   916	EXPORT_SYMBOL_GPL(queue_limits_stack_bdev);
-   917	
+readq()/writeq() are not generally a replace for
+ioread64()/iowrite64() because they can't deal with ioport_map()
+type mappings, though the reverse is true and you can always
+replace readl()/writel() with ioread32()/iowrite32() if you
+can live with the performance overhead on x86.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+     Arnd
