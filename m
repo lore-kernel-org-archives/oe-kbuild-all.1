@@ -1,301 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A700817;
-	Mon, 26 Feb 2024 00:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DF133EC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Feb 2024 02:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708907614; cv=none; b=Icd7O72FxRE2mCGZ9n3/dx6g1fIuMb3v8ocw93PBi1kI/XWzAebL/8981jKnsAV0XviesTSWd4uyEkO6I/JuYsnXnl25u2Lg25IXPMRAL0xGVELtQ6ysU5WmTqMZTqKdDGg+z3Vv3+c+SR/O3mKTmrDq1XcJoyBeEQLonnAZVo0=
+	t=1708913909; cv=none; b=JqhqM1ODOeC2o4FeGROAyMDCpXU6yMUuqc4AZNbTe3OqJcARXp65IPuozGYzNqwC/qJLYSVLE1EvOfML80sUNbbgKUCoUN5qc3HqF8wMr3UThgC8PWs7ZXF4kZcT+wC1VbGVqGLT4Cd28i3yEn8Jvvwvlp2nYCqPSN6/ze0q0A0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708907614; c=relaxed/simple;
-	bh=ZMBMcLK5RpzjPhN6mgEp4eouqAMk4n7fNLd456YbA+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uDYaEhUTxx/X94S47dG4ktaonK847YzgbQpy+ko0PZ7GeYaIe1Q1ebwTa4OVrm3bxTwYNG6poheC0b3nInyZe0LR5I1ptPoEj5zUrxGsriEM4DZ1oj5FCHHs+uQFRFX7TaQWXlsWe5SP2NEWAxmpCL7kQZ9YCX0g8J59K36t/6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkXwlrN2; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708913909; c=relaxed/simple;
+	bh=i2mPfz5hhKBgIesGtEKAqVUGi6/Ok6931Pv0c7OEASk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kCSSo5O4D5FOHr/355HKUtYkwtIxTR/jQEMWjqRbdn0JNFoSrGATSHV3dSoSssXXGDl3ebsyV1/IYa+CLXE4Td00i6mqivUF6GK69XAc/eV18qbmWtiV6UTC6SFZT1vSieRtKmeWPgRxZguN0LpY+eFlV6kf2D2D1icPBCF3fyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c6p0/QJe; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkXwlrN2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708907612; x=1740443612;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZMBMcLK5RpzjPhN6mgEp4eouqAMk4n7fNLd456YbA+w=;
-  b=ZkXwlrN2Swa+A5C4npqM9CL+umjXW8LNZ/iNjvJ6gYQhoOtHGYQqTfNx
-   sQ7pO5lrF6CM9SmZGg6+k8Dhu3EKymfzRyYLej/ksWxJp6kCHkw/3g21V
-   HtlWV6zlmqcKTV8LL63g3sHNAEvt4lDwsTH+F1Z/ncem6+Z4v9r1HuATb
-   +lpKZ9iWfMHUc/i2wX0iQknUYhPF8mTinodJG6jti8pDKs/f/w48PjAV4
-   Ky0Sh+L1+/62Z5hgiMxuN+AESaMNWVzPnhf0Ys3LGA4HOsZyS2s9eegdb
-   PnaxpbISba7f5vYU14Jxq+AJ89RRpf+404RBEWwz/hxPHLOyA3zJAG3Pz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="14608088"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="14608088"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 16:33:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="11182883"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 25 Feb 2024 16:33:31 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1reOvw-0009sY-0f;
-	Mon, 26 Feb 2024 00:33:28 +0000
-Date: Mon, 26 Feb 2024 08:33:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sj:damon/next 18/20] mm/damon/core.c:752:44: warning: variable
- 'goal' used in loop condition not modified in loop body
-Message-ID: <202402260800.F3OIgZl9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c6p0/QJe"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a3e6f79e83dso262109666b.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Feb 2024 18:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708913906; x=1709518706; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i2mPfz5hhKBgIesGtEKAqVUGi6/Ok6931Pv0c7OEASk=;
+        b=c6p0/QJe1dBY+jDhepOHtlo0O6yUBsxOBHJPaJ9owJSjoTcM7aur5b5mkpNTBaoZCP
+         r6bRBk6H72VJ7I7LOiaTojrHHKsn9f8awf5fda+xObVzV7p7EhFfxuSsm/wcAGnuE9hl
+         cEKn56iUA+GiHVEIRt63MzBBzWRDzWlUq3vMpndMOJFsa3gL9X7VHxFZqrqK6M7xqgqs
+         ucC9G+thF8nSNYiCE0p3K292TpWoREJu0HM11NuJSgNFvcgy4lf0j3Qr2G4vSNh4tDSx
+         APRrxFlAnXnvu7qwOK0UWWG0EOtM6OFmiI6TK2sgKFuru2P/BEKizipykXBSQVOzAEWy
+         pQ8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708913906; x=1709518706;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i2mPfz5hhKBgIesGtEKAqVUGi6/Ok6931Pv0c7OEASk=;
+        b=SedGvXzt0aR8Z8znXthDoTH9IQXWCF63KiKpAyUgtnpefxZxOpu+ajO8aA+EgqzYTq
+         JmanzENvOMo0E/Vh+ObD4H+tSTJQgSamOLwxxLilA/l0Asq06hofUtYIgFX45BkTMctW
+         5cLDO7C1/6unkgI7YtTLhnO2+QCEDacZwKgtzRi4uUlYlzlfwhudsdS0+fjzkuYVWgf8
+         cpS8KCS0I4lw0M+pWkGofKKWLROnjPbHYmB9p+E6CzyO/8V3a7CMPInyP+ZxR0nlQXpz
+         UrV/ZXSrm3kKTFo+ldIYmy9Qihrzi2KJOG0/c0O8R88+Az0h/7n9XFf/q272U5dTOjY/
+         Di5g==
+X-Forwarded-Encrypted: i=1; AJvYcCWiSd5zNahlpRBBM5TbonL1cRzcCnThWcrNCMS1xKK6ZJk4fcMFD8pwdgKwgvczObc1jEkshxHiPVlTqIocgloyU8O8dW0GKTUFF8vtcw==
+X-Gm-Message-State: AOJu0YzKsajrIdnDRrNj5mnLG+mDlMSQZPvd0LUs7R1bbo2T5gRDUgug
+	Hmyaq1kFrOd3HZmeOELSvHfBg5qrM/m86/K9a6fObRoO3dzewJDpWxj+IBkLdTT3p++74lgVwM5
+	UeCqrMEwPXhwrpO8dJ0fxLxxVu1Y=
+X-Google-Smtp-Source: AGHT+IG4YXMtSR6+Ovg9afTjcqQBhdC+SfOMhUOP9Ekm86AA6U2NO9exkl50Tdv03vNTes7hWhi7L25b46hLMfluMj0=
+X-Received: by 2002:a17:906:4f91:b0:a3e:7d36:62b1 with SMTP id
+ o17-20020a1709064f9100b00a3e7d3662b1mr3289097eju.46.1708913906424; Sun, 25
+ Feb 2024 18:18:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202402232058.4eDf4GRs-lkp@intel.com> <CACRpkdZtwvZPB2=xW_SoV9DmjPQJZXyWRnwySDkEL1cDvoeGRw@mail.gmail.com>
+ <CAMRc=Mevhd4b0kUi-FrWkWUxSDkpcSb9NW0+JJJbkMmPyG-RZA@mail.gmail.com>
+ <CAHp75Vcm7wFKrUnt4qnRkUzcMqyqGVOsam-y6rHbYDjpPnSzyA@mail.gmail.com> <522ab6e6-97b4-472d-8a1e-a495a263dda3@app.fastmail.com>
+In-Reply-To: <522ab6e6-97b4-472d-8a1e-a495a263dda3@app.fastmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 26 Feb 2024 04:17:49 +0200
+Message-ID: <CAHp75VeSJ62oYBTpt4a80eH3tuyjJ_mRZe=P2w3yKKattmh1vg@mail.gmail.com>
+Subject: Re: [brgl:gpio/for-next 42/47] gpio-mmio.c:undefined reference to `iowrite64'
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linus.walleij@linaro.org>, 
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   a9e8680aa284cf5fd994087542cfa9e6f5f491b4
-commit: 74d79c7a174ab26a8f99bc482dd6b067c93bc554 [18/20] mm/damon: implement DAMON context input-only update function
-config: i386-buildonly-randconfig-003-20240226 (https://download.01.org/0day-ci/archive/20240226/202402260800.F3OIgZl9-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402260800.F3OIgZl9-lkp@intel.com/reproduce)
+On Sun, Feb 25, 2024 at 11:09=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrot=
+e:
+> On Sun, Feb 25, 2024, at 00:23, Andy Shevchenko wrote:
+> > On Sat, Feb 24, 2024 at 8:57=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev=
+.pl> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402260800.F3OIgZl9-lkp@intel.com/
+...
 
-All warnings (new ones prefixed by >>):
+> > So, the problem is that those architectures do define GENERIC_IOMAP
+> > which does NOT have implementations of ioread64*()/iowrite64*().
+> >
+> > Arnd, maybe you can shed a light on why it is so?
+>
+> The problem here is that x86 cannot do 64-bit accesses
+> to IORESOURCE_IO() mappings, so neither inq()/outq() nor
+> ioread64()/iowrite64() can be implemented for it without
+> splitting the access into two 32-bit ones.
+>
+> If you have the specification for the device that tries
+> to use this, you should be able to work out whether
+> the top or the bottom half of the 64-bit register comes
+> first and replace it with a pair of 32-bit accesses that
+> work on both I/O and memory space, see
+> include/linux/io-64-nonatomic-{hi-lo,lo-hi}.h
+>
+> > And we have dead code like drivers/vfio/pci/vfio_pci_rdwr.c (the
+> > part related to 64-bit IO accessors), which nobody tried.
+>
+> I could not figure out what that code is even trying to do,
+> with its extra byteswap.
+>
+> > P.S. The workaround is to open code using readq()/writeq() [with
+> > swab64() for BE].
+>
+> readq()/writeq() are not generally a replace for
+> ioread64()/iowrite64() because they can't deal with ioport_map()
+> type mappings, though the reverse is true and you can always
+> replace readl()/writel() with ioread32()/iowrite32() if you
+> can live with the performance overhead on x86.
 
->> mm/damon/core.c:752:44: warning: variable 'goal' used in loop condition not modified in loop body [-Wfor-loop-analysis]
-     752 |         for (goal = damos_nth_quota_goal(i, src); goal; )
-         |                                                   ^~~~
->> mm/damon/core.c:799:42: warning: variable 'filter' used in loop condition not modified in loop body [-Wfor-loop-analysis]
-     799 |         for (filter = damos_nth_filter(i, src); filter;)
-         |                                                 ^~~~~~
->> mm/damon/core.c:853:42: warning: variable 'scheme' used in loop condition not modified in loop body [-Wfor-loop-analysis]
-     853 |         for (scheme = damon_nth_scheme(i, src); scheme;)
-         |                                                 ^~~~~~
->> mm/damon/core.c:841:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-     841 |         int i = 0, err;
-         |                    ^
->> mm/damon/core.c:929:37: warning: variable 't' used in loop condition not modified in loop body [-Wfor-loop-analysis]
-     929 |         for (t = damon_nth_target(i, src); t;)
-         |                                            ^
-   5 warnings generated.
+The driver in question by name assumes that it won't perform IO port
+access. Perhaps use of ioread*()/iowrite*() is not what we should even
+consider there, Linus, Bart, do you know if gpio-mmio was ever used
+for devices that want IO port rather than MMIO accesses?
 
-
-vim +/goal +752 mm/damon/core.c
-
-   731	
-   732	
-   733	static void damos_update_quota_goals(struct damos_quota *dst,
-   734			struct damos_quota *src)
-   735	{
-   736		struct damos_quota_goal *goal, *next;
-   737		int i = 0;
-   738	
-   739		damos_for_each_quota_goal_safe(goal, next, dst) {
-   740			struct damos_quota_goal *src_goal =
-   741				damos_nth_quota_goal(i++, src);
-   742	
-   743			if (src_goal) {
-   744				goal->metric = src_goal->metric;
-   745				goal->target_value = src_goal->target_value;
-   746				goal->current_value = src_goal->current_value;
-   747				goal->last_psi_total = src_goal->last_psi_total;
-   748				continue;
-   749			}
-   750			damos_destroy_quota_goal(goal);
-   751		}
- > 752		for (goal = damos_nth_quota_goal(i, src); goal; )
-   753			damos_move_quota_goal(dst, goal);
-   754	}
-   755	
-   756	static struct damos_filter *damos_nth_filter(int n, struct damos *s)
-   757	{
-   758		struct damos_filter *filter;
-   759		int i = 0;
-   760	
-   761		damos_for_each_filter(filter, s) {
-   762			if (i++ == n)
-   763				return filter;
-   764		}
-   765		return NULL;
-   766	}
-   767	
-   768	static int damos_update_filters(struct damos *dst, struct damos *src)
-   769	{
-   770		struct damos_filter *filter, *next;
-   771		int i = 0;
-   772	
-   773		damos_for_each_filter_safe(filter, next, dst) {
-   774			struct damos_filter *src_filter = damos_nth_filter(i++, src);
-   775	
-   776			if (src_filter) {
-   777				filter->type = src_filter->type;
-   778				filter->matching = src_filter->matching;
-   779				switch (src_filter->type) {
-   780				case DAMOS_FILTER_TYPE_ANON:
-   781					break;
-   782				case DAMOS_FILTER_TYPE_MEMCG:
-   783					filter->memcg_id = src_filter->memcg_id;
-   784					break;
-   785				case DAMOS_FILTER_TYPE_ADDR:
-   786					filter->addr_range = src_filter->addr_range;
-   787					break;
-   788				case DAMOS_FILTER_TYPE_TARGET:
-   789					filter->target_idx = src_filter->target_idx;
-   790					break;
-   791				default:
-   792					break;
-   793				}
-   794				continue;
-   795			}
-   796			damos_destroy_filter(filter);
-   797		}
-   798	
- > 799		for (filter = damos_nth_filter(i, src); filter;)
-   800			damos_move_filter(dst, filter);
-   801		return 0;
-   802	}
-   803	
-   804	static struct damos *damon_nth_scheme(int n, struct damon_ctx *ctx)
-   805	{
-   806		struct damos *s;
-   807		int i = 0;
-   808	
-   809		damon_for_each_scheme(s, ctx) {
-   810			if (i++ == n)
-   811				return s;
-   812		}
-   813		return NULL;
-   814	}
-   815	
-   816	static int damon_update_scheme(struct damos *dst, struct damos *src)
-   817	{
-   818		int err;
-   819	
-   820		dst->pattern = src->pattern;
-   821		dst->action = src->action;
-   822		dst->apply_interval_us = src->apply_interval_us;
-   823		dst->quota.ms = src->quota.ms;
-   824		dst->quota.sz = src->quota.sz;
-   825		dst->quota.reset_interval = src->quota.reset_interval;
-   826		dst->quota.weight_sz = src->quota.weight_sz;
-   827		dst->quota.weight_nr_accesses = src->quota.weight_nr_accesses;
-   828		dst->quota.weight_age = src->quota.weight_age;
-   829	
-   830		damos_update_quota_goals(&dst->quota, &src->quota);
-   831	
-   832		dst->wmarks = src->wmarks;
-   833	
-   834		err = damos_update_filters(dst, src);
-   835		return err;
-   836	}
-   837	
-   838	static int damon_update_schemes(struct damon_ctx *dst, struct damon_ctx *src)
-   839	{
-   840		struct damos *scheme, *next;
- > 841		int i = 0, err;
-   842	
-   843		damon_for_each_scheme_safe(scheme, next, dst) {
-   844			struct damos *src_scheme = damon_nth_scheme(i++, src);
-   845	
-   846			if (src_scheme) {
-   847				err = damon_update_scheme(scheme, src_scheme);
-   848				continue;
-   849			}
-   850			damon_destroy_scheme(scheme);
-   851		}
-   852	
- > 853		for (scheme = damon_nth_scheme(i, src); scheme;)
-   854			damon_move_scheme(dst, scheme);
-   855		return 0;
-   856	}
-   857	
-   858	static int damon_update_target_regions(struct damon_target *dst,
-   859			struct damon_target *src)
-   860	{
-   861		struct damon_addr_range *ranges;
-   862		int i = 0, err;
-   863		struct damon_region *r;
-   864	
-   865		damon_for_each_region(r, src)
-   866			i++;
-   867		if (!i)
-   868			return 0;
-   869		ranges = kmalloc_array(i, sizeof(*ranges), GFP_KERNEL | __GFP_NOWARN);
-   870		if (!ranges)
-   871			return -ENOMEM;
-   872		i = 0;
-   873		damon_for_each_region(r, src) {
-   874			if (r->ar.start > r->ar.end) {
-   875				err = -EINVAL;
-   876				goto out;
-   877			}
-   878			ranges[i].start = r->ar.start;
-   879			ranges[i++].end = r->ar.end;
-   880			if (i == 1)
-   881				continue;
-   882			if (ranges[i - 2].end > ranges[i - 1].start) {
-   883				err = -EINVAL;
-   884				goto out;
-   885			}
-   886		}
-   887		err = damon_set_regions(dst, ranges, i);
-   888	out:
-   889		kfree(ranges);
-   890		return err;
-   891	}
-   892	
-   893	static struct damon_target *damon_nth_target(int n, struct damon_ctx *ctx)
-   894	{
-   895		struct damon_target *t;
-   896		int i = 0;
-   897	
-   898		damon_for_each_target(t, ctx) {
-   899			if (i++ == n)
-   900				return t;
-   901		}
-   902		return NULL;
-   903	}
-   904	
-   905	static int damon_update_targets(struct damon_ctx *dst, struct damon_ctx *src)
-   906	{
-   907		struct damon_target *t, *next;
-   908		int i = 0, err;
-   909	
-   910		damon_for_each_target_safe(t, next, dst) {
-   911			struct damon_target *src_target = damon_nth_target(i++, src);
-   912	
-   913			if (damon_target_has_pid(dst))
-   914				put_pid(t->pid);
-   915	
-   916			if (src_target) {
-   917				if (damon_target_has_pid(src))
-   918					get_pid(src_target->pid);
-   919				t->pid = src_target->pid;
-   920	
-   921				err = damon_update_target_regions(t, src_target);
-   922				if (err)
-   923					return err;
-   924				continue;
-   925			}
-   926			damon_destroy_target(t);
-   927		}
-   928	
- > 929		for (t = damon_nth_target(i, src); t;)
-   930			damon_move_target(dst, t);
-   931		return 0;
-   932	}
-   933	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+With Best Regards,
+Andy Shevchenko
