@@ -1,88 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEC31CFB6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Feb 2024 09:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A4E54F92
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Feb 2024 10:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708941239; cv=none; b=oynyzc4pjthYHNLhOLi89K2iaBvei7XOsu15NB6AU18OpnHpPRzz91552zhZRM9nhYCskV37xCLIS24xJsaukbQzy4bXWe97HnLnwbf9wxAliiT9cOlSod1AOQc8xOV4HK76y03bMwwtLwEZp53vXXqdlFiUJi18glhWrDrekjA=
+	t=1708941920; cv=none; b=FGA1+GrKo2W5PSH+/I2O9FPitOf5shl1mDVRbzYIzIebQEcz+82WHpn1JCEymaAkwlbWlvrWD+bTgR8fP1LZjZgy1BfoSqHGZn5V04nSDl/Ri2ZShVjXWCoZra6CP6qClrpUCAGgDVzqBPuENcIL6sKhTwcIeGRVqd+S/6/qb4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708941239; c=relaxed/simple;
-	bh=fiqM8I9v41XIqOWuLrRnsMlHP9FCD1OGIIa4+BZFye0=;
+	s=arc-20240116; t=1708941920; c=relaxed/simple;
+	bh=6T+uLO6I7CH4hbEhwVkMUlfl7bjaJLtd77WdXi8sq/Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HB5akpbJEgF+XJZa8IwhDfWt8ifBBpEE2X1SY0b1g5NBTa6Q2NF3cMzjwNgvN1CUCG4HmF8GQEV3cWqUWT0QRMmiwmw3KVtGy3XH1tvEEhRB0avc4hvR2meCj+Laj5ZUtha+rrT4+4kN5k8EpNqLunkEmiMHAEmxJTtw1dSLEz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZUto507h; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=C8j9jR7vLeIbEvMcAvbxombBL3XB48IyxPqtWHFwSDVjATwzIofxPCarv421zpEE1LzNwMVIxglNHGGE/tdE2savYeSWKF733113b0My8E/xOT2bNQJRppmkVzfn91/cnpiruT7v7ZYMJ5hfIB3y1rt3RQxqfRoY/657BhMw1bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=clsEJyEA; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZUto507h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708941238; x=1740477238;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fiqM8I9v41XIqOWuLrRnsMlHP9FCD1OGIIa4+BZFye0=;
-  b=ZUto507h+eytiAcuMiXUWvyN954FfPfhuLgn7sLePugiDqZpxc0/8H6x
-   sQEonn4slJDnaaFMUymN9M+0n7gbC2TJ2mAcONQjcaV6dft/huY16dSaG
-   JdFY786mrJOntOEgz0aG2/e2ncD7gKgTUZ5VE9OH9+/rPqtLZLUoRjiTS
-   CiTUcxvnzT1dLuefEz04FodX2qCUz8afZ5/1yqE//bstYvLhi5tqQatq0
-   azWuXJDtOuIpCSr5111uC6cINTNCuNFm/CjwmfYxbuyVqdb0U5OYA6YEl
-   +UWWzbGL600j3vqBjWykD2hnrCho/64T2wHVubb/W87C0pDnY66/xbwcW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3361524"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="3361524"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 01:53:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="6600868"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Feb 2024 01:53:56 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1reXgB-000AER-0d;
-	Mon, 26 Feb 2024 09:53:51 +0000
-Date: Mon, 26 Feb 2024 17:53:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/renesas-debug 9/20]
- drivers/soc/renesas/r8a77960-mstp.c:623:13: warning: no previous prototype
- for 'r8a77960_disable_mstp_clocks'
-Message-ID: <202402261759.ntC9YoHP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="clsEJyEA"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-412a4848f0dso5144085e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Feb 2024 02:05:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708941909; x=1709546709; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fcBIOucMAN+S6gTpmGCOg/zW6YlSfsS7OHTd/xLQuSI=;
+        b=clsEJyEAUVlRqYNak233UrjrICour2cIKgGQAHPrywN1KTr3k/mDnVG39X4EiQgssg
+         nTnGCjddsTfwLtzrlRWX1Uju52RYFtNzLRXx+6ZJEiOoahUOsuTNinOE1qedV+vThFSV
+         JMYNBZYMCv+l34jItWWgcssReXc7g11ExXctwU4mmcHxQRDdumhix8kgfVhIfKypkZ1X
+         QsEYWFVGwQEVkyuRVwfoW/XOUjmmy4B3CEW61E3aD8TqVafeFzWzIhnWUzYGTeChzGUF
+         Xpa/AoJ4Q9tJUYhZW6R+2x1QwY0fOcSgcpitKRXFk+kMVQYSlHjImo8S+HvM7Nj/Msds
+         dfCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708941909; x=1709546709;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fcBIOucMAN+S6gTpmGCOg/zW6YlSfsS7OHTd/xLQuSI=;
+        b=K11aYT4gOhQc8QM2gGMPsBQfcFDzivyGjuxQuR7ST6Sb1GnBn27t6c6T5qOGxzVytS
+         JD72WVO3tbVVcMFI1S+WPs+sGjgH98F0q25/17hU1j3Icx0pXFMsQjd+/be/mzMUMkey
+         Hb5Xmva+HlGipDnbxAna1e3ceLCI6Sw98yY95TMrl8I3jLQRA3LO5apjNUocuIl0jF1G
+         E3+UABMhoq67uAI+c34WiSCLTWTPuuAixlNke0UFLYjFV3/zrcaOJDM17tipyrBJ6Y+V
+         FNEnVWzB3W1mkt10SP1Yf52sEF6Jm3sPnGLNimKqhjWP1+JydIkbipI57wK3znJteAYf
+         1mdA==
+X-Forwarded-Encrypted: i=1; AJvYcCWbZPBEVB3n7Cq4+lKrC6XD6VbSVMmvTZq1cHkJWdnmOso8dF3nD+g1m1NQPXeORk2qipmn0EtJ7zcG+yZQwBq6rnrlfR6hNobXnazFQw==
+X-Gm-Message-State: AOJu0YzY4Lvz5C3V6YgYAjuAeDDbFabWVRfD63ukMJNfjg6UPBwFOk5y
+	NDl3Bhes+e+pWYOXVW9AgVOe3FFbYAqVYO9odD3MoDarDv5Ir4TEX/h94YYMVPI=
+X-Google-Smtp-Source: AGHT+IGsGKWqF0+bDTc6+hQ/DghJAVK6dro+xWXta3HaOLtgEwNx1tGcEphVsnFdTW0bSv8HEvr4Jw==
+X-Received: by 2002:a05:600c:1553:b0:412:a206:ad16 with SMTP id f19-20020a05600c155300b00412a206ad16mr3104748wmg.12.1708941909322;
+        Mon, 26 Feb 2024 02:05:09 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id f6-20020a05600c4e8600b00412a0ce903dsm5234762wmq.46.2024.02.26.02.05.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 02:05:08 -0800 (PST)
+Date: Mon, 26 Feb 2024 13:05:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
+Subject: Re: [PATCH 2/3] drm/i915/psr: Improve fast and IO wake lines
+ calculation
+Message-ID: <88b9f039-65ed-4138-9479-50f564ac992e@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240221075322.2764209-3-jouni.hogander@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-debug
-head:   5da04202c8b2b842bcf74a93e5232f4133c222fa
-commit: e20c342f22e1582477551cf633886afa4bd01abd [9/20] [DEBUG] soc: renesas: r8a77960: MSTP debug handling
-config: arm64-randconfig-002-20240221 (https://download.01.org/0day-ci/archive/20240226/202402261759.ntC9YoHP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402261759.ntC9YoHP-lkp@intel.com/reproduce)
+Hi Jouni,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jouni-H-gander/drm-i915-display-Add-aux-function-pointer-for-fast-wake-sync-pulse-count/20240221-160220
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240221075322.2764209-3-jouni.hogander%40intel.com
+patch subject: [PATCH 2/3] drm/i915/psr: Improve fast and IO wake lines calculation
+config: i386-randconfig-r081-20240223 (https://download.01.org/0day-ci/archive/20240225/202402250758.KqBqXYrz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402261759.ntC9YoHP-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402250758.KqBqXYrz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/i915/display/intel_psr.c:1203 _compute_alpm_params() error: uninitialized symbol 'io_wake_time'.
 
->> drivers/soc/renesas/r8a77960-mstp.c:623:13: warning: no previous prototype for 'r8a77960_disable_mstp_clocks' [-Wmissing-prototypes]
-     623 | void __init r8a77960_disable_mstp_clocks(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/io_wake_time +1203 drivers/gpu/drm/i915/display/intel_psr.c
 
+7903f1d36c3d97 Jouni Högander 2024-02-21  1174  
+96a24945731fe9 Jouni Högander 2024-01-30  1175  static bool _compute_alpm_params(struct intel_dp *intel_dp,
+cb42e8ede5b475 Jouni Högander 2023-02-21  1176  				 struct intel_crtc_state *crtc_state)
+cb42e8ede5b475 Jouni Högander 2023-02-21  1177  {
+cb42e8ede5b475 Jouni Högander 2023-02-21  1178  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+cb42e8ede5b475 Jouni Högander 2023-02-21  1179  	int io_wake_lines, io_wake_time, fast_wake_lines, fast_wake_time;
+                                                                           ^^^^^^^^^^^^
 
-vim +/r8a77960_disable_mstp_clocks +623 drivers/soc/renesas/r8a77960-mstp.c
+cb42e8ede5b475 Jouni Högander 2023-02-21  1180  	u8 max_wake_lines;
+cb42e8ede5b475 Jouni Högander 2023-02-21  1181  
+7903f1d36c3d97 Jouni Högander 2024-02-21  1182  	if (intel_dp->get_aux_fw_sync_len) {
+7903f1d36c3d97 Jouni Högander 2024-02-21  1183  		int io_wake_time = get_io_wake_time(intel_dp, crtc_state);
 
-   622	
- > 623	void __init r8a77960_disable_mstp_clocks(void)
+This declaration shadows the earlier io_wake_time declaration.
+
+7903f1d36c3d97 Jouni Högander 2024-02-21  1184  		int tfw_exit_latency = 20; /* eDP spec */
+7903f1d36c3d97 Jouni Högander 2024-02-21  1185  		int phy_wake = 4;	   /* eDP spec */
+7903f1d36c3d97 Jouni Högander 2024-02-21  1186  		int preamble = 8;	   /* eDP spec */
+7903f1d36c3d97 Jouni Högander 2024-02-21  1187  		int precharge = intel_dp->get_aux_fw_sync_len() - preamble;
+7903f1d36c3d97 Jouni Högander 2024-02-21  1188  
+7903f1d36c3d97 Jouni Högander 2024-02-21  1189  		io_wake_time = max(precharge, io_wake_time) + preamble +
+7903f1d36c3d97 Jouni Högander 2024-02-21  1190  			phy_wake + tfw_exit_latency;
+7903f1d36c3d97 Jouni Högander 2024-02-21  1191  		fast_wake_time = precharge + preamble + phy_wake +
+7903f1d36c3d97 Jouni Högander 2024-02-21  1192  			tfw_exit_latency;
+29f3067a236ac5 Jouni Högander 2024-01-30  1193  
+29f3067a236ac5 Jouni Högander 2024-01-30  1194  		/* TODO: Check how we can use ALPM_CTL fast wake extended field */
+cb42e8ede5b475 Jouni Högander 2023-02-21  1195  		max_wake_lines = 12;
+cb42e8ede5b475 Jouni Högander 2023-02-21  1196  	} else {
+cb42e8ede5b475 Jouni Högander 2023-02-21  1197  		io_wake_time = 50;
+cb42e8ede5b475 Jouni Högander 2023-02-21  1198  		fast_wake_time = 32;
+cb42e8ede5b475 Jouni Högander 2023-02-21  1199  		max_wake_lines = 8;
+cb42e8ede5b475 Jouni Högander 2023-02-21  1200  	}
+cb42e8ede5b475 Jouni Högander 2023-02-21  1201  
+cb42e8ede5b475 Jouni Högander 2023-02-21  1202  	io_wake_lines = intel_usecs_to_scanlines(
+ef0af9db2a2125 Jouni Högander 2023-06-20 @1203  		&crtc_state->hw.adjusted_mode, io_wake_time);
+                                                                                               ^^^^^^^^^^^^
+Uninitialized
+
+cb42e8ede5b475 Jouni Högander 2023-02-21  1204  	fast_wake_lines = intel_usecs_to_scanlines(
+ef0af9db2a2125 Jouni Högander 2023-06-20  1205  		&crtc_state->hw.adjusted_mode, fast_wake_time);
+cb42e8ede5b475 Jouni Högander 2023-02-21  1206  
+cb42e8ede5b475 Jouni Högander 2023-02-21  1207  	if (io_wake_lines > max_wake_lines ||
+cb42e8ede5b475 Jouni Högander 2023-02-21  1208  	    fast_wake_lines > max_wake_lines)
+cb42e8ede5b475 Jouni Högander 2023-02-21  1209  		return false;
+cb42e8ede5b475 Jouni Högander 2023-02-21  1210  
+29f3067a236ac5 Jouni Högander 2024-01-30  1211  	if (!_lnl_compute_alpm_params(intel_dp, crtc_state))
+29f3067a236ac5 Jouni Högander 2024-01-30  1212  		return false;
+29f3067a236ac5 Jouni Högander 2024-01-30  1213  
+942d654171bdaf Jouni Högander 2023-10-24  1214  	if (i915->display.params.psr_safest_params)
+cb42e8ede5b475 Jouni Högander 2023-02-21  1215  		io_wake_lines = fast_wake_lines = max_wake_lines;
+cb42e8ede5b475 Jouni Högander 2023-02-21  1216  
+cb42e8ede5b475 Jouni Högander 2023-02-21  1217  	/* According to Bspec lower limit should be set as 7 lines. */
+96a24945731fe9 Jouni Högander 2024-01-30  1218  	intel_dp->psr.alpm_parameters.io_wake_lines = max(io_wake_lines, 7);
+96a24945731fe9 Jouni Högander 2024-01-30  1219  	intel_dp->psr.alpm_parameters.fast_wake_lines = max(fast_wake_lines, 7);
+cb42e8ede5b475 Jouni Högander 2023-02-21  1220  
+cb42e8ede5b475 Jouni Högander 2023-02-21  1221  	return true;
+cb42e8ede5b475 Jouni Högander 2023-02-21  1222  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
