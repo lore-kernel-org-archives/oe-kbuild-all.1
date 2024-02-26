@@ -1,70 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7792263A;
-	Mon, 26 Feb 2024 09:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FDA77F19
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Feb 2024 09:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708940592; cv=none; b=YWq57grQ4vVn5bnL81daRnk81N8T8B3wRIDxlxUldqmkdPwb4XLOFV/oMgzA3qD/2q45+V0mtANDQDeMyMOWUvWLNNd0UHbzU2Ab7u2439b1XbwasJg0LMRmer+n79T52GaxRLpsj8SZ4J1wN6FDczDwnsNR5arGW9tP1dIoE0A=
+	t=1708941052; cv=none; b=FZvwn0Z+xA6BGm0VuQ4mD+XYj3GHxGlgbaVHuxkY4eyxWdMohtqDE25TXpujuopkdFkuKmlATYI9NcaegIMgas2meIJnYJLS1yyfQlhsunEf0Tip95xRmO5dILmF0cZNcA+9lpN34rjLpBJMR+01r9rwd8QJc9+Vje2I8kxljEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708940592; c=relaxed/simple;
-	bh=peeh3uBT6rkaZj0IWaTOnmOqCf87o+9OlPo0K0aPohw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b3ySnzcirLfs3DeR97KMqNJoLFz7npF30x1s8/aUsOfvtK7YLJcFNVVLOaiLO1jLxzy7fvXzU1I7T+1ubDN0QP27GxoXJiBk89+Qz5zQ7jH/ZjtBJ0Hkaf9vHTKKbu3KoegF3JFV9PWyb1cVIbvLft4suNu+Pmpzwmd+/fc6cXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HXNvFhKf; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1708941052; c=relaxed/simple;
+	bh=ah/qAqXWUUqo8ySi2Msv+8PJ3vqKtMFNzibogvVcAkU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=MZHLFThCgEcWqXc08se9g+e/aKXJ+z9lrYGcSL07FeEhdMhvsTK+4rozuqPvwnYAeKIs1flxr6Vx/kabUfkJEAABOdrqS4ckGU+9/SUY2G8amqlGKZZuvn3bWaoRUxcxx7Cdi7mxinXE7dcROV4qPwvK1Shxq8aPjLF2N8nGDFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrWiZphM; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HXNvFhKf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrWiZphM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708940590; x=1740476590;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=peeh3uBT6rkaZj0IWaTOnmOqCf87o+9OlPo0K0aPohw=;
-  b=HXNvFhKf+bHFH3XaVKlF/uYyCSLx0vGwogKBu1T9CZUMiqlYe0DgA1Pp
-   h0RagLTVhmBJzE6WIyW6cWSRn/8aS6rdact470i2eCFXg9MVWyqEerUy/
-   WxibEHwPwm0HNONhTc2pmKyRMD0eDhr1OaUBZLEIcYzxDmj9LMQfaIHaY
-   zoZ3Y4MVlDEZsqJVhitgHCNpIkZ8eq0q11XN51zbYpJf3qd2pQ82ksBVO
-   ZRgOaBiJqMt0hX4bB50fzvy8ztZkDfDeLkgmhXpk3avYp0saPnXUfbD87
-   wHaavXRiRxK6NIn8i9hvruBtlrjjGOkuNS1gmFwond9cft6ke0P7E0i5z
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="14346770"
+  t=1708941051; x=1740477051;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=ah/qAqXWUUqo8ySi2Msv+8PJ3vqKtMFNzibogvVcAkU=;
+  b=BrWiZphM9rtBawZveVkOMDUDB9fhRyiOnTDZsc3UjvaSYUlgXBX7AEkg
+   ZnxtDpt1YCLK5iClK+BI6bd1fAqj+URqv5ce8IhS+IjCBEpQICftgimWj
+   zOi6aMe+lo6xue9i54Qollx8aw9b2rnd/2ogQisbX+aIwz/dOwD5ks4LU
+   6QC793boLG53ZsFV9GxnOT1SNKudMFsUirC4EzhPfbZmoIBNVMuBpdH5S
+   ULwMEWFfVdKhaAtEgBy+Ho0ZHAYGjclBaMDChH02bAf8n80Mv5mrGIEFV
+   BVENOPzxSpV0kZoBJnyjbjsKQeIcRnFGZEffm8Ld1fNlI3o35goZK+G5g
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3076990"
 X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="14346770"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 01:43:09 -0800
+   d="scan'208";a="3076990"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 01:50:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="11201013"
+   d="scan'208";a="6757696"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Feb 2024 01:43:05 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 26 Feb 2024 01:50:49 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1reXVn-000AE7-0w;
-	Mon, 26 Feb 2024 09:43:03 +0000
-Date: Mon, 26 Feb 2024 17:42:13 +0800
+	id 1reXdG-000AEN-32;
+	Mon, 26 Feb 2024 09:50:46 +0000
+Date: Mon, 26 Feb 2024 17:50:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Laight <David.Laight@aculab.com>,
-	"'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>,
-	'Linus Torvalds' <torvalds@linux-foundation.org>,
-	'Netdev' <netdev@vger.kernel.org>,
-	"'dri-devel@lists.freedesktop.org'" <dri-devel@lists.freedesktop.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	'Jens Axboe' <axboe@kernel.dk>,
-	"'Matthew Wilcox (Oracle)'" <willy@infradead.org>,
-	'Christoph Hellwig' <hch@infradead.org>,
-	"'linux-btrfs@vger.kernel.org'" <linux-btrfs@vger.kernel.org>,
-	'Andrew Morton' <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
-	"'David S . Miller'" <davem@davemloft.net>,
-	'Dan Carpenter' <dan.carpenter@linaro.org>,
-	'Jani Nikula' <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH next v2 11/11] minmax: min() and max() don't need to
- return constant expressions
-Message-ID: <202402261720.EAMC0eHM-lkp@intel.com>
-References: <a18dcae310f74dcb9c6fc01d5bdc0568@AcuMS.aculab.com>
+To: Alexandra Diupina <adiupina@astralinux.ru>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5.15] media: atomisp: sh_css: check
+ ia_css_pipeline_create_and_add_stage() return code
+Message-ID: <Zdxe0-EePPPIicm8@fdb2c0c3c270>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,122 +58,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a18dcae310f74dcb9c6fc01d5bdc0568@AcuMS.aculab.com>
+In-Reply-To: <20240226090323.21799-1-adiupina@astralinux.ru>
 
-Hi David,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linux/master mkl-can-next/testing kdave/for-next akpm-mm/mm-nonmm-unstable linus/master v6.8-rc6]
-[cannot apply to next-20240223 dtor-input/next dtor-input/for-linus axboe-block/for-next horms-ipvs/master next-20240223]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Put-all-the-clamp-definitions-together/20240226-005902
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/a18dcae310f74dcb9c6fc01d5bdc0568%40AcuMS.aculab.com
-patch subject: [PATCH next v2 11/11] minmax: min() and max() don't need to return constant expressions
-config: i386-buildonly-randconfig-001-20240226 (https://download.01.org/0day-ci/archive/20240226/202402261720.EAMC0eHM-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402261720.EAMC0eHM-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402261720.EAMC0eHM-lkp@intel.com/
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 5.15] media: atomisp: sh_css: check ia_css_pipeline_create_and_add_stage() return code
+Link: https://lore.kernel.org/stable/20240226090323.21799-1-adiupina%40astralinux.ru
 
-All warnings (new ones prefixed by >>):
-
->> arch/x86/mm/pgtable.c:437:14: warning: variable length array used [-Wvla]
-     437 |         pmd_t *pmds[MAX_PREALLOCATED_PMDS];
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   arch/x86/mm/pgtable.c:180:31: note: expanded from macro 'MAX_PREALLOCATED_PMDS'
-     180 | #define MAX_PREALLOCATED_PMDS   MAX_UNSHARED_PTRS_PER_PGD
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/mm/pgtable.c:113:2: note: expanded from macro 'MAX_UNSHARED_PTRS_PER_PGD'
-     113 |         max_t(size_t, KERNEL_PGD_BOUNDARY, PTRS_PER_PGD)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:152:27: note: expanded from macro 'max_t'
-     152 | #define max_t(type, x, y)       __careful_cmp(max, (type)(x), (type)(y), __COUNTER__)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:62:2: note: expanded from macro '__careful_cmp'
-      59 | #define __careful_cmp(op, x, y, uniq) ({        \
-         |                                       ~~~~~~~~~~~
-      60 |         _Static_assert(__types_ok(x, y),        \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      61 |                 #op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      62 |         __cmp_once(op, x, y, uniq); })
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:57:2: note: expanded from macro '__cmp_once'
-      57 |         __cmp(op, __x_##uniq, __y_##uniq); })
-         |         ^
-   include/linux/minmax.h:52:26: note: expanded from macro '__cmp'
-      52 | #define __cmp(op, x, y) ((x) __cmp_op_##op (y) ? (x) : (y))
-         |                          ^
-   1 warning generated.
-
-
-vim +437 arch/x86/mm/pgtable.c
-
-1db491f77b6ed0 Fenghua Yu          2015-01-15  432  
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  433  pgd_t *pgd_alloc(struct mm_struct *mm)
-1ec1fe73dfb711 Ingo Molnar         2008-03-19  434  {
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  435  	pgd_t *pgd;
-184d47f0fd3651 Kees Cook           2018-10-08  436  	pmd_t *u_pmds[MAX_PREALLOCATED_USER_PMDS];
-184d47f0fd3651 Kees Cook           2018-10-08 @437  	pmd_t *pmds[MAX_PREALLOCATED_PMDS];
-1ec1fe73dfb711 Ingo Molnar         2008-03-19  438  
-1db491f77b6ed0 Fenghua Yu          2015-01-15  439  	pgd = _pgd_alloc();
-1ec1fe73dfb711 Ingo Molnar         2008-03-19  440  
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  441  	if (pgd == NULL)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  442  		goto out;
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  443  
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  444  	mm->pgd = pgd;
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  445  
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  446  	if (sizeof(pmds) != 0 &&
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  447  			preallocate_pmds(mm, pmds, PREALLOCATED_PMDS) != 0)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  448  		goto out_free_pgd;
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  449  
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  450  	if (sizeof(u_pmds) != 0 &&
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  451  			preallocate_pmds(mm, u_pmds, PREALLOCATED_USER_PMDS) != 0)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  452  		goto out_free_pmds;
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  453  
-f59dbe9ca6707e Joerg Roedel        2018-07-18  454  	if (paravirt_pgd_alloc(mm) != 0)
-f59dbe9ca6707e Joerg Roedel        2018-07-18  455  		goto out_free_user_pmds;
-f59dbe9ca6707e Joerg Roedel        2018-07-18  456  
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  457  	/*
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  458  	 * Make sure that pre-populating the pmds is atomic with
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  459  	 * respect to anything walking the pgd_list, so that they
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  460  	 * never see a partially populated pgd.
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  461  	 */
-a79e53d85683c6 Andrea Arcangeli    2011-02-16  462  	spin_lock(&pgd_lock);
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  463  
-617d34d9e5d832 Jeremy Fitzhardinge 2010-09-21  464  	pgd_ctor(mm, pgd);
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  465  	if (sizeof(pmds) != 0)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  466  		pgd_prepopulate_pmd(mm, pgd, pmds);
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  467  
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  468  	if (sizeof(u_pmds) != 0)
-f59dbe9ca6707e Joerg Roedel        2018-07-18  469  		pgd_prepopulate_user_pmd(mm, pgd, u_pmds);
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  470  
-a79e53d85683c6 Andrea Arcangeli    2011-02-16  471  	spin_unlock(&pgd_lock);
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  472  
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  473  	return pgd;
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  474  
-f59dbe9ca6707e Joerg Roedel        2018-07-18  475  out_free_user_pmds:
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  476  	if (sizeof(u_pmds) != 0)
-f59dbe9ca6707e Joerg Roedel        2018-07-18  477  		free_pmds(mm, u_pmds, PREALLOCATED_USER_PMDS);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  478  out_free_pmds:
-25226df4b9be7f Gustavo A. R. Silva 2022-09-21  479  	if (sizeof(pmds) != 0)
-f59dbe9ca6707e Joerg Roedel        2018-07-18  480  		free_pmds(mm, pmds, PREALLOCATED_PMDS);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  481  out_free_pgd:
-1db491f77b6ed0 Fenghua Yu          2015-01-15  482  	_pgd_free(pgd);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  483  out:
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  484  	return NULL;
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  485  }
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  486  
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
