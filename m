@@ -1,226 +1,185 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F2B1D559;
-	Mon, 26 Feb 2024 10:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808D3433C2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Feb 2024 10:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708943788; cv=none; b=rBJAv3y8YIMuSw/O3wXRUNMls79T0hzZM3yrE24uYEoXtlsJmvGRL+5fqtG9u8jjunCMKVSQ6jFk/9sIPetLqM+mR3ndw2PqWyk7oW7pM1KZ5FzP9O9TqVKMeivCzSK2LcZ9cxa9fdgUHF4pIzCvMnX7w4v4yWQGKIf//IjyBaA=
+	t=1708944904; cv=none; b=Kb//ra7I2cqxSZtoiBqdbxhSSGw3qsXlJABNtwC+AYqComlSoBXAniKsa69WdJi0q6vXXq1Tg7jEn2tEZQtF5RpuiiPSafnkS+W6u1exMh4KZJOX18yeu2ASEnTR5KXyIFYKsABy++XdEY8XfC3LUiK9yY2g6N+jKm1l4ybiD6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708943788; c=relaxed/simple;
-	bh=Hcf/NvZpH/mt+qo9rXN0h6uQKmQyrr4HjtQJD6+U2BU=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VUvdRn5LT9VsdLQy+p1iLWaiMO7oZ6H0iZ2lmptXKqK9XYdg9QHiuqUguJuFiL6qOHfSDw2fYO17dkjDyVf5YJJ6H2fHymgqC9MGfdH2qHcpCXxpXt5i6J/ZxeE+0zZAlG0ABrQwgkkZ2OboTXo+l1K8TDBOkpRz6XCLdRt16q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TjxkX5byVz6K5kG;
-	Mon, 26 Feb 2024 18:32:04 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0C16E140DEC;
-	Mon, 26 Feb 2024 18:36:23 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 26 Feb
- 2024 10:36:22 +0000
-Date: Mon, 26 Feb 2024 10:36:21 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: kernel test robot <lkp@intel.com>
-CC: Dumitru Ceclan <mitrutzceclan@gmail.com>, <llvm@lists.linux.dev>,
-	<oe-kbuild-all@lists.linux.dev>, Andy Shevchenko <andy@kernel.org>, "Michael
- Walle" <michael@walle.cc>, Nuno Sa <nuno.sa@analog.com>
-Subject: Re: [jic23-iio:testing 136/152] drivers/iio/adc/ad7173.c:854:3:
- warning: variable 'chan_arr' is uninitialized when used here
-Message-ID: <20240226103621.00002845@Huawei.com>
-In-Reply-To: <202402251818.96Ke1Y8O-lkp@intel.com>
-References: <202402251818.96Ke1Y8O-lkp@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1708944904; c=relaxed/simple;
+	bh=8rRzKisEKupWC8GD43hPvylPwFt87S4H82aDqq+xsac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ovStwfLMtrtvkb4XRV7eJ4zFB7YtuYdRbDrV8XW1GDEzHK5zQhzlb9vflBWVrmsGUUafPxqA5A9GTSB4a2XjCiCkWoGyURLY2rq6WupXxNr08voRWA2mCI8WdOtkVVEkviJSaigaOVz+kLp82UH69M/Bzi0Kr21+XmyfD5X6q1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=oSALd/38; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="oSALd/38"
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41Q9mcJ8020011;
+	Mon, 26 Feb 2024 10:54:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=d3e/MSjox+N4pUcWMUfARPb1hohcvRfSL1tbZXP+lTk=;
+ b=oSALd/38/4TBPYPaKKUjIPkulsyMpTpm3h4w5w89p+zaJbzI0fOxPeztz9+ZekKod27i
+ 71kImSJgS/Et61DnhRtWdBpx3A0+1Npy6Xpwmw+2ZU1KlNHI7qwmMEofCec51+R9rnfa
+ LGpNBLbJzAUP5gK840iLHGnVayJjbp9idC0tLe1izbcssndFO3vLzd3TibKxd++JHwsE
+ nUiSN93sjg9rux5KZtBjtCrvn8OOywH4UN64K7Eo80ILCWetSUCAKdn8OYyiIpSQK6pt
+ x6bzhsBq2NpMlWJaa0/qck2ujzgpanBD3UYvH7l4TUiQM9UXRbe2WNfb5Pr6aidpVFe8 NQ== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wgnw8mq87-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Feb 2024 10:54:57 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41Q88Qu5021786;
+	Mon, 26 Feb 2024 10:54:55 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wfu5yrp1x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Feb 2024 10:54:55 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41QAsoc754395352
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 26 Feb 2024 10:54:52 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 082CE2004E;
+	Mon, 26 Feb 2024 10:54:50 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 57A2B2004D;
+	Mon, 26 Feb 2024 10:54:49 +0000 (GMT)
+Received: from li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com (unknown [9.171.21.235])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon, 26 Feb 2024 10:54:49 +0000 (GMT)
+Date: Mon, 26 Feb 2024 11:54:47 +0100
+From: Sumanth Korikkar <sumanthk@linux.ibm.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, s-vadapalli@ti.com,
+        r-gunasekaran@ti.com, rogerq@kernel.org, oe-kbuild-all@lists.linux.dev,
+        linux-s390@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+        iii@linux.ibm.com, agordeev@linux.ibm.com, davem@davemloft.net,
+        naresh.kamboju@linaro.org
+Subject: Re: [s390:features 97/98] Unsupported relocation type: 21
+Message-ID: <Zdxt97Ni3p8ptNyv@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+References: <202402221404.T2TGs8El-lkp@intel.com>
+ <ZdhtYc9THmX4Ddse@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+ <20240223235939.abycpq35ydgahdz2@treble>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240223235939.abycpq35ydgahdz2@treble>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: azVaMXiblxtDq5yedN1owPAOxdATarfo
+X-Proofpoint-GUID: azVaMXiblxtDq5yedN1owPAOxdATarfo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-26_07,2024-02-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 malwarescore=0
+ suspectscore=0 bulkscore=0 impostorscore=0 mlxlogscore=876 adultscore=0
+ lowpriorityscore=0 mlxscore=0 spamscore=0 phishscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2402260082
 
-On Sun, 25 Feb 2024 18:31:55 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Josh,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-> head:   9dcbd08b27c90256725c9dfe83152e1debe079c9
-> commit: ef3626e2264ce730bc57f6c57b7b7049bd8c45c9 [136/152] iio: adc: ad7173: add AD7173 driver
-> config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20240225/202402251818.96Ke1Y8O-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project edd4aee4dd9b5b98b2576a6f783e4086173d902a)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240225/202402251818.96Ke1Y8O-lkp@intel.com/reproduce)
+On Fri, Feb 23, 2024 at 03:59:39PM -0800, Josh Poimboeuf wrote:
+> On Fri, Feb 23, 2024 at 11:03:13AM +0100, Sumanth Korikkar wrote:
+> > In the random config generated by lkp test robot
+> > 
+> >  CONFIG_TI_CPSW=m
+> >  CONFIG_TI_DAVINCI_EMAC=y
+> > 
+> > In drivers/net/ethernet/ti/Makefile:
+> >  11 obj-$(CONFIG_TI_DAVINCI_EMAC) += ti_davinci_emac.o
+> >  12 ti_davinci_emac-y := davinci_emac.o davinci_cpdma.o
+> >  ...
+> >  16 obj-$(CONFIG_TI_CPSW) += ti_cpsw.o
+> >  17 ti_cpsw-y := cpsw.o davinci_cpdma.o cpsw_ale.o cpsw_priv.o cpsw_sl.o cpsw_ethtool.o
+> > 
+> > Here davinci_cpdma.o is used in both   obj-$(CONFIG_TI_DAVINCI_EMAC) and
+> > obj-$(CONFIG_TI_CPSW), one built as inbuilt and one built as module
+> > correspondingly (randconfig)
+> > 
+> > This leads to conflict in Kbuild and results in linking  davinci_cpdma.o
+> > in vmlinux.
+> > * However, davinci_cpdma.o is built with -DMODULE -fPIC.
+> > * vmlinux is built with -fno-PIE.
+> > 
+> > This leads to R_390_GOTENT and R_390_GOTDBL entries in vmlinux, which is
+> > not expected when building kernel with -fno-PIE.
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402251818.96Ke1Y8O-lkp@intel.com/
+> Nice.
 > 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/iio/adc/ad7173.c:16:
->    In file included from include/linux/gpio/driver.h:8:
->    In file included from include/linux/irqchip/chained_irq.h:10:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:13:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      547 |         val = __raw_readb(PCI_IOBASE + addr);
->          |                           ~~~~~~~~~~ ^
->    include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->       37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->          |                                                   ^
->    In file included from drivers/iio/adc/ad7173.c:16:
->    In file included from include/linux/gpio/driver.h:8:
->    In file included from include/linux/irqchip/chained_irq.h:10:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:13:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
->       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->          |                                                   ^
->    In file included from drivers/iio/adc/ad7173.c:16:
->    In file included from include/linux/gpio/driver.h:8:
->    In file included from include/linux/irqchip/chained_irq.h:10:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:13:
->    In file included from arch/hexagon/include/asm/io.h:328:
->    include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      584 |         __raw_writeb(value, PCI_IOBASE + addr);
->          |                             ~~~~~~~~~~ ^
->    include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
->    include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
-> >> drivers/iio/adc/ad7173.c:854:3: warning: variable 'chan_arr' is uninitialized when used here [-Wuninitialized]  
->      854 |                 chan_arr[chan_index] = ad7173_temp_iio_channel_template;
->          |                 ^~~~~~~~
->    drivers/iio/adc/ad7173.c:848:32: note: initialize the variable 'chan_arr' to silence this warning
->      848 |         struct iio_chan_spec *chan_arr, *chan;
->          |                                       ^
->          |                                        = NULL
-> >> drivers/iio/adc/ad7173.c:855:19: warning: variable 'chans_st_arr' is uninitialized when used here [-Wuninitialized]  
->      855 |                 chan_st_priv = &chans_st_arr[chan_index];
->          |                                 ^~~~~~~~~~~~
->    drivers/iio/adc/ad7173.c:845:37: note: initialize the variable 'chans_st_arr' to silence this warning
->      845 |         struct ad7173_channel *chans_st_arr, *chan_st_priv;
->          |                                            ^
->          |                                             = NULL
->    8 warnings generated.
-> 
-> 
-> vim +/chan_arr +854 drivers/iio/adc/ad7173.c
-> 
->    842	
->    843	static int ad7173_fw_parse_channel_config(struct iio_dev *indio_dev)
->    844	{
->    845		struct ad7173_channel *chans_st_arr, *chan_st_priv;
->    846		struct ad7173_state *st = iio_priv(indio_dev);
->    847		struct device *dev = indio_dev->dev.parent;
->    848		struct iio_chan_spec *chan_arr, *chan;
->    849		unsigned int ain[2], chan_index = 0;
->    850		struct fwnode_handle *child;
->    851		int ref_sel, ret;
+> I suppose the current s390 memory model wouldn't support removing
+> -fPIC for modules?
 
-I think the fix is
-			struct iio_chan_spec *chan_arr = indio_dev->channels
+Answer from our toolchain team - Andreas Krebbel: It should be ideally
+feasible to build modules without -fPIC on s390.
 
-I'll fix it up like that unless I hear back with a different fix.
-
->    852	
->    853		if (st->info->has_temp) {
->  > 854			chan_arr[chan_index] = ad7173_temp_iio_channel_template;
->  > 855			chan_st_priv = &chans_st_arr[chan_index];  
->    856			chan_st_priv->ain =
->    857				AD7173_CH_ADDRESS(chan_arr[chan_index].channel,
->    858						  chan_arr[chan_index].channel2);
->    859			chan_st_priv->cfg.bipolar = false;
->    860			chan_st_priv->cfg.input_buf = true;
->    861			chan_st_priv->cfg.ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
->    862			st->adc_mode |= AD7173_ADC_MODE_REF_EN;
->    863	
->    864			chan_index++;
->    865		}
->    866	
->    867		device_for_each_child_node(dev, child) {
->    868			chan = &chan_arr[chan_index];
->    869			chan_st_priv = &chans_st_arr[chan_index];
->    870			ret = fwnode_property_read_u32_array(child, "diff-channels",
->    871							     ain, ARRAY_SIZE(ain));
->    872			if (ret) {
->    873				fwnode_handle_put(child);
->    874				return ret;
->    875			}
->    876	
->    877			if (ain[0] >= st->info->num_inputs ||
->    878			    ain[1] >= st->info->num_inputs) {
->    879				fwnode_handle_put(child);
->    880				return dev_err_probe(dev, -EINVAL,
->    881					"Input pin number out of range for pair (%d %d).\n",
->    882					ain[0], ain[1]);
->    883			}
->    884	
->    885			ret = fwnode_property_match_property_string(child,
->    886								    "adi,reference-select",
->    887								    ad7173_ref_sel_str,
->    888								    ARRAY_SIZE(ad7173_ref_sel_str));
->    889			if (ret < 0)
->    890				ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
->    891			else
->    892				ref_sel = ret;
->    893	
->    894			if (ref_sel == AD7173_SETUP_REF_SEL_EXT_REF2 &&
->    895			    st->info->id != AD7173_ID) {
->    896				fwnode_handle_put(child);
->    897				return dev_err_probe(dev, -EINVAL,
->    898					"External reference 2 is only available on ad7173-8\n");
->    899			}
->    900	
->    901			ret = ad7173_get_ref_voltage_milli(st, ref_sel);
->    902			if (ret < 0) {
->    903				fwnode_handle_put(child);
->    904				return dev_err_probe(dev, ret,
->    905						     "Cannot use reference %u\n", ref_sel);
->    906			}
->    907			if (ref_sel == AD7173_SETUP_REF_SEL_INT_REF)
->    908				st->adc_mode |= AD7173_ADC_MODE_REF_EN;
->    909			chan_st_priv->cfg.ref_sel = ref_sel;
->    910	
->    911			*chan = ad7173_channel_template;
->    912			chan->address = chan_index;
->    913			chan->scan_index = chan_index;
->    914			chan->channel = ain[0];
->    915			chan->channel2 = ain[1];
->    916			chan->differential = true;
->    917	
->    918			chan_st_priv->ain = AD7173_CH_ADDRESS(ain[0], ain[1]);
->    919			chan_st_priv->chan_reg = chan_index;
->    920			chan_st_priv->cfg.input_buf = true;
->    921			chan_st_priv->cfg.odr = 0;
->    922	
->    923			chan_st_priv->cfg.bipolar = fwnode_property_read_bool(child, "bipolar");
->    924			if (chan_st_priv->cfg.bipolar)
->    925				chan->info_mask_separate |= BIT(IIO_CHAN_INFO_OFFSET);
->    926	
->    927			chan_index++;
->    928		}
->    929		return 0;
->    930	}
->    931	
+> 
+> Otherwise each driver could get its own copy of the object file:
+> 
+> diff --git a/drivers/net/ethernet/ti/Makefile b/drivers/net/ethernet/ti/Makefile
+> index d8590304f3df..ef6591b6a4c9 100644
+> --- a/drivers/net/ethernet/ti/Makefile
+> +++ b/drivers/net/ethernet/ti/Makefile
+> @@ -9,14 +9,14 @@ obj-$(CONFIG_TI_CPSW_SWITCHDEV) += cpsw-common.o
+>  
+>  obj-$(CONFIG_TLAN) += tlan.o
+>  obj-$(CONFIG_TI_DAVINCI_EMAC) += ti_davinci_emac.o
+> -ti_davinci_emac-y := davinci_emac.o davinci_cpdma.o
+> +ti_davinci_emac-y := davinci_emac.o emac_cpdma.o
+>  obj-$(CONFIG_TI_DAVINCI_MDIO) += davinci_mdio.o
+>  obj-$(CONFIG_TI_CPSW_PHY_SEL) += cpsw-phy-sel.o
+>  obj-$(CONFIG_TI_CPTS) += cpts.o
+>  obj-$(CONFIG_TI_CPSW) += ti_cpsw.o
+> -ti_cpsw-y := cpsw.o davinci_cpdma.o cpsw_ale.o cpsw_priv.o cpsw_sl.o cpsw_ethtool.o
+> +ti_cpsw-y := cpsw.o cpsw_cpdma.o cpsw_ale.o cpsw_priv.o cpsw_sl.o cpsw_ethtool.o
+>  obj-$(CONFIG_TI_CPSW_SWITCHDEV) += ti_cpsw_new.o
+> -ti_cpsw_new-y := cpsw_switchdev.o cpsw_new.o davinci_cpdma.o cpsw_ale.o cpsw_sl.o cpsw_priv.o cpsw_ethtool.o
+> +ti_cpsw_new-y := cpsw_switchdev.o cpsw_new.o cpsw_new_cpdma.o cpsw_ale.o cpsw_sl.o cpsw_priv.o cpsw_ethtool.o
+>  
+>  obj-$(CONFIG_TI_KEYSTONE_NETCP) += keystone_netcp.o
+>  keystone_netcp-y := netcp_core.o cpsw_ale.o
+> diff --git a/drivers/net/ethernet/ti/cpsw_cpdma.c b/drivers/net/ethernet/ti/cpsw_cpdma.c
+> new file mode 100644
+> index 000000000000..017156225e7f
+> --- /dev/null
+> +++ b/drivers/net/ethernet/ti/cpsw_cpdma.c
+> @@ -0,0 +1 @@
+> +#include "davinci_cpdma.c"
+> diff --git a/drivers/net/ethernet/ti/cpsw_new_cpdma.c b/drivers/net/ethernet/ti/cpsw_new_cpdma.c
+> new file mode 100644
+> index 000000000000..017156225e7f
+> --- /dev/null
+> +++ b/drivers/net/ethernet/ti/cpsw_new_cpdma.c
+> @@ -0,0 +1 @@
+> +#include "davinci_cpdma.c"
+> diff --git a/drivers/net/ethernet/ti/emac_cpdma.c b/drivers/net/ethernet/ti/emac_cpdma.c
+> new file mode 100644
+> index 000000000000..017156225e7f
+> --- /dev/null
+> +++ b/drivers/net/ethernet/ti/emac_cpdma.c
+> @@ -0,0 +1 @@
+> +#include "davinci_cpdma.c"
 > 
 
+Tried compiling it,
+
+When I enabled both CONFIG_TI_CPSW_SWITCHDEV and CONFIG_TI_DAVINCI_EMAC
+to y, it could lead to the following:
+
+  LD      vmlinux.o
+ld: drivers/net/ethernet/ti/cpsw_new_cpdma.o: in function `cpdma_ctlr_create':
+linux/drivers/net/ethernet/ti/davinci_cpdma.c:511:
+multiple definition of `cpdma_ctlr_create';
+drivers/net/ethernet/ti/emac_cpdma.o:linux/drivers/net/ethernet/ti/davinci_cpdma.c:511:
+first defined here
+
+Thanks,
+Sumanth
