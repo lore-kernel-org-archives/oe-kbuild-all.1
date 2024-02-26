@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1911E55C3B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Feb 2024 10:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5B05D479
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Feb 2024 10:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708942047; cv=none; b=KAuHSl+a7ZG8RrbQecmVWp4L+HZKSGvaFXFCG+iK8t7Mk85xbFqHfEA+5BBrjYPPRoRw94wNCWnCe+8rQP6gLiL53OU5PFw+Ut8cPZhAzl36ZohDteZGePJ5Dw3RKLcWFlFDD60ODjw0PObsS0E60jD3dzVjLWRilxmJ144xwE4=
+	t=1708942409; cv=none; b=kvk/7o4JGGqc2YxqkgG7K01WqQaypOTyGmHhPqQxEvZHCLSUhUuUpTP8PQ1JflPpZrIFqIHgFP1HP1FexSxA5X0ptx4BTI0f48RnvMMGALYjdvuoVI7YxmeLF5huPwfFT9o0XXZzgoK5Q/EUKs70uxqnew6LWeAjQocDE4peSDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708942047; c=relaxed/simple;
-	bh=b8D1jJeVWFMsEuKIR1ZDQ5C3ot38iIGz2r/2NBrqE1A=;
+	s=arc-20240116; t=1708942409; c=relaxed/simple;
+	bh=xQl4Y5Xf2tWR3JxdHU2jdE068lsasi2wz4L1l27WpRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=LTXYK4puAVtLd05eTC7/POgpodav8bMc3mR1NfJbf2tmJrM3Qq7nrXLSpjOuCgrJ/gZr15QrR78dXZ7sYga3s0V7dw8y0HR8iRqMznX8Xm2LxMczYM2tZm1ZzMqJxkTHsxhIvKD7K7khWY0SPkKowyO9P97zaZVbDKSTO/OQBKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbrKNxep; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition:In-Reply-To; b=bXXGrnL+Vij/LtJZHqLQA0RSmhRAJqilf67r4GYU8DK8Mk/iT2qhSSl3WTG0UryoJiP/BuHbrQ5R1hSCEm+cv+ze2E+PjNM0DtaQ5iZRfU62fyLWNEub7MIV/7CGZ+j2y3uCuH1TORal5Abkdga5qI0vU7g76fA+GPl3mCe2Do4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fUb0rwi3; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbrKNxep"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fUb0rwi3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708942046; x=1740478046;
+  t=1708942408; x=1740478408;
   h=date:from:to:cc:subject:message-id:mime-version:
    in-reply-to;
-  bh=b8D1jJeVWFMsEuKIR1ZDQ5C3ot38iIGz2r/2NBrqE1A=;
-  b=bbrKNxepxFGDdCVvbTag1XoHVB2SeL63/fEHYzLorke4+NwM3J1j+5d1
-   ysWnuU2ri2Eq2DnwCzdrZQtZtB1F0C231/78q+6AIRNRCgplch8oDPrpu
-   0tRG2NTfDBdQsmXiCsS7m/VysIW2BZBuFVAfKG0FZPRCghgkV73L3x/u+
-   VJsXRVvv4KpsBXnV3dawFGA83b7K0hm63GlsQdLbBGeeJr/mVkj3RSjEQ
-   dG6WM+aqcN3QZ9rnwau3E4h554/0Dkz7P7HAlWU/lKTkj0ApOXdhV6iDU
-   8AtZzWNwnkXyq5yHSf2xpZHXUKMgWwhdWD4q86sDIunJD/FYEp8XoRobf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="14633991"
+  bh=xQl4Y5Xf2tWR3JxdHU2jdE068lsasi2wz4L1l27WpRo=;
+  b=fUb0rwi3eoKDTuNz9fofeowbyIuxEvOVSDebTaFH9Hi6YKFbvq66N4uQ
+   aNBaHaTMEW9hzdxOKN0vesTLhmNya4crqnfZC5VwDy86YYLaieT62gDjk
+   cNo+pqrr+MhMuRJd9GkLAu9PJf8bwKECYK8kD4uaKnpx5ZcwbuNLrP1/X
+   EeZnYdLdFJX/Eozlg+VIWJ3PfVGmLuIRx7cZmnHTUU8S5KNntIjCw0T34
+   1E4DsgF0+H13uV5UIctO70qcpxRwpiWg0WBaO6M+UdGmnHsec1SQUyVmZ
+   8SOjEz2+9CX5HGFjAjvz+o+zDkJFss9wsVt5zH1uCvkWlzdvWm+zsB0QS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="28642557"
 X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="14633991"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 02:07:25 -0800
+   d="scan'208";a="28642557"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 02:13:27 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="29797194"
+   d="scan'208";a="6609537"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Feb 2024 02:07:24 -0800
+  by orviesa010.jf.intel.com with ESMTP; 26 Feb 2024 02:13:25 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1reXtJ-000AEx-2R;
-	Mon, 26 Feb 2024 10:07:21 +0000
-Date: Mon, 26 Feb 2024 18:06:25 +0800
+	id 1reXz7-000AF9-36;
+	Mon, 26 Feb 2024 10:13:22 +0000
+Date: Mon, 26 Feb 2024 18:12:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: "$(name)" <qirui.001@bytedance.com>
+To: Rui Qi <qirui.001@bytedance.com>
 Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 3/3] x86/speculation: Support intra-function call
  validation
-Message-ID: <ZdxioSgYZiIOez3p@fdb2c0c3c270>
+Message-ID: <ZdxkK5uArTDX6I5d@fdb2c0c3c270>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,7 +58,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240226094101.95544-4-qirui.001@bytedance.com>
+In-Reply-To: <20240226094925.95835-4-qirui.001@bytedance.com>
 
 Hi,
 
@@ -70,7 +70,7 @@ The check is based on https://www.kernel.org/doc/html/latest/process/stable-kern
 
 Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
 Subject: [PATCH 3/3] x86/speculation: Support intra-function call validation
-Link: https://lore.kernel.org/stable/20240226094101.95544-4-qirui.001%40bytedance.com
+Link: https://lore.kernel.org/stable/20240226094925.95835-4-qirui.001%40bytedance.com
 
 -- 
 0-DAY CI Kernel Test Service
