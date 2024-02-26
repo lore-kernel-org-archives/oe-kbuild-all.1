@@ -1,140 +1,242 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFFD1CA87;
-	Mon, 26 Feb 2024 08:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4591CAAE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Feb 2024 08:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708935603; cv=none; b=SVo4R6BbJY+uCQf6P8hG2wR+5ymwgphHARSHUrAt4H5IEpxuayaq5TKTsxl5RvM5ZJArUnV5LWPooELWxYeUOlKT+918MNMUX/wSVrvEkpVXfNFg8XgAFfMkFRX1qMIWiwJn86cauLPyC9x60ZukgoQZR4pMtA8pz3Jjz92qa+E=
+	t=1708935618; cv=none; b=CKpneaLhSGX+WVG/d8LvitnCZOj0hT3isvYzoBo30qg3OipzS7SX8G9EC0IziVbTvQGiFLZIKNj76Mdnhsbwbb/A1xhCyc3IwRhD7XMJxaNd5rjshoBZFONWFmBVo0OPBW+38AVZxsTfNZ3LM6JnQAjMMYQvKMTrCKsDLnwF8kA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708935603; c=relaxed/simple;
-	bh=x+F1sEyIkG6i836oJsC0oXwsTmD/G97DAVLmHq6er60=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=jmPDGzkUq8KIZK/LSfGhILyrC/v6VaP4Fbt7MNpcU+XXcNEigV6OWNTU56MtPPXArtbIrEKDEKDHmWU3IvBaJkxBwduirWg5igoSAmBMcYrLR8aIYDqWC2Qon9VI2SlreRkAvfqw4yX8ilg7PxIiTw9E59b3pCItSV9zjsVRYJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4TjtlY128Rz1X3Gk;
-	Mon, 26 Feb 2024 16:17:45 +0800 (CST)
-Received: from kwepemm600013.china.huawei.com (unknown [7.193.23.68])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9DA89140383;
-	Mon, 26 Feb 2024 16:19:58 +0800 (CST)
-Received: from [10.174.178.46] (10.174.178.46) by
- kwepemm600013.china.huawei.com (7.193.23.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 26 Feb 2024 16:19:57 +0800
-Subject: Re: [rw-ubifs:next 19/33] fs/ubifs/find.c:86: warning: Function
- parameter or struct member 'arg' not described in 'scan_for_dirty_cb'
-To: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>, Richard
- Weinberger <richard@nod.at>
-References: <202402261559.cYtMOkIn-lkp@intel.com>
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-Message-ID: <4da3ece6-e2da-98cf-5d21-8e6bf296519f@huawei.com>
-Date: Mon, 26 Feb 2024 16:19:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+	s=arc-20240116; t=1708935618; c=relaxed/simple;
+	bh=djBFmuFT1L0a1N3d4J3PalMsAo3G0Ua9pPufHzZGXq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XC9Q04VpgilSErskNuN7X13BjK0WBfov4Y9SaqUgcV8Np4IkoIDwEI0NN0Uvzxa0d2Es/E8lBtN16TJs72W02pxG2u/AWw+/v6fNdTC+kb+mkGY/FWhejuz0jJWrbLyeLgWigjssMHj8rGv5/zzl/Y6KtWotKNVOyAWJO1kug7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WV6B2sz1; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WV6B2sz1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708935616; x=1740471616;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=djBFmuFT1L0a1N3d4J3PalMsAo3G0Ua9pPufHzZGXq0=;
+  b=WV6B2sz1+oIHk6zHHCSyqUq4wcUNBmVllPECDVwALk1QXGB6KBjF3/5L
+   FXumSGiZi0hY1EpGbhOTqHrB7r/k33GCTSreOjiObxosck1OyqwnGGiWn
+   sCvGT4+uDTgPc5tSmz+oMo3QcC63rajzaq+0pFfTMk/pd9crZ6XgPbs55
+   CoAfwSkgoTE4oA5tSJAEu8L+lBjxOAzOrkCnGIOZnOeE73a5+yJl6U661
+   S5WC+ROWiorfVHpjy5bbHBjn30Z/9RgsBTRjR4c+fZwDXT32BuI8uTcJx
+   CIkfn81zbJuEC0y2YoSt7M2PZsGg7ANn/Je/MVQ6+JyH2W4tqDi13ZZx6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="7022677"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="7022677"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 00:20:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="11154419"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 26 Feb 2024 00:20:13 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1reWDa-000ABV-2R;
+	Mon, 26 Feb 2024 08:20:10 +0000
+Date: Mon, 26 Feb 2024 16:18:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mhiramat:topic/fprobe-on-fgraph 31/35]
+ include/linux/ftrace.h:261:1: warning: 'ftrace_regs_get_return_address'
+ declared 'static' but never defined
+Message-ID: <202402261657.RVvjI8OK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202402261559.cYtMOkIn-lkp@intel.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm600013.china.huawei.com (7.193.23.68)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-ÔÚ 2024/2/26 15:16, kernel test robot Ð´µÀ:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-on-fgraph
+head:   dae9b680d2415f2ba0c234713cac2a2022443d9a
+commit: 85ea4fc216f7e8eb4a97a6fa417bfe78d679fb1a [31/35] fprobe: Rewrite fprobe on function-graph tracer
+config: i386-randconfig-141-20240226 (https://download.01.org/0day-ci/archive/20240226/202402261657.RVvjI8OK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402261657.RVvjI8OK-lkp@intel.com/reproduce)
 
-Hi Arnd,
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs.git next
-> head:   3ce485803da1b79b2692b6d0c2792829292ad838
-> commit: ec724e534dfdd592abc5ac066be77ef15c455ccc [19/33] ubifs: fix function pointer cast warnings
-> config: i386-buildonly-randconfig-001-20240226 (https://download.01.org/0day-ci/archive/20240226/202402261559.cYtMOkIn-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240226/202402261559.cYtMOkIn-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202402261559.cYtMOkIn-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> fs/ubifs/find.c:86: warning: Function parameter or struct member 'arg' not described in 'scan_for_dirty_cb'
->>> fs/ubifs/find.c:86: warning: Excess function parameter 'data' description in 'scan_for_dirty_cb'
->>> fs/ubifs/find.c:353: warning: Function parameter or struct member 'arg' not described in 'scan_for_free_cb'
->>> fs/ubifs/find.c:353: warning: Excess function parameter 'data' description in 'scan_for_free_cb'
->>> fs/ubifs/find.c:594: warning: Function parameter or struct member 'arg' not described in 'scan_for_idx_cb'
->>> fs/ubifs/find.c:594: warning: Excess function parameter 'data' description in 'scan_for_idx_cb'
->>> fs/ubifs/find.c:786: warning: Function parameter or struct member 'arg' not described in 'scan_dirty_idx_cb'
->>> fs/ubifs/find.c:786: warning: Excess function parameter 'data' description in 'scan_dirty_idx_cb'
-> --
->>> fs/ubifs/lprops.c:1018: warning: Function parameter or struct member 'arg' not described in 'scan_check_cb'
->     fs/ubifs/lprops.c:1018: warning: Excess function parameter 'lst' description in 'scan_check_cb'
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402261657.RVvjI8OK-lkp@intel.com/
 
-Looks like [1] imported a compiling warning, because the functions' 
-comments(on parameters) are missed to update. Do you have time to send a 
-patch to fix it? Thanks.
+All warnings (new ones prefixed by >>):
 
-[1] 
-https://patchwork.ozlabs.org/project/linux-mtd/patch/20240213095412.453787-2-arnd@kernel.org/
-> 
-> 
-> vim +86 fs/ubifs/find.c
-> 
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   70
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   71  /**
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   72   * scan_for_dirty_cb - dirty space scan callback.
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   73   * @c: the UBIFS file-system description object
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   74   * @lprops: LEB properties to scan
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   75   * @in_tree: whether the LEB properties are in main memory
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   76   * @data: information passed to and from the caller of the scan
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   77   *
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   78   * This function returns a code that indicates whether the scan should continue
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   79   * (%LPT_SCAN_CONTINUE), whether the LEB properties should be added to the tree
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   80   * in main memory (%LPT_SCAN_ADD), or whether the scan should stop
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   81   * (%LPT_SCAN_STOP).
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   82   */
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   83  static int scan_for_dirty_cb(struct ubifs_info *c,
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   84  			     const struct ubifs_lprops *lprops, int in_tree,
-> ec724e534dfdd5 Arnd Bergmann    2024-02-13   85  			     void *arg)
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  @86  {
-> ec724e534dfdd5 Arnd Bergmann    2024-02-13   87  	struct scan_data *data = arg;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   88  	int ret = LPT_SCAN_CONTINUE;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   89
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   90  	/* Exclude LEBs that are currently in use */
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   91  	if (lprops->flags & LPROPS_TAKEN)
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   92  		return LPT_SCAN_CONTINUE;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   93  	/* Determine whether to add these LEB properties to the tree */
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   94  	if (!in_tree && valuable(c, lprops))
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   95  		ret |= LPT_SCAN_ADD;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   96  	/* Exclude LEBs with too little space */
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   97  	if (lprops->free + lprops->dirty < data->min_space)
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   98  		return ret;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14   99  	/* If specified, exclude index LEBs */
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  100  	if (data->exclude_index && lprops->flags & LPROPS_INDEX)
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  101  		return ret;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  102  	/* If specified, exclude empty or freeable LEBs */
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  103  	if (lprops->free + lprops->dirty == c->leb_size) {
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  104  		if (!data->pick_free)
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  105  			return ret;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  106  	/* Exclude LEBs with too little dirty space (unless it is empty) */
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  107  	} else if (lprops->dirty < c->dead_wm)
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  108  		return ret;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  109  	/* Finally we found space */
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  110  	data->lnum = lprops->lnum;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  111  	return LPT_SCAN_ADD | LPT_SCAN_STOP;
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  112  }
-> 1e51764a3c2ac0 Artem Bityutskiy 2008-07-14  113
-> 
-> :::::: The code at line 86 was first introduced by commit
-> :::::: 1e51764a3c2ac05a23a22b2a95ddee4d9bffb16d UBIFS: add new flash file system
-> 
-> :::::: TO: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
-> :::::: CC: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
-> 
+   In file included from include/linux/perf_event.h:52,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:93,
+                    from kernel/fork.c:55:
+>> include/linux/ftrace.h:261:1: warning: 'ftrace_regs_get_return_address' declared 'static' but never defined [-Wunused-function]
+     261 | ftrace_regs_get_return_address(struct ftrace_regs *fregs);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   kernel/panic.c: In function '__warn':
+   kernel/panic.c:670:17: warning: function '__warn' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     670 |                 vprintk(args->fmt, args->args);
+         |                 ^~~~~~~
+   In file included from include/linux/kprobes.h:28,
+                    from include/linux/kgdb.h:19,
+                    from kernel/panic.c:15:
+   include/linux/ftrace.h: At top level:
+>> include/linux/ftrace.h:261:1: warning: 'ftrace_regs_get_return_address' declared 'static' but never defined [-Wunused-function]
+     261 | ftrace_regs_get_return_address(struct ftrace_regs *fregs);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/perf_event.h:52,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:93,
+                    from kernel/ptrace.c:27:
+>> include/linux/ftrace.h:261:1: warning: 'ftrace_regs_get_return_address' declared 'static' but never defined [-Wunused-function]
+     261 | ftrace_regs_get_return_address(struct ftrace_regs *fregs);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/string.h:292,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/processor.h:20,
+                    from include/linux/sched.h:13,
+                    from kernel/ptrace.c:13:
+   In function 'fortify_memcpy_chk',
+       inlined from 'syscall_get_arguments' at arch/x86/include/asm/syscall.h:87:2,
+       inlined from 'ptrace_get_syscall_info_entry.constprop.isra' at kernel/ptrace.c:929:2:
+   include/linux/fortify-string.h:537:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+     537 |                         __read_overflow2_field(q_size_field, size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   kernel/audit.c: In function 'audit_log_vformat':
+   kernel/audit.c:1979:9: warning: function 'audit_log_vformat' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1979 |         len = vsnprintf(skb_tail_pointer(skb), avail, fmt, args);
+         |         ^~~
+   kernel/audit.c:1988:17: warning: function 'audit_log_vformat' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1988 |                 len = vsnprintf(skb_tail_pointer(skb), avail, fmt, args2);
+         |                 ^~~
+   In file included from include/linux/perf_event.h:52,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:93,
+                    from kernel/audit.c:44:
+   include/linux/ftrace.h: At top level:
+>> include/linux/ftrace.h:261:1: warning: 'ftrace_regs_get_return_address' declared 'static' but never defined [-Wunused-function]
+     261 | ftrace_regs_get_return_address(struct ftrace_regs *fregs);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/perf_event.h:52,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:93,
+                    from include/linux/entry-common.h:7,
+                    from kernel/entry/common.c:4:
+>> include/linux/ftrace.h:261:1: warning: 'ftrace_regs_get_return_address' declared 'static' but never defined [-Wunused-function]
+     261 | ftrace_regs_get_return_address(struct ftrace_regs *fregs);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/string.h:292,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/processor.h:20,
+                    from include/linux/sched.h:13,
+                    from include/linux/context_tracking.h:5,
+                    from kernel/entry/common.c:3:
+   In function 'fortify_memcpy_chk',
+       inlined from 'syscall_get_arguments' at arch/x86/include/asm/syscall.h:87:2,
+       inlined from 'trace_event_raw_event_sys_enter' at include/trace/events/syscalls.h:18:1:
+   include/linux/fortify-string.h:537:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+     537 |                         __read_overflow2_field(q_size_field, size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'fortify_memcpy_chk',
+       inlined from 'syscall_get_arguments' at arch/x86/include/asm/syscall.h:87:2,
+       inlined from 'perf_trace_sys_enter' at include/trace/events/syscalls.h:18:1:
+   include/linux/fortify-string.h:537:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+     537 |                         __read_overflow2_field(q_size_field, size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'fortify_memcpy_chk',
+       inlined from 'syscall_get_arguments' at arch/x86/include/asm/syscall.h:87:2,
+       inlined from 'syscall_enter_audit' at kernel/entry/common.c:23:3,
+       inlined from 'syscall_trace_enter' at kernel/entry/common.c:63:2:
+   include/linux/fortify-string.h:537:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+     537 |                         __read_overflow2_field(q_size_field, size);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
+     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
+   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
+     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
+   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
+     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
+   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
+     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
+         |                                   ^~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
+   In file included from include/linux/perf_event.h:52,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:93,
+                    from kernel/time/hrtimer.c:30:
+>> include/linux/ftrace.h:261:1: warning: 'ftrace_regs_get_return_address' declared 'static' but never defined [-Wunused-function]
+     261 | ftrace_regs_get_return_address(struct ftrace_regs *fregs);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   kernel/bpf/btf.c: In function 'btf_seq_show':
+   kernel/bpf/btf.c:7137:29: warning: function 'btf_seq_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    7137 |         seq_vprintf((struct seq_file *)show->target, fmt, args);
+         |                             ^~~~~~~~
+   kernel/bpf/btf.c: In function 'btf_snprintf_show':
+   kernel/bpf/btf.c:7174:9: warning: function 'btf_snprintf_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    7174 |         len = vsnprintf(show->target, ssnprintf->len_left, fmt, args);
+         |         ^~~
+   In file included from include/linux/perf_event.h:52,
+                    from kernel/bpf/btf.c:24:
+   include/linux/ftrace.h: At top level:
+>> include/linux/ftrace.h:261:1: warning: 'ftrace_regs_get_return_address' declared 'static' but never defined [-Wunused-function]
+     261 | ftrace_regs_get_return_address(struct ftrace_regs *fregs);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+vim +261 include/linux/ftrace.h
+
+   239	
+   240	#ifndef CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS
+   241	#define ftrace_regs_get_instruction_pointer(fregs) \
+   242		instruction_pointer(ftrace_get_regs(fregs))
+   243	#define ftrace_regs_get_argument(fregs, n) \
+   244		regs_get_kernel_argument(ftrace_get_regs(fregs), n)
+   245	#define ftrace_regs_get_stack_pointer(fregs) \
+   246		kernel_stack_pointer(ftrace_get_regs(fregs))
+   247	#define ftrace_regs_get_return_value(fregs) \
+   248		regs_return_value(ftrace_get_regs(fregs))
+   249	#define ftrace_regs_set_return_value(fregs, ret) \
+   250		regs_set_return_value(ftrace_get_regs(fregs), ret)
+   251	#define ftrace_override_function_with_return(fregs) \
+   252		override_function_with_return(ftrace_get_regs(fregs))
+   253	#define ftrace_regs_query_register_offset(name) \
+   254		regs_query_register_offset(name)
+   255	#define ftrace_regs_get_frame_pointer(fregs) \
+   256		frame_pointer(&(fregs)->regs)
+   257	
+   258	#ifdef CONFIG_HAVE_FUNCTION_GRAPH_FREGS
+   259	/* This function works correctly in ftrace entry function. */
+   260	static __always_inline unsigned long
+ > 261	ftrace_regs_get_return_address(struct ftrace_regs *fregs);
+   262	#endif
+   263	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
