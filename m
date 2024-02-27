@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540307BAE7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Feb 2024 09:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201B91369B1;
+	Tue, 27 Feb 2024 09:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709026782; cv=none; b=evD92+zSYERbz2+Vm3Otk8TL7ucOAEqBZIm5QL2c0MWxRReaF98eRxnwTaff7l5WMGP+uBo+ytdCainm1/pIktmvH1/U7R6CoMNROeuksWWHo+kPXWQaSYU1CJ0r6H+ibXnUJXl6GdN1qFdU1hFtSI4zhPRGRMoh/NA0n+0Z+Gw=
+	t=1709027412; cv=none; b=d0XIF+0XDB4Ym+EaR07mrSlDzqmw02nIIzsupQMfNROToca+STR+bJAvEDQlS1rQ+JsRlc9tx4zSeCna9FH8GtLXRpmBir5yhIC7BFCPSFh41O75kJCrFOK+yzGk21yWOCh9l0FP/cEJAa7UhcTGs/AewOMeTKSMpCBccHKAUB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709026782; c=relaxed/simple;
-	bh=m1pfuA4ktj/QpUmaMibq5IuPwZQY5Q3jnNV8KiqmwxU=;
+	s=arc-20240116; t=1709027412; c=relaxed/simple;
+	bh=hS2iokWHX2N0vEg60UBCjXsgIHbrqYAFo6dyFbn8VWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aiT0hA5OHx7fSj4qpAQCcI+KLJml0v83jYw6oSjqpkLrDO2T4jUoEyfKRJdmYQXts47eEOQ9JkfSE0P1RT7mo4bpkRpJfGFoSFWER1iheXPbxGhFm8d2/QI84T9GK3KiXhw6gcMWG9x68xuXBHR3XXzRQ75oDEHr2BQFckl9bGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gFtHsKr6; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=c3FJ9KF1ZID/TsWE/NzopZ2FFgSKlEAjoG7a3Zd/60LEJn8AbfVP5KAGHYeu6Qw3Rc0qe279Yg0mcLqLMHPhi8cW5/ambgJLnf3zFV5LNCjB6CsV2m3eVDQYXCu5w1OSwF8j35RDXVPxFFEtvj2HtwZazL+7DBhvVJsFfD4ZkNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l46qZT56; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFtHsKr6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l46qZT56"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709026779; x=1740562779;
+  t=1709027410; x=1740563410;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m1pfuA4ktj/QpUmaMibq5IuPwZQY5Q3jnNV8KiqmwxU=;
-  b=gFtHsKr66WEZl2VVnC9P8vRHDDqbOtfZ3yUAatzlWbzCtsrMGF7LEJfm
-   r0nI8jOg1G/yyIF9tqbDzKj5PD8HR+xbvjuyu1DW4uft0m+zh1SIm6Oq1
-   jeh0D+dGv9UFQyyFF1pmt5PF9+Pu+QXWZqIIzwVDScM5uVo+8y3AIa7cX
-   l/z4E16YnnvQwwP5Cmt5ysraXoC68X1VXtbeFiL3Sdb2ZJe8TagnxaafF
-   XlrDxD25xtf5OCqm3gjfb4FiaMA1NBDWaTtd9uFnuZ9IX+ztHIdgGGSjr
-   lQ3hqUm9j3/BeoceYievfbZtFl9Vpr7AP+c4BHLHA2BF/8HMD6xmzfMH8
+  bh=hS2iokWHX2N0vEg60UBCjXsgIHbrqYAFo6dyFbn8VWk=;
+  b=l46qZT56T0m7JpbeMbr3DJ/D/GobFeQMugfYQd1yimOpaxsWQkuuRwdP
+   XxV/TfGYt+/VZWyLkonSysez/XkmgpwGi8qPXlUDhFlHz5FP+wT1FzxWx
+   uKQuV13ZjO26cRMeDb0MlcV22Q8ddUgFQhYZI5Po8tQs1RVngnzDBzIdb
+   aHb4O9Mz5U3Ia3boDeb59jW5n1Z0A+IXVQGmB/YGQAQjODywHV1hNNG6E
+   s4NnBYawKIPuTvA0qJCp97hdKP6wlI6tsjivU1eE8jOXlOYDej7MXRBF6
+   sWtwleupqYBXJNPOhuHgxfhSNysbCGh/xSjm4a9o15lf7SQzAYV/1px8C
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="3911585"
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="20902988"
 X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="3911585"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2024 01:39:38 -0800
+   d="scan'208";a="20902988"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2024 01:50:09 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="11652496"
+   d="scan'208";a="37789598"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 27 Feb 2024 01:39:37 -0800
+  by orviesa002.jf.intel.com with ESMTP; 27 Feb 2024 01:50:08 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1retve-000B6V-2l;
-	Tue, 27 Feb 2024 09:39:28 +0000
-Date: Tue, 27 Feb 2024 17:38:51 +0800
+	id 1reu69-000B6v-1a;
+	Tue, 27 Feb 2024 09:50:05 +0000
+Date: Tue, 27 Feb 2024 17:49:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:arm64-sve-save-support-check 2/2]
- arch/arm64/kernel/fpsimd.c:454:13: error: implicit declaration of function
- 'system_support_sve'; did you mean 'system_supports_sve'?
-Message-ID: <202402271740.gafPG9Ym-lkp@intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org
+Subject: [pci:wip/2402-bjorn-osc-dpc 3/3] drivers/pci/pci-acpi.c:1424:2:
+ error: call to undeclared function 'pci_acpi_add_edr_notifier'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202402271755.7yCmolZa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,109 +60,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-sve-save-support-check
-head:   fff29a9e88fc03d6dd50a8a4b99780d3646a46fa
-commit: fff29a9e88fc03d6dd50a8a4b99780d3646a46fa [2/2] arm64/fp: Only check if we need to save SVE registers on systems with SVE
-config: arm64-randconfig-002-20240227 (https://download.01.org/0day-ci/archive/20240227/202402271740.gafPG9Ym-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240227/202402271740.gafPG9Ym-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git wip/2402-bjorn-osc-dpc
+head:   f76758eebe9e2f81b37e41d2bdc70825cdb879d7
+commit: f76758eebe9e2f81b37e41d2bdc70825cdb879d7 [3/3] PCI/DPC: Encapsulate pci_acpi_add_edr_notifier()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240227/202402271755.7yCmolZa-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240227/202402271755.7yCmolZa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402271740.gafPG9Ym-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402271755.7yCmolZa-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm64/kernel/fpsimd.c: In function 'fpsimd_save_user_state':
->> arch/arm64/kernel/fpsimd.c:454:13: error: implicit declaration of function 'system_support_sve'; did you mean 'system_supports_sve'? [-Werror=implicit-function-declaration]
-     454 |         if (system_support_sve() &&
-         |             ^~~~~~~~~~~~~~~~~~
-         |             system_supports_sve
-   cc1: some warnings being treated as errors
+>> drivers/pci/pci-acpi.c:1424:2: error: call to undeclared function 'pci_acpi_add_edr_notifier'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1424 |         pci_acpi_add_edr_notifier(pci_dev);
+         |         ^
+   drivers/pci/pci-acpi.c:1424:2: note: did you mean 'pci_acpi_add_pm_notifier'?
+   drivers/pci/pci-acpi.c:881:13: note: 'pci_acpi_add_pm_notifier' declared here
+     881 | acpi_status pci_acpi_add_pm_notifier(struct acpi_device *dev,
+         |             ^
+>> drivers/pci/pci-acpi.c:1451:2: error: call to undeclared function 'pci_acpi_remove_edr_notifier'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1451 |         pci_acpi_remove_edr_notifier(pci_dev);
+         |         ^
+   drivers/pci/pci-acpi.c:1451:2: note: did you mean 'pci_acpi_remove_pm_notifier'?
+   include/linux/pci-acpi.h:22:27: note: 'pci_acpi_remove_pm_notifier' declared here
+      22 | static inline acpi_status pci_acpi_remove_pm_notifier(struct acpi_device *dev)
+         |                           ^
+   2 errors generated.
 
 
-vim +454 arch/arm64/kernel/fpsimd.c
+vim +/pci_acpi_add_edr_notifier +1424 drivers/pci/pci-acpi.c
 
-   423	
-   424	/*
-   425	 * Ensure FPSIMD/SVE storage in memory for the loaded context is up to
-   426	 * date with respect to the CPU registers. Note carefully that the
-   427	 * current context is the context last bound to the CPU stored in
-   428	 * last, if KVM is involved this may be the guest VM context rather
-   429	 * than the host thread for the VM pointed to by current. This means
-   430	 * that we must always reference the state storage via last rather
-   431	 * than via current, if we are saving KVM state then it will have
-   432	 * ensured that the type of registers to save is set in last->to_save.
-   433	 */
-   434	static void fpsimd_save_user_state(void)
-   435	{
-   436		struct cpu_fp_state const *last =
-   437			this_cpu_ptr(&fpsimd_last_state);
-   438		/* set by fpsimd_bind_task_to_cpu() or fpsimd_bind_state_to_cpu() */
-   439		bool save_sve_regs = false;
-   440		bool save_ffr;
-   441		unsigned int vl;
-   442	
-   443		WARN_ON(!system_supports_fpsimd());
-   444		WARN_ON(preemptible());
-   445	
-   446		if (test_thread_flag(TIF_FOREIGN_FPSTATE))
-   447			return;
-   448	
-   449		/*
-   450		 * If a task is in a syscall the ABI allows us to only
-   451		 * preserve the state shared with FPSIMD so don't bother
-   452		 * saving the full SVE state in that case.
-   453		 */
- > 454		if (system_support_sve() &&
-   455		    ((last->to_save == FP_STATE_CURRENT && test_thread_flag(TIF_SVE) &&
-   456		      !in_syscall(current_pt_regs())) ||
-   457		     last->to_save == FP_STATE_SVE)) {
-   458			save_sve_regs = true;
-   459			save_ffr = true;
-   460			vl = last->sve_vl;
-   461		}
-   462	
-   463		if (system_supports_sme()) {
-   464			u64 *svcr = last->svcr;
-   465	
-   466			*svcr = read_sysreg_s(SYS_SVCR);
-   467	
-   468			if (*svcr & SVCR_ZA_MASK)
-   469				sme_save_state(last->sme_state,
-   470					       system_supports_sme2());
-   471	
-   472			/* If we are in streaming mode override regular SVE. */
-   473			if (*svcr & SVCR_SM_MASK) {
-   474				save_sve_regs = true;
-   475				save_ffr = system_supports_fa64();
-   476				vl = last->sme_vl;
-   477			}
-   478		}
-   479	
-   480		if (IS_ENABLED(CONFIG_ARM64_SVE) && save_sve_regs) {
-   481			/* Get the configured VL from RDVL, will account for SM */
-   482			if (WARN_ON(sve_get_vl() != vl)) {
-   483				/*
-   484				 * Can't save the user regs, so current would
-   485				 * re-enter user with corrupt state.
-   486				 * There's no way to recover, so kill it:
-   487				 */
-   488				force_signal_inject(SIGKILL, SI_KERNEL, 0, 0);
-   489				return;
-   490			}
-   491	
-   492			sve_save_state((char *)last->sve_state +
-   493						sve_ffr_offset(vl),
-   494				       &last->st->fpsr, save_ffr);
-   495			*last->fp_type = FP_STATE_SVE;
-   496		} else {
-   497			fpsimd_save_state(last->st);
-   498			*last->fp_type = FP_STATE_FPSIMD;
-   499		}
-   500	}
-   501	
+617654aae50eb5 Mika Westerberg            2018-08-16  1417  
+4795448117824c Rafael J. Wysocki          2021-09-18  1418  void pci_acpi_setup(struct device *dev, struct acpi_device *adev)
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1419  {
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1420  	struct pci_dev *pci_dev = to_pci_dev(dev);
+f084280cd34e37 Rafael J. Wysocki          2013-12-29  1421  
+e33caa82e221b0 Aaron Lu                   2015-03-25  1422  	pci_acpi_optimize_delay(pci_dev, adev->handle);
+99b50be9d8ec9e Rajat Jain                 2020-07-07  1423  	pci_acpi_set_external_facing(pci_dev);
+ac1c8e35a3262d Kuppuswamy Sathyanarayanan 2020-03-23 @1424  	pci_acpi_add_edr_notifier(pci_dev);
+e33caa82e221b0 Aaron Lu                   2015-03-25  1425  
+f084280cd34e37 Rafael J. Wysocki          2013-12-29  1426  	pci_acpi_add_pm_notifier(adev, pci_dev);
+f084280cd34e37 Rafael J. Wysocki          2013-12-29  1427  	if (!adev->wakeup.flags.valid)
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1428  		return;
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1429  
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1430  	device_set_wakeup_capable(dev, true);
+6299cf9ec3985c Mika Westerberg            2018-09-27  1431  	/*
+6299cf9ec3985c Mika Westerberg            2018-09-27  1432  	 * For bridges that can do D3 we enable wake automatically (as
+6299cf9ec3985c Mika Westerberg            2018-09-27  1433  	 * we do for the power management itself in that case). The
+6299cf9ec3985c Mika Westerberg            2018-09-27  1434  	 * reason is that the bridge may have additional methods such as
+6299cf9ec3985c Mika Westerberg            2018-09-27  1435  	 * _DSW that need to be called.
+6299cf9ec3985c Mika Westerberg            2018-09-27  1436  	 */
+6299cf9ec3985c Mika Westerberg            2018-09-27  1437  	if (pci_dev->bridge_d3)
+6299cf9ec3985c Mika Westerberg            2018-09-27  1438  		device_wakeup_enable(dev);
+6299cf9ec3985c Mika Westerberg            2018-09-27  1439  
+8370c2dc4c7b91 Rafael J. Wysocki          2017-06-24  1440  	acpi_pci_wakeup(pci_dev, false);
+53b22f900c2d28 Mika Westerberg            2019-06-25  1441  	acpi_device_power_add_dependent(adev, dev);
+62d528712c1db6 Rafael J. Wysocki          2022-04-04  1442  
+62d528712c1db6 Rafael J. Wysocki          2022-04-04  1443  	if (pci_is_bridge(pci_dev))
+62d528712c1db6 Rafael J. Wysocki          2022-04-04  1444  		acpi_dev_power_up_children_with_adr(adev);
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1445  }
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1446  
+4795448117824c Rafael J. Wysocki          2021-09-18  1447  void pci_acpi_cleanup(struct device *dev, struct acpi_device *adev)
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1448  {
+6299cf9ec3985c Mika Westerberg            2018-09-27  1449  	struct pci_dev *pci_dev = to_pci_dev(dev);
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1450  
+ac1c8e35a3262d Kuppuswamy Sathyanarayanan 2020-03-23 @1451  	pci_acpi_remove_edr_notifier(pci_dev);
+f084280cd34e37 Rafael J. Wysocki          2013-12-29  1452  	pci_acpi_remove_pm_notifier(adev);
+6299cf9ec3985c Mika Westerberg            2018-09-27  1453  	if (adev->wakeup.flags.valid) {
+53b22f900c2d28 Mika Westerberg            2019-06-25  1454  		acpi_device_power_remove_dependent(adev, dev);
+6299cf9ec3985c Mika Westerberg            2018-09-27  1455  		if (pci_dev->bridge_d3)
+6299cf9ec3985c Mika Westerberg            2018-09-27  1456  			device_wakeup_disable(dev);
+6299cf9ec3985c Mika Westerberg            2018-09-27  1457  
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1458  		device_set_wakeup_capable(dev, false);
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1459  	}
+6299cf9ec3985c Mika Westerberg            2018-09-27  1460  }
+d2e5f0c16ad60a Rafael J. Wysocki          2012-12-23  1461  
+
+:::::: The code at line 1424 was first introduced by commit
+:::::: ac1c8e35a3262d04cc81b07fac6480a3539e3b0f PCI/DPC: Add Error Disconnect Recover (EDR) support
+
+:::::: TO: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
