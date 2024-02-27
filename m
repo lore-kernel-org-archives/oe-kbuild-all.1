@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83966FC6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Feb 2024 04:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0B24D9E7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Feb 2024 04:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709006835; cv=none; b=hQ63mNAd2BVKQOHeF0j7vNlJxSFS/JJyn+g2nWuRf9FSzXVwpqdikTfnGH//8u8DXBErIaL/2tA/k8TTMQuInUpuArboIl4ieJwLPJ/5OYlOwC6NakcSnGcAvisIAu3mUF+Ge03d5VvUop8OgNtAjGe/TUd0nkFqrf/rzKaX5PA=
+	t=1709008686; cv=none; b=R2T/p+Wnrya7iXe/a6bXsljg2I//nDL/rlKrFvTAxH8FxexWCZJWiadtibFniEnWVDmgd3w2oA6NbZ2DTGfqpnH5goYmG46VdIlnn44y6DnzBEbaM1nloxpChzh2FCdSOEwCakDXyMe9cYdy9JlyfGRkqdd+cL5ZiDnfTVRsDsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709006835; c=relaxed/simple;
-	bh=PX67wtWhns/JTgxCenq7wJ4iLwPgoWbtkjG6mmUFrsI=;
+	s=arc-20240116; t=1709008686; c=relaxed/simple;
+	bh=T/5+WeVD+Ufjm2hsGyiY8XEZu/ksh/nzJifdg+cIOhA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b1L7QtkVFyPrxtIj4go7VI4yRZsoNnq/zGrh7fJkK8BUfq38rkJC5k65cXdwYiO3V8pkfOPdHEFKpSEHMMiibEfZMws4sfdG9mcsIi4t2bg0dyEj+piSqnPKmQHIQ33Zv1Jl97bKW6h+4UibDiHqUV/HdK4lepPzpAWnHEhinog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ba27Vkno; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=InVu4Nv2NQ4n/0fXbUfpModmG8Ony7tcB/r1oXOaTZKPs4bA3cIjwBRaEVEts4WmvhQxFW7NrfrCvcXEHIP4G+dZo3weBNxxDk8tBbC7GVDMkMZKvMp/gUHDwRHcNLl8oCSYbNcioHWNt8c46I1cfP9KF+SugpYgEcMUU6S/8ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g43Ay+LY; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ba27Vkno"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g43Ay+LY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709006834; x=1740542834;
+  t=1709008684; x=1740544684;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PX67wtWhns/JTgxCenq7wJ4iLwPgoWbtkjG6mmUFrsI=;
-  b=Ba27Vkno9+jBmAVF/w1ezePB+pRGLhdhn/jYNFin4eSDkO6CsqjLzo1t
-   BxFdvYwJDpfESoice1DegFwNlyIlaX/eGB78QYnBBiA4DEkyp0dTr5nw4
-   meLFz9ijMMqwqSDl7V0jMNtoZGhVEnORzSC2sMPv5lFInydHMilwNREqe
-   +gzQrus7QF7rU6t6JvVsdSxvSmGHcAOfiulfwqyRCV7X/ejx0NTRCgqtG
-   /men9HRmbRWwamHZOwyhTVc15AKHmAtFgZ3mMkVuvSJcqmwSqMh77eWxw
-   iQ5Vp6yc/E5L6G2YzFrywCjTTselViEQJDP2WNefwkNx+8gH8gKCQ8K1m
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="3884443"
+  bh=T/5+WeVD+Ufjm2hsGyiY8XEZu/ksh/nzJifdg+cIOhA=;
+  b=g43Ay+LYRXE5ERuyRCh7ky3ylmo7jWo9HcIFuLGWoTC98CiR7Ta6LMTg
+   7B/FvcxkPN+bbs6+s1AC1iRUW8oAZmLgHJj1JKmEoxkOGaaGKGLXJtdMx
+   lIBOw+iAaF07qfzTNduuUyAljXyKL1D8vwlMvCnBNOcbGNE2GTiOAnGhH
+   N8Xd4WUw1lscBv6Ql0mgY65nosvCb4MVl4HFlohveITMMthbcbDb7WYr7
+   9bjw/2oq0uvxcsgnXGgAwfJTf/FQnzBx/F6eVqqHSGJqZrVdGN1EwAgCc
+   4HoiTDsv+gfQdpjewfzj1VcdRWCJCAaLAnUrYuezHk3Spzq7JBbNmXgLb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="3492024"
 X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="3884443"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 20:07:13 -0800
+   d="scan'208";a="3492024"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 20:38:03 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="11519628"
+   d="scan'208";a="6782677"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Feb 2024 20:07:11 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 26 Feb 2024 20:38:01 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1reokH-000AvP-0a;
-	Tue, 27 Feb 2024 04:07:09 +0000
-Date: Tue, 27 Feb 2024 12:07:02 +0800
+	id 1repE6-000AwN-29;
+	Tue, 27 Feb 2024 04:37:58 +0000
+Date: Tue, 27 Feb 2024 12:37:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Szilard Fabian <szfabian@bluemarch.art>
+To: Sean Christopherson <sean.j.christopherson@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [pdx86-platform-drivers-x86:review-ilpo 40/50]
- drivers/platform/x86/fujitsu-laptop.c:275: undefined reference to
- `battery_hook_unregister'
-Message-ID: <202402271126.3bEzgRFo-lkp@intel.com>
+	Isaku Yamahata <isaku.yamahata@intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Yuan Yao <yuan.yao@intel.com>,
+	Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: [intel-tdx:kvm-upstream 28/152] arch/x86/coco/tdx/tdx.c:757:28:
+ error: 'TDVMCALL_STATUS_RETRY' undeclared; did you mean 'TDVMCALL_RETRY'?
+Message-ID: <202402271232.mchzwbkx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +61,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo
-head:   cd4525993e49f1449e9380bd28fa1179b05c911d
-commit: 611d56d76dee8fb4a362cda7eec787cec70dac75 [40/50] platform/x86/fujitsu-laptop: Add battery charge control support
-config: i386-randconfig-006-20240227 (https://download.01.org/0day-ci/archive/20240227/202402271126.3bEzgRFo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240227/202402271126.3bEzgRFo-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git kvm-upstream
+head:   f1ccffc2bc17cc3feca6d575db7ea93c29a49453
+commit: ae0b961d80ab90e43c6eff4a675e00ff80ab3b9f [28/152] KVM: TDX: Add TDX "architectural" error codes
+config: x86_64-buildonly-randconfig-005-20240226 (https://download.01.org/0day-ci/archive/20240227/202402271232.mchzwbkx-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240227/202402271232.mchzwbkx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402271126.3bEzgRFo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402271232.mchzwbkx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/platform/x86/fujitsu-laptop.o: in function `fujitsu_battery_charge_control_remove':
->> drivers/platform/x86/fujitsu-laptop.c:275: undefined reference to `battery_hook_unregister'
-   ld: drivers/platform/x86/fujitsu-laptop.o: in function `fujitsu_battery_charge_control_add':
->> drivers/platform/x86/fujitsu-laptop.c:265: undefined reference to `battery_hook_register'
+   arch/x86/coco/tdx/tdx.c: In function 'tdx_map_gpa':
+>> arch/x86/coco/tdx/tdx.c:757:28: error: 'TDVMCALL_STATUS_RETRY' undeclared (first use in this function); did you mean 'TDVMCALL_RETRY'?
+     757 |                 if (ret != TDVMCALL_STATUS_RETRY)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+         |                            TDVMCALL_RETRY
+   arch/x86/coco/tdx/tdx.c:757:28: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +275 drivers/platform/x86/fujitsu-laptop.c
+vim +757 arch/x86/coco/tdx/tdx.c
 
-   242	
-   243	/*
-   244	 * These functions are intended to be called from acpi_fujitsu_laptop_add and
-   245	 * acpi_fujitsu_laptop_remove.
-   246	 */
-   247	static int fujitsu_battery_charge_control_add(struct acpi_device *device)
-   248	{
-   249		struct fujitsu_laptop *priv = acpi_driver_data(device);
-   250		int s006_cc_return;
-   251	
-   252		priv->charge_control_supported = false;
-   253		/*
-   254		 * Check if the S006 0x21 method exists by trying to get the current
-   255		 * battery charge limit.
-   256		 */
-   257		s006_cc_return = call_fext_func(fext, FUNC_S006_METHOD,
-   258						CHARGE_CONTROL_RW, 0x21, 0x0);
-   259		if (s006_cc_return < 0)
-   260			return s006_cc_return;
-   261		if (s006_cc_return == UNSUPPORTED_CMD)
-   262			return -ENODEV;
-   263	
-   264		priv->charge_control_supported = true;
- > 265		battery_hook_register(&battery_hook);
-   266	
-   267		return 0;
-   268	}
-   269	
-   270	static void fujitsu_battery_charge_control_remove(struct acpi_device *device)
-   271	{
-   272		struct fujitsu_laptop *priv = acpi_driver_data(device);
-   273	
-   274		if (priv->charge_control_supported)
- > 275			battery_hook_unregister(&battery_hook);
-   276	}
-   277	
+7dbde763162989 Kirill A. Shutemov 2022-04-06  729  
+7dbde763162989 Kirill A. Shutemov 2022-04-06  730  /*
+019b383d1132e4 Dexuan Cui         2023-08-10  731   * Notify the VMM about page mapping conversion. More info about ABI
+019b383d1132e4 Dexuan Cui         2023-08-10  732   * can be found in TDX Guest-Host-Communication Interface (GHCI),
+019b383d1132e4 Dexuan Cui         2023-08-10  733   * section "TDG.VP.VMCALL<MapGPA>".
+7dbde763162989 Kirill A. Shutemov 2022-04-06  734   */
+019b383d1132e4 Dexuan Cui         2023-08-10  735  static bool tdx_map_gpa(phys_addr_t start, phys_addr_t end, bool enc)
+7dbde763162989 Kirill A. Shutemov 2022-04-06  736  {
+019b383d1132e4 Dexuan Cui         2023-08-10  737  	/* Retrying the hypercall a second time should succeed; use 3 just in case */
+019b383d1132e4 Dexuan Cui         2023-08-10  738  	const int max_retries_per_page = 3;
+019b383d1132e4 Dexuan Cui         2023-08-10  739  	int retry_count = 0;
+7dbde763162989 Kirill A. Shutemov 2022-04-06  740  
+7dbde763162989 Kirill A. Shutemov 2022-04-06  741  	if (!enc) {
+7dbde763162989 Kirill A. Shutemov 2022-04-06  742  		/* Set the shared (decrypted) bits: */
+7dbde763162989 Kirill A. Shutemov 2022-04-06  743  		start |= cc_mkdec(0);
+7dbde763162989 Kirill A. Shutemov 2022-04-06  744  		end   |= cc_mkdec(0);
+7dbde763162989 Kirill A. Shutemov 2022-04-06  745  	}
+7dbde763162989 Kirill A. Shutemov 2022-04-06  746  
+019b383d1132e4 Dexuan Cui         2023-08-10  747  	while (retry_count < max_retries_per_page) {
+8a8544bde858e5 Kai Huang          2023-08-15  748  		struct tdx_module_args args = {
+019b383d1132e4 Dexuan Cui         2023-08-10  749  			.r10 = TDX_HYPERCALL_STANDARD,
+019b383d1132e4 Dexuan Cui         2023-08-10  750  			.r11 = TDVMCALL_MAP_GPA,
+019b383d1132e4 Dexuan Cui         2023-08-10  751  			.r12 = start,
+019b383d1132e4 Dexuan Cui         2023-08-10  752  			.r13 = end - start };
+019b383d1132e4 Dexuan Cui         2023-08-10  753  
+019b383d1132e4 Dexuan Cui         2023-08-10  754  		u64 map_fail_paddr;
+c641cfb5c157b6 Kai Huang          2023-08-15  755  		u64 ret = __tdx_hypercall(&args);
+019b383d1132e4 Dexuan Cui         2023-08-10  756  
+019b383d1132e4 Dexuan Cui         2023-08-10 @757  		if (ret != TDVMCALL_STATUS_RETRY)
+019b383d1132e4 Dexuan Cui         2023-08-10  758  			return !ret;
+7dbde763162989 Kirill A. Shutemov 2022-04-06  759  		/*
+019b383d1132e4 Dexuan Cui         2023-08-10  760  		 * The guest must retry the operation for the pages in the
+019b383d1132e4 Dexuan Cui         2023-08-10  761  		 * region starting at the GPA specified in R11. R11 comes
+019b383d1132e4 Dexuan Cui         2023-08-10  762  		 * from the untrusted VMM. Sanity check it.
+7dbde763162989 Kirill A. Shutemov 2022-04-06  763  		 */
+019b383d1132e4 Dexuan Cui         2023-08-10  764  		map_fail_paddr = args.r11;
+019b383d1132e4 Dexuan Cui         2023-08-10  765  		if (map_fail_paddr < start || map_fail_paddr >= end)
+019b383d1132e4 Dexuan Cui         2023-08-10  766  			return false;
+019b383d1132e4 Dexuan Cui         2023-08-10  767  
+019b383d1132e4 Dexuan Cui         2023-08-10  768  		/* "Consume" a retry without forward progress */
+019b383d1132e4 Dexuan Cui         2023-08-10  769  		if (map_fail_paddr == start) {
+019b383d1132e4 Dexuan Cui         2023-08-10  770  			retry_count++;
+019b383d1132e4 Dexuan Cui         2023-08-10  771  			continue;
+019b383d1132e4 Dexuan Cui         2023-08-10  772  		}
+019b383d1132e4 Dexuan Cui         2023-08-10  773  
+019b383d1132e4 Dexuan Cui         2023-08-10  774  		start = map_fail_paddr;
+019b383d1132e4 Dexuan Cui         2023-08-10  775  		retry_count = 0;
+019b383d1132e4 Dexuan Cui         2023-08-10  776  	}
+019b383d1132e4 Dexuan Cui         2023-08-10  777  
+019b383d1132e4 Dexuan Cui         2023-08-10  778  	return false;
+019b383d1132e4 Dexuan Cui         2023-08-10  779  }
+019b383d1132e4 Dexuan Cui         2023-08-10  780  
+
+:::::: The code at line 757 was first introduced by commit
+:::::: 019b383d1132e4051de0d2e43254454b86538cf4 x86/tdx: Retry partially-completed page conversion hypercalls
+
+:::::: TO: Dexuan Cui <decui@microsoft.com>
+:::::: CC: Dave Hansen <dave.hansen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
