@@ -1,83 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7D652F98
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Feb 2024 06:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B3A54BEF;
+	Tue, 27 Feb 2024 07:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709016233; cv=none; b=phWeoS1U6J1K9QBdNSSSIOj6V1inEMgSRPC3LJRkplMb+OoOSOAk6fwwsoj6k699lELpsbETlBKhNJOj/evODlaNuN8DtNCYi3fgki6X4OkiZf4ZcDapDYpQ9No0aL8rnmR2wLdCcsg8QJgemfQQVK3u/rOtCYhxjfo3cOKDGdI=
+	t=1709019331; cv=none; b=rWg801GNkgUTEtB6yFlxUcnQZVTVkCBmA/tLSotwmZSuJbNkjB6JNPxSrmuPcU/bAG48R9uUJaANBzLiAeRzc8ipEW/Z64qGHk3SURqWxPI22bYyWc9rcHelslS/3zx6O1dd8fLi45vrkfi2FmONZ1MUqwySnTNTxsNGa5tFT+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709016233; c=relaxed/simple;
-	bh=ReqBNEvEF1ysnfrtCxs8ML8ThthaJdQCaB25/uLJJkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b0wIwkCGfAcaVaPuHD/rjxeZ8/g3j4ZFduf22gq3cGPVkg0jgYlZme+8z6SfXGdmNBRlDYpwoZF4R/kv/pEZzx/3qaAhK0saqJz/Xlko/4XILKqEaIPEz8igynVy0kFHmJVa+V+dikUyWd4cY2zXwG02POyCNSwaTYMPkVMxPm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSX0d+e2; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709019331; c=relaxed/simple;
+	bh=y3D8WUkWKPmkFY3KmSBBbE7wj43kaGpM0J+XoS+kZLk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mizGi0FLiOQ1pOWdNQGTy68JkHbcw9V8Il+GdQ54GnWciJcI6hD3eXICNYHn0PexdhLCNJJ5W4k0WYuhziTqI9jQUjuyOf2NhsWZL8BaqjeI8RW8VIJkdgXNc1YkWEcf11zh50j6809DzV1P/wUr/u9XjB/OZGSsayT2IaDHv4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KQPJ6f7u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSX0d+e2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709016232; x=1740552232;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ReqBNEvEF1ysnfrtCxs8ML8ThthaJdQCaB25/uLJJkw=;
-  b=nSX0d+e2/sfjlWQKYNaiCAtowHsa33JtqrekUnaBlGL2xklRg0XZbatJ
-   GVks1iI29phKEj5oR+zm7ilaufGQMUEuYtdNTJjPgbH0kNd3WYHmUGkW/
-   se3pb4KfwuAzx955IvspLuUdX2QONYEVTn50L/FwACVsk1CkE8uZMxGKR
-   1btzUjwa8GXGALhQTIoyEPme7BAjoTuTtuvRrxpNhuRM40VAO6OhzAqjf
-   KcEELUG/FBx+KsIHUjRlZ3orrsK/53Zya+9yH/gsLcJS7rcmdXE/b1ZTf
-   iAARghb8F5MGmzl3GpMug8YKGBKfSZzdLzsbqvC7QCHx0TLCS1SpQ9O8a
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="14765465"
-X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="14765465"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 22:43:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="7143861"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Feb 2024 22:43:50 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rerBs-000B0t-03;
-	Tue, 27 Feb 2024 06:43:48 +0000
-Date: Tue, 27 Feb 2024 14:43:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream 74/152] main.c:(.text+0x27c): multiple
- definition of `tdx_pre_memory_mapping';
- arch/x86/kvm/vmx/vmx.o:vmx.c:(.text+0x2620): first defined here
-Message-ID: <202402271442.zIaNvJSG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KQPJ6f7u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5481DC433F1;
+	Tue, 27 Feb 2024 07:35:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709019329;
+	bh=y3D8WUkWKPmkFY3KmSBBbE7wj43kaGpM0J+XoS+kZLk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KQPJ6f7ug8Rcs+DxLj4aM6bqai7HwJ1Jig7eLPf79CJ41+TQuTnxTQb2+yU/JzFNn
+	 7/zJlyV0Nkrx1LumAZ+f5pmChx4ctfSC6iA5GxQ9U8vScWtkB3Afc1fGTzaoYV54W+
+	 82xOhGUNBqdEl6Hp9WZ6LEOf8JD0L9afQDSO9mRd1/gT2Sspp7dJ4dDZl/6Q05444U
+	 R2TOFWTb3J3FqfYpvN6G6GDCxuelsF2Nxep3FJszvjxmOwBqYdG4FhK7b90GB0Tn7E
+	 LKBR/RP+pd4rFNaBxDt1zYmcSzN++OiFu8o/hqJmlCMddbQSYm9EAjmaSUiDOdaHBi
+	 qOrNJX7crk8pw==
+Date: Mon, 26 Feb 2024 23:35:27 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, oe-kbuild-all@lists.linux.dev,
+	kernel test robot <lkp@intel.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] objtool: Fix UNWIND_HINT_{SAVE,RESTORE} across basic blocks
+Message-ID: <20240227073527.avcm5naavbv3cj5s@treble>
+References: <202402240702.zJFNmahW-lkp@intel.com>
+ <202402231632.D90831AE51@keescook>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <202402231632.D90831AE51@keescook>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream
-head:   f1ccffc2bc17cc3feca6d575db7ea93c29a49453
-commit: bbac4998cfb34da496646491038b03f501964cbd [74/152] KVM: TDX: Create initial guest memory
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240227/202402271442.zIaNvJSG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240227/202402271442.zIaNvJSG-lkp@intel.com/reproduce)
+On Fri, Feb 23, 2024 at 04:45:22PM -0800, Kees Cook wrote:
+> Josh, Peter, can you give a clue about what's happened here? For
+> added context, the referenced commit is changing a noreturn function
+> prototype[1], which I know gets some special objtool handling, but it's
+> converting a pointer arg to a u8... I can't imagine what has gone weird
+> here. :P
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402271442.zIaNvJSG-lkp@intel.com/
+I think this convinced GCC to reshuffle some basic blocks, which
+uncovered an objtool bug.  Or, objtool just wasn't smart enough, as the
+warning says ;-)
 
-All errors (new ones prefixed by >>):
+This should fix it, absent any more warnings.  Kees, feel free to take
+it in your branch if that helps.
 
-   ld: arch/x86/kvm/vmx/main.o: in function `tdx_pre_memory_mapping':
->> main.c:(.text+0x27c): multiple definition of `tdx_pre_memory_mapping'; arch/x86/kvm/vmx/vmx.o:vmx.c:(.text+0x2620): first defined here
-   ld: arch/x86/kvm/vmx/main.o: in function `tdx_post_memory_mapping':
->> main.c:(.text+0x290): multiple definition of `tdx_post_memory_mapping'; arch/x86/kvm/vmx/vmx.o:vmx.c:(.text+0x2634): first defined here
+---8<---
 
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+Subject: [PATCH] objtool: Fix UNWIND_HINT_{SAVE,RESTORE} across basic blocks
+
+If SAVE and RESTORE unwind hints are in different basic blocks, and
+objtool sees the RESTORE before the SAVE, it errors out with:
+
+  vmlinux.o: warning: objtool: vmw_port_hb_in+0x242: objtool isn't smart enough to handle this CFI save/restore combo
+
+In such a case, defer following the RESTORE block until the
+straight-line path gets followed later.
+
+Fixes: 8faea26e6111 ("objtool: Re-add UNWIND_HINT_{SAVE_RESTORE}")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202402240702.zJFNmahW-lkp@intel.com/
+Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
+---
+ tools/objtool/check.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index 548ec3cd7c00..c4c2f75eadfd 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -3620,6 +3620,18 @@ static int validate_branch(struct objtool_file *file, struct symbol *func,
+ 				}
+ 
+ 				if (!save_insn->visited) {
++					/*
++					 * If the restore hint insn is at the
++					 * beginning of a basic block and was
++					 * branched to from elsewhere, and the
++					 * save insn hasn't been visited yet,
++					 * defer following this branch for now.
++					 * It will be seen later via the
++					 * straight-line path.
++					 */
++					if (!prev_insn)
++						return 0;
++
+ 					WARN_INSN(insn, "objtool isn't smart enough to handle this CFI save/restore combo");
+ 					return 1;
+ 				}
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
