@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA8DDDB8;
-	Tue, 27 Feb 2024 02:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A511BF24
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Feb 2024 02:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708999542; cv=none; b=sYgvH3+6zlH+zy/koUBzxu34R0PrkFKBpi9AfTW1qsqthUxlzKUcEhmDw93MxJUNxCnHDwqj1tffx+kvlPOXZM18YguoN+rtIe/tXI4AeEgRZ2EMwljWBcoYZySKyEq74slFUuue8FaW12Rgm9Ya6akw60gkbAEePtjzuuhfsxY=
+	t=1709001343; cv=none; b=l4NJi50h2svHcwVOVOqsKAeKCQfLNO7D/amyoOkvtfQ96Oehys/IZYO3eKs/8CLpHHVKcp1PJUlFriUSORPC85ME+HlciMiyI5FGN/llnLd278Mm7Nq9FmYvyzFqLdNY/p2FNNSXH4WLigCMTYwU9bOS/ibr7nGe+8jvd+04MQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708999542; c=relaxed/simple;
-	bh=8K/Kfrk8lTUrhoUe58pMRtxBCH2bE9k35DioPCv3Byc=;
+	s=arc-20240116; t=1709001343; c=relaxed/simple;
+	bh=Vjm+KtkUaMlwv8pQwmv0OVq4LV/2ziuFgqNgcx8kgUo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TQBlNsxv/Re41i98Lrjx2MWcg6dKu0Y05GBA3uEmXfCFVFHBCqNeLNPkRESEI1ZB26n9ogn87Ihc4WEmOAmVqFt4mdeYOnKnwnJC+WkFBlXUSMKjsDYuxmM577eC1ib1HHQnXSQbjq8iwgh7os8ap6zYdLwtfn5pdYMm5GxhqzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h8QnVyr7; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=VhF1QWaqUWjL+B7t/qnEi/rraXUhxcagstME4uOvd0Y1viz+zj/WC3EgCpZ7ksIHyYqNhfvLJOilZ/PEAsPMvlB5PDjg40CGNXR/0Vf7dqcVPl9KLYrhROH3VVWCJtnf2ydk/LkNQ33jWwck5mTd1MbLuHqgfLs8rR0f+hVjd1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HGy7hy1e; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h8QnVyr7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HGy7hy1e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708999541; x=1740535541;
+  t=1709001341; x=1740537341;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8K/Kfrk8lTUrhoUe58pMRtxBCH2bE9k35DioPCv3Byc=;
-  b=h8QnVyr7TM76VtpYCd+/tU6irrp9EwWTVWqkdzUQ9WsuhTatbv4Z9F9A
-   BSYj0SJbTejFVqubnm2idZvWv971r8DkK847MPfAX+kR+AcPw5CrF+6F9
-   3Qtcqkd2GyAgH4RSuTWHDkGDUWJEi/GpAENsxdo+7xf97P36EaeiFOrR5
-   Dm8+mJerWBr0+MzVF/boT48Xb0k3yOrEfhJ8rzsZ9iMcSCNeQvmt0Fxdc
-   lODT3alGxY+uSVO0JG7V0kbuYiP0vxXceeGVjX+iToSpEhp1YA5MV5a48
-   aexyKOBBUWdw9F93gWF403qvORy1vBPg2Ns+Lkn1AHw/Mjj36nrfCk0fV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="14469864"
+  bh=Vjm+KtkUaMlwv8pQwmv0OVq4LV/2ziuFgqNgcx8kgUo=;
+  b=HGy7hy1efMu7z/Mmxm2oQYJMi6kTfngZZWBs1KPc2uoJGNJWOUN2I41u
+   0tvqqgKaxma31L+vEru/zyLPSsOeS4nOFVzLjwmTs78qieVLg7vTCILwi
+   rcd9xmzVasM040dEH3IipKifsq6wg7rjc9zxWIP9h2Dlrk4B4/NbtuJsT
+   eKmqutoLx5NCW1Chig7E4LaRAyipL59h9m9+Uu0e9VYq1jnZfzyg6cm7H
+   AEFKfWJNcTZ1qerqe62CYmusum0V9vvgycqWtXPybqdhH1H8N5TfWDWcg
+   JjBPkImA1zekG+f3CrHPl1De3pQY8HSuV4QzEG3a6R+Zw06aPeEqHhwzs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="3185960"
 X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="14469864"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 18:05:40 -0800
+   d="scan'208";a="3185960"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 18:35:41 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="6839244"
+   d="scan'208";a="7238604"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 26 Feb 2024 18:05:39 -0800
+  by orviesa007.jf.intel.com with ESMTP; 26 Feb 2024 18:35:40 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1remqe-000ArD-0p;
-	Tue, 27 Feb 2024 02:05:36 +0000
-Date: Tue, 27 Feb 2024 10:04:48 +0800
+	id 1renJg-000As3-2K;
+	Tue, 27 Feb 2024 02:35:36 +0000
+Date: Tue, 27 Feb 2024 10:35:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:arm64-sve-save-support-check 2/2]
- arch/arm64/kernel/fpsimd.c:454:6: error: implicit declaration of function
- 'system_support_sve' is invalid in C99
-Message-ID: <202402270957.KTiImNcE-lkp@intel.com>
+To: kernel@openeuler.org, Juan Zhou <zhoujuan51@h-partners.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3384/3397]
+ drivers/infiniband/hw/hns/hns_roce_hw_v2.c:4835:5: warning: no previous
+ prototype for 'hns_roce_hw_v2_get_dscp'
+Message-ID: <202402271032.NbR2jDIl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,111 +59,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-sve-save-support-check
-head:   fff29a9e88fc03d6dd50a8a4b99780d3646a46fa
-commit: fff29a9e88fc03d6dd50a8a4b99780d3646a46fa [2/2] arm64/fp: Only check if we need to save SVE registers on systems with SVE
-config: arm64-randconfig-001-20240227 (https://download.01.org/0day-ci/archive/20240227/202402270957.KTiImNcE-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240227/202402270957.KTiImNcE-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   038c00b1896898752288ca81d9cac182afc6d6ab
+commit: d0acb51bbfac2c66a43ca337314ba8611701b6c8 [3384/3397] RDMA/hns: Support DSCP of userspace
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240227/202402271032.NbR2jDIl-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240227/202402271032.NbR2jDIl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402270957.KTiImNcE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402271032.NbR2jDIl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/arm64/kernel/fpsimd.c:454:6: error: implicit declaration of function 'system_support_sve' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           if (system_support_sve() &&
-               ^
-   arch/arm64/kernel/fpsimd.c:454:6: note: did you mean 'system_supports_sve'?
-   arch/arm64/include/asm/cpufeature.h:746:29: note: 'system_supports_sve' declared here
-   static __always_inline bool system_supports_sve(void)
-                               ^
-   1 error generated.
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:4835:5: warning: no previous prototype for 'hns_roce_hw_v2_get_dscp' [-Wmissing-prototypes]
+    4835 | int hns_roce_hw_v2_get_dscp(struct hns_roce_dev *hr_dev, u8 dscp,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/system_support_sve +454 arch/arm64/kernel/fpsimd.c
+vim +/hns_roce_hw_v2_get_dscp +4835 drivers/infiniband/hw/hns/hns_roce_hw_v2.c
 
-   423	
-   424	/*
-   425	 * Ensure FPSIMD/SVE storage in memory for the loaded context is up to
-   426	 * date with respect to the CPU registers. Note carefully that the
-   427	 * current context is the context last bound to the CPU stored in
-   428	 * last, if KVM is involved this may be the guest VM context rather
-   429	 * than the host thread for the VM pointed to by current. This means
-   430	 * that we must always reference the state storage via last rather
-   431	 * than via current, if we are saving KVM state then it will have
-   432	 * ensured that the type of registers to save is set in last->to_save.
-   433	 */
-   434	static void fpsimd_save_user_state(void)
-   435	{
-   436		struct cpu_fp_state const *last =
-   437			this_cpu_ptr(&fpsimd_last_state);
-   438		/* set by fpsimd_bind_task_to_cpu() or fpsimd_bind_state_to_cpu() */
-   439		bool save_sve_regs = false;
-   440		bool save_ffr;
-   441		unsigned int vl;
-   442	
-   443		WARN_ON(!system_supports_fpsimd());
-   444		WARN_ON(preemptible());
-   445	
-   446		if (test_thread_flag(TIF_FOREIGN_FPSTATE))
-   447			return;
-   448	
-   449		/*
-   450		 * If a task is in a syscall the ABI allows us to only
-   451		 * preserve the state shared with FPSIMD so don't bother
-   452		 * saving the full SVE state in that case.
-   453		 */
- > 454		if (system_support_sve() &&
-   455		    ((last->to_save == FP_STATE_CURRENT && test_thread_flag(TIF_SVE) &&
-   456		      !in_syscall(current_pt_regs())) ||
-   457		     last->to_save == FP_STATE_SVE)) {
-   458			save_sve_regs = true;
-   459			save_ffr = true;
-   460			vl = last->sve_vl;
-   461		}
-   462	
-   463		if (system_supports_sme()) {
-   464			u64 *svcr = last->svcr;
-   465	
-   466			*svcr = read_sysreg_s(SYS_SVCR);
-   467	
-   468			if (*svcr & SVCR_ZA_MASK)
-   469				sme_save_state(last->sme_state,
-   470					       system_supports_sme2());
-   471	
-   472			/* If we are in streaming mode override regular SVE. */
-   473			if (*svcr & SVCR_SM_MASK) {
-   474				save_sve_regs = true;
-   475				save_ffr = system_supports_fa64();
-   476				vl = last->sme_vl;
-   477			}
-   478		}
-   479	
-   480		if (IS_ENABLED(CONFIG_ARM64_SVE) && save_sve_regs) {
-   481			/* Get the configured VL from RDVL, will account for SM */
-   482			if (WARN_ON(sve_get_vl() != vl)) {
-   483				/*
-   484				 * Can't save the user regs, so current would
-   485				 * re-enter user with corrupt state.
-   486				 * There's no way to recover, so kill it:
-   487				 */
-   488				force_signal_inject(SIGKILL, SI_KERNEL, 0, 0);
-   489				return;
-   490			}
-   491	
-   492			sve_save_state((char *)last->sve_state +
-   493						sve_ffr_offset(vl),
-   494				       &last->st->fpsr, save_ffr);
-   495			*last->fp_type = FP_STATE_SVE;
-   496		} else {
-   497			fpsimd_save_state(last->st);
-   498			*last->fp_type = FP_STATE_FPSIMD;
-   499		}
-   500	}
-   501	
+  4834	
+> 4835	int hns_roce_hw_v2_get_dscp(struct hns_roce_dev *hr_dev, u8 dscp,
+  4836				    u8 *tc_mode, u8 *priority)
+  4837	{
+  4838		struct hns_roce_v2_priv *priv = hr_dev->priv;
+  4839		struct hnae3_handle *handle = priv->handle;
+  4840		const struct hnae3_ae_ops *ops = handle->ae_algo->ops;
+  4841	
+  4842		if (!ops->get_dscp_prio)
+  4843			return -EOPNOTSUPP;
+  4844	
+  4845		return ops->get_dscp_prio(handle, dscp, tc_mode, priority);
+  4846	}
+  4847	
 
 -- 
 0-DAY CI Kernel Test Service
