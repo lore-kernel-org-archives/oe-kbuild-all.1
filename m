@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201B91369B1;
-	Tue, 27 Feb 2024 09:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367F252F91
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Feb 2024 10:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709027412; cv=none; b=d0XIF+0XDB4Ym+EaR07mrSlDzqmw02nIIzsupQMfNROToca+STR+bJAvEDQlS1rQ+JsRlc9tx4zSeCna9FH8GtLXRpmBir5yhIC7BFCPSFh41O75kJCrFOK+yzGk21yWOCh9l0FP/cEJAa7UhcTGs/AewOMeTKSMpCBccHKAUB0=
+	t=1709029887; cv=none; b=HkoV438SErLs4nd+8NwiW8ndC2mbtJhNJmYQHaSrnGyNudF4BGR5UJopOsm0QBe4ufFYqlbKlCZabIONuFR2u23EJtubKHYBBBKpsopZbmWp3UDFR2bZSwQCIitDLkXsY5As6O75R+6DywHJvmyzioiHkqL7ZFRS+id2z+6jGfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709027412; c=relaxed/simple;
-	bh=hS2iokWHX2N0vEg60UBCjXsgIHbrqYAFo6dyFbn8VWk=;
+	s=arc-20240116; t=1709029887; c=relaxed/simple;
+	bh=oYsliGiRTJiRs4Lxx7SIcNlCK2XdURe1cZNFGAXUyDw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=c3FJ9KF1ZID/TsWE/NzopZ2FFgSKlEAjoG7a3Zd/60LEJn8AbfVP5KAGHYeu6Qw3Rc0qe279Yg0mcLqLMHPhi8cW5/ambgJLnf3zFV5LNCjB6CsV2m3eVDQYXCu5w1OSwF8j35RDXVPxFFEtvj2HtwZazL+7DBhvVJsFfD4ZkNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l46qZT56; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=pBx+J2fHz2pWgsN7kxwSaQDSko5e5k8TBvE/WhfCK6LiB4YoLIKxY6FyQEyOrlWCfCGPcO3R9XllsLaR8ZaXeAUwmBFyN2GxlgEhxNU6w77pMP2a0FWiY6V0pfa3ROGI8idH8jP+OW2i3ZLuLlUt33/+G8Vz0qNBhzwtWcoB2Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEdQ7GWG; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l46qZT56"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEdQ7GWG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709027410; x=1740563410;
+  t=1709029886; x=1740565886;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hS2iokWHX2N0vEg60UBCjXsgIHbrqYAFo6dyFbn8VWk=;
-  b=l46qZT56T0m7JpbeMbr3DJ/D/GobFeQMugfYQd1yimOpaxsWQkuuRwdP
-   XxV/TfGYt+/VZWyLkonSysez/XkmgpwGi8qPXlUDhFlHz5FP+wT1FzxWx
-   uKQuV13ZjO26cRMeDb0MlcV22Q8ddUgFQhYZI5Po8tQs1RVngnzDBzIdb
-   aHb4O9Mz5U3Ia3boDeb59jW5n1Z0A+IXVQGmB/YGQAQjODywHV1hNNG6E
-   s4NnBYawKIPuTvA0qJCp97hdKP6wlI6tsjivU1eE8jOXlOYDej7MXRBF6
-   sWtwleupqYBXJNPOhuHgxfhSNysbCGh/xSjm4a9o15lf7SQzAYV/1px8C
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="20902988"
+  bh=oYsliGiRTJiRs4Lxx7SIcNlCK2XdURe1cZNFGAXUyDw=;
+  b=LEdQ7GWGcuvLyuXeb1vnQL7y0UpvwvzOU/h6PoryLCpUZHUnZ4nkrHxX
+   r2+ynBcU/rpFNZLIsNEAxlx7aFyhdYoTRXi9P5cTzSXDfMtqUes/sY2PE
+   OHXsIMHTZD7szNmOSJopw6Mi3MzYLvUmJfg5NA3jRCCd8vBLme4xLWHaR
+   5F/u5SGbUDGWT/n8O1xRGL5mC7k9RFC3I+feCdlJgZRTAbG6rJbcPp4Kr
+   m9iwWJIr2xL0dLxFMfdfTutxtaK1jQbKLtT43Qk9q1rVBc5An7B4hvg5Z
+   Vm9gJAk/RJ1WvONUtP2Woti3vWqak/TNmpJOExICU2WnkG7gIOsYtIvYL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="3521742"
 X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="20902988"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2024 01:50:09 -0800
+   d="scan'208";a="3521742"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2024 02:31:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,187,1705392000"; 
-   d="scan'208";a="37789598"
+   d="scan'208";a="7409137"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 Feb 2024 01:50:08 -0800
+  by orviesa006.jf.intel.com with ESMTP; 27 Feb 2024 02:31:24 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1reu69-000B6v-1a;
-	Tue, 27 Feb 2024 09:50:05 +0000
-Date: Tue, 27 Feb 2024 17:49:21 +0800
+	id 1reuk4-000B9D-2b;
+	Tue, 27 Feb 2024 10:31:20 +0000
+Date: Tue, 27 Feb 2024 18:31:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org
-Subject: [pci:wip/2402-bjorn-osc-dpc 3/3] drivers/pci/pci-acpi.c:1424:2:
- error: call to undeclared function 'pci_acpi_add_edr_notifier'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202402271755.7yCmolZa-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org
+Subject: [pci:wip/2402-bjorn-osc-dpc 3/3] drivers/pci/pci-acpi.c:1424:9:
+ error: implicit declaration of function 'pci_acpi_add_edr_notifier'; did you
+ mean 'pci_acpi_add_pm_notifier'?
+Message-ID: <202402271824.MzpOujLC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,35 +62,31 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git wip/2402-bjorn-osc-dpc
 head:   f76758eebe9e2f81b37e41d2bdc70825cdb879d7
 commit: f76758eebe9e2f81b37e41d2bdc70825cdb879d7 [3/3] PCI/DPC: Encapsulate pci_acpi_add_edr_notifier()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240227/202402271755.7yCmolZa-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240227/202402271755.7yCmolZa-lkp@intel.com/reproduce)
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20240227/202402271824.MzpOujLC-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240227/202402271824.MzpOujLC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402271755.7yCmolZa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402271824.MzpOujLC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/pci/pci-acpi.c:1424:2: error: call to undeclared function 'pci_acpi_add_edr_notifier'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   drivers/pci/pci-acpi.c: In function 'pci_acpi_setup':
+>> drivers/pci/pci-acpi.c:1424:9: error: implicit declaration of function 'pci_acpi_add_edr_notifier'; did you mean 'pci_acpi_add_pm_notifier'? [-Werror=implicit-function-declaration]
     1424 |         pci_acpi_add_edr_notifier(pci_dev);
-         |         ^
-   drivers/pci/pci-acpi.c:1424:2: note: did you mean 'pci_acpi_add_pm_notifier'?
-   drivers/pci/pci-acpi.c:881:13: note: 'pci_acpi_add_pm_notifier' declared here
-     881 | acpi_status pci_acpi_add_pm_notifier(struct acpi_device *dev,
-         |             ^
->> drivers/pci/pci-acpi.c:1451:2: error: call to undeclared function 'pci_acpi_remove_edr_notifier'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |         pci_acpi_add_pm_notifier
+   drivers/pci/pci-acpi.c: In function 'pci_acpi_cleanup':
+>> drivers/pci/pci-acpi.c:1451:9: error: implicit declaration of function 'pci_acpi_remove_edr_notifier'; did you mean 'pci_acpi_remove_pm_notifier'? [-Werror=implicit-function-declaration]
     1451 |         pci_acpi_remove_edr_notifier(pci_dev);
-         |         ^
-   drivers/pci/pci-acpi.c:1451:2: note: did you mean 'pci_acpi_remove_pm_notifier'?
-   include/linux/pci-acpi.h:22:27: note: 'pci_acpi_remove_pm_notifier' declared here
-      22 | static inline acpi_status pci_acpi_remove_pm_notifier(struct acpi_device *dev)
-         |                           ^
-   2 errors generated.
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         pci_acpi_remove_pm_notifier
+   cc1: some warnings being treated as errors
 
 
-vim +/pci_acpi_add_edr_notifier +1424 drivers/pci/pci-acpi.c
+vim +1424 drivers/pci/pci-acpi.c
 
 617654aae50eb5 Mika Westerberg            2018-08-16  1417  
 4795448117824c Rafael J. Wysocki          2021-09-18  1418  void pci_acpi_setup(struct device *dev, struct acpi_device *adev)
