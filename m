@@ -1,486 +1,224 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989B171EA8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Feb 2024 18:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718F071EA8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Feb 2024 18:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709145535; cv=none; b=f7+zS88Nqv9gRdLHzbQT7EJMGVRhdijfYjHKCPZkQmrX8azkEc7EEbJna3lryl9loEmtVpOT58vBouLgNi7fK67wZGZImXkhdrEet9YH7yWIp7a2UIsFISo0YRyJp4bXRijEo83gRajb6Y37NX7XaA8vuO5rrLBL9VawFUw09Ec=
+	t=1709145852; cv=none; b=dSNAlBkciAJ+hHQgYJuAW88WT+ubI3Ay9nKuRqsim7a2AivCkJQebnXhZjt55AV/EtbTALepf5zkOVBNDK0Wewe2ZXmH/yw5/GJ9bEF4ACmsTRpU3DptppvKF/B+SFGmHHjkABapcR54lH3nnFlNfDyYbn8w5MOhEnhHd8qrzPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709145535; c=relaxed/simple;
-	bh=T5f8aMtHuATFVworyXnJK09Bz3/nDd3VYauNl+oA6Og=;
+	s=arc-20240116; t=1709145852; c=relaxed/simple;
+	bh=7XkIQYFR5NbWf+vIls0ZTPvsim8r85fchGB2LFsWYp8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cwCAfDPrpamPhbXkMUUcXEzq/EiFYOkHop0KvwWBRnZgmDtZ1iHNiw3tMdl6PlMLbTlm5KGOBnsZM7WB6EKJfqNXyyqJPp1AQU2LipROwuRo/iqUetDEIwlllBAV63mbqZ+0+mDq1BdV47UKe/t6TQS0Cq/XjOE+qnW5MZbpL5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZgXHkQGZ; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=mwHL1rt8NCMjg5wK0OfoKEWFV0Y4Myqp0txJ+oXGXf1bnhEHlknwUt1j9H7eTluHf0h5ScnLKb4MBk5EEUiu//fq3We/ABlthD2kqBoNmXrKQubJs1h6V/NFKvYY0xf4epHxJHgFMzKwX+AQS6x4ATmalOt9BdlJ72C1+HYd4H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TveVwcOh; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZgXHkQGZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709145532; x=1740681532;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=T5f8aMtHuATFVworyXnJK09Bz3/nDd3VYauNl+oA6Og=;
-  b=ZgXHkQGZ2EzzMyaoLN/b1x14V2W3wgciNo26zqqiXmts5MRJ7XqNe/mM
-   lMSJ1/mb4vIp4iDy13ATyzqcIFQlBupJrJdabVl60Jk3qOjjwu8dRD+/r
-   JwCUOgVzG2IXX7aMpb4FzexlnTi59qbgR4QU3SwG2SKazN4pSa17ahKfE
-   +OAvMFINO9jdm6v+zdvSrIqh91qBFjDJc9VNCsZhCIbr6fUbKzbnSMqpe
-   r9w7sWu83wvYNrIVnGedVI5SYIwFReGF2GhKpMiNI0bj1L+5b6BmgT2g7
-   ZpvL3UKIFjeQrlXGKft6kyEGPlEQkgceHJ6I47kG80hCExD3z0ZGo85LF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="14121298"
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="14121298"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 10:38:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="12148540"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Feb 2024 10:38:48 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rfOpK-000CJQ-0n;
-	Wed, 28 Feb 2024 18:38:46 +0000
-Date: Thu, 29 Feb 2024 02:38:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Johnny Hsieh <mnixry@outlook.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:fileVkFsjG 49/49] sound/soc/amd/yc/acp6x-mach.c:209:9:
- error: expected '}' before '{' token
-Message-ID: <202402290229.Tf9FwcJ1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TveVwcOh"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-412b5a3d2e3so568475e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Feb 2024 10:44:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709145849; x=1709750649; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RlL8J08fHvkzwmFzz95rsENMRtFT+pAtVTboOdHsxsk=;
+        b=TveVwcOhXl7Wu8UyB/UqwuKNvq4vMrqUp8KF5bTkPbIq7SWP3xA4LaCz+LFvMpZcM2
+         pLmARIowerxoinSRJXI5Z7t9kDTXO3loOovH/D1y8F54HTj3zS7MtgDadHnBZ4uK5Yoe
+         pYccJi/5TbhvLPXnYkVXYFR42Y3cPZ3wNCwWphLu+clM+fyf+QXzOkjaR9v1k7ZXGjSs
+         ubIdIs4NTUlx+dA1BFO5+9vk5DdY2ahhhL1H4FpAoaBkraxZOgywlx7iTPDEXEfsSRDW
+         WC9RHrWDdQFFbTkFcCY5QHNOfZBzIal5u+6T5qDCF24990jHhCGV4Pn2uxX0IbxA2+mc
+         2jnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709145849; x=1709750649;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RlL8J08fHvkzwmFzz95rsENMRtFT+pAtVTboOdHsxsk=;
+        b=bJemMvEYBuzWjDSPjl9UK8iunsvEvscWRDj7B9Yz2YhqUWoG8BK/yJoUSZwl0OLyeq
+         wZtuweEzK6cOFvqKd063/MxTFnRJV+GXkVlA9N3vFqg3hbwKaUsduyzis7DXNkMBQ3zc
+         r0JHCUV4eciqUt/vJPnEluSSVOATMjHd6Q+7APRphlU8m8M7fi/9MxO7oR0L050lwLwh
+         B+g72LMcyq1F7N/ZYW+Bl/1kzY01vjtJ66vVVRqnVSv0Sq0p9KCKGRwH1dVqk2iYT0pw
+         iIFBsjtcMQ1iGQZUjwOonD5+XECnsuaGBKiNPUGhaOuFw5wZ1zIkUPF5D551TwBSS8LK
+         ZbXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVF+JNv/kAg2y4j/86kKn2C4wbZdKiJU3QcYUGeZL5vkChT8JwDVICT0dofSS8SE7eMVt4BJkipF0lrHInzA3nR8cYVFMJpnfMENc6Tcw==
+X-Gm-Message-State: AOJu0Ywvjo73ayI7TgabaMjs1fF6J9QJNckz5JUiMWy3Ah5WtHtm6IhJ
+	nwUETZBV6hJAjGUxNo1DaZ5k/8eEANg+dPngE0SkfrMp0B2JydoxIY3d1Ka1Yq8=
+X-Google-Smtp-Source: AGHT+IEyjljEBQC9LqtwXuT1ZB5f2IOzrnDQ/4mGlz3bMEJc/uqPxYdUgAhInRbv1pmRB9y9CFP34A==
+X-Received: by 2002:a05:600c:3486:b0:412:afed:5d06 with SMTP id a6-20020a05600c348600b00412afed5d06mr76626wmq.23.1709145848753;
+        Wed, 28 Feb 2024 10:44:08 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id jj18-20020a05600c6a1200b004129e8af6absm2827632wmb.33.2024.02.28.10.44.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Feb 2024 10:44:08 -0800 (PST)
+Date: Wed, 28 Feb 2024 21:44:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [esmil:th1520 3/29] drivers/pinctrl/pinctrl-th1520.c:499
+ th1520_pinctrl_dt_node_to_map() warn: missing error code 'ret'
+Message-ID: <ac149c89-2ce3-4241-9754-6aa73377279b@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileVkFsjG
-head:   8f991eeead81d9908ba751d48d90969541e60142
-commit: 8f991eeead81d9908ba751d48d90969541e60142 [49/49] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240229/202402290229.Tf9FwcJ1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240229/202402290229.Tf9FwcJ1-lkp@intel.com/reproduce)
+tree:   https://github.com/esmil/linux th1520
+head:   7f2988d92a4ae84f21fa512b2c15c4e007b7a9be
+commit: 49128de47348770cd4f872628ce727613204a539 [3/29] pinctrl: Add driver for the T-Head TH1520 SoC
+config: powerpc-randconfig-r071-20240227 (https://download.01.org/0day-ci/archive/20240229/202402290235.AqLIV39I-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402290229.Tf9FwcJ1-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202402290235.AqLIV39I-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/pinctrl/pinctrl-th1520.c:499 th1520_pinctrl_dt_node_to_map() warn: missing error code 'ret'
 
->> sound/soc/amd/yc/acp6x-mach.c:209:9: error: expected '}' before '{' token
-     209 |         {
-         |         ^
-   sound/soc/amd/yc/acp6x-mach.c:47:58: note: to match this '{'
-      47 | static const struct dmi_system_id yc_acp_quirk_table[] = {
-         |                                                          ^
+vim +/ret +499 drivers/pinctrl/pinctrl-th1520.c
 
+49128de4734877 Emil Renner Berthing 2023-12-05  411  static int th1520_pinctrl_dt_node_to_map(struct pinctrl_dev *pctldev,
+49128de4734877 Emil Renner Berthing 2023-12-05  412  					 struct device_node *np,
+49128de4734877 Emil Renner Berthing 2023-12-05  413  					 struct pinctrl_map **maps,
+49128de4734877 Emil Renner Berthing 2023-12-05  414  					 unsigned int *num_maps)
+49128de4734877 Emil Renner Berthing 2023-12-05  415  {
+49128de4734877 Emil Renner Berthing 2023-12-05  416  	struct th1520_pinctrl *thp = pinctrl_dev_get_drvdata(pctldev);
+49128de4734877 Emil Renner Berthing 2023-12-05  417  	struct device_node *child;
+49128de4734877 Emil Renner Berthing 2023-12-05  418  	struct pinctrl_map *map;
+49128de4734877 Emil Renner Berthing 2023-12-05  419  	unsigned long *configs;
+49128de4734877 Emil Renner Berthing 2023-12-05  420  	unsigned int nconfigs;
+49128de4734877 Emil Renner Berthing 2023-12-05  421  	unsigned int nmaps;
+49128de4734877 Emil Renner Berthing 2023-12-05  422  	int ret;
+49128de4734877 Emil Renner Berthing 2023-12-05  423  
+49128de4734877 Emil Renner Berthing 2023-12-05  424  	nmaps = 0;
+49128de4734877 Emil Renner Berthing 2023-12-05  425  	for_each_available_child_of_node(np, child) {
+49128de4734877 Emil Renner Berthing 2023-12-05  426  		int npins = of_property_count_strings(child, "pins");
+49128de4734877 Emil Renner Berthing 2023-12-05  427  
+49128de4734877 Emil Renner Berthing 2023-12-05  428  		if (npins <= 0) {
+49128de4734877 Emil Renner Berthing 2023-12-05  429  			of_node_put(child);
+49128de4734877 Emil Renner Berthing 2023-12-05  430  			dev_err(thp->pctl->dev, "no pins selected for %pOFn.%pOFn\n",
+49128de4734877 Emil Renner Berthing 2023-12-05  431  				np, child);
+49128de4734877 Emil Renner Berthing 2023-12-05  432  			return -EINVAL;
+49128de4734877 Emil Renner Berthing 2023-12-05  433  		}
+49128de4734877 Emil Renner Berthing 2023-12-05  434  		nmaps += npins;
+49128de4734877 Emil Renner Berthing 2023-12-05  435  		if (of_property_present(child, "function"))
+49128de4734877 Emil Renner Berthing 2023-12-05  436  			nmaps += npins;
+49128de4734877 Emil Renner Berthing 2023-12-05  437  	}
+49128de4734877 Emil Renner Berthing 2023-12-05  438  
+49128de4734877 Emil Renner Berthing 2023-12-05  439  	map = kcalloc(nmaps, sizeof(*map), GFP_KERNEL);
+49128de4734877 Emil Renner Berthing 2023-12-05  440  	if (!map)
+49128de4734877 Emil Renner Berthing 2023-12-05  441  		return -ENOMEM;
+49128de4734877 Emil Renner Berthing 2023-12-05  442  
+49128de4734877 Emil Renner Berthing 2023-12-05  443  	nmaps = 0;
+49128de4734877 Emil Renner Berthing 2023-12-05  444  	mutex_lock(&thp->mutex);
+49128de4734877 Emil Renner Berthing 2023-12-05  445  	for_each_available_child_of_node(np, child) {
+49128de4734877 Emil Renner Berthing 2023-12-05  446  		unsigned int rollback = nmaps;
+49128de4734877 Emil Renner Berthing 2023-12-05  447  		enum th1520_muxtype muxtype;
+49128de4734877 Emil Renner Berthing 2023-12-05  448  		struct property *prop;
+49128de4734877 Emil Renner Berthing 2023-12-05  449  		const char *funcname;
+49128de4734877 Emil Renner Berthing 2023-12-05  450  		const char **pgnames;
+49128de4734877 Emil Renner Berthing 2023-12-05  451  		const char *pinname;
+49128de4734877 Emil Renner Berthing 2023-12-05  452  		int npins;
+49128de4734877 Emil Renner Berthing 2023-12-05  453  
+49128de4734877 Emil Renner Berthing 2023-12-05  454  		ret = pinconf_generic_parse_dt_config(child, pctldev, &configs, &nconfigs);
+49128de4734877 Emil Renner Berthing 2023-12-05  455  		if (ret) {
+49128de4734877 Emil Renner Berthing 2023-12-05  456  			dev_err(thp->pctl->dev, "%pOFn.%pOFn: error parsing pin config\n",
+49128de4734877 Emil Renner Berthing 2023-12-05  457  				np, child);
+49128de4734877 Emil Renner Berthing 2023-12-05  458  			goto put_child;
+49128de4734877 Emil Renner Berthing 2023-12-05  459  		}
+49128de4734877 Emil Renner Berthing 2023-12-05  460  
+49128de4734877 Emil Renner Berthing 2023-12-05  461  		if (!of_property_read_string(child, "function", &funcname)) {
+49128de4734877 Emil Renner Berthing 2023-12-05  462  			muxtype = th1520_muxtype_get(funcname);
+49128de4734877 Emil Renner Berthing 2023-12-05  463  			if (!muxtype) {
+49128de4734877 Emil Renner Berthing 2023-12-05  464  				dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown function '%s'\n",
+49128de4734877 Emil Renner Berthing 2023-12-05  465  					np, child, funcname);
+49128de4734877 Emil Renner Berthing 2023-12-05  466  				ret = -EINVAL;
+49128de4734877 Emil Renner Berthing 2023-12-05  467  				goto free_configs;
+49128de4734877 Emil Renner Berthing 2023-12-05  468  			}
+49128de4734877 Emil Renner Berthing 2023-12-05  469  
+49128de4734877 Emil Renner Berthing 2023-12-05  470  			funcname = devm_kasprintf(thp->pctl->dev, GFP_KERNEL, "%pOFn.%pOFn",
+49128de4734877 Emil Renner Berthing 2023-12-05  471  						  np, child);
+49128de4734877 Emil Renner Berthing 2023-12-05  472  			if (!funcname) {
+49128de4734877 Emil Renner Berthing 2023-12-05  473  				ret = -ENOMEM;
+49128de4734877 Emil Renner Berthing 2023-12-05  474  				goto free_configs;
+49128de4734877 Emil Renner Berthing 2023-12-05  475  			}
+49128de4734877 Emil Renner Berthing 2023-12-05  476  
+49128de4734877 Emil Renner Berthing 2023-12-05  477  			npins = of_property_count_strings(child, "pins");
+49128de4734877 Emil Renner Berthing 2023-12-05  478  			pgnames = devm_kcalloc(thp->pctl->dev, npins, sizeof(*pgnames), GFP_KERNEL);
+49128de4734877 Emil Renner Berthing 2023-12-05  479  			if (!pgnames) {
+49128de4734877 Emil Renner Berthing 2023-12-05  480  				ret = -ENOMEM;
+49128de4734877 Emil Renner Berthing 2023-12-05  481  				goto free_configs;
+49128de4734877 Emil Renner Berthing 2023-12-05  482  			}
+49128de4734877 Emil Renner Berthing 2023-12-05  483  		} else {
+49128de4734877 Emil Renner Berthing 2023-12-05  484  			funcname = NULL;
+49128de4734877 Emil Renner Berthing 2023-12-05  485  		}
+49128de4734877 Emil Renner Berthing 2023-12-05  486  
+49128de4734877 Emil Renner Berthing 2023-12-05  487  		npins = 0;
+49128de4734877 Emil Renner Berthing 2023-12-05  488  		of_property_for_each_string(child, "pins", prop, pinname) {
+49128de4734877 Emil Renner Berthing 2023-12-05  489  			unsigned int i;
+49128de4734877 Emil Renner Berthing 2023-12-05  490  
+49128de4734877 Emil Renner Berthing 2023-12-05  491  			for (i = 0; i < thp->desc.npins; i++) {
+49128de4734877 Emil Renner Berthing 2023-12-05  492  				if (!strcmp(pinname, thp->desc.pins[i].name))
+49128de4734877 Emil Renner Berthing 2023-12-05  493  					break;
+49128de4734877 Emil Renner Berthing 2023-12-05  494  			}
+49128de4734877 Emil Renner Berthing 2023-12-05  495  			if (i == thp->desc.npins) {
+49128de4734877 Emil Renner Berthing 2023-12-05  496  				nmaps = rollback;
+49128de4734877 Emil Renner Berthing 2023-12-05  497  				dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown pin '%s'\n",
+49128de4734877 Emil Renner Berthing 2023-12-05  498  					np, child, pinname);
+49128de4734877 Emil Renner Berthing 2023-12-05 @499  				goto free_configs;
 
-vim +209 sound/soc/amd/yc/acp6x-mach.c
+ret = -EINVAL;
 
-fa991481b8b22a Vijendar Mukunda    2021-10-18   46  
-fa991481b8b22a Vijendar Mukunda    2021-10-18   47  static const struct dmi_system_id yc_acp_quirk_table[] = {
-faf15233e59052 Cem Kaya            2023-04-10   48  	{
-faf15233e59052 Cem Kaya            2023-04-10   49  		.driver_data = &acp6x_card,
-faf15233e59052 Cem Kaya            2023-04-10   50  		.matches = {
-faf15233e59052 Cem Kaya            2023-04-10   51  			DMI_MATCH(DMI_BOARD_VENDOR, "Dell Inc."),
-faf15233e59052 Cem Kaya            2023-04-10   52  			DMI_MATCH(DMI_PRODUCT_NAME, "Dell G15 5525"),
-faf15233e59052 Cem Kaya            2023-04-10   53  		}
-faf15233e59052 Cem Kaya            2023-04-10   54  	},
-a450b5c8739248 linkt               2022-10-11   55  	{
-a450b5c8739248 linkt               2022-10-11   56  		.driver_data = &acp6x_card,
-a450b5c8739248 linkt               2022-10-11   57  		.matches = {
-a450b5c8739248 linkt               2022-10-11   58  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-a450b5c8739248 linkt               2022-10-11   59  			DMI_MATCH(DMI_PRODUCT_NAME, "21D0"),
-a450b5c8739248 linkt               2022-10-11   60  		}
-a450b5c8739248 linkt               2022-10-11   61  	},
-a75481fa00cc06 Leohearts           2022-10-21   62  	{
-a75481fa00cc06 Leohearts           2022-10-21   63  		.driver_data = &acp6x_card,
-a75481fa00cc06 Leohearts           2022-10-21   64  		.matches = {
-a75481fa00cc06 Leohearts           2022-10-21   65  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-a75481fa00cc06 Leohearts           2022-10-21   66  			DMI_MATCH(DMI_PRODUCT_NAME, "21D0"),
-a75481fa00cc06 Leohearts           2022-10-21   67  		}
-a75481fa00cc06 Leohearts           2022-10-21   68  	},
-a450b5c8739248 linkt               2022-10-11   69  	{
-a450b5c8739248 linkt               2022-10-11   70  		.driver_data = &acp6x_card,
-a450b5c8739248 linkt               2022-10-11   71  		.matches = {
-a450b5c8739248 linkt               2022-10-11   72  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-a450b5c8739248 linkt               2022-10-11   73  			DMI_MATCH(DMI_PRODUCT_NAME, "21D1"),
-a450b5c8739248 linkt               2022-10-11   74  		}
-a450b5c8739248 linkt               2022-10-11   75  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18   76  	{
-e521f087780d07 Mario Limonciello   2022-04-11   77  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18   78  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18   79  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18   80  			DMI_MATCH(DMI_PRODUCT_NAME, "21D2"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18   81  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18   82  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18   83  	{
-e521f087780d07 Mario Limonciello   2022-04-11   84  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18   85  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18   86  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18   87  			DMI_MATCH(DMI_PRODUCT_NAME, "21D3"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18   88  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18   89  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18   90  	{
-e521f087780d07 Mario Limonciello   2022-04-11   91  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18   92  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18   93  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18   94  			DMI_MATCH(DMI_PRODUCT_NAME, "21D4"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18   95  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18   96  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18   97  	{
-e521f087780d07 Mario Limonciello   2022-04-11   98  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18   99  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  100  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  101  			DMI_MATCH(DMI_PRODUCT_NAME, "21D5"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  102  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  103  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  104  	{
-e521f087780d07 Mario Limonciello   2022-04-11  105  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  106  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  107  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  108  			DMI_MATCH(DMI_PRODUCT_NAME, "21CF"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  109  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  110  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  111  	{
-e521f087780d07 Mario Limonciello   2022-04-11  112  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  113  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  114  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  115  			DMI_MATCH(DMI_PRODUCT_NAME, "21CG"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  116  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  117  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  118  	{
-e521f087780d07 Mario Limonciello   2022-04-11  119  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  120  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  121  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  122  			DMI_MATCH(DMI_PRODUCT_NAME, "21CQ"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  123  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  124  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  125  	{
-e521f087780d07 Mario Limonciello   2022-04-11  126  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  127  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  128  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  129  			DMI_MATCH(DMI_PRODUCT_NAME, "21CR"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  130  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  131  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  132  	{
-e521f087780d07 Mario Limonciello   2022-04-11  133  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  134  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  135  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-be0aa8d4b0fcb4 syed sabakareem     2022-07-22  136  			DMI_MATCH(DMI_PRODUCT_NAME, "21CM"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  137  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  138  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  139  	{
-e521f087780d07 Mario Limonciello   2022-04-11  140  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  141  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  142  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-be0aa8d4b0fcb4 syed sabakareem     2022-07-22  143  			DMI_MATCH(DMI_PRODUCT_NAME, "21CN"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  144  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  145  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  146  	{
-e521f087780d07 Mario Limonciello   2022-04-11  147  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  148  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  149  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  150  			DMI_MATCH(DMI_PRODUCT_NAME, "21CH"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  151  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  152  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  153  	{
-e521f087780d07 Mario Limonciello   2022-04-11  154  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  155  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  156  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  157  			DMI_MATCH(DMI_PRODUCT_NAME, "21CJ"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  158  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  159  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  160  	{
-e521f087780d07 Mario Limonciello   2022-04-11  161  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  162  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  163  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  164  			DMI_MATCH(DMI_PRODUCT_NAME, "21CK"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  165  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  166  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  167  	{
-e521f087780d07 Mario Limonciello   2022-04-11  168  		.driver_data = &acp6x_card,
-fa991481b8b22a Vijendar Mukunda    2021-10-18  169  		.matches = {
-fa991481b8b22a Vijendar Mukunda    2021-10-18  170  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  171  			DMI_MATCH(DMI_PRODUCT_NAME, "21CL"),
-fa991481b8b22a Vijendar Mukunda    2021-10-18  172  		}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  173  	},
-57d1e8900495cf Sicong Jiang        2023-05-31  174  	{
-57d1e8900495cf Sicong Jiang        2023-05-31  175  		.driver_data = &acp6x_card,
-57d1e8900495cf Sicong Jiang        2023-05-31  176  		.matches = {
-57d1e8900495cf Sicong Jiang        2023-05-31  177  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-57d1e8900495cf Sicong Jiang        2023-05-31  178  			DMI_MATCH(DMI_PRODUCT_NAME, "21EF"),
-57d1e8900495cf Sicong Jiang        2023-05-31  179  		}
-57d1e8900495cf Sicong Jiang        2023-05-31  180  	},
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  181  	{
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  182  		.driver_data = &acp6x_card,
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  183  		.matches = {
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  184  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  185  			DMI_MATCH(DMI_PRODUCT_NAME, "21EM"),
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  186  		}
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  187  	},
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  188  	{
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  189  		.driver_data = &acp6x_card,
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  190  		.matches = {
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  191  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  192  			DMI_MATCH(DMI_PRODUCT_NAME, "21EN"),
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  193  		}
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  194  	},
-a8f5da0bf4d85a Baishan Jiang       2023-04-12  195  	{
-a8f5da0bf4d85a Baishan Jiang       2023-04-12  196  		.driver_data = &acp6x_card,
-a8f5da0bf4d85a Baishan Jiang       2023-04-12  197  		.matches = {
-a8f5da0bf4d85a Baishan Jiang       2023-04-12  198  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-a8f5da0bf4d85a Baishan Jiang       2023-04-12  199  			DMI_MATCH(DMI_PRODUCT_NAME, "21HY"),
-a8f5da0bf4d85a Baishan Jiang       2023-04-12  200  		}
-a8f5da0bf4d85a Baishan Jiang       2023-04-12  201  	},
-8f991eeead81d9 Johnny Hsieh        2024-02-26  202  	{
-8f991eeead81d9 Johnny Hsieh        2024-02-26  203  		.driver_data = &acp6x_card,
-8f991eeead81d9 Johnny Hsieh        2024-02-26  204  		.matches = {
-8f991eeead81d9 Johnny Hsieh        2024-02-26  205  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-8f991eeead81d9 Johnny Hsieh        2024-02-26  206  			DMI_MATCH(DMI_PRODUCT_NAME, "21J0"),
-8f991eeead81d9 Johnny Hsieh        2024-02-26  207  		}
-8f991eeead81d9 Johnny Hsieh        2024-02-26  208  	}
-c0fc96fed7ffa3 syed sabakareem     2022-08-02 @209  	{
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  210  		.driver_data = &acp6x_card,
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  211  		.matches = {
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  212  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  213  			DMI_MATCH(DMI_PRODUCT_NAME, "21J5"),
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  214  		}
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  215  	},
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  216  	{
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  217  		.driver_data = &acp6x_card,
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  218  		.matches = {
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  219  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  220  			DMI_MATCH(DMI_PRODUCT_NAME, "21J6"),
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  221  		}
-c0fc96fed7ffa3 syed sabakareem     2022-08-02  222  	},
-1263cc0f414d21 August Wikerfors    2023-09-11  223  	{
-1263cc0f414d21 August Wikerfors    2023-09-11  224  		.driver_data = &acp6x_card,
-1263cc0f414d21 August Wikerfors    2023-09-11  225  		.matches = {
-1263cc0f414d21 August Wikerfors    2023-09-11  226  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-1263cc0f414d21 August Wikerfors    2023-09-11  227  			DMI_MATCH(DMI_PRODUCT_NAME, "82QF"),
-1263cc0f414d21 August Wikerfors    2023-09-11  228  		}
-1263cc0f414d21 August Wikerfors    2023-09-11  229  	},
-cfff2a7794d23b Mario Limonciello   2023-09-06  230  	{
-cfff2a7794d23b Mario Limonciello   2023-09-06  231  		.driver_data = &acp6x_card,
-cfff2a7794d23b Mario Limonciello   2023-09-06  232  		.matches = {
-cfff2a7794d23b Mario Limonciello   2023-09-06  233  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-cfff2a7794d23b Mario Limonciello   2023-09-06  234  			DMI_MATCH(DMI_PRODUCT_NAME, "82TL"),
-cfff2a7794d23b Mario Limonciello   2023-09-06  235  		}
-cfff2a7794d23b Mario Limonciello   2023-09-06  236  	},
-1263cc0f414d21 August Wikerfors    2023-09-11  237  	{
-1263cc0f414d21 August Wikerfors    2023-09-11  238  		.driver_data = &acp6x_card,
-1263cc0f414d21 August Wikerfors    2023-09-11  239  		.matches = {
-1263cc0f414d21 August Wikerfors    2023-09-11  240  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-1263cc0f414d21 August Wikerfors    2023-09-11  241  			DMI_MATCH(DMI_PRODUCT_NAME, "82UG"),
-1263cc0f414d21 August Wikerfors    2023-09-11  242  		}
-1263cc0f414d21 August Wikerfors    2023-09-11  243  	},
-f7fe85b229bc30 Attila Tőkés        2024-02-10  244  	{
-f7fe85b229bc30 Attila Tőkés        2024-02-10  245  		.driver_data = &acp6x_card,
-f7fe85b229bc30 Attila Tőkés        2024-02-10  246  		.matches = {
-f7fe85b229bc30 Attila Tőkés        2024-02-10  247  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-f7fe85b229bc30 Attila Tőkés        2024-02-10  248  			DMI_MATCH(DMI_PRODUCT_NAME, "82UU"),
-f7fe85b229bc30 Attila Tőkés        2024-02-10  249  		}
-f7fe85b229bc30 Attila Tőkés        2024-02-10  250  	},
-2232b2dd8cd4f1 Mario Limonciello   2022-09-20  251  	{
-2232b2dd8cd4f1 Mario Limonciello   2022-09-20  252  		.driver_data = &acp6x_card,
-2232b2dd8cd4f1 Mario Limonciello   2022-09-20  253  		.matches = {
-2232b2dd8cd4f1 Mario Limonciello   2022-09-20  254  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-c008323fe361bd Mario Limonciello   2023-08-23  255  			DMI_MATCH(DMI_PRODUCT_NAME, "82V2"),
-2232b2dd8cd4f1 Mario Limonciello   2022-09-20  256  		}
-2232b2dd8cd4f1 Mario Limonciello   2022-09-20  257  	},
-1948fa64727685 Sven Frotscher      2023-09-28  258  	{
-1948fa64727685 Sven Frotscher      2023-09-28  259  		.driver_data = &acp6x_card,
-1948fa64727685 Sven Frotscher      2023-09-28  260  		.matches = {
-1948fa64727685 Sven Frotscher      2023-09-28  261  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-1948fa64727685 Sven Frotscher      2023-09-28  262  			DMI_MATCH(DMI_PRODUCT_NAME, "82YM"),
-1948fa64727685 Sven Frotscher      2023-09-28  263  		}
-1948fa64727685 Sven Frotscher      2023-09-28  264  	},
-610010737f7448 Mario Limonciello   2024-02-05  265  	{
-610010737f7448 Mario Limonciello   2024-02-05  266  		.driver_data = &acp6x_card,
-610010737f7448 Mario Limonciello   2024-02-05  267  		.matches = {
-610010737f7448 Mario Limonciello   2024-02-05  268  			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-610010737f7448 Mario Limonciello   2024-02-05  269  			DMI_MATCH(DMI_PRODUCT_NAME, "83AS"),
-610010737f7448 Mario Limonciello   2024-02-05  270  		}
-610010737f7448 Mario Limonciello   2024-02-05  271  	},
-4df5b13dec9e1b Xiaoyan Li          2022-09-20  272  	{
-4df5b13dec9e1b Xiaoyan Li          2022-09-20  273  		.driver_data = &acp6x_card,
-4df5b13dec9e1b Xiaoyan Li          2022-09-20  274  		.matches = {
-4df5b13dec9e1b Xiaoyan Li          2022-09-20  275  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-4df5b13dec9e1b Xiaoyan Li          2022-09-20  276  			DMI_MATCH(DMI_PRODUCT_NAME, "UM5302TA"),
-4df5b13dec9e1b Xiaoyan Li          2022-09-20  277  		}
-4df5b13dec9e1b Xiaoyan Li          2022-09-20  278  	},
-a0dd7fcab5cd22 Aniol Martí         2022-12-27  279  	{
-a0dd7fcab5cd22 Aniol Martí         2022-12-27  280  		.driver_data = &acp6x_card,
-a0dd7fcab5cd22 Aniol Martí         2022-12-27  281  		.matches = {
-a0dd7fcab5cd22 Aniol Martí         2022-12-27  282  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-a0dd7fcab5cd22 Aniol Martí         2022-12-27  283  			DMI_MATCH(DMI_PRODUCT_NAME, "M5402RA"),
-a0dd7fcab5cd22 Aniol Martí         2022-12-27  284  		}
-a0dd7fcab5cd22 Aniol Martí         2022-12-27  285  	},
-4a1b5bc73e9ce8 Andrey Rakhmatullin 2023-05-01  286  	{
-4a1b5bc73e9ce8 Andrey Rakhmatullin 2023-05-01  287  		.driver_data = &acp6x_card,
-4a1b5bc73e9ce8 Andrey Rakhmatullin 2023-05-01  288  		.matches = {
-4a1b5bc73e9ce8 Andrey Rakhmatullin 2023-05-01  289  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-4a1b5bc73e9ce8 Andrey Rakhmatullin 2023-05-01  290  			DMI_MATCH(DMI_PRODUCT_NAME, "M6400RC"),
-4a1b5bc73e9ce8 Andrey Rakhmatullin 2023-05-01  291  		}
-4a1b5bc73e9ce8 Andrey Rakhmatullin 2023-05-01  292  	},
-110ccfa9dd6ca1 Enrico Belleri      2023-04-27  293  	{
-110ccfa9dd6ca1 Enrico Belleri      2023-04-27  294  		.driver_data = &acp6x_card,
-110ccfa9dd6ca1 Enrico Belleri      2023-04-27  295  		.matches = {
-110ccfa9dd6ca1 Enrico Belleri      2023-04-27  296  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-110ccfa9dd6ca1 Enrico Belleri      2023-04-27  297  			DMI_MATCH(DMI_PRODUCT_NAME, "M3402RA"),
-110ccfa9dd6ca1 Enrico Belleri      2023-04-27  298  		}
-110ccfa9dd6ca1 Enrico Belleri      2023-04-27  299  	},
-3b1f08833c45d0 BrenoRCBrito        2023-08-18  300  	{
-3b1f08833c45d0 BrenoRCBrito        2023-08-18  301  		.driver_data = &acp6x_card,
-3b1f08833c45d0 BrenoRCBrito        2023-08-18  302  		.matches = {
-3b1f08833c45d0 BrenoRCBrito        2023-08-18  303  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-3b1f08833c45d0 BrenoRCBrito        2023-08-18  304  			DMI_MATCH(DMI_PRODUCT_NAME, "M6500RC"),
-3b1f08833c45d0 BrenoRCBrito        2023-08-18  305  		}
-3b1f08833c45d0 BrenoRCBrito        2023-08-18  306  	},
-b24e3590c94ab0 Malcolm Hart        2023-11-27  307  	{
-b24e3590c94ab0 Malcolm Hart        2023-11-27  308  		.driver_data = &acp6x_card,
-b24e3590c94ab0 Malcolm Hart        2023-11-27  309  		.matches = {
-b24e3590c94ab0 Malcolm Hart        2023-11-27  310  			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-b24e3590c94ab0 Malcolm Hart        2023-11-27  311  			DMI_MATCH(DMI_PRODUCT_NAME, "E1504FA"),
-b24e3590c94ab0 Malcolm Hart        2023-11-27  312  		}
-b24e3590c94ab0 Malcolm Hart        2023-11-27  313  	},
-e616a916fe8431 Walt Holman         2023-09-10  314  	{
-e616a916fe8431 Walt Holman         2023-09-10  315  		.driver_data = &acp6x_card,
-e616a916fe8431 Walt Holman         2023-09-10  316  		.matches = {
-e616a916fe8431 Walt Holman         2023-09-10  317  			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-e616a916fe8431 Walt Holman         2023-09-10  318  			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 B7ED"),
-e616a916fe8431 Walt Holman         2023-09-10  319  		}
-e616a916fe8431 Walt Holman         2023-09-10  320  	},
-c6dce23ec993f7 Techno Mooney       2024-01-29  321  	{
-c6dce23ec993f7 Techno Mooney       2024-01-29  322  		.driver_data = &acp6x_card,
-c6dce23ec993f7 Techno Mooney       2024-01-29  323  		.matches = {
-c6dce23ec993f7 Techno Mooney       2024-01-29  324  			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-c6dce23ec993f7 Techno Mooney       2024-01-29  325  			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 C7VF"),
-c6dce23ec993f7 Techno Mooney       2024-01-29  326  		}
-c6dce23ec993f7 Techno Mooney       2024-01-29  327  	},
-d40b6529c6269c Brent Mendelsohn    2022-10-24  328  	{
-d40b6529c6269c Brent Mendelsohn    2022-10-24  329  		.driver_data = &acp6x_card,
-d40b6529c6269c Brent Mendelsohn    2022-10-24  330  		.matches = {
-d40b6529c6269c Brent Mendelsohn    2022-10-24  331  			DMI_MATCH(DMI_BOARD_VENDOR, "Alienware"),
-d40b6529c6269c Brent Mendelsohn    2022-10-24  332  			DMI_MATCH(DMI_PRODUCT_NAME, "Alienware m17 R5 AMD"),
-d40b6529c6269c Brent Mendelsohn    2022-10-24  333  		}
-d40b6529c6269c Brent Mendelsohn    2022-10-24  334  	},
-c1dd6bf6199752 Artem Lukyanov      2022-11-30  335  	{
-c1dd6bf6199752 Artem Lukyanov      2022-11-30  336  		.driver_data = &acp6x_card,
-c1dd6bf6199752 Artem Lukyanov      2022-11-30  337  		.matches = {
-c1dd6bf6199752 Artem Lukyanov      2022-11-30  338  			DMI_MATCH(DMI_BOARD_VENDOR, "TIMI"),
-c1dd6bf6199752 Artem Lukyanov      2022-11-30  339  			DMI_MATCH(DMI_PRODUCT_NAME, "Redmi Book Pro 14 2022"),
-c1dd6bf6199752 Artem Lukyanov      2022-11-30  340  		}
-c1dd6bf6199752 Artem Lukyanov      2022-11-30  341  	},
-dcff8b7ca92d72 fengwk              2023-01-22  342  	{
-dcff8b7ca92d72 fengwk              2023-01-22  343  		.driver_data = &acp6x_card,
-dcff8b7ca92d72 fengwk              2023-01-22  344  		.matches = {
-dcff8b7ca92d72 fengwk              2023-01-22  345  			DMI_MATCH(DMI_BOARD_VENDOR, "TIMI"),
-dcff8b7ca92d72 fengwk              2023-01-22  346  			DMI_MATCH(DMI_PRODUCT_NAME, "Redmi Book Pro 15 2022"),
-dcff8b7ca92d72 fengwk              2023-01-22  347  		}
-dcff8b7ca92d72 fengwk              2023-01-22  348  	},
-68506a173dd700 Wim Van Boven       2022-12-16  349  	{
-68506a173dd700 Wim Van Boven       2022-12-16  350  		.driver_data = &acp6x_card,
-68506a173dd700 Wim Van Boven       2022-12-16  351  		.matches = {
-68506a173dd700 Wim Van Boven       2022-12-16  352  			DMI_MATCH(DMI_BOARD_VENDOR, "Razer"),
-68506a173dd700 Wim Van Boven       2022-12-16  353  			DMI_MATCH(DMI_PRODUCT_NAME, "Blade 14 (2022) - RZ09-0427"),
-68506a173dd700 Wim Van Boven       2022-12-16  354  		}
-68506a173dd700 Wim Van Boven       2022-12-16  355  	},
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  356  	{
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  357  		.driver_data = &acp6x_card,
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  358  		.matches = {
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  359  			DMI_MATCH(DMI_BOARD_VENDOR, "RB"),
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  360  			DMI_MATCH(DMI_PRODUCT_NAME, "Swift SFA16-41"),
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  361  		}
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  362  	},
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  363  	{
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  364  		.driver_data = &acp6x_card,
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  365  		.matches = {
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  366  			DMI_MATCH(DMI_BOARD_VENDOR, "IRBIS"),
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  367  			DMI_MATCH(DMI_PRODUCT_NAME, "15NBC1011"),
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  368  		}
-7fd26a27680aa9 Syed Saba Kareem    2023-01-11  369  	},
-22ce6843abec19 Joseph Hunkeler     2023-02-16  370  	{
-22ce6843abec19 Joseph Hunkeler     2023-02-16  371  		.driver_data = &acp6x_card,
-22ce6843abec19 Joseph Hunkeler     2023-02-16  372  		.matches = {
-22ce6843abec19 Joseph Hunkeler     2023-02-16  373  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-22ce6843abec19 Joseph Hunkeler     2023-02-16  374  			DMI_MATCH(DMI_PRODUCT_NAME, "OMEN by HP Gaming Laptop 16z-n000"),
-22ce6843abec19 Joseph Hunkeler     2023-02-16  375  		}
-22ce6843abec19 Joseph Hunkeler     2023-02-16  376  	},
-ee4281de4d6028 Prajna Sariputra    2023-04-02  377  	{
-ee4281de4d6028 Prajna Sariputra    2023-04-02  378  		.driver_data = &acp6x_card,
-ee4281de4d6028 Prajna Sariputra    2023-04-02  379  		.matches = {
-ee4281de4d6028 Prajna Sariputra    2023-04-02  380  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-ee4281de4d6028 Prajna Sariputra    2023-04-02  381  			DMI_MATCH(DMI_BOARD_NAME, "8A42"),
-ee4281de4d6028 Prajna Sariputra    2023-04-02  382  		}
-ee4281de4d6028 Prajna Sariputra    2023-04-02  383  	},
-d52279d5c9204a Duc Anh Le          2023-02-28  384  	{
-d52279d5c9204a Duc Anh Le          2023-02-28  385  		.driver_data = &acp6x_card,
-d52279d5c9204a Duc Anh Le          2023-02-28  386  		.matches = {
-d52279d5c9204a Duc Anh Le          2023-02-28  387  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-d52279d5c9204a Duc Anh Le          2023-02-28  388  			DMI_MATCH(DMI_BOARD_NAME, "8A43"),
-d52279d5c9204a Duc Anh Le          2023-02-28  389  		}
-d52279d5c9204a Duc Anh Le          2023-02-28  390  	},
-205efd4619b860 Ge-org Brohammer    2023-03-17  391  	{
-205efd4619b860 Ge-org Brohammer    2023-03-17  392  		.driver_data = &acp6x_card,
-205efd4619b860 Ge-org Brohammer    2023-03-17  393  		.matches = {
-205efd4619b860 Ge-org Brohammer    2023-03-17  394  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-205efd4619b860 Ge-org Brohammer    2023-03-17  395  			DMI_MATCH(DMI_BOARD_NAME, "8A22"),
-205efd4619b860 Ge-org Brohammer    2023-03-17  396  		}
-205efd4619b860 Ge-org Brohammer    2023-03-17  397  	},
-d1cf5d30b43f1a Shubh               2023-09-02  398  	{
-d1cf5d30b43f1a Shubh               2023-09-02  399  		.driver_data = &acp6x_card,
-d1cf5d30b43f1a Shubh               2023-09-02  400  		.matches = {
-d1cf5d30b43f1a Shubh               2023-09-02  401  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-d1cf5d30b43f1a Shubh               2023-09-02  402  			DMI_MATCH(DMI_BOARD_NAME, "8A3E"),
-d1cf5d30b43f1a Shubh               2023-09-02  403  		}
-d1cf5d30b43f1a Shubh               2023-09-02  404  	},
-0c6498a59fbbcb Matus Malych        2023-11-12  405  	{
-0c6498a59fbbcb Matus Malych        2023-11-12  406  		.driver_data = &acp6x_card,
-0c6498a59fbbcb Matus Malych        2023-11-12  407  		.matches = {
-0c6498a59fbbcb Matus Malych        2023-11-12  408  			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-0c6498a59fbbcb Matus Malych        2023-11-12  409  			DMI_MATCH(DMI_BOARD_NAME, "8B2F"),
-0c6498a59fbbcb Matus Malych        2023-11-12  410  		}
-0c6498a59fbbcb Matus Malych        2023-11-12  411  	},
-deeb7855f5d7e2 Rsplwe              2023-05-11  412  	{
-deeb7855f5d7e2 Rsplwe              2023-05-11  413  		.driver_data = &acp6x_card,
-deeb7855f5d7e2 Rsplwe              2023-05-11  414  		.matches = {
-deeb7855f5d7e2 Rsplwe              2023-05-11  415  			DMI_MATCH(DMI_BOARD_VENDOR, "MECHREVO"),
-deeb7855f5d7e2 Rsplwe              2023-05-11  416  			DMI_MATCH(DMI_BOARD_NAME, "MRID6"),
-deeb7855f5d7e2 Rsplwe              2023-05-11  417  		}
-deeb7855f5d7e2 Rsplwe              2023-05-11  418  	},
-7b9891ad25246b Jeremy Soller       2023-05-05  419  	{
-7b9891ad25246b Jeremy Soller       2023-05-05  420  		.driver_data = &acp6x_card,
-7b9891ad25246b Jeremy Soller       2023-05-05  421  		.matches = {
-7b9891ad25246b Jeremy Soller       2023-05-05  422  			DMI_MATCH(DMI_BOARD_VENDOR, "System76"),
-7b9891ad25246b Jeremy Soller       2023-05-05  423  			DMI_MATCH(DMI_PRODUCT_VERSION, "pang12"),
-7b9891ad25246b Jeremy Soller       2023-05-05  424  		}
-7b9891ad25246b Jeremy Soller       2023-05-05  425  	},
-19650c0f402f53 Jeremy Soller       2023-11-27  426  	{
-19650c0f402f53 Jeremy Soller       2023-11-27  427  		.driver_data = &acp6x_card,
-19650c0f402f53 Jeremy Soller       2023-11-27  428  		.matches = {
-19650c0f402f53 Jeremy Soller       2023-11-27  429  			DMI_MATCH(DMI_BOARD_VENDOR, "System76"),
-19650c0f402f53 Jeremy Soller       2023-11-27  430  			DMI_MATCH(DMI_PRODUCT_VERSION, "pang13"),
-19650c0f402f53 Jeremy Soller       2023-11-27  431  		}
-19650c0f402f53 Jeremy Soller       2023-11-27  432  	},
-fa991481b8b22a Vijendar Mukunda    2021-10-18  433  	{}
-fa991481b8b22a Vijendar Mukunda    2021-10-18  434  };
-fa991481b8b22a Vijendar Mukunda    2021-10-18  435  
-
-:::::: The code at line 209 was first introduced by commit
-:::::: c0fc96fed7ffa3e58f58b9cdb7158b5c61e026a2 ASoC: amd: yc: Update DMI table entries for AMD platforms
-
-:::::: TO: syed sabakareem <Syed.SabaKareem@amd.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+49128de4734877 Emil Renner Berthing 2023-12-05  500  			}
+49128de4734877 Emil Renner Berthing 2023-12-05  501  
+49128de4734877 Emil Renner Berthing 2023-12-05  502  			if (nconfigs) {
+49128de4734877 Emil Renner Berthing 2023-12-05  503  				map[nmaps].type = PIN_MAP_TYPE_CONFIGS_PIN;
+49128de4734877 Emil Renner Berthing 2023-12-05  504  				map[nmaps].data.configs.group_or_pin = thp->desc.pins[i].name;
+49128de4734877 Emil Renner Berthing 2023-12-05  505  				map[nmaps].data.configs.configs = configs;
+49128de4734877 Emil Renner Berthing 2023-12-05  506  				map[nmaps].data.configs.num_configs = nconfigs;
+49128de4734877 Emil Renner Berthing 2023-12-05  507  				nmaps += 1;
+49128de4734877 Emil Renner Berthing 2023-12-05  508  			}
+49128de4734877 Emil Renner Berthing 2023-12-05  509  			if (funcname) {
+49128de4734877 Emil Renner Berthing 2023-12-05  510  				pgnames[npins++] = thp->desc.pins[i].name;
+49128de4734877 Emil Renner Berthing 2023-12-05  511  				map[nmaps].type = PIN_MAP_TYPE_MUX_GROUP;
+49128de4734877 Emil Renner Berthing 2023-12-05  512  				map[nmaps].data.mux.function = funcname;
+49128de4734877 Emil Renner Berthing 2023-12-05  513  				map[nmaps].data.mux.group = thp->desc.pins[i].name;
+49128de4734877 Emil Renner Berthing 2023-12-05  514  				nmaps += 1;
+49128de4734877 Emil Renner Berthing 2023-12-05  515  			}
+49128de4734877 Emil Renner Berthing 2023-12-05  516  		}
+49128de4734877 Emil Renner Berthing 2023-12-05  517  
+49128de4734877 Emil Renner Berthing 2023-12-05  518  		if (funcname) {
+49128de4734877 Emil Renner Berthing 2023-12-05  519  			ret = pinmux_generic_add_function(pctldev, funcname, pgnames,
+49128de4734877 Emil Renner Berthing 2023-12-05  520  							  npins, (void *)muxtype);
+49128de4734877 Emil Renner Berthing 2023-12-05  521  			if (ret < 0) {
+49128de4734877 Emil Renner Berthing 2023-12-05  522  				dev_err(thp->pctl->dev, "error adding function %s\n", funcname);
+49128de4734877 Emil Renner Berthing 2023-12-05  523  				goto put_child;
+49128de4734877 Emil Renner Berthing 2023-12-05  524  			}
+49128de4734877 Emil Renner Berthing 2023-12-05  525  		}
+49128de4734877 Emil Renner Berthing 2023-12-05  526  	}
+49128de4734877 Emil Renner Berthing 2023-12-05  527  
+49128de4734877 Emil Renner Berthing 2023-12-05  528  	*maps = map;
+49128de4734877 Emil Renner Berthing 2023-12-05  529  	*num_maps = nmaps;
+49128de4734877 Emil Renner Berthing 2023-12-05  530  	mutex_unlock(&thp->mutex);
+49128de4734877 Emil Renner Berthing 2023-12-05  531  	return 0;
+49128de4734877 Emil Renner Berthing 2023-12-05  532  
+49128de4734877 Emil Renner Berthing 2023-12-05  533  free_configs:
+49128de4734877 Emil Renner Berthing 2023-12-05  534  	kfree(configs);
+49128de4734877 Emil Renner Berthing 2023-12-05  535  put_child:
+49128de4734877 Emil Renner Berthing 2023-12-05  536  	of_node_put(child);
+49128de4734877 Emil Renner Berthing 2023-12-05  537  	th1520_pinctrl_dt_free_map(pctldev, map, nmaps);
+49128de4734877 Emil Renner Berthing 2023-12-05  538  	mutex_unlock(&thp->mutex);
+49128de4734877 Emil Renner Berthing 2023-12-05  539  	return ret;
+49128de4734877 Emil Renner Berthing 2023-12-05  540  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
